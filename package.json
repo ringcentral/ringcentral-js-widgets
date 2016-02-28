@@ -1,0 +1,14 @@
+{
+  "name": "ringcentral-js-widget",
+  "version": "0.1.0",
+  "dependencies": {},
+  "devDependencies": {
+    "bower": "~1.4.1"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    
+  }
+}
