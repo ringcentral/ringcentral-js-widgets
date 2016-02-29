@@ -2,173 +2,83 @@ var AuthPanel = function(options) {
     if (!options.target) {
         throw new Error('need specifiy a target for auth panel');
     }
-    this.sdk = options.sdk;
-    this.webPhone = options.webPhone ||
-        new RingCentral.WebPhone({
-            audioHelper: {
-                incoming: '../demo/audio/incoming.ogg',
-                outgoing: '../demo/audio/outgoing.ogg'
-            }
-        });
-
-    this.afterLogin = options.afterLogin || function() {};
-
+    // TODO: use Object.extend or somewhat
+    this.options = options || {};
     this.targetDOM = document.querySelector(options.target);
-    this.generateDOM();
+    this.bindDOM();
 };
 
-// TODO: replace this method with template engine
-AuthPanel.prototype.generateDOM = function() {
-    if (!this.targetDOM) {
-        throw new Error('need to have a target, then mount the DOM');
+AuthPanel.prototype.bindDOM = function() {
+    this.dom = {
+        server: document.querySelector('[data-info=server]'),
+        key: document.querySelector('[data-info=key]'),
+        secret: document.querySelector('[data-info=secret]'),
+        username: document.querySelector('[data-info=username]'),
+        extension: document.querySelector('[data-info=extension]'),
+        password: document.querySelector('[data-info=password]'),
+
+        login: document.querySelector('[data-action=login]'),
+        error: document.querySelector('[data-show=error]')
     }
-    this.element = {
-        panel: dom('div', {
-            className: 'rc-panel'
-        }, null, {
-            server: dom('input', {
-                className: 'rc-input',
-                placeholder: 'https://platform.ringcentral.com',
-                value: localStorage.getItem('server') || ''
-            }),
-            key: dom('input', {
-                className: 'rc-input',
-                placeholder: 'key',
-                value: localStorage.getItem('key') || ''
-            }),
-            secret: dom('input', {
-                className: 'rc-input',
-                placeholder: 'secret',
-                value: localStorage.getItem('secret') || ''
-            }),
-            username: dom('input', {
-                className: 'rc-input',
-                placeholder: 'username',
-                value: localStorage.getItem('username') || ''
-            }),
-            extension: dom('input', {
-                className: 'rc-input',
-                placeholder: 'extension (optional)',
-                value: localStorage.getItem('extension') || ''
-            }),
-            password: dom('input', {
-                type: 'password',
-                className: 'rc-input',
-                placeholder: 'password',
-                value: localStorage.getItem('password') || ''
-            }),
-            loginButton: dom('button', {
-                className: 'rc-button',
-                text: 'login',
-            }, {
-                click: this.login.bind(this)
-            }),
-            errorMessage: dom('div', {
-                className: 'rc-error-message'
-            })
-        })
+    this.dom.login.addEventListener('click', this.login.bind(this));
+    this.dom.key.value = localStorage.getItem('key');
+    this.dom.secret.value = localStorage.getItem('secret');
+    this.dom.username.value = localStorage.getItem('username');
+    this.dom.extension.value = localStorage.getItem('extension');
+    this.dom.password.value = localStorage.getItem('password');
+};
+AuthPanel.prototype.beforeLogin = function() {
+    if (this.options.listeners.beforeLogin) {
+        this.options.listeners.beforeLogin();
+        if (!this.options.listeners.afterLogin) {
+            throw Error('you may encounter UI problems because you overrided one of login lifecycle.')
+        }
+        return;
+    }
+    localStorage.setItem('server', this.dom.server.value || '');
+    localStorage.setItem('key', this.dom.key.value || '');
+    localStorage.setItem('secret', this.dom.secret.value || '');
+    localStorage.setItem('username', this.dom.username.value || '');
+    localStorage.setItem('extension', this.dom.extension.value || '');
+    localStorage.setItem('password', this.dom.password.value || '');
+    this.dom.login.disabled = true;
+    this.dom.error.textContent = '';
+    this.interval = this.loading(this.dom.login, 'login');
+};
 
-    };
-    Object.keys(this.element).forEach(index => {
-        this.targetDOM.appendChild(this.element[index]);
-    });
 
-    function dom(type, attributes, listeners, children) {
-        var element = document.createElement(type);
-        attributes && Object.keys(attributes).forEach(index => {
-            var attr = attributes[index];
-            if (index === 'className') {
-                element.className = attr;
-            } else if (index === 'text') {
-                element.textContent = attr;
-            } else { // attribute
-                element.setAttribute(index, attr);
-            }
-        })
-        listeners && Object.keys(listeners).forEach(index => {
-            var listener = listeners[index];
-            element.addEventListener(index, listener);
-        })
-        children && Object.keys(children).forEach(index => {
-            var child = children[index];
-            element.appendChild(child);
-            element[index] = child;
-        })
-        return element;
+AuthPanel.prototype.afterLogin = function() {
+    if (this.options.listeners.afterLogin) {
+        this.options.listeners.afterLogin();
+        if (!this.options.listeners.beforeLogin) {
+            throw Error('you may encounter UI problems because you overrided one of login lifecycle.')
+        }
+        return;
+    }
+    this.dom.login.disabled = false;
+    // stop loading animation
+    if (this.interval) {
+        this.interval.cancel();
+        this.interval = null;
     }
 };
+
 AuthPanel.prototype.login = function() {
-    localStorage.setItem('server', this.element.panel.server.value);
-    localStorage.setItem('key', this.element.panel.key.value);
-    localStorage.setItem('secret', this.element.panel.secret.value);
-    localStorage.setItem('username', this.element.panel.username.value);
-    localStorage.setItem('extension', this.element.panel.extension.value);
-    localStorage.setItem('password', this.element.panel.password.value);
-    if (!this.sdk) {
-        this.sdk = new RingCentral.SDK({
-            appKey: this.element.panel.key.value,
-            appSecret: this.element.panel.secret.value,
-            server: this.element.panel.server.value || RingCentral.SDK.server.production
-        });
+    var loginPromise;
+    this.beforeLogin();
+    if (this.options.actions && this.options.actions.login) {
+        // FIXME: The custom login may not be a Promise
+        loginPromise = this.options.actions.login(this.dom)
+            // bind the lexical env to the function, otherwise will be 'window' scope
+            .then(this.afterLogin.bind(this))
+            .catch(err => console.error('login error:' + error));
     }
-    this.element.panel.loginButton.disabled = true;
-    this.element.panel.errorMessage.textContent = '';
-    this.interval = this.loading(this.element.panel.loginButton, 'login');
-    return this.sdk.platform()
-        .login({
-            username: this.element.panel.username.value,
-            extension: this.element.panel.extension.value,
-            password: this.element.panel.password.value
-        })
-        .then(() => this.registerSIP())
-        .then(() => {
-            this.element.panel.loginButton.disabled = false;
-            // stop loading animation
-            if (this.interval) {
-                this.interval.cancel();
-                this.interval = null;
-            }
-            this.afterLogin();
-        })
-        .catch(error => {
-            this.element.panel.errorMessage.textContent = error;
-            this.element.panel.loginButton.disabled = false;
-            // stop loading animation
-            if (this.interval) {
-                this.interval.cancel();
-                this.interval = null;
-            }
-            console.error('login error:' + error)
-        });
+    return loginPromise || null;
 };
-AuthPanel.prototype.registerSIP = function(checkFlags, transport) {
-    console.log('sip registering');
-    return this.sdk.platform()
-        .post('/client-info/sip-provision', {
-            sipInfo: [{
-                transport: 'WSS'
-            }]
-        })
-        .then(res => {
-            var data = res.json();
-            console.log("Sip Provisioning Data from RC API: " + JSON.stringify(data));
-            console.log(data.sipFlags.outboundCallsEnabled);
-            return this.webPhone.register(data, checkFlags)
-                .then(function() {
-                    console.log('Registered');
-                })
-                .catch(function(e) {
-                    return Promise.reject(err);
-                });
-
-        }).catch(e => {
-            console.error(e);
-            return Promise.reject(e);
-        });
+AuthPanel.prototype.signup = function() {
+    this.options.actions && this.options.signup && this.options.signup();
 };
-AuthPanel.prototype.close = function() {
-    this.targetDOM.style['display'] = 'none';
-};
+AuthPanel.prototype.close = function() {};
 AuthPanel.prototype.loading = function(target, text) {
     var dotCount = 1;
     var interval = window.setInterval(() => {

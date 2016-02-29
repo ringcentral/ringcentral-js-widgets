@@ -11,22 +11,27 @@
     body {
         max-width: 250px;
     }
+    
     .theme-panel {
         margin-bottom: 10px;
     }
+    
     .theme-button {
         border: 0;
         width: 20px;
         height: 20px;
         border: 1px solid;
     }
+    
     #theme-basic {
         background-color: #fff;
         border-color: #000;
     }
+    
     #theme-blue {
         background-color: #3498db;
     }
+    
     #theme-casual {
         background-color: #95a5a6;
     }
@@ -41,10 +46,21 @@
         <button class='theme-button' id='theme-casual' onclick="switchTheme('casual')"></button>
     </div>
     <div>
-        <div id="auth-panel"></div>
-        <div id="dial-pad"></div>
+        <div id="auth-panel">
+            <div class='rc-panel'>
+                <input class='rc-input' data-info='server' placeholder="server"></input>
+                <input class='rc-input' data-info='key' placeholder="key"></input>
+                <input class='rc-input' data-info='secret' placeholder="secret"></input>
+                <input class='rc-input' data-info='username' placeholder="username"></input>
+                <input class='rc-input' data-info='extension' placeholder="extension"></input>
+                <input class='rc-input' data-info='password' placeholder="password"></input>
+                <button class='rc-button' data-action='login'>login</button>
+                <div class='rc-error-message' data-show='error'></div>
+            </div>
+        </div>
+        <!--  <div id="dial-pad"></div>
         <div id="call-panel"></div>
-        <div id="call-log"></div>
+        <div id="call-log"></div> -->
     </div>
     <script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
@@ -53,30 +69,65 @@
     <script type="text/javascript" src="../components/call-panel.js"></script>
     <script type="text/javascript" src="../components/call-log.js"></script>
     <script type="text/javascript">
+    var ringCentralAction = {
+        login: function(dom) {
+            var sdk = new RingCentral.SDK({
+                appKey: dom.key.value,
+                appSecret: dom.secret.value,
+                server: dom.server.value || RingCentral.SDK.server.production
+            });
+            return sdk.platform()
+                .login({
+                    username: dom.username.value,
+                    extension: dom.extension.value,
+                    password: dom.password.value
+                })
+                .then(() => registerSIP())
+
+
+            function registerSIP() {
+                this.webPhone = new RingCentral.WebPhone({
+                    audioHelper: {
+                        incoming: '../demo/audio/incoming.ogg',
+                        outgoing: '../demo/audio/outgoing.ogg'
+                    }
+                });
+                return sdk.platform()
+                    .post('/client-info/sip-provision', {
+                        sipInfo: [{
+                            transport: 'WSS'
+                        }]
+                    })
+                    .then(res => {
+                        var data = res.json();
+                        console.log("Sip Provisioning Data from RC API: " + JSON.stringify(data));
+                        console.log(data.sipFlags.outboundCallsEnabled);
+                        var checkFlags = false;
+                        return this.webPhone.register(data, checkFlags)
+                            .then(function() {
+                                console.log('Registered');
+                            })
+                            .catch(function(e) {
+                                return Promise.reject(err);
+                            });
+
+                    }).catch(e => {
+                        console.error(e);
+                        return Promise.reject(e);
+                    });
+            }
+        },
+        signup: function() {}
+    }
     var authPanel = new AuthPanel({
         target: '#auth-panel',
-        afterLogin: function() {
-            // we only can initial dial pad after logging in, because we want to reuse sdk and webPhone
-            authPanel.close();
-            var dialPad = new DialPad({
-                target: '#dial-pad',
-                sdk: authPanel.sdk,
-                webPhone: authPanel.webPhone,
-                afterCallout: function() { /* ... */ }
-            });
-            var callPanel = new CallPanel({
-                target: '#call-panel',
-                sdk: authPanel.sdk,
-                webPhone: authPanel.webPhone,
-                afterCallStart: function() { /* ... */ },
-                afterCallEnd: function() { /* ... */ }
-            });
-            var callLog = new CallLog({
-                target: '#call-log',
-                sdk: authPanel.sdk,
-                webPhone: authPanel.webPhone
-            });
-        }
+        actions: {
+            login: function(dom) {
+                return ringCentralAction.login(dom);
+            },
+            signup: function() {}
+        },
+        listeners: {}
     });
 
     function switchTheme(theme) {
