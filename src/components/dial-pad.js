@@ -7,34 +7,6 @@ var DialPad = function(options) {
     this.targetDOM = document.querySelector(options.target);
     this.bindDOM();
 };
-DialPad.prototype.bindDOM = function() {
-    this.dom = {
-        dial1: document.querySelector('[data-action=dial-1]'),
-        dial2: document.querySelector('[data-action=dial-2]'),
-        dial3: document.querySelector('[data-action=dial-3]'),
-        dial4: document.querySelector('[data-action=dial-4]'),
-        dial5: document.querySelector('[data-action=dial-5]'),
-        dial6: document.querySelector('[data-action=dial-6]'),
-        dial7: document.querySelector('[data-action=dial-7]'),
-        dial8: document.querySelector('[data-action=dial-8]'),
-        dial9: document.querySelector('[data-action=dial-9]'),
-        dial0: document.querySelector('[data-action=dial-0]'),
-        callout: document.querySelector('[data-action=callout]'),
-        number: document.querySelector('[data-info=number]')
-    }
-    Object.keys(this.dom).forEach(index => {
-        console.log(index);
-        if (index.indexOf('dial') > -1) {
-            var dial = this.dom[index];
-            var number = dial.getAttribute('data-value');
-            dial.addEventListener('click', this.dialing.bind(this, number));
-        }
-        if (index === 'callout') {
-            var callout = this.dom[index];
-            callout.addEventListener('click', this.callout.bind(this));
-        }
-    })
-};
 
 DialPad.prototype.dialing = function(number) {
     if (!this.dom || !this.dom.number) {

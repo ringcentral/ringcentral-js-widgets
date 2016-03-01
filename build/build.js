@@ -584,36 +584,6 @@ var DialPad = function DialPad(options) {
     this.targetDOM = document.querySelector(options.target);
     this.bindDOM();
 };
-DialPad.prototype.bindDOM = function () {
-    var _this = this;
-
-    this.dom = {
-        dial1: document.querySelector('[data-action=dial-1]'),
-        dial2: document.querySelector('[data-action=dial-2]'),
-        dial3: document.querySelector('[data-action=dial-3]'),
-        dial4: document.querySelector('[data-action=dial-4]'),
-        dial5: document.querySelector('[data-action=dial-5]'),
-        dial6: document.querySelector('[data-action=dial-6]'),
-        dial7: document.querySelector('[data-action=dial-7]'),
-        dial8: document.querySelector('[data-action=dial-8]'),
-        dial9: document.querySelector('[data-action=dial-9]'),
-        dial0: document.querySelector('[data-action=dial-0]'),
-        callout: document.querySelector('[data-action=callout]'),
-        number: document.querySelector('[data-info=number]')
-    };
-    Object.keys(this.dom).forEach(function (index) {
-        console.log(index);
-        if (index.indexOf('dial') > -1) {
-            var dial = _this.dom[index];
-            var number = dial.getAttribute('data-value');
-            dial.addEventListener('click', _this.dialing.bind(_this, number));
-        }
-        if (index === 'callout') {
-            var callout = _this.dom[index];
-            callout.addEventListener('click', _this.callout.bind(_this));
-        }
-    });
-};
 
 DialPad.prototype.dialing = function (number) {
     if (!this.dom || !this.dom.number) {
@@ -622,7 +592,7 @@ DialPad.prototype.dialing = function (number) {
     this.dom.number.value += number;
 };
 DialPad.prototype.callout = function () {
-    var _this2 = this;
+    var _this = this;
 
     this.interval = this.loading(this.dom.callout, 'Call');
 
@@ -630,9 +600,9 @@ DialPad.prototype.callout = function () {
     if (this.options.actions && this.options.actions.callout) {
         return this.options.actions.callout(this.dom, { toNumber: toNumber }).then(function (countryId) {
             console.log('SIP call to', toNumber, 'from', fromNumber + '\n');
-            if (_this2.interval) {
-                _this2.interval.cancel('Call');
-                _this2.interval = null;
+            if (_this.interval) {
+                _this.interval.cancel('Call');
+                _this.interval = null;
             }
         });
     }

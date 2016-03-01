@@ -32,10 +32,6 @@ Component.prototype.bindDOM = function() {
         doc.addEventListener(event, this[action].bind(this));
     })
 }
-Component.prototype.action = function() {
-
-}
-Component.prototype.componentMounted = function() {
-
-};
+Component.prototype.action = function() {}
+Component.prototype.componentMounted = function() {};
 export default Component;

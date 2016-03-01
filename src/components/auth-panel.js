@@ -4,7 +4,7 @@ import Component from '../component'
 var AuthPanel = function(options) {
     Component.call(this, options);
     console.log(this.dom);
-    
+
 };
 AuthPanel.prototype = Object.create(Component.prototype);
 AuthPanel.prototype.constructor = AuthPanel;
