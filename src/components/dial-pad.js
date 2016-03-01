@@ -43,10 +43,11 @@ DialPad.prototype.dialing = function(number) {
     this.dom.number.value += number;
 };
 DialPad.prototype.callout = function() {
-    console.log('call out from ui');
+    this.interval = this.loading(this.dom.callout, 'Call');
+
     var toNumber = this.dom.number;
     if (this.options.actions && this.options.actions.callout) {
-        this.options.actions.callout(this.dom, { toNumber: toNumber })
+        return this.options.actions.callout(this.dom, { toNumber: toNumber })
             .then(countryId => {
                 console.log('SIP call to', toNumber, 'from', fromNumber + '\n');
                 if (this.interval) {
@@ -55,7 +56,6 @@ DialPad.prototype.callout = function() {
                 }
             })
     }
-    this.interval = this.loading(this.dom.callout, 'Call');
 
 };
 DialPad.prototype.loading = function(target, text) {

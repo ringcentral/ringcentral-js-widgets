@@ -54,8 +54,8 @@
                 <input class='rc-input' data-info='username' placeholder="username"></input>
                 <input class='rc-input' data-info='extension' placeholder="extension"></input>
                 <input class='rc-input' data-info='password' placeholder="password"></input>
-                <button class='rc-button' data-action='login'>login</button>
-                <div class='rc-error-message' data-show='error'></div>
+                <button class='rc-button' data-info='login' data-action='login' data-event='click'>login</button>
+                <div class='rc-error-message' data-info='error' data-show='error'></div>
             </div>
         </div>
         <div id="dial-pad">
@@ -74,6 +74,7 @@
                     <button class='rc-dial-button' data-action='dial-0' data-value='0'>0</button>
                 </div>
                 <button class='rc-button' data-action='callout'>Call out</button>
+                <button id='custom-btn'> my custom call out button</button>
                 <div class='rc-error-message'></div>
                 </input>
             </div>
@@ -81,10 +82,7 @@
     </div>
     <script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
-    <script type="text/javascript" src="../components/auth-panel.js"></script>
-    <script type="text/javascript" src="../components/dial-pad.js"></script>
-    <script type="text/javascript" src="../components/call-panel.js"></script>
-    <script type="text/javascript" src="../components/call-log.js"></script>
+    <script type="text/javascript" src="../build/build.js"></script>
     <script type="text/javascript">
     var ringCentralAction = function() {
         var sdk;
@@ -178,7 +176,7 @@
             login: function(dom) {
                 return ringCentralAction.login(dom);
             },
-            signup: function() {}
+            signup: function(dom) {}
         },
         listeners: {
             afterLogin: function() {
@@ -190,9 +188,14 @@
                         }
                     }
                 })
+                document.getElementById('custom-btn').addEventListener('click', function(e) {
+                    ringCentralAction.callout(null, options);
+                    dialPad.callout();
+                });
             }
         }
     });
+    
 
     function switchTheme(theme) {
         document.getElementById('theme-css').href = 'theme/' + theme + '.css';

@@ -1,32 +1,17 @@
+import Component from '../component'
+// prototypal inheritance, please see: 
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
 var AuthPanel = function(options) {
-    if (!options.target) {
-        throw new Error('need specifiy a target for auth panel');
-    }
-    // TODO: use Object.extend or somewhat
-    this.options = options || {};
-    this.targetDOM = document.querySelector(options.target);
-    this.bindDOM();
-};
-
-AuthPanel.prototype.bindDOM = function() {
-    this.dom = {
-        server: document.querySelector('[data-info=server]'),
-        key: document.querySelector('[data-info=key]'),
-        secret: document.querySelector('[data-info=secret]'),
-        username: document.querySelector('[data-info=username]'),
-        extension: document.querySelector('[data-info=extension]'),
-        password: document.querySelector('[data-info=password]'),
-
-        login: document.querySelector('[data-action=login]'),
-        error: document.querySelector('[data-show=error]')
-    }
-    this.dom.login.addEventListener('click', this.login.bind(this));
+    Component.call(this, options);
     this.dom.key.value = localStorage.getItem('key');
     this.dom.secret.value = localStorage.getItem('secret');
     this.dom.username.value = localStorage.getItem('username');
     this.dom.extension.value = localStorage.getItem('extension');
     this.dom.password.value = localStorage.getItem('password');
 };
+AuthPanel.prototype = Object.create(Component.prototype);
+AuthPanel.prototype.constructor = AuthPanel;
+
 AuthPanel.prototype.beforeLogin = function() {
     localStorage.setItem('server', this.dom.server.value || '');
     localStorage.setItem('key', this.dom.key.value || '');
@@ -62,16 +47,14 @@ AuthPanel.prototype.afterLogin = function() {
 };
 
 AuthPanel.prototype.login = function() {
-    var loginPromise;
     this.beforeLogin();
     if (this.options.actions && this.options.actions.login) {
         // FIXME: The custom login may not be a Promise
-        loginPromise = this.options.actions.login(this.dom)
+        return this.options.actions.login(this.dom)
             // bind the lexical env to the function, otherwise will be 'window' scope
             .then(this.afterLogin.bind(this))
             .catch(err => console.error('login error:' + error));
     }
-    return loginPromise || null;
 };
 AuthPanel.prototype.signup = function() {
     this.options.actions && this.options.signup && this.options.signup();
@@ -98,3 +81,4 @@ AuthPanel.prototype.loading = function(target, text) {
         }
     }
 };
+export default AuthPanel;
