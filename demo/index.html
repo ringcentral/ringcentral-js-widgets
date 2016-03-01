@@ -58,9 +58,26 @@
                 <div class='rc-error-message' data-show='error'></div>
             </div>
         </div>
-        <!--  <div id="dial-pad"></div>
-        <div id="call-panel"></div>
-        <div id="call-log"></div> -->
+        <div id="dial-pad">
+            <div class='rc-panel'>
+                <input class='rc-input' data-info='number'>
+                <div class='rc-dial-wrapper'>
+                    <button class='rc-dial-button' data-action='dial-1' data-value='1'>1</button>
+                    <button class='rc-dial-button' data-action='dial-2' data-value='2'>2</button>
+                    <button class='rc-dial-button' data-action='dial-3' data-value='3'>3</button>
+                    <button class='rc-dial-button' data-action='dial-4' data-value='4'>4</button>
+                    <button class='rc-dial-button' data-action='dial-5' data-value='5'>5</button>
+                    <button class='rc-dial-button' data-action='dial-6' data-value='6'>6</button>
+                    <button class='rc-dial-button' data-action='dial-7' data-value='7'>7</button>
+                    <button class='rc-dial-button' data-action='dial-8' data-value='8'>8</button>
+                    <button class='rc-dial-button' data-action='dial-9' data-value='9'>9</button>
+                    <button class='rc-dial-button' data-action='dial-0' data-value='0'>0</button>
+                </div>
+                <button class='rc-button' data-action='callout'>Call out</button>
+                <div class='rc-error-message'></div>
+                </input>
+            </div>
+        </div>
     </div>
     <script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
@@ -69,56 +86,92 @@
     <script type="text/javascript" src="../components/call-panel.js"></script>
     <script type="text/javascript" src="../components/call-log.js"></script>
     <script type="text/javascript">
-    var ringCentralAction = {
-        login: function(dom) {
-            var sdk = new RingCentral.SDK({
-                appKey: dom.key.value,
-                appSecret: dom.secret.value,
-                server: dom.server.value || RingCentral.SDK.server.production
-            });
-            return sdk.platform()
-                .login({
-                    username: dom.username.value,
-                    extension: dom.extension.value,
-                    password: dom.password.value
-                })
-                .then(() => registerSIP())
-
-
-            function registerSIP() {
-                this.webPhone = new RingCentral.WebPhone({
-                    audioHelper: {
-                        incoming: '../demo/audio/incoming.ogg',
-                        outgoing: '../demo/audio/outgoing.ogg'
-                    }
+    var ringCentralAction = function() {
+        var sdk;
+        var webPhone;
+        return {
+            login: function(dom) {
+                sdk = new RingCentral.SDK({
+                    appKey: dom.key.value,
+                    appSecret: dom.secret.value,
+                    server: dom.server.value || RingCentral.SDK.server.production
                 });
                 return sdk.platform()
-                    .post('/client-info/sip-provision', {
-                        sipInfo: [{
-                            transport: 'WSS'
-                        }]
+                    .login({
+                        username: dom.username.value,
+                        extension: dom.extension.value,
+                        password: dom.password.value
                     })
-                    .then(res => {
-                        var data = res.json();
-                        console.log("Sip Provisioning Data from RC API: " + JSON.stringify(data));
-                        console.log(data.sipFlags.outboundCallsEnabled);
-                        var checkFlags = false;
-                        return this.webPhone.register(data, checkFlags)
-                            .then(function() {
-                                console.log('Registered');
-                            })
-                            .catch(function(e) {
-                                return Promise.reject(err);
-                            });
+                    .then(() => registerSIP())
 
-                    }).catch(e => {
+
+                function registerSIP() {
+                    webPhone = new RingCentral.WebPhone({
+                        audioHelper: {
+                            incoming: '../demo/audio/incoming.ogg',
+                            outgoing: '../demo/audio/outgoing.ogg'
+                        }
+                    });
+                    return sdk.platform()
+                        .post('/client-info/sip-provision', {
+                            sipInfo: [{
+                                transport: 'WSS'
+                            }]
+                        })
+                        .then(res => {
+                            var data = res.json();
+                            console.log("Sip Provisioning Data from RC API: " + JSON.stringify(data));
+                            console.log(data.sipFlags.outboundCallsEnabled);
+                            var checkFlags = false;
+                            return webPhone.register(data, checkFlags)
+                                .then(function() {
+                                    console.log('Registered');
+                                })
+                                .catch(function(e) {
+                                    return Promise.reject(err);
+                                });
+
+                        }).catch(e => {
+                            console.error(e);
+                            return Promise.reject(e);
+                        });
+                }
+            },
+            callout: function(dom, options) {
+                console.log(options);
+                var toNumber = options.toNumber;
+                var fromNumber = localStorage.getItem('username');
+
+                // TODO: validate toNumber and fromNumber
+                if (!sdk || !webPhone) {
+                    throw Error('Need to set up SDK and webPhone first.');
+                    return;
+                }
+                return sdk.platform()
+                    .get('/restapi/v1.0/account/~/extension/~')
+                    .then(res => {
+                        console.log(res);
+                        var info = res.json();
+                        if (info && info.regionalSettings && info.regionalSettings.homeCountry) {
+                            return info.regionalSettings.homeCountry.id;
+                        }
+                        return null;
+                    })
+                    .then(countryId => {
+                        webPhone.call(toNumber, fromNumber, countryId);
+                    })
+                    .catch(e => {
                         console.error(e);
-                        return Promise.reject(e);
+                        this.element.panel.errorMessage.textContent = e.message;
+                        if (this.interval) {
+                            this.interval.cancel('Call');
+                            this.interval = null;
+                        }
                     });
             }
-        },
-        signup: function() {}
-    }
+        }
+    }();
+
     var authPanel = new AuthPanel({
         target: '#auth-panel',
         actions: {
@@ -127,7 +180,18 @@
             },
             signup: function() {}
         },
-        listeners: {}
+        listeners: {
+            afterLogin: function() {
+                var dialPad = new DialPad({
+                    target: '#dial-pad',
+                    actions: {
+                        callout: function(dom, options) {
+                            return ringCentralAction.callout(dom, options);
+                        }
+                    }
+                })
+            }
+        }
     });
 
     function switchTheme(theme) {

@@ -28,13 +28,6 @@ AuthPanel.prototype.bindDOM = function() {
     this.dom.password.value = localStorage.getItem('password');
 };
 AuthPanel.prototype.beforeLogin = function() {
-    if (this.options.listeners.beforeLogin) {
-        this.options.listeners.beforeLogin();
-        if (!this.options.listeners.afterLogin) {
-            throw Error('you may encounter UI problems because you overrided one of login lifecycle.')
-        }
-        return;
-    }
     localStorage.setItem('server', this.dom.server.value || '');
     localStorage.setItem('key', this.dom.key.value || '');
     localStorage.setItem('secret', this.dom.secret.value || '');
@@ -44,22 +37,27 @@ AuthPanel.prototype.beforeLogin = function() {
     this.dom.login.disabled = true;
     this.dom.error.textContent = '';
     this.interval = this.loading(this.dom.login, 'login');
+    if (this.options.listeners.beforeLogin) {
+        this.options.listeners.beforeLogin();
+        // if (!this.options.listeners.afterLogin) {
+        //     console.warn('you may encounter UI problems because you overrided one of login lifecycle.');
+        // }
+    }
 };
 
 
 AuthPanel.prototype.afterLogin = function() {
-    if (this.options.listeners.afterLogin) {
-        this.options.listeners.afterLogin();
-        if (!this.options.listeners.beforeLogin) {
-            throw Error('you may encounter UI problems because you overrided one of login lifecycle.')
-        }
-        return;
-    }
     this.dom.login.disabled = false;
     // stop loading animation
     if (this.interval) {
         this.interval.cancel();
         this.interval = null;
+    }
+    if (this.options.listeners.afterLogin) {
+        this.options.listeners.afterLogin();
+        // if (!this.options.listeners.beforeLogin) {
+        //     console.warn('you may encounter UI problems because you overrided one of login lifecycle.');
+        // }
     }
 };
 
