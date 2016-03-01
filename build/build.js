@@ -7,48 +7,65 @@ Object.defineProperty(exports, "__esModule", {
 var Component = function Component(options) {
     var _this = this;
 
-    if (!options.target) {
-        throw new Error('need specifiy a target');
-    }
     if (!options.template) {
         // TODO: maybe use default template
         throw new Error('need specifiy a template');
     }
     // TODO: use Object.extend or somewhat (es6) for default option setting
     this.options = options || {};
-    this.targetDOM = document.querySelector(options.target);
-    this.fetchTemplate(options.template).then(function () {
-        return _this.bindDOM;
-    }).then(function () {
-        return _this.componentMounted;
+    this.fetchPromise = null;
+    this.fetchTemplate(options.template).then(function (template) {
+        return _this.bindDOM(template);
+    }).then(function (template) {
+        return _this.componentMounted(template);
+    }).catch(function (err) {
+        return console.error(err.stack);
     });
 };
 Component.prototype.fetchTemplate = function (src) {
-    var _this2 = this;
-
-    return fetch(src).then(function (response) {
+    this.fetchPromise = fetch(src).then(function (response) {
         return response.text();
     }).then(function (body) {
-        return _this2.targetDOM.innerHTML = body;
+        console.log('fetch');
+        var template = document.createElement('template');
+        template.innerHTML = body;
+        return template;
+    }).catch(function (err) {
+        return console.error(err.stack);
     });
+    return this.fetchPromise;
 };
-Component.prototype.bindDOM = function () {
-    var _this3 = this;
+Component.prototype.bindDOM = function (template) {
+    var _this2 = this;
 
     this.dom = {};
-    console.log(document.querySelectorAll('[data-info]'));
-    [].forEach.call(document.querySelectorAll('[data-info]'), function (doc) {
+    console.log('bind dom');
+    console.log(template.content);
+    console.log(template.content.querySelectorAll('[data-info]'));
+    [].forEach.call(template.content.querySelectorAll('[data-info]'), function (doc) {
         var info = doc.getAttribute('data-info');
-        _this3.dom[info] = doc;
+        _this2.dom[info] = doc;
     });
-    [].forEach.call(document.querySelectorAll('[data-event]'), function (doc) {
+    [].forEach.call(template.content.querySelectorAll('[data-event]'), function (doc) {
         var event = doc.getAttribute('data-event');
         var action = doc.getAttribute('data-action');
-        doc.addEventListener(event, _this3[action].bind(_this3));
+        doc.addEventListener(event, _this2[action].bind(_this2));
     });
+    return template;
 };
 Component.prototype.action = function () {};
 Component.prototype.componentMounted = function () {};
+Component.prototype.componentReady = function () {};
+Component.prototype.render = function (target) {
+    var _this3 = this;
+
+    if (this.fetchPromise) this.fetchPromise.then(function (template) {
+        _this3.targetDOM = document.querySelector(target);
+        _this3.targetDOM.appendChild(template.content);
+    }).catch(function (err) {
+        return console.error('render err:' + err);
+    });
+};
 exports.default = Component;
 
 },{}],2:[function(require,module,exports){
@@ -68,13 +85,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
 var AuthPanel = function AuthPanel(options) {
     _component2.default.call(this, options);
-    console.log(this.dom);
 };
 AuthPanel.prototype = Object.create(_component2.default.prototype);
 AuthPanel.prototype.constructor = AuthPanel;
 
 AuthPanel.prototype.componentMounted = function () {
-    _component2.default.componentMounted.call(this);
+    _component2.default.prototype.componentMounted.call(this);
     this.dom.key.value = localStorage.getItem('key');
     this.dom.secret.value = localStorage.getItem('secret');
     this.dom.username.value = localStorage.getItem('username');
@@ -575,15 +591,19 @@ CallPanel.prototype.updateCallTime = function (startTime) {
 },{}],5:[function(require,module,exports){
 'use strict';
 
+var _component = require('../component');
+
+var _component2 = _interopRequireDefault(_component);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// prototypal inheritance, please see:
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
 var DialPad = function DialPad(options) {
-    // TODO: choose a template engine
-    if (!options.target) {
-        throw new Error('need specifiy a target for dial pad');
-    }
-    this.options = options || {};
-    this.targetDOM = document.querySelector(options.target);
-    this.bindDOM();
+    _component2.default.call(this, options);
 };
+DialPad.prototype = Object.create(_component2.default.prototype);
+DialPad.prototype.constructor = DialPad;
 
 DialPad.prototype.dialing = function (number) {
     if (!this.dom || !this.dom.number) {
@@ -628,7 +648,7 @@ DialPad.prototype.loading = function (target, text) {
     };
 };
 
-},{}],6:[function(require,module,exports){
+},{"../component":1}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

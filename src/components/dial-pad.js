@@ -1,12 +1,11 @@
+import Component from '../component'
+// prototypal inheritance, please see: 
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
 var DialPad = function(options) {
-    // TODO: choose a template engine
-    if (!options.target) {
-        throw new Error('need specifiy a target for dial pad');
-    }
-    this.options = options || {};
-    this.targetDOM = document.querySelector(options.target);
-    this.bindDOM();
+    Component.call(this, options);
 };
+DialPad.prototype = Object.create(Component.prototype);
+DialPad.prototype.constructor = DialPad;
 
 DialPad.prototype.dialing = function(number) {
     if (!this.dom || !this.dom.number) {

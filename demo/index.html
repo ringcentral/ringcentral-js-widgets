@@ -140,7 +140,6 @@
     }();
 
     var authPanel = new AuthPanel({
-        target: '#auth-panel',
         template: './template/auth-panel.html',
         actions: {
             login: function(dom) {
@@ -162,6 +161,7 @@
             }
         }
     });
+    authPanel.render('#auth-panel');
     
 
     function switchTheme(theme) {
