@@ -2,10 +2,22 @@ var Component = function(options) {
     if (!options.target) {
         throw new Error('need specifiy a target');
     }
+    if (!options.template) {
+        // TODO: maybe use default template
+        throw new Error('need specifiy a template');
+    }
     // TODO: use Object.extend or somewhat (es6) for default option setting
     this.options = options || {};
     this.targetDOM = document.querySelector(options.target);
-    this.bindDOM();
+    this.fetchTemplate();
+
+};
+Component.prototype.fetchTemplate = function() {
+    fetch(options.template)
+        .then(response => response.text())
+        .then(body => this.targetDOM.innerHTML = body)
+        .then(() => this.bindDOM)
+        .then(() => this.componentMounted);
 };
 Component.prototype.bindDOM = function() {
     console.log(this);
@@ -24,4 +36,7 @@ Component.prototype.bindDOM = function() {
 Component.prototype.action = function() {
 
 }
+Component.prototype.componentMounted = function() {
+
+};
 export default Component;

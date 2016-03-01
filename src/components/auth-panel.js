@@ -3,15 +3,20 @@ import Component from '../component'
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
 var AuthPanel = function(options) {
     Component.call(this, options);
+    console.log(this.dom);
+    
+};
+AuthPanel.prototype = Object.create(Component.prototype);
+AuthPanel.prototype.constructor = AuthPanel;
+
+AuthPanel.prototype.componentMounted = function() {
+    Component.componentMounted.call(this);
     this.dom.key.value = localStorage.getItem('key');
     this.dom.secret.value = localStorage.getItem('secret');
     this.dom.username.value = localStorage.getItem('username');
     this.dom.extension.value = localStorage.getItem('extension');
     this.dom.password.value = localStorage.getItem('password');
 };
-AuthPanel.prototype = Object.create(Component.prototype);
-AuthPanel.prototype.constructor = AuthPanel;
-
 AuthPanel.prototype.beforeLogin = function() {
     localStorage.setItem('server', this.dom.server.value || '');
     localStorage.setItem('key', this.dom.key.value || '');

@@ -8,28 +8,46 @@ var Component = function Component(options) {
     if (!options.target) {
         throw new Error('need specifiy a target');
     }
+    if (!options.template) {
+        // TODO: maybe use default template
+        throw new Error('need specifiy a template');
+    }
     // TODO: use Object.extend or somewhat (es6) for default option setting
     this.options = options || {};
     this.targetDOM = document.querySelector(options.target);
-    this.bindDOM();
+    this.fetchTemplate();
+};
+Component.prototype.fetchTemplate = function () {
+    var _this = this;
+
+    fetch(options.template).then(function (response) {
+        return response.text();
+    }).then(function (body) {
+        return _this.targetDOM.innerHTML = body;
+    }).then(function () {
+        return _this.bindDOM;
+    }).then(function () {
+        return _this.componentMounted;
+    });
 };
 Component.prototype.bindDOM = function () {
-    var _this = this;
+    var _this2 = this;
 
     console.log(this);
     this.dom = {};
     console.log(document.querySelectorAll('[data-info]'));
     [].forEach.call(document.querySelectorAll('[data-info]'), function (doc) {
         var info = doc.getAttribute('data-info');
-        _this.dom[info] = doc;
+        _this2.dom[info] = doc;
     });
     [].forEach.call(document.querySelectorAll('[data-event]'), function (doc) {
         var event = doc.getAttribute('data-event');
         var action = doc.getAttribute('data-action');
-        doc.addEventListener(event, _this[action].bind(_this));
+        doc.addEventListener(event, _this2[action].bind(_this2));
     });
 };
 Component.prototype.action = function () {};
+Component.prototype.componentMounted = function () {};
 exports.default = Component;
 
 },{}],2:[function(require,module,exports){
@@ -49,15 +67,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
 var AuthPanel = function AuthPanel(options) {
     _component2.default.call(this, options);
+    console.log(this.dom);
+};
+AuthPanel.prototype = Object.create(_component2.default.prototype);
+AuthPanel.prototype.constructor = AuthPanel;
+
+AuthPanel.prototype.componentMounted = function () {
+    _component2.default.componentMounted.call(this);
     this.dom.key.value = localStorage.getItem('key');
     this.dom.secret.value = localStorage.getItem('secret');
     this.dom.username.value = localStorage.getItem('username');
     this.dom.extension.value = localStorage.getItem('extension');
     this.dom.password.value = localStorage.getItem('password');
 };
-AuthPanel.prototype = Object.create(_component2.default.prototype);
-AuthPanel.prototype.constructor = AuthPanel;
-
 AuthPanel.prototype.beforeLogin = function () {
     localStorage.setItem('server', this.dom.server.value || '');
     localStorage.setItem('key', this.dom.key.value || '');
