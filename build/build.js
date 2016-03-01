@@ -5,6 +5,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 var Component = function Component(options) {
+    var _this = this;
+
     if (!options.target) {
         throw new Error('need specifiy a target');
     }
@@ -15,35 +17,34 @@ var Component = function Component(options) {
     // TODO: use Object.extend or somewhat (es6) for default option setting
     this.options = options || {};
     this.targetDOM = document.querySelector(options.target);
-    this.fetchTemplate();
-};
-Component.prototype.fetchTemplate = function () {
-    var _this = this;
-
-    fetch(options.template).then(function (response) {
-        return response.text();
-    }).then(function (body) {
-        return _this.targetDOM.innerHTML = body;
-    }).then(function () {
+    this.fetchTemplate(options.template).then(function () {
         return _this.bindDOM;
     }).then(function () {
         return _this.componentMounted;
     });
 };
-Component.prototype.bindDOM = function () {
+Component.prototype.fetchTemplate = function (src) {
     var _this2 = this;
 
-    console.log(this);
+    return fetch(src).then(function (response) {
+        return response.text();
+    }).then(function (body) {
+        return _this2.targetDOM.innerHTML = body;
+    });
+};
+Component.prototype.bindDOM = function () {
+    var _this3 = this;
+
     this.dom = {};
     console.log(document.querySelectorAll('[data-info]'));
     [].forEach.call(document.querySelectorAll('[data-info]'), function (doc) {
         var info = doc.getAttribute('data-info');
-        _this2.dom[info] = doc;
+        _this3.dom[info] = doc;
     });
     [].forEach.call(document.querySelectorAll('[data-event]'), function (doc) {
         var event = doc.getAttribute('data-event');
         var action = doc.getAttribute('data-action');
-        doc.addEventListener(event, _this2[action].bind(_this2));
+        doc.addEventListener(event, _this3[action].bind(_this3));
     });
 };
 Component.prototype.action = function () {};

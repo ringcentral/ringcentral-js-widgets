@@ -9,18 +9,17 @@ var Component = function(options) {
     // TODO: use Object.extend or somewhat (es6) for default option setting
     this.options = options || {};
     this.targetDOM = document.querySelector(options.target);
-    this.fetchTemplate();
+    this.fetchTemplate(options.template)
+        .then(() => this.bindDOM)
+        .then(() => this.componentMounted)
 
 };
-Component.prototype.fetchTemplate = function() {
-    fetch(options.template)
+Component.prototype.fetchTemplate = function(src) {
+    return fetch(src)
         .then(response => response.text())
         .then(body => this.targetDOM.innerHTML = body)
-        .then(() => this.bindDOM)
-        .then(() => this.componentMounted);
 };
 Component.prototype.bindDOM = function() {
-    console.log(this);
     this.dom = {};
     console.log(document.querySelectorAll('[data-info]'));
     [].forEach.call(document.querySelectorAll('[data-info]'), doc => {
