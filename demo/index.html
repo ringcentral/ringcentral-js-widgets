@@ -48,6 +48,7 @@
     <div>
         <div id="auth-panel"></div>
         <div id="dial-pad"></div>
+        <div id="call-panel"></div>
     </div>
     <script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
@@ -83,6 +84,44 @@
             return true;
         },
         afterUpdate: function(action, props) {
+            if (action === 'callout') {
+                callPanel.render('#call-panel');
+            }
+            return true;
+        }
+    });
+    var callPanel = new CallPanel({
+        template: './template/call-panel.html',
+        actions: {
+            answer: function(props) {
+                return rcHelper.answer(props);
+            },
+            ignore: function(props) {
+                return rcHelper.ignore(props);
+            },
+            cancel: function(props) {
+                return rcHelper.cancel(props);
+            },
+            hangup: function(props) {
+                return rcHelper.hangup(props);
+            },
+            record: function(props) {
+                return rcHelper.record(props);
+            },
+            hold: function(props) {
+                return rcHelper.hold(props);
+            },
+            mute: function(props) {
+                return rcHelper.mute(props);
+            }
+        },
+        beforeUpdate: function(action, props) {
+            return true;
+        },
+        afterUpdate: function(action, props) {
+            if (action === 'mount') {
+                rcHelper.initPhoneListener(props);
+            }
             return true;
         }
     });

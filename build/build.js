@@ -285,6 +285,10 @@ CallLog.prototype.loading = function (target, text) {
 },{}],4:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _component = require('../component');
 
 var _component2 = _interopRequireDefault(_component);
@@ -295,6 +299,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
 var CallPanel = function CallPanel(options) {
     _component2.default.call(this, options);
+    this.initProps();
 };
 CallPanel.prototype = Object.create(_component2.default.prototype);
 CallPanel.prototype.constructor = CallPanel;
@@ -305,141 +310,143 @@ CallPanel.state = {
     'ONLINE': 3
 };
 
-CallPanel.prototype.bindPhoneListener = function () {
+CallPanel.prototype.initProps = function () {
     var _this = this;
 
-    this.webPhone.ua.on('sipIncomingCall', function (e) {
-        console.log('call incoming');
-        _this.line = e;
+    this.props.called = function (event) {
         _this.state = CallPanel.state.CALLIN;
         _this.triggerView();
-    });
-    this.webPhone.ua.on('outgoingCall', function (e) {
-        console.log('call outgoing');
-        _this.line = e;
-        _this.state = CallPanel.state.CALLOUT;
-        _this.triggerView();
-    });
-    this.webPhone.ua.on('callStarted', function (e) {
-        console.log('call start');
+    };
+    this.props.callStarted = function (event) {
         _this.state = CallPanel.state.ONLINE;
         _this.triggerView();
         _this.afterCallStart();
-    });
-    this.webPhone.ua.on('callRejected', function (e) {
-        console.log('reject');
+    };
+    this.props.callRejected = function (event) {
+        console.log('call reject');
         _this.state = CallPanel.state.HIDDEN;
         _this.triggerView();
         _this.afterCallEnd();
-    });
-    this.webPhone.ua.on('callEnded', function (e) {
+    };
+    this.props.callEnded = function (event) {
         console.log('end');
         _this.state = CallPanel.state.HIDDEN;
         _this.triggerView();
         _this.afterCallEnd();
-    });
-    this.webPhone.ua.on('callFailed', function (e) {
+    };
+    this.props.callFailed = function (event) {
         console.log('end');
         _this.state = CallPanel.state.HIDDEN;
         _this.triggerView();
         _this.afterCallEnd();
-    });
+    };
+};
+CallPanel.prototype.beforeUpdate = function (action, props) {
+    var defaultAction = _component2.default.prototype.beforeUpdate.call(this, action, props);
+    if (defaultAction) {
+        if (action === 'login') {}
+    }
+};
+CallPanel.prototype.afterUpdate = function (action, props) {
+    var defaultAction = _component2.default.prototype.afterUpdate.call(this, action, props);
+    if (defaultAction) {
+        if (action === 'mount') {} else if (action === 'answer') {
+            this.state = CallPanel.state.ONLINE;
+            this.triggerView();
+        } else if (action === 'ignore') {
+            this.state = CallPanel.state.HIDDEN;
+            this.triggerView();
+        } else if (action === 'cancel') {
+            this.state = CallPanel.state.HIDDEN;
+            this.triggerView();
+        } else if (action === 'hangup') {
+            this.state = CallPanel.state.HIDDEN;
+            this.triggerView();
+        } else if (action === 'record') {} else if (action === 'hold') {} else if (action === 'mute') {}
+    }
 };
 CallPanel.prototype.answer = function () {
-    var _this2 = this;
-
-    return this.webPhone.answer(this.line).then(function () {
-        _this2.state = CallPanel.state.ONLINE;
-        _this2.triggerView();
-    }).catch(function (e) {
-        console.error(e);
-    });
+    if (this.options.actions && this.options.actions.answer) {
+        this.beforeUpdate.bind(this, 'answer');
+        // FIXME: The custom login may not be a Promise
+        return this.options.actions.answer(this.props).then(this.afterUpdate.bind(this, 'answer')).catch(function (err) {
+            return console.error('login error:' + error);
+        });
+    }
 };
 CallPanel.prototype.ignore = function () {
-    this.state = CallPanel.state.HIDDEN;
-    this.triggerView();
+    if (this.options.actions && this.options.actions.ignore) {
+        this.beforeUpdate.bind(this, 'ignore');
+        // FIXME: The custom login may not be a Promise
+        return this.options.actions.ignore(this.props).then(this.afterUpdate.bind(this, 'ignore')).catch(function (err) {
+            return console.error('login error:' + error);
+        });
+    }
 };
 CallPanel.prototype.cancel = function () {
-    var _this3 = this;
-
-    if (!this.line) return;
-    return this.line.cancel().then(function () {
-        _this3.state = CallPanel.state.HIDDEN;
-        _this3.triggerView();
-    }).catch(function (err) {
-        return console.error(err);
-    });
+    if (this.options.actions && this.options.actions.cancel) {
+        this.beforeUpdate.bind(this, 'cancel');
+        // FIXME: The custom login may not be a Promise
+        return this.options.actions.cancel(this.props).then(this.afterUpdate.bind(this, 'cancel')).catch(function (err) {
+            return console.error('login error:' + error);
+        });
+    }
 };
 CallPanel.prototype.hangup = function () {
-    var _this4 = this;
-
-    if (!this.line) return;
-
-    return this.webPhone.hangup(this.line).then(function () {
-        _this4.state = CallPanel.state.HIDDEN;
-        _this4.triggerView();
-    }).catch(function (err) {
-        return console.error(err);
-    });
-};
-CallPanel.prototype.record = function () {
-    var _this5 = this;
-
-    if (this.line.isOnRecord()) {
-        return this.line.record(false).then(function () {
-            return _this5.element.panel.onlinePanel.recordButton.textContent = 'Record';
-        }).catch(function (err) {
-            console.err(err);
-        });
-    } else {
-        return this.line.record(true).then(function () {
-            return _this5.element.panel.onlinePanel.recordButton.textContent = 'Stop Record';
-        }).catch(function (err) {
-            console.err(err);
+    if (this.options.actions && this.options.actions.hangup) {
+        this.beforeUpdate.bind(this, 'hangup');
+        // FIXME: The custom login may not be a Promise
+        return this.options.actions.hangup(this.props).then(this.afterUpdate.bind(this, 'hangup')).catch(function (err) {
+            return console.error('login error:' + error);
         });
     }
 };
+// CallPanel.prototype.record = function() {
+//     if (this.line.isOnRecord()) {
+//         return this.line.record(false)
+//             .then(() => this.element.panel.onlinePanel.recordButton.textContent = 'Record')
+//             .catch(err => {
+//                 console.err(err);
+//             });
+//     } else {
+//         return this.line.record(true)
+//             .then(() => this.element.panel.onlinePanel.recordButton.textContent = 'Stop Record')
+//             .catch(err => {
+//                 console.err(err);
+//             });
+//     }
+// };
 
-CallPanel.prototype.hold = function () {
-    var _this6 = this;
-
-    if (this.line.isOnHold()) {
-        return this.line.setHold(false).then(function () {
-            console.log(_this6.line.isOnHold());
-            _this6.element.panel.onlinePanel.holdButton.textContent = 'Hold';
-        });
-    } else {
-        return this.line.setHold(true).then(function () {
-            console.log(_this6.line.isOnHold());
-            _this6.element.panel.onlinePanel.holdButton.textContent = 'Unhold';
-        });
-    }
-};
-CallPanel.prototype.mute = function () {
-    var _this7 = this;
-
-    if (this.line.isOnMute()) {
-        return this.line.setMute(false, false).then(function () {
-            console.log(_this7.line.isOnMute());
-            _this7.element.panel.onlinePanel.muteButton.textContent = 'Mute';
-        });
-    } else {
-        return this.line.setMute(true, false).then(function () {
-            console.log(_this7.line.isOnMute());
-            _this7.element.panel.onlinePanel.muteButton.textContent = 'Unmute';
-        });
-    }
-};
-CallPanel.prototype.answerIncomingCall = function () {
-    var _this8 = this;
-
-    return webPhone.answer(this.line).then(function () {
-        _this8.state = CallPanel.state.ONLINE;
-        _this8.triggerView();
-    }).catch(function (e) {
-        return console.error(e);
-    });
-};
+// CallPanel.prototype.hold = function() {
+//     if (this.line.isOnHold()) {
+//         return this.line.setHold(false)
+//             .then(() => {
+//                 console.log(this.line.isOnHold());
+//                 this.element.panel.onlinePanel.holdButton.textContent = 'Hold';
+//             });
+//     } else {
+//         return this.line.setHold(true)
+//             .then(() => {
+//                 console.log(this.line.isOnHold());
+//                 this.element.panel.onlinePanel.holdButton.textContent = 'Unhold';
+//             });
+//     }
+// };
+// CallPanel.prototype.mute = function() {
+//     if (this.line.isOnMute()) {
+//         return this.line.setMute(false, false)
+//             .then(() => {
+//                 console.log(this.line.isOnMute());
+//                 this.element.panel.onlinePanel.muteButton.textContent = 'Mute';
+//             });
+//     } else {
+//         return this.line.setMute(true, false)
+//             .then(() => {
+//                 console.log(this.line.isOnMute());
+//                 this.element.panel.onlinePanel.muteButton.textContent = 'Unmute';
+//             });
+//     }
+// };
 CallPanel.prototype.triggerView = function () {
     this.element.panel.style.display = 'block';
     this.element.panel.callinPanel.style.display = 'none';
@@ -462,28 +469,27 @@ CallPanel.prototype.triggerView = function () {
     }
 };
 CallPanel.prototype.loading = function (target, text) {
-    var _this9 = this;
-
-    if (this.interval) return;
     var dotCount = 1;
-    this.interval = window.setInterval(function () {
+    var interval = window.setInterval(function () {
         var dot = '';
         var dotCountTmp = dotCount;
         while (dotCount--) {
             dot += '.';
-        }console.log(_this9.element.loginButton);
-        target.loginButton.textContent = text + dot;
+        }target.textContent = text + dot;
         dotCount = (dotCountTmp + 1) % 4;
     }, 500);
-};
-CallPanel.prototype.stopLoading = function () {
-    if (this.interval) {
-        window.clearInterval(this.interval);
-        this.interval = null;
-    }
+    return {
+        cancel: function cancel(text) {
+            if (interval) {
+                window.clearInterval(interval);
+                interval = null;
+                if (typeof text !== 'undefined') target.textContent = text;
+            }
+        }
+    };
 };
 CallPanel.prototype.updateCallTime = function (startTime) {
-    var _this10 = this;
+    var _this2 = this;
 
     // FIXME: it's not accurate
     if (!startTime) return;
@@ -492,7 +498,7 @@ CallPanel.prototype.updateCallTime = function (startTime) {
     var callTimeInterval = window.setInterval(function () {
         var sec = currentTime % 60;
         var min = Math.floor(currentTime / 60);
-        _this10.element.panel.onlinePanel.callTime.textContent = min + ":" + sec;
+        _this2.element.panel.onlinePanel.callTime.textContent = min + ":" + sec;
         currentTime++;
     }, 1000);
     return {
@@ -504,6 +510,7 @@ CallPanel.prototype.updateCallTime = function (startTime) {
         }
     };
 };
+exports.default = CallPanel;
 
 },{"../component":1}],5:[function(require,module,exports){
 'use strict';
@@ -608,6 +615,7 @@ var webPhone = new RingCentral.WebPhone({
     }
 });;
 var rcHelper = function (sdk, webPhone) {
+    var line;
     return {
         login: function login(props) {
             var dom = props.dom;
@@ -659,6 +667,46 @@ var rcHelper = function (sdk, webPhone) {
                 webPhone.call(toNumber, fromNumber, countryId);
             }).catch(function (e) {
                 return console.error(e);
+            });
+        },
+        answer: function answer(props) {
+            return webPhone.answer(line).catch(function (e) {
+                console.error(e);
+            });
+        },
+        ignore: function ignore(props) {},
+        cancel: function cancel(props) {
+            return line.cancel().catch(function (e) {
+                console.error(e);
+            });
+        },
+        hangup: function hangup(props) {
+            return webPhone.hangup(line).catch(function (err) {
+                return console.error(err);
+            });
+        },
+        record: function record(props) {},
+        hold: function hold(props) {},
+        mute: function mute(props) {},
+        initPhoneListener: function initPhoneListener(props) {
+            webPhone.ua.on('sipIncomingCall', function (e) {
+                line = e;
+                props.called(e);
+            });
+            webPhone.ua.on('outgoingCall', function (e) {
+                // props.callout(e);
+            });
+            webPhone.ua.on('callStarted', function (e) {
+                props.callStarted(e);
+            });
+            webPhone.ua.on('callRejected', function (e) {
+                props.callRejected(e);
+            });
+            webPhone.ua.on('callEnded', function (e) {
+                props.callEnded(e);
+            });
+            webPhone.ua.on('callFailed', function (e) {
+                props.callFailed(e);
             });
         }
     };

@@ -10,6 +10,7 @@ var webPhone = new RingCentral.WebPhone({
     }
 });;
 var rcHelper = function(sdk, webPhone) {
+    var line;
     return {
         login: function(props) {
             var dom = props.dom;
@@ -67,6 +68,46 @@ var rcHelper = function(sdk, webPhone) {
                     webPhone.call(toNumber, fromNumber, countryId);
                 })
                 .catch(e => console.error(e));
+        },
+        answer: function(props) {
+            return webPhone
+                .answer(line)
+                .catch(function(e) { console.error(e) });
+        },
+        ignore: function(props) {},
+        cancel: function(props) {
+            return line
+                .cancel()
+                .catch(function(e) { console.error(e) });
+        },
+        hangup: function(props) {
+            return webPhone
+                .hangup(line)
+                .catch(err => console.error(err));
+        },
+        record: function(props) {},
+        hold: function(props) {},
+        mute: function(props) {},
+        initPhoneListener: function(props) {
+            webPhone.ua.on('sipIncomingCall', e => {
+                line = e;
+                props.called(e);
+            });
+            webPhone.ua.on('outgoingCall', e => {
+                // props.callout(e);
+            });
+            webPhone.ua.on('callStarted', e => {
+                props.callStarted(e);
+            });
+            webPhone.ua.on('callRejected', e => {
+                props.callRejected(e);
+            });
+            webPhone.ua.on('callEnded', e => {
+                props.callEnded(e);
+            });
+            webPhone.ua.on('callFailed', e => {
+                props.callFailed(e);
+            });
         }
     }
 }(sdk, webPhone);
