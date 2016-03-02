@@ -29,7 +29,6 @@ Component.prototype.fetchTemplate = function (src) {
     this.fetchPromise = fetch(src).then(function (response) {
         return response.text();
     }).then(function (body) {
-        console.log('fetch');
         var template = document.createElement('template');
         template.innerHTML = body;
         return template;
@@ -156,9 +155,6 @@ AuthPanel.prototype.login = function () {
             return console.error('login error:' + error);
         });
     }
-};
-AuthPanel.prototype.signup = function () {
-    this.options.actions && this.options.signup && this.options.signup();
 };
 AuthPanel.prototype.close = function () {};
 AuthPanel.prototype.loading = function (target, text) {
@@ -636,7 +632,9 @@ DialPad.prototype.callout = function () {
 
     this.interval = this.loading(this.dom.callout, 'Call');
 
-    var toNumber = this.dom.number;
+    var toNumber = this.dom.number.value;
+    // FIXME: other ways to get fromNumber?
+    var fromNumber = localStorage.getItem('username');
     if (this.options.actions && this.options.actions.callout) {
         return this.options.actions.callout(this.dom, { toNumber: toNumber }).then(function (countryId) {
             console.log('SIP call to', toNumber, 'from', fromNumber + '\n');
@@ -644,7 +642,14 @@ DialPad.prototype.callout = function () {
                 _this.interval.cancel('Call');
                 _this.interval = null;
             }
+        }).then(this.afterCallout.bind(this)).catch(function (err) {
+            return console.error(err.stack);
         });
+    }
+};
+DialPad.prototype.afterCallout = function () {
+    if (this.options.listeners && this.options.listeners.afterCallout) {
+        this.options.listeners.afterCallout();
     }
 };
 DialPad.prototype.loading = function (target, text) {

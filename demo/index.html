@@ -63,25 +63,23 @@
         },
         listeners: {
             afterLogin: function() {
-                var dialPad = new DialPad({
-                    template: './template/dial-pad.html',
-                    actions: {
-                        callout: function(dom, options) {
-                            return rcHelper.callout(dom, options);
-                        }
-                    }
-                })
-                dialPad.render('#dial-pad')
-                    .then(() => {
-                        authPanel.remove();
-
-                    });
+                dialPad.render('#dial-pad').then(() => authPanel.remove());
             }
+        }
+    });
+    var dialPad = new DialPad({
+        template: './template/dial-pad.html',
+        actions: {
+            callout: function(dom, options) {
+                return rcHelper.callout(dom, options);
+            }
+        },
+        listeners: {
+            afterCallout: function() {}
         }
     });
     // render is async, supports both callbacks and promises
     authPanel.render('#auth-panel', function() { /* ... */ });
-
 
     function switchTheme(theme) {
         document.getElementById('theme-css').href = 'theme/' + theme + '.css';

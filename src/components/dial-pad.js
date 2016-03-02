@@ -16,7 +16,9 @@ DialPad.prototype.dialing = function(number) {
 DialPad.prototype.callout = function() {
     this.interval = this.loading(this.dom.callout, 'Call');
 
-    var toNumber = this.dom.number;
+    var toNumber = this.dom.number.value;
+    // FIXME: other ways to get fromNumber?
+    var fromNumber = localStorage.getItem('username');
     if (this.options.actions && this.options.actions.callout) {
         return this.options.actions.callout(this.dom, { toNumber: toNumber })
             .then(countryId => {
@@ -26,8 +28,14 @@ DialPad.prototype.callout = function() {
                     this.interval = null;
                 }
             })
+            .then(this.afterCallout.bind(this))
+            .catch(err => console.error(err.stack));
     }
-
+};
+DialPad.prototype.afterCallout = function() {
+    if (this.options.listeners && this.options.listeners.afterCallout) {
+        this.options.listeners.afterCallout();
+    }
 };
 DialPad.prototype.loading = function(target, text) {
     var dotCount = 1;

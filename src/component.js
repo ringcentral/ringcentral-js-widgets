@@ -15,7 +15,6 @@ Component.prototype.fetchTemplate = function(src) {
     this.fetchPromise = fetch(src)
         .then(response => response.text())
         .then(body => {
-            console.log('fetch');
             var template = document.createElement('template');
             template.innerHTML = body;
             return template;

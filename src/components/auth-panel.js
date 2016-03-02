@@ -59,9 +59,6 @@ AuthPanel.prototype.login = function() {
             .catch(err => console.error('login error:' + error));
     }
 };
-AuthPanel.prototype.signup = function() {
-    this.options.actions && this.options.signup && this.options.signup();
-};
 AuthPanel.prototype.close = function() {};
 AuthPanel.prototype.loading = function(target, text) {
     var dotCount = 1;
