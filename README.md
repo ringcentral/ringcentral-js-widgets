@@ -11,3 +11,9 @@ This is the personal repository to do some experimental implementation of UI wid
 ### HTML tag attributes
 * Elements with `data-info` will be stored as components `dom` references.
 * Elements with `data-action` will be bound a components actions at `data-event` listeners.
+the value of `data-action` will be `method_name(parameter_1, parameter_2)`
+
+### TODO
+- [ ] Localization
+- [ ] Demo
+- [ ] Component state and property

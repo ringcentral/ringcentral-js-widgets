@@ -4,6 +4,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 var Component = function Component(options) {
     var _this = this;
 
@@ -39,29 +42,42 @@ Component.prototype.bindDOM = function (template) {
     var _this2 = this;
 
     this.dom = {};
-    console.log('bind dom');
-    console.log(template.content);
-    console.log(template.content.querySelectorAll('[data-info]'));
     [].forEach.call(template.content.querySelectorAll('[data-info]'), function (doc) {
         var info = doc.getAttribute('data-info');
         _this2.dom[info] = doc;
     });
-    [].forEach.call(template.content.querySelectorAll('[data-event]'), function (doc) {
+    [].forEach.call(template.content.querySelectorAll('[data-action]'), function (doc) {
+        var _method;
+
         var event = doc.getAttribute('data-event');
-        var action = doc.getAttribute('data-action');
-        doc.addEventListener(event, _this2[action].bind(_this2));
+        var action = doc.getAttribute('data-action'); // for example: dialing(5)
+        // FIXME: The split is buggy
+        var method = action.split('(')[0];
+        var remain = action.split('(')[1];
+        var parameters = remain ? remain.substring(0, remain.length - 1).split(',') : [];
+        if (!_this2[method]) console.warn('some actions cannot be bound to the DOM tag');
+        // For '...' spread operator, please see:
+        // http://exploringjs.com/es6/ch_parameter-handling.html#sec_spread-operator
+        doc.addEventListener(event, (_method = _this2[method]).bind.apply(_method, [_this2].concat(_toConsumableArray(parameters))));
     });
     return template;
 };
 Component.prototype.action = function () {};
 Component.prototype.componentMounted = function () {};
 Component.prototype.componentReady = function () {};
-Component.prototype.render = function (target) {
+Component.prototype.remove = function () {
+    while (this.targetDOM.firstChild) {
+        this.targetDOM.removeChild(this.targetDOM.firstChild);
+    }
+};
+Component.prototype.render = function (target, callback) {
     var _this3 = this;
 
-    if (this.fetchPromise) this.fetchPromise.then(function (template) {
+    if (this.fetchPromise) return this.fetchPromise.then(function (template) {
         _this3.targetDOM = document.querySelector(target);
         _this3.targetDOM.appendChild(template.content);
+    }).then(function () {
+        if (callback && typeof callback === 'function') callback.call(_this3);
     }).catch(function (err) {
         return console.error('render err:' + err);
     });

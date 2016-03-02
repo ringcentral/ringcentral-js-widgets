@@ -53,8 +53,6 @@
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
     <script type="text/javascript" src="../build/build.js"></script>
     <script type="text/javascript">
-    
-
     var authPanel = new AuthPanel({
         template: './template/auth-panel.html',
         actions: {
@@ -66,7 +64,6 @@
         listeners: {
             afterLogin: function() {
                 var dialPad = new DialPad({
-                    target: '#dial-pad',
                     template: './template/dial-pad.html',
                     actions: {
                         callout: function(dom, options) {
@@ -74,11 +71,17 @@
                         }
                     }
                 })
+                dialPad.render('#dial-pad')
+                    .then(() => {
+                        authPanel.remove();
+
+                    });
             }
         }
     });
-    authPanel.render('#auth-panel');
-    
+    // render is async, supports both callbacks and promises
+    authPanel.render('#auth-panel', function() { /* ... */ });
+
 
     function switchTheme(theme) {
         document.getElementById('theme-css').href = 'theme/' + theme + '.css';
