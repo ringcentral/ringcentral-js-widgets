@@ -1,20 +1,11 @@
+import Component from '../component'
+// prototypal inheritance, please see: 
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
 var CallPanel = function(options) {
-    if (!options.target) {
-        new Error('need specifiy a target for call panel');
-    }
-    this.sdk = options.sdk;
-    this.webPhone = options.webPhone || new RingCentral.WebPhone({ audioHelper: true });
-
-    this.line = null;
-    this.state = CallPanel.state.HIDDEN;
-    this.target = options.target;
-    this.bindPhoneListener();
-    this.generateDOM();
-    this.triggerView();
-
-    this.afterCallStart = options.afterCallStart || function() {};
-    this.afterCallEnd = options.afterCallEnd || function() {};
+    Component.call(this, options);
 };
+CallPanel.prototype = Object.create(Component.prototype);
+CallPanel.prototype.constructor = CallPanel;
 CallPanel.state = {
     'HIDDEN': 0,
     'CALLIN': 1,
@@ -22,81 +13,6 @@ CallPanel.state = {
     'ONLINE': 3
 }
 
-// TODO: replace this method with template engine
-CallPanel.prototype.generateDOM = function() {
-    this.element = {
-        panel: dom('div', {}, null, {
-            callinPanel: dom('div', {
-                className: 'rc-panel'
-            }, null, {
-                callinNumber: dom('div'),
-                answerButton: dom('button', {
-                    className: 'rc-button',
-                    text: 'Answer'
-                }, { click: this.answer.bind(this) }),
-                ignoreButton: dom('button', {
-                    className: 'rc-button',
-                    text: 'Ignore'
-                }, { click: this.ignore.bind(this) }),
-            }),
-            calloutPanel: dom('div', {
-                className: 'rc-panel'
-            }, null, {
-                cancelButton: dom('button', {
-                    className: 'rc-button',
-                    text: 'Cancel'
-                }, { click: this.cancel.bind(this) })
-            }),
-            onlinePanel: dom('div', {
-                className: 'rc-panel'
-            }, null, {
-                callTime: dom('h3'),
-                hangupButton: dom('button', {
-                    className: 'rc-button rc-button-important',
-                    text: 'Hangup'
-                }, { click: this.hangup.bind(this) }),
-                recordButton: dom('button', {
-                    className: 'rc-button',
-                    text: 'Record'
-                }, { click: this.record.bind(this) }),
-                holdButton: dom('button', {
-                    className: 'rc-button',
-                    text: 'Hold'
-                }, { click: this.hold.bind(this) }),
-                muteButton: dom('button', {
-                    className: 'rc-button',
-                    text: 'Mute'
-                }, { click: this.mute.bind(this) }),
-            })
-        })
-    };
-    this.targetDOM = document.querySelector(this.target);
-    this.targetDOM.appendChild(this.element.panel);
-
-    function dom(type, attributes, listeners, children) {
-        var element = document.createElement(type);
-        attributes && Object.keys(attributes).forEach(index => {
-            var attr = attributes[index];
-            if (index === 'className') {
-                element.className = attr;
-            } else if (index === 'text') {
-                element.textContent = attr;
-            } else { // attribute
-                element.setAttribute(index, attr);
-            }
-        })
-        listeners && Object.keys(listeners).forEach(index => {
-            var listener = listeners[index];
-            element.addEventListener(index, listener);
-        })
-        children && Object.keys(children).forEach(index => {
-            var child = children[index];
-            element.appendChild(child);
-            element[index] = child;
-        })
-        return element;
-    }
-};
 CallPanel.prototype.bindPhoneListener = function() {
     this.webPhone.ua.on('sipIncomingCall', e => {
         console.log('call incoming');
@@ -186,9 +102,7 @@ CallPanel.prototype.record = function() {
             });
     }
 };
-CallPanel.prototype.stopRecord = function() {
 
-};
 CallPanel.prototype.hold = function() {
     if (this.line.isOnHold()) {
         return this.line.setHold(false)
@@ -278,7 +192,7 @@ CallPanel.prototype.updateCallTime = function(startTime) {
         var sec = currentTime % 60;
         var min = Math.floor(currentTime / 60);
         this.element.panel.onlinePanel.callTime.textContent = min + ":" + sec;
-        currentTime ++;
+        currentTime++;
     }, 1000);
     return {
         cancel: function() {

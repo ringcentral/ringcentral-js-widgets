@@ -56,26 +56,34 @@
     var authPanel = new AuthPanel({
         template: './template/auth-panel.html',
         actions: {
-            login: function(dom) {
-                return rcHelper.login(dom);
+            login: function(props) {
+                return rcHelper.login(props);
             },
-            signup: function(dom) {}
         },
-        listeners: {
-            afterLogin: function() {
-                dialPad.render('#dial-pad').then(() => authPanel.remove());
+        beforeUpdate: function(action, props) {
+            return true;
+        },
+        afterUpdate: function(action, props) {
+            if (action === 'login') {
+                dialPad.render('#dial-pad', function() {
+                    authPanel.remove();
+                })
             }
+            return true;
         }
     });
     var dialPad = new DialPad({
         template: './template/dial-pad.html',
         actions: {
-            callout: function(dom, options) {
-                return rcHelper.callout(dom, options);
+            callout: function(props) {
+                return rcHelper.callout(props);
             }
         },
-        listeners: {
-            afterCallout: function() {}
+        beforeUpdate: function(action, props) {
+            return true;
+        },
+        afterUpdate: function(action, props) {
+            return true;
         }
     });
     // render is async, supports both callbacks and promises

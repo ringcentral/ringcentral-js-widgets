@@ -4,9 +4,6 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 var Component = function Component(options) {
     var _this = this;
 
@@ -16,11 +13,13 @@ var Component = function Component(options) {
     }
     // TODO: use Object.extend or somewhat (es6) for default option setting
     this.options = options || {};
+    this.props = {};
     this.fetchPromise = null;
+    this.beforeUpdate('mount');
     this.fetchTemplate(options.template).then(function (template) {
         return _this.bindDOM(template);
     }).then(function (template) {
-        return _this.componentMounted(template);
+        return _this.afterUpdate('mount');
     }).catch(function (err) {
         return console.error(err.stack);
     });
@@ -40,41 +39,37 @@ Component.prototype.fetchTemplate = function (src) {
 Component.prototype.bindDOM = function (template) {
     var _this2 = this;
 
-    this.dom = {};
+    this.props.dom = {};
     [].forEach.call(template.content.querySelectorAll('[data-info]'), function (doc) {
         var info = doc.getAttribute('data-info');
-        _this2.dom[info] = doc;
+        _this2.props.dom[info] = doc;
     });
     [].forEach.call(template.content.querySelectorAll('[data-action]'), function (doc) {
-        var _method;
-
         var event = doc.getAttribute('data-event');
-        var action = doc.getAttribute('data-action'); // for example: dialing(5)
-        // FIXME: The split is buggy
-        var method = action.split('(')[0];
-        var remain = action.split('(')[1];
-        var parameters = remain ? remain.substring(0, remain.length - 1).split(',') : [];
-        if (!_this2[method]) console.warn('some actions cannot be bound to the DOM tag');
-        // For '...' spread operator, please see:
-        // http://exploringjs.com/es6/ch_parameter-handling.html#sec_spread-operator
-        doc.addEventListener(event, (_method = _this2[method]).bind.apply(_method, [_this2].concat(_toConsumableArray(parameters))));
+        var action = doc.getAttribute('data-action');
+        doc.addEventListener(event, _this2[action].bind(_this2));
     });
     return template;
 };
-Component.prototype.action = function () {};
-Component.prototype.componentMounted = function () {};
-Component.prototype.componentReady = function () {};
+Component.prototype.beforeUpdate = function (action) {
+    if (this.options.beforeUpdate) return this.options.beforeUpdate(action, this.props);
+    return true;
+};
+Component.prototype.afterUpdate = function (action) {
+    if (this.options.afterUpdate) return this.options.afterUpdate(action, this.props);
+    return true;
+};
 Component.prototype.remove = function () {
-    while (this.targetDOM.firstChild) {
-        this.targetDOM.removeChild(this.targetDOM.firstChild);
+    while (this.props.targetDOM.firstChild) {
+        this.props.targetDOM.removeChild(this.props.targetDOM.firstChild);
     }
 };
 Component.prototype.render = function (target, callback) {
     var _this3 = this;
 
     if (this.fetchPromise) return this.fetchPromise.then(function (template) {
-        _this3.targetDOM = document.querySelector(target);
-        _this3.targetDOM.appendChild(template.content);
+        _this3.props.targetDOM = document.querySelector(target);
+        _this3.props.targetDOM.appendChild(template.content);
     }).then(function () {
         if (callback && typeof callback === 'function') callback.call(_this3);
     }).catch(function (err) {
@@ -103,60 +98,50 @@ var AuthPanel = function AuthPanel(options) {
 };
 AuthPanel.prototype = Object.create(_component2.default.prototype);
 AuthPanel.prototype.constructor = AuthPanel;
-
-AuthPanel.prototype.componentMounted = function () {
-    _component2.default.prototype.componentMounted.call(this);
-    this.dom.key.value = localStorage.getItem('key');
-    this.dom.secret.value = localStorage.getItem('secret');
-    this.dom.username.value = localStorage.getItem('username');
-    this.dom.extension.value = localStorage.getItem('extension');
-    this.dom.password.value = localStorage.getItem('password');
-};
-AuthPanel.prototype.beforeLogin = function () {
-    localStorage.setItem('server', this.dom.server.value || '');
-    localStorage.setItem('key', this.dom.key.value || '');
-    localStorage.setItem('secret', this.dom.secret.value || '');
-    localStorage.setItem('username', this.dom.username.value || '');
-    localStorage.setItem('extension', this.dom.extension.value || '');
-    localStorage.setItem('password', this.dom.password.value || '');
-    this.dom.login.disabled = true;
-    this.dom.error.textContent = '';
-    this.interval = this.loading(this.dom.login, 'login');
-    if (this.options.listeners.beforeLogin) {
-        this.options.listeners.beforeLogin();
-        // if (!this.options.listeners.afterLogin) {
-        //     console.warn('you may encounter UI problems because you overrided one of login lifecycle.');
-        // }
+AuthPanel.prototype.beforeUpdate = function (action, props) {
+    var defaultAction = _component2.default.prototype.beforeUpdate.call(this, action, props);
+    if (defaultAction) {
+        if (action === 'login') {
+            this.props.dom.login.disabled = true;
+            this.props.dom.error.textContent = '';
+            this.interval = this.loading(this.props.dom.login, 'login');
+        }
     }
 };
-
-AuthPanel.prototype.afterLogin = function () {
-    this.dom.login.disabled = false;
-    // stop loading animation
-    if (this.interval) {
-        this.interval.cancel();
-        this.interval = null;
-    }
-    if (this.options.listeners.afterLogin) {
-        this.options.listeners.afterLogin();
-        // if (!this.options.listeners.beforeLogin) {
-        //     console.warn('you may encounter UI problems because you overrided one of login lifecycle.');
-        // }
+AuthPanel.prototype.afterUpdate = function (action, props) {
+    var defaultAction = _component2.default.prototype.afterUpdate.call(this, action, props);
+    if (defaultAction) {
+        if (action === 'mount') {
+            this.props.dom.key.value = localStorage.getItem('key');
+            this.props.dom.secret.value = localStorage.getItem('secret');
+            this.props.dom.username.value = localStorage.getItem('username');
+            this.props.dom.extension.value = localStorage.getItem('extension');
+            this.props.dom.password.value = localStorage.getItem('password');
+        } else if (action === 'login') {
+            this.props.dom.login.disabled = false;
+            // stop loading animation
+            if (this.interval) {
+                this.interval.cancel();
+                this.interval = null;
+            }
+            localStorage.setItem('server', this.props.dom.server.value || '');
+            localStorage.setItem('key', this.props.dom.key.value || '');
+            localStorage.setItem('secret', this.props.dom.secret.value || '');
+            localStorage.setItem('username', this.props.dom.username.value || '');
+            localStorage.setItem('extension', this.props.dom.extension.value || '');
+            localStorage.setItem('password', this.props.dom.password.value || '');
+        }
     }
 };
-
 AuthPanel.prototype.login = function () {
-    this.beforeLogin();
+    this.beforeUpdate('login');
     if (this.options.actions && this.options.actions.login) {
         // FIXME: The custom login may not be a Promise
-        return this.options.actions.login(this.dom)
-        // bind the lexical env to the function, otherwise will be 'window' scope
-        .then(this.afterLogin.bind(this)).catch(function (err) {
+        return this.options.actions.login(this.props).then(this.afterUpdate.bind(this, 'login')).catch(function (err) {
             return console.error('login error:' + error);
         });
     }
 };
-AuthPanel.prototype.close = function () {};
 AuthPanel.prototype.loading = function (target, text) {
     var dotCount = 1;
     var interval = window.setInterval(function () {
@@ -300,23 +285,19 @@ CallLog.prototype.loading = function (target, text) {
 },{}],4:[function(require,module,exports){
 'use strict';
 
+var _component = require('../component');
+
+var _component2 = _interopRequireDefault(_component);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// prototypal inheritance, please see:
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
 var CallPanel = function CallPanel(options) {
-    if (!options.target) {
-        new Error('need specifiy a target for call panel');
-    }
-    this.sdk = options.sdk;
-    this.webPhone = options.webPhone || new RingCentral.WebPhone({ audioHelper: true });
-
-    this.line = null;
-    this.state = CallPanel.state.HIDDEN;
-    this.target = options.target;
-    this.bindPhoneListener();
-    this.generateDOM();
-    this.triggerView();
-
-    this.afterCallStart = options.afterCallStart || function () {};
-    this.afterCallEnd = options.afterCallEnd || function () {};
+    _component2.default.call(this, options);
 };
+CallPanel.prototype = Object.create(_component2.default.prototype);
+CallPanel.prototype.constructor = CallPanel;
 CallPanel.state = {
     'HIDDEN': 0,
     'CALLIN': 1,
@@ -324,82 +305,6 @@ CallPanel.state = {
     'ONLINE': 3
 };
 
-// TODO: replace this method with template engine
-CallPanel.prototype.generateDOM = function () {
-    this.element = {
-        panel: dom('div', {}, null, {
-            callinPanel: dom('div', {
-                className: 'rc-panel'
-            }, null, {
-                callinNumber: dom('div'),
-                answerButton: dom('button', {
-                    className: 'rc-button',
-                    text: 'Answer'
-                }, { click: this.answer.bind(this) }),
-                ignoreButton: dom('button', {
-                    className: 'rc-button',
-                    text: 'Ignore'
-                }, { click: this.ignore.bind(this) })
-            }),
-            calloutPanel: dom('div', {
-                className: 'rc-panel'
-            }, null, {
-                cancelButton: dom('button', {
-                    className: 'rc-button',
-                    text: 'Cancel'
-                }, { click: this.cancel.bind(this) })
-            }),
-            onlinePanel: dom('div', {
-                className: 'rc-panel'
-            }, null, {
-                callTime: dom('h3'),
-                hangupButton: dom('button', {
-                    className: 'rc-button rc-button-important',
-                    text: 'Hangup'
-                }, { click: this.hangup.bind(this) }),
-                recordButton: dom('button', {
-                    className: 'rc-button',
-                    text: 'Record'
-                }, { click: this.record.bind(this) }),
-                holdButton: dom('button', {
-                    className: 'rc-button',
-                    text: 'Hold'
-                }, { click: this.hold.bind(this) }),
-                muteButton: dom('button', {
-                    className: 'rc-button',
-                    text: 'Mute'
-                }, { click: this.mute.bind(this) })
-            })
-        })
-    };
-    this.targetDOM = document.querySelector(this.target);
-    this.targetDOM.appendChild(this.element.panel);
-
-    function dom(type, attributes, listeners, children) {
-        var element = document.createElement(type);
-        attributes && Object.keys(attributes).forEach(function (index) {
-            var attr = attributes[index];
-            if (index === 'className') {
-                element.className = attr;
-            } else if (index === 'text') {
-                element.textContent = attr;
-            } else {
-                // attribute
-                element.setAttribute(index, attr);
-            }
-        });
-        listeners && Object.keys(listeners).forEach(function (index) {
-            var listener = listeners[index];
-            element.addEventListener(index, listener);
-        });
-        children && Object.keys(children).forEach(function (index) {
-            var child = children[index];
-            element.appendChild(child);
-            element[index] = child;
-        });
-        return element;
-    }
-};
 CallPanel.prototype.bindPhoneListener = function () {
     var _this = this;
 
@@ -494,7 +399,7 @@ CallPanel.prototype.record = function () {
         });
     }
 };
-CallPanel.prototype.stopRecord = function () {};
+
 CallPanel.prototype.hold = function () {
     var _this6 = this;
 
@@ -600,7 +505,7 @@ CallPanel.prototype.updateCallTime = function (startTime) {
     };
 };
 
-},{}],5:[function(require,module,exports){
+},{"../component":1}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -620,36 +525,42 @@ var DialPad = function DialPad(options) {
 };
 DialPad.prototype = Object.create(_component2.default.prototype);
 DialPad.prototype.constructor = DialPad;
-
-DialPad.prototype.dialing = function (number) {
-    if (!this.dom || !this.dom.number) {
+DialPad.prototype.beforeUpdate = function (action) {
+    var defaultAction = _component2.default.prototype.beforeUpdate.call(this);
+    if (defaultAction) {
+        if (action === 'dialing') {} else if (action === 'callout') {
+            this.interval = this.loading(this.props.dom.callout, 'Call');
+        }
+    }
+};
+DialPad.prototype.afterUpdate = function (action) {
+    var defaultAction = _component2.default.prototype.afterUpdate.call(this, action, this.props);
+    if (defaultAction) {
+        if (action === 'dialing') {} else if (action === 'callout') {
+            if (this.interval) {
+                this.interval.cancel('Call');
+                this.interval = null;
+            }
+        }
+    }
+};
+DialPad.prototype.dialing = function (event, number) {
+    if (!this.props.dom || !this.props.dom.number) {
         throw Error('Dial pad need a number input');
     }
-    this.dom.number.value += number;
+    this.beforeUpdate('dialing');
+    this.props.dom.number.value += number;
+    this.afterUpdate('dialing');
 };
 DialPad.prototype.callout = function () {
-    var _this = this;
-
-    this.interval = this.loading(this.dom.callout, 'Call');
-
-    var toNumber = this.dom.number.value;
+    this.props.toNumber = this.props.dom.number.value;
     // FIXME: other ways to get fromNumber?
-    var fromNumber = localStorage.getItem('username');
+    var fromNumber = this.props.fromNumber = localStorage.getItem('username');
+    this.beforeUpdate('callout');
     if (this.options.actions && this.options.actions.callout) {
-        return this.options.actions.callout(this.dom, { toNumber: toNumber }).then(function (countryId) {
-            console.log('SIP call to', toNumber, 'from', fromNumber + '\n');
-            if (_this.interval) {
-                _this.interval.cancel('Call');
-                _this.interval = null;
-            }
-        }).then(this.afterCallout.bind(this)).catch(function (err) {
+        return this.options.actions.callout(this.props).then(this.afterUpdate.bind(this, 'callout')).catch(function (err) {
             return console.error(err.stack);
         });
-    }
-};
-DialPad.prototype.afterCallout = function () {
-    if (this.options.listeners && this.options.listeners.afterCallout) {
-        this.options.listeners.afterCallout();
     }
 };
 DialPad.prototype.loading = function (target, text) {
@@ -680,16 +591,21 @@ exports.default = DialPad;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var rcHelper = function () {
-    var sdk;
-    var webPhone;
+var sdk = new RingCentral.SDK({
+    appKey: 'eac8797af1b3502F2CEAAEECAC3Ed378AA7858A386656f28A008b0c638A754B1',
+    appSecret: 'c082702E4ea4DA18c4b1377917778a8aafabCA3Be579B78B66d17C36874b27F4',
+    server: RingCentral.SDK.server.production
+});
+var webPhone = new RingCentral.WebPhone({
+    audioHelper: {
+        incoming: '../demo/audio/incoming.ogg',
+        outgoing: '../demo/audio/outgoing.ogg'
+    }
+});;
+var rcHelper = function (sdk, webPhone) {
     return {
-        login: function login(dom) {
-            sdk = new RingCentral.SDK({
-                appKey: dom.key.value,
-                appSecret: dom.secret.value,
-                server: dom.server.value || RingCentral.SDK.server.production
-            });
+        login: function login(props) {
+            var dom = props.dom;
             return sdk.platform().login({
                 username: dom.username.value,
                 extension: dom.extension.value,
@@ -699,12 +615,6 @@ var rcHelper = function () {
             });
 
             function registerSIP() {
-                webPhone = new RingCentral.WebPhone({
-                    audioHelper: {
-                        incoming: '../demo/audio/incoming.ogg',
-                        outgoing: '../demo/audio/outgoing.ogg'
-                    }
-                });
                 return sdk.platform().post('/client-info/sip-provision', {
                     sipInfo: [{
                         transport: 'WSS'
@@ -725,11 +635,10 @@ var rcHelper = function () {
                 });
             }
         },
-        callout: function callout(dom, options) {
+        callout: function callout(props) {
             var _this = this;
 
-            console.log(options);
-            var toNumber = options.toNumber;
+            var toNumber = props.toNumber;
             var fromNumber = localStorage.getItem('username');
 
             // TODO: validate toNumber and fromNumber
@@ -756,7 +665,7 @@ var rcHelper = function () {
             });
         }
     };
-}();
+}(sdk, webPhone);
 exports.default = rcHelper;
 
 },{}],7:[function(require,module,exports){

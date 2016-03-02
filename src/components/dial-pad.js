@@ -6,35 +6,42 @@ var DialPad = function(options) {
 };
 DialPad.prototype = Object.create(Component.prototype);
 DialPad.prototype.constructor = DialPad;
-
-DialPad.prototype.dialing = function(number) {
-    if (!this.dom || !this.dom.number) {
+DialPad.prototype.beforeUpdate = function(action) {
+    var defaultAction = Component.prototype.beforeUpdate.call(this);
+    if (defaultAction) {
+        if (action === 'dialing') {} else if (action === 'callout') {
+            this.interval = this.loading(this.props.dom.callout, 'Call');
+        }
+    }
+};
+DialPad.prototype.afterUpdate = function(action) {
+    var defaultAction = Component.prototype.afterUpdate.call(this, action, this.props);
+    if (defaultAction) {
+        if (action === 'dialing') {} else if (action === 'callout') {
+            if (this.interval) {
+                this.interval.cancel('Call');
+                this.interval = null;
+            }
+        }
+    }
+};
+DialPad.prototype.dialing = function(event, number) {
+    if (!this.props.dom || !this.props.dom.number) {
         throw Error('Dial pad need a number input');
     }
-    this.dom.number.value += number;
+    this.beforeUpdate('dialing');
+    this.props.dom.number.value += number;
+    this.afterUpdate('dialing');
 };
 DialPad.prototype.callout = function() {
-    this.interval = this.loading(this.dom.callout, 'Call');
-
-    var toNumber = this.dom.number.value;
+    this.props.toNumber = this.props.dom.number.value;
     // FIXME: other ways to get fromNumber?
-    var fromNumber = localStorage.getItem('username');
+    var fromNumber = this.props.fromNumber = localStorage.getItem('username');
+    this.beforeUpdate('callout');
     if (this.options.actions && this.options.actions.callout) {
-        return this.options.actions.callout(this.dom, { toNumber: toNumber })
-            .then(countryId => {
-                console.log('SIP call to', toNumber, 'from', fromNumber + '\n');
-                if (this.interval) {
-                    this.interval.cancel('Call');
-                    this.interval = null;
-                }
-            })
-            .then(this.afterCallout.bind(this))
+        return this.options.actions.callout(this.props)
+            .then(this.afterUpdate.bind(this, 'callout'))
             .catch(err => console.error(err.stack));
-    }
-};
-DialPad.prototype.afterCallout = function() {
-    if (this.options.listeners && this.options.listeners.afterCallout) {
-        this.options.listeners.afterCallout();
     }
 };
 DialPad.prototype.loading = function(target, text) {

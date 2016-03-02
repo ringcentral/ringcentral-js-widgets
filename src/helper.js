@@ -1,13 +1,18 @@
-var rcHelper = function() {
-    var sdk;
-    var webPhone;
+var sdk = new RingCentral.SDK({
+    appKey: 'eac8797af1b3502F2CEAAEECAC3Ed378AA7858A386656f28A008b0c638A754B1',
+    appSecret: 'c082702E4ea4DA18c4b1377917778a8aafabCA3Be579B78B66d17C36874b27F4',
+    server: RingCentral.SDK.server.production
+});
+var webPhone = new RingCentral.WebPhone({
+    audioHelper: {
+        incoming: '../demo/audio/incoming.ogg',
+        outgoing: '../demo/audio/outgoing.ogg'
+    }
+});;
+var rcHelper = function(sdk, webPhone) {
     return {
-        login: function(dom) {
-            sdk = new RingCentral.SDK({
-                appKey: dom.key.value,
-                appSecret: dom.secret.value,
-                server: dom.server.value || RingCentral.SDK.server.production
-            });
+        login: function(props) {
+            var dom = props.dom;
             return sdk.platform()
                 .login({
                     username: dom.username.value,
@@ -16,14 +21,7 @@ var rcHelper = function() {
                 })
                 .then(() => registerSIP())
 
-
             function registerSIP() {
-                webPhone = new RingCentral.WebPhone({
-                    audioHelper: {
-                        incoming: '../demo/audio/incoming.ogg',
-                        outgoing: '../demo/audio/outgoing.ogg'
-                    }
-                });
                 return sdk.platform()
                     .post('/client-info/sip-provision', {
                         sipInfo: [{
@@ -49,9 +47,8 @@ var rcHelper = function() {
                     });
             }
         },
-        callout: function(dom, options) {
-            console.log(options);
-            var toNumber = options.toNumber;
+        callout: function(props) {
+            var toNumber = props.toNumber;
             var fromNumber = localStorage.getItem('username');
 
             // TODO: validate toNumber and fromNumber
@@ -82,5 +79,5 @@ var rcHelper = function() {
                 });
         }
     }
-}();
+}(sdk, webPhone);
 export default rcHelper;

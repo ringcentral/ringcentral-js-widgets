@@ -17,3 +17,5 @@ the value of `data-action` will be `method_name(parameter_1, parameter_2)`
 - [ ] Localization
 - [ ] Demo
 - [ ] Component state and property
+- [ ] Seperate helpers
+- [ ] Document

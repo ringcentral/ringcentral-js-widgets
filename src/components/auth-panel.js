@@ -6,60 +6,50 @@ var AuthPanel = function(options) {
 };
 AuthPanel.prototype = Object.create(Component.prototype);
 AuthPanel.prototype.constructor = AuthPanel;
-
-AuthPanel.prototype.componentMounted = function() {
-    Component.prototype.componentMounted.call(this);
-    this.dom.key.value = localStorage.getItem('key');
-    this.dom.secret.value = localStorage.getItem('secret');
-    this.dom.username.value = localStorage.getItem('username');
-    this.dom.extension.value = localStorage.getItem('extension');
-    this.dom.password.value = localStorage.getItem('password');
-};
-AuthPanel.prototype.beforeLogin = function() {
-    localStorage.setItem('server', this.dom.server.value || '');
-    localStorage.setItem('key', this.dom.key.value || '');
-    localStorage.setItem('secret', this.dom.secret.value || '');
-    localStorage.setItem('username', this.dom.username.value || '');
-    localStorage.setItem('extension', this.dom.extension.value || '');
-    localStorage.setItem('password', this.dom.password.value || '');
-    this.dom.login.disabled = true;
-    this.dom.error.textContent = '';
-    this.interval = this.loading(this.dom.login, 'login');
-    if (this.options.listeners.beforeLogin) {
-        this.options.listeners.beforeLogin();
-        // if (!this.options.listeners.afterLogin) {
-        //     console.warn('you may encounter UI problems because you overrided one of login lifecycle.');
-        // }
+AuthPanel.prototype.beforeUpdate = function(action, props) {
+    var defaultAction = Component.prototype.beforeUpdate.call(this, action, props);
+    if (defaultAction) {
+        if (action === 'login') {
+            this.props.dom.login.disabled = true;
+            this.props.dom.error.textContent = '';
+            this.interval = this.loading(this.props.dom.login, 'login');
+        }
     }
 };
-
-
-AuthPanel.prototype.afterLogin = function() {
-    this.dom.login.disabled = false;
-    // stop loading animation
-    if (this.interval) {
-        this.interval.cancel();
-        this.interval = null;
-    }
-    if (this.options.listeners.afterLogin) {
-        this.options.listeners.afterLogin();
-        // if (!this.options.listeners.beforeLogin) {
-        //     console.warn('you may encounter UI problems because you overrided one of login lifecycle.');
-        // }
+AuthPanel.prototype.afterUpdate = function(action, props) {
+    var defaultAction = Component.prototype.afterUpdate.call(this, action, props);
+    if (defaultAction) {
+        if (action === 'mount') {
+            this.props.dom.key.value = localStorage.getItem('key');
+            this.props.dom.secret.value = localStorage.getItem('secret');
+            this.props.dom.username.value = localStorage.getItem('username');
+            this.props.dom.extension.value = localStorage.getItem('extension');
+            this.props.dom.password.value = localStorage.getItem('password');
+        } else if (action === 'login') {
+            this.props.dom.login.disabled = false;
+            // stop loading animation
+            if (this.interval) {
+                this.interval.cancel();
+                this.interval = null;
+            }
+            localStorage.setItem('server', this.props.dom.server.value || '');
+            localStorage.setItem('key', this.props.dom.key.value || '');
+            localStorage.setItem('secret', this.props.dom.secret.value || '');
+            localStorage.setItem('username', this.props.dom.username.value || '');
+            localStorage.setItem('extension', this.props.dom.extension.value || '');
+            localStorage.setItem('password', this.props.dom.password.value || '');
+        }
     }
 };
-
 AuthPanel.prototype.login = function() {
-    this.beforeLogin();
+    this.beforeUpdate('login');
     if (this.options.actions && this.options.actions.login) {
         // FIXME: The custom login may not be a Promise
-        return this.options.actions.login(this.dom)
-            // bind the lexical env to the function, otherwise will be 'window' scope
-            .then(this.afterLogin.bind(this))
+        return this.options.actions.login(this.props)
+            .then(this.afterUpdate.bind(this, 'login'))
             .catch(err => console.error('login error:' + error));
     }
 };
-AuthPanel.prototype.close = function() {};
 AuthPanel.prototype.loading = function(target, text) {
     var dotCount = 1;
     var interval = window.setInterval(() => {

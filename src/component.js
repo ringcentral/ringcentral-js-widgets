@@ -5,10 +5,12 @@ var Component = function(options) {
     }
     // TODO: use Object.extend or somewhat (es6) for default option setting
     this.options = options || {};
+    this.props = {};
     this.fetchPromise = null;
+    this.beforeUpdate('mount');
     this.fetchTemplate(options.template)
         .then(template => this.bindDOM(template))
-        .then(template => this.componentMounted(template))
+        .then(template => this.afterUpdate('mount'))
         .catch(err => console.error(err.stack))
 };
 Component.prototype.fetchTemplate = function(src) {
@@ -23,40 +25,39 @@ Component.prototype.fetchTemplate = function(src) {
     return this.fetchPromise;
 };
 Component.prototype.bindDOM = function(template) {
-    this.dom = {};
+    this.props.dom = {};
     [].forEach.call(template.content.querySelectorAll('[data-info]'), doc => {
         var info = doc.getAttribute('data-info');
-        this.dom[info] = doc;
+        this.props.dom[info] = doc;
     });
     [].forEach.call(template.content.querySelectorAll('[data-action]'), doc => {
         var event = doc.getAttribute('data-event');
-        var action = doc.getAttribute('data-action'); // for example: dialing(5)
-        // FIXME: The split is buggy
-        var method = action.split('(')[0];
-        var remain = action.split('(')[1];
-        var parameters = remain ? remain.substring(0, remain.length - 1).split(',') : [];
-        if (!this[method])
-            console.warn('some actions cannot be bound to the DOM tag');
-        // For '...' spread operator, please see:
-        // http://exploringjs.com/es6/ch_parameter-handling.html#sec_spread-operator
-        doc.addEventListener(event, this[method].bind(this, ...parameters));
+        var action = doc.getAttribute('data-action');
+        doc.addEventListener(event, this[action].bind(this));
     })
     return template;
 }
-Component.prototype.action = function() {}
-Component.prototype.componentMounted = function() {};
-Component.prototype.componentReady = function() {};
+Component.prototype.beforeUpdate = function(action) {
+    if (this.options.beforeUpdate)
+        return this.options.beforeUpdate(action, this.props);
+    return true;
+};
+Component.prototype.afterUpdate = function(action) {
+    if (this.options.afterUpdate)
+        return this.options.afterUpdate(action, this.props);
+    return true;
+};
 Component.prototype.remove = function() {
-    while (this.targetDOM.firstChild) {
-        this.targetDOM.removeChild(this.targetDOM.firstChild);
+    while (this.props.targetDOM.firstChild) {
+        this.props.targetDOM.removeChild(this.props.targetDOM.firstChild);
     }
 };
 Component.prototype.render = function(target, callback) {
     if (this.fetchPromise)
         return this.fetchPromise
             .then(template => {
-                this.targetDOM = document.querySelector(target);
-                this.targetDOM.appendChild(template.content);
+                this.props.targetDOM = document.querySelector(target);
+                this.props.targetDOM.appendChild(template.content);
             })
             .then(() => {
                 if (callback && typeof callback === 'function')
