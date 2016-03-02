@@ -41,10 +41,7 @@ var rcHelper = function(sdk, webPhone) {
                                 return Promise.reject(err);
                             });
 
-                    }).catch(e => {
-                        console.error(e);
-                        return Promise.reject(e);
-                    });
+                    }).catch(e => console.error(e));
             }
         },
         callout: function(props) {
@@ -69,14 +66,7 @@ var rcHelper = function(sdk, webPhone) {
                 .then(countryId => {
                     webPhone.call(toNumber, fromNumber, countryId);
                 })
-                .catch(e => {
-                    console.error(e);
-                    this.element.panel.errorMessage.textContent = e.message;
-                    if (this.interval) {
-                        this.interval.cancel('Call');
-                        this.interval = null;
-                    }
-                });
+                .catch(e => console.error(e));
         }
     }
 }(sdk, webPhone);

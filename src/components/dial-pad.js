@@ -6,18 +6,22 @@ var DialPad = function(options) {
 };
 DialPad.prototype = Object.create(Component.prototype);
 DialPad.prototype.constructor = DialPad;
-DialPad.prototype.beforeUpdate = function(action) {
-    var defaultAction = Component.prototype.beforeUpdate.call(this);
+DialPad.prototype.beforeUpdate = function(action, props) {
+    var defaultAction = Component.prototype.beforeUpdate.call(this, action, props);
     if (defaultAction) {
-        if (action === 'dialing') {} else if (action === 'callout') {
+        if (action === 'dialing') {
+            // ...
+        } else if (action === 'callout') {
             this.interval = this.loading(this.props.dom.callout, 'Call');
         }
     }
 };
-DialPad.prototype.afterUpdate = function(action) {
-    var defaultAction = Component.prototype.afterUpdate.call(this, action, this.props);
+DialPad.prototype.afterUpdate = function(action, props) {
+    var defaultAction = Component.prototype.afterUpdate.call(this, action, props);
     if (defaultAction) {
-        if (action === 'dialing') {} else if (action === 'callout') {
+        if (action === 'dialing') {
+            // ...
+        } else if (action === 'callout') {
             if (this.interval) {
                 this.interval.cancel('Call');
                 this.interval = null;
@@ -25,12 +29,13 @@ DialPad.prototype.afterUpdate = function(action) {
         }
     }
 };
-DialPad.prototype.dialing = function(event, number) {
+DialPad.prototype.dialing = function(event) {
     if (!this.props.dom || !this.props.dom.number) {
         throw Error('Dial pad need a number input');
     }
+    var button = event.target;
     this.beforeUpdate('dialing');
-    this.props.dom.number.value += number;
+    this.props.dom.number.value += button.getAttribute('data-value');
     this.afterUpdate('dialing');
 };
 DialPad.prototype.callout = function() {

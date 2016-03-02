@@ -525,31 +525,36 @@ var DialPad = function DialPad(options) {
 };
 DialPad.prototype = Object.create(_component2.default.prototype);
 DialPad.prototype.constructor = DialPad;
-DialPad.prototype.beforeUpdate = function (action) {
-    var defaultAction = _component2.default.prototype.beforeUpdate.call(this);
+DialPad.prototype.beforeUpdate = function (action, props) {
+    var defaultAction = _component2.default.prototype.beforeUpdate.call(this, action, props);
     if (defaultAction) {
-        if (action === 'dialing') {} else if (action === 'callout') {
-            this.interval = this.loading(this.props.dom.callout, 'Call');
-        }
-    }
-};
-DialPad.prototype.afterUpdate = function (action) {
-    var defaultAction = _component2.default.prototype.afterUpdate.call(this, action, this.props);
-    if (defaultAction) {
-        if (action === 'dialing') {} else if (action === 'callout') {
-            if (this.interval) {
-                this.interval.cancel('Call');
-                this.interval = null;
+        if (action === 'dialing') {
+            // ...
+        } else if (action === 'callout') {
+                this.interval = this.loading(this.props.dom.callout, 'Call');
             }
-        }
     }
 };
-DialPad.prototype.dialing = function (event, number) {
+DialPad.prototype.afterUpdate = function (action, props) {
+    var defaultAction = _component2.default.prototype.afterUpdate.call(this, action, props);
+    if (defaultAction) {
+        if (action === 'dialing') {
+            // ...
+        } else if (action === 'callout') {
+                if (this.interval) {
+                    this.interval.cancel('Call');
+                    this.interval = null;
+                }
+            }
+    }
+};
+DialPad.prototype.dialing = function (event) {
     if (!this.props.dom || !this.props.dom.number) {
         throw Error('Dial pad need a number input');
     }
+    var button = event.target;
     this.beforeUpdate('dialing');
-    this.props.dom.number.value += number;
+    this.props.dom.number.value += button.getAttribute('data-value');
     this.afterUpdate('dialing');
 };
 DialPad.prototype.callout = function () {
@@ -630,14 +635,11 @@ var rcHelper = function (sdk, webPhone) {
                         return Promise.reject(err);
                     });
                 }).catch(function (e) {
-                    console.error(e);
-                    return Promise.reject(e);
+                    return console.error(e);
                 });
             }
         },
         callout: function callout(props) {
-            var _this = this;
-
             var toNumber = props.toNumber;
             var fromNumber = localStorage.getItem('username');
 
@@ -656,12 +658,7 @@ var rcHelper = function (sdk, webPhone) {
             }).then(function (countryId) {
                 webPhone.call(toNumber, fromNumber, countryId);
             }).catch(function (e) {
-                console.error(e);
-                _this.element.panel.errorMessage.textContent = e.message;
-                if (_this.interval) {
-                    _this.interval.cancel('Call');
-                    _this.interval = null;
-                }
+                return console.error(e);
             });
         }
     };
