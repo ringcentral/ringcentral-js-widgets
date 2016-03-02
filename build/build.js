@@ -591,6 +591,10 @@ CallPanel.prototype.updateCallTime = function (startTime) {
 },{}],5:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
 var _component = require('../component');
 
 var _component2 = _interopRequireDefault(_component);
@@ -647,6 +651,7 @@ DialPad.prototype.loading = function (target, text) {
         }
     };
 };
+exports.default = DialPad;
 
 },{"../component":1}],6:[function(require,module,exports){
 'use strict';
@@ -654,7 +659,92 @@ DialPad.prototype.loading = function (target, text) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.CallLog = exports.DialPad = exports.CallPanel = exports.AuthPanel = undefined;
+var rcHelper = function () {
+    var sdk;
+    var webPhone;
+    return {
+        login: function login(dom) {
+            sdk = new RingCentral.SDK({
+                appKey: dom.key.value,
+                appSecret: dom.secret.value,
+                server: dom.server.value || RingCentral.SDK.server.production
+            });
+            return sdk.platform().login({
+                username: dom.username.value,
+                extension: dom.extension.value,
+                password: dom.password.value
+            }).then(function () {
+                return registerSIP();
+            });
+
+            function registerSIP() {
+                webPhone = new RingCentral.WebPhone({
+                    audioHelper: {
+                        incoming: '../demo/audio/incoming.ogg',
+                        outgoing: '../demo/audio/outgoing.ogg'
+                    }
+                });
+                return sdk.platform().post('/client-info/sip-provision', {
+                    sipInfo: [{
+                        transport: 'WSS'
+                    }]
+                }).then(function (res) {
+                    var data = res.json();
+                    console.log("Sip Provisioning Data from RC API: " + JSON.stringify(data));
+                    console.log(data.sipFlags.outboundCallsEnabled);
+                    var checkFlags = false;
+                    return webPhone.register(data, checkFlags).then(function () {
+                        console.log('Registered');
+                    }).catch(function (e) {
+                        return Promise.reject(err);
+                    });
+                }).catch(function (e) {
+                    console.error(e);
+                    return Promise.reject(e);
+                });
+            }
+        },
+        callout: function callout(dom, options) {
+            var _this = this;
+
+            console.log(options);
+            var toNumber = options.toNumber;
+            var fromNumber = localStorage.getItem('username');
+
+            // TODO: validate toNumber and fromNumber
+            if (!sdk || !webPhone) {
+                throw Error('Need to set up SDK and webPhone first.');
+                return;
+            }
+            return sdk.platform().get('/restapi/v1.0/account/~/extension/~').then(function (res) {
+                console.log(res);
+                var info = res.json();
+                if (info && info.regionalSettings && info.regionalSettings.homeCountry) {
+                    return info.regionalSettings.homeCountry.id;
+                }
+                return null;
+            }).then(function (countryId) {
+                webPhone.call(toNumber, fromNumber, countryId);
+            }).catch(function (e) {
+                console.error(e);
+                _this.element.panel.errorMessage.textContent = e.message;
+                if (_this.interval) {
+                    _this.interval.cancel('Call');
+                    _this.interval = null;
+                }
+            });
+        }
+    };
+}();
+exports.default = rcHelper;
+
+},{}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.rcHelper = exports.CallLog = exports.DialPad = exports.CallPanel = exports.AuthPanel = undefined;
 
 var _authPanel = require('./components/auth-panel');
 
@@ -672,19 +762,25 @@ var _callLog = require('./components/call-log');
 
 var _callLog2 = _interopRequireDefault(_callLog);
 
+var _helper = require('./helper');
+
+var _helper2 = _interopRequireDefault(_helper);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 window.AuthPanel = _authPanel2.default;
 window.CallPanel = _callPanel2.default;
 window.DialPad = _dialPad2.default;
 window.CallLog = _callLog2.default;
+window.rcHelper = _helper2.default;
 
 exports.AuthPanel = _authPanel2.default;
 exports.CallPanel = _callPanel2.default;
 exports.DialPad = _dialPad2.default;
 exports.CallLog = _callLog2.default;
+exports.rcHelper = _helper2.default;
 
-},{"./components/auth-panel":2,"./components/call-log":3,"./components/call-panel":4,"./components/dial-pad":5}]},{},[6])
+},{"./components/auth-panel":2,"./components/call-log":3,"./components/call-panel":4,"./components/dial-pad":5,"./helper":6}]},{},[7])
 
 
 //# sourceMappingURL=build.js.map

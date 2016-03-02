@@ -50,3 +50,4 @@ DialPad.prototype.loading = function(target, text) {
         }
     }
 };
+export default DialPad;
