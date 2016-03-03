@@ -679,7 +679,7 @@ var _callLog = require('./components/call-log');
 
 var _callLog2 = _interopRequireDefault(_callLog);
 
-var _helper = require('./helper');
+var _helper = require('./helpers/helper');
 
 var _helper2 = _interopRequireDefault(_helper);
 
@@ -697,7 +697,7 @@ exports.DialPad = _dialPad2.default;
 exports.CallLog = _callLog2.default;
 exports.rcHelper = _helper2.default;
 
-},{"./components/auth-panel":2,"./components/call-log":3,"./components/call-panel":4,"./components/dial-pad":5,"./helper":6}]},{},[7])
+},{"./components/auth-panel":2,"./components/call-log":3,"./components/call-panel":4,"./components/dial-pad":5,"./helpers/helper":6}]},{},[7])
 
 
 //# sourceMappingURL=build.js.map

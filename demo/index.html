@@ -4,8 +4,8 @@
 <head>
     <title>RingCentral Web Phone</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="normalize.css">
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="../src/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="../src/styles/main.css">
     <link rel="stylesheet" type="text/css" href="theme/basic.css" id="theme-css">
     <style type="text/css">
     body {
@@ -55,7 +55,7 @@
     <script type="text/javascript" src="../build/build.js"></script>
     <script type="text/javascript">
     var authPanel = new AuthPanel({
-        template: './template/auth-panel.html',
+        template: '../template/auth-panel.html',
         actions: {
             login: function(props) {
                 return rcHelper.login(props);
@@ -76,7 +76,7 @@
         }
     });
     var dialPad = new DialPad({
-        template: './template/dial-pad.html',
+        template: '../template/dial-pad.html',
         actions: {
             callout: function(props) {
                 return rcHelper.callout(props);
@@ -94,7 +94,7 @@
         }
     });
     var callPanel = new CallPanel({
-        template: './template/call-panel.html',
+        template: '../template/call-panel.html',
         actions: {
             answer: function(props) {
                 return rcHelper.answer(props);
