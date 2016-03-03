@@ -15,6 +15,7 @@ var Component = function Component(options) {
     this.options = options || {};
     this.props = {};
     this.fetchPromise = null;
+    this.bindHandlers(options.handlers);
     this.beforeUpdate('mount');
     this.fetchTemplate(options.template).then(function (template) {
         return _this.bindDOM(template);
@@ -24,30 +25,41 @@ var Component = function Component(options) {
         return console.error(err.stack);
     });
 };
+Component.prototype.bindHandlers = function (handlers) {
+    var _this2 = this;
+
+    if (handlers) {
+        Object.keys(handlers).forEach(function (index) {
+            var method = handlers[index];
+            method(_this2[method.name]);
+        });
+    }
+};
 Component.prototype.fetchTemplate = function (src) {
     this.fetchPromise = fetch(src).then(function (response) {
         return response.text();
     }).then(function (body) {
         var template = document.createElement('template');
         template.innerHTML = body;
-        return template;
+        var clone = document.importNode(template.content, true);
+        return clone;
     }).catch(function (err) {
         return console.error(err.stack);
     });
     return this.fetchPromise;
 };
 Component.prototype.bindDOM = function (template) {
-    var _this2 = this;
+    var _this3 = this;
 
     this.props.dom = {};
-    [].forEach.call(template.content.querySelectorAll('[data-info]'), function (doc) {
+    [].forEach.call(template.querySelectorAll('[data-info]'), function (doc) {
         var info = doc.getAttribute('data-info');
-        _this2.props.dom[info] = doc;
+        _this3.props.dom[info] = doc;
     });
-    [].forEach.call(template.content.querySelectorAll('[data-action]'), function (doc) {
+    [].forEach.call(template.querySelectorAll('[data-action]'), function (doc) {
         var event = doc.getAttribute('data-event');
         var action = doc.getAttribute('data-action');
-        doc.addEventListener(event, _this2[action].bind(_this2));
+        doc.addEventListener(event, _this3[action].bind(_this3));
     });
     return template;
 };
@@ -65,13 +77,20 @@ Component.prototype.remove = function () {
     }
 };
 Component.prototype.render = function (target, callback) {
-    var _this3 = this;
+    var _this4 = this;
 
     if (this.fetchPromise) return this.fetchPromise.then(function (template) {
-        _this3.props.targetDOM = document.querySelector(target);
-        _this3.props.targetDOM.appendChild(template.content);
+        if (typeof target === 'string') {
+            target = document.querySelector(target);
+        } else if (target instanceof HTMLElement) {
+            target = target;
+        } else {
+            console.warn('first argument of render method should be selector string or dom');
+        }
+        _this4.props.targetDOM = target;
+        _this4.props.targetDOM.appendChild(template);
     }).then(function () {
-        if (callback && typeof callback === 'function') callback.call(_this3);
+        if (callback && typeof callback === 'function') callback.call(_this4);
     }).catch(function (err) {
         return console.error('render err:' + err);
     });
@@ -299,7 +318,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
 var CallPanel = function CallPanel(options) {
     _component2.default.call(this, options);
-    this.initProps();
 };
 CallPanel.prototype = Object.create(_component2.default.prototype);
 CallPanel.prototype.constructor = CallPanel;
@@ -308,38 +326,6 @@ CallPanel.state = {
     'CALLIN': 1,
     'CALLOUT': 2,
     'ONLINE': 3
-};
-
-CallPanel.prototype.initProps = function () {
-    var _this = this;
-
-    this.props.called = function (event) {
-        _this.state = CallPanel.state.CALLIN;
-        _this.triggerView();
-    };
-    this.props.callStarted = function (event) {
-        _this.state = CallPanel.state.ONLINE;
-        _this.triggerView();
-        _this.afterCallStart();
-    };
-    this.props.callRejected = function (event) {
-        console.log('call reject');
-        _this.state = CallPanel.state.HIDDEN;
-        _this.triggerView();
-        _this.afterCallEnd();
-    };
-    this.props.callEnded = function (event) {
-        console.log('end');
-        _this.state = CallPanel.state.HIDDEN;
-        _this.triggerView();
-        _this.afterCallEnd();
-    };
-    this.props.callFailed = function (event) {
-        console.log('end');
-        _this.state = CallPanel.state.HIDDEN;
-        _this.triggerView();
-        _this.afterCallEnd();
-    };
 };
 CallPanel.prototype.beforeUpdate = function (action, props) {
     var defaultAction = _component2.default.prototype.beforeUpdate.call(this, action, props);
@@ -392,6 +378,7 @@ CallPanel.prototype.cancel = function () {
         });
     }
 };
+
 CallPanel.prototype.hangup = function () {
     if (this.options.actions && this.options.actions.hangup) {
         this.beforeUpdate.bind(this, 'hangup');
@@ -401,6 +388,35 @@ CallPanel.prototype.hangup = function () {
         });
     }
 };
+
+CallPanel.prototype.called = function (event) {
+    this.state = CallPanel.state.CALLIN;
+    this.triggerView();
+};
+
+CallPanel.prototype.callStarted = function (event) {
+    this.state = CallPanel.state.ONLINE;
+    this.triggerView();
+};
+
+CallPanel.prototype.callRejected = function (event) {
+    console.log('call reject');
+    this.state = CallPanel.state.HIDDEN;
+    this.triggerView();
+};
+
+CallPanel.prototype.callEnded = function (event) {
+    console.log('end');
+    this.state = CallPanel.state.HIDDEN;
+    this.triggerView();
+};
+
+CallPanel.prototype.callFailed = function (event) {
+    console.log('fail');
+    this.state = CallPanel.state.HIDDEN;
+    this.triggerView();
+};
+
 // CallPanel.prototype.record = function() {
 //     if (this.line.isOnRecord()) {
 //         return this.line.record(false)
@@ -448,24 +464,20 @@ CallPanel.prototype.hangup = function () {
 //     }
 // };
 CallPanel.prototype.triggerView = function () {
-    this.element.panel.style.display = 'block';
-    this.element.panel.callinPanel.style.display = 'none';
-    this.element.panel.calloutPanel.style.display = 'none';
-    this.element.panel.onlinePanel.style.display = 'none';
+    this.props.dom['callin-panel'].style.display = 'none';
+    this.props.dom['callout-panel'].style.display = 'none';
+    this.props.dom['online-panel'].style.display = 'none';
     if (this.callTimeInterval) {
         this.callTimeInterval.cancel();
         this.callTimeInterval = null;
     }
     if (this.state === CallPanel.state.CALLIN) {
-        this.element.panel.callinPanel.callinNumber.textContent = this.line.contact.number;
-        this.element.panel.callinPanel.style.display = 'block';
+        this.props.dom['callin-panel'].style.display = 'block';
     } else if (this.state === CallPanel.state.CALLOUT) {
-        this.element.panel.calloutPanel.style.display = 'block';
+        this.props.dom['callout-panel'].style.display = 'block';
     } else if (this.state === CallPanel.state.ONLINE) {
-        this.element.panel.onlinePanel.style.display = 'block';
-        this.callTimeInterval = this.updateCallTime(this.line.timeCallStarted);
-    } else if (this.state === CallPanel.state.HIDDEN) {
-        this.element.panel.style.display = 'none';
+        this.props.dom['online-panel'].style.display = 'block';
+        // this.callTimeInterval = this.updateCallTime(this.line.timeCallStarted);
     }
 };
 CallPanel.prototype.loading = function (target, text) {
@@ -489,7 +501,7 @@ CallPanel.prototype.loading = function (target, text) {
     };
 };
 CallPanel.prototype.updateCallTime = function (startTime) {
-    var _this2 = this;
+    var _this = this;
 
     // FIXME: it's not accurate
     if (!startTime) return;
@@ -498,7 +510,7 @@ CallPanel.prototype.updateCallTime = function (startTime) {
     var callTimeInterval = window.setInterval(function () {
         var sec = currentTime % 60;
         var min = Math.floor(currentTime / 60);
-        _this2.element.panel.onlinePanel.callTime.textContent = min + ":" + sec;
+        _this.element.panel.onlinePanel.callTime.textContent = min + ":" + sec;
         currentTime++;
     }, 1000);
     return {
@@ -616,6 +628,13 @@ var webPhone = new RingCentral.WebPhone({
 });;
 var rcHelper = function (sdk, webPhone) {
     var line;
+    var handlers = {
+        called: [],
+        callStarted: [],
+        callRejected: [],
+        callEnded: [],
+        callFailed: []
+    };
     return {
         login: function login(props) {
             var dom = props.dom;
@@ -688,25 +707,47 @@ var rcHelper = function (sdk, webPhone) {
         record: function record(props) {},
         hold: function hold(props) {},
         mute: function mute(props) {},
+        called: function called(handler) {
+            handlers.called.push(handler);
+        },
+        callStarted: function callStarted(handler) {
+            handlers.callStarted.push(handler);
+        },
+        callRejected: function callRejected(handler) {
+            handlers.callRejected.push(handler);
+        },
+        callEnded: function callEnded(handler) {
+            handlers.callEnded.push(handler);
+        },
+        callFailed: function callFailed(handler) {
+            handlers.callFailed.push(handler);
+        },
         initPhoneListener: function initPhoneListener(props) {
             webPhone.ua.on('sipIncomingCall', function (e) {
                 line = e;
-                props.called(e);
-            });
-            webPhone.ua.on('outgoingCall', function (e) {
-                // props.callout(e);
+                handlers.called.forEach(function (h) {
+                    return h(e);
+                });
             });
             webPhone.ua.on('callStarted', function (e) {
-                props.callStarted(e);
+                handlers.callStarted.forEach(function (h) {
+                    return h(e);
+                });
             });
             webPhone.ua.on('callRejected', function (e) {
-                props.callRejected(e);
+                handlers.callRejected.forEach(function (h) {
+                    return h(e);
+                });
             });
             webPhone.ua.on('callEnded', function (e) {
-                props.callEnded(e);
+                handlers.callEnded.forEach(function (h) {
+                    return h(e);
+                });
             });
             webPhone.ua.on('callFailed', function (e) {
-                props.callFailed(e);
+                handlers.callFailed.forEach(function (h) {
+                    return h(e);
+                });
             });
         }
     };

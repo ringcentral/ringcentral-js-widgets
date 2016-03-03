@@ -3,7 +3,6 @@ import Component from '../component'
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
 var CallPanel = function(options) {
     Component.call(this, options);
-    this.initProps();
 };
 CallPanel.prototype = Object.create(Component.prototype);
 CallPanel.prototype.constructor = CallPanel;
@@ -13,36 +12,6 @@ CallPanel.state = {
     'CALLOUT': 2,
     'ONLINE': 3
 }
-
-CallPanel.prototype.initProps = function() {
-    this.props.called = event => {
-        this.state = CallPanel.state.CALLIN;
-        this.triggerView();
-    }
-    this.props.callStarted = event => {
-        this.state = CallPanel.state.ONLINE;
-        this.triggerView();
-        this.afterCallStart();
-    }
-    this.props.callRejected = event => {
-        console.log('call reject');
-        this.state = CallPanel.state.HIDDEN;
-        this.triggerView();
-        this.afterCallEnd();
-    }
-    this.props.callEnded = event => {
-        console.log('end');
-        this.state = CallPanel.state.HIDDEN;
-        this.triggerView();
-        this.afterCallEnd();
-    }
-    this.props.callFailed = event => {
-        console.log('end');
-        this.state = CallPanel.state.HIDDEN;
-        this.triggerView();
-        this.afterCallEnd();
-    }
-};
 CallPanel.prototype.beforeUpdate = function(action, props) {
     var defaultAction = Component.prototype.beforeUpdate.call(this, action, props);
     if (defaultAction) {
@@ -100,6 +69,7 @@ CallPanel.prototype.cancel = function() {
             .catch(err => console.error('login error:' + error));
     }
 };
+
 CallPanel.prototype.hangup = function() {
     if (this.options.actions && this.options.actions.hangup) {
         this.beforeUpdate.bind(this, 'hangup')
@@ -108,8 +78,36 @@ CallPanel.prototype.hangup = function() {
             .then(this.afterUpdate.bind(this, 'hangup'))
             .catch(err => console.error('login error:' + error));
     }
-    
 };
+
+CallPanel.prototype.called = function(event) {
+    this.state = CallPanel.state.CALLIN;
+    this.triggerView();
+}
+
+CallPanel.prototype.callStarted = function(event) {
+    this.state = CallPanel.state.ONLINE;
+    this.triggerView();
+}
+
+CallPanel.prototype.callRejected = function(event) {
+    console.log('call reject');
+    this.state = CallPanel.state.HIDDEN;
+    this.triggerView();
+}
+
+CallPanel.prototype.callEnded = function(event) {
+    console.log('end');
+    this.state = CallPanel.state.HIDDEN;
+    this.triggerView();
+}
+
+CallPanel.prototype.callFailed = function(event) {
+    console.log('fail');
+    this.state = CallPanel.state.HIDDEN;
+    this.triggerView();
+}
+
 // CallPanel.prototype.record = function() {
 //     if (this.line.isOnRecord()) {
 //         return this.line.record(false)
@@ -157,24 +155,20 @@ CallPanel.prototype.hangup = function() {
 //     }
 // };
 CallPanel.prototype.triggerView = function() {
-    this.element.panel.style.display = 'block';
-    this.element.panel.callinPanel.style.display = 'none';
-    this.element.panel.calloutPanel.style.display = 'none';
-    this.element.panel.onlinePanel.style.display = 'none';
+    this.props.dom['callin-panel'].style.display = 'none';
+    this.props.dom['callout-panel'].style.display = 'none';
+    this.props.dom['online-panel'].style.display = 'none';
     if (this.callTimeInterval) {
         this.callTimeInterval.cancel();
         this.callTimeInterval = null;
     }
     if (this.state === CallPanel.state.CALLIN) {
-        this.element.panel.callinPanel.callinNumber.textContent = this.line.contact.number;
-        this.element.panel.callinPanel.style.display = 'block';
+        this.props.dom['callin-panel'].style.display = 'block';
     } else if (this.state === CallPanel.state.CALLOUT) {
-        this.element.panel.calloutPanel.style.display = 'block';
+        this.props.dom['callout-panel'].style.display = 'block';
     } else if (this.state === CallPanel.state.ONLINE) {
-        this.element.panel.onlinePanel.style.display = 'block';
-        this.callTimeInterval = this.updateCallTime(this.line.timeCallStarted);
-    } else if (this.state === CallPanel.state.HIDDEN) {
-        this.element.panel.style.display = 'none';
+        this.props.dom['online-panel'].style.display = 'block';
+        // this.callTimeInterval = this.updateCallTime(this.line.timeCallStarted);
     }
 };
 CallPanel.prototype.loading = function(target, text) {

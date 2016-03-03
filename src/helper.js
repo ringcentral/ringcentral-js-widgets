@@ -11,6 +11,13 @@ var webPhone = new RingCentral.WebPhone({
 });;
 var rcHelper = function(sdk, webPhone) {
     var line;
+    var handlers = {
+        called: [],
+        callStarted: [],
+        callRejected: [],
+        callEnded: [],
+        callFailed: []
+    };
     return {
         login: function(props) {
             var dom = props.dom;
@@ -88,25 +95,37 @@ var rcHelper = function(sdk, webPhone) {
         record: function(props) {},
         hold: function(props) {},
         mute: function(props) {},
+        called: function(handler) {
+            handlers.called.push(handler);
+        },
+        callStarted: function(handler) {
+            handlers.callStarted.push(handler);
+        },
+        callRejected: function(handler) {
+            handlers.callRejected.push(handler);
+        },
+        callEnded: function(handler) {
+            handlers.callEnded.push(handler);
+        },
+        callFailed: function(handler) {
+            handlers.callFailed.push(handler);
+        },
         initPhoneListener: function(props) {
             webPhone.ua.on('sipIncomingCall', e => {
                 line = e;
-                props.called(e);
-            });
-            webPhone.ua.on('outgoingCall', e => {
-                // props.callout(e);
+                handlers.called.forEach(h => h(e));
             });
             webPhone.ua.on('callStarted', e => {
-                props.callStarted(e);
+                handlers.callStarted.forEach(h => h(e));
             });
             webPhone.ua.on('callRejected', e => {
-                props.callRejected(e);
+                handlers.callRejected.forEach(h => h(e));
             });
             webPhone.ua.on('callEnded', e => {
-                props.callEnded(e);
+                handlers.callEnded.forEach(h => h(e));
             });
             webPhone.ua.on('callFailed', e => {
-                props.callFailed(e);
+                handlers.callFailed.forEach(h => h(e));
             });
         }
     }

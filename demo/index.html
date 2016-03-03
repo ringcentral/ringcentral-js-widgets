@@ -113,6 +113,23 @@
             },
             mute: function(props) {
                 return rcHelper.mute(props);
+            },
+        },
+        handlers: {
+            called: function(handler) {
+                rcHelper.called(handler);
+            },
+            callStarted: function(handler) {
+                rcHelper.callStarted(handler);
+            },
+            callRejected: function(handler) {
+                rcHelper.callRejected(handler);
+            },
+            callEnded: function(handler) {
+                rcHelper.callEnded(handler);
+            },
+            callFailed: function(handler) {
+                rcHelper.callFailed(handler);
             }
         },
         beforeUpdate: function(action, props) {

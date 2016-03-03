@@ -7,11 +7,21 @@ var Component = function(options) {
     this.options = options || {};
     this.props = {};
     this.fetchPromise = null;
+    this.bindHandlers(options.handlers);
     this.beforeUpdate('mount');
     this.fetchTemplate(options.template)
         .then(template => this.bindDOM(template))
         .then(template => this.afterUpdate('mount'))
         .catch(err => console.error(err.stack))
+
+};
+Component.prototype.bindHandlers = function(handlers) {
+    if (handlers) {
+        Object.keys(handlers).forEach(index => {
+            var method = handlers[index];
+            method(this[method.name]);
+        })
+    }
 };
 Component.prototype.fetchTemplate = function(src) {
     this.fetchPromise = fetch(src)
@@ -19,18 +29,19 @@ Component.prototype.fetchTemplate = function(src) {
         .then(body => {
             var template = document.createElement('template');
             template.innerHTML = body;
-            return template;
+            var clone = document.importNode(template.content, true);
+            return clone;
         })
         .catch(err => console.error(err.stack))
     return this.fetchPromise;
 };
 Component.prototype.bindDOM = function(template) {
     this.props.dom = {};
-    [].forEach.call(template.content.querySelectorAll('[data-info]'), doc => {
+    [].forEach.call(template.querySelectorAll('[data-info]'), doc => {
         var info = doc.getAttribute('data-info');
         this.props.dom[info] = doc;
     });
-    [].forEach.call(template.content.querySelectorAll('[data-action]'), doc => {
+    [].forEach.call(template.querySelectorAll('[data-action]'), doc => {
         var event = doc.getAttribute('data-event');
         var action = doc.getAttribute('data-action');
         doc.addEventListener(event, this[action].bind(this));
@@ -56,8 +67,15 @@ Component.prototype.render = function(target, callback) {
     if (this.fetchPromise)
         return this.fetchPromise
             .then(template => {
-                this.props.targetDOM = document.querySelector(target);
-                this.props.targetDOM.appendChild(template.content);
+                if (typeof target === 'string') {
+                    target = document.querySelector(target);
+                } else if (target instanceof HTMLElement) {
+                    target = target;
+                } else {
+                    console.warn('first argument of render method should be selector string or dom');
+                }
+                this.props.targetDOM = target;
+                this.props.targetDOM.appendChild(template);
             })
             .then(() => {
                 if (callback && typeof callback === 'function')
