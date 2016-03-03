@@ -61,11 +61,13 @@
                 return rcHelper.login(props);
             },
         },
+        handlers: {},
         beforeUpdate: function(action, props) {
             return true;
         },
         afterUpdate: function(action, props) {
             if (action === 'login') {
+                console.log('user after login');
                 dialPad.render('#dial-pad', function() {
                     authPanel.remove();
                 })
@@ -80,6 +82,7 @@
                 return rcHelper.callout(props);
             }
         },
+        handlers: {},
         beforeUpdate: function(action, props) {
             return true;
         },

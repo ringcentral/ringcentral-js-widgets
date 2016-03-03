@@ -20,6 +20,7 @@ var rcHelper = function(sdk, webPhone) {
     };
     return {
         login: function(props) {
+            console.log('helper login');
             var dom = props.dom;
             return sdk.platform()
                 .login({
@@ -30,6 +31,7 @@ var rcHelper = function(sdk, webPhone) {
                 .then(() => registerSIP())
 
             function registerSIP() {
+                console.log('register');
                 return sdk.platform()
                     .post('/client-info/sip-provision', {
                         sipInfo: [{
@@ -53,8 +55,9 @@ var rcHelper = function(sdk, webPhone) {
             }
         },
         callout: function(props) {
+            console.log('user callout');
             var toNumber = props.toNumber;
-            var fromNumber = localStorage.getItem('username');
+            var fromNumber = props.fromNumber;
 
             // TODO: validate toNumber and fromNumber
             if (!sdk || !webPhone) {

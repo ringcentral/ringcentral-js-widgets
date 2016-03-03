@@ -1,24 +1,14 @@
-import Component from '../component'
-// prototypal inheritance, please see: 
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
-var AuthPanel = function(options) {
-    Component.call(this, options);
-};
-AuthPanel.prototype = Object.create(Component.prototype);
-AuthPanel.prototype.constructor = AuthPanel;
-AuthPanel.prototype.beforeUpdate = function(action, props) {
-    var defaultAction = Component.prototype.beforeUpdate.call(this, action, props);
-    if (defaultAction) {
+import { Component, register } from '../component'
+
+var AuthPanel = register({
+    beforeUpdate: function(action, props) {
         if (action === 'login') {
             this.props.dom.login.disabled = true;
             this.props.dom.error.textContent = '';
-            this.interval = this.loading(this.props.dom.login, 'login');
+            this.interval = loading(this.props.dom.login, 'login');
         }
-    }
-};
-AuthPanel.prototype.afterUpdate = function(action, props) {
-    var defaultAction = Component.prototype.afterUpdate.call(this, action, props);
-    if (defaultAction) {
+    },
+    afterUpdate: function(action, props) {
         if (action === 'mount') {
             this.props.dom.key.value = localStorage.getItem('key');
             this.props.dom.secret.value = localStorage.getItem('secret');
@@ -39,18 +29,16 @@ AuthPanel.prototype.afterUpdate = function(action, props) {
             localStorage.setItem('extension', this.props.dom.extension.value || '');
             localStorage.setItem('password', this.props.dom.password.value || '');
         }
+    },
+    methods: {
+        login: function(finish) {
+            return finish(this.props);
+        },
+
     }
-};
-AuthPanel.prototype.login = function() {
-    this.beforeUpdate('login');
-    if (this.options.actions && this.options.actions.login) {
-        // FIXME: The custom login may not be a Promise
-        return this.options.actions.login(this.props)
-            .then(this.afterUpdate.bind(this, 'login'))
-            .catch(err => console.error('login error:' + error));
-    }
-};
-AuthPanel.prototype.loading = function(target, text) {
+});
+
+function loading(target, text) {
     var dotCount = 1;
     var interval = window.setInterval(() => {
         var dot = '';
@@ -70,5 +58,6 @@ AuthPanel.prototype.loading = function(target, text) {
             }
         }
     }
-};
+}
+
 export default AuthPanel;

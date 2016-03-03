@@ -95,7 +95,51 @@ Component.prototype.render = function (target, callback) {
         return console.error('render err:' + err);
     });
 };
-exports.default = Component;
+
+function register(settings) {
+    var beforeUpdate = settings.beforeUpdate;
+    var afterUpdate = settings.afterUpdate;
+    var methods = settings.methods;
+
+    var Widget = function Widget(options) {
+        Component.call(this, options);
+        Object.keys(methods).forEach(function (index) {
+            var method = methods[index];
+            Widget.prototype[method.name] = function () {
+                var _this5 = this;
+
+                this.beforeUpdate(method.name);
+
+                for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+                    args[_key] = arguments[_key];
+                }
+
+                Promise.resolve(method.call.apply(method, [this, options.actions[method.name]].concat(args))).then(function () {
+                    return _this5.afterUpdate(method.name);
+                }).catch(function (err) {
+                    return console.error(err.stack);
+                });
+            };
+        });
+    };
+    Widget.prototype = Object.create(Component.prototype);
+    Widget.prototype.constructor = Widget;
+    Widget.prototype.beforeUpdate = function (action, props) {
+        var defaultAction = Component.prototype.beforeUpdate.call(this, action, props);
+        if (defaultAction) {
+            settings.beforeUpdate.call(this, action, props);
+        }
+    };
+    Widget.prototype.afterUpdate = function (action, props) {
+        var defaultAction = Component.prototype.afterUpdate.call(this, action, props);
+        if (defaultAction) {
+            settings.afterUpdate.call(this, action, props);
+        }
+    };
+    return Widget;
+}
+exports.Component = Component;
+exports.register = register;
 
 },{}],2:[function(require,module,exports){
 'use strict';
@@ -106,30 +150,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _component = require('../component');
 
-var _component2 = _interopRequireDefault(_component);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// prototypal inheritance, please see:
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
-var AuthPanel = function AuthPanel(options) {
-    _component2.default.call(this, options);
-};
-AuthPanel.prototype = Object.create(_component2.default.prototype);
-AuthPanel.prototype.constructor = AuthPanel;
-AuthPanel.prototype.beforeUpdate = function (action, props) {
-    var defaultAction = _component2.default.prototype.beforeUpdate.call(this, action, props);
-    if (defaultAction) {
+var AuthPanel = (0, _component.register)({
+    beforeUpdate: function beforeUpdate(action, props) {
         if (action === 'login') {
             this.props.dom.login.disabled = true;
             this.props.dom.error.textContent = '';
-            this.interval = this.loading(this.props.dom.login, 'login');
+            this.interval = loading(this.props.dom.login, 'login');
         }
-    }
-};
-AuthPanel.prototype.afterUpdate = function (action, props) {
-    var defaultAction = _component2.default.prototype.afterUpdate.call(this, action, props);
-    if (defaultAction) {
+    },
+    afterUpdate: function afterUpdate(action, props) {
         if (action === 'mount') {
             this.props.dom.key.value = localStorage.getItem('key');
             this.props.dom.secret.value = localStorage.getItem('secret');
@@ -150,18 +179,16 @@ AuthPanel.prototype.afterUpdate = function (action, props) {
             localStorage.setItem('extension', this.props.dom.extension.value || '');
             localStorage.setItem('password', this.props.dom.password.value || '');
         }
+    },
+    methods: {
+        login: function login(finish) {
+            return finish(this.props);
+        }
+
     }
-};
-AuthPanel.prototype.login = function () {
-    this.beforeUpdate('login');
-    if (this.options.actions && this.options.actions.login) {
-        // FIXME: The custom login may not be a Promise
-        return this.options.actions.login(this.props).then(this.afterUpdate.bind(this, 'login')).catch(function (err) {
-            return console.error('login error:' + error);
-        });
-    }
-};
-AuthPanel.prototype.loading = function (target, text) {
+});
+
+function loading(target, text) {
     var dotCount = 1;
     var interval = window.setInterval(function () {
         var dot = '';
@@ -180,105 +207,58 @@ AuthPanel.prototype.loading = function (target, text) {
             }
         }
     };
-};
+}
+
 exports.default = AuthPanel;
 
 },{"../component":1}],3:[function(require,module,exports){
 'use strict';
 
+var _component = require('../component');
+
+// prototypal inheritance, please see:
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
 var CallLog = function CallLog(options) {
-    // TODO: choose a template engine
-    if (!options.target) {
-        throw new Error('need specifiy a target for auth panel');
-    }
-    this.sdk = options.sdk;
-    this.webPhone = options.webPhone || new RingCentral.WebPhone({ audioHelper: true });
-
-    this.targetDOM = document.querySelector(options.target);
-    this.generateDOM();
-    this.getLog(1, 10);
+    _component.Component.call(this, options);
 };
+CallLog.prototype = Object.create(_component.Component.prototype);
+CallLog.prototype.constructor = CallLog;
 
-CallLog.prototype.generateDOM = function (state) {
+CallLog.prototype.beforeUpdate = function (action, props) {
+    var defaultAction = _component.Component.prototype.beforeUpdate.call(this, action, props);
+    if (defaultAction) {
+        if (action === 'getLog') {
+            this.interval = this.loading(this.dom.message, 'Loading call log');
+        }
+    }
+};
+CallLog.prototype.afterUpdate = function (action, props) {
+    var defaultAction = _component.Component.prototype.afterUpdate.call(this, action, props);
+    if (defaultAction) {
+        if (action === 'mount') {
+            this.getLog(1, 10);
+        } else if (action === 'getLog') {
+            // var log = this.props.records;
+            // var item = new CallLogItem();
+            // ...
+            if (this.interval) {
+                this.interval.cancel('');
+                this.interval = null;
+            }
+        }
+    }
+};
+CallLog.prototype.getLog = function (page, number) {
     var _this = this;
 
-    // hard code the dom composition
-    this.element = {
-        logPanel: dom('div', {
-            className: 'rc-panel'
-        }, null, {
-            message: dom('div', {
-                className: 'rc-message'
-            })
-        })
-    };
-
-    this.template = function (call) {
-        var temp = dom('div', {
-            className: 'rc-sub-panel rc-calllog'
-        }, null, {
-            name: dom('div', {
-                className: 'rc-calllog-name',
-                text: call.from.name || 'anonymous'
-            }),
-            type: dom('div', {
-                className: 'rc-calllog-type',
-                text: call.direction || 'unknown'
-            }),
-            time: dom('div', {
-                className: 'rc-calllog-time',
-                text: call.startTime || 'none'
-            })
+    if (this.options.actions && this.options.actions.getLog) {
+        this.beforeUpdate.bind(this, 'getLog');
+        return this.sdk.platform().get('/account/~/extension/~/call-log', { page: page, perPage: number }).then(function (response) {
+            _this.props.records = response.json().records;
+        }).then(this.afterUpdate.bind(this, 'getLog')).catch(function (e) {
+            console.error('Recent Calls Error: ' + e.message);
         });
-        return temp;
-    };
-
-    Object.keys(this.element).forEach(function (index) {
-        _this.targetDOM.appendChild(_this.element[index]);
-    });
-
-    function dom(type, attributes, listeners, children) {
-        var element = document.createElement(type);
-        attributes && Object.keys(attributes).forEach(function (index) {
-            var attr = attributes[index];
-            if (index === 'className') {
-                element.className = attr;
-            } else if (index === 'text') {
-                element.textContent = attr;
-            } else {
-                // attribute
-                element.setAttribute(index, attr);
-            }
-        });
-        listeners && Object.keys(listeners).forEach(function (index) {
-            var listener = listeners[index];
-            element.addEventListener(index, listener);
-        });
-        children && Object.keys(children).forEach(function (index) {
-            var child = children[index];
-            element.appendChild(child);
-            element[index] = child;
-        });
-        return element;
     }
-};
-
-CallLog.prototype.getLog = function (page, number) {
-    var _this2 = this;
-
-    this.interval = this.loading(this.element.logPanel.message, 'Loading call log');
-    return this.sdk.platform().get('/account/~/extension/~/call-log', { page: page, perPage: number }).then(function (response) {
-        if (_this2.interval) {
-            _this2.interval.cancel('');
-            _this2.interval = null;
-        }
-        calls = response.json().records;
-        calls.forEach(function (call) {
-            _this2.element.logPanel.appendChild(_this2.template(call));
-        });
-    }).catch(function (e) {
-        console.error('Recent Calls Error: ' + e.message);
-    });
 };
 CallLog.prototype.loading = function (target, text) {
     var dotCount = 1;
@@ -301,7 +281,7 @@ CallLog.prototype.loading = function (target, text) {
     };
 };
 
-},{}],4:[function(require,module,exports){
+},{"../component":1}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -310,177 +290,117 @@ Object.defineProperty(exports, "__esModule", {
 
 var _component = require('../component');
 
-var _component2 = _interopRequireDefault(_component);
+var state;
+var CallPanel = (0, _component.register)({
+    beforeUpdate: function beforeUpdate(action, props) {},
+    afterUpdate: function afterUpdate(action, props) {
+        if (action === 'mount') {} else if (action === 'answer') {
+            state = CallPanel.state.ONLINE;
+            this.triggerView(this.props);
+        } else if (action === 'ignore') {
+            state = CallPanel.state.HIDDEN;
+            this.triggerView(this.props);
+        } else if (action === 'cancel') {
+            state = CallPanel.state.HIDDEN;
+            this.triggerView(this.props);
+        } else if (action === 'hangup') {
+            state = CallPanel.state.HIDDEN;
+            this.triggerView(this.props);
+        } else if (action === 'record') {} else if (action === 'hold') {} else if (action === 'mute') {}
+    },
+    methods: {
+        answer: function answer() {
+            if (this.options.actions && this.options.actions.answer) {
+                this.beforeUpdate.bind(this, 'answer');
+                // FIXME: The custom login may not be a Promise
+                return this.options.actions.answer(this.props).then(this.afterUpdate.bind(this, 'answer')).catch(function (err) {
+                    return console.error('login error:' + error);
+                });
+            }
+        },
+        ignore: function ignore() {
+            if (this.options.actions && this.options.actions.ignore) {
+                this.beforeUpdate.bind(this, 'ignore');
+                // FIXME: The custom login may not be a Promise
+                return this.options.actions.ignore(this.props).then(this.afterUpdate.bind(this, 'ignore')).catch(function (err) {
+                    return console.error('login error:' + error);
+                });
+            }
+        },
+        cancel: function cancel() {
+            if (this.options.actions && this.options.actions.cancel) {
+                this.beforeUpdate.bind(this, 'cancel');
+                // FIXME: The custom login may not be a Promise
+                return this.options.actions.cancel(this.props).then(this.afterUpdate.bind(this, 'cancel')).catch(function (err) {
+                    return console.error('login error:' + error);
+                });
+            }
+        },
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+        hangup: function hangup() {
+            if (this.options.actions && this.options.actions.hangup) {
+                this.beforeUpdate.bind(this, 'hangup');
+                // FIXME: The custom login may not be a Promise
+                return this.options.actions.hangup(this.props).then(this.afterUpdate.bind(this, 'hangup')).catch(function (err) {
+                    return console.error('login error:' + error);
+                });
+            }
+        },
 
-// prototypal inheritance, please see:
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
-var CallPanel = function CallPanel(options) {
-    _component2.default.call(this, options);
-};
-CallPanel.prototype = Object.create(_component2.default.prototype);
-CallPanel.prototype.constructor = CallPanel;
+        called: function called(event) {
+            state = CallPanel.state.CALLIN;
+            this.triggerView();
+        },
+
+        callStarted: function callStarted(event) {
+            state = CallPanel.state.ONLINE;
+            this.triggerView();
+        },
+
+        callRejected: function callRejected(event) {
+            console.log('call reject');
+            state = CallPanel.state.HIDDEN;
+            this.triggerView();
+        },
+
+        callEnded: function callEnded(event) {
+            console.log('end');
+            state = CallPanel.state.HIDDEN;
+            this.triggerView();
+        },
+
+        callFailed: function callFailed(event) {
+            console.log('fail');
+            state = CallPanel.state.HIDDEN;
+            this.triggerView();
+        }
+    }
+});
 CallPanel.state = {
     'HIDDEN': 0,
     'CALLIN': 1,
     'CALLOUT': 2,
     'ONLINE': 3
 };
-CallPanel.prototype.beforeUpdate = function (action, props) {
-    var defaultAction = _component2.default.prototype.beforeUpdate.call(this, action, props);
-    if (defaultAction) {
-        if (action === 'login') {}
+
+var triggerView = function triggerView(props) {
+    props.dom['callin-panel'].style.display = 'none';
+    props.dom['callout-panel'].style.display = 'none';
+    props.dom['online-panel'].style.display = 'none';
+    if (callTimeInterval) {
+        callTimeInterval.cancel();
+        callTimeInterval = null;
     }
-};
-CallPanel.prototype.afterUpdate = function (action, props) {
-    var defaultAction = _component2.default.prototype.afterUpdate.call(this, action, props);
-    if (defaultAction) {
-        if (action === 'mount') {} else if (action === 'answer') {
-            this.state = CallPanel.state.ONLINE;
-            this.triggerView();
-        } else if (action === 'ignore') {
-            this.state = CallPanel.state.HIDDEN;
-            this.triggerView();
-        } else if (action === 'cancel') {
-            this.state = CallPanel.state.HIDDEN;
-            this.triggerView();
-        } else if (action === 'hangup') {
-            this.state = CallPanel.state.HIDDEN;
-            this.triggerView();
-        } else if (action === 'record') {} else if (action === 'hold') {} else if (action === 'mute') {}
-    }
-};
-CallPanel.prototype.answer = function () {
-    if (this.options.actions && this.options.actions.answer) {
-        this.beforeUpdate.bind(this, 'answer');
-        // FIXME: The custom login may not be a Promise
-        return this.options.actions.answer(this.props).then(this.afterUpdate.bind(this, 'answer')).catch(function (err) {
-            return console.error('login error:' + error);
-        });
-    }
-};
-CallPanel.prototype.ignore = function () {
-    if (this.options.actions && this.options.actions.ignore) {
-        this.beforeUpdate.bind(this, 'ignore');
-        // FIXME: The custom login may not be a Promise
-        return this.options.actions.ignore(this.props).then(this.afterUpdate.bind(this, 'ignore')).catch(function (err) {
-            return console.error('login error:' + error);
-        });
-    }
-};
-CallPanel.prototype.cancel = function () {
-    if (this.options.actions && this.options.actions.cancel) {
-        this.beforeUpdate.bind(this, 'cancel');
-        // FIXME: The custom login may not be a Promise
-        return this.options.actions.cancel(this.props).then(this.afterUpdate.bind(this, 'cancel')).catch(function (err) {
-            return console.error('login error:' + error);
-        });
-    }
-};
-
-CallPanel.prototype.hangup = function () {
-    if (this.options.actions && this.options.actions.hangup) {
-        this.beforeUpdate.bind(this, 'hangup');
-        // FIXME: The custom login may not be a Promise
-        return this.options.actions.hangup(this.props).then(this.afterUpdate.bind(this, 'hangup')).catch(function (err) {
-            return console.error('login error:' + error);
-        });
-    }
-};
-
-CallPanel.prototype.called = function (event) {
-    this.state = CallPanel.state.CALLIN;
-    this.triggerView();
-};
-
-CallPanel.prototype.callStarted = function (event) {
-    this.state = CallPanel.state.ONLINE;
-    this.triggerView();
-};
-
-CallPanel.prototype.callRejected = function (event) {
-    console.log('call reject');
-    this.state = CallPanel.state.HIDDEN;
-    this.triggerView();
-};
-
-CallPanel.prototype.callEnded = function (event) {
-    console.log('end');
-    this.state = CallPanel.state.HIDDEN;
-    this.triggerView();
-};
-
-CallPanel.prototype.callFailed = function (event) {
-    console.log('fail');
-    this.state = CallPanel.state.HIDDEN;
-    this.triggerView();
-};
-
-// CallPanel.prototype.record = function() {
-//     if (this.line.isOnRecord()) {
-//         return this.line.record(false)
-//             .then(() => this.element.panel.onlinePanel.recordButton.textContent = 'Record')
-//             .catch(err => {
-//                 console.err(err);
-//             });
-//     } else {
-//         return this.line.record(true)
-//             .then(() => this.element.panel.onlinePanel.recordButton.textContent = 'Stop Record')
-//             .catch(err => {
-//                 console.err(err);
-//             });
-//     }
-// };
-
-// CallPanel.prototype.hold = function() {
-//     if (this.line.isOnHold()) {
-//         return this.line.setHold(false)
-//             .then(() => {
-//                 console.log(this.line.isOnHold());
-//                 this.element.panel.onlinePanel.holdButton.textContent = 'Hold';
-//             });
-//     } else {
-//         return this.line.setHold(true)
-//             .then(() => {
-//                 console.log(this.line.isOnHold());
-//                 this.element.panel.onlinePanel.holdButton.textContent = 'Unhold';
-//             });
-//     }
-// };
-// CallPanel.prototype.mute = function() {
-//     if (this.line.isOnMute()) {
-//         return this.line.setMute(false, false)
-//             .then(() => {
-//                 console.log(this.line.isOnMute());
-//                 this.element.panel.onlinePanel.muteButton.textContent = 'Mute';
-//             });
-//     } else {
-//         return this.line.setMute(true, false)
-//             .then(() => {
-//                 console.log(this.line.isOnMute());
-//                 this.element.panel.onlinePanel.muteButton.textContent = 'Unmute';
-//             });
-//     }
-// };
-CallPanel.prototype.triggerView = function () {
-    this.props.dom['callin-panel'].style.display = 'none';
-    this.props.dom['callout-panel'].style.display = 'none';
-    this.props.dom['online-panel'].style.display = 'none';
-    if (this.callTimeInterval) {
-        this.callTimeInterval.cancel();
-        this.callTimeInterval = null;
-    }
-    if (this.state === CallPanel.state.CALLIN) {
-        this.props.dom['callin-panel'].style.display = 'block';
-    } else if (this.state === CallPanel.state.CALLOUT) {
-        this.props.dom['callout-panel'].style.display = 'block';
-    } else if (this.state === CallPanel.state.ONLINE) {
-        this.props.dom['online-panel'].style.display = 'block';
+    if (state === CallPanel.state.CALLIN) {
+        props.dom['callin-panel'].style.display = 'block';
+    } else if (state === CallPanel.state.CALLOUT) {
+        props.dom['callout-panel'].style.display = 'block';
+    } else if (state === CallPanel.state.ONLINE) {
+        props.dom['online-panel'].style.display = 'block';
         // this.callTimeInterval = this.updateCallTime(this.line.timeCallStarted);
     }
 };
-CallPanel.prototype.loading = function (target, text) {
+var loading = function loading(target, text) {
     var dotCount = 1;
     var interval = window.setInterval(function () {
         var dot = '';
@@ -500,28 +420,28 @@ CallPanel.prototype.loading = function (target, text) {
         }
     };
 };
-CallPanel.prototype.updateCallTime = function (startTime) {
-    var _this = this;
-
-    // FIXME: it's not accurate
-    if (!startTime) return;
-    var currentTime = Date.now() - startTime;
-    var callPanel = this;
-    var callTimeInterval = window.setInterval(function () {
-        var sec = currentTime % 60;
-        var min = Math.floor(currentTime / 60);
-        _this.element.panel.onlinePanel.callTime.textContent = min + ":" + sec;
-        currentTime++;
-    }, 1000);
-    return {
-        cancel: function cancel() {
-            if (!callTimeInterval) return;
-            window.clearInterval(callTimeInterval);
-            callPanel.element.panel.onlinePanel.callTime.textContent = "0:0";
-            callTimeInterval = null;
-        }
-    };
-};
+// var prototype.updateCallTime = function(startTime) {
+//     // FIXME: it's not accurate
+//     if (!startTime)
+//         return;
+//     var currentTime = Date.now() - startTime;
+//     var callPanel = this;
+//     var callTimeInterval = window.setInterval(() => {
+//         var sec = currentTime % 60;
+//         var min = Math.floor(currentTime / 60);
+//         this.element.panel.onlinePanel.callTime.textContent = min + ":" + sec;
+//         currentTime++;
+//     }, 1000);
+//     return {
+//         cancel: function() {
+//             if (!callTimeInterval)
+//                 return;
+//             window.clearInterval(callTimeInterval);
+//             callPanel.element.panel.onlinePanel.callTime.textContent = "0:0";
+//             callTimeInterval = null;
+//         }
+//     }
+// };
 exports.default = CallPanel;
 
 },{"../component":1}],5:[function(require,module,exports){
@@ -533,30 +453,16 @@ Object.defineProperty(exports, "__esModule", {
 
 var _component = require('../component');
 
-var _component2 = _interopRequireDefault(_component);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// prototypal inheritance, please see:
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
-var DialPad = function DialPad(options) {
-    _component2.default.call(this, options);
-};
-DialPad.prototype = Object.create(_component2.default.prototype);
-DialPad.prototype.constructor = DialPad;
-DialPad.prototype.beforeUpdate = function (action, props) {
-    var defaultAction = _component2.default.prototype.beforeUpdate.call(this, action, props);
-    if (defaultAction) {
+var DialPad = (0, _component.register)({
+    beforeUpdate: function beforeUpdate(action, props) {
         if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {
-                this.interval = this.loading(this.props.dom.callout, 'Call');
+                console.log('div before callout');
+                this.interval = loading(this.props.dom.callout, 'Call');
             }
-    }
-};
-DialPad.prototype.afterUpdate = function (action, props) {
-    var defaultAction = _component2.default.prototype.afterUpdate.call(this, action, props);
-    if (defaultAction) {
+    },
+    afterUpdate: function afterUpdate(action, props) {
         if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {
@@ -565,29 +471,21 @@ DialPad.prototype.afterUpdate = function (action, props) {
                     this.interval = null;
                 }
             }
+    },
+    methods: {
+        dialing: function dialing(finish, event) {
+            var button = event.target;
+            this.props.dom.number.value += button.getAttribute('data-value');
+        },
+        callout: function callout(finish) {
+            this.props.toNumber = this.props.dom.number.value;
+            this.props.fromNumber = localStorage.getItem('username');
+            return finish(this.props);
+        }
     }
-};
-DialPad.prototype.dialing = function (event) {
-    if (!this.props.dom || !this.props.dom.number) {
-        throw Error('Dial pad need a number input');
-    }
-    var button = event.target;
-    this.beforeUpdate('dialing');
-    this.props.dom.number.value += button.getAttribute('data-value');
-    this.afterUpdate('dialing');
-};
-DialPad.prototype.callout = function () {
-    this.props.toNumber = this.props.dom.number.value;
-    // FIXME: other ways to get fromNumber?
-    var fromNumber = this.props.fromNumber = localStorage.getItem('username');
-    this.beforeUpdate('callout');
-    if (this.options.actions && this.options.actions.callout) {
-        return this.options.actions.callout(this.props).then(this.afterUpdate.bind(this, 'callout')).catch(function (err) {
-            return console.error(err.stack);
-        });
-    }
-};
-DialPad.prototype.loading = function (target, text) {
+});
+
+function loading(target, text) {
     var dotCount = 1;
     var interval = window.setInterval(function () {
         var dot = '';
@@ -606,7 +504,7 @@ DialPad.prototype.loading = function (target, text) {
             }
         }
     };
-};
+}
 exports.default = DialPad;
 
 },{"../component":1}],6:[function(require,module,exports){
@@ -637,6 +535,7 @@ var rcHelper = function (sdk, webPhone) {
     };
     return {
         login: function login(props) {
+            console.log('helper login');
             var dom = props.dom;
             return sdk.platform().login({
                 username: dom.username.value,
@@ -647,6 +546,7 @@ var rcHelper = function (sdk, webPhone) {
             });
 
             function registerSIP() {
+                console.log('register');
                 return sdk.platform().post('/client-info/sip-provision', {
                     sipInfo: [{
                         transport: 'WSS'
@@ -667,8 +567,9 @@ var rcHelper = function (sdk, webPhone) {
             }
         },
         callout: function callout(props) {
+            console.log('user callout');
             var toNumber = props.toNumber;
-            var fromNumber = localStorage.getItem('username');
+            var fromNumber = props.fromNumber;
 
             // TODO: validate toNumber and fromNumber
             if (!sdk || !webPhone) {

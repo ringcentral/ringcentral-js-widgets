@@ -83,4 +83,41 @@ Component.prototype.render = function(target, callback) {
             })
             .catch(err => console.error('render err:' + err));
 };
-export default Component;
+
+function register(settings) {
+    var beforeUpdate = settings.beforeUpdate;
+    var afterUpdate = settings.afterUpdate;
+    var methods = settings.methods;
+    
+    var Widget = function(options) {
+        Component.call(this, options);
+        Object.keys(methods).forEach(index => {
+            var method = methods[index];
+            Widget.prototype[method.name] = function(...args) {
+                this.beforeUpdate(method.name);
+                Promise.resolve(method.call(this, options.actions[method.name], ...args))
+                    .then(() => this.afterUpdate(method.name))
+                    .catch(err => console.error(err.stack));
+            };
+        })
+    };
+    Widget.prototype = Object.create(Component.prototype);
+    Widget.prototype.constructor = Widget;
+    Widget.prototype.beforeUpdate = function(action, props) {
+        var defaultAction = Component.prototype.beforeUpdate.call(this, action, props);
+        if (defaultAction) {
+            settings.beforeUpdate.call(this, action, props);
+        }
+    };
+    Widget.prototype.afterUpdate = function(action, props) {
+        var defaultAction = Component.prototype.afterUpdate.call(this, action, props);
+        if (defaultAction) {
+            settings.afterUpdate.call(this, action, props);
+        }
+    };
+    return Widget;
+}
+export {
+    Component,
+    register
+};

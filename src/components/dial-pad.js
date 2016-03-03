@@ -1,24 +1,14 @@
-import Component from '../component'
-// prototypal inheritance, please see: 
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
-var DialPad = function(options) {
-    Component.call(this, options);
-};
-DialPad.prototype = Object.create(Component.prototype);
-DialPad.prototype.constructor = DialPad;
-DialPad.prototype.beforeUpdate = function(action, props) {
-    var defaultAction = Component.prototype.beforeUpdate.call(this, action, props);
-    if (defaultAction) {
+import { Component, register } from '../component'
+var DialPad = register({
+    beforeUpdate: function(action, props) {
         if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {
-            this.interval = this.loading(this.props.dom.callout, 'Call');
+            console.log('div before callout');
+            this.interval = loading(this.props.dom.callout, 'Call');
         }
-    }
-};
-DialPad.prototype.afterUpdate = function(action, props) {
-    var defaultAction = Component.prototype.afterUpdate.call(this, action, props);
-    if (defaultAction) {
+    },
+    afterUpdate: function(action, props) {
         if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {
@@ -27,29 +17,21 @@ DialPad.prototype.afterUpdate = function(action, props) {
                 this.interval = null;
             }
         }
+    },
+    methods: {
+        dialing: function(finish, event) {
+            var button = event.target;
+            this.props.dom.number.value += button.getAttribute('data-value');
+        },
+        callout: function(finish) {
+            this.props.toNumber = this.props.dom.number.value;
+            this.props.fromNumber = localStorage.getItem('username');
+            return finish(this.props);
+        }
     }
-};
-DialPad.prototype.dialing = function(event) {
-    if (!this.props.dom || !this.props.dom.number) {
-        throw Error('Dial pad need a number input');
-    }
-    var button = event.target;
-    this.beforeUpdate('dialing');
-    this.props.dom.number.value += button.getAttribute('data-value');
-    this.afterUpdate('dialing');
-};
-DialPad.prototype.callout = function() {
-    this.props.toNumber = this.props.dom.number.value;
-    // FIXME: other ways to get fromNumber?
-    var fromNumber = this.props.fromNumber = localStorage.getItem('username');
-    this.beforeUpdate('callout');
-    if (this.options.actions && this.options.actions.callout) {
-        return this.options.actions.callout(this.props)
-            .then(this.afterUpdate.bind(this, 'callout'))
-            .catch(err => console.error(err.stack));
-    }
-};
-DialPad.prototype.loading = function(target, text) {
+})
+
+function loading(target, text) {
     var dotCount = 1;
     var interval = window.setInterval(() => {
         var dot = '';
@@ -69,5 +51,5 @@ DialPad.prototype.loading = function(target, text) {
             }
         }
     }
-};
+}
 export default DialPad;
