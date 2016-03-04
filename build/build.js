@@ -11,11 +11,10 @@ var Component = function Component(options) {
         // TODO: maybe use default template
         throw new Error('need specifiy a template');
     }
-    // TODO: use Object.extend or somewhat (es6) for default option setting
+    // TODO: use Object.extend or somewhat (es6) for default options setting
     this.options = options || {};
     this.props = {};
     this.fetchPromise = null;
-    this.bindHandlers(options.handlers);
     this.beforeUpdate('mount');
     this.fetchTemplate(options.template).then(function (template) {
         return _this.bindDOM(template);
@@ -24,16 +23,6 @@ var Component = function Component(options) {
     }).catch(function (err) {
         return console.error(err.stack);
     });
-};
-Component.prototype.bindHandlers = function (handlers) {
-    var _this2 = this;
-
-    if (handlers) {
-        Object.keys(handlers).forEach(function (index) {
-            var method = handlers[index];
-            method(_this2[method.name]);
-        });
-    }
 };
 Component.prototype.fetchTemplate = function (src) {
     this.fetchPromise = fetch(src).then(function (response) {
@@ -49,17 +38,17 @@ Component.prototype.fetchTemplate = function (src) {
     return this.fetchPromise;
 };
 Component.prototype.bindDOM = function (template) {
-    var _this3 = this;
+    var _this2 = this;
 
     this.props.dom = {};
     [].forEach.call(template.querySelectorAll('[data-info]'), function (doc) {
         var info = doc.getAttribute('data-info');
-        _this3.props.dom[info] = doc;
+        _this2.props.dom[info] = doc;
     });
     [].forEach.call(template.querySelectorAll('[data-action]'), function (doc) {
         var event = doc.getAttribute('data-event');
         var action = doc.getAttribute('data-action');
-        doc.addEventListener(event, _this3[action].bind(_this3));
+        doc.addEventListener(event, _this2[action].bind(_this2));
     });
     return template;
 };
@@ -77,7 +66,7 @@ Component.prototype.remove = function () {
     }
 };
 Component.prototype.render = function (target, callback) {
-    var _this4 = this;
+    var _this3 = this;
 
     if (this.fetchPromise) return this.fetchPromise.then(function (template) {
         if (typeof target === 'string') {
@@ -87,10 +76,10 @@ Component.prototype.render = function (target, callback) {
         } else {
             console.warn('first argument of render method should be selector string or dom');
         }
-        _this4.props.targetDOM = target;
-        _this4.props.targetDOM.appendChild(template);
+        _this3.props.targetDOM = target;
+        _this3.props.targetDOM.appendChild(template);
     }).then(function () {
-        if (callback && typeof callback === 'function') callback.call(_this4);
+        if (callback && typeof callback === 'function') callback.call(_this3);
     }).catch(function (err) {
         return console.error('render err:' + err);
     });
@@ -102,25 +91,36 @@ function register(settings) {
     var methods = settings.methods;
 
     var Widget = function Widget(options) {
+        var _this5 = this;
+
         Component.call(this, options);
+        var handlers = options.handlers;
+        // bind methods
         Object.keys(methods).forEach(function (index) {
             var method = methods[index];
-            Widget.prototype[method.name] = function () {
-                var _this5 = this;
+            Widget.prototype[index] = function () {
+                var _this4 = this;
 
-                this.beforeUpdate(method.name);
+                this.beforeUpdate(index);
 
                 for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
                     args[_key] = arguments[_key];
                 }
 
-                Promise.resolve(method.call.apply(method, [this, options.actions[method.name]].concat(args))).then(function () {
-                    return _this5.afterUpdate(method.name);
+                Promise.resolve(method.call.apply(method, [this, options.actions[index]].concat(args))).then(function () {
+                    return _this4.afterUpdate(index);
                 }).catch(function (err) {
                     return console.error(err.stack);
                 });
             };
         });
+        // bind handlers
+        if (handlers) {
+            Object.keys(handlers).forEach(function (index) {
+                var method = handlers[index];
+                method(_this5[index]);
+            });
+        }
     };
     Widget.prototype = Object.create(Component.prototype);
     Widget.prototype.constructor = Widget;
@@ -309,66 +309,36 @@ var CallPanel = (0, _component.register)({
         } else if (action === 'record') {} else if (action === 'hold') {} else if (action === 'mute') {}
     },
     methods: {
-        answer: function answer() {
-            if (this.options.actions && this.options.actions.answer) {
-                this.beforeUpdate.bind(this, 'answer');
-                // FIXME: The custom login may not be a Promise
-                return this.options.actions.answer(this.props).then(this.afterUpdate.bind(this, 'answer')).catch(function (err) {
-                    return console.error('login error:' + error);
-                });
-            }
+        answer: function answer(finish) {
+            return finish(this.props);
         },
         ignore: function ignore() {
-            if (this.options.actions && this.options.actions.ignore) {
-                this.beforeUpdate.bind(this, 'ignore');
-                // FIXME: The custom login may not be a Promise
-                return this.options.actions.ignore(this.props).then(this.afterUpdate.bind(this, 'ignore')).catch(function (err) {
-                    return console.error('login error:' + error);
-                });
-            }
+            return finish(this.props);
         },
         cancel: function cancel() {
-            if (this.options.actions && this.options.actions.cancel) {
-                this.beforeUpdate.bind(this, 'cancel');
-                // FIXME: The custom login may not be a Promise
-                return this.options.actions.cancel(this.props).then(this.afterUpdate.bind(this, 'cancel')).catch(function (err) {
-                    return console.error('login error:' + error);
-                });
-            }
+            return finish(this.props);
         },
-
         hangup: function hangup() {
-            if (this.options.actions && this.options.actions.hangup) {
-                this.beforeUpdate.bind(this, 'hangup');
-                // FIXME: The custom login may not be a Promise
-                return this.options.actions.hangup(this.props).then(this.afterUpdate.bind(this, 'hangup')).catch(function (err) {
-                    return console.error('login error:' + error);
-                });
-            }
+            return finish(this.props);
         },
-
         called: function called(event) {
             state = CallPanel.state.CALLIN;
             this.triggerView();
         },
-
         callStarted: function callStarted(event) {
             state = CallPanel.state.ONLINE;
             this.triggerView();
         },
-
         callRejected: function callRejected(event) {
             console.log('call reject');
             state = CallPanel.state.HIDDEN;
             this.triggerView();
         },
-
         callEnded: function callEnded(event) {
             console.log('end');
             state = CallPanel.state.HIDDEN;
             this.triggerView();
         },
-
         callFailed: function callFailed(event) {
             console.log('fail');
             state = CallPanel.state.HIDDEN;
@@ -476,6 +446,7 @@ var DialPad = (0, _component.register)({
         dialing: function dialing(finish, event) {
             var button = event.target;
             this.props.dom.number.value += button.getAttribute('data-value');
+            return finish(this.props);
         },
         callout: function callout(finish) {
             this.props.toNumber = this.props.dom.number.value;
@@ -625,27 +596,32 @@ var rcHelper = function (sdk, webPhone) {
         },
         initPhoneListener: function initPhoneListener(props) {
             webPhone.ua.on('sipIncomingCall', function (e) {
+                console.log(handlers);
                 line = e;
                 handlers.called.forEach(function (h) {
                     return h(e);
                 });
             });
             webPhone.ua.on('callStarted', function (e) {
+                console.log(handlers);
                 handlers.callStarted.forEach(function (h) {
                     return h(e);
                 });
             });
             webPhone.ua.on('callRejected', function (e) {
+                console.log(handlers);
                 handlers.callRejected.forEach(function (h) {
                     return h(e);
                 });
             });
             webPhone.ua.on('callEnded', function (e) {
+                console.log(handlers);
                 handlers.callEnded.forEach(function (h) {
                     return h(e);
                 });
             });
             webPhone.ua.on('callFailed', function (e) {
+                console.log(handlers);
                 handlers.callFailed.forEach(function (h) {
                     return h(e);
                 });

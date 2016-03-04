@@ -22,6 +22,7 @@ var DialPad = register({
         dialing: function(finish, event) {
             var button = event.target;
             this.props.dom.number.value += button.getAttribute('data-value');
+            return finish(this.props);
         },
         callout: function(finish) {
             this.props.toNumber = this.props.dom.number.value;

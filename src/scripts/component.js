@@ -3,25 +3,15 @@ var Component = function(options) {
         // TODO: maybe use default template
         throw new Error('need specifiy a template');
     }
-    // TODO: use Object.extend or somewhat (es6) for default option setting
+    // TODO: use Object.extend or somewhat (es6) for default options setting
     this.options = options || {};
     this.props = {};
     this.fetchPromise = null;
-    this.bindHandlers(options.handlers);
     this.beforeUpdate('mount');
     this.fetchTemplate(options.template)
         .then(template => this.bindDOM(template))
         .then(template => this.afterUpdate('mount'))
         .catch(err => console.error(err.stack))
-
-};
-Component.prototype.bindHandlers = function(handlers) {
-    if (handlers) {
-        Object.keys(handlers).forEach(index => {
-            var method = handlers[index];
-            method(this[method.name]);
-        })
-    }
 };
 Component.prototype.fetchTemplate = function(src) {
     this.fetchPromise = fetch(src)
@@ -88,18 +78,27 @@ function register(settings) {
     var beforeUpdate = settings.beforeUpdate;
     var afterUpdate = settings.afterUpdate;
     var methods = settings.methods;
-    
+
     var Widget = function(options) {
         Component.call(this, options);
+        var handlers = options.handlers;
+        // bind methods
         Object.keys(methods).forEach(index => {
             var method = methods[index];
-            Widget.prototype[method.name] = function(...args) {
-                this.beforeUpdate(method.name);
-                Promise.resolve(method.call(this, options.actions[method.name], ...args))
-                    .then(() => this.afterUpdate(method.name))
+            Widget.prototype[index] = function(...args) {
+                this.beforeUpdate(index);
+                Promise.resolve(method.call(this, options.actions[index], ...args))
+                    .then(() => this.afterUpdate(index))
                     .catch(err => console.error(err.stack));
             };
         })
+        // bind handlers
+        if (handlers) {
+            Object.keys(handlers).forEach(index => {
+                var method = handlers[index];
+                method(this[index]);
+            })
+        }
     };
     Widget.prototype = Object.create(Component.prototype);
     Widget.prototype.constructor = Widget;

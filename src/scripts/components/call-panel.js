@@ -25,66 +25,36 @@ var CallPanel = register({
         }
     },
     methods: {
-        answer: function() {
-            if (this.options.actions && this.options.actions.answer) {
-                this.beforeUpdate.bind(this, 'answer')
-                    // FIXME: The custom login may not be a Promise
-                return this.options.actions.answer(this.props)
-                    .then(this.afterUpdate.bind(this, 'answer'))
-                    .catch(err => console.error('login error:' + error));
-            }
+        answer: function(finish) {
+            return finish(this.props);
         },
         ignore: function() {
-            if (this.options.actions && this.options.actions.ignore) {
-                this.beforeUpdate.bind(this, 'ignore')
-                    // FIXME: The custom login may not be a Promise
-                return this.options.actions.ignore(this.props)
-                    .then(this.afterUpdate.bind(this, 'ignore'))
-                    .catch(err => console.error('login error:' + error));
-            }
+            return finish(this.props);
         },
         cancel: function() {
-            if (this.options.actions && this.options.actions.cancel) {
-                this.beforeUpdate.bind(this, 'cancel')
-                    // FIXME: The custom login may not be a Promise
-                return this.options.actions.cancel(this.props)
-                    .then(this.afterUpdate.bind(this, 'cancel'))
-                    .catch(err => console.error('login error:' + error));
-            }
+            return finish(this.props);
         },
-
         hangup: function() {
-            if (this.options.actions && this.options.actions.hangup) {
-                this.beforeUpdate.bind(this, 'hangup')
-                    // FIXME: The custom login may not be a Promise
-                return this.options.actions.hangup(this.props)
-                    .then(this.afterUpdate.bind(this, 'hangup'))
-                    .catch(err => console.error('login error:' + error));
-            }
+            return finish(this.props);
         },
-
         called: function(event) {
             state = CallPanel.state.CALLIN;
             this.triggerView();
         },
-
         callStarted: function(event) {
             state = CallPanel.state.ONLINE;
             this.triggerView();
         },
-
         callRejected: function(event) {
             console.log('call reject');
             state = CallPanel.state.HIDDEN;
             this.triggerView();
         },
-
         callEnded: function(event) {
             console.log('end');
             state = CallPanel.state.HIDDEN;
             this.triggerView();
         },
-
         callFailed: function(event) {
             console.log('fail');
             state = CallPanel.state.HIDDEN;

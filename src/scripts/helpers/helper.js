@@ -115,19 +115,24 @@ var rcHelper = function(sdk, webPhone) {
         },
         initPhoneListener: function(props) {
             webPhone.ua.on('sipIncomingCall', e => {
+                console.log(handlers);
                 line = e;
                 handlers.called.forEach(h => h(e));
             });
             webPhone.ua.on('callStarted', e => {
+                console.log(handlers);
                 handlers.callStarted.forEach(h => h(e));
             });
             webPhone.ua.on('callRejected', e => {
+                console.log(handlers);
                 handlers.callRejected.forEach(h => h(e));
             });
             webPhone.ua.on('callEnded', e => {
+                console.log(handlers);
                 handlers.callEnded.forEach(h => h(e));
             });
             webPhone.ua.on('callFailed', e => {
+                console.log(handlers);
                 handlers.callFailed.forEach(h => h(e));
             });
         }

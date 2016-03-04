@@ -140,6 +140,7 @@
         },
         afterUpdate: function(action, props) {
             if (action === 'mount') {
+                console.log('init phone listener');
                 rcHelper.initPhoneListener(props);
             }
             return true;
