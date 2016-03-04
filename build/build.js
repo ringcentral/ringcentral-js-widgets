@@ -63,11 +63,11 @@ Component.prototype.bindDOM = function (template) {
     return template;
 };
 Component.prototype.beforeUpdate = function (action) {
-    if (this.options.beforeUpdate) return this.options.beforeUpdate(action, this.props);
+    if (this.options.beforeUpdate) return this.options.beforeUpdate.call(this, action, this.props);
     return true;
 };
 Component.prototype.afterUpdate = function (action) {
-    if (this.options.afterUpdate) return this.options.afterUpdate(action, this.props);
+    if (this.options.afterUpdate) return this.options.afterUpdate.call(this, action, this.props);
     return true;
 };
 Component.prototype.remove = function () {
@@ -113,14 +113,13 @@ function register(settings) {
                 Widget.prototype[index] = function () {
                     var _this4 = this;
 
-                    console.log(this);
                     this.beforeUpdate(index);
 
                     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
                         args[_key] = arguments[_key];
                     }
 
-                    Promise.resolve(method.call.apply(method, [this, callback].concat(args))).then(function () {
+                    Promise.resolve(method.call.apply(method, [this, callback.bind(this)].concat(args))).then(function () {
                         return _this4.afterUpdate(index);
                     }).catch(function (err) {
                         return console.error(err.stack);
@@ -240,6 +239,30 @@ exports.default = AuthPanel;
 },{"../component":1}],3:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _component = require('../component');
+
+var AutoComplete = (0, _component.register)({
+    beforeUpdate: function beforeUpdate(action) {},
+    afterUpdate: function afterUpdate(action) {
+        if (action === 'show') {}
+    },
+    methods: {
+        autoComplete: function autoComplete(finish) {
+            this.props.prefix = this.props.dom.input;
+            return finish(this.props);
+        }
+    }
+});
+
+exports.default = AutoComplete;
+
+},{"../component":1}],4:[function(require,module,exports){
+'use strict';
+
 var _component = require('../component');
 
 // prototypal inheritance, please see:
@@ -307,7 +330,7 @@ CallLog.prototype.loading = function (target, text) {
     };
 };
 
-},{"../component":1}],4:[function(require,module,exports){
+},{"../component":1}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -385,8 +408,6 @@ var CallPanel = (0, _component.register)({
 });
 
 var triggerView = function triggerView(props) {
-    console.log('trigger view');
-    console.log(props.dom['callin-panel']);
     props.dom['callin-panel'].style.display = 'none';
     props.dom['callout-panel'].style.display = 'none';
     props.dom['online-panel'].style.display = 'none';
@@ -443,7 +464,7 @@ var loading = function loading(target, text) {
 // };
 exports.default = CallPanel;
 
-},{"../component":1}],5:[function(require,module,exports){
+},{"../component":1}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -451,6 +472,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 var _component = require('../component');
+
+var _autoComplete = require('./auto-complete');
+
+var _autoComplete2 = _interopRequireDefault(_autoComplete);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DialPad = (0, _component.register)({
     beforeUpdate: function beforeUpdate(action) {
@@ -462,7 +489,23 @@ var DialPad = (0, _component.register)({
             }
     },
     afterUpdate: function afterUpdate(action) {
-        if (action === 'dialing') {
+        console.log(action);
+        if (action === 'mount') {
+            console.log('init autocomplete');
+            var autoComplete = new _autoComplete2.default({
+                template: '../template/auto-complete.html',
+                actions: {
+                    autocomplete: function autocomplete() {
+                        console.log(this.props);
+                        // todo
+                        return rcHelper.autocomplete(this.props);
+                    }
+                },
+                handlers: {},
+                beforeUpdate: function beforeUpdate(action) {},
+                afterUpdate: function afterUpdate(action) {}
+            });
+        } else if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {
                 if (this.interval) {
@@ -507,7 +550,7 @@ function loading(target, text) {
 }
 exports.default = DialPad;
 
-},{"../component":1}],6:[function(require,module,exports){
+},{"../component":1,"./auto-complete":3}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -658,18 +701,25 @@ var rcHelper = function (sdk, webPhone) {
                     return h(e);
                 });
             });
+        },
+        autoComplete: function autoComplete(props) {
+            var prefix = props.prefix;
+            var test = ['111', '222', '333'];
+            return test.filter(function (item) {
+                return item.indexOf(prefix) === 0;
+            });
         }
     };
 }(sdk, webPhone);
 exports.default = rcHelper;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.rcHelper = exports.CallLog = exports.DialPad = exports.CallPanel = exports.AuthPanel = undefined;
+exports.rcHelper = exports.AutoComplete = exports.CallLog = exports.DialPad = exports.CallPanel = exports.AuthPanel = undefined;
 
 var _authPanel = require('./components/auth-panel');
 
@@ -687,6 +737,10 @@ var _callLog = require('./components/call-log');
 
 var _callLog2 = _interopRequireDefault(_callLog);
 
+var _autoComplete = require('./components/auto-complete');
+
+var _autoComplete2 = _interopRequireDefault(_autoComplete);
+
 var _helper = require('./helpers/helper');
 
 var _helper2 = _interopRequireDefault(_helper);
@@ -697,15 +751,17 @@ window.AuthPanel = _authPanel2.default;
 window.CallPanel = _callPanel2.default;
 window.DialPad = _dialPad2.default;
 window.CallLog = _callLog2.default;
+window.AutoComplete = _autoComplete2.default;
 window.rcHelper = _helper2.default;
 
 exports.AuthPanel = _authPanel2.default;
 exports.CallPanel = _callPanel2.default;
 exports.DialPad = _dialPad2.default;
 exports.CallLog = _callLog2.default;
+exports.AutoComplete = _autoComplete2.default;
 exports.rcHelper = _helper2.default;
 
-},{"./components/auth-panel":2,"./components/call-log":3,"./components/call-panel":4,"./components/dial-pad":5,"./helpers/helper":6}]},{},[7])
+},{"./components/auth-panel":2,"./components/auto-complete":3,"./components/call-log":4,"./components/call-panel":5,"./components/dial-pad":6,"./helpers/helper":7}]},{},[8])
 
 
 //# sourceMappingURL=build.js.map

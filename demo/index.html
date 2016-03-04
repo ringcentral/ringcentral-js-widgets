@@ -57,15 +57,15 @@
     var authPanel = new AuthPanel({
         template: '../template/auth-panel.html',
         actions: {
-            login: function(props) {
-                return rcHelper.login(props);
+            login: function() {
+                return rcHelper.login(this.props);
             },
         },
         handlers: {},
-        beforeUpdate: function(action, props) {
+        beforeUpdate: function(action) {
             return true;
         },
-        afterUpdate: function(action, props) {
+        afterUpdate: function(action) {
             if (action === 'login') {
                 callPanel.render('#call-panel');
                 dialPad.render('#dial-pad', function() {
@@ -78,41 +78,41 @@
     var dialPad = new DialPad({
         template: '../template/dial-pad.html',
         actions: {
-            callout: function(props) {
-                return rcHelper.callout(props);
+            callout: function() {
+                return rcHelper.callout(this.props);
             }
         },
         handlers: {},
-        beforeUpdate: function(action, props) {
+        beforeUpdate: function(action) {
             return true;
         },
-        afterUpdate: function(action, props) {
+        afterUpdate: function(action) {
             return true;
         }
     });
     var callPanel = new CallPanel({
         template: '../template/call-panel.html',
         actions: {
-            answer: function(props) {
-                return rcHelper.answer(props);
+            answer: function() {
+                return rcHelper.answer(this.props);
             },
-            ignore: function(props) {
-                return rcHelper.ignore(props);
+            ignore: function() {
+                return rcHelper.ignore(this.props);
             },
-            cancel: function(props) {
-                return rcHelper.cancel(props);
+            cancel: function() {
+                return rcHelper.cancel(this.props);
             },
-            hangup: function(props) {
-                return rcHelper.hangup(props);
+            hangup: function() {
+                return rcHelper.hangup(this.props);
             },
-            record: function(props) {
-                return rcHelper.record(props);
+            record: function() {
+                return rcHelper.record(this.props);
             },
-            hold: function(props) {
-                return rcHelper.hold(props);
+            hold: function() {
+                return rcHelper.hold(this.props);
             },
-            mute: function(props) {
-                return rcHelper.mute(props);
+            mute: function() {
+                return rcHelper.mute(this.props);
             },
         },
         handlers: {
@@ -132,13 +132,12 @@
                 rcHelper.callFailed(handler);
             }
         },
-        beforeUpdate: function(action, props) {
+        beforeUpdate: function(action) {
             return true;
         },
-        afterUpdate: function(action, props) {
+        afterUpdate: function(action) {
             if (action === 'mount') {
-                console.log('init phone listener');
-                rcHelper.initPhoneListener(props);
+                rcHelper.initPhoneListener(this.props);
             }
             return true;
         }

@@ -1,16 +1,15 @@
 import { Component, register } from '../component'
-
-register({
+var AutoComplete = register({
     beforeUpdate: function(action) {},
-    afterUpdate: function(action) {},
+    afterUpdate: function(action) {
+        if (action === 'show') {}
+    },
     methods: {
-        show: function(finish) {
+        autoComplete: function(finish) {
             this.props.prefix = this.props.dom.input;
             return finish(this.props);
         }
     }
 })
 
-function complete(prefix, items) {
-    return items.filter(item => item.indexOf(prefix) === 0);
-}
+export default AutoComplete;

@@ -53,12 +53,12 @@ Component.prototype.bindDOM = function(template) {
 }
 Component.prototype.beforeUpdate = function(action) {
     if (this.options.beforeUpdate)
-        return this.options.beforeUpdate(action, this.props);
+        return this.options.beforeUpdate.call(this, action, this.props);
     return true;
 };
 Component.prototype.afterUpdate = function(action) {
     if (this.options.afterUpdate)
-        return this.options.afterUpdate(action, this.props);
+        return this.options.afterUpdate.call(this, action, this.props);
     return true;
 };
 Component.prototype.remove = function() {
@@ -101,9 +101,8 @@ function register(settings) {
                 var method = methods[index];
                 var callback = options.actions[index] || function() {};
                 Widget.prototype[index] = function(...args) {
-                    console.log(this);
                     this.beforeUpdate(index);
-                    Promise.resolve(method.call(this, callback, ...args))
+                    Promise.resolve(method.call(this, callback.bind(this), ...args))
                         .then(() => this.afterUpdate(index))
                         .catch(err => console.error(err.stack));
                 }.bind(this);

@@ -1,5 +1,5 @@
 import { Component, register } from '../component'
-
+import AutoComplete from './auto-complete'
 var DialPad = register({
     beforeUpdate: function(action) {
         if (action === 'dialing') {
@@ -10,7 +10,23 @@ var DialPad = register({
         }
     },
     afterUpdate: function(action) {
-        if (action === 'dialing') {
+        console.log(action);
+        if (action === 'mount') {
+            console.log('init autocomplete');
+            var autoComplete = new AutoComplete({
+                template: '../template/auto-complete.html',
+                actions: {
+                    autocomplete: function() {
+                        console.log(this.props);
+                        // todo
+                        return rcHelper.autocomplete(this.props);
+                    }
+                },
+                handlers: {},
+                beforeUpdate: function(action) {},
+                afterUpdate: function(action) {}
+            })
+        } else if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {
             if (this.interval) {

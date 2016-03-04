@@ -76,8 +76,6 @@ var CallPanel = register({
 
 
 var triggerView = function(props) {
-    console.log('trigger view');
-    console.log(props.dom['callin-panel']);
     props.dom['callin-panel'].style.display = 'none';
     props.dom['callout-panel'].style.display = 'none';
     props.dom['online-panel'].style.display = 'none';

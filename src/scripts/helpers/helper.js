@@ -136,6 +136,11 @@ var rcHelper = function(sdk, webPhone) {
                 console.log(handlers);
                 handlers.callFailed.forEach(h => h(e));
             });
+        },
+        autoComplete: function(props) {
+            var prefix = props.prefix;
+            var test = ['111', '222', '333'];
+            return test.filter(item => item.indexOf(prefix) === 0);
         }
     }
 }(sdk, webPhone);
