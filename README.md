@@ -8,9 +8,9 @@ This is the personal repository to do some experimental implementation of UI wid
 #### Development process
 `gulp`
 
-#### How to build a widget?
+# How to build a widget?
 ## 1. Define a HTML template
-# HTML tag attributes
+#### HTML tag attributes
 * Elements with `data-info` will be stored as widgets `this.props.dom` references.
 * Elements with `data-event` will be bound a widgets actions.
 
@@ -69,7 +69,7 @@ var DialPad = register({
     }
 })
 ```
-### TODO
+# TODO
 - [ ] Localization
 - [ ] Demo
 - [x] Component state and property
