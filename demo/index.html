@@ -67,6 +67,7 @@
         },
         afterUpdate: function(action, props) {
             if (action === 'login') {
+                callPanel.render('#call-panel');
                 dialPad.render('#dial-pad', function() {
                     authPanel.remove();
                 })
@@ -86,9 +87,6 @@
             return true;
         },
         afterUpdate: function(action, props) {
-            if (action === 'callout') {
-                callPanel.render('#call-panel');
-            }
             return true;
         }
     });
