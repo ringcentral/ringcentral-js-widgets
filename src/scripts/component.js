@@ -99,18 +99,20 @@ function register(settings) {
         // bind methods
         Object.keys(methods).forEach(index => {
                 var method = methods[index];
+                var callback = options.actions[index] || function() {};
                 Widget.prototype[index] = function(...args) {
+                    console.log(this);
                     this.beforeUpdate(index);
-                    Promise.resolve(method.call(this, options.actions[index], ...args))
+                    Promise.resolve(method.call(this, callback, ...args))
                         .then(() => this.afterUpdate(index))
                         .catch(err => console.error(err.stack));
-                };
+                }.bind(this);
             })
             // bind handlers
         if (handlers) {
             Object.keys(handlers).forEach(index => {
                 var method = handlers[index];
-                method(this[index]);
+                method.call(this, this[index]);
             })
         }
     };

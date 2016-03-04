@@ -67,7 +67,6 @@
         },
         afterUpdate: function(action, props) {
             if (action === 'login') {
-                console.log('user after login');
                 dialPad.render('#dial-pad', function() {
                     authPanel.remove();
                 })

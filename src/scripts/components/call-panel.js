@@ -1,21 +1,29 @@
 import { register, Component } from '../component'
-
-var state;
+var state = {
+    'HIDDEN': 0,
+    'CALLIN': 1,
+    'CALLOUT': 2,
+    'ONLINE': 3
+}
+var currentState = state.HIDDEN;
 var CallPanel = register({
     beforeUpdate: function(action, props) {},
     afterUpdate: function(action, props) {
-        if (action === 'mount') {} else if (action === 'answer') {
-            state = CallPanel.state.ONLINE;
-            this.triggerView(this.props);
+        if (action === 'mount') {
+            currentState = state.HIDDEN;
+            triggerView(this.props);
+        } else if (action === 'answer') {
+            currentState = state.ONLINE;
+            triggerView(this.props);
         } else if (action === 'ignore') {
-            state = CallPanel.state.HIDDEN;
-            this.triggerView(this.props);
+            currentState = state.HIDDEN;
+            triggerView(this.props);
         } else if (action === 'cancel') {
-            state = CallPanel.state.HIDDEN;
-            this.triggerView(this.props);
+            currentState = state.HIDDEN;
+            triggerView(this.props);
         } else if (action === 'hangup') {
-            state = CallPanel.state.HIDDEN;
-            this.triggerView(this.props);
+            currentState = state.HIDDEN;
+            triggerView(this.props);
         } else if (action === 'record') {
 
         } else if (action === 'hold') {
@@ -38,50 +46,45 @@ var CallPanel = register({
             return finish(this.props);
         },
         called: function(event) {
-            state = CallPanel.state.CALLIN;
-            this.triggerView();
+            console.log('callin');
+            currentState = state.CALLIN;
+            triggerView(this.props);
         },
         callStarted: function(event) {
-            state = CallPanel.state.ONLINE;
-            this.triggerView();
+            console.log('call start');
+            currentState = state.ONLINE;
+            triggerView(this.props);
         },
         callRejected: function(event) {
             console.log('call reject');
-            state = CallPanel.state.HIDDEN;
-            this.triggerView();
+            currentState = state.HIDDEN;
+            triggerView(this.props);
         },
         callEnded: function(event) {
             console.log('end');
-            state = CallPanel.state.HIDDEN;
-            this.triggerView();
+            currentState = state.HIDDEN;
+            triggerView(this.props);
         },
         callFailed: function(event) {
             console.log('fail');
-            state = CallPanel.state.HIDDEN;
-            this.triggerView();
+            currentState = state.HIDDEN;
+            triggerView(this.props);
         }
     }
 });
-CallPanel.state = {
-    'HIDDEN': 0,
-    'CALLIN': 1,
-    'CALLOUT': 2,
-    'ONLINE': 3
-}
+
 
 var triggerView = function(props) {
+    console.log('trigger view');
+    console.log(props.dom['callin-panel']);
     props.dom['callin-panel'].style.display = 'none';
     props.dom['callout-panel'].style.display = 'none';
     props.dom['online-panel'].style.display = 'none';
-    if (callTimeInterval) {
-        callTimeInterval.cancel();
-        callTimeInterval = null;
-    }
-    if (state === CallPanel.state.CALLIN) {
+    if (currentState === state.CALLIN) {
         props.dom['callin-panel'].style.display = 'block';
-    } else if (state === CallPanel.state.CALLOUT) {
+    } else if (currentState === state.CALLOUT) {
         props.dom['callout-panel'].style.display = 'block';
-    } else if (state === CallPanel.state.ONLINE) {
+    } else if (currentState === state.ONLINE) {
         props.dom['online-panel'].style.display = 'block';
         // this.callTimeInterval = this.updateCallTime(this.line.timeCallStarted);
     }

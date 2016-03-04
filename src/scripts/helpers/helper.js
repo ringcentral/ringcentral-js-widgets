@@ -121,6 +121,7 @@ var rcHelper = function(sdk, webPhone) {
             });
             webPhone.ua.on('callStarted', e => {
                 console.log(handlers);
+                console.log(this);
                 handlers.callStarted.forEach(h => h(e));
             });
             webPhone.ua.on('callRejected', e => {

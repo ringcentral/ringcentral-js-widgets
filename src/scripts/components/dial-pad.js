@@ -1,4 +1,5 @@
 import { Component, register } from '../component'
+
 var DialPad = register({
     beforeUpdate: function(action, props) {
         if (action === 'dialing') {

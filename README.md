@@ -31,7 +31,6 @@ var DialPad = register({
         if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {
-            console.log('div before callout');
             this.interval = loading(this.props.dom.callout, 'Call');
         }
     },
@@ -69,6 +68,15 @@ var DialPad = register({
     }
 })
 ```
+
+#### Widgets lifecycle
+1. beforeUpdate from users
+2. beforeUpdate from widgets (can be disabled from users)
+3. action from users
+4. action from widgets (be triggered from 3)
+5. afterUpdate from users
+6. afterUpdate from widgets (can be disabled from users)
+
 # TODO
 - [ ] Localization
 - [ ] Demo
