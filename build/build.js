@@ -8,8 +8,7 @@ var Component = function Component(options) {
     var _this = this;
 
     if (!options.template) {
-        // TODO: maybe use default template
-        throw new Error('need specifiy a template');
+        throw new Error('need a template');
     }
     // TODO: use Object.extend or somewhat (es6) for default options setting
     this.options = options || {};
@@ -107,31 +106,43 @@ function register(settings) {
         Component.call(this, options);
         var handlers = options.handlers;
         // bind methods
-        Object.keys(methods).forEach(function (index) {
-            var method = methods[index];
-            var callback = options.actions[index] || function () {};
-            Widget.prototype[index] = function () {
-                var _this4 = this;
+        if (methods) {
+            Object.keys(methods).forEach(function (index) {
+                var method = methods[index];
+                var callback = options.actions[index] || function () {};
+                Widget.prototype[index] = function () {
+                    var _this4 = this;
 
-                console.log(this);
-                this.beforeUpdate(index);
+                    console.log(this);
+                    this.beforeUpdate(index);
 
-                for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                    args[_key] = arguments[_key];
-                }
+                    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+                        args[_key] = arguments[_key];
+                    }
 
-                Promise.resolve(method.call.apply(method, [this, callback].concat(args))).then(function () {
-                    return _this4.afterUpdate(index);
-                }).catch(function (err) {
-                    return console.error(err.stack);
-                });
-            }.bind(_this5);
-        });
+                    Promise.resolve(method.call.apply(method, [this, callback].concat(args))).then(function () {
+                        return _this4.afterUpdate(index);
+                    }).catch(function (err) {
+                        return console.error(err.stack);
+                    });
+                }.bind(_this5);
+            });
+        }
         // bind handlers
         if (handlers) {
             Object.keys(handlers).forEach(function (index) {
-                var method = handlers[index];
-                method.call(_this5, _this5[index]);
+                var handler = handlers[index];
+                var handlerWrapper = function () {
+                    var _this6 = this;
+
+                    this.beforeUpdate(index);
+                    Promise.resolve(this[index].call(this)).then(function () {
+                        return _this6.afterUpdate(index);
+                    }).catch(function (err) {
+                        return console.error(err.stack);
+                    });
+                }.bind(_this5);
+                handler.call(_this5, handlerWrapper);
             });
         }
     };
@@ -139,15 +150,17 @@ function register(settings) {
     Widget.prototype.constructor = Widget;
     Widget.prototype.beforeUpdate = function (action, props) {
         var defaultAction = Component.prototype.beforeUpdate.call(this, action, props);
-        if (defaultAction) {
-            settings.beforeUpdate.call(this, action, props);
+        if (typeof defaultAction !== 'undefined' && !defaultAction) {
+            return;
         }
+        return settings.beforeUpdate.call(this, action, props);
     };
     Widget.prototype.afterUpdate = function (action, props) {
         var defaultAction = Component.prototype.afterUpdate.call(this, action, props);
-        if (defaultAction) {
-            settings.afterUpdate.call(this, action, props);
+        if (typeof defaultAction !== 'undefined' && !defaultAction) {
+            return;
         }
+        return settings.afterUpdate.call(this, action, props);
     };
     return Widget;
 }
@@ -164,14 +177,14 @@ Object.defineProperty(exports, "__esModule", {
 var _component = require('../component');
 
 var AuthPanel = (0, _component.register)({
-    beforeUpdate: function beforeUpdate(action, props) {
+    beforeUpdate: function beforeUpdate(action) {
         if (action === 'login') {
             this.props.dom.login.disabled = true;
             this.props.dom.error.textContent = '';
             this.interval = loading(this.props.dom.login, 'login');
         }
     },
-    afterUpdate: function afterUpdate(action, props) {
+    afterUpdate: function afterUpdate(action) {
         if (action === 'mount') {
             this.props.dom.key.value = localStorage.getItem('key');
             this.props.dom.secret.value = localStorage.getItem('secret');
@@ -311,8 +324,8 @@ var state = {
 };
 var currentState = state.HIDDEN;
 var CallPanel = (0, _component.register)({
-    beforeUpdate: function beforeUpdate(action, props) {},
-    afterUpdate: function afterUpdate(action, props) {
+    beforeUpdate: function beforeUpdate(action) {},
+    afterUpdate: function afterUpdate(action) {
         if (action === 'mount') {
             currentState = state.HIDDEN;
             triggerView(this.props);
@@ -440,7 +453,7 @@ Object.defineProperty(exports, "__esModule", {
 var _component = require('../component');
 
 var DialPad = (0, _component.register)({
-    beforeUpdate: function beforeUpdate(action, props) {
+    beforeUpdate: function beforeUpdate(action) {
         if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {
@@ -448,7 +461,7 @@ var DialPad = (0, _component.register)({
                 this.interval = loading(this.props.dom.callout, 'Call');
             }
     },
-    afterUpdate: function afterUpdate(action, props) {
+    afterUpdate: function afterUpdate(action) {
         if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {

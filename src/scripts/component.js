@@ -1,7 +1,6 @@
 var Component = function(options) {
     if (!options.template) {
-        // TODO: maybe use default template
-        throw new Error('need specifiy a template');
+        throw new Error('need a template');
     }
     // TODO: use Object.extend or somewhat (es6) for default options setting
     this.options = options || {};
@@ -97,7 +96,8 @@ function register(settings) {
         Component.call(this, options);
         var handlers = options.handlers;
         // bind methods
-        Object.keys(methods).forEach(index => {
+        if (methods) {
+            Object.keys(methods).forEach(index => {
                 var method = methods[index];
                 var callback = options.actions[index] || function() {};
                 Widget.prototype[index] = function(...args) {
@@ -108,11 +108,18 @@ function register(settings) {
                         .catch(err => console.error(err.stack));
                 }.bind(this);
             })
-            // bind handlers
+        }
+        // bind handlers
         if (handlers) {
             Object.keys(handlers).forEach(index => {
-                var method = handlers[index];
-                method.call(this, this[index]);
+                var handler = handlers[index];
+                var handlerWrapper = function() {
+                    this.beforeUpdate(index);
+                    Promise.resolve(this[index].call(this))
+                        .then(() => this.afterUpdate(index))
+                        .catch(err => console.error(err.stack));
+                }.bind(this)
+                handler.call(this, handlerWrapper);
             })
         }
     };
@@ -120,15 +127,17 @@ function register(settings) {
     Widget.prototype.constructor = Widget;
     Widget.prototype.beforeUpdate = function(action, props) {
         var defaultAction = Component.prototype.beforeUpdate.call(this, action, props);
-        if (defaultAction) {
-            settings.beforeUpdate.call(this, action, props);
+        if (typeof defaultAction !== 'undefined' && !defaultAction) {
+            return;
         }
+        return settings.beforeUpdate.call(this, action, props);
     };
     Widget.prototype.afterUpdate = function(action, props) {
         var defaultAction = Component.prototype.afterUpdate.call(this, action, props);
-        if (defaultAction) {
-            settings.afterUpdate.call(this, action, props);
+        if (typeof defaultAction !== 'undefined' && !defaultAction) {
+            return;
         }
+        return settings.afterUpdate.call(this, action, props);
     };
     return Widget;
 }

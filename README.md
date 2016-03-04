@@ -83,3 +83,4 @@ var DialPad = register({
 - [x] Component state and property
 - [ ] Seperate helpers
 - [ ] Documentation
+- [ ] Debug mode

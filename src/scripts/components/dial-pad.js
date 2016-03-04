@@ -1,7 +1,7 @@
 import { Component, register } from '../component'
 
 var DialPad = register({
-    beforeUpdate: function(action, props) {
+    beforeUpdate: function(action) {
         if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {
@@ -9,7 +9,7 @@ var DialPad = register({
             this.interval = loading(this.props.dom.callout, 'Call');
         }
     },
-    afterUpdate: function(action, props) {
+    afterUpdate: function(action) {
         if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {
