@@ -16,6 +16,6 @@ the value of `data-action` will be `method_name(parameter_1, parameter_2)`
 ### TODO
 - [ ] Localization
 - [ ] Demo
-- [ ] Component state and property
+- [x] Component state and property
 - [ ] Seperate helpers
-- [ ] Document
+- [ ] Documentation

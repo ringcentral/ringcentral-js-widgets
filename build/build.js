@@ -45,10 +45,21 @@ Component.prototype.bindDOM = function (template) {
         var info = doc.getAttribute('data-info');
         _this2.props.dom[info] = doc;
     });
-    [].forEach.call(template.querySelectorAll('[data-action]'), function (doc) {
-        var event = doc.getAttribute('data-event');
-        var action = doc.getAttribute('data-action');
-        doc.addEventListener(event, _this2[action].bind(_this2));
+    [].forEach.call(template.querySelectorAll('[data-event]'), function (doc) {
+        var events = doc.getAttribute('data-event');
+        // TODO: proper error messages
+        events.split('|').forEach(function (event) {
+            var eventName;
+            var action;
+            event.split(':').forEach(function (token, index) {
+                if (index === 0) eventName = token;else if (index === 1) action = token;
+            });
+            if (!_this2[action]) {
+                throw Error('no such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
+                return;
+            }
+            doc.addEventListener(eventName, _this2[action].bind(_this2));
+        });
     });
     return template;
 };
@@ -312,13 +323,13 @@ var CallPanel = (0, _component.register)({
         answer: function answer(finish) {
             return finish(this.props);
         },
-        ignore: function ignore() {
+        ignore: function ignore(finish) {
             return finish(this.props);
         },
-        cancel: function cancel() {
+        cancel: function cancel(finish) {
             return finish(this.props);
         },
-        hangup: function hangup() {
+        hangup: function hangup(finish) {
             return finish(this.props);
         },
         called: function called(event) {

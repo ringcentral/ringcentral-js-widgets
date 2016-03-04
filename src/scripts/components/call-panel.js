@@ -28,13 +28,13 @@ var CallPanel = register({
         answer: function(finish) {
             return finish(this.props);
         },
-        ignore: function() {
+        ignore: function(finish) {
             return finish(this.props);
         },
-        cancel: function() {
+        cancel: function(finish) {
             return finish(this.props);
         },
-        hangup: function() {
+        hangup: function(finish) {
             return finish(this.props);
         },
         called: function(event) {

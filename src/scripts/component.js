@@ -31,10 +31,24 @@ Component.prototype.bindDOM = function(template) {
         var info = doc.getAttribute('data-info');
         this.props.dom[info] = doc;
     });
-    [].forEach.call(template.querySelectorAll('[data-action]'), doc => {
-        var event = doc.getAttribute('data-event');
-        var action = doc.getAttribute('data-action');
-        doc.addEventListener(event, this[action].bind(this));
+    [].forEach.call(template.querySelectorAll('[data-event]'), doc => {
+        var events = doc.getAttribute('data-event');
+        // TODO: proper error messages
+        events.split('|').forEach(event => {
+            var eventName;
+            var action;
+            event.split(':').forEach((token, index) => {
+                if (index === 0)
+                    eventName = token;
+                else if (index === 1)
+                    action = token;
+            })
+            if (!this[action]) {
+                throw Error('no such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
+                return;
+            }
+            doc.addEventListener(eventName, this[action].bind(this));
+        })
     })
     return template;
 }
@@ -84,15 +98,15 @@ function register(settings) {
         var handlers = options.handlers;
         // bind methods
         Object.keys(methods).forEach(index => {
-            var method = methods[index];
-            Widget.prototype[index] = function(...args) {
-                this.beforeUpdate(index);
-                Promise.resolve(method.call(this, options.actions[index], ...args))
-                    .then(() => this.afterUpdate(index))
-                    .catch(err => console.error(err.stack));
-            };
-        })
-        // bind handlers
+                var method = methods[index];
+                Widget.prototype[index] = function(...args) {
+                    this.beforeUpdate(index);
+                    Promise.resolve(method.call(this, options.actions[index], ...args))
+                        .then(() => this.afterUpdate(index))
+                        .catch(err => console.error(err.stack));
+                };
+            })
+            // bind handlers
         if (handlers) {
             Object.keys(handlers).forEach(index => {
                 var method = handlers[index];
