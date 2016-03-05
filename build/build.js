@@ -263,76 +263,6 @@ exports.default = AutoComplete;
 },{"../component":1}],4:[function(require,module,exports){
 'use strict';
 
-var _component = require('../component');
-
-// prototypal inheritance, please see:
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
-var CallLog = function CallLog(options) {
-    _component.Component.call(this, options);
-};
-CallLog.prototype = Object.create(_component.Component.prototype);
-CallLog.prototype.constructor = CallLog;
-
-CallLog.prototype.beforeUpdate = function (action, props) {
-    var defaultAction = _component.Component.prototype.beforeUpdate.call(this, action, props);
-    if (defaultAction) {
-        if (action === 'getLog') {
-            this.interval = this.loading(this.dom.message, 'Loading call log');
-        }
-    }
-};
-CallLog.prototype.afterUpdate = function (action, props) {
-    var defaultAction = _component.Component.prototype.afterUpdate.call(this, action, props);
-    if (defaultAction) {
-        if (action === 'mount') {
-            this.getLog(1, 10);
-        } else if (action === 'getLog') {
-            // var log = this.props.records;
-            // var item = new CallLogItem();
-            // ...
-            if (this.interval) {
-                this.interval.cancel('');
-                this.interval = null;
-            }
-        }
-    }
-};
-CallLog.prototype.getLog = function (page, number) {
-    var _this = this;
-
-    if (this.options.actions && this.options.actions.getLog) {
-        this.beforeUpdate.bind(this, 'getLog');
-        return this.sdk.platform().get('/account/~/extension/~/call-log', { page: page, perPage: number }).then(function (response) {
-            _this.props.records = response.json().records;
-        }).then(this.afterUpdate.bind(this, 'getLog')).catch(function (e) {
-            console.error('Recent Calls Error: ' + e.message);
-        });
-    }
-};
-CallLog.prototype.loading = function (target, text) {
-    var dotCount = 1;
-    var interval = window.setInterval(function () {
-        var dot = '';
-        var dotCountTmp = dotCount;
-        while (dotCount--) {
-            dot += '.';
-        }target.textContent = text + dot;
-        dotCount = (dotCountTmp + 1) % 4;
-    }, 500);
-    return {
-        cancel: function cancel(text) {
-            if (interval) {
-                window.clearInterval(interval);
-                interval = null;
-                if (typeof text !== 'undefined') target.textContent = text;
-            }
-        }
-    };
-};
-
-},{"../component":1}],5:[function(require,module,exports){
-'use strict';
-
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
@@ -464,7 +394,7 @@ var loading = function loading(target, text) {
 // };
 exports.default = CallPanel;
 
-},{"../component":1}],6:[function(require,module,exports){
+},{"../component":1}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -550,7 +480,7 @@ function loading(target, text) {
 }
 exports.default = DialPad;
 
-},{"../component":1,"./auto-complete":3}],7:[function(require,module,exports){
+},{"../component":1,"./auto-complete":3}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -713,13 +643,80 @@ var rcHelper = function (sdk, webPhone) {
 }(sdk, webPhone);
 exports.default = rcHelper;
 
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.rcHelper = exports.AutoComplete = exports.CallLog = exports.DialPad = exports.CallPanel = exports.AuthPanel = undefined;
+
+var _rcSdk = require('./rc-sdk');
+
+var _rcSdk2 = _interopRequireDefault(_rcSdk);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var LoginService = function (sdk) {
+
+    var onLoginHandler = [];
+
+    return {
+
+        login: function login(username, extension, password) {
+            console.log('LoginService -> start login');
+            return sdk.platform().login({
+                'username': username,
+                'extension': extension,
+                'password': password
+            }).then(function () {
+                onLoginHandler.forEach(function (handler) {
+                    return handler();
+                });
+            });
+        },
+
+        checkLoginStatus: function checkLoginStatus() {
+
+            return sdk.platform().loggedIn().then(function (isLoggedIn) {
+                if (isLoggedIn) {
+                    onLoginHandler.forEach(function (handler) {
+                        return handler();
+                    });
+                }
+                return isLoggedIn;
+            });
+        },
+
+        registerLoginHandler: function registerLoginHandler(handler) {
+            onLoginHandler.push(handler);
+        }
+
+    };
+}(_rcSdk2.default);
+
+exports.default = LoginService;
+
+},{"./rc-sdk":8}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var sdk = new RingCentral.SDK({
+    appKey: '8mOtYiilT5OUPwwdeGgvpw',
+    appSecret: 'cqNn89RmR2SR76Kpp8xJaAdNzNOqR8Qfmjb0B-gDOHTw',
+    server: RingCentral.SDK.server.production
+});
+
+exports.default = sdk;
+
+},{}],9:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.LoginService = exports.sdk = exports.rcHelper = exports.AutoComplete = exports.DialPad = exports.CallPanel = exports.AuthPanel = undefined;
 
 var _authPanel = require('./components/auth-panel');
 
@@ -733,10 +730,6 @@ var _dialPad = require('./components/dial-pad');
 
 var _dialPad2 = _interopRequireDefault(_dialPad);
 
-var _callLog = require('./components/call-log');
-
-var _callLog2 = _interopRequireDefault(_callLog);
-
 var _autoComplete = require('./components/auto-complete');
 
 var _autoComplete2 = _interopRequireDefault(_autoComplete);
@@ -745,23 +738,33 @@ var _helper = require('./helpers/helper');
 
 var _helper2 = _interopRequireDefault(_helper);
 
+var _rcSdk = require('./helpers/rc-sdk');
+
+var _rcSdk2 = _interopRequireDefault(_rcSdk);
+
+var _loginService = require('./helpers/login-service');
+
+var _loginService2 = _interopRequireDefault(_loginService);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 window.AuthPanel = _authPanel2.default;
 window.CallPanel = _callPanel2.default;
 window.DialPad = _dialPad2.default;
-window.CallLog = _callLog2.default;
 window.AutoComplete = _autoComplete2.default;
 window.rcHelper = _helper2.default;
+window.sdk = _rcSdk2.default;
+window.LoginService = _loginService2.default;
 
 exports.AuthPanel = _authPanel2.default;
 exports.CallPanel = _callPanel2.default;
 exports.DialPad = _dialPad2.default;
-exports.CallLog = _callLog2.default;
 exports.AutoComplete = _autoComplete2.default;
 exports.rcHelper = _helper2.default;
+exports.sdk = _rcSdk2.default;
+exports.LoginService = _loginService2.default;
 
-},{"./components/auth-panel":2,"./components/auto-complete":3,"./components/call-log":4,"./components/call-panel":5,"./components/dial-pad":6,"./helpers/helper":7}]},{},[8])
+},{"./components/auth-panel":2,"./components/auto-complete":3,"./components/call-panel":4,"./components/dial-pad":5,"./helpers/helper":6,"./helpers/login-service":7,"./helpers/rc-sdk":8}]},{},[9])
 
 
 //# sourceMappingURL=build.js.map
