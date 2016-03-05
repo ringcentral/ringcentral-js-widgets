@@ -43,7 +43,7 @@ Component.prototype.bindDOM = function(template) {
                     action = token;
             })
             if (!this[action]) {
-                throw Error('no such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
+                console.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
                 return;
             }
             doc.addEventListener(eventName, this[action].bind(this));
@@ -94,51 +94,51 @@ function register(settings) {
 
     var Widget = function(options) {
         Component.call(this, options);
-        var handlers = options.handlers;
         // bind methods
         if (methods) {
             Object.keys(methods).forEach(index => {
                 var method = methods[index];
-                var callback = options.actions[index];
-                
+                var action = options.actions[index];
+                var handler = options.handlers[index];
                 //Method which has same name in options.actions will be treated as a UI->Helper method
                 //Other method will be treated as handlers(Helper->UI)
-                if(callback){
-                    Widget.prototype[index] = function(...args) {
+                if (options.actions && action) {
+                    var actionWrapper = function(...args) {
                         this.beforeUpdate(index);
-                        Promise.resolve(method.call(this, callback.bind(this), ...args))
+                        Promise.resolve(method.call(this, action.bind(this), ...args))
                             .then(() => this.afterUpdate(index))
                             .catch(err => console.error(err.stack));
-                    }.bind(this);    
-                }else{
-                    if(handlers && handlers[index]){
-                        var handler = handlers[index];
-                        var handlerWrapper = function(...args) {
-                            this.beforeUpdate(index);
-                            Promise.resolve(method.call(this, ...args))
-                                .then(() => this.afterUpdate(index))
-                                .catch(err => console.error(err.stack));
-                        }.bind(this)
-                        handler.call(this, handlerWrapper);
-                    }
+                    }.bind(this)
+                    Widget.prototype[index] = actionWrapper;
+                } else if (options.handlers && handler) {
+                    var handlerWrapper = function(...args) {
+                        this.beforeUpdate(index);
+                        Promise.resolve(method.call(this, ...args))
+                            .then(() => this.afterUpdate(index))
+                            .catch(err => console.error(err.stack));
+                    }.bind(this)
+                    handler.call(this, handlerWrapper);
                 }
             })
         }
+        console.log(this);
     };
     Widget.prototype = Object.create(Component.prototype);
     Widget.prototype.constructor = Widget;
     Widget.prototype.beforeUpdate = function(action, props) {
         var defaultAction = Component.prototype.beforeUpdate.call(this, action, props);
-        if (typeof defaultAction !== 'undefined' && !defaultAction) {
+        if (typeof defaultAction !== 'undefined' && !defaultAction)
             return;
-        }
+        if (!settings.beforeUpdate)
+            return;
         return settings.beforeUpdate.call(this, action, props);
     };
     Widget.prototype.afterUpdate = function(action, props) {
         var defaultAction = Component.prototype.afterUpdate.call(this, action, props);
-        if (typeof defaultAction !== 'undefined' && !defaultAction) {
+        if (typeof defaultAction !== 'undefined' && !defaultAction)
             return;
-        }
+        if (!settings.afterUpdate)
+            return;
         return settings.afterUpdate.call(this, action, props);
     };
     return Widget;

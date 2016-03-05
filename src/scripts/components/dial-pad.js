@@ -16,10 +16,10 @@ var DialPad = register({
             var autoComplete = new AutoComplete({
                 template: '../template/auto-complete.html',
                 actions: {
-                    autocomplete: function() {
+                    autoComplete: function() {
                         console.log(this.props);
                         // todo
-                        return rcHelper.autocomplete(this.props);
+                        return rcHelper.autoComplete(this.props);
                     }
                 },
                 handlers: {},

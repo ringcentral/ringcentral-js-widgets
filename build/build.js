@@ -54,7 +54,7 @@ Component.prototype.bindDOM = function (template) {
                 if (index === 0) eventName = token;else if (index === 1) action = token;
             });
             if (!_this2[action]) {
-                throw Error('no such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
+                console.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
                 return;
             }
             doc.addEventListener(eventName, _this2[action].bind(_this2));
@@ -104,61 +104,65 @@ function register(settings) {
         var _this5 = this;
 
         Component.call(this, options);
-        var handlers = options.handlers;
         // bind methods
         if (methods) {
             Object.keys(methods).forEach(function (index) {
                 var method = methods[index];
-                var callback = options.actions[index] || function () {};
-                Widget.prototype[index] = function () {
-                    var _this4 = this;
+                var action = options.actions[index];
+                var handler = options.handlers[index];
+                //Method which has same name in options.actions will be treated as a UI->Helper method
+                //Other method will be treated as handlers(Helper->UI)
+                if (options.actions && action) {
+                    var actionWrapper = function () {
+                        var _this4 = this;
 
-                    this.beforeUpdate(index);
+                        this.beforeUpdate(index);
 
-                    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                        args[_key] = arguments[_key];
-                    }
+                        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+                            args[_key] = arguments[_key];
+                        }
 
-                    Promise.resolve(method.call.apply(method, [this, callback.bind(this)].concat(args))).then(function () {
-                        return _this4.afterUpdate(index);
-                    }).catch(function (err) {
-                        return console.error(err.stack);
-                    });
-                }.bind(_this5);
+                        Promise.resolve(method.call.apply(method, [this, action.bind(this)].concat(args))).then(function () {
+                            return _this4.afterUpdate(index);
+                        }).catch(function (err) {
+                            return console.error(err.stack);
+                        });
+                    }.bind(_this5);
+                    Widget.prototype[index] = actionWrapper;
+                } else if (options.handlers && handler) {
+                    var handlerWrapper = function () {
+                        var _this6 = this;
+
+                        this.beforeUpdate(index);
+
+                        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                            args[_key2] = arguments[_key2];
+                        }
+
+                        Promise.resolve(method.call.apply(method, [this].concat(args))).then(function () {
+                            return _this6.afterUpdate(index);
+                        }).catch(function (err) {
+                            return console.error(err.stack);
+                        });
+                    }.bind(_this5);
+                    handler.call(_this5, handlerWrapper);
+                }
             });
         }
-        // bind handlers
-        if (handlers) {
-            Object.keys(handlers).forEach(function (index) {
-                var handler = handlers[index];
-                var handlerWrapper = function () {
-                    var _this6 = this;
-
-                    this.beforeUpdate(index);
-                    Promise.resolve(this[index].call(this)).then(function () {
-                        return _this6.afterUpdate(index);
-                    }).catch(function (err) {
-                        return console.error(err.stack);
-                    });
-                }.bind(_this5);
-                handler.call(_this5, handlerWrapper);
-            });
-        }
+        console.log(this);
     };
     Widget.prototype = Object.create(Component.prototype);
     Widget.prototype.constructor = Widget;
     Widget.prototype.beforeUpdate = function (action, props) {
         var defaultAction = Component.prototype.beforeUpdate.call(this, action, props);
-        if (typeof defaultAction !== 'undefined' && !defaultAction) {
-            return;
-        }
+        if (typeof defaultAction !== 'undefined' && !defaultAction) return;
+        if (!settings.beforeUpdate) return;
         return settings.beforeUpdate.call(this, action, props);
     };
     Widget.prototype.afterUpdate = function (action, props) {
         var defaultAction = Component.prototype.afterUpdate.call(this, action, props);
-        if (typeof defaultAction !== 'undefined' && !defaultAction) {
-            return;
-        }
+        if (typeof defaultAction !== 'undefined' && !defaultAction) return;
+        if (!settings.afterUpdate) return;
         return settings.afterUpdate.call(this, action, props);
     };
     return Widget;
@@ -246,10 +250,6 @@ Object.defineProperty(exports, "__esModule", {
 var _component = require('../component');
 
 var AutoComplete = (0, _component.register)({
-    beforeUpdate: function beforeUpdate(action) {},
-    afterUpdate: function afterUpdate(action) {
-        if (action === 'show') {}
-    },
     methods: {
         autoComplete: function autoComplete(finish) {
             this.props.prefix = this.props.dom.input;
@@ -425,10 +425,10 @@ var DialPad = (0, _component.register)({
             var autoComplete = new _autoComplete2.default({
                 template: '../template/auto-complete.html',
                 actions: {
-                    autocomplete: function autocomplete() {
+                    autoComplete: function autoComplete() {
                         console.log(this.props);
                         // todo
-                        return rcHelper.autocomplete(this.props);
+                        return rcHelper.autoComplete(this.props);
                     }
                 },
                 handlers: {},
