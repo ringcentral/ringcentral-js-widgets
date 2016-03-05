@@ -1,5 +1,11 @@
 import { Component, register } from '../component'
 var AutoComplete = register({
+    afterUpdate: function(action, options) {
+        if (action === 'autoComplete') {
+            // options === candidate
+            
+        }
+    },
     methods: {
         autoComplete: function(finish) {
             this.props.prefix = this.props.dom.input.value;
@@ -7,7 +13,10 @@ var AutoComplete = register({
         },
         input: function(finish, input) {
             this.props.dom.input.value += input;
-            return finish(this.props);
+            var result = finish(this.props);
+            // TODO: This autoComplete !== below autoComplete, seems weird for develoeprs
+            this.autoComplete();
+            return result;
         }
     }
 })

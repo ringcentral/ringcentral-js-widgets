@@ -1,7 +1,7 @@
 import { Component, register } from '../component'
 import AutoComplete from './auto-complete'
 var DialPad = register({
-    beforeUpdate: function(action) {
+    beforeUpdate: function(action, options) {
         if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {
@@ -9,8 +9,7 @@ var DialPad = register({
             this.interval = loading(this.props.dom.callout, 'Call');
         }
     },
-    afterUpdate: function(action) {
-        console.log(action);
+    afterUpdate: function(action, options) {
         if (action === 'mount') {
             console.log('init autocomplete');
             var autoComplete = new AutoComplete({

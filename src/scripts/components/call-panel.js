@@ -7,9 +7,9 @@ var state = {
 }
 var currentState = state.HIDDEN;
 var CallPanel = register({
-    beforeUpdate: function(action) {
+    beforeUpdate: function(action, options) {
     },
-    afterUpdate: function(action) {
+    afterUpdate: function(action, options) {
         if (action === 'mount') {
             currentState = state.HIDDEN;
             triggerView(this.props);

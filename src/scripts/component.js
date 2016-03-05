@@ -106,7 +106,7 @@ function register(settings) {
                     var actionWrapper = function(...args) {
                         this.beforeUpdate(index);
                         Promise.resolve(method.call(this, action.bind(this), ...args))
-                            .then(() => this.afterUpdate(index))
+                            .then((...result) => this.afterUpdate(index, result)) // result is an array
                             .catch(err => console.error(err.stack));
                     }.bind(this)
                     Widget.prototype[index] = actionWrapper;
@@ -114,7 +114,7 @@ function register(settings) {
                     var handlerWrapper = function(...args) {
                         this.beforeUpdate(index);
                         Promise.resolve(method.call(this, ...args))
-                            .then(() => this.afterUpdate(index))
+                            .then((...result) => this.afterUpdate(index, result))
                             .catch(err => console.error(err.stack));
                     }.bind(this)
                     handler.call(this, handlerWrapper);

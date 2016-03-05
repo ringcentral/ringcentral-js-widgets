@@ -123,8 +123,13 @@ function register(settings) {
                         }
 
                         Promise.resolve(method.call.apply(method, [this, action.bind(this)].concat(args))).then(function () {
-                            return _this4.afterUpdate(index);
-                        }).catch(function (err) {
+                            for (var _len2 = arguments.length, result = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                                result[_key2] = arguments[_key2];
+                            }
+
+                            return _this4.afterUpdate(index, result);
+                        }) // result is an array
+                        .catch(function (err) {
                             return console.error(err.stack);
                         });
                     }.bind(_this5);
@@ -135,12 +140,16 @@ function register(settings) {
 
                         this.beforeUpdate(index);
 
-                        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-                            args[_key2] = arguments[_key2];
+                        for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+                            args[_key3] = arguments[_key3];
                         }
 
                         Promise.resolve(method.call.apply(method, [this].concat(args))).then(function () {
-                            return _this6.afterUpdate(index);
+                            for (var _len4 = arguments.length, result = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+                                result[_key4] = arguments[_key4];
+                            }
+
+                            return _this6.afterUpdate(index, result);
                         }).catch(function (err) {
                             return console.error(err.stack);
                         });
@@ -180,14 +189,14 @@ Object.defineProperty(exports, "__esModule", {
 var _component = require('../component');
 
 var AuthPanel = (0, _component.register)({
-    beforeUpdate: function beforeUpdate(action) {
+    beforeUpdate: function beforeUpdate(action, options) {
         if (action === 'login') {
             this.props.dom.login.disabled = true;
             this.props.dom.error.textContent = '';
             this.interval = loading(this.props.dom.login, 'login');
         }
     },
-    afterUpdate: function afterUpdate(action) {
+    afterUpdate: function afterUpdate(action, options) {
         if (action === 'mount') {
             this.props.dom.key.value = localStorage.getItem('key');
             this.props.dom.secret.value = localStorage.getItem('secret');
@@ -250,6 +259,12 @@ Object.defineProperty(exports, "__esModule", {
 var _component = require('../component');
 
 var AutoComplete = (0, _component.register)({
+    afterUpdate: function afterUpdate(action, options) {
+        if (action === 'autoComplete') {
+            // options === candidate
+
+        }
+    },
     methods: {
         autoComplete: function autoComplete(finish) {
             this.props.prefix = this.props.dom.input.value;
@@ -257,7 +272,10 @@ var AutoComplete = (0, _component.register)({
         },
         input: function input(finish, _input) {
             this.props.dom.input.value += _input;
-            return finish(this.props);
+            var result = finish(this.props);
+            // TODO: This autoComplete !== below autoComplete, seems weird for develoeprs
+            this.autoComplete();
+            return result;
         }
     }
 });
@@ -281,8 +299,8 @@ var state = {
 };
 var currentState = state.HIDDEN;
 var CallPanel = (0, _component.register)({
-    beforeUpdate: function beforeUpdate(action) {},
-    afterUpdate: function afterUpdate(action) {
+    beforeUpdate: function beforeUpdate(action, options) {},
+    afterUpdate: function afterUpdate(action, options) {
         if (action === 'mount') {
             currentState = state.HIDDEN;
             triggerView(this.props);
@@ -414,7 +432,7 @@ var _autoComplete2 = _interopRequireDefault(_autoComplete);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DialPad = (0, _component.register)({
-    beforeUpdate: function beforeUpdate(action) {
+    beforeUpdate: function beforeUpdate(action, options) {
         if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {
@@ -422,10 +440,9 @@ var DialPad = (0, _component.register)({
                 this.interval = loading(this.props.dom.callout, 'Call');
             }
     },
-    afterUpdate: function afterUpdate(action) {
+    afterUpdate: function afterUpdate(action, options) {
         var _this = this;
 
-        console.log(action);
         if (action === 'mount') {
             console.log('init autocomplete');
             var autoComplete = new _autoComplete2.default({
