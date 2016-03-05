@@ -110,8 +110,8 @@ function register(settings) {
                 var method = methods[index];
                 var action = options.actions[index];
                 var handler = options.handlers[index];
-                //Method which has same name in options.actions will be treated as a UI->Helper method
-                //Other method will be treated as handlers(Helper->UI)
+                // Method which has same name in options.actions will be treated as a UI->Helper method
+                // Other method will be treated as handlers(Helper->UI)
                 if (options.actions && action) {
                     var actionWrapper = function () {
                         var _this4 = this;
@@ -252,7 +252,11 @@ var _component = require('../component');
 var AutoComplete = (0, _component.register)({
     methods: {
         autoComplete: function autoComplete(finish) {
-            this.props.prefix = this.props.dom.input;
+            this.props.prefix = this.props.dom.input.value;
+            return finish(this.props);
+        },
+        input: function input(finish, _input) {
+            this.props.dom.input.value += _input;
             return finish(this.props);
         }
     }
@@ -419,6 +423,8 @@ var DialPad = (0, _component.register)({
             }
     },
     afterUpdate: function afterUpdate(action) {
+        var _this = this;
+
         console.log(action);
         if (action === 'mount') {
             console.log('init autocomplete');
@@ -429,11 +435,16 @@ var DialPad = (0, _component.register)({
                         console.log(this.props);
                         // todo
                         return rcHelper.autoComplete(this.props);
-                    }
+                    },
+                    input: function input() {}
                 },
                 handlers: {},
                 beforeUpdate: function beforeUpdate(action) {},
                 afterUpdate: function afterUpdate(action) {}
+            });
+            autoComplete.render(this.props.dom.number, function () {
+                // TODO: The manual binding is annoying, can be done by Component?
+                _this.props.autoComplete = autoComplete;
             });
         } else if (action === 'dialing') {
             // ...
@@ -447,11 +458,13 @@ var DialPad = (0, _component.register)({
     methods: {
         dialing: function dialing(finish, event) {
             var button = event.target;
-            this.props.dom.number.value += button.getAttribute('data-value');
+            var ac = this.props.autoComplete;
+            ac.input(button.getAttribute('data-value'));
             return finish(this.props);
         },
         callout: function callout(finish) {
-            this.props.toNumber = this.props.dom.number.value;
+            var ac = this.props.autoComplete;
+            this.props.toNumber = ac.props.dom.input.value;
             this.props.fromNumber = localStorage.getItem('username');
             return finish(this.props);
         }

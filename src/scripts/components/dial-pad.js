@@ -20,12 +20,17 @@ var DialPad = register({
                         console.log(this.props);
                         // todo
                         return rcHelper.autoComplete(this.props);
-                    }
+                    },
+                    input: function() {}
                 },
                 handlers: {},
                 beforeUpdate: function(action) {},
                 afterUpdate: function(action) {}
             })
+            autoComplete.render(this.props.dom.number, () => {
+                // TODO: The manual binding is annoying, can be done by Component?
+                this.props.autoComplete = autoComplete;
+            });
         } else if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {
@@ -38,11 +43,13 @@ var DialPad = register({
     methods: {
         dialing: function(finish, event) {
             var button = event.target;
-            this.props.dom.number.value += button.getAttribute('data-value');
+            var ac = this.props.autoComplete;
+            ac.input(button.getAttribute('data-value'));
             return finish(this.props);
         },
         callout: function(finish) {
-            this.props.toNumber = this.props.dom.number.value;
+            var ac = this.props.autoComplete;
+            this.props.toNumber = ac.props.dom.input.value;
             this.props.fromNumber = localStorage.getItem('username');
             return finish(this.props);
         }

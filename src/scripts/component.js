@@ -100,8 +100,8 @@ function register(settings) {
                 var method = methods[index];
                 var action = options.actions[index];
                 var handler = options.handlers[index];
-                //Method which has same name in options.actions will be treated as a UI->Helper method
-                //Other method will be treated as handlers(Helper->UI)
+                // Method which has same name in options.actions will be treated as a UI->Helper method
+                // Other method will be treated as handlers(Helper->UI)
                 if (options.actions && action) {
                     var actionWrapper = function(...args) {
                         this.beforeUpdate(index);
