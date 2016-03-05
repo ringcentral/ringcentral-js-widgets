@@ -3,13 +3,6 @@ import CallLogItem from './call-log-item'
 
 
 var CallLog = register({
-    beforeUpdate: function(action) {
-        
-    },
-    afterUpdate: function(action) {
-        
-        
-    },
     methods: {
         
         logUpdated:function(logItems){
@@ -18,7 +11,7 @@ var CallLog = register({
             logItems.forEach(function(item){
                 
                 var callLogItem = new CallLogItem({
-                    template:'./template/call-log-item.html',
+                    template:'../template/call-log-item.html',
                     beforeUpdate:function(action){
                         
                     },

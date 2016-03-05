@@ -306,6 +306,142 @@ Object.defineProperty(exports, "__esModule", {
 
 var _component = require('../component');
 
+var CallLogItem = (0, _component.register)({
+    beforeUpdate: function beforeUpdate(action) {},
+    afterUpdate: function afterUpdate(action) {},
+    methods: {}
+});
+
+exports.default = CallLogItem;
+
+},{"../component":1}],5:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _component = require('../component');
+
+var _callLogItem = require('./call-log-item');
+
+var _callLogItem2 = _interopRequireDefault(_callLogItem);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var CallLog = (0, _component.register)({
+    methods: {
+
+        logUpdated: function logUpdated(logItems) {
+
+            var props = this.props;
+            logItems.forEach(function (item) {
+
+                var callLogItem = new _callLogItem2.default({
+                    template: '../template/call-log-item.html',
+                    beforeUpdate: function beforeUpdate(action) {},
+                    afterUpdate: function afterUpdate(action) {
+                        if (action === 'mount') {
+                            if (item.direction === 'Outbound') {
+                                this.props.dom.contact.innerHTML = item.to.name;
+                                this.props.dom.location.innerHTML = item.to.location;
+                                this.props.dom.time.innerHTML = item.startTime;
+                            } else {
+                                this.props.dom.contact.innerHTML = item.from.name;
+                                //this.props.dom.location.innerHTML = item.from.location;
+                                this.props.dom.time.innerHTML = item.startTime;
+                            }
+                        }
+                    }
+
+                });
+
+                callLogItem.render(props.dom.logs);
+            });
+        }
+
+    }
+});
+
+exports.default = CallLog;
+//
+// // prototypal inheritance, please see:
+// // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain
+// var CallLog = function(options) {
+//     Component.call(this, options);
+// };
+// CallLog.prototype = Object.create(Component.prototype);
+// CallLog.prototype.constructor = CallLog;
+//
+// CallLog.prototype.beforeUpdate = function(action, props) {
+//     var defaultAction = Component.prototype.beforeUpdate.call(this, action, props);
+//     if (defaultAction) {
+//         if (action === 'getLog') {
+//             this.interval = this.loading(this.dom.message, 'Loading call log')
+//         }
+//     }
+// };
+// CallLog.prototype.afterUpdate = function(action, props) {
+//     var defaultAction = Component.prototype.afterUpdate.call(this, action, props);
+//     if (defaultAction) {
+//         if (action === 'mount') {
+//             this.getLog(1, 10);
+//         } else if (action === 'getLog') {
+//             // var log = this.props.records;
+//             // var item = new CallLogItem();
+//             // ...
+//             if (this.interval) {
+//                 this.interval.cancel('');
+//                 this.interval = null;
+//             }
+//         }
+//     }
+// };
+// CallLog.prototype.getLog = function(page, number) {
+//     if (this.options.actions && this.options.actions.getLog) {
+//         this.beforeUpdate.bind(this, 'getLog')
+//         return this.sdk.platform()
+//             .get('/account/~/extension/~/call-log', { page: page, perPage: number })
+//             .then(response => {
+//                 this.props.records = response.json().records;
+//             })
+//             .then(this.afterUpdate.bind(this, 'getLog'))
+//             .catch(function(e) {
+//                 console.error('Recent Calls Error: ' + e.message);
+//             });
+//     }
+// };
+// CallLog.prototype.loading = function(target, text) {
+//     var dotCount = 1;
+//     var interval = window.setInterval(() => {
+//         var dot = '';
+//         var dotCountTmp = dotCount;
+//         while (dotCount--)
+//             dot += '.';
+//         target.textContent = text + dot;
+//         dotCount = (dotCountTmp + 1) % 4;
+//     }, 500)
+//     return {
+//         cancel: function(text) {
+//             if (interval) {
+//                 window.clearInterval(interval);
+//                 interval = null;
+//                 if (typeof text !== 'undefined')
+//                     target.textContent = text;
+//             }
+//         }
+//     }
+// };
+
+},{"../component":1,"./call-log-item":4}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _component = require('../component');
+
 var state = {
     'HIDDEN': 0,
     'CALLIN': 1,
@@ -431,7 +567,7 @@ var loading = function loading(target, text) {
 // };
 exports.default = CallPanel;
 
-},{"../component":1}],5:[function(require,module,exports){
+},{"../component":1}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -529,7 +665,46 @@ function loading(target, text) {
 }
 exports.default = DialPad;
 
-},{"../component":1,"./auto-complete":3}],6:[function(require,module,exports){
+},{"../component":1,"./auto-complete":3}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _rcSdk = require('./rc-sdk');
+
+var _rcSdk2 = _interopRequireDefault(_rcSdk);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var CallLogService = function (sdk) {
+
+    var callLogUpdatedHandlers = [];
+
+    return {
+
+        getCallLogs: function getCallLogs() {
+
+            sdk.platform().get('/account/~/extension/~/call-log', { page: 1, perPage: 10 }).then(function (response) {
+                var records = response.json().records;
+                callLogUpdatedHandlers.forEach(function (fun) {
+                    return fun(records);
+                });
+            }).catch(function (e) {
+                console.error('Recent Calls Error: ' + e.message);
+            });
+        },
+
+        registerCallLogUpdatedHandler: function registerCallLogUpdatedHandler(handler) {
+            callLogUpdatedHandlers.push(handler);
+        }
+    };
+}(_rcSdk2.default);
+
+exports.default = CallLogService;
+
+},{"./rc-sdk":11}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -693,7 +868,7 @@ var rcHelper = function (sdk, webPhone) {
 }(sdk, webPhone);
 exports.default = rcHelper;
 
-},{}],7:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -746,7 +921,7 @@ var LoginService = function (sdk) {
 
 exports.default = LoginService;
 
-},{"./rc-sdk":8}],8:[function(require,module,exports){
+},{"./rc-sdk":11}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -760,13 +935,13 @@ var sdk = new RingCentral.SDK({
 
 exports.default = sdk;
 
-},{}],9:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.LoginService = exports.sdk = exports.rcHelper = exports.AutoComplete = exports.DialPad = exports.CallPanel = exports.AuthPanel = undefined;
+exports.CallLogService = exports.LoginService = exports.sdk = exports.rcHelper = exports.AutoComplete = exports.CallLogItem = exports.CallLog = exports.DialPad = exports.CallPanel = exports.AuthPanel = undefined;
 
 var _authPanel = require('./components/auth-panel');
 
@@ -779,6 +954,14 @@ var _callPanel2 = _interopRequireDefault(_callPanel);
 var _dialPad = require('./components/dial-pad');
 
 var _dialPad2 = _interopRequireDefault(_dialPad);
+
+var _callLog = require('./components/call-log');
+
+var _callLog2 = _interopRequireDefault(_callLog);
+
+var _callLogItem = require('./components/call-log-item');
+
+var _callLogItem2 = _interopRequireDefault(_callLogItem);
 
 var _autoComplete = require('./components/auto-complete');
 
@@ -796,25 +979,35 @@ var _loginService = require('./helpers/login-service');
 
 var _loginService2 = _interopRequireDefault(_loginService);
 
+var _callLogService = require('./helpers/call-log-service');
+
+var _callLogService2 = _interopRequireDefault(_callLogService);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 window.AuthPanel = _authPanel2.default;
 window.CallPanel = _callPanel2.default;
 window.DialPad = _dialPad2.default;
+window.CallLog = _callLog2.default;
+window.CallLogItem = _callLogItem2.default;
 window.AutoComplete = _autoComplete2.default;
 window.rcHelper = _helper2.default;
 window.sdk = _rcSdk2.default;
 window.LoginService = _loginService2.default;
+window.CallLogService = _callLogService2.default;
 
 exports.AuthPanel = _authPanel2.default;
 exports.CallPanel = _callPanel2.default;
 exports.DialPad = _dialPad2.default;
+exports.CallLog = _callLog2.default;
+exports.CallLogItem = _callLogItem2.default;
 exports.AutoComplete = _autoComplete2.default;
 exports.rcHelper = _helper2.default;
 exports.sdk = _rcSdk2.default;
 exports.LoginService = _loginService2.default;
+exports.CallLogService = _callLogService2.default;
 
-},{"./components/auth-panel":2,"./components/auto-complete":3,"./components/call-panel":4,"./components/dial-pad":5,"./helpers/helper":6,"./helpers/login-service":7,"./helpers/rc-sdk":8}]},{},[9])
+},{"./components/auth-panel":2,"./components/auto-complete":3,"./components/call-log":5,"./components/call-log-item":4,"./components/call-panel":6,"./components/dial-pad":7,"./helpers/call-log-service":8,"./helpers/helper":9,"./helpers/login-service":10,"./helpers/rc-sdk":11}]},{},[12])
 
 
 //# sourceMappingURL=build.js.map
