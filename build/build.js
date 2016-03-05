@@ -260,9 +260,23 @@ var _component = require('../component');
 
 var AutoComplete = (0, _component.register)({
     afterUpdate: function afterUpdate(action, options) {
-        if (action === 'autoComplete') {
-            // options === candidate
+        var _this = this;
 
+        if (action === 'autoComplete') {
+            var child;
+            while (child = this.props.dom.candidates.firstChild) {
+                this.props.dom.candidates.removeChild(child);
+            }
+            // options === candidates
+            var candidates = options[0];
+            candidates.forEach(function (can) {
+                var btn = document.createElement('button');
+                btn.textContent = can;
+                btn.addEventListener('click', function (e) {
+                    _this.props.dom.input.value = can;
+                });
+                _this.props.dom.candidates.appendChild(btn);
+            });
         }
     },
     methods: {

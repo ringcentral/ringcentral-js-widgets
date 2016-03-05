@@ -2,8 +2,20 @@ import { Component, register } from '../component'
 var AutoComplete = register({
     afterUpdate: function(action, options) {
         if (action === 'autoComplete') {
-            // options === candidate
-            
+            var child;
+            while (child = this.props.dom.candidates.firstChild) {
+                this.props.dom.candidates.removeChild(child)
+            }
+            // options === candidates
+            var candidates = options[0];
+            candidates.forEach(can => {
+                var btn = document.createElement('button');
+                btn.textContent = can;
+                btn.addEventListener('click', e => {
+                    this.props.dom.input.value = can;
+                });
+                this.props.dom.candidates.appendChild(btn);
+            })
         }
     },
     methods: {
