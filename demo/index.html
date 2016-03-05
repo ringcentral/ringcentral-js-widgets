@@ -49,6 +49,7 @@
         <div id="auth-panel"></div>
         <div id="dial-pad"></div>
         <div id="call-panel"></div>
+        <div id="call-log-panel"></div>
     </div>
     <script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
@@ -58,7 +59,10 @@
         template: '../template/auth-panel.html',
         actions: {
             login: function() {
-                return rcHelper.login(this.props);
+                var username = this.props.dom.username.value;
+                var extension = this.props.dom.extension.value;
+                var password = this.props.dom.password.value;
+                return LoginService.login(username, extension, password);
             },
         },
         handlers: {},
@@ -68,9 +72,10 @@
         afterUpdate: function(action) {
             if (action === 'login') {
                 callPanel.render('#call-panel');
-                dialPad.render('#dial-pad', function() {
+                dialPad.render('#dial-pad');
+                callLog.render('#call-log-panel', function() {
                     authPanel.remove();
-                })
+                });
             }
             return true;
         }
@@ -80,7 +85,9 @@
         actions: {
             dialing: function() {},
             callout: function() {
-                return rcHelper.callout(this.props);
+                var toNumber = this.props.toNumber;
+                var fromNumber = this.props.fromNumber;
+                return PhoneService.callout(fromNumber, toNumber);
             },
             getCandidates: function() {
                 return rcHelper.getCandidates(this.props);
@@ -99,42 +106,42 @@
         template: '../template/call-panel.html',
         actions: {
             answer: function() {
-                return rcHelper.answer(this.props);
+                return PhoneService.answer(this.props);
             },
             ignore: function() {
-                return rcHelper.ignore(this.props);
+                return PhoneService.ignore(this.props);
             },
             cancel: function() {
-                return rcHelper.cancel(this.props);
+                return PhoneService.cancel(this.props);
             },
             hangup: function() {
-                return rcHelper.hangup(this.props);
+                return PhoneService.hangup(this.props);
             },
             record: function() {
-                return rcHelper.record(this.props);
+                return PhoneService.record(this.props);
             },
             hold: function() {
-                return rcHelper.hold(this.props);
+                return PhoneService.hold(this.props);
             },
             mute: function() {
-                return rcHelper.mute(this.props);
+                return PhoneService.mute(this.props);
             },
         },
         handlers: {
             called: function(handler) {
-                rcHelper.called(handler);
+                PhoneService.called(handler);
             },
             callStarted: function(handler) {
-                rcHelper.callStarted(handler);
+                PhoneService.callStarted(handler);
             },
             callRejected: function(handler) {
-                rcHelper.callRejected(handler);
+                PhoneService.callRejected(handler);
             },
             callEnded: function(handler) {
-                rcHelper.callEnded(handler);
+                PhoneService.callEnded(handler);
             },
             callFailed: function(handler) {
-                rcHelper.callFailed(handler);
+                PhoneService.callFailed(handler);
             }
         },
         beforeUpdate: function(action) {
@@ -142,13 +149,51 @@
         },
         afterUpdate: function(action) {
             if (action === 'mount') {
-                rcHelper.initPhoneListener(this.props);
+                PhoneService.initPhoneListener(this.props);
             }
             return true;
         }
     });
-    // render is async, supports both callbacks and promises
-    authPanel.render('#auth-panel', function() { /* ... */ });
+    
+    LoginService.registerLoginHandler(function(){
+        
+        CallLogService.getCallLogs();
+        
+    });
+    
+    LoginService.checkLoginStatus().then(
+        
+        function(isLoggedIn){
+            if(isLoggedIn){
+                
+                callPanel.render('#call-panel');
+                dialPad.render('#dial-pad');
+                callLog.render('#call-log-panel');
+                
+            }else{
+                // render is async, supports both callbacks and promises
+                 authPanel.render('#auth-panel', function() { /* ... */ });
+            }
+        }
+        
+    );
+    
+    var callLog = new CallLog({
+        template:'../template/call-log.html',
+        actions:{},
+        handlers:{
+            
+            logUpdated:function(handler){
+                CallLogService.registerCallLogUpdatedHandler(handler);
+            }
+            
+        }
+        
+    });
+    
+    
+    
+    
 
     function switchTheme(theme) {
         document.getElementById('theme-css').href = 'theme/' + theme + '.css';
