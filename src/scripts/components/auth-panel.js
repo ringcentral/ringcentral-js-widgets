@@ -32,7 +32,7 @@ var AuthPanel = register({
     },
     methods: {
         login: function(finish) {
-            return finish(this.props);
+            return finish();
         },
 
     }

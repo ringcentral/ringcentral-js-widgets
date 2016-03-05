@@ -7,6 +7,7 @@ var AutoComplete = register({
                 this.props.dom.candidates.removeChild(child)
             }
             // options === candidates
+            console.log(options);
             var candidates = options[0];
             candidates.forEach(can => {
                 var btn = document.createElement('button');
@@ -21,11 +22,11 @@ var AutoComplete = register({
     methods: {
         autoComplete: function(finish) {
             this.props.prefix = this.props.dom.input.value;
-            return finish(this.props);
+            return finish();
         },
         input: function(finish, input) {
             this.props.dom.input.value += input;
-            var result = finish(this.props);
+            var result = finish();
             // TODO: This autoComplete !== below autoComplete, seems weird for develoeprs
             this.autoComplete();
             return result;

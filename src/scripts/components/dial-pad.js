@@ -8,17 +8,17 @@ var DialPad = register({
             console.log('div before callout');
             this.interval = loading(this.props.dom.callout, 'Call');
         }
+        return options;
     },
     afterUpdate: function(action, options) {
         if (action === 'mount') {
-            console.log('init autocomplete');
+            var dialPad = this;
             var autoComplete = new AutoComplete({
                 template: '../template/auto-complete.html',
                 actions: {
                     autoComplete: function() {
-                        console.log(this.props);
-                        // todo
-                        return rcHelper.autoComplete(this.props);
+                        var r = dialPad.getCandidates();
+                        return r;
                     },
                     input: function() {}
                 },
@@ -38,19 +38,23 @@ var DialPad = register({
                 this.interval = null;
             }
         }
+        return options;
     },
     methods: {
         dialing: function(finish, event) {
             var button = event.target;
             var ac = this.props.autoComplete;
             ac.input(button.getAttribute('data-value'));
-            return finish(this.props);
+            return finish();
         },
         callout: function(finish) {
             var ac = this.props.autoComplete;
             this.props.toNumber = ac.props.dom.input.value;
             this.props.fromNumber = localStorage.getItem('username');
-            return finish(this.props);
+            return finish();
+        },
+        getCandidates: function(finish) {
+            return finish();
         }
     }
 })

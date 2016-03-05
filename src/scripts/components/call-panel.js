@@ -35,16 +35,16 @@ var CallPanel = register({
     },
     methods: {
         answer: function(finish) {
-            return finish(this.props);
+            return finish();
         },
         ignore: function(finish) {
-            return finish(this.props);
+            return finish();
         },
         cancel: function(finish) {
-            return finish(this.props);
+            return finish();
         },
         hangup: function(finish) {
-            return finish(this.props);
+            return finish();
         },
         called: function(event) {
             console.log('callin');

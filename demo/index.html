@@ -81,6 +81,9 @@
             dialing: function() {},
             callout: function() {
                 return rcHelper.callout(this.props);
+            },
+            getCandidates: function() {
+                return rcHelper.getCandidates(this.props);
             }
         },
         handlers: {},
@@ -90,6 +93,7 @@
         afterUpdate: function(action) {
             return true;
         }
+
     });
     var callPanel = new CallPanel({
         template: '../template/call-panel.html',

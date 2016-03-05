@@ -122,7 +122,7 @@ function register(settings) {
                             args[_key] = arguments[_key];
                         }
 
-                        Promise.resolve(method.call.apply(method, [this, action.bind(this)].concat(args))).then(function () {
+                        return Promise.resolve(method.call.apply(method, [this, action.bind(this)].concat(args))).then(function () {
                             for (var _len2 = arguments.length, result = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
                                 result[_key2] = arguments[_key2];
                             }
@@ -144,7 +144,7 @@ function register(settings) {
                             args[_key3] = arguments[_key3];
                         }
 
-                        Promise.resolve(method.call.apply(method, [this].concat(args))).then(function () {
+                        return Promise.resolve(method.call.apply(method, [this].concat(args))).then(function () {
                             for (var _len4 = arguments.length, result = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
                                 result[_key4] = arguments[_key4];
                             }
@@ -162,17 +162,17 @@ function register(settings) {
     };
     Widget.prototype = Object.create(Component.prototype);
     Widget.prototype.constructor = Widget;
-    Widget.prototype.beforeUpdate = function (action, props) {
-        var defaultAction = Component.prototype.beforeUpdate.call(this, action, props);
-        if (typeof defaultAction !== 'undefined' && !defaultAction) return;
-        if (!settings.beforeUpdate) return;
-        return settings.beforeUpdate.call(this, action, props);
+    Widget.prototype.beforeUpdate = function (action, options) {
+        var defaultAction = Component.prototype.beforeUpdate.call(this, action, options);
+        if (typeof defaultAction !== 'undefined' && !defaultAction) return options;
+        if (!settings.beforeUpdate) return options;
+        return settings.beforeUpdate.call(this, action, options);
     };
-    Widget.prototype.afterUpdate = function (action, props) {
-        var defaultAction = Component.prototype.afterUpdate.call(this, action, props);
-        if (typeof defaultAction !== 'undefined' && !defaultAction) return;
-        if (!settings.afterUpdate) return;
-        return settings.afterUpdate.call(this, action, props);
+    Widget.prototype.afterUpdate = function (action, options) {
+        var defaultAction = Component.prototype.afterUpdate.call(this, action, options);
+        if (typeof defaultAction !== 'undefined' && !defaultAction) return options;
+        if (!settings.afterUpdate) return options;
+        return settings.afterUpdate.call(this, action, options);
     };
     return Widget;
 }
@@ -220,7 +220,7 @@ var AuthPanel = (0, _component.register)({
     },
     methods: {
         login: function login(finish) {
-            return finish(this.props);
+            return finish();
         }
 
     }
@@ -268,6 +268,7 @@ var AutoComplete = (0, _component.register)({
                 this.props.dom.candidates.removeChild(child);
             }
             // options === candidates
+            console.log(options);
             var candidates = options[0];
             candidates.forEach(function (can) {
                 var btn = document.createElement('button');
@@ -282,11 +283,11 @@ var AutoComplete = (0, _component.register)({
     methods: {
         autoComplete: function autoComplete(finish) {
             this.props.prefix = this.props.dom.input.value;
-            return finish(this.props);
+            return finish();
         },
         input: function input(finish, _input) {
             this.props.dom.input.value += _input;
-            var result = finish(this.props);
+            var result = finish();
             // TODO: This autoComplete !== below autoComplete, seems weird for develoeprs
             this.autoComplete();
             return result;
@@ -334,16 +335,16 @@ var CallPanel = (0, _component.register)({
     },
     methods: {
         answer: function answer(finish) {
-            return finish(this.props);
+            return finish();
         },
         ignore: function ignore(finish) {
-            return finish(this.props);
+            return finish();
         },
         cancel: function cancel(finish) {
-            return finish(this.props);
+            return finish();
         },
         hangup: function hangup(finish) {
-            return finish(this.props);
+            return finish();
         },
         called: function called(event) {
             console.log('callin');
@@ -453,19 +454,19 @@ var DialPad = (0, _component.register)({
                 console.log('div before callout');
                 this.interval = loading(this.props.dom.callout, 'Call');
             }
+        return options;
     },
     afterUpdate: function afterUpdate(action, options) {
         var _this = this;
 
         if (action === 'mount') {
-            console.log('init autocomplete');
+            var dialPad = this;
             var autoComplete = new _autoComplete2.default({
                 template: '../template/auto-complete.html',
                 actions: {
                     autoComplete: function autoComplete() {
-                        console.log(this.props);
-                        // todo
-                        return rcHelper.autoComplete(this.props);
+                        var r = dialPad.getCandidates();
+                        return r;
                     },
                     input: function input() {}
                 },
@@ -485,19 +486,23 @@ var DialPad = (0, _component.register)({
                     this.interval = null;
                 }
             }
+        return options;
     },
     methods: {
         dialing: function dialing(finish, event) {
             var button = event.target;
             var ac = this.props.autoComplete;
             ac.input(button.getAttribute('data-value'));
-            return finish(this.props);
+            return finish();
         },
         callout: function callout(finish) {
             var ac = this.props.autoComplete;
             this.props.toNumber = ac.props.dom.input.value;
             this.props.fromNumber = localStorage.getItem('username');
-            return finish(this.props);
+            return finish();
+        },
+        getCandidates: function getCandidates(finish) {
+            return finish();
         }
     }
 });
@@ -676,8 +681,9 @@ var rcHelper = function (sdk, webPhone) {
                 });
             });
         },
-        autoComplete: function autoComplete(props) {
-            var prefix = props.prefix;
+        getCandidates: function getCandidates(props) {
+            // FIXME: because of nested component
+            var prefix = props.autoComplete.props.prefix;
             var test = ['111', '222', '333'];
             return test.filter(function (item) {
                 return item.indexOf(prefix) === 0;
