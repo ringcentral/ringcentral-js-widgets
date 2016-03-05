@@ -329,16 +329,40 @@ var _callLogItem2 = _interopRequireDefault(_callLogItem);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var CallLog = (0, _component.register)({
-    methods: {
+function switchTab(tab1, tab2) {
+    if (tab1.classList.contains('active') === false) {
+        tab1.classList.add('active');
+        tab2.classList.remove('active');
+    }
+}
 
+function switchTabByClick() {
+    var callTab = this.props.dom.callTab;
+    var missedCallTab = this.props.dom.missedCallTab;
+    callTab.addEventListener('click', function () {
+        switchTab.call(this, callTab, missedCallTab);
+    });
+
+    missedCallTab.addEventListener('click', function () {
+        switchTab.call(this, missedCallTab, callTab);
+    });
+}
+
+var CallLog = (0, _component.register)({
+
+    afterUpdate: function afterUpdate(action, options) {
+        if (action === 'mount') {
+            switchTabByClick.call(this);
+        }
+    },
+    methods: {
         logUpdated: function logUpdated(logItems) {
 
             var props = this.props;
             logItems.forEach(function (item) {
 
                 var callLogItem = new _callLogItem2.default({
-                    template: '../template/call-log-item.html',
+                    template: './template/call-log-item.html',
                     beforeUpdate: function beforeUpdate(action) {},
                     afterUpdate: function afterUpdate(action) {
                         if (action === 'mount') {

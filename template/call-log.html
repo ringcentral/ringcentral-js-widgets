@@ -1,3 +1,107 @@
-<div class='rc-panel'>
-    <div class='rc-message' data-info='logs'></div>
+<div class="rc-pane-header call-log-header">
+        Call Log
 </div>
+
+<div class="tabs tabs2 badges">
+    <a class="tab active" data-info="callTab">
+        All
+    </a>
+    <a class="tab" data-info="missedCallTab">
+        Missed
+        <!--<span class="badge" ng-if="(counters.calls|removeInboundLeg|filterMissedCalls|filterStarttimeCalls).length">
+            {{ (counters.calls|removeInboundLeg|filterMissedCalls|filterStarttimeCalls).length }}
+        </span>-->
+    </a>
+</div>
+
+<div class="rc-pane-scrollable rc-pane-scrollable-under-tabs call-log" ng-class="{'clearExpanded':!clearCollapsed}">
+    <div data-info="logs">
+        
+    </div>
+
+</div>
+
+<style type="text/css">
+
+.call-log-header{
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 38px;
+    vertical-align: baseline;
+    text-align: center;
+    height: 38px;
+    border-bottom-color: #efeff4;
+    color: #0684bd;
+}
+
+.rc-pane-scrollable.rc-pane-scrollable-under-tabs {
+    top: 90px;
+}
+
+.tabs {
+    height: 30px;
+    clear: both;
+    /* for auto center */
+    margin: 11px auto 11px auto;
+    padding: 0 10px;
+}
+
+.tabs .tab {
+    font-size: 14px;
+    text-align: center;
+    border-style: solid;
+    border-left-width: 1px;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    display: block;
+    float: left;
+    cursor: pointer;
+    -webkit-user-select: none;
+    /*width: 54px;*/
+    height: 30px;
+    padding-top: 7px;
+    box-sizing: content-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.tabs .tab:focus {
+    text-decoration: none;
+}
+
+.tabs .tab:first-child, .tabs .tab.active:first-child {
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.tabs .tab:last-child, .tabs .tab.active:last-child {
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+    border-right: 1px solid;
+}
+.tabs .tab:last-child {
+    border-right: 1px solid;
+}
+.tabs .tab.active:last-child {
+    border-right: 1px solid;
+}
+
+.tabs.tabs2 .tab{ width: 50%; }
+.tabs.tabs3 .tab{ width: 33%; }
+.tabs.tabs4 .tab{ width: 25%; }
+
+
+.tabs .tab { background-color: #ffffff; }
+.tabs .tab.active { background-color: #1785bb; }
+
+.tabs .tab.active { border-color: #1785bb; }
+.tabs .tab { border-color: #c1e0ee; }
+
+.tabs .tab:last-child{ border-right-color: #c1e0ee; }
+.tabs .tab.active:last-child { border-right-color: #c1e0ee; }
+.tabs .tab:last-child { border-right-color: #c1e0ee; }
+.tabs .tab.active:last-child { border-right-color: #1785bb; }
+
+.tabs .tab { color: #1785bb; }
+.tabs .tab.active { color: #ffffff; }
+</style>
