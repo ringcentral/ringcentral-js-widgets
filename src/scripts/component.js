@@ -99,26 +99,29 @@ function register(settings) {
         if (methods) {
             Object.keys(methods).forEach(index => {
                 var method = methods[index];
-                var callback = options.actions[index] || function() {};
-                Widget.prototype[index] = function(...args) {
-                    this.beforeUpdate(index);
-                    Promise.resolve(method.call(this, callback.bind(this), ...args))
-                        .then(() => this.afterUpdate(index))
-                        .catch(err => console.error(err.stack));
-                }.bind(this);
-            })
-        }
-        // bind handlers
-        if (handlers) {
-            Object.keys(handlers).forEach(index => {
-                var handler = handlers[index];
-                var handlerWrapper = function() {
-                    this.beforeUpdate(index);
-                    Promise.resolve(this[index].call(this))
-                        .then(() => this.afterUpdate(index))
-                        .catch(err => console.error(err.stack));
-                }.bind(this)
-                handler.call(this, handlerWrapper);
+                var callback = options.actions[index];
+                
+                //Method which has same name in options.actions will be treated as a UI->Helper method
+                //Other method will be treated as handlers(Helper->UI)
+                if(callback){
+                    Widget.prototype[index] = function(...args) {
+                        this.beforeUpdate(index);
+                        Promise.resolve(method.call(this, callback.bind(this), ...args))
+                            .then(() => this.afterUpdate(index))
+                            .catch(err => console.error(err.stack));
+                    }.bind(this);    
+                }else{
+                    if(handlers && handlers[index]){
+                        var handler = handlers[index];
+                        var handlerWrapper = function(...args) {
+                            this.beforeUpdate(index);
+                            Promise.resolve(method.call(this, ...args))
+                                .then(() => this.afterUpdate(index))
+                                .catch(err => console.error(err.stack));
+                        }.bind(this)
+                        handler.call(this, handlerWrapper);
+                    }
+                }
             })
         }
     };
