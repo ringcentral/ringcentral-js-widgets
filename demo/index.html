@@ -78,6 +78,7 @@
     var dialPad = new DialPad({
         template: '../template/dial-pad.html',
         actions: {
+            dialing: function() {},
             callout: function() {
                 return rcHelper.callout(this.props);
             }
