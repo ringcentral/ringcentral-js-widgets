@@ -100,21 +100,21 @@ function register(settings) {
                 var method = methods[index];
                 var action = options.actions[index];
                 var handler = options.handlers[index];
-                //Method which has same name in options.actions will be treated as a UI->Helper method
-                //Other method will be treated as handlers(Helper->UI)
+                // Method which has same name in options.actions will be treated as a UI->Helper method
+                // Other method will be treated as handlers(Helper->UI)
                 if (options.actions && action) {
                     var actionWrapper = function(...args) {
                         this.beforeUpdate(index);
-                        Promise.resolve(method.call(this, action.bind(this), ...args))
-                            .then(() => this.afterUpdate(index))
+                        return Promise.resolve(method.call(this, action.bind(this), ...args))
+                            .then((...result) => this.afterUpdate(index, result)) // result is an array
                             .catch(err => console.error(err.stack));
                     }.bind(this)
                     Widget.prototype[index] = actionWrapper;
                 } else if (options.handlers && handler) {
                     var handlerWrapper = function(...args) {
                         this.beforeUpdate(index);
-                        Promise.resolve(method.call(this, ...args))
-                            .then(() => this.afterUpdate(index))
+                        return Promise.resolve(method.call(this, ...args))
+                            .then((...result) => this.afterUpdate(index, result))
                             .catch(err => console.error(err.stack));
                     }.bind(this)
                     handler.call(this, handlerWrapper);
@@ -125,21 +125,21 @@ function register(settings) {
     };
     Widget.prototype = Object.create(Component.prototype);
     Widget.prototype.constructor = Widget;
-    Widget.prototype.beforeUpdate = function(action, props) {
-        var defaultAction = Component.prototype.beforeUpdate.call(this, action, props);
+    Widget.prototype.beforeUpdate = function(action, options) {
+        var defaultAction = Component.prototype.beforeUpdate.call(this, action, options);
         if (typeof defaultAction !== 'undefined' && !defaultAction)
-            return;
+            return options;
         if (!settings.beforeUpdate)
-            return;
-        return settings.beforeUpdate.call(this, action, props);
+            return options;
+        return settings.beforeUpdate.call(this, action, options);
     };
-    Widget.prototype.afterUpdate = function(action, props) {
-        var defaultAction = Component.prototype.afterUpdate.call(this, action, props);
+    Widget.prototype.afterUpdate = function(action, options) {
+        var defaultAction = Component.prototype.afterUpdate.call(this, action, options);
         if (typeof defaultAction !== 'undefined' && !defaultAction)
-            return;
+            return options;
         if (!settings.afterUpdate)
-            return;
-        return settings.afterUpdate.call(this, action, props);
+            return options;
+        return settings.afterUpdate.call(this, action, options);
     };
     return Widget;
 }

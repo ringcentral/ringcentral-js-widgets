@@ -7,9 +7,9 @@ var state = {
 }
 var currentState = state.HIDDEN;
 var CallPanel = register({
-    beforeUpdate: function(action) {
+    beforeUpdate: function(action, options) {
     },
-    afterUpdate: function(action) {
+    afterUpdate: function(action, options) {
         if (action === 'mount') {
             currentState = state.HIDDEN;
             triggerView(this.props);
@@ -35,16 +35,16 @@ var CallPanel = register({
     },
     methods: {
         answer: function(finish) {
-            return finish(this.props);
+            return finish();
         },
         ignore: function(finish) {
-            return finish(this.props);
+            return finish();
         },
         cancel: function(finish) {
-            return finish(this.props);
+            return finish();
         },
         hangup: function(finish) {
-            return finish(this.props);
+            return finish();
         },
         called: function(event) {
             console.log('callin');

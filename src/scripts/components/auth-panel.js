@@ -1,14 +1,14 @@
 import { Component, register } from '../component'
 
 var AuthPanel = register({
-    beforeUpdate: function(action) {
+    beforeUpdate: function(action, options) {
         if (action === 'login') {
             this.props.dom.login.disabled = true;
             this.props.dom.error.textContent = '';
             this.interval = loading(this.props.dom.login, 'login');
         }
     },
-    afterUpdate: function(action) {
+    afterUpdate: function(action, options) {
         if (action === 'mount') {
             this.props.dom.key.value = localStorage.getItem('key');
             this.props.dom.secret.value = localStorage.getItem('secret');
@@ -32,7 +32,7 @@ var AuthPanel = register({
     },
     methods: {
         login: function(finish) {
-            return finish(this.props);
+            return finish();
         },
 
     }

@@ -137,8 +137,9 @@ var rcHelper = function(sdk, webPhone) {
                 handlers.callFailed.forEach(h => h(e));
             });
         },
-        autoComplete: function(props) {
-            var prefix = props.prefix;
+        getCandidates: function(props) {
+            // FIXME: because of nested component
+            var prefix = props.autoComplete.props.prefix;
             var test = ['111', '222', '333'];
             return test.filter(item => item.indexOf(prefix) === 0);
         }

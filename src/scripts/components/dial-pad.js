@@ -1,31 +1,35 @@
 import { Component, register } from '../component'
 import AutoComplete from './auto-complete'
 var DialPad = register({
-    beforeUpdate: function(action) {
+    beforeUpdate: function(action, options) {
         if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {
             console.log('div before callout');
             this.interval = loading(this.props.dom.callout, 'Call');
         }
+        return options;
     },
-    afterUpdate: function(action) {
-        console.log(action);
+    afterUpdate: function(action, options) {
         if (action === 'mount') {
-            console.log('init autocomplete');
+            var dialPad = this;
             var autoComplete = new AutoComplete({
                 template: '../template/auto-complete.html',
                 actions: {
                     autoComplete: function() {
-                        console.log(this.props);
-                        // todo
-                        return rcHelper.autoComplete(this.props);
-                    }
+                        var r = dialPad.getCandidates();
+                        return r;
+                    },
+                    input: function() {}
                 },
                 handlers: {},
                 beforeUpdate: function(action) {},
                 afterUpdate: function(action) {}
             })
+            autoComplete.render(this.props.dom.number, () => {
+                // TODO: The manual binding is annoying, can be done by Component?
+                this.props.autoComplete = autoComplete;
+            });
         } else if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {
@@ -34,17 +38,23 @@ var DialPad = register({
                 this.interval = null;
             }
         }
+        return options;
     },
     methods: {
         dialing: function(finish, event) {
             var button = event.target;
-            this.props.dom.number.value += button.getAttribute('data-value');
-            return finish(this.props);
+            var ac = this.props.autoComplete;
+            ac.input(button.getAttribute('data-value'));
+            return finish();
         },
         callout: function(finish) {
-            this.props.toNumber = this.props.dom.number.value;
+            var ac = this.props.autoComplete;
+            this.props.toNumber = ac.props.dom.input.value;
             this.props.fromNumber = localStorage.getItem('username');
-            return finish(this.props);
+            return finish();
+        },
+        getCandidates: function(finish) {
+            return finish();
         }
     }
 })

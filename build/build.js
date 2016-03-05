@@ -110,8 +110,8 @@ function register(settings) {
                 var method = methods[index];
                 var action = options.actions[index];
                 var handler = options.handlers[index];
-                //Method which has same name in options.actions will be treated as a UI->Helper method
-                //Other method will be treated as handlers(Helper->UI)
+                // Method which has same name in options.actions will be treated as a UI->Helper method
+                // Other method will be treated as handlers(Helper->UI)
                 if (options.actions && action) {
                     var actionWrapper = function () {
                         var _this4 = this;
@@ -122,9 +122,14 @@ function register(settings) {
                             args[_key] = arguments[_key];
                         }
 
-                        Promise.resolve(method.call.apply(method, [this, action.bind(this)].concat(args))).then(function () {
-                            return _this4.afterUpdate(index);
-                        }).catch(function (err) {
+                        return Promise.resolve(method.call.apply(method, [this, action.bind(this)].concat(args))).then(function () {
+                            for (var _len2 = arguments.length, result = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                                result[_key2] = arguments[_key2];
+                            }
+
+                            return _this4.afterUpdate(index, result);
+                        }) // result is an array
+                        .catch(function (err) {
                             return console.error(err.stack);
                         });
                     }.bind(_this5);
@@ -135,12 +140,16 @@ function register(settings) {
 
                         this.beforeUpdate(index);
 
-                        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-                            args[_key2] = arguments[_key2];
+                        for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+                            args[_key3] = arguments[_key3];
                         }
 
-                        Promise.resolve(method.call.apply(method, [this].concat(args))).then(function () {
-                            return _this6.afterUpdate(index);
+                        return Promise.resolve(method.call.apply(method, [this].concat(args))).then(function () {
+                            for (var _len4 = arguments.length, result = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+                                result[_key4] = arguments[_key4];
+                            }
+
+                            return _this6.afterUpdate(index, result);
                         }).catch(function (err) {
                             return console.error(err.stack);
                         });
@@ -153,17 +162,17 @@ function register(settings) {
     };
     Widget.prototype = Object.create(Component.prototype);
     Widget.prototype.constructor = Widget;
-    Widget.prototype.beforeUpdate = function (action, props) {
-        var defaultAction = Component.prototype.beforeUpdate.call(this, action, props);
-        if (typeof defaultAction !== 'undefined' && !defaultAction) return;
-        if (!settings.beforeUpdate) return;
-        return settings.beforeUpdate.call(this, action, props);
+    Widget.prototype.beforeUpdate = function (action, options) {
+        var defaultAction = Component.prototype.beforeUpdate.call(this, action, options);
+        if (typeof defaultAction !== 'undefined' && !defaultAction) return options;
+        if (!settings.beforeUpdate) return options;
+        return settings.beforeUpdate.call(this, action, options);
     };
-    Widget.prototype.afterUpdate = function (action, props) {
-        var defaultAction = Component.prototype.afterUpdate.call(this, action, props);
-        if (typeof defaultAction !== 'undefined' && !defaultAction) return;
-        if (!settings.afterUpdate) return;
-        return settings.afterUpdate.call(this, action, props);
+    Widget.prototype.afterUpdate = function (action, options) {
+        var defaultAction = Component.prototype.afterUpdate.call(this, action, options);
+        if (typeof defaultAction !== 'undefined' && !defaultAction) return options;
+        if (!settings.afterUpdate) return options;
+        return settings.afterUpdate.call(this, action, options);
     };
     return Widget;
 }
@@ -180,14 +189,14 @@ Object.defineProperty(exports, "__esModule", {
 var _component = require('../component');
 
 var AuthPanel = (0, _component.register)({
-    beforeUpdate: function beforeUpdate(action) {
+    beforeUpdate: function beforeUpdate(action, options) {
         if (action === 'login') {
             this.props.dom.login.disabled = true;
             this.props.dom.error.textContent = '';
             this.interval = loading(this.props.dom.login, 'login');
         }
     },
-    afterUpdate: function afterUpdate(action) {
+    afterUpdate: function afterUpdate(action, options) {
         if (action === 'mount') {
             this.props.dom.key.value = localStorage.getItem('key');
             this.props.dom.secret.value = localStorage.getItem('secret');
@@ -211,7 +220,7 @@ var AuthPanel = (0, _component.register)({
     },
     methods: {
         login: function login(finish) {
-            return finish(this.props);
+            return finish();
         }
 
     }
@@ -250,10 +259,38 @@ Object.defineProperty(exports, "__esModule", {
 var _component = require('../component');
 
 var AutoComplete = (0, _component.register)({
+    afterUpdate: function afterUpdate(action, options) {
+        var _this = this;
+
+        if (action === 'autoComplete') {
+            var child;
+            while (child = this.props.dom.candidates.firstChild) {
+                this.props.dom.candidates.removeChild(child);
+            }
+            // options === candidates
+            console.log(options);
+            var candidates = options[0];
+            candidates.forEach(function (can) {
+                var btn = document.createElement('button');
+                btn.textContent = can;
+                btn.addEventListener('click', function (e) {
+                    _this.props.dom.input.value = can;
+                });
+                _this.props.dom.candidates.appendChild(btn);
+            });
+        }
+    },
     methods: {
         autoComplete: function autoComplete(finish) {
-            this.props.prefix = this.props.dom.input;
-            return finish(this.props);
+            this.props.prefix = this.props.dom.input.value;
+            return finish();
+        },
+        input: function input(finish, _input) {
+            this.props.dom.input.value += _input;
+            var result = finish();
+            // TODO: This autoComplete !== below autoComplete, seems weird for develoeprs
+            this.autoComplete();
+            return result;
         }
     }
 });
@@ -277,8 +314,8 @@ var state = {
 };
 var currentState = state.HIDDEN;
 var CallPanel = (0, _component.register)({
-    beforeUpdate: function beforeUpdate(action) {},
-    afterUpdate: function afterUpdate(action) {
+    beforeUpdate: function beforeUpdate(action, options) {},
+    afterUpdate: function afterUpdate(action, options) {
         if (action === 'mount') {
             currentState = state.HIDDEN;
             triggerView(this.props);
@@ -298,16 +335,16 @@ var CallPanel = (0, _component.register)({
     },
     methods: {
         answer: function answer(finish) {
-            return finish(this.props);
+            return finish();
         },
         ignore: function ignore(finish) {
-            return finish(this.props);
+            return finish();
         },
         cancel: function cancel(finish) {
-            return finish(this.props);
+            return finish();
         },
         hangup: function hangup(finish) {
-            return finish(this.props);
+            return finish();
         },
         called: function called(event) {
             console.log('callin');
@@ -410,30 +447,36 @@ var _autoComplete2 = _interopRequireDefault(_autoComplete);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DialPad = (0, _component.register)({
-    beforeUpdate: function beforeUpdate(action) {
+    beforeUpdate: function beforeUpdate(action, options) {
         if (action === 'dialing') {
             // ...
         } else if (action === 'callout') {
                 console.log('div before callout');
                 this.interval = loading(this.props.dom.callout, 'Call');
             }
+        return options;
     },
-    afterUpdate: function afterUpdate(action) {
-        console.log(action);
+    afterUpdate: function afterUpdate(action, options) {
+        var _this = this;
+
         if (action === 'mount') {
-            console.log('init autocomplete');
+            var dialPad = this;
             var autoComplete = new _autoComplete2.default({
                 template: '../template/auto-complete.html',
                 actions: {
                     autoComplete: function autoComplete() {
-                        console.log(this.props);
-                        // todo
-                        return rcHelper.autoComplete(this.props);
-                    }
+                        var r = dialPad.getCandidates();
+                        return r;
+                    },
+                    input: function input() {}
                 },
                 handlers: {},
                 beforeUpdate: function beforeUpdate(action) {},
                 afterUpdate: function afterUpdate(action) {}
+            });
+            autoComplete.render(this.props.dom.number, function () {
+                // TODO: The manual binding is annoying, can be done by Component?
+                _this.props.autoComplete = autoComplete;
             });
         } else if (action === 'dialing') {
             // ...
@@ -443,17 +486,23 @@ var DialPad = (0, _component.register)({
                     this.interval = null;
                 }
             }
+        return options;
     },
     methods: {
         dialing: function dialing(finish, event) {
             var button = event.target;
-            this.props.dom.number.value += button.getAttribute('data-value');
-            return finish(this.props);
+            var ac = this.props.autoComplete;
+            ac.input(button.getAttribute('data-value'));
+            return finish();
         },
         callout: function callout(finish) {
-            this.props.toNumber = this.props.dom.number.value;
+            var ac = this.props.autoComplete;
+            this.props.toNumber = ac.props.dom.input.value;
             this.props.fromNumber = localStorage.getItem('username');
-            return finish(this.props);
+            return finish();
+        },
+        getCandidates: function getCandidates(finish) {
+            return finish();
         }
     }
 });
@@ -632,8 +681,9 @@ var rcHelper = function (sdk, webPhone) {
                 });
             });
         },
-        autoComplete: function autoComplete(props) {
-            var prefix = props.prefix;
+        getCandidates: function getCandidates(props) {
+            // FIXME: because of nested component
+            var prefix = props.autoComplete.props.prefix;
             var test = ['111', '222', '333'];
             return test.filter(function (item) {
                 return item.indexOf(prefix) === 0;
