@@ -329,33 +329,36 @@ var _callLogItem2 = _interopRequireDefault(_callLogItem);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function switchTab(tab1, tab2) {
-    if (tab1.classList.contains('active') === false) {
-        tab1.classList.add('active');
-        tab2.classList.remove('active');
-    }
-}
-
-function switchTabByClick() {
-    var callTab = this.props.dom.callTab;
-    var missedCallTab = this.props.dom.missedCallTab;
-    callTab.addEventListener('click', function () {
-        switchTab.call(this, callTab, missedCallTab);
-    });
-
-    missedCallTab.addEventListener('click', function () {
-        switchTab.call(this, missedCallTab, callTab);
-    });
-}
-
 var CallLog = (0, _component.register)({
 
     afterUpdate: function afterUpdate(action, options) {
-        if (action === 'mount') {
-            switchTabByClick.call(this);
+        var allCallTab = this.props.dom.allCallTab;
+        var missedCallTab = this.props.dom.missedCallTab;
+        var logs = this.props.dom.logs;
+
+        if (action === 'enableAllCallTab') {
+            if (allCallTab.classList.contains('active') === false) {
+                allCallTab.classList.add('active');
+                missedCallTab.classList.remove('active');
+            }
+        } else if (action === 'enableMissedCallTab') {
+
+            if (missedCallTab.classList.contains('active') === false) {
+                missedCallTab.classList.add('active');
+                allCallTab.classList.remove('active');
+            }
         }
     },
     methods: {
+
+        enableAllCallTab: function enableAllCallTab(finish, event) {
+
+            return finish();
+        },
+        enableMissedCallTab: function enableMissedCallTab(finish, event) {
+
+            return finish();
+        },
         logUpdated: function logUpdated(logItems) {
 
             var props = this.props;
@@ -363,17 +366,38 @@ var CallLog = (0, _component.register)({
 
                 var callLogItem = new _callLogItem2.default({
                     template: './template/call-log-item.html',
-                    beforeUpdate: function beforeUpdate(action) {},
                     afterUpdate: function afterUpdate(action) {
                         if (action === 'mount') {
+                            if (item.result === "Missed") {
+                                this.props.dom.callResult.classList.add('call-missed');
+                            }
+
                             if (item.direction === 'Outbound') {
-                                this.props.dom.contact.innerHTML = item.to.name;
-                                this.props.dom.location.innerHTML = item.to.location;
+                                if (item.to.name) {
+                                    this.props.dom.contact.innerHTML = item.to.name;
+                                } else {
+                                    this.props.dom.contact.innerHTML = item.to.phoneNumber;
+                                }
+
+                                if (item.to.location) {
+                                    this.props.dom.location.innerHTML = item.to.location;
+                                }
                                 this.props.dom.time.innerHTML = item.startTime;
+
+                                if (item.result !== "Missed") {
+                                    this.props.dom.callResult.classList.add('call-outbound');
+                                }
                             } else {
-                                this.props.dom.contact.innerHTML = item.from.name;
-                                //this.props.dom.location.innerHTML = item.from.location;
+                                if (item.from.name) {
+                                    this.props.dom.contact.innerHTML = item.from.name;
+                                } else {
+                                    this.props.dom.contact.innerHTML = item.from.phoneNumber;
+                                }
                                 this.props.dom.time.innerHTML = item.startTime;
+
+                                if (item.result !== "Missed") {
+                                    this.props.dom.callResult.classList.add('call-inbound');
+                                }
                             }
                         }
                     }
@@ -660,7 +684,7 @@ var CallLogService = function (sdk) {
 
 exports.default = CallLogService;
 
-},{"./rc-sdk":11}],9:[function(require,module,exports){
+},{"./rc-sdk":12}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -877,7 +901,158 @@ var LoginService = function (sdk) {
 
 exports.default = LoginService;
 
-},{"./rc-sdk":11}],11:[function(require,module,exports){
+},{"./rc-sdk":12}],11:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _rcSdk = require('./rc-sdk');
+
+var _rcSdk2 = _interopRequireDefault(_rcSdk);
+
+var _rcWebphone = require('./rc-webphone');
+
+var _rcWebphone2 = _interopRequireDefault(_rcWebphone);
+
+var _loginService = require('./login-service');
+
+var _loginService2 = _interopRequireDefault(_loginService);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var PhoneService = function () {
+    var line;
+    var handlers = {
+        called: [],
+        callStarted: [],
+        callRejected: [],
+        callEnded: [],
+        callFailed: []
+    };
+
+    function registerSIP() {
+        return _rcSdk2.default.platform().post('/client-info/sip-provision', {
+            sipInfo: [{
+                transport: 'WSS'
+            }]
+        }).then(function (res) {
+            var data = res.json();
+            console.log("Sip Provisioning Data from RC API: " + JSON.stringify(data));
+            console.log(data.sipFlags.outboundCallsEnabled);
+            var checkFlags = false;
+            return _rcWebphone2.default.register(data, checkFlags).then(function () {
+                console.log('Registered');
+            }).catch(function (e) {
+                return Promise.reject(err);
+            });
+        }).catch(function (e) {
+            return console.error(e);
+        });
+    }
+
+    _loginService2.default.registerLoginHandler(function () {
+        registerSIP();
+    });
+
+    return {
+
+        callout: function callout(fromNumber, toNumber) {
+            console.log('user callout');
+
+            // TODO: validate toNumber and fromNumber
+            if (!_rcSdk2.default || !_rcWebphone2.default) {
+                throw Error('Need to set up SDK and webPhone first.');
+                return;
+            }
+            return _rcSdk2.default.platform().get('/restapi/v1.0/account/~/extension/~').then(function (res) {
+                console.log(res);
+                var info = res.json();
+                if (info && info.regionalSettings && info.regionalSettings.homeCountry) {
+                    return info.regionalSettings.homeCountry.id;
+                }
+                return null;
+            }).then(function (countryId) {
+                _rcWebphone2.default.call(toNumber, fromNumber, countryId);
+            }).catch(function (e) {
+                return console.error(e);
+            });
+        },
+        answer: function answer(props) {
+            return _rcWebphone2.default.answer(line).catch(function (e) {
+                console.error(e);
+            });
+        },
+        ignore: function ignore(props) {},
+        cancel: function cancel(props) {
+            return line.cancel().catch(function (e) {
+                console.error(e);
+            });
+        },
+        hangup: function hangup(props) {
+            return _rcWebphone2.default.hangup(line).catch(function (err) {
+                return console.error(err);
+            });
+        },
+        called: function called(handler) {
+            handlers.called.push(handler);
+        },
+        callStarted: function callStarted(handler) {
+            handlers.callStarted.push(handler);
+        },
+        callRejected: function callRejected(handler) {
+            handlers.callRejected.push(handler);
+        },
+        callEnded: function callEnded(handler) {
+            handlers.callEnded.push(handler);
+        },
+        callFailed: function callFailed(handler) {
+            handlers.callFailed.push(handler);
+        },
+        initPhoneListener: function initPhoneListener(props) {
+            var _this = this;
+
+            _rcWebphone2.default.ua.on('sipIncomingCall', function (e) {
+                console.log(handlers);
+                line = e;
+                handlers.called.forEach(function (h) {
+                    return h(e);
+                });
+            });
+            _rcWebphone2.default.ua.on('callStarted', function (e) {
+                console.log(handlers);
+                console.log(_this);
+                handlers.callStarted.forEach(function (h) {
+                    return h(e);
+                });
+            });
+            _rcWebphone2.default.ua.on('callRejected', function (e) {
+                console.log(handlers);
+                handlers.callRejected.forEach(function (h) {
+                    return h(e);
+                });
+            });
+            _rcWebphone2.default.ua.on('callEnded', function (e) {
+                console.log(handlers);
+                handlers.callEnded.forEach(function (h) {
+                    return h(e);
+                });
+            });
+            _rcWebphone2.default.ua.on('callFailed', function (e) {
+                console.log(handlers);
+                handlers.callFailed.forEach(function (h) {
+                    return h(e);
+                });
+            });
+        }
+
+    };
+}();
+
+exports.default = PhoneService;
+
+},{"./login-service":10,"./rc-sdk":12,"./rc-webphone":13}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -891,13 +1066,25 @@ var sdk = new RingCentral.SDK({
 
 exports.default = sdk;
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var webPhone = new RingCentral.WebPhone({
+    audioHelper: {}
+});
+
+exports.default = webPhone;
+
+},{}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.CallLogService = exports.LoginService = exports.sdk = exports.rcHelper = exports.AutoComplete = exports.CallLogItem = exports.CallLog = exports.DialPad = exports.CallPanel = exports.AuthPanel = undefined;
+exports.PhoneService = exports.CallLogService = exports.LoginService = exports.webPhone = exports.sdk = exports.rcHelper = exports.AutoComplete = exports.CallLogItem = exports.CallLog = exports.DialPad = exports.CallPanel = exports.AuthPanel = undefined;
 
 var _authPanel = require('./components/auth-panel');
 
@@ -931,6 +1118,10 @@ var _rcSdk = require('./helpers/rc-sdk');
 
 var _rcSdk2 = _interopRequireDefault(_rcSdk);
 
+var _rcWebphone = require('./helpers/rc-webphone');
+
+var _rcWebphone2 = _interopRequireDefault(_rcWebphone);
+
 var _loginService = require('./helpers/login-service');
 
 var _loginService2 = _interopRequireDefault(_loginService);
@@ -938,6 +1129,10 @@ var _loginService2 = _interopRequireDefault(_loginService);
 var _callLogService = require('./helpers/call-log-service');
 
 var _callLogService2 = _interopRequireDefault(_callLogService);
+
+var _phoneService = require('./helpers/phone-service');
+
+var _phoneService2 = _interopRequireDefault(_phoneService);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -949,8 +1144,10 @@ window.CallLogItem = _callLogItem2.default;
 window.AutoComplete = _autoComplete2.default;
 window.rcHelper = _helper2.default;
 window.sdk = _rcSdk2.default;
+window.webPhone = _rcWebphone2.default;
 window.LoginService = _loginService2.default;
 window.CallLogService = _callLogService2.default;
+window.PhoneService = _phoneService2.default;
 
 exports.AuthPanel = _authPanel2.default;
 exports.CallPanel = _callPanel2.default;
@@ -960,10 +1157,12 @@ exports.CallLogItem = _callLogItem2.default;
 exports.AutoComplete = _autoComplete2.default;
 exports.rcHelper = _helper2.default;
 exports.sdk = _rcSdk2.default;
+exports.webPhone = _rcWebphone2.default;
 exports.LoginService = _loginService2.default;
 exports.CallLogService = _callLogService2.default;
+exports.PhoneService = _phoneService2.default;
 
-},{"./components/auth-panel":2,"./components/auto-complete":3,"./components/call-log":5,"./components/call-log-item":4,"./components/call-panel":6,"./components/dial-pad":7,"./helpers/call-log-service":8,"./helpers/helper":9,"./helpers/login-service":10,"./helpers/rc-sdk":11}]},{},[12])
+},{"./components/auth-panel":2,"./components/auto-complete":3,"./components/call-log":5,"./components/call-log-item":4,"./components/call-panel":6,"./components/dial-pad":7,"./helpers/call-log-service":8,"./helpers/helper":9,"./helpers/login-service":10,"./helpers/phone-service":11,"./helpers/rc-sdk":12,"./helpers/rc-webphone":13}]},{},[14])
 
 
 //# sourceMappingURL=build.js.map
