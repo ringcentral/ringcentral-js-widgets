@@ -1,81 +1,13 @@
+<div class="call-log-entry">
+    <i data-info="callResult"></i>
 
-<style type="text/css">
+    <a class="call-log-item-info"></a>
+    <span class="call-log-item-time" data-info="time"></span>
 
-.message .body {
-    line-height: 14px;
-    margin-left: 38px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    padding: 0 5px 0 0;
-    height:100%;
-    font-size:14px;
-    display:block;
-}
-
-
-.call-log-entry.message .call-missed,
-.call-log-entry.message .call-active,
-.call-log-entry.message .call-outbound {
-    background-repeat: no-repeat;
-    background-position: center center;
-    width: 25px;
-    height: 25px;
-    display: block;
-    float: left;
-    margin-right: 13px;
-    margin-top: 5px;
-}
-
-.message .info {
-    display: block;
-    float: right;
-    width: 23px;
-    height: 35px;
-    cursor: pointer;
-    background-repeat: no-repeat;
-    background-position: center center;
-}
-
-.message .time
-{
-    display: block;
-    float: right;
-    font-size: 11px;
-    padding-right: 5px;
-    max-width: 50px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    line-height:35px;
-    white-space: nowrap;
-}
-
-.message .contact {
-    font-size: 14px;
-    line-height: 18px;
-}
-
-.message .text {
-    font-size: 12px;
-    line-height: 18px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-</style>
-
-<div class="message call-log-entry missed">
-    <!-- This tag could have another two classes: call-outbound/call-missed -->
-    <i class="call-active"></i>
-
-    <a class="info" ng-href="#/call-log-entry/{{ call.id | urlencode }}?backUrl={{ currentUrl }}"></a>
-    <span class="time" data-info="time"></span>
-
-    <div class="body">
-        <a class="contact" data-info="contact" ng-if="call.getDisplayPhone()"
-            ng-href="#/contact/phoneNumber/{{ call.getDisplayPhone() | normalizePhone }}?backUrl={{ currentUrl }}">
+    <div class="call-log-item-body">
+        <a class="call-log-item-contact" data-info="contact">
             <!--Display name or number here-->
         </a>
-        <p class="text" data-info="location"></p>
+        <p class="call-log-item-text" data-info="location"></p>
     </div>
 </div>
