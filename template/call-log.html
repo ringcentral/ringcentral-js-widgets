@@ -3,10 +3,10 @@
 </div>
 
 <div class="tabs tabs2 badges">
-    <a class="tab active" data-info="callTab">
+    <a class="tab active" data-info="allCallTab" data-event="click:enableAllCallTab">
         All
     </a>
-    <a class="tab" data-info="missedCallTab">
+    <a class="tab" data-info="missedCallTab" data-event="click:enableMissedCallTab">
         Missed
         <!--<span class="badge" ng-if="(counters.calls|removeInboundLeg|filterMissedCalls|filterStarttimeCalls).length">
             {{ (counters.calls|removeInboundLeg|filterMissedCalls|filterStarttimeCalls).length }}
