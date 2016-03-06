@@ -13,34 +13,30 @@ var PhoneService = function(){
         callFailed: []
     };
     
-    function registerSIP() {
-        return sdk.platform()
-            .post('/client-info/sip-provision', {
-                sipInfo: [{
-                    transport: 'WSS'
-                }]
-            })
-            .then(res => {
-                var data = res.json();
-                console.log("Sip Provisioning Data from RC API: " + JSON.stringify(data));
-                console.log(data.sipFlags.outboundCallsEnabled);
-                var checkFlags = false;
-                return webPhone.register(data, checkFlags)
-                    .then(function() {
-                        console.log('Registered');
-                    })
-                    .catch(function(e) {
-                        return Promise.reject(err);
-                    });
-
-            }).catch(e => console.error(e));
-    }
-            
-    LoginService.registerLoginHandler(function(){
-        registerSIP();
-    });
-    
     return {
+        
+        registerSIP: function() {
+            return sdk.platform()
+                .post('/client-info/sip-provision', {
+                    sipInfo: [{
+                        transport: 'WSS'
+                    }]
+                })
+                .then(res => {
+                    var data = res.json();
+                    console.log("Sip Provisioning Data from RC API: " + JSON.stringify(data));
+                    console.log(data.sipFlags.outboundCallsEnabled);
+                    var checkFlags = false;
+                    return webPhone.register(data, checkFlags)
+                        .then(function() {
+                            console.log('Registered');
+                        })
+                        .catch(function(e) {
+                            return Promise.reject(err);
+                        });
+
+                }).catch(e => console.error(e));
+        },
         
         callout: function(fromNumber, toNumber) {
             console.log('user callout');

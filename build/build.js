@@ -365,7 +365,7 @@ var CallLog = (0, _component.register)({
             logItems.forEach(function (item) {
 
                 var callLogItem = new _callLogItem2.default({
-                    template: './template/call-log-item.html',
+                    template: '../template/call-log-item.html',
                     afterUpdate: function afterUpdate(action) {
                         if (action === 'mount') {
                             if (item.result === "Missed") {
@@ -666,7 +666,7 @@ var CallLogService = function (sdk) {
 
         getCallLogs: function getCallLogs() {
 
-            sdk.platform().get('/account/~/extension/~/call-log', { page: 1, perPage: 10 }).then(function (response) {
+            sdk.platform().get('/account/~/extension/~/call-log', { dateFrom: '2016-2-28' }).then(function (response) {
                 var records = response.json().records;
                 callLogUpdatedHandlers.forEach(function (fun) {
                     return fun(records);
@@ -932,31 +932,27 @@ var PhoneService = function () {
         callFailed: []
     };
 
-    function registerSIP() {
-        return _rcSdk2.default.platform().post('/client-info/sip-provision', {
-            sipInfo: [{
-                transport: 'WSS'
-            }]
-        }).then(function (res) {
-            var data = res.json();
-            console.log("Sip Provisioning Data from RC API: " + JSON.stringify(data));
-            console.log(data.sipFlags.outboundCallsEnabled);
-            var checkFlags = false;
-            return _rcWebphone2.default.register(data, checkFlags).then(function () {
-                console.log('Registered');
-            }).catch(function (e) {
-                return Promise.reject(err);
-            });
-        }).catch(function (e) {
-            return console.error(e);
-        });
-    }
-
-    _loginService2.default.registerLoginHandler(function () {
-        registerSIP();
-    });
-
     return {
+
+        registerSIP: function registerSIP() {
+            return _rcSdk2.default.platform().post('/client-info/sip-provision', {
+                sipInfo: [{
+                    transport: 'WSS'
+                }]
+            }).then(function (res) {
+                var data = res.json();
+                console.log("Sip Provisioning Data from RC API: " + JSON.stringify(data));
+                console.log(data.sipFlags.outboundCallsEnabled);
+                var checkFlags = false;
+                return _rcWebphone2.default.register(data, checkFlags).then(function () {
+                    console.log('Registered');
+                }).catch(function (e) {
+                    return Promise.reject(err);
+                });
+            }).catch(function (e) {
+                return console.error(e);
+            });
+        },
 
         callout: function callout(fromNumber, toNumber) {
             console.log('user callout');

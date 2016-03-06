@@ -25,7 +25,6 @@ body {
 
 .rc-pane-scrollable {
     box-sizing: border-box;
-    position: absolute;
     top: 40px;
     bottom: 0;
     overflow-y: auto;

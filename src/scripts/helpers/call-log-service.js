@@ -9,7 +9,7 @@ var CallLogService = (function(sdk){
         getCallLogs:function(){
             
             sdk.platform()
-                .get('/account/~/extension/~/call-log', { page: 1, perPage: 10 })
+                .get('/account/~/extension/~/call-log', { dateFrom:'2016-2-28' })
                 .then(response => {
                     var records = response.json().records;
                     callLogUpdatedHandlers.forEach(fun => fun(records));                        

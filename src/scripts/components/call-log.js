@@ -37,7 +37,7 @@ var CallLog = register({
             logItems.forEach(function(item){
                 
                 var callLogItem = new CallLogItem({
-                    template:'./template/call-log-item.html',
+                    template:'../template/call-log-item.html',
                     afterUpdate: function(action){
                         if(action === 'mount'){
                             if(item.result === "Missed"){

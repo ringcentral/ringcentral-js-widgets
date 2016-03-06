@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../src/styles/normalize.css">
     <link rel="stylesheet" type="text/css" href="../src/styles/main.css">
+    <link rel="stylesheet" type="text/css" href="../styles/call-log.css">
     <link rel="stylesheet" type="text/css" href="theme/basic.css" id="theme-css">
     <style type="text/css">
     body {
@@ -155,9 +156,26 @@
         }
     });
     
+    
     LoginService.registerLoginHandler(function(){
-        
+        PhoneService.registerSIP();
         CallLogService.getCallLogs();
+        
+    });
+    
+    var callLog = new CallLog({
+        template:'../template/call-log.html',
+        actions:{
+            enableAllCallTab:function(){},
+            enableMissedCallTab:function(){}
+        },
+        handlers:{
+            
+            logUpdated:function(handler){
+                CallLogService.registerCallLogUpdatedHandler(handler);
+            }
+            
+        }
         
     });
     
@@ -177,23 +195,6 @@
         }
         
     );
-    
-    var callLog = new CallLog({
-        template:'../template/call-log.html',
-        actions:{},
-        handlers:{
-            
-            logUpdated:function(handler){
-                CallLogService.registerCallLogUpdatedHandler(handler);
-            }
-            
-        }
-        
-    });
-    
-    
-    
-    
 
     function switchTheme(theme) {
         document.getElementById('theme-css').href = 'theme/' + theme + '.css';
