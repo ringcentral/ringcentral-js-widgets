@@ -31,7 +31,7 @@ function register(settings) {
                             after: () => {}
                         }, options.actions.render)
 
-                    function render(finish, target) {
+                    function render(finish, target, callback) {
                         console.log(target);
                         console.log(finish);
                         console.log(this);
@@ -119,10 +119,7 @@ function generateDocument(widget, template) {
             })
             if (!widget[action]) {
                 console.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
-                return {
-                    template: template,
-                    dom: dom
-                };
+                return;
             }
             doc.addEventListener(eventName, widget[action].bind(widget));
         })
@@ -157,7 +154,10 @@ function generateHandlers(widgetHandler) {
 }
 
 function wrapUserEvent(widget, user, ...args) {
-    if (!user || user()) {
+    var continueDefault = user() || true;
+    if (continueDefault ||
+        typeof continueDefault === 'undefined' ||
+        continueDefault) {
         return widget ? widget(...args) : null;
     }
     return null;

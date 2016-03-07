@@ -37,7 +37,7 @@ function register(settings) {
                 after: function after() {}
             }, options.actions.render);
 
-            function render(finish, target) {
+            function render(finish, target, callback) {
                 var _this2 = this;
 
                 console.log(target);
@@ -118,10 +118,7 @@ function generateDocument(widget, template) {
             });
             if (!widget[action]) {
                 console.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
-                return {
-                    template: template,
-                    dom: dom
-                };
+                return;
             }
             doc.addEventListener(eventName, widget[action].bind(widget));
         });
@@ -190,7 +187,8 @@ function generateHandlers(widgetHandler) {
 }
 
 function wrapUserEvent(widget, user) {
-    if (!user || user()) {
+    var continueDefault = user() || true;
+    if (continueDefault || typeof continueDefault === 'undefined' || continueDefault) {
         for (var _len6 = arguments.length, args = Array(_len6 > 2 ? _len6 - 2 : 0), _key6 = 2; _key6 < _len6; _key6++) {
             args[_key6 - 2] = arguments[_key6];
         }
