@@ -1,4 +1,12 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+// the whatwg-fetch polyfill installs the fetch() function
+// on the global object (window or self)
+//
+// Return that as the export for use in Webpack, Browserify etc.
+require('whatwg-fetch');
+module.exports = self.fetch.bind(self);
+
+},{"whatwg-fetch":2}],2:[function(require,module,exports){
 (function(self) {
   'use strict';
 
@@ -389,14 +397,18 @@
   self.fetch.polyfill = true
 })(typeof self !== 'undefined' ? self : this);
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _whatwgFetch = require('whatwg-fetch');
+var _isomorphicFetch = require('isomorphic-fetch');
+
+var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
@@ -477,7 +489,7 @@ function register(settings) {
 }
 
 function fetchTemplate(src) {
-    var fetchPromise = (0, _whatwgFetch.fetch)(src).then(function (response) {
+    var fetchPromise = (0, _isomorphicFetch2.default)(src).then(function (response) {
         return response.text();
     }).then(function (body) {
         var template = document.createElement('template');
@@ -588,7 +600,7 @@ function wrapUserEvent(widget, user) {
 
 exports.default = register;
 
-},{"whatwg-fetch":1}],3:[function(require,module,exports){
+},{"isomorphic-fetch":1}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -664,7 +676,7 @@ function loading(target, text) {
 
 exports.default = AuthPanel;
 
-},{"../component":2}],4:[function(require,module,exports){
+},{"../component":3}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -716,7 +728,7 @@ var AutoComplete = (0, _component2.default)({
 
 exports.default = AutoComplete;
 
-},{"../component":2}],5:[function(require,module,exports){
+},{"../component":3}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -737,7 +749,7 @@ var CallLogItem = (0, _component2.default)({
 
 exports.default = CallLogItem;
 
-},{"../component":2}],6:[function(require,module,exports){
+},{"../component":3}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -838,7 +850,7 @@ var CallLog = (0, _component2.default)({
 
 exports.default = CallLog;
 
-},{"../component":2,"./call-log-item":5}],7:[function(require,module,exports){
+},{"../component":3,"./call-log-item":6}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -976,7 +988,7 @@ var loading = function loading(target, text) {
 // };
 exports.default = CallPanel;
 
-},{"../component":2}],8:[function(require,module,exports){
+},{"../component":3}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1076,7 +1088,7 @@ function loading(target, text) {
 }
 exports.default = DialPad;
 
-},{"../component":2,"./auto-complete":4}],9:[function(require,module,exports){
+},{"../component":3,"./auto-complete":5}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1115,7 +1127,7 @@ var CallLogService = function (sdk) {
 
 exports.default = CallLogService;
 
-},{"./rc-sdk":13}],10:[function(require,module,exports){
+},{"./rc-sdk":14}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1279,7 +1291,7 @@ var rcHelper = function (sdk, webPhone) {
 }(sdk, webPhone);
 exports.default = rcHelper;
 
-},{}],11:[function(require,module,exports){
+},{}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1332,7 +1344,7 @@ var LoginService = function (sdk) {
 
 exports.default = LoginService;
 
-},{"./rc-sdk":13}],12:[function(require,module,exports){
+},{"./rc-sdk":14}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1479,7 +1491,7 @@ var PhoneService = function () {
 
 exports.default = PhoneService;
 
-},{"./login-service":11,"./rc-sdk":13,"./rc-webphone":14}],13:[function(require,module,exports){
+},{"./login-service":12,"./rc-sdk":14,"./rc-webphone":15}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1493,7 +1505,7 @@ var sdk = new RingCentral.SDK({
 
 exports.default = sdk;
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1505,7 +1517,7 @@ var webPhone = new RingCentral.WebPhone({
 
 exports.default = webPhone;
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1589,7 +1601,7 @@ exports.LoginService = _loginService2.default;
 exports.CallLogService = _callLogService2.default;
 exports.PhoneService = _phoneService2.default;
 
-},{"./components/auth-panel":3,"./components/auto-complete":4,"./components/call-log":6,"./components/call-log-item":5,"./components/call-panel":7,"./components/dial-pad":8,"./helpers/call-log-service":9,"./helpers/helper":10,"./helpers/login-service":11,"./helpers/phone-service":12,"./helpers/rc-sdk":13,"./helpers/rc-webphone":14}]},{},[15])
+},{"./components/auth-panel":4,"./components/auto-complete":5,"./components/call-log":7,"./components/call-log-item":6,"./components/call-panel":8,"./components/dial-pad":9,"./helpers/call-log-service":10,"./helpers/helper":11,"./helpers/login-service":12,"./helpers/phone-service":13,"./helpers/rc-sdk":14,"./helpers/rc-webphone":15}]},{},[16])
 
 
 //# sourceMappingURL=build.js.map

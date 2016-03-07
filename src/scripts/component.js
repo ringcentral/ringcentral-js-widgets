@@ -1,4 +1,4 @@
-import { fetch } from 'whatwg-fetch';
+import fetch from 'isomorphic-fetch';
 
 function register(settings) {
     /*
@@ -26,9 +26,7 @@ function register(settings) {
                     })
                     Widget.prototype.render =
                         generateActions({
-                            before: target => {
-                                return target;
-                            },
+                            before: target => target,
                             method: render.bind(this),
                             after: () => {}
                         }, options.actions.render)
