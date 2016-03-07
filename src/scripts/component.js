@@ -128,7 +128,15 @@ function generateDocument(widget, template) {
 
 function generateActions(widgetAction, userAction) {
     if (!userAction) {
-        userAction = function() {};
+        userAction = {
+            before: function() {},
+            method: function() {},
+            after: function() {}
+        };
+        console.warn('widget has some actions not defined');
+    }
+    if (!userAction.method) {
+        userAction.method = function() {};
         console.warn('widget has some actions not defined');
     }
     return function(...args) {
@@ -149,7 +157,7 @@ function generateHandlers(widgetHandler) {
 }
 
 function wrapUserEvent(widget, user, ...args) {
-    var continueDefault = user() || true;
+    var continueDefault = !user || user() || true;
     if (continueDefault ||
         typeof continueDefault === 'undefined' ||
         continueDefault) {

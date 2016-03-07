@@ -59,141 +59,149 @@
     var authPanel = new AuthPanel({
         template: '../template/auth-panel.html',
         actions: {
-            login: function() {
-                var username = this.props.dom.username.value;
-                var extension = this.props.dom.extension.value;
-                var password = this.props.dom.password.value;
-                return LoginService.login(username, extension, password);
+            init: {
+                before: function() {},
+                method: function() {},
+                after: function() {}
             },
+            render: {
+                before: function() {},
+                method: function() {},
+                after: function() {}
+            },
+            login: {
+                before: function() {},
+                method: function() {
+                    var username = this.props.dom.username.value;
+                    var extension = this.props.dom.extension.value;
+                    var password = this.props.dom.password.value;
+                    return LoginService.login(username, extension, password);
+                },
+                after: function() {
+                    dialPad.render('#dial-pad');
+                }
+            }
         },
         handlers: {},
-        beforeUpdate: function(action) {
-            return true;
-        },
-        afterUpdate: function(action) {
-            if (action === 'login') {
-                callPanel.render('#call-panel');
-                dialPad.render('#dial-pad');
-                callLog.render('#call-log-panel', function() {
-                    authPanel.remove();
-                });
-            }
-            return true;
-        }
     });
     var dialPad = new DialPad({
         template: '../template/dial-pad.html',
         actions: {
-            dialing: function() {},
-            callout: function() {
-                var toNumber = this.props.toNumber;
-                var fromNumber = this.props.fromNumber;
-                return PhoneService.callout(fromNumber, toNumber);
+            callout: {
+                before: function() {},
+                method: function() {
+                    var toNumber = this.props.toNumber;
+                    var fromNumber = this.props.fromNumber;
+                    return PhoneService.callout(fromNumber, toNumber);
+                },
+                after: function() {}
             },
-            getCandidates: function() {
-                return rcHelper.getCandidates(this.props);
+            getCandidates: {
+                before: function() {},
+                method: function() {
+                    return rcHelper.getCandidates(this.props);
+                },
+                after: function() {}
+
             }
         },
         handlers: {},
-        beforeUpdate: function(action) {
-            return true;
-        },
-        afterUpdate: function(action) {
-            return true;
-        }
+    });
+    authPanel.render('#auth-panel');
 
-    });
-    var callPanel = new CallPanel({
-        template: '../template/call-panel.html',
-        actions: {
-            answer: function() {
-                return PhoneService.answer(this.props);
-            },
-            ignore: function() {
-                return PhoneService.ignore(this.props);
-            },
-            cancel: function() {
-                return PhoneService.cancel(this.props);
-            },
-            hangup: function() {
-                return PhoneService.hangup(this.props);
-            },
-            record: function() {
-                return PhoneService.record(this.props);
-            },
-            hold: function() {
-                return PhoneService.hold(this.props);
-            },
-            mute: function() {
-                return PhoneService.mute(this.props);
-            },
-        },
-        handlers: {
-            called: function(handler) {
-                PhoneService.called(handler);
-            },
-            callStarted: function(handler) {
-                PhoneService.callStarted(handler);
-            },
-            callRejected: function(handler) {
-                PhoneService.callRejected(handler);
-            },
-            callEnded: function(handler) {
-                PhoneService.callEnded(handler);
-            },
-            callFailed: function(handler) {
-                PhoneService.callFailed(handler);
-            }
-        },
-        beforeUpdate: function(action) {
-            return true;
-        },
-        afterUpdate: function(action) {
-            if (action === 'mount') {
-                PhoneService.initPhoneListener(this.props);
-            }
-            return true;
-        }
-    });
-    
-    
-    LoginService.registerLoginHandler(function(){
+
+    //
+    // var callPanel = new CallPanel({
+    //     template: '../template/call-panel.html',
+    //     actions: {
+    //         answer: function() {
+    //             return PhoneService.answer(this.props);
+    //         },
+    //         ignore: function() {
+    //             return PhoneService.ignore(this.props);
+    //         },
+    //         cancel: function() {
+    //             return PhoneService.cancel(this.props);
+    //         },
+    //         hangup: function() {
+    //             return PhoneService.hangup(this.props);
+    //         },
+    //         record: function() {
+    //             return PhoneService.record(this.props);
+    //         },
+    //         hold: function() {
+    //             return PhoneService.hold(this.props);
+    //         },
+    //         mute: function() {
+    //             return PhoneService.mute(this.props);
+    //         },
+    //     },
+    //     handlers: {
+    //         called: function(handler) {
+    //             PhoneService.called(handler);
+    //         },
+    //         callStarted: function(handler) {
+    //             PhoneService.callStarted(handler);
+    //         },
+    //         callRejected: function(handler) {
+    //             PhoneService.callRejected(handler);
+    //         },
+    //         callEnded: function(handler) {
+    //             PhoneService.callEnded(handler);
+    //         },
+    //         callFailed: function(handler) {
+    //             PhoneService.callFailed(handler);
+    //         }
+    //     },
+    //     beforeUpdate: function(action) {
+    //         return true;
+    //     },
+    //     afterUpdate: function(action) {
+    //         if (action === 'mount') {
+    //             PhoneService.initPhoneListener(this.props);
+    //         }
+    //         return true;
+    //     }
+    // });
+
+
+    LoginService.registerLoginHandler(function() {
         PhoneService.registerSIP();
         CallLogService.getCallLogs();
-        
+
     });
-    
-    var callLog = new CallLog({
-        template:'../template/call-log.html',
-        actions:{
-            enableAllCallTab:function(){},
-            enableMissedCallTab:function(){}
-        },
-        handlers:{
-            
-            logUpdated:function(handler){
-                CallLogService.registerCallLogUpdatedHandler(handler);
-            }
-            
-        }
-        
-    });
-    
+
+    // var callLog = new CallLog({
+    //     template:'../template/call-log.html',
+    //     actions:{
+    //         enableAllCallTab:function(){},
+    //         enableMissedCallTab:function(){}
+    //     },
+    //     handlers:{
+
+    //         logUpdated:function(handler){
+    //             CallLogService.registerCallLogUpdatedHandler(handler);
+    //         }
+
+    //     }
+
+    // });
+
     LoginService.checkLoginStatus().then(
-        
-        function(isLoggedIn){
-            if(isLoggedIn){
-                
+
+        function(isLoggedIn) {
+            if (isLoggedIn) {
+
                 callPanel.render('#call-panel');
                 dialPad.render('#dial-pad');
                 callLog.render('#call-log-panel');
-                
-            }else{
+
+            } else {
                 // render is async, supports both callbacks and promises
-                 authPanel.render('#auth-panel', function() { /* ... */ });
+                authPanel.render('#auth-panel', function() { /* ... */ });
             }
         }
-        
+
     );
 
     function switchTheme(theme) {

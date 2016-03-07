@@ -1,60 +1,61 @@
 import register from '../component'
 import AutoComplete from './auto-complete'
 var DialPad = register({
-    beforeUpdate: function(action, options) {
-        if (action === 'dialing') {
-            // ...
-        } else if (action === 'callout') {
-            console.log('div before callout');
-            this.interval = loading(this.props.dom.callout, 'Call');
-        }
-        return options;
-    },
-    afterUpdate: function(action, options) {
-        if (action === 'mount') {
-            var dialPad = this;
-            var autoComplete = new AutoComplete({
-                template: '../template/auto-complete.html',
-                actions: {
-                    autoComplete: function() {
-                        var r = dialPad.getCandidates();
-                        return r;
+    actions: {
+        render: {
+            after: function() {
+                var dialPad = this;
+                var autoComplete = new AutoComplete({
+                    template: '../template/auto-complete.html',
+                    actions: {
+                        autoComplete: {
+                            method: function() {
+                                return dialPad.getCandidates();
+                            }
+                        },
+                        input: {}
                     },
-                    input: function() {}
-                },
-                handlers: {},
-                beforeUpdate: function(action) {},
-                afterUpdate: function(action) {}
-            })
-            autoComplete.render(this.props.dom.number, () => {
-                // TODO: The manual binding is annoying, can be done by Component?
-                this.props.autoComplete = autoComplete;
-            });
-        } else if (action === 'dialing') {
-            // ...
-        } else if (action === 'callout') {
-            if (this.interval) {
-                this.interval.cancel('Call');
-                this.interval = null;
+                    handlers: {},
+                })
+                autoComplete.render(this.props.dom.number, () => {
+                    // TODO: The manual binding is annoying, can be done by Component?
+                    this.props.autoComplete = autoComplete;
+                });
             }
-        }
-        return options;
-    },
-    methods: {
-        dialing: function(finish, event) {
-            var button = event.target;
-            var ac = this.props.autoComplete;
-            ac.input(button.getAttribute('data-value'));
-            return finish();
         },
-        callout: function(finish) {
-            var ac = this.props.autoComplete;
-            this.props.toNumber = ac.props.dom.input.value;
-            this.props.fromNumber = localStorage.getItem('username');
-            return finish();
+        dialing: {
+            before: function() {},
+            method: function(finish) {
+                var button = event.target;
+                var ac = this.props.autoComplete;
+                ac.input(button.getAttribute('data-value'));
+                return finish();
+            },
+            after: function() {}
         },
-        getCandidates: function(finish) {
-            return finish();
+        callout: {
+            before: function() {
+                this.interval = loading(this.props.dom.callout, 'Call');
+            },
+            method: function(finish) {
+                var ac = this.props.autoComplete;
+                this.props.toNumber = ac.props.dom.input.value;
+                this.props.fromNumber = localStorage.getItem('username');
+                return finish();
+            },
+            after: function() {
+                if (this.interval) {
+                    this.interval.cancel('Call');
+                    this.interval = null;
+                }
+            }
+        },
+        getCandidates: {
+            before: function() {},
+            method: function(finish) {
+                return finish();
+            },
+            after: function() {}
         }
     }
 })

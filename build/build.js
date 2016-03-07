@@ -532,7 +532,15 @@ function generateDocument(widget, template) {
 
 function generateActions(widgetAction, userAction) {
     if (!userAction) {
-        userAction = function userAction() {};
+        userAction = {
+            before: function before() {},
+            method: function method() {},
+            after: function after() {}
+        };
+        console.warn('widget has some actions not defined');
+    }
+    if (!userAction.method) {
+        userAction.method = function () {};
         console.warn('widget has some actions not defined');
     }
     return function () {
@@ -587,7 +595,7 @@ function generateHandlers(widgetHandler) {
 }
 
 function wrapUserEvent(widget, user) {
-    var continueDefault = user() || true;
+    var continueDefault = !user || user() || true;
     if (continueDefault || typeof continueDefault === 'undefined' || continueDefault) {
         for (var _len6 = arguments.length, args = Array(_len6 > 2 ? _len6 - 2 : 0), _key6 = 2; _key6 < _len6; _key6++) {
             args[_key6 - 2] = arguments[_key6];
@@ -1006,62 +1014,63 @@ var _autoComplete2 = _interopRequireDefault(_autoComplete);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DialPad = (0, _component2.default)({
-    beforeUpdate: function beforeUpdate(action, options) {
-        if (action === 'dialing') {
-            // ...
-        } else if (action === 'callout') {
-                console.log('div before callout');
-                this.interval = loading(this.props.dom.callout, 'Call');
-            }
-        return options;
-    },
-    afterUpdate: function afterUpdate(action, options) {
-        var _this = this;
+    actions: {
+        render: {
+            after: function after() {
+                var _this = this;
 
-        if (action === 'mount') {
-            var dialPad = this;
-            var autoComplete = new _autoComplete2.default({
-                template: '../template/auto-complete.html',
-                actions: {
-                    autoComplete: function autoComplete() {
-                        var r = dialPad.getCandidates();
-                        return r;
+                var dialPad = this;
+                var autoComplete = new _autoComplete2.default({
+                    template: '../template/auto-complete.html',
+                    actions: {
+                        autoComplete: {
+                            method: function method() {
+                                return dialPad.getCandidates();
+                            }
+                        },
+                        input: {}
                     },
-                    input: function input() {}
-                },
-                handlers: {},
-                beforeUpdate: function beforeUpdate(action) {},
-                afterUpdate: function afterUpdate(action) {}
-            });
-            autoComplete.render(this.props.dom.number, function () {
-                // TODO: The manual binding is annoying, can be done by Component?
-                _this.props.autoComplete = autoComplete;
-            });
-        } else if (action === 'dialing') {
-            // ...
-        } else if (action === 'callout') {
+                    handlers: {}
+                });
+                autoComplete.render(this.props.dom.number, function () {
+                    // TODO: The manual binding is annoying, can be done by Component?
+                    _this.props.autoComplete = autoComplete;
+                });
+            }
+        },
+        dialing: {
+            before: function before() {},
+            method: function method(finish) {
+                var button = event.target;
+                var ac = this.props.autoComplete;
+                ac.input(button.getAttribute('data-value'));
+                return finish();
+            },
+            after: function after() {}
+        },
+        callout: {
+            before: function before() {
+                this.interval = loading(this.props.dom.callout, 'Call');
+            },
+            method: function method(finish) {
+                var ac = this.props.autoComplete;
+                this.props.toNumber = ac.props.dom.input.value;
+                this.props.fromNumber = localStorage.getItem('username');
+                return finish();
+            },
+            after: function after() {
                 if (this.interval) {
                     this.interval.cancel('Call');
                     this.interval = null;
                 }
             }
-        return options;
-    },
-    methods: {
-        dialing: function dialing(finish, event) {
-            var button = event.target;
-            var ac = this.props.autoComplete;
-            ac.input(button.getAttribute('data-value'));
-            return finish();
         },
-        callout: function callout(finish) {
-            var ac = this.props.autoComplete;
-            this.props.toNumber = ac.props.dom.input.value;
-            this.props.fromNumber = localStorage.getItem('username');
-            return finish();
-        },
-        getCandidates: function getCandidates(finish) {
-            return finish();
+        getCandidates: {
+            before: function before() {},
+            method: function method(finish) {
+                return finish();
+            },
+            after: function after() {}
         }
     }
 });
