@@ -19,20 +19,57 @@ function register(settings) {
                 fetchTemplate(options.template),
                 (() => {
                     Object.keys(settings.actions).forEach(index => {
-                        console.log(index);
                         Widget.prototype[index] =
                             generateActions(settings.actions[index], options.actions[index]);
                     })
+                    Widget.prototype.render =
+                        generateActions({
+                            before: target => {
+                                return target;
+                            },
+                            method: render.bind(this),
+                            after: () => {}
+                        }, options.actions.render)
+
+                    function render(finish, target) {
+                        console.log(target);
+                        console.log(finish);
+                        console.log(this);
+                        if (this.fetchPromise)
+                            return this.fetchPromise
+                                .then(() => {
+                                    if (typeof target === 'string') {
+                                        target = document.querySelector(target);
+                                    } else if (target instanceof HTMLElement) {
+                                        target = target;
+                                    } else {
+                                        console.warn('first argument of render method should be selector string or dom');
+                                    }
+                                    this.props.targetDOM = target;
+                                    console.log(target);
+                                    this.props.targetDOM.appendChild(this.props.template);
+                                })
+                                .then(() => {
+                                    if (callback && typeof callback === 'function')
+                                        callback.call(this);
+                                })
+                                .then(finish)
+                                .catch(err => console.error('render err:' + err));
+                    }
                 })()
             ])
             .then(args => generateDocument(this, args[0] /* template:DocumentFragment */ ))
+            .then(args => {
+                this.props.dom = args.dom;
+                this.props.template = args.template;
+            })
             .catch(err => console.error(err.stack))
-        this.fetchPromise.then(args => this.props.dom = args.dom)
+        this.fetchPromise
             .then(() => {
                 var handlers = settings.handlers;
                 if (handlers) {
                     Object.keys(handlers).forEach(index => {
-                        options.handlers[index].call(
+                        options.handlers[index].method.call(
                             this,
                             generateHandlers(settings.handlers[index])
                         );
@@ -45,26 +82,6 @@ function register(settings) {
         while (this.props.targetDOM.firstChild) {
             this.props.targetDOM.removeChild(this.props.targetDOM.firstChild);
         }
-    };
-    Widget.prototype.render = function(target, callback) {
-        if (this.fetchPromise)
-            return this.fetchPromise
-                .then(args => {
-                    if (typeof target === 'string') {
-                        target = document.querySelector(target);
-                    } else if (target instanceof HTMLElement) {
-                        target = target;
-                    } else {
-                        console.warn('first argument of render method should be selector string or dom');
-                    }
-                    this.props.targetDOM = target;
-                    this.props.targetDOM.appendChild(args.template);
-                })
-                .then(() => {
-                    if (callback && typeof callback === 'function')
-                        callback.call(this);
-                })
-                .catch(err => console.error('render err:' + err));
     };
     return Widget;
 }
@@ -121,9 +138,10 @@ function generateActions(widgetAction, userAction) {
         userAction = function() {};
         console.warn('widget has some actions not defined');
     }
+    console.log(userAction);
     return function(...args) {
         return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, ...args))
-            .then((...result) => widgetAction.method.call(this, userAction.bind(this), ...result))
+            .then((...result) => widgetAction.method.call(this, userAction.method.bind(this), ...result))
             .then((...result) => wrapUserEvent(widgetAction.after, userAction.after, ...result))
             .catch(err => console.error(err.stack));
     }.bind(this)
@@ -139,8 +157,9 @@ function generateHandlers(widgetHandler) {
 }
 
 function wrapUserEvent(widget, user, ...args) {
-    if (!user || user())
-        return widget(...args);
+    if (!user || user()) {
+        return widget ? widget(...args) : null;
+    }
     return null;
 }
 

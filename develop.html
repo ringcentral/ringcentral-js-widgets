@@ -19,6 +19,18 @@
     var authPanel = new AuthPanel({
         template: './template/auth-panel.html',
         actions: {
+            mount: {
+                before: function() {},
+                method: function() {},
+                after: function() {}
+            },
+            render: {
+                before: function() {},
+                method: function() {
+                    console.log('user render');
+                },
+                after: function() {}
+            },
             login: {
                 before: function() {},
                 method: function() {

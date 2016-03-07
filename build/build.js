@@ -27,21 +27,52 @@ function register(settings) {
         this.props = {};
         this.fetchPromise = Promise.all([fetchTemplate(options.template), function () {
             Object.keys(settings.actions).forEach(function (index) {
-                console.log(index);
                 Widget.prototype[index] = generateActions(settings.actions[index], options.actions[index]);
             });
+            Widget.prototype.render = generateActions({
+                before: function before(target) {
+                    return target;
+                },
+                method: render.bind(_this),
+                after: function after() {}
+            }, options.actions.render);
+
+            function render(finish, target) {
+                var _this2 = this;
+
+                console.log(target);
+                console.log(finish);
+                console.log(this);
+                if (this.fetchPromise) return this.fetchPromise.then(function () {
+                    if (typeof target === 'string') {
+                        target = document.querySelector(target);
+                    } else if (target instanceof HTMLElement) {
+                        target = target;
+                    } else {
+                        console.warn('first argument of render method should be selector string or dom');
+                    }
+                    _this2.props.targetDOM = target;
+                    console.log(target);
+                    _this2.props.targetDOM.appendChild(_this2.props.template);
+                }).then(function () {
+                    if (callback && typeof callback === 'function') callback.call(_this2);
+                }).then(finish).catch(function (err) {
+                    return console.error('render err:' + err);
+                });
+            }
         }()]).then(function (args) {
             return generateDocument(_this, args[0] /* template:DocumentFragment */);
+        }).then(function (args) {
+            _this.props.dom = args.dom;
+            _this.props.template = args.template;
         }).catch(function (err) {
             return console.error(err.stack);
         });
-        this.fetchPromise.then(function (args) {
-            return _this.props.dom = args.dom;
-        }).then(function () {
+        this.fetchPromise.then(function () {
             var handlers = settings.handlers;
             if (handlers) {
                 Object.keys(handlers).forEach(function (index) {
-                    options.handlers[index].call(_this, generateHandlers(settings.handlers[index]));
+                    options.handlers[index].method.call(_this, generateHandlers(settings.handlers[index]));
                 });
             }
         }).catch(function (err) {
@@ -52,25 +83,6 @@ function register(settings) {
         while (this.props.targetDOM.firstChild) {
             this.props.targetDOM.removeChild(this.props.targetDOM.firstChild);
         }
-    };
-    Widget.prototype.render = function (target, callback) {
-        var _this2 = this;
-
-        if (this.fetchPromise) return this.fetchPromise.then(function (args) {
-            if (typeof target === 'string') {
-                target = document.querySelector(target);
-            } else if (target instanceof HTMLElement) {
-                target = target;
-            } else {
-                console.warn('first argument of render method should be selector string or dom');
-            }
-            _this2.props.targetDOM = target;
-            _this2.props.targetDOM.appendChild(args.template);
-        }).then(function () {
-            if (callback && typeof callback === 'function') callback.call(_this2);
-        }).catch(function (err) {
-            return console.error('render err:' + err);
-        });
     };
     return Widget;
 }
@@ -125,6 +137,7 @@ function generateActions(widgetAction, userAction) {
         userAction = function userAction() {};
         console.warn('widget has some actions not defined');
     }
+    console.log(userAction);
     return function () {
         var _this3 = this;
 
@@ -139,7 +152,7 @@ function generateActions(widgetAction, userAction) {
                 result[_key2] = arguments[_key2];
             }
 
-            return (_widgetAction$method = widgetAction.method).call.apply(_widgetAction$method, [_this3, userAction.bind(_this3)].concat(result));
+            return (_widgetAction$method = widgetAction.method).call.apply(_widgetAction$method, [_this3, userAction.method.bind(_this3)].concat(result));
         }).then(function () {
             for (var _len3 = arguments.length, result = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
                 result[_key3] = arguments[_key3];
@@ -177,11 +190,13 @@ function generateHandlers(widgetHandler) {
 }
 
 function wrapUserEvent(widget, user) {
-    for (var _len6 = arguments.length, args = Array(_len6 > 2 ? _len6 - 2 : 0), _key6 = 2; _key6 < _len6; _key6++) {
-        args[_key6 - 2] = arguments[_key6];
-    }
+    if (!user || user()) {
+        for (var _len6 = arguments.length, args = Array(_len6 > 2 ? _len6 - 2 : 0), _key6 = 2; _key6 < _len6; _key6++) {
+            args[_key6 - 2] = arguments[_key6];
+        }
 
-    if (!user || user()) return widget.apply(undefined, args);
+        return widget ? widget.apply(undefined, args) : null;
+    }
     return null;
 }
 
