@@ -1,19 +1,76 @@
-var Component = function(options) {
-    if (!options.template) {
-        throw new Error('need a template');
-    }
-    // TODO: use Object.extend or somewhat (es6) for default options setting
-    this.options = options || {};
-    this.props = {};
-    this.fetchPromise = null;
-    this.beforeUpdate('mount');
-    this.fetchTemplate(options.template)
-        .then(template => this.bindDOM(template))
-        .then(template => this.afterUpdate('mount'))
-        .catch(err => console.error(err.stack))
-};
-Component.prototype.fetchTemplate = function(src) {
-    this.fetchPromise = fetch(src)
+function register(settings) {
+    /*
+     *
+     * [register process]
+     *
+     * generate actions _____
+     *                       |------> generate document ------> generate handlers
+     * fetch template   _____|                          ------> maybe render
+     *
+     */
+    var Widget = function(options) {
+        if (!options.template) {
+            throw new Error('need a template');
+        }
+        this.options = options || {};
+        this.props = {};
+        this.fetchPromise =
+            Promise.all([
+                fetchTemplate(options.template),
+                (() => {
+                    Object.keys(settings.actions).forEach(index => {
+                        console.log(index);
+                        Widget.prototype[index] =
+                            generateActions(settings.actions[index], options.actions[index]);
+                    })
+                })()
+            ])
+            .then(args => generateDocument(this, args[0] /* template:DocumentFragment */ ))
+            .catch(err => console.error(err.stack))
+        this.fetchPromise.then(args => this.props.dom = args.dom)
+            .then(() => {
+                var handlers = settings.handlers;
+                if (handlers) {
+                    Object.keys(handlers).forEach(index => {
+                        options.handlers[index].call(
+                            this,
+                            generateHandlers(settings.handlers[index])
+                        );
+                    })
+                }
+            })
+            .catch(err => console.error(err.stack))
+    };
+    Widget.prototype.remove = function() {
+        while (this.props.targetDOM.firstChild) {
+            this.props.targetDOM.removeChild(this.props.targetDOM.firstChild);
+        }
+    };
+    Widget.prototype.render = function(target, callback) {
+        if (this.fetchPromise)
+            return this.fetchPromise
+                .then(args => {
+                    if (typeof target === 'string') {
+                        target = document.querySelector(target);
+                    } else if (target instanceof HTMLElement) {
+                        target = target;
+                    } else {
+                        console.warn('first argument of render method should be selector string or dom');
+                    }
+                    this.props.targetDOM = target;
+                    this.props.targetDOM.appendChild(args.template);
+                })
+                .then(() => {
+                    if (callback && typeof callback === 'function')
+                        callback.call(this);
+                })
+                .catch(err => console.error('render err:' + err));
+    };
+    return Widget;
+}
+
+function fetchTemplate(src) {
+    var fetchPromise = fetch(src)
         .then(response => response.text())
         .then(body => {
             var template = document.createElement('template');
@@ -22,13 +79,14 @@ Component.prototype.fetchTemplate = function(src) {
             return clone;
         })
         .catch(err => console.error(err.stack))
-    return this.fetchPromise;
+    return fetchPromise;
 };
-Component.prototype.bindDOM = function(template) {
-    this.props.dom = {};
+
+function generateDocument(widget, template) {
+    var dom = {};
     [].forEach.call(template.querySelectorAll('[data-info]'), doc => {
         var info = doc.getAttribute('data-info');
-        this.props.dom[info] = doc;
+        dom[info] = doc;
     });
     [].forEach.call(template.querySelectorAll('[data-event]'), doc => {
         var events = doc.getAttribute('data-event');
@@ -42,108 +100,48 @@ Component.prototype.bindDOM = function(template) {
                 else if (index === 1)
                     action = token;
             })
-            if (!this[action]) {
+            if (!widget[action]) {
                 console.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
-                return;
+                return {
+                    template: template,
+                    dom: dom
+                };
             }
-            doc.addEventListener(eventName, this[action].bind(this));
+            doc.addEventListener(eventName, widget[action].bind(widget));
         })
     })
-    return template;
+    return {
+        template: template,
+        dom: dom
+    };
 }
-Component.prototype.beforeUpdate = function(action) {
-    if (this.options.beforeUpdate)
-        return this.options.beforeUpdate.call(this, action, this.props);
-    return true;
-};
-Component.prototype.afterUpdate = function(action) {
-    if (this.options.afterUpdate)
-        return this.options.afterUpdate.call(this, action, this.props);
-    return true;
-};
-Component.prototype.remove = function() {
-    while (this.props.targetDOM.firstChild) {
-        this.props.targetDOM.removeChild(this.props.targetDOM.firstChild);
+
+function generateActions(widgetAction, userAction) {
+    if (!userAction) {
+        userAction = function() {};
+        console.warn('widget has some actions not defined');
     }
-};
-Component.prototype.render = function(target, callback) {
-    if (this.fetchPromise)
-        return this.fetchPromise
-            .then(template => {
-                if (typeof target === 'string') {
-                    target = document.querySelector(target);
-                } else if (target instanceof HTMLElement) {
-                    target = target;
-                } else {
-                    console.warn('first argument of render method should be selector string or dom');
-                }
-                this.props.targetDOM = target;
-                this.props.targetDOM.appendChild(template);
-            })
-            .then(() => {
-                if (callback && typeof callback === 'function')
-                    callback.call(this);
-            })
-            .catch(err => console.error('render err:' + err));
-};
-
-function register(settings) {
-    var beforeUpdate = settings.beforeUpdate;
-    var afterUpdate = settings.afterUpdate;
-    var methods = settings.methods;
-
-    var Widget = function(options) {
-        Component.call(this, options);
-        // bind methods
-        if (methods) {
-            Object.keys(methods).forEach(index => {
-                var method = methods[index];
-                var action = options.actions[index];
-                var handler = options.handlers[index];
-                // Method which has same name in options.actions will be treated as a UI->Helper method
-                // Other method will be treated as handlers(Helper->UI)
-                if (options.actions && action) {
-                    var actionWrapper = function(...args) {
-                        this.beforeUpdate(index);
-                        return Promise.resolve(method.call(this, action.bind(this), ...args))
-                            .then((...result) => this.afterUpdate(index, result)) // result is an array
-                            .catch(err => console.error(err.stack));
-                    }.bind(this)
-                    Widget.prototype[index] = actionWrapper;
-                } else if (options.handlers && handler) {
-                    var handlerWrapper = function(...args) {
-                        this.beforeUpdate(index);
-                        return Promise.resolve(method.call(this, ...args))
-                            .then((...result) => this.afterUpdate(index, result))
-                            .catch(err => console.error(err.stack));
-                    }.bind(this)
-                    handler.call(this, handlerWrapper);
-                }
-            })
-        }
-        console.log(this);
-    };
-    Widget.prototype = Object.create(Component.prototype);
-    Widget.prototype.constructor = Widget;
-    Widget.prototype.beforeUpdate = function(action, options) {
-        var defaultAction = Component.prototype.beforeUpdate.call(this, action, options);
-        if (typeof defaultAction !== 'undefined' && !defaultAction)
-            return options;
-        if (!settings.beforeUpdate)
-            return options;
-        return settings.beforeUpdate.call(this, action, options);
-    };
-    Widget.prototype.afterUpdate = function(action, options) {
-        var defaultAction = Component.prototype.afterUpdate.call(this, action, options);
-        if (typeof defaultAction !== 'undefined' && !defaultAction)
-            return options;
-        if (!settings.afterUpdate)
-            return options;
-        return settings.afterUpdate.call(this, action, options);
-    };
-    return Widget;
+    return function(...args) {
+        return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, ...args))
+            .then((...result) => widgetAction.method.call(this, userAction.bind(this), ...result))
+            .then((...result) => wrapUserEvent(widgetAction.after, userAction.after, ...result))
+            .catch(err => console.error(err.stack));
+    }.bind(this)
 }
-export {
-    Component,
-    register
-};
+
+function generateHandlers(widgetHandler) {
+    return function(...args) {
+        return Promise.resolve(wrapUserEvent(widgetHandler.before, widgetHandler.before, ...result))
+            .then((...result) => widgetHandler.method.call(this, ...args))
+            .then((...result) => wrapUserEvent(widgetHandler.after, widgetHandler.after, ...result))
+            .catch(err => console.error(err.stack));
+    }.bind(this)
+}
+
+function wrapUserEvent(widget, user, ...args) {
+    if (!user || user())
+        return widget(...args);
+    return null;
+}
+
+export default register;

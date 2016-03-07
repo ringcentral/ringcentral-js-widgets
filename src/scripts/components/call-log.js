@@ -1,4 +1,4 @@
-import { register, Component } from '../component'
+import register from '../component'
 import CallLogItem from './call-log-item'
 
 var CallLog = register({

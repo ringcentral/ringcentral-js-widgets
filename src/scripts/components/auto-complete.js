@@ -1,4 +1,4 @@
-import { Component, register } from '../component'
+import register from '../component'
 var AutoComplete = register({
     afterUpdate: function(action, options) {
         if (action === 'autoComplete') {

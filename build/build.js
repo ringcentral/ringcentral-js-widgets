@@ -4,27 +4,79 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var Component = function Component(options) {
-    var _this = this;
 
-    if (!options.template) {
-        throw new Error('need a template');
-    }
-    // TODO: use Object.extend or somewhat (es6) for default options setting
-    this.options = options || {};
-    this.props = {};
-    this.fetchPromise = null;
-    this.beforeUpdate('mount');
-    this.fetchTemplate(options.template).then(function (template) {
-        return _this.bindDOM(template);
-    }).then(function (template) {
-        return _this.afterUpdate('mount');
-    }).catch(function (err) {
-        return console.error(err.stack);
-    });
-};
-Component.prototype.fetchTemplate = function (src) {
-    this.fetchPromise = fetch(src).then(function (response) {
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function register(settings) {
+    /*
+     *
+     * [register process]
+     *
+     * generate actions _____
+     *                       |------> generate document ------> generate handlers
+     * fetch template   _____|                          ------> maybe render
+     *
+     */
+    var Widget = function Widget(options) {
+        var _this = this;
+
+        if (!options.template) {
+            throw new Error('need a template');
+        }
+        this.options = options || {};
+        this.props = {};
+        this.fetchPromise = Promise.all([fetchTemplate(options.template), function () {
+            Object.keys(settings.actions).forEach(function (index) {
+                console.log(index);
+                Widget.prototype[index] = generateActions(settings.actions[index], options.actions[index]);
+            });
+        }()]).then(function (args) {
+            return generateDocument(_this, args[0] /* template:DocumentFragment */);
+        }).catch(function (err) {
+            return console.error(err.stack);
+        });
+        this.fetchPromise.then(function (args) {
+            return _this.props.dom = args.dom;
+        }).then(function () {
+            var handlers = settings.handlers;
+            if (handlers) {
+                Object.keys(handlers).forEach(function (index) {
+                    options.handlers[index].call(_this, generateHandlers(settings.handlers[index]));
+                });
+            }
+        }).catch(function (err) {
+            return console.error(err.stack);
+        });
+    };
+    Widget.prototype.remove = function () {
+        while (this.props.targetDOM.firstChild) {
+            this.props.targetDOM.removeChild(this.props.targetDOM.firstChild);
+        }
+    };
+    Widget.prototype.render = function (target, callback) {
+        var _this2 = this;
+
+        if (this.fetchPromise) return this.fetchPromise.then(function (args) {
+            if (typeof target === 'string') {
+                target = document.querySelector(target);
+            } else if (target instanceof HTMLElement) {
+                target = target;
+            } else {
+                console.warn('first argument of render method should be selector string or dom');
+            }
+            _this2.props.targetDOM = target;
+            _this2.props.targetDOM.appendChild(args.template);
+        }).then(function () {
+            if (callback && typeof callback === 'function') callback.call(_this2);
+        }).catch(function (err) {
+            return console.error('render err:' + err);
+        });
+    };
+    return Widget;
+}
+
+function fetchTemplate(src) {
+    var fetchPromise = fetch(src).then(function (response) {
         return response.text();
     }).then(function (body) {
         var template = document.createElement('template');
@@ -34,15 +86,14 @@ Component.prototype.fetchTemplate = function (src) {
     }).catch(function (err) {
         return console.error(err.stack);
     });
-    return this.fetchPromise;
+    return fetchPromise;
 };
-Component.prototype.bindDOM = function (template) {
-    var _this2 = this;
 
-    this.props.dom = {};
+function generateDocument(widget, template) {
+    var dom = {};
     [].forEach.call(template.querySelectorAll('[data-info]'), function (doc) {
         var info = doc.getAttribute('data-info');
-        _this2.props.dom[info] = doc;
+        dom[info] = doc;
     });
     [].forEach.call(template.querySelectorAll('[data-event]'), function (doc) {
         var events = doc.getAttribute('data-event');
@@ -53,131 +104,88 @@ Component.prototype.bindDOM = function (template) {
             event.split(':').forEach(function (token, index) {
                 if (index === 0) eventName = token;else if (index === 1) action = token;
             });
-            if (!_this2[action]) {
+            if (!widget[action]) {
                 console.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
-                return;
+                return {
+                    template: template,
+                    dom: dom
+                };
             }
-            doc.addEventListener(eventName, _this2[action].bind(_this2));
+            doc.addEventListener(eventName, widget[action].bind(widget));
         });
     });
-    return template;
-};
-Component.prototype.beforeUpdate = function (action) {
-    if (this.options.beforeUpdate) return this.options.beforeUpdate.call(this, action, this.props);
-    return true;
-};
-Component.prototype.afterUpdate = function (action) {
-    if (this.options.afterUpdate) return this.options.afterUpdate.call(this, action, this.props);
-    return true;
-};
-Component.prototype.remove = function () {
-    while (this.props.targetDOM.firstChild) {
-        this.props.targetDOM.removeChild(this.props.targetDOM.firstChild);
-    }
-};
-Component.prototype.render = function (target, callback) {
-    var _this3 = this;
-
-    if (this.fetchPromise) return this.fetchPromise.then(function (template) {
-        if (typeof target === 'string') {
-            target = document.querySelector(target);
-        } else if (target instanceof HTMLElement) {
-            target = target;
-        } else {
-            console.warn('first argument of render method should be selector string or dom');
-        }
-        _this3.props.targetDOM = target;
-        _this3.props.targetDOM.appendChild(template);
-    }).then(function () {
-        if (callback && typeof callback === 'function') callback.call(_this3);
-    }).catch(function (err) {
-        return console.error('render err:' + err);
-    });
-};
-
-function register(settings) {
-    var beforeUpdate = settings.beforeUpdate;
-    var afterUpdate = settings.afterUpdate;
-    var methods = settings.methods;
-
-    var Widget = function Widget(options) {
-        var _this5 = this;
-
-        Component.call(this, options);
-        // bind methods
-        if (methods) {
-            Object.keys(methods).forEach(function (index) {
-                var method = methods[index];
-                var action = options.actions[index];
-                var handler = options.handlers[index];
-                // Method which has same name in options.actions will be treated as a UI->Helper method
-                // Other method will be treated as handlers(Helper->UI)
-                if (options.actions && action) {
-                    var actionWrapper = function () {
-                        var _this4 = this;
-
-                        this.beforeUpdate(index);
-
-                        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                            args[_key] = arguments[_key];
-                        }
-
-                        return Promise.resolve(method.call.apply(method, [this, action.bind(this)].concat(args))).then(function () {
-                            for (var _len2 = arguments.length, result = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-                                result[_key2] = arguments[_key2];
-                            }
-
-                            return _this4.afterUpdate(index, result);
-                        }) // result is an array
-                        .catch(function (err) {
-                            return console.error(err.stack);
-                        });
-                    }.bind(_this5);
-                    Widget.prototype[index] = actionWrapper;
-                } else if (options.handlers && handler) {
-                    var handlerWrapper = function () {
-                        var _this6 = this;
-
-                        this.beforeUpdate(index);
-
-                        for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-                            args[_key3] = arguments[_key3];
-                        }
-
-                        return Promise.resolve(method.call.apply(method, [this].concat(args))).then(function () {
-                            for (var _len4 = arguments.length, result = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-                                result[_key4] = arguments[_key4];
-                            }
-
-                            return _this6.afterUpdate(index, result);
-                        }).catch(function (err) {
-                            return console.error(err.stack);
-                        });
-                    }.bind(_this5);
-                    handler.call(_this5, handlerWrapper);
-                }
-            });
-        }
-        console.log(this);
+    return {
+        template: template,
+        dom: dom
     };
-    Widget.prototype = Object.create(Component.prototype);
-    Widget.prototype.constructor = Widget;
-    Widget.prototype.beforeUpdate = function (action, options) {
-        var defaultAction = Component.prototype.beforeUpdate.call(this, action, options);
-        if (typeof defaultAction !== 'undefined' && !defaultAction) return options;
-        if (!settings.beforeUpdate) return options;
-        return settings.beforeUpdate.call(this, action, options);
-    };
-    Widget.prototype.afterUpdate = function (action, options) {
-        var defaultAction = Component.prototype.afterUpdate.call(this, action, options);
-        if (typeof defaultAction !== 'undefined' && !defaultAction) return options;
-        if (!settings.afterUpdate) return options;
-        return settings.afterUpdate.call(this, action, options);
-    };
-    return Widget;
 }
-exports.Component = Component;
-exports.register = register;
+
+function generateActions(widgetAction, userAction) {
+    if (!userAction) {
+        userAction = function userAction() {};
+        console.warn('widget has some actions not defined');
+    }
+    return function () {
+        var _this3 = this;
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        return Promise.resolve(wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args))).then(function () {
+            var _widgetAction$method;
+
+            for (var _len2 = arguments.length, result = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                result[_key2] = arguments[_key2];
+            }
+
+            return (_widgetAction$method = widgetAction.method).call.apply(_widgetAction$method, [_this3, userAction.bind(_this3)].concat(result));
+        }).then(function () {
+            for (var _len3 = arguments.length, result = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+                result[_key3] = arguments[_key3];
+            }
+
+            return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(result));
+        }).catch(function (err) {
+            return console.error(err.stack);
+        });
+    }.bind(this);
+}
+
+function generateHandlers(widgetHandler) {
+    return function () {
+        var _this4 = this;
+
+        for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+            args[_key4] = arguments[_key4];
+        }
+
+        return Promise.resolve(wrapUserEvent.apply(undefined, [widgetHandler.before, widgetHandler.before].concat(_toConsumableArray(result)))).then(function () {
+            var _widgetHandler$method;
+
+            return (_widgetHandler$method = widgetHandler.method).call.apply(_widgetHandler$method, [_this4].concat(args));
+        }).then(function () {
+            for (var _len5 = arguments.length, result = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+                result[_key5] = arguments[_key5];
+            }
+
+            return wrapUserEvent.apply(undefined, [widgetHandler.after, widgetHandler.after].concat(result));
+        }).catch(function (err) {
+            return console.error(err.stack);
+        });
+    }.bind(this);
+}
+
+function wrapUserEvent(widget, user) {
+    for (var _len6 = arguments.length, args = Array(_len6 > 2 ? _len6 - 2 : 0), _key6 = 2; _key6 < _len6; _key6++) {
+        args[_key6 - 2] = arguments[_key6];
+    }
+
+    if (!user || user()) return widget.apply(undefined, args);
+    return null;
+}
+
+exports.default = register;
 
 },{}],2:[function(require,module,exports){
 'use strict';
@@ -188,41 +196,47 @@ Object.defineProperty(exports, "__esModule", {
 
 var _component = require('../component');
 
-var AuthPanel = (0, _component.register)({
-    beforeUpdate: function beforeUpdate(action, options) {
-        if (action === 'login') {
-            this.props.dom.login.disabled = true;
-            this.props.dom.error.textContent = '';
-            this.interval = loading(this.props.dom.login, 'login');
-        }
-    },
-    afterUpdate: function afterUpdate(action, options) {
-        if (action === 'mount') {
-            this.props.dom.key.value = localStorage.getItem('key');
-            this.props.dom.secret.value = localStorage.getItem('secret');
-            this.props.dom.username.value = localStorage.getItem('username');
-            this.props.dom.extension.value = localStorage.getItem('extension');
-            this.props.dom.password.value = localStorage.getItem('password');
-        } else if (action === 'login') {
-            this.props.dom.login.disabled = false;
-            // stop loading animation
-            if (this.interval) {
-                this.interval.cancel();
-                this.interval = null;
-            }
-            localStorage.setItem('server', this.props.dom.server.value || '');
-            localStorage.setItem('key', this.props.dom.key.value || '');
-            localStorage.setItem('secret', this.props.dom.secret.value || '');
-            localStorage.setItem('username', this.props.dom.username.value || '');
-            localStorage.setItem('extension', this.props.dom.extension.value || '');
-            localStorage.setItem('password', this.props.dom.password.value || '');
-        }
-    },
-    methods: {
-        login: function login(finish) {
-            return finish();
-        }
+var _component2 = _interopRequireDefault(_component);
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var AuthPanel = (0, _component2.default)({
+    actions: {
+        mount: {
+            before: function before() {},
+            method: function method() {},
+            after: function after() {
+                this.props.dom.key.value = localStorage.getItem('key');
+                this.props.dom.secret.value = localStorage.getItem('secret');
+                this.props.dom.username.value = localStorage.getItem('username');
+                this.props.dom.extension.value = localStorage.getItem('extension');
+                this.props.dom.password.value = localStorage.getItem('password');
+            }
+        },
+        login: {
+            before: function before() {
+                this.props.dom.login.disabled = true;
+                this.props.dom.error.textContent = '';
+                this.interval = loading(this.props.dom.login, 'login');
+            },
+            action: function action(finish) {
+                return finish();
+            },
+            after: function after() {
+                this.props.dom.login.disabled = false;
+                // stop loading animation
+                if (this.interval) {
+                    this.interval.cancel();
+                    this.interval = null;
+                }
+                localStorage.setItem('server', this.props.dom.server.value || '');
+                localStorage.setItem('key', this.props.dom.key.value || '');
+                localStorage.setItem('secret', this.props.dom.secret.value || '');
+                localStorage.setItem('username', this.props.dom.username.value || '');
+                localStorage.setItem('extension', this.props.dom.extension.value || '');
+                localStorage.setItem('password', this.props.dom.password.value || '');
+            }
+        }
     }
 });
 
@@ -258,7 +272,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _component = require('../component');
 
-var AutoComplete = (0, _component.register)({
+var _component2 = _interopRequireDefault(_component);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var AutoComplete = (0, _component2.default)({
     afterUpdate: function afterUpdate(action, options) {
         var _this = this;
 
@@ -306,7 +324,11 @@ Object.defineProperty(exports, "__esModule", {
 
 var _component = require('../component');
 
-var CallLogItem = (0, _component.register)({
+var _component2 = _interopRequireDefault(_component);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var CallLogItem = (0, _component2.default)({
     beforeUpdate: function beforeUpdate(action) {},
     afterUpdate: function afterUpdate(action) {},
     methods: {}
@@ -323,13 +345,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _component = require('../component');
 
+var _component2 = _interopRequireDefault(_component);
+
 var _callLogItem = require('./call-log-item');
 
 var _callLogItem2 = _interopRequireDefault(_callLogItem);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var CallLog = (0, _component.register)({
+var CallLog = (0, _component2.default)({
 
     afterUpdate: function afterUpdate(action, options) {
         var allCallTab = this.props.dom.allCallTab;
@@ -422,6 +446,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _component = require('../component');
 
+var _component2 = _interopRequireDefault(_component);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var state = {
     'HIDDEN': 0,
     'CALLIN': 1,
@@ -429,7 +457,7 @@ var state = {
     'ONLINE': 3
 };
 var currentState = state.HIDDEN;
-var CallPanel = (0, _component.register)({
+var CallPanel = (0, _component2.default)({
     beforeUpdate: function beforeUpdate(action, options) {},
     afterUpdate: function afterUpdate(action, options) {
         if (action === 'mount') {
@@ -556,13 +584,15 @@ Object.defineProperty(exports, "__esModule", {
 
 var _component = require('../component');
 
+var _component2 = _interopRequireDefault(_component);
+
 var _autoComplete = require('./auto-complete');
 
 var _autoComplete2 = _interopRequireDefault(_autoComplete);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var DialPad = (0, _component.register)({
+var DialPad = (0, _component2.default)({
     beforeUpdate: function beforeUpdate(action, options) {
         if (action === 'dialing') {
             // ...

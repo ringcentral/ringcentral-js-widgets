@@ -16,8 +16,23 @@
     <script type="text/javascript" src="bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
     <script type="text/javascript" src="build/build.js"></script>
     <script type="text/javascript">
-    
-    
+    var authPanel = new AuthPanel({
+        template: './template/auth-panel.html',
+        actions: {
+            login: {
+                before: function() {},
+                method: function() {
+                    var username = this.props.dom.username.value;
+                    var extension = this.props.dom.extension.value;
+                    var password = this.props.dom.password.value;
+                    return LoginService.login(username, extension, password);
+                },
+                after: function() {}
+            }
+        },
+        handlers: {},
+    });
+    authPanel.render('#dev-panel');
     </script>
 </body>
 

@@ -1,4 +1,4 @@
-import { register, Component } from '../component'
+import register from '../component'
 var state = {
     'HIDDEN': 0,
     'CALLIN': 1,

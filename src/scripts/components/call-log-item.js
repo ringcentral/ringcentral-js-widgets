@@ -1,4 +1,4 @@
-import { Component, register } from '../component'
+import register from '../component'
 
 var CallLogItem = register({
     beforeUpdate: function(action) {

@@ -1,4 +1,4 @@
-import { Component, register } from '../component'
+import register from '../component'
 import AutoComplete from './auto-complete'
 var DialPad = register({
     beforeUpdate: function(action, options) {
