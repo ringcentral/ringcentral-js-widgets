@@ -1,3 +1,5 @@
+import { fetch } from 'whatwg-fetch';
+
 function register(settings) {
     /*
      *
@@ -9,10 +11,10 @@ function register(settings) {
      *
      */
     var Widget = function(options) {
+        this.options = options || {};
         if (!options.template) {
             throw new Error('need a template');
         }
-        this.options = options || {};
         this.props = {};
         this.fetchPromise =
             Promise.all([
@@ -32,9 +34,6 @@ function register(settings) {
                         }, options.actions.render)
 
                     function render(finish, target, callback) {
-                        console.log(target);
-                        console.log(finish);
-                        console.log(this);
                         if (this.fetchPromise)
                             return this.fetchPromise
                                 .then(() => {
@@ -46,7 +45,6 @@ function register(settings) {
                                         console.warn('first argument of render method should be selector string or dom');
                                     }
                                     this.props.targetDOM = target;
-                                    console.log(target);
                                     this.props.targetDOM.appendChild(this.props.template);
                                 })
                                 .then(() => {
@@ -135,7 +133,6 @@ function generateActions(widgetAction, userAction) {
         userAction = function() {};
         console.warn('widget has some actions not defined');
     }
-    console.log(userAction);
     return function(...args) {
         return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, ...args))
             .then((...result) => widgetAction.method.call(this, userAction.method.bind(this), ...result))
