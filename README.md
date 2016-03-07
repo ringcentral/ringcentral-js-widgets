@@ -7,7 +7,8 @@ This is the personal repository to do some experimental implementation of UI wid
 `bower install`
 #### Development process
 `gulp`
-
+#### Test process
+`npm test`
 # How to build a widget?
 ## 1. Define a HTML template
 #### HTML tag attributes
