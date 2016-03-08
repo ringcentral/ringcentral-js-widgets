@@ -416,8 +416,8 @@ function register(settings) {
      * [register process]
      *
      * generate actions _____
-     *                       |------> generate document ------> generate handlers
-     * fetch template   _____|                          ------> maybe render
+     *                       |----> generate document --> [before, init, after] ----> generate handlers
+     * fetch template   _____|                                                  ----> maybe [before, render, after]
      *
      */
     settings = Object.assign({
@@ -450,13 +450,13 @@ function register(settings) {
                 options.handlers[index] = bindScope(_this, options.handlers[index]);
             });
             Object.keys(settings.actions).forEach(function (index) {
-                Widget.prototype[index] = generateActions(settings.actions[index], options.actions[index]).bind(_this);
+                Widget.prototype[index] = generateActions(settings.actions[index], options.actions[index], index /* for debug */);
             });
             Widget.prototype.render = generateActions({
                 before: settings.actions.render.before,
                 method: render.bind(_this, settings.actions.render.method),
                 after: settings.actions.render.after
-            }, options.actions.render);
+            }, options.actions.render, 'render');
 
             function render(widgetRender, finish) {
                 var _this2 = this;
@@ -477,7 +477,7 @@ function register(settings) {
                     return callback && callback();
                 }) // defined in render callback
                 .then(function () {
-                    if (widgetRender && typeof widgetRender === 'function') widgetRender.call(_this2, finish);
+                    if (widgetRender && typeof widgetRender === 'function') return widgetRender.call(_this2, finish);
                 }).catch(function (err) {
                     return console.error('render err:' + err);
                 });
@@ -495,7 +495,7 @@ function register(settings) {
             var handlers = settings.handlers;
             if (handlers) {
                 Object.keys(handlers).forEach(function (index) {
-                    options.handlers[index].method.call(_this, generateHandlers(settings.handlers[index]).bind(_this));
+                    options.handlers[index].method.call(_this, generateHandlers(settings.handlers[index]));
                 });
             }
         }).catch(function (err) {
@@ -560,33 +560,40 @@ function generateDocument(widget, template) {
     };
 }
 
-function generateActions(widgetAction, userAction) {
+function generateActions(widgetAction, userAction, name) {
     if (!userAction) {
         userAction = {
             before: function before() {},
             method: function method() {},
             after: function after() {}
         };
-        console.warn('widget has some actions not defined');
+        console.warn('Widget action [%s] is not defined by users', name);
     }
     return function () {
+        var _ref;
+
         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
             args[_key] = arguments[_key];
         }
 
+        console.log('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
         return Promise.resolve(wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args))).then(function () {
-            var _ref;
+            var _ref2, _ref3;
 
             for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
                 args[_key2] = arguments[_key2];
             }
 
-            return widgetAction.method.apply(widgetAction, [userAction.method].concat(args)) || (_ref = []).concat.apply(_ref, args);
+            console.log('[%s][method](' + (_ref2 = []).concat.apply(_ref2, args) + ')', name);
+            return widgetAction.method.apply(widgetAction, [userAction.method].concat(args)) || (_ref3 = []).concat.apply(_ref3, args);
         }).then(function () {
+            var _ref4;
+
             for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
                 args[_key3] = arguments[_key3];
             }
 
+            console.log('[%s][after](' + (_ref4 = []).concat.apply(_ref4, args) + ')', name);
             return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(args));
         }).catch(function (err) {
             return console.error(err.stack);
@@ -601,13 +608,13 @@ function generateHandlers(widgetHandler) {
         }
 
         return Promise.resolve(wrapUserEvent.apply(undefined, [widgetHandler.before, widgetHandler.before].concat(args))).then(function () {
-            var _widgetAction, _ref2;
+            var _widgetAction, _ref5;
 
-            return (_widgetAction = widgetAction).method.apply(_widgetAction, arguments) || (_ref2 = []).concat.apply(_ref2, arguments);
+            return (_widgetAction = widgetAction).method.apply(_widgetAction, arguments) || (_ref5 = []).concat.apply(_ref5, arguments);
         }).then(function () {
-            var _ref3;
+            var _ref6;
 
-            return widgetHandler.after.apply(widgetHandler, arguments) || (_ref3 = []).concat.apply(_ref3, arguments);
+            return widgetHandler.after.apply(widgetHandler, arguments) || (_ref6 = []).concat.apply(_ref6, arguments);
         }).catch(function (err) {
             return console.error(err.stack);
         });
@@ -618,15 +625,13 @@ function wrapUserEvent(widget, user) {
     var continueDefault = !user || user() || true;
     if (continueDefault || typeof continueDefault === 'undefined' || continueDefault) {
         if (widget) {
-            var _ref4;
+            var _ref7;
 
             for (var _len5 = arguments.length, args = Array(_len5 > 2 ? _len5 - 2 : 0), _key5 = 2; _key5 < _len5; _key5++) {
                 args[_key5 - 2] = arguments[_key5];
             }
 
-            var r = widget.apply(undefined, args);
-            if (typeof r === 'undefined') return (_ref4 = []).concat.apply(_ref4, args);
-            return r;
+            return widget.apply(undefined, args) || (_ref7 = []).concat.apply(_ref7, args);
         }
         return null;
     }
@@ -748,11 +753,8 @@ var AutoComplete = (0, _component2.default)({
             after: function after() {}
         },
         autoComplete: {
-            before: function before(d) {
-                console.log(d);
-            },
+            before: function before(d) {},
             method: function method(finish, d) {
-                console.log(finish, d);
                 this.props.prefix = this.props.dom.input.value;
                 return finish();
             },
@@ -1204,7 +1206,6 @@ var rcHelper = function (sdk, webPhone) {
     };
     return {
         login: function login(props) {
-            console.log('helper login');
             var dom = props.dom;
             return sdk.platform().login({
                 username: dom.username.value,
@@ -1215,7 +1216,6 @@ var rcHelper = function (sdk, webPhone) {
             });
 
             function registerSIP() {
-                console.log('register');
                 return sdk.platform().post('/client-info/sip-provision', {
                     sipInfo: [{
                         transport: 'WSS'
@@ -1330,7 +1330,6 @@ var rcHelper = function (sdk, webPhone) {
         },
         getCandidates: function getCandidates(props) {
             // FIXME: because of nested component
-            console.log(props);
             var prefix = props.autoComplete.props.prefix;
             var test = ['111', '222', '333'];
             return test.filter(function (item) {

@@ -123,7 +123,7 @@
     authPanel.render('#auth-panel');
 
 
-    //
+    
     // var callPanel = new CallPanel({
     //     template: '../template/call-panel.html',
     //     actions: {
@@ -184,38 +184,22 @@
 
     });
 
-    // var callLog = new CallLog({
-    //     template:'../template/call-log.html',
-    //     actions:{
-    //         enableAllCallTab:function(){},
-    //         enableMissedCallTab:function(){}
-    //     },
-    //     handlers:{
+    LoginService.checkLoginStatus().then(
 
-    //         logUpdated:function(handler){
-    //             CallLogService.registerCallLogUpdatedHandler(handler);
-    //         }
+        function(isLoggedIn) {
+            if (isLoggedIn) {
 
-    //     }
+                callPanel.render('#call-panel');
+                dialPad.render('#dial-pad');
+                callLog.render('#call-log-panel');
 
-    // });
+            } else {
+                // render is async, supports both callbacks and promises
+                authPanel.render('#auth-panel', function() { /* ... */ });
+            }
+        }
 
-    // LoginService.checkLoginStatus().then(
-
-    //     function(isLoggedIn) {
-    //         if (isLoggedIn) {
-
-    //             callPanel.render('#call-panel');
-    //             dialPad.render('#dial-pad');
-    //             callLog.render('#call-log-panel');
-
-    //         } else {
-    //             // render is async, supports both callbacks and promises
-    //             authPanel.render('#auth-panel', function() { /* ... */ });
-    //         }
-    //     }
-
-    // );
+    );
 
     function switchTheme(theme) {
         document.getElementById('theme-css').href = 'theme/' + theme + '.css';

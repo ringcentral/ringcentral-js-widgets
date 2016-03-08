@@ -6,8 +6,8 @@ function register(settings) {
      * [register process]
      *
      * generate actions _____
-     *                       |------> generate document ------> generate handlers
-     * fetch template   _____|                          ------> maybe render
+     *                       |----> generate document --> [before, init, after] ----> generate handlers
+     * fetch template   _____|                                                  ----> maybe [before, render, after]
      *
      */
     settings = Object.assign({
@@ -42,14 +42,14 @@ function register(settings) {
                     })
                     Object.keys(settings.actions).forEach(index => {
                         Widget.prototype[index] =
-                            generateActions(settings.actions[index], options.actions[index]).bind(this);
+                            generateActions(settings.actions[index], options.actions[index], index /* for debug */ );
                     })
                     Widget.prototype.render =
                         generateActions({
                             before: settings.actions.render.before,
                             method: render.bind(this, settings.actions.render.method),
                             after: settings.actions.render.after
-                        }, options.actions.render)
+                        }, options.actions.render, 'render')
 
                     function render(widgetRender, finish, ...args) {
                         var target = args[0][0];
@@ -70,7 +70,7 @@ function register(settings) {
                                 .then(() => callback && callback()) // defined in render callback
                                 .then(() => {
                                     if (widgetRender && typeof widgetRender === 'function')
-                                        widgetRender.call(this, finish);
+                                        return widgetRender.call(this, finish);
                                 })
                                 .catch(err => console.error('render err:' + err));
                     }
@@ -90,7 +90,7 @@ function register(settings) {
                     Object.keys(handlers).forEach(index => {
                         options.handlers[index].method.call(
                             this,
-                            generateHandlers(settings.handlers[index]).bind(this)
+                            generateHandlers(settings.handlers[index])
                         );
                     })
                 }
@@ -157,21 +157,24 @@ function generateDocument(widget, template) {
     };
 }
 
-function generateActions(widgetAction, userAction) {
+function generateActions(widgetAction, userAction, name) {
     if (!userAction) {
         userAction = {
             before: function() {},
             method: function() {},
             after: function() {}
         };
-        console.warn('widget has some actions not defined');
+        console.warn('Widget action [%s] is not defined by users', name);
     }
     return function(...args) {
+        console.log('[%s][before](' + [].concat(...args) + ')', name);
         return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, ...args))
             .then(function(...args) {
+                console.log('[%s][method](' + [].concat(...args) + ')', name);
                 return widgetAction.method(userAction.method, ...args) || [].concat(...args);
             })
             .then(function(...args) {
+                console.log('[%s][after](' + [].concat(...args) + ')', name);
                 return wrapUserEvent(widgetAction.after, userAction.after, ...args)
             })
             .catch(err => console.error(err.stack));
@@ -197,10 +200,7 @@ function wrapUserEvent(widget, user, ...args) {
         typeof continueDefault === 'undefined' ||
         continueDefault) {
         if (widget) {
-            var r = widget(...args);
-            if (typeof r === 'undefined')
-                return [].concat(...args);
-            return r;
+            return widget(...args) || [].concat(...args);
         }
         return null;
     }

@@ -20,7 +20,6 @@ var rcHelper = function(sdk, webPhone) {
     };
     return {
         login: function(props) {
-            console.log('helper login');
             var dom = props.dom;
             return sdk.platform()
                 .login({
@@ -31,7 +30,6 @@ var rcHelper = function(sdk, webPhone) {
                 .then(() => registerSIP())
 
             function registerSIP() {
-                console.log('register');
                 return sdk.platform()
                     .post('/client-info/sip-provision', {
                         sipInfo: [{
@@ -139,7 +137,6 @@ var rcHelper = function(sdk, webPhone) {
         },
         getCandidates: function(props) {
             // FIXME: because of nested component
-            console.log(props);
             var prefix = props.autoComplete.props.prefix;
             var test = ['111', '222', '333'];
             return test.filter(item => item.indexOf(prefix) === 0);
