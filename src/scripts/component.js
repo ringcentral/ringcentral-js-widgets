@@ -169,8 +169,7 @@ function generateActions(widgetAction, userAction) {
     return function(...args) {
         return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, ...args))
             .then(function(...args) {
-                var r = widgetAction.method(userAction.method, ...args);
-                return r || args;
+                return widgetAction.method(userAction.method, ...args) || [].concat(...args);
             })
             .then(function(...args) {
                 return wrapUserEvent(widgetAction.after, userAction.after, ...args)
@@ -183,10 +182,10 @@ function generateHandlers(widgetHandler) {
     return function(...args) {
         return Promise.resolve(wrapUserEvent(widgetHandler.before, widgetHandler.before, ...args))
             .then(function(...args) {
-                return widgetAction.method(...args) || args;
+                return widgetAction.method(...args) || [].concat(...args);
             })
             .then(function(...args) {
-                return widgetHandler.after(...args) || args;
+                return widgetHandler.after(...args) || [].concat(...args);
             })
             .catch(err => console.error(err.stack));
     }
@@ -200,7 +199,7 @@ function wrapUserEvent(widget, user, ...args) {
         if (widget) {
             var r = widget(...args);
             if (typeof r === 'undefined')
-                return args;
+                return [].concat(...args);
             return r;
         }
         return null;

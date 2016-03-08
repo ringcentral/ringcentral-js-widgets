@@ -575,12 +575,13 @@ function generateActions(widgetAction, userAction) {
         }
 
         return Promise.resolve(wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args))).then(function () {
+            var _ref;
+
             for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
                 args[_key2] = arguments[_key2];
             }
 
-            var r = widgetAction.method.apply(widgetAction, [userAction.method].concat(args));
-            return r || args;
+            return widgetAction.method.apply(widgetAction, [userAction.method].concat(args)) || (_ref = []).concat.apply(_ref, args);
         }).then(function () {
             for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
                 args[_key3] = arguments[_key3];
@@ -600,19 +601,13 @@ function generateHandlers(widgetHandler) {
         }
 
         return Promise.resolve(wrapUserEvent.apply(undefined, [widgetHandler.before, widgetHandler.before].concat(args))).then(function () {
-            var _widgetAction;
+            var _widgetAction, _ref2;
 
-            for (var _len5 = arguments.length, args = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
-                args[_key5] = arguments[_key5];
-            }
-
-            return (_widgetAction = widgetAction).method.apply(_widgetAction, args) || args;
+            return (_widgetAction = widgetAction).method.apply(_widgetAction, arguments) || (_ref2 = []).concat.apply(_ref2, arguments);
         }).then(function () {
-            for (var _len6 = arguments.length, args = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
-                args[_key6] = arguments[_key6];
-            }
+            var _ref3;
 
-            return widgetHandler.after.apply(widgetHandler, args) || args;
+            return widgetHandler.after.apply(widgetHandler, arguments) || (_ref3 = []).concat.apply(_ref3, arguments);
         }).catch(function (err) {
             return console.error(err.stack);
         });
@@ -623,12 +618,14 @@ function wrapUserEvent(widget, user) {
     var continueDefault = !user || user() || true;
     if (continueDefault || typeof continueDefault === 'undefined' || continueDefault) {
         if (widget) {
-            for (var _len7 = arguments.length, args = Array(_len7 > 2 ? _len7 - 2 : 0), _key7 = 2; _key7 < _len7; _key7++) {
-                args[_key7 - 2] = arguments[_key7];
+            var _ref4;
+
+            for (var _len5 = arguments.length, args = Array(_len5 > 2 ? _len5 - 2 : 0), _key5 = 2; _key5 < _len5; _key5++) {
+                args[_key5 - 2] = arguments[_key5];
             }
 
             var r = widget.apply(undefined, args);
-            if (typeof r === 'undefined') return args;
+            if (typeof r === 'undefined') return (_ref4 = []).concat.apply(_ref4, args);
             return r;
         }
         return null;
