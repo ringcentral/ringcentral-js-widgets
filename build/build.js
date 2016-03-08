@@ -458,9 +458,11 @@ function register(settings) {
                 after: settings.actions.render.after
             }, options.actions.render);
 
-            function render(widgetRender, finish, target, callback) {
+            function render(widgetRender, finish) {
                 var _this2 = this;
 
+                var target = (arguments.length <= 2 ? undefined : arguments[2])[0];
+                var callback = (arguments.length <= 2 ? undefined : arguments[2])[1];
                 if (this.fetchPromise) return this.fetchPromise.then(function () {
                     if (typeof target === 'string') {
                         target = document.querySelector(target);
@@ -568,16 +570,23 @@ function generateActions(widgetAction, userAction) {
         console.warn('widget has some actions not defined');
     }
     return function () {
-        var _arguments = arguments;
-
         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
             args[_key] = arguments[_key];
         }
 
         return Promise.resolve(wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args))).then(function () {
-            return widgetAction.method.apply(widgetAction, [userAction.method].concat(Array.prototype.slice.call(_arguments)));
+            for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                args[_key2] = arguments[_key2];
+            }
+
+            var r = widgetAction.method.apply(widgetAction, [userAction.method].concat(args));
+            return r || args;
         }).then(function () {
-            return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(Array.prototype.slice.call(_arguments)));
+            for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+                args[_key3] = arguments[_key3];
+            }
+
+            return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(args));
         }).catch(function (err) {
             return console.error(err.stack);
         });
@@ -586,16 +595,24 @@ function generateActions(widgetAction, userAction) {
 
 function generateHandlers(widgetHandler) {
     return function () {
-        var _arguments2 = arguments;
-
-        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-            args[_key2] = arguments[_key2];
+        for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+            args[_key4] = arguments[_key4];
         }
 
         return Promise.resolve(wrapUserEvent.apply(undefined, [widgetHandler.before, widgetHandler.before].concat(args))).then(function () {
-            return widgetHandler.method.apply(widgetHandler, _arguments2);
+            var _widgetAction;
+
+            for (var _len5 = arguments.length, args = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+                args[_key5] = arguments[_key5];
+            }
+
+            return (_widgetAction = widgetAction).method.apply(_widgetAction, args) || args;
         }).then(function () {
-            return wrapUserEvent.apply(undefined, [widgetHandler.after, widgetHandler.after].concat(Array.prototype.slice.call(_arguments2)));
+            for (var _len6 = arguments.length, args = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
+                args[_key6] = arguments[_key6];
+            }
+
+            return widgetHandler.after.apply(widgetHandler, args) || args;
         }).catch(function (err) {
             return console.error(err.stack);
         });
@@ -606,11 +623,13 @@ function wrapUserEvent(widget, user) {
     var continueDefault = !user || user() || true;
     if (continueDefault || typeof continueDefault === 'undefined' || continueDefault) {
         if (widget) {
-            for (var _len3 = arguments.length, args = Array(_len3 > 2 ? _len3 - 2 : 0), _key3 = 2; _key3 < _len3; _key3++) {
-                args[_key3 - 2] = arguments[_key3];
+            for (var _len7 = arguments.length, args = Array(_len7 > 2 ? _len7 - 2 : 0), _key7 = 2; _key7 < _len7; _key7++) {
+                args[_key7 - 2] = arguments[_key7];
             }
 
-            return widget.apply(undefined, args) || args; // if widget before/after return nothing, we use previous return value
+            var r = widget.apply(undefined, args);
+            if (typeof r === 'undefined') return args;
+            return r;
         }
         return null;
     }
@@ -637,7 +656,6 @@ var AuthPanel = (0, _component2.default)({
         init: {
             before: function before() {},
             method: function method(finish) {
-                console.log('dev init');
                 finish();
             },
             after: function after() {}
@@ -645,11 +663,9 @@ var AuthPanel = (0, _component2.default)({
         render: {
             before: function before() {},
             method: function method(finish) {
-                console.log('dev render');
                 finish();
             },
             after: function after() {
-                console.log(this);
                 this.props.dom.key.value = localStorage.getItem('key');
                 this.props.dom.secret.value = localStorage.getItem('secret');
                 this.props.dom.username.value = localStorage.getItem('username');
@@ -658,18 +674,15 @@ var AuthPanel = (0, _component2.default)({
             }
         },
         login: {
-            before: function before() {
-                console.log('wd before');
+            before: function before(d) {
                 this.props.dom.login.disabled = true;
                 this.props.dom.error.textContent = '';
                 this.interval = loading(this.props.dom.login, 'login');
             },
-            method: function method(finish) {
-                console.log('login');
+            method: function method(finish, d) {
                 return finish();
             },
-            after: function after() {
-                console.log('wd after');
+            after: function after(d) {
                 this.props.dom.login.disabled = false;
                 // stop loading animation
                 if (this.interval) {
@@ -738,13 +751,16 @@ var AutoComplete = (0, _component2.default)({
             after: function after() {}
         },
         autoComplete: {
-            before: function before() {},
-            method: function method(finish) {
+            before: function before(d) {
+                console.log(d);
+            },
+            method: function method(finish, d) {
+                console.log(finish, d);
                 this.props.prefix = this.props.dom.input.value;
                 return finish();
             },
-            after: function after(flow) {
-                console.log(flow);
+            after: function after(candidates) {
+                console.log(candidates);
             }
         }
     }
@@ -1052,7 +1068,9 @@ var DialPad = (0, _component2.default)({
                             method: function method() {
                                 return dialPad.getCandidates();
                             },
-                            after: function after() {}
+                            after: function after(d) {
+                                console.log(d);
+                            }
                         }
                     },
                     handlers: {}
@@ -1315,6 +1333,7 @@ var rcHelper = function (sdk, webPhone) {
         },
         getCandidates: function getCandidates(props) {
             // FIXME: because of nested component
+            console.log(props);
             var prefix = props.autoComplete.props.prefix;
             var test = ['111', '222', '333'];
             return test.filter(function (item) {

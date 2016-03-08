@@ -14,13 +14,16 @@ var AutoComplete = register({
             after: function() {}
         },
         autoComplete: {
-            before: function() {},
-            method: function(finish) {
+            before: function(d) {
+                console.log(d);
+            },
+            method: function(finish, d) {
+                console.log(finish, d);
                 this.props.prefix = this.props.dom.input.value;
                 return finish();
             },
-            after: function(flow) {
-                console.log(flow);
+            after: function(candidates) {
+                console.log(candidates);
                 
             }
         }

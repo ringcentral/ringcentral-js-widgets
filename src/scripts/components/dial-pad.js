@@ -20,7 +20,9 @@ var DialPad = register({
                             method: function() {
                                 return dialPad.getCandidates();
                             },
-                            after: function() {}
+                            after: function(d) {
+                                console.log(d);
+                            }
                         }
                     },
                     handlers: {},

@@ -5,7 +5,6 @@ var AuthPanel = register({
         init: {
             before: function() {},
             method: function(finish) {
-                console.log('dev init');
                 finish();
             },
             after: function() {}
@@ -13,11 +12,9 @@ var AuthPanel = register({
         render: {
             before: function() {},
             method: function(finish) {
-                console.log('dev render');
                 finish();
             },
             after: function() {
-                console.log(this);
                 this.props.dom.key.value = localStorage.getItem('key');
                 this.props.dom.secret.value = localStorage.getItem('secret');
                 this.props.dom.username.value = localStorage.getItem('username');
@@ -26,18 +23,15 @@ var AuthPanel = register({
             }
         },
         login: {
-            before: function() {
-                console.log('wd before');
+            before: function(d) {
                 this.props.dom.login.disabled = true;
                 this.props.dom.error.textContent = '';
                 this.interval = loading(this.props.dom.login, 'login');
             },
-            method: function(finish) {
-                console.log('login');
+            method: function(finish, d) {
                 return finish();
             },
-            after: function() {
-                console.log('wd after');
+            after: function(d) {
                 this.props.dom.login.disabled = false;
                 // stop loading animation
                 if (this.interval) {

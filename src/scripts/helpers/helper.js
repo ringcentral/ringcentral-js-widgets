@@ -139,6 +139,7 @@ var rcHelper = function(sdk, webPhone) {
         },
         getCandidates: function(props) {
             // FIXME: because of nested component
+            console.log(props);
             var prefix = props.autoComplete.props.prefix;
             var test = ['111', '222', '333'];
             return test.filter(item => item.indexOf(prefix) === 0);

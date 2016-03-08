@@ -62,30 +62,25 @@
             init: {
                 before: function() {},
                 method: function() {
-                    console.log('user init');
                 },
                 after: function() {}
             },
             render: {
                 before: function() {},
                 method: function() {
-                    console.log('user render');
                 },
                 after: function() {}
             },
             login: {
                 before: function() {
-                    console.log('before login');
                 },
                 method: function() {
-                    console.log('login');
                     var username = this.props.dom.username.value;
                     var extension = this.props.dom.extension.value;
                     var password = this.props.dom.password.value;
                     return LoginService.login(username, extension, password);
                 },
                 after: function() {
-                    console.log('after login');
                     dialPad.render('#dial-pad');
                 }
             }

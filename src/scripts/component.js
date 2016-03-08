@@ -51,7 +51,9 @@ function register(settings) {
                             after: settings.actions.render.after
                         }, options.actions.render)
 
-                    function render(widgetRender, finish, target, callback) {
+                    function render(widgetRender, finish, ...args) {
+                        var target = args[0][0];
+                        var callback = args[0][1];
                         if (this.fetchPromise)
                             return this.fetchPromise
                                 .then(() => {
@@ -166,8 +168,13 @@ function generateActions(widgetAction, userAction) {
     }
     return function(...args) {
         return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, ...args))
-            .then(() => widgetAction.method(userAction.method, ...arguments))
-            .then(() => wrapUserEvent(widgetAction.after, userAction.after, ...arguments))
+            .then(function(...args) {
+                var r = widgetAction.method(userAction.method, ...args);
+                return r || args;
+            })
+            .then(function(...args) {
+                return wrapUserEvent(widgetAction.after, userAction.after, ...args)
+            })
             .catch(err => console.error(err.stack));
     }
 }
@@ -175,8 +182,12 @@ function generateActions(widgetAction, userAction) {
 function generateHandlers(widgetHandler) {
     return function(...args) {
         return Promise.resolve(wrapUserEvent(widgetHandler.before, widgetHandler.before, ...args))
-            .then(() => widgetHandler.method(...arguments))
-            .then(() => wrapUserEvent(widgetHandler.after, widgetHandler.after, ...arguments))
+            .then(function(...args) {
+                return widgetAction.method(...args) || args;
+            })
+            .then(function(...args) {
+                return widgetHandler.after(...args) || args;
+            })
             .catch(err => console.error(err.stack));
     }
 }
@@ -187,7 +198,10 @@ function wrapUserEvent(widget, user, ...args) {
         typeof continueDefault === 'undefined' ||
         continueDefault) {
         if (widget) {
-            return widget(...args) || args; // if widget before/after return nothing, we use previous return value
+            var r = widget(...args);
+            if (typeof r === 'undefined')
+                return args;
+            return r;
         }
         return null;
     }
