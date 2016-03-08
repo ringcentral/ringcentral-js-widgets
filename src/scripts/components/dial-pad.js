@@ -25,12 +25,7 @@ var DialPad = register({
                     },
                     handlers: {},
                 })
-                autoComplete.render({
-                    target: this.props.dom.number,
-                    callback: () => {
-                        this.props.autoComplete = autoComplete
-                    }
-                });
+                autoComplete.render(this.props.dom.number, () => this.props.autoComplete = autoComplete);
             }
         },
         dialing: {

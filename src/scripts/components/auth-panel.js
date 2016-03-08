@@ -17,6 +17,7 @@ var AuthPanel = register({
                 finish();
             },
             after: function() {
+                console.log(this);
                 this.props.dom.key.value = localStorage.getItem('key');
                 this.props.dom.secret.value = localStorage.getItem('secret');
                 this.props.dom.username.value = localStorage.getItem('username');
