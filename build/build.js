@@ -410,8 +410,6 @@ var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
 function register(settings) {
     /*
      *
@@ -422,29 +420,48 @@ function register(settings) {
      * fetch template   _____|                          ------> maybe render
      *
      */
+    settings = Object.assign({
+        actions: {},
+        handlers: {}
+    }, settings);
+
     var Widget = function Widget(options) {
         var _this = this;
 
-        this.options = options || {};
+        this.options = Object.assign({
+            actions: {},
+            handlers: {}
+        }, options);
         if (!options.template) {
             throw new Error('need a template');
         }
         this.props = {};
         this.fetchPromise = Promise.all([fetchTemplate(options.template), function () {
             Object.keys(settings.actions).forEach(function (index) {
-                Widget.prototype[index] = generateActions(settings.actions[index], options.actions[index]);
+                settings.actions[index] = bindScope(_this, settings.actions[index]);
+            });
+            Object.keys(settings.handlers).forEach(function (index) {
+                settings.handlers[index] = bindScope(_this, settings.handlers[index]);
+            });
+            Object.keys(options.actions).forEach(function (index) {
+                options.actions[index] = bindScope(_this, options.actions[index]);
+            });
+            Object.keys(options.handlers).forEach(function (index) {
+                options.handlers[index] = bindScope(_this, options.handlers[index]);
+            });
+            Object.keys(settings.actions).forEach(function (index) {
+                Widget.prototype[index] = generateActions(settings.actions[index], options.actions[index]).bind(_this);
             });
             Widget.prototype.render = generateActions({
-                before: function before(target) {
-                    return target;
-                },
-                method: render.bind(_this),
-                after: function after() {}
+                before: settings.actions.render.before,
+                method: render.bind(_this, settings.actions.render.method),
+                after: settings.actions.render.after
             }, options.actions.render);
 
-            function render(finish, target, callback) {
+            function render(widgetRender, finish, flow) {
                 var _this2 = this;
 
+                var target = flow.target;
                 if (this.fetchPromise) return this.fetchPromise.then(function () {
                     if (typeof target === 'string') {
                         target = document.querySelector(target);
@@ -456,8 +473,11 @@ function register(settings) {
                     _this2.props.targetDOM = target;
                     _this2.props.targetDOM.appendChild(_this2.props.template);
                 }).then(function () {
-                    if (callback && typeof callback === 'function') callback.call(_this2);
-                }).then(finish).catch(function (err) {
+                    return flow.callback && flow.callback();
+                }) // defined in render callback
+                .then(function () {
+                    if (widgetRender && typeof widgetRender === 'function') widgetRender.call(_this2, finish);
+                }).catch(function (err) {
                     return console.error('render err:' + err);
                 });
             }
@@ -466,6 +486,7 @@ function register(settings) {
         }).then(function (args) {
             _this.props.dom = args.dom;
             _this.props.template = args.template;
+            _this.init();
         }).catch(function (err) {
             return console.error(err.stack);
         });
@@ -473,7 +494,7 @@ function register(settings) {
             var handlers = settings.handlers;
             if (handlers) {
                 Object.keys(handlers).forEach(function (index) {
-                    options.handlers[index].method.call(_this, generateHandlers(settings.handlers[index]));
+                    options.handlers[index].method.call(_this, generateHandlers(settings.handlers[index]).bind(_this));
                 });
             }
         }).catch(function (err) {
@@ -486,6 +507,14 @@ function register(settings) {
         }
     };
     return Widget;
+}
+
+function bindScope(scope, action) {
+    return {
+        before: action.before ? action.before.bind(scope) : function () {}.bind(scope),
+        method: action.method ? action.method.bind(scope) : function () {}.bind(scope),
+        after: action.after ? action.after.bind(scope) : function () {}.bind(scope)
+    };
 }
 
 function fetchTemplate(src) {
@@ -539,69 +568,37 @@ function generateActions(widgetAction, userAction) {
         };
         console.warn('widget has some actions not defined');
     }
-    if (!userAction.method) {
-        userAction.method = function () {};
-        console.warn('widget has some actions not defined');
-    }
-    return function () {
-        var _this3 = this;
-
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        return Promise.resolve(wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args))).then(function () {
-            var _widgetAction$method;
-
-            for (var _len2 = arguments.length, result = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-                result[_key2] = arguments[_key2];
-            }
-
-            return (_widgetAction$method = widgetAction.method).call.apply(_widgetAction$method, [_this3, userAction.method.bind(_this3)].concat(result));
-        }).then(function () {
-            for (var _len3 = arguments.length, result = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-                result[_key3] = arguments[_key3];
-            }
-
-            return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(result));
+    return function (flow) {
+        console.log(userAction.before);
+        return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, flow)).then(function (flow) {
+            return widgetAction.method(userAction.method, flow);
+        }).then(function (flow) {
+            return wrapUserEvent(widgetAction.after, userAction.after, flow);
         }).catch(function (err) {
             return console.error(err.stack);
         });
-    }.bind(this);
+    };
 }
 
 function generateHandlers(widgetHandler) {
-    return function () {
-        var _this4 = this;
-
-        for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-            args[_key4] = arguments[_key4];
-        }
-
-        return Promise.resolve(wrapUserEvent.apply(undefined, [widgetHandler.before, widgetHandler.before].concat(_toConsumableArray(result)))).then(function () {
-            var _widgetHandler$method;
-
-            return (_widgetHandler$method = widgetHandler.method).call.apply(_widgetHandler$method, [_this4].concat(args));
-        }).then(function () {
-            for (var _len5 = arguments.length, result = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
-                result[_key5] = arguments[_key5];
-            }
-
-            return wrapUserEvent.apply(undefined, [widgetHandler.after, widgetHandler.after].concat(result));
+    return function (flow) {
+        return Promise.resolve(wrapUserEvent(widgetHandler.before, widgetHandler.before, flow)).then(function (flow) {
+            return widgetHandler.method(flow);
+        }).then(function (flow) {
+            return wrapUserEvent(widgetHandler.after, widgetHandler.after, flow);
         }).catch(function (err) {
             return console.error(err.stack);
         });
-    }.bind(this);
+    };
 }
 
-function wrapUserEvent(widget, user) {
+function wrapUserEvent(widget, user, flow) {
     var continueDefault = !user || user() || true;
     if (continueDefault || typeof continueDefault === 'undefined' || continueDefault) {
-        for (var _len6 = arguments.length, args = Array(_len6 > 2 ? _len6 - 2 : 0), _key6 = 2; _key6 < _len6; _key6++) {
-            args[_key6 - 2] = arguments[_key6];
+        if (widget) {
+            return widget(flow) || flow; // if widget before/after return nothing, we use previous return value
         }
-
-        return widget ? widget.apply(undefined, args) : null;
+        return null;
     }
     return null;
 }
@@ -623,9 +620,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var AuthPanel = (0, _component2.default)({
     actions: {
-        mount: {
+        init: {
             before: function before() {},
-            method: function method() {},
+            method: function method(finish) {
+                console.log('dev init');
+                finish();
+            },
+            after: function after() {}
+        },
+        render: {
+            before: function before() {},
+            method: function method(finish) {
+                console.log('dev render');
+                finish();
+            },
             after: function after() {
                 this.props.dom.key.value = localStorage.getItem('key');
                 this.props.dom.secret.value = localStorage.getItem('secret');
@@ -636,14 +644,17 @@ var AuthPanel = (0, _component2.default)({
         },
         login: {
             before: function before() {
+                console.log('wd before');
                 this.props.dom.login.disabled = true;
                 this.props.dom.error.textContent = '';
                 this.interval = loading(this.props.dom.login, 'login');
             },
-            action: function action(finish) {
+            method: function method(finish) {
+                console.log('login');
                 return finish();
             },
             after: function after() {
+                console.log('wd after');
                 this.props.dom.login.disabled = false;
                 // stop loading animation
                 if (this.interval) {
@@ -698,40 +709,31 @@ var _component2 = _interopRequireDefault(_component);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var AutoComplete = (0, _component2.default)({
-    afterUpdate: function afterUpdate(action, options) {
-        var _this = this;
-
-        if (action === 'autoComplete') {
-            var child;
-            while (child = this.props.dom.candidates.firstChild) {
-                this.props.dom.candidates.removeChild(child);
-            }
-            // options === candidates
-            console.log(options);
-            var candidates = options[0];
-            candidates.forEach(function (can) {
-                var btn = document.createElement('button');
-                btn.textContent = can;
-                btn.addEventListener('click', function (e) {
-                    _this.props.dom.input.value = can;
-                });
-                _this.props.dom.candidates.appendChild(btn);
-            });
-        }
-    },
-    methods: {
-        autoComplete: function autoComplete(finish) {
-            this.props.prefix = this.props.dom.input.value;
-            return finish();
+    actions: {
+        init: {
+            before: function before() {},
+            method: function method() {},
+            after: function after() {}
         },
-        input: function input(finish, _input) {
-            this.props.dom.input.value += _input;
-            var result = finish();
-            // TODO: This autoComplete !== below autoComplete, seems weird for develoeprs
-            this.autoComplete();
-            return result;
+        render: {
+            before: function before() {},
+            method: function method(finish) {
+                finish();
+            },
+            after: function after() {}
+        },
+        autoComplete: {
+            before: function before() {},
+            method: function method(finish) {
+                this.props.prefix = this.props.dom.input.value;
+                return finish();
+            },
+            after: function after(flow) {
+                console.log(flow);
+            }
         }
     }
+
 });
 
 exports.default = AutoComplete;
@@ -1015,7 +1017,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var DialPad = (0, _component2.default)({
     actions: {
+        init: {
+            before: function before() {},
+            method: function method() {},
+            after: function after() {}
+        },
         render: {
+            before: function before() {},
+            method: function method() {},
             after: function after() {
                 var _this = this;
 
@@ -1024,17 +1033,20 @@ var DialPad = (0, _component2.default)({
                     template: '../template/auto-complete.html',
                     actions: {
                         autoComplete: {
+                            before: function before() {},
                             method: function method() {
                                 return dialPad.getCandidates();
-                            }
-                        },
-                        input: {}
+                            },
+                            after: function after() {}
+                        }
                     },
                     handlers: {}
                 });
-                autoComplete.render(this.props.dom.number, function () {
-                    // TODO: The manual binding is annoying, can be done by Component?
-                    _this.props.autoComplete = autoComplete;
+                autoComplete.render({
+                    target: this.props.dom.number,
+                    callback: function callback() {
+                        _this.props.autoComplete = autoComplete;
+                    }
                 });
             }
         },
@@ -1043,7 +1055,8 @@ var DialPad = (0, _component2.default)({
             method: function method(finish) {
                 var button = event.target;
                 var ac = this.props.autoComplete;
-                ac.input(button.getAttribute('data-value'));
+                ac.props.dom.input.value += button.getAttribute('data-value');
+                ac.autoComplete();
                 return finish();
             },
             after: function after() {}

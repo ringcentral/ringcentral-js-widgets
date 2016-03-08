@@ -61,23 +61,31 @@
         actions: {
             init: {
                 before: function() {},
-                method: function() {},
+                method: function() {
+                    console.log('user init');
+                },
                 after: function() {}
             },
             render: {
                 before: function() {},
-                method: function() {},
+                method: function() {
+                    console.log('user render');
+                },
                 after: function() {}
             },
             login: {
-                before: function() {},
+                before: function() {
+                    console.log('before login');
+                },
                 method: function() {
+                    console.log('login');
                     var username = this.props.dom.username.value;
                     var extension = this.props.dom.extension.value;
                     var password = this.props.dom.password.value;
                     return LoginService.login(username, extension, password);
                 },
                 after: function() {
+                    console.log('after login');
                     dialPad.render('#dial-pad');
                 }
             }
@@ -87,6 +95,16 @@
     var dialPad = new DialPad({
         template: '../template/dial-pad.html',
         actions: {
+            init: {
+                before: function() {},
+                method: function() {},
+                after: function() {}
+            },
+            render: {
+                before: function() {},
+                method: function() {},
+                after: function() {}
+            },
             callout: {
                 before: function() {},
                 method: function() {
@@ -187,22 +205,22 @@
 
     // });
 
-    LoginService.checkLoginStatus().then(
+    // LoginService.checkLoginStatus().then(
 
-        function(isLoggedIn) {
-            if (isLoggedIn) {
+    //     function(isLoggedIn) {
+    //         if (isLoggedIn) {
 
-                callPanel.render('#call-panel');
-                dialPad.render('#dial-pad');
-                callLog.render('#call-log-panel');
+    //             callPanel.render('#call-panel');
+    //             dialPad.render('#dial-pad');
+    //             callLog.render('#call-log-panel');
 
-            } else {
-                // render is async, supports both callbacks and promises
-                authPanel.render('#auth-panel', function() { /* ... */ });
-            }
-        }
+    //         } else {
+    //             // render is async, supports both callbacks and promises
+    //             authPanel.render('#auth-panel', function() { /* ... */ });
+    //         }
+    //     }
 
-    );
+    // );
 
     function switchTheme(theme) {
         document.getElementById('theme-css').href = 'theme/' + theme + '.css';

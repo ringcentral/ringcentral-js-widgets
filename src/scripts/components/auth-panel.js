@@ -2,9 +2,20 @@ import register from '../component'
 
 var AuthPanel = register({
     actions: {
-        mount: {
+        init: {
             before: function() {},
-            method: function() {},
+            method: function(finish) {
+                console.log('dev init');
+                finish();
+            },
+            after: function() {}
+        },
+        render: {
+            before: function() {},
+            method: function(finish) {
+                console.log('dev render');
+                finish();
+            },
             after: function() {
                 this.props.dom.key.value = localStorage.getItem('key');
                 this.props.dom.secret.value = localStorage.getItem('secret');
@@ -15,14 +26,17 @@ var AuthPanel = register({
         },
         login: {
             before: function() {
+                console.log('wd before');
                 this.props.dom.login.disabled = true;
                 this.props.dom.error.textContent = '';
                 this.interval = loading(this.props.dom.login, 'login');
             },
-            action: function(finish) {
+            method: function(finish) {
+                console.log('login');
                 return finish();
             },
             after: function() {
+                console.log('wd after');
                 this.props.dom.login.disabled = false;
                 // stop loading animation
                 if (this.interval) {

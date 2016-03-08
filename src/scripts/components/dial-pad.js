@@ -2,24 +2,34 @@ import register from '../component'
 import AutoComplete from './auto-complete'
 var DialPad = register({
     actions: {
+        init: {
+            before: function() {},
+            method: function() {},
+            after: function() {}
+        },
         render: {
+            before: function() {},
+            method: function() {},
             after: function() {
                 var dialPad = this;
                 var autoComplete = new AutoComplete({
                     template: '../template/auto-complete.html',
                     actions: {
                         autoComplete: {
+                            before: function() {},
                             method: function() {
                                 return dialPad.getCandidates();
-                            }
-                        },
-                        input: {}
+                            },
+                            after: function() {}
+                        }
                     },
                     handlers: {},
                 })
-                autoComplete.render(this.props.dom.number, () => {
-                    // TODO: The manual binding is annoying, can be done by Component?
-                    this.props.autoComplete = autoComplete;
+                autoComplete.render({
+                    target: this.props.dom.number,
+                    callback: () => {
+                        this.props.autoComplete = autoComplete
+                    }
                 });
             }
         },
@@ -28,7 +38,8 @@ var DialPad = register({
             method: function(finish) {
                 var button = event.target;
                 var ac = this.props.autoComplete;
-                ac.input(button.getAttribute('data-value'));
+                ac.props.dom.input.value += button.getAttribute('data-value');
+                ac.autoComplete();
                 return finish();
             },
             after: function() {}

@@ -10,8 +10,16 @@ function register(settings) {
      * fetch template   _____|                          ------> maybe render
      *
      */
+    settings = Object.assign({
+        actions: {},
+        handlers: {}
+    }, settings);
+
     var Widget = function(options) {
-        this.options = options || {};
+        this.options = Object.assign({
+            actions: {},
+            handlers: {}
+        }, options);
         if (!options.template) {
             throw new Error('need a template');
         }
@@ -21,17 +29,30 @@ function register(settings) {
                 fetchTemplate(options.template),
                 (() => {
                     Object.keys(settings.actions).forEach(index => {
+                        settings.actions[index] = bindScope(this, settings.actions[index]);
+                    })
+                    Object.keys(settings.handlers).forEach(index => {
+                        settings.handlers[index] = bindScope(this, settings.handlers[index]);
+                    })
+                    Object.keys(options.actions).forEach(index => {
+                        options.actions[index] = bindScope(this, options.actions[index]);
+                    })
+                    Object.keys(options.handlers).forEach(index => {
+                        options.handlers[index] = bindScope(this, options.handlers[index]);
+                    })
+                    Object.keys(settings.actions).forEach(index => {
                         Widget.prototype[index] =
-                            generateActions(settings.actions[index], options.actions[index]);
+                            generateActions(settings.actions[index], options.actions[index]).bind(this);
                     })
                     Widget.prototype.render =
                         generateActions({
-                            before: target => target,
-                            method: render.bind(this),
-                            after: () => {}
+                            before: settings.actions.render.before,
+                            method: render.bind(this, settings.actions.render.method),
+                            after: settings.actions.render.after
                         }, options.actions.render)
 
-                    function render(finish, target, callback) {
+                    function render(widgetRender, finish, flow) {
+                        var target = flow.target;
                         if (this.fetchPromise)
                             return this.fetchPromise
                                 .then(() => {
@@ -45,11 +66,11 @@ function register(settings) {
                                     this.props.targetDOM = target;
                                     this.props.targetDOM.appendChild(this.props.template);
                                 })
+                                .then(() => flow.callback && flow.callback()) // defined in render callback
                                 .then(() => {
-                                    if (callback && typeof callback === 'function')
-                                        callback.call(this);
+                                    if (widgetRender && typeof widgetRender === 'function')
+                                        widgetRender.call(this, finish);
                                 })
-                                .then(finish)
                                 .catch(err => console.error('render err:' + err));
                     }
                 })()
@@ -58,6 +79,7 @@ function register(settings) {
             .then(args => {
                 this.props.dom = args.dom;
                 this.props.template = args.template;
+                this.init();
             })
             .catch(err => console.error(err.stack))
         this.fetchPromise
@@ -67,7 +89,7 @@ function register(settings) {
                     Object.keys(handlers).forEach(index => {
                         options.handlers[index].method.call(
                             this,
-                            generateHandlers(settings.handlers[index])
+                            generateHandlers(settings.handlers[index]).bind(this)
                         );
                     })
                 }
@@ -80,6 +102,14 @@ function register(settings) {
         }
     };
     return Widget;
+}
+
+function bindScope(scope, action) {
+    return {
+        before: action.before ? action.before.bind(scope) : function() {}.bind(scope),
+        method: action.method ? action.method.bind(scope) : function() {}.bind(scope),
+        after: action.after ? action.after.bind(scope) : function() {}.bind(scope)
+    }
 }
 
 function fetchTemplate(src) {
@@ -135,33 +165,33 @@ function generateActions(widgetAction, userAction) {
         };
         console.warn('widget has some actions not defined');
     }
-    if (!userAction.method) {
-        userAction.method = function() {};
-        console.warn('widget has some actions not defined');
-    }
-    return function(...args) {
-        return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, ...args))
-            .then((...result) => widgetAction.method.call(this, userAction.method.bind(this), ...result))
-            .then((...result) => wrapUserEvent(widgetAction.after, userAction.after, ...result))
+    return function(flow) {
+        console.log(userAction.before);
+        return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, flow))
+            .then(flow => widgetAction.method(userAction.method, flow))
+            .then(flow => wrapUserEvent(widgetAction.after, userAction.after, flow))
             .catch(err => console.error(err.stack));
-    }.bind(this)
+    }
 }
 
 function generateHandlers(widgetHandler) {
-    return function(...args) {
-        return Promise.resolve(wrapUserEvent(widgetHandler.before, widgetHandler.before, ...result))
-            .then((...result) => widgetHandler.method.call(this, ...args))
-            .then((...result) => wrapUserEvent(widgetHandler.after, widgetHandler.after, ...result))
+    return function(flow) {
+        return Promise.resolve(wrapUserEvent(widgetHandler.before, widgetHandler.before, flow))
+            .then(flow => widgetHandler.method(flow))
+            .then(flow => wrapUserEvent(widgetHandler.after, widgetHandler.after, flow))
             .catch(err => console.error(err.stack));
-    }.bind(this)
+    }
 }
 
-function wrapUserEvent(widget, user, ...args) {
+function wrapUserEvent(widget, user, flow) {
     var continueDefault = !user || user() || true;
     if (continueDefault ||
         typeof continueDefault === 'undefined' ||
         continueDefault) {
-        return widget ? widget(...args) : null;
+        if (widget) {
+            return widget(flow) || flow; // if widget before/after return nothing, we use previous return value
+        }
+        return null;
     }
     return null;
 }
