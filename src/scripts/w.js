@@ -5,6 +5,7 @@ function fetchWidget(name) {
     return fetchTemplate(w.options.path + name + '.html')
         .then(clone => {
             var template = clone.querySelector('*');
+            console.log(clone.ownerDocument.currentScript); //todo
             var script = clone.querySelector('script');
             console.log(clone);
             if (!w.templates[name])
@@ -51,5 +52,5 @@ w.register = function(setting) {
 w.config = function(options) {
     w.options = Object.assign(w.options, options);
 };
-
+w.preload = function() {}
 export default w;

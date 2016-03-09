@@ -3,17 +3,14 @@ import register from '../component'
 var AuthPanel = register({
     actions: {
         init: {
-            before: function() {},
             method: function(finish) {
                 finish();
-            },
-            after: function() {}
+            }
         },
         render: {
-            before: function() {},
             method: function(finish) {
                 finish();
-            },
+            }
             after: function() {
                 this.props.dom.key.value = localStorage.getItem('key');
                 this.props.dom.secret.value = localStorage.getItem('secret');

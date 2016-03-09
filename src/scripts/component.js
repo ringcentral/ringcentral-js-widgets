@@ -51,8 +51,8 @@ function register(settings) {
 
                     function render(widgetRender, finish, ...args) {
                         console.log(args);
-                        var target = args[0][0];
-                        var callback = args[0][1];
+                        var target = args[0];
+                        var callback = args[1];
                         if (this.fetchPromise)
                             return this.fetchPromise
                                 .then(() => {
@@ -156,12 +156,14 @@ function generateActions(widgetAction, userAction, name) {
         console.log('[%s][before](' + [].concat(...args) + ')', name);
         return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, ...args))
             .then(function(...args) {
-                console.log('[%s][method](' + [].concat(...args) + ')', name);
-                return widgetAction.method(userAction.method, ...args) || [].concat(...args);
+                var flatArgs = [].concat(...args);
+                console.log('[%s][method](' + flatArgs + ')', name);
+                return widgetAction.method(userAction.method, ...flatArgs) || flatArgs;
             })
             .then(function(...args) {
-                console.log('[%s][after](' + [].concat(...args) + ')', name);
-                return wrapUserEvent(widgetAction.after, userAction.after, ...args)
+                var flatArgs = [].concat(...args);
+                console.log('[%s][after](' + flatArgs + ')', name);
+                return wrapUserEvent(widgetAction.after, userAction.after, ...flatArgs) || flatArgs;
             })
             .catch(err => console.error(err.stack));
     }
@@ -171,10 +173,12 @@ function generateHandlers(widgetHandler) {
     return function(...args) {
         return Promise.resolve(wrapUserEvent(widgetHandler.before, widgetHandler.before, ...args))
             .then(function(...args) {
-                return widgetAction.method(...args) || [].concat(...args);
+                var flatArgs = [].concat(...args);
+                return widgetAction.method(...flatArgs) || flatArgs;
             })
             .then(function(...args) {
-                return widgetHandler.after(...args) || [].concat(...args);
+                var flatArgs = [].concat(...args);
+                return widgetHandler.after(...flatArgs) || flatArgs;
             })
             .catch(err => console.error(err.stack));
     }

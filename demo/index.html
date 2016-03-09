@@ -58,18 +58,7 @@
     <script type="text/javascript">
     var options = {
         actions: {
-            init: {
-                before: function() {},
-                method: function() {},
-                after: function() {}
-            },
-            render: {
-                before: function() {},
-                method: function() {},
-                after: function() {}
-            },
             login: {
-                before: function() {},
                 method: function() {
                     var username = this.props.dom.username.value;
                     var extension = this.props.dom.extension.value;
@@ -77,7 +66,10 @@
                     return LoginService.login(username, extension, password);
                 },
                 after: function() {
-                    // dialPad.render('#dial-pad');
+                    dialPad.render('#dial-pad')
+                        .then(() => {
+                            this.remove();
+                        })
                 }
             }
         },
@@ -86,8 +78,14 @@
     w.config({
         path: '../template/'
     })
+    var authPanel;
+    var dialPad;
     w('auth-panel', options).then(widget => {
-        widget.render('#auth-panel')
+        authPanel = widget;
+        authPanel.render('#auth-panel');
+    })
+    w('dial-pad', options).then(widget => {
+        dialPad = widget;
     })
 
     // var dialPad = new DialPad({
@@ -181,28 +179,28 @@
     // });
 
 
-    LoginService.registerLoginHandler(function() {
-        PhoneService.registerSIP();
-        CallLogService.getCallLogs();
+    // LoginService.registerLoginHandler(function() {
+    //     PhoneService.registerSIP();
+    //     CallLogService.getCallLogs();
 
-    });
+    // });
 
-    LoginService.checkLoginStatus().then(
+    // LoginService.checkLoginStatus().then(
 
-        function(isLoggedIn) {
-            if (isLoggedIn) {
+    //     function(isLoggedIn) {
+    //         if (isLoggedIn) {
 
-                callPanel.render('#call-panel');
-                dialPad.render('#dial-pad');
-                callLog.render('#call-log-panel');
+    //             callPanel.render('#call-panel');
+    //             dialPad.render('#dial-pad');
+    //             callLog.render('#call-log-panel');
 
-            } else {
-                // render is async, supports both callbacks and promises
-                authPanel.render('#auth-panel', function() { /* ... */ });
-            }
-        }
+    //         } else {
+    //             // render is async, supports both callbacks and promises
+    //             authPanel.render('#auth-panel', function() { /* ... */ });
+    //         }
+    //     }
 
-    );
+    // );
 
     function switchTheme(theme) {
         document.getElementById('theme-css').href = 'theme/' + theme + '.css';

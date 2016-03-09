@@ -4,6 +4,9 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function register(settings) {
     /*
      *
@@ -60,8 +63,8 @@ function register(settings) {
                 }
 
                 console.log(args);
-                var target = args[0][0];
-                var callback = args[0][1];
+                var target = args[0];
+                var callback = args[1];
                 if (this.fetchPromise) return this.fetchPromise.then(function () {
                     if (typeof target === 'string') {
                         target = document.querySelector(target);
@@ -163,23 +166,17 @@ function generateActions(widgetAction, userAction, name) {
 
         console.log('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
         return Promise.resolve(wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args))).then(function () {
-            var _ref2, _ref3;
+            var _ref2;
 
-            for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-                args[_key3] = arguments[_key3];
-            }
-
-            console.log('[%s][method](' + (_ref2 = []).concat.apply(_ref2, args) + ')', name);
-            return widgetAction.method.apply(widgetAction, [userAction.method].concat(args)) || (_ref3 = []).concat.apply(_ref3, args);
+            var flatArgs = (_ref2 = []).concat.apply(_ref2, arguments);
+            console.log('[%s][method](' + flatArgs + ')', name);
+            return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(flatArgs))) || flatArgs;
         }).then(function () {
-            var _ref4;
+            var _ref3;
 
-            for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-                args[_key4] = arguments[_key4];
-            }
-
-            console.log('[%s][after](' + (_ref4 = []).concat.apply(_ref4, args) + ')', name);
-            return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(args));
+            var flatArgs = (_ref3 = []).concat.apply(_ref3, arguments);
+            console.log('[%s][after](' + flatArgs + ')', name);
+            return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(_toConsumableArray(flatArgs))) || flatArgs;
         }).catch(function (err) {
             return console.error(err.stack);
         });
@@ -188,18 +185,20 @@ function generateActions(widgetAction, userAction, name) {
 
 function generateHandlers(widgetHandler) {
     return function () {
-        for (var _len5 = arguments.length, args = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
-            args[_key5] = arguments[_key5];
+        for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+            args[_key3] = arguments[_key3];
         }
 
         return Promise.resolve(wrapUserEvent.apply(undefined, [widgetHandler.before, widgetHandler.before].concat(args))).then(function () {
-            var _widgetAction, _ref5;
+            var _ref4, _widgetAction;
 
-            return (_widgetAction = widgetAction).method.apply(_widgetAction, arguments) || (_ref5 = []).concat.apply(_ref5, arguments);
+            var flatArgs = (_ref4 = []).concat.apply(_ref4, arguments);
+            return (_widgetAction = widgetAction).method.apply(_widgetAction, _toConsumableArray(flatArgs)) || flatArgs;
         }).then(function () {
-            var _ref6;
+            var _ref5;
 
-            return widgetHandler.after.apply(widgetHandler, arguments) || (_ref6 = []).concat.apply(_ref6, arguments);
+            var flatArgs = (_ref5 = []).concat.apply(_ref5, arguments);
+            return widgetHandler.after.apply(widgetHandler, _toConsumableArray(flatArgs)) || flatArgs;
         }).catch(function (err) {
             return console.error(err.stack);
         });
@@ -210,13 +209,13 @@ function wrapUserEvent(widget, user) {
     var continueDefault = !user || user() || true;
     if (continueDefault || typeof continueDefault === 'undefined' || continueDefault) {
         if (widget) {
-            var _ref7;
+            var _ref6;
 
-            for (var _len6 = arguments.length, args = Array(_len6 > 2 ? _len6 - 2 : 0), _key6 = 2; _key6 < _len6; _key6++) {
-                args[_key6 - 2] = arguments[_key6];
+            for (var _len4 = arguments.length, args = Array(_len4 > 2 ? _len4 - 2 : 0), _key4 = 2; _key4 < _len4; _key4++) {
+                args[_key4 - 2] = arguments[_key4];
             }
 
-            return widget.apply(undefined, args) || (_ref7 = []).concat.apply(_ref7, args);
+            return widget.apply(undefined, args) || (_ref6 = []).concat.apply(_ref6, args);
         }
         return null;
     }
@@ -740,6 +739,7 @@ function fetchWidget(name) {
     // TODO: check cache
     return fetchTemplate(w.options.path + name + '.html').then(function (clone) {
         var template = clone.querySelector('*');
+        console.log(clone.ownerDocument.currentScript); //todo
         var script = clone.querySelector('script');
         console.log(clone);
         if (!w.templates[name]) w.templates[name] = {};
@@ -785,7 +785,7 @@ w.register = function (setting) {
 w.config = function (options) {
     w.options = Object.assign(w.options, options);
 };
-
+w.preload = function () {};
 exports.default = w;
 
 },{"./component":1}]},{},[8])
