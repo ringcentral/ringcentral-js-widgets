@@ -56,7 +56,12 @@
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
     <script type="text/javascript" src="../build/build.js"></script>
     <script type="text/javascript">
-    var options = {
+    var authPanel;
+    var dialPad;
+    w.config({
+        path: '../template/'
+    })
+    w('auth-panel', {
         actions: {
             login: {
                 method: function() {
@@ -66,25 +71,19 @@
                     return LoginService.login(username, extension, password);
                 },
                 after: function() {
-                    dialPad.render('#dial-pad')
-                        .then(() => {
-                            this.remove();
-                        })
+                    dialPad.render('#dial-pad').then(() => this.remove())
                 }
             }
         },
         handlers: {},
-    }
-    w.config({
-        path: '../template/'
-    })
-    var authPanel;
-    var dialPad;
-    w('auth-panel', options).then(widget => {
+    }).then(widget => {
         authPanel = widget;
         authPanel.render('#auth-panel');
     })
-    w('dial-pad', options).then(widget => {
+    w('dial-pad').then(widget => {
+        dialPad = widget;
+    })
+    w('dial-pad').then(widget => {
         dialPad = widget;
     })
 

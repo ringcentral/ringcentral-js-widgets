@@ -50,7 +50,6 @@ function register(settings) {
                         }, options.actions.render, 'render')
 
                     function render(widgetRender, finish, ...args) {
-                        console.log(args);
                         var target = args[0];
                         var callback = args[1];
                         if (this.fetchPromise)

@@ -4,10 +4,9 @@ function fetchWidget(name) {
     // TODO: check cache
     return fetchTemplate(w.options.path + name + '.html')
         .then(clone => {
+            // FIXME: buggy
             var template = clone.querySelector('*');
-            console.log(clone.ownerDocument.currentScript); //todo
             var script = clone.querySelector('script');
-            console.log(clone);
             if (!w.templates[name])
                 w.templates[name] = {};
             w.templates[name].template = template;
@@ -30,7 +29,14 @@ function fetchTemplate(src) {
 
 function w(name, options) {
     options = options || {};
-    return fetchWidget(name).then(() => {
+    var fetch;
+    if (w.templates.hasOwnProperty(name)) {
+        fetch = Promise.resolve(); // already registered
+    } else {
+        w.templates[name] = {}; // set a placeholder, means we are fetching, for cache
+        fetch = fetchWidget(name);
+    }
+    return fetch.then(() => {
         return new w.templates[name].widget({
             template: w.templates[name].template,
             actions: options.actions || {},

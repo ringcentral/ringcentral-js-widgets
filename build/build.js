@@ -58,13 +58,8 @@ function register(settings) {
             function render(widgetRender, finish) {
                 var _this2 = this;
 
-                for (var _len = arguments.length, args = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-                    args[_key - 2] = arguments[_key];
-                }
-
-                console.log(args);
-                var target = args[0];
-                var callback = args[1];
+                var target = arguments.length <= 2 ? undefined : arguments[2];
+                var callback = arguments.length <= 3 ? undefined : arguments[3];
                 if (this.fetchPromise) return this.fetchPromise.then(function () {
                     if (typeof target === 'string') {
                         target = document.querySelector(target);
@@ -160,8 +155,8 @@ function generateActions(widgetAction, userAction, name) {
     return function () {
         var _ref;
 
-        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-            args[_key2] = arguments[_key2];
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
         }
 
         console.log('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
@@ -185,8 +180,8 @@ function generateActions(widgetAction, userAction, name) {
 
 function generateHandlers(widgetHandler) {
     return function () {
-        for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-            args[_key3] = arguments[_key3];
+        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+            args[_key2] = arguments[_key2];
         }
 
         return Promise.resolve(wrapUserEvent.apply(undefined, [widgetHandler.before, widgetHandler.before].concat(args))).then(function () {
@@ -211,8 +206,8 @@ function wrapUserEvent(widget, user) {
         if (widget) {
             var _ref6;
 
-            for (var _len4 = arguments.length, args = Array(_len4 > 2 ? _len4 - 2 : 0), _key4 = 2; _key4 < _len4; _key4++) {
-                args[_key4 - 2] = arguments[_key4];
+            for (var _len3 = arguments.length, args = Array(_len3 > 2 ? _len3 - 2 : 0), _key3 = 2; _key3 < _len3; _key3++) {
+                args[_key3 - 2] = arguments[_key3];
             }
 
             return widget.apply(undefined, args) || (_ref6 = []).concat.apply(_ref6, args);
@@ -738,10 +733,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function fetchWidget(name) {
     // TODO: check cache
     return fetchTemplate(w.options.path + name + '.html').then(function (clone) {
+        // FIXME: buggy
         var template = clone.querySelector('*');
-        console.log(clone.ownerDocument.currentScript); //todo
         var script = clone.querySelector('script');
-        console.log(clone);
         if (!w.templates[name]) w.templates[name] = {};
         w.templates[name].template = template;
         document.body.appendChild(script);
@@ -764,7 +758,14 @@ function fetchTemplate(src) {
 
 function w(name, options) {
     options = options || {};
-    return fetchWidget(name).then(function () {
+    var fetch;
+    if (w.templates.hasOwnProperty(name)) {
+        fetch = Promise.resolve(); // already registered
+    } else {
+            w.templates[name] = {}; // set a placeholder, means we are fetching, for cache
+            fetch = fetchWidget(name);
+        }
+    return fetch.then(function () {
         return new w.templates[name].widget({
             template: w.templates[name].template,
             actions: options.actions || {},
