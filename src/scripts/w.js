@@ -1,6 +1,7 @@
 import register from './component'
 
 function fetchWidget(name) {
+    // TODO: check cache
     return fetchTemplate(w.options.path + name + '.html')
         .then(clone => {
             var template = clone.querySelector('*');

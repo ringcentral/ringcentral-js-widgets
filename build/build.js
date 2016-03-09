@@ -737,6 +737,7 @@ var _component2 = _interopRequireDefault(_component);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function fetchWidget(name) {
+    // TODO: check cache
     return fetchTemplate(w.options.path + name + '.html').then(function (clone) {
         var template = clone.querySelector('*');
         var script = clone.querySelector('script');
