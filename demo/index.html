@@ -56,24 +56,20 @@
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
     <script type="text/javascript" src="../build/build.js"></script>
     <script type="text/javascript">
-    var authPanel = new AuthPanel({
-        template: '../template/auth-panel.html',
+    var options = {
         actions: {
             init: {
                 before: function() {},
-                method: function() {
-                },
+                method: function() {},
                 after: function() {}
             },
             render: {
                 before: function() {},
-                method: function() {
-                },
+                method: function() {},
                 after: function() {}
             },
             login: {
-                before: function() {
-                },
+                before: function() {},
                 method: function() {
                     var username = this.props.dom.username.value;
                     var extension = this.props.dom.extension.value;
@@ -81,49 +77,56 @@
                     return LoginService.login(username, extension, password);
                 },
                 after: function() {
-                    dialPad.render('#dial-pad');
+                    // dialPad.render('#dial-pad');
                 }
             }
         },
         handlers: {},
-    });
-    var dialPad = new DialPad({
-        template: '../template/dial-pad.html',
-        actions: {
-            init: {
-                before: function() {},
-                method: function() {},
-                after: function() {}
-            },
-            render: {
-                before: function() {},
-                method: function() {},
-                after: function() {}
-            },
-            callout: {
-                before: function() {},
-                method: function() {
-                    var toNumber = this.props.toNumber;
-                    var fromNumber = this.props.fromNumber;
-                    return PhoneService.callout(fromNumber, toNumber);
-                },
-                after: function() {}
-            },
-            getCandidates: {
-                before: function() {},
-                method: function() {
-                    return rcHelper.getCandidates(this.props);
-                },
-                after: function() {}
+    }
+    w.config({
+        path: '../template/'
+    })
+    w('auth-panel', options).then(widget => {
+        widget.render('#auth-panel')
+    })
 
-            }
-        },
-        handlers: {},
-    });
-    authPanel.render('#auth-panel');
+    // var dialPad = new DialPad({
+    //     template: '../template/dial-pad.html',
+    //     actions: {
+    //         init: {
+    //             before: function() {},
+    //             method: function() {},
+    //             after: function() {}
+    //         },
+    //         render: {
+    //             before: function() {},
+    //             method: function() {},
+    //             after: function() {}
+    //         },
+    //         callout: {
+    //             before: function() {},
+    //             method: function() {
+    //                 var toNumber = this.props.toNumber;
+    //                 var fromNumber = this.props.fromNumber;
+    //                 return PhoneService.callout(fromNumber, toNumber);
+    //             },
+    //             after: function() {}
+    //         },
+    //         getCandidates: {
+    //             before: function() {},
+    //             method: function() {
+    //                 return rcHelper.getCandidates(this.props);
+    //             },
+    //             after: function() {}
+
+    //         }
+    //     },
+    //     handlers: {},
+    // });
+    // authPanel.render('#auth-panel');
 
 
-    
+
     // var callPanel = new CallPanel({
     //     template: '../template/call-panel.html',
     //     actions: {

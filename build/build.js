@@ -1,6 +1,9 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 function register(settings) {
     /*
      *
@@ -114,20 +117,6 @@ function bindScope(scope, action) {
     };
 }
 
-function fetchTemplate(src) {
-    var fetchPromise = fetch(src).then(function (response) {
-        return response.text();
-    }).then(function (body) {
-        var template = document.createElement('template');
-        template.innerHTML = body;
-        var clone = document.importNode(template.content, true);
-        return clone;
-    }).catch(function (err) {
-        return console.error(err.stack);
-    });
-    return fetchPromise;
-};
-
 function generateDocument(widget, template) {
     var dom = {};
     [].forEach.call(template.querySelectorAll('[data-info]'), function (doc) {
@@ -234,506 +223,9 @@ function wrapUserEvent(widget, user) {
     return null;
 }
 
+exports.default = register;
+
 },{}],2:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _component = require('../component');
-
-var _component2 = _interopRequireDefault(_component);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var AuthPanel = (0, _component2.default)({
-    actions: {
-        init: {
-            before: function before() {},
-            method: function method(finish) {
-                finish();
-            },
-            after: function after() {}
-        },
-        render: {
-            before: function before() {},
-            method: function method(finish) {
-                finish();
-            },
-            after: function after() {
-                this.props.dom.key.value = localStorage.getItem('key');
-                this.props.dom.secret.value = localStorage.getItem('secret');
-                this.props.dom.username.value = localStorage.getItem('username');
-                this.props.dom.extension.value = localStorage.getItem('extension');
-                this.props.dom.password.value = localStorage.getItem('password');
-            }
-        },
-        login: {
-            before: function before(d) {
-                this.props.dom.login.disabled = true;
-                this.props.dom.error.textContent = '';
-                this.interval = loading(this.props.dom.login, 'login');
-            },
-            method: function method(finish, d) {
-                return finish();
-            },
-            after: function after(d) {
-                this.props.dom.login.disabled = false;
-                // stop loading animation
-                if (this.interval) {
-                    this.interval.cancel();
-                    this.interval = null;
-                }
-                localStorage.setItem('server', this.props.dom.server.value || '');
-                localStorage.setItem('key', this.props.dom.key.value || '');
-                localStorage.setItem('secret', this.props.dom.secret.value || '');
-                localStorage.setItem('username', this.props.dom.username.value || '');
-                localStorage.setItem('extension', this.props.dom.extension.value || '');
-                localStorage.setItem('password', this.props.dom.password.value || '');
-            }
-        }
-    }
-});
-
-function loading(target, text) {
-    var dotCount = 1;
-    var interval = window.setInterval(function () {
-        var dot = '';
-        var dotCountTmp = dotCount;
-        while (dotCount--) {
-            dot += '.';
-        }target.textContent = text + dot;
-        dotCount = (dotCountTmp + 1) % 4;
-    }, 500);
-    return {
-        cancel: function cancel(text) {
-            if (interval) {
-                window.clearInterval(interval);
-                interval = null;
-                if (typeof text !== 'undefined') target.textContent = text;
-            }
-        }
-    };
-}
-
-exports.default = AuthPanel;
-
-},{"../component":1}],3:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _component = require('../component');
-
-var _component2 = _interopRequireDefault(_component);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var AutoComplete = (0, _component2.default)({
-    actions: {
-        init: {
-            before: function before() {},
-            method: function method() {},
-            after: function after() {}
-        },
-        render: {
-            before: function before() {},
-            method: function method(finish) {
-                finish();
-            },
-            after: function after() {}
-        },
-        autoComplete: {
-            before: function before(d) {},
-            method: function method(finish, d) {
-                this.props.prefix = this.props.dom.input.value;
-                return finish();
-            },
-            after: function after(candidates) {
-                console.log(candidates);
-            }
-        }
-    }
-
-});
-
-exports.default = AutoComplete;
-
-},{"../component":1}],4:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _component = require('../component');
-
-var _component2 = _interopRequireDefault(_component);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var CallLogItem = (0, _component2.default)({
-    beforeUpdate: function beforeUpdate(action) {},
-    afterUpdate: function afterUpdate(action) {},
-    methods: {}
-});
-
-exports.default = CallLogItem;
-
-},{"../component":1}],5:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _component = require('../component');
-
-var _component2 = _interopRequireDefault(_component);
-
-var _callLogItem = require('./call-log-item');
-
-var _callLogItem2 = _interopRequireDefault(_callLogItem);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var CallLog = (0, _component2.default)({
-
-    afterUpdate: function afterUpdate(action, options) {
-        var allCallTab = this.props.dom.allCallTab;
-        var missedCallTab = this.props.dom.missedCallTab;
-        var logs = this.props.dom.logs;
-
-        if (action === 'enableAllCallTab') {
-            if (allCallTab.classList.contains('active') === false) {
-                allCallTab.classList.add('active');
-                missedCallTab.classList.remove('active');
-            }
-        } else if (action === 'enableMissedCallTab') {
-
-            if (missedCallTab.classList.contains('active') === false) {
-                missedCallTab.classList.add('active');
-                allCallTab.classList.remove('active');
-            }
-        }
-    },
-    methods: {
-
-        enableAllCallTab: function enableAllCallTab(finish, event) {
-
-            return finish();
-        },
-        enableMissedCallTab: function enableMissedCallTab(finish, event) {
-
-            return finish();
-        },
-        logUpdated: function logUpdated(logItems) {
-
-            var props = this.props;
-            logItems.forEach(function (item) {
-
-                var callLogItem = new _callLogItem2.default({
-                    template: '../template/call-log-item.html',
-                    afterUpdate: function afterUpdate(action) {
-                        if (action === 'mount') {
-                            if (item.result === "Missed") {
-                                this.props.dom.callResult.classList.add('call-missed');
-                            }
-
-                            if (item.direction === 'Outbound') {
-                                if (item.to.name) {
-                                    this.props.dom.contact.innerHTML = item.to.name;
-                                } else {
-                                    this.props.dom.contact.innerHTML = item.to.phoneNumber;
-                                }
-
-                                if (item.to.location) {
-                                    this.props.dom.location.innerHTML = item.to.location;
-                                }
-                                this.props.dom.time.innerHTML = item.startTime;
-
-                                if (item.result !== "Missed") {
-                                    this.props.dom.callResult.classList.add('call-outbound');
-                                }
-                            } else {
-                                if (item.from.name) {
-                                    this.props.dom.contact.innerHTML = item.from.name;
-                                } else {
-                                    this.props.dom.contact.innerHTML = item.from.phoneNumber;
-                                }
-                                this.props.dom.time.innerHTML = item.startTime;
-
-                                if (item.result !== "Missed") {
-                                    this.props.dom.callResult.classList.add('call-inbound');
-                                }
-                            }
-                        }
-                    }
-
-                });
-
-                callLogItem.render(props.dom.logs);
-            });
-        }
-
-    }
-});
-
-exports.default = CallLog;
-
-},{"../component":1,"./call-log-item":4}],6:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _component = require('../component');
-
-var _component2 = _interopRequireDefault(_component);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var state = {
-    'HIDDEN': 0,
-    'CALLIN': 1,
-    'CALLOUT': 2,
-    'ONLINE': 3
-};
-var currentState = state.HIDDEN;
-var CallPanel = (0, _component2.default)({
-    beforeUpdate: function beforeUpdate(action, options) {},
-    afterUpdate: function afterUpdate(action, options) {
-        if (action === 'mount') {
-            currentState = state.HIDDEN;
-            triggerView(this.props);
-        } else if (action === 'answer') {
-            currentState = state.ONLINE;
-            triggerView(this.props);
-        } else if (action === 'ignore') {
-            currentState = state.HIDDEN;
-            triggerView(this.props);
-        } else if (action === 'cancel') {
-            currentState = state.HIDDEN;
-            triggerView(this.props);
-        } else if (action === 'hangup') {
-            currentState = state.HIDDEN;
-            triggerView(this.props);
-        } else if (action === 'record') {} else if (action === 'hold') {} else if (action === 'mute') {}
-    },
-    methods: {
-        answer: function answer(finish) {
-            return finish();
-        },
-        ignore: function ignore(finish) {
-            return finish();
-        },
-        cancel: function cancel(finish) {
-            return finish();
-        },
-        hangup: function hangup(finish) {
-            return finish();
-        },
-        called: function called(event) {
-            console.log('callin');
-            currentState = state.CALLIN;
-            triggerView(this.props);
-        },
-        callStarted: function callStarted(event) {
-            console.log('call start');
-            currentState = state.ONLINE;
-            triggerView(this.props);
-        },
-        callRejected: function callRejected(event) {
-            console.log('call reject');
-            currentState = state.HIDDEN;
-            triggerView(this.props);
-        },
-        callEnded: function callEnded(event) {
-            console.log('end');
-            currentState = state.HIDDEN;
-            triggerView(this.props);
-        },
-        callFailed: function callFailed(event) {
-            console.log('fail');
-            currentState = state.HIDDEN;
-            triggerView(this.props);
-        }
-    }
-});
-
-var triggerView = function triggerView(props) {
-    props.dom['callin-panel'].style.display = 'none';
-    props.dom['callout-panel'].style.display = 'none';
-    props.dom['online-panel'].style.display = 'none';
-    if (currentState === state.CALLIN) {
-        props.dom['callin-panel'].style.display = 'block';
-    } else if (currentState === state.CALLOUT) {
-        props.dom['callout-panel'].style.display = 'block';
-    } else if (currentState === state.ONLINE) {
-        props.dom['online-panel'].style.display = 'block';
-        // this.callTimeInterval = this.updateCallTime(this.line.timeCallStarted);
-    }
-};
-var loading = function loading(target, text) {
-    var dotCount = 1;
-    var interval = window.setInterval(function () {
-        var dot = '';
-        var dotCountTmp = dotCount;
-        while (dotCount--) {
-            dot += '.';
-        }target.textContent = text + dot;
-        dotCount = (dotCountTmp + 1) % 4;
-    }, 500);
-    return {
-        cancel: function cancel(text) {
-            if (interval) {
-                window.clearInterval(interval);
-                interval = null;
-                if (typeof text !== 'undefined') target.textContent = text;
-            }
-        }
-    };
-};
-// var prototype.updateCallTime = function(startTime) {
-//     // FIXME: it's not accurate
-//     if (!startTime)
-//         return;
-//     var currentTime = Date.now() - startTime;
-//     var callPanel = this;
-//     var callTimeInterval = window.setInterval(() => {
-//         var sec = currentTime % 60;
-//         var min = Math.floor(currentTime / 60);
-//         this.element.panel.onlinePanel.callTime.textContent = min + ":" + sec;
-//         currentTime++;
-//     }, 1000);
-//     return {
-//         cancel: function() {
-//             if (!callTimeInterval)
-//                 return;
-//             window.clearInterval(callTimeInterval);
-//             callPanel.element.panel.onlinePanel.callTime.textContent = "0:0";
-//             callTimeInterval = null;
-//         }
-//     }
-// };
-exports.default = CallPanel;
-
-},{"../component":1}],7:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _component = require('../component');
-
-var _component2 = _interopRequireDefault(_component);
-
-var _autoComplete = require('./auto-complete');
-
-var _autoComplete2 = _interopRequireDefault(_autoComplete);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var DialPad = (0, _component2.default)({
-    actions: {
-        init: {
-            before: function before() {},
-            method: function method() {},
-            after: function after() {}
-        },
-        render: {
-            before: function before() {},
-            method: function method() {},
-            after: function after() {
-                var _this = this;
-
-                var dialPad = this;
-                var autoComplete = new _autoComplete2.default({
-                    template: '../template/auto-complete.html',
-                    actions: {
-                        autoComplete: {
-                            before: function before() {},
-                            method: function method() {
-                                return dialPad.getCandidates();
-                            },
-                            after: function after(d) {
-                                console.log(d);
-                            }
-                        }
-                    },
-                    handlers: {}
-                });
-                autoComplete.render(this.props.dom.number, function () {
-                    return _this.props.autoComplete = autoComplete;
-                });
-            }
-        },
-        dialing: {
-            before: function before() {},
-            method: function method(finish) {
-                var button = event.target;
-                var ac = this.props.autoComplete;
-                ac.props.dom.input.value += button.getAttribute('data-value');
-                ac.autoComplete();
-                return finish();
-            },
-            after: function after() {}
-        },
-        callout: {
-            before: function before() {
-                this.interval = loading(this.props.dom.callout, 'Call');
-            },
-            method: function method(finish) {
-                var ac = this.props.autoComplete;
-                this.props.toNumber = ac.props.dom.input.value;
-                this.props.fromNumber = localStorage.getItem('username');
-                return finish();
-            },
-            after: function after() {
-                if (this.interval) {
-                    this.interval.cancel('Call');
-                    this.interval = null;
-                }
-            }
-        },
-        getCandidates: {
-            before: function before() {},
-            method: function method(finish) {
-                return finish();
-            },
-            after: function after() {}
-        }
-    }
-});
-
-function loading(target, text) {
-    var dotCount = 1;
-    var interval = window.setInterval(function () {
-        var dot = '';
-        var dotCountTmp = dotCount;
-        while (dotCount--) {
-            dot += '.';
-        }target.textContent = text + dot;
-        dotCount = (dotCountTmp + 1) % 4;
-    }, 500);
-    return {
-        cancel: function cancel(text) {
-            if (interval) {
-                window.clearInterval(interval);
-                interval = null;
-                if (typeof text !== 'undefined') target.textContent = text;
-            }
-        }
-    };
-}
-exports.default = DialPad;
-
-},{"../component":1,"./auto-complete":3}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -772,7 +264,7 @@ var CallLogService = function (sdk) {
 
 exports.default = CallLogService;
 
-},{"./rc-sdk":12}],9:[function(require,module,exports){
+},{"./rc-sdk":6}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -934,7 +426,7 @@ var rcHelper = function (sdk, webPhone) {
 }(sdk, webPhone);
 exports.default = rcHelper;
 
-},{}],10:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -987,7 +479,7 @@ var LoginService = function (sdk) {
 
 exports.default = LoginService;
 
-},{"./rc-sdk":12}],11:[function(require,module,exports){
+},{"./rc-sdk":6}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1134,7 +626,7 @@ var PhoneService = function () {
 
 exports.default = PhoneService;
 
-},{"./login-service":10,"./rc-sdk":12,"./rc-webphone":13}],12:[function(require,module,exports){
+},{"./login-service":4,"./rc-sdk":6,"./rc-webphone":7}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1148,7 +640,7 @@ var sdk = new RingCentral.SDK({
 
 exports.default = sdk;
 
-},{}],13:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1160,37 +652,13 @@ var webPhone = new RingCentral.WebPhone({
 
 exports.default = webPhone;
 
-},{}],14:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.PhoneService = exports.CallLogService = exports.LoginService = exports.webPhone = exports.sdk = exports.rcHelper = exports.AutoComplete = exports.CallLogItem = exports.CallLog = exports.DialPad = exports.CallPanel = exports.AuthPanel = undefined;
-
-var _authPanel = require('./components/auth-panel');
-
-var _authPanel2 = _interopRequireDefault(_authPanel);
-
-var _callPanel = require('./components/call-panel');
-
-var _callPanel2 = _interopRequireDefault(_callPanel);
-
-var _dialPad = require('./components/dial-pad');
-
-var _dialPad2 = _interopRequireDefault(_dialPad);
-
-var _callLog = require('./components/call-log');
-
-var _callLog2 = _interopRequireDefault(_callLog);
-
-var _callLogItem = require('./components/call-log-item');
-
-var _callLogItem2 = _interopRequireDefault(_callLogItem);
-
-var _autoComplete = require('./components/auto-complete');
-
-var _autoComplete2 = _interopRequireDefault(_autoComplete);
+exports.PhoneService = exports.CallLogService = exports.LoginService = exports.webPhone = exports.sdk = exports.rcHelper = undefined;
 
 var _helper = require('./helpers/helper');
 
@@ -1216,35 +684,110 @@ var _phoneService = require('./helpers/phone-service');
 
 var _phoneService2 = _interopRequireDefault(_phoneService);
 
+var _w = require('./w');
+
+var _w2 = _interopRequireDefault(_w);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-window.AuthPanel = _authPanel2.default;
-window.CallPanel = _callPanel2.default;
-window.DialPad = _dialPad2.default;
-window.CallLog = _callLog2.default;
-window.CallLogItem = _callLogItem2.default;
-window.AutoComplete = _autoComplete2.default;
-window.rcHelper = _helper2.default;
+// window.AuthPanel = AuthPanel;
+// window.CallPanel = CallPanel;
+// window.DialPad = DialPad;
+// window.CallLog = CallLog;
+// window.CallLogItem = CallLogItem
+// window.AutoComplete = AutoComplete;
+window.rcHelper = _helper2.default; // import AuthPanel from './components/auth-panel'
+// import CallPanel from './components/call-panel'
+// import DialPad from './components/dial-pad'
+// import CallLog from './components/call-log'
+// import CallLogItem from './components/call-log-item'
+// import AutoComplete from './components/auto-complete'
+
 window.sdk = _rcSdk2.default;
 window.webPhone = _rcWebphone2.default;
 window.LoginService = _loginService2.default;
 window.CallLogService = _callLogService2.default;
 window.PhoneService = _phoneService2.default;
-
-exports.AuthPanel = _authPanel2.default;
-exports.CallPanel = _callPanel2.default;
-exports.DialPad = _dialPad2.default;
-exports.CallLog = _callLog2.default;
-exports.CallLogItem = _callLogItem2.default;
-exports.AutoComplete = _autoComplete2.default;
-exports.rcHelper = _helper2.default;
+window.w = _w2.default;
+exports.
+// AuthPanel,
+// CallPanel,
+// DialPad,
+// CallLog,
+// CallLogItem,
+// AutoComplete,
+rcHelper = _helper2.default;
 exports.sdk = _rcSdk2.default;
 exports.webPhone = _rcWebphone2.default;
 exports.LoginService = _loginService2.default;
 exports.CallLogService = _callLogService2.default;
 exports.PhoneService = _phoneService2.default;
 
-},{"./components/auth-panel":2,"./components/auto-complete":3,"./components/call-log":5,"./components/call-log-item":4,"./components/call-panel":6,"./components/dial-pad":7,"./helpers/call-log-service":8,"./helpers/helper":9,"./helpers/login-service":10,"./helpers/phone-service":11,"./helpers/rc-sdk":12,"./helpers/rc-webphone":13}]},{},[14])
+},{"./helpers/call-log-service":2,"./helpers/helper":3,"./helpers/login-service":4,"./helpers/phone-service":5,"./helpers/rc-sdk":6,"./helpers/rc-webphone":7,"./w":9}],9:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _component = require('./component');
+
+var _component2 = _interopRequireDefault(_component);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function fetchWidget(name) {
+    return fetchTemplate(w.options.path + name + '.html').then(function (clone) {
+        var template = clone.querySelector('*');
+        var script = clone.querySelector('script');
+        console.log(clone);
+        if (!w.templates[name]) w.templates[name] = {};
+        w.templates[name].template = template;
+        document.body.appendChild(script);
+    });
+}
+
+function fetchTemplate(src) {
+    var fetchPromise = fetch(src).then(function (response) {
+        return response.text();
+    }).then(function (body) {
+        var template = document.createElement('template');
+        template.innerHTML = body;
+        var clone = document.importNode(template.content, true);
+        return clone;
+    }).catch(function (err) {
+        return console.error(err.stack);
+    });
+    return fetchPromise;
+};
+
+function w(name, options) {
+    options = options || {};
+    return fetchWidget(name).then(function () {
+        return new w.templates[name].widget({
+            template: w.templates[name].template,
+            actions: options.actions || {},
+            handlers: options.handlers || {}
+        });
+    });
+}
+w.templates = {};
+w.options = {
+    path: '/template/'
+};
+w.register = function (setting) {
+    Object.keys(w.templates).forEach(function (index) {
+        var template = w.templates[index];
+        if (template.template && !template.widget) template.widget = (0, _component2.default)(setting);
+    });
+};
+w.config = function (options) {
+    w.options = Object.assign(w.options, options);
+};
+
+exports.default = w;
+
+},{"./component":1}]},{},[8])
 
 
 //# sourceMappingURL=build.js.map

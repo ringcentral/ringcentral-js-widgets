@@ -112,19 +112,6 @@ function bindScope(scope, action) {
     }
 }
 
-function fetchTemplate(src) {
-    var fetchPromise = fetch(src)
-        .then(response => response.text())
-        .then(body => {
-            var template = document.createElement('template');
-            template.innerHTML = body;
-            var clone = document.importNode(template.content, true);
-            return clone;
-        })
-        .catch(err => console.error(err.stack))
-    return fetchPromise;
-};
-
 function generateDocument(widget, template) {
     var dom = {};
     [].forEach.call(template.querySelectorAll('[data-info]'), doc => {
@@ -206,3 +193,4 @@ function wrapUserEvent(widget, user, ...args) {
     return null;
 }
 
+export default register;

@@ -1,5 +1,7 @@
+import register from './component'
+
 function fetchWidget(name) {
-    return fetchTemplate('template/' + name + '.html')
+    return fetchTemplate(w.options.path + name + '.html')
         .then(clone => {
             var template = clone.querySelector('*');
             var script = clone.querySelector('script');
@@ -10,6 +12,19 @@ function fetchWidget(name) {
             document.body.appendChild(script);
         })
 }
+
+function fetchTemplate(src) {
+    var fetchPromise = fetch(src)
+        .then(response => response.text())
+        .then(body => {
+            var template = document.createElement('template');
+            template.innerHTML = body;
+            var clone = document.importNode(template.content, true);
+            return clone;
+        })
+        .catch(err => console.error(err.stack))
+    return fetchPromise;
+};
 
 function w(name, options) {
     options = options || {};
@@ -22,5 +37,18 @@ function w(name, options) {
     })
 }
 w.templates = {};
-w.register = function() {};
-w.config = function() {};
+w.options = {
+    path: '/template/'
+}
+w.register = function(setting) {
+    Object.keys(w.templates).forEach(index => {
+        var template = w.templates[index];
+        if (template.template && !template.widget)
+            template.widget = register(setting);
+    })
+};
+w.config = function(options) {
+    w.options = Object.assign(w.options, options);
+};
+
+export default w;

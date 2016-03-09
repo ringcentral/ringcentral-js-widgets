@@ -9,7 +9,7 @@
     <div class='rc-error-message' data-info='error' data-show='error'></div>
 </div>
 <script>
-var AuthPanel = register({
+w.register({
     actions: {
         init: {
             before: function() {},
@@ -58,11 +58,7 @@ var AuthPanel = register({
     }
 });
 
-Object.keys(w.templates).forEach(index => {
-    var template = w.templates[index];
-    if (template.template && !template.widget)
-        template.widget = AuthPanel;
-})
+
 function loading(target, text) {
     var dotCount = 1;
     var interval = window.setInterval(() => {
