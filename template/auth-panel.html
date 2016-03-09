@@ -8,3 +8,80 @@
     <button class='rc-button' data-info='login' data-event='click:login'>login</button>
     <div class='rc-error-message' data-info='error' data-show='error'></div>
 </div>
+<script>
+var AuthPanel = register({
+    actions: {
+        init: {
+            before: function() {},
+            method: function(finish) {
+                finish();
+            },
+            after: function() {}
+        },
+        render: {
+            before: function() {},
+            method: function(finish) {
+                finish();
+            },
+            after: function() {
+                this.props.dom.key.value = localStorage.getItem('key');
+                this.props.dom.secret.value = localStorage.getItem('secret');
+                this.props.dom.username.value = localStorage.getItem('username');
+                this.props.dom.extension.value = localStorage.getItem('extension');
+                this.props.dom.password.value = localStorage.getItem('password');
+            }
+        },
+        login: {
+            before: function(d) {
+                this.props.dom.login.disabled = true;
+                this.props.dom.error.textContent = '';
+                this.interval = loading(this.props.dom.login, 'login');
+            },
+            method: function(finish, d) {
+                return finish();
+            },
+            after: function(d) {
+                this.props.dom.login.disabled = false;
+                // stop loading animation
+                if (this.interval) {
+                    this.interval.cancel();
+                    this.interval = null;
+                }
+                localStorage.setItem('server', this.props.dom.server.value || '');
+                localStorage.setItem('key', this.props.dom.key.value || '');
+                localStorage.setItem('secret', this.props.dom.secret.value || '');
+                localStorage.setItem('username', this.props.dom.username.value || '');
+                localStorage.setItem('extension', this.props.dom.extension.value || '');
+                localStorage.setItem('password', this.props.dom.password.value || '');
+            }
+        }
+    }
+});
+
+Object.keys(w.templates).forEach(index => {
+    var template = w.templates[index];
+    if (template.template && !template.widget)
+        template.widget = AuthPanel;
+})
+function loading(target, text) {
+    var dotCount = 1;
+    var interval = window.setInterval(() => {
+        var dot = '';
+        var dotCountTmp = dotCount;
+        while (dotCount--)
+            dot += '.';
+        target.textContent = text + dot;
+        dotCount = (dotCountTmp + 1) % 4;
+    }, 500)
+    return {
+        cancel: function(text) {
+            if (interval) {
+                window.clearInterval(interval);
+                interval = null;
+                if (typeof text !== 'undefined')
+                    target.textContent = text;
+            }
+        }
+    }
+}
+</script>

@@ -1,5 +1,3 @@
-import fetch from 'isomorphic-fetch';
-
 function register(settings) {
     /*
      *
@@ -26,7 +24,7 @@ function register(settings) {
         this.props = {};
         this.fetchPromise =
             Promise.all([
-                fetchTemplate(options.template),
+                options.template,
                 (() => {
                     Object.keys(settings.actions).forEach(index => {
                         settings.actions[index] = bindScope(this, settings.actions[index]);
@@ -52,6 +50,7 @@ function register(settings) {
                         }, options.actions.render, 'render')
 
                     function render(widgetRender, finish, ...args) {
+                        console.log(args);
                         var target = args[0][0];
                         var callback = args[0][1];
                         if (this.fetchPromise)
@@ -207,4 +206,3 @@ function wrapUserEvent(widget, user, ...args) {
     return null;
 }
 
-export default register;
