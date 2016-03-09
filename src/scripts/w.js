@@ -7,6 +7,8 @@ function fetchWidget(name) {
             // FIXME: buggy
             var template = clone.querySelector('*');
             var script = clone.querySelector('script');
+            template = parseDocument(template);
+            console.log(template);
             if (!w.templates[name])
                 w.templates[name] = {};
             w.templates[name].template = template;
@@ -26,6 +28,21 @@ function fetchTemplate(src) {
         .catch(err => console.error(err.stack))
     return fetchPromise;
 };
+
+function parseDocument(template) {
+    var docs = template.querySelectorAll('*');
+    Array.from(docs).forEach(doc => {
+        if (doc.tagName.indexOf('-') > -1 /* WebComponent spec */ || doc instanceof HTMLUnknownElement) {
+            // custom element
+            // TODO: may have race condition in nested promise
+            w(doc.localName).then(widget => {
+                widget.render(doc);
+            })
+
+        }
+    })
+    return template;
+}
 
 function w(name, options) {
     options = options || {};
@@ -59,4 +76,7 @@ w.config = function(options) {
     w.options = Object.assign(w.options, options);
 };
 w.preload = function() {}
+
+// setting custom elements when registering widgets
+w.custom = function() {}
 export default w;
