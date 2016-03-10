@@ -22,18 +22,13 @@ function fetchWidget(name) {
 }
 
 function parseDocument(template) {
-    console.log('parse document');
     var docs = template.querySelectorAll('*');
     var nestedFetch = Array.from(docs).reduce((aggr, doc) => {
         if (doc.tagName.indexOf('-') > -1 /* WebComponent spec */ || doc instanceof HTMLUnknownElement) {
             // custom element
             aggr.push(w(doc.localName).then(widget => {
                 // TODO: may 'customize' custom elements
-                console.log('get custom element');
-                console.info(widget);
-                console.info(widget.props.template.cloneNode(true));
                 // var div = document.createElement('div');
-                console.info(widget);
                 widget.render(doc)
                     .then(() => console.info(widget.props.template.cloneNode(true)))
                     .catch(err => console.error(err));

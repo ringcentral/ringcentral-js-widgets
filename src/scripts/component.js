@@ -46,9 +46,6 @@ function register(settings) {
             }, options.actions.render, 'render')
 
         function render(widgetRender, finish, target, callback) {
-            console.info(this.props.template.cloneNode(true));
-            console.log(target, callback);
-            console.info(this.props.template.cloneNode(true));
             if (typeof target === 'string') {
                 target = document.querySelector(target);
             } else if (target instanceof HTMLElement) {
@@ -57,15 +54,14 @@ function register(settings) {
                 console.warn('first argument of render method should be selector string or dom');
             }
             this.props.targetDOM = target;
-            console.info(this.props.targetDOM.cloneNode(true));
             this.props.targetDOM.appendChild(this.props.template);
+            console.info(target.cloneNode(true));
             callback && typeof callback === 'function' && callback();
             if (widgetRender && typeof widgetRender === 'function')
                 return widgetRender.call(this, finish);
         }
         this.props.dom = generateDocument(this, options.template);
         this.props.template = options.template;
-        console.info(this.props.template.cloneNode(true));
         this.init();
         var handlers = settings.handlers;
         if (handlers) {
@@ -143,7 +139,7 @@ function generateActions(widgetAction, userAction, name) {
             .then(function(arg) {
                 console.log('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
                 if (typeof arg === 'function') {
-                    return widgetAction.method(userAction.after, ...arg()) || arg;
+                    return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg;
                 }
                 return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
             })
