@@ -41,13 +41,11 @@ function parseDocument(template) {
 
 function w(name, options) {
     options = options || {};
-    var fetch = false; //test
     if (!w.templates[name]) {
         w.templates[name] = {};
     }
     if (!w.templates[name].fetch) {
         w.templates[name].fetch = fetchWidget(name);
-        fetch = true;
     }
     // w.templates[name].fetch = fetchWidget(name);
     return w.templates[name].fetch
@@ -56,7 +54,6 @@ function w(name, options) {
                 template: w.templates[name].template.cloneNode(true),
                 actions: options.actions || {},
                 handlers: options.handlers || {},
-                fetch: fetch
             })
         })
         .catch(err => console.error(err));

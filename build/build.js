@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
-function register(settings) {
+function register(globalSettings) {
     /*
      *
      * [register process]
@@ -17,18 +17,23 @@ function register(settings) {
      * fetch template   _____|                                                  ----> maybe [before, render, after]
      *
      */
-    settings = Object.assign({
+    globalSettings = Object.assign({
         actions: {},
         handlers: {}
-    }, settings);
+    }, globalSettings);
 
     var Widget = function Widget(options) {
         var _this = this;
 
-        this.options = Object.assign({
+        var options = Object.assign({
             actions: {},
             handlers: {}
         }, options);
+        var settings = {
+            // For deep copy
+            actions: Object.assign({}, globalSettings.actions),
+            handlers: Object.assign({}, globalSettings.handlers)
+        };
         if (!options.template) {
             throw new Error('need a template');
         }
@@ -46,6 +51,7 @@ function register(settings) {
             options.handlers[index] = bindScope(_this, options.handlers[index]);
         });
         Object.keys(settings.actions).forEach(function (index) {
+            console.info(_this[index]);
             _this[index] = generateActions(settings.actions[index], options.actions[index], index /* for debug */);
         });
         this.render = generateActions({
@@ -68,6 +74,7 @@ function register(settings) {
         }
         this.props.dom = generateDocument(this, options.template);
         this.props.template = options.template;
+        // init
         this.init();
         var handlers = settings.handlers;
         if (handlers) {
@@ -741,21 +748,18 @@ function parseDocument(template) {
 
 function w(name, options) {
     options = options || {};
-    var fetch = false; //test
     if (!w.templates[name]) {
         w.templates[name] = {};
     }
     if (!w.templates[name].fetch) {
         w.templates[name].fetch = fetchWidget(name);
-        fetch = true;
     }
     // w.templates[name].fetch = fetchWidget(name);
     return w.templates[name].fetch.then(function () {
         return new w.templates[name].widget({
             template: w.templates[name].template.cloneNode(true),
             actions: options.actions || {},
-            handlers: options.handlers || {},
-            fetch: fetch
+            handlers: options.handlers || {}
         });
     }).catch(function (err) {
         return console.error(err);

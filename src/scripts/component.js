@@ -1,4 +1,4 @@
-function register(settings) {
+function register(globalSettings) {
     /*
      *
      * [register process]
@@ -8,16 +8,21 @@ function register(settings) {
      * fetch template   _____|                                                  ----> maybe [before, render, after]
      *
      */
-    settings = Object.assign({
+    globalSettings = Object.assign({
         actions: {},
         handlers: {}
-    }, settings);
+    }, globalSettings);
 
     var Widget = function(options) {
-        this.options = Object.assign({
+        var options = Object.assign({
             actions: {},
             handlers: {}
         }, options);
+        var settings = {
+            // For deep copy
+            actions: Object.assign({}, globalSettings.actions),
+            handlers: Object.assign({}, globalSettings.handlers)
+        }
         if (!options.template) {
             throw new Error('need a template');
         }
@@ -35,6 +40,7 @@ function register(settings) {
             options.handlers[index] = bindScope(this, options.handlers[index]);
         })
         Object.keys(settings.actions).forEach(index => {
+            console.info(this[index]);
             this[index] =
                 generateActions(settings.actions[index], options.actions[index], index /* for debug */ );
         })
@@ -60,6 +66,7 @@ function register(settings) {
         }
         this.props.dom = generateDocument(this, options.template);
         this.props.template = options.template;
+        // init
         this.init();
         var handlers = settings.handlers;
         if (handlers) {

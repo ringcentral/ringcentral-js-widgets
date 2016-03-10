@@ -10,7 +10,11 @@
         init: {
             before: function() {},
             method: function() {},
-            after: function() {}
+            after: function() {
+                console.log(this);
+                console.log(this.props.dom);
+                this.props.dom.input.value = '1';
+            }
         },
         render: {
             before: function() {},
