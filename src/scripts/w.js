@@ -27,12 +27,9 @@ function parseDocument(template) {
         if (doc.tagName.indexOf('-') > -1 /* WebComponent spec */ || doc instanceof HTMLUnknownElement) {
             // custom element
             aggr.push(w(doc.localName).then(widget => {
-                console.info(widget.options.fetch);
                 // TODO: may 'customize' custom elements
                 // var div = document.createElement('div');
-                widget.render(doc)
-                    .then(() => console.info(widget.props.template.cloneNode(true)))
-                    .catch(err => console.error(err));
+                widget.render(doc);
                 // doc.parentNode.insertBefore(div, doc.nextSibling);
             }));
 

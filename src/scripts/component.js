@@ -53,8 +53,6 @@ function register(settings) {
             } else {
                 console.warn('first argument of render method should be selector string or dom');
             }
-            console.info(options.fetch);
-            console.info(this.props.template.cloneNode(true));
             target.appendChild(this.props.template);
             callback && typeof callback === 'function' && callback();
             if (widgetRender && typeof widgetRender === 'function')

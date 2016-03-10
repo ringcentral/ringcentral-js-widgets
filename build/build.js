@@ -62,8 +62,6 @@ function register(settings) {
             } else {
                 console.warn('first argument of render method should be selector string or dom');
             }
-            console.info(options.fetch);
-            console.info(this.props.template.cloneNode(true));
             target.appendChild(this.props.template);
             callback && typeof callback === 'function' && callback();
             if (widgetRender && typeof widgetRender === 'function') return widgetRender.call(this, finish);
@@ -728,14 +726,9 @@ function parseDocument(template) {
         if (doc.tagName.indexOf('-') > -1 /* WebComponent spec */ || doc instanceof HTMLUnknownElement) {
             // custom element
             aggr.push(w(doc.localName).then(function (widget) {
-                console.info(widget.options.fetch);
                 // TODO: may 'customize' custom elements
                 // var div = document.createElement('div');
-                widget.render(doc).then(function () {
-                    return console.info(widget.props.template.cloneNode(true));
-                }).catch(function (err) {
-                    return console.error(err);
-                });
+                widget.render(doc);
                 // doc.parentNode.insertBefore(div, doc.nextSibling);
             }));
         }
