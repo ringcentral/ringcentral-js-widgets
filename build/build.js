@@ -51,7 +51,6 @@ function register(globalSettings) {
             options.handlers[index] = bindScope(_this, options.handlers[index]);
         });
         Object.keys(settings.actions).forEach(function (index) {
-            console.info(_this[index]);
             _this[index] = generateActions(settings.actions[index], options.actions[index], index /* for debug */);
         });
         this.render = generateActions({
@@ -135,15 +134,15 @@ function generateActions(widgetAction, userAction, name) {
             args[_key] = arguments[_key];
         }
 
-        console.log('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
+        console.info('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
         return Promise.resolve(wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args))).then(function (arg) {
-            console.log('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg()))) || arg;
             }
             return widgetAction.method(userAction.method, arg) || arg;
         }).then(function (arg) {
-            console.log('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(_toConsumableArray(arg()))) || arg;
             }
@@ -160,16 +159,16 @@ function generateHandlers(widgetHandler) {
             args[_key2] = arguments[_key2];
         }
 
-        return Promise.resolve(wrapUserEvent.apply(undefined, [widgetHandler.before, widgetHandler.before].concat(args))).then(function () {
-            var _ref2, _widgetAction;
-
-            var flatArgs = (_ref2 = []).concat.apply(_ref2, arguments);
-            return (_widgetAction = widgetAction).method.apply(_widgetAction, _toConsumableArray(flatArgs)) || flatArgs;
-        }).then(function () {
-            var _ref3;
-
-            var flatArgs = (_ref3 = []).concat.apply(_ref3, arguments);
-            return widgetHandler.after.apply(widgetHandler, _toConsumableArray(flatArgs)) || flatArgs;
+        return Promise.resolve(wrapUserEvent.apply(undefined, [widgetHandler.before, widgetHandler.before].concat(args))).then(function (arg) {
+            if (typeof arg === 'function') {
+                return widgetHandler.method.apply(widgetHandler, _toConsumableArray(arg())) || arg;
+            }
+            return widgetAction.method(arg) || arg;
+        }).then(function (arg) {
+            if (typeof arg === 'function') {
+                return widgetHandler.after.apply(widgetHandler, _toConsumableArray(arg())) || arg;
+            }
+            return widgetHandler.after(arg) || arg;
         }).catch(function (err) {
             return console.error(err.stack);
         });
@@ -181,7 +180,7 @@ function wrapUserEvent(widget, user) {
         args[_key3 - 2] = arguments[_key3];
     }
 
-    var _ref4;
+    var _ref2;
 
     var continueDefault = !user || user() || true;
     if (continueDefault || typeof continueDefault === 'undefined' || continueDefault) {
@@ -192,7 +191,7 @@ function wrapUserEvent(widget, user) {
         }
         return null;
     }
-    return (_ref4 = []).concat.apply(_ref4, args);
+    return (_ref2 = []).concat.apply(_ref2, args);
 }
 
 exports.default = register;

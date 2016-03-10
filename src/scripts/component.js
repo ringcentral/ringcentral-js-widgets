@@ -40,7 +40,6 @@ function register(globalSettings) {
             options.handlers[index] = bindScope(this, options.handlers[index]);
         })
         Object.keys(settings.actions).forEach(index => {
-            console.info(this[index]);
             this[index] =
                 generateActions(settings.actions[index], options.actions[index], index /* for debug */ );
         })
@@ -127,17 +126,17 @@ function generateActions(widgetAction, userAction, name) {
         console.warn('Widget action [%s] is not defined by users', name);
     }
     return function(...args) {
-        console.log('[%s][before](' + [].concat(...args) + ')', name);
+        console.info('[%s][before](' + [].concat(...args) + ')', name);
         return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, ...args))
             .then(function(arg) {
-                console.log('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+                console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
                 if (typeof arg === 'function') {
                     return widgetAction.method(userAction.method, ...arg()) || arg;
                 }
                 return widgetAction.method(userAction.method, arg) || arg;
             })
             .then(function(arg) {
-                console.log('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+                console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
                 if (typeof arg === 'function') {
                     return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg;
                 }
@@ -150,13 +149,17 @@ function generateActions(widgetAction, userAction, name) {
 function generateHandlers(widgetHandler) {
     return function(...args) {
         return Promise.resolve(wrapUserEvent(widgetHandler.before, widgetHandler.before, ...args))
-            .then(function(...args) {
-                var flatArgs = [].concat(...args);
-                return widgetAction.method(...flatArgs) || flatArgs;
+            .then(function(arg) {
+                if (typeof arg === 'function') {
+                    return widgetHandler.method(...arg()) || arg;
+                }
+                return widgetAction.method(arg) || arg;
             })
-            .then(function(...args) {
-                var flatArgs = [].concat(...args);
-                return widgetHandler.after(...flatArgs) || flatArgs;
+            .then(function(arg) {
+                if (typeof arg === 'function') {
+                    return widgetHandler.after(...arg()) || arg;
+                }
+                return widgetHandler.after(arg) || arg;
             })
             .catch(err => console.error(err.stack));
     }
