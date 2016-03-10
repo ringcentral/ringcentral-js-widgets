@@ -1,22 +1,94 @@
-<div class="rc-pane-header call-log-header">
-        Call Log
-</div>
-
-<div class="tabs tabs2 badges">
-    <a class="tab active" data-info="allCallTab" data-event="click:enableAllCallTab">
-        All
-    </a>
-    <a class="tab" data-info="missedCallTab" data-event="click:enableMissedCallTab">
-        Missed
-        <!--<span class="badge" ng-if="(counters.calls|removeInboundLeg|filterMissedCalls|filterStarttimeCalls).length">
-            {{ (counters.calls|removeInboundLeg|filterMissedCalls|filterStarttimeCalls).length }}
-        </span>-->
-    </a>
-</div>
-
-<div class="rc-pane-scrollable" ng-class="{'clearExpanded':!clearCollapsed}">
-    <div data-info="logs">
-        
+<div>
+    <div class="rc-pane-header call-log-header">
+            Call Log
     </div>
 
+    <div class="tabs tabs2 badges">
+        <a class="tab active" data-info="allCallTab" data-event="click:enableAllCallTab">
+            All
+        </a>
+        <a class="tab" data-info="missedCallTab" data-event="click:enableMissedCallTab">
+            Missed
+            <!--<span class="badge" ng-if="(counters.calls|removeInboundLeg|filterMissedCalls|filterStarttimeCalls).length">
+                {{ (counters.calls|removeInboundLeg|filterMissedCalls|filterStarttimeCalls).length }}
+            </span>-->
+        </a>
+    </div>
+
+    <div class="rc-pane-scrollable" ng-class="{'clearExpanded':!clearCollapsed}">
+        <div data-info="logs">
+            
+        </div>
+
+    </div>
 </div>
+<script>
+w.register({
+    
+    actions:{
+        
+        init:{
+          
+            method:function(finish){
+                return finish();
+            },
+            after:function(logItems){
+                var props = this.props;
+                logItems.forEach(function(item){
+                    w('call-log-item', {
+                        actions:{
+                            init:{
+                                method:function(){
+                                    this.props.id = item.id;
+                                    return item;
+                                }
+                            }
+                        },
+                        testId: item.id
+                    }).then(function(widget){
+                        widget.render(props.dom.logs)
+                    });    
+                });
+            } 
+        },
+        render:{
+            //Need to define the function due to framework requirement
+            before:function(){},
+            method:function(){},
+            after:function(){}
+            
+        },
+        
+        enableAllCallTab:{
+            
+            after:function(){
+                var allCallTab = this.props.dom.allCallTab;
+                var missedCallTab = this.props.dom.missedCallTab;
+                if(allCallTab.classList.contains('active') === false){
+                    allCallTab.classList.add('active');
+                    missedCallTab.classList.remove('active');
+                }
+            }
+        },
+        enableMissedCallTab:{
+            method:function(finish){
+                
+                return finish();
+            },
+            after:function(){
+                var allCallTab = this.props.dom.allCallTab;
+                var missedCallTab = this.props.dom.missedCallTab;    
+                
+                if(missedCallTab.classList.contains('active') === false){
+                    missedCallTab.classList.add('active');
+                    allCallTab.classList.remove('active');
+                }   
+            }
+        }
+        
+        
+    },
+    
+    handlers:{}
+});
+</script>

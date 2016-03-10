@@ -210,25 +210,15 @@ var _rcSdk2 = _interopRequireDefault(_rcSdk);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CallLogService = function (sdk) {
-
-    var callLogUpdatedHandlers = [];
-
     return {
 
         getCallLogs: function getCallLogs() {
 
-            sdk.platform().get('/account/~/extension/~/call-log', { dateFrom: '2016-2-28' }).then(function (response) {
-                var records = response.json().records;
-                callLogUpdatedHandlers.forEach(function (fun) {
-                    return fun(records);
-                });
+            return sdk.platform().get('/account/~/extension/~/call-log', { dateFrom: '2016-2-28' }).then(function (response) {
+                return response.json().records;
             }).catch(function (e) {
                 console.error('Recent Calls Error: ' + e.message);
             });
-        },
-
-        registerCallLogUpdatedHandler: function registerCallLogUpdatedHandler(handler) {
-            callLogUpdatedHandlers.push(handler);
         }
     };
 }(_rcSdk2.default);
