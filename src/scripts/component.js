@@ -22,77 +22,60 @@ function register(settings) {
             throw new Error('need a template');
         }
         this.props = {};
-        this.fetchPromise =
-            Promise.all([
-                options.template,
-                (() => {
-                    Object.keys(settings.actions).forEach(index => {
-                        settings.actions[index] = bindScope(this, settings.actions[index]);
-                    })
-                    Object.keys(settings.handlers).forEach(index => {
-                        settings.handlers[index] = bindScope(this, settings.handlers[index]);
-                    })
-                    Object.keys(options.actions).forEach(index => {
-                        options.actions[index] = bindScope(this, options.actions[index]);
-                    })
-                    Object.keys(options.handlers).forEach(index => {
-                        options.handlers[index] = bindScope(this, options.handlers[index]);
-                    })
-                    Object.keys(settings.actions).forEach(index => {
-                        Widget.prototype[index] =
-                            generateActions(settings.actions[index], options.actions[index], index /* for debug */ );
-                    })
-                    Widget.prototype.render =
-                        generateActions({
-                            before: settings.actions.render.before,
-                            method: render.bind(this, settings.actions.render.method),
-                            after: settings.actions.render.after
-                        }, options.actions.render, 'render')
+        Object.keys(settings.actions).forEach(index => {
+            settings.actions[index] = bindScope(this, settings.actions[index]);
+        })
+        Object.keys(settings.handlers).forEach(index => {
+            settings.handlers[index] = bindScope(this, settings.handlers[index]);
+        })
+        Object.keys(options.actions).forEach(index => {
+            options.actions[index] = bindScope(this, options.actions[index]);
+        })
+        Object.keys(options.handlers).forEach(index => {
+            options.handlers[index] = bindScope(this, options.handlers[index]);
+        })
+        Object.keys(settings.actions).forEach(index => {
+            Widget.prototype[index] =
+                generateActions(settings.actions[index], options.actions[index], index /* for debug */ );
+        })
+        Widget.prototype.render =
+            generateActions({
+                before: settings.actions.render.before,
+                method: render.bind(this, settings.actions.render.method),
+                after: settings.actions.render.after
+            }, options.actions.render, 'render')
 
-                    function render(widgetRender, finish, target, callback) {
-                        console.log(target, callback);
-                        if (this.fetchPromise)
-                            return this.fetchPromise
-                                .then(() => {
-                                    if (typeof target === 'string') {
-                                        target = document.querySelector(target);
-                                    } else if (target instanceof HTMLElement) {
-                                        target = target;
-                                    } else {
-                                        console.warn('first argument of render method should be selector string or dom');
-                                    }
-                                    this.props.targetDOM = target;
-                                    this.props.targetDOM.appendChild(this.props.template);
-                                })
-                                .then(() => callback && typeof callback === 'function' && callback()) // defined in render callback
-                                .then(() => {
-                                    if (widgetRender && typeof widgetRender === 'function')
-                                        return widgetRender.call(this, finish);
-                                })
-                                .catch(err => console.error('render err:' + err));
-                    }
-                })()
-            ])
-            .then(args => generateDocument(this, args[0] /* template:DocumentFragment */ ))
-            .then(args => {
-                this.props.dom = args.dom;
-                this.props.template = args.template;
-                this.init();
+        function render(widgetRender, finish, target, callback) {
+            console.info(this.props.template.cloneNode(true));
+            console.log(target, callback);
+            console.info(this.props.template.cloneNode(true));
+            if (typeof target === 'string') {
+                target = document.querySelector(target);
+            } else if (target instanceof HTMLElement) {
+                target = target;
+            } else {
+                console.warn('first argument of render method should be selector string or dom');
+            }
+            this.props.targetDOM = target;
+            console.info(this.props.targetDOM.cloneNode(true));
+            this.props.targetDOM.appendChild(this.props.template);
+            callback && typeof callback === 'function' && callback();
+            if (widgetRender && typeof widgetRender === 'function')
+                return widgetRender.call(this, finish);
+        }
+        this.props.dom = generateDocument(this, options.template);
+        this.props.template = options.template;
+        console.info(this.props.template.cloneNode(true));
+        this.init();
+        var handlers = settings.handlers;
+        if (handlers) {
+            Object.keys(handlers).forEach(index => {
+                options.handlers[index].method.call(
+                    this,
+                    generateHandlers(settings.handlers[index])
+                );
             })
-            .catch(err => console.error(err.stack))
-        this.fetchPromise
-            .then(() => {
-                var handlers = settings.handlers;
-                if (handlers) {
-                    Object.keys(handlers).forEach(index => {
-                        options.handlers[index].method.call(
-                            this,
-                            generateHandlers(settings.handlers[index])
-                        );
-                    })
-                }
-            })
-            .catch(err => console.error(err.stack))
+        }
     };
     Widget.prototype.remove = function() {
         while (this.props.targetDOM.firstChild) {
@@ -135,10 +118,7 @@ function generateDocument(widget, template) {
             doc.addEventListener(eventName, widget[action].bind(widget));
         })
     })
-    return {
-        template: template,
-        dom: dom
-    };
+    return dom;
 }
 
 function generateActions(widgetAction, userAction, name) {
@@ -163,7 +143,7 @@ function generateActions(widgetAction, userAction, name) {
             .then(function(arg) {
                 console.log('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
                 if (typeof arg === 'function') {
-                    return widgetAction.method(userAction.method, ...arg()) || arg;
+                    return widgetAction.method(userAction.after, ...arg()) || arg;
                 }
                 return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
             })

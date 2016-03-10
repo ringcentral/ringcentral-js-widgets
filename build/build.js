@@ -33,70 +33,54 @@ function register(settings) {
             throw new Error('need a template');
         }
         this.props = {};
-        this.fetchPromise = Promise.all([options.template, function () {
-            Object.keys(settings.actions).forEach(function (index) {
-                settings.actions[index] = bindScope(_this, settings.actions[index]);
-            });
-            Object.keys(settings.handlers).forEach(function (index) {
-                settings.handlers[index] = bindScope(_this, settings.handlers[index]);
-            });
-            Object.keys(options.actions).forEach(function (index) {
-                options.actions[index] = bindScope(_this, options.actions[index]);
-            });
-            Object.keys(options.handlers).forEach(function (index) {
-                options.handlers[index] = bindScope(_this, options.handlers[index]);
-            });
-            Object.keys(settings.actions).forEach(function (index) {
-                Widget.prototype[index] = generateActions(settings.actions[index], options.actions[index], index /* for debug */);
-            });
-            Widget.prototype.render = generateActions({
-                before: settings.actions.render.before,
-                method: render.bind(_this, settings.actions.render.method),
-                after: settings.actions.render.after
-            }, options.actions.render, 'render');
-
-            function render(widgetRender, finish, target, callback) {
-                var _this2 = this;
-
-                console.log(target, callback);
-                if (this.fetchPromise) return this.fetchPromise.then(function () {
-                    if (typeof target === 'string') {
-                        target = document.querySelector(target);
-                    } else if (target instanceof HTMLElement) {
-                        target = target;
-                    } else {
-                        console.warn('first argument of render method should be selector string or dom');
-                    }
-                    _this2.props.targetDOM = target;
-                    _this2.props.targetDOM.appendChild(_this2.props.template);
-                }).then(function () {
-                    return callback && typeof callback === 'function' && callback();
-                }) // defined in render callback
-                .then(function () {
-                    if (widgetRender && typeof widgetRender === 'function') return widgetRender.call(_this2, finish);
-                }).catch(function (err) {
-                    return console.error('render err:' + err);
-                });
-            }
-        }()]).then(function (args) {
-            return generateDocument(_this, args[0] /* template:DocumentFragment */);
-        }).then(function (args) {
-            _this.props.dom = args.dom;
-            _this.props.template = args.template;
-            _this.init();
-        }).catch(function (err) {
-            return console.error(err.stack);
+        Object.keys(settings.actions).forEach(function (index) {
+            settings.actions[index] = bindScope(_this, settings.actions[index]);
         });
-        this.fetchPromise.then(function () {
-            var handlers = settings.handlers;
-            if (handlers) {
-                Object.keys(handlers).forEach(function (index) {
-                    options.handlers[index].method.call(_this, generateHandlers(settings.handlers[index]));
-                });
-            }
-        }).catch(function (err) {
-            return console.error(err.stack);
+        Object.keys(settings.handlers).forEach(function (index) {
+            settings.handlers[index] = bindScope(_this, settings.handlers[index]);
         });
+        Object.keys(options.actions).forEach(function (index) {
+            options.actions[index] = bindScope(_this, options.actions[index]);
+        });
+        Object.keys(options.handlers).forEach(function (index) {
+            options.handlers[index] = bindScope(_this, options.handlers[index]);
+        });
+        Object.keys(settings.actions).forEach(function (index) {
+            Widget.prototype[index] = generateActions(settings.actions[index], options.actions[index], index /* for debug */);
+        });
+        Widget.prototype.render = generateActions({
+            before: settings.actions.render.before,
+            method: render.bind(this, settings.actions.render.method),
+            after: settings.actions.render.after
+        }, options.actions.render, 'render');
+
+        function render(widgetRender, finish, target, callback) {
+            console.info(this.props.template.cloneNode(true));
+            console.log(target, callback);
+            console.info(this.props.template.cloneNode(true));
+            if (typeof target === 'string') {
+                target = document.querySelector(target);
+            } else if (target instanceof HTMLElement) {
+                target = target;
+            } else {
+                console.warn('first argument of render method should be selector string or dom');
+            }
+            this.props.targetDOM = target;
+            console.info(this.props.targetDOM.cloneNode(true));
+            this.props.targetDOM.appendChild(this.props.template);
+            callback && typeof callback === 'function' && callback();
+            if (widgetRender && typeof widgetRender === 'function') return widgetRender.call(this, finish);
+        }
+        this.props.dom = generateDocument(this, options.template);
+        this.props.template = options.template;
+        console.info(this.props.template.cloneNode(true));
+        this.init();
+        var handlers = settings.handlers;
+        if (handlers) {
+            Object.keys(handlers).forEach(function (index) {
+                options.handlers[index].method.call(_this, generateHandlers(settings.handlers[index]));
+            });
+        }
     };
     Widget.prototype.remove = function () {
         while (this.props.targetDOM.firstChild) {
@@ -136,10 +120,7 @@ function generateDocument(widget, template) {
             doc.addEventListener(eventName, widget[action].bind(widget));
         });
     });
-    return {
-        template: template,
-        dom: dom
-    };
+    return dom;
 }
 
 function generateActions(widgetAction, userAction, name) {
@@ -168,7 +149,7 @@ function generateActions(widgetAction, userAction, name) {
         }).then(function (arg) {
             console.log('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
-                return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg()))) || arg;
+                return widgetAction.method.apply(widgetAction, [userAction.after].concat(_toConsumableArray(arg()))) || arg;
             }
             return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
         }).catch(function (err) {
@@ -733,42 +714,41 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function fetchWidget(name) {
     // TODO: check cache
-    return fetchTemplate(w.options.path + name + '.html').then(function (clone) {
-        return parseDocument(clone);
-    }).then(function (template) {
-        if (!w.templates[name]) w.templates[name] = {};
-        w.templates[name].template = template;
-        console.log('populate template');
-        // FIXME: script position and be inserted multiple times
-        var script = template.querySelector('script');
-        document.body.appendChild(script);
-    });
-}
-
-function fetchTemplate(src) {
-    return fetch(src).then(function (response) {
+    return fetch(w.options.path + name + '.html').then(function (response) {
         return response.text();
     }).then(function (body) {
         var template = document.createElement('template');
         template.innerHTML = body;
         var clone = document.importNode(template.content, true);
         return clone;
-    }).catch(function (err) {
-        return console.error(err.stack);
+    }).then(function (clone) {
+        return parseDocument(clone);
+    }).then(function (template) {
+        w.templates[name].template = template;
+        // FIXME: script position and be inserted multiple times
+        var script = template.querySelector('script');
+        document.body.appendChild(script);
     });
-};
+}
 
 function parseDocument(template) {
+    console.log('parse document');
     var docs = template.querySelectorAll('*');
     var nestedFetch = Array.from(docs).reduce(function (aggr, doc) {
         if (doc.tagName.indexOf('-') > -1 /* WebComponent spec */ || doc instanceof HTMLUnknownElement) {
             // custom element
-            // TODO: may have race condition in nested promise
-            //todo, promise.all
             aggr.push(w(doc.localName).then(function (widget) {
                 // TODO: may 'customize' custom elements
-                var div = document.createElement('div');
-                widget.render(doc);
+                console.log('get custom element');
+                console.info(widget);
+                console.info(widget.props.template.cloneNode(true));
+                // var div = document.createElement('div');
+                console.info(widget);
+                widget.render(doc).then(function () {
+                    return console.info(widget.props.template.cloneNode(true));
+                }).catch(function (err) {
+                    return console.error(err);
+                });
                 // doc.parentNode.insertBefore(div, doc.nextSibling);
             }));
         }
@@ -782,19 +762,21 @@ function parseDocument(template) {
 function w(name, options) {
     options = options || {};
     var fetch;
-    if (w.templates.hasOwnProperty(name)) {
-        fetch = Promise.resolve(); // already registered
-    } else {
-            w.templates[name] = {}; // set a placeholder, means we are fetching, for cache
-            fetch = fetchWidget(name);
-        }
-
-    return fetch.then(function () {
+    if (!w.templates[name]) {
+        w.templates[name] = {};
+    }
+    if (!w.templates[name].fetch) {
+        w.templates[name].fetch = fetchWidget(name);
+    }
+    // w.templates[name].fetch = fetchWidget(name);
+    return w.templates[name].fetch.then(function () {
         return new w.templates[name].widget({
             template: w.templates[name].template.cloneNode(true),
             actions: options.actions || {},
             handlers: options.handlers || {}
         });
+    }).catch(function (err) {
+        return console.error(err);
     });
 }
 w.templates = {};
