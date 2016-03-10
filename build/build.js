@@ -53,13 +53,14 @@ function register(globalSettings) {
         Object.keys(settings.actions).forEach(function (index) {
             _this[index] = generateActions(settings.actions[index], options.actions[index], index /* for debug */);
         });
+        this.props.dom = generateDocument(this, options.template);
+        this.props.template = options.template;
         this.render = generateActions({
             before: settings.actions.render.before,
-            method: render.bind(this, settings.actions.render.method),
+            method: render.bind(this, settings.actions.render.method, this.props.template),
             after: settings.actions.render.after
         }, options.actions.render, 'render');
-
-        function render(widgetRender, finish, target, callback) {
+        function render(widgetRender, template, finish, target, callback) {
             if (typeof target === 'string') {
                 target = document.querySelector(target);
             } else if (target instanceof HTMLElement) {
@@ -67,13 +68,10 @@ function register(globalSettings) {
             } else {
                 console.warn('first argument of render method should be selector string or dom');
             }
-            target.appendChild(this.props.template);
+            target.appendChild(template);
             callback && typeof callback === 'function' && callback();
             if (widgetRender && typeof widgetRender === 'function') return widgetRender.call(this, finish);
         }
-        this.props.dom = generateDocument(this, options.template);
-        this.props.template = options.template;
-        // init
         this.init();
         var handlers = settings.handlers;
         if (handlers) {
@@ -761,7 +759,8 @@ function w(name, options) {
             handlers: options.handlers || {}
         });
         widgets.forEach(function (widget) {
-            return parent.props[widget.name] = widget;
+            console.log(widget);
+            parent.props[widget.name] = widget.widget;
         });
         return parent;
     }).catch(function (err) {

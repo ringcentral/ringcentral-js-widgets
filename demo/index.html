@@ -71,7 +71,7 @@
                     return LoginService.login(username, extension, password);
                 },
                 after: function() {
-                    w('dial-pad').then(widget => widget.render('#dial-pad')).then(() => this.remove())
+                    w('dial-pad').then(widget => widget.render('#dial-pad'));
                 }
             }
         },

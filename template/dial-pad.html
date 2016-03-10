@@ -36,9 +36,11 @@ w.register({
             before: function() {},
             method: function(finish) {
                 var button = event.target;
-                var ac = this.props.autoComplete;
+                var ac = this.props['auto-complete'];
+                console.log(button.getAttribute('data-value'));
+                console.log(ac.props);
                 ac.props.dom.input.value += button.getAttribute('data-value');
-                return ac.autoComplete().then(finish);
+                ac.autoComplete(this.getCandidates).then(finish);
             },
             after: function() {}
         },
@@ -47,7 +49,7 @@ w.register({
                 this.interval = loading(this.props.dom.callout, 'Call');
             },
             method: function(finish) {
-                var ac = this.props.autoComplete;
+                var ac = this.props['auto-complete'];
                 this.props.toNumber = ac.props.dom.input.value;
                 this.props.fromNumber = localStorage.getItem('username');
                 return finish();
@@ -61,8 +63,9 @@ w.register({
         },
         getCandidates: {
             before: function() {},
-            method: function(finish) {
-                return finish();
+            method: function(finish, value) {
+                console.log(value);
+                return finish(value);
             },
             after: function() {}
         }

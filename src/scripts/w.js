@@ -56,7 +56,10 @@ function w(name, options) {
                 actions: options.actions || {},
                 handlers: options.handlers || {},
             })
-            widgets.forEach(widget => parent.props[widget.name] = widget);
+            widgets.forEach(widget => { 
+                console.log(widget);
+                parent.props[widget.name] = widget.widget;
+            });
             return parent;
         })
         .catch(err => console.error(err));
