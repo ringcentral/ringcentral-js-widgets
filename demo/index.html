@@ -71,7 +71,7 @@
                     return LoginService.login(username, extension, password);
                 },
                 after: function() {
-                    dialPad.render('#dial-pad').then(() => this.remove())
+                    w('dial-pad').then(widget => widget.render('#dial-pad')).then(() => this.remove())
                 }
             }
         },
@@ -80,13 +80,6 @@
         authPanel = widget;
         authPanel.render('#auth-panel');
     })
-    w('dial-pad').then(widget => {
-        dialPad = widget;
-    })
-    w('dial-pad').then(widget => {
-        dialPad = widget;
-    })
-
     // var dialPad = new DialPad({
     //     template: '../template/dial-pad.html',
     //     actions: {

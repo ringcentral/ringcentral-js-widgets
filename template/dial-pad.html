@@ -1,5 +1,6 @@
 <div class='rc-panel'>
     <div data-info='number'>
+        <auto-complete></auto-complete>
     </div>
     <div class='rc-dial-wrapper'>
         <button class='rc-dial-button' data-info='dial-button-1' data-value='1' data-event='click:dialing'>1</button>
@@ -29,10 +30,6 @@ w.register({
             method: function() {},
             after: function() {
                 var dialPad = this;
-                w('auto-complete').then(widget => {
-                    this.props.autoComplete = widget;
-                    this.props.autoComplete.render(this.props.dom.number);
-                })
             }
         },
         dialing: {
