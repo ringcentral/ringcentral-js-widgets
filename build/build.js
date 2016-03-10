@@ -46,9 +46,9 @@ function register(settings) {
             options.handlers[index] = bindScope(_this, options.handlers[index]);
         });
         Object.keys(settings.actions).forEach(function (index) {
-            Widget.prototype[index] = generateActions(settings.actions[index], options.actions[index], index /* for debug */);
+            _this[index] = generateActions(settings.actions[index], options.actions[index], index /* for debug */);
         });
-        Widget.prototype.render = generateActions({
+        this.render = generateActions({
             before: settings.actions.render.before,
             method: render.bind(this, settings.actions.render.method),
             after: settings.actions.render.after
@@ -62,9 +62,9 @@ function register(settings) {
             } else {
                 console.warn('first argument of render method should be selector string or dom');
             }
-            this.props.targetDOM = target;
-            this.props.targetDOM.appendChild(this.props.template);
-            console.info(target.cloneNode(true));
+            console.info(options.fetch);
+            console.info(this.props.template.cloneNode(true));
+            target.appendChild(this.props.template);
             callback && typeof callback === 'function' && callback();
             if (widgetRender && typeof widgetRender === 'function') return widgetRender.call(this, finish);
         }
@@ -76,11 +76,6 @@ function register(settings) {
             Object.keys(handlers).forEach(function (index) {
                 options.handlers[index].method.call(_this, generateHandlers(settings.handlers[index]));
             });
-        }
-    };
-    Widget.prototype.remove = function () {
-        while (this.props.targetDOM.firstChild) {
-            this.props.targetDOM.removeChild(this.props.targetDOM.firstChild);
         }
     };
     return Widget;
@@ -733,6 +728,7 @@ function parseDocument(template) {
         if (doc.tagName.indexOf('-') > -1 /* WebComponent spec */ || doc instanceof HTMLUnknownElement) {
             // custom element
             aggr.push(w(doc.localName).then(function (widget) {
+                console.info(widget.options.fetch);
                 // TODO: may 'customize' custom elements
                 // var div = document.createElement('div');
                 widget.render(doc).then(function () {
@@ -752,19 +748,21 @@ function parseDocument(template) {
 
 function w(name, options) {
     options = options || {};
-    var fetch;
+    var fetch = false; //test
     if (!w.templates[name]) {
         w.templates[name] = {};
     }
     if (!w.templates[name].fetch) {
         w.templates[name].fetch = fetchWidget(name);
+        fetch = true;
     }
     // w.templates[name].fetch = fetchWidget(name);
     return w.templates[name].fetch.then(function () {
         return new w.templates[name].widget({
             template: w.templates[name].template.cloneNode(true),
             actions: options.actions || {},
-            handlers: options.handlers || {}
+            handlers: options.handlers || {},
+            fetch: fetch
         });
     }).catch(function (err) {
         return console.error(err);

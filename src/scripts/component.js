@@ -35,10 +35,10 @@ function register(settings) {
             options.handlers[index] = bindScope(this, options.handlers[index]);
         })
         Object.keys(settings.actions).forEach(index => {
-            Widget.prototype[index] =
+            this[index] =
                 generateActions(settings.actions[index], options.actions[index], index /* for debug */ );
         })
-        Widget.prototype.render =
+        this.render =
             generateActions({
                 before: settings.actions.render.before,
                 method: render.bind(this, settings.actions.render.method),
@@ -53,9 +53,9 @@ function register(settings) {
             } else {
                 console.warn('first argument of render method should be selector string or dom');
             }
-            this.props.targetDOM = target;
-            this.props.targetDOM.appendChild(this.props.template);
-            console.info(target.cloneNode(true));
+            console.info(options.fetch);
+            console.info(this.props.template.cloneNode(true));
+            target.appendChild(this.props.template);
             callback && typeof callback === 'function' && callback();
             if (widgetRender && typeof widgetRender === 'function')
                 return widgetRender.call(this, finish);
@@ -71,11 +71,6 @@ function register(settings) {
                     generateHandlers(settings.handlers[index])
                 );
             })
-        }
-    };
-    Widget.prototype.remove = function() {
-        while (this.props.targetDOM.firstChild) {
-            this.props.targetDOM.removeChild(this.props.targetDOM.firstChild);
         }
     };
     return Widget;
