@@ -53,13 +53,14 @@ function register(globalSettings) {
         Object.keys(settings.actions).forEach(function (index) {
             _this[index] = generateActions(settings.actions[index], options.actions[index], index /* for debug */);
         });
+        this.props.dom = generateDocument(this, options.template);
+        this.props.template = options.template;
         this.render = generateActions({
             before: settings.actions.render.before,
-            method: render.bind(this, settings.actions.render.method),
+            method: render.bind(this, settings.actions.render.method, this.props.template),
             after: settings.actions.render.after
         }, options.actions.render, 'render');
-
-        function render(widgetRender, finish, target, callback) {
+        function render(widgetRender, template, finish, target, callback) {
             if (typeof target === 'string') {
                 target = document.querySelector(target);
             } else if (target instanceof HTMLElement) {
@@ -67,13 +68,10 @@ function register(globalSettings) {
             } else {
                 console.warn('first argument of render method should be selector string or dom');
             }
-            target.appendChild(this.props.template);
+            target.appendChild(template);
             callback && typeof callback === 'function' && callback();
             if (widgetRender && typeof widgetRender === 'function') return widgetRender.call(this, finish);
         }
-        this.props.dom = generateDocument(this, options.template);
-        this.props.template = options.template;
-        // init
         this.init();
         var handlers = settings.handlers;
         if (handlers) {
@@ -707,32 +705,32 @@ function fetchWidget(name) {
         var clone = document.importNode(template.content, true);
         return clone;
     }).then(function (clone) {
-        return parseDocument(clone);
-    }).then(function (template) {
-        w.templates[name].template = template;
-        // FIXME: script position and be inserted multiple times
-        var script = template.querySelector('script');
-        document.body.appendChild(script);
+        return parseDocument(clone, name);
     });
 }
 
-function parseDocument(template) {
+function parseDocument(template, name) {
     var docs = template.querySelectorAll('*');
     var nestedFetch = Array.from(docs).reduce(function (aggr, doc) {
         if (doc.tagName.indexOf('-') > -1 /* WebComponent spec */ || doc instanceof HTMLUnknownElement) {
             // custom element
             aggr.push(w(doc.localName).then(function (widget) {
                 // TODO: may 'customize' custom elements
-                // var div = document.createElement('div');
                 widget.render(doc);
-                // doc.parentNode.insertBefore(div, doc.nextSibling);
+                return {
+                    name: doc.localName,
+                    widget: widget
+                };
             }));
         }
         return aggr;
     }, []);
-    return Promise.all(nestedFetch).then(function () {
-        return template;
-    }); // we don't care about nested template return value, but template
+    w.templates[name].template = template;
+    // FIXME: script position
+    var script = template.querySelector('script');
+    document.body.appendChild(script);
+    return Promise.all(nestedFetch);
+    // we don't care about nested template return value, but template
 }
 
 function w(name, options) {
@@ -744,12 +742,17 @@ function w(name, options) {
         w.templates[name].fetch = fetchWidget(name);
     }
     // w.templates[name].fetch = fetchWidget(name);
-    return w.templates[name].fetch.then(function () {
-        return new w.templates[name].widget({
+    return w.templates[name].fetch.then(function (widgets) {
+        var parent = new w.templates[name].widget({
             template: w.templates[name].template.cloneNode(true),
             actions: options.actions || {},
             handlers: options.handlers || {}
         });
+        widgets.forEach(function (widget) {
+            console.log(widget);
+            parent.props[widget.name] = widget.widget;
+        });
+        return parent;
     }).catch(function (err) {
         return console.error(err);
     });
@@ -771,6 +774,7 @@ w.preload = function () {};
 
 // setting custom elements when registering widgets
 w.custom = function () {};
+
 exports.default = w;
 
 },{"./component":1}]},{},[8])

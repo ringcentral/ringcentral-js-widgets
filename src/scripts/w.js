@@ -11,33 +11,34 @@ function fetchWidget(name) {
             return clone;
         })
         .then(clone => {
-            return parseDocument(clone);
-        })
-        .then(template => {
-            w.templates[name].template = template;
-            // FIXME: script position and be inserted multiple times
-            var script = template.querySelector('script');
-            document.body.appendChild(script);
+            return parseDocument(clone, name);
         })
 }
 
-function parseDocument(template) {
+function parseDocument(template, name) {
     var docs = template.querySelectorAll('*');
     var nestedFetch = Array.from(docs).reduce((aggr, doc) => {
         if (doc.tagName.indexOf('-') > -1 /* WebComponent spec */ || doc instanceof HTMLUnknownElement) {
             // custom element
             aggr.push(w(doc.localName).then(widget => {
                 // TODO: may 'customize' custom elements
-                // var div = document.createElement('div');
                 widget.render(doc);
-                // doc.parentNode.insertBefore(div, doc.nextSibling);
+                return {
+                    name: doc.localName,
+                    widget: widget
+                };
             }));
-
         }
         return aggr;
     }, [])
-    return Promise.all(nestedFetch).then(() => template); // we don't care about nested template return value, but template
+    w.templates[name].template = template;
+    // FIXME: script position
+    var script = template.querySelector('script');
+    document.body.appendChild(script);
+    return Promise.all(nestedFetch);
+    // we don't care about nested template return value, but template
 }
+
 
 function w(name, options) {
     options = options || {};
@@ -49,12 +50,17 @@ function w(name, options) {
     }
     // w.templates[name].fetch = fetchWidget(name);
     return w.templates[name].fetch
-        .then(() => {
-            return new w.templates[name].widget({
+        .then((widgets) => {
+            var parent = new w.templates[name].widget({
                 template: w.templates[name].template.cloneNode(true),
                 actions: options.actions || {},
                 handlers: options.handlers || {},
             })
+            widgets.forEach(widget => { 
+                console.log(widget);
+                parent.props[widget.name] = widget.widget;
+            });
+            return parent;
         })
         .catch(err => console.error(err));
 }
@@ -75,5 +81,8 @@ w.config = function(options) {
 w.preload = function() {}
 
 // setting custom elements when registering widgets
-w.custom = function() {}
+w.custom = function() {
+
+}
+
 export default w;

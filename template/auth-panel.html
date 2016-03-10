@@ -11,6 +11,7 @@
     <div class='rc-error-message' data-info='error' data-show='error'></div>
 </div>
 <script>
+
 w.register({
     actions: {
         init: {
@@ -29,6 +30,7 @@ w.register({
                 this.props.dom.username.value = localStorage.getItem('username');
                 this.props.dom.extension.value = localStorage.getItem('extension');
                 this.props.dom.password.value = localStorage.getItem('password');
+                
             }
         },
         login: {
