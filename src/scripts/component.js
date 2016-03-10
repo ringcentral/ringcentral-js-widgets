@@ -49,9 +49,8 @@ function register(settings) {
                             after: settings.actions.render.after
                         }, options.actions.render, 'render')
 
-                    function render(widgetRender, finish, ...args) {
-                        var target = args[0];
-                        var callback = args[1];
+                    function render(widgetRender, finish, target, callback) {
+                        console.log(target, callback);
                         if (this.fetchPromise)
                             return this.fetchPromise
                                 .then(() => {
@@ -65,7 +64,7 @@ function register(settings) {
                                     this.props.targetDOM = target;
                                     this.props.targetDOM.appendChild(this.props.template);
                                 })
-                                .then(() => callback && callback()) // defined in render callback
+                                .then(() => callback && typeof callback === 'function' && callback()) // defined in render callback
                                 .then(() => {
                                     if (widgetRender && typeof widgetRender === 'function')
                                         return widgetRender.call(this, finish);
@@ -154,15 +153,19 @@ function generateActions(widgetAction, userAction, name) {
     return function(...args) {
         console.log('[%s][before](' + [].concat(...args) + ')', name);
         return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, ...args))
-            .then(function(...args) {
-                var flatArgs = [].concat(...args);
-                console.log('[%s][method](' + flatArgs + ')', name);
-                return widgetAction.method(userAction.method, ...flatArgs) || flatArgs;
+            .then(function(arg) {
+                console.log('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+                if (typeof arg === 'function') {
+                    return widgetAction.method(userAction.method, ...arg()) || arg;
+                }
+                return widgetAction.method(userAction.method, arg) || arg;
             })
-            .then(function(...args) {
-                var flatArgs = [].concat(...args);
-                console.log('[%s][after](' + flatArgs + ')', name);
-                return wrapUserEvent(widgetAction.after, userAction.after, ...flatArgs) || flatArgs;
+            .then(function(arg) {
+                console.log('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+                if (typeof arg === 'function') {
+                    return widgetAction.method(userAction.method, ...arg()) || arg;
+                }
+                return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
             })
             .catch(err => console.error(err.stack));
     }
@@ -189,11 +192,11 @@ function wrapUserEvent(widget, user, ...args) {
         typeof continueDefault === 'undefined' ||
         continueDefault) {
         if (widget) {
-            return widget(...args) || [].concat(...args);
+            return widget(...args) || (() => args);
         }
         return null;
     }
-    return null;
+    return [].concat(...args);
 }
 
 export default register;

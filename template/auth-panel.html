@@ -20,9 +20,7 @@ w.register({
             after: function() {}
         },
         render: {
-            before: function() {},
-            method: function(finish) {
-                finish();
+            before: function() {
             },
             after: function() {
                 this.props.dom.key.value = localStorage.getItem('key');

@@ -36,6 +36,7 @@ function parseDocument(template) {
             // custom element
             // TODO: may have race condition in nested promise
             w(doc.localName).then(widget => {
+                // TODO: may 'customize' custom elements
                 widget.render(doc);
             })
 

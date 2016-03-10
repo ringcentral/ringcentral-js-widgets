@@ -36,8 +36,7 @@ var DialPad = register({
                 var button = event.target;
                 var ac = this.props.autoComplete;
                 ac.props.dom.input.value += button.getAttribute('data-value');
-                ac.autoComplete();
-                return finish();
+                return ac.autoComplete().then(finish);
             },
             after: function() {}
         },
