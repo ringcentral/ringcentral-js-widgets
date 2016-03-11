@@ -71,7 +71,7 @@ function register(globalSettings) {
         this.remove = generateActions({
             before: settings.actions.remove.before,
             method: remove.bind(this, settings.actions.remove.method),
-            after: settings.actions.render.after
+            after: settings.actions.remove.after
         }, options.actions.remove, 'remove');
 
         function remove(widgetRemove) {

@@ -1,21 +1,28 @@
 <div class='rc-panel'>
-    <div data-info='number'>
-        <auto-complete></auto-complete>
+    <div class='rc-pane-header'>
+        <h1>Dialer</h1>
     </div>
-    <div class='rc-dial-wrapper'>
-        <button class='rc-dial-button' data-info='dial-button-1' data-value='1' data-event='click:dialing'>1</button>
-        <button class='rc-dial-button' data-info='dial-button-2' data-value='2' data-event='click:dialing'>2</button>
-        <button class='rc-dial-button' data-info='dial-button-3' data-value='3' data-event='click:dialing'>3</button>
-        <button class='rc-dial-button' data-info='dial-button-4' data-value='4' data-event='click:dialing'>4</button>
-        <button class='rc-dial-button' data-info='dial-button-5' data-value='5' data-event='click:dialing'>5</button>
-        <button class='rc-dial-button' data-info='dial-button-6' data-value='6' data-event='click:dialing'>6</button>
-        <button class='rc-dial-button' data-info='dial-button-7' data-value='7' data-event='click:dialing'>7</button>
-        <button class='rc-dial-button' data-info='dial-button-8' data-value='8' data-event='click:dialing'>8</button>
-        <button class='rc-dial-button' data-info='dial-button-9' data-value='9' data-event='click:dialing'>9</button>
-        <button class='rc-dial-button' data-info='dial-button-0' data-value='0' data-event='click:dialing'>0</button>
+    <div class='rc-pane-content'>
+        <div class='rc-pane-scrollable'>
+            <div data-info='number'>
+                <auto-complete></auto-complete>
+            </div>
+            <div class='rc-dial-wrapper'>
+                <button class='rc-dial-button' data-info='dial-button-1' data-value='1' data-event='click:dialing'>1</button>
+                <button class='rc-dial-button' data-info='dial-button-2' data-value='2' data-event='click:dialing'>2</button>
+                <button class='rc-dial-button' data-info='dial-button-3' data-value='3' data-event='click:dialing'>3</button>
+                <button class='rc-dial-button' data-info='dial-button-4' data-value='4' data-event='click:dialing'>4</button>
+                <button class='rc-dial-button' data-info='dial-button-5' data-value='5' data-event='click:dialing'>5</button>
+                <button class='rc-dial-button' data-info='dial-button-6' data-value='6' data-event='click:dialing'>6</button>
+                <button class='rc-dial-button' data-info='dial-button-7' data-value='7' data-event='click:dialing'>7</button>
+                <button class='rc-dial-button' data-info='dial-button-8' data-value='8' data-event='click:dialing'>8</button>
+                <button class='rc-dial-button' data-info='dial-button-9' data-value='9' data-event='click:dialing'>9</button>
+                <button class='rc-dial-button' data-info='dial-button-0' data-value='0' data-event='click:dialing'>0</button>
+            </div>
+            <button class='rc-button' data-info='callout' data-event='click:callout'>Call</button>
+        </div>
     </div>
-    <button class='rc-button' data-info='callout' data-event='click:callout'>Call</button>
-    <div class='rc-error-message'></div>
+    <div class='rc-pane-footer'></div>
 </div>
 <script>
 w.register({
@@ -73,7 +80,7 @@ w.register({
         },
         callout: {
             before: function() {
-                this.interval = loading(this.props.dom.callout, 'Call');
+                this.props.dom.callout.classList.add('rc-button-loading');
             },
             method: function(finish) {
                 var ac = this.props['auto-complete'];
@@ -82,10 +89,7 @@ w.register({
                 return finish(this.props.fromNumber, this.props.toNumber);
             },
             after: function() {
-                if (this.interval) {
-                    this.interval.cancel('Call');
-                    this.interval = null;
-                }
+
             }
         },
         getCandidates: {
@@ -97,26 +101,4 @@ w.register({
         }
     }
 })
-
-function loading(target, text) {
-    var dotCount = 1;
-    var interval = window.setInterval(() => {
-        var dot = '';
-        var dotCountTmp = dotCount;
-        while (dotCount--)
-            dot += '.';
-        target.textContent = text + dot;
-        dotCount = (dotCountTmp + 1) % 4;
-    }, 500)
-    return {
-        cancel: function(text) {
-            if (interval) {
-                window.clearInterval(interval);
-                interval = null;
-                if (typeof text !== 'undefined')
-                    target.textContent = text;
-            }
-        }
-    }
-}
 </script>

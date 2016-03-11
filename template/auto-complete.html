@@ -9,6 +9,7 @@
     color: #878787;
 }
 .auto-complete .candidate {
+    font-size: 14px;
     padding: 5px 10px;
 }
 .auto-complete .candidate:hover {
@@ -42,7 +43,6 @@ w.register({
             },
             after: function() {
                 window.addEventListener('click', (e) => {
-                    console.log(e.target)
                     if (e.target !== this.props.dom.input && !e.target.classList.contains('candidate'))
                         this.hide();
                 });
@@ -51,6 +51,11 @@ w.register({
         hide: {
             method: function() {
                 this.props.dom.candidates.classList.add('display-none');
+            }
+        },
+        show: {
+            method: function() {
+                this.props.dom.candidates.classList.remove('display-none');
             }
         },
         autoComplete: {
@@ -64,7 +69,9 @@ w.register({
                 while (this.props.dom.candidates.firstChild)
                     this.props.dom.candidates.removeChild(this.props.dom.candidates.firstChild);
                 if (candidates.length > 0)
-                    this.props.dom.candidates.classList.remove('display-none');
+                    this.show();
+                else 
+                    this.hide();
                 candidates.forEach(candidate => {
                     var template = this.props.dom['candidate-template'].cloneNode(true);
                     template.addEventListener('click', (e) => {

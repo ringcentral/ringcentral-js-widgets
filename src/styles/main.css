@@ -13,18 +13,34 @@
     outline: none
 }
 
-body {
-    padding: 10px;
+h1 {
+    line-height: 2;
+    text-align: center;
 }
 
 .display-none {
     display: none;
 }
-
+.rc-panel {
+    position: relative;
+}
 .rc-pane-header {
-    border-bottom:1px solid;
+    border-bottom: 1px solid;
     border-bottom-color: #e9e9e9;
     background-color: #f8f8f8;
+}
+.rc-pane-footer {
+    position: absolute;
+    width: 100%;
+    border-top: 1px solid;
+    border-top-color: #e9e9e9;
+    background-color: #f8f8f8;
+    height: 30px;
+    bottom: -30px;
+    transition: height .2s ease-in-out;
+}
+.rc-pane-content {
+    margin-top: 20px;
 }
 
 .rc-pane-scrollable {
@@ -45,24 +61,32 @@ body {
 }
 
 .rc-input {
-    padding: 5px;
-    border: 0;
-    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    border: 1px solid #ccc;
     border-radius: 2px;
     font-size: 12px;
 }
 
 .rc-input:focus {
-    border-bottom: 1px solid #000;
+    border-color: #878787;
 }
 
 .rc-button {
     border: 0;
     border-radius: 2px;
     background-color: #7f8c8d;
-    padding: 5px;
+    padding: 8px;
     font-weight: lighter;
     color: #fff;
+}
+
+.rc-button:hover {
+    background-color: #bdc3c7;
+}
+
+.rc-button-loading.rc-button-loading.rc-button-loading.rc-button-loading {
+    background-color: #878787;
+    transition: background-color 1.5s;
 }
 
 .rc-button-important {
@@ -73,12 +97,8 @@ body {
     background-color: #c0392b;
 }
 
-.rc-button:hover {
-    background-color: #bdc3c7;
-}
-
-.rc-panel > .rc-input,
-.rc-panel > .rc-button {
+.rc-panel .rc-input,
+.rc-panel .rc-button {
     margin-bottom: 10px;
 }
 
@@ -89,7 +109,7 @@ body {
 
 .rc-dial-wrapper {
     width: 200px;
-    margin: 10px auto 10px;
+    margin: 0 auto 10px;
     padding: 10px;
 }
 
@@ -126,4 +146,3 @@ body {
 .rc-calllog-type {
     font-size: 12px;
 }
-

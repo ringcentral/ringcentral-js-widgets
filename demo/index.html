@@ -50,8 +50,8 @@
                     w('dial-pad', {
                         actions: {
                             render: {
-                                after: function() {
-                                    authPanel.remove();
+                                before: function() {
+                                    // authPanel.remove();
                                 }
                             },
                             getCandidates: {

@@ -1,15 +1,20 @@
 <style>
-.rc-auth {
-    padding-top: 100px;
-    padding-bottom: 100px;
-}
+.rc-auth {}
 </style>
 <div class='rc-panel rc-auth'>
-    <input class='rc-input' data-info='username' placeholder="username"></input>
-    <input class='rc-input' data-info='extension' placeholder="extension"></input>
-    <input class='rc-input' data-info='password' placeholder="password"></input>
-    <button class='rc-button' data-info='login' data-event='click:login'>Login</button>
-    <div class='rc-error-message' data-info='error' data-show='error'></div>
+    <div class='rc-pane-header'>
+        <h1>Login</h1>
+    </div>
+    <div class='rc-pane-content'>
+        <div class='rc-pane-scrollable '>
+            <input class='rc-input' data-info='username' placeholder="username"></input>
+            <input class='rc-input' data-info='extension' placeholder="extension"></input>
+            <input class='rc-input' data-info='password' placeholder="password"></input>
+            <button class='rc-button' data-info='login' data-event='click:login'>Login</button>
+            <div class='rc-error-message' data-info='error' data-show='error'></div>
+        </div>
+    </div>
+    <div class='rc-pane-footer' data-info='footer'></div>
 </div>
 <script>
 w.register({
@@ -30,22 +35,29 @@ w.register({
 
             }
         },
+        remove: {
+            before: function() {
+               return new Promise((resolve, reject) => {
+                    loading(this.props.dom.footer, 30);
+                    this.props.dom.footer.addEventListener('transitionend', e => {
+                        resolve();
+                    });
+               })
+            }
+
+        },
         login: {
             before: function(d) {
                 this.props.dom.login.disabled = true;
                 this.props.dom.error.textContent = '';
-                this.interval = loading(this.props.dom.login, 'login');
+                this.props.dom.login.classList.add('rc-button-loading');
+                loading(this.props.dom.footer, 300);
             },
             method: function(finish, d) {
                 return finish();
             },
             after: function(d) {
                 this.props.dom.login.disabled = false;
-                // stop loading animation
-                if (this.interval) {
-                    this.interval.cancel();
-                    this.interval = null;
-                }
                 localStorage.setItem('username', this.props.dom.username.value || '');
                 localStorage.setItem('extension', this.props.dom.extension.value || '');
                 localStorage.setItem('password', this.props.dom.password.value || '');
@@ -54,26 +66,7 @@ w.register({
     }
 });
 
-
-function loading(target, text) {
-    var dotCount = 1;
-    var interval = window.setInterval(() => {
-        var dot = '';
-        var dotCountTmp = dotCount;
-        while (dotCount--)
-            dot += '.';
-        target.textContent = text + dot;
-        dotCount = (dotCountTmp + 1) % 4;
-    }, 500)
-    return {
-        cancel: function(text) {
-            if (interval) {
-                window.clearInterval(interval);
-                interval = null;
-                if (typeof text !== 'undefined')
-                    target.textContent = text;
-            }
-        }
-    }
+function loading(panel, height) {
+    panel.style.height = height + 'px';
 }
 </script>
