@@ -13,12 +13,15 @@ function fetchWidget(name) {
 
 }
 
-function parseDocument(template) {
+function parseDocument(baseWidget) {
+    var template = baseWidget.props.template;
+    var custom = baseWidget.custom;
     var docs = template.querySelectorAll('*');
     var nestedFetch = Array.from(docs).reduce((aggr, doc) => {
         if (doc.tagName.indexOf('-') > -1 /* WebComponent spec */ || doc instanceof HTMLUnknownElement) {
             // custom element
-            aggr.push(w(doc.localName).then(widget => {
+            console.log(custom);
+            aggr.push(w(doc.localName, custom[doc.localName]).then(widget => {
                 // TODO: may 'customize' custom elements
                 widget.render(doc);
                 return {
@@ -56,14 +59,13 @@ function w(name, options) {
                 actions: options.actions || {},
                 handlers: options.handlers || {},
             })
-            return baseWidget.props.template;
+            return baseWidget;
         })
-        .then(clone => {
-            return parseDocument(clone);
+        .then(baseWidget => {
+            return parseDocument(baseWidget);
         })
         .then(children => {
             children.forEach(child => {
-                console.log(baseWidget);
                 baseWidget.props[child.name] = child.widget;
             });
             return baseWidget;
@@ -86,8 +88,8 @@ w.config = function(options) {
 w.preload = function() {}
 
 // setting custom elements when registering widgets
-w.custom = function() {
-
+w.custom = function(context, target, options) {
+    context.custom[target] = options;
 }
 
 export default w;

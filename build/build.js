@@ -38,6 +38,7 @@ function register(globalSettings) {
             throw new Error('need a template');
         }
         this.props = {};
+        this.custom = {};
         Object.keys(settings.actions).forEach(function (index) {
             settings.actions[index] = bindScope(_this, settings.actions[index]);
         });
@@ -707,12 +708,15 @@ function fetchWidget(name) {
     });
 }
 
-function parseDocument(template) {
+function parseDocument(baseWidget) {
+    var template = baseWidget.props.template;
+    var custom = baseWidget.custom;
     var docs = template.querySelectorAll('*');
     var nestedFetch = Array.from(docs).reduce(function (aggr, doc) {
         if (doc.tagName.indexOf('-') > -1 /* WebComponent spec */ || doc instanceof HTMLUnknownElement) {
             // custom element
-            aggr.push(w(doc.localName).then(function (widget) {
+            console.log(custom);
+            aggr.push(w(doc.localName, custom[doc.localName]).then(function (widget) {
                 // TODO: may 'customize' custom elements
                 widget.render(doc);
                 return {
@@ -748,12 +752,11 @@ function w(name, options) {
             actions: options.actions || {},
             handlers: options.handlers || {}
         });
-        return baseWidget.props.template;
-    }).then(function (clone) {
-        return parseDocument(clone);
+        return baseWidget;
+    }).then(function (baseWidget) {
+        return parseDocument(baseWidget);
     }).then(function (children) {
         children.forEach(function (child) {
-            console.log(baseWidget);
             baseWidget.props[child.name] = child.widget;
         });
         return baseWidget;
@@ -775,7 +778,9 @@ w.config = function (options) {
 w.preload = function () {};
 
 // setting custom elements when registering widgets
-w.custom = function () {};
+w.custom = function (context, target, options) {
+    context.custom[target] = options;
+};
 
 exports.default = w;
 

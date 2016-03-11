@@ -21,10 +21,8 @@
         },
         autoComplete: {
             before: function() {},
-            method: function(finish, how) {
-                var value = how(this.props.dom.input.value);
-                finish();
-                return value;
+            method: function(finish) {
+                return finish(this.props.dom.input.value);
             },
             after: function(candidates) {
                 console.log(candidates);

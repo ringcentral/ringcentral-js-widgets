@@ -27,6 +27,7 @@ function register(globalSettings) {
             throw new Error('need a template');
         }
         this.props = {};
+        this.custom = {};
         Object.keys(settings.actions).forEach(index => {
             settings.actions[index] = bindScope(this, settings.actions[index]);
         })

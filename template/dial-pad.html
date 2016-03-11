@@ -23,7 +23,17 @@ w.register({
         init: {
             before: function() {},
             method: function() {},
-            after: function() {}
+            after: function() {
+                w.custom(this, 'auto-complete', {
+                    actions: {
+                        autoComplete: {
+                            method: function() {
+                                console.log('customize!');
+                            }
+                        }
+                    }
+                })
+            }
         },
         render: {
             before: function() {},
@@ -37,8 +47,6 @@ w.register({
             method: function(finish) {
                 var button = event.target;
                 var ac = this.props['auto-complete'];
-                console.log(button.getAttribute('data-value'));
-                console.log(ac.props);
                 ac.props.dom.input.value += button.getAttribute('data-value');
                 ac.autoComplete(this.getCandidates).then(finish);
             },
@@ -64,7 +72,6 @@ w.register({
         getCandidates: {
             before: function() {},
             method: function(finish, value) {
-                console.log(value);
                 return finish(value);
             },
             after: function() {}
