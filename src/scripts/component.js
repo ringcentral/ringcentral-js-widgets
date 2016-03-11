@@ -12,6 +12,14 @@ function register(globalSettings) {
         actions: {},
         handlers: {}
     }, globalSettings);
+    ['init', 'render', 'remove'].forEach(action => {
+        globalSettings.actions[action] = Object.assign({
+            before: function() {},
+            method: function() {},
+            after: function() {}
+        }, globalSettings.actions[action])
+    })
+
 
     var Widget = function(options) {
         var options = Object.assign({
@@ -51,7 +59,18 @@ function register(globalSettings) {
                 before: settings.actions.render.before,
                 method: render.bind(this, settings.actions.render.method, this.props.template),
                 after: settings.actions.render.after
-            }, options.actions.render, 'render')
+            }, options.actions.render, 'render');
+        this.remove =
+            generateActions({
+                before: settings.actions.remove.before,
+                method: remove.bind(this, settings.actions.remove.method),
+                after: settings.actions.render.after
+            }, options.actions.remove, 'remove');
+
+        function remove(widgetRemove) {
+            while (this.props.target.firstChild)
+                this.props.target.removeChild(this.props.target.firstChild)
+        }
 
         function render(widgetRender, template, finish, target, callback) {
             if (typeof target === 'string') {
@@ -62,6 +81,7 @@ function register(globalSettings) {
                 console.warn('first argument of render method should be selector string or dom');
             }
             target.appendChild(template);
+            this.props.target = target;
             callback && typeof callback === 'function' && callback();
             if (widgetRender && typeof widgetRender === 'function')
                 return widgetRender.call(this, finish);
@@ -145,9 +165,7 @@ function generateActions(widgetAction, userAction, name) {
             .then(function(arg) {
                 if (typeof arg === 'function') {
                     // flatten one level
-                    return arg().reduce(function(a, b) {
-                        return a.concat(b);
-                    }, []);
+                    return [].concat.apply([], arg());
                 }
                 return arg;
             })

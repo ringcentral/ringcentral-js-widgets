@@ -1,14 +1,17 @@
 <style>
+.rc-auth {
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
 </style>
-<div class='rc-panel'>
+<div class='rc-panel rc-auth'>
     <input class='rc-input' data-info='username' placeholder="username"></input>
     <input class='rc-input' data-info='extension' placeholder="extension"></input>
     <input class='rc-input' data-info='password' placeholder="password"></input>
-    <button class='rc-button' data-info='login' data-event='click:login'>login</button>
+    <button class='rc-button' data-info='login' data-event='click:login'>Login</button>
     <div class='rc-error-message' data-info='error' data-show='error'></div>
 </div>
 <script>
-
 w.register({
     actions: {
         init: {
@@ -24,7 +27,7 @@ w.register({
                 this.props.dom.username.value = localStorage.getItem('username');
                 this.props.dom.extension.value = localStorage.getItem('extension');
                 this.props.dom.password.value = localStorage.getItem('password');
-                
+
             }
         },
         login: {

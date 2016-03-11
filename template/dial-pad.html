@@ -14,7 +14,7 @@
         <button class='rc-dial-button' data-info='dial-button-9' data-value='9' data-event='click:dialing'>9</button>
         <button class='rc-dial-button' data-info='dial-button-0' data-value='0' data-event='click:dialing'>0</button>
     </div>
-    <button class='rc-button' data-info='callout' data-event='click:callout'>Call out</button>
+    <button class='rc-button' data-info='callout' data-event='click:callout'>Call</button>
     <div class='rc-error-message'></div>
 </div>
 <script>
@@ -38,6 +38,9 @@ w.register({
                             method: function() {
                                 var candidates = this.props.candidates;
                                 var numbers = [];
+                                // TODO, if fetch is in progress, need to show again after fetch complete
+                                if (!candidates)
+                                    return;
                                 return candidates.filter((candidate, index) => {
                                     var result = candidate.from.phoneNumber.indexOf(this.props.dom.input.value) === 1 && numbers.indexOf(candidate.from.phoneNumber) < 0;
                                     numbers.push(candidate.from.phoneNumber)
@@ -64,7 +67,9 @@ w.register({
                 ac.props.dom.input.value += button.getAttribute('data-value');
                 ac.autoComplete(this.getCandidates).then(finish);
             },
-            after: function() {}
+            after: function() {
+                this.props['auto-complete'].props.dom.input.focus();
+            }
         },
         callout: {
             before: function() {
@@ -74,7 +79,7 @@ w.register({
                 var ac = this.props['auto-complete'];
                 this.props.toNumber = ac.props.dom.input.value;
                 this.props.fromNumber = localStorage.getItem('username');
-                return finish();
+                return finish(this.props.fromNumber, this.props.toNumber);
             },
             after: function() {
                 if (this.interval) {

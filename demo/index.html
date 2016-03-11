@@ -7,46 +7,21 @@
     <link rel="stylesheet" type="text/css" href="../src/styles/normalize.css">
     <link rel="stylesheet" type="text/css" href="../src/styles/main.css">
     <link rel="stylesheet" type="text/css" href="../styles/call-log.css">
-    <link rel="stylesheet" type="text/css" href="theme/basic.css" id="theme-css">
+    <link rel="stylesheet" type="text/css" href="theme/blue.css" id="theme-css">
     <style type="text/css">
+    html {
+        height: 100%;
+    }
     body {
-        max-width: 250px;
-    }
-    
-    .theme-panel {
-        margin-bottom: 10px;
-    }
-    
-    .theme-button {
-        border: 0;
-        width: 20px;
-        height: 20px;
-        border: 1px solid;
-    }
-    
-    #theme-basic {
-        background-color: #fff;
-        border-color: #000;
-    }
-    
-    #theme-blue {
-        background-color: #3498db;
-    }
-    
-    #theme-casual {
-        background-color: #95a5a6;
+        width: 250px;
+        height: 100%;
+        border-right: 1px solid #878787;
     }
     </style>
 </head>
 
 <body>
-    <div class='theme-panel'>
-        Theme:
-        <button class='theme-button' id='theme-basic' onclick="switchTheme('basic')"></button>
-        <button class='theme-button' id='theme-blue' onclick="switchTheme('blue')"></button>
-        <button class='theme-button' id='theme-casual' onclick="switchTheme('casual')"></button>
-    </div>
-    <div>
+    <div id='phone'>
         <div id="auth-panel"></div>
         <div id="dial-pad"></div>
         <div id="call-panel"></div>
@@ -71,11 +46,22 @@
                     return LoginService.login(username, extension, password);
                 },
                 after: function() {
+                    var authPanel = this;
                     w('dial-pad', {
                         actions: {
+                            render: {
+                                after: function() {
+                                    authPanel.remove();
+                                }
+                            },
                             getCandidates: {
                                 method: function() {
                                     return CallLogService.getCallLogs();
+                                }
+                            },
+                            callout: {
+                                method: function(fromNo, toNo) {
+                                    return PhoneService.callout(fromNo, toNo);
                                 }
                             }
                         }
@@ -89,40 +75,6 @@
         authPanel = widget;
         authPanel.render('#auth-panel');
     })
-    // var dialPad = new DialPad({
-    //     template: '../template/dial-pad.html',
-    //     actions: {
-    //         init: {
-    //             before: function() {},
-    //             method: function() {},
-    //             after: function() {}
-    //         },
-    //         render: {
-    //             before: function() {},
-    //             method: function() {},
-    //             after: function() {}
-    //         },
-    //         callout: {
-    //             before: function() {},
-    //             method: function() {
-    //                 var toNumber = this.props.toNumber;
-    //                 var fromNumber = this.props.fromNumber;
-    //                 return PhoneService.callout(fromNumber, toNumber);
-    //             },
-    //             after: function() {}
-    //         },
-    //         getCandidates: {
-    //             before: function() {},
-    //             method: function() {
-    //                 return rcHelper.getCandidates(this.props);
-    //             },
-    //             after: function() {}
-
-    //         }
-    //     },
-    //     handlers: {},
-    // });
-    // authPanel.render('#auth-panel');
 
 
 
@@ -202,10 +154,6 @@
     //     }
 
     // );
-
-    function switchTheme(theme) {
-        document.getElementById('theme-css').href = 'theme/' + theme + '.css';
-    }
     </script>
 </body>
 

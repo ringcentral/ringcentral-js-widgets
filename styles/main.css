@@ -78,8 +78,7 @@ body {
 
 .rc-panel {
     padding: 10px;
-    border: 2px solid #878787;
-    border-radius: 5px;
+    border: 1px solid #878787;
 }
 
 .rc-panel > .rc-input,
