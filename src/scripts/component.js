@@ -52,6 +52,7 @@ function register(globalSettings) {
                 method: render.bind(this, settings.actions.render.method, this.props.template),
                 after: settings.actions.render.after
             }, options.actions.render, 'render')
+
         function render(widgetRender, template, finish, target, callback) {
             if (typeof target === 'string') {
                 target = document.querySelector(target);
@@ -140,6 +141,15 @@ function generateActions(widgetAction, userAction, name) {
                     return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg;
                 }
                 return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
+            })
+            .then(function(arg) {
+                if (typeof arg === 'function') {
+                    // flatten one level
+                    return arg().reduce(function(a, b) {
+                        return a.concat(b);
+                    }, []);
+                }
+                return arg;
             })
             .catch(err => console.error(err.stack));
     }

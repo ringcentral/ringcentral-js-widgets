@@ -16,7 +16,10 @@
 body {
     padding: 10px;
 }
-
+.clearfix {
+    overflow: auto;
+    zoom: 1;
+}
 .rc-pane-header {
     border-bottom:1px solid;
     border-bottom-color:#e9e9e9;

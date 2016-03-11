@@ -61,6 +61,7 @@ function register(globalSettings) {
             method: render.bind(this, settings.actions.render.method, this.props.template),
             after: settings.actions.render.after
         }, options.actions.render, 'render');
+
         function render(widgetRender, template, finish, target, callback) {
             if (typeof target === 'string') {
                 target = document.querySelector(target);
@@ -146,6 +147,14 @@ function generateActions(widgetAction, userAction, name) {
                 return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(_toConsumableArray(arg()))) || arg;
             }
             return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
+        }).then(function (arg) {
+            if (typeof arg === 'function') {
+                // flatten one level
+                return arg().reduce(function (a, b) {
+                    return a.concat(b);
+                }, []);
+            }
+            return arg;
         }).catch(function (err) {
             return console.error(err.stack);
         });
@@ -697,7 +706,6 @@ var _component2 = _interopRequireDefault(_component);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function fetchWidget(name) {
-    // TODO: check cache
     return fetch(w.options.path + name + '.html').then(function (response) {
         return response.text();
     }).then(function (body) {
@@ -715,9 +723,7 @@ function parseDocument(baseWidget) {
     var nestedFetch = Array.from(docs).reduce(function (aggr, doc) {
         if (doc.tagName.indexOf('-') > -1 /* WebComponent spec */ || doc instanceof HTMLUnknownElement) {
             // custom element
-            console.log(custom);
             aggr.push(w(doc.localName, custom[doc.localName]).then(function (widget) {
-                // TODO: may 'customize' custom elements
                 widget.render(doc);
                 return {
                     name: doc.localName,
@@ -740,13 +746,11 @@ function w(name, options) {
     if (!w.templates[name].fetch) {
         w.templates[name].fetch = fetchWidget(name);
     }
-    // w.templates[name].fetch = fetchWidget(name);
     return w.templates[name].fetch.then(function (template) {
         w.templates[name].template = template;
         // FIXME: script position
         var script = template.querySelector('script');
         document.body.appendChild(script);
-        //
         baseWidget = new w.templates[name].widget({
             template: w.templates[name].template.cloneNode(true),
             actions: options.actions || {},
@@ -778,7 +782,7 @@ w.config = function (options) {
 w.preload = function () {};
 
 // setting custom elements when registering widgets
-w.custom = function (context, target, options) {
+w.customize = function (context, target, options) {
     context.custom[target] = options;
 };
 

@@ -71,7 +71,16 @@
                     return LoginService.login(username, extension, password);
                 },
                 after: function() {
-                    w('dial-pad').then(widget => widget.render('#dial-pad'));
+                    w('dial-pad', {
+                        actions: {
+                            getCandidates: {
+                                method: function() {
+                                    return CallLogService.getCallLogs();
+                                }
+                            }
+                        }
+                    })
+                    .then(widget => widget.render('#dial-pad'));
                 }
             }
         },

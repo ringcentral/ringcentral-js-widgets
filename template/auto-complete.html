@@ -1,11 +1,11 @@
 <div>
     <input class='rc-input' data-info='input' data-event='input:autoComplete'></input>
     <div data-info='candidates'>
-        
+        <div data-info='candidate-template'></div>
     </div>
 </div>
 <script>
-    w.register({
+w.register({
     actions: {
         init: {
             before: function() {},
@@ -22,14 +22,20 @@
         autoComplete: {
             before: function() {},
             method: function(finish) {
-                return finish(this.props.dom.input.value);
+                return finish();
             },
             after: function(candidates) {
-                console.log(candidates);
+                while (this.props.dom.candidates.firstChild)
+                    this.props.dom.candidates.removeChild(this.props.dom.candidates.firstChild);
+                candidates.forEach(candidate => {
+                    console.log(candidate);
+                    var template = this.props.dom['candidate-template'].cloneNode(true);
+                    template.textContent = candidate.from.phoneNumber;
+                    this.props.dom.candidates.appendChild(template);
+                })
             }
         }
     }
 
 })
-
 </script>

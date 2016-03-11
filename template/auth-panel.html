@@ -1,9 +1,6 @@
 <style>
 </style>
 <div class='rc-panel'>
-    <input class='rc-input' data-info='server' placeholder="server"></input>
-    <input class='rc-input' data-info='key' placeholder="key"></input>
-    <input class='rc-input' data-info='secret' placeholder="secret"></input>
     <input class='rc-input' data-info='username' placeholder="username"></input>
     <input class='rc-input' data-info='extension' placeholder="extension"></input>
     <input class='rc-input' data-info='password' placeholder="password"></input>
@@ -22,11 +19,8 @@ w.register({
             after: function() {}
         },
         render: {
-            before: function() {
-            },
+            before: function() {},
             after: function() {
-                this.props.dom.key.value = localStorage.getItem('key');
-                this.props.dom.secret.value = localStorage.getItem('secret');
                 this.props.dom.username.value = localStorage.getItem('username');
                 this.props.dom.extension.value = localStorage.getItem('extension');
                 this.props.dom.password.value = localStorage.getItem('password');
@@ -49,9 +43,6 @@ w.register({
                     this.interval.cancel();
                     this.interval = null;
                 }
-                localStorage.setItem('server', this.props.dom.server.value || '');
-                localStorage.setItem('key', this.props.dom.key.value || '');
-                localStorage.setItem('secret', this.props.dom.secret.value || '');
                 localStorage.setItem('username', this.props.dom.username.value || '');
                 localStorage.setItem('extension', this.props.dom.extension.value || '');
                 localStorage.setItem('password', this.props.dom.password.value || '');

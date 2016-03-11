@@ -27,9 +27,4 @@ test('Some registered function is not defined by users', t => {
             }
         }
     });
-    var man = new Man({
-        template: './template/auth-panel.html',
-        actions: {}
-    });
-    t.ok(man.climb);
 })

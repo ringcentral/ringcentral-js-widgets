@@ -1,7 +1,6 @@
 import register from './component'
 
 function fetchWidget(name) {
-    // TODO: check cache
     return fetch(w.options.path + name + '.html')
         .then(response => response.text())
         .then(body => {
@@ -20,9 +19,7 @@ function parseDocument(baseWidget) {
     var nestedFetch = Array.from(docs).reduce((aggr, doc) => {
         if (doc.tagName.indexOf('-') > -1 /* WebComponent spec */ || doc instanceof HTMLUnknownElement) {
             // custom element
-            console.log(custom);
             aggr.push(w(doc.localName, custom[doc.localName]).then(widget => {
-                // TODO: may 'customize' custom elements
                 widget.render(doc);
                 return {
                     name: doc.localName,
@@ -46,14 +43,12 @@ function w(name, options) {
     if (!w.templates[name].fetch) {
         w.templates[name].fetch = fetchWidget(name);
     }
-    // w.templates[name].fetch = fetchWidget(name);
     return w.templates[name].fetch
         .then((template) => {
             w.templates[name].template = template;
             // FIXME: script position
             var script = template.querySelector('script');
             document.body.appendChild(script);
-            //
             baseWidget = new w.templates[name].widget({
                 template: w.templates[name].template.cloneNode(true),
                 actions: options.actions || {},
@@ -88,7 +83,7 @@ w.config = function(options) {
 w.preload = function() {}
 
 // setting custom elements when registering widgets
-w.custom = function(context, target, options) {
+w.customize = function(context, target, options) {
     context.custom[target] = options;
 }
 

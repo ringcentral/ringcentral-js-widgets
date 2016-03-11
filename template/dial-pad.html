@@ -24,11 +24,25 @@ w.register({
             before: function() {},
             method: function() {},
             after: function() {
-                w.custom(this, 'auto-complete', {
+                var dialPad = this;
+                w.customize(this, 'auto-complete', {
                     actions: {
+                        init: {
+                            after: function() {
+                                Promise.resolve(dialPad.getCandidates()).then(candidates => {
+                                    this.props.candidates = candidates;
+                                });
+                            }
+                        },
                         autoComplete: {
                             method: function() {
-                                console.log('customize!');
+                                var candidates = this.props.candidates;
+                                var numbers = [];
+                                return candidates.filter((candidate, index) => {
+                                    var result = candidate.from.phoneNumber.indexOf(this.props.dom.input.value) === 1 && numbers.indexOf(candidate.from.phoneNumber) < 0;
+                                    numbers.push(candidate.from.phoneNumber)
+                                    return result;
+                                })
                             }
                         }
                     }
@@ -71,8 +85,8 @@ w.register({
         },
         getCandidates: {
             before: function() {},
-            method: function(finish, value) {
-                return finish(value);
+            method: function(finish) {
+                return finish();
             },
             after: function() {}
         }
