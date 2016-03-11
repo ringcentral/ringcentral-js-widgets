@@ -10,12 +10,10 @@ function fetchWidget(name) {
             var clone = document.importNode(template.content, true);
             return clone;
         })
-        .then(clone => {
-            return parseDocument(clone, name);
-        })
+
 }
 
-function parseDocument(template, name) {
+function parseDocument(template) {
     var docs = template.querySelectorAll('*');
     var nestedFetch = Array.from(docs).reduce((aggr, doc) => {
         if (doc.tagName.indexOf('-') > -1 /* WebComponent spec */ || doc instanceof HTMLUnknownElement) {
@@ -31,17 +29,14 @@ function parseDocument(template, name) {
         }
         return aggr;
     }, [])
-    w.templates[name].template = template;
-    // FIXME: script position
-    var script = template.querySelector('script');
-    document.body.appendChild(script);
+
     return Promise.all(nestedFetch);
-    // we don't care about nested template return value, but template
 }
 
 
 function w(name, options) {
     options = options || {};
+    var baseWidget;
     if (!w.templates[name]) {
         w.templates[name] = {};
     }
@@ -50,19 +45,29 @@ function w(name, options) {
     }
     // w.templates[name].fetch = fetchWidget(name);
     return w.templates[name].fetch
-        .then((widgets) => {
-            var parent = new w.templates[name].widget({
+        .then((template) => {
+            w.templates[name].template = template;
+            // FIXME: script position
+            var script = template.querySelector('script');
+            document.body.appendChild(script);
+            //
+            baseWidget = new w.templates[name].widget({
                 template: w.templates[name].template.cloneNode(true),
                 actions: options.actions || {},
                 handlers: options.handlers || {},
             })
-            widgets.forEach(widget => { 
-                console.log(widget);
-                parent.props[widget.name] = widget.widget;
-            });
-            return parent;
+            return baseWidget.props.template;
         })
-        .catch(err => console.error(err));
+        .then(clone => {
+            return parseDocument(clone);
+        })
+        .then(children => {
+            children.forEach(child => {
+                console.log(baseWidget);
+                baseWidget.props[child.name] = child.widget;
+            });
+            return baseWidget;
+        })
 }
 w.templates = {};
 w.options = {
