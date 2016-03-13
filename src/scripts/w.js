@@ -45,10 +45,14 @@ function w(name, options) {
     }
     return w.templates[name].fetch
         .then((template) => {
-            w.templates[name].template = template;
-            // FIXME: script position
-            var script = template.querySelector('script');
-            document.body.appendChild(script);
+            
+            if(!w.templates[name].template){
+                w.templates[name].template = template;
+                // FIXME: script position
+                var script = template.querySelector('script');
+                document.body.appendChild(script);                
+            }
+            
             baseWidget = new w.templates[name].widget({
                 template: w.templates[name].template.cloneNode(true),
                 actions: options.actions || {},
