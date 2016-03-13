@@ -12,6 +12,7 @@
     html {
         height: 100%;
     }
+    
     body {
         width: 250px;
         height: 100%;
@@ -65,8 +66,46 @@
                                 }
                             }
                         }
+                    }).then(widget => widget.render('#dial-pad'));
+                    w('call-panel', {
+                        actions: {
+                            init: {
+                                after: function() {
+                                    PhoneService.initPhoneListener();
+                                }
+                            }
+                        },
+                        handlers: {
+                            called: {
+                                method: function(handler) {
+                                    console.log('called');
+                                    PhoneService.called(handler);
+                                }
+                            },
+                            callStarted: {
+                                method: function(handler) {
+                                    PhoneService.callStarted(handler);
+                                }
+                            },
+                            callRejected: {
+                                method: function(handler) {
+                                    PhoneService.callRejected(handler);
+                                }
+                            },
+                            callEnded: {
+                                method: function(handler) {
+                                    PhoneService.callEnded(handler);
+                                }
+                            },
+                            callFailed: {
+                                method: function(handler) {
+                                    PhoneService.callFailed(handler);
+                                }
+                            }
+                        }
                     })
-                    .then(widget => widget.render('#dial-pad'));
+                    .then(widget => widget.render('#call-panel'))
+                    .catch(err => console.error(err));
                 }
             }
         },

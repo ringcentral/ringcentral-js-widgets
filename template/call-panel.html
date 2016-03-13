@@ -1,15 +1,53 @@
 <div class='rc-panel' data-info='callin-panel'>
     <div data-info='callin-number'></div>
-    <button class='rc-button' data-event='click:answer'>Answer</button>
-    <button class='rc-button' data-event='click:ignore'>Ignore</button>
+    <!-- <button class='rc-button' data-event='click:answer'>Answer</button> -->
+    <!-- <button class='rc-button' data-event='click:ignore'>Ignore</button> -->
 </div>
 <div class='rc-panel' data-info='callout-panel'>
-    <button class='rc-button' data-event='click:cancel'>Cancel</button>
+    <!-- <button class='rc-button' data-event='click:cancel'>Cancel</button> -->
 </div>
 <div class='rc-panel' data-info='online-panel'>
     <h3 data-info='call-time'></h3>
-    <button class='rc-button rc-button-important' data-event='click:hangup'>Hangup</button>
+    <!-- <button class='rc-button rc-button-important' data-event='click:hangup'>Hangup</button> -->
     <!-- <button class='rc-button' data-action='record'>Record</button>
     <button class='rc-button' data-action='hold'>Hold</button>
     <button class='rc-button' data-action='mute'>Mute</button> -->
 </div>
+<script>
+w.register({
+    actions: {
+        init: {
+            method: function(finish) {
+                finish();
+            }
+        }
+    },
+    handlers: {
+        answer: {
+            method: function(finish) {
+                return finish();
+            }
+        },
+        incomingCall: {
+            before: function() {
+                // show UI
+            }
+        },
+        called: {
+            method: function() {}
+        },
+        callStarted: {
+            method: function() {}
+        },
+        callRejected: {
+            method: function() {}
+        },
+        callEnded: {
+            method: function() {}
+        },
+        callFailed: {
+            method: function() {}
+        }
+    }
+})
+</script>

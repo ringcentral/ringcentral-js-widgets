@@ -94,12 +94,11 @@ function register(globalSettings) {
             if (widgetRender && typeof widgetRender === 'function') return widgetRender.call(this, finish);
         }
         this.init();
-        var handlers = settings.handlers;
-        if (handlers) {
-            Object.keys(handlers).forEach(function (index) {
+        Object.keys(settings.handlers).forEach(function (index) {
+            if (options.handlers[index]) {
                 options.handlers[index].method.call(_this, generateHandlers(settings.handlers[index]));
-            });
-        }
+            }
+        });
     };
     return Widget;
 }
@@ -180,20 +179,31 @@ function generateActions(widgetAction, userAction, name) {
 
 function generateHandlers(widgetHandler) {
     return function () {
+        var _ref2;
+
         for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
             args[_key2] = arguments[_key2];
         }
 
+        console.info('[%s][before](' + (_ref2 = []).concat.apply(_ref2, args) + ')', name);
         return Promise.resolve(wrapUserEvent.apply(undefined, [widgetHandler.before, widgetHandler.before].concat(args))).then(function (arg) {
+            console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return widgetHandler.method.apply(widgetHandler, _toConsumableArray(arg())) || arg;
             }
             return widgetAction.method(arg) || arg;
         }).then(function (arg) {
+            console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return widgetHandler.after.apply(widgetHandler, _toConsumableArray(arg())) || arg;
             }
             return widgetHandler.after(arg) || arg;
+        }).then(function (arg) {
+            if (typeof arg === 'function') {
+                // flatten one level
+                return [].concat.apply([], arg());
+            }
+            return arg;
         }).catch(function (err) {
             return console.error(err.stack);
         });
@@ -205,7 +215,7 @@ function wrapUserEvent(widget, user) {
         args[_key3 - 2] = arguments[_key3];
     }
 
-    var _ref2;
+    var _ref3;
 
     var continueDefault = !user || user() || true;
     if (continueDefault || typeof continueDefault === 'undefined' || continueDefault) {
@@ -216,7 +226,7 @@ function wrapUserEvent(widget, user) {
         }
         return null;
     }
-    return (_ref2 = []).concat.apply(_ref2, args);
+    return (_ref3 = []).concat.apply(_ref3, args);
 }
 
 exports.default = register;
@@ -250,169 +260,7 @@ var CallLogService = function (sdk) {
 
 exports.default = CallLogService;
 
-},{"./rc-sdk":6}],3:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var sdk = new RingCentral.SDK({
-    appKey: 'eac8797af1b3502F2CEAAEECAC3Ed378AA7858A386656f28A008b0c638A754B1',
-    appSecret: 'c082702E4ea4DA18c4b1377917778a8aafabCA3Be579B78B66d17C36874b27F4',
-    server: RingCentral.SDK.server.production
-});
-var webPhone = new RingCentral.WebPhone({
-    audioHelper: {
-        incoming: '../demo/audio/incoming.ogg',
-        outgoing: '../demo/audio/outgoing.ogg'
-    }
-});;
-var rcHelper = function (sdk, webPhone) {
-    var line;
-    var handlers = {
-        called: [],
-        callStarted: [],
-        callRejected: [],
-        callEnded: [],
-        callFailed: []
-    };
-    return {
-        login: function login(props) {
-            var dom = props.dom;
-            return sdk.platform().login({
-                username: dom.username.value,
-                extension: dom.extension.value,
-                password: dom.password.value
-            }).then(function () {
-                return registerSIP();
-            });
-
-            function registerSIP() {
-                return sdk.platform().post('/client-info/sip-provision', {
-                    sipInfo: [{
-                        transport: 'WSS'
-                    }]
-                }).then(function (res) {
-                    var data = res.json();
-                    console.log("Sip Provisioning Data from RC API: " + JSON.stringify(data));
-                    console.log(data.sipFlags.outboundCallsEnabled);
-                    var checkFlags = false;
-                    return webPhone.register(data, checkFlags).then(function () {
-                        console.log('Registered');
-                    }).catch(function (e) {
-                        return Promise.reject(err);
-                    });
-                }).catch(function (e) {
-                    return console.error(e);
-                });
-            }
-        },
-        callout: function callout(props) {
-            console.log('user callout');
-            var toNumber = props.toNumber;
-            var fromNumber = props.fromNumber;
-
-            // TODO: validate toNumber and fromNumber
-            if (!sdk || !webPhone) {
-                throw Error('Need to set up SDK and webPhone first.');
-                return;
-            }
-            return sdk.platform().get('/restapi/v1.0/account/~/extension/~').then(function (res) {
-                console.log(res);
-                var info = res.json();
-                if (info && info.regionalSettings && info.regionalSettings.homeCountry) {
-                    return info.regionalSettings.homeCountry.id;
-                }
-                return null;
-            }).then(function (countryId) {
-                webPhone.call(toNumber, fromNumber, countryId);
-            }).catch(function (e) {
-                return console.error(e);
-            });
-        },
-        answer: function answer(props) {
-            return webPhone.answer(line).catch(function (e) {
-                console.error(e);
-            });
-        },
-        ignore: function ignore(props) {},
-        cancel: function cancel(props) {
-            return line.cancel().catch(function (e) {
-                console.error(e);
-            });
-        },
-        hangup: function hangup(props) {
-            return webPhone.hangup(line).catch(function (err) {
-                return console.error(err);
-            });
-        },
-        record: function record(props) {},
-        hold: function hold(props) {},
-        mute: function mute(props) {},
-        called: function called(handler) {
-            handlers.called.push(handler);
-        },
-        callStarted: function callStarted(handler) {
-            handlers.callStarted.push(handler);
-        },
-        callRejected: function callRejected(handler) {
-            handlers.callRejected.push(handler);
-        },
-        callEnded: function callEnded(handler) {
-            handlers.callEnded.push(handler);
-        },
-        callFailed: function callFailed(handler) {
-            handlers.callFailed.push(handler);
-        },
-        initPhoneListener: function initPhoneListener(props) {
-            var _this = this;
-
-            webPhone.ua.on('sipIncomingCall', function (e) {
-                console.log(handlers);
-                line = e;
-                handlers.called.forEach(function (h) {
-                    return h(e);
-                });
-            });
-            webPhone.ua.on('callStarted', function (e) {
-                console.log(handlers);
-                console.log(_this);
-                handlers.callStarted.forEach(function (h) {
-                    return h(e);
-                });
-            });
-            webPhone.ua.on('callRejected', function (e) {
-                console.log(handlers);
-                handlers.callRejected.forEach(function (h) {
-                    return h(e);
-                });
-            });
-            webPhone.ua.on('callEnded', function (e) {
-                console.log(handlers);
-                handlers.callEnded.forEach(function (h) {
-                    return h(e);
-                });
-            });
-            webPhone.ua.on('callFailed', function (e) {
-                console.log(handlers);
-                handlers.callFailed.forEach(function (h) {
-                    return h(e);
-                });
-            });
-        },
-        getCandidates: function getCandidates(props) {
-            // FIXME: because of nested component
-            var prefix = props.autoComplete.props.prefix;
-            var test = ['111', '222', '333'];
-            return test.filter(function (item) {
-                return item.indexOf(prefix) === 0;
-            });
-        }
-    };
-}(sdk, webPhone);
-exports.default = rcHelper;
-
-},{}],4:[function(require,module,exports){
+},{"./rc-sdk":5}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -465,7 +313,7 @@ var LoginService = function (sdk) {
 
 exports.default = LoginService;
 
-},{"./rc-sdk":6}],5:[function(require,module,exports){
+},{"./rc-sdk":5}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -573,7 +421,9 @@ var PhoneService = function () {
         initPhoneListener: function initPhoneListener(props) {
             var _this = this;
 
-            _rcWebphone2.default.ua.on('sipIncomingCall', function (e) {
+            console.log('init phone');
+            console.log(_rcWebphone2.default);
+            _rcWebphone2.default.ua.on('invite', function (e) {
                 console.log(handlers);
                 line = e;
                 handlers.called.forEach(function (h) {
@@ -612,7 +462,7 @@ var PhoneService = function () {
 
 exports.default = PhoneService;
 
-},{"./login-service":4,"./rc-sdk":6,"./rc-webphone":7}],6:[function(require,module,exports){
+},{"./login-service":3,"./rc-sdk":5,"./rc-webphone":6}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -626,7 +476,7 @@ var sdk = new RingCentral.SDK({
 
 exports.default = sdk;
 
-},{}],7:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -638,17 +488,13 @@ var webPhone = new RingCentral.WebPhone({
 
 exports.default = webPhone;
 
-},{}],8:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.PhoneService = exports.CallLogService = exports.LoginService = exports.webPhone = exports.sdk = exports.rcHelper = undefined;
-
-var _helper = require('./helpers/helper');
-
-var _helper2 = _interopRequireDefault(_helper);
+exports.PhoneService = exports.CallLogService = exports.LoginService = exports.webPhone = exports.sdk = undefined;
 
 var _rcSdk = require('./helpers/rc-sdk');
 
@@ -676,40 +522,19 @@ var _w2 = _interopRequireDefault(_w);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// window.AuthPanel = AuthPanel;
-// window.CallPanel = CallPanel;
-// window.DialPad = DialPad;
-// window.CallLog = CallLog;
-// window.CallLogItem = CallLogItem
-// window.AutoComplete = AutoComplete;
-window.rcHelper = _helper2.default; // import AuthPanel from './components/auth-panel'
-// import CallPanel from './components/call-panel'
-// import DialPad from './components/dial-pad'
-// import CallLog from './components/call-log'
-// import CallLogItem from './components/call-log-item'
-// import AutoComplete from './components/auto-complete'
-
 window.sdk = _rcSdk2.default;
 window.webPhone = _rcWebphone2.default;
 window.LoginService = _loginService2.default;
 window.CallLogService = _callLogService2.default;
 window.PhoneService = _phoneService2.default;
 window.w = _w2.default;
-exports.
-// AuthPanel,
-// CallPanel,
-// DialPad,
-// CallLog,
-// CallLogItem,
-// AutoComplete,
-rcHelper = _helper2.default;
 exports.sdk = _rcSdk2.default;
 exports.webPhone = _rcWebphone2.default;
 exports.LoginService = _loginService2.default;
 exports.CallLogService = _callLogService2.default;
 exports.PhoneService = _phoneService2.default;
 
-},{"./helpers/call-log-service":2,"./helpers/helper":3,"./helpers/login-service":4,"./helpers/phone-service":5,"./helpers/rc-sdk":6,"./helpers/rc-webphone":7,"./w":9}],9:[function(require,module,exports){
+},{"./helpers/call-log-service":2,"./helpers/login-service":3,"./helpers/phone-service":4,"./helpers/rc-sdk":5,"./helpers/rc-webphone":6,"./w":8}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -805,7 +630,7 @@ w.customize = function (context, target, options) {
 
 exports.default = w;
 
-},{"./component":1}]},{},[8])
+},{"./component":1}]},{},[7])
 
 
 //# sourceMappingURL=build.js.map

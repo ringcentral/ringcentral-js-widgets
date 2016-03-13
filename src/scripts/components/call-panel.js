@@ -1,4 +1,3 @@
-import register from '../component'
 var state = {
     'HIDDEN': 0,
     'CALLIN': 1,
@@ -109,26 +108,3 @@ var loading = function(target, text) {
         }
     }
 };
-// var prototype.updateCallTime = function(startTime) {
-//     // FIXME: it's not accurate
-//     if (!startTime)
-//         return;
-//     var currentTime = Date.now() - startTime;
-//     var callPanel = this;
-//     var callTimeInterval = window.setInterval(() => {
-//         var sec = currentTime % 60;
-//         var min = Math.floor(currentTime / 60);
-//         this.element.panel.onlinePanel.callTime.textContent = min + ":" + sec;
-//         currentTime++;
-//     }, 1000);
-//     return {
-//         cancel: function() {
-//             if (!callTimeInterval)
-//                 return;
-//             window.clearInterval(callTimeInterval);
-//             callPanel.element.panel.onlinePanel.callTime.textContent = "0:0";
-//             callTimeInterval = null;
-//         }
-//     }
-// };
-export default CallPanel;

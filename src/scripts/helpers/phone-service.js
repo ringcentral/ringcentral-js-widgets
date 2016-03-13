@@ -3,7 +3,7 @@ import webPhone from './rc-webphone'
 import LoginService from './login-service'
 
 
-var PhoneService = function(){
+var PhoneService = function() {
     var line;
     var handlers = {
         called: [],
@@ -12,9 +12,9 @@ var PhoneService = function(){
         callEnded: [],
         callFailed: []
     };
-    
+
     return {
-        
+
         registerSIP: function() {
             return sdk.platform()
                 .post('/client-info/sip-provision', {
@@ -37,7 +37,7 @@ var PhoneService = function(){
 
                 }).catch(e => console.error(e));
         },
-        
+
         callout: function(fromNumber, toNumber) {
             console.log('user callout');
 
@@ -93,7 +93,9 @@ var PhoneService = function(){
             handlers.callFailed.push(handler);
         },
         initPhoneListener: function(props) {
-            webPhone.ua.on('sipIncomingCall', e => {
+            console.log('init phone');
+            console.log(webPhone);
+            webPhone.ua.on('invite', e => {
                 console.log(handlers);
                 line = e;
                 handlers.called.forEach(h => h(e));
@@ -116,10 +118,10 @@ var PhoneService = function(){
                 handlers.callFailed.forEach(h => h(e));
             });
         },
-        
+
     };
-    
-    
+
+
 }();
 
 export default PhoneService
