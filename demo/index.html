@@ -32,7 +32,6 @@
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
     <script type="text/javascript" src="../build/build.js"></script>
     <script type="text/javascript">
-    var dialPad;
     w.config({
         path: '../template/'
     })
@@ -112,7 +111,6 @@
             handlers: {},
         })
         authPanel.render('#auth-panel');
-        console.log('hi');
     }).catch(err => console.error(err));
 
     LoginService.registerLoginHandler(function() {

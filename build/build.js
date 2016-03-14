@@ -32,6 +32,7 @@ function register(globalSettings) {
     var Widget = function Widget(options) {
         var _this = this;
 
+        console.warn(options.actions);
         var options = Object.assign({
             actions: {},
             handlers: {}
@@ -81,9 +82,6 @@ function register(globalSettings) {
         }
 
         function render(widgetRender, template, finish, target, callback) {
-            console.log(widgetRender);
-            console.log(finish);
-            console.log(target);
             if (typeof target === 'string') {
                 target = document.querySelector(target);
             } else if (target instanceof HTMLElement) {
@@ -186,7 +184,7 @@ function generateActions(widgetAction, userAction, name) {
         };
         before = before.apply(undefined, _toConsumableArray(args));
         if (isThennable(before)) {
-            before.then(function () {
+            return before.then(function () {
                 return method(arg);
             }).then(function (arg) {
                 return after(arg);
@@ -196,7 +194,7 @@ function generateActions(widgetAction, userAction, name) {
         } else {
             method = method(before);
             if (isThennable(method)) {
-                method.then(function (arg) {
+                return method.then(function (arg) {
                     return after(arg);
                 }).then(function (arg) {
                     return finish(arg);
@@ -637,9 +635,12 @@ function initNestedWidget(widget) {
     var template = widget.props.template;
     var docs = template.querySelectorAll('*');
     Array.from(docs).forEach(function (doc) {
-        // console.log(doc.localName);
-        // may customize
-        if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) w(doc.localName).render(doc);
+        if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+            var child = w(doc.localName, widget.custom[doc.localName]);
+            child.render(doc);
+            // FIXME: When multiple child element, has problems
+            widget.props[doc.localName] = child;
+        }
     });
 }
 
@@ -649,7 +650,6 @@ function w(name, options) {
     if (!w.templates[name].widget) {
         throw Error('you need to preload widget:' + name + ' before init it');
     }
-    console.info(w.templates[name].widget);
     baseWidget = new w.templates[name].widget({
         template: w.templates[name].template.cloneNode(true),
         actions: options.actions || {},
@@ -663,7 +663,8 @@ function w(name, options) {
 }
 w.templates = {};
 w.options = {
-    path: '/template/'
+    path: '/template/',
+    preload: []
 };
 w.register = function (constructor) {
     var settings = new constructor();

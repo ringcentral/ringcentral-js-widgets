@@ -28,10 +28,12 @@ function initNestedWidget(widget) {
     var template = widget.props.template;
     var docs = template.querySelectorAll('*');
     Array.from(docs).forEach(doc => {
-        // console.log(doc.localName);
-        // may customize
-        if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement)
-            w(doc.localName).render(doc);
+        if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+            var child = w(doc.localName, widget.custom[doc.localName]);
+            child.render(doc);
+            // FIXME: When multiple child element, has problems
+            widget.props[doc.localName] = child;
+        }
     })
 }
 
@@ -41,7 +43,6 @@ function w(name, options) {
     if (!w.templates[name].widget) {
         throw Error('you need to preload widget:' + name + ' before init it');
     }
-    console.info(w.templates[name].widget);
     baseWidget = new w.templates[name].widget({
         template: w.templates[name].template.cloneNode(true),
         actions: options.actions || {},
@@ -55,7 +56,8 @@ function w(name, options) {
 }
 w.templates = {};
 w.options = {
-    path: '/template/'
+    path: '/template/',
+    preload: [],
 }
 w.register = function(constructor) {
     var settings = new constructor();
@@ -67,6 +69,7 @@ w.register = function(constructor) {
 };
 w.config = function(options) {
     w.options = Object.assign(w.options, options);
+
 };
 w.preload = function(widgets, callback) {
     return Promise.all(

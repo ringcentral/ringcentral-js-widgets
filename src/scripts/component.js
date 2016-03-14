@@ -22,6 +22,7 @@ function register(globalSettings) {
 
 
     var Widget = function(options) {
+        console.warn(options.actions);
         var options = Object.assign({
             actions: {},
             handlers: {}
@@ -73,9 +74,6 @@ function register(globalSettings) {
         }
 
         function render(widgetRender, template, finish, target, callback) {
-            console.log(widgetRender);
-            console.log(finish);
-            console.log(target);
             if (typeof target === 'string') {
                 target = document.querySelector(target);
             } else if (target instanceof HTMLElement) {
@@ -175,7 +173,7 @@ function generateActions(widgetAction, userAction, name) {
         }
         before = before(...args);
         if (isThennable(before)) {
-            before.then(function(...args) {
+            return before.then(function(...args) {
                 return method(arg);
             }).then(function(arg) {
                 return after(arg);
@@ -185,7 +183,7 @@ function generateActions(widgetAction, userAction, name) {
         } else {
             method = method(before);
             if (isThennable(method)) {
-                method.then(function(arg) {
+                return method.then(function(arg) {
                     return after(arg);
                 }).then(function(arg) {
                     return finish(arg);

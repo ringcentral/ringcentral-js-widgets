@@ -31,6 +31,7 @@ w.register(function() {
             before: function() {},
             method: function() {},
             after: function() {
+                console.warn('after dial-pad');
                 var dialPad = this;
                 w.customize(this, 'auto-complete', {
                     actions: {
@@ -45,6 +46,7 @@ w.register(function() {
                             method: function() {
                                 var candidates = this.props.candidates;
                                 var numbers = [];
+                                console.log(candidates);
                                 // TODO, if fetch is in progress, need to show again after fetch complete
                                 if (!candidates)
                                     return;
@@ -70,6 +72,7 @@ w.register(function() {
             before: function() {},
             method: function(finish) {
                 var button = event.target;
+                console.log(this.props);
                 var ac = this.props['auto-complete'];
                 ac.props.dom.input.value += button.getAttribute('data-value');
                 ac.autoComplete(this.getCandidates).then(finish);
@@ -95,6 +98,7 @@ w.register(function() {
         getCandidates: {
             before: function() {},
             method: function(finish) {
+                console.warn(finish);
                 return finish();
             },
             after: function() {}

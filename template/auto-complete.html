@@ -30,7 +30,6 @@ w.register(function() {
     this.actions = {
         init: {
             before: function() {},
-            method: function() {},
             after: function() {}
         },
         render: {
@@ -46,12 +45,12 @@ w.register(function() {
             }
         },
         hide: {
-            method: function() {
+            after: function() {
                 this.props.dom.candidates.classList.add('display-none');
             }
         },
         show: {
-            method: function() {
+            after: function() {
                 this.props.dom.candidates.classList.remove('display-none');
             }
         },
