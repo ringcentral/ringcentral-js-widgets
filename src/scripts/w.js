@@ -9,12 +9,9 @@ function fetchWidget(name) {
             var clone = document.importNode(template.content, true);
             return clone;
         })
-
 }
 
 function parseDocument(template) {
-    // var template = baseWidget.props.template;
-    // var custom = baseWidget.custom;
     var docs = template.querySelectorAll('*');
     return Promise.all(Array.from(docs).reduce(
         (result, doc) => {

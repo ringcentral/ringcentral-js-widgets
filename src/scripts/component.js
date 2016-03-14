@@ -12,11 +12,12 @@ function register(globalSettings) {
         actions: {},
         handlers: {}
     }, globalSettings);
-    ['init', 'render', 'remove'].forEach(action => {
+    ['init', 'render', 'remove', 'error'].forEach(action => {
         globalSettings.actions[action] = Object.assign({
             before: function() {},
             method: function() {},
-            after: function() {}
+            after: function() {},
+            error: function() {}
         }, globalSettings.actions[action])
     })
 
@@ -51,7 +52,7 @@ function register(globalSettings) {
         })
         Object.keys(settings.actions).forEach(index => {
             this[index] =
-                generateActions(settings.actions[index], options.actions[index], index /* for debug */ );
+                generateActions(settings.actions[index], options.actions[index], index);
         })
         this.props.dom = generateDocument(this, options.template);
         this.props.template = options.template;
@@ -141,7 +142,8 @@ function generateActions(widgetAction, userAction, name) {
         userAction = {
             before: function() {},
             method: function() {},
-            after: function() {}
+            after: function() {},
+            error: function() {}
         };
         console.warn('Widget action [%s] is not defined by users', name);
     }
@@ -164,6 +166,9 @@ function generateActions(widgetAction, userAction, name) {
             }
             return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
         }
+        var error = function(e) {
+            return wrapUserEvent(widgetAction.error, userAction.error, e);
+        }
         var finish = function(arg) {
             if (typeof arg === 'function') {
                 // flatten one level
@@ -171,33 +176,37 @@ function generateActions(widgetAction, userAction, name) {
             }
             return arg;
         }
-        before = before(...args);
-        if (isThennable(before)) {
-            return before.then(function(...args) {
-                return method(arg);
-            }).then(function(arg) {
-                return after(arg);
-            }).then(function(arg) {
-                return finish(arg);
-            })
-        } else {
-            method = method(before);
-            if (isThennable(method)) {
-                return method.then(function(arg) {
+        try {
+            before = before(...args);
+            if (isThennable(before)) {
+                return before.then(function(...args) {
+                    return method(arg);
+                }).then(function(arg) {
                     return after(arg);
                 }).then(function(arg) {
                     return finish(arg);
-                })
+                }).catch(error)
             } else {
-                after = after(method);
-                if (isThennable(after)) {
-                    return after.then(function(arg) {
+                method = method(before);
+                if (isThennable(method)) {
+                    return method.then(function(arg) {
+                        return after(arg);
+                    }).then(function(arg) {
                         return finish(arg);
-                    })
+                    }).catch(error)
                 } else {
-                    return finish(after);
+                    after = after(method);
+                    if (isThennable(after)) {
+                        return after.then(function(arg) {
+                            return finish(arg);
+                        }).catch(error)
+                    } else {
+                        return finish(after);
+                    }
                 }
             }
+        } catch (e) {
+            error(e);
         }
 
 

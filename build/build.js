@@ -21,11 +21,12 @@ function register(globalSettings) {
         actions: {},
         handlers: {}
     }, globalSettings);
-    ['init', 'render', 'remove'].forEach(function (action) {
+    ['init', 'render', 'remove', 'error'].forEach(function (action) {
         globalSettings.actions[action] = Object.assign({
             before: function before() {},
             method: function method() {},
-            after: function after() {}
+            after: function after() {},
+            error: function error() {}
         }, globalSettings.actions[action]);
     });
 
@@ -60,7 +61,7 @@ function register(globalSettings) {
             options.handlers[index] = bindScope(_this, options.handlers[index]);
         });
         Object.keys(settings.actions).forEach(function (index) {
-            _this[index] = generateActions(settings.actions[index], options.actions[index], index /* for debug */);
+            _this[index] = generateActions(settings.actions[index], options.actions[index], index);
         });
         this.props.dom = generateDocument(this, options.template);
         this.props.template = options.template;
@@ -142,7 +143,8 @@ function generateActions(widgetAction, userAction, name) {
         userAction = {
             before: function before() {},
             method: function method() {},
-            after: function after() {}
+            after: function after() {},
+            error: function error() {}
         };
         console.warn('Widget action [%s] is not defined by users', name);
     }
@@ -175,6 +177,9 @@ function generateActions(widgetAction, userAction, name) {
             }
             return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
         };
+        var error = function error(e) {
+            return wrapUserEvent(widgetAction.error, userAction.error, e);
+        };
         var finish = function finish(arg) {
             if (typeof arg === 'function') {
                 // flatten one level
@@ -182,33 +187,37 @@ function generateActions(widgetAction, userAction, name) {
             }
             return arg;
         };
-        before = before.apply(undefined, _toConsumableArray(args));
-        if (isThennable(before)) {
-            return before.then(function () {
-                return method(arg);
-            }).then(function (arg) {
-                return after(arg);
-            }).then(function (arg) {
-                return finish(arg);
-            });
-        } else {
-            method = method(before);
-            if (isThennable(method)) {
-                return method.then(function (arg) {
+        try {
+            before = before.apply(undefined, _toConsumableArray(args));
+            if (isThennable(before)) {
+                return before.then(function () {
+                    return method(arg);
+                }).then(function (arg) {
                     return after(arg);
                 }).then(function (arg) {
                     return finish(arg);
-                });
+                }).catch(error);
             } else {
-                after = after(method);
-                if (isThennable(after)) {
-                    return after.then(function (arg) {
+                method = method(before);
+                if (isThennable(method)) {
+                    return method.then(function (arg) {
+                        return after(arg);
+                    }).then(function (arg) {
                         return finish(arg);
-                    });
+                    }).catch(error);
                 } else {
-                    return finish(after);
+                    after = after(method);
+                    if (isThennable(after)) {
+                        return after.then(function (arg) {
+                            return finish(arg);
+                        }).catch(error);
+                    } else {
+                        return finish(after);
+                    }
                 }
             }
+        } catch (e) {
+            error(e);
         }
 
         // return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, ...args))
@@ -622,8 +631,6 @@ function fetchWidget(name) {
 }
 
 function parseDocument(template) {
-    // var template = baseWidget.props.template;
-    // var custom = baseWidget.custom;
     var docs = template.querySelectorAll('*');
     return Promise.all(Array.from(docs).reduce(function (result, doc) {
         if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) return result.concat(w.preload([doc.localName]));
