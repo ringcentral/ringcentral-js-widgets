@@ -8,29 +8,26 @@
     border: 1px solid #878787;
     color: #878787;
 }
+
 .auto-complete .candidate {
     font-size: 14px;
     padding: 5px 10px;
 }
+
 .auto-complete .candidate:hover {
     background-color: #3498db;
     color: #fff;
 }
 </style>
 <div class='auto-complete'>
-    <input  class='rc-input'
-            placeholder="To: Enter name or number" 
-            data-info='input' 
-            data-event='input:autoComplete'
-
-            ></input>
+    <input class='rc-input' placeholder="To: Enter name or number" data-info='input' data-event='input:autoComplete'></input>
     <div data-info='candidates' class='candidates display-none'>
         <div data-info='candidate-template' class='candidate'></div>
     </div>
 </div>
 <script>
-w.register({
-    actions: {
+w.register(function() {
+    this.actions = {
         init: {
             before: function() {},
             method: function() {},
@@ -70,7 +67,7 @@ w.register({
                     this.props.dom.candidates.removeChild(this.props.dom.candidates.firstChild);
                 if (candidates.length > 0)
                     this.show();
-                else 
+                else
                     this.hide();
                 candidates.forEach(candidate => {
                     var template = this.props.dom['candidate-template'].cloneNode(true);

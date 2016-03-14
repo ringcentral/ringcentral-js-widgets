@@ -74,11 +74,12 @@ w.templates = {};
 w.options = {
     path: '/template/'
 }
-w.register = function(setting) {
+w.register = function(constructor) {
+    var settings = new constructor();
     Object.keys(w.templates).forEach(index => {
         var template = w.templates[index];
         if (template.template && !template.widget)
-            template.widget = register(setting);
+            template.widget = register(settings);
     })
 };
 w.config = function(options) {

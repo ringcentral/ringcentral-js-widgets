@@ -17,8 +17,8 @@
     <div class='rc-pane-footer' data-info='footer'></div>
 </div>
 <script>
-w.register({
-    actions: {
+w.register(function() {
+    this.actions = {
         init: {
             before: function() {},
             method: function(finish) {
@@ -53,9 +53,8 @@ w.register({
             }
         }
     }
+    function loading(panel, height) {
+        panel.style.height = height + 'px';
+    }
 });
-
-function loading(panel, height) {
-    panel.style.height = height + 'px';
-}
 </script>

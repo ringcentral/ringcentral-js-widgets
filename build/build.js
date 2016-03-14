@@ -614,10 +614,11 @@ w.templates = {};
 w.options = {
     path: '/template/'
 };
-w.register = function (setting) {
+w.register = function (constructor) {
+    var settings = new constructor();
     Object.keys(w.templates).forEach(function (index) {
         var template = w.templates[index];
-        if (template.template && !template.widget) template.widget = (0, _component2.default)(setting);
+        if (template.template && !template.widget) template.widget = (0, _component2.default)(settings);
     });
 };
 w.config = function (options) {

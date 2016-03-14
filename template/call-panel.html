@@ -14,28 +14,26 @@
     <button class='rc-button' data-action='mute'>Mute</button> -->
 </div>
 <script>
-w.register({
-    actions: {
+w.register(function() {
+    this.actions = {
         init: {
             method: function(finish) {
                 finish();
             }
         }
-    },
-    handlers: {
+    }
+    this.handlers = {
         answer: {
             method: function(finish) {
                 return finish();
             }
         },
         called: {
-            method: function() {
-                before: function(event) {
-                    console.log(event);
-                    
-                    // show UI
-                }
-            }
+            before: function(event) {
+                console.log(event);
+                // show UI
+            },
+            method: function() {}
         },
         callStarted: {
             method: function() {}
