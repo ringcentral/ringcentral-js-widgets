@@ -9,6 +9,8 @@ This is the personal repository to do some experimental implementation of UI wid
 `gulp`
 #### Test process
 `npm test`
+[Demo](http://lingforcc.github.io/ringcentral-js-widget/demo/)
+
 # How to build a widget?
 ## 1. Define a HTML template
 #### HTML tag attributes
