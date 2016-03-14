@@ -93,9 +93,7 @@ var PhoneService = function() {
             handlers.callFailed.push(handler);
         },
         initPhoneListener: function(props) {
-            console.log('init phone');
-            console.log(webPhone);
-            webPhone.ua.on('invite', e => {
+            webPhone.ua.on('incomingCall', e => {
                 console.log(handlers);
                 line = e;
                 handlers.called.forEach(h => h(e));

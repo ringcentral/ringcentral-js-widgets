@@ -114,68 +114,10 @@
         authPanel = widget;
         authPanel.render('#auth-panel');
     })
-
-
-
-    // var callPanel = new CallPanel({
-    //     template: '../template/call-panel.html',
-    //     actions: {
-    //         answer: function() {
-    //             return PhoneService.answer(this.props);
-    //         },
-    //         ignore: function() {
-    //             return PhoneService.ignore(this.props);
-    //         },
-    //         cancel: function() {
-    //             return PhoneService.cancel(this.props);
-    //         },
-    //         hangup: function() {
-    //             return PhoneService.hangup(this.props);
-    //         },
-    //         record: function() {
-    //             return PhoneService.record(this.props);
-    //         },
-    //         hold: function() {
-    //             return PhoneService.hold(this.props);
-    //         },
-    //         mute: function() {
-    //             return PhoneService.mute(this.props);
-    //         },
-    //     },
-    //     handlers: {
-    //         called: function(handler) {
-    //             PhoneService.called(handler);
-    //         },
-    //         callStarted: function(handler) {
-    //             PhoneService.callStarted(handler);
-    //         },
-    //         callRejected: function(handler) {
-    //             PhoneService.callRejected(handler);
-    //         },
-    //         callEnded: function(handler) {
-    //             PhoneService.callEnded(handler);
-    //         },
-    //         callFailed: function(handler) {
-    //             PhoneService.callFailed(handler);
-    //         }
-    //     },
-    //     beforeUpdate: function(action) {
-    //         return true;
-    //     },
-    //     afterUpdate: function(action) {
-    //         if (action === 'mount') {
-    //             PhoneService.initPhoneListener(this.props);
-    //         }
-    //         return true;
-    //     }
-    // });
-
-
-    // LoginService.registerLoginHandler(function() {
-    //     PhoneService.registerSIP();
-    //     CallLogService.getCallLogs();
-
-    // });
+    LoginService.registerLoginHandler(function() {
+        PhoneService.registerSIP();
+        CallLogService.getCallLogs();
+    });
 
     // LoginService.checkLoginStatus().then(
 

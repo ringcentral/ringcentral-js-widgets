@@ -96,7 +96,7 @@ function register(globalSettings) {
         this.init();
         Object.keys(settings.handlers).forEach(function (index) {
             if (options.handlers[index]) {
-                options.handlers[index].method.call(_this, generateHandlers(settings.handlers[index]));
+                options.handlers[index].method.call(_this, generateHandlers(settings.handlers[index], index));
             }
         });
     };
@@ -177,7 +177,7 @@ function generateActions(widgetAction, userAction, name) {
     };
 }
 
-function generateHandlers(widgetHandler) {
+function generateHandlers(widgetHandler, name) {
     return function () {
         var _ref2;
 
@@ -421,9 +421,7 @@ var PhoneService = function () {
         initPhoneListener: function initPhoneListener(props) {
             var _this = this;
 
-            console.log('init phone');
-            console.log(_rcWebphone2.default);
-            _rcWebphone2.default.ua.on('invite', function (e) {
+            _rcWebphone2.default.ua.on('incomingCall', function (e) {
                 console.log(handlers);
                 line = e;
                 handlers.called.forEach(function (h) {
@@ -589,10 +587,14 @@ function w(name, options) {
         w.templates[name].fetch = fetchWidget(name);
     }
     return w.templates[name].fetch.then(function (template) {
-        w.templates[name].template = template;
-        // FIXME: script position
-        var script = template.querySelector('script');
-        document.body.appendChild(script);
+
+        if (!w.templates[name].template) {
+            w.templates[name].template = template;
+            // FIXME: script position
+            var script = template.querySelector('script');
+            document.body.appendChild(script);
+        }
+
         baseWidget = new w.templates[name].widget({
             template: w.templates[name].template.cloneNode(true),
             actions: options.actions || {},

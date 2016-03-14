@@ -91,7 +91,7 @@ function register(globalSettings) {
             if (options.handlers[index]) {
                 options.handlers[index].method.call(
                     this,
-                    generateHandlers(settings.handlers[index])
+                    generateHandlers(settings.handlers[index], index)
                 );
             }
         })
@@ -172,7 +172,7 @@ function generateActions(widgetAction, userAction, name) {
     }
 }
 
-function generateHandlers(widgetHandler) {
+function generateHandlers(widgetHandler, name) {
     return function(...args) {
         console.info('[%s][before](' + [].concat(...args) + ')', name);
         return Promise.resolve(wrapUserEvent(widgetHandler.before, widgetHandler.before, ...args))

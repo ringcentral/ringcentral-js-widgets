@@ -1,7 +1,7 @@
-<div class='rc-panel' data-info='callin-panel'>
+<div class='rc-panel' data-info='called-panel'>
     <div data-info='callin-number'></div>
-    <!-- <button class='rc-button' data-event='click:answer'>Answer</button> -->
-    <!-- <button class='rc-button' data-event='click:ignore'>Ignore</button> -->
+    <button class='rc-button' data-event='click:answer'>Answer</button>
+    <button class='rc-button' data-event='click:ignore'>Ignore</button>
 </div>
 <div class='rc-panel' data-info='callout-panel'>
     <!-- <button class='rc-button' data-event='click:cancel'>Cancel</button> -->
@@ -28,13 +28,14 @@ w.register({
                 return finish();
             }
         },
-        incomingCall: {
-            before: function() {
-                // show UI
-            }
-        },
         called: {
-            method: function() {}
+            method: function() {
+                before: function(event) {
+                    console.log(event);
+                    
+                    // show UI
+                }
+            }
         },
         callStarted: {
             method: function() {}
