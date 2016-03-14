@@ -73,6 +73,9 @@ function register(globalSettings) {
         }
 
         function render(widgetRender, template, finish, target, callback) {
+            console.log(widgetRender);
+            console.log(finish);
+            console.log(target);
             if (typeof target === 'string') {
                 target = document.querySelector(target);
             } else if (target instanceof HTMLElement) {
@@ -145,30 +148,85 @@ function generateActions(widgetAction, userAction, name) {
         console.warn('Widget action [%s] is not defined by users', name);
     }
     return function(...args) {
-        console.info('[%s][before](' + [].concat(...args) + ')', name);
-        return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, ...args))
-            .then(function(arg) {
-                console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-                if (typeof arg === 'function') {
-                    return widgetAction.method(userAction.method, ...arg()) || arg;
-                }
-                return widgetAction.method(userAction.method, arg) || arg;
+        var before = function(...args) {
+            console.info('[%s][before](' + [].concat(...args) + ')', name);
+            return wrapUserEvent(widgetAction.before, userAction.before, ...args);
+        }
+        var method = function(arg) {
+            console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            if (typeof arg === 'function') {
+                return widgetAction.method(userAction.method, ...arg()) || arg;
+            }
+            return widgetAction.method(userAction.method, arg) || arg;
+        };
+        var after = function(arg) {
+            console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            if (typeof arg === 'function') {
+                return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg;
+            }
+            return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
+        }
+        var finish = function(arg) {
+            if (typeof arg === 'function') {
+                // flatten one level
+                return [].concat.apply([], arg());
+            }
+            return arg;
+        }
+        before = before(...args);
+        if (isThennable(before)) {
+            before.then(function(...args) {
+                return method(arg);
+            }).then(function(arg) {
+                return after(arg);
+            }).then(function(arg) {
+                return finish(arg);
             })
-            .then(function(arg) {
-                console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-                if (typeof arg === 'function') {
-                    return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg;
+        } else {
+            method = method(before);
+            if (isThennable(method)) {
+                method.then(function(arg) {
+                    return after(arg);
+                }).then(function(arg) {
+                    return finish(arg);
+                })
+            } else {
+                after = after(method);
+                if (isThennable(after)) {
+                    return after.then(function(arg) {
+                        return finish(arg);
+                    })
+                } else {
+                    return finish(after);
                 }
-                return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
-            })
-            .then(function(arg) {
-                if (typeof arg === 'function') {
-                    // flatten one level
-                    return [].concat.apply([], arg());
-                }
-                return arg;
-            })
-            .catch(err => console.error(err.stack));
+            }
+        }
+
+
+
+        // return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, ...args))
+        //     .then(function(arg) {
+        //         console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+        //         if (typeof arg === 'function') {
+        //             return widgetAction.method(userAction.method, ...arg()) || arg;
+        //         }
+        //         return widgetAction.method(userAction.method, arg) || arg;
+        //     })
+        //     .then(function(arg) {
+        //         console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+        //         if (typeof arg === 'function') {
+        //             return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg;
+        //         }
+        //         return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
+        //     })
+        //     .then(function(arg) {
+        //         if (typeof arg === 'function') {
+        //             // flatten one level
+        //             return [].concat.apply([], arg());
+        //         }
+        //         return arg;
+        //     })
+        //     .catch(err => console.error(err.stack));
     }
 }
 
@@ -212,6 +270,12 @@ function wrapUserEvent(widget, user, ...args) {
         return null;
     }
     return [].concat(...args);
+}
+
+function isThennable(result) {
+    if (result.then && typeof result.then === 'function')
+        return true;
+    return false;
 }
 
 export default register;

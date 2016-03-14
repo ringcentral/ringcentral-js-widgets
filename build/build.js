@@ -81,6 +81,9 @@ function register(globalSettings) {
         }
 
         function render(widgetRender, template, finish, target, callback) {
+            console.log(widgetRender);
+            console.log(finish);
+            console.log(target);
             if (typeof target === 'string') {
                 target = document.querySelector(target);
             } else if (target instanceof HTMLElement) {
@@ -146,34 +149,93 @@ function generateActions(widgetAction, userAction, name) {
         console.warn('Widget action [%s] is not defined by users', name);
     }
     return function () {
-        var _ref;
-
         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
             args[_key] = arguments[_key];
         }
 
-        console.info('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
-        return Promise.resolve(wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args))).then(function (arg) {
+        var before = function before() {
+            var _ref;
+
+            for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                args[_key2] = arguments[_key2];
+            }
+
+            console.info('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
+            return wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args));
+        };
+        var method = function method(arg) {
             console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg()))) || arg;
             }
             return widgetAction.method(userAction.method, arg) || arg;
-        }).then(function (arg) {
+        };
+        var after = function after(arg) {
             console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(_toConsumableArray(arg()))) || arg;
             }
             return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
-        }).then(function (arg) {
+        };
+        var finish = function finish(arg) {
             if (typeof arg === 'function') {
                 // flatten one level
                 return [].concat.apply([], arg());
             }
             return arg;
-        }).catch(function (err) {
-            return console.error(err.stack);
-        });
+        };
+        before = before.apply(undefined, _toConsumableArray(args));
+        if (isThennable(before)) {
+            before.then(function () {
+                return method(arg);
+            }).then(function (arg) {
+                return after(arg);
+            }).then(function (arg) {
+                return finish(arg);
+            });
+        } else {
+            method = method(before);
+            if (isThennable(method)) {
+                method.then(function (arg) {
+                    return after(arg);
+                }).then(function (arg) {
+                    return finish(arg);
+                });
+            } else {
+                after = after(method);
+                if (isThennable(after)) {
+                    return after.then(function (arg) {
+                        return finish(arg);
+                    });
+                } else {
+                    return finish(after);
+                }
+            }
+        }
+
+        // return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, ...args))
+        //     .then(function(arg) {
+        //         console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+        //         if (typeof arg === 'function') {
+        //             return widgetAction.method(userAction.method, ...arg()) || arg;
+        //         }
+        //         return widgetAction.method(userAction.method, arg) || arg;
+        //     })
+        //     .then(function(arg) {
+        //         console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+        //         if (typeof arg === 'function') {
+        //             return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg;
+        //         }
+        //         return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
+        //     })
+        //     .then(function(arg) {
+        //         if (typeof arg === 'function') {
+        //             // flatten one level
+        //             return [].concat.apply([], arg());
+        //         }
+        //         return arg;
+        //     })
+        //     .catch(err => console.error(err.stack));
     };
 }
 
@@ -181,8 +243,8 @@ function generateHandlers(widgetHandler, name) {
     return function () {
         var _ref2;
 
-        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-            args[_key2] = arguments[_key2];
+        for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+            args[_key3] = arguments[_key3];
         }
 
         console.info('[%s][before](' + (_ref2 = []).concat.apply(_ref2, args) + ')', name);
@@ -211,8 +273,8 @@ function generateHandlers(widgetHandler, name) {
 }
 
 function wrapUserEvent(widget, user) {
-    for (var _len3 = arguments.length, args = Array(_len3 > 2 ? _len3 - 2 : 0), _key3 = 2; _key3 < _len3; _key3++) {
-        args[_key3 - 2] = arguments[_key3];
+    for (var _len4 = arguments.length, args = Array(_len4 > 2 ? _len4 - 2 : 0), _key4 = 2; _key4 < _len4; _key4++) {
+        args[_key4 - 2] = arguments[_key4];
     }
 
     var _ref3;
@@ -227,6 +289,11 @@ function wrapUserEvent(widget, user) {
         return null;
     }
     return (_ref3 = []).concat.apply(_ref3, args);
+}
+
+function isThennable(result) {
+    if (result.then && typeof result.then === 'function') return true;
+    return false;
 }
 
 exports.default = register;
@@ -570,7 +637,7 @@ function initNestedWidget(widget) {
     var template = widget.props.template;
     var docs = template.querySelectorAll('*');
     Array.from(docs).forEach(function (doc) {
-        console.log(doc.localName);
+        // console.log(doc.localName);
         // may customize
         if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) w(doc.localName).render(doc);
     });

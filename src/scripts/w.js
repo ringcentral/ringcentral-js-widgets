@@ -28,7 +28,7 @@ function initNestedWidget(widget) {
     var template = widget.props.template;
     var docs = template.querySelectorAll('*');
     Array.from(docs).forEach(doc => {
-        console.log(doc.localName);
+        // console.log(doc.localName);
         // may customize
         if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement)
             w(doc.localName).render(doc);
