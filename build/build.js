@@ -572,9 +572,8 @@ function initNestedWidget(widget) {
     Array.from(docs).forEach(function (doc) {
         console.log(doc.localName);
         // may customize
-        if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) w(doc.localName);
+        if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) w(doc.localName).render(doc);
     });
-    console.log(widget);
 }
 
 function w(name, options) {
