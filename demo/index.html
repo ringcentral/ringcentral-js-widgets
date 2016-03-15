@@ -39,6 +39,9 @@
         var authPanel = w('auth-panel', {
             actions: {
                 login: {
+                    error: function(e) {
+                        console.error(e);
+                    },
                     method: function() {
                         var username = this.props.dom.username.value;
                         var extension = this.props.dom.extension.value;

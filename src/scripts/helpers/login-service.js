@@ -1,12 +1,11 @@
 import sdk from './rc-sdk'
 
-var LoginService = function(sdk){
-    
+var LoginService = function(sdk) {
+
     var onLoginHandler = [];
-    
+
     return {
-        
-        login:function(username, extension, password){
+        login: function(username, extension, password) {
             console.log('LoginService -> start login');
             return sdk.platform()
                 .login({
@@ -14,31 +13,27 @@ var LoginService = function(sdk){
                     'extension': extension,
                     'password': password
                 }).then(
-                    function(){
+                    function() {
                         onLoginHandler.forEach(handler => handler());
                     }
-                );
+                )
         },
-        
-        checkLoginStatus:function(){
-          
+        checkLoginStatus: function() {
             return sdk.platform().loggedIn().then(
-                function(isLoggedIn){
-                    if(isLoggedIn){
+                function(isLoggedIn) {
+                    if (isLoggedIn) {
                         onLoginHandler.forEach(handler => handler());
                     }
                     return isLoggedIn;
-                }  
+                }
             );
-            
         },
-        
-        registerLoginHandler:function(handler){
+        registerLoginHandler: function(handler) {
             onLoginHandler.push(handler);
         }
-        
+
     }
-    
+
 }(sdk);
 
 export default LoginService

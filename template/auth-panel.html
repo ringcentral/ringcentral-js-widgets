@@ -50,6 +50,9 @@ w.register(function() {
                 localStorage.setItem('username', this.props.dom.username.value || '');
                 localStorage.setItem('extension', this.props.dom.extension.value || '');
                 localStorage.setItem('password', this.props.dom.password.value || '');
+            },
+            error: function(err) {
+                console.error(err);
             }
         }
     }

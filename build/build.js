@@ -109,7 +109,8 @@ function bindScope(scope, action) {
     return {
         before: action.before ? action.before.bind(scope) : function () {}.bind(scope),
         method: action.method ? action.method.bind(scope) : function () {}.bind(scope),
-        after: action.after ? action.after.bind(scope) : function () {}.bind(scope)
+        after: action.after ? action.after.bind(scope) : function () {}.bind(scope),
+        error: action.error ? action.error.bind(scope) : function () {}.bind(scope)
     };
 }
 
@@ -286,7 +287,7 @@ function wrapUserEvent(widget, user) {
 
     var _ref3;
 
-    var continueDefault = !user || user() || true;
+    var continueDefault = !user || user.apply(undefined, args) || true;
     if (continueDefault || typeof continueDefault === 'undefined' || continueDefault) {
         if (widget) {
             return widget.apply(undefined, args) || function () {
@@ -352,7 +353,6 @@ var LoginService = function (sdk) {
     var onLoginHandler = [];
 
     return {
-
         login: function login(username, extension, password) {
             console.log('LoginService -> start login');
             return sdk.platform().login({
@@ -365,9 +365,7 @@ var LoginService = function (sdk) {
                 });
             });
         },
-
         checkLoginStatus: function checkLoginStatus() {
-
             return sdk.platform().loggedIn().then(function (isLoggedIn) {
                 if (isLoggedIn) {
                     onLoginHandler.forEach(function (handler) {
@@ -377,7 +375,6 @@ var LoginService = function (sdk) {
                 return isLoggedIn;
             });
         },
-
         registerLoginHandler: function registerLoginHandler(handler) {
             onLoginHandler.push(handler);
         }

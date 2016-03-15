@@ -105,7 +105,8 @@ function bindScope(scope, action) {
     return {
         before: action.before ? action.before.bind(scope) : function() {}.bind(scope),
         method: action.method ? action.method.bind(scope) : function() {}.bind(scope),
-        after: action.after ? action.after.bind(scope) : function() {}.bind(scope)
+        after: action.after ? action.after.bind(scope) : function() {}.bind(scope),
+        error: action.error ? action.error.bind(scope) : function() {}.bind(scope)
     }
 }
 
@@ -267,7 +268,7 @@ function generateHandlers(widgetHandler, name) {
 }
 
 function wrapUserEvent(widget, user, ...args) {
-    var continueDefault = !user || user() || true;
+    var continueDefault = !user || user(...args) || true;
     if (continueDefault ||
         typeof continueDefault === 'undefined' ||
         continueDefault) {
