@@ -45,7 +45,6 @@ w.register(function() {
                             method: function() {
                                 var candidates = this.props.candidates;
                                 var numbers = [];
-                                console.log(candidates);
                                 // TODO, if fetch is in progress, need to show again after fetch complete
                                 if (!candidates)
                                     return;
@@ -73,8 +72,9 @@ w.register(function() {
                 var button = event.target;
                 console.log(this.props);
                 var ac = this.props['auto-complete'];
-                ac.props.dom.input.value += button.getAttribute('data-value');
-                ac.autoComplete(this.getCandidates).then(finish);
+                ac.appendInput(button.getAttribute('data-value'));
+                ac.autoComplete(this.getCandidates());
+                return finish();
             },
             after: function() {
                 this.props['auto-complete'].props.dom.input.focus();
@@ -97,7 +97,6 @@ w.register(function() {
         getCandidates: {
             before: function() {},
             method: function(finish) {
-                console.warn(finish);
                 return finish();
             },
             after: function() {}

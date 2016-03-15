@@ -39,19 +39,36 @@ w.register(function() {
             },
             after: function() {
                 window.addEventListener('click', (e) => {
-                    if (e.target !== this.props.dom.input && !e.target.classList.contains('candidate'))
+                    if (e.target !== this.props.dom.input && !e.target.classList.contains('candidate')) {
                         this.hide();
+                    }
                 });
             }
         },
         hide: {
             after: function() {
                 this.props.dom.candidates.classList.add('display-none');
+                console.log(this.showingTimeout);
+                if (this.showingTimeout) {
+                    window.clearTimeout(this.showingTimeout);
+                    this.showingTimeout = null;
+                }
             }
         },
         show: {
             after: function() {
-                this.props.dom.candidates.classList.remove('display-none');
+                if (this.showingTimeout) 
+                    return;
+                this.showingTimeout = window.setTimeout(() => {
+                    if (this.props.dom.input === document.activeElement)
+                        this.props.dom.candidates.classList.remove('display-none');
+                }, 300);
+            }
+        },
+        appendInput: {
+            before: function(value) {
+                this.props.dom.input.value += value;
+                this.props.dom.input.focus();
             }
         },
         autoComplete: {
@@ -80,6 +97,5 @@ w.register(function() {
             }
         }
     }
-
 })
 </script>
