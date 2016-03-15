@@ -425,9 +425,7 @@ var PhoneService = function () {
         callEnded: [],
         callFailed: []
     };
-
     return {
-
         registerSIP: function registerSIP() {
             return _rcSdk2.default.platform().post('/client-info/sip-provision', {
                 sipInfo: [{
@@ -476,22 +474,7 @@ var PhoneService = function () {
         on: function on(name, handler) {
             handlers[name].push(handler);
         },
-        // called: function(handler) {
-        //     handlers.called.push(handler);
-        // },
-        // callStarted: function(handler) {
-        //     handlers.callStarted.push(handler);
-        // },
-        // callRejected: function(handler) {
-        //     handlers.callRejected.push(handler);
-        // },
-        // callEnded: function(handler) {
-        //     handlers.callEnded.push(handler);
-        // },
-        // callFailed: function(handler) {
-        //     handlers.callFailed.push(handler);
-        // },
-        initPhoneListener: function initPhoneListener() {
+        listen: function listen() {
             _rcWebphone2.default.ua.on('incomingCall', function (e) {
                 line = e;
                 handlers.called.forEach(function (h) {

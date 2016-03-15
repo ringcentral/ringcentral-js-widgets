@@ -10,9 +10,7 @@ var PhoneService = function() {
         callEnded: [],
         callFailed: []
     };
-
     return {
-
         registerSIP: function() {
             return sdk.platform()
                 .post('/client-info/sip-provision', {
@@ -72,22 +70,7 @@ var PhoneService = function() {
         on: function(name, handler) {
             handlers[name].push(handler);
         },
-        // called: function(handler) {
-        //     handlers.called.push(handler);
-        // },
-        // callStarted: function(handler) {
-        //     handlers.callStarted.push(handler);
-        // },
-        // callRejected: function(handler) {
-        //     handlers.callRejected.push(handler);
-        // },
-        // callEnded: function(handler) {
-        //     handlers.callEnded.push(handler);
-        // },
-        // callFailed: function(handler) {
-        //     handlers.callFailed.push(handler);
-        // },
-        initPhoneListener: function() {
+        listen: function() {
             webPhone.ua.on('incomingCall', e => {
                 line = e;
                 handlers.called.forEach(h => h(e));

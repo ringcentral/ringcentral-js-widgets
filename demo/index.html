@@ -76,7 +76,7 @@
             actions: {
                 init: {
                     after: function() {
-                        PhoneService.initPhoneListener();
+                        PhoneService.listen();
                         PhoneService.on('called', this.called);
                         PhoneService.on('callStarted', this.callStarted);
                         PhoneService.on('callRejected', this.callRejected);
