@@ -37,7 +37,7 @@
         preload: ['auth-panel', 'dial-pad']
     }, init)
 
-    function init(t) {
+    function init() {
         var authPanel = w('auth-panel', {
             actions: {
                 login: {
@@ -49,25 +49,7 @@
                     },
                     after: function() {
                         var authPanel = this;
-                        w('dial-pad', {
-                                actions: {
-                                    render: {
-                                        before: function() {
-                                            authPanel.remove();
-                                        }
-                                    },
-                                    getCandidates: {
-                                        method: function() {
-                                            return CallLogService.getCallLogs();
-                                        }
-                                    },
-                                    callout: {
-                                        method: function(fromNo, toNo) {
-                                            return PhoneService.callout(fromNo, toNo);
-                                        }
-                                    }
-                                }
-                            }).render('#dial-pad')
+                        dialPad.render('#dial-pad')
                             // w('call-panel', {
                             //         actions: {
                             //             init: {
@@ -112,30 +94,40 @@
             },
             handlers: {},
         })
-        authPanel.render('#auth-panel');
+        var dialPad = w('dial-pad', {
+            actions: {
+                render: {
+                    before: function() {
+                        authPanel.remove();
+                    }
+                },
+                getCandidates: {
+                    method: function() {
+                        return CallLogService.getCallLogs();
+                    }
+                },
+                callout: {
+                    method: function(fromNo, toNo) {
+                        return PhoneService.callout(fromNo, toNo);
+                    }
+                }
+            }
+        })
+        // authPanel.render('#auth-panel');
+        LoginService.checkLoginStatus().then(
+            isLoggedIn => {
+                if (isLoggedIn) {
+                    dialPad.render('#dial-pad');
+                } else
+                    authPanel.render('#auth-panel');
+            }
+        );
     }
 
     LoginService.registerLoginHandler(function() {
         PhoneService.registerSIP();
         CallLogService.getCallLogs();
     });
-
-    // LoginService.checkLoginStatus().then(
-
-    //     function(isLoggedIn) {
-    //         if (isLoggedIn) {
-
-    //             callPanel.render('#call-panel');
-    //             dialPad.render('#dial-pad');
-    //             callLog.render('#call-log-panel');
-
-    //         } else {
-    //             // render is async, supports both callbacks and promises
-    //             authPanel.render('#auth-panel', function() { /* ... */ });
-    //         }
-    //     }
-
-    // );
     </script>
 </body>
 
