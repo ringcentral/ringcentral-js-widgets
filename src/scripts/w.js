@@ -26,6 +26,9 @@ function initNestedWidget(widget) {
     var docs = template.querySelectorAll('*');
     Array.from(docs).forEach(doc => {
         if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+            if (typeof doc.getAttribute('dynamic') !== 'undefine') {
+                return;
+            }
             var child = w(doc.localName, widget.custom[doc.localName]);
             child.render(doc);
             // FIXME: When multiple child element, has problems
@@ -68,6 +71,7 @@ w.config = function(options, callback) {
     w.options = Object.assign(w.options, options);
     preload(w.options.preload, callback);
 };
+
 function preload(widgets, callback) {
     return Promise.all(
         widgets.reduce(

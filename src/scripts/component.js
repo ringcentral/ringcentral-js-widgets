@@ -23,7 +23,6 @@ function register(globalSettings) {
 
 
     var Widget = function(options) {
-        console.warn(options.actions);
         var options = Object.assign({
             actions: {},
             handlers: {}

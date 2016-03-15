@@ -5,7 +5,7 @@
     <div class='rc-pane-content'>
         <div class='rc-pane-scrollable'>
             <div data-info='number'>
-                <auto-complete></auto-complete>
+                <auto-complete dynamic></auto-complete>
             </div>
             <div class='rc-dial-wrapper'>
                 <button class='rc-dial-button' data-info='dial-button-1' data-value='1' data-event='click:dialing'>1</button>
@@ -31,7 +31,6 @@ w.register(function() {
             before: function() {},
             method: function() {},
             after: function() {
-                console.warn('after dial-pad');
                 var dialPad = this;
                 w.customize(this, 'auto-complete', {
                     actions: {
