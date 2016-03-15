@@ -102,6 +102,22 @@ h1 {
     padding: 8px;
     font-weight: lighter;
 }
+.rc-dropdown-list {
+    position: absolute;
+    background-color: #fff;
+    width: 225px;
+    padding: 2px 0;
+    border: 1px solid #878787;
+    font-weight: lighter;
+}
+.rc-dropdown-list > div {
+    padding: 5px 5px;
+    cursor: pointer;
+}
+.rc-dropdown-list > div:hover {
+    background-color: #3498db;
+    color: #fff;
+}
 .rc-panel .rc-input,
 .rc-panel .rc-button,
 .rc-panel .rc-dropdown {

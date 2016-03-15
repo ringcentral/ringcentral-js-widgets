@@ -42,9 +42,9 @@
             actions: {
                 login: {
                     method: function() {
-                        var username = this.props.dom.username.value;
-                        var extension = this.props.dom.extension.value;
-                        var password = this.props.dom.password.value;
+                        var username = this.props.username;
+                        var extension = this.props.extension;
+                        var password = this.props.password;
                         return LoginService.login(username, extension, password);
                     },
                     after: function() {

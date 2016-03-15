@@ -8,17 +8,18 @@
     <div class='rc-pane-content'>
         <div class='rc-pane-scrollable'>
             <button class='rc-dropdown' data-info='country-dropdown' data-event='click:showCountry'>United States</button>
-            <ul class='rc-dropdown-list display-none' data-info='country-list'>
-                <li data-event='click:switchCountry'>United States</li>
-                <li data-event='click:switchCountry'>United Kingdom</li>
-                <li data-event='click:switchCountry'>Canada</li>
-            </ul>
+            <div class='rc-dropdown-list display-none' data-info='country-list'>
+                <div data-event='click:switchCountry'>United States</div>
+                <div data-event='click:switchCountry'>United Kingdom</div>
+                <div data-event='click:switchCountry'>Canada</div>
+            </div>
             <input class='rc-input' data-info='username' placeholder="username"></input>
             <input class='rc-input' data-info='extension' placeholder="extension"></input>
-            <input class='rc-input' data-info='password' placeholder="password"></input>
+            <input class='rc-input' data-info='password' placeholder="password" type='password'></input>
             <button class='rc-button' data-info='login' data-event='click:login'>Login</button>
             <div>
-                Remember me: <input type='checkbox' data-info='remember'>
+                Remember me:
+                <input type='checkbox' data-info='remember' checked>
             </div>
             <div class='rc-error-message' data-info='error'></div>
         </div>
@@ -33,7 +34,9 @@ w.register(function() {
             method: function(finish) {
                 finish();
             },
-            after: function() {}
+            after: function() {
+                this.props.country = 'United States';
+            }
         },
         render: {
             before: function() {},
@@ -48,16 +51,24 @@ w.register(function() {
                 this.props.dom.login.disabled = true;
                 this.props.dom.error.textContent = '';
                 this.props.dom.login.classList.add('rc-button-loading');
-                loading(this.props.dom.footer, 300);
+                loading(this.props.dom.footer, 350);
             },
             method: function(finish, d) {
+                this.props.username = this.props.dom.username.value;
+                this.props.extension = this.props.dom.extension.value;
+                this.props.password = this.props.dom.password.value;
+                console.log(this.props.country);
+                if (this.props.country === 'United States')
+                    this.props.username = '1' + this.props.username;
                 return finish();
             },
             after: function(d) {
                 this.props.dom.login.disabled = false;
-                localStorage.setItem('username', this.props.dom.username.value || '');
-                localStorage.setItem('extension', this.props.dom.extension.value || '');
-                localStorage.setItem('password', this.props.dom.password.value || '');
+                if (this.props.dom.remember.checked) {
+                    localStorage.setItem('username', this.props.dom.username.value || '');
+                    localStorage.setItem('extension', this.props.dom.extension.value || '');
+                    localStorage.setItem('password', this.props.dom.password.value || '');
+                }
             },
             error: function(err) {
                 console.error(err);
@@ -74,9 +85,12 @@ w.register(function() {
         switchCountry: {
             before: function(event) {
                 this.props.dom['country-dropdown'].textContent = event.target.textContent;
+                this.props.dom['country-list'].classList.add('display-none');
+                this.props.country = event.target.textContent;
             }
         }
     }
+
     function loading(panel, height) {
         panel.style.height = height + 'px';
     }
