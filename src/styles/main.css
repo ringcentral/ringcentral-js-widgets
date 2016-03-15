@@ -55,12 +55,8 @@ h1 {
     left: 0;
 }
 
-.rc-input,
-.rc-button {
-    width: 100%;
-}
-
 .rc-input {
+    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 2px;
@@ -72,6 +68,7 @@ h1 {
 }
 
 .rc-button {
+    width: 100%;
     border: 0;
     border-radius: 2px;
     background-color: #7f8c8d;
@@ -97,8 +94,17 @@ h1 {
     background-color: #c0392b;
 }
 
+.rc-dropdown {
+    width: 100%;
+    border: 1px solid #7f8c8d;
+    background-color: #fff;
+    border-radius: 2px;
+    padding: 8px;
+    font-weight: lighter;
+}
 .rc-panel .rc-input,
-.rc-panel .rc-button {
+.rc-panel .rc-button,
+.rc-panel .rc-dropdown {
     margin-bottom: 10px;
 }
 
@@ -126,6 +132,7 @@ h1 {
 }
 
 .rc-error-message {
+    min-height: 30px;
     font-size: 12px;
     color: #e74c3c;
 }

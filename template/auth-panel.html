@@ -6,12 +6,21 @@
         <h1>Login</h1>
     </div>
     <div class='rc-pane-content'>
-        <div class='rc-pane-scrollable '>
+        <div class='rc-pane-scrollable'>
+            <button class='rc-dropdown' data-info='country-dropdown' data-event='click:showCountry'>United States</button>
+            <ul class='rc-dropdown-list display-none' data-info='country-list'>
+                <li data-event='click:switchCountry'>United States</li>
+                <li data-event='click:switchCountry'>United Kingdom</li>
+                <li data-event='click:switchCountry'>Canada</li>
+            </ul>
             <input class='rc-input' data-info='username' placeholder="username"></input>
             <input class='rc-input' data-info='extension' placeholder="extension"></input>
             <input class='rc-input' data-info='password' placeholder="password"></input>
             <button class='rc-button' data-info='login' data-event='click:login'>Login</button>
-            <div class='rc-error-message' data-info='error' data-show='error'></div>
+            <div>
+                Remember me: <input type='checkbox' data-info='remember'>
+            </div>
+            <div class='rc-error-message' data-info='error'></div>
         </div>
     </div>
     <div class='rc-pane-footer' data-info='footer'></div>
@@ -32,7 +41,6 @@ w.register(function() {
                 this.props.dom.username.value = localStorage.getItem('username');
                 this.props.dom.extension.value = localStorage.getItem('extension');
                 this.props.dom.password.value = localStorage.getItem('password');
-
             }
         },
         login: {
@@ -53,6 +61,19 @@ w.register(function() {
             },
             error: function(err) {
                 console.error(err);
+                this.props.dom.error.textContent = err.message;
+                loading(this.props.dom.footer, 30);
+                this.props.dom.login.disabled = false;
+            }
+        },
+        showCountry: {
+            before: function() {
+                this.props.dom['country-list'].classList.toggle('display-none');
+            }
+        },
+        switchCountry: {
+            before: function(event) {
+                this.props.dom['country-dropdown'].textContent = event.target.textContent;
             }
         }
     }

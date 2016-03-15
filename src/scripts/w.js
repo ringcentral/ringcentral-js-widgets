@@ -16,7 +16,7 @@ function parseDocument(template) {
     return Promise.all(Array.from(docs).reduce(
         (result, doc) => {
             if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement)
-                return result.concat(w.preload([doc.localName]));
+                return result.concat(preload([doc.localName]));
             return result;
         }, []));
 }
@@ -64,11 +64,11 @@ w.register = function(constructor) {
             template.widget = register(settings);
     })
 };
-w.config = function(options) {
+w.config = function(options, callback) {
     w.options = Object.assign(w.options, options);
-
+    preload(w.options.preload, callback);
 };
-w.preload = function(widgets, callback) {
+function preload(widgets, callback) {
     return Promise.all(
         widgets.reduce(
             (result, name) => {

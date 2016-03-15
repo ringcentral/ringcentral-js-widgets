@@ -33,15 +33,14 @@
     <script type="text/javascript" src="../build/build.js"></script>
     <script type="text/javascript">
     w.config({
-        path: '../template/'
-    })
-    w.preload(['auth-panel', 'dial-pad'], function(t) {
+        path: '../template/',
+        preload: ['auth-panel', 'dial-pad']
+    }, init)
+
+    function init(t) {
         var authPanel = w('auth-panel', {
             actions: {
                 login: {
-                    error: function(e) {
-                        console.error(e);
-                    },
                     method: function() {
                         var username = this.props.dom.username.value;
                         var extension = this.props.dom.extension.value;
@@ -51,70 +50,70 @@
                     after: function() {
                         var authPanel = this;
                         w('dial-pad', {
-                            actions: {
-                                render: {
-                                    before: function() {
-                                        authPanel.remove();
-                                    }
-                                },
-                                getCandidates: {
-                                    method: function() {
-                                        return CallLogService.getCallLogs();
-                                    }
-                                },
-                                callout: {
-                                    method: function(fromNo, toNo) {
-                                        return PhoneService.callout(fromNo, toNo);
+                                actions: {
+                                    render: {
+                                        before: function() {
+                                            authPanel.remove();
+                                        }
+                                    },
+                                    getCandidates: {
+                                        method: function() {
+                                            return CallLogService.getCallLogs();
+                                        }
+                                    },
+                                    callout: {
+                                        method: function(fromNo, toNo) {
+                                            return PhoneService.callout(fromNo, toNo);
+                                        }
                                     }
                                 }
-                            }
-                        }).render('#dial-pad')
-                        // w('call-panel', {
-                        //         actions: {
-                        //             init: {
-                        //                 after: function() {
-                        //                     PhoneService.initPhoneListener();
-                        //                 }
-                        //             }
-                        //         },
-                        //         handlers: {
-                        //             called: {
-                        //                 method: function(handler) {
-                        //                     console.log('called');
-                        //                     PhoneService.called(handler);
-                        //                 }
-                        //             },
-                        //             callStarted: {
-                        //                 method: function(handler) {
-                        //                     PhoneService.callStarted(handler);
-                        //                 }
-                        //             },
-                        //             callRejected: {
-                        //                 method: function(handler) {
-                        //                     PhoneService.callRejected(handler);
-                        //                 }
-                        //             },
-                        //             callEnded: {
-                        //                 method: function(handler) {
-                        //                     PhoneService.callEnded(handler);
-                        //                 }
-                        //             },
-                        //             callFailed: {
-                        //                 method: function(handler) {
-                        //                     PhoneService.callFailed(handler);
-                        //                 }
-                        //             }
-                        //         }
-                        //     })
-                        //     .then(widget => widget.render('#call-panel'))
-                        //     .catch(err => console.error(err));
+                            }).render('#dial-pad')
+                            // w('call-panel', {
+                            //         actions: {
+                            //             init: {
+                            //                 after: function() {
+                            //                     PhoneService.initPhoneListener();
+                            //                 }
+                            //             }
+                            //         },
+                            //         handlers: {
+                            //             called: {
+                            //                 method: function(handler) {
+                            //                     console.log('called');
+                            //                     PhoneService.called(handler);
+                            //                 }
+                            //             },
+                            //             callStarted: {
+                            //                 method: function(handler) {
+                            //                     PhoneService.callStarted(handler);
+                            //                 }
+                            //             },
+                            //             callRejected: {
+                            //                 method: function(handler) {
+                            //                     PhoneService.callRejected(handler);
+                            //                 }
+                            //             },
+                            //             callEnded: {
+                            //                 method: function(handler) {
+                            //                     PhoneService.callEnded(handler);
+                            //                 }
+                            //             },
+                            //             callFailed: {
+                            //                 method: function(handler) {
+                            //                     PhoneService.callFailed(handler);
+                            //                 }
+                            //             }
+                            //         }
+                            //     })
+                            //     .then(widget => widget.render('#call-panel'))
+                            //     .catch(err => console.error(err));
                     }
                 }
             },
             handlers: {},
         })
         authPanel.render('#auth-panel');
-    }).catch(err => console.error(err));
+    }
 
     LoginService.registerLoginHandler(function() {
         PhoneService.registerSIP();

@@ -630,7 +630,7 @@ function fetchWidget(name) {
 function parseDocument(template) {
     var docs = template.querySelectorAll('*');
     return Promise.all(Array.from(docs).reduce(function (result, doc) {
-        if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) return result.concat(w.preload([doc.localName]));
+        if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) return result.concat(preload([doc.localName]));
         return result;
     }, []));
 }
@@ -677,10 +677,11 @@ w.register = function (constructor) {
         if (template.template && !template.widget) template.widget = (0, _component2.default)(settings);
     });
 };
-w.config = function (options) {
+w.config = function (options, callback) {
     w.options = Object.assign(w.options, options);
+    preload(w.options.preload, callback);
 };
-w.preload = function (widgets, callback) {
+function preload(widgets, callback) {
     return Promise.all(widgets.reduce(function (result, name) {
         if (!w.templates[name]) {
             w.templates[name] = {};
@@ -700,7 +701,7 @@ w.preload = function (widgets, callback) {
             return console.error(err);
         }));
     }, [])).then(callback);
-};
+}
 
 // setting custom elements when registering widgets
 w.customize = function (context, target, options) {
