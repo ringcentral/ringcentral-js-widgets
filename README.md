@@ -1,13 +1,14 @@
 # ringcentral-js-widget
 This is the personal repository to do some experimental implementation of UI widget based on RingCentral JS SDK
 
-#### Installation process
+## Installation process
 `npm install`
 `bower install`
-#### Development process
+## Development process
 `gulp`
-#### Test process
+## Test process
 `npm test`
+
 [Demo](http://lingforcc.github.io/ringcentral-js-widget/demo/)
 
 #### Actions lifecycle
@@ -32,6 +33,7 @@ This is the personal repository to do some experimental implementation of UI wid
   - extension
   - password
   - country
+
 #### Dial-pad
 #### Call-panel
 #### Call-log
