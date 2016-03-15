@@ -22,9 +22,7 @@
     font-size: 14px;
     text-align: center;
     border-style: solid;
-    border-left-width: 1px;
-    border-top-width: 1px;
-    border-bottom-width: 1px;
+    border-width: 1px;
     display: block;
     float: left;
     cursor: pointer;
@@ -82,6 +80,10 @@
     border-bottom:1px solid;
     border-bottom-color: #efeff4;
     padding:10px 3px 0px 3px;
+}
+
+.call-log-entry.hidden{
+    display: none;
 }
 
 .call-log-item-body {
