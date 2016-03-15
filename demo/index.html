@@ -49,9 +49,10 @@
                     },
                     after: function() {
                         var authPanel = this;
-                        dialPad.render('#dial-pad')
-
-                        callPanel.render('#call-panel')
+                        dialPad.render('#dial-pad', function() {
+                            authPanel.remove();
+                        });
+                        callPanel.render('#call-panel');
                     }
                 }
             },
@@ -59,11 +60,6 @@
         })
         var dialPad = w('dial-pad', {
             actions: {
-                render: {
-                    before: function() {
-                        authPanel.remove();
-                    }
-                },
                 getCandidates: {
                     method: function() {
                         return CallLogService.getCallLogs();
@@ -117,6 +113,7 @@
             isLoggedIn => {
                 if (isLoggedIn) {
                     dialPad.render('#dial-pad');
+                    callPanel.render('#call-panel');
                 } else
                     authPanel.render('#auth-panel');
             }

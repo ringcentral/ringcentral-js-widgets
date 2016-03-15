@@ -26,7 +26,10 @@ function register(globalSettings) {
             before: function before() {},
             method: function method() {},
             after: function after() {},
-            error: function error() {}
+            error: function error(e) {
+                console.error(e);
+                throw e;
+            }
         }, globalSettings.actions[action]);
     });
 
@@ -109,7 +112,10 @@ function bindScope(scope, action) {
         before: action.before ? action.before.bind(scope) : function () {}.bind(scope),
         method: action.method ? action.method.bind(scope) : function () {}.bind(scope),
         after: action.after ? action.after.bind(scope) : function () {}.bind(scope),
-        error: action.error ? action.error.bind(scope) : function () {}.bind(scope)
+        error: action.error ? action.error.bind(scope) : function (e) {
+            console.error(e);
+            throw e;
+        }.bind(scope)
     };
 }
 
@@ -144,7 +150,10 @@ function generateActions(widgetAction, userAction, name) {
             before: function before() {},
             method: function method() {},
             after: function after() {},
-            error: function error() {}
+            error: function error(e) {
+                console.error(e);
+                throw e;
+            }
         };
         console.warn('Widget action [%s] is not defined by users', name);
     }

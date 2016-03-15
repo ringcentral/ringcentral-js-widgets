@@ -1,17 +1,26 @@
-<div class='rc-panel' data-info='called-panel'>
-    <div data-info='callin-number'></div>
-    <button class='rc-button' data-event='click:answer'>Answer</button>
-    <button class='rc-button' data-event='click:ignore'>Ignore</button>
-</div>
-<div class='rc-panel' data-info='callout-panel'>
-    <!-- <button class='rc-button' data-event='click:cancel'>Cancel</button> -->
-</div>
-<div class='rc-panel' data-info='online-panel'>
-    <h3 data-info='call-time'></h3>
-    <!-- <button class='rc-button rc-button-important' data-event='click:hangup'>Hangup</button> -->
-    <!-- <button class='rc-button' data-action='record'>Record</button>
+<div>
+    <div class='rc-panel' data-info='called-panel'>
+        <div class='rc-pane-header'>
+            <h1>Call Panel</h1>
+        </div>
+        <div class='rc-pane-content'>
+            <div class='rc-pane-scrollable'>
+                <div data-info='callin-number'></div>
+                <button class='rc-button' data-event='click:answer'>Answer</button>
+                <button class='rc-button' data-event='click:ignore'>Ignore</button>
+            </div>
+        </div>
+    </div>
+    <div class='rc-panel' data-info='callout-panel'>
+        <!-- <button class='rc-button' data-event='click:cancel'>Cancel</button> -->
+    </div>
+    <div class='rc-panel' data-info='online-panel'>
+        <h3 data-info='call-time'></h3>
+        <!-- <button class='rc-button rc-button-important' data-event='click:hangup'>Hangup</button> -->
+        <!-- <button class='rc-button' data-action='record'>Record</button>
     <button class='rc-button' data-action='hold'>Hold</button>
     <button class='rc-button' data-action='mute'>Mute</button> -->
+    </div>
 </div>
 <script>
 w.register(function() {
@@ -19,6 +28,11 @@ w.register(function() {
         init: {
             method: function(finish) {
                 finish();
+            }
+        },
+        render: {
+            after: function() {
+                // hideAllPanel();
             }
         }
     }
@@ -47,6 +61,14 @@ w.register(function() {
         callFailed: {
             method: function() {}
         }
+    }
+
+    function hideAllPanel() {
+        console.error('SAD');
+        console.error(this.props.dom['called-panel']);
+        this.props.dom['called-panel'].classList.add('display-none');
+        this.props.dom['callout-panel'].classList.add('display-none');
+        this.props.dom['online-panel'].classList.add('display-none');
     }
 })
 </script>
