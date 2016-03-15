@@ -34,7 +34,7 @@
     <script type="text/javascript">
     w.config({
         path: '../template/',
-        preload: ['auth-panel', 'dial-pad']
+        preload: ['auth-panel', 'dial-pad', 'call-panel']
     }, init)
 
     function init() {
@@ -50,45 +50,8 @@
                     after: function() {
                         var authPanel = this;
                         dialPad.render('#dial-pad')
-                            // w('call-panel', {
-                            //         actions: {
-                            //             init: {
-                            //                 after: function() {
-                            //                     PhoneService.initPhoneListener();
-                            //                 }
-                            //             }
-                            //         },
-                            //         handlers: {
-                            //             called: {
-                            //                 method: function(handler) {
-                            //                     console.log('called');
-                            //                     PhoneService.called(handler);
-                            //                 }
-                            //             },
-                            //             callStarted: {
-                            //                 method: function(handler) {
-                            //                     PhoneService.callStarted(handler);
-                            //                 }
-                            //             },
-                            //             callRejected: {
-                            //                 method: function(handler) {
-                            //                     PhoneService.callRejected(handler);
-                            //                 }
-                            //             },
-                            //             callEnded: {
-                            //                 method: function(handler) {
-                            //                     PhoneService.callEnded(handler);
-                            //                 }
-                            //             },
-                            //             callFailed: {
-                            //                 method: function(handler) {
-                            //                     PhoneService.callFailed(handler);
-                            //                 }
-                            //             }
-                            //         }
-                            //     })
-                            //     .then(widget => widget.render('#call-panel'))
-                            //     .catch(err => console.error(err));
+
+                        callPanel.render('#call-panel')
                     }
                 }
             },
@@ -113,7 +76,43 @@
                 }
             }
         })
-        // authPanel.render('#auth-panel');
+        var callPanel = w('call-panel', {
+            actions: {
+                init: {
+                    after: function() {
+                        PhoneService.initPhoneListener();
+                    }
+                }
+            },
+            handlers: {
+                called: {
+                    method: function(handler) {
+                        console.log('called');
+                        PhoneService.called(handler);
+                    }
+                },
+                callStarted: {
+                    method: function(handler) {
+                        PhoneService.callStarted(handler);
+                    }
+                },
+                callRejected: {
+                    method: function(handler) {
+                        PhoneService.callRejected(handler);
+                    }
+                },
+                callEnded: {
+                    method: function(handler) {
+                        PhoneService.callEnded(handler);
+                    }
+                },
+                callFailed: {
+                    method: function(handler) {
+                        PhoneService.callFailed(handler);
+                    }
+                }
+            }
+        })
         LoginService.checkLoginStatus().then(
             isLoggedIn => {
                 if (isLoggedIn) {

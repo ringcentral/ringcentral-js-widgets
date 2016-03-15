@@ -651,7 +651,7 @@ function initNestedWidget(widget) {
 function w(name, options) {
     options = options || {};
     var baseWidget;
-    if (!w.templates[name].widget) {
+    if (!w.templates[name] || !w.templates[name].widget) {
         throw Error('you need to preload widget:' + name + ' before init it');
     }
     baseWidget = new w.templates[name].widget({
