@@ -56,6 +56,16 @@ w.register(function(){
                     }
                 }
             }
+        },
+        hide:{
+            after:function(){
+                this.props.dom.entry.classList.add('hidden');  
+            }
+        },
+        show:{
+            after:function(){
+                this.props.dom.entry.classList.remove('hidden');
+            }
         }
     }
 });

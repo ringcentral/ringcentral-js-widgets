@@ -46,10 +46,10 @@ w.register(function(){
         
         widgetItems.forEach(function(widget){
             
-            if(!filter(widget)){
-                widget.props.dom.entry.classList.add('hidden');
+            if(filter(widget)){
+               widget.show(); 
             }else{
-                widget.props.dom.entry.classList.remove('hidden');
+               widget.hide();
             }
             
         });
@@ -67,17 +67,20 @@ w.register(function(){
         init:{
             before:function(){
                 this.props.widgetItems = [];  
-            },
+            }
+        },
+        render:{
+            after:function(){
+                this.refreshCallLogs();
+            }
+        },
+        refreshCallLogs:{
             method:function(finish){
-                return Promise.resolve(finish()).then(logItems => 
-                {
-                    this.props.logItems = logItems;
-                    return logItems;
-                });
+                return finish();
             },
             after:function(logItems){
                 createWidgetItems(logItems, this.props);
-            } 
+            }
         },
         enableAllCallTab:{
             after:function(){
