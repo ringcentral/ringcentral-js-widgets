@@ -1,4 +1,4 @@
-<div class="call-log-entry">
+<div class="call-log-entry" data-info="entry">
     <i data-info="callResult"></i>
 
     <a class="call-log-item-info"></a>
@@ -12,29 +12,22 @@
     </div>
 </div>
 <script>
-w.register({
+w.register(function(){
 
-    actions:{
-        render:{
-            //Need to define the function due to framework requirement
-            before:function(){},
-            method:function(finish){
-                return finish();
-            },
-            after:function(){}
-            
-        },
-        
+    this.actions = 
+    {
         init:{
             method:function(finish){
               return finish();  
             },
             after:function(item){
+                this.props.item = item;
+                
                 if(item.result === "Missed"){
-                        this.props.dom.callResult.classList.add('call-missed');
-                    }
+                    this.props.dom.callResult.classList.add('call-missed');
+                }
 
-                    if(item.direction === 'Outbound'){
+                if(item.direction === 'Outbound'){
                     if(item.to.name){
                         this.props.dom.contact.innerHTML = item.to.name;
                     }else{
@@ -63,7 +56,6 @@ w.register({
                     }
                 }
             }
-            
         }
     }
 });

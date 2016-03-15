@@ -328,11 +328,15 @@ var _rcSdk2 = _interopRequireDefault(_rcSdk);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CallLogService = function (sdk) {
+
+    var period = 7 * 24 * 3600 * 1000;
+    var dateFrom = new Date(Date.now() - period);
+
     return {
 
         getCallLogs: function getCallLogs() {
 
-            return sdk.platform().get('/account/~/extension/~/call-log', { dateFrom: '2016-2-28' }).then(function (response) {
+            return sdk.platform().get('/account/~/extension/~/call-log', { dateFrom: dateFrom.toISOString() }).then(function (response) {
                 return response.json().records;
             }).catch(function (e) {
                 console.error('Recent Calls Error: ' + e.message);
