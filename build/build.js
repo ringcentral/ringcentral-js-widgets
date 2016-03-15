@@ -53,15 +53,15 @@ function register(globalSettings) {
         Object.keys(settings.actions).forEach(function (index) {
             settings.actions[index] = bindScope(_this, settings.actions[index]);
         });
-        Object.keys(settings.handlers).forEach(function (index) {
-            settings.handlers[index] = bindScope(_this, settings.handlers[index]);
-        });
+        // Object.keys(settings.handlers).forEach(index => {
+        //     settings.handlers[index] = bindScope(this, settings.handlers[index]);
+        // })
         Object.keys(options.actions).forEach(function (index) {
             options.actions[index] = bindScope(_this, options.actions[index]);
         });
-        Object.keys(options.handlers).forEach(function (index) {
-            options.handlers[index] = bindScope(_this, options.handlers[index]);
-        });
+        // Object.keys(options.handlers).forEach(index => {
+        //     options.handlers[index] = bindScope(this, options.handlers[index]);
+        // })
         Object.keys(settings.actions).forEach(function (index) {
             _this[index] = generateActions(settings.actions[index], options.actions[index], index);
         });
@@ -98,11 +98,14 @@ function register(globalSettings) {
             if (widgetRender && typeof widgetRender === 'function') return widgetRender.call(this, finish);
         }
         this.init();
-        Object.keys(settings.handlers).forEach(function (index) {
-            if (options.handlers[index]) {
-                options.handlers[index].method.call(_this, generateHandlers(settings.handlers[index], index));
-            }
-        });
+        // Object.keys(settings.handlers).forEach(index => {
+        //     if (options.handlers[index]) {
+        //         options.handlers[index].method.call(
+        //             this,
+        //             generateHandlers(settings.handlers[index], index)
+        //         );
+        //     }
+        // })
     };
     return Widget;
 }
@@ -255,45 +258,41 @@ function generateActions(widgetAction, userAction, name) {
     };
 }
 
-function generateHandlers(widgetHandler, name) {
-    return function () {
-        var _ref2;
-
-        for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-            args[_key3] = arguments[_key3];
-        }
-
-        console.info('[%s][before](' + (_ref2 = []).concat.apply(_ref2, args) + ')', name);
-        return Promise.resolve(wrapUserEvent.apply(undefined, [widgetHandler.before, widgetHandler.before].concat(args))).then(function (arg) {
-            console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-            if (typeof arg === 'function') {
-                return widgetHandler.method.apply(widgetHandler, _toConsumableArray(arg())) || arg;
-            }
-            return widgetAction.method(arg) || arg;
-        }).then(function (arg) {
-            console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-            if (typeof arg === 'function') {
-                return widgetHandler.after.apply(widgetHandler, _toConsumableArray(arg())) || arg;
-            }
-            return widgetHandler.after(arg) || arg;
-        }).then(function (arg) {
-            if (typeof arg === 'function') {
-                // flatten one level
-                return [].concat.apply([], arg());
-            }
-            return arg;
-        }).catch(function (err) {
-            return console.error(err.stack);
-        });
-    };
-}
+// function generateHandlers(widgetHandler, name) {
+//     return function(...args) {
+//         console.info('[%s][before](' + [].concat(...args) + ')', name);
+//         return Promise.resolve(wrapUserEvent(widgetHandler.before, widgetHandler.before, ...args))
+//             .then(function(arg) {
+//                 console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+//                 if (typeof arg === 'function') {
+//                     return widgetHandler.method(...arg()) || arg;
+//                 }
+//                 return widgetAction.method(arg) || arg;
+//             })
+//             .then(function(arg) {
+//                 console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+//                 if (typeof arg === 'function') {
+//                     return widgetHandler.after(...arg()) || arg;
+//                 }
+//                 return widgetHandler.after(arg) || arg;
+//             })
+//             .then(function(arg) {
+//                 if (typeof arg === 'function') {
+//                     // flatten one level
+//                     return [].concat.apply([], arg());
+//                 }
+//                 return arg;
+//             })
+//             .catch(err => console.error(err.stack));
+//     }
+// }
 
 function wrapUserEvent(widget, user) {
-    for (var _len4 = arguments.length, args = Array(_len4 > 2 ? _len4 - 2 : 0), _key4 = 2; _key4 < _len4; _key4++) {
-        args[_key4 - 2] = arguments[_key4];
+    for (var _len3 = arguments.length, args = Array(_len3 > 2 ? _len3 - 2 : 0), _key3 = 2; _key3 < _len3; _key3++) {
+        args[_key3 - 2] = arguments[_key3];
     }
 
-    var _ref3;
+    var _ref2;
 
     var continueDefault = !user || user.apply(undefined, args) || true;
     if (continueDefault || typeof continueDefault === 'undefined' || continueDefault) {
@@ -304,7 +303,7 @@ function wrapUserEvent(widget, user) {
         }
         return null;
     }
-    return (_ref3 = []).concat.apply(_ref3, args);
+    return (_ref2 = []).concat.apply(_ref2, args);
 }
 
 function isThennable(result) {
@@ -440,14 +439,10 @@ var PhoneService = function () {
                 }).catch(function (e) {
                     return Promise.reject(err);
                 });
-            }).catch(function (e) {
-                return console.error(e);
             });
         },
 
         callout: function callout(fromNumber, toNumber) {
-            console.log('user callout');
-
             // TODO: validate toNumber and fromNumber
             if (!_rcSdk2.default || !_rcWebphone2.default) {
                 throw Error('Need to set up SDK and webPhone first.');
@@ -462,72 +457,59 @@ var PhoneService = function () {
                 return null;
             }).then(function (countryId) {
                 _rcWebphone2.default.call(toNumber, fromNumber, countryId);
-            }).catch(function (e) {
-                return console.error(e);
             });
         },
-        answer: function answer(props) {
-            return _rcWebphone2.default.answer(line).catch(function (e) {
-                console.error(e);
-            });
+        answer: function answer() {
+            return _rcWebphone2.default.answer(line);
         },
-        ignore: function ignore(props) {},
-        cancel: function cancel(props) {
-            return line.cancel().catch(function (e) {
-                console.error(e);
-            });
+        ignore: function ignore() {},
+        cancel: function cancel() {
+            return line.cancel();
         },
-        hangup: function hangup(props) {
-            return _rcWebphone2.default.hangup(line).catch(function (err) {
-                return console.error(err);
-            });
+        hangup: function hangup() {
+            return _rcWebphone2.default.hangup(line);
         },
-        called: function called(handler) {
-            handlers.called.push(handler);
+        on: function on(name, handler) {
+            handlers[name].push(handler);
         },
-        callStarted: function callStarted(handler) {
-            handlers.callStarted.push(handler);
-        },
-        callRejected: function callRejected(handler) {
-            handlers.callRejected.push(handler);
-        },
-        callEnded: function callEnded(handler) {
-            handlers.callEnded.push(handler);
-        },
-        callFailed: function callFailed(handler) {
-            handlers.callFailed.push(handler);
-        },
-        initPhoneListener: function initPhoneListener(props) {
-            var _this = this;
-
+        // called: function(handler) {
+        //     handlers.called.push(handler);
+        // },
+        // callStarted: function(handler) {
+        //     handlers.callStarted.push(handler);
+        // },
+        // callRejected: function(handler) {
+        //     handlers.callRejected.push(handler);
+        // },
+        // callEnded: function(handler) {
+        //     handlers.callEnded.push(handler);
+        // },
+        // callFailed: function(handler) {
+        //     handlers.callFailed.push(handler);
+        // },
+        initPhoneListener: function initPhoneListener() {
             _rcWebphone2.default.ua.on('incomingCall', function (e) {
-                console.log(handlers);
                 line = e;
                 handlers.called.forEach(function (h) {
                     return h(e);
                 });
             });
             _rcWebphone2.default.ua.on('callStarted', function (e) {
-                console.log(handlers);
-                console.log(_this);
                 handlers.callStarted.forEach(function (h) {
                     return h(e);
                 });
             });
             _rcWebphone2.default.ua.on('callRejected', function (e) {
-                console.log(handlers);
                 handlers.callRejected.forEach(function (h) {
                     return h(e);
                 });
             });
             _rcWebphone2.default.ua.on('callEnded', function (e) {
-                console.log(handlers);
                 handlers.callEnded.forEach(function (h) {
                     return h(e);
                 });
             });
             _rcWebphone2.default.ua.on('callFailed', function (e) {
-                console.log(handlers);
                 handlers.callFailed.forEach(function (h) {
                     return h(e);
                 });

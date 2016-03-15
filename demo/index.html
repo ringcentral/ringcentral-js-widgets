@@ -77,34 +77,21 @@
                 init: {
                     after: function() {
                         PhoneService.initPhoneListener();
-                    }
-                }
-            },
-            handlers: {
-                called: {
-                    method: function(handler) {
-                        console.log('called');
-                        PhoneService.called(handler);
+                        PhoneService.on('called', this.called);
+                        PhoneService.on('callStarted', this.callStarted);
+                        PhoneService.on('callRejected', this.callRejected);
+                        PhoneService.on('callEnded', this.callEnded);
+                        PhoneService.on('callFailed', this.callFailed);
                     }
                 },
-                callStarted: {
-                    method: function(handler) {
-                        PhoneService.callStarted(handler);
+                answer: {
+                    method: function() {
+                        PhoneService.answer();
                     }
                 },
-                callRejected: {
-                    method: function(handler) {
-                        PhoneService.callRejected(handler);
-                    }
-                },
-                callEnded: {
-                    method: function(handler) {
-                        PhoneService.callEnded(handler);
-                    }
-                },
-                callFailed: {
-                    method: function(handler) {
-                        PhoneService.callFailed(handler);
+                hangup: {
+                    method: function() {
+                        PhoneService.hangup();
                     }
                 }
             }

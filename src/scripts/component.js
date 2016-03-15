@@ -43,15 +43,15 @@ function register(globalSettings) {
         Object.keys(settings.actions).forEach(index => {
             settings.actions[index] = bindScope(this, settings.actions[index]);
         })
-        Object.keys(settings.handlers).forEach(index => {
-            settings.handlers[index] = bindScope(this, settings.handlers[index]);
-        })
+        // Object.keys(settings.handlers).forEach(index => {
+        //     settings.handlers[index] = bindScope(this, settings.handlers[index]);
+        // })
         Object.keys(options.actions).forEach(index => {
             options.actions[index] = bindScope(this, options.actions[index]);
         })
-        Object.keys(options.handlers).forEach(index => {
-            options.handlers[index] = bindScope(this, options.handlers[index]);
-        })
+        // Object.keys(options.handlers).forEach(index => {
+        //     options.handlers[index] = bindScope(this, options.handlers[index]);
+        // })
         Object.keys(settings.actions).forEach(index => {
             this[index] =
                 generateActions(settings.actions[index], options.actions[index], index);
@@ -91,14 +91,14 @@ function register(globalSettings) {
                 return widgetRender.call(this, finish);
         }
         this.init();
-        Object.keys(settings.handlers).forEach(index => {
-            if (options.handlers[index]) {
-                options.handlers[index].method.call(
-                    this,
-                    generateHandlers(settings.handlers[index], index)
-                );
-            }
-        })
+        // Object.keys(settings.handlers).forEach(index => {
+        //     if (options.handlers[index]) {
+        //         options.handlers[index].method.call(
+        //             this,
+        //             generateHandlers(settings.handlers[index], index)
+        //         );
+        //     }
+        // })
     };
     return Widget;
 }
@@ -246,34 +246,34 @@ function generateActions(widgetAction, userAction, name) {
     }
 }
 
-function generateHandlers(widgetHandler, name) {
-    return function(...args) {
-        console.info('[%s][before](' + [].concat(...args) + ')', name);
-        return Promise.resolve(wrapUserEvent(widgetHandler.before, widgetHandler.before, ...args))
-            .then(function(arg) {
-                console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-                if (typeof arg === 'function') {
-                    return widgetHandler.method(...arg()) || arg;
-                }
-                return widgetAction.method(arg) || arg;
-            })
-            .then(function(arg) {
-                console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-                if (typeof arg === 'function') {
-                    return widgetHandler.after(...arg()) || arg;
-                }
-                return widgetHandler.after(arg) || arg;
-            })
-            .then(function(arg) {
-                if (typeof arg === 'function') {
-                    // flatten one level
-                    return [].concat.apply([], arg());
-                }
-                return arg;
-            })
-            .catch(err => console.error(err.stack));
-    }
-}
+// function generateHandlers(widgetHandler, name) {
+//     return function(...args) {
+//         console.info('[%s][before](' + [].concat(...args) + ')', name);
+//         return Promise.resolve(wrapUserEvent(widgetHandler.before, widgetHandler.before, ...args))
+//             .then(function(arg) {
+//                 console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+//                 if (typeof arg === 'function') {
+//                     return widgetHandler.method(...arg()) || arg;
+//                 }
+//                 return widgetAction.method(arg) || arg;
+//             })
+//             .then(function(arg) {
+//                 console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+//                 if (typeof arg === 'function') {
+//                     return widgetHandler.after(...arg()) || arg;
+//                 }
+//                 return widgetHandler.after(arg) || arg;
+//             })
+//             .then(function(arg) {
+//                 if (typeof arg === 'function') {
+//                     // flatten one level
+//                     return [].concat.apply([], arg());
+//                 }
+//                 return arg;
+//             })
+//             .catch(err => console.error(err.stack));
+//     }
+// }
 
 function wrapUserEvent(widget, user, ...args) {
     var continueDefault = !user || user(...args) || true;
