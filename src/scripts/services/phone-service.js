@@ -1,6 +1,7 @@
 import sdk from './rc-sdk'
 import webPhone from './rc-webphone'
-import LoginService from './login-service'
+import { register } from '../service'
+
 var PhoneService = function() {
     var line;
     var handlers = {
@@ -30,10 +31,8 @@ var PhoneService = function() {
                         .catch(function(e) {
                             return Promise.reject(err);
                         });
-
                 })
         },
-
         callout: function(fromNumber, toNumber) {
             // TODO: validate toNumber and fromNumber
             if (!sdk || !webPhone) {
@@ -88,10 +87,6 @@ var PhoneService = function() {
                 handlers.callFailed.forEach(h => h(e));
             });
         },
-
     };
-
-
 }();
-
-export default PhoneService
+register('phoneService', PhoneService);

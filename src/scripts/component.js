@@ -41,17 +41,17 @@ function register(globalSettings) {
         this.props = {};
         this.custom = {};
         Object.keys(settings.actions).forEach(index => {
-            settings.actions[index] = bindScope(this, settings.actions[index]);
-        })
-        // Object.keys(settings.handlers).forEach(index => {
-        //     settings.handlers[index] = bindScope(this, settings.handlers[index]);
-        // })
+                settings.actions[index] = bindScope(this, settings.actions[index]);
+            })
+            // Object.keys(settings.handlers).forEach(index => {
+            //     settings.handlers[index] = bindScope(this, settings.handlers[index]);
+            // })
         Object.keys(options.actions).forEach(index => {
-            options.actions[index] = bindScope(this, options.actions[index]);
-        })
-        // Object.keys(options.handlers).forEach(index => {
-        //     options.handlers[index] = bindScope(this, options.handlers[index]);
-        // })
+                options.actions[index] = bindScope(this, options.actions[index]);
+            })
+            // Object.keys(options.handlers).forEach(index => {
+            //     options.handlers[index] = bindScope(this, options.handlers[index]);
+            // })
         Object.keys(settings.actions).forEach(index => {
             this[index] =
                 generateActions(settings.actions[index], options.actions[index], index);
@@ -291,4 +291,4 @@ function isThennable(result) {
     return false;
 }
 
-export default register;
+export { register };

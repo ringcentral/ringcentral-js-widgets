@@ -308,9 +308,56 @@ function isThennable(result) {
     return false;
 }
 
-exports.default = register;
+exports.register = register;
 
 },{}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _loginService = require('./services/login-service');
+
+var _loginService2 = _interopRequireDefault(_loginService);
+
+var _callLogService = require('./services/call-log-service');
+
+var _callLogService2 = _interopRequireDefault(_callLogService);
+
+var _phoneService = require('./services/phone-service');
+
+var _phoneService2 = _interopRequireDefault(_phoneService);
+
+var _w = require('./w');
+
+var _w2 = _interopRequireDefault(_w);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// development only
+window.w = _w2.default;
+
+exports.default = _w2.default;
+
+},{"./services/call-log-service":4,"./services/login-service":5,"./services/phone-service":6,"./w":9}],3:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var services = {};
+function register(name, service) {
+    console.log(name);
+    services[name] = service;
+}
+function getService() {
+    return services;
+}
+exports.register = register;
+exports.getService = getService;
+
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -320,6 +367,8 @@ Object.defineProperty(exports, "__esModule", {
 var _rcSdk = require('./rc-sdk');
 
 var _rcSdk2 = _interopRequireDefault(_rcSdk);
+
+var _service = require('../service');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -340,26 +389,22 @@ var CallLogService = function (sdk) {
         }
     };
 }(_rcSdk2.default);
-
+(0, _service.register)('callLogService', CallLogService);
 exports.default = CallLogService;
 
-},{"./rc-sdk":5}],3:[function(require,module,exports){
+},{"../service":3,"./rc-sdk":7}],5:[function(require,module,exports){
 'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 
 var _rcSdk = require('./rc-sdk');
 
 var _rcSdk2 = _interopRequireDefault(_rcSdk);
 
+var _service = require('../service');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var LoginService = function (sdk) {
-
     var onLoginHandler = [];
-
     return {
         login: function login(username, extension, password) {
             console.log('LoginService -> start login');
@@ -386,18 +431,12 @@ var LoginService = function (sdk) {
         registerLoginHandler: function registerLoginHandler(handler) {
             onLoginHandler.push(handler);
         }
-
     };
 }(_rcSdk2.default);
+(0, _service.register)('loginService', LoginService);
 
-exports.default = LoginService;
-
-},{"./rc-sdk":5}],4:[function(require,module,exports){
+},{"../service":3,"./rc-sdk":7}],6:[function(require,module,exports){
 'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 
 var _rcSdk = require('./rc-sdk');
 
@@ -407,9 +446,7 @@ var _rcWebphone = require('./rc-webphone');
 
 var _rcWebphone2 = _interopRequireDefault(_rcWebphone);
 
-var _loginService = require('./login-service');
-
-var _loginService2 = _interopRequireDefault(_loginService);
+var _service = require('../service');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -440,7 +477,6 @@ var PhoneService = function () {
                 });
             });
         },
-
         callout: function callout(fromNumber, toNumber) {
             // TODO: validate toNumber and fromNumber
             if (!_rcSdk2.default || !_rcWebphone2.default) {
@@ -499,13 +535,11 @@ var PhoneService = function () {
                 });
             });
         }
-
     };
 }();
+(0, _service.register)('phoneService', PhoneService);
 
-exports.default = PhoneService;
-
-},{"./login-service":3,"./rc-sdk":5,"./rc-webphone":6}],5:[function(require,module,exports){
+},{"../service":3,"./rc-sdk":7,"./rc-webphone":8}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -519,7 +553,7 @@ var sdk = new RingCentral.SDK({
 
 exports.default = sdk;
 
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -531,53 +565,7 @@ var webPhone = new RingCentral.WebPhone({
 
 exports.default = webPhone;
 
-},{}],7:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.PhoneService = exports.CallLogService = exports.LoginService = exports.webPhone = exports.sdk = undefined;
-
-var _rcSdk = require('./helpers/rc-sdk');
-
-var _rcSdk2 = _interopRequireDefault(_rcSdk);
-
-var _rcWebphone = require('./helpers/rc-webphone');
-
-var _rcWebphone2 = _interopRequireDefault(_rcWebphone);
-
-var _loginService = require('./helpers/login-service');
-
-var _loginService2 = _interopRequireDefault(_loginService);
-
-var _callLogService = require('./helpers/call-log-service');
-
-var _callLogService2 = _interopRequireDefault(_callLogService);
-
-var _phoneService = require('./helpers/phone-service');
-
-var _phoneService2 = _interopRequireDefault(_phoneService);
-
-var _w = require('./w');
-
-var _w2 = _interopRequireDefault(_w);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-window.sdk = _rcSdk2.default;
-window.webPhone = _rcWebphone2.default;
-window.LoginService = _loginService2.default;
-window.CallLogService = _callLogService2.default;
-window.PhoneService = _phoneService2.default;
-window.w = _w2.default;
-exports.sdk = _rcSdk2.default;
-exports.webPhone = _rcWebphone2.default;
-exports.LoginService = _loginService2.default;
-exports.CallLogService = _callLogService2.default;
-exports.PhoneService = _phoneService2.default;
-
-},{"./helpers/call-log-service":2,"./helpers/login-service":3,"./helpers/phone-service":4,"./helpers/rc-sdk":5,"./helpers/rc-webphone":6,"./w":8}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -586,9 +574,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _component = require('./component');
 
-var _component2 = _interopRequireDefault(_component);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _service = require('./service');
 
 function fetchWidget(name) {
     return fetch(w.options.path + name + '.html').then(function (response) {
@@ -625,6 +611,29 @@ function initNestedWidget(widget) {
     });
 }
 
+function preload(widgets, callback) {
+    return Promise.all(widgets.reduce(function (result, name) {
+        if (!w.templates[name]) {
+            w.templates[name] = {};
+        }
+        if (!w.templates[name].fetch) {
+            w.templates[name].fetch = fetchWidget(name);
+        }
+        return result.concat(w.templates[name].fetch.then(function (template) {
+            if (!w.templates[name].template) {
+                w.templates[name].template = template;
+                // FIXME: script position
+                var script = template.querySelector('script');
+                document.body.appendChild(script);
+                return template;
+            }
+        }).then(parseDocument).catch(function (err) {
+            return console.error(err);
+        }));
+    }, [])).then(callback);
+}
+
+// Public API
 function w(name, options) {
     options = options || {};
     var baseWidget;
@@ -651,44 +660,21 @@ w.register = function (constructor) {
     var settings = new constructor();
     Object.keys(w.templates).forEach(function (index) {
         var template = w.templates[index];
-        if (template.template && !template.widget) template.widget = (0, _component2.default)(settings);
+        if (template.template && !template.widget) template.widget = (0, _component.register)(settings);
     });
 };
 w.config = function (options, callback) {
     w.options = Object.assign(w.options, options);
     preload(w.options.preload, callback);
 };
-
-function preload(widgets, callback) {
-    return Promise.all(widgets.reduce(function (result, name) {
-        if (!w.templates[name]) {
-            w.templates[name] = {};
-        }
-        if (!w.templates[name].fetch) {
-            w.templates[name].fetch = fetchWidget(name);
-        }
-        return result.concat(w.templates[name].fetch.then(function (template) {
-            if (!w.templates[name].template) {
-                w.templates[name].template = template;
-                // FIXME: script position
-                var script = template.querySelector('script');
-                document.body.appendChild(script);
-                return template;
-            }
-        }).then(parseDocument).catch(function (err) {
-            return console.error(err);
-        }));
-    }, [])).then(callback);
-}
-
-// setting custom elements when registering widgets
 w.customize = function (context, target, options) {
     context.custom[target] = options;
 };
+w.service = _service.getService;
 
 exports.default = w;
 
-},{"./component":1}]},{},[7])
+},{"./component":1,"./service":3}]},{},[2])
 
 
 //# sourceMappingURL=build.js.map
