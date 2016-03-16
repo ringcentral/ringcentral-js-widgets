@@ -8,15 +8,6 @@ Object.defineProperty(exports, "__esModule", {
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function register(globalSettings) {
-    /*
-     *
-     * [register process]
-     *
-     * generate actions _____
-     *                       |----> generate document --> [before, init, after] ----> generate handlers
-     * fetch template   _____|                                                  ----> maybe [before, render, after]
-     *
-     */
     globalSettings = Object.assign({
         actions: {},
         handlers: {}
@@ -32,7 +23,6 @@ function register(globalSettings) {
             }
         }, globalSettings.actions[action]);
     });
-
     var Widget = function Widget(options) {
         var _this = this;
 
@@ -53,15 +43,9 @@ function register(globalSettings) {
         Object.keys(settings.actions).forEach(function (index) {
             settings.actions[index] = bindScope(_this, settings.actions[index]);
         });
-        // Object.keys(settings.handlers).forEach(index => {
-        //     settings.handlers[index] = bindScope(this, settings.handlers[index]);
-        // })
         Object.keys(options.actions).forEach(function (index) {
             options.actions[index] = bindScope(_this, options.actions[index]);
         });
-        // Object.keys(options.handlers).forEach(index => {
-        //     options.handlers[index] = bindScope(this, options.handlers[index]);
-        // })
         Object.keys(settings.actions).forEach(function (index) {
             _this[index] = generateActions(settings.actions[index], options.actions[index], index);
         });
@@ -77,6 +61,7 @@ function register(globalSettings) {
             method: remove.bind(this, settings.actions.remove.method),
             after: settings.actions.remove.after
         }, options.actions.remove, 'remove');
+        this.init();
 
         function remove(widgetRemove) {
             while (this.props.target.firstChild) {
@@ -97,15 +82,6 @@ function register(globalSettings) {
             callback && typeof callback === 'function' && callback();
             if (widgetRender && typeof widgetRender === 'function') return widgetRender.call(this, finish);
         }
-        this.init();
-        // Object.keys(settings.handlers).forEach(index => {
-        //     if (options.handlers[index]) {
-        //         options.handlers[index].method.call(
-        //             this,
-        //             generateHandlers(settings.handlers[index], index)
-        //         );
-        //     }
-        // })
     };
     return Widget;
 }
@@ -228,61 +204,8 @@ function generateActions(widgetAction, userAction, name) {
         } catch (e) {
             error(e);
         }
-
-        // return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, ...args))
-        //     .then(function(arg) {
-        //         console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-        //         if (typeof arg === 'function') {
-        //             return widgetAction.method(userAction.method, ...arg()) || arg;
-        //         }
-        //         return widgetAction.method(userAction.method, arg) || arg;
-        //     })
-        //     .then(function(arg) {
-        //         console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-        //         if (typeof arg === 'function') {
-        //             return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg;
-        //         }
-        //         return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
-        //     })
-        //     .then(function(arg) {
-        //         if (typeof arg === 'function') {
-        //             // flatten one level
-        //             return [].concat.apply([], arg());
-        //         }
-        //         return arg;
-        //     })
-        //     .catch(err => console.error(err.stack));
     };
 }
-
-// function generateHandlers(widgetHandler, name) {
-//     return function(...args) {
-//         console.info('[%s][before](' + [].concat(...args) + ')', name);
-//         return Promise.resolve(wrapUserEvent(widgetHandler.before, widgetHandler.before, ...args))
-//             .then(function(arg) {
-//                 console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-//                 if (typeof arg === 'function') {
-//                     return widgetHandler.method(...arg()) || arg;
-//                 }
-//                 return widgetAction.method(arg) || arg;
-//             })
-//             .then(function(arg) {
-//                 console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-//                 if (typeof arg === 'function') {
-//                     return widgetHandler.after(...arg()) || arg;
-//                 }
-//                 return widgetHandler.after(arg) || arg;
-//             })
-//             .then(function(arg) {
-//                 if (typeof arg === 'function') {
-//                     // flatten one level
-//                     return [].concat.apply([], arg());
-//                 }
-//                 return arg;
-//             })
-//             .catch(err => console.error(err.stack));
-//     }
-// }
 
 function wrapUserEvent(widget, user) {
     for (var _len3 = arguments.length, args = Array(_len3 > 2 ? _len3 - 2 : 0), _key3 = 2; _key3 < _len3; _key3++) {

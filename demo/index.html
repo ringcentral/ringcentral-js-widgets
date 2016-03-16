@@ -12,7 +12,6 @@
     html {
         height: 100%;
     }
-    
     body {
         width: 250px;
         height: 100%;
@@ -36,10 +35,11 @@
         path: '../template/',
         preload: ['auth-panel', 'dial-pad', 'call-panel']
     }, init)
+    var phoneService = w.service()['phoneService'];
+    var loginService = w.service()['loginService'];
+    var callLogService = w.service()['callLogService'];
 
     function init() {
-        var phoneService = w.service()['phoneService'];
-        var loginService = w.service()['loginService'];
         var authPanel = w('auth-panel', {
             actions: {
                 login: {
@@ -109,9 +109,9 @@
         //     }
         // );
     }
-    w.service()['loginService'].registerLoginHandler(function() {
-        w.service()['phoneService'].registerSIP();
-        w.service()['callLogService'].getCallLogs();
+    loginService.registerLoginHandler(function() {
+        phoneService.registerSIP();
+        callLogService.getCallLogs();
     });
     </script>
 </body>
