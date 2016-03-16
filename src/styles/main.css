@@ -21,6 +21,9 @@ h1 {
 .display-none {
     display: none;
 }
+.rc-phone {
+    background-color: #fff;
+}
 .rc-panel {
     position: relative;
 }

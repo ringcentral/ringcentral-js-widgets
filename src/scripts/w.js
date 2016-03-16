@@ -1,8 +1,8 @@
 import { register as registerComponent } from './component'
 import { getService } from './service'
 
-function fetchWidget(name) {
-    return fetch(w.options.path + name + '.html')
+function fetchWidget(filePath) {
+    return fetch(w.options.path + filePath + (filePath.endsWith('.html') ? '' : '.html'))
         .then(response => response.text())
         .then(body => {
             var template = document.createElement('template');
@@ -16,8 +16,11 @@ function parseDocument(template) {
     var docs = template.querySelectorAll('*');
     return Promise.all(Array.from(docs).reduce(
         (result, doc) => {
-            if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement)
-                return result.concat(preload([doc.localName]));
+            if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+                var temp = {};
+                temp[doc.localName] = doc.localName;
+                return result.concat(preload(temp));
+            }
             return result;
         }, []));
 }
@@ -40,13 +43,13 @@ function initNestedWidget(widget) {
 
 function preload(widgets, callback) {
     return Promise.all(
-        widgets.reduce(
+        Object.keys(widgets).reduce(
             (result, name) => {
                 if (!w.templates[name]) {
                     w.templates[name] = {};
                 }
                 if (!w.templates[name].fetch) {
-                    w.templates[name].fetch = fetchWidget(name);
+                    w.templates[name].fetch = fetchWidget(widgets[name]);
                 }
                 return result.concat(
                     w.templates[name].fetch
@@ -70,6 +73,7 @@ function preload(widgets, callback) {
 function w(name, options) {
     options = options || {};
     var baseWidget;
+    console.log(w.templates);
     if (!w.templates[name] || !w.templates[name].widget) {
         throw Error('you need to preload widget:' + name + ' before init it');
     }
@@ -87,7 +91,7 @@ function w(name, options) {
 w.templates = {};
 w.options = {
     path: '/template/',
-    preload: [],
+    preload: {},
 }
 w.register = function(constructor) {
     var settings = new constructor();
@@ -98,7 +102,12 @@ w.register = function(constructor) {
     })
 };
 w.config = function(options, callback) {
-    w.options = Object.assign(w.options, options);
+    // w.options = Object.assign(w.options, options);
+    console.log(options.preload);
+    w.options.preload = options.preload || {};
+    console.log(options.path);
+    w.options.path = options.path || '';
+    console.log(w.options.path);
     preload(w.options.preload, callback);
 };
 w.customize = function(context, target, options) {

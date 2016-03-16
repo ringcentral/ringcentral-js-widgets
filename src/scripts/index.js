@@ -4,5 +4,4 @@ import PhoneService from './services/phone-service'
 import w from './w'
 // development only
 window.w = w;
-
 export default w;
