@@ -34,7 +34,11 @@
     <script type="text/javascript">
     w.config({
         path: '../template/',
-        preload: ['auth-panel', 'dial-pad', 'call-panel']
+        preload: {
+            'auth-panel': 'auth-panel',
+            'dial-pad': 'dial-pad',
+            'call-panel': 'call-panel'
+        }
     }, init)
     var phoneService = w.service()['phoneService'];
     var loginService = w.service()['loginService'];
