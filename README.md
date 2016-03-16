@@ -20,20 +20,3 @@ This is the personal repository to do some experimental implementation of UI wid
 6. `after` from widgets (can be disabled from users)
 7. Any uncatched errors will trigger `error` lifecycle
 
-## Widgets collection
-#### Auth-panel
-- Actions
-  - login
-  - showCountry
-  - switchCountry
-- Handlers
-- props
-  - dom
-  - username
-  - extension
-  - password
-  - country
-
-#### Dial-pad
-#### Call-panel
-#### Call-log

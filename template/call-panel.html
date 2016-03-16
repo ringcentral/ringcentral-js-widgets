@@ -44,6 +44,12 @@ w.register(function() {
                 return finish();
             }
         },
+        ignore: {
+            method: function(finish) {
+                hidePanelsExcept.call(this);
+                return finish();
+            }
+        },
         hangup: {
             method: function(finish) {
                 return finish();

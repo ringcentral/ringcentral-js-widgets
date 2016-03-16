@@ -57,7 +57,7 @@ function register(globalSettings) {
 
         function remove(widgetRemove) {
             while (this.props.target.firstChild)
-                this.props.target.removeChild(this.props.target.firstChild)
+                this.props.target.removeChild(this.props.target.firstChild);
         }
 
         function render(widgetRender, template, finish, target, callback) {
