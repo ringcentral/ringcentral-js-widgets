@@ -69,7 +69,7 @@
             actions: {
                 getCandidates: {
                     method: function() {
-                        return CallLogService.getCallLogs();
+                        return callLogService.getCallLogs();
                     }
                 },
                 callout: {
@@ -103,16 +103,16 @@
                 }
             }
         })
-        authPanel.render('#auth-panel');
-        // LoginService.checkLoginStatus().then(
-        //     isLoggedIn => {
-        //         if (isLoggedIn) {
-        //             dialPad.render('#dial-pad');
-        //             callPanel.render('#call-panel');
-        //         } else
-        //             authPanel.render('#auth-panel');
-        //     }
-        // );
+        // authPanel.render('#auth-panel');
+        loginService.checkLoginStatus().then(
+            isLoggedIn => {
+                if (isLoggedIn) {
+                    dialPad.render('#dial-pad');
+                    callPanel.render('#call-panel');
+                } else
+                    authPanel.render('#auth-panel');
+            }
+        );
     }
     loginService.registerLoginHandler(function() {
         phoneService.registerSIP();

@@ -34,6 +34,7 @@ var PhoneService = function() {
                 })
         },
         callout: function(fromNumber, toNumber) {
+            console.log('callout');
             // TODO: validate toNumber and fromNumber
             if (!sdk || !webPhone) {
                 throw Error('Need to set up SDK and webPhone first.');

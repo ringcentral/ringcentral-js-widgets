@@ -83,7 +83,9 @@ function bindScope(scope, action) {
         before: action.before ? action.before.bind(scope) : function() {}.bind(scope),
         method: action.method ? action.method.bind(scope) : function() {}.bind(scope),
         after: action.after ? action.after.bind(scope) : function() {}.bind(scope),
-        error: action.error ? action.error.bind(scope) : function() {}.bind(scope)
+        error: action.error ? action.error.bind(scope) : function(err) {
+            console.error(err);
+        }.bind(scope)
     }
 }
 
