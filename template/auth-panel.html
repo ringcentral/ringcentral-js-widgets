@@ -6,25 +6,41 @@
         <h1>Login</h1>
     </div>
     <div class='rc-pane-content'>
-        <div class='rc-pane-scrollable '>
+        <div class='rc-pane-scrollable'>
+            <button class='rc-dropdown' data-info='country-dropdown' data-event='click:showCountry'>United States</button>
+            <div class='rc-dropdown-list display-none' data-info='country-list'>
+                <div data-event='click:switchCountry'>United States</div>
+                <div data-event='click:switchCountry'>United Kingdom</div>
+                <div data-event='click:switchCountry'>Canada</div>
+            </div>
             <input class='rc-input' data-info='username' placeholder="username"></input>
             <input class='rc-input' data-info='extension' placeholder="extension"></input>
-            <input class='rc-input' data-info='password' placeholder="password"></input>
+            <input class='rc-input' data-info='password' placeholder="password" type='password'></input>
             <button class='rc-button' data-info='login' data-event='click:login'>Login</button>
-            <div class='rc-error-message' data-info='error' data-show='error'></div>
+            <div>
+                Remember me:
+                <input type='checkbox' data-info='remember' checked>
+            </div>
+            <div class='rc-error-message' data-info='error'></div>
         </div>
     </div>
     <div class='rc-pane-footer' data-info='footer'></div>
+    <div class="fb-like" data-share="true" data-width="200">
+    </div>
 </div>
 <script>
-w.register({
-    actions: {
+console.log('register auth-panel');
+console.log(w);
+w.register(function() {
+    this.actions = {
         init: {
             before: function() {},
             method: function(finish) {
                 finish();
             },
-            after: function() {}
+            after: function() {
+                this.props.country = 'United States';
+            }
         },
         render: {
             before: function() {},
@@ -32,7 +48,6 @@ w.register({
                 this.props.dom.username.value = localStorage.getItem('username');
                 this.props.dom.extension.value = localStorage.getItem('extension');
                 this.props.dom.password.value = localStorage.getItem('password');
-
             }
         },
         login: {
@@ -40,22 +55,47 @@ w.register({
                 this.props.dom.login.disabled = true;
                 this.props.dom.error.textContent = '';
                 this.props.dom.login.classList.add('rc-button-loading');
-                loading(this.props.dom.footer, 300);
+                loading(this.props.dom.footer, 350);
             },
             method: function(finish, d) {
+                this.props.username = this.props.dom.username.value;
+                this.props.extension = this.props.dom.extension.value;
+                this.props.password = this.props.dom.password.value;
+                if (this.props.country === 'United States')
+                    this.props.username = '1' + this.props.username;
                 return finish();
             },
             after: function(d) {
                 this.props.dom.login.disabled = false;
-                localStorage.setItem('username', this.props.dom.username.value || '');
-                localStorage.setItem('extension', this.props.dom.extension.value || '');
-                localStorage.setItem('password', this.props.dom.password.value || '');
+                if (this.props.dom.remember.checked) {
+                    localStorage.setItem('username', this.props.dom.username.value || '');
+                    localStorage.setItem('extension', this.props.dom.extension.value || '');
+                    localStorage.setItem('password', this.props.dom.password.value || '');
+                }
+            },
+            error: function(err) {
+                console.error(err);
+                this.props.dom.error.textContent = err.message;
+                loading(this.props.dom.footer, 30);
+                this.props.dom.login.disabled = false;
+            }
+        },
+        showCountry: {
+            before: function(event) {
+                this.props.dom['country-list'].classList.toggle('display-none');
+            }
+        },
+        switchCountry: {
+            before: function(event) {
+                this.props.dom['country-dropdown'].textContent = event.target.textContent;
+                this.props.dom['country-list'].classList.add('display-none');
+                this.props.country = event.target.textContent;
             }
         }
     }
-});
 
-function loading(panel, height) {
-    panel.style.height = height + 'px';
-}
+    function loading(panel, height) {
+        panel.style.height = height + 'px';
+    }
+});
 </script>

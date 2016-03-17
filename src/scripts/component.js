@@ -1,26 +1,19 @@
 function register(globalSettings) {
-    /*
-     *
-     * [register process]
-     *
-     * generate actions _____
-     *                       |----> generate document --> [before, init, after] ----> generate handlers
-     * fetch template   _____|                                                  ----> maybe [before, render, after]
-     *
-     */
     globalSettings = Object.assign({
         actions: {},
         handlers: {}
     }, globalSettings);
-    ['init', 'render', 'remove'].forEach(action => {
+    ['init', 'render', 'remove', 'error'].forEach(action => {
         globalSettings.actions[action] = Object.assign({
             before: function() {},
             method: function() {},
-            after: function() {}
+            after: function() {},
+            error: function(e) {
+                console.error(e);
+                throw e;
+            }
         }, globalSettings.actions[action])
     })
-
-
     var Widget = function(options) {
         var options = Object.assign({
             actions: {},
@@ -39,18 +32,12 @@ function register(globalSettings) {
         Object.keys(settings.actions).forEach(index => {
             settings.actions[index] = bindScope(this, settings.actions[index]);
         })
-        Object.keys(settings.handlers).forEach(index => {
-            settings.handlers[index] = bindScope(this, settings.handlers[index]);
-        })
         Object.keys(options.actions).forEach(index => {
             options.actions[index] = bindScope(this, options.actions[index]);
         })
-        Object.keys(options.handlers).forEach(index => {
-            options.handlers[index] = bindScope(this, options.handlers[index]);
-        })
         Object.keys(settings.actions).forEach(index => {
             this[index] =
-                generateActions(settings.actions[index], options.actions[index], index /* for debug */ );
+                generateActions(settings.actions[index], options.actions[index], index);
         })
         this.props.dom = generateDocument(this, options.template);
         this.props.template = options.template;
@@ -66,10 +53,11 @@ function register(globalSettings) {
                 method: remove.bind(this, settings.actions.remove.method),
                 after: settings.actions.remove.after
             }, options.actions.remove, 'remove');
+        this.init();
 
         function remove(widgetRemove) {
             while (this.props.target.firstChild)
-                this.props.target.removeChild(this.props.target.firstChild)
+                this.props.target.removeChild(this.props.target.firstChild);
         }
 
         function render(widgetRender, template, finish, target, callback) {
@@ -86,15 +74,6 @@ function register(globalSettings) {
             if (widgetRender && typeof widgetRender === 'function')
                 return widgetRender.call(this, finish);
         }
-        this.init();
-        Object.keys(settings.handlers).forEach(index => {
-            if (options.handlers[index]) {
-                options.handlers[index].method.call(
-                    this,
-                    generateHandlers(settings.handlers[index], index)
-                );
-            }
-        })
     };
     return Widget;
 }
@@ -103,7 +82,8 @@ function bindScope(scope, action) {
     return {
         before: action.before ? action.before.bind(scope) : function() {}.bind(scope),
         method: action.method ? action.method.bind(scope) : function() {}.bind(scope),
-        after: action.after ? action.after.bind(scope) : function() {}.bind(scope)
+        after: action.after ? action.after.bind(scope) : function() {}.bind(scope),
+        error: action.error ? action.error.bind(scope) : function() {}.bind(scope)
     }
 }
 
@@ -140,69 +120,81 @@ function generateActions(widgetAction, userAction, name) {
         userAction = {
             before: function() {},
             method: function() {},
-            after: function() {}
+            after: function() {},
+            error: function(e) {
+                console.error(e);
+                throw e;
+            }
         };
         console.warn('Widget action [%s] is not defined by users', name);
     }
     return function(...args) {
-        console.info('[%s][before](' + [].concat(...args) + ')', name);
-        return Promise.resolve(wrapUserEvent(widgetAction.before, userAction.before, ...args))
-            .then(function(arg) {
-                console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-                if (typeof arg === 'function') {
-                    return widgetAction.method(userAction.method, ...arg()) || arg;
+        var before = function(...args) {
+            console.info('[%s][before](' + [].concat(...args) + ')', name);
+            return wrapUserEvent(widgetAction.before, userAction.before, ...args);
+        }
+        var method = function(arg) {
+            console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            if (typeof arg === 'function') {
+                return widgetAction.method(userAction.method, ...arg()) || arg;
+            }
+            return widgetAction.method(userAction.method, arg) || arg;
+        };
+        var after = function(arg) {
+            console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            if (typeof arg === 'function') {
+                return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg;
+            }
+            return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
+        }
+        var error = function(e) {
+            return wrapUserEvent(widgetAction.error, userAction.error, e);
+        }
+        var finish = function(arg) {
+            if (typeof arg === 'function') {
+                // flatten one level
+                return [].concat.apply([], arg());
+            }
+            return arg;
+        }
+        try {
+            before = before(...args);
+            if (isThenable(before)) {
+                return before.then(function(...args) {
+                    return method(arg);
+                }).then(function(arg) {
+                    return after(arg);
+                }).then(function(arg) {
+                    return finish(arg);
+                }).catch(error)
+            } else {
+                method = method(before);
+                if (isThenable(method)) {
+                    return method.then(function(arg) {
+                        return after(arg);
+                    }).then(function(arg) {
+                        return finish(arg);
+                    }).catch(error)
+                } else {
+                    after = after(method);
+                    if (isThenable(after)) {
+                        return after.then(function(arg) {
+                            return finish(arg);
+                        }).catch(error)
+                    } else {
+                        return finish(after);
+                    }
                 }
-                return widgetAction.method(userAction.method, arg) || arg;
-            })
-            .then(function(arg) {
-                console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-                if (typeof arg === 'function') {
-                    return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg;
-                }
-                return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
-            })
-            .then(function(arg) {
-                if (typeof arg === 'function') {
-                    // flatten one level
-                    return [].concat.apply([], arg());
-                }
-                return arg;
-            })
-            .catch(err => console.error(err.stack));
+            }
+        } catch (e) {
+            error(e);
+        }
     }
 }
 
-function generateHandlers(widgetHandler, name) {
-    return function(...args) {
-        console.info('[%s][before](' + [].concat(...args) + ')', name);
-        return Promise.resolve(wrapUserEvent(widgetHandler.before, widgetHandler.before, ...args))
-            .then(function(arg) {
-                console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-                if (typeof arg === 'function') {
-                    return widgetHandler.method(...arg()) || arg;
-                }
-                return widgetAction.method(arg) || arg;
-            })
-            .then(function(arg) {
-                console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-                if (typeof arg === 'function') {
-                    return widgetHandler.after(...arg()) || arg;
-                }
-                return widgetHandler.after(arg) || arg;
-            })
-            .then(function(arg) {
-                if (typeof arg === 'function') {
-                    // flatten one level
-                    return [].concat.apply([], arg());
-                }
-                return arg;
-            })
-            .catch(err => console.error(err.stack));
-    }
-}
 
 function wrapUserEvent(widget, user, ...args) {
-    var continueDefault = !user || user() || true;
+    var continueDefault = !user || user(...args) || true;
     if (continueDefault ||
         typeof continueDefault === 'undefined' ||
         continueDefault) {
@@ -214,4 +206,10 @@ function wrapUserEvent(widget, user, ...args) {
     return [].concat(...args);
 }
 
-export default register;
+function isThenable(result) {
+    if (result.then && typeof result.then === 'function')
+        return true;
+    return false;
+}
+
+export { register };

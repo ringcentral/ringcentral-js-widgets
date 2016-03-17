@@ -1,7 +1,8 @@
-import register from './component'
+import { register as registerComponent } from './component'
+import { getService } from './service'
 
-function fetchWidget(name) {
-    return fetch(w.options.path + name + '.html')
+function fetchWidget(filePath) {
+    return fetch(w.options.path + filePath + (filePath.endsWith('.html') ? '' : '.html'))
         .then(response => response.text())
         .then(body => {
             var template = document.createElement('template');
@@ -9,86 +10,109 @@ function fetchWidget(name) {
             var clone = document.importNode(template.content, true);
             return clone;
         })
-
 }
 
-function parseDocument(baseWidget) {
-    var template = baseWidget.props.template;
-    var custom = baseWidget.custom;
+function parseDocument(template) {
     var docs = template.querySelectorAll('*');
-    var nestedFetch = Array.from(docs).reduce((aggr, doc) => {
-        if (doc.tagName.indexOf('-') > -1 /* WebComponent spec */ || doc instanceof HTMLUnknownElement) {
-            // custom element
-            aggr.push(w(doc.localName, custom[doc.localName]).then(widget => {
-                widget.render(doc);
-                return {
-                    name: doc.localName,
-                    widget: widget
-                };
-            }));
-        }
-        return aggr;
-    }, [])
+    return Promise.all(Array.from(docs).reduce(
+        (result, doc) => {
+            if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+                var temp = {};
+                temp[doc.localName] = doc.localName;
+                return result.concat(preload(temp));
+            }
+            return result;
+        }, []));
+}
 
-    return Promise.all(nestedFetch);
+function initNestedWidget(widget) {
+    var template = widget.props.template;
+    var docs = template.querySelectorAll('*');
+    Array.from(docs).forEach(doc => {
+        if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+            if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
+                return;
+            }
+            var child = w(doc.localName, widget.custom[doc.localName]);
+            child.render(doc);
+            // FIXME: When multiple child element, has problems
+            widget.props[doc.localName] = child;
+        }
+    })
+}
+
+function preload(widgets, callback) {
+    return Promise.all(
+        Object.keys(widgets).reduce(
+            (result, name) => {
+                if (!w.templates[name]) {
+                    w.templates[name] = {};
+                }
+                if (!w.templates[name].fetch) {
+                    w.templates[name].fetch = fetchWidget(widgets[name]);
+                }
+                return result.concat(
+                    w.templates[name].fetch
+                    .then(template => {
+                        if (!w.templates[name].template) {
+                            w.templates[name].template = template;
+                            // FIXME: script position
+                            var script = template.querySelector('script');
+                            document.body.appendChild(script);
+                            return template;
+                        }
+                    })
+                    .then(parseDocument)
+                    .catch(err => console.error(err)))
+            }, [])
+    ).then(callback)
 }
 
 
+// Public API
 function w(name, options) {
     options = options || {};
     var baseWidget;
-    if (!w.templates[name]) {
-        w.templates[name] = {};
+    console.log(w.templates);
+    if (!w.templates[name] || !w.templates[name].widget) {
+        throw Error('you need to preload widget:' + name + ' before init it');
     }
-    if (!w.templates[name].fetch) {
-        w.templates[name].fetch = fetchWidget(name);
-    }
-    return w.templates[name].fetch
-        .then((template) => {
-            
-            if(!w.templates[name].template){
-                w.templates[name].template = template;
-                // FIXME: script position
-                var script = template.querySelector('script');
-                document.body.appendChild(script);                
-            }
-            
-            baseWidget = new w.templates[name].widget({
-                template: w.templates[name].template.cloneNode(true),
-                actions: options.actions || {},
-                handlers: options.handlers || {},
-            })
-            return baseWidget;
-        })
-        .then(baseWidget => {
-            return parseDocument(baseWidget);
-        })
-        .then(children => {
-            children.forEach(child => {
-                baseWidget.props[child.name] = child.widget;
-            });
-            return baseWidget;
-        })
+    baseWidget = new w.templates[name].widget({
+        template: w.templates[name].template.cloneNode(true),
+        actions: options.actions || {},
+        handlers: options.handlers || {},
+    })
+    initNestedWidget(baseWidget);
+    // initWidget(baseWidget).forEach(child => {
+    //     baseWidget.props[child.name] = child.widget;
+    // });
+    return baseWidget;
 }
 w.templates = {};
 w.options = {
-    path: '/template/'
+    path: '/template/',
+    preload: {},
 }
-w.register = function(setting) {
+w.register = function(constructor) {
+    var settings = new constructor();
     Object.keys(w.templates).forEach(index => {
         var template = w.templates[index];
         if (template.template && !template.widget)
-            template.widget = register(setting);
+            template.widget = registerComponent(settings);
     })
 };
-w.config = function(options) {
-    w.options = Object.assign(w.options, options);
+w.config = function(options, callback) {
+    // w.options = Object.assign(w.options, options);
+    console.log(options.preload);
+    w.options.preload = options.preload || {};
+    console.log(options.path);
+    w.options.path = options.path || '';
+    console.log(w.options.path);
+    preload(w.options.preload, callback);
 };
-w.preload = function() {}
-
-// setting custom elements when registering widgets
 w.customize = function(context, target, options) {
     context.custom[target] = options;
 }
+w.service = getService;
 
 export default w;

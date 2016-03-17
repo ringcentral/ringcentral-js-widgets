@@ -8,27 +8,21 @@ Object.defineProperty(exports, "__esModule", {
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function register(globalSettings) {
-    /*
-     *
-     * [register process]
-     *
-     * generate actions _____
-     *                       |----> generate document --> [before, init, after] ----> generate handlers
-     * fetch template   _____|                                                  ----> maybe [before, render, after]
-     *
-     */
     globalSettings = Object.assign({
         actions: {},
         handlers: {}
     }, globalSettings);
-    ['init', 'render', 'remove'].forEach(function (action) {
+    ['init', 'render', 'remove', 'error'].forEach(function (action) {
         globalSettings.actions[action] = Object.assign({
             before: function before() {},
             method: function method() {},
-            after: function after() {}
+            after: function after() {},
+            error: function error(e) {
+                console.error(e);
+                throw e;
+            }
         }, globalSettings.actions[action]);
     });
-
     var Widget = function Widget(options) {
         var _this = this;
 
@@ -49,17 +43,11 @@ function register(globalSettings) {
         Object.keys(settings.actions).forEach(function (index) {
             settings.actions[index] = bindScope(_this, settings.actions[index]);
         });
-        Object.keys(settings.handlers).forEach(function (index) {
-            settings.handlers[index] = bindScope(_this, settings.handlers[index]);
-        });
         Object.keys(options.actions).forEach(function (index) {
             options.actions[index] = bindScope(_this, options.actions[index]);
         });
-        Object.keys(options.handlers).forEach(function (index) {
-            options.handlers[index] = bindScope(_this, options.handlers[index]);
-        });
         Object.keys(settings.actions).forEach(function (index) {
-            _this[index] = generateActions(settings.actions[index], options.actions[index], index /* for debug */);
+            _this[index] = generateActions(settings.actions[index], options.actions[index], index);
         });
         this.props.dom = generateDocument(this, options.template);
         this.props.template = options.template;
@@ -73,6 +61,7 @@ function register(globalSettings) {
             method: remove.bind(this, settings.actions.remove.method),
             after: settings.actions.remove.after
         }, options.actions.remove, 'remove');
+        this.init();
 
         function remove(widgetRemove) {
             while (this.props.target.firstChild) {
@@ -93,12 +82,6 @@ function register(globalSettings) {
             callback && typeof callback === 'function' && callback();
             if (widgetRender && typeof widgetRender === 'function') return widgetRender.call(this, finish);
         }
-        this.init();
-        Object.keys(settings.handlers).forEach(function (index) {
-            if (options.handlers[index]) {
-                options.handlers[index].method.call(_this, generateHandlers(settings.handlers[index], index));
-            }
-        });
     };
     return Widget;
 }
@@ -107,7 +90,8 @@ function bindScope(scope, action) {
     return {
         before: action.before ? action.before.bind(scope) : function () {}.bind(scope),
         method: action.method ? action.method.bind(scope) : function () {}.bind(scope),
-        after: action.after ? action.after.bind(scope) : function () {}.bind(scope)
+        after: action.after ? action.after.bind(scope) : function () {}.bind(scope),
+        error: action.error ? action.error.bind(scope) : function () {}.bind(scope)
     };
 }
 
@@ -141,72 +125,85 @@ function generateActions(widgetAction, userAction, name) {
         userAction = {
             before: function before() {},
             method: function method() {},
-            after: function after() {}
+            after: function after() {},
+            error: function error(e) {
+                console.error(e);
+                throw e;
+            }
         };
         console.warn('Widget action [%s] is not defined by users', name);
     }
     return function () {
-        var _ref;
-
         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
             args[_key] = arguments[_key];
         }
 
-        console.info('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
-        return Promise.resolve(wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args))).then(function (arg) {
+        var before = function before() {
+            var _ref;
+
+            for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                args[_key2] = arguments[_key2];
+            }
+
+            console.info('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
+            return wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args));
+        };
+        var method = function method(arg) {
             console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg()))) || arg;
             }
             return widgetAction.method(userAction.method, arg) || arg;
-        }).then(function (arg) {
+        };
+        var after = function after(arg) {
             console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(_toConsumableArray(arg()))) || arg;
             }
             return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
-        }).then(function (arg) {
+        };
+        var error = function error(e) {
+            return wrapUserEvent(widgetAction.error, userAction.error, e);
+        };
+        var finish = function finish(arg) {
             if (typeof arg === 'function') {
                 // flatten one level
                 return [].concat.apply([], arg());
             }
             return arg;
-        }).catch(function (err) {
-            return console.error(err.stack);
-        });
-    };
-}
-
-function generateHandlers(widgetHandler, name) {
-    return function () {
-        var _ref2;
-
-        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-            args[_key2] = arguments[_key2];
+        };
+        try {
+            before = before.apply(undefined, _toConsumableArray(args));
+            if (isThenable(before)) {
+                return before.then(function () {
+                    return method(arg);
+                }).then(function (arg) {
+                    return after(arg);
+                }).then(function (arg) {
+                    return finish(arg);
+                }).catch(error);
+            } else {
+                method = method(before);
+                if (isThenable(method)) {
+                    return method.then(function (arg) {
+                        return after(arg);
+                    }).then(function (arg) {
+                        return finish(arg);
+                    }).catch(error);
+                } else {
+                    after = after(method);
+                    if (isThenable(after)) {
+                        return after.then(function (arg) {
+                            return finish(arg);
+                        }).catch(error);
+                    } else {
+                        return finish(after);
+                    }
+                }
+            }
+        } catch (e) {
+            error(e);
         }
-
-        console.info('[%s][before](' + (_ref2 = []).concat.apply(_ref2, args) + ')', name);
-        return Promise.resolve(wrapUserEvent.apply(undefined, [widgetHandler.before, widgetHandler.before].concat(args))).then(function (arg) {
-            console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-            if (typeof arg === 'function') {
-                return widgetHandler.method.apply(widgetHandler, _toConsumableArray(arg())) || arg;
-            }
-            return widgetAction.method(arg) || arg;
-        }).then(function (arg) {
-            console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-            if (typeof arg === 'function') {
-                return widgetHandler.after.apply(widgetHandler, _toConsumableArray(arg())) || arg;
-            }
-            return widgetHandler.after(arg) || arg;
-        }).then(function (arg) {
-            if (typeof arg === 'function') {
-                // flatten one level
-                return [].concat.apply([], arg());
-            }
-            return arg;
-        }).catch(function (err) {
-            return console.error(err.stack);
-        });
     };
 }
 
@@ -215,9 +212,9 @@ function wrapUserEvent(widget, user) {
         args[_key3 - 2] = arguments[_key3];
     }
 
-    var _ref3;
+    var _ref2;
 
-    var continueDefault = !user || user() || true;
+    var continueDefault = !user || user.apply(undefined, args) || true;
     if (continueDefault || typeof continueDefault === 'undefined' || continueDefault) {
         if (widget) {
             return widget.apply(undefined, args) || function () {
@@ -226,12 +223,63 @@ function wrapUserEvent(widget, user) {
         }
         return null;
     }
-    return (_ref3 = []).concat.apply(_ref3, args);
+    return (_ref2 = []).concat.apply(_ref2, args);
 }
 
-exports.default = register;
+function isThenable(result) {
+    if (result.then && typeof result.then === 'function') return true;
+    return false;
+}
+
+exports.register = register;
 
 },{}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _loginService = require('./services/login-service');
+
+var _loginService2 = _interopRequireDefault(_loginService);
+
+var _callLogService = require('./services/call-log-service');
+
+var _callLogService2 = _interopRequireDefault(_callLogService);
+
+var _phoneService = require('./services/phone-service');
+
+var _phoneService2 = _interopRequireDefault(_phoneService);
+
+var _w = require('./w');
+
+var _w2 = _interopRequireDefault(_w);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// development only
+window.w = _w2.default;
+exports.default = _w2.default;
+
+},{"./services/call-log-service":4,"./services/login-service":5,"./services/phone-service":6,"./w":9}],3:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var services = {};
+function register(name, service) {
+    console.log(name);
+    services[name] = service;
+}
+function getService() {
+    return services;
+}
+exports.register = register;
+exports.getService = getService;
+
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -242,14 +290,20 @@ var _rcSdk = require('./rc-sdk');
 
 var _rcSdk2 = _interopRequireDefault(_rcSdk);
 
+var _service = require('../service');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CallLogService = function (sdk) {
+
+    var period = 7 * 24 * 3600 * 1000;
+    var dateFrom = new Date(Date.now() - period);
+
     return {
 
         getCallLogs: function getCallLogs() {
 
-            return sdk.platform().get('/account/~/extension/~/call-log', { dateFrom: '2016-2-28' }).then(function (response) {
+            return sdk.platform().get('/account/~/extension/~/call-log', { dateFrom: dateFrom.toISOString() }).then(function (response) {
                 return response.json().records;
             }).catch(function (e) {
                 console.error('Recent Calls Error: ' + e.message);
@@ -257,28 +311,23 @@ var CallLogService = function (sdk) {
         }
     };
 }(_rcSdk2.default);
-
+(0, _service.register)('callLogService', CallLogService);
 exports.default = CallLogService;
 
-},{"./rc-sdk":5}],3:[function(require,module,exports){
+},{"../service":3,"./rc-sdk":7}],5:[function(require,module,exports){
 'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 
 var _rcSdk = require('./rc-sdk');
 
 var _rcSdk2 = _interopRequireDefault(_rcSdk);
 
+var _service = require('../service');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var LoginService = function (sdk) {
-
     var onLoginHandler = [];
-
     return {
-
         login: function login(username, extension, password) {
             console.log('LoginService -> start login');
             return sdk.platform().login({
@@ -291,9 +340,7 @@ var LoginService = function (sdk) {
                 });
             });
         },
-
         checkLoginStatus: function checkLoginStatus() {
-
             return sdk.platform().loggedIn().then(function (isLoggedIn) {
                 if (isLoggedIn) {
                     onLoginHandler.forEach(function (handler) {
@@ -303,22 +350,15 @@ var LoginService = function (sdk) {
                 return isLoggedIn;
             });
         },
-
         registerLoginHandler: function registerLoginHandler(handler) {
             onLoginHandler.push(handler);
         }
-
     };
 }(_rcSdk2.default);
+(0, _service.register)('loginService', LoginService);
 
-exports.default = LoginService;
-
-},{"./rc-sdk":5}],4:[function(require,module,exports){
+},{"../service":3,"./rc-sdk":7}],6:[function(require,module,exports){
 'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 
 var _rcSdk = require('./rc-sdk');
 
@@ -328,9 +368,7 @@ var _rcWebphone = require('./rc-webphone');
 
 var _rcWebphone2 = _interopRequireDefault(_rcWebphone);
 
-var _loginService = require('./login-service');
-
-var _loginService2 = _interopRequireDefault(_loginService);
+var _service = require('../service');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -343,9 +381,7 @@ var PhoneService = function () {
         callEnded: [],
         callFailed: []
     };
-
     return {
-
         registerSIP: function registerSIP() {
             return _rcSdk2.default.platform().post('/client-info/sip-provision', {
                 sipInfo: [{
@@ -361,14 +397,9 @@ var PhoneService = function () {
                 }).catch(function (e) {
                     return Promise.reject(err);
                 });
-            }).catch(function (e) {
-                return console.error(e);
             });
         },
-
         callout: function callout(fromNumber, toNumber) {
-            console.log('user callout');
-
             // TODO: validate toNumber and fromNumber
             if (!_rcSdk2.default || !_rcWebphone2.default) {
                 throw Error('Need to set up SDK and webPhone first.');
@@ -383,84 +414,54 @@ var PhoneService = function () {
                 return null;
             }).then(function (countryId) {
                 _rcWebphone2.default.call(toNumber, fromNumber, countryId);
-            }).catch(function (e) {
-                return console.error(e);
             });
         },
-        answer: function answer(props) {
-            return _rcWebphone2.default.answer(line).catch(function (e) {
-                console.error(e);
-            });
+        answer: function answer() {
+            return _rcWebphone2.default.answer(line);
         },
-        ignore: function ignore(props) {},
-        cancel: function cancel(props) {
-            return line.cancel().catch(function (e) {
-                console.error(e);
-            });
+        ignore: function ignore() {},
+        cancel: function cancel() {
+            return line.cancel();
         },
-        hangup: function hangup(props) {
-            return _rcWebphone2.default.hangup(line).catch(function (err) {
-                return console.error(err);
-            });
+        hangup: function hangup() {
+            return _rcWebphone2.default.hangup(line);
         },
-        called: function called(handler) {
-            handlers.called.push(handler);
+        on: function on(name, handler) {
+            handlers[name].push(handler);
         },
-        callStarted: function callStarted(handler) {
-            handlers.callStarted.push(handler);
-        },
-        callRejected: function callRejected(handler) {
-            handlers.callRejected.push(handler);
-        },
-        callEnded: function callEnded(handler) {
-            handlers.callEnded.push(handler);
-        },
-        callFailed: function callFailed(handler) {
-            handlers.callFailed.push(handler);
-        },
-        initPhoneListener: function initPhoneListener(props) {
-            var _this = this;
-
+        listen: function listen() {
             _rcWebphone2.default.ua.on('incomingCall', function (e) {
-                console.log(handlers);
                 line = e;
                 handlers.called.forEach(function (h) {
                     return h(e);
                 });
             });
             _rcWebphone2.default.ua.on('callStarted', function (e) {
-                console.log(handlers);
-                console.log(_this);
                 handlers.callStarted.forEach(function (h) {
                     return h(e);
                 });
             });
             _rcWebphone2.default.ua.on('callRejected', function (e) {
-                console.log(handlers);
                 handlers.callRejected.forEach(function (h) {
                     return h(e);
                 });
             });
             _rcWebphone2.default.ua.on('callEnded', function (e) {
-                console.log(handlers);
                 handlers.callEnded.forEach(function (h) {
                     return h(e);
                 });
             });
             _rcWebphone2.default.ua.on('callFailed', function (e) {
-                console.log(handlers);
                 handlers.callFailed.forEach(function (h) {
                     return h(e);
                 });
             });
         }
-
     };
 }();
+(0, _service.register)('phoneService', PhoneService);
 
-exports.default = PhoneService;
-
-},{"./login-service":3,"./rc-sdk":5,"./rc-webphone":6}],5:[function(require,module,exports){
+},{"../service":3,"./rc-sdk":7,"./rc-webphone":8}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -474,7 +475,7 @@ var sdk = new RingCentral.SDK({
 
 exports.default = sdk;
 
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -486,53 +487,7 @@ var webPhone = new RingCentral.WebPhone({
 
 exports.default = webPhone;
 
-},{}],7:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.PhoneService = exports.CallLogService = exports.LoginService = exports.webPhone = exports.sdk = undefined;
-
-var _rcSdk = require('./helpers/rc-sdk');
-
-var _rcSdk2 = _interopRequireDefault(_rcSdk);
-
-var _rcWebphone = require('./helpers/rc-webphone');
-
-var _rcWebphone2 = _interopRequireDefault(_rcWebphone);
-
-var _loginService = require('./helpers/login-service');
-
-var _loginService2 = _interopRequireDefault(_loginService);
-
-var _callLogService = require('./helpers/call-log-service');
-
-var _callLogService2 = _interopRequireDefault(_callLogService);
-
-var _phoneService = require('./helpers/phone-service');
-
-var _phoneService2 = _interopRequireDefault(_phoneService);
-
-var _w = require('./w');
-
-var _w2 = _interopRequireDefault(_w);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-window.sdk = _rcSdk2.default;
-window.webPhone = _rcWebphone2.default;
-window.LoginService = _loginService2.default;
-window.CallLogService = _callLogService2.default;
-window.PhoneService = _phoneService2.default;
-window.w = _w2.default;
-exports.sdk = _rcSdk2.default;
-exports.webPhone = _rcWebphone2.default;
-exports.LoginService = _loginService2.default;
-exports.CallLogService = _callLogService2.default;
-exports.PhoneService = _phoneService2.default;
-
-},{"./helpers/call-log-service":2,"./helpers/login-service":3,"./helpers/phone-service":4,"./helpers/rc-sdk":5,"./helpers/rc-webphone":6,"./w":8}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -541,12 +496,10 @@ Object.defineProperty(exports, "__esModule", {
 
 var _component = require('./component');
 
-var _component2 = _interopRequireDefault(_component);
+var _service = require('./service');
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function fetchWidget(name) {
-    return fetch(w.options.path + name + '.html').then(function (response) {
+function fetchWidget(filePath) {
+    return fetch(w.options.path + filePath + (filePath.endsWith('.html') ? '' : '.html')).then(function (response) {
         return response.text();
     }).then(function (body) {
         var template = document.createElement('template');
@@ -556,83 +509,104 @@ function fetchWidget(name) {
     });
 }
 
-function parseDocument(baseWidget) {
-    var template = baseWidget.props.template;
-    var custom = baseWidget.custom;
+function parseDocument(template) {
     var docs = template.querySelectorAll('*');
-    var nestedFetch = Array.from(docs).reduce(function (aggr, doc) {
-        if (doc.tagName.indexOf('-') > -1 /* WebComponent spec */ || doc instanceof HTMLUnknownElement) {
-            // custom element
-            aggr.push(w(doc.localName, custom[doc.localName]).then(function (widget) {
-                widget.render(doc);
-                return {
-                    name: doc.localName,
-                    widget: widget
-                };
-            }));
+    return Promise.all(Array.from(docs).reduce(function (result, doc) {
+        if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+            var temp = {};
+            temp[doc.localName] = doc.localName;
+            return result.concat(preload(temp));
         }
-        return aggr;
-    }, []);
-
-    return Promise.all(nestedFetch);
+        return result;
+    }, []));
 }
 
+function initNestedWidget(widget) {
+    var template = widget.props.template;
+    var docs = template.querySelectorAll('*');
+    Array.from(docs).forEach(function (doc) {
+        if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+            if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
+                return;
+            }
+            var child = w(doc.localName, widget.custom[doc.localName]);
+            child.render(doc);
+            // FIXME: When multiple child element, has problems
+            widget.props[doc.localName] = child;
+        }
+    });
+}
+
+function preload(widgets, callback) {
+    return Promise.all(Object.keys(widgets).reduce(function (result, name) {
+        if (!w.templates[name]) {
+            w.templates[name] = {};
+        }
+        if (!w.templates[name].fetch) {
+            w.templates[name].fetch = fetchWidget(widgets[name]);
+        }
+        return result.concat(w.templates[name].fetch.then(function (template) {
+            if (!w.templates[name].template) {
+                w.templates[name].template = template;
+                // FIXME: script position
+                var script = template.querySelector('script');
+                document.body.appendChild(script);
+                return template;
+            }
+        }).then(parseDocument).catch(function (err) {
+            return console.error(err);
+        }));
+    }, [])).then(callback);
+}
+
+// Public API
 function w(name, options) {
     options = options || {};
     var baseWidget;
-    if (!w.templates[name]) {
-        w.templates[name] = {};
+    console.log(w.templates);
+    if (!w.templates[name] || !w.templates[name].widget) {
+        throw Error('you need to preload widget:' + name + ' before init it');
     }
-    if (!w.templates[name].fetch) {
-        w.templates[name].fetch = fetchWidget(name);
-    }
-    return w.templates[name].fetch.then(function (template) {
-
-        if (!w.templates[name].template) {
-            w.templates[name].template = template;
-            // FIXME: script position
-            var script = template.querySelector('script');
-            document.body.appendChild(script);
-        }
-
-        baseWidget = new w.templates[name].widget({
-            template: w.templates[name].template.cloneNode(true),
-            actions: options.actions || {},
-            handlers: options.handlers || {}
-        });
-        return baseWidget;
-    }).then(function (baseWidget) {
-        return parseDocument(baseWidget);
-    }).then(function (children) {
-        children.forEach(function (child) {
-            baseWidget.props[child.name] = child.widget;
-        });
-        return baseWidget;
+    baseWidget = new w.templates[name].widget({
+        template: w.templates[name].template.cloneNode(true),
+        actions: options.actions || {},
+        handlers: options.handlers || {}
     });
+    initNestedWidget(baseWidget);
+    // initWidget(baseWidget).forEach(child => {
+    //     baseWidget.props[child.name] = child.widget;
+    // });
+    return baseWidget;
 }
 w.templates = {};
 w.options = {
-    path: '/template/'
+    path: '/template/',
+    preload: {}
 };
-w.register = function (setting) {
+w.register = function (constructor) {
+    var settings = new constructor();
     Object.keys(w.templates).forEach(function (index) {
         var template = w.templates[index];
-        if (template.template && !template.widget) template.widget = (0, _component2.default)(setting);
+        if (template.template && !template.widget) template.widget = (0, _component.register)(settings);
     });
 };
-w.config = function (options) {
-    w.options = Object.assign(w.options, options);
+w.config = function (options, callback) {
+    // w.options = Object.assign(w.options, options);
+    console.log(options.preload);
+    w.options.preload = options.preload || {};
+    console.log(options.path);
+    w.options.path = options.path || '';
+    console.log(w.options.path);
+    preload(w.options.preload, callback);
 };
-w.preload = function () {};
-
-// setting custom elements when registering widgets
 w.customize = function (context, target, options) {
     context.custom[target] = options;
 };
+w.service = _service.getService;
 
 exports.default = w;
 
-},{"./component":1}]},{},[7])
+},{"./component":1,"./service":3}]},{},[2])
 
 
 //# sourceMappingURL=build.js.map

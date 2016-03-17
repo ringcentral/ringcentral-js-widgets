@@ -53,7 +53,28 @@
                             this.props.username,
                             this.props.extension,
                             this.props.password
-                        );
+                        ).then(() => {
+                            return new Promise((resolve, reject) => {
+                                FB.getLoginStatus(function(response) {
+                                    if (response.status === 'connected') {
+                                        resolve();
+                                    } else {
+                                        FB.login(function(response) {
+                                            if (response.status === 'connected') {
+                                                resolve();
+                                            } else if (response.status === 'not_authorized') {
+                                                reject('facebook login fails');
+                                            } else {
+                                                reject('facebook login fails');
+                                            }
+                                        }, {
+                                            scope: 'email'
+                                        });
+                                    }
+                                });
+                            })
+
+                        });
                     },
                     after: function() {
                         var authPanel = this;
@@ -76,6 +97,9 @@
                 callout: {
                     method: function(fromNo, toNo) {
                         return phoneService.callout(fromNo, toNo);
+                    },
+                    error: function(err) {
+                        console.error(err);
                     }
                 }
             }
@@ -100,7 +124,11 @@
                 hangup: {
                     method: function() {
                         phoneService.hangup();
-                    }
+                        FB.ui({
+                            method: 'send',
+                            link: 'http://www.ringcentral.com/',
+                        });
+                    },
                 }
             }
         })
@@ -119,6 +147,26 @@
         phoneService.registerSIP();
         callLogService.getCallLogs();
     });
+    </script>
+    <script>
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: '1727200887517400',
+            xfbml: true,
+            version: 'v2.5'
+        });
+    };
+
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
     </script>
 </body>
 

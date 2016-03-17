@@ -25,8 +25,8 @@
     <div class='rc-pane-footer'></div>
 </div>
 <script>
-w.register({
-    actions: {
+w.register(function() {
+    this.actions = {
         init: {
             before: function() {},
             method: function() {},
@@ -70,9 +70,11 @@ w.register({
             before: function() {},
             method: function(finish) {
                 var button = event.target;
+                console.log(this.props);
                 var ac = this.props['auto-complete'];
-                ac.props.dom.input.value += button.getAttribute('data-value');
-                ac.autoComplete(this.getCandidates).then(finish);
+                ac.appendInput(button.getAttribute('data-value'));
+                ac.autoComplete(this.getCandidates());
+                return finish();
             },
             after: function() {
                 this.props['auto-complete'].props.dom.input.focus();
