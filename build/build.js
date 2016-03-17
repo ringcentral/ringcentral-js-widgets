@@ -275,6 +275,22 @@ var _phoneService = require('./services/phone-service');
 
 var _phoneService2 = _interopRequireDefault(_phoneService);
 
+var _rcContactService = require('./services/rc-contact-service');
+
+var _rcContactService2 = _interopRequireDefault(_rcContactService);
+
+var _contactService = require('./services/contact-service');
+
+var _contactService2 = _interopRequireDefault(_contactService);
+
+var _contactSearchService = require('./services/contact-search-service');
+
+var _contactSearchService2 = _interopRequireDefault(_contactSearchService);
+
+var _rcContactSearchProvider = require('./services/rc-contact-search-provider');
+
+var _rcContactSearchProvider2 = _interopRequireDefault(_rcContactSearchProvider);
+
 var _accountService = require('./services/account-service');
 
 var _accountService2 = _interopRequireDefault(_accountService);
@@ -289,7 +305,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 window.w = _w2.default;
 exports.default = _w2.default;
 
-},{"./services/account-service":4,"./services/call-log-service":5,"./services/login-service":6,"./services/phone-service":7,"./w":10}],3:[function(require,module,exports){
+},{"./services/account-service":4,"./services/call-log-service":5,"./services/contact-search-service":6,"./services/contact-service":7,"./services/login-service":8,"./services/phone-service":9,"./services/rc-contact-search-provider":10,"./services/rc-contact-service":11,"./w":14}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -365,7 +381,7 @@ var accountService = function (sdk) {
 (0, _service.register)('accountService', accountService);
 exports.default = accountService;
 
-},{"../service":3,"./rc-sdk":8}],5:[function(require,module,exports){
+},{"../service":3,"./rc-sdk":12}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -400,7 +416,126 @@ var CallLogService = function (sdk) {
 (0, _service.register)('callLogService', CallLogService);
 exports.default = CallLogService;
 
-},{"../service":3,"./rc-sdk":8}],6:[function(require,module,exports){
+},{"../service":3,"./rc-sdk":12}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _service = require('../service');
+
+var contactSearchService = function () {
+    var searchProviders = [];
+    var queryCompletedHandlers = [];
+    return {
+        addSearchProvider: function addSearchProvider(searchProvider) {
+            if (typeof searchProvider.search !== 'function') {
+                console.error('SearchProvider is invalid!');
+            } else {
+                searchProviders.push(searchProvider);
+            }
+        },
+        onQueryCompleted: function onQueryCompleted(handler) {
+            queryCompletedHandlers.push(handler);
+        },
+        query: function query(text) {
+            var searchFunctions = searchProviders.map(function (provider) {
+                return provider.search(text);
+            });
+            Promise.all(searchFunctions).then(function (results) {
+                var searchResults = {};
+                results.forEach(function (result) {
+                    result.forEach(function (item) {
+                        var key = item.name + item.value;
+                        if (!searchResults[key]) {
+                            var toAddItem = {
+                                name: item.name,
+                                value: item.value,
+                                type: item.type
+                            };
+                            searchResults[key] = toAddItem;
+                        }
+                    });
+                });
+                queryCompletedHandlers.forEach(function (h) {
+                    return h(searchResults);
+                });
+            });
+        }
+    };
+}();
+(0, _service.register)('contactSearchService', contactSearchService);
+exports.default = contactSearchService;
+
+},{"../service":3}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _service = require('../service');
+
+var contactService = function () {
+
+    var keysToSet = ['type', 'firstName', 'lastName', 'middleName', 'company'];
+
+    function Contact(type) {
+
+        this.type = type;
+
+        this.uri = null;
+        this.id = null;
+        this.trackingId = null;
+        this.availability = null;
+        this.firstName = null;
+        this.lastName = null;
+        this.middleName = null;
+        this.nickName = null;
+        this.company = null;
+        this.jobTitle = null;
+
+        this.extensionNumber = null;
+
+        this.phoneNumber = [];
+        this.phoneNumberType = {};
+
+        this.email = null;
+        this.email2 = null;
+        this.email3 = null;
+
+        this.homeAddress = null;
+        this.businessAddress = null;
+        this.otherAddress = null;
+
+        this.avatarUrl = null;
+    }
+
+    function createContact(rawContactsObj) {
+        var contact = {};
+
+        contact = Object.assign(contact, rawContactsObj);
+
+        return contact;
+    }
+
+    return {
+
+        contacts: [],
+
+        search: function search(queryText) {},
+
+        addNewContacts: function addNewContacts(rawContactsObj) {
+            var contactObj = createContact(rawContactsObj);
+            this.contacts.push(contactObj);
+        }
+    };
+}();
+(0, _service.register)('contactService', contactService);
+exports.default = contactService;
+
+},{"../service":3}],8:[function(require,module,exports){
 'use strict';
 
 var _rcSdk = require('./rc-sdk');
@@ -445,7 +580,7 @@ var LoginService = function (sdk) {
 }(_rcSdk2.default);
 (0, _service.register)('loginService', LoginService);
 
-},{"../service":3,"./rc-sdk":8}],7:[function(require,module,exports){
+},{"../service":3,"./rc-sdk":12}],9:[function(require,module,exports){
 'use strict';
 
 var _rcSdk = require('./rc-sdk');
@@ -542,7 +677,194 @@ var PhoneService = function () {
 }();
 (0, _service.register)('phoneService', PhoneService);
 
-},{"../service":3,"./rc-sdk":8,"./rc-webphone":9}],8:[function(require,module,exports){
+},{"../service":3,"./rc-sdk":12,"./rc-webphone":13}],10:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _rcContactService = require('./rc-contact-service');
+
+var _rcContactService2 = _interopRequireDefault(_rcContactService);
+
+var _service = require('../service');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var rcContactSearchProvider = function () {
+    return {
+        search: function search(text) {
+            var results = [];
+            if (text) {
+                text = text.toLowerCase();
+                _rcContactService2.default.companyContacts.map(function (contact) {
+                    if (contact.lastName && contact.lastName.toLowerCase().indexOf(text) >= 0 || contact.firstName && contact.firstName.toLowerCase().indexOf(text) >= 0) {
+                        results.push({
+                            name: contact.firstName + ' ' + contact.lastName,
+                            value: contact.extension,
+                            type: 'rc',
+                            id: contact.id
+                        });
+                        contact.phoneNumber.forEach(function (phone) {
+                            results.push({
+                                name: contact.firstName + ' ' + contact.lastName,
+                                value: phone,
+                                type: 'rc',
+                                id: contact.id
+                            });
+                        });
+                    } else {
+                        if (contact.extension && contact.extension.indexOf(text) >= 0) {
+                            results.push({
+                                name: contact.firstName + ' ' + contact.lastName,
+                                value: contact.extension,
+                                type: 'rc',
+                                id: contact.id
+                            });
+                        }
+                        contact.phoneNumber.forEach(function (phone) {
+                            if (phone.indexOf(text) >= 0) {
+                                results.push({
+                                    name: contact.firstName + ' ' + contact.lastName,
+                                    value: phone,
+                                    type: 'rc',
+                                    id: contact.id
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            return results;
+        }
+    };
+}();
+(0, _service.register)('rcContactSearchProvider', rcContactSearchProvider);
+exports.default = rcContactSearchProvider;
+
+},{"../service":3,"./rc-contact-service":11}],11:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _rcSdk = require('./rc-sdk');
+
+var _rcSdk2 = _interopRequireDefault(_rcSdk);
+
+var _service = require('../service');
+
+var _contactService = require('./contact-service');
+
+var _contactService2 = _interopRequireDefault(_contactService);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var rcContactService = function (sdk, contactService) {
+    var companyContacts = [];
+
+    function Contact() {
+        this.firstName = null;
+        this.lastName = null;
+        this.extension = null;
+        this.phoneNumber = [];
+    }
+
+    function createContact(extension) {
+        var contact = new Contact();
+        contact.extension = extension.extensionNumber;
+        contact.firstName = extension.contact.firstName;
+        contact.lastName = extension.contact.lastName;
+        contact.type = 'rc';
+        contact.id = extension.id;
+        return contact;
+    }
+
+    function fetchCompanyContactByPage(page) {
+        return sdk.platform().get('/account/~/extension/', { perPage: 250, page: page });
+    }
+
+    function fetchCompanyDirectNumbersByPage(page) {
+        return sdk.platform().get('/account/~/phone-number', { perPage: 250, page: page });
+    }
+
+    function fetchCompanyContacts() {
+        var page = 1;
+        fetchCompanyContactByPage(page).then(function (response) {
+            var respObj = response.json();
+            if (respObj.paging && respObj.paging.totalPages > page) {
+                var promises = [];
+                while (respObj.paging.totalPages > page) {
+                    page++;
+                    promises.push(fetchCompanyContactByPage(page));
+                }
+                Promise.all(promises).then(function (responses) {
+                    responses.forEach(function (response) {
+                        var records = response.json().records.filter(function (extension) {
+                            return extension.status === "Enabled" && ['DigitalUser', 'User'].indexOf(extension.type) >= 0;
+                        }).map(function (extension) {
+                            return createContact(extension);
+                        });
+                        companyContacts.push.apply(companyContacts, records);
+                    });
+                    fetchCompanyDirectNumbers();
+                });
+            }
+        }).catch(function (e) {
+            console.error(e);
+        });
+    }
+
+    function fetchCompanyDirectNumbers() {
+        var page = 1;
+        fetchCompanyDirectNumbersByPage(page).then(function (response) {
+            var respObj = response.json();
+            if (respObj.paging && respObj.paging.totalPages > page) {
+                var promises = [];
+                while (respObj.paging.totalPages > page) {
+                    page++;
+                    promises.push(fetchCompanyDirectNumbersByPage(page));
+                }
+                Promise.all(promises).then(function (responses) {
+                    var numbers = {};
+                    responses.forEach(function (response) {
+                        var resp = response.json();
+                        resp.records.forEach(function (el) {
+                            if (el.extension && el.extension.extensionNumber) {
+                                if (!numbers[el.extension.extensionNumber]) {
+                                    numbers[el.extension.extensionNumber] = [];
+                                }
+                                numbers[el.extension.extensionNumber].push(el);
+                            }
+                        });
+                    });
+                    companyContacts.forEach(function (contact) {
+                        var phones = numbers[contact.extension];
+                        if (phones) {
+                            phones.forEach(function (phone) {
+                                contact.phoneNumber.push(phone.phoneNumber);
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    return {
+
+        companyContacts: companyContacts,
+        getCompanyContact: function getCompanyContact() {
+            fetchCompanyContacts();
+        }
+    };
+}(_rcSdk2.default, _contactService2.default);
+(0, _service.register)('rcContactService', rcContactService);
+exports.default = rcContactService;
+
+},{"../service":3,"./contact-service":7,"./rc-sdk":12}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -556,7 +878,7 @@ var sdk = new RingCentral.SDK({
 
 exports.default = sdk;
 
-},{}],9:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -568,7 +890,7 @@ var webPhone = new RingCentral.WebPhone({
 
 exports.default = webPhone;
 
-},{}],10:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
