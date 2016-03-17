@@ -1,15 +1,16 @@
 ## Widget templates
-#### Auth-panel
-Used for login, can either login RingCentral WebRTC phone or other third party SDK. Basic support includes:
-1. Countries selector
-2. Remember me (`localStorage`)
+#### Auth-panel ([template](auth-panel.html))
+Used for login, can either be a login RingCentral WebRTC phone or other third party SDK. Basic supports include:
 
-- Actions
+1. Countries selector for phone number
+2. phone number and password record (`localStorage`)
+
+- actions
   - `login`
   - `showCountry(event)`
   - `switchCountry(event)`
-- Handlers
 - props
+
   `dom` `username` `extension` `password` `country`
 
 #### Dial-pad
