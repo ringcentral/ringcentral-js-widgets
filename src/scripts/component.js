@@ -159,7 +159,7 @@ function generateActions(widgetAction, userAction, name) {
         }
         try {
             before = before(...args);
-            if (isThennable(before)) {
+            if (isThenable(before)) {
                 return before.then(function(...args) {
                     return method(arg);
                 }).then(function(arg) {
@@ -169,7 +169,7 @@ function generateActions(widgetAction, userAction, name) {
                 }).catch(error)
             } else {
                 method = method(before);
-                if (isThennable(method)) {
+                if (isThenable(method)) {
                     return method.then(function(arg) {
                         return after(arg);
                     }).then(function(arg) {
@@ -177,7 +177,7 @@ function generateActions(widgetAction, userAction, name) {
                     }).catch(error)
                 } else {
                     after = after(method);
-                    if (isThennable(after)) {
+                    if (isThenable(after)) {
                         return after.then(function(arg) {
                             return finish(arg);
                         }).catch(error)
@@ -206,7 +206,7 @@ function wrapUserEvent(widget, user, ...args) {
     return [].concat(...args);
 }
 
-function isThennable(result) {
+function isThenable(result) {
     if (result.then && typeof result.then === 'function')
         return true;
     return false;

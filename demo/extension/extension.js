@@ -19,14 +19,15 @@ border-left: 1px solid #e5e5e5;
     bottom: 0;
     right: 0;
     overflow: auto;
+    background: #fff;
     transition: all 0.3s ease;`
 container.appendChild(phone);
 w.config({
-    path: '',
+    path: localStorage.getItem('base-path') + 'template/',
     preload: {
-        "auth-panel": localStorage.getItem('auth-panel'),
-        // chrome.extension.getURL('template/dial-pad.html'),
-        "call-panel": localStorage.getItem('call-panel')
+        "auth-panel": 'auth-panel',
+        "dial-pad": 'dial-pad',
+        "call-panel": 'call-panel'
     }
 }, init)
 var phoneService = w.service()['phoneService'];
@@ -45,29 +46,29 @@ function init() {
                 },
                 after: function() {
                     var authPanel = this;
-                    // dialPad.render('#dial-pad', function() {
-                    //     authPanel.remove();
-                    // });
+                    dialPad.render('#dial-pad', function() {
+                        authPanel.remove();
+                    });
                     callPanel.render('#call-panel');
                 }
             }
         },
         handlers: {},
     })
-    // var dialPad = w('dial-pad', {
-    //     actions: {
-    //         getCandidates: {
-    //             method: function() {
-    //                 return CallLogService.getCallLogs();
-    //             }
-    //         },
-    //         callout: {
-    //             method: function(fromNo, toNo) {
-    //                 return phoneService.callout(fromNo, toNo);
-    //             }
-    //         }
-    //     }
-    // })
+    var dialPad = w('dial-pad', {
+        actions: {
+            getCandidates: {
+                method: function() {
+                    return CallLogService.getCallLogs();
+                }
+            },
+            callout: {
+                method: function(fromNo, toNo) {
+                    return phoneService.callout(fromNo, toNo);
+                }
+            }
+        }
+    })
     var callPanel = w('call-panel', {
         actions: {
             init: {
@@ -92,16 +93,15 @@ function init() {
             }
         }
     })
-    authPanel.render('#auth-panel');
-    // LoginService.checkLoginStatus().then(
-    //     isLoggedIn => {
-    //         if (isLoggedIn) {
-    //             dialPad.render('#dial-pad');
-    //             callPanel.render('#call-panel');
-    //         } else
-    //             authPanel.render('#auth-panel');
-    //     }
-    // );
+    loginService.checkLoginStatus().then(
+        isLoggedIn => {
+            if (isLoggedIn) {
+                dialPad.render('#dial-pad');
+                callPanel.render('#call-panel');
+            } else
+                authPanel.render('#auth-panel');
+        }
+    );
 }
 loginService.registerLoginHandler(function() {
     phoneService.registerSIP();
