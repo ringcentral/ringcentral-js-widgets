@@ -29,8 +29,6 @@
     </div>
 </div>
 <script>
-console.log('register auth-panel');
-console.log(w);
 w.register(function() {
     this.actions = {
         init: {
@@ -51,13 +49,13 @@ w.register(function() {
             }
         },
         login: {
-            before: function(d) {
+            before: function() {
                 this.props.dom.login.disabled = true;
                 this.props.dom.error.textContent = '';
                 this.props.dom.login.classList.add('rc-button-loading');
                 loading(this.props.dom.footer, 350);
             },
-            method: function(finish, d) {
+            method: function(finish) {
                 this.props.username = this.props.dom.username.value;
                 this.props.extension = this.props.dom.extension.value;
                 this.props.password = this.props.dom.password.value;
@@ -65,7 +63,7 @@ w.register(function() {
                     this.props.username = '1' + this.props.username;
                 return finish();
             },
-            after: function(d) {
+            after: function() {
                 this.props.dom.login.disabled = false;
                 if (this.props.dom.remember.checked) {
                     localStorage.setItem('username', this.props.dom.username.value || '');
