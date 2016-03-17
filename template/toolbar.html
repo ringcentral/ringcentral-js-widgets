@@ -1,3 +1,27 @@
-<div>
-    
-</div>
+<div class='rc-toolbar' data-info='toolbar'></div>
+<script>
+w.register(function() {
+    this.actions = {
+        addItem: {
+            method: function() {},
+            after: function(content) {
+                // use innerHTML here, because content could be image or something else.
+                var item = docuement.createElement('button');
+                item.classList.add();
+                item.innerHTML = content;
+                this.props.dom['toolbar'].appendChild(item);
+                return item;
+            }
+        },
+        clickItem: {
+            method: function(item, event) {
+                if (typeof item === 'number') {
+
+                } else {
+                    item.addEventListener('click', event.bind(this));   
+                }
+            }
+        },
+    }
+})
+</script>

@@ -24,6 +24,7 @@
 <body>
     <div id='phone'>
         <div id="auth-panel"></div>
+        <div id="toolbar"></div>
         <div id="dial-pad"></div>
         <div id="call-panel"></div>
         <div id="call-log-panel"></div>
@@ -37,7 +38,8 @@
         preload: {
             'auth-panel': 'auth-panel',
             'dial-pad': 'dial-pad',
-            'call-panel': 'call-panel'
+            'call-panel': 'call-panel',
+            'toolbar': 'toolbar'
         },
         logLevel: 2 /* 0 for error only, 1 for error and warning, 2 for error and warning and log */
     }, init)
@@ -58,10 +60,8 @@
                         ).then(accountService.getAccountInfo);
                     },
                     after: function() {
-                        dialPad.render('#dial-pad', function() {
-                            authPanel.remove();
-                        });
-                        callPanel.render('#call-panel');
+                        afterLogin();
+                        authPanel.remove();
                     }
                 }
             }
@@ -115,22 +115,29 @@
                 }
             }
         })
-
+        var toolbar = w('toolbar', {
+            actions: {}
+        })
         // authPanel.render('#auth-panel');
         loginService.checkLoginStatus().then(
             isLoggedIn => {
                 if (isLoggedIn) {
                     return Promise.all([
-                        accountService.getAccountInfo(),
-                        accountService.getPhoneNumber()
-                    ]).then(() => {
-                        dialPad.render('#dial-pad');
-                        callPanel.render('#call-panel');
-                    })
+                            accountService.getAccountInfo(),
+                            accountService.getPhoneNumber()
+                        ])
+                        .then(afterLogin)
+                        .catch(err => console.error(err))
                 } else
                     authPanel.render('#auth-panel');
             }
         );
+
+        function afterLogin() {
+            dialPad.render('#dial-pad');
+            callPanel.render('#call-panel');
+            toolbar.render('#toolbar');
+        }
     }
     loginService.registerLoginHandler(function() {
         phoneService.registerSIP();
