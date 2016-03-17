@@ -38,6 +38,7 @@ function register(globalSettings) {
         if (!options.template) {
             throw new Error('need a template');
         }
+        logger = initLogger(options.logLevel);
         this.props = {};
         this.custom = {};
         Object.keys(settings.actions).forEach(function (index) {
@@ -75,7 +76,7 @@ function register(globalSettings) {
             } else if (target instanceof HTMLElement) {
                 target = target;
             } else {
-                console.warn('first argument of render method should be selector string or dom');
+                logger.warn('first argument of render method should be selector string or dom');
             }
             target.appendChild(template);
             this.props.target = target;
@@ -92,7 +93,7 @@ function bindScope(scope, action) {
         method: action.method ? action.method.bind(scope) : function () {}.bind(scope),
         after: action.after ? action.after.bind(scope) : function () {}.bind(scope),
         error: action.error ? action.error.bind(scope) : function (err) {
-            console.error(err);
+            logger.error(err);
         }.bind(scope)
     };
 }
@@ -113,7 +114,7 @@ function generateDocument(widget, template) {
                 if (index === 0) eventName = token;else if (index === 1) action = token;
             });
             if (!widget[action]) {
-                console.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
+                logger.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
                 return;
             }
             doc.addEventListener(eventName, widget[action].bind(widget));
@@ -129,11 +130,11 @@ function generateActions(widgetAction, userAction, name) {
             method: function method() {},
             after: function after() {},
             error: function error(e) {
-                console.error(e);
+                logger.error(e);
                 throw e;
             }
         };
-        console.warn('Widget action [%s] is not defined by users', name);
+        logger.warn('Widget action [%s] is not defined by users', name);
     }
     return function () {
         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
@@ -147,18 +148,18 @@ function generateActions(widgetAction, userAction, name) {
                 args[_key2] = arguments[_key2];
             }
 
-            console.info('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
+            logger.info('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
             return wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args));
         };
         var method = function method(arg) {
-            console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            logger.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg()))) || arg;
             }
             return widgetAction.method(userAction.method, arg) || arg;
         };
         var after = function after(arg) {
-            console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            logger.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(_toConsumableArray(arg()))) || arg;
             }
@@ -233,6 +234,31 @@ function isThenable(result) {
     return false;
 }
 
+function initLogger(level) {
+    return {
+        error: function error() {
+            var _console;
+
+            (_console = console).error.apply(_console, arguments);
+        },
+        warn: function warn() {
+            var _console2;
+
+            if (level > 0) (_console2 = console).warn.apply(_console2, arguments);
+        },
+        info: function info() {
+            var _console3;
+
+            if (level > 1) (_console3 = console).info.apply(_console3, arguments);
+        },
+        log: function log() {
+            var _console4;
+
+            if (level > 1) (_console4 = console).log.apply(_console4, arguments);
+        }
+    };
+}
+var logger;
 exports.register = register;
 
 },{}],2:[function(require,module,exports){
@@ -558,7 +584,7 @@ function preload(widgets, callback) {
                 return template;
             }
         }).then(parseDocument).catch(function (err) {
-            return console.error(err);
+            return console.error('Widgets preload error:' + err);
         }));
     }, [])).then(callback);
 }
@@ -567,14 +593,14 @@ function preload(widgets, callback) {
 function w(name, options) {
     options = options || {};
     var baseWidget;
-    console.log(w.templates);
     if (!w.templates[name] || !w.templates[name].widget) {
         throw Error('you need to preload widget:' + name + ' before init it');
     }
     baseWidget = new w.templates[name].widget({
         template: w.templates[name].template.cloneNode(true),
         actions: options.actions || {},
-        handlers: options.handlers || {}
+        handlers: options.handlers || {},
+        logLevel: w.options.logLevel
     });
     initNestedWidget(baseWidget);
     // initWidget(baseWidget).forEach(child => {
@@ -583,10 +609,7 @@ function w(name, options) {
     return baseWidget;
 }
 w.templates = {};
-w.options = {
-    path: '/template/',
-    preload: {}
-};
+w.options = {};
 w.register = function (constructor) {
     var settings = new constructor();
     Object.keys(w.templates).forEach(function (index) {
@@ -596,11 +619,9 @@ w.register = function (constructor) {
 };
 w.config = function (options, callback) {
     // w.options = Object.assign(w.options, options);
-    console.log(options.preload);
     w.options.preload = options.preload || {};
-    console.log(options.path);
     w.options.path = options.path || '';
-    console.log(w.options.path);
+    w.options.logLevel = options.logLevel || 0;
     preload(w.options.preload, callback);
 };
 w.customize = function (context, target, options) {
