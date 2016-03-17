@@ -3,6 +3,9 @@
         <h1>Dialer</h1>
     </div>
     <div class='rc-pane-content'>
+        <div class='rc-mask display-none' data-info='disabled-mask'>
+            <div class='rc-mask-message'>Sorry, your account doesn't not have Web Phone permission.</div>
+        </div>
         <div class='rc-pane-scrollable'>
             <div data-info='number'>
                 <auto-complete data-info='auto-complete'></auto-complete>
@@ -20,6 +23,7 @@
                 <button class='rc-dial-button' data-info='dial-button-0' data-value='0' data-event='click:dialing'>0</button>
             </div>
             <button class='rc-button' data-info='callout' data-event='click:callout'>Call</button>
+            <div class='rc-error-message' data-info='error'></div>
         </div>
     </div>
     <div class='rc-pane-footer'></div>
@@ -49,9 +53,10 @@ w.register(function() {
                                 if (!candidates)
                                     return;
                                 return candidates.filter((candidate, index) => {
-                                    var result = candidate.from.phoneNumber.indexOf(this.props.dom.input.value) === 1 && numbers.indexOf(candidate.from.phoneNumber) < 0;
+                                    if (!candidate.from.phoneNumber)
+                                        return false;
                                     numbers.push(candidate.from.phoneNumber)
-                                    return result;
+                                    return candidate.from.phoneNumber.indexOf(this.props.dom.input.value) === 1 && numbers.indexOf(candidate.from.phoneNumber) < 0;
                                 })
                             }
                         }
@@ -70,7 +75,6 @@ w.register(function() {
             before: function() {},
             method: function(finish) {
                 var button = event.target;
-                console.log(this.props);
                 var ac = this.props['auto-complete'];
                 ac.appendInput(button.getAttribute('data-value'));
                 ac.autoComplete(this.getCandidates());
@@ -85,12 +89,15 @@ w.register(function() {
                 this.props.dom.callout.classList.add('rc-button-loading');
             },
             method: function(finish) {
-                var ac = this.props.dom['auto-complete'];
+                var ac = this.props['auto-complete'];
                 this.props.toNumber = ac.props.dom.input.value;
                 this.props.fromNumber = localStorage.getItem('username');
                 return finish(this.props.fromNumber, this.props.toNumber);
             },
-            after: function() {}
+            after: function() {},
+            error: function(err) {
+                this.props.dom.error.textContent = err.message;
+            }
         },
         getCandidates: {
             before: function() {},
@@ -98,6 +105,14 @@ w.register(function() {
                 return finish();
             },
             after: function() {}
+        },
+        disable: {
+            method: function(finish) {
+                return finish();
+            },
+            after: function() {
+                this.props.dom['disabled-mask'].classList.remove('display-none');
+            }
         }
     }
 })

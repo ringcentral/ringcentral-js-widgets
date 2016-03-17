@@ -44,6 +44,7 @@
     var phoneService = w.service()['phoneService'];
     var loginService = w.service()['loginService'];
     var callLogService = w.service()['callLogService'];
+    var accountService = w.service()['accountService'];
 
     function init() {
         var authPanel = w('auth-panel', {
@@ -54,10 +55,9 @@
                             this.props.username,
                             this.props.extension,
                             this.props.password
-                        );
+                        ).then(accountService.getAccountInfo);
                     },
                     after: function() {
-                        var authPanel = this;
                         dialPad.render('#dial-pad', function() {
                             authPanel.remove();
                         });
@@ -68,6 +68,12 @@
         })
         var dialPad = w('dial-pad', {
             actions: {
+                render: {
+                    after: function() {
+                        if (!accountService.hasServiceFeature("VoipCalling"))
+                            this.disable();
+                    }
+                },
                 getCandidates: {
                     method: function() {
                         return callLogService.getCallLogs();
@@ -104,12 +110,15 @@
                 }
             }
         })
+
         // authPanel.render('#auth-panel');
         loginService.checkLoginStatus().then(
             isLoggedIn => {
                 if (isLoggedIn) {
-                    dialPad.render('#dial-pad');
-                    callPanel.render('#call-panel');
+                    return accountService.getAccountInfo().then(() => {
+                        dialPad.render('#dial-pad');
+                        callPanel.render('#call-panel');
+                    })
                 } else
                     authPanel.render('#auth-panel');
             }

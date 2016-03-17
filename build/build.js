@@ -218,14 +218,9 @@ function wrapUserEvent(widget, user) {
     var _ref2;
 
     var continueDefault = !user || user.apply(undefined, args) || true;
-    if (continueDefault || typeof continueDefault === 'undefined' || continueDefault) {
-        if (widget) {
-            return widget.apply(undefined, args) || function () {
-                return args;
-            };
-        }
-        return null;
-    }
+    if (continueDefault || typeof continueDefault === 'undefined') return widget.apply(undefined, args) || function () {
+        return args;
+    };
     return (_ref2 = []).concat.apply(_ref2, args);
 }
 
@@ -280,6 +275,10 @@ var _phoneService = require('./services/phone-service');
 
 var _phoneService2 = _interopRequireDefault(_phoneService);
 
+var _accountService = require('./services/account-service');
+
+var _accountService2 = _interopRequireDefault(_accountService);
+
 var _w = require('./w');
 
 var _w2 = _interopRequireDefault(_w);
@@ -290,7 +289,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 window.w = _w2.default;
 exports.default = _w2.default;
 
-},{"./services/call-log-service":4,"./services/login-service":5,"./services/phone-service":6,"./w":9}],3:[function(require,module,exports){
+},{"./services/account-service":4,"./services/call-log-service":5,"./services/login-service":6,"./services/phone-service":7,"./w":10}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -308,6 +307,43 @@ exports.register = register;
 exports.getService = getService;
 
 },{}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _rcSdk = require('./rc-sdk');
+
+var _rcSdk2 = _interopRequireDefault(_rcSdk);
+
+var _service = require('../service');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var accountService = function (sdk) {
+    var info;
+    return {
+        getAccountInfo: function getAccountInfo() {
+            return sdk.platform().get('/account/~/extension/~').then(function (response) {
+                console.debug(response.json());
+                info = response.json();
+            }).catch(function (e) {
+                console.error('Recent Calls Error: ' + e.message);
+            });
+        },
+        hasServiceFeature: function hasServiceFeature(name) {
+            if (!info) return Error('Need to fetch account info by accountService.getAccountInfo');
+            return info.serviceFeatures.filter(function (feature) {
+                return feature.featureName.toLowerCase() === name.toLowerCase();
+            }).length > 0;
+        }
+    };
+}(_rcSdk2.default);
+(0, _service.register)('accountService', accountService);
+exports.default = accountService;
+
+},{"../service":3,"./rc-sdk":8}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -342,7 +378,7 @@ var CallLogService = function (sdk) {
 (0, _service.register)('callLogService', CallLogService);
 exports.default = CallLogService;
 
-},{"../service":3,"./rc-sdk":7}],5:[function(require,module,exports){
+},{"../service":3,"./rc-sdk":8}],6:[function(require,module,exports){
 'use strict';
 
 var _rcSdk = require('./rc-sdk');
@@ -366,6 +402,8 @@ var LoginService = function (sdk) {
                 onLoginHandler.forEach(function (handler) {
                     return handler();
                 });
+            }).catch(function (err) {
+                return console.error(err);
             });
         },
         checkLoginStatus: function checkLoginStatus() {
@@ -385,7 +423,7 @@ var LoginService = function (sdk) {
 }(_rcSdk2.default);
 (0, _service.register)('loginService', LoginService);
 
-},{"../service":3,"./rc-sdk":7}],6:[function(require,module,exports){
+},{"../service":3,"./rc-sdk":8}],7:[function(require,module,exports){
 'use strict';
 
 var _rcSdk = require('./rc-sdk');
@@ -416,26 +454,18 @@ var PhoneService = function () {
                     transport: 'WSS'
                 }]
             }).then(function (res) {
-                var data = res.json();
-                console.log("Sip Provisioning Data from RC API: " + JSON.stringify(data));
-                console.log(data.sipFlags.outboundCallsEnabled);
-                var checkFlags = false;
-                return _rcWebphone2.default.register(data, checkFlags).then(function () {
-                    console.log('Registered');
-                }).catch(function (e) {
+                return _rcWebphone2.default.register(res.json(), false).catch(function (e) {
                     return Promise.reject(err);
                 });
             });
         },
         callout: function callout(fromNumber, toNumber) {
-            console.log('callout');
             // TODO: validate toNumber and fromNumber
             if (!_rcSdk2.default || !_rcWebphone2.default) {
                 throw Error('Need to set up SDK and webPhone first.');
                 return;
             }
             return _rcSdk2.default.platform().get('/restapi/v1.0/account/~/extension/~').then(function (res) {
-                console.log(res);
                 var info = res.json();
                 if (info && info.regionalSettings && info.regionalSettings.homeCountry) {
                     return info.regionalSettings.homeCountry.id;
@@ -490,7 +520,7 @@ var PhoneService = function () {
 }();
 (0, _service.register)('phoneService', PhoneService);
 
-},{"../service":3,"./rc-sdk":7,"./rc-webphone":8}],7:[function(require,module,exports){
+},{"../service":3,"./rc-sdk":8,"./rc-webphone":9}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -504,7 +534,7 @@ var sdk = new RingCentral.SDK({
 
 exports.default = sdk;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -516,7 +546,7 @@ var webPhone = new RingCentral.WebPhone({
 
 exports.default = webPhone;
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

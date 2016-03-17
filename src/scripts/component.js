@@ -198,14 +198,8 @@ function generateActions(widgetAction, userAction, name) {
 
 function wrapUserEvent(widget, user, ...args) {
     var continueDefault = !user || user(...args) || true;
-    if (continueDefault ||
-        typeof continueDefault === 'undefined' ||
-        continueDefault) {
-        if (widget) {
-            return widget(...args) || (() => args);
-        }
-        return null;
-    }
+    if (continueDefault || typeof continueDefault === 'undefined')
+        return widget(...args) || (() => args);
     return [].concat(...args);
 }
 
@@ -218,7 +212,7 @@ function isThenable(result) {
 function initLogger(level) {
     return {
         error: function(...args) {
-                console.error(...args);
+            console.error(...args);
         },
         warn: function(...args) {
             if (level > 0)
