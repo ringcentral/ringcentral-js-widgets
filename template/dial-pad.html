@@ -7,6 +7,7 @@
             <div class='rc-mask-message'>Sorry, your account doesn't not have Web Phone permission.</div>
         </div>
         <div class='rc-pane-scrollable'>
+            <dropdown data-info='dropdown'></dropdown>
             <div data-info='number'>
                 <auto-complete data-info='auto-complete'></auto-complete>
             </div>
@@ -62,13 +63,31 @@ w.register(function() {
                         }
                     }
                 })
+                w.customize(this, 'dropdown', {
+                    actions: {
+                        getData: {
+                            method: function() {
+                                return dialPad.getOutboundCallerID();
+                            },
+                            after: function(ids) {
+                                ids.forEach(id => this.addItem(id));
+                            }
+                        },
+                        switchTitle: {
+                            method: function(text) {
+                                console.debug(text)
+                                dialPad.props.fromNumber = text;
+                            }
+                        }
+                    }
+                })
             }
         },
         render: {
             before: function() {},
             method: function() {},
             after: function() {
-                console.log(this.props);
+                this.props['dropdown'].getData();
             }
         },
         dialing: {
@@ -112,6 +131,11 @@ w.register(function() {
             },
             after: function() {
                 this.props.dom['disabled-mask'].classList.remove('display-none');
+            }
+        },
+        getOutboundCallerID: {
+            method: function(finish) {
+                return finish();
             }
         }
     }

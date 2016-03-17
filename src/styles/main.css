@@ -113,6 +113,8 @@ h1 {
     padding: 2px 0;
     border: 1px solid #878787;
     font-weight: lighter;
+    max-height: 200px;
+    overflow: auto;
 }
 .rc-dropdown-list > div {
     padding: 5px 5px;

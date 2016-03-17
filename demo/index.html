@@ -83,6 +83,11 @@
                     method: function(fromNo, toNo) {
                         return phoneService.callout(fromNo, toNo);
                     }
+                },
+                getOutboundCallerID: {
+                    method: function() {
+                        return accountService.listNumber("VoiceFax");
+                    }
                 }
             }
         })
@@ -115,7 +120,10 @@
         loginService.checkLoginStatus().then(
             isLoggedIn => {
                 if (isLoggedIn) {
-                    return accountService.getAccountInfo().then(() => {
+                    return Promise.all([
+                        accountService.getAccountInfo(),
+                        accountService.getPhoneNumber()
+                    ]).then(() => {
                         dialPad.render('#dial-pad');
                         callPanel.render('#call-panel');
                     })

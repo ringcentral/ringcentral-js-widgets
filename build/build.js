@@ -323,11 +323,25 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var accountService = function (sdk) {
     var info;
+    var numbers;
     return {
         getAccountInfo: function getAccountInfo() {
             return sdk.platform().get('/account/~/extension/~').then(function (response) {
                 console.debug(response.json());
                 info = response.json();
+                return info;
+            }).catch(function (e) {
+                console.error('Recent Calls Error: ' + e.message);
+            });
+        },
+        getPhoneNumber: function getPhoneNumber() {
+            return sdk.platform().get('/account/~/extension/~/phone-number').then(function (response) {
+                console.debug(response.json());
+                // info = response.json();
+                return response.json();
+            }).then(function (data) {
+                numbers = data.records;
+                return data.records;
             }).catch(function (e) {
                 console.error('Recent Calls Error: ' + e.message);
             });
@@ -337,6 +351,14 @@ var accountService = function (sdk) {
             return info.serviceFeatures.filter(function (feature) {
                 return feature.featureName.toLowerCase() === name.toLowerCase();
             }).length > 0;
+        },
+        listNumber: function listNumber(type) {
+            console.debug(numbers);
+            return numbers.filter(function (number) {
+                return number.type === type;
+            }).map(function (number) {
+                return number.phoneNumber;
+            });
         }
     };
 }(_rcSdk2.default);

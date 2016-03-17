@@ -48,7 +48,6 @@ w.register(function() {
         hide: {
             after: function() {
                 this.props.dom.candidates.classList.add('display-none');
-                console.log(this.showingTimeout);
                 if (this.showingTimeout) {
                     window.clearTimeout(this.showingTimeout);
                     this.showingTimeout = null;
