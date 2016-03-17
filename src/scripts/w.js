@@ -1,5 +1,5 @@
-import { register as registerComponent } from './component'
-import { getService } from './service'
+import { register as registerComponent } from './component';
+import { getService } from './service';
 
 function fetchWidget(filePath) {
     return fetch(w.options.path + filePath + (filePath.endsWith('.html') ? '' : '.html'))
@@ -9,7 +9,7 @@ function fetchWidget(filePath) {
             template.innerHTML = body;
             var clone = document.importNode(template.content, true);
             return clone;
-        })
+        });
 }
 
 function parseDocument(template) {
@@ -40,7 +40,7 @@ function initNestedWidget(widget) {
             if (childName)
                 widget.props[childName] = child;
         }
-    })
+    });
 }
 
 function preload(widgets, callback) {
@@ -65,11 +65,10 @@ function preload(widgets, callback) {
                         }
                     })
                     .then(parseDocument)
-                    .catch(err => console.error('Widgets preload error:' + err)))
+                    .catch(err => console.error('Widgets preload error:' + err)));
             }, [])
-    ).then(callback)
+    ).then(callback);
 }
-
 
 // Public API
 function w(name, options) {
@@ -83,7 +82,7 @@ function w(name, options) {
         actions: options.actions || {},
         handlers: options.handlers || {},
         logLevel: w.options.logLevel
-    })
+    });
     initNestedWidget(baseWidget);
     // initWidget(baseWidget).forEach(child => {
     //     baseWidget.props[child.name] = child.widget;
@@ -98,7 +97,7 @@ w.register = function(constructor) {
         var template = w.templates[index];
         if (template.template && !template.widget)
             template.widget = registerComponent(settings);
-    })
+    });
 };
 w.config = function(options, callback) {
     // w.options = Object.assign(w.options, options);
@@ -109,7 +108,7 @@ w.config = function(options, callback) {
 };
 w.customize = function(context, target, options) {
     context.custom[target] = options;
-}
+};
 w.service = getService;
 
 export default w;

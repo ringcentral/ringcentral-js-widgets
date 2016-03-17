@@ -9,4 +9,4 @@ function getService() {
 export {
     register,
     getService
-}
+};

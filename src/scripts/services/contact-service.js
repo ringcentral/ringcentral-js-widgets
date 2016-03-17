@@ -1,11 +1,11 @@
-import { register } from '../service'
+import { register } from '../service';
 
 var contactService = function() {
-    
+
     var keysToSet = ['type', 'firstName', 'lastName', 'middleName', 'company'];
-    
+
     function Contact(type) {
-        
+
         this.type = type;
 
         this.uri = null;
@@ -34,30 +34,30 @@ var contactService = function() {
 
         this.avatarUrl = null;
     }
-    
-    function createContact(rawContactsObj){
+
+    function createContact(rawContactsObj) {
         var contact = {};
-        
+
         contact = Object.assign(contact, rawContactsObj);
-        
-        
+
         return contact;
     }
-    
+
     return {
-        
+
         contacts: [],
-        
-        search:function(queryText){
-            
+
+        search: function(queryText) {
+
         },
-        
-        addNewContacts:function(rawContactsObj){
+
+        addNewContacts: function(rawContactsObj) {
             var contactObj = createContact(rawContactsObj);
             this.contacts.push(contactObj);
-        }
+        },
     };
 
 }();
+
 register('contactService', contactService);
-export default contactService
+export default contactService;

@@ -1,18 +1,18 @@
-import sdk from './rc-sdk'
-import { register } from '../service'
-import contactService from './contact-service'
+import sdk from './rc-sdk';
+import { register } from '../service';
+import contactService from './contact-service';
 
 var rcContactService = function(sdk, contactService) {
     var companyContacts = [];
-    
+
     function Contact() {
         this.firstName = null;
         this.lastName = null;
         this.extension = null;
         this.phoneNumber = [];
     }
-    
-    function createContact(extension){
+
+    function createContact(extension) {
         var contact = new Contact();
         contact.extension = extension.extensionNumber;
         contact.firstName = extension.contact.firstName;
@@ -21,12 +21,12 @@ var rcContactService = function(sdk, contactService) {
         contact.id  = extension.id;
         return contact;
     }
-    
+
     function fetchCompanyContactByPage(page) {
         return sdk.platform().get('/account/~/extension/', {perPage: 250, page: page});
     }
-    
-    function fetchCompanyDirectNumbersByPage(page){
+
+    function fetchCompanyDirectNumbersByPage(page) {
         return sdk.platform().get('/account/~/phone-number', {perPage: 250, page: page});
     }
 
@@ -35,22 +35,24 @@ var rcContactService = function(sdk, contactService) {
         fetchCompanyContactByPage(page)
         .then(function(response) {
             var respObj = response.json();
-            if(respObj.paging && respObj.paging.totalPages > page){
+            if (respObj.paging && respObj.paging.totalPages > page) {
                 var promises = [];
-                while(respObj.paging.totalPages > page){
+                while (respObj.paging.totalPages > page) {
                     page++;
                     promises.push(fetchCompanyContactByPage(page));
                 }
-                Promise.all(promises).then(responses=>{
-                    responses.forEach(function(response){
+
+                Promise.all(promises).then(responses=> {
+                    responses.forEach(function(response) {
                         var records = response.json().records
                             .filter(extension => {
-                                return extension.status === "Enabled" && ['DigitalUser','User'].indexOf(extension.type) >=0;
+                                return extension.status === 'Enabled' && ['DigitalUser', 'User'].indexOf(extension.type) >= 0;
                             }).map(extension => {
                                 return createContact(extension);
                             });
                         companyContacts.push.apply(companyContacts, records);
                     });
+
                     fetchCompanyDirectNumbers();
                 });
             }
@@ -64,12 +66,13 @@ var rcContactService = function(sdk, contactService) {
         fetchCompanyDirectNumbersByPage(page)
         .then(response => {
             var respObj = response.json();
-            if(respObj.paging && respObj.paging.totalPages > page){
+            if (respObj.paging && respObj.paging.totalPages > page) {
                 var promises = [];
-                while(respObj.paging.totalPages > page){
+                while (respObj.paging.totalPages > page) {
                     page++;
                     promises.push(fetchCompanyDirectNumbersByPage(page));
                 }
+
                 Promise.all(promises).then(responses => {
                     var numbers = {};
                     responses.forEach(response => {
@@ -79,6 +82,7 @@ var rcContactService = function(sdk, contactService) {
                                 if (!numbers[el.extension.extensionNumber]) {
                                     numbers[el.extension.extensionNumber] = [];
                                 }
+
                                 numbers[el.extension.extensionNumber].push(el);
                             }
                         });
@@ -97,12 +101,12 @@ var rcContactService = function(sdk, contactService) {
     }
 
     return {
-        
         companyContacts: companyContacts,
-        getCompanyContact : function(){
+        getCompanyContact: function() {
             fetchCompanyContacts();
         },
     };
 }(sdk, contactService);
-register('rcContactService',rcContactService);
-export default rcContactService
+
+register('rcContactService', rcContactService);
+export default rcContactService;

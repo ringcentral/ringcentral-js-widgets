@@ -12,8 +12,8 @@ function register(globalSettings) {
                 console.error(e);
                 throw e;
             }
-        }, globalSettings.actions[action])
-    })
+        }, globalSettings.actions[action]);
+    });
     var Widget = function(options) {
         var options = Object.assign({
             actions: {},
@@ -23,7 +23,7 @@ function register(globalSettings) {
             // For deep copy
             actions: Object.assign({}, globalSettings.actions),
             handlers: Object.assign({}, globalSettings.handlers)
-        }
+        };
         if (!options.template) {
             throw new Error('need a template');
         }
@@ -32,14 +32,14 @@ function register(globalSettings) {
         this.custom = {};
         Object.keys(settings.actions).forEach(index => {
             settings.actions[index] = bindScope(this, settings.actions[index]);
-        })
+        });
         Object.keys(options.actions).forEach(index => {
             options.actions[index] = bindScope(this, options.actions[index]);
-        })
+        });
         Object.keys(settings.actions).forEach(index => {
             this[index] =
                 generateActions(settings.actions[index], options.actions[index], index);
-        })
+        });
         this.props.dom = generateDocument(this, options.template);
         this.props.template = options.template;
         this.render =
@@ -87,7 +87,7 @@ function bindScope(scope, action) {
         error: action.error ? action.error.bind(scope) : function(err) {
             logger.error(err);
         }.bind(scope)
-    }
+    };
 }
 
 function generateDocument(widget, template) {
@@ -107,14 +107,14 @@ function generateDocument(widget, template) {
                     eventName = token;
                 else if (index === 1)
                     action = token;
-            })
+            });
             if (!widget[action]) {
                 logger.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
                 return;
             }
             doc.addEventListener(eventName, widget[action].bind(widget));
-        })
-    })
+        });
+    });
     return dom;
 }
 
@@ -135,7 +135,7 @@ function generateActions(widgetAction, userAction, name) {
         var before = function(...args) {
             logger.info('[%s][before](' + [].concat(...args) + ')', name);
             return wrapUserEvent(widgetAction.before, userAction.before, ...args);
-        }
+        };
         var method = function(arg) {
             logger.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
@@ -149,17 +149,17 @@ function generateActions(widgetAction, userAction, name) {
                 return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg;
             }
             return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
-        }
+        };
         var error = function(e) {
             return wrapUserEvent(widgetAction.error, userAction.error, e);
-        }
+        };
         var finish = function(arg) {
             if (typeof arg === 'function') {
                 // flatten one level
                 return [].concat.apply([], arg());
             }
             return arg;
-        }
+        };
         try {
             before = before(...args);
             if (isThenable(before)) {
@@ -169,7 +169,7 @@ function generateActions(widgetAction, userAction, name) {
                     return after(arg);
                 }).then(function(arg) {
                     return finish(arg);
-                }).catch(error)
+                }).catch(error);
             } else {
                 method = method(before);
                 if (isThenable(method)) {
@@ -177,13 +177,13 @@ function generateActions(widgetAction, userAction, name) {
                         return after(arg);
                     }).then(function(arg) {
                         return finish(arg);
-                    }).catch(error)
+                    }).catch(error);
                 } else {
                     after = after(method);
                     if (isThenable(after)) {
                         return after.then(function(arg) {
                             return finish(arg);
-                        }).catch(error)
+                        }).catch(error);
                     } else {
                         return finish(after);
                     }
@@ -192,9 +192,8 @@ function generateActions(widgetAction, userAction, name) {
         } catch (e) {
             error(e);
         }
-    }
+    };
 }
-
 
 function wrapUserEvent(widget, user, ...args) {
     var continueDefault = !user || user(...args) || true;
@@ -226,7 +225,7 @@ function initLogger(level) {
             if (level > 1)
                 console.log(...args);
         }
-    }
+    };
 }
 var logger;
 export { register };

@@ -1,6 +1,6 @@
-import sdk from './rc-sdk'
-import webPhone from './rc-webphone'
-import { register } from '../service'
+import sdk from './rc-sdk';
+import webPhone from './rc-webphone';
+import { register } from '../service';
 
 var PhoneService = function() {
     var line;
@@ -24,7 +24,7 @@ var PhoneService = function() {
                         .catch(function(e) {
                             return Promise.reject(err);
                         });
-                })
+                });
         },
         callout: function(fromNumber, toNumber) {
             // TODO: validate toNumber and fromNumber
@@ -43,20 +43,20 @@ var PhoneService = function() {
                 })
                 .then(countryId => {
                     webPhone.call(toNumber, fromNumber, countryId);
-                })
+                });
         },
         answer: function() {
             return webPhone
-                .answer(line)
+                .answer(line);
         },
         ignore: function() {},
         cancel: function() {
             return line
-                .cancel()
+                .cancel();
         },
         hangup: function() {
             return webPhone
-                .hangup(line)
+                .hangup(line);
         },
         on: function(name, handler) {
             handlers[name].push(handler);

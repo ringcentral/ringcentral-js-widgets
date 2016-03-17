@@ -1,5 +1,5 @@
-import sdk from './rc-sdk'
-import { register } from '../service'
+import sdk from './rc-sdk';
+import { register } from '../service';
 var LoginService = function(sdk) {
     var onLoginHandler = [];
     return {
@@ -25,6 +25,6 @@ var LoginService = function(sdk) {
         registerLoginHandler: function(handler) {
             onLoginHandler.push(handler);
         }
-    }
+    };
 }(sdk);
 register('loginService', LoginService);
