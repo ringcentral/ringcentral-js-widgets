@@ -20,21 +20,13 @@ var PhoneService = function() {
                     }]
                 })
                 .then(res => {
-                    var data = res.json();
-                    console.log("Sip Provisioning Data from RC API: " + JSON.stringify(data));
-                    console.log(data.sipFlags.outboundCallsEnabled);
-                    var checkFlags = false;
-                    return webPhone.register(data, checkFlags)
-                        .then(function() {
-                            console.log('Registered');
-                        })
+                    return webPhone.register(res.json(), false)
                         .catch(function(e) {
                             return Promise.reject(err);
                         });
                 })
         },
         callout: function(fromNumber, toNumber) {
-            console.log('callout');
             // TODO: validate toNumber and fromNumber
             if (!sdk || !webPhone) {
                 throw Error('Need to set up SDK and webPhone first.');
@@ -43,7 +35,6 @@ var PhoneService = function() {
             return sdk.platform()
                 .get('/restapi/v1.0/account/~/extension/~')
                 .then(res => {
-                    console.log(res);
                     var info = res.json();
                     if (info && info.regionalSettings && info.regionalSettings.homeCountry) {
                         return info.regionalSettings.homeCountry.id;

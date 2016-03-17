@@ -43,6 +43,7 @@ h1 {
     transition: height .2s ease-in-out;
 }
 .rc-pane-content {
+    position: relative;
     margin-top: 20px;
 }
 
@@ -112,6 +113,8 @@ h1 {
     padding: 2px 0;
     border: 1px solid #878787;
     font-weight: lighter;
+    max-height: 200px;
+    overflow: auto;
 }
 .rc-dropdown-list > div {
     padding: 5px 5px;
@@ -171,4 +174,18 @@ h1 {
 
 .rc-calllog-type {
     font-size: 12px;
+}
+
+.rc-mask {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #000;
+    opacity: .5;
+}
+.rc-mask-message {
+    color: #fff;
+    line-height: 2;
 }

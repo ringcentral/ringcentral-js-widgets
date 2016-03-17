@@ -65,7 +65,7 @@ function preload(widgets, callback) {
                         }
                     })
                     .then(parseDocument)
-                    .catch(err => console.error(err)))
+                    .catch(err => console.error('Widgets preload error:' + err)))
             }, [])
     ).then(callback)
 }
@@ -75,7 +75,6 @@ function preload(widgets, callback) {
 function w(name, options) {
     options = options || {};
     var baseWidget;
-    console.log(w.templates);
     if (!w.templates[name] || !w.templates[name].widget) {
         throw Error('you need to preload widget:' + name + ' before init it');
     }
@@ -83,6 +82,7 @@ function w(name, options) {
         template: w.templates[name].template.cloneNode(true),
         actions: options.actions || {},
         handlers: options.handlers || {},
+        logLevel: w.options.logLevel
     })
     initNestedWidget(baseWidget);
     // initWidget(baseWidget).forEach(child => {
@@ -91,10 +91,7 @@ function w(name, options) {
     return baseWidget;
 }
 w.templates = {};
-w.options = {
-    path: '/template/',
-    preload: {},
-}
+w.options = {};
 w.register = function(constructor) {
     var settings = new constructor();
     Object.keys(w.templates).forEach(index => {
@@ -105,11 +102,9 @@ w.register = function(constructor) {
 };
 w.config = function(options, callback) {
     // w.options = Object.assign(w.options, options);
-    console.log(options.preload);
     w.options.preload = options.preload || {};
-    console.log(options.path);
     w.options.path = options.path || '';
-    console.log(w.options.path);
+    w.options.logLevel = options.logLevel || 0;
     preload(w.options.preload, callback);
 };
 w.customize = function(context, target, options) {

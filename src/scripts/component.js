@@ -27,6 +27,7 @@ function register(globalSettings) {
         if (!options.template) {
             throw new Error('need a template');
         }
+        logger = initLogger(options.logLevel);
         this.props = {};
         this.custom = {};
         Object.keys(settings.actions).forEach(index => {
@@ -66,7 +67,7 @@ function register(globalSettings) {
             } else if (target instanceof HTMLElement) {
                 target = target;
             } else {
-                console.warn('first argument of render method should be selector string or dom');
+                logger.warn('first argument of render method should be selector string or dom');
             }
             target.appendChild(template);
             this.props.target = target;
@@ -84,7 +85,7 @@ function bindScope(scope, action) {
         method: action.method ? action.method.bind(scope) : function() {}.bind(scope),
         after: action.after ? action.after.bind(scope) : function() {}.bind(scope),
         error: action.error ? action.error.bind(scope) : function(err) {
-            console.error(err);
+            logger.error(err);
         }.bind(scope)
     }
 }
@@ -108,7 +109,7 @@ function generateDocument(widget, template) {
                     action = token;
             })
             if (!widget[action]) {
-                console.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
+                logger.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
                 return;
             }
             doc.addEventListener(eventName, widget[action].bind(widget));
@@ -124,26 +125,26 @@ function generateActions(widgetAction, userAction, name) {
             method: function() {},
             after: function() {},
             error: function(e) {
-                console.error(e);
+                logger.error(e);
                 throw e;
             }
         };
-        console.warn('Widget action [%s] is not defined by users', name);
+        logger.warn('Widget action [%s] is not defined by users', name);
     }
     return function(...args) {
         var before = function(...args) {
-            console.info('[%s][before](' + [].concat(...args) + ')', name);
+            logger.info('[%s][before](' + [].concat(...args) + ')', name);
             return wrapUserEvent(widgetAction.before, userAction.before, ...args);
         }
         var method = function(arg) {
-            console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            logger.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return widgetAction.method(userAction.method, ...arg()) || arg;
             }
             return widgetAction.method(userAction.method, arg) || arg;
         };
         var after = function(arg) {
-            console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            logger.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg;
             }
@@ -197,14 +198,8 @@ function generateActions(widgetAction, userAction, name) {
 
 function wrapUserEvent(widget, user, ...args) {
     var continueDefault = !user || user(...args) || true;
-    if (continueDefault ||
-        typeof continueDefault === 'undefined' ||
-        continueDefault) {
-        if (widget) {
-            return widget(...args) || (() => args);
-        }
-        return null;
-    }
+    if (continueDefault || typeof continueDefault === 'undefined')
+        return widget(...args) || (() => args);
     return [].concat(...args);
 }
 
@@ -214,4 +209,24 @@ function isThenable(result) {
     return false;
 }
 
+function initLogger(level) {
+    return {
+        error: function(...args) {
+            console.error(...args);
+        },
+        warn: function(...args) {
+            if (level > 0)
+                console.warn(...args);
+        },
+        info: function(...args) {
+            if (level > 1)
+                console.info(...args);
+        },
+        log: function(...args) {
+            if (level > 1)
+                console.log(...args);
+        }
+    }
+}
+var logger;
 export { register };

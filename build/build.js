@@ -38,6 +38,7 @@ function register(globalSettings) {
         if (!options.template) {
             throw new Error('need a template');
         }
+        logger = initLogger(options.logLevel);
         this.props = {};
         this.custom = {};
         Object.keys(settings.actions).forEach(function (index) {
@@ -75,7 +76,7 @@ function register(globalSettings) {
             } else if (target instanceof HTMLElement) {
                 target = target;
             } else {
-                console.warn('first argument of render method should be selector string or dom');
+                logger.warn('first argument of render method should be selector string or dom');
             }
             target.appendChild(template);
             this.props.target = target;
@@ -92,7 +93,7 @@ function bindScope(scope, action) {
         method: action.method ? action.method.bind(scope) : function () {}.bind(scope),
         after: action.after ? action.after.bind(scope) : function () {}.bind(scope),
         error: action.error ? action.error.bind(scope) : function (err) {
-            console.error(err);
+            logger.error(err);
         }.bind(scope)
     };
 }
@@ -113,7 +114,7 @@ function generateDocument(widget, template) {
                 if (index === 0) eventName = token;else if (index === 1) action = token;
             });
             if (!widget[action]) {
-                console.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
+                logger.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
                 return;
             }
             doc.addEventListener(eventName, widget[action].bind(widget));
@@ -129,11 +130,11 @@ function generateActions(widgetAction, userAction, name) {
             method: function method() {},
             after: function after() {},
             error: function error(e) {
-                console.error(e);
+                logger.error(e);
                 throw e;
             }
         };
-        console.warn('Widget action [%s] is not defined by users', name);
+        logger.warn('Widget action [%s] is not defined by users', name);
     }
     return function () {
         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
@@ -147,18 +148,18 @@ function generateActions(widgetAction, userAction, name) {
                 args[_key2] = arguments[_key2];
             }
 
-            console.info('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
+            logger.info('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
             return wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args));
         };
         var method = function method(arg) {
-            console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            logger.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg()))) || arg;
             }
             return widgetAction.method(userAction.method, arg) || arg;
         };
         var after = function after(arg) {
-            console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            logger.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(_toConsumableArray(arg()))) || arg;
             }
@@ -217,14 +218,9 @@ function wrapUserEvent(widget, user) {
     var _ref2;
 
     var continueDefault = !user || user.apply(undefined, args) || true;
-    if (continueDefault || typeof continueDefault === 'undefined' || continueDefault) {
-        if (widget) {
-            return widget.apply(undefined, args) || function () {
-                return args;
-            };
-        }
-        return null;
-    }
+    if (continueDefault || typeof continueDefault === 'undefined') return widget.apply(undefined, args) || function () {
+        return args;
+    };
     return (_ref2 = []).concat.apply(_ref2, args);
 }
 
@@ -233,6 +229,31 @@ function isThenable(result) {
     return false;
 }
 
+function initLogger(level) {
+    return {
+        error: function error() {
+            var _console;
+
+            (_console = console).error.apply(_console, arguments);
+        },
+        warn: function warn() {
+            var _console2;
+
+            if (level > 0) (_console2 = console).warn.apply(_console2, arguments);
+        },
+        info: function info() {
+            var _console3;
+
+            if (level > 1) (_console3 = console).info.apply(_console3, arguments);
+        },
+        log: function log() {
+            var _console4;
+
+            if (level > 1) (_console4 = console).log.apply(_console4, arguments);
+        }
+    };
+}
+var logger;
 exports.register = register;
 
 },{}],2:[function(require,module,exports){
@@ -254,6 +275,26 @@ var _phoneService = require('./services/phone-service');
 
 var _phoneService2 = _interopRequireDefault(_phoneService);
 
+var _rcContactService = require('./services/rc-contact-service');
+
+var _rcContactService2 = _interopRequireDefault(_rcContactService);
+
+var _contactService = require('./services/contact-service');
+
+var _contactService2 = _interopRequireDefault(_contactService);
+
+var _contactSearchService = require('./services/contact-search-service');
+
+var _contactSearchService2 = _interopRequireDefault(_contactSearchService);
+
+var _rcContactSearchProvider = require('./services/rc-contact-search-provider');
+
+var _rcContactSearchProvider2 = _interopRequireDefault(_rcContactSearchProvider);
+
+var _accountService = require('./services/account-service');
+
+var _accountService2 = _interopRequireDefault(_accountService);
+
 var _w = require('./w');
 
 var _w2 = _interopRequireDefault(_w);
@@ -264,7 +305,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 window.w = _w2.default;
 exports.default = _w2.default;
 
-},{"./services/call-log-service":4,"./services/login-service":5,"./services/phone-service":6,"./w":9}],3:[function(require,module,exports){
+},{"./services/account-service":4,"./services/call-log-service":5,"./services/contact-search-service":6,"./services/contact-service":7,"./services/login-service":8,"./services/phone-service":9,"./services/rc-contact-search-provider":10,"./services/rc-contact-service":11,"./w":14}],3:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -282,6 +323,65 @@ exports.register = register;
 exports.getService = getService;
 
 },{}],4:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _rcSdk = require('./rc-sdk');
+
+var _rcSdk2 = _interopRequireDefault(_rcSdk);
+
+var _service = require('../service');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var accountService = function (sdk) {
+    var info;
+    var numbers;
+    return {
+        getAccountInfo: function getAccountInfo() {
+            return sdk.platform().get('/account/~/extension/~').then(function (response) {
+                console.debug(response.json());
+                info = response.json();
+                return info;
+            }).catch(function (e) {
+                console.error('Recent Calls Error: ' + e.message);
+            });
+        },
+        getPhoneNumber: function getPhoneNumber() {
+            return sdk.platform().get('/account/~/extension/~/phone-number').then(function (response) {
+                console.debug(response.json());
+                // info = response.json();
+                return response.json();
+            }).then(function (data) {
+                numbers = data.records;
+                return data.records;
+            }).catch(function (e) {
+                console.error('Recent Calls Error: ' + e.message);
+            });
+        },
+        hasServiceFeature: function hasServiceFeature(name) {
+            if (!info) return Error('Need to fetch account info by accountService.getAccountInfo');
+            return info.serviceFeatures.filter(function (feature) {
+                return feature.featureName.toLowerCase() === name.toLowerCase();
+            }).length > 0;
+        },
+        listNumber: function listNumber(type) {
+            console.debug(numbers);
+            return numbers.filter(function (number) {
+                return number.type === type;
+            }).map(function (number) {
+                return number.phoneNumber;
+            });
+        }
+    };
+}(_rcSdk2.default);
+(0, _service.register)('accountService', accountService);
+exports.default = accountService;
+
+},{"../service":3,"./rc-sdk":12}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -316,7 +416,126 @@ var CallLogService = function (sdk) {
 (0, _service.register)('callLogService', CallLogService);
 exports.default = CallLogService;
 
-},{"../service":3,"./rc-sdk":7}],5:[function(require,module,exports){
+},{"../service":3,"./rc-sdk":12}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _service = require('../service');
+
+var contactSearchService = function () {
+    var searchProviders = [];
+    var queryCompletedHandlers = [];
+    return {
+        addSearchProvider: function addSearchProvider(searchProvider) {
+            if (typeof searchProvider.search !== 'function') {
+                console.error('SearchProvider is invalid!');
+            } else {
+                searchProviders.push(searchProvider);
+            }
+        },
+        onQueryCompleted: function onQueryCompleted(handler) {
+            queryCompletedHandlers.push(handler);
+        },
+        query: function query(text) {
+            var searchFunctions = searchProviders.map(function (provider) {
+                return provider.search(text);
+            });
+            Promise.all(searchFunctions).then(function (results) {
+                var searchResults = {};
+                results.forEach(function (result) {
+                    result.forEach(function (item) {
+                        var key = item.name + item.value;
+                        if (!searchResults[key]) {
+                            var toAddItem = {
+                                name: item.name,
+                                value: item.value,
+                                type: item.type
+                            };
+                            searchResults[key] = toAddItem;
+                        }
+                    });
+                });
+                queryCompletedHandlers.forEach(function (h) {
+                    return h(searchResults);
+                });
+            });
+        }
+    };
+}();
+(0, _service.register)('contactSearchService', contactSearchService);
+exports.default = contactSearchService;
+
+},{"../service":3}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _service = require('../service');
+
+var contactService = function () {
+
+    var keysToSet = ['type', 'firstName', 'lastName', 'middleName', 'company'];
+
+    function Contact(type) {
+
+        this.type = type;
+
+        this.uri = null;
+        this.id = null;
+        this.trackingId = null;
+        this.availability = null;
+        this.firstName = null;
+        this.lastName = null;
+        this.middleName = null;
+        this.nickName = null;
+        this.company = null;
+        this.jobTitle = null;
+
+        this.extensionNumber = null;
+
+        this.phoneNumber = [];
+        this.phoneNumberType = {};
+
+        this.email = null;
+        this.email2 = null;
+        this.email3 = null;
+
+        this.homeAddress = null;
+        this.businessAddress = null;
+        this.otherAddress = null;
+
+        this.avatarUrl = null;
+    }
+
+    function createContact(rawContactsObj) {
+        var contact = {};
+
+        contact = Object.assign(contact, rawContactsObj);
+
+        return contact;
+    }
+
+    return {
+
+        contacts: [],
+
+        search: function search(queryText) {},
+
+        addNewContacts: function addNewContacts(rawContactsObj) {
+            var contactObj = createContact(rawContactsObj);
+            this.contacts.push(contactObj);
+        }
+    };
+}();
+(0, _service.register)('contactService', contactService);
+exports.default = contactService;
+
+},{"../service":3}],8:[function(require,module,exports){
 'use strict';
 
 var _rcSdk = require('./rc-sdk');
@@ -340,6 +559,8 @@ var LoginService = function (sdk) {
                 onLoginHandler.forEach(function (handler) {
                     return handler();
                 });
+            }).catch(function (err) {
+                return console.error(err);
             });
         },
         checkLoginStatus: function checkLoginStatus() {
@@ -359,7 +580,7 @@ var LoginService = function (sdk) {
 }(_rcSdk2.default);
 (0, _service.register)('loginService', LoginService);
 
-},{"../service":3,"./rc-sdk":7}],6:[function(require,module,exports){
+},{"../service":3,"./rc-sdk":12}],9:[function(require,module,exports){
 'use strict';
 
 var _rcSdk = require('./rc-sdk');
@@ -390,26 +611,18 @@ var PhoneService = function () {
                     transport: 'WSS'
                 }]
             }).then(function (res) {
-                var data = res.json();
-                console.log("Sip Provisioning Data from RC API: " + JSON.stringify(data));
-                console.log(data.sipFlags.outboundCallsEnabled);
-                var checkFlags = false;
-                return _rcWebphone2.default.register(data, checkFlags).then(function () {
-                    console.log('Registered');
-                }).catch(function (e) {
+                return _rcWebphone2.default.register(res.json(), false).catch(function (e) {
                     return Promise.reject(err);
                 });
             });
         },
         callout: function callout(fromNumber, toNumber) {
-            console.log('callout');
             // TODO: validate toNumber and fromNumber
             if (!_rcSdk2.default || !_rcWebphone2.default) {
                 throw Error('Need to set up SDK and webPhone first.');
                 return;
             }
             return _rcSdk2.default.platform().get('/restapi/v1.0/account/~/extension/~').then(function (res) {
-                console.log(res);
                 var info = res.json();
                 if (info && info.regionalSettings && info.regionalSettings.homeCountry) {
                     return info.regionalSettings.homeCountry.id;
@@ -464,7 +677,194 @@ var PhoneService = function () {
 }();
 (0, _service.register)('phoneService', PhoneService);
 
-},{"../service":3,"./rc-sdk":7,"./rc-webphone":8}],7:[function(require,module,exports){
+},{"../service":3,"./rc-sdk":12,"./rc-webphone":13}],10:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _rcContactService = require('./rc-contact-service');
+
+var _rcContactService2 = _interopRequireDefault(_rcContactService);
+
+var _service = require('../service');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var rcContactSearchProvider = function () {
+    return {
+        search: function search(text) {
+            var results = [];
+            if (text) {
+                text = text.toLowerCase();
+                _rcContactService2.default.companyContacts.map(function (contact) {
+                    if (contact.lastName && contact.lastName.toLowerCase().indexOf(text) >= 0 || contact.firstName && contact.firstName.toLowerCase().indexOf(text) >= 0) {
+                        results.push({
+                            name: contact.firstName + ' ' + contact.lastName,
+                            value: contact.extension,
+                            type: 'rc',
+                            id: contact.id
+                        });
+                        contact.phoneNumber.forEach(function (phone) {
+                            results.push({
+                                name: contact.firstName + ' ' + contact.lastName,
+                                value: phone,
+                                type: 'rc',
+                                id: contact.id
+                            });
+                        });
+                    } else {
+                        if (contact.extension && contact.extension.indexOf(text) >= 0) {
+                            results.push({
+                                name: contact.firstName + ' ' + contact.lastName,
+                                value: contact.extension,
+                                type: 'rc',
+                                id: contact.id
+                            });
+                        }
+                        contact.phoneNumber.forEach(function (phone) {
+                            if (phone.indexOf(text) >= 0) {
+                                results.push({
+                                    name: contact.firstName + ' ' + contact.lastName,
+                                    value: phone,
+                                    type: 'rc',
+                                    id: contact.id
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+            return results;
+        }
+    };
+}();
+(0, _service.register)('rcContactSearchProvider', rcContactSearchProvider);
+exports.default = rcContactSearchProvider;
+
+},{"../service":3,"./rc-contact-service":11}],11:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _rcSdk = require('./rc-sdk');
+
+var _rcSdk2 = _interopRequireDefault(_rcSdk);
+
+var _service = require('../service');
+
+var _contactService = require('./contact-service');
+
+var _contactService2 = _interopRequireDefault(_contactService);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var rcContactService = function (sdk, contactService) {
+    var companyContacts = [];
+
+    function Contact() {
+        this.firstName = null;
+        this.lastName = null;
+        this.extension = null;
+        this.phoneNumber = [];
+    }
+
+    function createContact(extension) {
+        var contact = new Contact();
+        contact.extension = extension.extensionNumber;
+        contact.firstName = extension.contact.firstName;
+        contact.lastName = extension.contact.lastName;
+        contact.type = 'rc';
+        contact.id = extension.id;
+        return contact;
+    }
+
+    function fetchCompanyContactByPage(page) {
+        return sdk.platform().get('/account/~/extension/', { perPage: 250, page: page });
+    }
+
+    function fetchCompanyDirectNumbersByPage(page) {
+        return sdk.platform().get('/account/~/phone-number', { perPage: 250, page: page });
+    }
+
+    function fetchCompanyContacts() {
+        var page = 1;
+        fetchCompanyContactByPage(page).then(function (response) {
+            var respObj = response.json();
+            if (respObj.paging && respObj.paging.totalPages > page) {
+                var promises = [];
+                while (respObj.paging.totalPages > page) {
+                    page++;
+                    promises.push(fetchCompanyContactByPage(page));
+                }
+                Promise.all(promises).then(function (responses) {
+                    responses.forEach(function (response) {
+                        var records = response.json().records.filter(function (extension) {
+                            return extension.status === "Enabled" && ['DigitalUser', 'User'].indexOf(extension.type) >= 0;
+                        }).map(function (extension) {
+                            return createContact(extension);
+                        });
+                        companyContacts.push.apply(companyContacts, records);
+                    });
+                    fetchCompanyDirectNumbers();
+                });
+            }
+        }).catch(function (e) {
+            console.error(e);
+        });
+    }
+
+    function fetchCompanyDirectNumbers() {
+        var page = 1;
+        fetchCompanyDirectNumbersByPage(page).then(function (response) {
+            var respObj = response.json();
+            if (respObj.paging && respObj.paging.totalPages > page) {
+                var promises = [];
+                while (respObj.paging.totalPages > page) {
+                    page++;
+                    promises.push(fetchCompanyDirectNumbersByPage(page));
+                }
+                Promise.all(promises).then(function (responses) {
+                    var numbers = {};
+                    responses.forEach(function (response) {
+                        var resp = response.json();
+                        resp.records.forEach(function (el) {
+                            if (el.extension && el.extension.extensionNumber) {
+                                if (!numbers[el.extension.extensionNumber]) {
+                                    numbers[el.extension.extensionNumber] = [];
+                                }
+                                numbers[el.extension.extensionNumber].push(el);
+                            }
+                        });
+                    });
+                    companyContacts.forEach(function (contact) {
+                        var phones = numbers[contact.extension];
+                        if (phones) {
+                            phones.forEach(function (phone) {
+                                contact.phoneNumber.push(phone.phoneNumber);
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    return {
+
+        companyContacts: companyContacts,
+        getCompanyContact: function getCompanyContact() {
+            fetchCompanyContacts();
+        }
+    };
+}(_rcSdk2.default, _contactService2.default);
+(0, _service.register)('rcContactService', rcContactService);
+exports.default = rcContactService;
+
+},{"../service":3,"./contact-service":7,"./rc-sdk":12}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -478,7 +878,7 @@ var sdk = new RingCentral.SDK({
 
 exports.default = sdk;
 
-},{}],8:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -490,7 +890,7 @@ var webPhone = new RingCentral.WebPhone({
 
 exports.default = webPhone;
 
-},{}],9:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -558,7 +958,7 @@ function preload(widgets, callback) {
                 return template;
             }
         }).then(parseDocument).catch(function (err) {
-            return console.error(err);
+            return console.error('Widgets preload error:' + err);
         }));
     }, [])).then(callback);
 }
@@ -567,14 +967,14 @@ function preload(widgets, callback) {
 function w(name, options) {
     options = options || {};
     var baseWidget;
-    console.log(w.templates);
     if (!w.templates[name] || !w.templates[name].widget) {
         throw Error('you need to preload widget:' + name + ' before init it');
     }
     baseWidget = new w.templates[name].widget({
         template: w.templates[name].template.cloneNode(true),
         actions: options.actions || {},
-        handlers: options.handlers || {}
+        handlers: options.handlers || {},
+        logLevel: w.options.logLevel
     });
     initNestedWidget(baseWidget);
     // initWidget(baseWidget).forEach(child => {
@@ -583,10 +983,7 @@ function w(name, options) {
     return baseWidget;
 }
 w.templates = {};
-w.options = {
-    path: '/template/',
-    preload: {}
-};
+w.options = {};
 w.register = function (constructor) {
     var settings = new constructor();
     Object.keys(w.templates).forEach(function (index) {
@@ -596,11 +993,9 @@ w.register = function (constructor) {
 };
 w.config = function (options, callback) {
     // w.options = Object.assign(w.options, options);
-    console.log(options.preload);
     w.options.preload = options.preload || {};
-    console.log(options.path);
     w.options.path = options.path || '';
-    console.log(w.options.path);
+    w.options.logLevel = options.logLevel || 0;
     preload(w.options.preload, callback);
 };
 w.customize = function (context, target, options) {

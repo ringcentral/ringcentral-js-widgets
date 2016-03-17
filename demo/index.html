@@ -38,11 +38,13 @@
             'auth-panel': 'auth-panel',
             'dial-pad': 'dial-pad',
             'call-panel': 'call-panel'
-        }
+        },
+        logLevel: 2 /* 0 for error only, 1 for error and warning, 2 for error and warning and log */
     }, init)
     var phoneService = w.service()['phoneService'];
     var loginService = w.service()['loginService'];
     var callLogService = w.service()['callLogService'];
+    var accountService = w.service()['accountService'];
 
     function init() {
         var authPanel = w('auth-panel', {
@@ -53,10 +55,9 @@
                             this.props.username,
                             this.props.extension,
                             this.props.password
-                        );
+                        ).then(accountService.getAccountInfo);
                     },
                     after: function() {
-                        var authPanel = this;
                         dialPad.render('#dial-pad', function() {
                             authPanel.remove();
                         });
@@ -67,6 +68,12 @@
         })
         var dialPad = w('dial-pad', {
             actions: {
+                render: {
+                    after: function() {
+                        if (!accountService.hasServiceFeature("VoipCalling"))
+                            this.disable();
+                    }
+                },
                 getCandidates: {
                     method: function() {
                         return callLogService.getCallLogs();
@@ -75,6 +82,11 @@
                 callout: {
                     method: function(fromNo, toNo) {
                         return phoneService.callout(fromNo, toNo);
+                    }
+                },
+                getOutboundCallerID: {
+                    method: function() {
+                        return accountService.listNumber("VoiceFax");
                     }
                 }
             }
@@ -103,12 +115,18 @@
                 }
             }
         })
+
         // authPanel.render('#auth-panel');
         loginService.checkLoginStatus().then(
             isLoggedIn => {
                 if (isLoggedIn) {
-                    dialPad.render('#dial-pad');
-                    callPanel.render('#call-panel');
+                    return Promise.all([
+                        accountService.getAccountInfo(),
+                        accountService.getPhoneNumber()
+                    ]).then(() => {
+                        dialPad.render('#dial-pad');
+                        callPanel.render('#call-panel');
+                    })
                 } else
                     authPanel.render('#auth-panel');
             }
