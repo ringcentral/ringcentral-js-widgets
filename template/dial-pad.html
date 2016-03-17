@@ -5,7 +5,7 @@
     <div class='rc-pane-content'>
         <div class='rc-pane-scrollable'>
             <div data-info='number'>
-                <auto-complete></auto-complete>
+                <auto-complete data-info='auto-complete'></auto-complete>
             </div>
             <div class='rc-dial-wrapper'>
                 <button class='rc-dial-button' data-info='dial-button-1' data-value='1' data-event='click:dialing'>1</button>
@@ -63,7 +63,7 @@ w.register(function() {
             before: function() {},
             method: function() {},
             after: function() {
-                var dialPad = this;
+                console.log(this.props);
             }
         },
         dialing: {
@@ -85,14 +85,12 @@ w.register(function() {
                 this.props.dom.callout.classList.add('rc-button-loading');
             },
             method: function(finish) {
-                var ac = this.props['auto-complete'];
+                var ac = this.props.dom['auto-complete'];
                 this.props.toNumber = ac.props.dom.input.value;
                 this.props.fromNumber = localStorage.getItem('username');
                 return finish(this.props.fromNumber, this.props.toNumber);
             },
-            after: function() {
-
-            }
+            after: function() {}
         },
         getCandidates: {
             before: function() {},

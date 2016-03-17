@@ -9,10 +9,10 @@ Used for login, can either be a login RingCentral WebRTC phone or other third pa
 
 ###### actions
 
-  - `init`
+  - `init()`
   - `render(target, callback)`
-  - `remove`
-  - `login`
+  - `remove()`
+  - `login()`
   - `showCountry(event)`
   - `switchCountry(event)`
 
@@ -22,7 +22,7 @@ Used for login, can either be a login RingCentral WebRTC phone or other third pa
 
 ##### Default service
 
-[`login-service`](../src/scripts/service/login-service.js)
+[`login-service`](../src/scripts/services/login-service.js)
 
 
 ##### Example code
@@ -31,16 +31,19 @@ Used for login, can either be a login RingCentral WebRTC phone or other third pa
 var authPanel = w('auth-panel', {
     actions: {
         login: {
+            before: function() {
+                // UI intaraction before login action
+            },
             method: function() {
                 // Custom login logic happened here, you can also integrate with third party SDK
 
                 // The default RingCentral login service:
-                // var loginService = w.service()['loginService'];
-                // return loginService.login(
-                //     this.props.username,
-                //     this.props.extension,
-                //     this.props.password
-                // );
+                var loginService = w.service()['loginService'];
+                return loginService.login(
+                    this.props.username,
+                    this.props.extension,
+                    this.props.password
+                );
             },
             after: function() {
                 // UI intaraction after login success

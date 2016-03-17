@@ -36,7 +36,9 @@ function initNestedWidget(widget) {
             var child = w(doc.localName, widget.custom[doc.localName]);
             child.render(doc);
             // FIXME: When multiple child element, has problems
-            widget.props[doc.localName] = child;
+            var childName = doc.getAttribute('data-info');
+            if (childName)
+                widget.props[childName] = child;
         }
     })
 }
