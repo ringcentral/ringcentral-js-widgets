@@ -2,37 +2,43 @@ import { register } from '../service';
 var contactSearchService = (function() {
     var searchProviders = [];
     var queryCompletedHandlers = [];
+    
+    function createResult(item){
+        return {
+            name: item.name,
+            value: item.value,
+            type: item.type,
+        };
+    }
+    
     return {
-        addSearchProvider: function(searchProvider) {
-            if (typeof searchProvider.search  !== 'function') {
-                console.error('SearchProvider is invalid!');
-            }else {
-                searchProviders.push(searchProvider);
-            }
-        },
 
         onQueryCompleted: function(handler) {
             queryCompletedHandlers.push(handler);
         },
 
-        query: function(text) {
-            var searchFunctions = searchProviders.map(provider => {
-                return provider.search(text);
-            });
+        query: function(searchFunctions, filter) {
             Promise.all(searchFunctions).then(results => {
                 var searchResultsKeys = {};
                 var searchResults = [];
                 results.forEach(result => {
                     result.forEach(item => {
-                        var key = item.name + item.value;
-                        if (!searchResultsKeys[key]) {
-                            var toAddItem = {
-                                name: item.name,
-                                value: item.value,
-                                type: item.type,
-                            };
-                            searchResultsKeys[key] = toAddItem;
-                            searchResults.push(toAddItem);
+                        if(filter) {
+                            if(filter(item)){
+                                var key = item.name + item.value;
+                                if (!searchResultsKeys[key]) {
+                                    var toAddItem = createResult(item);
+                                    searchResultsKeys[key] = toAddItem;
+                                    searchResults.push(toAddItem);
+                                }
+                            }
+                        }else{
+                            var key = item.name + item.value;
+                            if (!searchResultsKeys[key]) {
+                                var toAddItem = createResult(item);
+                                searchResultsKeys[key] = toAddItem;
+                                searchResults.push(toAddItem);
+                            }
                         }
                     });
                 });

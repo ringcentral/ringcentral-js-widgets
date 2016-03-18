@@ -51,8 +51,7 @@
     var contactSearchService = w.service()['contactSearchService'];
     var rcContactSearchProvider = w.service()['rcContactSearchProvider'];
     
-    contactSearchService.addSearchProvider(rcContactSearchProvider);
-    
+    var dialPadSearchProviders = [rcContactSearchProvider];
 
     function init() {
         var authPanel = w('auth-panel', {
@@ -82,7 +81,10 @@
                 },
                 queryContacts: {
                     method: function() {
-                        return contactSearchService.query(this.props.to);
+                        var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                            return provider.search(this.props.to);
+                        });
+                        return contactSearchService.query(dialPadSearchFunctions);
                     }
                 },
                 callout: {
