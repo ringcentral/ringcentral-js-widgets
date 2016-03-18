@@ -70,7 +70,7 @@
                         return Promise.all([
                             accountService.getAccountInfo(),
                             accountService.getPhoneNumber(),
-                            rcContactService.getCompanyContact()
+                            rcContactService.syncCompanyContact()
                         ])
                         .then(afterLogin)
                         .then(() => {authPanel.remove()})

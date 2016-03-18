@@ -27,7 +27,8 @@
 </div>
 <script>
 w.register(function() {
-    this.actions = w.actions()['interaction'];
+    // this.actions = w.actions()['interaction'];
+    this.actions = {};
     this.actions.init = {
         before: function() {},
         method: function(finish) {
@@ -35,7 +36,6 @@ w.register(function() {
         },
         after: function() {
             this.props.country = 'United States';
-            console.debug(this);
         }
     },
     this.actions.render = {

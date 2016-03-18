@@ -31,7 +31,8 @@
 </div>
 <script>
 w.register(function() {
-    this.action = w.actions()['interaction'];
+    // this.action = w.actions()['interaction'];
+    this.action = {};
     this.action.init = {
         before: function() {},
         method: function() {},
@@ -70,6 +71,8 @@ w.register(function() {
         before: function() {},
         method: function() {},
         after: function() {
+            console.log(this.props['dropdown']);
+            console.log(this.props);
             this.props['dropdown'].getData();
         }
     }
