@@ -70,8 +70,6 @@ w.register(function() {
         before: function() {},
         method: function() {},
         after: function() {
-            console.log(this.props['dropdown']);
-            console.log(this.props);
             this.props['dropdown'].getData();
         }
     }
@@ -118,12 +116,6 @@ w.register(function() {
         method: function(finish, queryText) {
             this.props.to = queryText;
             return finish();
-        },
-    }
-    this.actions.fillContacts = {
-        method:function(finish, candidates){
-            var cp = this.props['contact-picker'];
-            cp.fillAutoComplete(candidates);
         }
     }
 })

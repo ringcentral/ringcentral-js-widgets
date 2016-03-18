@@ -107,9 +107,6 @@
                 }
             }
         });
-        contactSearchService.onQueryCompleted(results => {
-            dialPad.fillContacts(results);
-        });
         var callPanel = w('call-panel', {
             actions: {
                 init: {
@@ -134,7 +131,23 @@
                 }
             }
         })
-        var composeText = w('compose-text');
+        var composeText = w('compose-text', {
+            actions: {
+                getOutboundCallerID: {
+                    method: function() {
+                        return accountService.listNumber("VoiceFax");
+                    }
+                },
+                queryContacts: {
+                    method: function() {
+                        var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                            return provider.search(this.props.to);
+                        });
+                        return contactSearchService.query(dialPadSearchFunctions);
+                    }
+                }
+            }
+        });
         var toolbar = w('toolbar', {
             actions: {
                 init: {

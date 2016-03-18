@@ -1,8 +1,7 @@
 function register(globalSettings) {
-    globalSettings = Object.assign({
-        actions: {},
-        handlers: {}
-    }, globalSettings);
+    if (!globalSettings.actions)
+        console.warn('Widgets do not have actions defined, maybe you get some typo.');
+
     ['init', 'render', 'remove', 'error'].forEach(action => {
         globalSettings.actions[action] = Object.assign({
             before: function() {},
@@ -16,17 +15,12 @@ function register(globalSettings) {
     });
     var Widget = function(options) {
         var options = Object.assign({
-            actions: {},
-            handlers: {}
+            actions: {}
         }, options);
         var settings = {
             // For deep copy
             actions: Object.assign({}, globalSettings.actions),
-            handlers: Object.assign({}, globalSettings.handlers)
         };
-        if (!options.template) {
-            throw new Error('need a template');
-        }
         logger = initLogger(options.logLevel);
         this.props = {};
         this.custom = {};

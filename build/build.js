@@ -70,10 +70,8 @@ Object.defineProperty(exports, "__esModule", {
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function register(globalSettings) {
-    globalSettings = Object.assign({
-        actions: {},
-        handlers: {}
-    }, globalSettings);
+    if (!globalSettings.actions) console.warn('Widgets do not have actions defined, maybe you get some typo.');
+
     ['init', 'render', 'remove', 'error'].forEach(function (action) {
         globalSettings.actions[action] = Object.assign({
             before: function before() {},
@@ -89,17 +87,12 @@ function register(globalSettings) {
         var _this = this;
 
         var options = Object.assign({
-            actions: {},
-            handlers: {}
+            actions: {}
         }, options);
         var settings = {
             // For deep copy
-            actions: Object.assign({}, globalSettings.actions),
-            handlers: Object.assign({}, globalSettings.handlers)
+            actions: Object.assign({}, globalSettings.actions)
         };
-        if (!options.template) {
-            throw new Error('need a template');
-        }
         logger = initLogger(options.logLevel);
         this.props = {};
         this.custom = {};
@@ -506,12 +499,12 @@ var contactSearchService = function () {
 
     return {
 
-        onQueryCompleted: function onQueryCompleted(handler) {
-            queryCompletedHandlers.push(handler);
-        },
+        // onQueryCompleted: function(handler) {
+        //     queryCompletedHandlers.push(handler);
+        // },
 
         query: function query(searchFunctions, filter) {
-            Promise.all(searchFunctions).then(function (results) {
+            return Promise.all(searchFunctions).then(function (results) {
                 var searchResultsKeys = {};
                 var searchResults = [];
                 results.forEach(function (result) {
@@ -535,9 +528,8 @@ var contactSearchService = function () {
                         }
                     });
                 });
-                queryCompletedHandlers.forEach(function (h) {
-                    return h(searchResults);
-                });
+                return searchResults;
+                // queryCompletedHandlers.forEach(h => h(searchResults));
             });
         }
     };

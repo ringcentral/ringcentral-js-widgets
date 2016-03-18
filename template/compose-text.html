@@ -13,10 +13,54 @@
 </div>
 <script>
 w.register(function() {
-    this.actions = {
-        send: {
-
+    this.actions = {};
+    this.actions.init = {
+        after: function() {
+            var composeText = this;
+            w.customize(this, 'contact-picker', {
+                actions: {
+                    autoComplete: {
+                        method: function() {
+                            return composeText.queryContacts(this.props.inputValue);
+                        }
+                    }
+                }
+            })
+            w.customize(this, 'dropdown', {
+                actions: {
+                    getData: {
+                        method: function() {
+                            return composeText.getOutboundCallerID();
+                        },
+                        after: function(ids) {
+                            ids.forEach(id => this.addItem(id));
+                        }
+                    },
+                    switchTitle: {
+                        method: function(text) {
+                            composeText.props.fromNumber = text;
+                        }
+                    }
+                }
+            })
         }
+    }
+    this.actions.render = {
+        after: function() {
+            this.props['dropdown'].getData();
+        }
+    }
+    this.actions.send = {};
+    this.actions.getOutboundCallerID = {
+        method: function(finish) {
+            return finish();
+        }
+    }
+    this.actions.queryContacts = {
+        method: function(finish, queryText) {
+            this.props.to = queryText;
+            return finish();
+        },
     }
 })
 </script>

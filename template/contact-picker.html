@@ -76,12 +76,9 @@ w.register(function() {
         },
         autoComplete: {
             method: function(finish) {
-                console.debug('autocomplete from widget');
                 this.props.inputValue = this.props.dom.input.value;
                 return finish();
-            }
-        },
-        fillAutoComplete:{
+            },
             after: function(contacts) {
                 if (!contacts)
                     return;

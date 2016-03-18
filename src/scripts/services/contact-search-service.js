@@ -2,29 +2,29 @@ import { register } from '../service';
 var contactSearchService = (function() {
     var searchProviders = [];
     var queryCompletedHandlers = [];
-    
-    function createResult(item){
+
+    function createResult(item) {
         return {
             name: item.name,
             value: item.value,
             type: item.type,
         };
     }
-    
+
     return {
 
-        onQueryCompleted: function(handler) {
-            queryCompletedHandlers.push(handler);
-        },
+        // onQueryCompleted: function(handler) {
+        //     queryCompletedHandlers.push(handler);
+        // },
 
         query: function(searchFunctions, filter) {
-            Promise.all(searchFunctions).then(results => {
+            return Promise.all(searchFunctions).then(results => {
                 var searchResultsKeys = {};
                 var searchResults = [];
                 results.forEach(result => {
                     result.forEach(item => {
-                        if(filter) {
-                            if(filter(item)){
+                        if (filter) {
+                            if (filter(item)) {
                                 var key = item.name + item.value;
                                 if (!searchResultsKeys[key]) {
                                     var toAddItem = createResult(item);
@@ -32,7 +32,7 @@ var contactSearchService = (function() {
                                     searchResults.push(toAddItem);
                                 }
                             }
-                        }else{
+                        } else {
                             var key = item.name + item.value;
                             if (!searchResultsKeys[key]) {
                                 var toAddItem = createResult(item);
@@ -42,7 +42,8 @@ var contactSearchService = (function() {
                         }
                     });
                 });
-                queryCompletedHandlers.forEach(h => h(searchResults));
+                return searchResults;
+                // queryCompletedHandlers.forEach(h => h(searchResults));
             });
         },
     };
