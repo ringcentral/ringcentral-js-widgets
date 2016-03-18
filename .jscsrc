@@ -1,4 +1,5 @@
 {
   preset: 'google',
+  esnext: true,
   "validateIndentation": 4,
 }

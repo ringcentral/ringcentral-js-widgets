@@ -1,5 +1,6 @@
 import { register as registerComponent } from './component';
-import { getService } from './service';
+import { getServices } from './service';
+import { getActions } from './action';
 
 function fetchWidget(filePath) {
     return fetch(w.options.path + filePath + (filePath.endsWith('.html') ? '' : '.html'))
@@ -61,6 +62,9 @@ function preload(widgets, callback) {
                             // FIXME: script position
                             var script = template.querySelector('script');
                             document.body.appendChild(script);
+                            script.onload = function() {
+                                script.parentNode.removeChild(script);
+                            };
                             return template;
                         }
                     })
@@ -109,6 +113,7 @@ w.config = function(options, callback) {
 w.customize = function(context, target, options) {
     context.custom[target] = options;
 };
-w.service = getService;
+w.service = getServices;
+w.actions = getActions;
 
 export default w;

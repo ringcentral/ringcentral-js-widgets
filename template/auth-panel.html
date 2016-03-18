@@ -1,6 +1,3 @@
-<style>
-.rc-auth {}
-</style>
 <div class='rc-panel rc-auth'>
     <div class='rc-pane-header'>
         <h1>Login</h1>
@@ -30,65 +27,65 @@
 </div>
 <script>
 w.register(function() {
-    this.actions = {
-        init: {
-            before: function() {},
-            method: function(finish) {
-                finish();
-            },
-            after: function() {
-                this.props.country = 'United States';
+    this.actions = w.actions()['interaction'];
+    this.actions.init = {
+        before: function() {},
+        method: function(finish) {
+            finish();
+        },
+        after: function() {
+            this.props.country = 'United States';
+            console.debug(this);
+        }
+    },
+    this.actions.render = {
+        before: function() {},
+        after: function() {
+            this.props.dom.username.value = localStorage.getItem('username');
+            this.props.dom.extension.value = localStorage.getItem('extension');
+            this.props.dom.password.value = localStorage.getItem('password');
+        }
+    },
+    this.actions.login = {
+        before: function() {
+            this.props.dom.login.disabled = true;
+            this.props.dom.error.textContent = '';
+            this.props.dom.login.classList.add('rc-button-loading');
+            loading(this.props.dom.footer, 350);
+        },
+        method: function(finish) {
+            this.props.username = this.props.dom.username.value;
+            this.props.extension = this.props.dom.extension.value;
+            this.props.password = this.props.dom.password.value;
+            if (this.props.country === 'United States')
+                this.props.username = '1' + this.props.username;
+            return finish();
+        },
+        after: function() {
+            this.props.dom.login.disabled = false;
+            if (this.props.dom.remember.checked) {
+                localStorage.setItem('username', this.props.dom.username.value || '');
+                localStorage.setItem('extension', this.props.dom.extension.value || '');
+                localStorage.setItem('password', this.props.dom.password.value || '');
             }
         },
-        render: {
-            before: function() {},
-            after: function() {
-                this.props.dom.username.value = localStorage.getItem('username');
-                this.props.dom.extension.value = localStorage.getItem('extension');
-                this.props.dom.password.value = localStorage.getItem('password');
-            }
-        },
-        login: {
-            before: function() {
-                this.props.dom.login.disabled = true;
-                this.props.dom.error.textContent = '';
-                this.props.dom.login.classList.add('rc-button-loading');
-                loading(this.props.dom.footer, 350);
-            },
-            method: function(finish) {
-                this.props.username = this.props.dom.username.value;
-                this.props.extension = this.props.dom.extension.value;
-                this.props.password = this.props.dom.password.value;
-                if (this.props.country === 'United States')
-                    this.props.username = '1' + this.props.username;
-                return finish();
-            },
-            after: function() {
-                this.props.dom.login.disabled = false;
-                if (this.props.dom.remember.checked) {
-                    localStorage.setItem('username', this.props.dom.username.value || '');
-                    localStorage.setItem('extension', this.props.dom.extension.value || '');
-                    localStorage.setItem('password', this.props.dom.password.value || '');
-                }
-            },
-            error: function(err) {
-                console.error(err);
-                this.props.dom.error.textContent = err.message;
-                loading(this.props.dom.footer, 30);
-                this.props.dom.login.disabled = false;
-            }
-        },
-        showCountry: {
-            before: function(event) {
-                this.props.dom['country-list'].classList.toggle('display-none');
-            }
-        },
-        switchCountry: {
-            before: function(event) {
-                this.props.dom['country-dropdown'].textContent = event.target.textContent;
-                this.props.dom['country-list'].classList.add('display-none');
-                this.props.country = event.target.textContent;
-            }
+        error: function(err) {
+            console.error(err);
+            this.props.dom.error.textContent = err.message;
+            loading(this.props.dom.footer, 30);
+            this.props.dom.login.disabled = false;
+        }
+    },
+    this.actions.showCountry = {
+        before: function(event) {
+            this.props.dom['country-list'].classList.toggle('display-none');
+        }
+    },
+    this.actions.switchCountry = {
+        before: function(event) {
+            this.props.dom['country-dropdown'].textContent = event.target.textContent;
+            this.props.dom['country-list'].classList.add('display-none');
+            this.props.country = event.target.textContent;
         }
     }
 
