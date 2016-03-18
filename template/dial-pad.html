@@ -31,98 +31,97 @@
 </div>
 <script>
 w.register(function() {
-    this.actions = {
-        init: {
-            before: function() {},
-            method: function() {},
-            after: function() {
-                var dialPad = this;
-                w.customize(this, 'contact-picker', {
-                    actions: {
-                        autoComplete: {
-                            method: function() {
-                                return dialPad.queryContacts(this.props.inputValue);
-                            }
+    this.action = w.actions()['interaction'];
+    this.action.init = {
+        before: function() {},
+        method: function() {},
+        after: function() {
+            var dialPad = this;
+            w.customize(this, 'contact-picker', {
+                actions: {
+                    autoComplete: {
+                        method: function() {
+                            return dialPad.queryContacts(this.props.inputValue);
                         }
                     }
-                })
-                w.customize(this, 'dropdown', {
-                    actions: {
-                        getData: {
-                            method: function() {
-                                return dialPad.getOutboundCallerID();
-                            },
-                            after: function(ids) {
-                                ids.forEach(id => this.addItem(id));
-                            }
+                }
+            })
+            w.customize(this, 'dropdown', {
+                actions: {
+                    getData: {
+                        method: function() {
+                            return dialPad.getOutboundCallerID();
                         },
-                        switchTitle: {
-                            method: function(text) {
-                                console.debug(text)
-                                dialPad.props.fromNumber = text;
-                            }
+                        after: function(ids) {
+                            ids.forEach(id => this.addItem(id));
+                        }
+                    },
+                    switchTitle: {
+                        method: function(text) {
+                            console.debug(text)
+                            dialPad.props.fromNumber = text;
                         }
                     }
-                })
-            }
+                }
+            })
+        }
+    }
+    this.action.render = {
+        before: function() {},
+        method: function() {},
+        after: function() {
+            this.props['dropdown'].getData();
+        }
+    }
+    this.action.dialing = {
+        method: function(finish) {
+            var button = event.target;
+            var cp = this.props['contact-picker'];
+            cp.appendInput(button.getAttribute('data-value'));
+            return finish();
         },
-        render: {
-            before: function() {},
-            method: function() {},
-            after: function() {
-                this.props['dropdown'].getData();
-            }
+        after: function() {
+            this.props['contact-picker'].props.dom.input.focus();
+        }
+    }
+    this.action.callout = {
+        before: function() {
+            this.props.dom.callout.classList.add('rc-button-loading');
         },
-        dialing: {
-            method: function(finish) {
-                var button = event.target;
-                var cp = this.props['contact-picker'];
-                cp.appendInput(button.getAttribute('data-value'));
-                return finish();
-            },
-            after: function() {
-                this.props['contact-picker'].props.dom.input.focus();
-            }
+        method: function(finish) {
+            var ac = this.props['contact-picker'];
+            this.props.toNumber = ac.props.dom.input.value;
+            this.props.fromNumber = localStorage.getItem('username');
+            return finish(this.props.fromNumber, this.props.toNumber);
         },
-        callout: {
-            before: function() {
-                this.props.dom.callout.classList.add('rc-button-loading');
-            },
-            method: function(finish) {
-                var ac = this.props['contact-picker'];
-                this.props.toNumber = ac.props.dom.input.value;
-                this.props.fromNumber = localStorage.getItem('username');
-                return finish(this.props.fromNumber, this.props.toNumber);
-            },
-            after: function() {},
-            error: function(err) {
-                this.props.dom.error.textContent = err.message;
-            }
+        after: function() {},
+        error: function(err) {
+            this.props.dom.error.textContent = err.message;
+        }
+    }
+    this.action.disable = {
+        method: function(finish) {
+            return finish();
         },
-        disable: {
-            method: function(finish) {
-                return finish();
-            },
-            after: function() {
-                this.props.dom['disabled-mask'].classList.remove('display-none');
-            }
+        after: function() {
+            this.props.dom['disabled-mask'].classList.remove('display-none');
+        }
+    }
+    this.action.getOutboundCallerID = {
+        method: function(finish) {
+            return finish();
+        }
+    }
+    this.action.queryContacts = {
+        method: function(finish, queryText) {
+            this.props.to = queryText;
+            return finish();
         },
-        getOutboundCallerID: {
-            method: function(finish) {
-                return finish();
-            }
-        },
-        queryContacts: {
-            method: function(finish, queryText) {
-                this.props.to = queryText;
-                return finish();
-            },
-        },
-        fillContacts: {
-            method:function(finish, candidates){
-                var cp = this.props['contact-picker'];
-                cp.fillAutoComplete(candidates);
-            }
+    }
+    this.action.fillContacts = {
+        method:function(finish, candidates){
+            var cp = this.props['contact-picker'];
+            cp.fillAutoComplete(candidates);
         }
     }
 })
