@@ -8,6 +8,7 @@ var rcContactService = function(sdk, contactService) {
     function Contact() {
         this.firstName = null;
         this.lastName = null;
+        this.displayName = null;
         this.extension = null;
         this.phoneNumber = [];
     }
@@ -17,6 +18,7 @@ var rcContactService = function(sdk, contactService) {
         contact.extension = extension.extensionNumber;
         contact.firstName = extension.contact.firstName;
         contact.lastName = extension.contact.lastName;
+        contact.displayName = contact.firstName + ' ' + contact.lastName;
         contact.type = 'rc';
         contact.id  = extension.id;
         return contact;

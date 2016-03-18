@@ -706,16 +706,16 @@ var rcContactSearchProvider = function () {
             if (text) {
                 text = text.toLowerCase();
                 _rcContactService2.default.companyContacts.map(function (contact) {
-                    if (contact.lastName && contact.lastName.toLowerCase().indexOf(text) >= 0 || contact.firstName && contact.firstName.toLowerCase().indexOf(text) >= 0) {
+                    if (contact.displayName && contact.displayName.toLowerCase().indexOf(text) >= 0) {
                         results.push({
-                            name: contact.firstName + ' ' + contact.lastName,
+                            name: contact.displayName,
                             value: contact.extension,
                             type: 'rc',
                             id: contact.id
                         });
                         contact.phoneNumber.forEach(function (phone) {
                             results.push({
-                                name: contact.firstName + ' ' + contact.lastName,
+                                name: contact.displayName,
                                 value: phone,
                                 type: 'rc',
                                 id: contact.id
@@ -724,7 +724,7 @@ var rcContactSearchProvider = function () {
                     } else {
                         if (contact.extension && contact.extension.indexOf(text) >= 0) {
                             results.push({
-                                name: contact.firstName + ' ' + contact.lastName,
+                                name: contact.displayName,
                                 value: contact.extension,
                                 type: 'rc',
                                 id: contact.id
@@ -734,7 +734,7 @@ var rcContactSearchProvider = function () {
                         contact.phoneNumber.forEach(function (phone) {
                             if (phone.indexOf(text) >= 0) {
                                 results.push({
-                                    name: contact.firstName + ' ' + contact.lastName,
+                                    name: contact.displayName,
                                     value: phone,
                                     type: 'rc',
                                     id: contact.id
@@ -778,6 +778,7 @@ var rcContactService = function (sdk, contactService) {
     function Contact() {
         this.firstName = null;
         this.lastName = null;
+        this.displayName = null;
         this.extension = null;
         this.phoneNumber = [];
     }
@@ -787,6 +788,7 @@ var rcContactService = function (sdk, contactService) {
         contact.extension = extension.extensionNumber;
         contact.firstName = extension.contact.firstName;
         contact.lastName = extension.contact.lastName;
+        contact.displayName = contact.firstName + ' ' + contact.lastName;
         contact.type = 'rc';
         contact.id = extension.id;
         return contact;
