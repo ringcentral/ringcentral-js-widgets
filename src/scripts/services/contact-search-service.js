@@ -25,7 +25,7 @@ var contactSearchService = (function() {
                 results.forEach(result => {
                     result.forEach(item => {
                         var key = item.name + item.value;
-                        if(!searchResultsKeys[key]){
+                        if (!searchResultsKeys[key]) {
                             var toAddItem = {
                                 name: item.name,
                                 value: item.value,

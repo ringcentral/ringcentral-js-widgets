@@ -7,7 +7,7 @@ var rcContactSearchProvider = function() {
             if (text) {
                 text = text.toLowerCase();
                 rcContactService.companyContacts.map(contact => {
-                    if (contact.displayName && contact.displayName.toLowerCase().indexOf(text) >= 0){
+                    if (contact.displayName && contact.displayName.toLowerCase().indexOf(text) >= 0) {
                         results.push({
                             name: contact.displayName,
                             value: contact.extension,
