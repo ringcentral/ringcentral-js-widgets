@@ -134,7 +134,7 @@
                     return Promise.all([
                             accountService.getAccountInfo(),
                             accountService.getPhoneNumber(),
-                            rcContactService.getCompanyContact()
+                            rcContactService.syncCompanyContact()
                         ])
                         .then(afterLogin)
                         .catch(err => console.error(err))

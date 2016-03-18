@@ -795,7 +795,8 @@ var rcContactService = function (sdk) {
 
     return {
         companyContacts: companyContacts,
-        getCompanyContact: function getCompanyContact() {
+        syncCompanyContact: function syncCompanyContact() {
+            companyContacts.length = 0;
             fetchCompanyContacts();
         }
     };

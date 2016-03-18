@@ -103,7 +103,8 @@ var rcContactService = function(sdk) {
 
     return {
         companyContacts: companyContacts,
-        getCompanyContact: function() {
+        syncCompanyContact: function() {
+            companyContacts.length = 0;
             fetchCompanyContacts();
         },
     };
