@@ -1,12 +1,11 @@
 var services = {};
 function register(name, service) {
-    console.log(name);
     services[name] = service;
 }
-function getService() {
+function getServices() {
     return services;
 }
 export {
     register,
-    getService
+    getServices
 };

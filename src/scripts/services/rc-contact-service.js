@@ -1,13 +1,13 @@
 import sdk from './rc-sdk';
 import { register } from '../service';
-import contactService from './contact-service';
 
-var rcContactService = function(sdk, contactService) {
+var rcContactService = function(sdk) {
     var companyContacts = [];
 
     function Contact() {
         this.firstName = null;
         this.lastName = null;
+        this.displayName = null;
         this.extension = null;
         this.phoneNumber = [];
     }
@@ -17,6 +17,7 @@ var rcContactService = function(sdk, contactService) {
         contact.extension = extension.extensionNumber;
         contact.firstName = extension.contact.firstName;
         contact.lastName = extension.contact.lastName;
+        contact.displayName = contact.firstName + ' ' + contact.lastName;
         contact.type = 'rc';
         contact.id  = extension.id;
         return contact;
@@ -102,11 +103,12 @@ var rcContactService = function(sdk, contactService) {
 
     return {
         companyContacts: companyContacts,
-        getCompanyContact: function() {
+        syncCompanyContact: function() {
+            companyContacts.length = 0;
             fetchCompanyContacts();
         },
     };
-}(sdk, contactService);
+}(sdk);
 
 register('rcContactService', rcContactService);
 export default rcContactService;

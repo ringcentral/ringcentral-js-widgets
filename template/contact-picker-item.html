@@ -1,0 +1,37 @@
+<style>
+.contact {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.contact:hover {
+    background-color: #3498db;
+    color: #fff;
+}
+</style>
+<div class='contact' data-event='click:select'>
+    <div data-info='name'></div>
+    <div data-info='value'></div>    
+</div>
+<script>
+w.register(function() {
+    this.actions = {
+        init: {
+            method: function(finish){
+                return finish();
+            },
+            after: function(contact){
+                this.props.dom.name.textContent = contact.name;
+                this.props.dom.value.textContent = contact.value;
+            }
+        },
+        select: {
+            method: function(finish){
+                this.props.name = this.props.dom.name.textContent;
+                this.props.value = this.props.dom.value.textContent;
+                return finish();
+            }
+        }
+    }
+})
+</script>
