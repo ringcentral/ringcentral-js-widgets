@@ -1,8 +1,7 @@
 import sdk from './rc-sdk';
 import { register } from '../service';
-import contactService from './contact-service';
 
-var rcContactService = function(sdk, contactService) {
+var rcContactService = function(sdk) {
     var companyContacts = [];
 
     function Contact() {
@@ -108,7 +107,7 @@ var rcContactService = function(sdk, contactService) {
             fetchCompanyContacts();
         },
     };
-}(sdk, contactService);
+}(sdk);
 
 register('rcContactService', rcContactService);
 export default rcContactService;
