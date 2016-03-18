@@ -26,6 +26,7 @@
         <div id="auth-panel"></div>
         <div id="toolbar"></div>
         <div id="dial-pad"></div>
+        <div id="compose-text"></div>
         <div id="call-panel"></div>
         <div id="call-log-panel"></div>
     </div>
@@ -39,7 +40,8 @@
             'auth-panel': 'auth-panel',
             'dial-pad': 'dial-pad',
             'call-panel': 'call-panel',
-            'toolbar': 'toolbar'
+            'toolbar': 'toolbar',
+            'compose-text': 'compose-text'
         },
         logLevel: 2 /* 0 for error only, 1 for error and warning, 2 for error and warning and log */
     }, init)
@@ -124,6 +126,7 @@
                 }
             }
         })
+        var composeText = w('compose-text');
         var toolbar = w('toolbar', {
             actions: {
                 init: {
@@ -131,7 +134,9 @@
                         this.clickItem(this.addItem('DP'), function() {
                             dialPad.render('#dial-pad');
                         });
-                        this.addItem('MS');
+                        this.clickItem(this.addItem('CT'), function() {
+                            composeText.render('#compose-text');
+                        });
                         this.addItem('CL');
                         this.addItem('ST');
                     }

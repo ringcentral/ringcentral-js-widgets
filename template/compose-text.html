@@ -1,0 +1,20 @@
+<div class='rc-panel'>
+    <div class='rc-pane-header'>
+        <h1>Compose Text</h1>
+    </div>
+    <div class='rc-pane-content'>
+        <dropdown data-info='dropdown'></dropdown>
+        <contact-picker data-info='contact-picker'></contact-picker>
+        <textarea></textarea>
+        <button class='rc-button' data-action='click:send'>Send</button>
+    </div>
+</div>
+<script>
+w.register(function() {
+    this.actions = {
+        send: {
+
+        },
+    }
+})
+</script>
