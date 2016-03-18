@@ -24,12 +24,19 @@
 <div class='contact-picker'>
     <input class='rc-input' placeholder="To: Enter name or number" data-info='input' data-event='input:autoComplete'></input>
     <div data-info='contacts' class='contacts display-none'>
-        <div data-info='contact-template' class='contact'></div>
+        <!--<div data-info='contact-template' class='contact'></div>-->
+        <contact-picker-item dynamic></contact-picker-item>
     </div>
 </div>
 <script>
 w.register(function() {
     this.actions = {
+        init:{
+            method: function(finish){
+                this.props.limit = 10;
+                return finish();
+            }
+        },
         render: {
             method: function(finish) {
                 finish();
@@ -83,14 +90,30 @@ w.register(function() {
                     this.show();
                 else
                     this.hide();
-                contacts.forEach(contact => {
-                    var template = this.props.dom['contact-template'].cloneNode(true);
-                    template.addEventListener('click', (e) => {
-                        this.props.dom.input.value = template.textContent;
-                        this.hide();
-                    });
-                    template.textContent = contact.name + '' + contact.value;
-                    this.props.dom.contacts.appendChild(template);
+                var count = 0;
+                var parent = this;
+                contacts.every(contact => {
+                    if(count < this.props.limit){
+                        var widget = w('contact-picker-item', {
+                            actions: {
+                                init: {
+                                    method:function(){
+                                        return contact;
+                                    }
+                                },
+                                select: {
+                                    method:function(){
+                                        parent.appendInput(this.props.value);
+                                    }
+                                }
+                            }
+                        });
+                        widget.render(this.props.dom.contacts);    
+                        count++;
+                        return true;
+                    }else{
+                        return false;
+                    }
                 })
             }
         }
