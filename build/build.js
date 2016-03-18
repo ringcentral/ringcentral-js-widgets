@@ -1023,7 +1023,9 @@ w.customize = function (context, target, options) {
     context.custom[target] = options;
 };
 w.service = _service.getServices;
-w.actions = _action.getActions;
+w.action = function (name) {
+    return Object.assign([], (0, _action.getActions)()[name]);
+};
 
 exports.default = w;
 

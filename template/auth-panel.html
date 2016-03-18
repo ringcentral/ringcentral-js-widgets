@@ -27,8 +27,7 @@
 </div>
 <script>
 w.register(function() {
-    // this.actions = w.actions()['interaction'];
-    this.actions = {};
+    this.actions = w.action('interaction');
     this.actions.init = {
         before: function() {},
         method: function(finish) {
