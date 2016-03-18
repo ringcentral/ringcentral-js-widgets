@@ -195,3 +195,7 @@ h1 {
     margin: 2px;
     font-weight: lighter;
 }
+.rc-textarea {
+    width: 100%;
+    min-height: 150px;
+}
