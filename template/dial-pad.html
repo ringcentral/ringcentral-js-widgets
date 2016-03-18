@@ -31,8 +31,8 @@
 </div>
 <script>
 w.register(function() {
-    this.action = w.action('interaction');
-    this.action.init = {
+    this.actions = w.action('interaction');
+    this.actions.init = {
         before: function() {},
         method: function() {},
         after: function() {
@@ -66,7 +66,7 @@ w.register(function() {
             })
         }
     }
-    this.action.render = {
+    this.actions.render = {
         before: function() {},
         method: function() {},
         after: function() {
@@ -75,7 +75,7 @@ w.register(function() {
             this.props['dropdown'].getData();
         }
     }
-    this.action.dialing = {
+    this.actions.dialing = {
         method: function(finish) {
             var button = event.target;
             var cp = this.props['contact-picker'];
@@ -86,7 +86,7 @@ w.register(function() {
             this.props['contact-picker'].props.dom.input.focus();
         }
     }
-    this.action.callout = {
+    this.actions.callout = {
         before: function() {
             this.props.dom.callout.classList.add('rc-button-loading');
         },
@@ -101,7 +101,7 @@ w.register(function() {
             this.props.dom.error.textContent = err.message;
         }
     }
-    this.action.disable = {
+    this.actions.disable = {
         method: function(finish) {
             return finish();
         },
@@ -109,18 +109,18 @@ w.register(function() {
             this.props.dom['disabled-mask'].classList.remove('display-none');
         }
     }
-    this.action.getOutboundCallerID = {
+    this.actions.getOutboundCallerID = {
         method: function(finish) {
             return finish();
         }
     }
-    this.action.queryContacts = {
+    this.actions.queryContacts = {
         method: function(finish, queryText) {
             this.props.to = queryText;
             return finish();
         },
     }
-    this.action.fillContacts = {
+    this.actions.fillContacts = {
         method:function(finish, candidates){
             var cp = this.props['contact-picker'];
             cp.fillAutoComplete(candidates);
