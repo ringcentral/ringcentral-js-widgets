@@ -6,15 +6,15 @@ w.register(function() {
             method: function() {},
             after: function(content) {
                 // use innerHTML here, because content could be image or something else.
-                var item = docuement.createElement('button');
-                item.classList.add();
+                var item = document.createElement('button');
+                item.classList.add('rc-toolbar-item');
                 item.innerHTML = content;
                 this.props.dom['toolbar'].appendChild(item);
                 return item;
             }
         },
         clickItem: {
-            method: function(item, event) {
+            method: function(finish, item, event) {
                 if (typeof item === 'number') {
 
                 } else {

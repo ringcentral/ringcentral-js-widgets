@@ -116,7 +116,23 @@
             }
         })
         var toolbar = w('toolbar', {
-            actions: {}
+            actions: {
+                init: {
+                    after: function() {
+                        this.clickItem(this.addItem('DP'), function() {
+                            dialPad.render('#dial-pad');
+                        });
+                        this.addItem('MS');
+                        this.addItem('CL');
+                        this.addItem('ST');
+                    }
+                },
+                render: {
+                    after: function() {
+                        dialPad.render('#dial-pad');
+                    }
+                }
+            }
         })
         // authPanel.render('#auth-panel');
         loginService.checkLoginStatus().then(
@@ -134,7 +150,7 @@
         );
 
         function afterLogin() {
-            dialPad.render('#dial-pad');
+            // dialPad.render('#dial-pad');
             callPanel.render('#call-panel');
             toolbar.render('#toolbar');
         }

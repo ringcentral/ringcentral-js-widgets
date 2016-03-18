@@ -40,6 +40,6 @@ gulp.task('watch', function() { return watch(); });
 gulp.task('default', ['watch']);
 gulp.task('lint', function() {
     return gulp.src('src/scripts/**/**')
-          .pipe(jscs({fix: true}))
+          .pipe(jscs({fix: true, configPath: '.jscsrc'}))
           .pipe(gulp.dest('src/scripts'));
 });

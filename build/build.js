@@ -350,9 +350,11 @@ var accountService = function (sdk) {
                 console.error('Recent Calls Error: ' + e.message);
             });
         },
+
         getPhoneNumber: function getPhoneNumber() {
             return sdk.platform().get('/account/~/extension/~/phone-number').then(function (response) {
                 console.debug(response.json());
+
                 // info = response.json();
                 return response.json();
             }).then(function (data) {
@@ -362,12 +364,14 @@ var accountService = function (sdk) {
                 console.error('Recent Calls Error: ' + e.message);
             });
         },
+
         hasServiceFeature: function hasServiceFeature(name) {
             if (!info) return Error('Need to fetch account info by accountService.getAccountInfo');
             return info.serviceFeatures.filter(function (feature) {
                 return feature.featureName.toLowerCase() === name.toLowerCase();
             }).length > 0;
         },
+
         listNumber: function listNumber(type) {
             console.debug(numbers);
             return numbers.filter(function (number) {
@@ -378,6 +382,7 @@ var accountService = function (sdk) {
         }
     };
 }(_rcSdk2.default);
+
 (0, _service.register)('accountService', accountService);
 exports.default = accountService;
 
@@ -397,14 +402,10 @@ var _service = require('../service');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CallLogService = function (sdk) {
-
     var period = 7 * 24 * 3600 * 1000;
     var dateFrom = new Date(Date.now() - period);
-
     return {
-
         getCallLogs: function getCallLogs() {
-
             return sdk.platform().get('/account/~/extension/~/call-log', { dateFrom: dateFrom.toISOString() }).then(function (response) {
                 return response.json().records;
             }).catch(function (e) {
@@ -413,6 +414,7 @@ var CallLogService = function (sdk) {
         }
     };
 }(_rcSdk2.default);
+
 (0, _service.register)('callLogService', CallLogService);
 exports.default = CallLogService;
 
@@ -436,9 +438,11 @@ var contactSearchService = function () {
                 searchProviders.push(searchProvider);
             }
         },
+
         onQueryCompleted: function onQueryCompleted(handler) {
             queryCompletedHandlers.push(handler);
         },
+
         query: function query(text) {
             var searchFunctions = searchProviders.map(function (provider) {
                 return provider.search(text);
@@ -465,6 +469,7 @@ var contactSearchService = function () {
         }
     };
 }();
+
 (0, _service.register)('contactSearchService', contactSearchService);
 exports.default = contactSearchService;
 
@@ -532,6 +537,7 @@ var contactService = function () {
         }
     };
 }();
+
 (0, _service.register)('contactService', contactService);
 exports.default = contactService;
 
@@ -723,6 +729,7 @@ var rcContactSearchProvider = function () {
                                 id: contact.id
                             });
                         }
+
                         contact.phoneNumber.forEach(function (phone) {
                             if (phone.indexOf(text) >= 0) {
                                 results.push({
@@ -736,10 +743,12 @@ var rcContactSearchProvider = function () {
                     }
                 });
             }
+
             return results;
         }
     };
 }();
+
 (0, _service.register)('rcContactSearchProvider', rcContactSearchProvider);
 exports.default = rcContactSearchProvider;
 
@@ -800,15 +809,17 @@ var rcContactService = function (sdk, contactService) {
                     page++;
                     promises.push(fetchCompanyContactByPage(page));
                 }
+
                 Promise.all(promises).then(function (responses) {
                     responses.forEach(function (response) {
                         var records = response.json().records.filter(function (extension) {
-                            return extension.status === "Enabled" && ['DigitalUser', 'User'].indexOf(extension.type) >= 0;
+                            return extension.status === 'Enabled' && ['DigitalUser', 'User'].indexOf(extension.type) >= 0;
                         }).map(function (extension) {
                             return createContact(extension);
                         });
                         companyContacts.push.apply(companyContacts, records);
                     });
+
                     fetchCompanyDirectNumbers();
                 });
             }
@@ -827,6 +838,7 @@ var rcContactService = function (sdk, contactService) {
                     page++;
                     promises.push(fetchCompanyDirectNumbersByPage(page));
                 }
+
                 Promise.all(promises).then(function (responses) {
                     var numbers = {};
                     responses.forEach(function (response) {
@@ -836,6 +848,7 @@ var rcContactService = function (sdk, contactService) {
                                 if (!numbers[el.extension.extensionNumber]) {
                                     numbers[el.extension.extensionNumber] = [];
                                 }
+
                                 numbers[el.extension.extensionNumber].push(el);
                             }
                         });
@@ -854,13 +867,13 @@ var rcContactService = function (sdk, contactService) {
     }
 
     return {
-
         companyContacts: companyContacts,
         getCompanyContact: function getCompanyContact() {
             fetchCompanyContacts();
         }
     };
 }(_rcSdk2.default, _contactService2.default);
+
 (0, _service.register)('rcContactService', rcContactService);
 exports.default = rcContactService;
 
@@ -955,6 +968,9 @@ function preload(widgets, callback) {
                 // FIXME: script position
                 var script = template.querySelector('script');
                 document.body.appendChild(script);
+                script.onload = function () {
+                    script.parentNode.removeChild(script);
+                };
                 return template;
             }
         }).then(parseDocument).catch(function (err) {
