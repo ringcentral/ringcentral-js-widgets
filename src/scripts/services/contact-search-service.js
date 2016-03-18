@@ -20,17 +20,19 @@ var contactSearchService = (function() {
                 return provider.search(text);
             });
             Promise.all(searchFunctions).then(results => {
-                var searchResults = {};
+                var searchResultsKeys = {};
+                var searchResults = [];
                 results.forEach(result => {
                     result.forEach(item => {
                         var key = item.name + item.value;
-                        if (!searchResults[key]) {
+                        if(!searchResultsKeys[key]){
                             var toAddItem = {
                                 name: item.name,
                                 value: item.value,
                                 type: item.type,
                             };
-                            searchResults[key] = toAddItem;
+                            searchResultsKeys[key] = toAddItem;
+                            searchResults.push(toAddItem);
                         }
                     });
                 });
@@ -39,6 +41,5 @@ var contactSearchService = (function() {
         },
     };
 })();
-
 register('contactSearchService', contactSearchService);
 export default contactSearchService;

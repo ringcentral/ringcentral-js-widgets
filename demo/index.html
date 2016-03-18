@@ -47,6 +47,12 @@
     var loginService = w.service()['loginService'];
     var callLogService = w.service()['callLogService'];
     var accountService = w.service()['accountService'];
+    var rcContactService = w.service()['rcContactService'];
+    var contactSearchService = w.service()['contactSearchService'];
+    var rcContactSearchProvider = w.service()['rcContactSearchProvider'];
+    
+    contactSearchService.addSearchProvider(rcContactSearchProvider);
+    
 
     function init() {
         var authPanel = w('auth-panel', {
@@ -74,9 +80,9 @@
                             this.disable();
                     }
                 },
-                getCandidates: {
+                queryContacts: {
                     method: function() {
-                        return callLogService.getCallLogs();
+                        return contactSearchService.query(this.props.to);
                     }
                 },
                 callout: {
@@ -90,7 +96,10 @@
                     }
                 }
             }
-        })
+        });
+        contactSearchService.onQueryCompleted(results => {
+            dialPad.fillContacts(results);
+        });
         var callPanel = w('call-panel', {
             actions: {
                 init: {
@@ -140,7 +149,8 @@
                 if (isLoggedIn) {
                     return Promise.all([
                             accountService.getAccountInfo(),
-                            accountService.getPhoneNumber()
+                            accountService.getPhoneNumber(),
+                            rcContactService.getCompanyContact()
                         ])
                         .then(afterLogin)
                         .catch(err => console.error(err))

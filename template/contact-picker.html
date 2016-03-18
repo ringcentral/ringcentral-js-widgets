@@ -1,0 +1,99 @@
+<style>
+.contact-picker .contacts {
+    position: absolute;
+    background-color: #fff;
+    width: 228px;
+    height: 300px;
+    overflow: auto;
+    padding: 2px 0;
+    margin-top: 1px;
+    border: 1px solid #878787;
+    color: #878787;
+}
+
+.contact-picker .contact {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.contact-picker .contact:hover {
+    background-color: #3498db;
+    color: #fff;
+}
+</style>
+<div class='contact-picker'>
+    <input class='rc-input' placeholder="To: Enter name or number" data-info='input' data-event='input:autoComplete'></input>
+    <div data-info='contacts' class='contacts display-none'>
+        <div data-info='contact-template' class='contact'></div>
+    </div>
+</div>
+<script>
+w.register(function() {
+    this.actions = {
+        render: {
+            method: function(finish) {
+                finish();
+            },
+            after: function() {
+                window.addEventListener('click', (e) => {
+                    if (e.target !== this.props.dom.input && !e.target.classList.contains('contact')) {
+                        this.hide();
+                    }
+                });
+            }
+        },
+        hide: {
+            after: function() {
+                this.props.dom.contacts.classList.add('display-none');
+                if (this.showingTimeout) {
+                    window.clearTimeout(this.showingTimeout);
+                    this.showingTimeout = null;
+                }
+            }
+        },
+        show: {
+            after: function() {
+                if (this.showingTimeout) 
+                    return;
+                this.showingTimeout = window.setTimeout(() => {
+                    if (this.props.dom.input === document.activeElement)
+                        this.props.dom.contacts.classList.remove('display-none');
+                }, 300);
+            }
+        },
+        appendInput: {
+            before: function(value) {
+                this.props.dom.input.value += value;
+                this.props.dom.input.focus();
+            }
+        },
+        autoComplete: {
+            method: function(finish) {
+                this.props.inputValue = this.props.dom.input.value;
+                return finish();
+            }
+        },
+        fillAutoComplete:{
+            after: function(contacts) {
+                if (!contacts)
+                    return;
+                while (this.props.dom.contacts.firstChild)
+                    this.props.dom.contacts.removeChild(this.props.dom.contacts.firstChild);
+                if (contacts.length > 0)
+                    this.show();
+                else
+                    this.hide();
+                contacts.forEach(contact => {
+                    var template = this.props.dom['contact-template'].cloneNode(true);
+                    template.addEventListener('click', (e) => {
+                        this.props.dom.input.value = template.textContent;
+                        this.hide();
+                    });
+                    template.textContent = contact.name + '' + contact.value;
+                    this.props.dom.contacts.appendChild(template);
+                })
+            }
+        }
+    }
+})
+</script>

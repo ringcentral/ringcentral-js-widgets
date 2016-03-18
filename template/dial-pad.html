@@ -9,7 +9,7 @@
         <div class='rc-pane-scrollable'>
             <dropdown data-info='dropdown'></dropdown>
             <div data-info='number'>
-                <auto-complete data-info='auto-complete'></auto-complete>
+                <contact-picker data-info='contact-picker'></contact-picker>
             </div>
             <div class='rc-dial-wrapper'>
                 <button class='rc-dial-button' data-info='dial-button-1' data-value='1' data-event='click:dialing'>1</button>
@@ -37,28 +37,11 @@ w.register(function() {
             method: function() {},
             after: function() {
                 var dialPad = this;
-                w.customize(this, 'auto-complete', {
+                w.customize(this, 'contact-picker', {
                     actions: {
-                        init: {
-                            after: function() {
-                                Promise.resolve(dialPad.getCandidates()).then(candidates => {
-                                    this.props.candidates = candidates;
-                                });
-                            }
-                        },
                         autoComplete: {
                             method: function() {
-                                var candidates = this.props.candidates;
-                                var numbers = [];
-                                // TODO, if fetch is in progress, need to show again after fetch complete
-                                if (!candidates)
-                                    return;
-                                return candidates.filter((candidate, index) => {
-                                    if (!candidate.from.phoneNumber)
-                                        return false;
-                                    numbers.push(candidate.from.phoneNumber)
-                                    return candidate.from.phoneNumber.indexOf(this.props.dom.input.value) === 1 && numbers.indexOf(candidate.from.phoneNumber) < 0;
-                                })
+                                return dialPad.queryContacts(this.props.inputValue);
                             }
                         }
                     }
@@ -91,16 +74,14 @@ w.register(function() {
             }
         },
         dialing: {
-            before: function() {},
             method: function(finish) {
                 var button = event.target;
-                var ac = this.props['auto-complete'];
-                ac.appendInput(button.getAttribute('data-value'));
-                ac.autoComplete(this.getCandidates());
+                var cp = this.props['contact-picker'];
+                cp.appendInput(button.getAttribute('data-value'));
                 return finish();
             },
             after: function() {
-                this.props['auto-complete'].props.dom.input.focus();
+                this.props['contact-picker'].props.dom.input.focus();
             }
         },
         callout: {
@@ -108,7 +89,7 @@ w.register(function() {
                 this.props.dom.callout.classList.add('rc-button-loading');
             },
             method: function(finish) {
-                var ac = this.props['auto-complete'];
+                var ac = this.props['contact-picker'];
                 this.props.toNumber = ac.props.dom.input.value;
                 this.props.fromNumber = localStorage.getItem('username');
                 return finish(this.props.fromNumber, this.props.toNumber);
@@ -117,13 +98,6 @@ w.register(function() {
             error: function(err) {
                 this.props.dom.error.textContent = err.message;
             }
-        },
-        getCandidates: {
-            before: function() {},
-            method: function(finish) {
-                return finish();
-            },
-            after: function() {}
         },
         disable: {
             method: function(finish) {
@@ -136,6 +110,18 @@ w.register(function() {
         getOutboundCallerID: {
             method: function(finish) {
                 return finish();
+            }
+        },
+        queryContacts: {
+            method: function(finish, queryText) {
+                this.props.to = queryText;
+                return finish();
+            },
+        },
+        fillContacts: {
+            method:function(finish, candidates){
+                var cp = this.props['contact-picker'];
+                cp.fillAutoComplete(candidates);
             }
         }
     }
