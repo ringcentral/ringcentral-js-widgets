@@ -203,7 +203,6 @@ function generateActions(widgetAction, userAction, name) {
                 args[_key2] = arguments[_key2];
             }
 
-            console.log(args);
             logger.info('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
             return wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args));
         };

@@ -127,7 +127,6 @@ function generateActions(widgetAction, userAction, name) {
     }
     return function(...args) {
         var before = function(...args) {
-            console.log(args);
             logger.info('[%s][before](' + [].concat(...args) + ')', name);
             return wrapUserEvent(widgetAction.before, userAction.before, ...args);
         };
