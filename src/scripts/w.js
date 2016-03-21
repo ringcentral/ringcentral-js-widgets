@@ -59,12 +59,9 @@ function preload(widgets, callback) {
                     .then(template => {
                         if (!w.templates[name].template) {
                             w.templates[name].template = template;
-                            // FIXME: script position
                             var script = template.querySelector('script');
                             document.body.appendChild(script);
-                            script.onload = function() {
-                                script.parentNode.removeChild(script);
-                            };
+                            document.body.removeChild(script);
                         }
                         return template;
                     })

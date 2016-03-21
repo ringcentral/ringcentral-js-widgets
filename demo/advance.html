@@ -173,19 +173,19 @@
                 init: {
                     after: function() {
                         var panels = [dialPad, composeText, callLog]
-                        this.clickItem(this.addItem('Dialer'), function() {
+                        this.clickItem(this.addItem('<img src="../src/styles/images/dialpad_normal.png">'), function() {
                             panels.forEach(panel => panel.hide(panel.props.dom.root))
                             dialPad.show(dialPad.props.dom.root);
                         });
-                        this.clickItem(this.addItem('Compose'), function() {
+                        this.clickItem(this.addItem('<img src="../src/styles/images/sms_normal.png">'), function() {
                             panels.forEach(panel => panel.hide(panel.props.dom.root))
                             composeText.show(composeText.props.dom.root);
                         });
-                        this.clickItem(this.addItem('Call log'), function() {
+                        this.clickItem(this.addItem('<img src="../src/styles/images/call_log_normal.png">'), function() {
                             panels.forEach(panel => panel.hide(panel.props.dom.root))
                             callLog.show(callLog.props.dom.root);
                         });
-                        this.addItem('ST');
+                        // this.addItem('<img src="../src/styles/images/settings_normal.png">');
                     }
                 },
                 render: {

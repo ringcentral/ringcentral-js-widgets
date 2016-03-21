@@ -189,11 +189,13 @@ h1 {
     color: #fff;
     line-height: 2;
 }
+.rc-toolbar {
+    padding: 10px 5px;
+}
 .rc-toolbar-item {
-    border: 1px solid #000;
     background: #fff;
+    border: 0;
     margin: 2px;
-    font-weight: lighter;
 }
 .rc-textarea {
     width: 100%;
