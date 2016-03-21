@@ -173,15 +173,15 @@
                 init: {
                     after: function() {
                         var panels = [dialPad, composeText, callLog]
-                        this.clickItem(this.addItem('DP'), function() {
+                        this.clickItem(this.addItem('Dialer'), function() {
                             panels.forEach(panel => panel.hide(panel.props.dom.root))
                             dialPad.show(dialPad.props.dom.root);
                         });
-                        this.clickItem(this.addItem('CT'), function() {
+                        this.clickItem(this.addItem('Compose'), function() {
                             panels.forEach(panel => panel.hide(panel.props.dom.root))
                             composeText.show(composeText.props.dom.root);
                         });
-                        this.clickItem(this.addItem('CL'), function() {
+                        this.clickItem(this.addItem('Call log'), function() {
                             panels.forEach(panel => panel.hide(panel.props.dom.root))
                             callLog.show(callLog.props.dom.root);
                         });
@@ -193,7 +193,7 @@
                         dialPad.render('#dial-pad');
                         composeText.render('#compose-text');
                         callLog.render('#call-log');
-                        
+
                         composeText.hide(composeText.props.dom.root);
                         callLog.hide(callLog.props.dom.root);
                     }

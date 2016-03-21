@@ -65,8 +65,8 @@ function preload(widgets, callback) {
                             script.onload = function() {
                                 script.parentNode.removeChild(script);
                             };
-                            return template;
                         }
+                        return template;
                     })
                     .then(parseDocument)
                     .catch(err => console.error('Widgets preload error:' + err)));
@@ -88,9 +88,6 @@ function w(name, options) {
         logLevel: w.options.logLevel
     });
     initNestedWidget(baseWidget);
-    // initWidget(baseWidget).forEach(child => {
-    //     baseWidget.props[child.name] = child.widget;
-    // });
     return baseWidget;
 }
 w.templates = {};
@@ -104,7 +101,6 @@ w.register = function(constructor) {
     });
 };
 w.config = function(options, callback) {
-    // w.options = Object.assign(w.options, options);
     w.options.preload = options.preload || {};
     w.options.path = options.path || '';
     w.options.logLevel = options.logLevel || 0;
