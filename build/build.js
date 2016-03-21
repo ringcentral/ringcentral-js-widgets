@@ -93,9 +93,10 @@ function register(globalSettings) {
             // For deep copy
             actions: Object.assign({}, globalSettings.actions)
         };
-        logger = initLogger(options.logLevel);
         this.props = {};
         this.custom = {};
+        logger = initLogger(options.logLevel);
+
         Object.keys(settings.actions).forEach(function (index) {
             settings.actions[index] = bindScope(_this, settings.actions[index]);
         });
@@ -155,13 +156,12 @@ function bindScope(scope, action) {
 
 function generateDocument(widget, template) {
     var dom = {};
-    [].forEach.call(template.querySelectorAll('[data-info]'), function (doc) {
+    Array.from(template.querySelectorAll('[data-info]')).forEach(function (doc) {
         var info = doc.getAttribute('data-info');
         dom[info] = doc;
     });
-    [].forEach.call(template.querySelectorAll('[data-event]'), function (doc) {
+    Array.from(template.querySelectorAll('[data-event]')).forEach(function (doc) {
         var events = doc.getAttribute('data-event');
-        // TODO: proper error messages
         events.split('|').forEach(function (event) {
             var eventName;
             var action;
@@ -203,6 +203,7 @@ function generateActions(widgetAction, userAction, name) {
                 args[_key2] = arguments[_key2];
             }
 
+            console.log(args);
             logger.info('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
             return wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args));
         };
@@ -231,34 +232,7 @@ function generateActions(widgetAction, userAction, name) {
             return arg;
         };
         try {
-            before = before.apply(undefined, _toConsumableArray(args));
-            if (isThenable(before)) {
-                return before.then(function () {
-                    return method(arg);
-                }).then(function (arg) {
-                    return after(arg);
-                }).then(function (arg) {
-                    return finish(arg);
-                }).catch(error);
-            } else {
-                method = method(before);
-                if (isThenable(method)) {
-                    return method.then(function (arg) {
-                        return after(arg);
-                    }).then(function (arg) {
-                        return finish(arg);
-                    }).catch(error);
-                } else {
-                    after = after(method);
-                    if (isThenable(after)) {
-                        return after.then(function (arg) {
-                            return finish(arg);
-                        }).catch(error);
-                    } else {
-                        return finish(after);
-                    }
-                }
-            }
+            return nextAction(before.apply(undefined, _toConsumableArray(args)), [before, method, after, finish], 0);
         } catch (e) {
             error(e);
         }
@@ -282,6 +256,19 @@ function wrapUserEvent(widget, user) {
 function isThenable(result) {
     if (result.then && typeof result.then === 'function') return true;
     return false;
+}
+
+function nextAction(result, actions, start) {
+    console.debug(result);
+    if (start + 1 === actions.length) return result;
+    if (isThenable(result)) {
+        return actions.reduce(function (res, action, index) {
+            if (index > start) return res.then(action);
+            return res;
+        }, result);
+    } else {
+        return nextAction(actions[start + 1](result), actions, start + 1);
+    }
 }
 
 function initLogger(level) {
