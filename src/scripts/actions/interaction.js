@@ -3,21 +3,21 @@ var interaction = {
     show: {
         before: function() {},
         method: function(finish) {},
-        after: function(target) {
+        after: function(target = this.props.root) {
             target.classList.remove('display-none');
         }
     },
     hide: {
         before: function() {},
         method: function(finish) {},
-        after: function(target) {
+        after: function(target = this.props.root) {
             target.classList.add('display-none');
         }
     },
     diabled: {
         before: function() {},
         method: function(finish) {},
-        after: function(target, message) {
+        after: function(target = this.props.root, message) {
             var mask = document.createElement('div');
             mask.classList.add('rc-mask');
             var message = document.createElement('h4');

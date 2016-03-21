@@ -15,8 +15,8 @@
             <input class='rc-input' data-info='password' placeholder="password" type='password'></input>
             <button class='rc-button' data-info='login' data-event='click:login'>Login</button>
             <div>
-                Remember me:
-                <input type='checkbox' data-info='remember' checked>
+                <label for='remember'>Remember me:</label>
+                <input id='remember' type='checkbox' data-info='remember' checked>
             </div>
             <div class='rc-error-message' data-info='error'></div>
         </div>
@@ -50,7 +50,6 @@ w.register(function() {
             this.props.dom.login.disabled = true;
             this.props.dom.error.textContent = '';
             this.props.dom.login.classList.add('rc-button-loading');
-            loading(this.props.dom.footer, 400);
         },
         method: function(finish) {
             this.props.username = this.props.dom.username.value;
@@ -71,7 +70,6 @@ w.register(function() {
         error: function(err) {
             console.error(err);
             this.props.dom.error.textContent = err.message;
-            loading(this.props.dom.footer, 30);
             this.props.dom.login.disabled = false;
         }
     },
@@ -86,10 +84,6 @@ w.register(function() {
             this.props.dom['country-list'].classList.add('display-none');
             this.props.country = event.target.textContent;
         }
-    }
-
-    function loading(panel, height) {
-        panel.style.height = height + 'px';
     }
 });
 </script>

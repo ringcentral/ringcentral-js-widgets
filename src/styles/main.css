@@ -208,3 +208,10 @@ h1 {
     font-size: 12px;
     font-weight: lighter;
 }
+
+.float-right {
+    float: right;
+}
+.float-left {
+    float: left;
+}

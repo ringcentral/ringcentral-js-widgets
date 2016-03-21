@@ -36,6 +36,7 @@ function register(globalSettings) {
                 generateActions(settings.actions[index], options.actions[index], index);
         });
         this.props.dom = generateDocument(this, options.template);
+        this.props.root = getDocumentRoot(options.template);
         this.props.template = options.template;
         this.render =
             generateActions({
@@ -110,6 +111,11 @@ function generateDocument(widget, template) {
         });
     });
     return dom;
+}
+
+function getDocumentRoot(template) {
+    // Assume the template only have one root
+    return template.querySelector('*');
 }
 
 function generateActions(widgetAction, userAction, name) {

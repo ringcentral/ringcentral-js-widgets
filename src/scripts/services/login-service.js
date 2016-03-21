@@ -9,9 +9,10 @@ var LoginService = function(sdk) {
                     'username': username,
                     'extension': extension,
                     'password': password
-                }).then(function() {
-                    onLoginHandler.forEach(handler => handler());
                 })
+        },
+        logout: function() {
+            return sdk.platform().logout();
         },
         checkLoginStatus: function() {
             return sdk.platform().loggedIn().then(function(isLoggedIn) {
@@ -21,9 +22,7 @@ var LoginService = function(sdk) {
                 return isLoggedIn;
             });
         },
-        registerLoginHandler: function(handler) {
-            onLoginHandler.push(handler);
-        }
+
     };
 }(sdk);
 register('loginService', LoginService);

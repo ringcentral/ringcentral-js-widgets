@@ -23,21 +23,28 @@ var interaction = {
     show: {
         before: function before() {},
         method: function method(finish) {},
-        after: function after(target) {
+        after: function after() {
+            var target = arguments.length <= 0 || arguments[0] === undefined ? this.props.root : arguments[0];
+
             target.classList.remove('display-none');
         }
     },
     hide: {
         before: function before() {},
         method: function method(finish) {},
-        after: function after(target) {
+        after: function after() {
+            var target = arguments.length <= 0 || arguments[0] === undefined ? this.props.root : arguments[0];
+
             target.classList.add('display-none');
         }
     },
     diabled: {
         before: function before() {},
         method: function method(finish) {},
-        after: function after(target, message) {
+        after: function after() {
+            var target = arguments.length <= 0 || arguments[0] === undefined ? this.props.root : arguments[0];
+            var message = arguments[1];
+
             var mask = document.createElement('div');
             mask.classList.add('rc-mask');
             var message = document.createElement('h4');
@@ -107,6 +114,7 @@ function register(globalSettings) {
             _this[index] = generateActions(settings.actions[index], options.actions[index], index);
         });
         this.props.dom = generateDocument(this, options.template);
+        this.props.root = getDocumentRoot(options.template);
         this.props.template = options.template;
         this.render = generateActions({
             before: settings.actions.render.before,
@@ -176,6 +184,11 @@ function generateDocument(widget, template) {
         });
     });
     return dom;
+}
+
+function getDocumentRoot(template) {
+    // Assume the template only have one root
+    return template.querySelector('*');
 }
 
 function generateActions(widgetAction, userAction, name) {
@@ -539,11 +552,10 @@ var LoginService = function (sdk) {
                 'username': username,
                 'extension': extension,
                 'password': password
-            }).then(function () {
-                onLoginHandler.forEach(function (handler) {
-                    return handler();
-                });
             });
+        },
+        logout: function logout() {
+            return sdk.platform().logout();
         },
         checkLoginStatus: function checkLoginStatus() {
             return sdk.platform().loggedIn().then(function (isLoggedIn) {
@@ -554,10 +566,8 @@ var LoginService = function (sdk) {
                 }
                 return isLoggedIn;
             });
-        },
-        registerLoginHandler: function registerLoginHandler(handler) {
-            onLoginHandler.push(handler);
         }
+
     };
 }(_rcSdk2.default);
 (0, _service.register)('loginService', LoginService);
