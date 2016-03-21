@@ -5,14 +5,25 @@ var rcMessageProvider = function() {
     function createResult(message){
         var result = {};
         if(message.direction === 'Outbound'){
-            result.contact = message.to[0].phoneNumber;
+            if(message.type === 'Pager'){
+                result.contact = message.to[0].extensionNumber;
+            }else{
+                result.contact = message.to[0].phoneNumber;
+            }
         }else{
-            result.contact = message.from.phoneNumber;            
+            if(message.type === 'Pager'){
+                result.contact = message.from.extensionNumber;
+            }else{
+                result.contact = message.from.phoneNumber;            
+            }
         }
-        if(message.type === 'SMS'){
+        //TODO: Use localization string instead of plain text
+        if(message.type === 'SMS' || message.type === 'Pager'){
             result.subject = message.subject;
-        }else{
-            result.subject = message.type;
+        }else if(message.type === 'VoiceMail'){
+            result.subject = 'Voice Message';
+        }else if(message.type === 'Fax'){
+            result.subject = 'Fax';
         }
         result.readStatus = message.readStatus;
         result.type = message.type;
@@ -34,9 +45,23 @@ var rcMessageProvider = function() {
         getAllMessages: function() {
             return Promise.resolve(rcMessageService.getAllMessages()).then(messages => {
                 var results = [];
+                var added = {};
                 messages.forEach(message => {
-                    results.push(createResult(message));
+                    var result = createResult(message);
+                    if(message.conversationId){
+                        if(!added[message.conversationId]){
+                            added[message.conversationId] = [];
+                        }
+                        added[message.conversationId].push(result);
+                    }else{
+                        results.push(result);
+                    }
                 });
+                for(var key in added){
+                    if(added.hasOwnProperty(key)){
+                        results.push(added[key][added[key].length-1]);
+                    }
+                }
                 return results;
             });
         }
