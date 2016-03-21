@@ -11,7 +11,7 @@ var LoginService = function(sdk) {
                     'password': password
                 }).then(function() {
                     onLoginHandler.forEach(handler => handler());
-                }).catch(err => console.error(err));
+                })
         },
         checkLoginStatus: function() {
             return sdk.platform().loggedIn().then(function(isLoggedIn) {

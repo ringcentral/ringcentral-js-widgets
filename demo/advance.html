@@ -14,9 +14,15 @@
     }
     
     body {
+        height: 100%;
+    }
+
+    #phone {
         width: 250px;
         height: 100%;
         border-right: 1px solid #878787;
+        border-left: 1px solid #878787;
+        margin: 0 auto;
     }
     </style>
 </head>
@@ -81,125 +87,7 @@
                 }
             }
         })
-        var dialPad = w('dial-pad', {
-            actions: {
-                render: {
-                    after: function() {
-                        if (!accountService.hasServiceFeature("VoipCalling"))
-                            this.disable(this.props.dom.root);
-                    }
-                },
-                queryContacts: {
-                    method: function() {
-                        var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                            return provider.search(this.props.to);
-                        });
-                        return contactSearchService.query(dialPadSearchFunctions);
-                    }
-                },
-                callout: {
-                    method: function(fromNo, toNo) {
-                        return phoneService.callout(fromNo, toNo);
-                    }
-                },
-                getOutboundCallerID: {
-                    method: function() {
-                        return accountService.listNumber("VoiceFax");
-                    }
-                }
-            }
-        });
-        var callPanel = w('call-panel', {
-            actions: {
-                init: {
-                    after: function() {
-                        phoneService.listen();
-                        phoneService.on('called', this.called);
-                        phoneService.on('callStarted', this.callStarted);
-                        phoneService.on('callRejected', this.callRejected);
-                        phoneService.on('callEnded', this.callEnded);
-                        phoneService.on('callFailed', this.callFailed);
-                    }
-                },
-                answer: {
-                    method: function() {
-                        phoneService.answer();
-                    }
-                },
-                hangup: {
-                    method: function() {
-                        phoneService.hangup();
-                    }
-                }
-            }
-        })
-        var composeText = w('compose-text', {
-            actions: {
-                getOutboundCallerID: {
-                    method: function() {
-                        return accountService.listNumber("VoiceFax");
-                    }
-                },
-                queryContacts: {
-                    method: function() {
-                        var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                            return provider.search(this.props.to);
-                        });
-                        return contactSearchService.query(dialPadSearchFunctions);
-                    }
-                },
-                send: {
-                    method: function() {
-                        return messageService.sendSMSMessage(
-                            this.props.text,
-                            this.props.fromNumber,
-                            this.props.toNumber
-                        );
-                    }
-                }
-            }
-        });
-        var callLog = w('call-log', {
-            actions: {
-                init: {
-                    method: function() {
-                        return callLogService.getCallLogs();
-                    }
-                }
-            }
-        })
-        var toolbar = w('tool-bar', {
-            actions: {
-                init: {
-                    after: function() {
-                        var panels = [dialPad, composeText, callLog]
-                        this.clickItem(this.addItem('<img src="../src/styles/images/dialpad_normal.png">'), function() {
-                            panels.forEach(panel => panel.hide(panel.props.dom.root))
-                            dialPad.show(dialPad.props.dom.root);
-                        });
-                        this.clickItem(this.addItem('<img src="../src/styles/images/sms_normal.png">'), function() {
-                            panels.forEach(panel => panel.hide(panel.props.dom.root))
-                            composeText.show(composeText.props.dom.root);
-                        });
-                        this.clickItem(this.addItem('<img src="../src/styles/images/call_log_normal.png">'), function() {
-                            panels.forEach(panel => panel.hide(panel.props.dom.root))
-                            callLog.show(callLog.props.dom.root);
-                        });
-                        // this.addItem('<img src="../src/styles/images/settings_normal.png">');
-                    }
-                },
-                render: {
-                    after: function() {
-                        dialPad.render('#dial-pad');
-                        composeText.render('#compose-text');
-                        callLog.render('#call-log');
-
-                        composeText.hide(composeText.props.dom.root);
-                        callLog.hide(callLog.props.dom.root);
-                    }
-                }
-            }
-        })
+        
         authPanel.render('#auth-panel');
         // loginService.checkLoginStatus().then(
         //     isLoggedIn => {
@@ -217,6 +105,125 @@
         // );
 
         function afterLogin() {
+            var dialPad = w('dial-pad', {
+                actions: {
+                    render: {
+                        after: function() {
+                            if (!accountService.hasServiceFeature("VoipCalling"))
+                                this.disable(this.props.dom.root);
+                        }
+                    },
+                    queryContacts: {
+                        method: function() {
+                            var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                                return provider.search(this.props.to);
+                            });
+                            return contactSearchService.query(dialPadSearchFunctions);
+                        }
+                    },
+                    callout: {
+                        method: function(fromNo, toNo) {
+                            return phoneService.callout(fromNo, toNo);
+                        }
+                    },
+                    getOutboundCallerID: {
+                        method: function() {
+                            return accountService.listNumber("VoiceFax");
+                        }
+                    }
+                }
+            });
+            var callPanel = w('call-panel', {
+                actions: {
+                    init: {
+                        after: function() {
+                            phoneService.listen();
+                            phoneService.on('called', this.called);
+                            phoneService.on('callStarted', this.callStarted);
+                            phoneService.on('callRejected', this.callRejected);
+                            phoneService.on('callEnded', this.callEnded);
+                            phoneService.on('callFailed', this.callFailed);
+                        }
+                    },
+                    answer: {
+                        method: function() {
+                            phoneService.answer();
+                        }
+                    },
+                    hangup: {
+                        method: function() {
+                            phoneService.hangup();
+                        }
+                    }
+                }
+            })
+            var composeText = w('compose-text', {
+                actions: {
+                    getOutboundCallerID: {
+                        method: function() {
+                            return accountService.listNumber("VoiceFax");
+                        }
+                    },
+                    queryContacts: {
+                        method: function() {
+                            var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                                return provider.search(this.props.to);
+                            });
+                            return contactSearchService.query(dialPadSearchFunctions);
+                        }
+                    },
+                    send: {
+                        method: function() {
+                            return messageService.sendSMSMessage(
+                                this.props.text,
+                                this.props.fromNumber,
+                                this.props.toNumber
+                            );
+                        }
+                    }
+                }
+            });
+            var callLog = w('call-log', {
+                actions: {
+                    init: {
+                        method: function() {
+                            return callLogService.getCallLogs();
+                        }
+                    }
+                }
+            })
+            var toolbar = w('tool-bar', {
+                actions: {
+                    init: {
+                        after: function() {
+                            var panels = [dialPad, composeText, callLog]
+                            this.clickItem(this.addItem('<img src="../src/styles/images/dialpad_normal.png">'), function() {
+                                panels.forEach(panel => panel.hide(panel.props.dom.root))
+                                dialPad.show(dialPad.props.dom.root);
+                            });
+                            this.clickItem(this.addItem('<img src="../src/styles/images/sms_normal.png">'), function() {
+                                panels.forEach(panel => panel.hide(panel.props.dom.root))
+                                composeText.show(composeText.props.dom.root);
+                            });
+                            this.clickItem(this.addItem('<img src="../src/styles/images/call_log_normal.png">'), function() {
+                                panels.forEach(panel => panel.hide(panel.props.dom.root))
+                                callLog.show(callLog.props.dom.root);
+                            });
+                            // this.addItem('<img src="../src/styles/images/settings_normal.png">');
+                        }
+                    },
+                    render: {
+                        after: function() {
+                            dialPad.render('#dial-pad');
+                            composeText.render('#compose-text');
+                            callLog.render('#call-log');
+
+                            composeText.hide(composeText.props.dom.root);
+                            callLog.hide(callLog.props.dom.root);
+                        }
+                    }
+                }
+            })
             callPanel.render('#call-panel');
             toolbar.render('#toolbar');
         }

@@ -16,6 +16,7 @@
 h1 {
     line-height: 2;
     text-align: center;
+    margin: 0;
 }
 
 .display-none {
@@ -158,7 +159,9 @@ h1 {
     font-size: 12px;
     color: #e74c3c;
 }
-
+.rc-logs {
+    max-height: 300px;
+}
 .rc-calllog {
     border-bottom: 1px solid #878787;
 }

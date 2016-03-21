@@ -543,8 +543,6 @@ var LoginService = function (sdk) {
                 onLoginHandler.forEach(function (handler) {
                     return handler();
                 });
-            }).catch(function (err) {
-                return console.error(err);
             });
         },
         checkLoginStatus: function checkLoginStatus() {
