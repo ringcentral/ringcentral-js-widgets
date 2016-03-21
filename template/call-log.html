@@ -1,103 +1,103 @@
-<div>
+<div data-info='root'>
     <div class="rc-pane-header call-log-header">
-            Call Log
+        Call Log
     </div>
-
     <div class="tabs tabs2 badges">
         <a class="tab active" data-info="allCallTab" data-event="click:enableAllCallTab">
             All
         </a>
         <a class="tab" data-info="missedCallTab" data-event="click:enableMissedCallTab">
             Missed
-            <!--<span class="badge" ng-if="(counters.calls|removeInboundLeg|filterMissedCalls|filterStarttimeCalls).length">
-                {{ (counters.calls|removeInboundLeg|filterMissedCalls|filterStarttimeCalls).length }}
-            </span>-->
         </a>
     </div>
-
-    <div class="rc-pane-scrollable" ng-class="{'clearExpanded':!clearCollapsed}">
+    <div class="rc-pane-scrollable">
         <div data-info="logs">
-            <call-log-item dynamic ></call-log-item>
+            <call-log-item dynamic></call-log-item>
         </div>
-
     </div>
 </div>
 <script>
-w.register(function(){
-    function createWidgetItems(logItems, props){
-        logItems.forEach(function(item){
+w.register(function() {
+    function createWidgetItems(logItems, props) {
+        if (!logItems)
+            return;
+        logItems.forEach(function(item) {
             var widget = w('call-log-item', {
-                actions:{
-                    init:{
-                        method:function(){
+                actions: {
+                    init: {
+                        method: function() {
                             return item;
                         }
                     }
                 }
-            }); 
+            });
             widget.render(props.dom.logs);
             props.widgetItems.push(widget);
         });
     }
-    
-    function filterWidgetItems(widgetItems, filter){
-        widgetItems.forEach(function(widget){
-            if(filter(widget)){
-               widget.show(); 
-            }else{
-               widget.hide();
+
+    function filterWidgetItems(widgetItems, filter) {
+        widgetItems.forEach(function(widget) {
+            if (filter(widget)) {
+                widget.show();
+            }else {
+                widget.hide();
             }
-            
+
         });
     }
-    
-    function enableTab(toEnableTab, toDisableTab){
-        if(toEnableTab.classList.contains('active') === false){
+
+    function enableTab(toEnableTab, toDisableTab) {
+        if (toEnableTab.classList.contains('active') === false) {
             toEnableTab.classList.add('active');
             toDisableTab.classList.remove('active');
         }
     }
-    
-    
-    this.actions = {
-        init:{
-            before:function(){
-                this.props.widgetItems = [];  
+    this.actions = Object.assign(w.action('interaction'), {
+        init: {
+            before: function() {
+                this.props.widgetItems = [];
+            },
+            method: function(finish) {
+                return finish();
+            },
+            after: function(items) {
+                this.props.logItems = items;
+                this.refreshCallLogs();
+                console.debug(this.props.logItems);
             }
         },
-        render:{
-            after:function(){
+        render: {
+            after: function() {
                 this.refreshCallLogs();
             }
         },
-        refreshCallLogs:{
-            method:function(finish){
+        refreshCallLogs: {
+            method: function(finish) {
                 return finish();
             },
-            after:function(logItems){
-                createWidgetItems(logItems, this.props);
+            after: function() {
+                createWidgetItems(this.props.logItems, this.props);
             }
         },
-        enableAllCallTab:{
-            after:function(){
+        enableAllCallTab: {
+            after: function() {
                 enableTab(this.props.dom.allCallTab, this.props.dom.missedCallTab);
-                filterWidgetItems(this.props.widgetItems, function(){return true;});
+                filterWidgetItems(this.props.widgetItems, function() {return true;});
             }
         },
-        enableMissedCallTab:{
-            after:function(){
+        enableMissedCallTab: {
+            after: function() {
                 enableTab(this.props.dom.missedCallTab, this.props.dom.allCallTab);
-                filterWidgetItems(this.props.widgetItems, function(widget){
-                    
-                    if(widget.props.item.result === "Missed"){
+                filterWidgetItems(this.props.widgetItems, function(widget) {
+                    if (widget.props.item.result === 'Missed') {
                         return true;
-                    }else{
+                    } else {
                         return false;
                     }
-                    
                 });
             }
         }
-    }
+    });
 });
 </script>

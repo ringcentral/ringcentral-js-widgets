@@ -1,4 +1,4 @@
-<div class='rc-panel'>
+<div class='rc-panel' data-info='root'>
     <div class='rc-pane-header'>
         <h1>Compose Text</h1>
     </div>
@@ -13,7 +13,7 @@
 </div>
 <script>
 w.register(function() {
-    this.actions = {};
+    this.actions = w.action('interaction');
     this.actions.init = {
         after: function() {
             var composeText = this;

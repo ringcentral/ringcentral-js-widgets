@@ -8,6 +8,7 @@ var CallLogService = (function(sdk) {
             return sdk.platform()
                 .get('/account/~/extension/~/call-log', {dateFrom: dateFrom.toISOString()})
                 .then(response => {
+                    console.debug(response.json().records)
                     return response.json().records;
                 })
                 .catch(function(e) {

@@ -199,4 +199,7 @@ h1 {
     width: 100%;
     max-width: 100%;
     min-height: 150px;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: lighter;
 }

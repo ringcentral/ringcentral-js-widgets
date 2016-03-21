@@ -28,6 +28,7 @@
         <div id="dial-pad"></div>
         <div id="compose-text"></div>
         <div id="call-panel"></div>
+        <div id="call-log"></div>
     </div>
     <script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
@@ -40,7 +41,8 @@
             'dial-pad': 'dial-pad',
             'call-panel': 'call-panel',
             'tool-bar': 'tool-bar',
-            'compose-text': 'compose-text'
+            'compose-text': 'compose-text',
+            'call-log': 'call-log'
         },
         logLevel: 2 /* 0 for error only, 1 for error and warning, 2 for error and warning and log */
     }, init)
@@ -148,7 +150,6 @@
                 },
                 send: {
                     method: function() {
-                        console.debug(this.props.fromNumber)
                         messageService.sendSMSMessage(
                             this.props.text,
                             this.props.fromNumber,
@@ -158,23 +159,43 @@
                 }
             }
         });
+        var callLog = w('call-log', {
+            actions: {
+                init: {
+                    method: function() {
+                        return callLogService.getCallLogs();
+                    }
+                }
+            }
+        })
         var toolbar = w('tool-bar', {
             actions: {
                 init: {
                     after: function() {
+                        var panels = [dialPad, composeText, callLog]
                         this.clickItem(this.addItem('DP'), function() {
-                            dialPad.render('#dial-pad');
+                            panels.forEach(panel => panel.hide(panel.props.dom.root))
+                            dialPad.show(dialPad.props.dom.root);
                         });
                         this.clickItem(this.addItem('CT'), function() {
-                            composeText.render('#compose-text');
+                            panels.forEach(panel => panel.hide(panel.props.dom.root))
+                            composeText.show(composeText.props.dom.root);
                         });
-                        this.addItem('CL');
+                        this.clickItem(this.addItem('CL'), function() {
+                            panels.forEach(panel => panel.hide(panel.props.dom.root))
+                            callLog.show(callLog.props.dom.root);
+                        });
                         this.addItem('ST');
                     }
                 },
                 render: {
                     after: function() {
                         dialPad.render('#dial-pad');
+                        composeText.render('#compose-text');
+                        callLog.render('#call-log');
+                        
+                        composeText.hide(composeText.props.dom.root);
+                        callLog.hide(callLog.props.dom.root);
                     }
                 }
             }
@@ -196,7 +217,6 @@
         // );
 
         function afterLogin() {
-            // dialPad.render('#dial-pad');
             callPanel.render('#call-panel');
             toolbar.render('#toolbar');
         }
