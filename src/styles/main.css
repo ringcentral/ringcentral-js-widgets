@@ -160,7 +160,7 @@ h1 {
     color: #e74c3c;
 }
 .rc-logs {
-    max-height: 300px;
+    max-height: 500px;
 }
 .rc-calllog {
     border-bottom: 1px solid #878787;
