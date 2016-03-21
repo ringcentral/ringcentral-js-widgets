@@ -156,7 +156,7 @@ function generateActions(widgetAction, userAction, name) {
             return arg;
         };
         try {
-            return nextAction(before(...args), [before, method, after, finish], 0);
+            return nextAction(before(...args), [before, method, after, finish], error, 0);
         } catch (e) {
             error(e);
         }
@@ -176,8 +176,7 @@ function isThenable(result) {
     return false;
 }
 
-function nextAction(result, actions, start) {
-    console.debug(result);
+function nextAction(result, actions, error, start) {
     if (start + 1 === actions.length)
         return result;
     if (isThenable(result)) {
@@ -185,9 +184,9 @@ function nextAction(result, actions, start) {
             if (index > start)
                 return res.then(action);
             return res;
-        }, result)
+        }, result).catch(error)
     } else {
-        return nextAction(actions[start + 1](result), actions, start + 1);
+        return nextAction(actions[start + 1](result), actions, error, start + 1);
     }
 }
 
