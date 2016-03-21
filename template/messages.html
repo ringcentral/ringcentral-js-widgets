@@ -1,0 +1,69 @@
+<div>
+    <div class="rc-pane-header call-log-header">
+        Messages
+    </div>
+    <div class="tabs tabs4 badges">
+        <a class="tab active">
+            All
+        </a>
+        <a class="tab">
+            VoiceMail
+            <!--<span class="badge" ng-if="updates.voicemail">{{ updates.voicemail }}</span>-->
+        </a>
+        <a class="tab">
+            Fax
+            <!--<span class="badge" ng-if="updates.fax">{{ updates.fax }}</span>-->
+        </a>
+        <a class="tab">
+            Text
+            <!--<span class="badge" ng-if="updates.text">{{ updates.text }}</span>-->
+        </a>
+    </div>
+    <div class="rc-pane-scrollable">
+        <div data-info="messages" data-info='messages'>
+            <message-item dynamic></message-item>
+        </div>
+    </div>
+</div>
+
+<script>
+w.register(function(){
+    
+    function createMessageWidgets(messages, props){
+        messages.forEach(function(message){
+            var widget = w('message-item', {
+                actions:{
+                    init:{
+                        method:function(){
+                            return message;
+                        }
+                    }
+                }
+            }); 
+            widget.render(props.dom.messages);
+            props.widgetItems.push(widget);
+        });
+    }
+    
+    this.actions= {
+        init: {
+            before:function(){
+                this.props.widgetItems = [];  
+            }
+        },
+        render: {
+            after: function(){
+                this.refreshMessages();
+            }
+        },
+        refreshMessages:{
+            method: function(finish){
+                return finish();
+            },
+            after: function(messages){
+                createMessageWidgets(messages, this.props);
+            }
+        }
+    }
+});
+</script>
