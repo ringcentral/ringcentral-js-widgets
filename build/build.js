@@ -586,10 +586,6 @@ var messageService = function (sdk) {
                 from: { phoneNumber: fromNumber },
                 to: [{ phoneNumber: toNumber }],
                 text: text
-            }).then(function (response) {
-                console.debug(response.json().id);
-            }).catch(function (e) {
-                console.error('Recent Calls Error: ' + e.message);
             });
         }
     };

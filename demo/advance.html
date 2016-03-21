@@ -150,7 +150,7 @@
                 },
                 send: {
                     method: function() {
-                        messageService.sendSMSMessage(
+                        return messageService.sendSMSMessage(
                             this.props.text,
                             this.props.fromNumber,
                             this.props.toNumber

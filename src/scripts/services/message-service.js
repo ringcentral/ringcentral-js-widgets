@@ -11,12 +11,6 @@ var messageService = (function(sdk) {
                     ],
                     text: text
                 })
-                .then(response => {
-                    console.debug(response.json().id);
-                })
-                .catch(function(e) {
-                    console.error('Recent Calls Error: ' + e.message);
-                });
         }
     };
 })(sdk);
