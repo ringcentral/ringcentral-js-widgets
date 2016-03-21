@@ -6,6 +6,7 @@ import rcContactService from './services/rc-contact-service';
 import contactSearchService from './services/contact-search-service';
 import rcContactSearchProvider from './services/rc-contact-search-provider';
 import accountService from './services/account-service';
+import messageService from './services/message-service';
 
 // actions
 import interaction from './actions/interaction';

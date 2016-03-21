@@ -4,7 +4,6 @@ var LoginService = function(sdk) {
     var onLoginHandler = [];
     return {
         login: function(username, extension, password) {
-            console.log('LoginService -> start login');
             return sdk.platform()
                 .login({
                     'username': username,

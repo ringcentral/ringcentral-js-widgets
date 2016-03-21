@@ -24,9 +24,7 @@
 </div>
 <script>
 w.register(function(){
-    
-    function createWidgetItems(logItems, props)
-    {
+    function createWidgetItems(logItems, props){
         logItems.forEach(function(item){
             var widget = w('call-log-item', {
                 actions:{
@@ -43,9 +41,7 @@ w.register(function(){
     }
     
     function filterWidgetItems(widgetItems, filter){
-        
         widgetItems.forEach(function(widget){
-            
             if(filter(widget)){
                widget.show(); 
             }else{

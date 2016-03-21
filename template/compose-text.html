@@ -6,8 +6,8 @@
         <div class='rc-pane-scrollable'>
             <dropdown data-info='dropdown'></dropdown>
             <contact-picker data-info='contact-picker'></contact-picker>
-            <textarea class='rc-textarea'></textarea>
-            <button class='rc-button' data-action='click:send'>Send</button>
+            <textarea class='rc-textarea' data-info='text'></textarea>
+            <button class='rc-button' data-event='click:send'>Send</button>
         </div>
     </div>
 </div>
@@ -50,7 +50,15 @@ w.register(function() {
             this.props['dropdown'].getData();
         }
     }
-    this.actions.send = {};
+    this.actions.send = {
+        method: function(finish) {
+            console.debug('send')
+            this.props.text = this.props.dom['text'].value;
+            this.props.fromNumber = this.props['dropdown'].getSelected();
+            this.props.toNumber = this.props['contact-picker'].getInput();
+            return finish();
+        }
+    };
     this.actions.getOutboundCallerID = {
         method: function(finish) {
             return finish();

@@ -24,7 +24,7 @@ function register(globalSettings) {
         this.props = {};
         this.custom = {};
         logger = initLogger(options.logLevel);
-        
+
         Object.keys(settings.actions).forEach(index => {
             settings.actions[index] = bindScope(this, settings.actions[index]);
         });
@@ -150,7 +150,7 @@ function generateActions(widgetAction, userAction, name) {
         var finish = function(arg) {
             if (typeof arg === 'function') {
                 // flatten one level
-                return [].concat.apply([], arg());
+                return arg()[0] instanceof Array ? [].concat.apply([], arg()) : arg()[0];
             }
             return arg;
         };
@@ -183,7 +183,7 @@ function nextAction(result, actions, error, start) {
             if (index > start)
                 return res.then(action);
             return res;
-        }, result).catch(error)
+        }, result).catch(error);
     } else {
         return nextAction(actions[start + 1](result), actions, error, start + 1);
     }

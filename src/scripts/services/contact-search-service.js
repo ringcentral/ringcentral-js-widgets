@@ -10,13 +10,7 @@ var contactSearchService = (function() {
             type: item.type,
         };
     }
-
     return {
-
-        // onQueryCompleted: function(handler) {
-        //     queryCompletedHandlers.push(handler);
-        // },
-
         query: function(searchFunctions, filter) {
             return Promise.all(searchFunctions).then(results => {
                 var searchResultsKeys = {};
@@ -43,7 +37,6 @@ var contactSearchService = (function() {
                     });
                 });
                 return searchResults;
-                // queryCompletedHandlers.forEach(h => h(searchResults));
             });
         },
     };

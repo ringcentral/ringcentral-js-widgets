@@ -24,7 +24,6 @@
 <div class='contact-picker'>
     <input class='rc-input' placeholder="To: Enter name or number" data-info='input' data-event='input:autoComplete'></input>
     <div data-info='contacts' class='contacts display-none'>
-        <!--<div data-info='contact-template' class='contact'></div>-->
         <contact-picker-item dynamic></contact-picker-item>
     </div>
 </div>
@@ -66,6 +65,11 @@ w.register(function() {
                     if (this.props.dom.input === document.activeElement)
                         this.props.dom.contacts.classList.remove('display-none');
                 }, 300);
+            }
+        },
+        getInput: {
+            method: function() {
+                return this.props.dom.input.value;
             }
         },
         appendInput: {

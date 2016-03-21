@@ -24,6 +24,11 @@ w.register(function() {
                 this.props.dom['list'].appendChild(div);
             }
         },
+        getSelected: {
+            method: function() {
+                return this.props.dom['dropdown'].textContent;
+            }
+        },
         removeItem: {},
         switchTitle: {
             method: function(finish, text) {

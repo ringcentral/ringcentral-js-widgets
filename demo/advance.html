@@ -50,6 +50,7 @@
     var accountService = w.service()['accountService'];
     var rcContactService = w.service()['rcContactService'];
     var contactSearchService = w.service()['contactSearchService'];
+    var messageService = w.service()['messageService'];
     var rcContactSearchProvider = w.service()['rcContactSearchProvider'];
     
     var dialPadSearchProviders = [rcContactSearchProvider];
@@ -143,6 +144,16 @@
                             return provider.search(this.props.to);
                         });
                         return contactSearchService.query(dialPadSearchFunctions);
+                    }
+                },
+                send: {
+                    method: function() {
+                        console.debug(this.props.fromNumber)
+                        messageService.sendSMSMessage(
+                            this.props.text,
+                            this.props.fromNumber,
+                            this.props.toNumber
+                        );
                     }
                 }
             }
