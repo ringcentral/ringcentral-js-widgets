@@ -348,9 +348,17 @@ var _accountService = require('./services/account-service');
 
 var _accountService2 = _interopRequireDefault(_accountService);
 
-var _messageService = require('./services/message-service');
+var _rcMessageService = require('./services/rc-message-service');
 
-var _messageService2 = _interopRequireDefault(_messageService);
+var _rcMessageService2 = _interopRequireDefault(_rcMessageService);
+
+var _rcMessageProvider = require('./services/rc-message-provider');
+
+var _rcMessageProvider2 = _interopRequireDefault(_rcMessageProvider);
+
+var _messageSearchService = require('./services/message-search-service');
+
+var _messageSearchService2 = _interopRequireDefault(_messageSearchService);
 
 var _interaction = require('./actions/interaction');
 
@@ -370,7 +378,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 window.w = _w2.default;
 exports.default = _w2.default;
 
-},{"./actions/interaction":2,"./services/account-service":6,"./services/call-log-service":7,"./services/contact-search-service":8,"./services/login-service":9,"./services/message-service":10,"./services/phone-service":11,"./services/rc-contact-search-provider":12,"./services/rc-contact-service":13,"./w":16}],5:[function(require,module,exports){
+},{"./actions/interaction":2,"./services/account-service":6,"./services/call-log-service":7,"./services/contact-search-service":8,"./services/login-service":9,"./services/message-search-service":10,"./services/phone-service":11,"./services/rc-contact-search-provider":12,"./services/rc-contact-service":13,"./services/rc-message-provider":14,"./services/rc-message-service":15,"./w":18}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -450,7 +458,7 @@ var accountService = function (sdk) {
 (0, _service.register)('accountService', accountService);
 exports.default = accountService;
 
-},{"../service":5,"./rc-sdk":14}],7:[function(require,module,exports){
+},{"../service":5,"./rc-sdk":16}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -483,7 +491,7 @@ var CallLogService = function (sdk) {
 (0, _service.register)('callLogService', CallLogService);
 exports.default = CallLogService;
 
-},{"../service":5,"./rc-sdk":14}],8:[function(require,module,exports){
+},{"../service":5,"./rc-sdk":16}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -576,37 +584,40 @@ var LoginService = function (sdk) {
 }(_rcSdk2.default);
 (0, _service.register)('loginService', LoginService);
 
-},{"../service":5,"./rc-sdk":14}],10:[function(require,module,exports){
+},{"../service":5,"./rc-sdk":16}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _rcSdk = require('./rc-sdk');
-
-var _rcSdk2 = _interopRequireDefault(_rcSdk);
-
 var _service = require('../service');
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var messageService = function (sdk) {
+var messageSearchService = function () {
     return {
-        sendSMSMessage: function sendSMSMessage(text, fromNumber, toNumber) {
-            return sdk.platform().post('/account/~/extension/~/sms/', {
-                from: { phoneNumber: fromNumber },
-                to: [{ phoneNumber: toNumber }],
-                text: text
+        getMessages: function getMessages(messageProviderFunctions, filter) {
+            return Promise.all(messageProviderFunctions).then(function (messageResults) {
+                var results = [];
+                messageResults.forEach(function (messages) {
+                    messages.forEach(function (message) {
+                        if (filter) {
+                            if (filter(message)) {
+                                results.push(message);
+                            }
+                        } else {
+                            results.push(message);
+                        }
+                    });
+                });
+                return results;
             });
         }
     };
-}(_rcSdk2.default);
+}();
+(0, _service.register)('messageSearchService', messageSearchService);
+exports.default = messageSearchService;
 
-(0, _service.register)('messageService', messageService);
-exports.default = messageService;
-
-},{"../service":5,"./rc-sdk":14}],11:[function(require,module,exports){
+},{"../service":5}],11:[function(require,module,exports){
 'use strict';
 
 var _rcSdk = require('./rc-sdk');
@@ -703,7 +714,7 @@ var PhoneService = function () {
 }();
 (0, _service.register)('phoneService', PhoneService);
 
-},{"../service":5,"./rc-sdk":14,"./rc-webphone":15}],12:[function(require,module,exports){
+},{"../service":5,"./rc-sdk":16,"./rc-webphone":17}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -896,7 +907,170 @@ var rcContactService = function (sdk) {
 (0, _service.register)('rcContactService', rcContactService);
 exports.default = rcContactService;
 
-},{"../service":5,"./rc-sdk":14}],14:[function(require,module,exports){
+},{"../service":5,"./rc-sdk":16}],14:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _rcMessageService = require('./rc-message-service');
+
+var _rcMessageService2 = _interopRequireDefault(_rcMessageService);
+
+var _service = require('../service');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var rcMessageProvider = function () {
+
+    function createResult(message) {
+        var result = {};
+        if (message.direction === 'Outbound') {
+            if (message.type === 'Pager') {
+                result.contact = message.to[0].extensionNumber;
+            } else {
+                result.contact = message.to[0].phoneNumber;
+            }
+        } else {
+            if (message.type === 'Pager') {
+                result.contact = message.from.extensionNumber;
+            } else {
+                result.contact = message.from.phoneNumber;
+            }
+        }
+        //TODO: Use localization string instead of plain text
+        if (message.type === 'SMS' || message.type === 'Pager') {
+            result.subject = message.subject;
+        } else if (message.type === 'VoiceMail') {
+            result.subject = 'Voice Message';
+        } else if (message.type === 'Fax') {
+            result.subject = 'Fax';
+        }
+        result.readStatus = message.readStatus;
+        result.type = message.type;
+        result.id = message.id;
+        result.time = message.lastModifiedTime;
+        return result;
+    }
+
+    return {
+        getTextMessages: function getTextMessages() {
+            return Promise.resolve(_rcMessageService2.default.getMessagesByType('SMS')).then(function (messages) {
+                var results = [];
+                messages.forEach(function (message) {
+                    results.push(createResult(message));
+                });
+                return results;
+            });
+        },
+        getAllMessages: function getAllMessages() {
+            return Promise.resolve(_rcMessageService2.default.getAllMessages()).then(function (messages) {
+                var results = [];
+                var added = {};
+                messages.forEach(function (message) {
+                    var result = createResult(message);
+                    if (message.conversationId) {
+                        if (!added[message.conversationId]) {
+                            added[message.conversationId] = [];
+                        }
+                        added[message.conversationId].push(result);
+                    } else {
+                        results.push(result);
+                    }
+                });
+                for (var key in added) {
+                    if (added.hasOwnProperty(key)) {
+                        results.push(added[key][added[key].length - 1]);
+                    }
+                }
+                return results;
+            });
+        }
+    };
+}();
+(0, _service.register)('rcMessageProvider', rcMessageProvider);
+exports.default = rcMessageProvider;
+
+},{"../service":5,"./rc-message-service":15}],15:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _rcSdk = require('./rc-sdk');
+
+var _rcSdk2 = _interopRequireDefault(_rcSdk);
+
+var _service = require('../service');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var rcMessageService = function (sdk) {
+
+    var MESSAGES_MAX_AGE_HOURS = 7 * 24;
+    var messages = {};
+    var fetchingPromise = null;
+
+    function fetchMessages() {
+        return sdk.platform().get('/account/~/extension/~/message-store', {
+            dateFrom: new Date(Date.now() - MESSAGES_MAX_AGE_HOURS * 3600 * 1000).toISOString()
+        }).then(function (responses) {
+            var results = responses.json().records;
+            results.forEach(function (message) {
+                if (!messages[message.type]) {
+                    messages[message.type] = [];
+                }
+                messages[message.type].push(message);
+            });
+            fetchingPromise = null;
+        });
+    }
+
+    function concatMessages() {
+        var results = [];
+        for (var key in messages) {
+            if (messages.hasOwnProperty(key)) {
+                results = results.concat(messages[key]);
+            }
+        }
+        return results;
+    }
+
+    return {
+        syncMessages: function syncMessages() {
+            fetchingPromise = fetchMessages();
+        },
+        getMessagesByType: function getMessagesByType(type) {
+            if (!fetchingPromise) {
+                if (messages[type]) {
+                    return messages[type];
+                } else {
+                    return [];
+                }
+            } else {
+                return fetchingPromise.then(function () {
+                    return messages[type];
+                });
+            }
+        },
+        getAllMessages: function getAllMessages() {
+            if (!fetchingPromise) {
+                return concatMessages();
+            } else {
+                return fetchingPromise.then(function () {
+                    return concatMessages();
+                });
+            }
+        }
+    };
+}(_rcSdk2.default);
+
+(0, _service.register)('rcMessageService', rcMessageService);
+exports.default = rcMessageService;
+
+},{"../service":5,"./rc-sdk":16}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -910,7 +1084,7 @@ var sdk = new RingCentral.SDK({
 
 exports.default = sdk;
 
-},{}],15:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -922,7 +1096,7 @@ var webPhone = new RingCentral.WebPhone({
 
 exports.default = webPhone;
 
-},{}],16:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
