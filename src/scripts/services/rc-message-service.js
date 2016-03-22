@@ -8,7 +8,7 @@ var rcMessageService = function(sdk) {
     var fetchingPromise = null;
     
     function fetchMessages(){
-        return sdk.platform().get('/account/~/extension/~/message-sync', {
+        return sdk.platform().get('/account/~/extension/~/message-store', {
                     dateFrom: new Date(Date.now() - MESSAGES_MAX_AGE_HOURS * 3600 * 1000).toISOString()
         }).then(responses => {
             var results = responses.json().records;
