@@ -1,0 +1,88 @@
+<div class='rc-panel'>
+    <div class='rc-pane-header'>
+        <h1>Compose Text</h1>
+    </div>
+    <div class='rc-pane-content'>
+        <div class='rc-pane-scrollable'>
+            <dropdown data-info='dropdown'></dropdown>
+            <contact-picker data-info='contact-picker'></contact-picker>
+            <textarea class='rc-textarea' placeholder="Type any text..." data-info='text' data-event='focus:readyToSend'></textarea>
+            <button class='rc-button' data-info='send' data-event='click:send'>Send</button>
+        </div>
+    </div>
+</div>
+<script>
+w.register(function() {
+    this.actions = w.action('interaction');
+    this.actions.init = {
+        after: function() {
+            var composeText = this;
+            w.customize(this, 'contact-picker', {
+                actions: {
+                    autoComplete: {
+                        method: function() {
+                            return composeText.queryContacts(this.props.inputValue);
+                        }
+                    }
+                }
+            })
+            w.customize(this, 'dropdown', {
+                actions: {
+                    getData: {
+                        method: function() {
+                            return composeText.getOutboundCallerID();
+                        },
+                        after: function(ids) {
+                            ids.forEach(id => this.addItem(id));
+                        }
+                    },
+                    switchTitle: {
+                        method: function(text) {
+                            composeText.props.fromNumber = text;
+                        }
+                    }
+                }
+            })
+        }
+    }
+    this.actions.render = {
+        after: function() {
+            this.props['dropdown'].getData();
+        }
+    }
+    this.actions.send = {
+        method: function(finish) {
+            this.props.text = this.props.dom['text'].value;
+            this.props.fromNumber = this.props['dropdown'].getSelected();
+            this.props.toNumber = this.props['contact-picker'].getInput();
+            return finish();
+        },
+        after: function(response) {
+            if (response.json().messageStatus === 'Sent')
+                this.sent();
+        }
+    };
+    this.actions.sent = {
+        after: function() {
+            this.props.dom['send'].textContent = 'Success!';
+            this.props.dom['text'].value = '';
+        }
+    }
+    this.actions.readyToSend = {
+        after: function() {
+            this.props.dom['send'].textContent = 'Send';
+        }
+    }
+    this.actions.getOutboundCallerID = {
+        method: function(finish) {
+            return finish();
+        }
+    }
+    this.actions.queryContacts = {
+        method: function(finish, queryText) {
+            this.props.to = queryText;
+            return finish();
+        },
+    }
+})
+</script>

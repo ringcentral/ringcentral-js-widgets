@@ -1,8 +1,7 @@
 function register(globalSettings) {
-    globalSettings = Object.assign({
-        actions: {},
-        handlers: {}
-    }, globalSettings);
+    if (!globalSettings.actions)
+        console.warn('Widgets do not have actions defined, maybe you get some typo.');
+
     ['init', 'render', 'remove', 'error'].forEach(action => {
         globalSettings.actions[action] = Object.assign({
             before: function() {},
@@ -12,34 +11,32 @@ function register(globalSettings) {
                 console.error(e);
                 throw e;
             }
-        }, globalSettings.actions[action])
-    })
+        }, globalSettings.actions[action]);
+    });
     var Widget = function(options) {
         var options = Object.assign({
-            actions: {},
-            handlers: {}
+            actions: {}
         }, options);
         var settings = {
             // For deep copy
             actions: Object.assign({}, globalSettings.actions),
-            handlers: Object.assign({}, globalSettings.handlers)
-        }
-        if (!options.template) {
-            throw new Error('need a template');
-        }
+        };
         this.props = {};
         this.custom = {};
+        logger = initLogger(options.logLevel);
+
         Object.keys(settings.actions).forEach(index => {
             settings.actions[index] = bindScope(this, settings.actions[index]);
-        })
+        });
         Object.keys(options.actions).forEach(index => {
             options.actions[index] = bindScope(this, options.actions[index]);
-        })
+        });
         Object.keys(settings.actions).forEach(index => {
             this[index] =
                 generateActions(settings.actions[index], options.actions[index], index);
-        })
+        });
         this.props.dom = generateDocument(this, options.template);
+        this.props.root = getDocumentRoot(options.template);
         this.props.template = options.template;
         this.render =
             generateActions({
@@ -66,7 +63,7 @@ function register(globalSettings) {
             } else if (target instanceof HTMLElement) {
                 target = target;
             } else {
-                console.warn('first argument of render method should be selector string or dom');
+                logger.warn('first argument of render method should be selector string or dom');
             }
             target.appendChild(template);
             this.props.target = target;
@@ -83,19 +80,20 @@ function bindScope(scope, action) {
         before: action.before ? action.before.bind(scope) : function() {}.bind(scope),
         method: action.method ? action.method.bind(scope) : function() {}.bind(scope),
         after: action.after ? action.after.bind(scope) : function() {}.bind(scope),
-        error: action.error ? action.error.bind(scope) : function() {}.bind(scope)
-    }
+        error: action.error ? action.error.bind(scope) : function(err) {
+            logger.error(err);
+        }.bind(scope)
+    };
 }
 
 function generateDocument(widget, template) {
     var dom = {};
-    [].forEach.call(template.querySelectorAll('[data-info]'), doc => {
+    Array.from(template.querySelectorAll('[data-info]')).forEach(doc => {
         var info = doc.getAttribute('data-info');
         dom[info] = doc;
     });
-    [].forEach.call(template.querySelectorAll('[data-event]'), doc => {
+    Array.from(template.querySelectorAll('[data-event]')).forEach(doc => {
         var events = doc.getAttribute('data-event');
-        // TODO: proper error messages
         events.split('|').forEach(event => {
             var eventName;
             var action;
@@ -104,15 +102,20 @@ function generateDocument(widget, template) {
                     eventName = token;
                 else if (index === 1)
                     action = token;
-            })
+            });
             if (!widget[action]) {
-                console.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
+                logger.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
                 return;
             }
             doc.addEventListener(eventName, widget[action].bind(widget));
-        })
-    })
+        });
+    });
     return dom;
+}
+
+function getDocumentRoot(template) {
+    // Assume the template only have one root
+    return template.querySelector('*');
 }
 
 function generateActions(widgetAction, userAction, name) {
@@ -122,87 +125,53 @@ function generateActions(widgetAction, userAction, name) {
             method: function() {},
             after: function() {},
             error: function(e) {
-                console.error(e);
+                logger.error(e);
                 throw e;
             }
         };
-        console.warn('Widget action [%s] is not defined by users', name);
+        logger.warn('Widget action [%s] is not defined by users', name);
     }
     return function(...args) {
         var before = function(...args) {
-            console.info('[%s][before](' + [].concat(...args) + ')', name);
+            logger.info('[%s][before](' + [].concat(...args) + ')', name);
             return wrapUserEvent(widgetAction.before, userAction.before, ...args);
-        }
+        };
         var method = function(arg) {
-            console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            logger.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return widgetAction.method(userAction.method, ...arg()) || arg;
             }
             return widgetAction.method(userAction.method, arg) || arg;
         };
         var after = function(arg) {
-            console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            logger.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg;
             }
             return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
-        }
+        };
         var error = function(e) {
             return wrapUserEvent(widgetAction.error, userAction.error, e);
-        }
+        };
         var finish = function(arg) {
             if (typeof arg === 'function') {
                 // flatten one level
-                return [].concat.apply([], arg());
+                return arg()[0] instanceof Array ? [].concat.apply([], arg()) : arg()[0];
             }
             return arg;
-        }
+        };
         try {
-            before = before(...args);
-            if (isThenable(before)) {
-                return before.then(function(...args) {
-                    return method(arg);
-                }).then(function(arg) {
-                    return after(arg);
-                }).then(function(arg) {
-                    return finish(arg);
-                }).catch(error)
-            } else {
-                method = method(before);
-                if (isThenable(method)) {
-                    return method.then(function(arg) {
-                        return after(arg);
-                    }).then(function(arg) {
-                        return finish(arg);
-                    }).catch(error)
-                } else {
-                    after = after(method);
-                    if (isThenable(after)) {
-                        return after.then(function(arg) {
-                            return finish(arg);
-                        }).catch(error)
-                    } else {
-                        return finish(after);
-                    }
-                }
-            }
+            return nextAction(before(...args), [before, method, after, finish], error, 0);
         } catch (e) {
             error(e);
         }
-    }
+    };
 }
-
 
 function wrapUserEvent(widget, user, ...args) {
     var continueDefault = !user || user(...args) || true;
-    if (continueDefault ||
-        typeof continueDefault === 'undefined' ||
-        continueDefault) {
-        if (widget) {
-            return widget(...args) || (() => args);
-        }
-        return null;
-    }
+    if (continueDefault || typeof continueDefault === 'undefined')
+        return widget(...args) || (() => args);
     return [].concat(...args);
 }
 
@@ -212,4 +181,38 @@ function isThenable(result) {
     return false;
 }
 
+function nextAction(result, actions, error, start) {
+    if (start + 1 === actions.length)
+        return result;
+    if (isThenable(result)) {
+        return actions.reduce((res, action, index) => {
+            if (index > start)
+                return res.then(action);
+            return res;
+        }, result).catch(error);
+    } else {
+        return nextAction(actions[start + 1](result), actions, error, start + 1);
+    }
+}
+
+function initLogger(level) {
+    return {
+        error: function(...args) {
+            console.error(...args);
+        },
+        warn: function(...args) {
+            if (level > 0)
+                console.warn(...args);
+        },
+        info: function(...args) {
+            if (level > 1)
+                console.info(...args);
+        },
+        log: function(...args) {
+            if (level > 1)
+                console.log(...args);
+        }
+    };
+}
+var logger;
 export { register };

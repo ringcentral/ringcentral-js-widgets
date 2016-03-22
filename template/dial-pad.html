@@ -3,9 +3,13 @@
         <h1>Dialer</h1>
     </div>
     <div class='rc-pane-content'>
+        <div class='rc-mask display-none' data-info='disabled-mask'>
+            <div class='rc-mask-message'>Sorry, your account doesn't not have Web Phone permission.</div>
+        </div>
         <div class='rc-pane-scrollable'>
+            <dropdown data-info='dropdown'></dropdown>
             <div data-info='number'>
-                <auto-complete></auto-complete>
+                <contact-picker data-info='contact-picker'></contact-picker>
             </div>
             <div class='rc-dial-wrapper'>
                 <button class='rc-dial-button' data-info='dial-button-1' data-value='1' data-event='click:dialing'>1</button>
@@ -20,86 +24,97 @@
                 <button class='rc-dial-button' data-info='dial-button-0' data-value='0' data-event='click:dialing'>0</button>
             </div>
             <button class='rc-button' data-info='callout' data-event='click:callout'>Call</button>
+            <div class='rc-error-message' data-info='error'></div>
         </div>
     </div>
     <div class='rc-pane-footer'></div>
 </div>
 <script>
 w.register(function() {
-    this.actions = {
-        init: {
-            before: function() {},
-            method: function() {},
-            after: function() {
-                var dialPad = this;
-                w.customize(this, 'auto-complete', {
-                    actions: {
-                        init: {
-                            after: function() {
-                                Promise.resolve(dialPad.getCandidates()).then(candidates => {
-                                    this.props.candidates = candidates;
-                                });
-                            }
-                        },
-                        autoComplete: {
-                            method: function() {
-                                var candidates = this.props.candidates;
-                                var numbers = [];
-                                // TODO, if fetch is in progress, need to show again after fetch complete
-                                if (!candidates)
-                                    return;
-                                return candidates.filter((candidate, index) => {
-                                    var result = candidate.from.phoneNumber.indexOf(this.props.dom.input.value) === 1 && numbers.indexOf(candidate.from.phoneNumber) < 0;
-                                    numbers.push(candidate.from.phoneNumber)
-                                    return result;
-                                })
-                            }
+    this.actions = w.action('interaction');
+    this.actions.init = {
+        before: function() {},
+        method: function() {},
+        after: function() {
+            var dialPad = this;
+            w.customize(this, 'contact-picker', {
+                actions: {
+                    autoComplete: {
+                        method: function() {
+                            return dialPad.queryContacts(this.props.inputValue);
                         }
                     }
-                })
-            }
+                }
+            })
+            w.customize(this, 'dropdown', {
+                actions: {
+                    getData: {
+                        method: function() {
+                            return dialPad.getOutboundCallerID();
+                        },
+                        after: function(ids) {
+                            ids.forEach(id => this.addItem(id));
+                        }
+                    },
+                    switchTitle: {
+                        method: function(text) {
+                            dialPad.props.fromNumber = text;
+                        }
+                    }
+                }
+            })
+        }
+    }
+    this.actions.render = {
+        before: function() {},
+        method: function() {},
+        after: function() {
+            this.props['dropdown'].getData();
+        }
+    }
+    this.actions.dialing = {
+        method: function(finish) {
+            var button = event.target;
+            var cp = this.props['contact-picker'];
+            cp.appendInput(button.getAttribute('data-value'));
+            return finish();
         },
-        render: {
-            before: function() {},
-            method: function() {},
-            after: function() {
-                var dialPad = this;
-            }
+        after: function() {
+            this.props['contact-picker'].props.dom.input.focus();
+        }
+    }
+    this.actions.callout = {
+        before: function() {
+            this.props.dom.callout.classList.add('rc-button-loading');
         },
-        dialing: {
-            before: function() {},
-            method: function(finish) {
-                var button = event.target;
-                console.log(this.props);
-                var ac = this.props['auto-complete'];
-                ac.appendInput(button.getAttribute('data-value'));
-                ac.autoComplete(this.getCandidates());
-                return finish();
-            },
-            after: function() {
-                this.props['auto-complete'].props.dom.input.focus();
-            }
+        method: function(finish) {
+            var ac = this.props['contact-picker'];
+            this.props.toNumber = ac.props.dom.input.value;
+            this.props.fromNumber = localStorage.getItem('username');
+            return finish(this.props.fromNumber, this.props.toNumber);
         },
-        callout: {
-            before: function() {
-                this.props.dom.callout.classList.add('rc-button-loading');
-            },
-            method: function(finish) {
-                var ac = this.props['auto-complete'];
-                this.props.toNumber = ac.props.dom.input.value;
-                this.props.fromNumber = localStorage.getItem('username');
-                return finish(this.props.fromNumber, this.props.toNumber);
-            },
-            after: function() {
-
-            }
+        after: function() {},
+        error: function(err) {
+            this.props.dom.error.textContent = err.message;
+        }
+    }
+    this.actions.disable = {
+        method: function(finish) {
+            return finish();
         },
-        getCandidates: {
-            before: function() {},
-            method: function(finish) {
-                return finish();
-            },
-            after: function() {}
+        after: function() {
+            this.props.dom['disabled-mask'].classList.remove('display-none');
+        }
+    }
+    this.actions.getOutboundCallerID = {
+        method: function(finish) {
+            return finish();
+        }
+    }
+    this.actions.queryContacts = {
+        method: function(finish, queryText) {
+            this.props.to = queryText;
+            return finish();
         }
     }
 })

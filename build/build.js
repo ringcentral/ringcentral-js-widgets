@@ -1,4 +1,73 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var actions = {};
+function register(name, action) {
+    actions[name] = action;
+}
+function getActions() {
+    return actions;
+}
+exports.register = register;
+exports.getActions = getActions;
+
+},{}],2:[function(require,module,exports){
+'use strict';
+
+var _action = require('../action');
+
+var interaction = {
+    show: {
+        before: function before() {},
+        method: function method(finish) {},
+        after: function after() {
+            var target = arguments.length <= 0 || arguments[0] === undefined ? this.props.root : arguments[0];
+
+            target.classList.remove('display-none');
+        }
+    },
+    hide: {
+        before: function before() {},
+        method: function method(finish) {},
+        after: function after() {
+            var target = arguments.length <= 0 || arguments[0] === undefined ? this.props.root : arguments[0];
+
+            target.classList.add('display-none');
+        }
+    },
+    diabled: {
+        before: function before() {},
+        method: function method(finish) {},
+        after: function after() {
+            var target = arguments.length <= 0 || arguments[0] === undefined ? this.props.root : arguments[0];
+            var message = arguments[1];
+
+            var mask = document.createElement('div');
+            mask.classList.add('rc-mask');
+            var message = document.createElement('h4');
+            message.classList.add('rc-mask-message');
+            message.textContent = message;
+            target.appendChild(mask);
+            this.props.mask = mask;
+            return mask;
+        }
+    },
+    enable: {
+        before: function before() {},
+        method: function method(finish) {},
+        after: function after() {
+            if (this.props.mask && this.props.mask instanceof HTMLElement) {
+                this.props.mask.parentNode.removeChild(this.props.mask);
+            }
+        }
+    }
+};
+(0, _action.register)('interaction', interaction);
+
+},{"../action":1}],3:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -8,10 +77,8 @@ Object.defineProperty(exports, "__esModule", {
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function register(globalSettings) {
-    globalSettings = Object.assign({
-        actions: {},
-        handlers: {}
-    }, globalSettings);
+    if (!globalSettings.actions) console.warn('Widgets do not have actions defined, maybe you get some typo.');
+
     ['init', 'render', 'remove', 'error'].forEach(function (action) {
         globalSettings.actions[action] = Object.assign({
             before: function before() {},
@@ -27,19 +94,16 @@ function register(globalSettings) {
         var _this = this;
 
         var options = Object.assign({
-            actions: {},
-            handlers: {}
+            actions: {}
         }, options);
         var settings = {
             // For deep copy
-            actions: Object.assign({}, globalSettings.actions),
-            handlers: Object.assign({}, globalSettings.handlers)
+            actions: Object.assign({}, globalSettings.actions)
         };
-        if (!options.template) {
-            throw new Error('need a template');
-        }
         this.props = {};
         this.custom = {};
+        logger = initLogger(options.logLevel);
+
         Object.keys(settings.actions).forEach(function (index) {
             settings.actions[index] = bindScope(_this, settings.actions[index]);
         });
@@ -50,6 +114,7 @@ function register(globalSettings) {
             _this[index] = generateActions(settings.actions[index], options.actions[index], index);
         });
         this.props.dom = generateDocument(this, options.template);
+        this.props.root = getDocumentRoot(options.template);
         this.props.template = options.template;
         this.render = generateActions({
             before: settings.actions.render.before,
@@ -75,7 +140,7 @@ function register(globalSettings) {
             } else if (target instanceof HTMLElement) {
                 target = target;
             } else {
-                console.warn('first argument of render method should be selector string or dom');
+                logger.warn('first argument of render method should be selector string or dom');
             }
             target.appendChild(template);
             this.props.target = target;
@@ -91,19 +156,20 @@ function bindScope(scope, action) {
         before: action.before ? action.before.bind(scope) : function () {}.bind(scope),
         method: action.method ? action.method.bind(scope) : function () {}.bind(scope),
         after: action.after ? action.after.bind(scope) : function () {}.bind(scope),
-        error: action.error ? action.error.bind(scope) : function () {}.bind(scope)
+        error: action.error ? action.error.bind(scope) : function (err) {
+            logger.error(err);
+        }.bind(scope)
     };
 }
 
 function generateDocument(widget, template) {
     var dom = {};
-    [].forEach.call(template.querySelectorAll('[data-info]'), function (doc) {
+    Array.from(template.querySelectorAll('[data-info]')).forEach(function (doc) {
         var info = doc.getAttribute('data-info');
         dom[info] = doc;
     });
-    [].forEach.call(template.querySelectorAll('[data-event]'), function (doc) {
+    Array.from(template.querySelectorAll('[data-event]')).forEach(function (doc) {
         var events = doc.getAttribute('data-event');
-        // TODO: proper error messages
         events.split('|').forEach(function (event) {
             var eventName;
             var action;
@@ -111,13 +177,18 @@ function generateDocument(widget, template) {
                 if (index === 0) eventName = token;else if (index === 1) action = token;
             });
             if (!widget[action]) {
-                console.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
+                logger.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
                 return;
             }
             doc.addEventListener(eventName, widget[action].bind(widget));
         });
     });
     return dom;
+}
+
+function getDocumentRoot(template) {
+    // Assume the template only have one root
+    return template.querySelector('*');
 }
 
 function generateActions(widgetAction, userAction, name) {
@@ -127,11 +198,11 @@ function generateActions(widgetAction, userAction, name) {
             method: function method() {},
             after: function after() {},
             error: function error(e) {
-                console.error(e);
+                logger.error(e);
                 throw e;
             }
         };
-        console.warn('Widget action [%s] is not defined by users', name);
+        logger.warn('Widget action [%s] is not defined by users', name);
     }
     return function () {
         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
@@ -145,18 +216,18 @@ function generateActions(widgetAction, userAction, name) {
                 args[_key2] = arguments[_key2];
             }
 
-            console.info('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
+            logger.info('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
             return wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args));
         };
         var method = function method(arg) {
-            console.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            logger.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg()))) || arg;
             }
             return widgetAction.method(userAction.method, arg) || arg;
         };
         var after = function after(arg) {
-            console.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            logger.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
             if (typeof arg === 'function') {
                 return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(_toConsumableArray(arg()))) || arg;
             }
@@ -168,39 +239,12 @@ function generateActions(widgetAction, userAction, name) {
         var finish = function finish(arg) {
             if (typeof arg === 'function') {
                 // flatten one level
-                return [].concat.apply([], arg());
+                return arg()[0] instanceof Array ? [].concat.apply([], arg()) : arg()[0];
             }
             return arg;
         };
         try {
-            before = before.apply(undefined, _toConsumableArray(args));
-            if (isThenable(before)) {
-                return before.then(function () {
-                    return method(arg);
-                }).then(function (arg) {
-                    return after(arg);
-                }).then(function (arg) {
-                    return finish(arg);
-                }).catch(error);
-            } else {
-                method = method(before);
-                if (isThenable(method)) {
-                    return method.then(function (arg) {
-                        return after(arg);
-                    }).then(function (arg) {
-                        return finish(arg);
-                    }).catch(error);
-                } else {
-                    after = after(method);
-                    if (isThenable(after)) {
-                        return after.then(function (arg) {
-                            return finish(arg);
-                        }).catch(error);
-                    } else {
-                        return finish(after);
-                    }
-                }
-            }
+            return nextAction(before.apply(undefined, _toConsumableArray(args)), [before, method, after, finish], error, 0);
         } catch (e) {
             error(e);
         }
@@ -215,14 +259,9 @@ function wrapUserEvent(widget, user) {
     var _ref2;
 
     var continueDefault = !user || user.apply(undefined, args) || true;
-    if (continueDefault || typeof continueDefault === 'undefined' || continueDefault) {
-        if (widget) {
-            return widget.apply(undefined, args) || function () {
-                return args;
-            };
-        }
-        return null;
-    }
+    if (continueDefault || typeof continueDefault === 'undefined') return widget.apply(undefined, args) || function () {
+        return args;
+    };
     return (_ref2 = []).concat.apply(_ref2, args);
 }
 
@@ -231,9 +270,46 @@ function isThenable(result) {
     return false;
 }
 
+function nextAction(result, actions, error, start) {
+    if (start + 1 === actions.length) return result;
+    if (isThenable(result)) {
+        return actions.reduce(function (res, action, index) {
+            if (index > start) return res.then(action);
+            return res;
+        }, result).catch(error);
+    } else {
+        return nextAction(actions[start + 1](result), actions, error, start + 1);
+    }
+}
+
+function initLogger(level) {
+    return {
+        error: function error() {
+            var _console;
+
+            (_console = console).error.apply(_console, arguments);
+        },
+        warn: function warn() {
+            var _console2;
+
+            if (level > 0) (_console2 = console).warn.apply(_console2, arguments);
+        },
+        info: function info() {
+            var _console3;
+
+            if (level > 1) (_console3 = console).info.apply(_console3, arguments);
+        },
+        log: function log() {
+            var _console4;
+
+            if (level > 1) (_console4 = console).log.apply(_console4, arguments);
+        }
+    };
+}
+var logger;
 exports.register = register;
 
-},{}],2:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -252,6 +328,30 @@ var _phoneService = require('./services/phone-service');
 
 var _phoneService2 = _interopRequireDefault(_phoneService);
 
+var _rcContactService = require('./services/rc-contact-service');
+
+var _rcContactService2 = _interopRequireDefault(_rcContactService);
+
+var _contactSearchService = require('./services/contact-search-service');
+
+var _contactSearchService2 = _interopRequireDefault(_contactSearchService);
+
+var _rcContactSearchProvider = require('./services/rc-contact-search-provider');
+
+var _rcContactSearchProvider2 = _interopRequireDefault(_rcContactSearchProvider);
+
+var _accountService = require('./services/account-service');
+
+var _accountService2 = _interopRequireDefault(_accountService);
+
+var _messageService = require('./services/message-service');
+
+var _messageService2 = _interopRequireDefault(_messageService);
+
+var _interaction = require('./actions/interaction');
+
+var _interaction2 = _interopRequireDefault(_interaction);
+
 var _w = require('./w');
 
 var _w2 = _interopRequireDefault(_w);
@@ -259,10 +359,14 @@ var _w2 = _interopRequireDefault(_w);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // development only
+
+
+// actions
+// services
 window.w = _w2.default;
 exports.default = _w2.default;
 
-},{"./services/call-log-service":4,"./services/login-service":5,"./services/phone-service":6,"./w":9}],3:[function(require,module,exports){
+},{"./actions/interaction":2,"./services/account-service":6,"./services/call-log-service":7,"./services/contact-search-service":8,"./services/login-service":9,"./services/message-service":10,"./services/phone-service":11,"./services/rc-contact-search-provider":12,"./services/rc-contact-service":13,"./w":16}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -270,16 +374,79 @@ Object.defineProperty(exports, "__esModule", {
 });
 var services = {};
 function register(name, service) {
-    console.log(name);
     services[name] = service;
 }
-function getService() {
+function getServices() {
     return services;
 }
 exports.register = register;
-exports.getService = getService;
+exports.getServices = getServices;
 
-},{}],4:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _rcSdk = require('./rc-sdk');
+
+var _rcSdk2 = _interopRequireDefault(_rcSdk);
+
+var _service = require('../service');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var accountService = function (sdk) {
+    var info;
+    var numbers;
+    return {
+        getAccountInfo: function getAccountInfo() {
+            return sdk.platform().get('/account/~/extension/~').then(function (response) {
+                console.debug(response.json());
+                info = response.json();
+                return info;
+            }).catch(function (e) {
+                console.error('Recent Calls Error: ' + e.message);
+            });
+        },
+
+        getPhoneNumber: function getPhoneNumber() {
+            return sdk.platform().get('/account/~/extension/~/phone-number').then(function (response) {
+                console.debug(response.json());
+
+                // info = response.json();
+                return response.json();
+            }).then(function (data) {
+                numbers = data.records;
+                return data.records;
+            }).catch(function (e) {
+                console.error('Recent Calls Error: ' + e.message);
+            });
+        },
+
+        hasServiceFeature: function hasServiceFeature(name) {
+            if (!info) return Error('Need to fetch account info by accountService.getAccountInfo');
+            return info.serviceFeatures.filter(function (feature) {
+                return feature.featureName.toLowerCase() === name.toLowerCase();
+            }).length > 0;
+        },
+
+        listNumber: function listNumber(type) {
+            console.debug(numbers);
+            return numbers.filter(function (number) {
+                return number.type === type;
+            }).map(function (number) {
+                return number.phoneNumber;
+            });
+        }
+    };
+}(_rcSdk2.default);
+
+(0, _service.register)('accountService', accountService);
+exports.default = accountService;
+
+},{"../service":5,"./rc-sdk":14}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -295,15 +462,12 @@ var _service = require('../service');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CallLogService = function (sdk) {
-
     var period = 7 * 24 * 3600 * 1000;
     var dateFrom = new Date(Date.now() - period);
-
     return {
-
         getCallLogs: function getCallLogs() {
-
             return sdk.platform().get('/account/~/extension/~/call-log', { dateFrom: dateFrom.toISOString() }).then(function (response) {
+                console.debug(response.json().records);
                 return response.json().records;
             }).catch(function (e) {
                 console.error('Recent Calls Error: ' + e.message);
@@ -311,10 +475,65 @@ var CallLogService = function (sdk) {
         }
     };
 }(_rcSdk2.default);
+
 (0, _service.register)('callLogService', CallLogService);
 exports.default = CallLogService;
 
-},{"../service":3,"./rc-sdk":7}],5:[function(require,module,exports){
+},{"../service":5,"./rc-sdk":14}],8:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _service = require('../service');
+
+var contactSearchService = function () {
+    var searchProviders = [];
+    var queryCompletedHandlers = [];
+
+    function createResult(item) {
+        return {
+            name: item.name,
+            value: item.value,
+            type: item.type
+        };
+    }
+    return {
+        query: function query(searchFunctions, filter) {
+            return Promise.all(searchFunctions).then(function (results) {
+                var searchResultsKeys = {};
+                var searchResults = [];
+                results.forEach(function (result) {
+                    result.forEach(function (item) {
+                        if (filter) {
+                            if (filter(item)) {
+                                var key = item.name + item.value;
+                                if (!searchResultsKeys[key]) {
+                                    var toAddItem = createResult(item);
+                                    searchResultsKeys[key] = toAddItem;
+                                    searchResults.push(toAddItem);
+                                }
+                            }
+                        } else {
+                            var key = item.name + item.value;
+                            if (!searchResultsKeys[key]) {
+                                var toAddItem = createResult(item);
+                                searchResultsKeys[key] = toAddItem;
+                                searchResults.push(toAddItem);
+                            }
+                        }
+                    });
+                });
+                return searchResults;
+            });
+        }
+    };
+}();
+(0, _service.register)('contactSearchService', contactSearchService);
+exports.default = contactSearchService;
+
+},{"../service":5}],9:[function(require,module,exports){
 'use strict';
 
 var _rcSdk = require('./rc-sdk');
@@ -329,16 +548,14 @@ var LoginService = function (sdk) {
     var onLoginHandler = [];
     return {
         login: function login(username, extension, password) {
-            console.log('LoginService -> start login');
             return sdk.platform().login({
                 'username': username,
                 'extension': extension,
                 'password': password
-            }).then(function () {
-                onLoginHandler.forEach(function (handler) {
-                    return handler();
-                });
             });
+        },
+        logout: function logout() {
+            return sdk.platform().logout();
         },
         checkLoginStatus: function checkLoginStatus() {
             return sdk.platform().loggedIn().then(function (isLoggedIn) {
@@ -349,15 +566,43 @@ var LoginService = function (sdk) {
                 }
                 return isLoggedIn;
             });
-        },
-        registerLoginHandler: function registerLoginHandler(handler) {
-            onLoginHandler.push(handler);
         }
+
     };
 }(_rcSdk2.default);
 (0, _service.register)('loginService', LoginService);
 
-},{"../service":3,"./rc-sdk":7}],6:[function(require,module,exports){
+},{"../service":5,"./rc-sdk":14}],10:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _rcSdk = require('./rc-sdk');
+
+var _rcSdk2 = _interopRequireDefault(_rcSdk);
+
+var _service = require('../service');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var messageService = function (sdk) {
+    return {
+        sendSMSMessage: function sendSMSMessage(text, fromNumber, toNumber) {
+            return sdk.platform().post('/account/~/extension/~/sms/', {
+                from: { phoneNumber: fromNumber },
+                to: [{ phoneNumber: toNumber }],
+                text: text
+            });
+        }
+    };
+}(_rcSdk2.default);
+
+(0, _service.register)('messageService', messageService);
+exports.default = messageService;
+
+},{"../service":5,"./rc-sdk":14}],11:[function(require,module,exports){
 'use strict';
 
 var _rcSdk = require('./rc-sdk');
@@ -388,13 +633,7 @@ var PhoneService = function () {
                     transport: 'WSS'
                 }]
             }).then(function (res) {
-                var data = res.json();
-                console.log("Sip Provisioning Data from RC API: " + JSON.stringify(data));
-                console.log(data.sipFlags.outboundCallsEnabled);
-                var checkFlags = false;
-                return _rcWebphone2.default.register(data, checkFlags).then(function () {
-                    console.log('Registered');
-                }).catch(function (e) {
+                return _rcWebphone2.default.register(res.json(), false).catch(function (e) {
                     return Promise.reject(err);
                 });
             });
@@ -406,7 +645,6 @@ var PhoneService = function () {
                 return;
             }
             return _rcSdk2.default.platform().get('/restapi/v1.0/account/~/extension/~').then(function (res) {
-                console.log(res);
                 var info = res.json();
                 if (info && info.regionalSettings && info.regionalSettings.homeCountry) {
                     return info.regionalSettings.homeCountry.id;
@@ -461,7 +699,200 @@ var PhoneService = function () {
 }();
 (0, _service.register)('phoneService', PhoneService);
 
-},{"../service":3,"./rc-sdk":7,"./rc-webphone":8}],7:[function(require,module,exports){
+},{"../service":5,"./rc-sdk":14,"./rc-webphone":15}],12:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _rcContactService = require('./rc-contact-service');
+
+var _rcContactService2 = _interopRequireDefault(_rcContactService);
+
+var _service = require('../service');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var rcContactSearchProvider = function () {
+    return {
+        search: function search(text) {
+            var results = [];
+            if (text) {
+                text = text.toLowerCase();
+                _rcContactService2.default.companyContacts.map(function (contact) {
+                    if (contact.displayName && contact.displayName.toLowerCase().indexOf(text) >= 0) {
+                        results.push({
+                            name: contact.displayName,
+                            value: contact.extension,
+                            type: 'rc',
+                            id: contact.id
+                        });
+                        contact.phoneNumber.forEach(function (phone) {
+                            results.push({
+                                name: contact.displayName,
+                                value: phone,
+                                type: 'rc',
+                                id: contact.id
+                            });
+                        });
+                    } else {
+                        if (contact.extension && contact.extension.indexOf(text) >= 0) {
+                            results.push({
+                                name: contact.displayName,
+                                value: contact.extension,
+                                type: 'rc',
+                                id: contact.id
+                            });
+                        }
+
+                        contact.phoneNumber.forEach(function (phone) {
+                            if (phone.indexOf(text) >= 0) {
+                                results.push({
+                                    name: contact.displayName,
+                                    value: phone,
+                                    type: 'rc',
+                                    id: contact.id
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+
+            return results;
+        }
+    };
+}();
+
+(0, _service.register)('rcContactSearchProvider', rcContactSearchProvider);
+exports.default = rcContactSearchProvider;
+
+},{"../service":5,"./rc-contact-service":13}],13:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _rcSdk = require('./rc-sdk');
+
+var _rcSdk2 = _interopRequireDefault(_rcSdk);
+
+var _service = require('../service');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var rcContactService = function (sdk) {
+    var companyContacts = [];
+
+    function Contact() {
+        this.firstName = null;
+        this.lastName = null;
+        this.displayName = null;
+        this.extension = null;
+        this.phoneNumber = [];
+    }
+
+    function createContact(extension) {
+        var contact = new Contact();
+        contact.extension = extension.extensionNumber;
+        contact.firstName = extension.contact.firstName;
+        contact.lastName = extension.contact.lastName;
+        contact.displayName = contact.firstName + ' ' + contact.lastName;
+        contact.type = 'rc';
+        contact.id = extension.id;
+        return contact;
+    }
+
+    function fetchCompanyContactByPage(page) {
+        return sdk.platform().get('/account/~/extension/', { perPage: 250, page: page });
+    }
+
+    function fetchCompanyDirectNumbersByPage(page) {
+        return sdk.platform().get('/account/~/phone-number', { perPage: 250, page: page });
+    }
+
+    function fetchCompanyContacts() {
+        var page = 1;
+        fetchCompanyContactByPage(page).then(function (response) {
+            var respObj = response.json();
+            if (respObj.paging && respObj.paging.totalPages > page) {
+                var promises = [];
+                while (respObj.paging.totalPages > page) {
+                    page++;
+                    promises.push(fetchCompanyContactByPage(page));
+                }
+
+                Promise.all(promises).then(function (responses) {
+                    responses.forEach(function (response) {
+                        var records = response.json().records.filter(function (extension) {
+                            return extension.status === 'Enabled' && ['DigitalUser', 'User'].indexOf(extension.type) >= 0;
+                        }).map(function (extension) {
+                            return createContact(extension);
+                        });
+                        companyContacts.push.apply(companyContacts, records);
+                    });
+
+                    fetchCompanyDirectNumbers();
+                });
+            }
+        }).catch(function (e) {
+            console.error(e);
+        });
+    }
+
+    function fetchCompanyDirectNumbers() {
+        var page = 1;
+        fetchCompanyDirectNumbersByPage(page).then(function (response) {
+            var respObj = response.json();
+            if (respObj.paging && respObj.paging.totalPages > page) {
+                var promises = [];
+                while (respObj.paging.totalPages > page) {
+                    page++;
+                    promises.push(fetchCompanyDirectNumbersByPage(page));
+                }
+
+                Promise.all(promises).then(function (responses) {
+                    var numbers = {};
+                    responses.forEach(function (response) {
+                        var resp = response.json();
+                        resp.records.forEach(function (el) {
+                            if (el.extension && el.extension.extensionNumber) {
+                                if (!numbers[el.extension.extensionNumber]) {
+                                    numbers[el.extension.extensionNumber] = [];
+                                }
+
+                                numbers[el.extension.extensionNumber].push(el);
+                            }
+                        });
+                    });
+                    companyContacts.forEach(function (contact) {
+                        var phones = numbers[contact.extension];
+                        if (phones) {
+                            phones.forEach(function (phone) {
+                                contact.phoneNumber.push(phone.phoneNumber);
+                            });
+                        }
+                    });
+                });
+            }
+        });
+    }
+
+    return {
+        companyContacts: companyContacts,
+        syncCompanyContact: function syncCompanyContact() {
+            companyContacts.length = 0;
+            fetchCompanyContacts();
+        }
+    };
+}(_rcSdk2.default);
+
+(0, _service.register)('rcContactService', rcContactService);
+exports.default = rcContactService;
+
+},{"../service":5,"./rc-sdk":14}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -475,7 +906,7 @@ var sdk = new RingCentral.SDK({
 
 exports.default = sdk;
 
-},{}],8:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -487,7 +918,7 @@ var webPhone = new RingCentral.WebPhone({
 
 exports.default = webPhone;
 
-},{}],9:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -497,6 +928,8 @@ Object.defineProperty(exports, "__esModule", {
 var _component = require('./component');
 
 var _service = require('./service');
+
+var _action = require('./action');
 
 function fetchWidget(filePath) {
     return fetch(w.options.path + filePath + (filePath.endsWith('.html') ? '' : '.html')).then(function (response) {
@@ -532,7 +965,8 @@ function initNestedWidget(widget) {
             var child = w(doc.localName, widget.custom[doc.localName]);
             child.render(doc);
             // FIXME: When multiple child element, has problems
-            widget.props[doc.localName] = child;
+            var childName = doc.getAttribute('data-info');
+            if (childName) widget.props[childName] = child;
         }
     });
 }
@@ -548,13 +982,13 @@ function preload(widgets, callback) {
         return result.concat(w.templates[name].fetch.then(function (template) {
             if (!w.templates[name].template) {
                 w.templates[name].template = template;
-                // FIXME: script position
                 var script = template.querySelector('script');
                 document.body.appendChild(script);
-                return template;
+                document.body.removeChild(script);
             }
+            return template;
         }).then(parseDocument).catch(function (err) {
-            return console.error(err);
+            return console.error('Widgets preload error:' + err);
         }));
     }, [])).then(callback);
 }
@@ -563,26 +997,20 @@ function preload(widgets, callback) {
 function w(name, options) {
     options = options || {};
     var baseWidget;
-    console.log(w.templates);
     if (!w.templates[name] || !w.templates[name].widget) {
         throw Error('you need to preload widget:' + name + ' before init it');
     }
     baseWidget = new w.templates[name].widget({
         template: w.templates[name].template.cloneNode(true),
         actions: options.actions || {},
-        handlers: options.handlers || {}
+        handlers: options.handlers || {},
+        logLevel: w.options.logLevel
     });
     initNestedWidget(baseWidget);
-    // initWidget(baseWidget).forEach(child => {
-    //     baseWidget.props[child.name] = child.widget;
-    // });
     return baseWidget;
 }
 w.templates = {};
-w.options = {
-    path: '/template/',
-    preload: {}
-};
+w.options = {};
 w.register = function (constructor) {
     var settings = new constructor();
     Object.keys(w.templates).forEach(function (index) {
@@ -591,22 +1019,22 @@ w.register = function (constructor) {
     });
 };
 w.config = function (options, callback) {
-    // w.options = Object.assign(w.options, options);
-    console.log(options.preload);
     w.options.preload = options.preload || {};
-    console.log(options.path);
     w.options.path = options.path || '';
-    console.log(w.options.path);
+    w.options.logLevel = options.logLevel || 0;
     preload(w.options.preload, callback);
 };
 w.customize = function (context, target, options) {
     context.custom[target] = options;
 };
-w.service = _service.getService;
+w.service = _service.getServices;
+w.action = function (name) {
+    return Object.assign([], (0, _action.getActions)()[name]);
+};
 
 exports.default = w;
 
-},{"./component":1,"./service":3}]},{},[2])
+},{"./action":1,"./component":3,"./service":5}]},{},[4])
 
 
 //# sourceMappingURL=build.js.map

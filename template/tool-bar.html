@@ -1,0 +1,31 @@
+<div class='rc-toolbar' data-info='toolbar'></div>
+<script>
+w.register(function() {
+    this.actions = Object.assign(w.action('interaction'), {
+        addItem: {
+            method: function() {},
+            after: function(content, direction) {
+                // use innerHTML here, because content could be image or something else.
+                var item = document.createElement('button');
+                item.classList.add('rc-toolbar-item');
+                if (direction)
+                    item.classList.add('float-' + direction);
+                item.innerHTML = content;
+                this.props.dom['toolbar'].appendChild(item);
+                return item;
+            }
+        },
+        clickItem: {
+            method: function(finish, item, event) {
+                console.log(finish);
+                console.log(item);
+                if (typeof item === 'number') {
+
+                } else {
+                    item.addEventListener('click', event.bind(this));   
+                }
+            }
+        },
+    })
+})
+</script>

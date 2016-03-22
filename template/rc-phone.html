@@ -1,0 +1,204 @@
+<div>
+    <div id="auth-panel"></div>
+    <div id="toolbar"></div>
+    <div id="dial-pad"></div>
+    <div id="compose-text"></div>
+    <div id="call-panel"></div>
+    <div id="call-log"></div>
+    <auth-panel dynamic></auth-panel>
+    <tool-bar dynamic></tool-bar>
+    <dial-pad dynamic></dial-pad>
+    <compose-text dynamic></compose-text>
+    <call-panel dynamic></call-panel>
+    <call-log dynamic></call-log-panel>
+</div>
+<script>
+w.register(function() {
+    this.actions = {
+        render: {
+            after: function() {
+                var phoneService = w.service()['phoneService'];
+                var loginService = w.service()['loginService'];
+                var callLogService = w.service()['callLogService'];
+                var accountService = w.service()['accountService'];
+                var rcContactService = w.service()['rcContactService'];
+                var contactSearchService = w.service()['contactSearchService'];
+                var messageService = w.service()['messageService'];
+                var rcContactSearchProvider = w.service()['rcContactSearchProvider'];
+                
+                var dialPadSearchProviders = [rcContactSearchProvider];
+                init();
+                function init() {
+                    var authPanel = w('auth-panel', {
+                        actions: {
+                            login: {
+                                method: function() {
+                                    return loginService.login(
+                                        this.props.username,
+                                        this.props.extension,
+                                        this.props.password
+                                    );
+                                },
+                                after: function() {
+                                    return Promise.all([
+                                        accountService.getAccountInfo(),
+                                        accountService.getPhoneNumber(),
+                                        rcContactService.syncCompanyContact(),
+                                        phoneService.registerSIP(),
+                                        callLogService.getCallLogs()
+                                    ])
+                                    .then(afterLogin)
+                                    .then(() => {authPanel.remove()})
+                                    .catch(err => console.error(err))
+                                }
+                            }
+                        }
+                    })
+                    
+                    // authPanel.render('#auth-panel');
+                    loginService.checkLoginStatus().then(
+                        isLoggedIn => {
+                            if (isLoggedIn) {
+                                return Promise.all([
+                                        accountService.getAccountInfo(),
+                                        accountService.getPhoneNumber(),
+                                        rcContactService.syncCompanyContact(),
+                                        phoneService.registerSIP(),
+                                        callLogService.getCallLogs()
+                                    ])
+                                    .then(afterLogin)
+                                    .catch(err => console.error(err))
+                            } else
+                                authPanel.render('#auth-panel');
+                        }
+                    );
+
+                    function afterLogin() {
+                        var dialPad = w('dial-pad', {
+                            actions: {
+                                render: {
+                                    after: function() {
+                                        if (!accountService.hasServiceFeature("VoipCalling"))
+                                            this.disable(this.props.dom.root);
+                                    }
+                                },
+                                queryContacts: {
+                                    method: function() {
+                                        var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                                            return provider.search(this.props.to);
+                                        });
+                                        return contactSearchService.query(dialPadSearchFunctions);
+                                    }
+                                },
+                                callout: {
+                                    method: function(fromNo, toNo) {
+                                        return phoneService.callout(fromNo, toNo);
+                                    }
+                                },
+                                getOutboundCallerID: {
+                                    method: function() {
+                                        return accountService.listNumber("VoiceFax");
+                                    }
+                                }
+                            }
+                        });
+                        var callPanel = w('call-panel', {
+                            actions: {
+                                init: {
+                                    after: function() {
+                                        phoneService.listen();
+                                        phoneService.on('called', this.called);
+                                        phoneService.on('callStarted', this.callStarted);
+                                        phoneService.on('callRejected', this.callRejected);
+                                        phoneService.on('callEnded', this.callEnded);
+                                        phoneService.on('callFailed', this.callFailed);
+                                    }
+                                },
+                                answer: {
+                                    method: function() {
+                                        phoneService.answer();
+                                    }
+                                },
+                                hangup: {
+                                    method: function() {
+                                        phoneService.hangup();
+                                    }
+                                }
+                            }
+                        })
+                        var composeText = w('compose-text', {
+                            actions: {
+                                getOutboundCallerID: {
+                                    method: function() {
+                                        return accountService.listNumber("VoiceFax");
+                                    }
+                                },
+                                queryContacts: {
+                                    method: function() {
+                                        var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                                            return provider.search(this.props.to);
+                                        });
+                                        return contactSearchService.query(dialPadSearchFunctions);
+                                    }
+                                },
+                                send: {
+                                    method: function() {
+                                        return messageService.sendSMSMessage(
+                                            this.props.text,
+                                            this.props.fromNumber,
+                                            this.props.toNumber
+                                        );
+                                    }
+                                }
+                            }
+                        });
+                        var callLog = w('call-log', {
+                            actions: {
+                                init: {
+                                    method: function() {
+                                        return callLogService.getCallLogs();
+                                    }
+                                }
+                            }
+                        })
+                        var toolbar = w('tool-bar', {
+                            actions: {
+                                init: {
+                                    after: function() {
+                                        var panels = [dialPad, composeText, callLog]
+                                        this.clickItem(this.addItem('<img src="../src/styles/images/dialpad_normal.png">'), function() {
+                                            panels.forEach(panel => panel.hide(panel.props.dom.root))
+                                            dialPad.show(dialPad.props.dom.root);
+                                        });
+                                        this.clickItem(this.addItem('<img src="../src/styles/images/sms_normal.png">'), function() {
+                                            panels.forEach(panel => panel.hide(panel.props.dom.root))
+                                            composeText.show(composeText.props.dom.root);
+                                        });
+                                        this.clickItem(this.addItem('<img src="../src/styles/images/call_log_normal.png">'), function() {
+                                            panels.forEach(panel => panel.hide(panel.props.dom.root))
+                                            callLog.show(callLog.props.dom.root);
+                                        });
+                                        // this.addItem('<img src="../src/styles/images/settings_normal.png">');
+                                    }
+                                },
+                                render: {
+                                    after: function() {
+                                        dialPad.render('#dial-pad');
+                                        composeText.render('#compose-text');
+                                        callLog.render('#call-log');
+
+                                        composeText.hide(composeText.props.dom.root);
+                                        callLog.hide(callLog.props.dom.root);
+                                    }
+                                }
+                            }
+                        })
+                        callPanel.render('#call-panel');
+                        toolbar.render('#toolbar');
+                    }
+                }
+            }
+        }
+    }
+})
+</script>

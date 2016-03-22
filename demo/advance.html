@@ -14,9 +14,15 @@
     }
     
     body {
+        height: 100%;
+    }
+
+    #phone {
         width: 250px;
         height: 100%;
         border-right: 1px solid #878787;
+        border-left: 1px solid #878787;
+        margin: 0 auto;
     }
     </style>
 </head>
@@ -33,7 +39,6 @@
     <script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
     <script type="text/javascript" src="../build/build.js"></script>
-    
     <script type="text/javascript">
     w.config({
         path: '../template/',
@@ -77,27 +82,6 @@
                             phoneService.registerSIP(),
                             callLogService.getCallLogs()
                         ])
-                        .then(() => {
-                            return new Promise((resolve, reject) => {
-                                FB.getLoginStatus(function(response) {
-                                    if (response.status === 'connected') {
-                                        resolve();
-                                    } else {
-                                        FB.login(function(response) {
-                                            if (response.status === 'connected') {
-                                                resolve();
-                                            } else if (response.status === 'not_authorized') {
-                                                reject('facebook login fails');
-                                            } else {
-                                                reject('facebook login fails');
-                                            }
-                                        }, {
-                                            scope: 'email'
-                                        });
-                                    }
-                                });
-                            })
-                        })
                         .then(afterLogin)
                         .then(() => {authPanel.hide()})
                         .catch(err => console.error(err))
@@ -105,7 +89,26 @@
                 }
             }
         })
-        authPanel.render('#auth-panel');
+        
+        // authPanel.render('#auth-panel');
+        loginService.checkLoginStatus().then(
+            isLoggedIn => {
+                authPanel.render('#auth-panel');
+                if (isLoggedIn) {
+                    authPanel.hide();
+                    return Promise.all([
+                            accountService.getAccountInfo(),
+                            accountService.getPhoneNumber(),
+                            rcContactService.syncCompanyContact(),
+                            phoneService.registerSIP(),
+                            callLogService.getCallLogs()
+                        ])
+                        .then(afterLogin)
+                        .catch(err => console.error(err))
+                }
+            }
+        );
+
         function afterLogin() {
             var dialPad = w('dial-pad', {
                 actions: {
@@ -241,26 +244,6 @@
             }
         }
     }
-    </script>
-    <script>
-    window.fbAsyncInit = function() {
-        FB.init({
-            appId: '1727200887517400',
-            xfbml: true,
-            version: 'v2.5'
-        });
-    };
-
-    (function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) {
-            return;
-        }
-        js = d.createElement(s);
-        js.id = id;
-        js.src = "//connect.facebook.net/en_US/sdk.js";
-        fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
     </script>
 </body>
 

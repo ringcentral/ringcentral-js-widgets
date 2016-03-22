@@ -5,13 +5,61 @@ Used for login, can either be a login RingCentral WebRTC phone or other third pa
 1. Countries selector for phone number
 2. phone number and password record (`localStorage`)
 
-##### actions
-  - `login`
+##### Default property
+
+###### actions
+
+  - `init()`
+  - `render(target, callback)`
+  - `remove()`
+  - `login()`
   - `showCountry(event)`
   - `switchCountry(event)`
-##### props
+
+###### props
 
   `dom` `username` `extension` `password` `country`
+
+##### Default service
+
+[`login-service`](../src/scripts/services/login-service.js)
+
+
+##### Example code
+
+```javascript
+var authPanel = w('auth-panel', {
+    actions: {
+        login: {
+            before: function() {
+                // UI intaraction before login action
+            },
+            method: function() {
+                // Custom login logic happened here, you can also integrate with third party SDK
+
+                // The default RingCentral login service:
+                var loginService = w.service()['loginService'];
+                return loginService.login(
+                    this.props.username,
+                    this.props.extension,
+                    this.props.password
+                );
+            },
+            after: function() {
+                // UI intaraction after login success
+                authPanel.remove();
+            },
+            error: function(e) {
+                // Any errors will be handled by this function
+                console.error(e.message);
+            }
+        }
+    },
+})
+
+authPanel.render('#target-dom', /* callback */);
+
+```
 
 ### Dial-pad
 ### Call-panel

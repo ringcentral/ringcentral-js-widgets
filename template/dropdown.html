@@ -1,0 +1,44 @@
+<button class='rc-dropdown' data-info='dropdown' data-event='click:collapse'>Outbound caller ID</button>
+<div class='rc-dropdown-list display-none' data-info='list'>
+</div>
+<script>
+w.register(function() {
+    this.actions = {
+        collapse: {
+            after: function() {
+                this.props.dom['list'].classList.toggle('display-none');
+            }
+        },
+        getData: {
+            method: function(finish) {
+                return finish();
+            }
+        },
+        addItem: {
+            after: function(text) {
+                var div = document.createElement('div');
+                div.textContent = text;
+                div.addEventListener('click', e => {
+                    this.switchTitle(text);
+                });
+                this.props.dom['list'].appendChild(div);
+            }
+        },
+        getSelected: {
+            method: function() {
+                return this.props.dom['dropdown'].textContent;
+            }
+        },
+        removeItem: {},
+        switchTitle: {
+            method: function(finish, text) {
+                finish(text);
+            },
+            after: function(text) {
+                this.props.dom['dropdown'].textContent = text;
+                this.collapse();
+            }
+        }
+    }
+})
+</script>

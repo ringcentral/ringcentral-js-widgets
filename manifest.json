@@ -19,10 +19,7 @@
         "bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js",
         "build/build.js",
         "demo/extension/extension.js",
-        "template/auth-panel.html",
-        "template/dial-pad.html",
-        "template/auto-complete.html",
-        "template/call-panel.html"
+        "template/*"
     ],
     "browser_action": {
         "default_icon": "demo/extension/icon.png"
