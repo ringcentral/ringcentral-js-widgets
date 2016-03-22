@@ -1,4 +1,4 @@
-import {initLogger, isThenable, isFunction, emptyFn} from './util/util'
+import {initLogger, isThenable, isFunction, emptyFn} from './util/index';
 var logger;
 function register(globalSettings) {
     if (!globalSettings.actions)
@@ -162,7 +162,7 @@ function generateActions(widgetAction, userAction, name) {
         var finish = function(arg) {
             if (isFunction(arg)) {
                 // flatten one level
-                return Array.isArray(arg()[0])? [].concat.apply([], arg()) : arg()[0];
+                return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0];
             }
             return arg;
         };

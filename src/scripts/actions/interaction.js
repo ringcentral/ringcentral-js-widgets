@@ -37,5 +37,5 @@ var interaction = {
             }
         }
     }
-}
+};
 register('interaction', interaction);

@@ -10,7 +10,7 @@ var messageService = (function(sdk) {
                         {phoneNumber: toNumber}
                     ],
                     text: text
-                })
+                });
         }
     };
 })(sdk);

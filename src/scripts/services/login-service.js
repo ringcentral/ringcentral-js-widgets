@@ -9,7 +9,7 @@ var LoginService = function(sdk) {
                     'username': username,
                     'extension': extension,
                     'password': password
-                })
+                });
         },
         logout: function() {
             return sdk.platform().logout();

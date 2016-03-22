@@ -50,10 +50,7 @@ var CallLogService = function (sdk) {
     return {
         getCallLogs: function getCallLogs() {
             return sdk.platform().get('/account/~/extension/~/call-log', { dateFrom: dateFrom.toISOString() }).then(function (response) {
-                console.debug(response.json().records);
                 return response.json().records;
-            }).catch(function (e) {
-                console.error('Recent Calls Error: ' + e.message);
             });
         }
     };
@@ -358,7 +355,6 @@ var accountService = function (sdk) {
     return {
         getAccountInfo: function getAccountInfo() {
             return sdk.platform().get('/account/~/extension/~').then(function (response) {
-                console.debug(response.json());
                 info = response.json();
                 return info;
             }).catch(function (e) {
@@ -368,9 +364,6 @@ var accountService = function (sdk) {
 
         getPhoneNumber: function getPhoneNumber() {
             return sdk.platform().get('/account/~/extension/~/phone-number').then(function (response) {
-                console.debug(response.json());
-
-                // info = response.json();
                 return response.json();
             }).then(function (data) {
                 numbers = data.records;
@@ -388,7 +381,6 @@ var accountService = function (sdk) {
         },
 
         listNumber: function listNumber(type) {
-            console.debug(numbers);
             return numbers.filter(function (number) {
                 return number.type === type;
             }).map(function (number) {
@@ -644,6 +636,11 @@ function isFunction(fn) {
     return typeof fn === 'function';
 }
 
+function ensureTail(string, tail) {
+    if (string.endsWith(tail)) return string;
+    return string + tail;
+}
+
 var logger;
 function register$2(globalSettings) {
     if (!globalSettings.actions) console.warn('Widgets do not have actions defined, maybe you get some typo.');
@@ -850,8 +847,8 @@ function nextAction(result, actions, error, start) {
     }
 }
 
-function fetchWidget(filePath) {
-    return fetch(w.options.path + filePath + (filePath.endsWith('.html') ? '' : '.html')).then(function (response) {
+function fetchWidget(file) {
+    return fetch(w.options.path + ensureTail(file, '.html')).then(function (response) {
         return response.text();
     }).then(function (body) {
         var template = document.createElement('template');
@@ -863,14 +860,13 @@ function fetchWidget(filePath) {
 
 function parseDocument(template) {
     var docs = template.querySelectorAll('*');
-    return Promise.all(Array.from(docs).reduce(function (result, doc) {
-        if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
-            var temp = {};
-            var name = doc.tagName.toLowerCase();
-            temp[name] = name;
-            return result.concat(preload(temp));
-        }
-        return result;
+    return Promise.all(Array.from(docs).filter(function (doc) {
+        return doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement;
+    }).reduce(function (result, doc) {
+        var temp = {};
+        var name = doc.tagName.toLowerCase();
+        temp[name] = name;
+        return result.concat(preload(temp));
     }, []));
 }
 
@@ -885,27 +881,27 @@ function initNestedWidget(widget) {
             var name = doc.tagName.toLowerCase();
             var child = w(name, widget.custom[name]);
             child.render(doc);
-            // FIXME: When multiple child element, has problems
             var childName = doc.getAttribute('data-info');
             if (childName) widget.props[childName] = child;
         }
     });
+    return widget;
 }
 
 function preload(widgets, callback) {
     return Promise.all(Object.keys(widgets).reduce(function (result, name) {
-        if (!w.templates[name]) {
-            w.templates[name] = {};
-        }
-        if (!w.templates[name].fetch) {
-            w.templates[name].fetch = fetchWidget(widgets[name]);
-        }
+        if (!w.templates[name]) w.templates[name] = {};
+        if (!w.templates[name].fetch) w.templates[name].fetch = fetchWidget(widgets[name]);
         return result.concat(w.templates[name].fetch.then(function (template) {
             if (!w.templates[name].template) {
                 w.templates[name].template = template;
                 var script = template.querySelector('script');
-                document.body.appendChild(script);
-                document.body.removeChild(script);
+                var style = template.querySelector('style');
+                if (script) {
+                    document.body.appendChild(script);
+                    document.body.removeChild(script);
+                }
+                if (style) document.head.appendChild(style);
             }
             return template;
         }).then(parseDocument).catch(function (err) {
@@ -915,20 +911,16 @@ function preload(widgets, callback) {
 }
 
 // Public API
-function w(name, options) {
-    options = options || {};
-    var baseWidget;
-    if (!w.templates[name] || !w.templates[name].widget) {
-        throw Error('you need to preload widget:' + name + ' before init it');
-    }
-    baseWidget = new w.templates[name].widget({
+function w(name) {
+    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+    if (!w.templates[name] || !w.templates[name].widget) throw Error('you need to preload widget:' + name + ' before init it');
+    return initNestedWidget(new w.templates[name].widget({
         template: w.templates[name].template.cloneNode(true),
         actions: options.actions || {},
         logLevel: w.options.logLevel,
         internal: true // for check it's called by internal
-    });
-    initNestedWidget(baseWidget);
-    return baseWidget;
+    }));
 }
 w.templates = {};
 w.options = {};

@@ -6,19 +6,19 @@ var messageSearchService = function() {
                 var results = [];
                 messageResults.forEach(messages => {
                     messages.forEach(message => {
-                        if(filter){
-                            if(filter(message)){
+                        if (filter) {
+                            if (filter(message)) {
                                 results.push(message);
                             }
-                        }else{
+                        }else {
                             results.push(message);
-                        }                    
-                    });    
+                        }
+                    });
                 });
                 return results;
             });
         }
-    }
+    };
 }();
 register('messageSearchService', messageSearchService);
 export default messageSearchService;

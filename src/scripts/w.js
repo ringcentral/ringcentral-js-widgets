@@ -1,9 +1,10 @@
 import { register as registerComponent } from './component';
 import { getServices } from './service';
 import { getActions } from './action';
+import { ensureTail } from './util/index';
 
-function fetchWidget(filePath) {
-    return fetch(w.options.path + filePath + (filePath.endsWith('.html') ? '' : '.html'))
+function fetchWidget(file) {
+    return fetch(w.options.path + ensureTail(file, '.html'))
         .then(response => response.text())
         .then(body => {
             var template = document.createElement('template');
@@ -15,15 +16,13 @@ function fetchWidget(filePath) {
 
 function parseDocument(template) {
     var docs = template.querySelectorAll('*');
-    return Promise.all(Array.from(docs).reduce(
-        (result, doc) => {
-            if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
-                var temp = {};
-                var name = doc.tagName.toLowerCase()
-                temp[name] = name;
-                return result.concat(preload(temp));
-            }
-            return result;
+    return Promise.all(Array.from(docs)
+        .filter(doc => doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement)
+        .reduce((result, doc) => {
+            var temp = {};
+            var name = doc.tagName.toLowerCase();
+            temp[name] = name;
+            return result.concat(preload(temp));
         }, []));
 }
 
@@ -35,35 +34,38 @@ function initNestedWidget(widget) {
             if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
                 return;
             }
-            var name = doc.tagName.toLowerCase()
+            var name = doc.tagName.toLowerCase();
             var child = w(name, widget.custom[name]);
             child.render(doc);
-            // FIXME: When multiple child element, has problems
-            var childName = doc.getAttribute('data-info');
+            var childName = doc.getAttribute('data-info')
             if (childName)
                 widget.props[childName] = child;
         }
     });
+    return widget;
 }
 
 function preload(widgets, callback) {
     return Promise.all(
         Object.keys(widgets).reduce(
             (result, name) => {
-                if (!w.templates[name]) {
+                if (!w.templates[name])
                     w.templates[name] = {};
-                }
-                if (!w.templates[name].fetch) {
+                if (!w.templates[name].fetch)
                     w.templates[name].fetch = fetchWidget(widgets[name]);
-                }
                 return result.concat(
                     w.templates[name].fetch
                     .then(template => {
                         if (!w.templates[name].template) {
                             w.templates[name].template = template;
                             var script = template.querySelector('script');
-                            document.body.appendChild(script);
-                            document.body.removeChild(script);
+                            var style = template.querySelector('style');
+                            if (script) {
+                                document.body.appendChild(script);
+                                document.body.removeChild(script);
+                            }
+                            if (style)
+                                document.head.appendChild(style);
                         }
                         return template;
                     })
@@ -74,20 +76,15 @@ function preload(widgets, callback) {
 }
 
 // Public API
-function w(name, options) {
-    options = options || {};
-    var baseWidget;
-    if (!w.templates[name] || !w.templates[name].widget) {
+function w(name, options = {}) {
+    if (!w.templates[name] || !w.templates[name].widget)
         throw Error('you need to preload widget:' + name + ' before init it');
-    }
-    baseWidget = new w.templates[name].widget({
+    return initNestedWidget(new w.templates[name].widget({
         template: w.templates[name].template.cloneNode(true),
         actions: options.actions || {},
         logLevel: w.options.logLevel,
         internal: true // for check it's called by internal
-    });
-    initNestedWidget(baseWidget);
-    return baseWidget;
+    }));
 }
 w.templates = {};
 w.options = {};
@@ -111,6 +108,6 @@ w.customize = function(context, target, options) {
 w.service = getServices;
 w.action = function(name) {
     return Object.assign([], getActions()[name]);
-}
+};
 
 export default w;

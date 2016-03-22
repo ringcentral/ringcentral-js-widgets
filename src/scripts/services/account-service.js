@@ -8,7 +8,6 @@ var accountService = (function(sdk) {
             return sdk.platform()
                 .get('/account/~/extension/~')
                 .then(response => {
-                    console.debug(response.json());
                     info = response.json();
                     return info;
                 })
@@ -21,9 +20,6 @@ var accountService = (function(sdk) {
             return sdk.platform()
                 .get('/account/~/extension/~/phone-number')
                 .then(response => {
-                    console.debug(response.json());
-
-                    // info = response.json();
                     return response.json();
                 })
                 .then(data => {
@@ -44,7 +40,6 @@ var accountService = (function(sdk) {
         },
 
         listNumber: function(type) {
-            console.debug(numbers);
             return numbers
             .filter(number => number.type === type)
             .map(number => number.phoneNumber);

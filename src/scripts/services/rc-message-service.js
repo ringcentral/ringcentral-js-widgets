@@ -6,14 +6,14 @@ var rcMessageService = function(sdk) {
     var MESSAGES_MAX_AGE_HOURS = 7 * 24;
     var messages = {};
     var fetchingPromise = null;
-    
-    function fetchMessages(){
+
+    function fetchMessages() {
         return sdk.platform().get('/account/~/extension/~/message-store', {
-                    dateFrom: new Date(Date.now() - MESSAGES_MAX_AGE_HOURS * 3600 * 1000).toISOString()
+            dateFrom: new Date(Date.now() - MESSAGES_MAX_AGE_HOURS * 3600 * 1000).toISOString()
         }).then(responses => {
             var results = responses.json().records;
             results.forEach(message => {
-                if(!messages[message.type]){
+                if (!messages[message.type]) {
                     messages[message.type] = [];
                 }
                 messages[message.type].push(message);
@@ -21,11 +21,11 @@ var rcMessageService = function(sdk) {
             fetchingPromise = null;
         });
     }
-    
-    function concatMessages(){
+
+    function concatMessages() {
         var results = [];
-        for(var key in messages){
-            if(messages.hasOwnProperty(key)){
+        for (var key in messages) {
+            if (messages.hasOwnProperty(key)) {
                 results = results.concat(messages[key]);
             }
         }
@@ -36,23 +36,23 @@ var rcMessageService = function(sdk) {
         syncMessages: function() {
             fetchingPromise = fetchMessages();
         },
-        getMessagesByType: function(type){
-            if(!fetchingPromise){
-                if(messages[type]){
+        getMessagesByType: function(type) {
+            if (!fetchingPromise) {
+                if (messages[type]) {
                     return messages[type];
-                }else{
+                }else {
                     return [];
-                }   
-            }else{
+                }
+            }else {
                 return fetchingPromise.then(() => {
                     return messages[type];
                 });
             }
         },
         getAllMessages: function() {
-            if(!fetchingPromise){
+            if (!fetchingPromise) {
                 return concatMessages();
-            }else{
+            }else {
                 return fetchingPromise.then(() => {
                     return concatMessages();
                 });

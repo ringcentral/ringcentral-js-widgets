@@ -28,8 +28,15 @@ function isFunction(fn) {
     return typeof fn === 'function';
 }
 
+function ensureTail(string, tail) {
+    if (string.endsWith(tail))
+        return string;
+    return string + tail;
+}
+
 export {
     initLogger,
     isThenable,
-    isFunction
+    isFunction,
+    ensureTail
 };
