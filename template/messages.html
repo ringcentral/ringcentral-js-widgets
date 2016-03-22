@@ -1,0 +1,103 @@
+<div>
+    <div class="rc-pane-header call-log-header">
+        Messages
+    </div>
+    <div class="tabs tabs4 badges">
+        <a class="tab active" data-info='allTab' data-value='all' data-event='click:enableTab'>
+            All
+        </a>
+        <a class="tab" data-info='voiceMailTab' data-value='voicemail' data-event='click:enableTab'>
+            VoiceMail
+            <!--<span class="badge" ng-if="updates.voicemail">{{ updates.voicemail }}</span>-->
+        </a>
+        <a class="tab" data-info='faxTab' data-value='fax' data-event='click:enableTab'>
+            Fax
+            <!--<span class="badge" ng-if="updates.fax">{{ updates.fax }}</span>-->
+        </a>
+        <a class="tab" data-info='textTab' data-value='sms/pager' data-event='click:enableTab'>
+            Text
+            <!--<span class="badge" ng-if="updates.text">{{ updates.text }}</span>-->
+        </a>
+    </div>
+    <div class="rc-pane-scrollable">
+        <div data-info="messages" data-info='messages'>
+            <message-item dynamic></message-item>
+        </div>
+    </div>
+</div>
+
+<script>
+w.register(function(){
+    
+    var currentEnabledTab = null;
+    
+    function enableTab(toEnableTab, toDisableTab) {
+        if (toEnableTab.classList.contains('active') === false) {
+            toEnableTab.classList.add('active');
+            toDisableTab.classList.remove('active');
+        }
+    }
+    
+    function createMessageWidgets(messages, props){
+        messages.forEach(function(message){
+            var widget = w('message-item', {
+                actions:{
+                    init:{
+                        method:function(){
+                            return message;
+                        }
+                    }
+                }
+            }); 
+            widget.render(props.dom.messages);
+            props.widgetItems.push(widget);
+        });
+    }
+    
+    function filterMessageWidget(widgetItems, type) {
+        widgetItems.forEach(item => {
+            if(type === 'all'){
+                item.show();
+            }else{
+                if(type.indexOf(item.props.message.type.toLowerCase()) >= 0){
+                    item.show();
+                }else{
+                    item.hide();
+                }
+            }
+        });
+    }
+    
+    this.actions= {
+        init: {
+            before:function(){
+                this.props.widgetItems = [];  
+            },
+            after: function() {
+                currentEnabledTab = this.props.dom.allTab;
+            }
+        },
+        render: {
+            after: function(){
+                this.refreshMessages();
+            }
+        },
+        enableTab: {
+            
+            after: function(event, type) {
+                enableTab(event.target, currentEnabledTab);
+                currentEnabledTab = event.target;
+                filterMessageWidget(this.props.widgetItems, event.target.getAttribute('data-value'));
+            }
+        },
+        refreshMessages:{
+            method: function(finish){
+                return finish();
+            },
+            after: function(messages){
+                createMessageWidgets(messages, this.props);
+            }
+        }
+    }
+});
+</script>
