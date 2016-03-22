@@ -11,36 +11,35 @@
 </div>
 <script>
 w.register(function(){
-    this.actions= {
-        init: {
-            method: function(finish){
-                var item = finish();
-                this.props.message = item;
-                return item;
-            },
-            after:function(item) {
-                if(item.readStatus === 'Unread'){
-                    this.props.dom.message.classList.add('not-read');
-                }
-                
-                this.props.dom.icon.classList.add("message-type-" + item.type.toLowerCase());
+    this.actions = w.action('interaction');
+    this.actions.init = {
+        method: function(finish){
+            var item = finish();
+            this.props.message = item;
+            return item;
+        },
+        after:function(item) {
+            if(item.readStatus === 'Unread'){
+                this.props.dom.message.classList.add('not-read');
+            }
+            
+            this.props.dom.icon.classList.add("message-type-" + item.type.toLowerCase());
 
-                this.props.dom.time.textContent = item.time;
-                this.props.dom.contact.textContent = item.contact;
-                this.props.dom.text.textContent = item.subject;
-            }
-        },
-        open: {
-            method: function(finish) {
-                return finish();
-            }
-        },
-        viewInfo: {
-            method: function(finish, event) {
-                event.stopPropagation();
-                return finish();
-            }
+            this.props.dom.time.textContent = item.time;
+            this.props.dom.contact.textContent = item.contact;
+            this.props.dom.text.textContent = item.subject;
         }
-    }
+    };
+    this.actions.open = {
+        method: function(finish) {
+            return finish();
+        }
+    };
+    this.actions.viewInfo = {
+        method: function(finish, event) {
+            event.stopPropagation();
+            return finish();
+        }
+    };
 });
 </script>
