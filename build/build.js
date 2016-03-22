@@ -73,9 +73,13 @@ var interaction = {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.register = undefined;
+
+var _util = require('./util/util');
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+var logger;
 function register(globalSettings) {
     if (!globalSettings.actions) console.warn('Widgets do not have actions defined, maybe you get some typo.');
 
@@ -108,7 +112,7 @@ function widget(globalSettings, options) {
     };
     this.props = {};
     this.custom = {};
-    logger = initLogger(options.logLevel);
+    logger = (0, _util.initLogger)(options.logLevel);
 
     Object.keys(settings.actions).forEach(function (index) {
         settings.actions[index] = bindScope(_this, settings.actions[index]);
@@ -150,8 +154,8 @@ function widget(globalSettings, options) {
         }
         target.appendChild(template);
         this.props.target = target;
-        callback && typeof callback === 'function' && callback();
-        if (widgetRender && typeof widgetRender === 'function') return widgetRender.call(this, finish);
+        callback && (0, _util.isFunction)(callback) && callback();
+        if (widgetRender && (0, _util.isFunction)(widgetRender)) return widgetRender.call(this, finish);
     }
 }
 
@@ -224,15 +228,15 @@ function generateActions(widgetAction, userAction, name) {
             return wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args));
         };
         var method = function method(arg) {
-            logger.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-            if (typeof arg === 'function') {
+            logger.info('[%s][method](' + ((0, _util.isFunction)(arg) ? arg() : arg) + ')', name);
+            if ((0, _util.isFunction)(arg)) {
                 return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg()))) || arg;
             }
             return widgetAction.method(userAction.method, arg) || arg;
         };
         var after = function after(arg) {
-            logger.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-            if (typeof arg === 'function') {
+            logger.info('[%s][after](' + ((0, _util.isFunction)(arg) ? arg() : arg) + ')', name);
+            if ((0, _util.isFunction)(arg)) {
                 return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(_toConsumableArray(arg()))) || arg;
             }
             return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
@@ -241,7 +245,7 @@ function generateActions(widgetAction, userAction, name) {
             return wrapUserEvent(widgetAction.error, userAction.error, e);
         };
         var finish = function finish(arg) {
-            if (typeof arg === 'function') {
+            if ((0, _util.isFunction)(arg)) {
                 // flatten one level
                 return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0];
             }
@@ -269,14 +273,9 @@ function wrapUserEvent(widget, user) {
     return (_ref2 = []).concat.apply(_ref2, args);
 }
 
-function isThenable(result) {
-    if (result.then && typeof result.then === 'function') return true;
-    return false;
-}
-
 function nextAction(result, actions, error, start) {
     if (start + 1 === actions.length) return result;
-    if (isThenable(result)) {
+    if ((0, _util.isThenable)(result)) {
         return actions.reduce(function (res, action, index) {
             if (index > start) return res.then(action);
             return res;
@@ -286,34 +285,9 @@ function nextAction(result, actions, error, start) {
     }
 }
 
-function initLogger(level) {
-    return {
-        error: function error() {
-            var _console;
-
-            (_console = console).error.apply(_console, arguments);
-        },
-        warn: function warn() {
-            var _console2;
-
-            if (level > 0) (_console2 = console).warn.apply(_console2, arguments);
-        },
-        info: function info() {
-            var _console3;
-
-            if (level > 1) (_console3 = console).info.apply(_console3, arguments);
-        },
-        log: function log() {
-            var _console4;
-
-            if (level > 1) (_console4 = console).log.apply(_console4, arguments);
-        }
-    };
-}
-var logger;
 exports.register = register;
 
-},{}],4:[function(require,module,exports){
+},{"./util/util":18}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -378,7 +352,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 window.w = _w2.default;
 exports.default = _w2.default;
 
-},{"./actions/interaction":2,"./services/account-service":6,"./services/call-log-service":7,"./services/contact-search-service":8,"./services/login-service":9,"./services/message-search-service":10,"./services/phone-service":11,"./services/rc-contact-search-provider":12,"./services/rc-contact-service":13,"./services/rc-message-provider":14,"./services/rc-message-service":15,"./w":18}],5:[function(require,module,exports){
+},{"./actions/interaction":2,"./services/account-service":6,"./services/call-log-service":7,"./services/contact-search-service":8,"./services/login-service":9,"./services/message-search-service":10,"./services/phone-service":11,"./services/rc-contact-search-provider":12,"./services/rc-contact-service":13,"./services/rc-message-provider":14,"./services/rc-message-service":15,"./w":19}],5:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -1102,6 +1076,50 @@ exports.default = webPhone;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+function initLogger(level) {
+    return {
+        error: function error() {
+            var _console;
+
+            (_console = console).error.apply(_console, arguments);
+        },
+        warn: function warn() {
+            var _console2;
+
+            if (level > 0) (_console2 = console).warn.apply(_console2, arguments);
+        },
+        info: function info() {
+            var _console3;
+
+            if (level > 1) (_console3 = console).info.apply(_console3, arguments);
+        },
+        log: function log() {
+            var _console4;
+
+            if (level > 1) (_console4 = console).log.apply(_console4, arguments);
+        }
+    };
+}
+
+function isThenable(result) {
+    if (result.then && typeof result.then === 'function') return true;
+    return false;
+}
+
+function isFunction(fn) {
+    return typeof fn === 'function';
+}
+
+exports.initLogger = initLogger;
+exports.isThenable = isThenable;
+exports.isFunction = isFunction;
+
+},{}],19:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 
 var _component = require('./component');
 
@@ -1123,9 +1141,10 @@ function fetchWidget(filePath) {
 function parseDocument(template) {
     var docs = template.querySelectorAll('*');
     return Promise.all(Array.from(docs).reduce(function (result, doc) {
-        if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+        if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
             var temp = {};
-            temp[doc.localName] = doc.localName;
+            var name = doc.tagName.toLowerCase();
+            temp[name] = name;
             return result.concat(preload(temp));
         }
         return result;
@@ -1136,11 +1155,12 @@ function initNestedWidget(widget) {
     var template = widget.props.template;
     var docs = template.querySelectorAll('*');
     Array.from(docs).forEach(function (doc) {
-        if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+        if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
             if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
                 return;
             }
-            var child = w(doc.localName, widget.custom[doc.localName]);
+            var name = doc.tagName.toLowerCase();
+            var child = w(name, widget.custom[name]);
             child.render(doc);
             // FIXME: When multiple child element, has problems
             var childName = doc.getAttribute('data-info');

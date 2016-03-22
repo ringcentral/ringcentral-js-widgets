@@ -1,3 +1,5 @@
+import {initLogger, isThenable, isFunction, emptyFn} from './util/util'
+var logger;
 function register(globalSettings) {
     if (!globalSettings.actions)
         console.warn('Widgets do not have actions defined, maybe you get some typo.');
@@ -73,8 +75,8 @@ function widget(globalSettings, options) {
         }
         target.appendChild(template);
         this.props.target = target;
-        callback && typeof callback === 'function' && callback();
-        if (widgetRender && typeof widgetRender === 'function')
+        callback && isFunction(callback) && callback();
+        if (widgetRender && isFunction(widgetRender))
             return widgetRender.call(this, finish);
     }
 }
@@ -141,15 +143,15 @@ function generateActions(widgetAction, userAction, name) {
             return wrapUserEvent(widgetAction.before, userAction.before, ...args);
         };
         var method = function(arg) {
-            logger.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-            if (typeof arg === 'function') {
+            logger.info('[%s][method](' + (isFunction(arg) ? arg() : arg) + ')', name);
+            if (isFunction(arg)) {
                 return widgetAction.method(userAction.method, ...arg()) || arg;
             }
             return widgetAction.method(userAction.method, arg) || arg;
         };
         var after = function(arg) {
-            logger.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-            if (typeof arg === 'function') {
+            logger.info('[%s][after](' + (isFunction(arg) ? arg() : arg) + ')', name);
+            if (isFunction(arg)) {
                 return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg;
             }
             return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
@@ -158,7 +160,7 @@ function generateActions(widgetAction, userAction, name) {
             return wrapUserEvent(widgetAction.error, userAction.error, e);
         };
         var finish = function(arg) {
-            if (typeof arg === 'function') {
+            if (isFunction(arg)) {
                 // flatten one level
                 return Array.isArray(arg()[0])? [].concat.apply([], arg()) : arg()[0];
             }
@@ -179,12 +181,6 @@ function wrapUserEvent(widget, user, ...args) {
     return [].concat(...args);
 }
 
-function isThenable(result) {
-    if (result.then && typeof result.then === 'function')
-        return true;
-    return false;
-}
-
 function nextAction(result, actions, error, start) {
     if (start + 1 === actions.length)
         return result;
@@ -199,24 +195,4 @@ function nextAction(result, actions, error, start) {
     }
 }
 
-function initLogger(level) {
-    return {
-        error: function(...args) {
-            console.error(...args);
-        },
-        warn: function(...args) {
-            if (level > 0)
-                console.warn(...args);
-        },
-        info: function(...args) {
-            if (level > 1)
-                console.info(...args);
-        },
-        log: function(...args) {
-            if (level > 1)
-                console.log(...args);
-        }
-    };
-}
-var logger;
 export { register };

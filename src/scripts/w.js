@@ -17,9 +17,10 @@ function parseDocument(template) {
     var docs = template.querySelectorAll('*');
     return Promise.all(Array.from(docs).reduce(
         (result, doc) => {
-            if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+            if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
                 var temp = {};
-                temp[doc.localName] = doc.localName;
+                var name = doc.tagName.toLowerCase()
+                temp[name] = name;
                 return result.concat(preload(temp));
             }
             return result;
@@ -30,11 +31,12 @@ function initNestedWidget(widget) {
     var template = widget.props.template;
     var docs = template.querySelectorAll('*');
     Array.from(docs).forEach(doc => {
-        if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+        if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
             if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
                 return;
             }
-            var child = w(doc.localName, widget.custom[doc.localName]);
+            var name = doc.tagName.toLowerCase()
+            var child = w(name, widget.custom[name]);
             child.render(doc);
             // FIXME: When multiple child element, has problems
             var childName = doc.getAttribute('data-info');

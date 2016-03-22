@@ -78,12 +78,16 @@
                         return Promise.all([
                             accountService.getAccountInfo(),
                             accountService.getPhoneNumber(),
-                            rcContactService.syncCompanyContact(),
-                            phoneService.registerSIP(),
-                            callLogService.getCallLogs()
                         ])
                         .then(afterLogin)
                         .then(() => {authPanel.hide()})
+                        .then(() => {
+                            return Promise.all([
+                                rcContactService.syncCompanyContact(),
+                                phoneService.registerSIP(),
+                                callLogService.getCallLogs()
+                            ])
+                        })
                         .catch(err => console.error(err))
                     }
                 }
