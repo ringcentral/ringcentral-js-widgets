@@ -81,16 +81,16 @@ function w(name, options) {
     baseWidget = new w.templates[name].widget({
         template: w.templates[name].template.cloneNode(true),
         actions: options.actions || {},
-        handlers: options.handlers || {},
-        logLevel: w.options.logLevel
+        logLevel: w.options.logLevel,
+        internal: true // for check it's called by internal
     });
     initNestedWidget(baseWidget);
     return baseWidget;
 }
 w.templates = {};
 w.options = {};
-w.register = function(constructor) {
-    var settings = new constructor();
+w.register = function(options) {
+    var settings = new options();
     Object.keys(w.templates).forEach(index => {
         var template = w.templates[index];
         if (template.template && !template.widget)

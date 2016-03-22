@@ -15,6 +15,7 @@
     "gulp": "^3.9.1",
     "gulp-jscs": "^3.0.2",
     "gulp-sourcemaps": "^1.6.0",
+    "jsdom": "^8.1.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0"
@@ -23,6 +24,11 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "ava"
+    "test": "ava test/*.js"
+  },
+  "ava": {
+    "require": [
+      "./test/helpers/browser-env.js"
+    ]
   }
 }

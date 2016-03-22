@@ -13,66 +13,70 @@ function register(globalSettings) {
             }
         }, globalSettings.actions[action]);
     });
-    var Widget = function(options) {
-        var options = Object.assign({
-            actions: {}
-        }, options);
-        var settings = {
-            // For deep copy
-            actions: Object.assign({}, globalSettings.actions),
-        };
-        this.props = {};
-        this.custom = {};
-        logger = initLogger(options.logLevel);
+    return widget.bind(null, globalSettings);
+}
 
-        Object.keys(settings.actions).forEach(index => {
-            settings.actions[index] = bindScope(this, settings.actions[index]);
-        });
-        Object.keys(options.actions).forEach(index => {
-            options.actions[index] = bindScope(this, options.actions[index]);
-        });
-        Object.keys(settings.actions).forEach(index => {
-            this[index] =
-                generateActions(settings.actions[index], options.actions[index], index);
-        });
-        this.props.dom = generateDocument(this, options.template);
-        this.props.root = getDocumentRoot(options.template);
-        this.props.template = options.template;
-        this.render =
-            generateActions({
-                before: settings.actions.render.before,
-                method: render.bind(this, settings.actions.render.method, this.props.template),
-                after: settings.actions.render.after
-            }, options.actions.render, 'render');
-        this.remove =
-            generateActions({
-                before: settings.actions.remove.before,
-                method: remove.bind(this, settings.actions.remove.method),
-                after: settings.actions.remove.after
-            }, options.actions.remove, 'remove');
-        this.init();
-
-        function remove(widgetRemove) {
-            while (this.props.target.firstChild)
-                this.props.target.removeChild(this.props.target.firstChild);
-        }
-
-        function render(widgetRender, template, finish, target, callback) {
-            if (typeof target === 'string') {
-                target = document.querySelector(target);
-            } else if (target instanceof HTMLElement) {
-                target = target;
-            } else {
-                logger.warn('first argument of render method should be selector string or dom');
-            }
-            target.appendChild(template);
-            this.props.target = target;
-            callback && typeof callback === 'function' && callback();
-            if (widgetRender && typeof widgetRender === 'function')
-                return widgetRender.call(this, finish);
-        }
+function widget(globalSettings, options) {
+    if (!options.internal) {
+        return Error('You are trying to construct a widget manually, please use w()');
+    }
+    var options = Object.assign({
+        actions: {}
+    }, options);
+    var settings = {
+        // For deep copy
+        actions: Object.assign({}, globalSettings.actions),
     };
-    return Widget;
+    this.props = {};
+    this.custom = {};
+    logger = initLogger(options.logLevel);
+
+    Object.keys(settings.actions).forEach(index => {
+        settings.actions[index] = bindScope(this, settings.actions[index]);
+    });
+    Object.keys(options.actions).forEach(index => {
+        options.actions[index] = bindScope(this, options.actions[index]);
+    });
+    Object.keys(settings.actions).forEach(index => {
+        this[index] =
+            generateActions(settings.actions[index], options.actions[index], index);
+    });
+    this.props.dom = generateDocument(this, options.template);
+    this.props.root = getDocumentRoot(options.template);
+    this.props.template = options.template;
+    this.render =
+        generateActions({
+            before: settings.actions.render.before,
+            method: render.bind(this, settings.actions.render.method, this.props.template),
+            after: settings.actions.render.after
+        }, options.actions.render, 'render');
+    this.remove =
+        generateActions({
+            before: settings.actions.remove.before,
+            method: remove.bind(this, settings.actions.remove.method),
+            after: settings.actions.remove.after
+        }, options.actions.remove, 'remove');
+    this.init();
+
+    function remove(widgetRemove) {
+        while (this.props.target.firstChild)
+            this.props.target.removeChild(this.props.target.firstChild);
+    }
+
+    function render(widgetRender, template, finish, target, callback) {
+        if (typeof target === 'string') {
+            target = document.querySelector(target);
+        } else if (target instanceof HTMLElement) {
+            target = target;
+        } else {
+            logger.warn('first argument of render method should be selector string or dom');
+        }
+        target.appendChild(template);
+        this.props.target = target;
+        callback && typeof callback === 'function' && callback();
+        if (widgetRender && typeof widgetRender === 'function')
+            return widgetRender.call(this, finish);
+    }
 }
 
 function bindScope(scope, action) {
