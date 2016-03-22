@@ -15,4 +15,4 @@ import interaction from './actions/interaction';
 import w from './w';
 // development only
 window.w = w;
-export default w;
+// export default w;
