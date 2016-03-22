@@ -90,24 +90,24 @@
             }
         })
         
-        // authPanel.render('#auth-panel');
-        loginService.checkLoginStatus().then(
-            isLoggedIn => {
-                authPanel.render('#auth-panel');
-                if (isLoggedIn) {
-                    authPanel.hide();
-                    return Promise.all([
-                            accountService.getAccountInfo(),
-                            accountService.getPhoneNumber(),
-                            rcContactService.syncCompanyContact(),
-                            phoneService.registerSIP(),
-                            callLogService.getCallLogs()
-                        ])
-                        .then(afterLogin)
-                        .catch(err => console.error(err))
-                }
-            }
-        );
+        authPanel.render('#auth-panel');
+        // loginService.checkLoginStatus().then(
+        //     isLoggedIn => {
+        //         authPanel.render('#auth-panel');
+        //         if (isLoggedIn) {
+        //             authPanel.hide();
+        //             return Promise.all([
+        //                     accountService.getAccountInfo(),
+        //                     accountService.getPhoneNumber(),
+        //                     rcContactService.syncCompanyContact(),
+        //                     phoneService.registerSIP(),
+        //                     callLogService.getCallLogs()
+        //                 ])
+        //                 .then(afterLogin)
+        //                 .catch(err => console.error(err))
+        //         }
+        //     }
+        // );
 
         function afterLogin() {
             var dialPad = w('dial-pad', {

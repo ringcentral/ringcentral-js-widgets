@@ -16,6 +16,7 @@
     "gulp-jscs": "^3.0.2",
     "gulp-sourcemaps": "^1.6.0",
     "jsdom": "^8.1.0",
+    "nyc": "^6.1.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0"
@@ -24,7 +25,8 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "test": "ava test/*.js"
+    "test": "nyc ava test/*.spec.js",
+    "report": "nyc report --reporter=html"
   },
   "ava": {
     "require": [

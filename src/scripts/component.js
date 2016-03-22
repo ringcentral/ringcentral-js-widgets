@@ -160,7 +160,7 @@ function generateActions(widgetAction, userAction, name) {
         var finish = function(arg) {
             if (typeof arg === 'function') {
                 // flatten one level
-                return arg()[0] instanceof Array ? [].concat.apply([], arg()) : arg()[0];
+                return Array.isArray(arg()[0])? [].concat.apply([], arg()) : arg()[0];
             }
             return arg;
         };
@@ -173,7 +173,7 @@ function generateActions(widgetAction, userAction, name) {
 }
 
 function wrapUserEvent(widget, user, ...args) {
-    var continueDefault = !user || user(...args) || true;
+    var continueDefault = (user != null && user(...args));
     if (continueDefault || typeof continueDefault === 'undefined')
         return widget(...args) || (() => args);
     return [].concat(...args);
