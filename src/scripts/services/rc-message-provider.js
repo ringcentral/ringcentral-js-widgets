@@ -1,6 +1,29 @@
 import rcMessageService from './rc-message-service';
 import { register } from '../service';
 var rcMessageProvider = function() {
+    
+    var messageUpdatedHandlers = [];
+    rcMessageService.onMessageUpdated((updatedMessages) => {
+        var messageParam = {
+            deleted : [],
+            updated : []
+        };
+        updatedMessages.forEach(message => {
+            var toAdd = createResult(message);
+            if(message.availability === 'Alive'){
+                messageParam.updated.push(toAdd);
+            }else{
+                messageParam.deleted.push(toAdd);                
+            }
+        });
+        messageUpdatedHandlers.forEach(h => {
+            try{
+                h(messageParam);
+            }catch(e){
+                console.error(e);
+            }
+        });
+    });
 
     function createResult(message) {
         var result = {};
@@ -48,6 +71,7 @@ var rcMessageProvider = function() {
                 var added = {};
                 messages.forEach(message => {
                     var result = createResult(message);
+                    //Combine SMS/Pager messages in conversation
                     if (message.conversationId) {
                         if (!added[message.conversationId]) {
                             added[message.conversationId] = [];
@@ -64,6 +88,9 @@ var rcMessageProvider = function() {
                 }
                 return results;
             });
+        },
+        onMessageUpdated: function(handler){
+            messageUpdatedHandlers.push(handler);
         }
     };
 }();
