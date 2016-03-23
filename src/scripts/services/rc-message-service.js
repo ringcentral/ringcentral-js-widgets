@@ -22,12 +22,7 @@ var rcMessageService = function(sdk) {
             var jsonResponse = responses.json();
             syncToken = jsonResponse.syncInfo.syncToken;
             var results = jsonResponse.records;
-            results.forEach(message => {
-                if (!messages[message.type]) {
-                    messages[message.type] = [];
-                }
-                messages[message.type].push(message);
-            });
+            addMessageToList(results);
             fetchingPromise = null;
         });
     }
@@ -40,6 +35,7 @@ var rcMessageService = function(sdk) {
             }).then(responses => {
                 var jsonResponse = responses.json();
                 var results = jsonResponse.records;
+                updateMessageList(results);
                 messageUpdateHandlers.forEach((h) => {
                     h(results);
                 });
@@ -55,6 +51,35 @@ var rcMessageService = function(sdk) {
             }
         }
         return results;
+    }
+    
+    function addMessageToList(results){
+        results.forEach(message => {
+            if (!messages[message.type]) {
+                messages[message.type] = [];
+            }
+            messages[message.type].push(message);
+        });
+    }
+    
+    function updateMessageList(results){
+        results.forEach(message => {
+            if (!messages[message.type]) {
+                messages[message.type] = [];
+                messages[message.type].push(message);
+            }else{
+                var index = 0;
+                for(; index < messages[message.type].length; index++){
+                    if(messages[message.type][index].id === message.id){
+                        messages[message.type][index] = message;
+                        break;
+                    }
+                }
+                if(index === messages[message.type].length){
+                    messages[message.type].push(message);
+                }
+            }
+        });
     }
 
     return {
@@ -84,7 +109,7 @@ var rcMessageService = function(sdk) {
                 });
             }
         },
-        onMessageUpdated: function(handler){
+        onMessageUpdated: function(handler) {
             if(handler){
                 messageUpdateHandlers.push(handler);
             }
