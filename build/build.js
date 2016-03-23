@@ -641,20 +641,29 @@ function ensureTail(string, tail) {
     return string + tail;
 }
 
+function toFunction(fn, defalut) {
+    if (fn && isFunction(fn)) return fn;else if (defalut && isFunction(defalut)) return defalut;else return function () {};
+}
+
+function shallowCopy(target) {
+    return Object.assign({}, target);
+}
+
 var logger;
+var functionSet = {
+    before: function before() {},
+    method: function method() {},
+    after: function after() {},
+    error: function error(e) {
+        logger.error(e);
+        throw e;
+    }
+};
 function register$2(globalSettings) {
     if (!globalSettings.actions) console.warn('Widgets do not have actions defined, maybe you get some typo.');
 
     ['init', 'render', 'remove', 'error'].forEach(function (action) {
-        globalSettings.actions[action] = Object.assign({
-            before: function before() {},
-            method: function method() {},
-            after: function after() {},
-            error: function error(e) {
-                console.error(e);
-                throw e;
-            }
-        }, globalSettings.actions[action]);
+        globalSettings.actions[action] = Object.assign(shallowCopy(functionSet), globalSettings.actions[action]);
     });
     return widget.bind(null, globalSettings);
 }
@@ -665,38 +674,32 @@ function widget(globalSettings, options) {
     if (!options.internal) {
         return Error('You are trying to construct a widget manually, please use w()');
     }
-    var options = Object.assign({
-        actions: {}
-    }, options);
-    var settings = {
-        // For deep copy
-        actions: Object.assign({}, globalSettings.actions)
-    };
+    var defaultAction = shallowCopy(globalSettings.actions);
     this.props = {};
     this.custom = {};
     logger = initLogger(options.logLevel);
 
-    Object.keys(settings.actions).forEach(function (index) {
-        settings.actions[index] = bindScope(_this, settings.actions[index]);
+    Object.keys(defaultAction).forEach(function (index) {
+        defaultAction[index] = bindScope(_this, defaultAction[index]);
     });
     Object.keys(options.actions).forEach(function (index) {
         options.actions[index] = bindScope(_this, options.actions[index]);
     });
-    Object.keys(settings.actions).forEach(function (index) {
-        _this[index] = generateActions(settings.actions[index], options.actions[index], index);
+    Object.keys(defaultAction).forEach(function (index) {
+        _this[index] = generateActions(defaultAction[index], options.actions[index], index);
     });
     this.props.dom = generateDocument(this, options.template);
     this.props.root = getDocumentRoot(options.template);
     this.props.template = options.template;
     this.render = generateActions({
-        before: settings.actions.render.before,
-        method: render.bind(this, settings.actions.render.method, this.props.template),
-        after: settings.actions.render.after
+        before: defaultAction.render.before,
+        method: render.bind(this, defaultAction.render.method, this.props.template),
+        after: defaultAction.render.after
     }, options.actions.render, 'render');
     this.remove = generateActions({
-        before: settings.actions.remove.before,
-        method: remove.bind(this, settings.actions.remove.method),
-        after: settings.actions.remove.after
+        before: defaultAction.remove.before,
+        method: remove.bind(this, defaultAction.remove.method),
+        after: defaultAction.remove.after
     }, options.actions.remove, 'remove');
     this.init();
 
@@ -723,12 +726,10 @@ function widget(globalSettings, options) {
 
 function bindScope(scope, action) {
     return {
-        before: action.before ? action.before.bind(scope) : function () {}.bind(scope),
-        method: action.method ? action.method.bind(scope) : function () {}.bind(scope),
-        after: action.after ? action.after.bind(scope) : function () {}.bind(scope),
-        error: action.error ? action.error.bind(scope) : function (err) {
-            logger.error(err);
-        }.bind(scope)
+        before: toFunction(action.before).bind(scope),
+        method: toFunction(action.method).bind(scope),
+        after: toFunction(action.after).bind(scope),
+        error: toFunction(action.error, logger.error).bind(scope)
     };
 }
 
@@ -747,7 +748,7 @@ function generateDocument(widget, template) {
                 if (index === 0) eventName = token;else if (index === 1) action = token;
             });
             if (!widget[action]) {
-                logger.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
+                logger.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition.');
                 return;
             }
             doc.addEventListener(eventName, widget[action].bind(widget));
@@ -761,19 +762,10 @@ function getDocumentRoot(template) {
     return template.querySelector('*');
 }
 
-function generateActions(widgetAction, userAction, name) {
-    if (!userAction) {
-        userAction = {
-            before: function before() {},
-            method: function method() {},
-            after: function after() {},
-            error: function error(e) {
-                logger.error(e);
-                throw e;
-            }
-        };
-        logger.warn('Widget action [%s] is not defined by users', name);
-    }
+function generateActions(widgetAction) {
+    var userAction = arguments.length <= 1 || arguments[1] === undefined ? shallowCopy(functionSet) : arguments[1];
+    var name = arguments[2];
+
     return function () {
         for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
             args[_key] = arguments[_key];
@@ -786,35 +778,30 @@ function generateActions(widgetAction, userAction, name) {
                 args[_key2] = arguments[_key2];
             }
 
-            logger.info('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
+            logger.info('[' + name + '][before](' + (_ref = []).concat.apply(_ref, args) + ')');
             return wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args));
         };
         var method = function method(arg) {
-            logger.info('[%s][method](' + (isFunction(arg) ? arg() : arg) + ')', name);
-            if (isFunction(arg)) {
-                return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg()))) || arg;
-            }
+            logger.info('[' + name + '][before](' + (isFunction(arg) ? arg() : arg) + ')');
+            if (isFunction(arg)) return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg()))) || arg;
             return widgetAction.method(userAction.method, arg) || arg;
         };
         var after = function after(arg) {
-            logger.info('[%s][after](' + (isFunction(arg) ? arg() : arg) + ')', name);
-            if (isFunction(arg)) {
-                return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(_toConsumableArray(arg()))) || arg;
-            }
+            logger.info('[' + name + '][after](' + (isFunction(arg) ? arg() : arg) + ')');
+            if (isFunction(arg)) return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(_toConsumableArray(arg()))) || arg;
             return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
         };
         var error = function error(e) {
             return wrapUserEvent(widgetAction.error, userAction.error, e);
         };
         var finish = function finish(arg) {
-            if (isFunction(arg)) {
+            if (isFunction(arg))
                 // flatten one level
                 return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0];
-            }
             return arg;
         };
         try {
-            return nextAction(before.apply(undefined, _toConsumableArray(args)), [before, method, after, finish], error, 0);
+            return nextAction(before.apply(undefined, _toConsumableArray(args)), [before, method, after, finish], error);
         } catch (e) {
             error(e);
         }
@@ -835,7 +822,9 @@ function wrapUserEvent(widget, user) {
     return (_ref2 = []).concat.apply(_ref2, args);
 }
 
-function nextAction(result, actions, error, start) {
+function nextAction(result, actions, error) {
+    var start = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
+
     if (start + 1 === actions.length) return result;
     if (isThenable(result)) {
         return actions.reduce(function (res, action, index) {

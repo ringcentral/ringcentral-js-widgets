@@ -34,9 +34,24 @@ function ensureTail(string, tail) {
     return string + tail;
 }
 
+function toFunction(fn, defalut) {
+    if (fn && isFunction(fn))
+        return fn;
+    else if (defalut && isFunction(defalut))
+        return defalut;
+    else
+        return function() {};
+}
+
+function shallowCopy(target) {
+    return Object.assign({}, target);
+}
+
 export {
     initLogger,
     isThenable,
     isFunction,
+    toFunction,
+    shallowCopy,
     ensureTail
 };
