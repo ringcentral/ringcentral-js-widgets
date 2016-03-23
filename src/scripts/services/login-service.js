@@ -1,7 +1,7 @@
-import sdk from './rc-sdk';
-import { register } from '../service';
+import sdk from './rc-sdk'
+import { register } from '../service'
 var LoginService = function(sdk) {
-    var onLoginHandler = [];
+    var onLoginHandler = []
     return {
         login: function(username, extension, password) {
             return sdk.platform()
@@ -9,20 +9,20 @@ var LoginService = function(sdk) {
                     'username': username,
                     'extension': extension,
                     'password': password
-                });
+                })
         },
         logout: function() {
-            return sdk.platform().logout();
+            return sdk.platform().logout()
         },
         checkLoginStatus: function() {
             return sdk.platform().loggedIn().then(function(isLoggedIn) {
                 if (isLoggedIn) {
-                    onLoginHandler.forEach(handler => handler());
+                    onLoginHandler.forEach(handler => handler())
                 }
-                return isLoggedIn;
-            });
+                return isLoggedIn
+            })
         },
 
-    };
-}(sdk);
-register('loginService', LoginService);
+    }
+}(sdk)
+register('loginService', LoginService)

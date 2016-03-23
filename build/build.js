@@ -392,25 +392,81 @@ var accountService = function (sdk) {
 
 register('accountService', accountService);
 
+var rcSubscription = function () {
+
+    var cacheKey = 'ringcentral-subscription';
+    var subscription = sdk.createCachedSubscription(cacheKey).restore();
+    var handlers = {};
+    subscription.on(subscription.events.notification, function (msg) {
+        for (var key in handlers) {
+            if (handlers.hasOwnProperty(key)) {
+                if (msg.event.indexOf(key) > -1) {
+                    handlers[key].forEach(function (h) {
+                        try {
+                            h(msg);
+                        } catch (e) {
+                            console.error('Error occurs when invoking subscription notification handler for "' + msg.event + '": ' + e);
+                        }
+                    });
+                }
+            }
+        }
+    });
+
+    return {
+        subscribe: function subscribe(suffix, event, handler) {
+            if (event && suffix) {
+                if (!handlers.suffix) {
+                    handlers[suffix] = [];
+                }
+                handlers[suffix].push(handler);
+                subscription.addEventFilters(event).register();
+            }
+        }
+    };
+}();
+
+register('rcSubscription', rcSubscription);
+
 var rcMessageService = function (sdk) {
 
     var MESSAGES_MAX_AGE_HOURS = 7 * 24;
     var messages = {};
     var fetchingPromise = null;
+    var syncToken = null;
+    var messageUpdateHandlers = [];
 
-    function fetchMessages() {
-        return sdk.platform().get('/account/~/extension/~/message-store', {
-            dateFrom: new Date(Date.now() - MESSAGES_MAX_AGE_HOURS * 3600 * 1000).toISOString()
+    rcSubscription.subscribe('message-store', '/restapi/v1.0/account/~/extension/~/message-store', function (msg) {
+        incrementalSyncMessages();
+    });
+
+    function fullSyncMessages() {
+        return sdk.platform().get('/account/~/extension/~/message-sync', {
+            dateFrom: new Date(Date.now() - MESSAGES_MAX_AGE_HOURS * 3600 * 1000).toISOString(),
+            syncType: 'FSync'
         }).then(function (responses) {
-            var results = responses.json().records;
-            results.forEach(function (message) {
-                if (!messages[message.type]) {
-                    messages[message.type] = [];
-                }
-                messages[message.type].push(message);
-            });
+            var jsonResponse = responses.json();
+            syncToken = jsonResponse.syncInfo.syncToken;
+            var results = jsonResponse.records;
+            addMessageToList(results);
             fetchingPromise = null;
         });
+    }
+
+    function incrementalSyncMessages() {
+        if (syncToken) {
+            return sdk.platform().get('/account/~/extension/~/message-sync', {
+                syncType: 'ISync',
+                syncToken: syncToken
+            }).then(function (responses) {
+                var jsonResponse = responses.json();
+                var results = jsonResponse.records;
+                updateMessageList(results);
+                messageUpdateHandlers.forEach(function (h) {
+                    h(results);
+                });
+            });
+        }
     }
 
     function concatMessages() {
@@ -423,9 +479,39 @@ var rcMessageService = function (sdk) {
         return results;
     }
 
+    function addMessageToList(results) {
+        results.forEach(function (message) {
+            if (!messages[message.type]) {
+                messages[message.type] = [];
+            }
+            messages[message.type].push(message);
+        });
+    }
+
+    function updateMessageList(results) {
+        results.forEach(function (message) {
+            if (!messages[message.type]) {
+                messages[message.type] = [];
+                messages[message.type].push(message);
+            } else {
+                var index = 0;
+                for (; index < messages[message.type].length; index++) {
+                    if (messages[message.type][index].id === message.id) {
+                        messages[message.type][index] = message;
+                        break;
+                    }
+                }
+                if (index === messages[message.type].length) {
+                    messages[message.type].push(message);
+                }
+            }
+        });
+    }
+
     return {
         syncMessages: function syncMessages() {
-            fetchingPromise = fetchMessages();
+            fetchingPromise = fullSyncMessages();
+            return fetchingPromise;
         },
         getMessagesByType: function getMessagesByType(type) {
             if (!fetchingPromise) {
@@ -447,6 +533,11 @@ var rcMessageService = function (sdk) {
                 return fetchingPromise.then(function () {
                     return concatMessages();
                 });
+            }
+        },
+        onMessageUpdated: function onMessageUpdated(handler) {
+            if (handler) {
+                messageUpdateHandlers.push(handler);
             }
         }
     };
@@ -675,32 +766,32 @@ function widget(globalSettings, options) {
     if (!options.internal) {
         return Error('You are trying to construct a widget manually, please use w()');
     }
-    var defaultAction = shallowCopy(globalSettings.actions);
+    var defaultActions = shallowCopy(globalSettings.actions);
     this.props = {};
     this.custom = {};
     logger = initLogger(options.logLevel);
 
-    Object.keys(defaultAction).forEach(function (index) {
-        defaultAction[index] = bindScope(_this, defaultAction[index]);
+    Object.keys(defaultActions).forEach(function (index) {
+        defaultActions[index] = bindScope(_this, defaultActions[index]);
     });
     Object.keys(options.actions).forEach(function (index) {
         options.actions[index] = bindScope(_this, options.actions[index]);
     });
-    Object.keys(defaultAction).forEach(function (index) {
-        _this[index] = generateActions(defaultAction[index], options.actions[index], index);
+    Object.keys(defaultActions).forEach(function (index) {
+        _this[index] = generateActions(defaultActions[index], options.actions[index], index);
     });
     this.props.dom = generateDocument(this, options.template);
     this.props.root = getDocumentRoot(options.template);
     this.props.template = options.template;
     this.render = generateActions({
-        before: defaultAction.render.before,
-        method: render.bind(this, defaultAction.render.method, this.props.template),
-        after: defaultAction.render.after
+        before: defaultActions.render.before,
+        method: render.bind(this, defaultActions.render.method, this.props.template),
+        after: defaultActions.render.after
     }, options.actions.render, 'render');
     this.remove = generateActions({
-        before: defaultAction.remove.before,
-        method: remove.bind(this, defaultAction.remove.method),
-        after: defaultAction.remove.after
+        before: defaultActions.remove.before,
+        method: remove.bind(this, defaultActions.remove.method),
+        after: defaultActions.remove.after
     }, options.actions.remove, 'remove');
     this.init();
 

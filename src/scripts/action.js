@@ -1,11 +1,11 @@
-var actions = {};
+var actions = {}
 function register(name, action) {
-    actions[name] = action;
+    actions[name] = action
 }
 function getActions() {
-    return actions;
+    return actions
 }
 export {
     register,
     getActions
-};
+}

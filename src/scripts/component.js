@@ -1,14 +1,14 @@
-import {initLogger, isThenable, isFunction, toFunction, shallowCopy} from './util/index';
-var logger;
+import {initLogger, isThenable, isFunction, toFunction, shallowCopy, assign} from './util/index'
+var logger
 var functionSet = {
     before: function() {},
     method: function() {},
     after: function() {},
     error: function(e) {
-        logger.error(e);
-        throw e;
+        logger.error(e)
+        throw e
     }
-};
+}
 function register(globalSettings) {
     if (!globalSettings.actions)
         console.warn('Widgets do not have actions defined, maybe you get some typo.');
@@ -17,65 +17,65 @@ function register(globalSettings) {
         globalSettings.actions[action] = Object.assign(
             shallowCopy(functionSet),
             globalSettings.actions[action]
-        );
-    });
-    return widget.bind(null, globalSettings);
+        )
+    })
+    return widget.bind(null, globalSettings)
 }
 
 function widget(globalSettings, options) {
     if (!options.internal) {
-        return Error('You are trying to construct a widget manually, please use w()');
+        return Error('You are trying to construct a widget manually, please use w()')
     }
-    var defaultAction = shallowCopy(globalSettings.actions);
-    this.props = {};
-    this.custom = {};
-    logger = initLogger(options.logLevel);
+    var defaultActions = shallowCopy(globalSettings.actions)
+    this.props = {}
+    this.custom = {}
+    logger = initLogger(options.logLevel)
 
-    Object.keys(defaultAction).forEach(index => {
-        defaultAction[index] = bindScope(this, defaultAction[index]);
-    });
+    Object.keys(defaultActions).forEach(index => {
+        defaultActions[index] = bindScope(this, defaultActions[index])
+    })
     Object.keys(options.actions).forEach(index => {
-        options.actions[index] = bindScope(this, options.actions[index]);
-    });
-    Object.keys(defaultAction).forEach(index => {
+        options.actions[index] = bindScope(this, options.actions[index])
+    })
+    Object.keys(defaultActions).forEach(index => {
         this[index] =
-            generateActions(defaultAction[index], options.actions[index], index);
-    });
-    this.props.dom = generateDocument(this, options.template);
-    this.props.root = getDocumentRoot(options.template);
-    this.props.template = options.template;
+            generateActions(defaultActions[index], options.actions[index], index)
+    })
+    this.props.dom = generateDocument(this, options.template)
+    this.props.root = getDocumentRoot(options.template)
+    this.props.template = options.template
     this.render =
         generateActions({
-            before: defaultAction.render.before,
-            method: render.bind(this, defaultAction.render.method, this.props.template),
-            after: defaultAction.render.after
-        }, options.actions.render, 'render');
+            before: defaultActions.render.before,
+            method: render.bind(this, defaultActions.render.method, this.props.template),
+            after: defaultActions.render.after
+        }, options.actions.render, 'render')
     this.remove =
         generateActions({
-            before: defaultAction.remove.before,
-            method: remove.bind(this, defaultAction.remove.method),
-            after: defaultAction.remove.after
-        }, options.actions.remove, 'remove');
-    this.init();
+            before: defaultActions.remove.before,
+            method: remove.bind(this, defaultActions.remove.method),
+            after: defaultActions.remove.after
+        }, options.actions.remove, 'remove')
+    this.init()
 
     function remove(widgetRemove) {
         while (this.props.target.firstChild)
-            this.props.target.removeChild(this.props.target.firstChild);
+            this.props.target.removeChild(this.props.target.firstChild)
     }
 
     function render(widgetRender, template, finish, target, callback) {
         if (typeof target === 'string') {
-            target = document.querySelector(target);
+            target = document.querySelector(target)
         } else if (target instanceof HTMLElement) {
-            target = target;
+            target = target
         } else {
-            logger.warn('first argument of render method should be selector string or dom');
+            logger.warn('first argument of render method should be selector string or dom')
         }
-        target.appendChild(template);
-        this.props.target = target;
-        callback && isFunction(callback) && callback();
+        target.appendChild(template)
+        this.props.target = target
+        callback && isFunction(callback) && callback()
         if (widgetRender && isFunction(widgetRender))
-            return widgetRender.call(this, finish);
+            return widgetRender.call(this, finish)
     }
 }
 
@@ -85,95 +85,95 @@ function bindScope(scope, action) {
         method: toFunction(action.method).bind(scope),
         after: toFunction(action.after).bind(scope),
         error: toFunction(action.error, logger.error).bind(scope),
-    };
+    }
 }
 
 function generateDocument(widget, template) {
-    var dom = {};
+    var dom = {}
     Array.from(template.querySelectorAll('[data-info]')).forEach(doc => {
-        var info = doc.getAttribute('data-info');
-        dom[info] = doc;
-    });
+        var info = doc.getAttribute('data-info')
+        dom[info] = doc
+    })
     Array.from(template.querySelectorAll('[data-event]')).forEach(doc => {
-        var events = doc.getAttribute('data-event');
+        var events = doc.getAttribute('data-event')
         events.split('|').forEach(event => {
-            var eventName;
-            var action;
+            var eventName
+            var action
             event.split(':').forEach((token, index) => {
                 if (index === 0)
-                    eventName = token;
+                    eventName = token
                 else if (index === 1)
-                    action = token;
-            });
+                    action = token
+            })
             if (!widget[action]) {
-                logger.warn(`No such method:${action} in ${events}, check data-event and widget methods definition.`);
-                return;
+                logger.warn(`No such method:${action} in ${events}, check data-event and widget methods definition.`)
+                return
             }
-            doc.addEventListener(eventName, widget[action].bind(widget));
-        });
-    });
-    return dom;
+            doc.addEventListener(eventName, widget[action].bind(widget))
+        })
+    })
+    return dom
 }
 
 function getDocumentRoot(template) {
     // Assume the template only have one root
-    return template.querySelector('*');
+    return template.querySelector('*')
 }
 
 function generateActions(widgetAction, userAction = shallowCopy(functionSet), name) {
     return function(...args) {
         var before = function(...args) {
-            logger.info(`[${name}][before](${[].concat(...args)})`);
-            return wrapUserEvent(widgetAction.before, userAction.before, ...args);
-        };
+            logger.info(`[${name}][before](${[].concat(...args)})`)
+            return wrapUserEvent(widgetAction.before, userAction.before, ...args)
+        }
         var method = function(arg) {
-            logger.info(`[${name}][before](${isFunction(arg) ? arg() : arg})`);
+            logger.info(`[${name}][before](${isFunction(arg) ? arg() : arg})`)
             if (isFunction(arg))
-                return widgetAction.method(userAction.method, ...arg()) || arg;
-            return widgetAction.method(userAction.method, arg) || arg;
-        };
+                return widgetAction.method(userAction.method, ...arg()) || arg
+            return widgetAction.method(userAction.method, arg) || arg
+        }
         var after = function(arg) {
-            logger.info(`[${name}][after](${isFunction(arg) ? arg() : arg})`);
+            logger.info(`[${name}][after](${isFunction(arg) ? arg() : arg})`)
             if (isFunction(arg))
-                return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg;
-            return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
-        };
+                return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg
+            return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg
+        }
         var error = function(e) {
-            return wrapUserEvent(widgetAction.error, userAction.error, e);
-        };
+            return wrapUserEvent(widgetAction.error, userAction.error, e)
+        }
         var finish = function(arg) {
             if (isFunction(arg))
                 // flatten one level
-                return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0];
-            return arg;
-        };
-        try {
-            return nextAction(before(...args), [before, method, after, finish], error);
-        } catch (e) {
-            error(e);
+                return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0]
+            return arg
         }
-    };
+        try {
+            return nextAction(before(...args), [before, method, after, finish], error)
+        } catch (e) {
+            error(e)
+        }
+    }
 }
 
 function wrapUserEvent(widget, user, ...args) {
-    var continueDefault = (user != null && user(...args));
+    var continueDefault = (user != null && user(...args))
     if (continueDefault || typeof continueDefault === 'undefined')
-        return widget(...args) || (() => args);
-    return [].concat(...args);
+        return widget(...args) || (() => args)
+    return [].concat(...args)
 }
 
 function nextAction(result, actions, error, start = 0) {
     if (start + 1 === actions.length)
-        return result;
+        return result
     if (isThenable(result)) {
         return actions.reduce((res, action, index) => {
             if (index > start)
-                return res.then(action);
-            return res;
-        }, result).catch(error);
+                return res.then(action)
+            return res
+        }, result).catch(error)
     } else {
-        return nextAction(actions[start + 1](result), actions, error, start + 1);
+        return nextAction(actions[start + 1](result), actions, error, start + 1)
     }
 }
 
-export { register };
+export { register }
