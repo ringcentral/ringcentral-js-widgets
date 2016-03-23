@@ -1,4 +1,5 @@
 import sdk from './rc-sdk';
+import rcSubscription from './rc-subscription-service'
 import { register } from '../service';
 
 var rcMessageService = function(sdk) {
@@ -6,12 +7,21 @@ var rcMessageService = function(sdk) {
     var MESSAGES_MAX_AGE_HOURS = 7 * 24;
     var messages = {};
     var fetchingPromise = null;
+    var syncToken = null;
+    var messageUpdateHandlers = [];
+    
+    rcSubscription.subscribe('message-store', '/restapi/v1.0/account/~/extension/~/message-store', (msg) => {
+        incrementalSyncMessages();
+    });    
 
-    function fetchMessages() {
-        return sdk.platform().get('/account/~/extension/~/message-store', {
-            dateFrom: new Date(Date.now() - MESSAGES_MAX_AGE_HOURS * 3600 * 1000).toISOString()
+    function fullSyncMessages() {
+        return sdk.platform().get('/account/~/extension/~/message-sync', {
+            dateFrom: new Date(Date.now() - MESSAGES_MAX_AGE_HOURS * 3600 * 1000).toISOString(),
+            syncType: 'FSync'
         }).then(responses => {
-            var results = responses.json().records;
+            var jsonResponse = responses.json();
+            syncToken = jsonResponse.syncInfo.syncToken;
+            var results = jsonResponse.records;
             results.forEach(message => {
                 if (!messages[message.type]) {
                     messages[message.type] = [];
@@ -20,6 +30,21 @@ var rcMessageService = function(sdk) {
             });
             fetchingPromise = null;
         });
+    }
+    
+    function incrementalSyncMessages() {
+        if(syncToken){
+            return sdk.platform().get('/account/~/extension/~/message-sync', {
+                syncType: 'ISync',
+                syncToken: syncToken
+            }).then(responses => {
+                var jsonResponse = responses.json();
+                var results = jsonResponse.records;
+                messageUpdateHandlers.forEach((h) => {
+                    h(results);
+                });
+            });
+        }
     }
 
     function concatMessages() {
@@ -34,7 +59,8 @@ var rcMessageService = function(sdk) {
 
     return {
         syncMessages: function() {
-            fetchingPromise = fetchMessages();
+            fetchingPromise = fullSyncMessages();
+            return fetchingPromise;
         },
         getMessagesByType: function(type) {
             if (!fetchingPromise) {
@@ -56,6 +82,11 @@ var rcMessageService = function(sdk) {
                 return fetchingPromise.then(() => {
                     return concatMessages();
                 });
+            }
+        },
+        onMessageUpdated: function(handler){
+            if(handler){
+                messageUpdateHandlers.push(handler);
             }
         }
     };
