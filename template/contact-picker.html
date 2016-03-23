@@ -23,7 +23,7 @@
 
 </style>
 <div class='contact-picker'>
-    <input class='rc-input' placeholder="To: Enter name or number" data-info='input' data-event='input:autoComplete'></input>
+    <input class='rc-input' placeholder="To: Enter name or number" data-info='input' data-event='input:autoComplete|focus:autoComplete'></input>
     <div data-info='contacts' class='contacts'>
         <contact-picker-item dynamic></contact-picker-item>
     </div>
@@ -33,8 +33,9 @@ w.register(function() {
     var enlarge = w.transition('enlarge')
     this.actions = {
         init:{
-            method: function(finish){
+            method: function(finish) {
                 this.props.limit = 10;
+                this.props.show = false;
                 return finish();
             }
         },
@@ -53,21 +54,24 @@ w.register(function() {
         },
         hide: {
             after: function() {
-                enlarge.out(this.props.dom.contacts)
-                if (this.showingTimeout) {
-                    window.clearTimeout(this.showingTimeout);
-                    this.showingTimeout = null;
+                if (this.props.show) {
+                    this.props.show = false;
+                    enlarge.out(this.props.dom.contacts)
                 }
             }
         },
         show: {
             after: function() {
-                if (this.showingTimeout) 
-                    return;
-                this.showingTimeout = window.setTimeout(() => {
-                    if (this.props.dom.input === document.activeElement) 
-                        enlarge.in(this.props.dom.contacts)
-                }, 300);
+                // if (this.showingTimeout) 
+                //     return;
+                // this.showingTimeout = window.setTimeout(() => {
+                //     if (this.props.dom.input === document.activeElement) 
+                //         enlarge.in(this.props.dom.contacts)
+                // }, 300);
+                if (!this.props.show) {
+                    this.props.show = true;
+                    enlarge.in(this.props.dom.contacts)
+                }
             }
         },
         getInput: {
@@ -78,6 +82,12 @@ w.register(function() {
         appendInput: {
             before: function(value) {
                 this.props.dom.input.value += value;
+                this.props.dom.input.focus();
+            }
+        },
+        setInput: {
+            before: function(value) {
+                this.props.dom.input.value = value;
                 this.props.dom.input.focus();
             }
         },
@@ -108,7 +118,7 @@ w.register(function() {
                                 },
                                 select: {
                                     method:function(){
-                                        parent.appendInput(this.props.value);
+                                        parent.setInput(this.props.value);
                                     }
                                 }
                             }

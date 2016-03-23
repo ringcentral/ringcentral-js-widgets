@@ -27,6 +27,7 @@
 </div>
 <script>
 w.register(function() {
+    var fade = w.transition('fade')
     this.actions = w.action('interaction');
     this.actions.init = {
         before: function() {},
@@ -67,7 +68,11 @@ w.register(function() {
                 localStorage.setItem('extension', this.props.dom.extension.value || '');
                 localStorage.setItem('password', this.props.dom.password.value || '');
             }
-            fade.out(this.props.root);
+            fade.out(this.props.root, {
+                after: () => {
+                    this.remove();
+                }
+            });
         },
         error: function(err) {
             console.error(err);
@@ -87,6 +92,5 @@ w.register(function() {
             this.props.country = event.target.textContent;
         }
     }
-    var fade = w.transition('fade')
 });
 </script>

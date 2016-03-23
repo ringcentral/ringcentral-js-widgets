@@ -1,6 +1,5 @@
 * {
     box-sizing: border-box;
-    transition: all 0.1s ease-in-out;
 }
 
 * {
@@ -147,6 +146,10 @@ h1 {
     height: 50px;
     margin: 2px;
     border-radius: 50%;
+}
+
+.rc-dial-button:active {
+    background-color: #3498db;
 }
 
 .rc-message {

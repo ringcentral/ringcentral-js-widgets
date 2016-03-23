@@ -928,7 +928,9 @@ function nextAction(result, actions, error) {
     }
 }
 
-function transitionIn(effect, target, options) {
+function transitionIn(effect, target) {
+    var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
     options && options.before && options.before();
     target.classList.add(effect);
     target.classList.add(effect + '-in');
@@ -936,30 +938,42 @@ function transitionIn(effect, target, options) {
     window.setTimeout(function () {
         return target.classList.remove(effect + '-in');
     }, 17);
-    target.addEventListener('transitionend', function () {
-        return options && options.after && options.after();
-    });
+    var after = function after() {
+        options && options.after && options.after();
+        target.removeEventListener('transitionend', after);
+    };
+    target.addEventListener('transitionend', after);
 }
-function transitionOut(effect, target, options) {
+function transitionOut(effect, target) {
+    var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
     options && options.before && options.before();
     target.classList.add(effect);
     target.classList.remove(effect + '-in');
     window.setTimeout(function () {
         return target.classList.add(effect + '-out');
     }, 17);
-    target.addEventListener('transitionend', function () {
-        return options && options.after && options.after();
-    });
+    var after = function after() {
+        options && options.after && options.after();
+        target.removeEventListener('transitionend', after);
+    };
+    target.addEventListener('transitionend', after);
 }
-function transitionInit(effect, target, options) {
+function transitionInit(effect, target) {
+    var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
     options && options.before && options.before();
-    target.classList.add(effect);
     target.classList.add(effect + '-in');
-    target.addEventListener('transitionend', function () {
-        return options && options.after && options.after();
-    });
+    // window.setTimeout(() => target.classList.add(effect), 17)
+    var after = function after() {
+        options && options.after && options.after();
+        target.removeEventListener('transitionend', after);
+    };
+    target.addEventListener('transitionend', after);
 }
-function transitionToggle(effect, target, options) {
+function transitionToggle(effect, target) {
+    var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
     if (target.classList.contains(effect + '-out') || target.classList.contains(effect + '-in')) transitionIn(effect, target, options);else transitionOut(effect, target, options);
 }
 

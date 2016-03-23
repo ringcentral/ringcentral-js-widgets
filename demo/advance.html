@@ -23,11 +23,13 @@
         height: 100%;
         border-right: 1px solid #878787;
         border-left: 1px solid #878787;
+        overflow: hidden;
         margin: 0 auto;
     }
 
     .container {
         width: 3000px;
+        transition: transform .1s ease-out;
     }
     .panel {
         float: left;
@@ -86,12 +88,12 @@
                         )
                     },
                     after: function() {
+                        // authPanel.hide()
                         return Promise.all([
                             accountService.getAccountInfo(),
                             accountService.getPhoneNumber(),
                         ])
                         .then(afterLogin)
-                        .then(() => {authPanel.hide()})
                         .then(() => {
                             return Promise.all([
                                 rcContactService.syncCompanyContact(),
@@ -217,13 +219,18 @@
                     init: {
                         after: function() {
                             var panels = [dialPad, composeText, callLog]
+                            var pos = 0;
                             this.clickItem(this.addItem('<img src="../src/styles/images/dialpad_normal.png">'), function() {
+                                    pos = 0;
                                     document.querySelector('.container').style.transform = 'translateX(0)';
                             });
-                            this.clickItem(this.addItem('<img src="../src/styles/images/sms_normal.png">'), function() {
+                            this.clickItem(this.addItem('<img src="../src/styles/images/sms_normal.png">'),
+                             function() {
+                                pos = -250;
                                 document.querySelector('.container').style.transform = 'translateX(-250px)';
                             });
                             this.clickItem(this.addItem('<img src="../src/styles/images/call_log_normal.png">'), function() {
+                                pos = -500;
                                 document.querySelector('.container').style.transform = 'translateX(-500px)';
                             });
                             this.clickItem(
@@ -232,6 +239,15 @@
                                     'right'
                                 ), logout);
                             // this.addItem('<img src="../src/styles/images/settings_normal.png">');
+                            window.addEventListener('wheel', function(e) {
+                                if (e.deltaY > 10) {
+                                    pos = pos + 250 > 0 ? 0: pos + 250
+                                    document.querySelector('.container').style.transform = 'translateX('+pos+'px)';
+                                }
+                                else if (e.deltaY < -10)
+                                    pos = pos - 250 < -500 ? -500: pos - 250
+                                    document.querySelector('.container').style.transform = 'translateX('+pos+'px)';
+                            });
                         }
                     },
                     render: {
@@ -239,9 +255,6 @@
                             dialPad.render('#dial-pad');
                             composeText.render('#compose-text');
                             callLog.render('#call-log');
-
-                            // composeText.hide();
-                            // callLog.hide();
                         }
                     }
                 }
@@ -250,8 +263,8 @@
             toolbar.render('#toolbar');
             function logout() {
                 return loginService.logout().then(res => {
-                    [dialPad, composeText, callLog, toolbar].forEach(panel => panel.hide())
-                    authPanel.show()
+                    [dialPad, composeText, callLog, toolbar].forEach(panel => panel.remove())
+                    init()
                 }).catch(err => console.error(err));
             }
         }
