@@ -1,6 +1,7 @@
 import { register as registerComponent } from './component'
 import { getServices } from './service'
 import { getActions } from './action'
+import { transitionIn, transitionOut, transitionInit, transitionToggle } from './transition'
 import { ensureTail } from './util/index'
 
 function fetchWidget(file) {
@@ -107,6 +108,14 @@ w.customize = function(context, target, options) {
 w.service = getServices
 w.action = function(name) {
     return Object.assign([], getActions()[name])
+}
+w.transition = function(effect) {
+    return {
+        init: target => transitionInit(effect,target),
+        in: target => transitionIn(effect, target),
+        out: target => transitionOut(effect, target),
+        toggle: target => transitionToggle(effect, target)
+    }
 }
 
 export default w

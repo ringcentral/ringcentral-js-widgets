@@ -70,6 +70,7 @@ w.register(function() {
         method: function() {},
         after: function() {
             this.props['dropdown'].getData();
+            fade.in(this.props.root);
         }
     }
     this.actions.dialing = {
@@ -117,5 +118,6 @@ w.register(function() {
             return finish();
         }
     }
+    var fade = w.transition('fade')
 })
 </script>

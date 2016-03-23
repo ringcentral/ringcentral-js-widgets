@@ -1,51 +1,47 @@
-import sdk from './rc-sdk'
-import { register } from '../service'
+import sdk from './rc-sdk';
+import { register } from '../service';
 var accountService = (function(sdk) {
-    var info
-    var numbers
+    var info;
+    var numbers;
     return {
         getAccountInfo: function() {
             return sdk.platform()
                 .get('/account/~/extension/~')
                 .then(response => {
-                    info = response.json()
-                    return info
+                    info = response.json();
+                    return info;
                 })
-                .catch(function(e) {
-                    console.error('Recent Calls Error: ' + e.message)
-                })
+                .catch(e => console.error('Recent Calls Error: ' + e.message));
         },
 
         getPhoneNumber: function() {
             return sdk.platform()
                 .get('/account/~/extension/~/phone-number')
                 .then(response => {
-                    return response.json()
+                    return response.json();
                 })
                 .then(data => {
-                    numbers = data.records
-                    return data.records
+                    numbers = data.records;
+                    return data.records;
                 })
-                .catch(function(e) {
-                    console.error('Recent Calls Error: ' + e.message)
-                })
+                .catch(e => console.error('Recent Calls Error: ' + e.message));
         },
 
         hasServiceFeature: function(name) {
             if (!info)
-                return Error('Need to fetch account info by accountService.getAccountInfo')
+                return Error('Need to fetch account info by accountService.getAccountInfo');
             return info.serviceFeatures
                 .filter(feature => feature.featureName.toLowerCase() === name.toLowerCase())
-                .length > 0
+                .length > 0;
         },
 
         listNumber: function(type) {
             return numbers
             .filter(number => number.type === type)
-            .map(number => number.phoneNumber)
+            .map(number => number.phoneNumber);
         },
-    }
-})(sdk)
+    };
+})(sdk);
 
-register('accountService', accountService)
-export default accountService
+register('accountService', accountService);
+export default accountService;

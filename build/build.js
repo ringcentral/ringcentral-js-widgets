@@ -358,7 +358,7 @@ var accountService = function (sdk) {
                 info = response.json();
                 return info;
             }).catch(function (e) {
-                console.error('Recent Calls Error: ' + e.message);
+                return console.error('Recent Calls Error: ' + e.message);
             });
         },
 
@@ -369,7 +369,7 @@ var accountService = function (sdk) {
                 numbers = data.records;
                 return data.records;
             }).catch(function (e) {
-                console.error('Recent Calls Error: ' + e.message);
+                return console.error('Recent Calls Error: ' + e.message);
             });
         },
 
@@ -928,6 +928,29 @@ function nextAction(result, actions, error) {
     }
 }
 
+function transitionIn(effect, target) {
+    target.classList.add(effect);
+    target.classList.add(effect + '-in');
+    target.classList.remove(effect + '-out');
+    window.setTimeout(function () {
+        return target.classList.remove(effect + '-in');
+    }, 17);
+}
+function transitionOut(effect, target) {
+    target.classList.add(effect);
+    target.classList.remove(effect + '-in');
+    window.setTimeout(function () {
+        return target.classList.add(effect + '-out');
+    }, 17);
+}
+function transitionInit(effect, target) {
+    target.classList.add(effect);
+    target.classList.add(effect + '-in');
+}
+function transitionToggle(effect, target) {
+    if (target.classList.contains(effect + '-out')) transitionIn(effect, target);else transitionOut(effect, target);
+}
+
 function fetchWidget(file) {
     return fetch(w.options.path + ensureTail(file, '.html')).then(function (response) {
         return response.text();
@@ -1023,6 +1046,22 @@ w.customize = function (context, target, options) {
 w.service = getServices;
 w.action = function (name) {
     return Object.assign([], getActions()[name]);
+};
+w.transition = function (effect) {
+    return {
+        init: function init(target) {
+            return transitionInit(effect, target);
+        },
+        in: function _in(target) {
+            return transitionIn(effect, target);
+        },
+        out: function out(target) {
+            return transitionOut(effect, target);
+        },
+        toggle: function toggle(target) {
+            return transitionToggle(effect, target);
+        }
+    };
 };
 
 // development only

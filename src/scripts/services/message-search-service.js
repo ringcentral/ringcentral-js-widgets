@@ -1,24 +1,24 @@
-import { register } from '../service'
+import { register } from '../service';
 var messageSearchService = function() {
     return {
         getMessages: function(messageProviderFunctions, filter) {
             return Promise.all(messageProviderFunctions).then(messageResults => {
-                var results = []
+                var results = [];
                 messageResults.forEach(messages => {
                     messages.forEach(message => {
                         if (filter) {
                             if (filter(message)) {
-                                results.push(message)
+                                results.push(message);
                             }
                         }else {
-                            results.push(message)
+                            results.push(message);
                         }
-                    })
-                })
-                return results
-            })
+                    });
+                });
+                return results;
+            });
         }
-    }
-}()
-register('messageSearchService', messageSearchService)
-export default messageSearchService
+    };
+}();
+register('messageSearchService', messageSearchService);
+export default messageSearchService;

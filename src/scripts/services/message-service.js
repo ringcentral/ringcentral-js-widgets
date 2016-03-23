@@ -1,5 +1,5 @@
-import sdk from './rc-sdk'
-import { register } from '../service'
+import sdk from './rc-sdk';
+import { register } from '../service';
 var messageService = (function(sdk) {
     return {
         sendSMSMessage: function(text, fromNumber, toNumber) {
@@ -10,10 +10,10 @@ var messageService = (function(sdk) {
                         {phoneNumber: toNumber}
                     ],
                     text: text
-                })
+                });
         }
-    }
-})(sdk)
+    };
+})(sdk);
 
-register('messageService', messageService)
-export default messageService
+register('messageService', messageService);
+export default messageService;

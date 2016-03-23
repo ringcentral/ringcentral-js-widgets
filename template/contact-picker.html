@@ -20,6 +20,17 @@
     background-color: #3498db;
     color: #fff;
 }
+
+.enlarge {
+    opacity: 1;
+    transition: all .3s ease;
+    transform-origin: top;
+}
+.enlarge-in,
+.enlarge-out {
+    transform: scaleY(0);
+}
+
 </style>
 <div class='contact-picker'>
     <input class='rc-input' placeholder="To: Enter name or number" data-info='input' data-event='input:autoComplete'></input>
@@ -29,6 +40,7 @@
 </div>
 <script>
 w.register(function() {
+    var enlarge = w.transition('enlarge')
     this.actions = {
         init:{
             method: function(finish){
@@ -50,7 +62,7 @@ w.register(function() {
         },
         hide: {
             after: function() {
-                this.props.dom.contacts.classList.add('display-none');
+                enlarge.out(this.props.dom.contacts)
                 if (this.showingTimeout) {
                     window.clearTimeout(this.showingTimeout);
                     this.showingTimeout = null;
@@ -62,8 +74,8 @@ w.register(function() {
                 if (this.showingTimeout) 
                     return;
                 this.showingTimeout = window.setTimeout(() => {
-                    if (this.props.dom.input === document.activeElement)
-                        this.props.dom.contacts.classList.remove('display-none');
+                    if (this.props.dom.input === document.activeElement) 
+                        enlarge.in(this.props.dom.contacts)
                 }, 300);
             }
         },
