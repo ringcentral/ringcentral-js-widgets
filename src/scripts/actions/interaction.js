@@ -19,6 +19,7 @@ var interaction = {
         method: function(finish) {},
         after: function(target = this.props.root, message) {
             var mask = document.createElement('div');
+            // FIXME Decouple from rc
             mask.classList.add('rc-mask');
             var message = document.createElement('h4');
             message.classList.add('rc-mask-message');

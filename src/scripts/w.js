@@ -15,8 +15,7 @@ function fetchWidget(file) {
 }
 
 function parseDocument(template) {
-    var docs = template.querySelectorAll('*');
-    return Promise.all(Array.from(docs)
+    return Promise.all(Array.from(template.querySelectorAll('*'))
         .filter(doc => doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement)
         .reduce((result, doc) => {
             var temp = {};

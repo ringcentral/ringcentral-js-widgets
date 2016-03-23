@@ -581,6 +581,7 @@ var interaction = {
             var message = arguments[1];
 
             var mask = document.createElement('div');
+            // FIXME Decouple from rc
             mask.classList.add('rc-mask');
             var message = document.createElement('h4');
             message.classList.add('rc-mask-message');
@@ -848,8 +849,7 @@ function fetchWidget(file) {
 }
 
 function parseDocument(template) {
-    var docs = template.querySelectorAll('*');
-    return Promise.all(Array.from(docs).filter(function (doc) {
+    return Promise.all(Array.from(template.querySelectorAll('*')).filter(function (doc) {
         return doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement;
     }).reduce(function (result, doc) {
         var temp = {};
