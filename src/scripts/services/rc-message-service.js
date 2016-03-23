@@ -64,19 +64,28 @@ var rcMessageService = function(sdk) {
 
     function updateMessageList(results) {
         results.forEach(message => {
-            if (!messages[message.type]) {
-                messages[message.type] = [];
-                messages[message.type].push(message);
+            var messageList = messages[message.type];
+            if (!messageList) {
+                if(message.availability === 'Alive'){
+                    messages[message.type] = [];
+                    messages[message.type].push(message);    
+                }
             }else {
                 var index = 0;
-                for (; index < messages[message.type].length; index++) {
-                    if (messages[message.type][index].id === message.id) {
-                        messages[message.type][index] = message;
+                for (; index < messageList.length; index++) {
+                    if (messageList[index].id === message.id) {
+                        if(message.availability === 'Alive'){
+                            messageList[index] = message;
+                        }else{
+                            messageList.splice(index, 1);
+                        }
                         break;
                     }
                 }
-                if (index === messages[message.type].length) {
-                    messages[message.type].push(message);
+                if (index === messageList.length) {
+                    if(message.availability === 'Alive'){
+                        messageList.push(message);
+                    }
                 }
             }
         });
