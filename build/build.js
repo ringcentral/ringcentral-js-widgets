@@ -928,27 +928,39 @@ function nextAction(result, actions, error) {
     }
 }
 
-function transitionIn(effect, target) {
+function transitionIn(effect, target, options) {
+    options && options.before && options.before();
     target.classList.add(effect);
     target.classList.add(effect + '-in');
     target.classList.remove(effect + '-out');
     window.setTimeout(function () {
         return target.classList.remove(effect + '-in');
     }, 17);
+    target.addEventListener('transitionend', function () {
+        return options && options.after && options.after();
+    });
 }
-function transitionOut(effect, target) {
+function transitionOut(effect, target, options) {
+    options && options.before && options.before();
     target.classList.add(effect);
     target.classList.remove(effect + '-in');
     window.setTimeout(function () {
         return target.classList.add(effect + '-out');
     }, 17);
+    target.addEventListener('transitionend', function () {
+        return options && options.after && options.after();
+    });
 }
-function transitionInit(effect, target) {
+function transitionInit(effect, target, options) {
+    options && options.before && options.before();
     target.classList.add(effect);
     target.classList.add(effect + '-in');
+    target.addEventListener('transitionend', function () {
+        return options && options.after && options.after();
+    });
 }
-function transitionToggle(effect, target) {
-    if (target.classList.contains(effect + '-out')) transitionIn(effect, target);else transitionOut(effect, target);
+function transitionToggle(effect, target, options) {
+    if (target.classList.contains(effect + '-out') || target.classList.contains(effect + '-in')) transitionIn(effect, target, options);else transitionOut(effect, target, options);
 }
 
 function fetchWidget(file) {
@@ -1049,17 +1061,17 @@ w.action = function (name) {
 };
 w.transition = function (effect) {
     return {
-        init: function init(target) {
-            return transitionInit(effect, target);
+        init: function init(target, options) {
+            return transitionInit(effect, target, options);
         },
-        in: function _in(target) {
-            return transitionIn(effect, target);
+        in: function _in(target, options) {
+            return transitionIn(effect, target, options);
         },
-        out: function out(target) {
-            return transitionOut(effect, target);
+        out: function out(target, options) {
+            return transitionOut(effect, target, options);
         },
-        toggle: function toggle(target) {
-            return transitionToggle(effect, target);
+        toggle: function toggle(target, options) {
+            return transitionToggle(effect, target, options);
         }
     };
 };

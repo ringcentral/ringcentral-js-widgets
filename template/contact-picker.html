@@ -21,20 +21,10 @@
     color: #fff;
 }
 
-.enlarge {
-    opacity: 1;
-    transition: all .3s ease;
-    transform-origin: top;
-}
-.enlarge-in,
-.enlarge-out {
-    transform: scaleY(0);
-}
-
 </style>
 <div class='contact-picker'>
     <input class='rc-input' placeholder="To: Enter name or number" data-info='input' data-event='input:autoComplete'></input>
-    <div data-info='contacts' class='contacts display-none'>
+    <div data-info='contacts' class='contacts'>
         <contact-picker-item dynamic></contact-picker-item>
     </div>
 </div>
@@ -58,6 +48,7 @@ w.register(function() {
                         this.hide();
                     }
                 });
+                enlarge.init(this.props.dom.contacts)
             }
         },
         hide: {

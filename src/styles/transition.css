@@ -1,0 +1,26 @@
+.enlarge {
+    transition: transform .3s ease;
+    transform-origin: top;
+}
+.enlarge-in,
+.enlarge-out {
+    transform: scaleY(0);
+}
+.fade {
+    opacity: 1;
+    transition: opacity .3s ease;
+}
+.fade-in,
+.fade-out {
+    opacity: 0;
+}
+.slide {
+    transform: translateX(0);
+    transition: transform .3s ease-out;
+}
+.slide-in {
+    transform: translateX(-300px);
+}
+.slide-out {
+    transform: translateX(300px);
+}

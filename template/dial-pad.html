@@ -31,6 +31,7 @@
 </div>
 <script>
 w.register(function() {
+    var fade = w.transition('fade')
     this.actions = w.action('interaction');
     this.actions.init = {
         before: function() {},
@@ -118,6 +119,6 @@ w.register(function() {
             return finish();
         }
     }
-    var fade = w.transition('fade')
+    
 })
 </script>

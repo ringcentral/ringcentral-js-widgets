@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../src/styles/normalize.css">
     <link rel="stylesheet" type="text/css" href="../src/styles/main.css">
+    <link rel="stylesheet" type="text/css" href="../src/styles/transition.css">
     <link rel="stylesheet" type="text/css" href="../src/styles/call-log.css">
     <link rel="stylesheet" type="text/css" href="theme/blue.css" id="theme-css">
     <style type="text/css">
@@ -24,6 +25,14 @@
         border-left: 1px solid #878787;
         margin: 0 auto;
     }
+
+    .container {
+        width: 3000px;
+    }
+    .panel {
+        float: left;
+        width: 250px;
+    }
     </style>
 </head>
 
@@ -31,10 +40,12 @@
     <div id='phone'>
         <div id="auth-panel"></div>
         <div id="toolbar"></div>
-        <div id="dial-pad"></div>
-        <div id="compose-text"></div>
-        <div id="call-panel"></div>
-        <div id="call-log"></div>
+        <div class='container'>
+            <div class='panel' id="dial-pad"></div>
+            <div class='panel' id="compose-text"></div>
+            <div class='panel' id="call-panel"></div>
+            <div class='panel' id="call-log"></div>
+        </div>
     </div>
     <script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
@@ -207,16 +218,13 @@
                         after: function() {
                             var panels = [dialPad, composeText, callLog]
                             this.clickItem(this.addItem('<img src="../src/styles/images/dialpad_normal.png">'), function() {
-                                panels.forEach(panel => panel.hide())
-                                dialPad.show();
+                                    document.querySelector('.container').style.transform = 'translateX(0)';
                             });
                             this.clickItem(this.addItem('<img src="../src/styles/images/sms_normal.png">'), function() {
-                                panels.forEach(panel => panel.hide())
-                                composeText.show();
+                                document.querySelector('.container').style.transform = 'translateX(-250px)';
                             });
                             this.clickItem(this.addItem('<img src="../src/styles/images/call_log_normal.png">'), function() {
-                                panels.forEach(panel => panel.hide())
-                                callLog.show();
+                                document.querySelector('.container').style.transform = 'translateX(-500px)';
                             });
                             this.clickItem(
                                 this.addItem(
@@ -232,8 +240,8 @@
                             composeText.render('#compose-text');
                             callLog.render('#call-log');
 
-                            composeText.hide();
-                            callLog.hide();
+                            // composeText.hide();
+                            // callLog.hide();
                         }
                     }
                 }

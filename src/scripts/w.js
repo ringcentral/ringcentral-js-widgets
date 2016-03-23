@@ -111,10 +111,10 @@ w.action = function(name) {
 }
 w.transition = function(effect) {
     return {
-        init: target => transitionInit(effect,target),
-        in: target => transitionIn(effect, target),
-        out: target => transitionOut(effect, target),
-        toggle: target => transitionToggle(effect, target)
+        init: (target, options) => transitionInit(effect, target, options),
+        in: (target, options) => transitionIn(effect, target, options),
+        out: (target, options) => transitionOut(effect, target, options),
+        toggle: (target, options) => transitionToggle(effect, target, options)
     }
 }
 
