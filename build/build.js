@@ -836,6 +836,7 @@ function widget(_ref2, options) {
         target.appendChild(template);
         callback && isFunction(callback) && callback();
         if (widgetRender && isFunction(widgetRender)) return widgetRender.call(this, finish);
+        return this;
     }
 }
 
@@ -1369,16 +1370,19 @@ var index = __commonjs(function (module) {
 
 var Polyglot = index && (typeof index === 'undefined' ? 'undefined' : _typeof(index)) === 'object' && 'default' in index ? index['default'] : index;
 
+var polyglots = {};
 var polyglot = new Polyglot();
-function loadLocale(file) {
+function loadLocale(name, file) {
     fetch(file).then(function (response) {
         return response.json();
     }).then(function (data) {
-        return polyglot.replace(data);
+        return polyglots[name] = new Polyglot({ phrases: data });
     });
 }
-function translate(string) {
-    return polyglot.t(string);
+function translate(locale) {
+    return function (string) {
+        return polyglots[locale] ? polyglots[locale].t(string) : '';
+    };
 }
 
 function fetchWidget(file) {
@@ -1467,7 +1471,10 @@ w.config = function (options, callback) {
     w.options.path = options.path || '';
     w.options.logLevel = options.logLevel || 0;
     w.options.locale = options.locale;
-    Promise.all([preload(w.options.preload), loadLocale(w.options.locale)]).then(callback);
+    Promise.all([preload(w.options.preload), Object.keys(w.options.locale).forEach(function (index) {
+        var locale = w.options.locale[index];
+        loadLocale(index, locale);
+    })]).then(callback);
 };
 w.customize = function (context, target, options) {
     // inherit parent's data

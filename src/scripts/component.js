@@ -78,6 +78,7 @@ function widget({actions, data = {}}, options) {
         callback && isFunction(callback) && callback()
         if (widgetRender && isFunction(widgetRender))
             return widgetRender.call(this, finish)
+        return this
     }
 }
 

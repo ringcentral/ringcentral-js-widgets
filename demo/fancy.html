@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>RingCentral Web Phone</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="../src/styles/normalize.css">
+    <link rel="stylesheet" type="text/css" href="../src/styles/main.css">
+    <link rel="stylesheet" type="text/css" href="../src/styles/transition.css">
+    <link rel="stylesheet" type="text/css" href="../src/styles/call-log.css">
+    <link rel="stylesheet" type="text/css" href="theme/blue.css" id="theme-css">
+    <style type="text/css">
+    html {
+        height: 100%;
+    }
+    
+    body {
+        height: 100%;
+    }
+
+    #phone {
+        float: left;
+        width: 250px;
+        height: 100%;
+        border-right: 1px solid #878787;
+        border-left: 1px solid #878787;
+        overflow: hidden;
+    }
+
+    .container {
+        width: 3000px;
+        transition: transform .1s ease-out;
+    }
+    .panel {
+        float: left;
+        width: 250px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id='phone'></div>
+    <div class='control-panel'>
+        <div>
+            <span>page:</span>
+            <button onclick='rerun()'>Login</button>
+            <button onclick='rerun()'>Main</button>
+        </div>
+        <div>
+            <span>color:</span>
+            <input onblur='rerun(this.value)'></input>
+        </div>
+        <div>
+            <span>language:</span>
+            <button 
+            data-value='en-us'
+            onclick='rerun(null,null,this.getAttribute("data-value"))'>English
+            </button>
+            <button 
+            data-value='zh-tw'
+            onclick='rerun(null,null,this.getAttribute("data-value"))'>Chinese
+            </button>
+        </div>
+        <div>
+            <span>logo:</span>
+            <button 
+                data-value='ringcentral_logo.png' 
+                onclick='rerun(null,this.getAttribute("data-value"))'>RingCentral
+            </button>
+            <button 
+                data-value='fb.png' 
+                onclick='rerun(null,this.getAttribute("data-value"))'>Facebook
+            </button>
+        </div>
+    </div>
+    <script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
+    <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
+    <script type="text/javascript" src="../build/build.js"></script>
+    <script type="text/javascript">
+    var phone;
+    var options = {
+            color: '#999',
+            logo: 'ringcentral_logo.png',
+            lang: 'zh-tw'
+        };
+    w.config({
+        path: '../template/',
+        preload: {
+            'rc-phone': 'rc-phone'
+        },
+        locale: {
+            'zh-tw': 'zh-tw.json',
+            'en-us': 'en-us.json'
+        }
+    }, render)
+
+    function rerun(color, logo, lang) {
+        options.color = color || options.color
+        options.logo = logo || options.logo
+        options.lang = lang || options.lang
+        if (phone) {
+            phone.remove()
+        }
+        render()
+    }
+
+    function render() {
+        phone = w('rc-phone', {
+            data: options
+        })
+        phone.render('#phone'); 
+    }
+    </script>
+</body>
+
+</html>

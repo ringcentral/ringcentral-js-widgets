@@ -103,7 +103,10 @@ w.config = function(options, callback) {
     w.options.locale = options.locale
     Promise.all([
         preload(w.options.preload),
-        loadLocale(w.options.locale)
+        Object.keys(w.options.locale).forEach(index => {
+            var locale = w.options.locale[index]
+            loadLocale(index, locale)
+        })
     ]).then(callback)
 }
 w.customize = function(context, target, options) {

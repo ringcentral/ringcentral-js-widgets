@@ -1,13 +1,14 @@
 import Polyglot from 'node-polyglot'
 
+var polyglots = {}
 var polyglot = new Polyglot()
-function loadLocale(file) {
+function loadLocale(name, file) {
     fetch(file)
     .then(response => response.json())
-    .then(data => polyglot.replace(data))
+    .then(data => polyglots[name] = new Polyglot({phrases: data}))
 }
-function translate(string) {
-    return polyglot.t(string)
+function translate(locale) {
+    return string => polyglots[locale]? polyglots[locale].t(string): ''
 }
 export {
     loadLocale,
