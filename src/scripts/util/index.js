@@ -44,6 +44,8 @@ function toFunction(fn, defalut) {
 }
 
 function shallowCopy(target) {
+    if (Array.isArray(target))
+        return target.slice(0);
     return Object.assign({}, target);
 }
 

@@ -109,7 +109,7 @@ w.customize = function(context, target, options) {
 }
 w.service = getServices
 w.action = function(name) {
-    return Object.assign([], getActions()[name])
+    return Object.assign({}, getActions()[name])
 }
 w.transition = function(effect) {
     return {

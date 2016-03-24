@@ -28,7 +28,6 @@
 <script>
 w.register(function() {
     var fade = w.transition('fade')
-    this.data = { weight: 100 }
     this.actions = w.action('interaction');
     this.actions.init = {
         before: function() {},
@@ -36,7 +35,9 @@ w.register(function() {
             finish();
         },
         after: function() {
-            this.props.country = 'United States';
+            this.props.country = 'United States'
+            var { color, lang, logo } = this.data
+            this.props.dom.login.style['background-color'] = color || '#333'
         }
     },
     this.actions.render = {
@@ -50,11 +51,7 @@ w.register(function() {
     },
     this.actions.remove = {
         before: function() {
-            fade.out(this.props.root, {
-                after: () => {
-                    this.remove();
-                }
-            });
+            fade.out(this.props.root);
         }
     },
     this.actions.login = {

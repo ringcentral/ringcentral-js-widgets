@@ -740,6 +740,7 @@ function toFunction(fn, defalut) {
 }
 
 function shallowCopy(target) {
+    if (Array.isArray(target)) return target.slice(0);
     return Object.assign({}, target);
 }
 
@@ -807,9 +808,7 @@ function widget(_ref2, options) {
     this.init();
 
     function remove(widgetRemove) {
-        while (this.props.target.firstChild) {
-            this.props.target.removeChild(this.props.target.firstChild);
-        }
+        this.props.target.parentNode.removeChild(this.props.target);
     }
 
     function render(widgetRender, template, finish, target, callback) {
@@ -820,8 +819,9 @@ function widget(_ref2, options) {
         } else {
             logger.warn('first argument of render method should be selector string or dom');
         }
+        // the template can only have one root
+        this.props.target = shallowCopy(Array.from(template.childNodes))[0];
         target.appendChild(template);
-        this.props.target = target;
         callback && isFunction(callback) && callback();
         if (widgetRender && isFunction(widgetRender)) return widgetRender.call(this, finish);
     }
@@ -1082,7 +1082,7 @@ w.customize = function (context, target, options) {
 };
 w.service = getServices;
 w.action = function (name) {
-    return Object.assign([], getActions()[name]);
+    return Object.assign({}, getActions()[name]);
 };
 w.transition = function (effect) {
     return {

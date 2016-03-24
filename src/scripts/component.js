@@ -59,8 +59,7 @@ function widget({actions, data = {}}, options) {
     this.init()
 
     function remove(widgetRemove) {
-        while (this.props.target.firstChild)
-            this.props.target.removeChild(this.props.target.firstChild)
+        this.props.target.parentNode.removeChild(this.props.target)
     }
 
     function render(widgetRender, template, finish, target, callback) {
@@ -71,8 +70,9 @@ function widget({actions, data = {}}, options) {
         } else {
             logger.warn('first argument of render method should be selector string or dom')
         }
+        // the template can only have one root
+        this.props.target = shallowCopy(Array.from(template.childNodes))[0];
         target.appendChild(template)
-        this.props.target = target
         callback && isFunction(callback) && callback()
         if (widgetRender && isFunction(widgetRender))
             return widgetRender.call(this, finish)
