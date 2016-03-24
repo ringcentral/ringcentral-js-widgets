@@ -1367,6 +1367,8 @@ var index = __commonjs(function (module) {
     module.exports = require$$0;
 });
 
+var Polyglot = index && (typeof index === 'undefined' ? 'undefined' : _typeof(index)) === 'object' && 'default' in index ? index['default'] : index;
+
 function fetchWidget(file) {
     return fetch(w.options.path + ensureTail(file, '.html')).then(function (response) {
         return response.text();
@@ -1452,6 +1454,7 @@ w.config = function (options, callback) {
     w.options.preload = options.preload || {};
     w.options.path = options.path || '';
     w.options.logLevel = options.logLevel || 0;
+    w.options.translation = options.translation;
     preload(w.options.preload, callback);
 };
 w.customize = function (context, target, options) {
@@ -1479,6 +1482,7 @@ w.transition = function (effect) {
         }
     };
 };
+w.polyglot = w.polyglot = new Polyglot();
 
 // development only
 window.w = w;

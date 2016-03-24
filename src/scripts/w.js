@@ -3,7 +3,7 @@ import { getServices } from './service'
 import { getActions } from './action'
 import { transitionIn, transitionOut, transitionInit, transitionToggle } from './transition'
 import { ensureTail } from './util/index'
-import polyglot from 'node-polyglot'
+import Polyglot from 'node-polyglot'
 function fetchWidget(file) {
     return fetch(w.options.path + ensureTail(file, '.html'))
         .then(response => response.text())
@@ -100,6 +100,7 @@ w.config = function(options, callback) {
     w.options.preload = options.preload || {}
     w.options.path = options.path || ''
     w.options.logLevel = options.logLevel || 0
+    w.options.translation = options.translation
     preload(w.options.preload, callback)
 }
 w.customize = function(context, target, options) {
@@ -119,5 +120,5 @@ w.transition = function(effect) {
         toggle: (target, options) => transitionToggle(effect, target, options)
     }
 }
-
+w.polyglot = w.polyglot = new Polyglot()
 export default w

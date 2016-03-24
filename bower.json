@@ -3,8 +3,7 @@
   "ignore": [],
   "dependencies": {
     "ringcentral": "~2.0.4",
-    "ringcentral-web-phone": "~0.2.0",
-    "l10n.js": "*"
+    "ringcentral-web-phone": "~0.2.0"
   },
   "devDependencies": {},
   "moduleType": [
