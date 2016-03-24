@@ -34,7 +34,9 @@ var rcMessageProvider = function() {
                 return results;
             });
         },
-        getAllMessages: function() {
+        //Return all messages of type 'VoiceMail' and 'Fax'. For SMS and Pager, only last message in a conversation
+        // will be returned.
+        getLastMessagesOfAllType: function() {
             return Promise.resolve(rcMessageService.getAllMessages()).then(messages => {
                 var results = [];
                 var added = {};
@@ -51,7 +53,7 @@ var rcMessageProvider = function() {
                 });
                 for (var key in added) {
                     if (added.hasOwnProperty(key)) {
-                        results.push(added[key][added[key].length - 1]);
+                        results.push(added[key][0]);
                     }
                 }
                 return results;
