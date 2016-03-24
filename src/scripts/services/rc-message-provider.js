@@ -3,22 +3,10 @@ import { register } from '../service';
 var rcMessageProvider = function() {
     
     var messageUpdatedHandlers = [];
-    rcMessageService.onMessageUpdated((updatedMessages) => {
-        var messageParam = {
-            deleted : [],
-            updated : []
-        };
-        updatedMessages.forEach(message => {
-            var toAdd = createResult(message);
-            if(message.availability === 'Alive'){
-                messageParam.updated.push(toAdd);
-            }else{
-                messageParam.deleted.push(toAdd);                
-            }
-        });
+    rcMessageService.onMessageUpdated(() => {
         messageUpdatedHandlers.forEach(h => {
             try{
-                h(messageParam);
+                h();
             }catch(e){
                 console.error(e);
             }

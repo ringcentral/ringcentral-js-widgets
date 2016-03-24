@@ -64,7 +64,7 @@ var rcMessageService = function(sdk) {
             if (!messageList) {
                 if(message.availability === 'Alive'){
                     messages[message.type] = [];
-                    messages[message.type].push(message);    
+                    messages[message.type].splice(0, 0, message);    
                 }
             }else {
                 var index = 0;
@@ -80,7 +80,7 @@ var rcMessageService = function(sdk) {
                 }
                 if (index === messageList.length) {
                     if(message.availability === 'Alive'){
-                        messageList.push(message);
+                        messageList.splice(0, 0, message);
                     }
                 }
             }
