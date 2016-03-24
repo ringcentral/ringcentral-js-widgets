@@ -9,10 +9,11 @@ var rcMessageProvider = function() {
             updated : []
         };
         updatedMessages.forEach(message => {
+            var toAdd = createResult(message);
             if(message.availability === 'Alive'){
-                messageParam.updated.push(message);
+                messageParam.updated.push(toAdd);
             }else{
-                messageParam.deleted.push(message);                
+                messageParam.deleted.push(toAdd);                
             }
         });
         messageUpdatedHandlers.forEach(h => {
@@ -24,12 +25,42 @@ var rcMessageProvider = function() {
         });
     });
 
+    function createResult(message) {
+        var result = {};
+        if (message.direction === 'Outbound') {
+            if (message.type === 'Pager') {
+                result.contact = message.to[0].extensionNumber;
+            }else {
+                result.contact = message.to[0].phoneNumber;
+            }
+        }else {
+            if (message.type === 'Pager') {
+                result.contact = message.from.extensionNumber;
+            }else {
+                result.contact = message.from.phoneNumber;
+            }
+        }
+        //TODO: Use localization string instead of plain text
+        if (message.type === 'SMS' || message.type === 'Pager') {
+            result.subject = message.subject;
+        }else if (message.type === 'VoiceMail') {
+            result.subject = 'Voice Message';
+        }else if (message.type === 'Fax') {
+            result.subject = 'Fax';
+        }
+        result.readStatus = message.readStatus;
+        result.type = message.type;
+        result.id = message.id;
+        result.time = message.lastModifiedTime;
+        return result;
+    }
+
     return {
         getTextMessages: function() {
             return Promise.resolve(rcMessageService.getMessagesByType('SMS')).then(messages => {
                 var results = [];
                 messages.forEach(message => {
-                    results.push(message);
+                    results.push(createResult(message));
                 });
                 return results;
             });
@@ -41,14 +72,15 @@ var rcMessageProvider = function() {
                 var results = [];
                 var added = {};
                 messages.forEach(message => {
+                    var result = createResult(message);
                     //Combine SMS/Pager messages in conversation
                     if (message.conversationId) {
                         if (!added[message.conversationId]) {
                             added[message.conversationId] = [];
                         }
-                        added[message.conversationId].push(message);
+                        added[message.conversationId].push(result);
                     }else {
-                        results.push(message);
+                        results.push(result);
                     }
                 });
                 for (var key in added) {
