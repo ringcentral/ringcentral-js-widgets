@@ -807,8 +807,9 @@ function widget(_ref2, options) {
     }, options.actions.remove, 'remove');
     this.init();
 
-    function remove(widgetRemove) {
+    function remove(widgetRemove, finish) {
         this.props.target.parentNode.removeChild(this.props.target);
+        if (widgetRemove && isFunction(widgetRemove)) return widgetRemove.call(this, finish);
     }
 
     function render(widgetRender, template, finish, target, callback) {
