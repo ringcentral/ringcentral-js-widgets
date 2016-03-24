@@ -3,7 +3,7 @@ import { getServices } from './service'
 import { getActions } from './action'
 import { transitionIn, transitionOut, transitionInit, transitionToggle } from './transition'
 import { ensureTail } from './util/index'
-
+import polyglot from 'node-polyglot'
 function fetchWidget(file) {
     return fetch(w.options.path + ensureTail(file, '.html'))
         .then(response => response.text())

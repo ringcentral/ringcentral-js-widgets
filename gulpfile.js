@@ -8,6 +8,8 @@ var jscs = require('gulp-jscs');
 var watch = require('gulp-watch');
 var plumber = require('gulp-plumber');
 var print = require('gulp-print');
+var nodeResolve = require('rollup-plugin-node-resolve');
+var commonjs    = require('rollup-plugin-commonjs');
 
 gulp.task('compile', () => {
     watch('./src/scripts/**/**', compile);
@@ -26,7 +28,11 @@ function compile() {
             }
         }))
         .pipe(rollup({
-            sourceMap: true
+            sourceMap: true,
+            plugins: [ 
+                nodeResolve({ jsnext: true, main: true, browser: true }),
+                commonjs()
+            ]
         }))
         .pipe(babel())
         .on('error', util.log)
