@@ -1000,7 +1000,7 @@ function transitionToggle(effect, target) {
     if (target.classList.contains(effect + '-out') || target.classList.contains(effect + '-in')) transitionIn(effect, target, options);else transitionOut(effect, target, options);
 }
 
-var polyglot = __commonjs(function (module, exports, global) {
+var polyglot$1 = __commonjs(function (module, exports, global) {
     //     (c) 2012 Airbnb, Inc.
     //
     //     polyglot.js may be freely distributed under the terms of the BSD
@@ -1359,7 +1359,7 @@ var polyglot = __commonjs(function (module, exports, global) {
     });
 });
 
-var require$$0 = polyglot && (typeof polyglot === 'undefined' ? 'undefined' : _typeof(polyglot)) === 'object' && 'default' in polyglot ? polyglot['default'] : polyglot;
+var require$$0 = polyglot$1 && (typeof polyglot$1 === 'undefined' ? 'undefined' : _typeof(polyglot$1)) === 'object' && 'default' in polyglot$1 ? polyglot$1['default'] : polyglot$1;
 
 var index = __commonjs(function (module) {
     // Added for convenience in the Node environment.
@@ -1368,6 +1368,18 @@ var index = __commonjs(function (module) {
 });
 
 var Polyglot = index && (typeof index === 'undefined' ? 'undefined' : _typeof(index)) === 'object' && 'default' in index ? index['default'] : index;
+
+var polyglot = new Polyglot();
+function loadLocale(file) {
+    fetch(file).then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        return polyglot.replace(data);
+    });
+}
+function translate(string) {
+    return polyglot.t(string);
+}
 
 function fetchWidget(file) {
     return fetch(w.options.path + ensureTail(file, '.html')).then(function (response) {
@@ -1454,8 +1466,8 @@ w.config = function (options, callback) {
     w.options.preload = options.preload || {};
     w.options.path = options.path || '';
     w.options.logLevel = options.logLevel || 0;
-    w.options.translation = options.translation;
-    preload(w.options.preload, callback);
+    w.options.locale = options.locale;
+    Promise.all([preload(w.options.preload), loadLocale(w.options.locale)]).then(callback);
 };
 w.customize = function (context, target, options) {
     // inherit parent's data
@@ -1482,7 +1494,9 @@ w.transition = function (effect) {
         }
     };
 };
-w.polyglot = w.polyglot = new Polyglot();
+w.locale = loadLocale;
+w.translate = translate;
+w.t = translate;
 
 // development only
 window.w = w;

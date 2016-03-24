@@ -40,6 +40,7 @@ w.register(function() {
             var { color, lang, logo } = this.data
             this.props.dom.login.style['background-color'] = color || '#333'
             this.props.dom.logo.src = logo || ''
+            this.props.dom.login.textContent = w.t('login')
         }
     },
     this.actions.render = {
