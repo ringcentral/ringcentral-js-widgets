@@ -1,6 +1,17 @@
 import rcMessageService from './rc-message-service';
 import { register } from '../service';
 var rcMessageProvider = function() {
+    
+    var messageUpdatedHandlers = [];
+    rcMessageService.onMessageUpdated(() => {
+        messageUpdatedHandlers.forEach(h => {
+            try{
+                h();
+            }catch(e){
+                console.error(e);
+            }
+        });
+    });
 
     function createResult(message) {
         var result = {};
@@ -42,12 +53,15 @@ var rcMessageProvider = function() {
                 return results;
             });
         },
-        getAllMessages: function() {
+        //Return all messages of type 'VoiceMail' and 'Fax'. For SMS and Pager, only last message in a conversation
+        // will be returned.
+        getLastMessagesOfAllType: function() {
             return Promise.resolve(rcMessageService.getAllMessages()).then(messages => {
                 var results = [];
                 var added = {};
                 messages.forEach(message => {
                     var result = createResult(message);
+                    //Combine SMS/Pager messages in conversation
                     if (message.conversationId) {
                         if (!added[message.conversationId]) {
                             added[message.conversationId] = [];
@@ -59,11 +73,14 @@ var rcMessageProvider = function() {
                 });
                 for (var key in added) {
                     if (added.hasOwnProperty(key)) {
-                        results.push(added[key][added[key].length - 1]);
+                        results.push(added[key][0]);
                     }
                 }
                 return results;
             });
+        },
+        onMessageUpdated: function(handler){
+            messageUpdatedHandlers.push(handler);
         }
     };
 }();

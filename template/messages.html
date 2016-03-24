@@ -1,6 +1,6 @@
 <div>
     <div class="rc-pane-header call-log-header">
-        Messages
+        <h1>Messages</h1>
     </div>
     <div class="tabs tabs4 badges">
         <a class="tab active" data-info='allTab' data-value='all' data-event='click:enableTab'>
@@ -25,7 +25,6 @@
         </div>
     </div>
 </div>
-
 <script>
 w.register(function(){
     
@@ -83,7 +82,6 @@ w.register(function(){
             }
         },
         enableTab: {
-            
             after: function(event, type) {
                 enableTab(event.target, currentEnabledTab);
                 currentEnabledTab = event.target;
@@ -95,6 +93,10 @@ w.register(function(){
                 return finish();
             },
             after: function(messages){
+                var root = this.props.dom.messages;
+                while(root.firstChild){
+                    root.removeChild(root.firstChild);
+                }
                 createMessageWidgets(messages, this.props);
             }
         }

@@ -10,10 +10,6 @@ var rcMessageService = function(sdk) {
     var syncToken = null;
     var messageUpdateHandlers = [];
 
-    rcSubscription.subscribe('message-store', '/restapi/v1.0/account/~/extension/~/message-store', (msg) => {
-        incrementalSyncMessages();
-    });
-
     function fullSyncMessages() {
         return sdk.platform().get('/account/~/extension/~/message-sync', {
             dateFrom: new Date(Date.now() - MESSAGES_MAX_AGE_HOURS * 3600 * 1000).toISOString(),
@@ -64,19 +60,28 @@ var rcMessageService = function(sdk) {
 
     function updateMessageList(results) {
         results.forEach(message => {
-            if (!messages[message.type]) {
-                messages[message.type] = [];
-                messages[message.type].push(message);
+            var messageList = messages[message.type];
+            if (!messageList) {
+                if(message.availability === 'Alive'){
+                    messages[message.type] = [];
+                    messages[message.type].splice(0, 0, message);    
+                }
             }else {
                 var index = 0;
-                for (; index < messages[message.type].length; index++) {
-                    if (messages[message.type][index].id === message.id) {
-                        messages[message.type][index] = message;
+                for (; index < messageList.length; index++) {
+                    if (messageList[index].id === message.id) {
+                        if(message.availability === 'Alive'){
+                            messageList[index] = message;
+                        }else{
+                            messageList.splice(index, 1);
+                        }
                         break;
                     }
                 }
-                if (index === messages[message.type].length) {
-                    messages[message.type].push(message);
+                if (index === messageList.length) {
+                    if(message.availability === 'Alive'){
+                        messageList.splice(0, 0, message);
+                    }
                 }
             }
         });
@@ -108,6 +113,11 @@ var rcMessageService = function(sdk) {
                     return concatMessages();
                 });
             }
+        },
+        subscribeToMessageUpdate: function(){
+            rcSubscription.subscribe('message-store', '/restapi/v1.0/account/~/extension/~/message-store', (msg) => {
+                incrementalSyncMessages();
+            });
         },
         onMessageUpdated: function(handler) {
             if (handler) {
