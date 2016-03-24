@@ -1,5 +1,7 @@
 'use strict';
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var sdk = new RingCentral.SDK({
@@ -751,24 +753,33 @@ var functionSet = {
         throw e;
     }
 };
-function register$2(globalSettings) {
-    if (!globalSettings.actions) console.warn('Widgets do not have actions defined, maybe you get some typo.');
+function register$2() {
+    var _ref = arguments.length <= 0 || arguments[0] === undefined ? settings : arguments[0];
 
+    var actions = _ref.actions;
+    var data = _ref.data;
+
+    if (!actions) console.warn('Widgets do not have actions defined, maybe you get some typo.');
     ['init', 'render', 'remove', 'error'].forEach(function (action) {
-        globalSettings.actions[action] = Object.assign(shallowCopy(functionSet), globalSettings.actions[action]);
+        actions[action] = Object.assign(shallowCopy(functionSet), actions[action]);
     });
-    return widget.bind(null, globalSettings);
+    return widget.bind(null, { actions: actions, data: data });
 }
 
-function widget(globalSettings, options) {
+function widget(_ref2, options) {
     var _this = this;
+
+    var actions = _ref2.actions;
+    var _ref2$data = _ref2.data;
+    var data = _ref2$data === undefined ? {} : _ref2$data;
 
     if (!options.internal) {
         return Error('You are trying to construct a widget manually, please use w()');
     }
-    var defaultActions = shallowCopy(globalSettings.actions);
+    var defaultActions = shallowCopy(actions);
     this.props = {};
     this.custom = {};
+    this.data = Object.assign(data, options.data);
     logger = initLogger(options.logLevel);
 
     Object.keys(defaultActions).forEach(function (index) {
@@ -864,13 +875,13 @@ function generateActions(widgetAction) {
         }
 
         var before = function before() {
-            var _ref;
+            var _ref3;
 
             for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
                 args[_key2] = arguments[_key2];
             }
 
-            logger.info('[' + name + '][before](' + (_ref = []).concat.apply(_ref, args) + ')');
+            logger.info('[' + name + '][before](' + (_ref3 = []).concat.apply(_ref3, args) + ')');
             return wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args));
         };
         var method = function method(arg) {
@@ -905,13 +916,13 @@ function wrapUserEvent(widget, user) {
         args[_key3 - 2] = arguments[_key3];
     }
 
-    var _ref2;
+    var _ref4;
 
     var continueDefault = user != null && user.apply(undefined, args);
     if (continueDefault || typeof continueDefault === 'undefined') return widget.apply(undefined, args) || function () {
         return args;
     };
-    return (_ref2 = []).concat.apply(_ref2, args);
+    return (_ref4 = []).concat.apply(_ref4, args);
 }
 
 function nextAction(result, actions, error) {
@@ -992,10 +1003,7 @@ function parseDocument(template) {
     return Promise.all(Array.from(template.querySelectorAll('*')).filter(function (doc) {
         return doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement;
     }).reduce(function (result, doc) {
-        var temp = {};
-        var name = doc.tagName.toLowerCase();
-        temp[name] = name;
-        return result.concat(preload(temp));
+        return result.concat(preload(_defineProperty({}, doc.tagName.toLowerCase(), doc.tagName.toLowerCase())));
     }, []));
 }
 
@@ -1047,14 +1055,15 @@ function w(name) {
     return initNestedWidget(new w.templates[name].widget({
         template: w.templates[name].template.cloneNode(true),
         actions: options.actions || {},
+        data: options.data || {},
         logLevel: w.options.logLevel,
         internal: true // for check it's called by internal
     }));
 }
 w.templates = {};
 w.options = {};
-w.register = function (options) {
-    var settings = new options();
+w.register = function (settings) {
+    var settings = new settings();
     Object.keys(w.templates).forEach(function (index) {
         var template = w.templates[index];
         if (template.template && !template.widget) template.widget = register$2(settings);
@@ -1067,6 +1076,8 @@ w.config = function (options, callback) {
     preload(w.options.preload, callback);
 };
 w.customize = function (context, target, options) {
+    // inherit parent's data
+    options.data = Object.assign(context.data, options.data);
     context.custom[target] = options;
 };
 w.service = getServices;

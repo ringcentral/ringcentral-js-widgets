@@ -19,10 +19,9 @@ function parseDocument(template) {
     return Promise.all(Array.from(template.querySelectorAll('*'))
         .filter(doc => doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement)
         .reduce((result, doc) => {
-            var temp = {}
-            var name = doc.tagName.toLowerCase()
-            temp[name] = name
-            return result.concat(preload(temp))
+            return result.concat(preload({
+                [doc.tagName.toLowerCase()]: doc.tagName.toLowerCase()
+            }))
         }, []))
 }
 
@@ -82,14 +81,15 @@ function w(name, options = {}) {
     return initNestedWidget(new w.templates[name].widget({
         template: w.templates[name].template.cloneNode(true),
         actions: options.actions || {},
+        data: options.data || {},
         logLevel: w.options.logLevel,
         internal: true // for check it's called by internal
     }))
 }
 w.templates = {}
 w.options = {}
-w.register = function(options) {
-    var settings = new options()
+w.register = function(settings) {
+    var settings = new settings()
     Object.keys(w.templates).forEach(index => {
         var template = w.templates[index]
         if (template.template && !template.widget)
@@ -103,6 +103,8 @@ w.config = function(options, callback) {
     preload(w.options.preload, callback)
 }
 w.customize = function(context, target, options) {
+    // inherit parent's data
+    options.data = Object.assign(context.data , options.data)
     context.custom[target] = options
 }
 w.service = getServices

@@ -28,6 +28,7 @@
 <script>
 w.register(function() {
     var fade = w.transition('fade')
+    this.data = { weight: 100 }
     this.actions = w.action('interaction');
     this.actions.init = {
         before: function() {},
@@ -45,6 +46,15 @@ w.register(function() {
             this.props.dom.extension.value = localStorage.getItem('extension');
             this.props.dom.password.value = localStorage.getItem('password');
             fade.in(this.props.root);
+        }
+    },
+    this.actions.remove = {
+        before: function() {
+            fade.out(this.props.root, {
+                after: () => {
+                    this.remove();
+                }
+            });
         }
     },
     this.actions.login = {
@@ -68,11 +78,7 @@ w.register(function() {
                 localStorage.setItem('extension', this.props.dom.extension.value || '');
                 localStorage.setItem('password', this.props.dom.password.value || '');
             }
-            fade.out(this.props.root, {
-                after: () => {
-                    this.remove();
-                }
-            });
+            
         },
         error: function(err) {
             console.error(err);
