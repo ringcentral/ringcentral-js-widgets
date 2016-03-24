@@ -81,6 +81,10 @@ h1 {
     color: #fff;
 }
 
+.rc-image {
+    max-width: 100%;
+}
+
 .rc-button:hover {
     background-color: #bdc3c7;
 }

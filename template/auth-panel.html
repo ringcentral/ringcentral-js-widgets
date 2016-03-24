@@ -1,5 +1,6 @@
 <div class='rc-panel rc-auth'>
     <div class='rc-pane-header'>
+        <img class='rc-image' data-info='logo'>
         <h1>Login</h1>
     </div>
     <div class='rc-pane-content'>
@@ -38,6 +39,7 @@ w.register(function() {
             this.props.country = 'United States'
             var { color, lang, logo } = this.data
             this.props.dom.login.style['background-color'] = color || '#333'
+            this.props.dom.logo.src = logo || ''
         }
     },
     this.actions.render = {

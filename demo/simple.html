@@ -33,7 +33,15 @@
         preload: {
             'rc-phone': 'rc-phone'
         },
-    }, function() { w('rc-phone').render('#phone'); })
+    }, function() {
+        w('rc-phone', {
+            data: {
+                color: '#eee',
+                logo: 'ringcentral_logo.png',
+                lang: 'en-us'
+            }
+        }).render('#phone'); 
+    })
     </script>
 </body>
 

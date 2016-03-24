@@ -15,7 +15,7 @@
 <script>
 w.register(function() {
     this.actions = {
-        init: {
+        render: {
             after: function() {
                 var phoneService = w.service()['phoneService'];
                 var loginService = w.service()['loginService'];
@@ -27,9 +27,10 @@ w.register(function() {
                 var rcContactSearchProvider = w.service()['rcContactSearchProvider'];
                 
                 var dialPadSearchProviders = [rcContactSearchProvider];
-                init();
+                init.call(this);
                 function init() {
                     var authPanel = w('auth-panel', {
+                        data: this.data,
                         actions: {
                             login: {
                                 method: function() {
@@ -55,23 +56,23 @@ w.register(function() {
                         }
                     })
                     
-                    // authPanel.render('#auth-panel');
-                    loginService.checkLoginStatus().then(
-                        isLoggedIn => {
-                            if (isLoggedIn) {
-                                return Promise.all([
-                                        accountService.getAccountInfo(),
-                                        accountService.getPhoneNumber(),
-                                        rcContactService.syncCompanyContact(),
-                                        phoneService.registerSIP(),
-                                        callLogService.getCallLogs()
-                                    ])
-                                    .then(afterLogin)
-                                    .catch(err => console.error(err))
-                            } else
-                                authPanel.render('#auth-panel');
-                        }
-                    );
+                    authPanel.render('#auth-panel');
+                    // loginService.checkLoginStatus().then(
+                    //     isLoggedIn => {
+                    //         if (isLoggedIn) {
+                    //             return Promise.all([
+                    //                     accountService.getAccountInfo(),
+                    //                     accountService.getPhoneNumber(),
+                    //                     rcContactService.syncCompanyContact(),
+                    //                     phoneService.registerSIP(),
+                    //                     callLogService.getCallLogs()
+                    //                 ])
+                    //                 .then(afterLogin)
+                    //                 .catch(err => console.error(err))
+                    //         } else
+                    //             authPanel.render('#auth-panel');
+                    //     }
+                    // );
 
                     function afterLogin() {
                         var dialPad = w('dial-pad', {
