@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../src/styles/main.css">
     <link rel="stylesheet" type="text/css" href="../src/styles/transition.css">
     <link rel="stylesheet" type="text/css" href="../src/styles/call-log.css">
+    <link rel="stylesheet" type="text/css" href="../src/styles/messages.css">
     <style type="text/css">
     html {
         height: 100%;
@@ -45,6 +46,7 @@
             <div class='panel' id="dial-pad"></div>
             <div class='panel' id="compose-text"></div>
             <div class='panel' id="call-panel"></div>
+            <div class='panel' id="messages-panel"></div>
             <div class='panel' id="call-log"></div>
         </div>
     </div>
@@ -60,9 +62,10 @@
             'call-panel': 'call-panel',
             'tool-bar': 'tool-bar',
             'compose-text': 'compose-text',
-            'call-log': 'call-log'
+            'call-log': 'call-log',
+            'messages': 'messages'
         },
-        logLevel: 2 /* 0 for error only, 1 for error and warning, 2 for error and warning and log */
+        logLevel: 0 /* 0 for error only, 1 for error and warning, 2 for error and warning and log */
     }, init)
     var phoneService = w.service()['phoneService'];
     var loginService = w.service()['loginService'];
@@ -72,6 +75,8 @@
     var contactSearchService = w.service()['contactSearchService'];
     var messageService = w.service()['messageService'];
     var rcContactSearchProvider = w.service()['rcContactSearchProvider'];
+    var rcMessageService = w.service()['rcMessageService'];
+    var rcMessageProvider = w.service()['rcMessageProvider'];
     
     var dialPadSearchProviders = [rcContactSearchProvider];
 
@@ -85,7 +90,12 @@
                             this.props.username,
                             this.props.extension,
                             this.props.password
-                        )
+                        ).then(()=>{
+                            Promise.all([
+                                rcMessageService.subscribeToMessageUpdate(),
+                                rcMessageService.syncMessages()
+                            ]).catch(err => console.error(err));
+                        })
                     },
                     after: function() {
                         authPanel.remove()
@@ -98,7 +108,8 @@
                             return Promise.all([
                                 rcContactService.syncCompanyContact(),
                                 phoneService.registerSIP(),
-                                callLogService.getCallLogs()
+                                callLogService.getCallLogs(),
+                                
                             ])
                         })
                         .catch(err => console.error(err))
@@ -213,7 +224,24 @@
                         }
                     }
                 }
-            })
+            });
+            var messageWidget = w('messages', {
+                actions: {
+                    render: {
+                        after: function(){
+                            rcMessageProvider.onMessageUpdated(() => {
+                                this.refreshMessages();
+                            });
+                        }
+                    },
+                    refreshMessages: {
+                        method: function(){
+                            return rcMessageProvider.getLastMessagesOfAllType();
+                        }
+                    }
+                }
+            });
+            
             var toolbar = w('tool-bar', {
                 actions: {
                     init: {
@@ -229,9 +257,14 @@
                                 pos = -250;
                                 document.querySelector('.container').style.transform = 'translateX(-250px)';
                             });
-                            this.clickItem(this.addItem('<img src="../src/styles/images/call_log_normal.png">'), function() {
+                            this.clickItem(this.addItem('<img src="../src/styles/images/message_normal.png">'),
+                             function() {
                                 pos = -500;
                                 document.querySelector('.container').style.transform = 'translateX(-500px)';
+                            });
+                            this.clickItem(this.addItem('<img src="../src/styles/images/call_log_normal.png">'), function() {
+                                pos = -750;
+                                document.querySelector('.container').style.transform = 'translateX(-750px)';
                             });
                             this.clickItem(
                                 this.addItem(
@@ -255,10 +288,12 @@
                             dialPad.render('#dial-pad');
                             composeText.render('#compose-text');
                             callLog.render('#call-log');
+                            messageWidget.render('#messages-panel')
                         }
                     }
                 }
-            })
+            });
+            
             callPanel.render('#call-panel');
             toolbar.render('#toolbar');
             function logout() {
