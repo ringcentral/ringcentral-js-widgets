@@ -100,7 +100,7 @@ w.config = function(options, callback) {
     w.options.preload = options.preload || {}
     w.options.path = options.path || ''
     w.options.logLevel = options.logLevel || 0
-    w.options.locale = options.locale
+    w.options.locale = options.locale || {}
     Promise.all([
         preload(w.options.preload),
         Object.keys(w.options.locale).forEach(index => {
