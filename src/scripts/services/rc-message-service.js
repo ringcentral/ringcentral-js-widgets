@@ -10,10 +10,6 @@ var rcMessageService = function(sdk) {
     var syncToken = null;
     var messageUpdateHandlers = [];
 
-    rcSubscription.subscribe('message-store', '/restapi/v1.0/account/~/extension/~/message-store', (msg) => {
-        incrementalSyncMessages();
-    });
-
     function fullSyncMessages() {
         return sdk.platform().get('/account/~/extension/~/message-sync', {
             dateFrom: new Date(Date.now() - MESSAGES_MAX_AGE_HOURS * 3600 * 1000).toISOString(),
@@ -117,6 +113,11 @@ var rcMessageService = function(sdk) {
                     return concatMessages();
                 });
             }
+        },
+        subscribeToMessageUpdate: function(){
+            rcSubscription.subscribe('message-store', '/restapi/v1.0/account/~/extension/~/message-store', (msg) => {
+                incrementalSyncMessages();
+            });
         },
         onMessageUpdated: function(handler) {
             if (handler) {
