@@ -54,6 +54,9 @@
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
     <script type="text/javascript" src="../build/build.js"></script>
     <script type="text/javascript">
+    var options = {
+        lang: 'en-us'
+    };
     w.config({
         path: '../template/',
         preload: {
@@ -64,6 +67,10 @@
             'compose-text': 'compose-text',
             'call-log': 'call-log',
             'messages': 'messages'
+        },
+        locale: {
+            'zh-tw': 'zh-tw.json',
+            'en-us': 'en-us.json'
         },
         logLevel: 0 /* 0 for error only, 1 for error and warning, 2 for error and warning and log */
     }, init)
@@ -82,7 +89,7 @@
 
     function init() {
         var authPanel = w('auth-panel', {
-            data : { weight: 120, height: 200 },
+            data : { weight: 120, height: 200, lang: 'en-us' },
             actions: {
                 login: {
                     method: function() {
@@ -226,6 +233,7 @@
                 }
             });
             var messageWidget = w('messages', {
+                data: options,
                 actions: {
                     render: {
                         after: function(){

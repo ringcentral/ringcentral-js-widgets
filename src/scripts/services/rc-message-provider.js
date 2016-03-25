@@ -28,13 +28,8 @@ var rcMessageProvider = function() {
                 result.contact = message.from.phoneNumber;
             }
         }
-        //TODO: Use localization string instead of plain text
         if (message.type === 'SMS' || message.type === 'Pager') {
             result.subject = message.subject;
-        }else if (message.type === 'VoiceMail') {
-            result.subject = 'Voice Message';
-        }else if (message.type === 'Fax') {
-            result.subject = 'Fax';
         }
         result.readStatus = message.readStatus;
         result.type = message.type;

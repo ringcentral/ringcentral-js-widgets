@@ -1,4 +1,10 @@
 {
     "login": "登入",
-    "remember me": "記得我"
+    "remember me": "記得我",
+    "messages-tab-all": "所有消息",
+    "messages-tab-voicemail": "語音郵件",
+    "messages-tab-fax": "傳真",
+    "messages-tab-text": "簡訊",
+    "message-item-voicemail-text": "語音郵件",
+    "message-item-fax-text": "傳真"
 }

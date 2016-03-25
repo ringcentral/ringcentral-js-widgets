@@ -1,7 +1,4 @@
 <div>
-    <div class="rc-pane-header call-log-header">
-        <h1>Messages</h1>
-    </div>
     <div class="tabs tabs4 badges">
         <a class="tab active" data-info='allTab' data-value='all' data-event='click:enableTab'>
             All
@@ -37,9 +34,10 @@ w.register(function(){
         }
     }
     
-    function createMessageWidgets(messages, props){
+    function createMessageWidgets(messages, parent){
         messages.forEach(function(message){
             var widget = w('message-item', {
+                data: parent.data,
                 actions:{
                     init:{
                         method:function(){
@@ -48,8 +46,8 @@ w.register(function(){
                     }
                 }
             }); 
-            widget.render(props.dom.messages);
-            props.widgetItems.push(widget);
+            widget.render(parent.props.dom.messages);
+            parent.props.widgetItems.push(widget);
         });
     }
     
@@ -74,6 +72,11 @@ w.register(function(){
             },
             after: function() {
                 currentEnabledTab = this.props.dom.allTab;
+                var t = w.t(this.data.lang);
+                this.props.dom.allTab.textContent = t('messages-tab-all');
+                this.props.dom.voiceMailTab.textContent = t('messages-tab-voicemail');
+                this.props.dom.faxTab.textContent = t('messages-tab-fax');
+                this.props.dom.textTab.textContent = t('messages-tab-text');
             }
         },
         render: {
@@ -97,7 +100,7 @@ w.register(function(){
                 while(root.firstChild){
                     root.removeChild(root.firstChild);
                 }
-                createMessageWidgets(messages, this.props);
+                createMessageWidgets(messages, this);
             }
         }
     }
