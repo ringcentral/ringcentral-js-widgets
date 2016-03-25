@@ -49,7 +49,7 @@ w.register(function() {
                                         callLogService.getCallLogs()
                                     ])
                                     .then(afterLogin)
-                                    .then(() => {authPanel.remove()})
+                                    .then(() => authPanel.remove())
                                     .catch(err => console.error(err))
                                 }
                             }

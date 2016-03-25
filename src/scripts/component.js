@@ -73,7 +73,10 @@ function widget({actions, data = {}}, options) {
             logger.warn('first argument of render method should be selector string or dom')
         }
         // the template can only have one root
-        this.props.target = shallowCopy(Array.from(template.childNodes))[0]
+        this.props.target = shallowCopy(
+            Array.from(template.childNodes)
+                .filter(node => node.nodeType === 1)
+        )[0]
         target.appendChild(template)
         callback && isFunction(callback) && callback()
         if (widgetRender && isFunction(widgetRender))
