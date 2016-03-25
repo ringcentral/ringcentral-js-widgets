@@ -34,9 +34,10 @@ w.register(function(){
         }
     }
     
-    function createMessageWidgets(messages, props){
+    function createMessageWidgets(messages, parent){
         messages.forEach(function(message){
             var widget = w('message-item', {
+                data: parent.data,
                 actions:{
                     init:{
                         method:function(){
@@ -45,8 +46,8 @@ w.register(function(){
                     }
                 }
             }); 
-            widget.render(props.dom.messages);
-            props.widgetItems.push(widget);
+            widget.render(parent.props.dom.messages);
+            parent.props.widgetItems.push(widget);
         });
     }
     
@@ -99,7 +100,7 @@ w.register(function(){
                 while(root.firstChild){
                     root.removeChild(root.firstChild);
                 }
-                createMessageWidgets(messages, this.props);
+                createMessageWidgets(messages, this);
             }
         }
     }

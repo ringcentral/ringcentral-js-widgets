@@ -22,12 +22,17 @@ w.register(function(){
             if(item.readStatus === 'Unread'){
                 this.props.dom.message.classList.add('not-read');
             }
-            
             this.props.dom.icon.classList.add("message-type-" + item.type.toLowerCase());
-
             this.props.dom.time.textContent = item.time;
             this.props.dom.contact.textContent = item.contact;
-            this.props.dom.text.textContent = item.subject;
+            var t = w.t(this.data.lang);
+            if(item.type === 'Fax'){
+                this.props.dom.text.textContent = t('fax-message-text');
+            }else if(item.type === 'VoiceMail'){
+                this.props.dom.text.textContent = t('voicemail-message-text');    
+            }else{
+                this.props.dom.text.textContent = item.subject;
+            }
         }
     };
     this.actions.open = {

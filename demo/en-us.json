@@ -1,9 +1,10 @@
 {
     "login": "login",
     "remember me": "remember me",
-    //Messages
     "all-messages": "All",
-    "voicemail-messages": "VoiceMail",
+    "voicemail-messages": "Voice",
     "fax-messages": "Fax",
-    "text-messages": "Text"
+    "text-messages": "Text",
+    "voicemail-message-text": "VoiceMail Received",
+    "fax-message-text": "Fax Received"
 }
