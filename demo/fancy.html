@@ -35,6 +35,13 @@
         float: left;
         width: 250px;
     }
+    .demo-span {
+        display: inline-block;
+        border: 1px solid black;
+        margin: 3px;
+        padding: 3px;
+        cursor: pointer;
+    }
     </style>
 </head>
 
@@ -42,35 +49,30 @@
     <div id='phone'></div>
     <div class='control-panel'>
         <div>
-            <span>page:</span>
-            <button onclick='rerun()'>Login</button>
-            <button onclick='rerun()'>Main</button>
-        </div>
-        <div>
-            <span>color:</span>
-            <input onblur='rerun(this.value)'></input>
-        </div>
-        <div>
-            <span>language:</span>
-            <button 
-            data-value='en-us'
-            onclick='rerun(null,null,this.getAttribute("data-value"))'>English
-            </button>
-            <button 
-            data-value='zh-tw'
-            onclick='rerun(null,null,this.getAttribute("data-value"))'>Chinese
-            </button>
-        </div>
-        <div>
-            <span>logo:</span>
-            <button 
-                data-value='ringcentral_logo.png' 
-                onclick='rerun(null,this.getAttribute("data-value"))'>RingCentral
-            </button>
-            <button 
-                data-value='fb.png' 
-                onclick='rerun(null,this.getAttribute("data-value"))'>Facebook
-            </button>
+            <code>
+            <pre>
+                phone = w('rc-phone', {
+                    data: {
+                        color: <input onblur='rerun(this.value)'></input>
+                        logo: <span 
+                                class='demo-span'
+                                data-value='ringcentral_logo.png' 
+                                onclick='rerun(null,this.getAttribute("data-value"))'>RingCentral</span><span
+                                class='demo-span' 
+                                data-value='fb.png' 
+                                onclick='rerun(null,this.getAttribute("data-value"))'>Facebook</span>
+                        lang: <span 
+                                class='demo-span'
+                                data-value='en-us'
+                                onclick='rerun(null,null,this.getAttribute("data-value"))'>English</span><span
+                                class='demo-span' 
+                                data-value='zh-tw'
+                                onclick='rerun(null,null,this.getAttribute("data-value"))'>Chinese</span>
+                    }
+                })
+                phone.render('#phone'); 
+            </pre>
+            </code>
         </div>
     </div>
     <script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
