@@ -73,10 +73,10 @@ w.register(function(){
             after: function() {
                 currentEnabledTab = this.props.dom.allTab;
                 var t = w.t(this.data.lang);
-                this.props.dom.allTab.textContent = t('all-messages');
-                this.props.dom.voiceMailTab.textContent = t('voicemail-messages');
-                this.props.dom.faxTab.textContent = t('fax-messages');
-                this.props.dom.textTab.textContent = t('text-messages');
+                this.props.dom.allTab.textContent = t('messages-tab-all');
+                this.props.dom.voiceMailTab.textContent = t('messages-tab-voicemail');
+                this.props.dom.faxTab.textContent = t('messages-tab-fax');
+                this.props.dom.textTab.textContent = t('messages-tab-text');
             }
         },
         render: {

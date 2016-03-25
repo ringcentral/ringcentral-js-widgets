@@ -27,9 +27,9 @@ w.register(function(){
             this.props.dom.contact.textContent = item.contact;
             var t = w.t(this.data.lang);
             if(item.type === 'Fax'){
-                this.props.dom.text.textContent = t('fax-message-text');
+                this.props.dom.text.textContent = t('message-item-fax-text');
             }else if(item.type === 'VoiceMail'){
-                this.props.dom.text.textContent = t('voicemail-message-text');    
+                this.props.dom.text.textContent = t('message-item-voicemail-text');    
             }else{
                 this.props.dom.text.textContent = item.subject;
             }
