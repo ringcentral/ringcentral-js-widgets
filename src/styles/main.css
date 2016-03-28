@@ -88,7 +88,9 @@
 \*------------------------------------*/
 
 .rc-list {
-    &__item {}
+    &__item {
+        padding: .5em .7em;
+    }
 }
 .rc-block {}
 .rc-img {}
@@ -105,7 +107,7 @@
     position: relative; 
     
     &__header {
-        background: $rc-bule;
+        background: $rc-blue;
     }
     &__content {
     }
@@ -121,11 +123,25 @@
         border-radius: 50%;
     }
 }
-.rc-input {}
+.rc-input {
+    width: 100%;
+    padding: .5em;
+    &--clean {
+        background: transparent;
+        color: #fff;
+        border: 0;
+    }
+}
+.rc-tag {
+    border: 1px solid $rc-blue;
+    padding: .1em 0.3em;
+}
 
 @import "old.css";
 @import "widgets/call-log.css";
+@import "widgets/contact-picker.css";
 @import "widgets/dial-pad.css";
+@import "widgets/dropdown.css";
 @import "widgets/messages.css";
 
 /*------------------------------------*\
@@ -133,6 +149,9 @@
 \*------------------------------------*/
 @import "transition.css";
 
+/**
+* Some common use cases
+*/
 .float-right {
     float: right;
 }
@@ -143,3 +162,9 @@
     display: none;
 }
 
+/**
+* Atomic degisn methodology
+*/
+@for $i from 1 to 10 {
+    .margin-top-$i { margin-top: $(i)0px; }
+}

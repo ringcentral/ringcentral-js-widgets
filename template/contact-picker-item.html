@@ -1,17 +1,6 @@
-<style>
-.contact {
-    font-size: 14px;
-    padding: 5px 10px;
-}
-
-.contact:hover {
-    background-color: #3498db;
-    color: #fff;
-}
-</style>
-<div class='contact' data-event='click:select'>
-    <div data-info='name'></div>
-    <div data-info='value'></div>    
+<div class='rc-contact rc-list__item' data-event='click:select'>
+    <span class='rc-contact__name rc-tag' data-info='name'></span>
+    <span class='rc-contact__value' data-info='value'></span>
 </div>
 <script>
 w.register(function() {

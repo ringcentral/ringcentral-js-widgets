@@ -1,0 +1,14 @@
+.rc-dropdown {
+    width: 100%;
+    background: $bg-color;
+    border: 0;
+    border-bottom: 1px solid #000;
+    padding: 3px 0;
+}
+.rc-dropdown-list {
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    overflow: auto;
+    background: #fff;
+}

@@ -1,0 +1,20 @@
+.rc-contact-picker {
+    width: 100%;
+    &__input {
+        font-size: 1.8em;
+        letter-spacing: 0.05em;
+    }
+}
+.rc-contacts {
+    position: absolute;
+    width: 100%;
+    max-height: 100%;
+    overflow: auto;
+    background: #fff;
+}
+
+.rc-contact {
+    font-size: .9em;
+    &__name {}
+    &__value {}
+}

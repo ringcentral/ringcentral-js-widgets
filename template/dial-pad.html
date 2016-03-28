@@ -1,24 +1,24 @@
 <div class='rc-panel'>
     <div class='rc-panel__header'>
-        <dropdown data-info='dropdown'></dropdown>
+        <contact-picker data-info='contact-picker'></contact-picker>
     </div>
     <div class='rc-panel__content'>
         <div class='rc-mask display-none' data-info='disabled-mask'>
             <div class='rc-mask-message'>Sorry, your account doesn't not have Web Phone permission.</div>
         </div>
-        <contact-picker data-info='contact-picker'></contact-picker>
-        <div class='rc-dial-pad'>
+        <dropdown data-info='dropdown'></dropdown>
+        <div class='rc-dial-pad margin-top-2'>
             <div class='rc-dial-line'>
                 <button 
                     class='rc-button rc-button--round rc-dial-button' 
-                    data-info='dial-button-1' 
+                    data-info='dial-button-1'
                     data-value='1' 
                     data-event='click:dialing'>
                     <div class='rc-dial-button__number'>1</div>
                 </button>
                 <button 
                     class='rc-button rc-button--round rc-dial-button' 
-                    data-info='dial-button-2' 
+                    data-info='dial-button-2'
                     data-value='2' 
                     data-event='click:dialing'>
                     <div class='rc-dial-button__number'>2</div>
@@ -26,7 +26,7 @@
                 </button>
                 <button 
                     class='rc-button rc-button--round rc-dial-button' 
-                    data-info='dial-button-3' 
+                    data-info='dial-button-3'
                     data-value='3' 
                     data-event='click:dialing'>
                     <div class='rc-dial-button__number'>3</div>
@@ -36,24 +36,24 @@
             <div class='rc-dial-line'>
                 <button 
                     class='rc-button rc-button--round rc-dial-button' 
-                    data-info='dial-button-4' 
-                    data-value='4' 
+                    data-info='dial-button-4'
+                    data-value='4'
                     data-event='click:dialing'>
                     <div class='rc-dial-button__number'>4</div>
                     <div class='rc-dial-button__symbol'>GHI</div>
                 </button>
                 <button 
                     class='rc-button rc-button--round rc-dial-button' 
-                    data-info='dial-button-5' 
-                    data-value='5' 
+                    data-info='dial-button-5'
+                    data-value='5'
                     data-event='click:dialing'>
                     <div class='rc-dial-button__number'>5</div>
                     <div class='rc-dial-button__symbol'>JKL</div>
                 </button>
                 <button 
                     class='rc-button rc-button--round rc-dial-button' 
-                    data-info='dial-button-6' 
-                    data-value='6' 
+                    data-info='dial-button-6'
+                    data-value='6'
                     data-event='click:dialing'>
                     <div class='rc-dial-button__number'>6</div>
                     <div class='rc-dial-button__symbol'>MNO</div>
@@ -62,7 +62,7 @@
             <div class='rc-dial-line'>
                 <button 
                     class='rc-button rc-button--round rc-dial-button' 
-                    data-info='dial-button-7' 
+                    data-info='dial-button-7'
                     data-value='7' 
                     data-event='click:dialing'>
                     <div class='rc-dial-button__number'>7</div>
@@ -70,7 +70,7 @@
                 </button>
                 <button 
                     class='rc-button rc-button--round rc-dial-button' 
-                    data-info='dial-button-8' 
+                    data-info='dial-button-8'
                     data-value='8' 
                     data-event='click:dialing'>
                     <div class='rc-dial-button__number'>8</div>
@@ -78,7 +78,7 @@
                 </button>
                 <button 
                     class='rc-button rc-button--round rc-dial-button' 
-                    data-info='dial-button-9' 
+                    data-info='dial-button-9'
                     data-value='9' 
                     data-event='click:dialing'>
                     <div class='rc-dial-button__number'>9</div>
@@ -88,7 +88,7 @@
             <div class='rc-dial-line'>
                 <button 
                     class='rc-button rc-button--round rc-dial-button' 
-                    data-info='dial-button-0' 
+                    data-info='dial-button-0'
                     data-value='0' 
                     data-event='click:dialing'>
                     <div class='rc-dial-button__number'>0</div>
@@ -156,6 +156,8 @@ w.register(function() {
     this.actions.dialing = {
         method: function(finish) {
             var button = event.target;
+            if (!button.getAttribute('data-value')) // click on the number or symbol
+                button = button.parentNode
             var cp = this.props['contact-picker'];
             cp.appendInput(button.getAttribute('data-value'));
             return finish();

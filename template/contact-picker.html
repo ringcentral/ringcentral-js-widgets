@@ -1,30 +1,9 @@
-<style>
-.contact-picker .contacts {
-    position: absolute;
-    background-color: #fff;
-    width: 228px;
-    height: 300px;
-    overflow: auto;
-    padding: 2px 0;
-    margin-top: 1px;
-    border: 1px solid #878787;
-    color: #878787;
-}
-
-.contact-picker .contact {
-    font-size: 14px;
-    padding: 5px 10px;
-}
-
-.contact-picker .contact:hover {
-    background-color: #3498db;
-    color: #fff;
-}
-
-</style>
-<div class='contact-picker'>
-    <input class='rc-input' placeholder="To: Enter name or number" data-info='input' data-event='input:autoComplete|focus:autoComplete'></input>
-    <div data-info='contacts' class='contacts'>
+<div class='rc-contact-picker'>
+    <input  class='rc-input rc-input--clean rc-contact-picker__input' 
+            data-info='input' 
+            data-event='input:autoComplete|focus:autoComplete'>
+    </input>
+    <div class='rc-contacts rc-list' data-info='contacts'>
         <contact-picker-item dynamic></contact-picker-item>
     </div>
 </div>
@@ -99,8 +78,8 @@ w.register(function() {
             after: function(contacts) {
                 if (!contacts)
                     return;
-                while (this.props.dom.contacts.firstChild)
-                    this.props.dom.contacts.removeChild(this.props.dom.contacts.firstChild);
+                // while (this.props.dom.contacts.firstChild)
+                //     this.props.dom.contacts.removeChild(this.props.dom.contacts.firstChild);
                 if (contacts.length > 0)
                     this.show();
                 else

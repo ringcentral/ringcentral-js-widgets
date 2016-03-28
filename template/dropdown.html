@@ -1,5 +1,10 @@
-<button class='rc-dropdown' data-info='dropdown' data-event='click:collapse'>Outbound caller ID</button>
-<div class='rc-dropdown-list' data-info='list'>
+<div>
+    <button class='rc-dropdown rc-list'
+            data-info='dropdown'
+            data-event='click:collapse'>Outbound caller ID</button>
+    <div    class='rc-dropdown-list' 
+            data-info='list'>
+    </div>
 </div>
 <script>
 w.register(function() {
@@ -22,12 +27,13 @@ w.register(function() {
         },
         addItem: {
             after: function(text) {
-                var div = document.createElement('div');
-                div.textContent = text;
-                div.addEventListener('click', e => {
+                var item = document.createElement('div')
+                item.classList.add('rc-list__item', 'rc-dropdown-list__item')
+                item.textContent = text;
+                item.addEventListener('click', e => {
                     this.switchTitle(text);
                 });
-                this.props.dom['list'].appendChild(div);
+                this.props.dom['list'].appendChild(item);
             }
         },
         getSelected: {
