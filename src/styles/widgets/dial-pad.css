@@ -1,0 +1,21 @@
+.rc-dial-pad {
+
+}
+.rc-dial-line {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    & > .rc-dial-button {
+        margin: 5px 10px;
+    }
+}
+.rc-dial-button {
+    border-radius: 50%;
+    color: $rc-blue;
+    &__number {
+        text-weight: bolder;
+    }
+    &__symbol {
+        font-size: .5em;
+    }
+}

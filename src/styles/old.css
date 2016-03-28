@@ -1,0 +1,112 @@
+
+.rc-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: 12px;
+}
+
+.rc-input:focus {
+    border-color: #878787;
+}
+
+.rc-image {
+    max-width: 100%;
+}
+.rc-dropdown {
+    width: 100%;
+    border: 1px solid #7f8c8d;
+    background-color: #fff;
+    border-radius: 2px;
+    padding: 8px;
+    font-weight: lighter;
+}
+.rc-dropdown-list {
+    position: absolute;
+    background-color: #fff;
+    width: 225px;
+    padding: 2px 0;
+    border: 1px solid #878787;
+    font-weight: lighter;
+    max-height: 200px;
+    overflow: auto;
+}
+.rc-dropdown-list > div {
+    padding: 5px 5px;
+    cursor: pointer;
+}
+.rc-dropdown-list > div:hover {
+    background-color: #3498db;
+    color: #fff;
+}
+.rc-panel .rc-input,
+.rc-panel .rc-button,
+.rc-panel .rc-dropdown {
+    margin-bottom: 10px;
+}
+
+.rc-sub-panel {
+    font-size: 12px;
+    padding: 5px;
+}
+
+.rc-message {
+    font-size: 12px;
+    color: #878787;
+}
+
+.rc-error-message {
+    min-height: 30px;
+    font-size: 12px;
+    color: #e74c3c;
+}
+.rc-logs {
+    max-height: 500px;
+}
+.rc-calllog {
+    border-bottom: 1px solid #878787;
+}
+
+.rc-calllog-name {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.rc-calllog-time {
+    font-size: 12px;
+}
+
+.rc-calllog-type {
+    font-size: 12px;
+}
+
+.rc-mask {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #000;
+    opacity: .5;
+}
+.rc-mask-message {
+    color: #fff;
+    line-height: 2;
+}
+.rc-toolbar {
+    padding: 10px 5px;
+}
+.rc-toolbar-item {
+    background: #fff;
+    border: 0;
+    margin: 2px;
+}
+.rc-textarea {
+    width: 100%;
+    max-width: 100%;
+    min-height: 150px;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: lighter;
+}

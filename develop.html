@@ -3,8 +3,7 @@
 <head>
     <title>RingCentral JS Widget Develop Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="src/styles/normalize.css">
-    <link rel="stylesheet" type="text/css" href="src/styles/main.css">
+    <link rel="stylesheet" type="text/css" href="build/styles/main.css">
 </head>
 <body>
     <div>
@@ -14,6 +13,19 @@
     <script type="text/javascript" src="bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
     <script type="text/javascript" src='build/build.js'></script>
     <script type="text/javascript">
+        w.config({
+            path: './template/',
+            preload: {
+                'dial-pad': 'dial-pad',
+            },
+            locale: {
+                'zh-tw': 'zh-tw.json',
+                'en-us': 'en-us.json'
+            },
+            logLevel: 0 /* 0 for error only, 1 for error and warning, 2 for error and warning and log */
+        }, function() {
+            w('dial-pad').render('#dev-panel')
+        })
     </script>
 </body>
 </html>

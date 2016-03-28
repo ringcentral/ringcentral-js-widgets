@@ -15,7 +15,7 @@ var postcss = require('gulp-postcss')
 
 gulp.task('compile', () => {
     watch('./src/scripts/**/**', compile)
-    watch('./src/styles/*.css', styles)
+    watch('./src/styles/**/**', styles)
     styles()
     return compile()
 })
