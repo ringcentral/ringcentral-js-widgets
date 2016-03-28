@@ -5,6 +5,9 @@
 .rc-auth .rc-image {
     width: 100px;
 }
+.rc-auth .rc-button {
+    width: 100%;
+}
 </style>
 <div class='rc-panel rc-auth'>
     <div class='rc-pane-header'>
@@ -13,27 +16,24 @@
         </div>
         <h1>Login</h1>
     </div>
-    <div class='rc-pane-content'>
-        <div class='rc-pane-scrollable'>
-            <button class='rc-dropdown' data-info='country-dropdown' data-event='click:showCountry'>United States</button>
-            <div class='rc-dropdown-list display-none' data-info='country-list'>
-                <div data-event='click:switchCountry'>United States</div>
-                <div data-event='click:switchCountry'>United Kingdom</div>
-                <div data-event='click:switchCountry'>Canada</div>
-            </div>
-            <input class='rc-input' data-info='username' placeholder="username"></input>
-            <input class='rc-input' data-info='extension' placeholder="extension"></input>
-            <input class='rc-input' data-info='password' placeholder="password" type='password'></input>
-            <button class='rc-button' data-info='login' data-event='click:login'>Login</button>
-            <div>
-                <label for='remember'>Remember me:</label>
-                <input id='remember' type='checkbox' data-info='remember' checked>
-            </div>
-            <div class='rc-error-message' data-info='error'></div>
+    <div class='rc-panel__content'>
+        <button class='rc-dropdown' data-info='country-dropdown' data-event='click:showCountry'>United States</button>
+        <div class='rc-dropdown-list display-none' data-info='country-list'>
+            <div data-event='click:switchCountry'>United States</div>
+            <div data-event='click:switchCountry'>United Kingdom</div>
+            <div data-event='click:switchCountry'>Canada</div>
         </div>
+        <input class='rc-input' data-info='username' placeholder="username"></input>
+        <input class='rc-input' data-info='extension' placeholder="extension"></input>
+        <input class='rc-input' data-info='password' placeholder="password" type='password'></input>
+        <button class='rc-button' data-info='login' data-event='click:login'>Login</button>
+        <div>
+            <label for='remember'>Remember me:</label>
+            <input id='remember' type='checkbox' data-info='remember' checked>
+        </div>
+        <div class='rc-error-message' data-info='error'></div>
     </div>
-    <div class='rc-pane-footer' data-info='footer'></div>
-    <div class="fb-like" data-share="true" data-width="200">
+    <div class='rc-panel__footer' data-info='footer'></div>
     </div>
 </div>
 <script>

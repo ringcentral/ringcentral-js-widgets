@@ -48,13 +48,23 @@
 
 
 
+
+
 /*------------------------------------*\
     #SETTINGS
 \*------------------------------------*/
 
+
+
+
+
 /*------------------------------------*\
     #TOOLS
 \*------------------------------------*/
+
+
+
+
 
 /*------------------------------------*\
     #GENERIC
@@ -461,6 +471,10 @@ td, th {
     outline: none
 }
 
+
+
+
+
 /*------------------------------------*\
     #BASE
 \*------------------------------------*/
@@ -479,6 +493,10 @@ td, th {
 .rc-block {}
 .rc-img {}
 .rc-fullscreen {}
+
+
+
+
 
 /*------------------------------------*\
     #COMPONENTS
@@ -762,6 +780,7 @@ td, th {
     letter-spacing: 0.05em;
 }
 .rc-contacts {
+    box-shadow: 0 0 3px #000;
     position: absolute;
     width: 100%;
     max-height: 100%;
@@ -801,8 +820,10 @@ td, th {
     border: 0;
     border-bottom: 1px solid #000;
     padding: 3px 0;
+    font-size: .9em;
 }
 .rc-dropdown-list {
+    box-shadow: 0 0 3px #000;
     position: absolute;
     width: 100%;
     max-height: 200px;
@@ -1007,6 +1028,10 @@ td, th {
 .message .info:hover {
     background-image: url(images/info_big_pressed.png);
 }
+
+
+
+
 
 /*------------------------------------*\
     #TRUMPS

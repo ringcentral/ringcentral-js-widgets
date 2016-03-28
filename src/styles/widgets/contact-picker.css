@@ -6,6 +6,7 @@
     }
 }
 .rc-contacts {
+    @mixin shadow 3px;
     position: absolute;
     width: 100%;
     max-height: 100%;

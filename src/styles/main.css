@@ -48,17 +48,27 @@
 
 
 
+
+
 /*------------------------------------*\
     #SETTINGS
 \*------------------------------------*/
 
 @import "variables.css";
 
+
+
+
+
 /*------------------------------------*\
     #TOOLS
 \*------------------------------------*/
 
 @import "mixins.css";
+
+
+
+
 
 /*------------------------------------*\
     #GENERIC
@@ -78,6 +88,10 @@
     outline: none
 }
 
+
+
+
+
 /*------------------------------------*\
     #BASE
 \*------------------------------------*/
@@ -95,6 +109,10 @@
 .rc-block {}
 .rc-img {}
 .rc-fullscreen {}
+
+
+
+
 
 /*------------------------------------*\
     #COMPONENTS
@@ -118,7 +136,7 @@
     background-color: #fff;
     &:hover {}
     &--round {
-        width: 3.2em;
+        width:  3.2em;
         height: 3.2em;
         border-radius: 50%;
     }
@@ -138,11 +156,16 @@
 }
 
 @import "old.css";
+@import "widgets/auth-panel.css";
 @import "widgets/call-log.css";
 @import "widgets/contact-picker.css";
 @import "widgets/dial-pad.css";
 @import "widgets/dropdown.css";
 @import "widgets/messages.css";
+
+
+
+
 
 /*------------------------------------*\
     #TRUMPS
