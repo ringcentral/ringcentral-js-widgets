@@ -1,7 +1,71 @@
+/**
+ * CONTENTS
+ *
+ * SETTINGS
+ * Global...............Globally-available variables and config.
+ * Brand................Brand-related variables and settings.
+ *
+ * TOOLS
+ * Mixins...............Useful mixins.
+ *
+ * GENERIC
+ * Normalize.css........A level playing field.
+ * Box-sizing...........Better default `box-sizing`.
+ * User-select..........Disable user select.
+ *
+ * BASE
+ * Headings.............H1–H6 styles.
+ *
+ * OBJECTS
+ * Wrappers.............Wrapping and constraining elements.
+ *
+ * COMPONENTS
+ * Page-head............The main page header.
+ * Page-foot............The main page footer.
+ * Buttons..............Button elements.
+ * Auth-panel...........
+ * Auto-complete........
+ * Call-log.............
+ * Call-log-item........
+ * Call-panel...........
+ * Compose-text.........
+ * Contact-picker.......
+ * Contact-picker-item..
+ * Dial-pad.............
+ * Dropdown.............
+ * Messages.............
+ * Message-item.........
+ * Tool-bar.............
+ * RC-phone.............
+ *
+ * TRUMPS
+ * Text.................Text helpers.
+ * Transition...........Default transition effect.
+ * Effect...............Some detailed effect (float-left, display-none)
+ */
+
+
+
+/*------------------------------------*\
+    #SETTINGS
+\*------------------------------------*/
+
+@import "variables.css";
+
+/*------------------------------------*\
+    #TOOLS
+\*------------------------------------*/
+
+@import "mixins.css";
+
+/*------------------------------------*\
+    #GENERIC
+\*------------------------------------*/
+
+@import "normalize.css";
 * {
     box-sizing: border-box;
 }
-
 * {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
@@ -12,15 +76,21 @@
     outline: none
 }
 
+/*------------------------------------*\
+    #BASE
+\*------------------------------------*/
+
 h1 {
     line-height: 2;
     text-align: center;
     margin: 0;
 }
 
-.display-none {
-    display: none;
-}
+/*------------------------------------*\
+    #OBJECTS
+\*------------------------------------*/
+
+
 .rc-phone {
     background-color: #fff;
 }
@@ -216,9 +286,26 @@ h1 {
     font-weight: lighter;
 }
 
+
+/*------------------------------------*\
+    #COMPONENTS
+\*------------------------------------*/
+
+@import "widgets/call-log.css";
+@import "widgets/messages.css";
+
+/*------------------------------------*\
+    #TRUMPS
+\*------------------------------------*/
+@import "transition.css";
+
 .float-right {
     float: right;
 }
 .float-left {
     float: left;
 }
+.display-none {
+    display: none;
+}
+

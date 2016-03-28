@@ -4,11 +4,7 @@
 <head>
     <title>RingCentral Web Phone</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="../src/styles/normalize.css">
-    <link rel="stylesheet" type="text/css" href="../src/styles/main.css">
-    <link rel="stylesheet" type="text/css" href="../src/styles/transition.css">
-    <link rel="stylesheet" type="text/css" href="../src/styles/call-log.css">
-    <link rel="stylesheet" type="text/css" href="../src/styles/messages.css">
+    <link rel="stylesheet" type="text/css" href="../build/styles/main.css">
     <style type="text/css">
     html {
         height: 100%;
@@ -89,7 +85,7 @@
 
     function init() {
         var authPanel = w('auth-panel', {
-            data : { weight: 120, height: 200, lang: 'en-us' },
+            data : { lang: 'en-us' },
             actions: {
                 login: {
                     method: function() {
@@ -280,15 +276,6 @@
                                     'right'
                                 ), logout);
                             // this.addItem('<img src="../src/styles/images/settings_normal.png">');
-                            window.addEventListener('wheel', function(e) {
-                                if (e.deltaY > 10) {
-                                    pos = pos + 250 > 0 ? 0: pos + 250
-                                    document.querySelector('.container').style.transform = 'translateX('+pos+'px)';
-                                }
-                                else if (e.deltaY < -10)
-                                    pos = pos - 250 < -500 ? -500: pos - 250
-                                    document.querySelector('.container').style.transform = 'translateX('+pos+'px)';
-                            });
                         }
                     },
                     render: {

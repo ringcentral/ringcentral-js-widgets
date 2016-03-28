@@ -1,0 +1,3 @@
+@define-mixin shadow $level {
+    box-shadow: 0 0 $level $level;
+}

@@ -1,16 +1,36 @@
-<div>
-    <div id="auth-panel"></div>
-    <div id="toolbar"></div>
-    <div id="dial-pad"></div>
-    <div id="compose-text"></div>
-    <div id="call-panel"></div>
-    <div id="call-log"></div>
+<style>
+#phone {
+    width: 250px;
+    height: 100%;
+    border-right: 1px solid #878787;
+    border-left: 1px solid #878787;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.phone-container {
+    width: 3000px;
+    transition: transform .1s ease-out;
+}
+.phone-panel {
+    float: left;
+    width: 250px;
+}
+</style>
+<div class='phone-container'>
+    <div class='phone-panel' id="auth-panel"></div>
+    <div class='phone-panel' id="toolbar"></div>
+    <div class='phone-panel' id="dial-pad"></div>
+    <div class='phone-panel' id="compose-text"></div>
+    <div class='phone-panel' id="call-panel"></div>
+    <div class='phone-panel' id="call-log"></div>
+    <div class='phone-panel' id="messages"></div>
     <auth-panel dynamic></auth-panel>
     <tool-bar dynamic></tool-bar>
     <dial-pad dynamic></dial-pad>
     <compose-text dynamic></compose-text>
     <call-panel dynamic></call-panel>
     <call-log dynamic></call-log-panel>
+    <messages dynamic></messages>
 </div>
 <script>
 w.register(function() {
@@ -25,12 +45,14 @@ w.register(function() {
                 var contactSearchService = w.service()['contactSearchService'];
                 var messageService = w.service()['messageService'];
                 var rcContactSearchProvider = w.service()['rcContactSearchProvider'];
+                var rcMessageService = w.service()['rcMessageService'];
+                var rcMessageProvider = w.service()['rcMessageProvider'];
                 
                 var dialPadSearchProviders = [rcContactSearchProvider];
-                init.call(this);
+                init.call(this)
                 function init() {
                     var authPanel = w('auth-panel', {
-                        data: this.data,
+                        data : this.data,
                         actions: {
                             login: {
                                 method: function() {
@@ -38,18 +60,28 @@ w.register(function() {
                                         this.props.username,
                                         this.props.extension,
                                         this.props.password
-                                    );
+                                    ).then(()=>{
+                                        Promise.all([
+                                            rcMessageService.subscribeToMessageUpdate(),
+                                            rcMessageService.syncMessages()
+                                        ]).catch(err => console.error(err));
+                                    })
                                 },
                                 after: function() {
+                                    authPanel.remove()
                                     return Promise.all([
                                         accountService.getAccountInfo(),
                                         accountService.getPhoneNumber(),
-                                        rcContactService.syncCompanyContact(),
-                                        phoneService.registerSIP(),
-                                        callLogService.getCallLogs()
                                     ])
                                     .then(afterLogin)
-                                    .then(() => authPanel.remove())
+                                    .then(() => {
+                                        return Promise.all([
+                                            rcContactService.syncCompanyContact(),
+                                            phoneService.registerSIP(),
+                                            callLogService.getCallLogs(),
+                                            
+                                        ])
+                                    })
                                     .catch(err => console.error(err))
                                 }
                             }
@@ -59,7 +91,9 @@ w.register(function() {
                     authPanel.render('#auth-panel');
                     // loginService.checkLoginStatus().then(
                     //     isLoggedIn => {
+                    //         authPanel.render('#auth-panel');
                     //         if (isLoggedIn) {
+                    //             authPanel.hide();
                     //             return Promise.all([
                     //                     accountService.getAccountInfo(),
                     //                     accountService.getPhoneNumber(),
@@ -69,8 +103,7 @@ w.register(function() {
                     //                 ])
                     //                 .then(afterLogin)
                     //                 .catch(err => console.error(err))
-                    //         } else
-                    //             authPanel.render('#auth-panel');
+                    //         }
                     //     }
                     // );
 
@@ -80,7 +113,7 @@ w.register(function() {
                                 render: {
                                     after: function() {
                                         if (!accountService.hasServiceFeature("VoipCalling"))
-                                            this.disable(this.props.dom.root);
+                                            this.disable();
                                     }
                                 },
                                 queryContacts: {
@@ -161,24 +194,54 @@ w.register(function() {
                                     }
                                 }
                             }
-                        })
+                        });
+                        var messageWidget = w('messages', {
+                            data: options,
+                            actions: {
+                                render: {
+                                    after: function(){
+                                        rcMessageProvider.onMessageUpdated(() => {
+                                            this.refreshMessages();
+                                        });
+                                    }
+                                },
+                                refreshMessages: {
+                                    method: function(){
+                                        return rcMessageProvider.getLastMessagesOfAllType();
+                                    }
+                                }
+                            }
+                        });
+                        
                         var toolbar = w('tool-bar', {
                             actions: {
                                 init: {
                                     after: function() {
                                         var panels = [dialPad, composeText, callLog]
+                                        var pos = 0;
                                         this.clickItem(this.addItem('<img src="../src/styles/images/dialpad_normal.png">'), function() {
-                                            panels.forEach(panel => panel.hide(panel.props.dom.root))
-                                            dialPad.show(dialPad.props.dom.root);
+                                                pos = 0;
+                                                document.querySelector('.container').style.transform = 'translateX(0)';
                                         });
-                                        this.clickItem(this.addItem('<img src="../src/styles/images/sms_normal.png">'), function() {
-                                            panels.forEach(panel => panel.hide(panel.props.dom.root))
-                                            composeText.show(composeText.props.dom.root);
+                                        this.clickItem(this.addItem('<img src="../src/styles/images/sms_normal.png">'),
+                                         function() {
+                                            pos = -250;
+                                            document.querySelector('.container').style.transform = 'translateX(-250px)';
+                                        });
+                                        this.clickItem(this.addItem('<img src="../src/styles/images/message_normal.png">'),
+                                         function() {
+                                            pos = -500;
+                                            document.querySelector('.container').style.transform = 'translateX(-500px)';
                                         });
                                         this.clickItem(this.addItem('<img src="../src/styles/images/call_log_normal.png">'), function() {
-                                            panels.forEach(panel => panel.hide(panel.props.dom.root))
-                                            callLog.show(callLog.props.dom.root);
+                                            pos = -750;
+                                            document.querySelector('.container').style.transform = 'translateX(-750px)';
                                         });
+                                        this.clickItem(
+                                            this.addItem(
+                                                '<img src="../src/styles/images/logout.png">', 
+                                                'right'
+                                            ), logout);
                                         // this.addItem('<img src="../src/styles/images/settings_normal.png">');
                                     }
                                 },
@@ -187,15 +250,26 @@ w.register(function() {
                                         dialPad.render('#dial-pad');
                                         composeText.render('#compose-text');
                                         callLog.render('#call-log');
-
-                                        composeText.hide(composeText.props.dom.root);
-                                        callLog.hide(callLog.props.dom.root);
+                                        messageWidget.render('#messages-panel')
                                     }
                                 }
                             }
-                        })
+                        });
+                        
                         callPanel.render('#call-panel');
                         toolbar.render('#toolbar');
+                        function logout() {
+                            return loginService.logout().then(res => {
+                                [
+                                    dialPad, 
+                                    composeText, 
+                                    callLog, 
+                                    toolbar, 
+                                    messageWidget
+                                ].forEach(panel => panel.remove())
+                                init()
+                            }).catch(err => console.error(err));
+                        }
                     }
                 }
             }

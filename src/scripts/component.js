@@ -72,7 +72,7 @@ function widget({actions, data = {}}, options) {
         } else {
             logger.warn('first argument of render method should be selector string or dom')
         }
-        // the template can only have one root
+        // templates can only have one root
         this.props.target = shallowCopy(
             Array.from(template.childNodes)
                 .filter(node => node.nodeType === 1)

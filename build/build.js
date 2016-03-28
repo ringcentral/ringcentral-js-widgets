@@ -592,13 +592,8 @@ var rcMessageProvider = function () {
                 result.contact = message.from.phoneNumber;
             }
         }
-        //TODO: Use localization string instead of plain text
         if (message.type === 'SMS' || message.type === 'Pager') {
             result.subject = message.subject;
-        } else if (message.type === 'VoiceMail') {
-            result.subject = 'Voice Message';
-        } else if (message.type === 'Fax') {
-            result.subject = 'Fax';
         }
         result.readStatus = message.readStatus;
         result.type = message.type;
@@ -831,7 +826,7 @@ function widget(_ref2, options) {
         } else {
             logger.warn('first argument of render method should be selector string or dom');
         }
-        // the template can only have one root
+        // templates can only have one root
         this.props.target = shallowCopy(Array.from(template.childNodes).filter(function (node) {
             return node.nodeType === 1;
         }))[0];
