@@ -1,21 +1,27 @@
+$contact-picker-font-size: 1.8em;
+$contact-font-size: .9em;
 .rc-contact-picker {
     width: 100%;
-    &__input {
-        font-size: 1.8em;
+    > .rc-input {
+        font-size: $contact-picker-font-size;
         letter-spacing: 0.05em;
     }
-}
-.rc-contacts {
-    @mixin shadow 3px;
-    position: absolute;
-    width: 100%;
-    max-height: 100%;
-    overflow: auto;
-    background: #fff;
+    &__contacts {
+        @mixin shadow 3px;
+        position: absolute;
+        width: 100%;
+        max-height: 100%;
+        overflow: auto;
+        background: #fff;
+    }
 }
 
+/**
+* Contact-picker-item
+*/
+
 .rc-contact {
-    font-size: .9em;
+    font-size: $contact-font-size;
     &__name {}
     &__value {}
 }

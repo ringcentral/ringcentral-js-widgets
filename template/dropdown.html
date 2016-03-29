@@ -1,7 +1,7 @@
 <div>
     <button class='rc-dropdown rc-list'
             data-info='dropdown'
-            data-event='click:collapse'>Outbound caller ID</button>
+            data-event='click:collapse'>Default</button>
     <div    class='rc-dropdown-list' 
             data-info='list'>
     </div>
@@ -17,6 +17,7 @@ w.register(function() {
         },
         collapse: {
             after: function() {
+                console.log('collapse');
                 enlarge.toggle(this.props.dom['list'])
             }
         },
@@ -28,6 +29,7 @@ w.register(function() {
         addItem: {
             after: function(text) {
                 var item = document.createElement('div')
+                // FIXME
                 item.classList.add('rc-list__item', 'rc-dropdown-list__item')
                 item.textContent = text;
                 item.addEventListener('click', e => {

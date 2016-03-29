@@ -109,7 +109,7 @@
 .rc-block {}
 .rc-img {}
 .rc-fullscreen {}
-
+.rc-link {}
 
 
 
@@ -119,39 +119,36 @@
 \*------------------------------------*/
 
 /**
-* Panel as common container
+* rc-panels are treated as common containers
 */
 .rc-panel {
     position: relative; 
-    
     &__header {
-        background: $rc-blue;
+        background: $main-color;
     }
     &__content {
     }
     &__footer {}
 }
 .rc-button {
-    border: 1px solid $rc-blue;
+    border: 1px solid $main-color;
     background-color: #fff;
     &:hover {}
-    &--round {
-        width:  3.2em;
-        height: 3.2em;
+    &.--round {
         border-radius: 50%;
     }
 }
 .rc-input {
     width: 100%;
     padding: .5em;
-    &--clean {
+    &.--clean {
         background: transparent;
         color: #fff;
         border: 0;
     }
 }
 .rc-tag {
-    border: 1px solid $rc-blue;
+    border: 1px solid $main-color;
     padding: .1em 0.3em;
 }
 

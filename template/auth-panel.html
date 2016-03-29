@@ -1,28 +1,9 @@
-<style>
-.rc-auth .img-wrapper {
-    text-align: center;
-}
-.rc-auth .rc-image {
-    width: 100px;
-}
-.rc-auth .rc-button {
-    width: 100%;
-}
-</style>
-<div class='rc-panel rc-auth'>
+<div class='rc-panel rc-auth-panel'>
     <div class='rc-pane-header'>
-        <div class='img-wrapper'>
-            <img class='rc-image' data-info='logo'>
-        </div>
-        <h1>Login</h1>
+        
     </div>
     <div class='rc-panel__content'>
-        <button class='rc-dropdown' data-info='country-dropdown' data-event='click:showCountry'>United States</button>
-        <div class='rc-dropdown-list display-none' data-info='country-list'>
-            <div data-event='click:switchCountry'>United States</div>
-            <div data-event='click:switchCountry'>United Kingdom</div>
-            <div data-event='click:switchCountry'>Canada</div>
-        </div>
+        <dropdown data-info='dropdown'></dropdown>
         <input class='rc-input' data-info='username' placeholder="username"></input>
         <input class='rc-input' data-info='extension' placeholder="extension"></input>
         <input class='rc-input' data-info='password' placeholder="password" type='password'></input>
@@ -50,8 +31,23 @@ w.register(function() {
             var t = w.t(this.data.lang)
             var { color, lang, logo } = this.data
             this.props.dom.login.style['background-color'] = color || '#333'
-            this.props.dom.logo.src = logo || ''
+            // this.props.dom.logo.src = logo || ''
             this.props.dom.login.textContent = t('login')
+            w.customize(this, 'dropdown', {
+                actions: {
+                    getData: {
+                        method: function() {
+                            return ['United States', 'United Kingdom', 'Canada'];
+                        },
+                        after: function(ids) {
+                            ids.forEach(id => this.addItem(id));
+                            // workaround for not triggering dropdown collpase
+                            this.switchTitle(ids[0])
+                            this.switchTitle(ids[0])
+                        }
+                    }
+                }
+            })
         }
     },
     this.actions.render = {
@@ -60,6 +56,7 @@ w.register(function() {
             this.props.dom.username.value = localStorage.getItem('username');
             this.props.dom.extension.value = localStorage.getItem('extension');
             this.props.dom.password.value = localStorage.getItem('password');
+            this.props['dropdown'].getData();
             fade.in(this.props.root);
         }
     },

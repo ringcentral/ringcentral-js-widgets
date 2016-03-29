@@ -1,21 +1,21 @@
+$dial-pad-button-radius: 3em;
+$dial-pad-symbol-size: .5em;
 .rc-dial-pad {
-
-}
-.rc-dial-line {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    & > .rc-dial-button {
-        margin: 5px 10px;
-    }
-}
-.rc-dial-button {
-    border-radius: 50%;
-    color: $rc-blue;
-    &__number {
-        text-weight: bolder;
-    }
-    &__symbol {
-        font-size: .5em;
+    &__line {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        & > .rc-button {
+            margin: 5px 10px;
+            width: $dial-pad-button-radius;
+            height: $dial-pad-button-radius;
+            color: $main-color;
+            & > .rc-button__number {
+                text-weight: bolder;
+            }
+            & > .rc-button__symbol {
+                font-size: $dial-pad-symbol-size;
+            }
+        }
     }
 }

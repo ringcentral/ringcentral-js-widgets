@@ -493,7 +493,7 @@ td, th {
 .rc-block {}
 .rc-img {}
 .rc-fullscreen {}
-
+.rc-link {}
 
 
 
@@ -503,7 +503,7 @@ td, th {
 \*------------------------------------*/
 
 /**
-* Panel as common container
+* rc-panels are treated as common containers
 */
 .rc-panel {
     position: relative
@@ -521,16 +521,14 @@ td, th {
 }
 .rc-button:hover {
 }
-.rc-button--round {
-    width: 3.2em;
-    height: 3.2em;
+.rc-button.--round {
     border-radius: 50%;
 }
 .rc-input {
     width: 100%;
     padding: .5em
 }
-.rc-input--clean {
+.rc-input.--clean {
     background: transparent;
     color: #fff;
     border: 0;
@@ -775,11 +773,11 @@ td, th {
 .rc-contact-picker {
     width: 100%;
 }
-.rc-contact-picker__input {
+.rc-contact-picker > .rc-input {
     font-size: 1.8em;
     letter-spacing: 0.05em;
 }
-.rc-contacts {
+.rc-contact-picker__contacts {
     box-shadow: 0 0 3px #000;
     position: absolute;
     width: 100%;
@@ -787,6 +785,9 @@ td, th {
     overflow: auto;
     background: #fff;
 }
+/**
+* Contact-picker-item
+*/
 .rc-contact {
     font-size: .9em;
 }
@@ -796,22 +797,21 @@ td, th {
 }
 .rc-dial-pad {
 }
-.rc-dial-line {
+.rc-dial-pad__line {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
-.rc-dial-line > .rc-dial-button {
+.rc-dial-pad__line > .rc-button {
     margin: 5px 10px;
-}
-.rc-dial-button {
-    border-radius: 50%;
+    width: 3em;
+    height: 3em;
     color: #3498db;
 }
-.rc-dial-button__number {
+.rc-dial-pad__line > .rc-button > .rc-button__number {
     text-weight: bolder;
 }
-.rc-dial-button__symbol {
+.rc-dial-pad__line > .rc-button > .rc-button__symbol {
     font-size: .5em;
 }
 .rc-dropdown {
