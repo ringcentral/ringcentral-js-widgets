@@ -1,7 +1,7 @@
 <div class='rc-contact-picker'>
     <input  class='rc-input --clean' 
             data-info='input' 
-            data-event='input:autoComplete|focus:autoComplete'>
+            data-event='input:autoComplete|blur:hide'>
     </input>
     <div class='rc-contact-picker__contacts rc-list' data-info='contacts'>
         <contact-picker-item dynamic></contact-picker-item>
@@ -23,19 +23,17 @@ w.register(function() {
                 finish();
             },
             after: function() {
-                window.addEventListener('click', (e) => {
-                    if (e.target !== this.props.dom.input && !e.target.classList.contains('contact')) {
-                        this.hide();
-                    }
-                });
                 enlarge.init(this.props.dom.contacts)
             }
         },
         hide: {
             after: function() {
                 if (this.props.show) {
-                    this.props.show = false;
-                    enlarge.out(this.props.dom.contacts)
+                    // delay the hidden process, make options clickable, then hide the panel
+                    setTimeout(() => {
+                        this.props.show = false;
+                        enlarge.out(this.props.dom.contacts)
+                    }, 50)
                 }
             }
         },
@@ -76,6 +74,7 @@ w.register(function() {
                 return finish();
             },
             after: function(contacts) {
+                console.log('autocomplelte');
                 if (!contacts)
                     return;
                 // while (this.props.dom.contacts.firstChild)

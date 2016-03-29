@@ -1,8 +1,8 @@
-<div>
-    <button class='rc-dropdown rc-list'
+<div class='rc-dropdown'>
+    <button class='rc-dropdown__trigger rc-button'
             data-info='dropdown'
             data-event='click:collapse'>Default</button>
-    <div    class='rc-dropdown-list' 
+    <div    class='rc-dropdown__list rc-list' 
             data-info='list'>
     </div>
 </div>
@@ -17,8 +17,12 @@ w.register(function() {
         },
         collapse: {
             after: function() {
-                console.log('collapse');
                 enlarge.toggle(this.props.dom['list'])
+            }
+        },
+        hide: {
+            after: function() {
+                enlarge.out(this.props.dom['list'])
             }
         },
         getData: {
@@ -50,7 +54,7 @@ w.register(function() {
             },
             after: function(text) {
                 this.props.dom['dropdown'].textContent = text;
-                this.collapse();
+                this.hide();
             }
         }
     }

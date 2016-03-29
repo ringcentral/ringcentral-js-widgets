@@ -1,12 +1,14 @@
 <div class='rc-panel rc-auth-panel'>
-    <div class='rc-pane-header'>
-        
+    <div class='rc-panel__header rc-auth-panel__header'>
+        <img class='rc-img rc-auth-panel__img' src='./ringcentral_logo.png'>
     </div>
-    <div class='rc-panel__content'>
-        <dropdown data-info='dropdown'></dropdown>
-        <input class='rc-input' data-info='username' placeholder="username"></input>
-        <input class='rc-input' data-info='extension' placeholder="extension"></input>
-        <input class='rc-input' data-info='password' placeholder="password" type='password'></input>
+    <div class='rc-panel__content rc-auth-panel__content'>
+        <div class='rc-auth-panel__container'>
+            <dropdown data-info='dropdown'></dropdown>
+        </div>
+        <input class='rc-input --round' data-info='username' placeholder="username"></input>
+        <input class='rc-input --round' data-info='extension' placeholder="extension"></input>
+        <input class='rc-input --round' data-info='password' placeholder="password" type='password'></input>
         <button class='rc-button' data-info='login' data-event='click:login'>Login</button>
         <div>
             <label for='remember'>Remember me:</label>
@@ -30,7 +32,7 @@ w.register(function() {
             this.props.country = 'United States'
             var t = w.t(this.data.lang)
             var { color, lang, logo } = this.data
-            this.props.dom.login.style['background-color'] = color || '#333'
+            // this.props.dom.login.style['background-color'] = color || '#fff'
             // this.props.dom.logo.src = logo || ''
             this.props.dom.login.textContent = t('login')
             w.customize(this, 'dropdown', {

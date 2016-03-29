@@ -1,0 +1,26 @@
+$auth-panel-padding: 10px;
+.rc-auth-panel {
+    &__content {
+        display: flex;
+        flex-direction: column;
+        padding: $auth-panel-padding;
+        & > .rc-input {
+            margin: 5px 0;
+        }
+        & > .rc-button {
+            width: 100%;
+
+            /* Move to the bottom of flex container */
+            margin-top: auto;
+        }
+    }
+    &__container {
+        @extend block;
+    }
+    &__header {
+        text-align: center;
+    }
+    &__img {
+        width: 60%;
+    }
+}

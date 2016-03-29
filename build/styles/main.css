@@ -484,16 +484,25 @@ td, th {
     #OBJECTS
 \*------------------------------------*/
 
-.rc-list {
+.rc-panel, .rc-auth-panel__container {
+    /**
+    * Used as a positioned reference
+    */
+    position: relative;
 }
-
+.rc-list {
+    /* reset to the default color, avoid inherited by parent element */
+    color: #000
+}
 .rc-list__item {
     padding: .5em .7em;
 }
-.rc-block {}
-.rc-img {}
+.rc-img {
+    max-width: 100%;
+}
 .rc-fullscreen {}
 .rc-link {}
+
 
 
 
@@ -502,36 +511,54 @@ td, th {
     #COMPONENTS
 \*------------------------------------*/
 
-/**
-* rc-panels are treated as common containers
-*/
 .rc-panel {
-    position: relative
+    /**
+    * rc-panels are treated as common containers
+    */
 }
+
 .rc-panel__header {
-    background: #3498db;
+    height: 100px;
 }
+
+.rc-panel__header.--colored {
+    background-color: #3498db;
+    color: #fff;
+}
+
 .rc-panel__content {
+    height: 300px;
 }
+
 .rc-panel__footer {
+    height: 100px;
 }
 .rc-button {
-    border: 1px solid #3498db;
+    border: 1px solid #000;
     background-color: #fff
-}
-.rc-button:hover {
 }
 .rc-button.--round {
     border-radius: 50%;
 }
+.rc-button.--clean {
+    background: transparent;
+}
+.rc-button.--clean:hover, .rc-button.--clean:active {
+    border-color: #3498db;
+}
+.rc-button:hover, .rc-button:active {}
 .rc-input {
+    padding: .5em;
     width: 100%;
-    padding: .5em
+    border: 1px solid #000
 }
 .rc-input.--clean {
     background: transparent;
     color: #fff;
     border: 0;
+}
+.rc-input.--round {
+    border-radius: 3px;
 }
 .rc-tag {
     border: 1px solid #3498db;
@@ -611,6 +638,25 @@ td, th {
     padding: 5px;
     font-size: 12px;
     font-weight: lighter;
+}
+.rc-auth-panel {}
+.rc-auth-panel__content {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.rc-auth-panel__content > .rc-input {
+    margin: 5px 0;
+}
+.rc-auth-panel__content > .rc-button {
+    width: 100%;/* Move to the bottom of flex container */
+    margin-top: auto;
+}
+.rc-auth-panel__header {
+    text-align: center;
+}
+.rc-auth-panel__img {
+    width: 60%;
 }
 .call-log-header {
     font-size: 13px;
@@ -791,12 +837,9 @@ td, th {
 .rc-contact {
     font-size: .9em;
 }
-.rc-contact__name {
-}
-.rc-contact__value {
-}
-.rc-dial-pad {
-}
+.rc-contact__name {}
+.rc-contact__value {}
+.rc-dial-pad {}
 .rc-dial-pad__line {
     display: flex;
     flex-direction: row;
@@ -809,20 +852,23 @@ td, th {
     color: #3498db;
 }
 .rc-dial-pad__line > .rc-button > .rc-button__number {
-    text-weight: bolder;
+    font-weight: bold;
 }
 .rc-dial-pad__line > .rc-button > .rc-button__symbol {
     font-size: .5em;
 }
-.rc-dropdown {
+.rc-dropdown {}
+.rc-dropdown__trigger {
+    padding: 3px 0;
     width: 100%;
     background: #fff;
-    border: 0;
-    border-bottom: 1px solid #000;
-    padding: 3px 0;
     font-size: .9em;
 }
-.rc-dropdown-list {
+.rc-dropdown__trigger.--clean {
+    border: 0;
+    border-bottom: 1px solid #000;
+}
+.rc-dropdown__list {
     box-shadow: 0 0 3px #000;
     position: absolute;
     width: 100%;

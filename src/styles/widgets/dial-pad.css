@@ -11,7 +11,7 @@ $dial-pad-symbol-size: .5em;
             height: $dial-pad-button-radius;
             color: $main-color;
             & > .rc-button__number {
-                text-weight: bolder;
+                font-weight: bold;
             }
             & > .rc-button__symbol {
                 font-size: $dial-pad-symbol-size;

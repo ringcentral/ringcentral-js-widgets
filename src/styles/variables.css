@@ -1,3 +1,8 @@
 $main-color: #3498db;
 $support-color: #e67e22;
 $bg-color: #fff;
+
+$panel-width: 300px;
+$panel-header-height: 100px;
+$panel-content-height: 300px;
+$panel-footer-height: 100px;

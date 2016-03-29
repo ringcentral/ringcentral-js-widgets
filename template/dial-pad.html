@@ -1,5 +1,5 @@
 <div class='rc-panel rc-dial-pad'>
-    <div class='rc-panel__header'>
+    <div class='rc-panel__header --colored'>
         <contact-picker data-info='contact-picker'></contact-picker>
     </div>
     <div class='rc-panel__content'>
@@ -160,6 +160,7 @@ w.register(function() {
                 button = button.parentNode
             var cp = this.props['contact-picker'];
             cp.appendInput(button.getAttribute('data-value'));
+            cp.autoComplete();
             return finish();
         },
         after: function() {
