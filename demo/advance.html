@@ -93,35 +93,34 @@
                             this.props.username,
                             this.props.extension,
                             this.props.password
-                        ).then(()=>{
-                            Promise.all([
-                                rcMessageService.subscribeToMessageUpdate(),
-                                rcMessageService.syncMessages()
-                            ]).catch(err => console.error(err));
-                        })
+                        )
                     },
                     after: function() {
                         authPanel.remove()
-                        return Promise.all([
-                            accountService.getAccountInfo(),
-                            accountService.getPhoneNumber(),
-                        ])
-                        .then(afterLogin)
-                        .then(() => {
-                            return Promise.all([
-                                rcContactService.syncCompanyContact(),
-                                phoneService.registerSIP(),
-                                callLogService.getCallLogs(),
-                                
-                            ])
-                        })
-                        .catch(err => console.error(err))
+                        afterLogin();
                     }
                 }
             }
-        })
+        });
         
-        authPanel.render('#auth-panel');
+        function loadData() {
+            rcMessageService.subscribeToMessageUpdate();
+            rcMessageService.syncMessages();
+            accountService.getAccountInfo();
+            accountService.getPhoneNumber();
+            rcContactService.syncCompanyContact();
+            phoneService.registerSIP();
+            callLogService.getCallLogs();
+        } 
+        
+        loginService.checkLoginStatus().then(isLoggedIn => {
+            if(isLoggedIn){
+                afterLogin();
+            }else{
+                authPanel.render('#auth-panel');
+            }
+        });
+        
         // loginService.checkLoginStatus().then(
         //     isLoggedIn => {
         //         authPanel.render('#auth-panel');
@@ -141,6 +140,7 @@
         // );
 
         function afterLogin() {
+            loadData();
             var dialPad = w('dial-pad', {
                 actions: {
                     render: {
