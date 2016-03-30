@@ -16,7 +16,7 @@
         w.config({
             path: './template/',
             preload: {
-                'dial-pad': 'dial-pad'
+                'call-panel': 'call-panel'
             },
             locale: {
                 'zh-tw': 'zh-tw.json',
@@ -24,7 +24,7 @@
             },
             logLevel: 0 /* 0 for error only, 1 for error and warning, 2 for error and warning and log */
         }, function() {
-            w('dial-pad').render('#dev-panel')
+            w('call-panel').render('#dev-panel')
         })
     </script>
 </body>

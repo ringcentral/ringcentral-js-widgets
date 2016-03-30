@@ -1,6 +1,5 @@
 <div class='rc-contact rc-list__item' data-event='click:select'>
-    <span class='rc-contact__name rc-tag' data-info='name'></span>
-    <span class='rc-contact__value' data-info='value'></span>
+    <span class='rc-contact__name' data-info='item' data-value=''></span>
 </div>
 <script>
 w.register(function() {
@@ -10,14 +9,14 @@ w.register(function() {
                 return finish();
             },
             after: function(contact){
-                this.props.dom.name.textContent = contact.name;
-                this.props.dom.value.textContent = contact.value;
+                this.props.dom.item.textContent = contact.name;
+                this.props.dom.item.setAttribute('data-value', contact.value);
             }
         },
         select: {
             method: function(finish){
-                this.props.name = this.props.dom.name.textContent;
-                this.props.value = this.props.dom.value.textContent;
+                this.props.name = this.props.dom.item.textContent;
+                this.props.value = this.props.dom.item.getAttribute('data-value');
                 return finish();
             }
         }

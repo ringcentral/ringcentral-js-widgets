@@ -107,11 +107,17 @@
     */
     position: relative;
 }
+@define-extend padding-normal {
+    padding: .5em .7em;
+}
+@define-extend padding-large {
+    padding: .7em .9em;
+}
 .rc-list {
     /* reset to the default color, avoid inherited by parent element */
     color: #000;
     &__item {
-        padding: .5em .7em;
+        @extend padding-normal;
     }
 }
 .rc-img {
@@ -148,11 +154,15 @@
     }
 }
 .rc-button {
+    @extend padding-normal;
     border: 1px solid #000;
     background-color: #fff;
     
-    &.--round {
+    &.--circle {
         border-radius: 50%;
+    }
+    &.--round {
+        border-radius: $border-radius;
     }
     &.--clean {
         background: transparent;
@@ -161,26 +171,31 @@
             border-color: $main-color;
         }
     }
+    &.--ghost {
+        border: 0;
+    }
     &:hover,
     &:active {}
 }
 .rc-input {
-    padding: .5em;
+    @extend padding-normal;
     width: 100%;
     border: 1px solid #000;
 
     &.--clean {
         background: transparent;
-        color: #fff;
         border: 0;
     }
     &.--round {
-        border-radius: 3px;
+        border-radius: $border-radius;
     }
 }
 .rc-tag {
     border: 1px solid $main-color;
     padding: .1em 0.3em;
+}
+.rc-label {
+    @extend padding-normal;
 }
 
 @import "old.css";

@@ -54,6 +54,10 @@
     #SETTINGS
 \*------------------------------------*/
 
+/* rc-input.--round, rc-button.--round */
+
+/* rc-panel */
+
 
 
 
@@ -490,12 +494,12 @@ td, th {
     */
     position: relative;
 }
+.rc-list__item, .rc-button, .rc-input, .rc-label {
+    padding: .5em .7em;
+}
 .rc-list {
     /* reset to the default color, avoid inherited by parent element */
     color: #000
-}
-.rc-list__item {
-    padding: .5em .7em;
 }
 .rc-img {
     max-width: 100%;
@@ -537,8 +541,11 @@ td, th {
     border: 1px solid #000;
     background-color: #fff
 }
-.rc-button.--round {
+.rc-button.--circle {
     border-radius: 50%;
+}
+.rc-button.--round {
+    border-radius: 3px;
 }
 .rc-button.--clean {
     background: transparent;
@@ -546,15 +553,16 @@ td, th {
 .rc-button.--clean:hover, .rc-button.--clean:active {
     border-color: #3498db;
 }
+.rc-button.--ghost {
+    border: 0;
+}
 .rc-button:hover, .rc-button:active {}
 .rc-input {
-    padding: .5em;
     width: 100%;
     border: 1px solid #000
 }
 .rc-input.--clean {
     background: transparent;
-    color: #fff;
     border: 0;
 }
 .rc-input.--round {
@@ -639,7 +647,21 @@ td, th {
     font-size: 12px;
     font-weight: lighter;
 }
-.rc-auth-panel {}
+.rc-auth-panel .input-panel {
+    border-radius: 3px;
+    border: 1px solid #000;
+}
+.rc-auth-panel .input-panel > .rc-input {}
+.rc-auth-panel .input-panel__flag {
+    float: left;
+    width: 40px;/* For test, the position is for country flag */
+    height: 30px;
+    background: #000;
+}
+.rc-auth-panel .input-panel__phone {
+    float: left;
+    width: calc(100% - 40px);
+}
 .rc-auth-panel__content {
     display: flex;
     flex-direction: column;
@@ -836,37 +858,42 @@ td, th {
 */
 .rc-contact {
     font-size: .9em;
+    border-bottom: 1px solid #000;
 }
-.rc-contact__name {}
-.rc-contact__value {}
+.rc-contact__name {
+    max-width: 300px;
+}
 .rc-dial-pad {}
 .rc-dial-pad__line {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
-.rc-dial-pad__line > .rc-button {
-    margin: 5px 10px;
-    width: 3em;
-    height: 3em;
+.rc-dial-pad__line > .dial-button {
+    margin: 4px 8px;
+    width: 3.2em;
+    height: 3.2em;
     color: #3498db;
+    border-color: #3498db;
 }
-.rc-dial-pad__line > .rc-button > .rc-button__number {
+.rc-dial-pad__line > .dial-button > .dial-button__number {
     font-weight: bold;
 }
-.rc-dial-pad__line > .rc-button > .rc-button__symbol {
+.rc-dial-pad__line > .dial-button > .dial-button__symbol {
     font-size: .5em;
+}
+.rc-dial-pad__line > .dial-button.--call {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
 }
 .rc-dropdown {}
 .rc-dropdown__trigger {
     padding: 3px 0;
     width: 100%;
     background: #fff;
-    font-size: .9em;
-}
-.rc-dropdown__trigger.--clean {
     border: 0;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid #bdc3c7;
+    font-size: .9em;
 }
 .rc-dropdown__list {
     box-shadow: 0 0 3px #000;

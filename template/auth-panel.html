@@ -3,20 +3,22 @@
         <img class='rc-img rc-auth-panel__img' src='./ringcentral_logo.png'>
     </div>
     <div class='rc-panel__content rc-auth-panel__content'>
-        <div class='rc-auth-panel__container'>
-            <dropdown data-info='dropdown'></dropdown>
+        <div class='input-panel'>
+          <div class='input-panel__flag'>
+              <img class='rc-img' data-info='flag' src=''>
+          </div>
+          <input class='rc-input --clean input-panel__phone' data-info='username' placeholder="username"></input>
         </div>
-        <input class='rc-input --round' data-info='username' placeholder="username"></input>
         <input class='rc-input --round' data-info='extension' placeholder="extension"></input>
         <input class='rc-input --round' data-info='password' placeholder="password" type='password'></input>
-        <button class='rc-button' data-info='login' data-event='click:login'>Login</button>
-        <div>
+        <button class='rc-button --round' data-info='login' data-event='click:login'>Login</button>
+        <div class='rc-label'>
             <label for='remember'>Remember me:</label>
             <input id='remember' type='checkbox' data-info='remember' checked>
         </div>
-        <div class='rc-error-message' data-info='error'></div>
+        <div class='rc-label' data-info='error'></div>
     </div>
-    <div class='rc-panel__footer' data-info='footer'></div>
+    <!-- <div class='rc-panel__footer' data-info='footer'></div> -->
     </div>
 </div>
 <script>
@@ -34,22 +36,7 @@ w.register(function() {
             var { color, lang, logo } = this.data
             // this.props.dom.login.style['background-color'] = color || '#fff'
             // this.props.dom.logo.src = logo || ''
-            this.props.dom.login.textContent = t('login')
-            w.customize(this, 'dropdown', {
-                actions: {
-                    getData: {
-                        method: function() {
-                            return ['United States', 'United Kingdom', 'Canada'];
-                        },
-                        after: function(ids) {
-                            ids.forEach(id => this.addItem(id));
-                            // workaround for not triggering dropdown collpase
-                            this.switchTitle(ids[0])
-                            this.switchTitle(ids[0])
-                        }
-                    }
-                }
-            })
+            this.props.dom.login.textContent = t('login') || 'login'
         }
     },
     this.actions.render = {

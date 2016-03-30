@@ -1,4 +1,5 @@
 $auth-panel-padding: 10px;
+$auth-panel-flag-width: 40px;
 .rc-auth-panel {
     &__content {
         display: flex;
@@ -23,4 +24,22 @@ $auth-panel-padding: 10px;
     &__img {
         width: 60%;
     }
+
+    .input-panel {
+        border-radius: $border-radius;
+        border: 1px solid #000;
+        &__flag {
+            float: left;
+            width: $auth-panel-flag-width;
+            /* For test, the position is for country flag */
+            height: 30px;
+            background: #000;
+        }
+        &__phone {
+            float: left;
+            width: calc(100% - $auth-panel-flag-width);
+        }
+        > .rc-input {}
+    }
+    
 }
