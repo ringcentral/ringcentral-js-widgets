@@ -9,6 +9,7 @@ w.register(function(){
             return finish();
         },
         after:function(message) {
+            var parent = this;
             w.customize(this, 'message-item', {
                 data: parent.data,
                 actions:{
@@ -24,11 +25,21 @@ w.register(function(){
                         method: function() {
                             return message.subject;
                         }
+                    },
+                    viewInfo: {
+                        method: function() {
+                            parent.viewInfo();
+                        }
                     }
                 }
             }); 
             this.props.message = message;
         }
     };
+    this.actions.viewInfo = {
+        method: function(finish) {
+            return finish();
+        }
+    }
 });
 </script>

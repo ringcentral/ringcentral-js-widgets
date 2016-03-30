@@ -242,6 +242,11 @@
                         method: function(){
                             return rcMessageProvider.getLastMessagesOfAllType();
                         }
+                    },
+                    viewMessageInfo: {
+                        method: function(){
+                            alert(this.props.selectedMessage.type);
+                        }
                     }
                 }
             });

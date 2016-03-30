@@ -46,6 +46,11 @@ w.register(function(){
                     method:function(){
                         return message;
                     }
+                },
+                viewInfo: {
+                    method: function(){
+                        parent.viewMessageInfo(this.props.message);
+                    }
                 }
             }
         }); 
@@ -116,6 +121,12 @@ w.register(function(){
                     root.removeChild(root.firstChild);
                 }
                 createMessageWidgets(messages, this);
+            }
+        },
+        viewMessageInfo: {
+            method: function(finish, message) {
+                this.props.selectedMessage = message;
+                return finish();
             }
         }
     }
