@@ -105,7 +105,7 @@ h6 {
     /* avoid some margin top collision */
     margin-top: 0;
     /* bold is to bold */
-    font-weight: normal;
+    font-weight: lighter;
 }
 
 
@@ -116,24 +116,11 @@ h6 {
     #OBJECTS
 \*------------------------------------*/
 
-@define-extend block {
-    /* used as a positioned reference */
-    position: relative;
-}
-@define-extend padding-normal {
-    padding: .5em .7em;
-}
-@define-extend padding-large {
-    padding: .7em .9em;
-}
-@define-extend clickable {
-    cursor: pointer;
-}
 .rc-list {
     /* reset to the default color, avoid inherited by parent element */
     color: #000;
     &__item {
-        @extend padding-normal;
+        @mixin padding-normal;
     }
 }
 .rc-img {
@@ -154,12 +141,14 @@ h6 {
     /**
     * rc-panels are treated as common containers
     */
-    @extend block;
+    @mixin block;
     &__header {
-        height: $panel-header-height;
+        /* height: $panel-header-height; */
         &.--colored {
             background-color: $main-color;
             color: #fff;
+            /* the white text need to be light */
+            font-weight: lighter;
         }
         &.--center {
             text-align: center;
@@ -173,7 +162,7 @@ h6 {
     }
 }
 .rc-button {
-    @extend padding-normal;
+    @mixin padding-normal;
     border: 1px solid #000;
     background-color: #fff;
     
@@ -205,9 +194,9 @@ h6 {
     &:active {}
 }
 .rc-input {
-    @extend padding-normal;
+    @mixin padding-normal;
     width: 100%;
-    border: 1px solid #000;
+    border: 1px solid $gray;
 
     &.--clean {
         background: transparent;
@@ -216,13 +205,22 @@ h6 {
     &.--round {
         border-radius: $border-radius;
     }
+    &:focus {
+        border-color: #7f8c8d;
+    }
 }
 .rc-tag {
     border: 1px solid $main-color;
-    padding: .1em 0.3em;
+    padding: .1em .3em;
 }
 .rc-label {
-    @extend padding-normal;
+    @mixin padding-normal;
+}
+.rc-textarea {
+    @mixin padding-normal;
+    width: 100%;
+    resize: none;
+    font-size: .8em;
 }
 .rc-tabs {
     height: 30px;
@@ -231,7 +229,7 @@ h6 {
     margin: 11px auto 11px auto;
     padding: 0 10px;
     &__tab {
-        @extend clickable;
+        @mixin clickable;
         display: block;
         float: left;
 
@@ -272,15 +270,17 @@ h6 {
     }
 }
 
-@import "old.css";
+/* @import "old.css"; */
 @import "widgets/auth-panel.css";
 @import "widgets/call-log.css";
 @import "widgets/call-panel.css";
+@import "widgets/compose-text.css";
 @import "widgets/contact-picker.css";
 @import "widgets/dial-pad.css";
 @import "widgets/dropdown.css";
 @import "widgets/messages.css";
 @import "widgets/message-item.css";
+@import "widgets/tool-bar.css";
 
 
 

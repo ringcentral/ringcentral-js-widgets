@@ -3,11 +3,16 @@
         <img class='rc-img rc-auth-panel__img' src='./ringcentral_logo.png'>
     </div>
     <div class='rc-panel__content rc-auth-panel__content'>
-        <div class='input-panel'>
+        <div class='input-panel' data-info='input-panel'>
           <div class='input-panel__flag'>
               <img class='rc-img' data-info='flag' src=''>
           </div>
-          <input class='rc-input --clean input-panel__phone' data-info='username' placeholder="username"></input>
+          <input 
+              class='rc-input --clean input-panel__phone' 
+              data-info='username' 
+              placeholder='username'
+              data-event='focus:focus|blur:blur'>
+          </input>
         </div>
         <input class='rc-input --round' data-info='extension' placeholder="extension"></input>
         <input class='rc-input --round' data-info='password' placeholder="password" type='password'></input>
@@ -38,7 +43,7 @@ w.register(function() {
             // this.props.dom.logo.src = logo || ''
             this.props.dom.login.textContent = t('login') || 'login'
         }
-    },
+    }
     this.actions.render = {
         before: function() {},
         after: function() {
@@ -48,12 +53,12 @@ w.register(function() {
             this.props['dropdown'].getData();
             fade.in(this.props.root);
         }
-    },
+    }
     this.actions.remove = {
         before: function() {
             fade.out(this.props.root);
         }
-    },
+    }
     this.actions.login = {
         before: function() {
             this.props.dom.login.disabled = true;
@@ -82,17 +87,27 @@ w.register(function() {
             this.props.dom.error.textContent = err.message;
             this.props.dom.login.disabled = false;
         }
-    },
+    }
     this.actions.showCountry = {
         before: function(event) {
             this.props.dom['country-list'].classList.toggle('display-none');
         }
-    },
+    }
     this.actions.switchCountry = {
         before: function(event) {
             this.props.dom['country-dropdown'].textContent = event.target.textContent;
             this.props.dom['country-list'].classList.add('display-none');
             this.props.country = event.target.textContent;
+        }
+    }
+    this.actions.focus = {
+        before: function(event) {
+            this.props.dom['input-panel'].classList.add('--focus')
+        }
+    }
+    this.actions.blur = {
+        before: function(event) {
+            this.props.dom['input-panel'].classList.remove('--focus')
         }
     }
 });

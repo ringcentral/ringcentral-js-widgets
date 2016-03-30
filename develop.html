@@ -16,7 +16,7 @@
         w.config({
             path: './template/',
             preload: {
-                'call-panel': 'call-panel'
+                'compose-text': 'compose-text'
             },
             locale: {
                 'zh-tw': 'zh-tw.json',
@@ -24,7 +24,7 @@
             },
             logLevel: 0 /* 0 for error only, 1 for error and warning, 2 for error and warning and log */
         }, function() {
-            w('call-panel').render('#dev-panel')
+            w('compose-text').render('#dev-panel')
         })
     </script>
 </body>

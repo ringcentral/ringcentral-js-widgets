@@ -16,7 +16,7 @@ $auth-panel-flag-width: 40px;
         }
     }
     &__container {
-        @extend block;
+        @mixin block;
     }
     &__header {
         text-align: center;
@@ -27,7 +27,7 @@ $auth-panel-flag-width: 40px;
 
     .input-panel {
         border-radius: $border-radius;
-        border: 1px solid #000;
+        border: 1px solid $gray;
         &__flag {
             float: left;
             width: $auth-panel-flag-width;
@@ -39,7 +39,12 @@ $auth-panel-flag-width: 40px;
             float: left;
             width: calc(100% - $auth-panel-flag-width);
         }
-        > .rc-input {}
+        > .rc-input {
+
+        }
+        &.--focus {
+            border-color: #7f8c8d;
+        }
     }
     
 }

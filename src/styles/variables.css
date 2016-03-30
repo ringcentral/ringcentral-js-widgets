@@ -1,6 +1,7 @@
 $main-color: #3498db;
 $support-color: #e67e22;
 $bg-color: #fff;
+$gray: #bdc3c7;
 
 /* rc-input.--round, rc-button.--round */
 $border-radius: 3px;

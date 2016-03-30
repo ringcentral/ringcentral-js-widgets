@@ -2,13 +2,13 @@
     &__trigger {
         padding: 3px 0;
         width: 100%;
-        background: $bg-color;
+        background: inherit;
         border: 0;
         border-bottom: 1px solid #bdc3c7;
         font-size: .9em;
     }
     &__list {
-        @mixin shadow 3px;
+        @mixin shadow-1;
         position: absolute;
         width: 100%;
         max-height: 200px;

@@ -12,7 +12,7 @@ $call-panel-button-radius: 3.2em;
     &__footer {}
 
     > .rc-panel__content {
-        @extend padding-normal;
+        @mixin padding-normal;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;

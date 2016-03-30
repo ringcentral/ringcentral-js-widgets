@@ -487,7 +487,7 @@ h1, h2, h3, h4, h5, h6 {
     /* avoid some margin top collision */
     margin-top: 0;
     /* bold is to bold */
-    font-weight: normal;
+    font-weight: lighter;
 }
 
 
@@ -498,19 +498,13 @@ h1, h2, h3, h4, h5, h6 {
     #OBJECTS
 \*------------------------------------*/
 
-.rc-panel, .rc-auth-panel__container {
-    /* used as a positioned reference */
-    position: relative;
-}
-.rc-list__item, .rc-button, .rc-input, .rc-label, .rc-call-panel > .rc-panel__content {
-    padding: .5em .7em;
-}
-.rc-tabs__tab {
-    cursor: pointer;
-}
 .rc-list {
     /* reset to the default color, avoid inherited by parent element */
     color: #000
+}
+
+.rc-list__item {
+    padding: .5em .7em;
 }
 .rc-img {
     max-width: 100%;
@@ -530,15 +524,17 @@ h1, h2, h3, h4, h5, h6 {
     /**
     * rc-panels are treated as common containers
     */
+    /* used as a positioned reference */
+    position: relative
 }
 
-.rc-panel__header {
-    height: 100px;
+.rc-panel__header {/* height: $panel-header-height; */
 }
 
 .rc-panel__header.--colored {
     background-color: #3498db;
-    color: #fff;
+    color: #fff;/* the white text need to be light */
+    font-weight: lighter;
 }
 
 .rc-panel__header.--center {
@@ -553,6 +549,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 100px;
 }
 .rc-button {
+    padding: .5em .7em;
     border: 1px solid #000;
     background-color: #fff
 }
@@ -581,8 +578,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-button:hover, .rc-button:active {}
 .rc-input {
+    padding: .5em .7em;
     width: 100%;
-    border: 1px solid #000
+    border: 1px solid #bdc3c7
 }
 .rc-input.--clean {
     background: transparent;
@@ -591,9 +589,21 @@ h1, h2, h3, h4, h5, h6 {
 .rc-input.--round {
     border-radius: 3px;
 }
+.rc-input:focus {
+    border-color: #7f8c8d;
+}
 .rc-tag {
     border: 1px solid #3498db;
-    padding: .1em 0.3em;
+    padding: .1em .3em;
+}
+.rc-label {
+    padding: .5em .7em;
+}
+.rc-textarea {
+    padding: .5em .7em;
+    width: 100%;
+    resize: none;
+    font-size: .8em;
 }
 .rc-tabs {
     height: 30px;
@@ -603,6 +613,7 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0 10px
 }
 .rc-tabs__tab {
+    cursor: pointer;
     display: block;
     float: left;
     height: 30px;
@@ -646,83 +657,10 @@ h1, h2, h3, h4, h5, h6 {
     width: 25%;
 }
 
-.rc-image {
-    max-width: 100%;
-}
-
-.rc-sub-panel {
-    font-size: 12px;
-    padding: 5px;
-}
-
-.rc-message {
-    font-size: 12px;
-    color: #878787;
-}
-
-.rc-error-message {
-    min-height: 30px;
-    font-size: 12px;
-    color: #e74c3c;
-}
-
-.rc-logs {
-    max-height: 500px;
-}
-
-.rc-calllog {
-    border-bottom: 1px solid #878787;
-}
-
-.rc-calllog-name {
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.rc-calllog-time {
-    font-size: 12px;
-}
-
-.rc-calllog-type {
-    font-size: 12px;
-}
-
-.rc-mask {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #000;
-    opacity: .5;
-}
-
-.rc-mask-message {
-    color: #fff;
-    line-height: 2;
-}
-
-.rc-toolbar {
-    padding: 10px 5px;
-}
-
-.rc-toolbar-item {
-    background: #fff;
-    border: 0;
-    margin: 2px;
-}
-
-.rc-textarea {
-    width: 100%;
-    max-width: 100%;
-    min-height: 150px;
-    padding: 5px;
-    font-size: 12px;
-    font-weight: lighter;
-}
+/* @import "old.css"; */
 .rc-auth-panel .input-panel {
     border-radius: 3px;
-    border: 1px solid #000;
+    border: 1px solid #bdc3c7;
 }
 .rc-auth-panel .input-panel > .rc-input {}
 .rc-auth-panel .input-panel__flag {
@@ -735,6 +673,9 @@ h1, h2, h3, h4, h5, h6 {
     float: left;
     width: calc(100% - 40px);
 }
+.rc-auth-panel .input-panel.--focus {
+    border-color: #7f8c8d;
+}
 .rc-auth-panel__content {
     display: flex;
     flex-direction: column;
@@ -746,6 +687,9 @@ h1, h2, h3, h4, h5, h6 {
 .rc-auth-panel__content > .rc-button {
     width: 100%;/* Move to the bottom of flex container */
     margin-top: auto;
+}
+.rc-auth-panel__container {/* used as a positioned reference */
+    position: relative;
 }
 .rc-auth-panel__header {
     text-align: center;
@@ -912,6 +856,7 @@ h1, h2, h3, h4, h5, h6 {
     background-image: url(images/call-outbound.png);
 }
 .rc-call-panel > .rc-panel__content {
+    padding: .5em .7em;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -947,6 +892,16 @@ h1, h2, h3, h4, h5, h6 {
     height: 100%;
 }
 .rc-call-panel__footer {}
+.rc-compose-text {}
+.rc-compose-text__textarea {
+    height: 100%;
+}
+.rc-compose-text__send {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
 .rc-contact-picker {
     width: 100%;
 }
@@ -955,7 +910,7 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: 0.05em;
 }
 .rc-contact-picker__contacts {
-    box-shadow: 0 0 3px #000;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     position: absolute;
     width: 100%;
     max-height: 100%;
@@ -999,13 +954,13 @@ h1, h2, h3, h4, h5, h6 {
 .rc-dropdown__trigger {
     padding: 3px 0;
     width: 100%;
-    background: #fff;
+    background: inherit;
     border: 0;
     border-bottom: 1px solid #bdc3c7;
     font-size: .9em;
 }
 .rc-dropdown__list {
-    box-shadow: 0 0 3px #000;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     position: absolute;
     width: 100%;
     max-height: 200px;
