@@ -1,14 +1,23 @@
-<div class='rc-panel'>
-    <div class='rc-pane-header'>
-        <h1>Compose Text</h1>
+<div class='rc-panel rc-compose-text'>
+    <div class='rc-panel__header --colored'>
+        <h5 class='text-center'>
+            Compose text
+        </h5>
+        <contact-picker data-info='contact-picker'></contact-picker>
+        <dropdown data-info='dropdown'></dropdown>
     </div>
-    <div class='rc-pane-content'>
-        <div class='rc-pane-scrollable'>
-            <dropdown data-info='dropdown'></dropdown>
-            <contact-picker data-info='contact-picker'></contact-picker>
-            <textarea class='rc-textarea' placeholder="Type any text..." data-info='text' data-event='focus:readyToSend'></textarea>
-            <button class='rc-button' data-info='send' data-event='click:send'>Send</button>
-        </div>
+    <div class='rc-panel__content'>
+        <textarea 
+            class='rc-textarea rc-compose-text__textarea' 
+            placeholder="Type any text..." 
+            data-info='text' 
+            data-event='focus:readyToSend'></textarea>
+        <button 
+            class='rc-button rc-compose-text__send' 
+            data-info='send' 
+            data-event='click:send'>
+            Send
+        </button>
     </div>
 </div>
 <script>

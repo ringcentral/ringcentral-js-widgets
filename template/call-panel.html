@@ -1,93 +1,65 @@
-<div>
-    <div class='rc-panel' data-info='called-panel'>
-        <div class='rc-pane-header'>
-            <h1>Call Panel</h1>
+<div class='rc-panel rc-call-panel'>
+    <section class='rc-panel__header --colored --center'>
+        <div class='text-right'>
+            Time 00:07
         </div>
-        <div class='rc-pane-content'>
-            <div class='rc-pane-scrollable'>
-                <div data-info='callin-number'></div>
-                <button class='rc-button' data-event='click:answer'>Answer</button>
-                <button class='rc-button' data-event='click:ignore'>Ignore</button>
+        <div>
+            <h1>Howard Zhang</h1>
+            <h4>From <span>(650)555-1234</span></h4>
+        </div>
+    </section>
+    <section class='rc-panel__content'>
+        <div class='rc-call-panel__center control-panel'>
+            <h4>You're on a VoIP call........</h4>
+            <div class='control-panel__line'>
+                <div class='control-panel__item'>
+                    <button class='rc-button --circle control-panel__button'></button>
+                    <div class='text-center'>Hold</div>
+                </div>
+                <div class='control-panel__item'>
+                    <button class='rc-button --circle control-panel__button'></button>
+                    <div class='text-center'>Hold</div>
+                </div>
+                <div class='control-panel__item'>
+                    <button class='rc-button --circle control-panel__button'></button>
+                    <div class='text-center'>Hold</div>
+                </div>
+                <div class='control-panel__item'>
+                    <button class='rc-button --circle control-panel__button'></button>
+                    <div class='text-center'>Hold</div>
+                </div>
+            </div>
+            <div class='control-panel__line'>
+                <div class='control-panel__item'>
+                    <button class='rc-button --circle control-panel__button'></button>
+                    <div class='text-center'>Hold</div>
+                </div>
+                <div class='control-panel__item'>
+                    <button class='rc-button --circle control-panel__button'></button>
+                    <div class='text-center'>Hold</div>
+                </div>
+                <div class='control-panel__item'>
+                    <button class='rc-button --circle control-panel__button'></button>
+                    <div class='text-center'>Hold</div>
+                </div>
+                <div class='control-panel__item'>
+                    <button class='rc-button --circle control-panel__button'></button>
+                    <div class='text-center'>Hold</div>
+                </div>
             </div>
         </div>
-    </div>
-    <div class='rc-panel' data-info='callout-panel'>
-        <!-- <button class='rc-button' data-event='click:cancel'>Cancel</button> -->
-    </div>
-    <div class='rc-panel' data-info='online-panel'>
-        <div class='rc-pane-header'>
-            <h1>Call Panel</h1>
-        </div>
-        <div class='rc-pane-content'>
-            <div class='rc-pane-scrollable'>
-                <h3 data-info='call-time'></h3>
-                <button class='rc-button rc-button-important' data-event='click:hangup'>Hangup</button>
+        <div class='rc-call-panel__footer'>
+            <div class='action-panel'>
+                <button class='rc-button --positive --round action-panel__action'>Accept</button>
+                <button class='rc-button --negative --round action-panel__action'>Ignore</button>
             </div>
         </div>
-    </div>
+    </section>
 </div>
 <script>
-w.register(function() {
-    this.actions = {
-        init: {
-            method: function(finish) {
-                finish();
-            }
-        },
-        render: {
-            after: function() {
-                hidePanelsExcept.call(this);
-            }
-        },
-        answer: {
-            method: function(finish) {
-                return finish();
-            }
-        },
-        ignore: {
-            method: function(finish) {
-                hidePanelsExcept.call(this);
-                return finish();
-            }
-        },
-        hangup: {
-            method: function(finish) {
-                return finish();
-            }
-        },
-        called: {
-            before: function(event) {
-                hidePanelsExcept.call(this, 'called-panel');
-            },
-            method: function() {}
-        },
-        callStarted: {
-            before: function(event) {
-                hidePanelsExcept.call(this, 'online-panel');
-            },
-            method: function() {}
-        },
-        callRejected: {
-            method: function() {}
-        },
-        callEnded: {
-            method: function() {
-                hidePanelsExcept.call(this);
-            }
-        },
-        callFailed: {
-            method: function() {
-                hidePanelsExcept.call(this);
-            }
-        }
-    }
+    w.register(function() {
+        this.actions = {
 
-    function hidePanelsExcept(except) {
-        this.props.dom['called-panel'].classList.add('display-none');
-        this.props.dom['callout-panel'].classList.add('display-none');
-        this.props.dom['online-panel'].classList.add('display-none');
-        if (except && this.props.dom[except])
-            this.props.dom[except].classList.remove('display-none');
-    }
-})
+        }
+    })
 </script>

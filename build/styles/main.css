@@ -54,6 +54,10 @@
     #SETTINGS
 \*------------------------------------*/
 
+/* rc-input.--round, rc-button.--round */
+
+/* rc-panel */
+
 
 
 
@@ -479,21 +483,26 @@ td, th {
     #BASE
 \*------------------------------------*/
 
+h1, h2, h3, h4, h5, h6 {
+    /* avoid some margin top collision */
+    margin-top: 0;
+    /* bold is to bold */
+    font-weight: lighter;
+}
+
+
+
+
 
 /*------------------------------------*\
     #OBJECTS
 \*------------------------------------*/
 
-.rc-panel, .rc-auth-panel__container {
-    /**
-    * Used as a positioned reference
-    */
-    position: relative;
-}
 .rc-list {
     /* reset to the default color, avoid inherited by parent element */
     color: #000
 }
+
 .rc-list__item {
     padding: .5em .7em;
 }
@@ -515,15 +524,21 @@ td, th {
     /**
     * rc-panels are treated as common containers
     */
+    /* used as a positioned reference */
+    position: relative
 }
 
-.rc-panel__header {
-    height: 100px;
+.rc-panel__header {/* height: $panel-header-height; */
 }
 
 .rc-panel__header.--colored {
     background-color: #3498db;
-    color: #fff;
+    color: #fff;/* the white text need to be light */
+    font-weight: lighter;
+}
+
+.rc-panel__header.--center {
+    text-align: center;
 }
 
 .rc-panel__content {
@@ -534,11 +549,15 @@ td, th {
     height: 100px;
 }
 .rc-button {
+    padding: .5em .7em;
     border: 1px solid #000;
     background-color: #fff
 }
-.rc-button.--round {
+.rc-button.--circle {
     border-radius: 50%;
+}
+.rc-button.--round {
+    border-radius: 3px;
 }
 .rc-button.--clean {
     background: transparent;
@@ -546,23 +565,45 @@ td, th {
 .rc-button.--clean:hover, .rc-button.--clean:active {
     border-color: #3498db;
 }
+.rc-button.--ghost {
+    border: 0;
+}
+.rc-button.--positive {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
+}
+.rc-button.--negative {
+    background-color: #e74c3c;
+    border-color: #e74c3c;
+}
 .rc-button:hover, .rc-button:active {}
 .rc-input {
-    padding: .5em;
+    padding: .5em .7em;
     width: 100%;
-    border: 1px solid #000
+    border: 1px solid #bdc3c7
 }
 .rc-input.--clean {
     background: transparent;
-    color: #fff;
     border: 0;
 }
 .rc-input.--round {
     border-radius: 3px;
 }
+.rc-input:focus {
+    border-color: #7f8c8d;
+}
 .rc-tag {
     border: 1px solid #3498db;
-    padding: .1em 0.3em;
+    padding: .1em .3em;
+}
+.rc-label {
+    padding: .5em .7em;
+}
+.rc-textarea {
+    padding: .5em .7em;
+    width: 100%;
+    resize: none;
+    font-size: .8em;
 }
 .rc-tabs {
     height: 30px;
@@ -572,19 +613,14 @@ td, th {
     padding: 0 10px
 }
 .rc-tabs__tab {
-    font-size: 14px;
-    text-align: center;
-    border-style: solid;
-    border-width: 1px;
+    cursor: pointer;
     display: block;
     float: left;
-    cursor: pointer;
-    -webkit-user-select: none;/*width: 54px;*/
     height: 30px;
+    font-size: 14px;
+    text-align: center;
+    border: 1px solid;
     padding-top: 7px;
-    box-sizing: content-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
 }
 .rc-tabs__tab:focus {
     text-decoration: none;
@@ -596,8 +632,7 @@ td, th {
 .rc-tabs__tab:last-child {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
-    border-right: 1px solid;
-    border-right-color: #c1e0ee;
+    border-right: 1px solid #c1e0ee;
 }
 .rc-tabs__tab.--color {
     background-color: #ffffff;
@@ -637,81 +672,25 @@ td, th {
     max-height: 100px;
 }
 
-.rc-image {
-    max-width: 100%;
+/* @import "old.css"; */
+.rc-auth-panel .input-panel {
+    border-radius: 3px;
+    border: 1px solid #bdc3c7;
 }
-
-.rc-sub-panel {
-    font-size: 12px;
-    padding: 5px;
+.rc-auth-panel .input-panel > .rc-input {}
+.rc-auth-panel .input-panel__flag {
+    float: left;
+    width: 40px;/* For test, the position is for country flag */
+    height: 30px;
+    background: #000;
 }
-
-.rc-message {
-    font-size: 12px;
-    color: #878787;
+.rc-auth-panel .input-panel__phone {
+    float: left;
+    width: calc(100% - 40px);
 }
-
-.rc-error-message {
-    min-height: 30px;
-    font-size: 12px;
-    color: #e74c3c;
+.rc-auth-panel .input-panel.--focus {
+    border-color: #7f8c8d;
 }
-
-.rc-logs {
-    max-height: 500px;
-}
-
-.rc-calllog {
-    border-bottom: 1px solid #878787;
-}
-
-.rc-calllog-name {
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.rc-calllog-time {
-    font-size: 12px;
-}
-
-.rc-calllog-type {
-    font-size: 12px;
-}
-
-.rc-mask {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #000;
-    opacity: .5;
-}
-
-.rc-mask-message {
-    color: #fff;
-    line-height: 2;
-}
-
-.rc-toolbar {
-    padding: 10px 5px;
-}
-
-.rc-toolbar-item {
-    background: #fff;
-    border: 0;
-    margin: 2px;
-}
-
-.rc-textarea {
-    width: 100%;
-    max-width: 100%;
-    min-height: 150px;
-    padding: 5px;
-    font-size: 12px;
-    font-weight: lighter;
-}
-.rc-auth-panel {}
 .rc-auth-panel__content {
     display: flex;
     flex-direction: column;
@@ -723,6 +702,9 @@ td, th {
 .rc-auth-panel__content > .rc-button {
     width: 100%;/* Move to the bottom of flex container */
     margin-top: auto;
+}
+.rc-auth-panel__container {/* used as a positioned reference */
+    position: relative;
 }
 .rc-auth-panel__header {
     text-align: center;
@@ -888,6 +870,53 @@ td, th {
 .call-outbound {
     background-image: url(images/call-outbound.png);
 }
+.rc-call-panel > .rc-panel__content {
+    padding: .5em .7em;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.rc-call-panel .action-panel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+.rc-call-panel .action-panel__action {
+    width: 130px;
+}
+.rc-call-panel .action-panel__action:first-child {
+    margin-right: 10px;
+}
+.rc-call-panel .control-panel {}
+.rc-call-panel .control-panel__line {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.rc-call-panel .control-panel__button {
+    width: 3.2em;
+    height: 3.2em;
+    margin-bottom: 3px;
+}
+.rc-call-panel__reply {
+    width: 100%;
+}
+.rc-call-panel__center {/* fill out all flex panel */
+    height: 100%;
+}
+.rc-call-panel__footer {}
+.rc-compose-text {}
+.rc-compose-text__textarea {
+    height: 100%;
+}
+.rc-compose-text__send {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
 .rc-contact-picker {
     width: 100%;
 }
@@ -896,7 +925,7 @@ td, th {
     letter-spacing: 0.05em;
 }
 .rc-contact-picker__contacts {
-    box-shadow: 0 0 3px #000;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     position: absolute;
     width: 100%;
     max-height: 100%;
@@ -908,40 +937,45 @@ td, th {
 */
 .rc-contact {
     font-size: .9em;
+    border-bottom: 1px solid #000;
 }
-.rc-contact__name {}
-.rc-contact__value {}
+.rc-contact__name {
+    max-width: 300px;
+}
 .rc-dial-pad {}
 .rc-dial-pad__line {
     display: flex;
     flex-direction: row;
     justify-content: center;
 }
-.rc-dial-pad__line > .rc-button {
-    margin: 5px 10px;
-    width: 3em;
-    height: 3em;
+.rc-dial-pad__line > .dial-button {
+    margin: 4px 8px;
+    width: 3.2em;
+    height: 3.2em;
     color: #3498db;
+    border-color: #3498db;
 }
-.rc-dial-pad__line > .rc-button > .rc-button__number {
+.rc-dial-pad__line > .dial-button > .dial-button__number {
     font-weight: bold;
 }
-.rc-dial-pad__line > .rc-button > .rc-button__symbol {
+.rc-dial-pad__line > .dial-button > .dial-button__symbol {
     font-size: .5em;
+}
+.rc-dial-pad__line > .dial-button.--call {
+    background-color: #2ecc71;
+    border-color: #2ecc71;
 }
 .rc-dropdown {}
 .rc-dropdown__trigger {
     padding: 3px 0;
     width: 100%;
-    background: #fff;
+    background: inherit;
+    border: 0;
+    border-bottom: 1px solid #bdc3c7;
     font-size: .9em;
 }
-.rc-dropdown__trigger.--clean {
-    border: 0;
-    border-bottom: 1px solid #000;
-}
 .rc-dropdown__list {
-    box-shadow: 0 0 3px #000;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     position: absolute;
     width: 100%;
     max-height: 200px;
@@ -1074,7 +1108,12 @@ td, th {
 .display-none {
     display: none;
 }
-
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right;
+}
 /**
 * Atomic degisn methodology
 */

@@ -96,22 +96,31 @@
     #BASE
 \*------------------------------------*/
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    /* avoid some margin top collision */
+    margin-top: 0;
+    /* bold is to bold */
+    font-weight: lighter;
+}
+
+
+
+
 
 /*------------------------------------*\
     #OBJECTS
 \*------------------------------------*/
 
-@define-extend block {
-    /**
-    * Used as a positioned reference
-    */
-    position: relative;
-}
 .rc-list {
     /* reset to the default color, avoid inherited by parent element */
     color: #000;
     &__item {
-        padding: .5em .7em;
+        @mixin padding-normal;
     }
 }
 .rc-img {
@@ -132,12 +141,17 @@
     /**
     * rc-panels are treated as common containers
     */
-    @extend block;
+    @mixin block;
     &__header {
-        height: $panel-header-height;
+        /* height: $panel-header-height; */
         &.--colored {
             background-color: $main-color;
             color: #fff;
+            /* the white text need to be light */
+            font-weight: lighter;
+        }
+        &.--center {
+            text-align: center;
         }
     }
     &__content {
@@ -148,11 +162,15 @@
     }
 }
 .rc-button {
+    @mixin padding-normal;
     border: 1px solid #000;
     background-color: #fff;
     
-    &.--round {
+    &.--circle {
         border-radius: 50%;
+    }
+    &.--round {
+        border-radius: $border-radius;
     }
     &.--clean {
         background: transparent;
@@ -161,26 +179,48 @@
             border-color: $main-color;
         }
     }
+    &.--ghost {
+        border: 0;
+    }
+    &.--positive {
+        background-color: #2ecc71;
+        border-color: #2ecc71;
+    }
+    &.--negative {
+        background-color: #e74c3c;
+        border-color: #e74c3c;
+    }
     &:hover,
     &:active {}
 }
 .rc-input {
-    padding: .5em;
+    @mixin padding-normal;
     width: 100%;
-    border: 1px solid #000;
+    border: 1px solid $gray;
 
     &.--clean {
         background: transparent;
-        color: #fff;
         border: 0;
     }
     &.--round {
-        border-radius: 3px;
+        border-radius: $border-radius;
+    }
+    &:focus {
+        border-color: #7f8c8d;
     }
 }
 .rc-tag {
     border: 1px solid $main-color;
-    padding: .1em 0.3em;
+    padding: .1em .3em;
+}
+.rc-label {
+    @mixin padding-normal;
+}
+.rc-textarea {
+    @mixin padding-normal;
+    width: 100%;
+    resize: none;
+    font-size: .8em;
 }
 .rc-tabs {
     height: 30px;
@@ -189,20 +229,16 @@
     margin: 11px auto 11px auto;
     padding: 0 10px;
     &__tab {
-        font-size: 14px;
-        text-align: center;
-        border-style: solid;
-        border-width: 1px;
+        @mixin clickable;
         display: block;
         float: left;
-        cursor: pointer;
-        -webkit-user-select: none;
-        /*width: 54px;*/
+
         height: 30px;
+
+        font-size: 14px;
+        text-align: center;
+        border: 1px solid;
         padding-top: 7px;
-        box-sizing: content-box;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
         &:focus {
             text-decoration: none;
         }
@@ -213,8 +249,7 @@
         &:last-child {
             border-top-right-radius: 3px;
             border-bottom-right-radius: 3px;
-            border-right: 1px solid;
-            border-right-color: #c1e0ee;
+            border-right: 1px solid #c1e0ee;
         }
         &.--color {
             background-color: #ffffff; 
@@ -250,14 +285,17 @@
     }
 }
 
-@import "old.css";
+/* @import "old.css"; */
 @import "widgets/auth-panel.css";
 @import "widgets/call-log.css";
+@import "widgets/call-panel.css";
+@import "widgets/compose-text.css";
 @import "widgets/contact-picker.css";
 @import "widgets/dial-pad.css";
 @import "widgets/dropdown.css";
 @import "widgets/messages.css";
 @import "widgets/message-item.css";
+@import "widgets/tool-bar.css";
 
 
 
@@ -280,7 +318,12 @@
 .display-none {
     display: none;
 }
-
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right;
+}
 /**
 * Atomic degisn methodology
 */

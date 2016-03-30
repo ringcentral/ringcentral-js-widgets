@@ -1,31 +1,48 @@
-<div class='rc-toolbar' data-info='toolbar'></div>
+<div class='rc-toolbar' data-info='toolbar'>
+    <button class='rc-button' data-event='click:pop'>pre</button>
+</div>
 <script>
 w.register(function() {
     this.actions = Object.assign(w.action('interaction'), {
+        init: {
+            method: function() {
+                this.state = []
+            }
+        },
         addItem: {
             method: function() {},
             after: function(content, direction) {
                 // use innerHTML here, because content could be image or something else.
-                var item = document.createElement('button');
-                item.classList.add('rc-toolbar-item');
+                var item = document.createElement('button')
+                item.classList.add('rc-toolbar__item', 'rc-button', '--ghost')
                 if (direction)
-                    item.classList.add('float-' + direction);
-                item.innerHTML = content;
-                this.props.dom['toolbar'].appendChild(item);
-                return item;
+                    item.classList.add('float-' + direction)
+                item.innerHTML = content
+                this.props.dom['toolbar'].appendChild(item)
+                return item
             }
         },
         clickItem: {
             method: function(finish, item, event) {
-                console.log(finish);
-                console.log(item);
                 if (typeof item === 'number') {
 
                 } else {
-                    item.addEventListener('click', event.bind(this));   
+                    item.addEventListener('click', () => {
+                        event.call(this)
+                        this.state.push(event)
+                    })
                 }
             }
         },
+        pop: {
+            method: function() {
+                console.log(this.state);
+                if (this.state.length > 1) {
+                    this.state.pop() // current state, no need to call again
+                    this.state[this.state.length - 1].call(this)
+                }
+            }
+        }
     })
 })
 </script>
