@@ -666,10 +666,10 @@ h1, h2, h3, h4, h5, h6 {
     border-radius:65px
 }
 .rc-avatar.--big {
-    min-width: 100px;
-    min-height: 100px;
-    max-width: 100px;
-    max-height: 100px;
+    min-width: 120px;
+    min-height: 120px;
+    max-width: 120px;
+    max-height: 120px;
 }
 
 /* @import "old.css"; */
@@ -1072,6 +1072,25 @@ h1, h2, h3, h4, h5, h6 {
     text-overflow: ellipsis;
     overflow: hidden;
     color: #555555;
+}
+.rc-message-detail {
+    margin-top: 30px;
+    text-align: center;
+    line-height: 200%;
+    font-size: 14px;
+}
+.rc-message-detail__contact {}
+.rc-message-detail__contact__name {
+    font-size: 18px;
+    font-weight: bold;
+}
+.rc-message-detail__avatar {
+    background-image: url(images/incognito_big.png);
+}
+.rc-message-detail__button {
+    display: block;
+    margin: 0 auto 5px auto;
+    width: 100%;
 }
 
 

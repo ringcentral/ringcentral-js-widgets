@@ -278,10 +278,10 @@ h6 {
     background-repeat:no-repeat;
     border-radius:65px;
     &.--big {
-        min-width: 100px;
-        min-height: 100px;
-        max-width: 100px;
-        max-height: 100px;
+        min-width: 120px;
+        min-height: 120px;
+        max-width: 120px;
+        max-height: 120px;
     }
 }
 
@@ -295,6 +295,7 @@ h6 {
 @import "widgets/dropdown.css";
 @import "widgets/messages.css";
 @import "widgets/message-item.css";
+@import "widgets/message-detail.css";
 @import "widgets/tool-bar.css";
 
 
