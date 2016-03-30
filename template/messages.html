@@ -1,24 +1,28 @@
-<div>
-    <div class="tabs tabs4 badges">
-        <a class="tab active" data-info='allTab' data-value='all' data-event='click:enableTab'>
-            All
-        </a>
-        <a class="tab" data-info='voiceMailTab' data-value='voicemail' data-event='click:enableTab'>
-            VoiceMail
-            <!--<span class="badge" ng-if="updates.voicemail">{{ updates.voicemail }}</span>-->
-        </a>
-        <a class="tab" data-info='faxTab' data-value='fax' data-event='click:enableTab'>
-            Fax
-            <!--<span class="badge" ng-if="updates.fax">{{ updates.fax }}</span>-->
-        </a>
-        <a class="tab" data-info='textTab' data-value='sms/pager' data-event='click:enableTab'>
-            Text
-            <!--<span class="badge" ng-if="updates.text">{{ updates.text }}</span>-->
-        </a>
-    </div>
-    <div class="rc-pane-scrollable">
-        <div data-info="messages" data-info='messages'>
-            <message-item dynamic></message-item>
+<div class="rc-panel">
+    <div class="rc-panel__content">
+        <div class="rc-tabs">
+            <a class="rc-tabs__tab --active --color --width4" data-info='allTab' data-value='all' data-event='click:enableTab'>
+                All
+            </a>
+            <a class="rc-tabs__tab --color --width4" data-info='voiceMailTab' data-value='voicemail' data-event='click:enableTab'>
+                VoiceMail
+                <!--<span class="badge" ng-if="updates.voicemail">{{ updates.voicemail }}</span>-->
+            </a>
+            <a class="rc-tabs__tab --color --width4" data-info='faxTab' data-value='fax' data-event='click:enableTab'>
+                Fax
+                <!--<span class="badge" ng-if="updates.fax">{{ updates.fax }}</span>-->
+            </a>
+            <a class="rc-tabs__tab --color --width4" data-info='textTab' data-value='text' data-event='click:enableTab'>
+                Text
+                <!--<span class="badge" ng-if="updates.text">{{ updates.text }}</span>-->
+            </a>
+        </div>
+        <div>
+            <div data-info='messages'>
+                <message-item-text dynamic></message-item-text>
+                <message-item-fax dynamic></message-item-fax>
+                <message-item-voicemail dynamic></message-item-voicemail>
+            </div>
         </div>
     </div>
 </div>
@@ -28,24 +32,35 @@ w.register(function(){
     var currentEnabledTab = null;
     
     function enableTab(toEnableTab, toDisableTab) {
-        if (toEnableTab.classList.contains('active') === false) {
-            toEnableTab.classList.add('active');
-            toDisableTab.classList.remove('active');
+        if (toEnableTab.classList.contains('--active') === false) {
+            toEnableTab.classList.add('--active');
+            toDisableTab.classList.remove('--active');
         }
+    }
+    
+    function createMessageWidget(type, message, parent){
+        return w(type, {
+            data: parent.data,
+            actions:{
+                init:{
+                    method:function(){
+                        return message;
+                    }
+                }
+            }
+        }); 
     }
     
     function createMessageWidgets(messages, parent){
         messages.forEach(function(message){
-            var widget = w('message-item', {
-                data: parent.data,
-                actions:{
-                    init:{
-                        method:function(){
-                            return message;
-                        }
-                    }
-                }
-            }); 
+            var widget = null;
+            if(message.type === 'Fax') {
+                widget = createMessageWidget('message-item-fax', message, parent);                
+            }else if(message.type === 'VoiceMail') {
+                widget = createMessageWidget('message-item-voicemail', message, parent);                
+            }else {
+                widget = createMessageWidget('message-item-text', message, parent)
+            }
             widget.render(parent.props.dom.messages);
             parent.props.widgetItems.push(widget);
         });

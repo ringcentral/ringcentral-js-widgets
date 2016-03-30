@@ -596,7 +596,11 @@ var rcMessageProvider = function () {
             result.subject = message.subject;
         }
         result.readStatus = message.readStatus;
-        result.type = message.type;
+        if (message.type !== 'Fax' && message.type !== 'VoiceMail') {
+            result.type = 'Text';
+        } else {
+            result.type = message.type;
+        }
         result.id = message.id;
         result.time = message.lastModifiedTime;
         return result;
