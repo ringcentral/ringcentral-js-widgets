@@ -1,0 +1,113 @@
+.rc-message-item { 
+    padding: 10px 3px;
+    clear: both;
+    border-bottom: 1px solid;
+    cursor: default;
+    border-bottom-color: #efeff4; 
+    & > &__icon {
+        background-repeat: no-repeat;
+        background-position: center center;
+        width: 25px;
+        height: 25px;
+        display: block;
+        float: left;
+        margin-right: 13px;
+        margin-top: 5px;
+    }
+    & > &__info {
+        display: block;
+        float: right;
+        width: 23px;
+        height: 35px;
+        cursor: pointer;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-image: url(images/info_big_normal.png);
+        &:hover {
+            background-image: url(images/info_big_pressed.png);
+        }
+    }
+    & > &__time {
+        display: block;
+        float: right;
+        font-size: 11px;
+        padding-right: 5px;
+        max-width: 50px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        line-height:35px;
+        white-space: nowrap;
+        color: #b3b3b3;
+    }
+    & > &__body {
+        line-height: 14px;
+        margin-left: 38px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 0 5px 0 0;
+        height:100%;
+        font-size:14px;
+        display:block;
+        & > .contact {
+            font-size: 14px;
+            line-height: 18px;
+            color: #2f2f2f;
+        }
+        & > .text {
+            font-size: 12px;
+            line-height: 18px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            color: #555555; 
+        }
+    }
+    &.--read {
+        & > .rc-message-item__icon.--sms,
+        & > .rc-message-item__icon.--conversation,
+        & > .rc-message-item__icon.--pager {
+            background-image: url(images/msg_tred_sms_normal.png);
+        }
+        & > .rc-message-item__icon.--voicemail {
+            background-image: url(images/msg_tred_voicemail_normal.png);
+        }
+        & > .rc-message-item__icon.--fax {
+            background-image: url(images/msg_tred_fax_normal.png);
+        }
+    }
+    &.--not-read {
+        & > .rc-message-item__icon.--sms,
+        & > .rc-message-item__icon.--conversation,
+        & > .rc-message-item__icon.--pager {
+            background-image: url(images/msg_tred_sms_unreaded.png);
+        }
+        & > .rc-message-item__icon.--voicemail{
+            background-image: url(images/msg_tred_voicemail_unreaded.png);
+        }
+        .rc-message-item__icon.--fax{
+            background-image: url(images/msg_tred_fax_unreaded.png);
+        }
+        & > .rc-message-item__body > .contact {
+            font-size: 15px;
+            color: #0684bd;
+            & : after {
+                content:" "; display:inline-block;
+            }
+        }
+    }
+}
+
+.message .phone{ color: #b3b3b3; }
+
+.message .phone
+{
+    display: block;
+    float: right;
+    font-size: 11px;
+    padding-right: 5px;
+    max-width: 50px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    line-height:35px;
+    white-space: nowrap;
+}

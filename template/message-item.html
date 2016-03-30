@@ -1,8 +1,8 @@
-<div data-info='message' class="message" data-event='click:open'>
-    <i data-info='icon'></i>
-    <a class="info" data-event='click:viewInfo'></a>
-    <span class="time" data-info='time'></span>
-    <div class="body">
+<div data-info='message' class="rc-message-item --read" data-event='click:open'>
+    <i data-info='icon' class="rc-message-item__icon"></i>
+    <a class="rc-message-item__info" data-event='click:viewInfo'></a>
+    <span class="rc-message-item__time" data-info='time'></span>
+    <div class="rc-message-item__body">
         <span class="contact" data-info='contact'>
         </span>
         <div class="text" data-info='text'>
@@ -20,9 +20,10 @@ w.register(function(){
         },
         after:function(item) {
             if(item.readStatus === 'Unread'){
-                this.props.dom.message.classList.add('not-read');
+                this.props.dom.message.classList.remove('--read');
+                this.props.dom.message.classList.add('--not-read');
             }
-            this.props.dom.icon.classList.add("message-type-" + item.type.toLowerCase());
+            this.props.dom.icon.classList.add("--" + item.type.toLowerCase());
             this.props.dom.time.textContent = item.time;
             this.props.dom.contact.textContent = item.contact;
             var t = w.t(this.data.lang);
