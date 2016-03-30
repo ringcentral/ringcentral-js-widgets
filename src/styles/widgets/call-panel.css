@@ -1,0 +1,47 @@
+$call-panel-action-btn-width: 130px;
+$call-panel-button-radius: 3.2em;
+.rc-call-panel {
+    &__reply {
+        width: 100%;
+    }
+
+    &__center {
+        /* fill out all flex panel */
+        height: 100%;
+    }
+    &__footer {}
+
+    > .rc-panel__content {
+        @extend padding-normal;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+
+    .action-panel {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-top: 10px;
+        &__action {
+            width: $call-panel-action-btn-width;
+            &:first-child {
+                margin-right: 10px;
+            }
+        }
+    }
+
+    .control-panel {
+        &__line {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        &__button {
+            width: $call-panel-button-radius;
+            height: $call-panel-button-radius;
+            margin-bottom: 3px;
+        }
+    }
+}

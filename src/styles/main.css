@@ -96,15 +96,28 @@
     #BASE
 \*------------------------------------*/
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    /* avoid some margin top collision */
+    margin-top: 0;
+    /* bold is to bold */
+    font-weight: normal;
+}
+
+
+
+
 
 /*------------------------------------*\
     #OBJECTS
 \*------------------------------------*/
 
 @define-extend block {
-    /**
-    * Used as a positioned reference
-    */
+    /* used as a positioned reference */
     position: relative;
 }
 @define-extend padding-normal {
@@ -112,6 +125,9 @@
 }
 @define-extend padding-large {
     padding: .7em .9em;
+}
+@define-extend clickable {
+    cursor: pointer;
 }
 .rc-list {
     /* reset to the default color, avoid inherited by parent element */
@@ -145,6 +161,9 @@
             background-color: $main-color;
             color: #fff;
         }
+        &.--center {
+            text-align: center;
+        }
     }
     &__content {
         height: $panel-content-height;
@@ -174,6 +193,14 @@
     &.--ghost {
         border: 0;
     }
+    &.--positive {
+        background-color: #2ecc71;
+        border-color: #2ecc71;
+    }
+    &.--negative {
+        background-color: #e74c3c;
+        border-color: #e74c3c;
+    }
     &:hover,
     &:active {}
 }
@@ -197,14 +224,63 @@
 .rc-label {
     @extend padding-normal;
 }
+.rc-tabs {
+    height: 30px;
+    clear: both;
+    /* for auto center */
+    margin: 11px auto 11px auto;
+    padding: 0 10px;
+    &__tab {
+        @extend clickable;
+        display: block;
+        float: left;
+
+        height: 30px;
+
+        font-size: 14px;
+        text-align: center;
+        border: 1px solid;
+        padding-top: 7px;
+        &:focus {
+            text-decoration: none;
+        }
+        &:first-child {
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+        &:last-child {
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+            border-right: 1px solid #c1e0ee;
+        }
+        &.--color {
+            background-color: #ffffff; 
+            border-color: #c1e0ee;
+            color: #1785bb;
+        }
+        &.--active { 
+            background-color: #1785bb; 
+            border-color: #1785bb;
+            color: #ffffff; 
+        }
+        &.--active:last-child {
+            border-right-color: #c1e0ee; 
+        }
+        &.--width2 { width: 50%; }
+        &.--width3 { width: 33%; }
+        &.--width4 { width: 25%; }
+    }
+}
 
 @import "old.css";
 @import "widgets/auth-panel.css";
 @import "widgets/call-log.css";
+@import "widgets/call-panel.css";
 @import "widgets/contact-picker.css";
 @import "widgets/dial-pad.css";
 @import "widgets/dropdown.css";
 @import "widgets/messages.css";
+@import "widgets/message-item.css";
 
 
 
@@ -227,7 +303,12 @@
 .display-none {
     display: none;
 }
-
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right;
+}
 /**
 * Atomic degisn methodology
 */
