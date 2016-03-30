@@ -142,9 +142,6 @@
     }
     &__content {
         height: $panel-content-height;
-        &__scroll-panel {
-            overflow: auto;
-        }
     }
     &__footer {
         height: $panel-footer-height;

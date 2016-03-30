@@ -530,10 +530,6 @@ td, th {
     height: 300px;
 }
 
-.rc-panel__content__scroll-panel {
-    overflow: auto;
-}
-
 .rc-panel__footer {
     height: 100px;
 }
@@ -944,7 +940,7 @@ td, th {
     cursor: default;
     border-bottom-color: #efeff4;
 }
-.rc-message-item > .rc-message-item__icon {
+.rc-message-item__icon {
     background-repeat: no-repeat;
     background-position: center center;
     width: 25px;
@@ -954,7 +950,25 @@ td, th {
     margin-right: 13px;
     margin-top: 5px;
 }
-.rc-message-item > .rc-message-item__info {
+.rc-message-item__icon.--text {
+    background-image: url(images/msg_tred_sms_normal.png);
+}
+.rc-message-item__icon.--text.--not-read {
+    background-image: url(images/msg_tred_sms_unreaded.png);
+}
+.rc-message-item__icon.--voicemail {
+    background-image: url(images/msg_tred_voicemail_normal.png);
+}
+.rc-message-item__icon.--voicemail.--not-read {
+    background-image: url(images/msg_tred_voicemail_unreaded.png);
+}
+.rc-message-item__icon.--fax {
+    background-image: url(images/msg_tred_fax_normal.png);
+}
+.rc-message-item__icon.--fax.--not-read {
+    background-image: url(images/msg_tred_fax_unreaded.png);
+}
+.rc-message-item__info {
     display: block;
     float: right;
     width: 23px;
@@ -964,10 +978,10 @@ td, th {
     background-position: center center;
     background-image: url(images/info_big_normal.png);
 }
-.rc-message-item > .rc-message-item__info:hover {
+.rc-message-item__info:hover {
     background-image: url(images/info_big_pressed.png);
 }
-.rc-message-item > .rc-message-item__time {
+.rc-message-item__time {
     display: block;
     float: right;
     font-size: 11px;
@@ -979,7 +993,7 @@ td, th {
     white-space: nowrap;
     color: #b3b3b3;
 }
-.rc-message-item > .rc-message-item__body {
+.rc-message-item__body {
     line-height: 14px;
     margin-left: 38px;
     overflow: hidden;
@@ -990,58 +1004,25 @@ td, th {
     font-size: 14px;
     display: block;
 }
-.rc-message-item > .rc-message-item__body > .contact {
+.rc-message-item__body > .__contact {
     font-size: 14px;
     line-height: 18px;
     color: #2f2f2f;
 }
-.rc-message-item > .rc-message-item__body > .text {
+.rc-message-item__body > .__contact.--not-read {
+    font-size: 15px;
+    color: #0684bd;
+}
+.rc-message-item__body > .__contact.--not-read : after {
+    content: " ";
+    display: inline-block;
+}
+.rc-message-item__body > .__text {
     font-size: 12px;
     line-height: 18px;
     text-overflow: ellipsis;
     overflow: hidden;
     color: #555555;
-}
-.rc-message-item.--read {}
-.rc-message-item.--read > .rc-message-item__icon.--sms, .rc-message-item.--read > .rc-message-item__icon.--conversation, .rc-message-item.--read > .rc-message-item__icon.--pager {
-    background-image: url(images/msg_tred_sms_normal.png);
-}
-.rc-message-item.--read > .rc-message-item__icon.--voicemail {
-    background-image: url(images/msg_tred_voicemail_normal.png);
-}
-.rc-message-item.--read > .rc-message-item__icon.--fax {
-    background-image: url(images/msg_tred_fax_normal.png);
-}
-.rc-message-item.--not-read .rc-message-item__icon.--fax {
-    background-image: url(images/msg_tred_fax_unreaded.png);
-}
-.rc-message-item.--not-read > .rc-message-item__icon.--sms, .rc-message-item.--not-read > .rc-message-item__icon.--conversation, .rc-message-item.--not-read > .rc-message-item__icon.--pager {
-    background-image: url(images/msg_tred_sms_unreaded.png);
-}
-.rc-message-item.--not-read > .rc-message-item__icon.--voicemail {
-    background-image: url(images/msg_tred_voicemail_unreaded.png);
-}
-.rc-message-item.--not-read > .rc-message-item__body > .contact {
-    font-size: 15px;
-    color: #0684bd;
-}
-.rc-message-item.--not-read > .rc-message-item__body > .contact : after {
-    content: " ";
-    display: inline-block;
-}
-.message .phone {
-    color: #b3b3b3;
-}
-.message .phone {
-    display: block;
-    float: right;
-    font-size: 11px;
-    padding-right: 5px;
-    max-width: 50px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    line-height: 35px;
-    white-space: nowrap;
 }
 
 

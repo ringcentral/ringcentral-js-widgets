@@ -1,11 +1,11 @@
-<div data-info='message' class="rc-message-item --read" data-event='click:open'>
+<div data-info='message' class="rc-message-item" data-event='click:open'>
     <i data-info='icon' class="rc-message-item__icon"></i>
     <a class="rc-message-item__info" data-event='click:viewInfo'></a>
     <span class="rc-message-item__time" data-info='time'></span>
     <div class="rc-message-item__body">
-        <span class="contact" data-info='contact'>
+        <span class="__contact" data-info='contact'>
         </span>
-        <div class="text" data-info='text'>
+        <div class="__text" data-info='text'>
         </div>
     </div>
 </div>
@@ -20,21 +20,21 @@ w.register(function(){
         },
         after:function(item) {
             if(item.readStatus === 'Unread'){
-                this.props.dom.message.classList.remove('--read');
-                this.props.dom.message.classList.add('--not-read');
+                this.props.dom.icon.classList.add('--not-read');
+                this.props.dom.contact.classList.add('--not-read');
             }
             this.props.dom.icon.classList.add("--" + item.type.toLowerCase());
             this.props.dom.time.textContent = item.time;
             this.props.dom.contact.textContent = item.contact;
-            var t = w.t(this.data.lang);
-            if(item.type === 'Fax'){
-                this.props.dom.text.textContent = t('message-item-fax-text');
-            }else if(item.type === 'VoiceMail'){
-                this.props.dom.text.textContent = t('message-item-voicemail-text');    
-            }else{
-                this.props.dom.text.textContent = item.subject;
-            }
         }
+    };
+    this.actions.setShortText = {
+        method: function(finish){
+            return finish();
+        },
+        after: function(text){
+            this.props.dom.text.textContent = text;
+        }  
     };
     this.actions.open = {
         method: function(finish) {

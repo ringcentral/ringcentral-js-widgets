@@ -4,7 +4,7 @@
     border-bottom: 1px solid;
     cursor: default;
     border-bottom-color: #efeff4; 
-    & > &__icon {
+    &__icon {
         background-repeat: no-repeat;
         background-position: center center;
         width: 25px;
@@ -13,8 +13,26 @@
         float: left;
         margin-right: 13px;
         margin-top: 5px;
+        &.--text {
+            background-image: url(images/msg_tred_sms_normal.png);
+            &.--not-read {
+                background-image: url(images/msg_tred_sms_unreaded.png);
+            }
+        }
+        &.--voicemail {
+            background-image: url(images/msg_tred_voicemail_normal.png);
+            &.--not-read {
+                background-image: url(images/msg_tred_voicemail_unreaded.png);
+            }
+        }
+        &.--fax {
+            background-image: url(images/msg_tred_fax_normal.png);
+            &.--not-read {
+                background-image: url(images/msg_tred_fax_unreaded.png);
+            }
+        }
     }
-    & > &__info {
+    &__info {
         display: block;
         float: right;
         width: 23px;
@@ -27,7 +45,7 @@
             background-image: url(images/info_big_pressed.png);
         }
     }
-    & > &__time {
+    &__time {
         display: block;
         float: right;
         font-size: 11px;
@@ -39,7 +57,7 @@
         white-space: nowrap;
         color: #b3b3b3;
     }
-    & > &__body {
+    &__body {
         line-height: 14px;
         margin-left: 38px;
         overflow: hidden;
@@ -49,12 +67,19 @@
         height:100%;
         font-size:14px;
         display:block;
-        & > .contact {
+        & > .__contact {
             font-size: 14px;
             line-height: 18px;
             color: #2f2f2f;
+            &.--not-read {
+                font-size: 15px;
+                color: #0684bd;
+                & : after {
+                    content:" "; display:inline-block;
+                }
+            }
         }
-        & > .text {
+        & > .__text {
             font-size: 12px;
             line-height: 18px;
             text-overflow: ellipsis;
@@ -62,52 +87,4 @@
             color: #555555; 
         }
     }
-    &.--read {
-        & > .rc-message-item__icon.--sms,
-        & > .rc-message-item__icon.--conversation,
-        & > .rc-message-item__icon.--pager {
-            background-image: url(images/msg_tred_sms_normal.png);
-        }
-        & > .rc-message-item__icon.--voicemail {
-            background-image: url(images/msg_tred_voicemail_normal.png);
-        }
-        & > .rc-message-item__icon.--fax {
-            background-image: url(images/msg_tred_fax_normal.png);
-        }
-    }
-    &.--not-read {
-        & > .rc-message-item__icon.--sms,
-        & > .rc-message-item__icon.--conversation,
-        & > .rc-message-item__icon.--pager {
-            background-image: url(images/msg_tred_sms_unreaded.png);
-        }
-        & > .rc-message-item__icon.--voicemail{
-            background-image: url(images/msg_tred_voicemail_unreaded.png);
-        }
-        .rc-message-item__icon.--fax{
-            background-image: url(images/msg_tred_fax_unreaded.png);
-        }
-        & > .rc-message-item__body > .contact {
-            font-size: 15px;
-            color: #0684bd;
-            & : after {
-                content:" "; display:inline-block;
-            }
-        }
-    }
-}
-
-.message .phone{ color: #b3b3b3; }
-
-.message .phone
-{
-    display: block;
-    float: right;
-    font-size: 11px;
-    padding-right: 5px;
-    max-width: 50px;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    line-height:35px;
-    white-space: nowrap;
 }

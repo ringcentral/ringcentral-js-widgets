@@ -1,0 +1,35 @@
+<div>
+    <message-item></message-item>
+</div>
+<script>
+w.register(function(){
+    this.actions = w.action('interaction');
+    this.actions.init = {
+        method: function(finish){
+            return finish();
+        },
+        after:function(message) {
+            var t = w.t(this.data.lang);
+            w.customize(this, 'message-item', {
+                data: parent.data,
+                actions:{
+                    init:{
+                        method:function(){
+                            return message;
+                        },
+                        after: function(){
+                            this.setShortText();
+                        }
+                    },
+                    setShortText: {
+                        method: function() {
+                            return t('message-item-voicemail-text');
+                        }
+                    }
+                }
+            }); 
+            this.props.message = message;
+        }
+    };
+});
+</script>
