@@ -3,7 +3,7 @@
         <button 
             class='rc-button rc-toolbar__menu-button' 
             data-info='menu-button'
-            data-event='click:more'>
+            data-event='click:toggleMenu'>
             <span class='icon-ActionButtons_down'></span>
         </button>
     </div>
@@ -23,6 +23,12 @@ w.register(function() {
         mount: {
             after: function() {
                 slideDown.init(this.props.dom.menu)
+                window.addEventListener('click', e => {
+                    this.hideMenu()
+                }, false)
+                this.props.root.addEventListener('click', function(e) {
+                    e.stopPropagation()
+                });
             }
         },
         adjustMenuButton: {
@@ -42,10 +48,8 @@ w.register(function() {
             method: function() {},
             after: function(icon, text, direction) {
                 // use innerHTML here, because content could be image or something else.
-                var item = document.createElement('button')
-                
-                item.innerHTML = icon
-                console.log(this.itemCount)
+                var div = document.createElement('div')
+                var item
                 if (this.itemCount > 3) {
                     var template = `<div class='rc-toolbar__more-item text-center'>
                                         <button class='rc-button --circle'>
@@ -53,13 +57,16 @@ w.register(function() {
                                         </button>
                                         <div>${text}</div>
                                     </div>`
-                    var div = document.createElement('div')
-                    div.innerHTML = template;
-                    this.props.dom['menu'].appendChild(div.childNodes[0])
+                    
+                    div.innerHTML = template
+                    item = div.childNodes[0]
+                    this.props.dom['menu'].appendChild(item)
                 } else {
-                    item.classList.add('rc-toolbar__item', 'rc-button', '--ghost', 'rc-icon-switch')
-                    if (direction)
-                        item.classList.add('float-' + direction)
+                    var template = `<button class='rc-toolbar__item rc-button --ghost rc-icon-switch'>
+                                        ${icon}
+                                    </button>`
+                    div.innerHTML = template
+                    item = div.childNodes[0]
                     this.props.dom['toolbar'].appendChild(item)
                 }
                 this.adjustMenuButton()
@@ -88,9 +95,14 @@ w.register(function() {
                 }
             }
         },
-        more: {
+        toggleMenu: {
             after: function() {
                 slideDown.toggle(this.props.dom.menu)
+            }
+        },
+        hideMenu: {
+            after: function() {
+                slideDown.out(this.props.dom.menu)
             }
         }
     })
