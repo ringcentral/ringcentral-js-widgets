@@ -13,6 +13,8 @@
  * Normalize.css........A level playing field.
  * Box-sizing...........Better default `box-sizing`.
  * User-select..........Disable user select.
+ * Font.................
+ * Icon-font............RC-icon font
  *
  * BASE
  * Headings.............H1–H6 styles.
@@ -87,8 +89,12 @@
     user-select: none;
     outline: none
 }
-
-
+/* FIXME use js to load font */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+@import "icon.css";
 
 
 
@@ -143,7 +149,8 @@ h6 {
     */
     @mixin block;
     &__header {
-        /* height: $panel-header-height; */
+        @mixin padding-normal;
+        height: $panel-header-height;
         &.--colored {
             background-color: $main-color;
             color: #fff;
@@ -155,10 +162,11 @@ h6 {
         }
     }
     &__content {
+        @mixin shadow-1;
         height: $panel-content-height;
     }
     &__footer {
-        height: $panel-footer-height;
+        /* height: $panel-footer-height; */
     }
 }
 .rc-button {
@@ -182,13 +190,18 @@ h6 {
     &.--ghost {
         border: 0;
     }
+    &.--dense {
+        @mixin padding-small;
+    }
     &.--positive {
         background-color: #2ecc71;
         border-color: #2ecc71;
+        color: #fff;
     }
     &.--negative {
         background-color: #e74c3c;
         border-color: #e74c3c;
+        color: #fff;
     }
     &:hover,
     &:active {}
@@ -282,6 +295,22 @@ h6 {
         min-height: 120px;
         max-width: 120px;
         max-height: 120px;
+    }
+}
+.rc-icon-switch {
+    > span:first-child {
+        display: inline;
+    }
+    > span:last-child {
+        display: none;
+    }
+    &:hover {
+        > span:first-child {
+            display: none;
+        }
+        > span:last-child {
+            display: inline;
+        }
     }
 }
 

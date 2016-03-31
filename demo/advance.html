@@ -4,6 +4,7 @@
 <head>
     <title>RingCentral Web Phone</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="../build/styles/main.css">
     <style type="text/css">
     html {
@@ -257,29 +258,60 @@
                         after: function() {
                             var panels = [dialPad, composeText, callLog]
                             var pos = 0;
-                            this.clickItem(this.addItem('<img src="../src/styles/images/dialpad_normal.png">'), function() {
+                            this.clickItem(
+                                this.addItem('<span class="icon-uniA4"></span><span class="icon-RC_shapes_1-40_pressed"></span>'), 
+                                function() {
                                     pos = 0;
                                     document.querySelector('.container').style.transform = 'translateX(0)';
-                            });
-                            this.clickItem(this.addItem('<img src="../src/styles/images/sms_normal.png">'),
-                             function() {
-                                pos = -250;
-                                document.querySelector('.container').style.transform = 'translateX(-250px)';
-                            });
-                            this.clickItem(this.addItem('<img src="../src/styles/images/message_normal.png">'),
-                             function() {
-                                pos = -500;
-                                document.querySelector('.container').style.transform = 'translateX(-500px)';
-                            });
-                            this.clickItem(this.addItem('<img src="../src/styles/images/call_log_normal.png">'), function() {
-                                pos = -750;
-                                document.querySelector('.container').style.transform = 'translateX(-750px)';
-                            });
+                                });
                             this.clickItem(
-                                this.addItem(
-                                    '<img src="../src/styles/images/logout.png">', 
-                                    'right'
-                                ), logout);
+                                this.addItem('<span class="icon-uni2487"></span></span><span class="icon-RC_shapes_1_30_pressed"></span>'),
+                                function() {
+                                    pos = -250;
+                                    document.querySelector('.container').style.transform = 'translateX(-250px)';
+                                });
+                            this.clickItem(
+                                this.addItem('<span class="icon-uni7D"></span><span class="icon-contact_info_pressed"></span>'),
+                                 function() {
+                                    pos = -500;
+                                    document.querySelector('.container').style.transform = 'translateX(-500px)';
+                                });
+                            this.clickItem(
+                                this.addItem('<span class="icon-uniC8"></span><span class="icon-RC_shapes_2-30_pressed"></span>'),
+                                function() {
+                                    pos = -750;
+                                    document.querySelector('.container').style.transform = 'translateX(-750px)';
+                                });
+                            this.clickItem(
+                                this.addItem('<span class="icon-uniA3"></span>', 'Conference'),
+                                function() {
+                                    pos = -750;
+                                    document.querySelector('.container').style.transform = 'translateX(-750px)';
+                                });
+                            this.clickItem(
+                                this.addItem('<span class="icon-uni47"></span>', 'Meeting'),
+                                function() {
+                                    pos = -750;
+                                    document.querySelector('.container').style.transform = 'translateX(-750px)';
+                                });
+                            this.clickItem(
+                                this.addItem('<span class="icon-uni47"></span>', 'Meetings'),
+                                function() {
+                                    pos = -750;
+                                    document.querySelector('.container').style.transform = 'translateX(-750px)';
+                                });
+                            this.clickItem(
+                                this.addItem('<span class="icon-uni47"></span>', 'Meetings'),
+                                function() {
+                                    pos = -750;
+                                    document.querySelector('.container').style.transform = 'translateX(-750px)';
+                                });
+                            this.clickItem(
+                                this.addItem('<span class="icon-uni47"></span>', 'Meetings'),
+                                function() {
+                                    pos = -750;
+                                    document.querySelector('.container').style.transform = 'translateX(-750px)';
+                                });
                             // this.addItem('<img src="../src/styles/images/settings_normal.png">');
                         }
                     },

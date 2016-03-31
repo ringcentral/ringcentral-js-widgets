@@ -8,6 +8,6 @@ $border-radius: 3px;
 
 /* rc-panel */
 $panel-width: 300px;
-$panel-header-height: 100px;
-$panel-content-height: 300px;
+$panel-header-height: 150px;
+$panel-content-height: 400px;
 $panel-footer-height: 100px;

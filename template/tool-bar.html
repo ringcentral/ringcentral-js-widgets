@@ -1,24 +1,69 @@
-<div class='rc-toolbar' data-info='toolbar'>
-    <button class='rc-button' data-event='click:pop'>pre</button>
+<div class='rc-toolbar'>
+    <div class='rc-toolbar__bar text-center' data-info='toolbar'>
+        <button 
+            class='rc-button rc-toolbar__menu-button' 
+            data-info='menu-button'
+            data-event='click:more'>
+            <span class='icon-ActionButtons_down'></span>
+        </button>
+    </div>
+    <div class='rc-toolbar__panel' data-info='menu'>
+    </div>
 </div>
 <script>
 w.register(function() {
+    var slideDown = w.transition('slide-down')
     this.actions = Object.assign(w.action('interaction'), {
         init: {
             method: function() {
                 this.state = []
+                this.itemCount = 0
+            }
+        },
+        mount: {
+            after: function() {
+                slideDown.init(this.props.dom.menu)
+            }
+        },
+        adjustMenuButton: {
+            after: function() {
+                Array.from(this.props.dom['toolbar'].childNodes).forEach(node => {
+                    if (node.nodeType === 3)
+                        node.parentNode.removeChild(node)
+                })
+                var mid = Math.floor((Array.from(this.props.dom['toolbar'].childNodes).length - 1) / 2) + 1
+                var target = this.props.dom['toolbar'].childNodes[mid]
+                target.parentNode.insertBefore(
+                    this.props.dom['menu-button'], target
+                )
             }
         },
         addItem: {
             method: function() {},
-            after: function(content, direction) {
+            after: function(icon, text, direction) {
                 // use innerHTML here, because content could be image or something else.
                 var item = document.createElement('button')
-                item.classList.add('rc-toolbar__item', 'rc-button', '--ghost')
-                if (direction)
-                    item.classList.add('float-' + direction)
-                item.innerHTML = content
-                this.props.dom['toolbar'].appendChild(item)
+                
+                item.innerHTML = icon
+                console.log(this.itemCount)
+                if (this.itemCount > 3) {
+                    var template = `<div class='rc-toolbar__more-item text-center'>
+                                        <button class='rc-button --circle'>
+                                            ${icon}
+                                        </button>
+                                        <div>${text}</div>
+                                    </div>`
+                    var div = document.createElement('div')
+                    div.innerHTML = template;
+                    this.props.dom['menu'].appendChild(div.childNodes[0])
+                } else {
+                    item.classList.add('rc-toolbar__item', 'rc-button', '--ghost', 'rc-icon-switch')
+                    if (direction)
+                        item.classList.add('float-' + direction)
+                    this.props.dom['toolbar'].appendChild(item)
+                }
+                this.adjustMenuButton()
+                ++ this.itemCount
                 return item
             }
         },
@@ -41,6 +86,11 @@ w.register(function() {
                     this.state.pop() // current state, no need to call again
                     this.state[this.state.length - 1].call(this)
                 }
+            }
+        },
+        more: {
+            after: function() {
+                slideDown.toggle(this.props.dom.menu)
             }
         }
     })

@@ -1,6 +1,8 @@
 $call-panel-action-btn-width: 130px;
-$call-panel-button-radius: 3.2em;
+$call-panel-icon-size: 4em;
+$call-panel-icon-size-sm: 1.6em;
 .rc-call-panel {
+    font-size: .8em;
     &__reply {
         width: 100%;
     }
@@ -8,6 +10,7 @@ $call-panel-button-radius: 3.2em;
     &__center {
         /* fill out all flex panel */
         height: 100%;
+        margin-bottom: 30px;
     }
     &__footer {}
 
@@ -28,20 +31,30 @@ $call-panel-button-radius: 3.2em;
             &:first-child {
                 margin-right: 10px;
             }
+            > [class^="icon-"] {
+                font-size: $call-panel-icon-size-sm;
+            }
         }
     }
 
     .control-panel {
+        &__title {
+            @mixin padding-small;
+        }
         &__line {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             margin-bottom: 10px;
         }
+        &__item {
+            color: $main-color;
+        }
         &__button {
-            width: $call-panel-button-radius;
-            height: $call-panel-button-radius;
             margin-bottom: 3px;
+            > [class^="icon-"] {
+                font-size: $call-panel-icon-size;
+            }
         }
     }
 }

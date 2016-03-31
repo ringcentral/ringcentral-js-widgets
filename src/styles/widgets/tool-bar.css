@@ -1,0 +1,44 @@
+$toolbar-height: 25px;
+.rc-toolbar {
+    @mixin block;
+    @mixin shadow-1;
+    z-index: 1;
+    &__bar {
+        @mixin block;
+        @mixin shadow-1;
+        z-index: 1;
+        background-color: #fff;
+    }
+    &__menu-button {
+        @mixin shadow-1;
+        position: relative;
+        z-index: 1;
+        border: 0;
+        border-left: 1px solid $gray;
+        border-right: 1px solid $gray;
+        border-bottom: 1px solid $gray;
+        height: calc($toolbar-height + 20px);
+        margin-bottom: -20px;
+    }
+    &__panel {
+        @mixin shadow-1;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        position: absolute;
+        width: 100%;
+        min-height: 100px;
+        background-color: #fff;
+    }
+    &__item {}
+    &__more-item {
+        font-size: .6em;
+        margin: 5px;
+        > .rc-button {
+            font-size: 1.8em;
+        }
+        &:hover {
+            color: #333;
+        }
+    }
+}

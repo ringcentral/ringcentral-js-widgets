@@ -14,3 +14,12 @@
 .fade-out {
     opacity: 0;
 }
+.slide-down {
+    transition: transform .3s ease-in;
+    transform-origin: top;
+    transform: translateY(0);
+}
+.slide-down-in,
+.slide-down-out {
+    transform: translateY(-300px);
+}

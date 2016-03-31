@@ -3,6 +3,7 @@
 <head>
     <title>RingCentral JS Widget Develop Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="build/styles/main.css">
 </head>
 <body>
@@ -16,7 +17,7 @@
         w.config({
             path: './template/',
             preload: {
-                'compose-text': 'compose-text'
+                'dev-panel': 'call-panel-incoming'
             },
             locale: {
                 'zh-tw': 'zh-tw.json',
@@ -24,7 +25,7 @@
             },
             logLevel: 0 /* 0 for error only, 1 for error and warning, 2 for error and warning and log */
         }, function() {
-            w('compose-text').render('#dev-panel')
+            w('dev-panel').mount('#dev-panel')
         })
     </script>
 </body>
