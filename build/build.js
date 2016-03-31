@@ -830,13 +830,15 @@ function widget(_ref2, options) {
     this.init();
 
     function destroy(widgetdestroy, finish) {
-        this.target.parentNode.removeChild(this.target);
-        if (widgetRemove && isFunction(widgetRemove)) return widgetRemove.call(this, finish);
+        this.unmount();
+        for (var property in this) {
+            this[property] = null;
+        }if (widgetdestroy && isFunction(widgetdestroy)) return widgetdestroy.call(this, finish);
     }
 
-    function unmount(widgetRemove, finish) {
+    function unmount(widgetUnmount, finish) {
         this.target.parentNode.removeChild(this.target);
-        if (widgetRemove && isFunction(widgetRemove)) return widgetRemove.call(this, finish);
+        if (widgetUnmount && isFunction(widgetUnmount)) return widgetUnmount.call(this, finish);
     }
 
     function mount(widgetMount, template, finish, target, callback) {

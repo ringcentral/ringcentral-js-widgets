@@ -1,9 +1,9 @@
-import test from 'ava';
-import 'babel-register';
-import {register} from '../src/scripts/component.js';
+import test from 'ava'
+import 'babel-register'
+import {register} from '../src/scripts/component.js'
 test('register is exported successfully', t => {
-    t.ok(register);
-});
+    t.ok(register)
+})
 test('(register) Components should be registered in normal ways', t => {
     var Man = register({
         actions: {
@@ -13,9 +13,9 @@ test('(register) Components should be registered in normal ways', t => {
                 after: function() {}
             }
         }
-    });
-    t.ok(Man);
-});
+    })
+    t.ok(Man)
+})
 test('(register) Manually create widgets will throw error', t => {
     var Man = register({
         actions: {
@@ -25,13 +25,14 @@ test('(register) Manually create widgets will throw error', t => {
                 after: function() {}
             }
         }
-    });
-    t.throws(Man);
-});
+    })
+    t.throws(Man)
+})
 
-var Man;
-var widgetBefore;
-var widgetAfter;
+var Man
+var widgetBefore
+var widgetAfter
+var fragment
 test.beforeEach(t => {
     Man = register({
         data: {
@@ -40,22 +41,28 @@ test.beforeEach(t => {
         actions: {
             climb: {
                 before: function() {
-                    widgetBefore = 1;
+                    widgetBefore = 1
                 },
                 method: function(finish) {
-                    return finish();
+                    return finish()
                 },
                 after: function() {
-                    widgetAfter = 1;
+                    widgetAfter = 1
                 }
             }
         }
-    });
-});
+    })
+    var len = [...document.childNodes].length
+    fragment = document.createDocumentFragment()
+    var text = document.createElement('div')
+    text.textContent = 'test'
+    fragment.appendChild(text)
+})
 test.afterEach(t => {
-    widgetBefore = undefined;
-    widgetAfter = undefined;
-    Man = undefined;
+    widgetBefore = undefined
+    widgetAfter = undefined
+    Man = undefined
+    fragment = undefined
 })
 test('(widget) Create widgets with complete defined actions will success', t => {
     var man = new Man({
@@ -71,7 +78,7 @@ test('(widget) Create widgets with complete defined actions will success', t => 
         internal: true
     })
     t.ok(man.climb)
-});
+})
 
 test('(widget) Create widgets with missing actions will success', t => {
     var man = new Man({
@@ -81,7 +88,7 @@ test('(widget) Create widgets with missing actions will success', t => {
         internal: true
     })
     t.ok(man.climb)
-});
+})
 test('(widget) Create widgets with extra actions will throw error', t => {
     var man = new Man({
         template: document.createDocumentFragment(),
@@ -96,15 +103,15 @@ test('(widget) Create widgets with extra actions will throw error', t => {
         internal: true
     })
     t.notOk(man.run)
-});
+})
 test('(widget) before/after action will be execute by default', t => {
-    t.plan(2);
+    t.plan(2)
     var man = new Man({
         template: document.createDocumentFragment(),
         actions: {
             climb: {
                 before: function() {
-                    return true;
+                    return true
                 },
                 method: function() {},
                 after: function() {}
@@ -113,47 +120,47 @@ test('(widget) before/after action will be execute by default', t => {
         logLevel: 0,
         internal: true
     })
-    man.climb();
+    man.climb()
     t.is(widgetBefore, 1)
     t.is(widgetAfter, 1)
-});
+})
 test('(widget) before/after action will not be execute when user return false', t => {
-    t.plan(2);
+    t.plan(2)
     var man = new Man({
         template: document.createDocumentFragment(),
         actions: {
             climb: {
                 before: function() {
-                    return false;
+                    return false
                 },
                 method: function() {},
                 after: function() {
-                    return false;
+                    return false
                 }
             }
         },
         logLevel: 0,
         internal: true
     })
-    man.climb();
+    man.climb()
     t.not(widgetBefore, 1)
     t.not(widgetAfter, 1)
-});
+})
 
 test('(widget) User defined value could be returned', t => {
     var Cat = register({
         actions: {
             meow: {
                 before: function() {
-                    return 1;
+                    return 1
                 },
                 method: function(finish) {
-                    return finish();
+                    return finish()
                 },
                 after: function() {}
             }
         }
-    });
+    })
 
     var cat = new Cat({
         template: document.createDocumentFragment(),
@@ -161,7 +168,7 @@ test('(widget) User defined value could be returned', t => {
             meow: {
                 before: function() {},
                 method: function() {
-                    return 2;
+                    return 2
                 },
                 after: function() {}
             }
@@ -170,14 +177,14 @@ test('(widget) User defined value could be returned', t => {
         internal: true
     })
     t.is(cat.meow(), 2)
-});
+})
 
 test('(widget) User defined action can be disabled', t => {
     var Cat = register({
         actions: {
             meow: {
                 before: function() {
-                    return 1;
+                    return 1
                 },
                 method: function(finish) {
                     // not call finish
@@ -185,15 +192,15 @@ test('(widget) User defined action can be disabled', t => {
                 after: function() {}
             }
         }
-    });
-    var userDefinedNumber;
+    })
+    var userDefinedNumber
     var cat = new Cat({
         template: document.createDocumentFragment(),
         actions: {
             meow: {
                 before: function() {},
                 method: function() {
-                    userDefinedNumber = 2;
+                    userDefinedNumber = 2
                 },
                 after: function() {}
             }
@@ -201,9 +208,9 @@ test('(widget) User defined action can be disabled', t => {
         logLevel: 0,
         internal: true
     })
-    cat.meow();
+    cat.meow()
     t.not(userDefinedNumber, 2)
-});
+})
 
 test('(widget) data should be register', t => {
     var man = new Man({
@@ -213,15 +220,11 @@ test('(widget) data should be register', t => {
         internal: true
     })
     t.is(man.data.weight, 100)
-});
+})
 
-test('(widget) can be rendered', t => {
+test('(widget) can be mounted', t => {
     t.plan(3)
     var len = [...document.childNodes].length
-    var fragment = document.createDocumentFragment()
-    var text = document.createElement('div')
-    text.textContent = 'test'
-    fragment.appendChild(text)
 
     var man = new Man({
         template: fragment,
@@ -229,19 +232,14 @@ test('(widget) can be rendered', t => {
         logLevel: 0,
         internal: true
     })
-    man.render(document)
+    man.mount(document)
     t.is(document.lastChild.textContent, 'test')
     t.is([...document.childNodes].length, len + 1)
     t.is(man.target.textContent, 'test')
-});
+})
 
-test('(widget) can be removed', t => {
-    t.plan(1)
+test('(widget) can be unmountd', t => {
     var len = [...document.childNodes].length
-    var fragment = document.createDocumentFragment()
-    var text = document.createElement('div')
-    text.textContent = 'test'
-    fragment.appendChild(text)
 
     var man = new Man({
         template: fragment,
@@ -249,27 +247,37 @@ test('(widget) can be removed', t => {
         logLevel: 0,
         internal: true
     })
-    man.render(document)
-    man.remove()
+    man.mount(document)
+    man.unmount()
     t.is([...document.childNodes].length, len)
-});
+})
 
 // The jsdom is buggy
-test.skip('(widget) can be rendered and removed and rendered', t => {
-    var len = [...document.childNodes].length
-    var fragment = document.createDocumentFragment()
-    var text = document.createElement('div')
-    text.textContent = 'test'
-    fragment.appendChild(text)
-    
+test.skip('(widget) can be mounted and unmountd and mounted', t => {
+
     var man = new Man({
         template: fragment,
         actions: {},
         logLevel: 0,
         internal: true
     })
-    man.render(document)
-    man.remove()
-    man.render(document)
+    man.mount(document)
+    man.unmount()
+    man.mount(document)
     t.is([...document.childNodes].length, len + 1)
-});
+})
+
+test.skip('(widget) can be destroyed', t => {
+    t.plan(3)
+    var len = [...document.childNodes].length
+    var man = new Man({
+        template: fragment,
+        actions: {},
+        logLevel: 0,
+        internal: true
+    })
+    man.destroy()
+    t.notOk(man.target)
+    t.notOk(man.props)
+    t.notOk(man.data)
+})
