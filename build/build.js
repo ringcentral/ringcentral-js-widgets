@@ -825,23 +825,26 @@ function widget(_ref2, options) {
     this.init();
 
     function remove(widgetRemove, finish) {
-        this.props.target.parentNode.removeChild(this.props.target);
+        this.target.parentNode.removeChild(this.target);
         if (widgetRemove && isFunction(widgetRemove)) return widgetRemove.call(this, finish);
     }
 
     function render(widgetRender, template, finish, target, callback) {
         if (typeof target === 'string') {
             target = document.querySelector(target);
-        } else if (target instanceof HTMLElement) {
-            target = target;
         } else {
-            logger.warn('first argument of render method should be selector string or dom');
+            logger.warn('first argument of render method should be selector string');
         }
-        // templates can only have one root
-        this.props.target = shallowCopy(Array.from(template.childNodes).filter(function (node) {
-            return node.nodeType === 1;
-        }))[0];
-        target.appendChild(template);
+
+        if (this.target) {
+            target.appendChild(this.target);
+        } else {
+            // templates can only have one root
+            this.target = shallowCopy(Array.from(template.childNodes).filter(function (node) {
+                return node.nodeType === 1;
+            }))[0];
+            target.appendChild(template);
+        }
         callback && isFunction(callback) && callback();
         if (widgetRender && isFunction(widgetRender)) return widgetRender.call(this, finish);
         return this;

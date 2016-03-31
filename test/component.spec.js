@@ -1,10 +1,10 @@
 import test from 'ava';
 import 'babel-register';
 import {register} from '../src/scripts/component.js';
-test.skip('register is exported successfully', t => {
+test('register is exported successfully', t => {
     t.ok(register);
 });
-test.skip('(register) Components should be registered in normal ways', t => {
+test('(register) Components should be registered in normal ways', t => {
     var Man = register({
         actions: {
             climb: {
@@ -16,7 +16,7 @@ test.skip('(register) Components should be registered in normal ways', t => {
     });
     t.ok(Man);
 });
-test.skip('(register) Manually create widgets will throw error', t => {
+test('(register) Manually create widgets will throw error', t => {
     var Man = register({
         actions: {
             climb: {
@@ -57,7 +57,7 @@ test.afterEach(t => {
     widgetAfter = undefined;
     Man = undefined;
 })
-test.skip('(widget) Create widgets with complete defined actions will success', t => {
+test('(widget) Create widgets with complete defined actions will success', t => {
     var man = new Man({
         template: document.createDocumentFragment(),
         actions: {
@@ -73,7 +73,7 @@ test.skip('(widget) Create widgets with complete defined actions will success', 
     t.ok(man.climb)
 });
 
-test.skip('(widget) Create widgets with missing actions will success', t => {
+test('(widget) Create widgets with missing actions will success', t => {
     var man = new Man({
         template: document.createDocumentFragment(),
         actions: {},
@@ -82,7 +82,7 @@ test.skip('(widget) Create widgets with missing actions will success', t => {
     })
     t.ok(man.climb)
 });
-test.skip('(widget) Create widgets with extra actions will throw error', t => {
+test('(widget) Create widgets with extra actions will throw error', t => {
     var man = new Man({
         template: document.createDocumentFragment(),
         actions: {
@@ -97,7 +97,7 @@ test.skip('(widget) Create widgets with extra actions will throw error', t => {
     })
     t.notOk(man.run)
 });
-test.skip('(widget) before/after action will be execute by default', t => {
+test('(widget) before/after action will be execute by default', t => {
     t.plan(2);
     var man = new Man({
         template: document.createDocumentFragment(),
@@ -117,7 +117,7 @@ test.skip('(widget) before/after action will be execute by default', t => {
     t.is(widgetBefore, 1)
     t.is(widgetAfter, 1)
 });
-test.skip('(widget) before/after action will not be execute when user return false', t => {
+test('(widget) before/after action will not be execute when user return false', t => {
     t.plan(2);
     var man = new Man({
         template: document.createDocumentFragment(),
@@ -140,7 +140,7 @@ test.skip('(widget) before/after action will not be execute when user return fal
     t.not(widgetAfter, 1)
 });
 
-test.skip('(widget) User defined value could be returned', t => {
+test('(widget) User defined value could be returned', t => {
     var Cat = register({
         actions: {
             meow: {
@@ -172,7 +172,7 @@ test.skip('(widget) User defined value could be returned', t => {
     t.is(cat.meow(), 2)
 });
 
-test.skip('(widget) User defined action can be disabled', t => {
+test('(widget) User defined action can be disabled', t => {
     var Cat = register({
         actions: {
             meow: {
@@ -213,4 +213,63 @@ test('(widget) data should be register', t => {
         internal: true
     })
     t.is(man.data.weight, 100)
+});
+
+test('(widget) can be rendered', t => {
+    t.plan(3)
+    var len = [...document.childNodes].length
+    var fragment = document.createDocumentFragment()
+    var text = document.createElement('div')
+    text.textContent = 'test'
+    fragment.appendChild(text)
+
+    var man = new Man({
+        template: fragment,
+        actions: {},
+        logLevel: 0,
+        internal: true
+    })
+    man.render(document)
+    t.is(document.lastChild.textContent, 'test')
+    t.is([...document.childNodes].length, len + 1)
+    t.is(man.target.textContent, 'test')
+});
+
+test('(widget) can be removed', t => {
+    t.plan(1)
+    var len = [...document.childNodes].length
+    var fragment = document.createDocumentFragment()
+    var text = document.createElement('div')
+    text.textContent = 'test'
+    fragment.appendChild(text)
+
+    var man = new Man({
+        template: fragment,
+        actions: {},
+        logLevel: 0,
+        internal: true
+    })
+    man.render(document)
+    man.remove()
+    t.is([...document.childNodes].length, len)
+});
+
+// The jsdom is buggy
+test.skip('(widget) can be rendered and removed and rendered', t => {
+    var len = [...document.childNodes].length
+    var fragment = document.createDocumentFragment()
+    var text = document.createElement('div')
+    text.textContent = 'test'
+    fragment.appendChild(text)
+    
+    var man = new Man({
+        template: fragment,
+        actions: {},
+        logLevel: 0,
+        internal: true
+    })
+    man.render(document)
+    man.remove()
+    man.render(document)
+    t.is([...document.childNodes].length, len + 1)
 });
