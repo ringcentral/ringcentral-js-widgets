@@ -9,6 +9,7 @@ w.register(function(){
             return finish();
         },
         after:function(message) {
+            var parent = this;
             var t = w.t(this.data.lang);
             w.customize(this, 'message-item', {
                 data: parent.data,
@@ -25,11 +26,21 @@ w.register(function(){
                         method: function() {
                             return t('message-item-voicemail-text');
                         }
+                    },
+                    viewInfo: {
+                        method: function() {
+                            parent.viewInfo();
+                        }
                     }
                 }
             }); 
             this.props.message = message;
         }
     };
+    this.actions.viewInfo = {
+        method: function(finish) {
+            return finish();
+        }
+    }
 });
 </script>

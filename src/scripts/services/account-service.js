@@ -3,6 +3,14 @@ import { register } from '../service';
 var accountService = (function(sdk) {
     var info;
     var numbers;
+    var fetchNumbers = null;
+    
+    function getNumbersByType(type) {
+        return numbers
+            .filter(number => number.type === type)
+            .map(number => number.phoneNumber)
+    }
+    
     return {
         getAccountInfo: function() {
             return sdk.platform()
@@ -15,16 +23,16 @@ var accountService = (function(sdk) {
         },
 
         getPhoneNumber: function() {
-            return sdk.platform()
+            fetchNumbers = sdk.platform()
                 .get('/account/~/extension/~/phone-number')
                 .then(response => {
-                    return response.json();
-                })
-                .then(data => {
+                    var data = response.json();
                     numbers = data.records;
+                    fetchNumbers = null;
                     return data.records;
                 })
                 .catch(e => console.error('Recent Calls Error: ' + e.message));
+            return fetchNumbers;
         },
 
         hasServiceFeature: function(name) {
@@ -36,9 +44,13 @@ var accountService = (function(sdk) {
         },
 
         listNumber: function(type) {
-            return numbers
-            .filter(number => number.type === type)
-            .map(number => number.phoneNumber);
+            if(fetchNumbers){
+                return fetchNumbers.then(() => {
+                    return getNumbersByType(type);
+                });
+            }else{
+                return getNumbersByType(type);
+            }
         },
     };
 })(sdk);

@@ -269,6 +269,21 @@ h6 {
         &.--width4 { width: 25%; }
     }
 }
+.rc-avatar {
+    margin-bottom: 15px;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    background-position:center center;
+    background-repeat:no-repeat;
+    border-radius:65px;
+    &.--big {
+        min-width: 120px;
+        min-height: 120px;
+        max-width: 120px;
+        max-height: 120px;
+    }
+}
 
 /* @import "old.css"; */
 @import "widgets/auth-panel.css";
@@ -280,6 +295,7 @@ h6 {
 @import "widgets/dropdown.css";
 @import "widgets/messages.css";
 @import "widgets/message-item.css";
+@import "widgets/message-detail.css";
 @import "widgets/tool-bar.css";
 
 
