@@ -361,6 +361,16 @@ register('rcContactSearchProvider', rcContactSearchProvider);
 var accountService = function (sdk) {
     var info;
     var numbers;
+    var fetchNumbers = null;
+
+    function getNumbersByType(type) {
+        return numbers.filter(function (number) {
+            return number.type === type;
+        }).map(function (number) {
+            return number.phoneNumber;
+        });
+    }
+
     return {
         getAccountInfo: function getAccountInfo() {
             return sdk.platform().get('/account/~/extension/~').then(function (response) {
@@ -372,14 +382,15 @@ var accountService = function (sdk) {
         },
 
         getPhoneNumber: function getPhoneNumber() {
-            return sdk.platform().get('/account/~/extension/~/phone-number').then(function (response) {
-                return response.json();
-            }).then(function (data) {
+            fetchNumbers = sdk.platform().get('/account/~/extension/~/phone-number').then(function (response) {
+                var data = response.json();
                 numbers = data.records;
+                fetchNumbers = null;
                 return data.records;
             }).catch(function (e) {
                 return console.error('Recent Calls Error: ' + e.message);
             });
+            return fetchNumbers;
         },
 
         hasServiceFeature: function hasServiceFeature(name) {
@@ -390,11 +401,13 @@ var accountService = function (sdk) {
         },
 
         listNumber: function listNumber(type) {
-            return numbers.filter(function (number) {
-                return number.type === type;
-            }).map(function (number) {
-                return number.phoneNumber;
-            });
+            if (fetchNumbers) {
+                return fetchNumbers.then(function () {
+                    return getNumbersByType(type);
+                });
+            } else {
+                return getNumbersByType(type);
+            }
         }
     };
 }(sdk);
@@ -578,32 +591,26 @@ var rcMessageProvider = function () {
     });
 
     function createResult(message) {
-        var result = {};
-        if (message.direction === 'Outbound') {
-            if (message.type === 'Pager') {
-                result.contact = message.to[0].extensionNumber;
-            } else {
-                result.contact = message.to[0].phoneNumber;
-            }
-        } else {
-            if (message.type === 'Pager') {
-                result.contact = message.from.extensionNumber;
-            } else {
-                result.contact = message.from.phoneNumber;
-            }
+        return {
+            id: message.id,
+            time: message.lastModifiedTime,
+            readStatus: message.readStatus,
+            type: getType(message),
+            contact: getNumber(message.type, getDirection(message)),
+            subject: message.subject || null
+        };
+
+        function getDirection(message) {
+            return message.direction === 'Outbound' ? message.to[0] : message.from;
         }
-        if (message.type === 'SMS' || message.type === 'Pager') {
-            result.subject = message.subject;
+
+        function getNumber(message, info) {
+            return message.type === 'Pager' ? info.extensionNumber : info.phoneNumber;
         }
-        result.readStatus = message.readStatus;
-        if (message.type !== 'Fax' && message.type !== 'VoiceMail') {
-            result.type = 'Text';
-        } else {
-            result.type = message.type;
+
+        function getType(message) {
+            return message.type === 'Fax' || message.type === 'VoiceMail' ? 'Text' : message.type;
         }
-        result.id = message.id;
-        result.time = message.lastModifiedTime;
-        return result;
     }
 
     return {

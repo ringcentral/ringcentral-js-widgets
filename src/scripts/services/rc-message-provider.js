@@ -14,32 +14,26 @@ var rcMessageProvider = function() {
     });
 
     function createResult(message) {
-        var result = {};
-        if (message.direction === 'Outbound') {
-            if (message.type === 'Pager') {
-                result.contact = message.to[0].extensionNumber;
-            }else {
-                result.contact = message.to[0].phoneNumber;
-            }
-        }else {
-            if (message.type === 'Pager') {
-                result.contact = message.from.extensionNumber;
-            }else {
-                result.contact = message.from.phoneNumber;
-            }
-        }
-        if (message.type === 'SMS' || message.type === 'Pager') {
-            result.subject = message.subject;
-        }
-        result.readStatus = message.readStatus;
-        if(message.type !== 'Fax' && message.type !== 'VoiceMail'){
-            result.type = 'Text';
-        }else{
-            result.type = message.type;
-        }
-        result.id = message.id;
-        result.time = message.lastModifiedTime;
-        return result;
+      return {
+        id : message.id,
+        time: message.lastModifiedTime,
+        readStatus: message.readStatus,
+        type: getType(message),
+        contact: getNumber(message.type, getDirection(message)),
+        subject: message.subject || null
+      }
+
+      function getDirection(message) {
+        return message.direction === 'Outbound'? message.to[0]: message.from
+      }
+
+      function getNumber(message, info) {
+        return message.type === 'Pager'? info.extensionNumber: info.phoneNumber
+      }
+
+      function getType(message) {
+        return (message.type === 'Fax' || message.type === 'VoiceMail')? 'Text': message.type
+      }
     }
 
     return {
