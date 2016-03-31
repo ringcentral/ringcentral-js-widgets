@@ -12,7 +12,7 @@ var functionSet = {
 function register({actions, data} = settings) {
     if (!actions)
         console.warn('Widgets do not have actions defined, maybe you get some typo.');
-    ['init', 'render', 'remove', 'error'].forEach(action => {
+    ['init', 'mount', 'unmount', 'destroy', 'error'].forEach(action => {
         actions[action] = Object.assign(
             shallowCopy(functionSet),
             actions[action]
@@ -44,31 +44,43 @@ function widget({actions, data = {}}, options) {
     this.props.dom = generateDocument(this, options.template)
     this.props.root = getDocumentRoot(options.template)
     this.props.template = options.template
-    this.render =
+    this.mount =
         generateActions({
-            before: defaultActions.render.before,
-            method: render.bind(this, defaultActions.render.method, this.props.template),
-            after: defaultActions.render.after
-        }, options.actions.render, 'render')
-    this.remove =
+            before: defaultActions.mount.before,
+            method: mount.bind(this, defaultActions.mount.method, this.props.template),
+            after: defaultActions.mount.after
+        }, options.actions.mount, 'mount')
+    this.unmount =
         generateActions({
-            before: defaultActions.remove.before,
-            method: remove.bind(this, defaultActions.remove.method),
-            after: defaultActions.remove.after
-        }, options.actions.remove, 'remove')
+            before: defaultActions.unmount.before,
+            method: unmount.bind(this, defaultActions.unmount.method),
+            after: defaultActions.unmount.after
+        }, options.actions.unmount, 'unmount')
+    this.destroy =
+        generateActions({
+            before: defaultActions.destroy.before,
+            method: destroy.bind(this, defaultActions.destroy.method),
+            after: defaultActions.destroy.after
+        }, options.actions.destroy, 'destroy')
     this.init()
 
-    function remove(widgetRemove, finish) {
+    function destroy(widgetdestroy, finish) {
         this.target.parentNode.removeChild(this.target)
         if (widgetRemove && isFunction(widgetRemove))
             return widgetRemove.call(this, finish)
     }
 
-    function render(widgetRender, template, finish, target, callback) {
+    function unmount(widgetRemove, finish) {
+        this.target.parentNode.removeChild(this.target)
+        if (widgetRemove && isFunction(widgetRemove))
+            return widgetRemove.call(this, finish)
+    }
+
+    function mount(widgetMount, template, finish, target, callback) {
         if (typeof target === 'string') {
             target = document.querySelector(target)
         } else {
-            logger.warn('first argument of render method should be selector string')
+            logger.warn('first argument of mount method should be selector string')
         }
 
         if (this.target) {
@@ -82,8 +94,8 @@ function widget({actions, data = {}}, options) {
             target.appendChild(template)
         }
         callback && isFunction(callback) && callback()
-        if (widgetRender && isFunction(widgetRender))
-            return widgetRender.call(this, finish)
+        if (widgetMount && isFunction(widgetMount))
+            return widgetMount.call(this, finish)
         return this
     }
 }

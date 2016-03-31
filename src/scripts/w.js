@@ -35,7 +35,7 @@ function initNestedWidget(widget) {
             }
             var name = doc.tagName.toLowerCase()
             var child = w(name, widget.custom[name])
-            child.render(doc)
+            child.mount(doc)
             var childName = doc.getAttribute('data-info');
             if (childName)
                 widget.props[childName] = child

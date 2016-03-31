@@ -18,7 +18,7 @@ w.register(function() {
                 return finish();
             }
         },
-        render: {
+        mount: {
             method: function(finish) {
                 finish();
             },
@@ -101,7 +101,7 @@ w.register(function() {
                                 }
                             }
                         });
-                        widget.render(this.props.dom.contacts);    
+                        widget.mount(this.props.dom.contacts);    
                         count++;
                         return true;
                     }else{

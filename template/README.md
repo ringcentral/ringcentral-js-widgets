@@ -10,7 +10,7 @@ Used for login, can either be a login RingCentral WebRTC phone or other third pa
 ###### actions
 
   - `init()`
-  - `render(target, callback)`
+  - `mount(target, callback)`
   - `remove()`
   - `login()`
   - `showCountry(event)`
@@ -57,7 +57,7 @@ var authPanel = w('auth-panel', {
     },
 })
 
-authPanel.render('#target-dom', /* callback */);
+authPanel.mount('#target-dom', /* callback */);
 
 ```
 

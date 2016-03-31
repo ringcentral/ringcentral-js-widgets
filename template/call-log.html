@@ -31,7 +31,7 @@ w.register(function() {
                     }
                 }
             });
-            widget.render(props.dom.logs);
+            widget.mount(props.dom.logs);
             props.widgetItems.push(widget);
         });
     }
@@ -67,7 +67,7 @@ w.register(function() {
                 console.debug(this.props.logItems);
             }
         },
-        render: {
+        mount: {
             after: function() {
                 this.refreshCallLogs();
             }

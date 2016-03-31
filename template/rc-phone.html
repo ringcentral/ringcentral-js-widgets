@@ -35,7 +35,7 @@
 <script>
 w.register(function() {
     this.actions = {
-        render: {
+        mount: {
             after: function() {
                 var phoneService = w.service()['phoneService'];
                 var loginService = w.service()['loginService'];
@@ -88,10 +88,10 @@ w.register(function() {
                         }
                     })
                     
-                    authPanel.render('#auth-panel');
+                    authPanel.mount('#auth-panel');
                     // loginService.checkLoginStatus().then(
                     //     isLoggedIn => {
-                    //         authPanel.render('#auth-panel');
+                    //         authPanel.mount('#auth-panel');
                     //         if (isLoggedIn) {
                     //             authPanel.hide();
                     //             return Promise.all([
@@ -110,7 +110,7 @@ w.register(function() {
                     function afterLogin() {
                         var dialPad = w('dial-pad', {
                             actions: {
-                                render: {
+                                mount: {
                                     after: function() {
                                         if (!accountService.hasServiceFeature("VoipCalling"))
                                             this.disable();
@@ -198,7 +198,7 @@ w.register(function() {
                         var messageWidget = w('messages', {
                             data: options,
                             actions: {
-                                render: {
+                                mount: {
                                     after: function(){
                                         rcMessageProvider.onMessageUpdated(() => {
                                             this.refreshMessages();
@@ -245,19 +245,19 @@ w.register(function() {
                                         // this.addItem('<img src="../src/styles/images/settings_normal.png">');
                                     }
                                 },
-                                render: {
+                                mount: {
                                     after: function() {
-                                        dialPad.render('#dial-pad');
-                                        composeText.render('#compose-text');
-                                        callLog.render('#call-log');
-                                        messageWidget.render('#messages-panel')
+                                        dialPad.mount('#dial-pad');
+                                        composeText.mount('#compose-text');
+                                        callLog.mount('#call-log');
+                                        messageWidget.mount('#messages-panel')
                                     }
                                 }
                             }
                         });
                         
-                        callPanel.render('#call-panel');
-                        toolbar.render('#toolbar');
+                        callPanel.mount('#call-panel');
+                        toolbar.mount('#toolbar');
                         function logout() {
                             return loginService.logout().then(res => {
                                 [

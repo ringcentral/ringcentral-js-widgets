@@ -44,7 +44,7 @@ w.register(function() {
             this.props.dom.login.textContent = t('login') || 'login'
         }
     }
-    this.actions.render = {
+    this.actions.mount = {
         before: function() {},
         after: function() {
             this.props.dom.username.value = localStorage.getItem('username');

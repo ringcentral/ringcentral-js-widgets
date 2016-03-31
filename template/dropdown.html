@@ -10,7 +10,7 @@
 w.register(function() {
     var enlarge = w.transition('enlarge')
     this.actions = {
-        render: {
+        mount: {
             after: function() {
                 enlarge.init(this.props.dom['list'])
             }
