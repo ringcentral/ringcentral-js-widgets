@@ -43,7 +43,7 @@
         <div id="toolbar"></div>
         <div class='container'>
             <div class='panel float-left' id="dial-pad"></div>
-            <div class='panel float-left' id="compose-text"></div>
+            <div class='panel float-left' id="conversation"></div>
             <div class='panel float-left' id="messages-panel"></div>
             <div class='panel float-left' id="call-log"></div>
         </div>
@@ -65,7 +65,7 @@
             'call-panel': 'call-panel',
             'call-panel-incoming': 'call-panel-incoming',
             'tool-bar': 'tool-bar',
-            'compose-text': 'compose-text',
+            'conversation': 'conversation',
             'call-log': 'call-log',
             'messages': 'messages'
         },
@@ -216,21 +216,21 @@
                     }
                 }
             })
-            var composeText = w('compose-text', {
+            var conversation = w('conversation', {
                 actions: {
-                    getOutboundCallerID: {
-                        method: function() {
-                            return accountService.listNumber("VoiceFax");
-                        }
-                    },
-                    queryContacts: {
-                        method: function() {
-                            var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                                return provider.search(this.props.to);
-                            });
-                            return contactSearchService.query(dialPadSearchFunctions);
-                        }
-                    },
+                    // getOutboundCallerID: {
+                    //     method: function() {
+                    //         return accountService.listNumber("VoiceFax");
+                    //     }
+                    // },
+                    // queryContacts: {
+                    //     method: function() {
+                    //         var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                    //             return provider.search(this.props.to);
+                    //         });
+                    //         return contactSearchService.query(dialPadSearchFunctions);
+                    //     }
+                    // },
                     send: {
                         method: function() {
                             return messageService.sendSMSMessage(
@@ -278,7 +278,7 @@
                 actions: {
                     init: {
                         after: function() {
-                            var panels = [dialPad, composeText, callLog]
+                            var panels = [dialPad, conversation, callLog]
                             var pos = 0;
                             this.clickItem(
                                 this.addItem('<span class="icon-uniA4"></span><span class="icon-RC_shapes_1-40_pressed"></span>'), 
@@ -340,7 +340,7 @@
                     mount: {
                         after: function() {
                             dialPad.mount('#dial-pad');
-                            composeText.mount('#compose-text');
+                            conversation.mount('#conversation');
                             callLog.mount('#call-log');
                             messageWidget.mount('#messages-panel')
                         }
@@ -351,7 +351,7 @@
             toolbar.mount('#toolbar');
             function logout() {
                 return loginService.logout().then(res => {
-                    [dialPad, composeText, callLog, toolbar].forEach(panel => panel.remove())
+                    [dialPad, conversation, callLog, toolbar].forEach(panel => panel.remove())
                     init()
                 }).catch(err => console.error(err));
             }

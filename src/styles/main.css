@@ -322,6 +322,7 @@ h6 {
 @import "widgets/call-log.css";
 @import "widgets/call-panel.css";
 @import "widgets/compose-text.css";
+@import "widgets/conversation.css";
 @import "widgets/contact-picker.css";
 @import "widgets/dial-pad.css";
 @import "widgets/dropdown.css";
@@ -356,6 +357,17 @@ h6 {
 }
 .text-right {
     text-align: right;
+}
+.clearfix {
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+
 }
 /**
 * Atomic degisn methodology

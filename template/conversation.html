@@ -1,0 +1,98 @@
+<div class='rc-panel rc-conversation'>
+    <div class='rc-panel__header --colored display-none' data-info='header'>
+        <contact-picker data-info='contact-picker'></contact-picker>
+    </div>
+    <div class='rc-panel__content rc-conversation__container'>
+        <dropdown data-info='dropdown'></dropdown>
+        <div class='rc-conversation__content'>
+            <div class='conversations' data-info='conversations'>
+                <div class='clearfix'>
+                    <div class='conversations__bubble --self'>My text apapsapdpasldapsdldpas</div>
+                </div>
+                <div class='clearfix'>
+                    <div class='conversations__bubble --self'>My text apapsapdpasldapsdldpas</div>
+                </div>
+                <div class='conversations__timestamp'>
+                    <span class='__date'>1/24/15</span>
+                    <span class='__time'>6:04</span>
+                </div>
+                <div class='clearfix'>
+                    <div class='conversations__bubble --opponent'>Opponent text Opponent  Opponent textOpponent texttext Opponent text</div>
+                </div>
+            </div>
+        </div>
+        <div class='rc-conversation__textarea-wrapper'>
+            <textarea 
+            data-info='input' 
+            data-event='keydown:enter'
+            placeholder='messages...'
+            ></textarea>
+        </div>
+    </div>
+</div>
+<script>
+w.register(function() {
+    this.actions = {
+        init: {
+            method: function() {
+                // There is two type of conversation: 1. to new users 2. existing conversation
+                // will be determined by this.data
+                // if (this.data.type === 'existing')
+                    this.props.dom.header.classList.remove('display-none')
+            }
+        },
+        fetchConversations: {
+            method: function(finish) {
+                return finish()
+            },
+            after: function(convs) {
+                convs.forEach(text => this.addBubble(text))
+            }
+        },
+        enter: {
+            method: function(finish, e) {
+                if (e.keyCode === 13) {
+                    this.send()
+                    e.preventDefault()
+                }
+            }
+        },
+        send: {
+            before: function() {
+                // send messages on UI
+                this.props.message = this.props.dom.input.value
+                this.props.dom.input.value = ''
+                this.addBubble(this.props.message)
+            },
+            method: function(finish) {
+                finish();
+                // user actually send to message to server (SDK)
+            },
+            after: function() {
+
+            }
+        },
+        addBubble: {
+            after: function(text) {
+                var template = `<div class='clearfix'>
+                                    <div class='conversations__bubble --self'>
+                                        ${text}
+                                    </div>
+                                </div>`
+                var div = document.createElement('div')
+                div.innerHTML = template
+
+                this.props.dom.conversations.appendChild(
+                    div.childNodes[0]
+                )
+                this.updateScroll()
+            }
+        },
+        updateScroll: {
+            after: function() {
+                this.props.dom.conversations.scrollTop = this.props.dom.conversations.scrollHeight
+            }
+        }
+    }
+})
+</script>

@@ -1589,6 +1589,52 @@ h1, h2, h3, h4, h5, h6 {
     bottom: 8px;
     right: 8px;
 }
+.rc-conversation .conversations {
+    padding: .7em .9em;
+    height: 100%;
+    overflow-y: scroll;
+}
+.rc-conversation .conversations__bubble {
+    padding: .5em .7em;/* Make the conversations overflow and show scrollbar */
+    word-break: break-word;
+    border: 1px solid #bdc3c7;
+    border-radius: 10px;
+    margin-bottom: 5px;
+}
+.rc-conversation .conversations__bubble.--opponent {
+    float: left;
+}
+.rc-conversation .conversations__bubble.--self {
+    float: right;
+    background-color: #ecf0f1;
+}
+.rc-conversation .conversations__timestamp {
+    text-align: center;
+    color: #bdc3c7;
+}
+.rc-conversation__container {
+    display: flex;
+    flex-direction: column;/* Adjust all conversation related font size */
+    font-size: .8em;
+}
+.rc-conversation__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: auto;
+    height: 100%;
+}
+.rc-conversation__textarea-wrapper {
+    width: 100%;
+}
+.rc-conversation__textarea-wrapper > textarea {
+    padding: .5em .7em;
+    width: 100%;
+    border: 0;
+    border-top: 1px solid #bdc3c7;
+    resize: none;
+}
 .rc-contact-picker {/* used as a positioned reference */
     position: relative;
     width: 100%;
@@ -1882,6 +1928,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 .text-right {
     text-align: right;
+}
+.clearfix {
+
+}
+.clearfix:before, .clearfix:after {
+    content: " ";
+    display: table;
+}
+.clearfix:after {
+    clear: both;
 }
 /**
 * Atomic degisn methodology
