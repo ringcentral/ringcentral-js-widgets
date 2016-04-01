@@ -8,7 +8,7 @@ function loadLocale(name, file) {
     .then(data => polyglots[name] = new Polyglot({phrases: data}))
 }
 function translate(locale) {
-    return string => polyglots[locale]? polyglots[locale].t(string): ''
+    return string => polyglots[locale] ? polyglots[locale].t(string) : ''
 }
 export {
     loadLocale,

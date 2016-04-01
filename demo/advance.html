@@ -29,8 +29,10 @@
         transition: transform .1s ease-out;
     }
     .panel {
-        float: left;
         width: 250px;
+    }
+    .panel.--extra {
+        position: absolute;
     }
     </style>
 </head>
@@ -40,12 +42,13 @@
         <div id="auth-panel"></div>
         <div id="toolbar"></div>
         <div class='container'>
-            <div class='panel' id="dial-pad"></div>
-            <div class='panel' id="compose-text"></div>
-            <div class='panel' id="messages-panel"></div>
-            <div class='panel' id="call-log"></div>
-            <div class='panel' id="call-panel"></div>
+            <div class='panel float-left' id="dial-pad"></div>
+            <div class='panel float-left' id="compose-text"></div>
+            <div class='panel float-left' id="messages-panel"></div>
+            <div class='panel float-left' id="call-log"></div>
         </div>
+        <div class='panel --extra' id="call-panel"></div>
+        <div class='panel --extra' id="call-panel-incoming"></div>
     </div>
     <script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
@@ -60,6 +63,7 @@
             'auth-panel': 'auth-panel',
             'dial-pad': 'dial-pad',
             'call-panel': 'call-panel',
+            'call-panel-incoming': 'call-panel-incoming',
             'tool-bar': 'tool-bar',
             'compose-text': 'compose-text',
             'call-log': 'call-log',
@@ -112,6 +116,7 @@
             rcContactService.syncCompanyContact();
             phoneService.registerSIP();
             callLogService.getCallLogs();
+            phoneService.listen();
         } 
         
         loginService.checkLoginStatus().then(isLoggedIn => {
@@ -161,6 +166,9 @@
                     callout: {
                         method: function(fromNo, toNo) {
                             return phoneService.callout(fromNo, toNo);
+                        },
+                        after: function() {
+                            callPanel.mount('#call-panel');
                         }
                     },
                     getOutboundCallerID: {
@@ -173,9 +181,7 @@
             var callPanel = w('call-panel', {
                 actions: {
                     init: {
-                        after: function() {
-                            phoneService.listen();
-                            phoneService.on('called', this.called);
+                        method: function() {
                             phoneService.on('callStarted', this.callStarted);
                             phoneService.on('callRejected', this.callRejected);
                             phoneService.on('callEnded', this.callEnded);
@@ -189,7 +195,23 @@
                     },
                     hangup: {
                         method: function() {
-                            phoneService.hangup();
+                            return phoneService.hangup();
+                        }
+                    }
+                }
+            })
+            var callPanelIncoming = w('call-panel-incoming', {
+                actions: {
+                    init: {
+                        method: function() {
+                            console.debug('init')
+                            phoneService.on('called', this.called);
+                        }
+                    },
+                    called: {
+                        method: function() {
+                            console.debug('called');
+                            this.mount('#call-panel-incoming');
                         }
                     }
                 }
@@ -326,7 +348,6 @@
                 }
             });
             
-            callPanel.mount('#call-panel');
             toolbar.mount('#toolbar');
             function logout() {
                 return loginService.logout().then(res => {

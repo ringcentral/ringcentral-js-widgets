@@ -151,6 +151,7 @@ h6 {
     &__header {
         @mixin padding-normal;
         height: $panel-header-height;
+        background-color: #fff;
         &.--colored {
             background-color: $main-color;
             color: #fff;
@@ -164,8 +165,10 @@ h6 {
     &__content {
         @mixin shadow-1;
         height: $panel-content-height;
+        background-color: #fff;
     }
     &__footer {
+        background-color: #fff;
         /* height: $panel-footer-height; */
     }
 }

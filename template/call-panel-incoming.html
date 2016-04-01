@@ -17,9 +17,34 @@
     </div>
 </div>
 <script>
-    w.register(function() {
-        this.actions = {
-
+w.register(function() {
+    var circle = w.transition('circle')
+    var fade = w.transition('fade')
+    this.actions = {
+        init: {
+            method: function(finish) {
+                return finish()
+            }
+        },
+        mount: {
+            after: function() {
+                fade.init(this.props.root)
+                fade.in(this.props.root)
+            }
+        },
+        called: {
+            method: function(finish) {
+                return finish()
+            }
+        },
+        ignore: {
+            method: function(finish) {
+                return finish()
+            },
+            after: function() {
+                this.unmount()
+            }
         }
-    })
+    }
+})
 </script>

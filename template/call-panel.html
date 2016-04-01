@@ -72,7 +72,7 @@
                 <button class='rc-button --round action-panel__action'>
                     <span class='icon-uniCE'></span>
                 </button>
-                <button class='rc-button --negative --round action-panel__action'>
+                <button class='rc-button --negative --round action-panel__action' data-event='click:hangup'>
                     <span class='icon-uni44'></span>
                 </button>
             </div>
@@ -80,9 +80,40 @@
     </section>
 </div>
 <script>
-    w.register(function() {
-        this.actions = {
-
+w.register(function() {
+    var fade = w.transition('fade')
+    this.actions = {
+        init: {},
+        mount: {
+            after: function () {
+                fade.init(this.props.root)
+                fade.in(this.props.root)
+            }
+        },
+        callStarted: {},
+        callRejected: {
+            after: function() {
+                this.unmount()
+            }
+        },
+        callEnded: {
+            after: function() {
+                this.unmount()
+            }
+        },
+        callFailed: {
+            after: function() {
+                this.unmount()
+            }
+        },
+        hangup: {
+            method: function(finish) {
+                return finish()
+            },
+            after: function() {
+                this.unmount()
+            }
         }
-    })
+    }
+})
 </script>

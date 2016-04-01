@@ -23,3 +23,13 @@
 .slide-down-out {
     transform: translateY(-300px);
 }
+.circle {
+    transition: transform .3s ease-in;
+    transform: scale(1, 1);
+    border-radius: 0;
+}
+.circle-in,
+.circle-out {
+    border-radius: 50%;
+    transform: scale(0.1, 0.1);
+}
