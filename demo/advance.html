@@ -46,6 +46,7 @@
             <div class='panel float-left' id="conversation"></div>
             <div class='panel float-left' id="messages-panel"></div>
             <div class='panel float-left' id="call-log"></div>
+            <div class='panel float-left' id="conference"></div>
         </div>
         <div class='panel --extra' id="call-panel"></div>
         <div class='panel --extra' id="call-panel-incoming"></div>
@@ -67,7 +68,8 @@
             'tool-bar': 'tool-bar',
             'conversation': 'conversation',
             'call-log': 'call-log',
-            'messages': 'messages'
+            'messages': 'messages',
+            'conference': 'conference'
         },
         locale: {
             'zh-tw': 'zh-tw.json',
@@ -85,6 +87,8 @@
     var rcContactSearchProvider = w.service()['rcContactSearchProvider'];
     var rcMessageService = w.service()['rcMessageService'];
     var rcMessageProvider = w.service()['rcMessageProvider'];
+    var rcConferenceSerivce = w.service()['rcConferenceSerivce'];
+
     
     var dialPadSearchProviders = [rcContactSearchProvider];
 
@@ -273,6 +277,21 @@
                     }
                 }
             });
+            var conference = w('conference',{
+                data : options,
+                actions: {
+                    getConferenceInfo: {
+                        method: function() {
+                            return rcConferenceSerivce.getConferenceInfo();
+                        }
+                    },
+                    inviteWithText: {
+                        method: function() {
+                        }
+                    }
+                }
+            });
+            
             
             var toolbar = w('tool-bar', {
                 actions: {
@@ -308,7 +327,7 @@
                                 this.addItem('<span class="icon-uniA3"></span>', 'Conference'),
                                 function() {
                                     pos = -750;
-                                    document.querySelector('.container').style.transform = 'translateX(-750px)';
+                                    document.querySelector('.container').style.transform = 'translateX(-1000px)';
                                 });
                             this.clickItem(
                                 this.addItem('<span class="icon-uni47"></span>', 'Meeting'),
@@ -342,7 +361,8 @@
                             dialPad.mount('#dial-pad');
                             conversation.mount('#conversation');
                             callLog.mount('#call-log');
-                            messageWidget.mount('#messages-panel')
+                            messageWidget.mount('#messages-panel');
+                            conference.mount('#conference');
                         }
                     }
                 }

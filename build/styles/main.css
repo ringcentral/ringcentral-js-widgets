@@ -1871,6 +1871,52 @@ h1, h2, h3, h4, h5, h6 {
 .rc-toolbar__more-item:hover {
     color: #333;
 }
+.rc-conference {
+    position: relative;
+}
+.rc-conference__content {
+    padding: 0.5em;
+}
+.rc-conference__line {
+    margin: 0 0 6px 0;
+    display: block;
+    padding: 0 0 6px 0;
+    border-bottom: 1px solid #b3b3b3;
+}
+.rc-conference__line > .__label {
+    width: 45%;
+    font-size: 13px;
+    vertical-align: middle;
+}
+.rc-conference__line > .__label.--color {
+    color: #0684bd;
+}
+.rc-conference__line > .__value {
+    font-size: 13px;
+    line-height: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    width: 100%;
+}
+.rc-conference__line > .__value.--right {
+    width: 53%;
+}
+.rc-conference__buttons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 0.5em 0 0.5em;
+}
+.rc-conference__buttons > .__button {
+    width: 100%;
+    margin: 0 0.2em 0.5em 0.2em;
+    text-align: center;
+}
+.rc-conference.--color {
+    color: #2f2f2f;
+}
 
 
 

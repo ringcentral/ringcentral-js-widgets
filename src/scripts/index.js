@@ -9,6 +9,7 @@ import accountService from './services/account-service'
 import rcMessageService from './services/rc-message-service'
 import rcMessageProvider from './services/rc-message-provider'
 import rcSubscription from './services/rc-subscription-service'
+import rcConferenceSerivce from './services/rc-conference-service'
 
 // actions
 import interaction from './actions/interaction'
