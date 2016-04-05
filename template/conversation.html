@@ -114,7 +114,7 @@ w.register(function() {
             after: function(text, direction) {
                 var opponent = (direction === 'Inbound')
                 var template = `<div class='clearfix'>
-                                    <div class='conversations__bubble ${opposite? "--opponent": "--self"}'>
+                                    <div class='conversations__bubble ${opponent? "--opponent": "--self"}'>
                                         ${text}
                                     </div>
                                 </div>`
