@@ -30,6 +30,11 @@ w.register(function(){
                         method: function() {
                             parent.viewInfo();
                         }
+                    },
+                    enter: {
+                        method: function() {
+                            parent.enter();
+                        }
                     }
                 }
             }); 
@@ -40,6 +45,12 @@ w.register(function(){
         method: function(finish) {
             return finish();
         }
+    }
+    this.actions.enter = {
+        method: function(finish) {
+            return finish()
+        },
+        after: function() {}
     }
 });
 </script>

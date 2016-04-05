@@ -20,7 +20,8 @@ var rcMessageProvider = function() {
             readStatus: message.readStatus,
             type: getType(message),
             contact: getNumber(message.type, getDirection(message)),
-            subject: message.subject || null
+            subject: message.subject || null,
+            convId: message.conversation.id
         }
 
         function getDirection(message) {
@@ -46,32 +47,46 @@ var rcMessageProvider = function() {
                 return results
             })
         },
-        //Return all messages of type 'VoiceMail' and 'Fax'. For SMS and Pager, only last message in a conversation
-        // will be returned.
+
         getLastMessagesOfAllType: function() {
-            return Promise.resolve(rcMessageService.getAllMessages()).then(messages => {
-                var results = []
-                var added = {}
-                messages.forEach(message => {
-                    var result = createResult(message)
-                    //Combine SMS/Pager messages in conversation
-                    if (message.conversationId) {
-                        if (!added[message.conversationId]) {
-                            added[message.conversationId] = []
-                        }
-                        added[message.conversationId].push(result)
-                    }else {
-                        results.push(result)
-                    }
-                })
-                for (var key in added) {
-                    if (added.hasOwnProperty(key)) {
-                        results.push(added[key][0])
+            var results = []
+            return this.getMessagesOfAllType()
+            .then(msgs => {
+                for (var key in msgs) {
+                    if (msgs.hasOwnProperty(key)) {
+                        if (key === 'anonymous')
+                            results = results.concat(msgs.single[0])
+                        else
+                            results.push(msgs[key][0])
                     }
                 }
                 return results
             })
         },
+        // Return all messages of type 'VoiceMail' and 'Fax'. For SMS and Pager, only last message in a conversation
+        // will be returned.
+        getMessagesOfAllType: function() {
+            return Promise.resolve(rcMessageService.getAllMessages()).then(messages => {
+                var results = []
+                var conversations = {}
+                messages.forEach(message => {
+                    var result = createResult(message)
+                    //Combine SMS/Pager messages in conversation
+                    if (message.conversationId) {
+                        conversations[message.conversationId] = conversations[message.conversationId] || []
+                        conversations[message.conversationId].push(result)
+                    } else {
+                        conversations['anonymous'] = conversations['anonymous'] || []
+                        conversations['anonymous'].push(result)
+                    }
+                })
+                return conversations
+            })
+        },
+        getConversation: function(convId) {
+            return rcMessageService.getConversation(convId)
+        },
+
         onMessageUpdated: function(handler) {
             messageUpdatedHandlers.push(handler)
         }

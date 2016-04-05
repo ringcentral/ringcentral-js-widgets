@@ -454,6 +454,7 @@ var rcMessageService = function (sdk) {
 
     var MESSAGES_MAX_AGE_HOURS = 7 * 24;
     var messages = {};
+    var conversations = {};
     var fetchingPromise = null;
     var syncToken = null;
     var messageUpdateHandlers = [];
@@ -554,23 +555,35 @@ var rcMessageService = function (sdk) {
             }
         },
         getAllMessages: function getAllMessages() {
-            if (!fetchingPromise) {
-                return concatMessages();
-            } else {
-                return fetchingPromise.then(function () {
-                    return concatMessages();
-                });
-            }
+            return !fetchingPromise ? concatMessages() : fetchingPromise.then(concatMessages);
         },
         subscribeToMessageUpdate: function subscribeToMessageUpdate() {
             rcSubscription.subscribe('message-store', '/restapi/v1.0/account/~/extension/~/message-store', function (msg) {
-                incrementalSyncMessages();
+                return incrementalSyncMessages;
             });
         },
         onMessageUpdated: function onMessageUpdated(handler) {
             if (handler) {
                 messageUpdateHandlers.push(handler);
             }
+        },
+        sendSMSMessage: function sendSMSMessage(text, fromNumber, toNumber) {
+            return sdk.platform().post('/account/~/extension/~/sms/', {
+                from: { phoneNumber: fromNumber },
+                to: [{ phoneNumber: toNumber }],
+                text: text
+            });
+        },
+        getConversation: function getConversation(conversationId) {
+            return sdk.platform().get('/account/~/extension/~/message-sync', {
+                conversationId: conversationId
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                return data.records;
+            }).then(function (records) {
+                return records.reverse();
+            });
         }
     };
 }(sdk);
@@ -597,7 +610,8 @@ var rcMessageProvider = function () {
             readStatus: message.readStatus,
             type: getType(message),
             contact: getNumber(message.type, getDirection(message)),
-            subject: message.subject || null
+            subject: message.subject || null,
+            convId: message.conversation.id
         };
 
         function getDirection(message) {
@@ -623,32 +637,42 @@ var rcMessageProvider = function () {
                 return results;
             });
         },
-        //Return all messages of type 'VoiceMail' and 'Fax'. For SMS and Pager, only last message in a conversation
-        // will be returned.
+
         getLastMessagesOfAllType: function getLastMessagesOfAllType() {
-            return Promise.resolve(rcMessageService.getAllMessages()).then(function (messages) {
-                var results = [];
-                var added = {};
-                messages.forEach(function (message) {
-                    var result = createResult(message);
-                    //Combine SMS/Pager messages in conversation
-                    if (message.conversationId) {
-                        if (!added[message.conversationId]) {
-                            added[message.conversationId] = [];
-                        }
-                        added[message.conversationId].push(result);
-                    } else {
-                        results.push(result);
-                    }
-                });
-                for (var key in added) {
-                    if (added.hasOwnProperty(key)) {
-                        results.push(added[key][0]);
+            var results = [];
+            return this.getMessagesOfAllType().then(function (msgs) {
+                for (var key in msgs) {
+                    if (msgs.hasOwnProperty(key)) {
+                        if (key === 'anonymous') results = results.concat(msgs.single[0]);else results.push(msgs[key][0]);
                     }
                 }
                 return results;
             });
         },
+        // Return all messages of type 'VoiceMail' and 'Fax'. For SMS and Pager, only last message in a conversation
+        // will be returned.
+        getMessagesOfAllType: function getMessagesOfAllType() {
+            return Promise.resolve(rcMessageService.getAllMessages()).then(function (messages) {
+                var results = [];
+                var conversations = {};
+                messages.forEach(function (message) {
+                    var result = createResult(message);
+                    //Combine SMS/Pager messages in conversation
+                    if (message.conversationId) {
+                        conversations[message.conversationId] = conversations[message.conversationId] || [];
+                        conversations[message.conversationId].push(result);
+                    } else {
+                        conversations['anonymous'] = conversations['anonymous'] || [];
+                        conversations['anonymous'].push(result);
+                    }
+                });
+                return conversations;
+            });
+        },
+        getConversation: function getConversation(convId) {
+            return rcMessageService.getConversation(convId);
+        },
+
         onMessageUpdated: function onMessageUpdated(handler) {
             messageUpdatedHandlers.push(handler);
         }

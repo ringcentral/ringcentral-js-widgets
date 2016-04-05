@@ -43,13 +43,18 @@ w.register(function(){
             data: parent.data,
             actions:{
                 init:{
-                    method:function(){
+                    method:function() {
                         return message;
                     }
                 },
                 viewInfo: {
-                    method: function(){
+                    method: function() {
                         parent.viewMessageInfo(this.props.message);
+                    }
+                },
+                enter: {
+                    method: function() {
+                        return parent.enterMessage(this.props.message);
                     }
                 }
             }
@@ -60,9 +65,9 @@ w.register(function(){
         messages.forEach(function(message){
             var widget = null;
             if(message.type === 'Fax') {
-                widget = createMessageWidget('message-item-fax', message, parent);                
+                widget = createMessageWidget('message-item-fax', message, parent);
             }else if(message.type === 'VoiceMail') {
-                widget = createMessageWidget('message-item-voicemail', message, parent);                
+                widget = createMessageWidget('message-item-voicemail', message, parent);
             }else {
                 widget = createMessageWidget('message-item-text', message, parent)
             }
@@ -127,6 +132,12 @@ w.register(function(){
             method: function(finish, message) {
                 this.props.selectedMessage = message;
                 return finish();
+            }
+        },
+        enterMessage: {
+            method: function(finish, message) {
+                this.props.selectedMessage = message;
+                return finish()
             }
         }
     }

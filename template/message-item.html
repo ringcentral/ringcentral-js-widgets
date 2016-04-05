@@ -3,7 +3,7 @@
     <a class="rc-message-item__info" data-event='click:viewInfo'></a>
     <span class="rc-message-item__time" data-info='time'></span>
     <div class="rc-message-item__body">
-        <span class="__contact" data-info='contact'>
+        <span class="__contact" data-info='contact' data-event='click:enter'>
         </span>
         <div class="__text" data-info='text'>
         </div>
@@ -47,5 +47,11 @@ w.register(function(){
             return finish();
         }
     };
+    this.actions.enter = {
+        method: function(finish) {
+            return finish()
+        },
+        after: function() {}
+    }
 });
 </script>

@@ -6,6 +6,7 @@ var rcMessageService = function(sdk) {
 
     var MESSAGES_MAX_AGE_HOURS = 7 * 24
     var messages = {}
+    var conversations = {}
     var fetchingPromise = null
     var syncToken = null
     var messageUpdateHandlers = []
@@ -72,7 +73,7 @@ var rcMessageService = function(sdk) {
                     if (messageList[index].id === message.id) {
                         if (message.availability === 'Alive') {
                             messageList[index] = message
-                        }else {
+                        } else {
                             messageList.splice(index, 1)
                         }
                         break
@@ -96,33 +97,46 @@ var rcMessageService = function(sdk) {
             if (!fetchingPromise) {
                 if (messages[type]) {
                     return messages[type]
-                }else {
+                } else {
                     return []
                 }
-            }else {
+            } else {
                 return fetchingPromise.then(() => {
                     return messages[type]
                 })
             }
         },
         getAllMessages: function() {
-            if (!fetchingPromise) {
-                return concatMessages()
-            }else {
-                return fetchingPromise.then(() => {
-                    return concatMessages()
-                })
-            }
+            return !fetchingPromise ? concatMessages() : fetchingPromise.then(concatMessages)
         },
         subscribeToMessageUpdate: function() {
-            rcSubscription.subscribe('message-store', '/restapi/v1.0/account/~/extension/~/message-store', (msg) => {
-                incrementalSyncMessages()
-            })
+            rcSubscription.subscribe('message-store', '/restapi/v1.0/account/~/extension/~/message-store',
+                msg => incrementalSyncMessages
+            )
         },
         onMessageUpdated: function(handler) {
             if (handler) {
                 messageUpdateHandlers.push(handler)
             }
+        },
+        sendSMSMessage: function(text, fromNumber, toNumber) {
+            return sdk.platform()
+                .post('/account/~/extension/~/sms/', {
+                    from: {phoneNumber: fromNumber},
+                    to: [
+                        {phoneNumber: toNumber}
+                    ],
+                    text: text
+                })
+        },
+        getConversation: function(conversationId) {
+            return sdk.platform()
+                .get('/account/~/extension/~/message-sync', {
+                    conversationId
+                })
+                .then(response => response.json())
+                .then(data => data.records)
+                .then(records => records.reverse())
         }
     }
 }(sdk)

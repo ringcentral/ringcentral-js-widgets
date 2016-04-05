@@ -274,6 +274,20 @@
                         method: function(){
                             alert(this.props.selectedMessage.type);
                         }
+                    },
+                    enterMessage: {
+                        before: function() {
+                            // TODO: makes the div temp
+                            pos = -250;
+                            document.querySelector('.container').style.transform = 'translateX(-250px)';
+                        },
+                        method: function() {
+                            rcMessageProvider.getConversation(this.props.selectedMessage.convId)
+
+                            .then(records => records
+                                .forEach(record => conversation.addBubble(record.subject, record.direction))
+                            )
+                        }
                     }
                 }
             });
