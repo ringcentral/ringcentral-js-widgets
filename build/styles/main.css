@@ -1316,6 +1316,12 @@ h1, h2, h3, h4, h5, h6 {
     max-width: 120px;
     max-height: 120px;
 }
+.rc-avatar.--small {
+    min-width: 35px;
+    min-height: 35px;
+    max-width: 35px;
+    max-height: 35px;
+}
 .rc-icon-switch > span:first-child {
     display: inline;
 }
@@ -1915,6 +1921,29 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
 .rc-conference.--color {
+    color: #2f2f2f;
+}
+.rc-contact-item {
+    padding: 10px 3px;
+    clear: both;
+    border-bottom: 1px solid;
+    cursor: default;
+    border-bottom-color: #efeff4;
+}
+.rc-contact-item__body {
+    line-height: 14px;
+    margin-left: 38px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 5px 0 0;
+    height: 100%;
+    font-size: 14px;
+    display: block;
+}
+.rc-contact-item__body > .__contact {
+    font-size: 14px;
+    line-height: 18px;
     color: #2f2f2f;
 }
 

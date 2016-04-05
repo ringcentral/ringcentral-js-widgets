@@ -299,6 +299,12 @@ h6 {
         max-width: 120px;
         max-height: 120px;
     }
+    &.--small {
+        min-width: 35px;
+        min-height: 35px;
+        max-width: 35px;
+        max-height: 35px;
+    }
 }
 .rc-icon-switch {
     > span:first-child {
@@ -331,6 +337,7 @@ h6 {
 @import "widgets/message-detail.css";
 @import "widgets/tool-bar.css";
 @import "widgets/conference.css";
+@import "widgets/contacts.css";
 
 
 

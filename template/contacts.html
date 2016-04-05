@@ -1,0 +1,36 @@
+<div class="rc-panel">
+    <div class="rc-panel__content">
+        <div data-info="contacts">
+            <contact-item dynamic></contact-item>
+        </div>
+    </div>
+</div>
+<script>
+w.register(function(){
+    
+    function createContactWidget() {
+        return w('contact-item', {
+            actions: {
+                
+            }
+        });
+    }
+    
+    this.actions= {
+        mount: {
+            after: function() {
+                this.fetchContacts();
+            }
+        },
+        fetchContacts: {
+            method: function(finish) {
+                return finish();
+            },
+            after: function(contacts) {
+                var con = createContactWidget();
+                con.mount(this.props.dom.contacts);
+            }
+        }
+    }
+});
+</script>

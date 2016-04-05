@@ -1,0 +1,23 @@
+.rc-contact-item {
+    padding: 10px 3px;
+    clear: both;
+    border-bottom: 1px solid;
+    cursor: default;
+    border-bottom-color: #efeff4; 
+    &__body {
+        line-height: 14px;
+        margin-left: 38px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 0 5px 0 0;
+        height:100%;
+        font-size:14px;
+        display:block;
+        & > .__contact {
+            font-size: 14px;
+            line-height: 18px;
+            color: #2f2f2f;
+        }
+    }
+}
