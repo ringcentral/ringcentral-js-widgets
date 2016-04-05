@@ -8,10 +8,14 @@
 <script>
 w.register(function(){
     
-    function createContactWidget() {
+    function createContactWidget(contact) {
         return w('contact-item', {
             actions: {
-                
+                init: {
+                    method: function() {
+                        return contact;
+                    }
+                }
             }
         });
     }
@@ -27,8 +31,11 @@ w.register(function(){
                 return finish();
             },
             after: function(contacts) {
-                var con = createContactWidget();
-                con.mount(this.props.dom.contacts);
+                console.log(contacts);
+                contacts.forEach(contact => {
+                    var con = createContactWidget(contact);
+                    con.mount(this.props.dom.contacts);    
+                });
             }
         }
     }

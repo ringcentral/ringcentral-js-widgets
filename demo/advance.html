@@ -306,7 +306,19 @@
                     }
                 }
             });
-            var contacts = w('contacts');
+            var contacts = w('contacts', {
+                data : options,
+                actions: {
+                    fetchContacts: {
+                        method: function() {
+                            var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                                return provider.searchAll();
+                            });
+                            return contactSearchService.query(dialPadSearchFunctions);
+                        }
+                    }
+                }
+            });
             
             
             var toolbar = w('tool-bar', {

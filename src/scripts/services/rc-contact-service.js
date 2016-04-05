@@ -3,6 +3,7 @@ import { register } from '../service'
 
 var rcContactService = function(sdk) {
     var companyContacts = []
+    var fetchingCompanyContacts = null;
 
     function Contact() {
         this.firstName = null
@@ -22,6 +23,16 @@ var rcContactService = function(sdk) {
         contact.id  = extension.id
         return contact
     }
+    
+    function addToCompanyContact(response) {
+         var records = response.json().records
+            .filter(extension => {
+                return extension.status === 'Enabled' && ['DigitalUser', 'User'].indexOf(extension.type) >= 0
+            }).map(extension => {
+                return createContact(extension)
+            });
+        companyContacts.push.apply(companyContacts, records);
+    }
 
     function fetchCompanyContactByPage(page) {
         return sdk.platform().get('/account/~/extension/', {perPage: 250, page: page})
@@ -33,33 +44,31 @@ var rcContactService = function(sdk) {
 
     function fetchCompanyContacts() {
         var page = 1
-        fetchCompanyContactByPage(page)
-        .then(function(response) {
-            var respObj = response.json()
-            if (respObj.paging && respObj.paging.totalPages > page) {
-                var promises = []
-                while (respObj.paging.totalPages > page) {
-                    page++
-                    promises.push(fetchCompanyContactByPage(page))
+        fetchingCompanyContacts = fetchCompanyContactByPage(page)
+            .then(function(response) {
+                var respObj = response.json()
+                if (respObj.paging && respObj.paging.totalPages > page) {
+                    var promises = []
+                    while (respObj.paging.totalPages > page) {
+                        page++
+                        promises.push(fetchCompanyContactByPage(page))
+                    }
+
+                    return Promise.all(promises).then(responses=> {
+                        responses.forEach(function(response) {
+                            addToCompanyContact(response);
+                        })
+                        fetchingCompanyContacts = null;
+                        fetchCompanyDirectNumbers();
+                        return companyContacts;
+                    });
+                }else{
+                    addToCompanyContact(response);
+                    return companyContacts;
                 }
-
-                Promise.all(promises).then(responses=> {
-                    responses.forEach(function(response) {
-                        var records = response.json().records
-                            .filter(extension => {
-                                return extension.status === 'Enabled' && ['DigitalUser', 'User'].indexOf(extension.type) >= 0
-                            }).map(extension => {
-                                return createContact(extension)
-                            })
-                        companyContacts.push.apply(companyContacts, records)
-                    })
-
-                    fetchCompanyDirectNumbers()
-                })
-            }
-        }).catch(function(e) {
-            console.error(e)
-        })
+            }).catch(function(e) {
+                console.error(e)
+            })
     }
 
     function fetchCompanyDirectNumbers() {
@@ -103,6 +112,13 @@ var rcContactService = function(sdk) {
 
     return {
         companyContacts: companyContacts,
+        asyncGetCompanyContact: function() {
+            if(fetchingCompanyContacts){
+                return fetchingCompanyContacts;
+            }else{
+                return Promise.resolve(companyContacts);
+            }
+        },
         syncCompanyContact: function() {
             companyContacts.length = 0
             fetchCompanyContacts()

@@ -48,6 +48,17 @@ var rcContactSearchProvider = function() {
 
             return results
         },
+        searchAll: function() {
+            return rcContactService.asyncGetCompanyContact().then(companyContacts => {
+                return companyContacts.map(contact => {
+                    return {
+                        name: contact.displayName,
+                        type: 'rc',
+                        id: contact.id,
+                    }
+                });
+            });
+        }
     }
 }()
 

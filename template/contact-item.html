@@ -1,14 +1,17 @@
 <div class="rc-contact-item">
     <a class="rc-contact-item__body">
-        <span class="__contact">Colin Liu</span>
+        <span class="__contact" data-info="name"></span>
     </a>
 </div>
 <script>
 w.register(function(){
     this.actions= {
         init: {
+            method: function(finish) {
+                return finish();
+            },
             after: function(contact) {
-                
+                this.props.dom.name.textContent = contact.name;
             }
         }
     }
