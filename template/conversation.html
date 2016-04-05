@@ -3,7 +3,7 @@
         <contact-picker data-info='contact-picker'></contact-picker>
     </div>
     <div class='rc-panel__content rc-conversation__container'>
-        <dropdown data-info='dropdown'></dropdown>
+        <dropdown class='display-none' data-info='dropdown'></dropdown>
         <div class='rc-conversation__content'>
             <div class='conversations' data-info='conversations'>
                 <div class='conversations__timestamp'>
@@ -26,10 +26,55 @@ w.register(function() {
     this.actions = {
         init: {
             method: function() {
-                // There is two type of conversation: 1. to new users 2. existing conversation
+               
+            },
+            after: function() {
+                var conversation = this;
+                w.customize(this, 'contact-picker', {
+                    actions: {
+                        autoComplete: {
+                            method: function() {
+                                return conversation.queryContacts(this.props.inputValue);
+                            }
+                        }
+                    }
+                })
+                w.customize(this, 'dropdown', {
+                    actions: {
+                        getData: {
+                            method: function() {
+                                return conversation.getOutboundCallerID();
+                            },
+                            after: function(ids) {
+                                ids.forEach(id => this.addItem(id));
+                            }
+                        },
+                        switchTitle: {
+                            method: function(text) {
+                                conversation.props.fromNumber = text;
+                            }
+                        }
+                    }
+                })
+            }
+        },
+        mount: {
+            method: function() {
+                 // There is two type of conversation: 1. to new users 2. existing conversation
                 // will be determined by this.data
-                // if (this.data.type === 'existing')
+                console.log(this.data.new);
+                console.log(this.props.dom.dropdown);
+                console.log(this.props.dom.header);
+                if (this.data.new) {
                     this.props.dom.header.classList.remove('display-none')
+                    this.props.dom.dropdown.classList.remove('display-none')
+                } else {
+                    this.props.dom.header.classList.add('display-none')
+                    this.props.dom.dropdown.classList.add('display-none')
+                }
+            },
+            after: function() {
+                this.props['dropdown'].getData();
             }
         },
         fetchConversations: {
@@ -56,6 +101,8 @@ w.register(function() {
                 this.addBubble(this.props.message)
             },
             method: function(finish) {
+                this.props.fromNumber = this.data.fromNumber || this.props.fromNumber
+                this.props.toNumber = this.data.toNumber || this.props['contact-picker'].props.dom.input.value
                 finish();
                 // user actually send to message to server (SDK)
             },
@@ -65,9 +112,9 @@ w.register(function() {
         },
         addBubble: {
             after: function(text, direction) {
-                var opposite = (direction === 'Inbound')
+                var opponent = (direction === 'Inbound')
                 var template = `<div class='clearfix'>
-                                    <div class='conversations__bubble ${opposite? "--opposite": "--self"}'>
+                                    <div class='conversations__bubble ${opposite? "--opponent": "--self"}'>
                                         ${text}
                                     </div>
                                 </div>`
@@ -83,6 +130,17 @@ w.register(function() {
         updateScroll: {
             after: function() {
                 this.props.dom.conversations.scrollTop = this.props.dom.conversations.scrollHeight
+            }
+        },
+        getOutboundCallerID : {
+            method: function(finish) {
+                return finish();
+            }
+        },
+        queryContacts : {
+            method: function(finish, queryText) {
+                this.props.to = queryText;
+                return finish();
             }
         }
     }

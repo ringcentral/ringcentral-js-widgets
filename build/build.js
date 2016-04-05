@@ -604,6 +604,7 @@ var rcMessageProvider = function () {
     });
 
     function createResult(message) {
+        console.log(message);
         return {
             id: message.id,
             time: message.lastModifiedTime,
@@ -611,7 +612,8 @@ var rcMessageProvider = function () {
             type: getType(message),
             contact: getNumber(message.type, getDirection(message)),
             subject: message.subject || null,
-            convId: message.conversation.id
+            convId: message.conversation.id,
+            author: getNumber(message, message.from)
         };
 
         function getDirection(message) {
