@@ -132,8 +132,9 @@ w.register(function() {
             }
         },
         addMessages: {
-            method: function(msgs) {
-                msgs.forEach(msg => this.addBubble(msg.subject, msg.direction))
+            method: function(finish, msgs) {
+                if (msgs)
+                    msgs.forEach(msg => this.addBubble(msg.subject, msg.direction))
             },
             after: function() {
                 this.updateScroll()
