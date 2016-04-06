@@ -1,3 +1,9 @@
+.rc-contacts {
+    &__content {
+        overflow: auto;    
+    }
+}
+
 .rc-contact-item {
     padding: 10px 3px;
     clear: both;

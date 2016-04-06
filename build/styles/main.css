@@ -1923,6 +1923,10 @@ h1, h2, h3, h4, h5, h6 {
 .rc-conference.--color {
     color: #2f2f2f;
 }
+.rc-contacts {}
+.rc-contacts__content {
+    overflow: auto;
+}
 .rc-contact-item {
     padding: 10px 3px;
     clear: both;
