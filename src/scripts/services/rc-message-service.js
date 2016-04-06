@@ -6,7 +6,6 @@ var rcMessageService = function(sdk) {
 
     var MESSAGES_MAX_AGE_HOURS = 7 * 24
     var messages = {}
-    var conversations = {}
     var fetchingPromise = null
     var syncToken = null
     var messageUpdateHandlers = []
@@ -133,9 +132,10 @@ var rcMessageService = function(sdk) {
                 })
                 .then(response => response.json())
         },
-        getConversation: function(conversationId) {
+        getConversation: function(conversationId, fromHour) {
             return sdk.platform()
-                .get('/account/~/extension/~/message-sync', {
+                .get('/account/~/extension/~/message-store', {
+                    dateFrom: new Date(Date.now() - (fromHour || MESSAGES_MAX_AGE_HOURS) * 3600 * 1000).toISOString(),
                     conversationId
                 })
                 .then(response => response.json())

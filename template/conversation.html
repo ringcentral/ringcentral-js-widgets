@@ -62,9 +62,6 @@ w.register(function() {
             method: function() {
                  // There is two type of conversation: 1. to new users 2. existing conversation
                 // will be determined by this.data
-                console.log(this.data.new);
-                console.log(this.props.dom.dropdown);
-                console.log(this.props.dom.header);
                 if (this.data.new) {
                     this.props.dom.header.classList.remove('display-none')
                     this.props.dom.dropdown.classList.remove('display-none')
@@ -83,6 +80,8 @@ w.register(function() {
             },
             after: function(convs) {
                 convs.forEach(text => this.addBubble(text))
+                console.log('update bubble');
+                this.updateScroll()
             }
         },
         enter: {
@@ -110,7 +109,10 @@ w.register(function() {
                 }).catch(err => dom.parentNode.removeChild(dom))
                 // user actually send to message to server (SDK)
             },
-            after: function(response) {}
+            after: function(response) {
+                console.log('update bubble');
+                this.updateScroll()
+            }
         },
         addBubble: {
             after: function(text, direction) {
@@ -127,16 +129,18 @@ w.register(function() {
                     div.childNodes[0]
                 )
                 return this.props.dom.conversations.lastChild;
+            }
+        },
+        addMessages: {
+            method: function(msgs) {
+                msgs.forEach(msg => this.addBubble(msg.subject, msg.direction))
+            },
+            after: function() {
                 this.updateScroll()
             }
         },
         warnBubble: {
             after: function(id) {
-
-            }
-        },
-        confirmBubble: {
-            method: function(id) {
 
             }
         },
@@ -156,30 +160,29 @@ w.register(function() {
                 return finish();
             }
         },
+        addIncomingMessages: {
+            method: function(finish, messages) {
+                messages
+                .filter(msg => msg.availability === 'Alive')
+                .filter(msg => msg.messageStatus === 'Received')
+                .filter(msg => msg.direction === 'Inbound')
+                .filter(msg => msg.readStatus === 'Unread')
+                .map(msg => msg.subject)
+                .forEach(text => this.addBubble(text, 'Inbound'))
+            },
+            after: this.updateScroll
+        },
         confirmMessages: {
             method: function(finish, messages) {
-                console.log(messages);
-                console.log(this.unconfirm);
-                console.log(this.unconfirm.filter(dom => true));
-                console.log(messages
+                if (!this.unconfirm)
+                    return []
+                if (!messages)
+                    return []
+                return this.unconfirm
+                .filter(dom => messages
                     .map(msg => msg.id)
-                    .indexOf(222) > -1)
-                var ids = messages.map(msg => msg.id)
-                console.log(ids);
-                return 
-                this.unconfirm
-                .filter(dom => {
-                        console.log(messages.map(msg => msg.id));
-                        console.log(Number.parseInt(dom.getAttribute('data-id')));
-                        return messages
-                            .map(msg => msg.id)
-                            .indexOf(parseInt(dom.getAttribute('data-id'))) > -1
-                    }
-                )
-                .forEach(dom => {
-                    dom.removeAttribute('data-id')
-                    console.debug(dom)
-                })
+                    .indexOf(parseInt(dom.getAttribute('data-id'))) > -1)
+                .forEach(dom => dom.removeAttribute('data-id'))
             }
         }
     }

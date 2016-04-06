@@ -481,7 +481,6 @@ var rcMessageService = function (sdk) {
 
     var MESSAGES_MAX_AGE_HOURS = 7 * 24;
     var messages = {};
-    var conversations = {};
     var fetchingPromise = null;
     var syncToken = null;
     var messageUpdateHandlers = [];
@@ -602,8 +601,9 @@ var rcMessageService = function (sdk) {
                 return response.json();
             });
         },
-        getConversation: function getConversation(conversationId) {
-            return sdk.platform().get('/account/~/extension/~/message-sync', {
+        getConversation: function getConversation(conversationId, fromHour) {
+            return sdk.platform().get('/account/~/extension/~/message-store', {
+                dateFrom: new Date(Date.now() - (fromHour || MESSAGES_MAX_AGE_HOURS) * 3600 * 1000).toISOString(),
                 conversationId: conversationId
             }).then(function (response) {
                 return response.json();
@@ -619,8 +619,9 @@ var rcMessageService = function (sdk) {
 register('rcMessageService', rcMessageService);
 
 var rcMessageProvider = function () {
-
     var messageUpdatedHandlers = [];
+    var conversations = {};
+
     rcMessageService.onMessageUpdated(function (results) {
         messageUpdatedHandlers.forEach(function (h) {
             try {
@@ -637,14 +638,14 @@ var rcMessageProvider = function () {
             time: message.lastModifiedTime,
             readStatus: message.readStatus,
             type: getType(message),
-            contact: getNumber(message.type, getDirection(message)),
+            contact: getNumber(message.type, getDirection(message, 'Outbound')),
             subject: message.subject || null,
             convId: message.conversation.id,
-            author: getNumber(message, message.from)
+            author: getNumber(message, getDirection(message, 'Inbound'))
         };
 
-        function getDirection(message) {
-            return message.direction === 'Outbound' ? message.to[0] : message.from;
+        function getDirection(message, dir) {
+            return message.direction === dir ? message.to[0] : message.from;
         }
 
         function getNumber(message, info) {
@@ -683,23 +684,31 @@ var rcMessageProvider = function () {
         getMessagesOfAllType: function getMessagesOfAllType() {
             return Promise.resolve(rcMessageService.getAllMessages()).then(function (messages) {
                 var results = [];
-                var conversations = {};
+                var target = {};
                 messages.forEach(function (message) {
                     var result = createResult(message);
                     //Combine SMS/Pager messages in conversation
-                    if (message.conversationId) {
-                        conversations[message.conversationId] = conversations[message.conversationId] || [];
-                        conversations[message.conversationId].push(result);
+                    if (message.conversation && message.conversation.id) {
+                        target[message.conversation.id] = target[message.conversation.id] || [];
+                        target[message.conversation.id].push(result);
+                        conversations[message.conversation.id] = conversations[message.conversation.id] || [];
+                        conversations[message.conversation.id].push(message);
                     } else {
-                        conversations['anonymous'] = conversations['anonymous'] || [];
-                        conversations['anonymous'].push(result);
+                        target['anonymous'] = target['anonymous'] || [];
+                        target['anonymous'].push(result);
                     }
                 });
-                return conversations;
+                return target;
             });
         },
         getConversation: function getConversation(convId) {
-            return rcMessageService.getConversation(convId);
+            console.log(conversations);
+            console.log(convId);
+            if (conversations[convId]) {
+                console.log('hit cache');
+                console.log(conversations[convId]);
+                return Promise.resolve(conversations[convId].reverse());
+            } else return rcMessageService.getConversation(convId);
         },
 
         onMessageUpdated: function onMessageUpdated(handler) {

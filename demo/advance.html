@@ -247,8 +247,8 @@
                                 actions: {
                                     mount: {
                                         after: function() {
-                                            console.debug('register')
                                             rcMessageService.onMessageUpdated(this.confirmMessages);
+                                            rcMessageService.onMessageUpdated(this.addIncomingMessages);
                                         }
                                     },
                                     send: {
@@ -279,9 +279,7 @@
 
                             return rcMessageProvider
                             .getConversation(this.props.selectedMessage.convId)
-                            .then(records => records
-                                .forEach(record => conversation.addBubble(record.subject, record.direction))
-                            )
+                            .then(conversation.addMessages)
                         }
                     }
                 }

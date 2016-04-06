@@ -1,8 +1,9 @@
 import rcMessageService from './rc-message-service'
 import { register } from '../service'
 var rcMessageProvider = function() {
-
     var messageUpdatedHandlers = []
+    var conversations = {}
+
     rcMessageService.onMessageUpdated(results => {
         messageUpdatedHandlers.forEach(h => {
             try {
@@ -19,14 +20,14 @@ var rcMessageProvider = function() {
             time: message.lastModifiedTime,
             readStatus: message.readStatus,
             type: getType(message),
-            contact: getNumber(message.type, getDirection(message)),
+            contact: getNumber(message.type, getDirection(message, 'Outbound')),
             subject: message.subject || null,
             convId: message.conversation.id,
-            author: getNumber(message, message.from)
+            author: getNumber(message, getDirection(message, 'Inbound'))
         }
 
-        function getDirection(message) {
-            return message.direction === 'Outbound' ? message.to[0] : message.from
+        function getDirection(message, dir) {
+            return message.direction === dir ? message.to[0] : message.from
         }
 
         function getNumber(message, info) {
@@ -52,40 +53,50 @@ var rcMessageProvider = function() {
         getLastMessagesOfAllType: function() {
             var results = []
             return this.getMessagesOfAllType()
-            .then(msgs => {
-                for (var key in msgs) {
-                    if (msgs.hasOwnProperty(key)) {
-                        if (key === 'anonymous')
-                            results = results.concat(msgs.single[0])
-                        else
-                            results.push(msgs[key][0])
-                    }
-                }
-                return results
-            })
+                        .then(msgs => {
+                            for (var key in msgs) {
+                                if (msgs.hasOwnProperty(key)) {
+                                    if (key === 'anonymous')
+                                        results = results.concat(msgs.single[0])
+                                    else
+                                        results.push(msgs[key][0])
+                                }
+                            }
+                            return results
+                        })
         },
         // Return all messages of type 'VoiceMail' and 'Fax'. For SMS and Pager, only last message in a conversation
         // will be returned.
         getMessagesOfAllType: function() {
             return Promise.resolve(rcMessageService.getAllMessages()).then(messages => {
                 var results = []
-                var conversations = {}
+                var target = {}
                 messages.forEach(message => {
                     var result = createResult(message)
                     //Combine SMS/Pager messages in conversation
-                    if (message.conversationId) {
-                        conversations[message.conversationId] = conversations[message.conversationId] || []
-                        conversations[message.conversationId].push(result)
+                    if (message.conversation && message.conversation.id) {
+                        target[message.conversation.id] = target[message.conversation.id] || []
+                        target[message.conversation.id].push(result)
+                        conversations[message.conversation.id] = conversations[message.conversation.id] || []
+                        conversations[message.conversation.id].push(message)
                     } else {
-                        conversations['anonymous'] = conversations['anonymous'] || []
-                        conversations['anonymous'].push(result)
+                        target['anonymous'] = target['anonymous'] || []
+                        target['anonymous'].push(result)
                     }
                 })
-                return conversations
+                return target
             })
         },
         getConversation: function(convId) {
-            return rcMessageService.getConversation(convId)
+            console.log(conversations);
+            console.log(convId);
+            if (conversations[convId]) {
+                console.log('hit cache');
+                console.log(conversations[convId]);
+                return Promise.resolve(conversations[convId].reverse())
+            }
+            else
+                return rcMessageService.getConversation(convId)
         },
 
         onMessageUpdated: function(handler) {
