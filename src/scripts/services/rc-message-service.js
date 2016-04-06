@@ -3,8 +3,7 @@ import rcSubscription from './rc-subscription-service'
 import { register } from '../service'
 
 var rcMessageService = function(sdk) {
-
-    var MESSAGES_MAX_AGE_HOURS = 7 * 24
+    var MESSAGES_MAX_AGE_HOURS = 0.1 * 24
     var messages = {}
     var fetchingPromise = null
     var syncToken = null
@@ -132,16 +131,18 @@ var rcMessageService = function(sdk) {
                 })
                 .then(response => response.json())
         },
-        getConversation: function(conversationId, fromHour) {
+        getConversation: function(conversationId, hourFrom, hourTo) {
             return sdk.platform()
                 .get('/account/~/extension/~/message-store', {
-                    dateFrom: new Date(Date.now() - (fromHour || MESSAGES_MAX_AGE_HOURS) * 3600 * 1000).toISOString(),
+                    dateFrom: new Date(Date.now() - (hourFrom || MESSAGES_MAX_AGE_HOURS) * 3600 * 1000).toISOString(),
+                    dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
                     conversationId
                 })
                 .then(response => response.json())
                 .then(data => data.records)
                 .then(records => records.reverse())
-        }
+        },
+        MESSAGES_MAX_AGE_HOURS
     }
 }(sdk)
 

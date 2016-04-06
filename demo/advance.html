@@ -236,13 +236,14 @@
                         method: function() {
                             // TODO: makes the div temp
                             document.querySelector('.container').style.transform = 'translateX(-1250px)';
+                            var messages = this
                             if (conversation)
                                 conversation.destroy()
                             conversation = w('conversation', {
                                 data: {
                                     new: false,
-                                    fromNumber: this.props.selectedMessage.author,
-                                    toNumber: this.props.selectedMessage.contact
+                                    fromNumber: messages.props.selectedMessage.author,
+                                    toNumber: messages.props.selectedMessage.contact
                                 },
                                 actions: {
                                     mount: {
@@ -272,6 +273,15 @@
                                         method: function() {
                                             return accountService.listNumber("VoiceFax");
                                         }
+                                    },
+                                    reachTop: {
+                                        method: function() {
+                                            return rcMessageProvider.getConversation(
+                                                messages.props.selectedMessage.convId,
+                                                // FIXME
+                                                100
+                                                )
+                                        }
                                     }
                                 }
                             });
@@ -279,7 +289,7 @@
 
                             return rcMessageProvider
                             .getConversation(this.props.selectedMessage.convId)
-                            .then(conversation.addMessages)
+                            .then(conversation.appendMessages)
                         }
                     }
                 }

@@ -8,10 +8,10 @@ $conversation-bubble-color: #ecf0f1;
 
     }
     &__content {
-        display: flex;
-        flex: 1;
-        flex-direction: column;
-        justify-content: flex-end;
+        /*display: flex;*/
+        /*flex: 1;*/
+        /*flex-direction: column;*/
+        /*justify-content: flex-end;*/
         overflow: auto;
         height: 100%;
     }
@@ -27,8 +27,8 @@ $conversation-bubble-color: #ecf0f1;
     }
     .conversations {
         @mixin padding-large;
-        height: 100%;
-        overflow-y: scroll;
+        /*height: 100%;*/
+        /*overflow-y: scroll;*/
         &__bubble {
             @mixin padding-normal;
             /* Make the conversations overflow and show scrollbar */

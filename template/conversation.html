@@ -4,8 +4,11 @@
     </div>
     <div class='rc-panel__content rc-conversation__container'>
         <dropdown class='display-none' data-info='dropdown'></dropdown>
-        <div class='rc-conversation__content'>
-            <div class='conversations' data-info='conversations'>
+        <div    class='rc-conversation__content' 
+                data-info='container'
+                data-event='scroll:scroll'>
+            <div    class='conversations' 
+                    data-info='conversations'>
                 <div class='conversations__timestamp'>
                     <span class='__date'>1/24/15</span>
                     <span class='__time'>6:04</span>
@@ -81,7 +84,7 @@ w.register(function() {
             after: function(convs) {
                 convs.forEach(text => this.addBubble(text))
                 console.log('update bubble');
-                this.updateScroll()
+                this.scrollToBottom()
             }
         },
         enter: {
@@ -97,7 +100,9 @@ w.register(function() {
                 // send messages on UI
                 this.props.message = this.props.dom.input.value
                 this.props.dom.input.value = ''
-                return this.addBubble(this.props.message)
+                var bubble = this.addBubble(this.props.message)
+                this.scrollToBottom()
+                return bubble
             },
             method: function(finish, dom) {
                 this.props.fromNumber = this.data.fromNumber || this.props.fromNumber
@@ -109,13 +114,10 @@ w.register(function() {
                 }).catch(err => dom.parentNode.removeChild(dom))
                 // user actually send to message to server (SDK)
             },
-            after: function(response) {
-                console.log('update bubble');
-                this.updateScroll()
-            }
+            after: function(response) {}
         },
         addBubble: {
-            after: function(text, direction) {
+            after: function(text, direction, prepend) {
                 var opponent = (direction === 'Inbound')
                 var template = `<div class='clearfix'>
                                     <div class='conversations__bubble ${opponent? "--opponent": "--self"}'>
@@ -124,20 +126,69 @@ w.register(function() {
                                 </div>`
                 var div = document.createElement('div')
                 div.innerHTML = template
-
-                this.props.dom.conversations.appendChild(
-                    div.childNodes[0]
-                )
+                if (prepend) {
+                    this.props.dom.conversations.insertBefore(
+                        div.childNodes[0],
+                        this.props.dom.conversations.firstChild
+                    )
+                } else {
+                    this.props.dom.conversations.appendChild(
+                        div.childNodes[0]
+                    )
+                }
                 return this.props.dom.conversations.lastChild;
             }
         },
-        addMessages: {
-            method: function(finish, msgs) {
+        scroll: {
+            method: function(finish, event) {
+                if (event.target.scrollTop < 10)
+                    this.reachTop()
+            }
+        },
+        reachTop: {
+            before: function() {},
+            method: function(finish) {
+                console.log(this.isLoading);
+                if (this.isLoading)
+                    return
+                this.isLoading = true
+                return finish().then(result => {
+                    this.isLoading = false
+                    return result
+                })
+            },
+            after: function(messages) {
+                if (messages) {
+                    // maintain the scoll position
+                    var scrollBottom = this.props.dom.conversations.offsetHeight
+                    this.prependMessages(messages, false)
+                    this.props.dom.container.scrollTop = 
+                    this.props.dom.conversations.offsetHeight - scrollBottom
+                }
+            }
+        },
+        appendMessages: {
+            method: function(finish, msgs, scroll) {
                 if (msgs)
                     msgs.forEach(msg => this.addBubble(msg.subject, msg.direction))
             },
-            after: function() {
-                this.updateScroll()
+            after: function(msgs, scroll = true) {
+                if (scroll)
+                    this.scrollToBottom()
+            }
+        },
+        prependMessages: {
+            before: function() {
+
+            },
+            method: function(finish, msgs, scroll) {
+                console.log('prepend');
+                if (msgs)
+                    msgs.forEach(msg => this.addBubble(msg.subject, msg.direction, true))
+            },
+            after: function(msgs, scroll = true) {
+                if (scroll)
+                    this.scrollToBottom()
             }
         },
         warnBubble: {
@@ -145,9 +196,10 @@ w.register(function() {
 
             }
         },
-        updateScroll: {
+        scrollToBottom: {
             after: function() {
-                this.props.dom.conversations.scrollTop = this.props.dom.conversations.scrollHeight
+                console.log('update');
+                this.props.dom.container.scrollTop = this.props.dom.container.scrollHeight
             }
         },
         getOutboundCallerID: {
@@ -171,7 +223,7 @@ w.register(function() {
                 .map(msg => msg.subject)
                 .forEach(text => this.addBubble(text, 'Inbound'))
             },
-            after: this.updateScroll
+            after: this.scrollToBottom
         },
         confirmMessages: {
             method: function(finish, messages) {

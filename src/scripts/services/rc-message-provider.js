@@ -3,6 +3,7 @@ import { register } from '../service'
 var rcMessageProvider = function() {
     var messageUpdatedHandlers = []
     var conversations = {}
+    var cachedHour = rcMessageService.MESSAGES_MAX_AGE_HOURS
 
     rcMessageService.onMessageUpdated(results => {
         messageUpdatedHandlers.forEach(h => {
@@ -87,16 +88,23 @@ var rcMessageProvider = function() {
                 return target
             })
         },
-        getConversation: function(convId) {
-            console.log(conversations);
-            console.log(convId);
-            if (conversations[convId]) {
-                console.log('hit cache');
-                console.log(conversations[convId]);
+
+        getConversation: function(convId, hourFrom) {
+            console.log(cachedHour);
+            if (conversations[convId] && (!hourFrom || hourFrom < cachedHour)) {
                 return Promise.resolve(conversations[convId].reverse())
             }
-            else
-                return rcMessageService.getConversation(convId)
+            else {
+                return rcMessageService.getConversation(
+                    convId,
+                    hourFrom || cachedHour + rcMessageService.MESSAGES_MAX_AGE_HOURS,
+                    cachedHour)
+                .then(result => {
+                    cachedHour = hourFrom || cachedHour + rcMessageService.MESSAGES_MAX_AGE_HOURS
+                    console.log(cachedHour);
+                    return result
+                })
+            }
         },
 
         onMessageUpdated: function(handler) {

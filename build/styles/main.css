@@ -1596,9 +1596,7 @@ h1, h2, h3, h4, h5, h6 {
     right: 8px;
 }
 .rc-conversation .conversations {
-    padding: .7em .9em;
-    height: 100%;
-    overflow-y: scroll;
+    padding: .7em .9em;/*height: 100%;*//*overflow-y: scroll;*/
 }
 .rc-conversation .conversations__bubble {
     padding: .5em .7em;/* Make the conversations overflow and show scrollbar */
@@ -1623,11 +1621,7 @@ h1, h2, h3, h4, h5, h6 {
     flex-direction: column;/* Adjust all conversation related font size */
     font-size: .8em;
 }
-.rc-conversation__content {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    justify-content: flex-end;
+.rc-conversation__content {/*display: flex;*//*flex: 1;*//*flex-direction: column;*//*justify-content: flex-end;*/
     overflow: auto;
     height: 100%;
 }

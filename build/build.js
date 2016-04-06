@@ -478,8 +478,7 @@ var rcSubscription = function () {
 register('rcSubscription', rcSubscription);
 
 var rcMessageService = function (sdk) {
-
-    var MESSAGES_MAX_AGE_HOURS = 7 * 24;
+    var MESSAGES_MAX_AGE_HOURS = 0.1 * 24;
     var messages = {};
     var fetchingPromise = null;
     var syncToken = null;
@@ -601,9 +600,10 @@ var rcMessageService = function (sdk) {
                 return response.json();
             });
         },
-        getConversation: function getConversation(conversationId, fromHour) {
+        getConversation: function getConversation(conversationId, hourFrom, hourTo) {
             return sdk.platform().get('/account/~/extension/~/message-store', {
-                dateFrom: new Date(Date.now() - (fromHour || MESSAGES_MAX_AGE_HOURS) * 3600 * 1000).toISOString(),
+                dateFrom: new Date(Date.now() - (hourFrom || MESSAGES_MAX_AGE_HOURS) * 3600 * 1000).toISOString(),
+                dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
                 conversationId: conversationId
             }).then(function (response) {
                 return response.json();
@@ -612,7 +612,8 @@ var rcMessageService = function (sdk) {
             }).then(function (records) {
                 return records.reverse();
             });
-        }
+        },
+        MESSAGES_MAX_AGE_HOURS: MESSAGES_MAX_AGE_HOURS
     };
 }(sdk);
 
@@ -621,6 +622,7 @@ register('rcMessageService', rcMessageService);
 var rcMessageProvider = function () {
     var messageUpdatedHandlers = [];
     var conversations = {};
+    var cachedHour = rcMessageService.MESSAGES_MAX_AGE_HOURS;
 
     rcMessageService.onMessageUpdated(function (results) {
         messageUpdatedHandlers.forEach(function (h) {
@@ -701,14 +703,18 @@ var rcMessageProvider = function () {
                 return target;
             });
         },
-        getConversation: function getConversation(convId) {
-            console.log(conversations);
-            console.log(convId);
-            if (conversations[convId]) {
-                console.log('hit cache');
-                console.log(conversations[convId]);
+
+        getConversation: function getConversation(convId, hourFrom) {
+            console.log(cachedHour);
+            if (conversations[convId] && (!hourFrom || hourFrom < cachedHour)) {
                 return Promise.resolve(conversations[convId].reverse());
-            } else return rcMessageService.getConversation(convId);
+            } else {
+                return rcMessageService.getConversation(convId, hourFrom || cachedHour + rcMessageService.MESSAGES_MAX_AGE_HOURS, cachedHour).then(function (result) {
+                    cachedHour = hourFrom || cachedHour + rcMessageService.MESSAGES_MAX_AGE_HOURS;
+                    console.log(cachedHour);
+                    return result;
+                });
+            }
         },
 
         onMessageUpdated: function onMessageUpdated(handler) {
