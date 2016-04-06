@@ -5,14 +5,14 @@
 </div>
 <script>
 w.register(function(){
-    this.actions= {
-        init: {
-            method: function(finish) {
-                return finish();
-            },
-            after: function(contact) {
-                this.props.dom.name.textContent = contact.name;
-            }
+    this.actions = w.action('interaction');
+    this.actions .init = {
+        method: function(finish) {
+            return finish();
+        },
+        after: function(contact) {
+            this.props.contact = contact;
+            this.props.dom.name.textContent = contact.name;
         }
     }
 });

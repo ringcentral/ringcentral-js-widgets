@@ -1,6 +1,9 @@
 <div class="rc-panel">
-    <div class="rc-panel__content rc-contacts__content">
-        <div data-info="contacts">
+    <div class="rc-panel__content">
+        <div class="rc-contacts__searchBox">
+            <input class="__input" type="text" data-info="searchText" data-event="input:search">
+        </div>
+        <div data-info="contacts" class="rc-contacts__list">
             <contact-item dynamic></contact-item>
         </div>
     </div>
@@ -21,6 +24,11 @@ w.register(function(){
     }
     
     this.actions= {
+        init: {
+            before: function() {
+                this.props.contactItemWidgets = [];
+            }
+        },
         mount: {
             after: function() {
                 this.fetchContacts();
@@ -31,10 +39,22 @@ w.register(function(){
                 return finish();
             },
             after: function(contacts) {
-                console.log(contacts);
                 contacts.forEach(contact => {
                     var con = createContactWidget(contact);
-                    con.mount(this.props.dom.contacts);    
+                    con.mount(this.props.dom.contacts); 
+                    this.props.contactItemWidgets.push(con);
+                });
+            }
+        },
+        search: {
+            method: function() {
+                var searchText = this.props.dom.searchText.value;
+                this.props.contactItemWidgets.forEach(conWidget => {
+                    if(conWidget.props.contact.name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0) {
+                        conWidget.show();
+                    }else {
+                        conWidget.hide();
+                    }
                 });
             }
         }

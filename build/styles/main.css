@@ -1924,7 +1924,29 @@ h1, h2, h3, h4, h5, h6 {
     color: #2f2f2f;
 }
 .rc-contacts {}
-.rc-contacts__content {
+.rc-contacts__searchBox {
+    padding: 8px 10px;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    background-color: #f8f8f8;
+    border-bottom-color: #e5e5e5;
+    border-top-color: #e5e5e5;
+}
+.rc-contacts__searchBox .__input {
+    border: 1px solid;
+    width: 100%;
+    border-radius: 5px;
+    padding: 3px 3px 3px 26px;
+    background-repeat: no-repeat;
+    background-position: 3px 2px;
+    font-size: 14px;
+    line-height: 18px;
+    box-sizing: border-box;
+    border-color: #e5e5e5;
+    background-image: url(images/search.png);
+}
+.rc-contacts__list {
+    height: 100%;
     overflow: auto;
 }
 .rc-contact-item {
