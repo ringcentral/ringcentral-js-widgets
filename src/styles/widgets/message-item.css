@@ -32,19 +32,6 @@
             }
         }
     }
-    &__info {
-        display: block;
-        float: right;
-        width: 23px;
-        height: 35px;
-        cursor: pointer;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-image: url(images/info_big_normal.png);
-        &:hover {
-            background-image: url(images/info_big_pressed.png);
-        }
-    }
     &__time {
         display: block;
         float: right;

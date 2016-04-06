@@ -1,19 +1,14 @@
-<div>
-    <div class="rc-pane-header call-log-header">
-        Call Log
-    </div>
-    <div class="tabs tabs2 badges">
-        <a class="tab active" data-info="allCallTab" data-event="click:enableAllCallTab">
+<div class="rc-panel">
+    <div class="rc-tabs">
+        <a class="rc-tabs__tab --active --color --width2" data-info="allCallTab" data-event="click:enableAllCallTab">
             All
         </a>
-        <a class="tab" data-info="missedCallTab" data-event="click:enableMissedCallTab">
+        <a class="rc-tabs__tab --color --width2" data-info="missedCallTab" data-event="click:enableMissedCallTab">
             Missed
         </a>
     </div>
-    <div class="rc-pane-scrollable rc-logs">
-        <div data-info="logs">
-            <call-log-item dynamic></call-log-item>
-        </div>
+    <div class="rc-panel__content rc-call-log__content" data-info="logs">
+        <call-log-item dynamic></call-log-item>
     </div>
 </div>
 <script>
@@ -48,9 +43,9 @@ w.register(function() {
     }
 
     function enableTab(toEnableTab, toDisableTab) {
-        if (toEnableTab.classList.contains('active') === false) {
-            toEnableTab.classList.add('active');
-            toDisableTab.classList.remove('active');
+        if (toEnableTab.classList.contains('--active') === false) {
+            toEnableTab.classList.add('--active');
+            toDisableTab.classList.remove('--active');
         }
     }
     this.actions = Object.assign(w.action('interaction'), {
