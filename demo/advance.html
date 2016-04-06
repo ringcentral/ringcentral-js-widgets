@@ -235,7 +235,7 @@
                         before: function() {},
                         method: function() {
                             // TODO: makes the div temp
-                            document.querySelector('.container').style.transform = 'translateX(-1000px)';
+                            document.querySelector('.container').style.transform = 'translateX(-1250px)';
                             if (conversation)
                                 conversation.destroy()
                             conversation = w('conversation', {
@@ -379,6 +379,7 @@
                     mount: {
                         after: function() {
                             dialPad.mount('#dial-pad');
+                            messageWidget.mount('#messages-panel');
                             callLog.mount('#call-log');
                             contacts.mount('#contacts');
                             conference.mount('#conference');
