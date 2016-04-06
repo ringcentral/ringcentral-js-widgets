@@ -26,6 +26,10 @@ $contact-font-size: .9em;
     font-size: $contact-font-size;
     border-bottom: 1px solid #000;
     &__name {
-        max-width: 300px;
+        
+    }
+    &__value {
+        margin: 0.5em 0 0 0.5em;
+        font-size: 0.9em   
     }
 }
