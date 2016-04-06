@@ -3,18 +3,17 @@ import { register } from '../service'
 var rcMessageProvider = function() {
 
     var messageUpdatedHandlers = []
-    rcMessageService.onMessageUpdated(() => {
+    rcMessageService.onMessageUpdated(results => {
         messageUpdatedHandlers.forEach(h => {
             try {
-                h()
-            }catch (e) {
+                h(results)
+            } catch (e) {
                 console.error(e)
             }
         })
     })
 
     function createResult(message) {
-        console.log(message);
         return {
             id: message.id,
             time: message.lastModifiedTime,

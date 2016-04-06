@@ -438,7 +438,7 @@ var rcSubscription = function () {
     return {
         subscribe: function subscribe(suffix, event, handler) {
             if (event && suffix) {
-                if (!handlers.suffix) {
+                if (!handlers[suffix]) {
                     handlers[suffix] = [];
                 }
                 handlers[suffix].push(handler);
@@ -480,6 +480,7 @@ var rcMessageService = function (sdk) {
             }).then(function (responses) {
                 var jsonResponse = responses.json();
                 var results = jsonResponse.records;
+                syncToken = jsonResponse.syncInfo.syncToken;
                 updateMessageList(results);
                 messageUpdateHandlers.forEach(function (h) {
                     h(results);
@@ -558,9 +559,7 @@ var rcMessageService = function (sdk) {
             return !fetchingPromise ? concatMessages() : fetchingPromise.then(concatMessages);
         },
         subscribeToMessageUpdate: function subscribeToMessageUpdate() {
-            rcSubscription.subscribe('message-store', '/restapi/v1.0/account/~/extension/~/message-store', function (msg) {
-                return incrementalSyncMessages;
-            });
+            rcSubscription.subscribe('message-store', '/restapi/v1.0/account/~/extension/~/message-store', incrementalSyncMessages);
         },
         onMessageUpdated: function onMessageUpdated(handler) {
             if (handler) {
@@ -572,6 +571,8 @@ var rcMessageService = function (sdk) {
                 from: { phoneNumber: fromNumber },
                 to: [{ phoneNumber: toNumber }],
                 text: text
+            }).then(function (response) {
+                return response.json();
             });
         },
         getConversation: function getConversation(conversationId) {
@@ -593,10 +594,10 @@ register('rcMessageService', rcMessageService);
 var rcMessageProvider = function () {
 
     var messageUpdatedHandlers = [];
-    rcMessageService.onMessageUpdated(function () {
+    rcMessageService.onMessageUpdated(function (results) {
         messageUpdatedHandlers.forEach(function (h) {
             try {
-                h();
+                h(results);
             } catch (e) {
                 console.error(e);
             }
@@ -604,7 +605,6 @@ var rcMessageProvider = function () {
     });
 
     function createResult(message) {
-        console.log(message);
         return {
             id: message.id,
             time: message.lastModifiedTime,

@@ -26,7 +26,7 @@ var rcSubscription = function() {
     return {
         subscribe: function(suffix, event, handler) {
             if (event && suffix) {
-                if (!handlers.suffix) {
+                if (!handlers[suffix]) {
                     handlers[suffix] = []
                 }
                 handlers[suffix].push(handler)

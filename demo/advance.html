@@ -216,9 +216,7 @@
                 actions: {
                     mount: {
                         after: function(){
-                            rcMessageProvider.onMessageUpdated(() => {
-                                this.refreshMessages();
-                            });
+                            rcMessageProvider.onMessageUpdated(this.refreshMessages);
                         }
                     },
                     refreshMessages: {
@@ -245,6 +243,12 @@
                                     toNumber: this.props.selectedMessage.contact
                                 },
                                 actions: {
+                                    mount: {
+                                        after: function() {
+                                            console.debug('register')
+                                            rcMessageService.onMessageUpdated(this.confirmMessages);
+                                        }
+                                    },
                                     send: {
                                         method: function() {
                                             return rcMessageService.sendSMSMessage(

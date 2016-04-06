@@ -98,17 +98,19 @@ w.register(function() {
                 // send messages on UI
                 this.props.message = this.props.dom.input.value
                 this.props.dom.input.value = ''
-                this.addBubble(this.props.message)
+                return this.addBubble(this.props.message)
             },
-            method: function(finish) {
+            method: function(finish, dom) {
                 this.props.fromNumber = this.data.fromNumber || this.props.fromNumber
                 this.props.toNumber = this.data.toNumber || this.props['contact-picker'].props.dom.input.value
-                finish();
+                return finish().then(response => {
+                    dom.setAttribute('data-id', response.id)
+                    this.unconfirm = this.unconfirm || []
+                    this.unconfirm.push(dom)
+                }).catch(err => dom.parentNode.removeChild(dom))
                 // user actually send to message to server (SDK)
             },
-            after: function() {
-
-            }
+            after: function(response) {}
         },
         addBubble: {
             after: function(text, direction) {
@@ -124,7 +126,18 @@ w.register(function() {
                 this.props.dom.conversations.appendChild(
                     div.childNodes[0]
                 )
+                return this.props.dom.conversations.lastChild;
                 this.updateScroll()
+            }
+        },
+        warnBubble: {
+            after: function(id) {
+
+            }
+        },
+        confirmBubble: {
+            method: function(id) {
+
             }
         },
         updateScroll: {
@@ -132,17 +145,44 @@ w.register(function() {
                 this.props.dom.conversations.scrollTop = this.props.dom.conversations.scrollHeight
             }
         },
-        getOutboundCallerID : {
+        getOutboundCallerID: {
             method: function(finish) {
                 return finish();
             }
         },
-        queryContacts : {
+        queryContacts: {
             method: function(finish, queryText) {
                 this.props.to = queryText;
                 return finish();
             }
+        },
+        confirmMessages: {
+            method: function(finish, messages) {
+                console.log(messages);
+                console.log(this.unconfirm);
+                console.log(this.unconfirm.filter(dom => true));
+                console.log(messages
+                    .map(msg => msg.id)
+                    .indexOf(222) > -1)
+                var ids = messages.map(msg => msg.id)
+                console.log(ids);
+                return 
+                this.unconfirm
+                .filter(dom => {
+                        console.log(messages.map(msg => msg.id));
+                        console.log(Number.parseInt(dom.getAttribute('data-id')));
+                        return messages
+                            .map(msg => msg.id)
+                            .indexOf(parseInt(dom.getAttribute('data-id'))) > -1
+                    }
+                )
+                .forEach(dom => {
+                    dom.removeAttribute('data-id')
+                    console.debug(dom)
+                })
+            }
         }
     }
 })
+//# sourceURL=conversation.html
 </script>

@@ -32,6 +32,7 @@ var rcMessageService = function(sdk) {
             }).then(responses => {
                 var jsonResponse = responses.json()
                 var results = jsonResponse.records
+                syncToken = jsonResponse.syncInfo.syncToken
                 updateMessageList(results)
                 messageUpdateHandlers.forEach((h) => {
                     h(results)
@@ -110,8 +111,10 @@ var rcMessageService = function(sdk) {
             return !fetchingPromise ? concatMessages() : fetchingPromise.then(concatMessages)
         },
         subscribeToMessageUpdate: function() {
-            rcSubscription.subscribe('message-store', '/restapi/v1.0/account/~/extension/~/message-store',
-                msg => incrementalSyncMessages
+            rcSubscription.subscribe(
+                'message-store',
+                '/restapi/v1.0/account/~/extension/~/message-store',
+                incrementalSyncMessages
             )
         },
         onMessageUpdated: function(handler) {
@@ -128,6 +131,7 @@ var rcMessageService = function(sdk) {
                     ],
                     text: text
                 })
+                .then(response => response.json())
         },
         getConversation: function(conversationId) {
             return sdk.platform()
