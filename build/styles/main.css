@@ -1665,8 +1665,10 @@ h1, h2, h3, h4, h5, h6 {
     font-size: .9em;
     border-bottom: 1px solid #000;
 }
-.rc-contact__name {
-    max-width: 300px;
+.rc-contact__name {}
+.rc-contact__value {
+    margin: 0.5em 0 0 0.5em;
+    font-size: 0.9em;
 }
 .rc-dial-pad .call-button {
     position: absolute;

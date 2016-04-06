@@ -1,7 +1,7 @@
 <div class='rc-contact-picker'>
     <input  class='rc-input --clean' 
             data-info='input' 
-            data-event='input:autoComplete|blur:hide'>
+            data-event='input:autoComplete'>
     </input>
     <div class='rc-contact-picker__contacts rc-list' data-info='contacts'>
         <contact-picker-item dynamic></contact-picker-item>
@@ -76,8 +76,8 @@ w.register(function() {
             after: function(contacts) {
                 if (!contacts)
                     return;
-                // while (this.props.dom.contacts.firstChild)
-                //     this.props.dom.contacts.removeChild(this.props.dom.contacts.firstChild);
+                while (this.props.dom.contacts.firstChild)
+                    this.props.dom.contacts.removeChild(this.props.dom.contacts.firstChild);
                 if (contacts.length > 0)
                     this.show();
                 else
@@ -95,7 +95,8 @@ w.register(function() {
                                 },
                                 select: {
                                     method:function(){
-                                        parent.setInput(this.props.value);
+                                        parent.setInput(this.props.contact.value);
+                                        parent.hide();
                                     }
                                 }
                             }
