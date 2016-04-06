@@ -44,8 +44,9 @@
         <div class='container'>
             <div class='panel float-left' id="dial-pad"></div>
             <div class='panel float-left' id="messages-panel"></div>
-            <div class='panel float-left' id="conference"></div>
+            <div class='panel float-left' id="contacts"></div>
             <div class='panel float-left' id="call-log"></div>
+            <div class='panel float-left' id="conference"></div>
             <div class='panel float-left' id="conversation"></div>
         </div>
         <div class='panel --extra' id="call-panel"></div>
@@ -69,7 +70,8 @@
             'conversation': 'conversation',
             'call-log': 'call-log',
             'messages': 'messages',
-            'conference': 'conference'
+            'conference': 'conference',
+            'contacts': 'contacts'
         },
         locale: {
             'zh-tw': 'zh-tw.json',
@@ -298,6 +300,19 @@
                     }
                 }
             });
+            var contacts = w('contacts', {
+                data : options,
+                actions: {
+                    fetchContacts: {
+                        method: function() {
+                            var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                                return provider.searchAll();
+                            });
+                            return contactSearchService.query(dialPadSearchFunctions);
+                        }
+                    }
+                }
+            });
             
             
             var toolbar = w('tool-bar', {
@@ -365,7 +380,7 @@
                         after: function() {
                             dialPad.mount('#dial-pad');
                             callLog.mount('#call-log');
-                            messageWidget.mount('#messages-panel');
+                            contacts.mount('#contacts');
                             conference.mount('#conference');
                         }
                     }

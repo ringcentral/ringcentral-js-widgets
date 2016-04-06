@@ -155,6 +155,7 @@ register('phoneService', PhoneService);
 
 var rcContactService = function (sdk) {
     var companyContacts = [];
+    var fetchingCompanyContacts = null;
 
     function Contact() {
         this.firstName = null;
@@ -175,6 +176,15 @@ var rcContactService = function (sdk) {
         return contact;
     }
 
+    function addToCompanyContact(response) {
+        var records = response.json().records.filter(function (extension) {
+            return extension.status === 'Enabled' && ['DigitalUser', 'User'].indexOf(extension.type) >= 0;
+        }).map(function (extension) {
+            return createContact(extension);
+        });
+        companyContacts.push.apply(companyContacts, records);
+    }
+
     function fetchCompanyContactByPage(page) {
         return sdk.platform().get('/account/~/extension/', { perPage: 250, page: page });
     }
@@ -185,7 +195,7 @@ var rcContactService = function (sdk) {
 
     function fetchCompanyContacts() {
         var page = 1;
-        fetchCompanyContactByPage(page).then(function (response) {
+        fetchingCompanyContacts = fetchCompanyContactByPage(page).then(function (response) {
             var respObj = response.json();
             if (respObj.paging && respObj.paging.totalPages > page) {
                 var promises = [];
@@ -194,18 +204,17 @@ var rcContactService = function (sdk) {
                     promises.push(fetchCompanyContactByPage(page));
                 }
 
-                Promise.all(promises).then(function (responses) {
+                return Promise.all(promises).then(function (responses) {
                     responses.forEach(function (response) {
-                        var records = response.json().records.filter(function (extension) {
-                            return extension.status === 'Enabled' && ['DigitalUser', 'User'].indexOf(extension.type) >= 0;
-                        }).map(function (extension) {
-                            return createContact(extension);
-                        });
-                        companyContacts.push.apply(companyContacts, records);
+                        addToCompanyContact(response);
                     });
-
+                    fetchingCompanyContacts = null;
                     fetchCompanyDirectNumbers();
+                    return companyContacts;
                 });
+            } else {
+                addToCompanyContact(response);
+                return companyContacts;
             }
         }).catch(function (e) {
             console.error(e);
@@ -252,6 +261,13 @@ var rcContactService = function (sdk) {
 
     return {
         companyContacts: companyContacts,
+        asyncGetCompanyContact: function asyncGetCompanyContact() {
+            if (fetchingCompanyContacts) {
+                return fetchingCompanyContacts;
+            } else {
+                return Promise.resolve(companyContacts);
+            }
+        },
         syncCompanyContact: function syncCompanyContact() {
             companyContacts.length = 0;
             fetchCompanyContacts();
@@ -352,6 +368,17 @@ var rcContactSearchProvider = function () {
             }
 
             return results;
+        },
+        searchAll: function searchAll() {
+            return rcContactService.asyncGetCompanyContact().then(function (companyContacts) {
+                return companyContacts.map(function (contact) {
+                    return {
+                        name: contact.displayName,
+                        type: 'rc',
+                        id: contact.id
+                    };
+                });
+            });
         }
     };
 }();
