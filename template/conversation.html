@@ -73,10 +73,7 @@ w.register(function() {
             method: function() {
                 // There is two type of conversation: 1. to new users 2. existing conversation
                 // will be determined by this.data
-                if (this.data.new) {
-                    this.props['contact-picker'].disable()
-                    this.props.dropdown.disable()
-                } else {
+                if (!this.data.new) {
                     this.props['contact-picker'].disable()
                     this.props.dropdown.disable()
                 }

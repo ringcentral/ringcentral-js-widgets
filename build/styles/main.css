@@ -1809,6 +1809,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-toolbar__more-item > .rc-button {
     font-size: 1.8em;
+    width: 45px;
+    height: 45px;
 }
 .rc-toolbar__more-item:hover {
     color: #333;
