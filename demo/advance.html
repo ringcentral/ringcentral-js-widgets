@@ -16,6 +16,7 @@
     }
 
     #phone {
+        position: relative;
         width: 250px;
         height: 100%;
         border-right: 1px solid #878787;
@@ -33,6 +34,7 @@
     }
     .panel.--extra {
         position: absolute;
+        left: 0;
     }
     </style>
 </head>
@@ -47,10 +49,10 @@
             <div class='panel float-left' id="contacts"></div>
             <div class='panel float-left' id="call-log"></div>
             <div class='panel float-left' id="conference"></div>
-            <div class='panel float-left' id="conversation"></div>
         </div>
         <div class='panel --extra' id="call-panel"></div>
         <div class='panel --extra' id="call-panel-incoming"></div>
+        <div class='panel --extra' id="conversation"></div>
     </div>
     <script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
@@ -236,7 +238,6 @@
                         before: function() {},
                         method: function() {
                             // TODO: makes the div temp
-                            document.querySelector('.container').style.transform = 'translateX(-1250px)';
                             var messages = this
                             if (conversation)
                                 conversation.destroy()
@@ -250,6 +251,7 @@
                                     init: {
                                         after: function() {
                                             this.props.hourFrom = cachedMessageHours
+                                            this.props.convId = messages.props.selectedMessage.convId
                                             console.log(this.props.hourFrom);
                                         }
                                     },
@@ -286,7 +288,7 @@
                                             this.props.hourFrom += 100
                                             console.log(this.props.hourFrom);
                                             return rcMessageProvider.getConversation(
-                                                messages.props.selectedMessage.convId,
+                                                this.props.convId,
                                                 this.props.hourFrom)
                                         }
                                     }
@@ -299,6 +301,72 @@
                                 this.props.selectedMessage.convId,
                                 this.props.hourFrom)
                             .then(conversation.appendMessages)
+                        }
+                    },
+                    compose: {
+                        method: function() {
+                            conversation = w('conversation', {
+                                data: {
+                                    new: true
+                                },
+                                actions: {
+                                    init: {
+                                        after: function() {
+                                            this.props.hourFrom = cachedMessageHours
+                                            console.log(this.props.hourFrom);
+                                        }
+                                    },
+                                    mount: {
+                                        after: function() {
+                                            rcMessageService.onMessageUpdated(this.confirmMessages);
+                                            rcMessageService.onMessageUpdated(this.addIncomingMessages);
+                                        }
+                                    },
+                                    send: {
+                                        before: function() {
+                                            this.collapse()
+                                        },
+                                        method: function() {
+                                            return rcMessageService.sendSMSMessage(
+                                                this.props.message,
+                                                this.props.fromNumber,
+                                                this.props.toNumber)
+                                        },
+                                        after: function(response) {
+                                            this.props.convId = response.id
+                                            return rcMessageProvider
+                                                    .getConversation(response.id, 24)
+                                                    .then(this.appendMessages)
+                                        }
+                                    },
+                                    queryContacts: {
+                                        method: function() {
+                                            var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                                                return provider.search(this.props.to);
+                                            });
+                                            return contactSearchService.query(dialPadSearchFunctions);
+                                        }
+                                    },
+                                    getOutboundCallerID: {
+                                        method: function() {
+                                            return accountService.listNumber("VoiceFax");
+                                        }
+                                    },
+                                    reachTop: {
+                                        method: function() {
+                                            this.props.hourFrom += 100
+                                            console.log(this.props.hourFrom);
+                                            return rcMessageProvider.getConversation(
+                                                this.props.convId,
+                                                this.props.hourFrom)
+                                        }
+                                    }
+                                }
+                            })
+                            conversation.mount('#conversation')
+                        },
+                        after: function() {
+
                         }
                     }
                 }
@@ -313,6 +381,65 @@
                     },
                     inviteWithText: {
                         method: function() {
+                            conversation = w('conversation', {
+                                data: {
+                                    new: true
+                                },
+                                actions: {
+                                    init: {
+                                        after: function() {
+                                            this.props.hourFrom = cachedMessageHours
+                                            console.log(this.props.hourFrom);
+                                        }
+                                    },
+                                    mount: {
+                                        after: function() {
+                                            rcMessageService.onMessageUpdated(this.confirmMessages);
+                                            rcMessageService.onMessageUpdated(this.addIncomingMessages);
+                                        }
+                                    },
+                                    send: {
+                                        before: function() {
+                                            this.collapse()
+                                        },
+                                        method: function() {
+                                            return rcMessageService.sendSMSMessage(
+                                                this.props.message,
+                                                this.props.fromNumber,
+                                                this.props.toNumber)
+                                        },
+                                        after: function(response) {
+                                            this.props.convId = response.id
+                                            return rcMessageProvider
+                                                    .getConversation(response.id, 24)
+                                                    .then(this.appendMessages)
+                                        }
+                                    },
+                                    queryContacts: {
+                                        method: function() {
+                                            var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                                                return provider.search(this.props.to);
+                                            });
+                                            return contactSearchService.query(dialPadSearchFunctions);
+                                        }
+                                    },
+                                    getOutboundCallerID: {
+                                        method: function() {
+                                            return accountService.listNumber("VoiceFax");
+                                        }
+                                    },
+                                    reachTop: {
+                                        method: function() {
+                                            this.props.hourFrom += 100
+                                            console.log(this.props.hourFrom);
+                                            return rcMessageProvider.getConversation(
+                                                this.props.convId,
+                                                this.props.hourFrom)
+                                        }
+                                    }
+                                }
+                            })
+                            conversation.mount('#conversation')
                         }
                     }
                 }

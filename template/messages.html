@@ -1,28 +1,44 @@
-<div class="rc-panel">
+<div class="rc-panel rc-messages">
     <div class="rc-panel__content">
         <div class="rc-tabs">
-            <a class="rc-tabs__tab --active --color --width4" data-info='allTab' data-value='all' data-event='click:enableTab'>
+            <a 
+            class="rc-tabs__tab --active --color --width4"
+             data-info='allTab' 
+             data-value='all' 
+             data-event='click:enableTab'>
                 All
             </a>
-            <a class="rc-tabs__tab --color --width4" data-info='voiceMailTab' data-value='voicemail' data-event='click:enableTab'>
+            <a 
+            class="rc-tabs__tab --color --width4" 
+            data-info='voiceMailTab' 
+            data-value='voicemail' 
+            data-event='click:enableTab'>
                 VoiceMail
-                <!--<span class="badge" ng-if="updates.voicemail">{{ updates.voicemail }}</span>-->
             </a>
-            <a class="rc-tabs__tab --color --width4" data-info='faxTab' data-value='fax' data-event='click:enableTab'>
+            <a 
+            class="rc-tabs__tab --color --width4" 
+            data-info='faxTab' 
+            data-value='fax' 
+            data-event='click:enableTab'>
                 Fax
-                <!--<span class="badge" ng-if="updates.fax">{{ updates.fax }}</span>-->
             </a>
-            <a class="rc-tabs__tab --color --width4" data-info='textTab' data-value='text' data-event='click:enableTab'>
+            <a 
+            class="rc-tabs__tab --color --width4" 
+            data-info='textTab' 
+            data-value='text' 
+            data-event='click:enableTab'>
                 Text
-                <!--<span class="badge" ng-if="updates.text">{{ updates.text }}</span>-->
             </a>
         </div>
-        <div>
-            <div data-info='messages'>
-                <message-item-text dynamic></message-item-text>
-                <message-item-fax dynamic></message-item-fax>
-                <message-item-voicemail dynamic></message-item-voicemail>
-            </div>
+        <button 
+            class='rc-button --circle compose-button' 
+            data-info='compose' 
+            data-event='click:compose'>
+        </button>
+        <div data-info='messages'>
+            <message-item-text dynamic></message-item-text>
+            <message-item-fax dynamic></message-item-fax>
+            <message-item-voicemail dynamic></message-item-voicemail>
         </div>
     </div>
 </div>
@@ -138,6 +154,17 @@ w.register(function(){
             method: function(finish, message) {
                 this.props.selectedMessage = message;
                 return finish()
+            }
+        },
+        compose: {
+            before: function() {
+                this.props.dom.compose.classList.add('--active')
+            },
+            method: function(finish) {
+                return new Promise(resolve => setTimeout(() => resolve(finish()), 500))
+            },
+            after: function() {
+                setTimeout(() => this.props.dom.compose.classList.remove('--active'), 1000)
             }
         }
     }

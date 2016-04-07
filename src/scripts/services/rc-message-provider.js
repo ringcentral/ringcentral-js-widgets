@@ -90,8 +90,6 @@ var rcMessageProvider = function() {
         },
 
         getConversation: function(convId, hourFrom) {
-            console.log(cachedHour);
-            console.log(hourFrom);
             if (conversations[convId] && (!hourFrom || hourFrom < cachedHour)) {
                 return Promise.resolve(conversations[convId].reverse())
             }

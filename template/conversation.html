@@ -2,7 +2,8 @@
     <div class='rc-panel__header --colored display-none' data-info='header'>
         <contact-picker data-info='contact-picker'></contact-picker>
     </div>
-    <div class='rc-panel__content rc-conversation__container'>
+    <div    class='rc-panel__content rc-conversation__container' 
+            data-info='panel'>
         <dropdown class='display-none' data-info='dropdown'></dropdown>
         <div    class='rc-conversation__content' 
                 data-info='container'
@@ -26,6 +27,7 @@
 </div>
 <script>
 w.register(function() {
+    var fade = w.transition('fade')
     this.actions = {
         init: {
             method: function() {
@@ -63,7 +65,7 @@ w.register(function() {
         },
         mount: {
             method: function() {
-                 // There is two type of conversation: 1. to new users 2. existing conversation
+                // There is two type of conversation: 1. to new users 2. existing conversation
                 // will be determined by this.data
                 if (this.data.new) {
                     this.props.dom.header.classList.remove('display-none')
@@ -74,7 +76,9 @@ w.register(function() {
                 }
             },
             after: function() {
-                this.props['dropdown'].getData();
+                this.props['dropdown'].getData()
+                fade.init(this.props.root)
+                fade.in(this.props.root)
             }
         },
         fetchConversations: {
@@ -83,7 +87,6 @@ w.register(function() {
             },
             after: function(convs) {
                 convs.forEach(text => this.addBubble(text))
-                console.log('update bubble');
                 this.scrollToBottom()
             }
         },
@@ -111,6 +114,7 @@ w.register(function() {
                     dom.setAttribute('data-id', response.id)
                     this.unconfirm = this.unconfirm || []
                     this.unconfirm.push(dom)
+                    return response
                 }).catch(err => dom.parentNode.removeChild(dom))
                 // user actually send to message to server (SDK)
             },
@@ -137,6 +141,11 @@ w.register(function() {
                     )
                 }
                 return this.props.dom.conversations.lastChild;
+            }
+        },
+        collapse: {
+            after: function() {
+                this.props.dom.panel.style.transform = 'translateY(-82px)'
             }
         },
         scroll: {

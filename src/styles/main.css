@@ -81,13 +81,13 @@
     box-sizing: border-box;
 }
 * {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    outline: none
+    -webkit-touch-callout:  none;
+    -webkit-user-select:    none;
+     -khtml-user-select:    none;
+       -moz-user-select:    none;
+        -ms-user-select:    none;
+            user-select:    none;
+    outline:                none;
 }
 /* FIXME use js to load font */
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
@@ -150,7 +150,7 @@ h6 {
     @mixin block;
     &__header {
         @mixin padding-normal;
-        height: $panel-header-height;
+        /*height: $panel-header-height;*/
         background-color: #fff;
         &.--colored {
             background-color: $main-color;
@@ -197,14 +197,14 @@ h6 {
         @mixin padding-small;
     }
     &.--positive {
-        background-color: #2ecc71;
-        border-color: #2ecc71;
-        color: #fff;
+        background-color:   #2ecc71;
+        border-color:       #2ecc71;
+        color:              #fff;
     }
     &.--negative {
-        background-color: #e74c3c;
-        border-color: #e74c3c;
-        color: #fff;
+        background-color:   #e74c3c;
+        border-color:       #e74c3c;
+        color:              #fff;
     }
     &:hover,
     &:active {}
@@ -242,7 +242,7 @@ h6 {
     height: 30px;
     clear: both;
     /* for auto center */
-    margin: 11px auto 11px auto;
+    margin: 0 auto 11px;
     padding: 0 10px;
     &__tab {
         @mixin clickable;
@@ -259,23 +259,23 @@ h6 {
             text-decoration: none;
         }
         &:first-child {
-            border-top-left-radius: 3px;
-            border-bottom-left-radius: 3px;
+            border-top-left-radius:     3px;
+            border-bottom-left-radius:  3px;
         }
         &:last-child {
-            border-top-right-radius: 3px;
+            border-top-right-radius:    3px;
             border-bottom-right-radius: 3px;
             border-right: 1px solid #c1e0ee;
         }
         &.--color {
-            background-color: #ffffff; 
-            border-color: #c1e0ee;
-            color: #1785bb;
+            background-color:   #ffffff; 
+            border-color:       #c1e0ee;
+            color:              #1785bb;
         }
         &.--active { 
-            background-color: #1785bb; 
-            border-color: #1785bb;
-            color: #ffffff; 
+            background-color:   #1785bb; 
+            border-color:       #1785bb;
+            color:              #ffffff; 
         }
         &.--active:last-child {
             border-right-color: #c1e0ee; 
@@ -286,23 +286,23 @@ h6 {
     }
 }
 .rc-avatar {
-    margin-bottom: 15px;
-    margin-top: 15px;
-    margin-left: auto;
-    margin-right: auto;
+    margin-bottom:  15px;
+    margin-top:     15px;
+    margin-left:    auto;
+    margin-right:   auto;
     background-position:center center;
     background-repeat:no-repeat;
     border-radius:65px;
     &.--big {
-        min-width: 120px;
+        min-width:  120px;
         min-height: 120px;
-        max-width: 120px;
+        max-width:  120px;
         max-height: 120px;
     }
     &.--small {
-        min-width: 35px;
+        min-width:  35px;
         min-height: 35px;
-        max-width: 35px;
+        max-width:  35px;
         max-height: 35px;
     }
 }

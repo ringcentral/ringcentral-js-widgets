@@ -5,7 +5,7 @@ $conversation-bubble-color: #ecf0f1;
         flex-direction: column;
         /* Adjust all conversation related font size */
         font-size: .8em;
-
+        transition: transform .2s ease-in;
     }
     &__content {
         /*display: flex;*/
