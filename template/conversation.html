@@ -149,9 +149,10 @@ w.register(function() {
                 return this.props.dom.conversations.lastChild;
             }
         },
-        collapse: {
+        disable: {
             after: function() {
-                this.props.dom.panel.style.transform = 'translateY(-82px)'
+                this.props['contact-picker'].disable()
+                this.props.dropdown.disable()
             }
         },
         scroll: {

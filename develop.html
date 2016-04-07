@@ -17,7 +17,7 @@
         w.config({
             path: './template/',
             preload: {
-                'dev-panel': 'conference'
+                'dev-panel': 'call-panel'
             },
             locale: {
                 'zh-tw': 'demo/zh-tw.json',
@@ -25,24 +25,7 @@
             },
             logLevel: 0 /* 0 for error only, 1 for error and warning, 2 for error and warning and log */
         }, function() {
-            var loginService = w.service()['loginService'];
-            var rcConferenceSerivce = w.service()['rcConferenceSerivce'];
-            loginService.login('18665693233','','Test!123').then(() => {
-                w('dev-panel',{
-                    data : { lang: 'en-us' },
-                    actions: {
-                        getConferenceInfo: {
-                            method: function() {
-                                return rcConferenceSerivce.getConferenceInfo();
-                            }
-                        },
-                        inviteWithText: {
-                            method: function() {
-                            }
-                        }
-                    }
-                }).mount('#dev-panel')
-            });
+            w('dev-panel').mount('#dev-panel')
         })
     </script>
 </body>

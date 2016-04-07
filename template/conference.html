@@ -20,12 +20,14 @@
             <button 
                 class="rc-button --clean --round __button" 
                 data-info="inviteWithTextButton" 
-                data-event="click:inviteWithText">
+                data-event="click:inviteWithText"
+                disabled>
             </button>
             <button 
                 class="rc-button --positive --round __button" 
                 data-info="joinAsHostButton" 
-                data-event="click:joinAsHost">
+                data-event="click:joinAsHost"
+                disabled>
             </button>
         </div>
     </div>
@@ -60,6 +62,7 @@ w.register(function(){
                 this.props.dom.dialInNumber.textContent = conferenceInfo.phoneNumber;
                 this.props.dom.hostCode.textContent = conferenceInfo.hostCode;
                 this.props.dom.participantCode.textContent = conferenceInfo.participantCode;
+                this.enable();
             }
         },
         inviteWithText: {
@@ -70,6 +73,12 @@ w.register(function(){
         joinAsHost: {
             method: function(finish) {
                 return finish();
+            }
+        },
+        enable: {
+            method: function() {
+                this.props.dom.inviteWithTextButton.disabled = false
+                this.props.dom.joinAsHostButton.disabled = false
             }
         }
     }

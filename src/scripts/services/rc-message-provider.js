@@ -16,6 +16,7 @@ var rcMessageProvider = function() {
     })
 
     function createResult(message) {
+        console.log(message);
         return {
             id: message.id,
             time: message.lastModifiedTime,
@@ -23,7 +24,7 @@ var rcMessageProvider = function() {
             type: getType(message),
             contact: getNumber(message.type, getDirection(message, 'Outbound')),
             subject: message.subject || null,
-            convId: message.conversation.id,
+            convId: message.conversation? message.conversation.id: null,
             author: getNumber(message, getDirection(message, 'Inbound'))
         }
 
@@ -58,7 +59,7 @@ var rcMessageProvider = function() {
                             for (var key in msgs) {
                                 if (msgs.hasOwnProperty(key)) {
                                     if (key === 'anonymous')
-                                        results = results.concat(msgs.single[0])
+                                        results = results.concat(msgs.anonymous[0])
                                     else
                                         results.push(msgs[key][0])
                                 }
