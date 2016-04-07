@@ -442,6 +442,8 @@ var phone = w.register(function() {
                         });
                         
                         var panels = [dialPad, messageWidget, contacts, callLog, conference]
+                        var container = document.querySelector('.container')
+                        var h;
                         var toolbar = w('tool-bar', {
                             data : phone.data,
                             actions: {
@@ -450,82 +452,87 @@ var phone = w.register(function() {
                                         this.clickItem(
                                             this.addItem('<span class="icon-uniA4"></span><span class="icon-RC_shapes_1-40_pressed"></span>'), 
                                             function() {
-                                                document.querySelector('.container').style.transform = 'translateX(0)';
+                                                container.style.transform = 'translateX(0)';
                                                 if (conversation) {
                                                     conversation.destroy()
                                                     conversation = null
                                                 }
-                                                document.querySelector('.container')
-                                                .addEventListener('transitionend', function h(e) {
+                                                container.removeEventListener('transitionend', h)
+                                                h = function (e) {
                                                     panels.filter((p,idx) => idx !== 0).forEach(p => p.unmount())
                                                     this.removeEventListener('transitionend', h)
-                                                })
+                                                }
+                                                container.addEventListener('transitionend', h)
                                                 dialPad.mount('#dial-pad');
                                             });
                                         this.clickItem(
                                             this.addItem('<span class="icon-uni2487"></span></span><span class="icon-RC_shapes_1_30_pressed"></span>'),
                                             function() {
-                                                document.querySelector('.container').style.transform = 'translateX(-250px)';
+                                                container.style.transform = 'translateX(-250px)';
                                                 if (conversation) {
                                                     conversation.destroy()
                                                     conversation = null
                                                 }
-                                                document.querySelector('.container')
-                                                .addEventListener('transitionend', function h(e) {
+                                                container.removeEventListener('transitionend', h)
+                                                h = function (e) {
                                                     panels.filter((p,idx) => idx !== 1).forEach(p => p.unmount())
                                                     this.removeEventListener('transitionend', h)
-                                                })
-                                                messageWidget.mount('#messages-panel');
+                                                }
+                                                container.addEventListener('transitionend', h)
+                                                messageWidget.mount('#messages-panel')
                                             });
                                         this.clickItem(
                                             this.addItem('<span class="icon-uni7D"></span><span class="icon-contact_info_pressed"></span>'),
                                              function() {
-                                                document.querySelector('.container').style.transform = 'translateX(-500px)';
+                                                container.style.transform = 'translateX(-500px)';
                                                 if (conversation) {
                                                     conversation.destroy()
                                                     conversation = null
                                                 }
-                                                document.querySelector('.container')
-                                                .addEventListener('transitionend', function h(e) {
+                                                container.removeEventListener('transitionend', h)
+                                                h = function (e) {
                                                     panels.filter((p,idx) => idx !== 2).forEach(p => p.unmount())
                                                     this.removeEventListener('transitionend', h)
-                                                })
+                                                }
+                                                container.addEventListener('transitionend', h)
                                                 contacts.mount('#contacts');
                                             });
                                         this.clickItem(
                                             this.addItem('<span class="icon-uniC8"></span><span class="icon-RC_shapes_2-30_pressed"></span>'),
                                             function() {
-                                                document.querySelector('.container').style.transform = 'translateX(-750px)';
+                                                container.style.transform = 'translateX(-750px)';
                                                 if (conversation) {
                                                     conversation.destroy()
                                                     conversation = null
                                                 }
-                                                document.querySelector('.container')
-                                                .addEventListener('transitionend', function h(e) {
+                                                container.removeEventListener('transitionend', h)
+                                                h = function (e) {
                                                     panels.filter((p,idx) => idx !== 3).forEach(p => p.unmount())
                                                     this.removeEventListener('transitionend', h)
-                                                })
+                                                }
+                                                container.addEventListener('transitionend', h)
                                                 callLog.mount('#call-log');
                                             });
                                         this.clickItem(
                                             this.addItem('<span class="icon-uniA3"></span>', 'Conference'),
                                             function() {
-                                                document.querySelector('.container').style.transform = 'translateX(-1000px)';
+                                                container.style.transform = 'translateX(-1000px)';
                                                 if (conversation) {
                                                     conversation.destroy()
                                                     conversation = null
                                                 }
-                                                document.querySelector('.container')
-                                                .addEventListener('transitionend', function h(e) {
+                                                container.removeEventListener('transitionend', h)
+                                                h = function (e) {
                                                     panels.filter((p,idx) => idx !== 4).forEach(p => p.unmount())
                                                     this.removeEventListener('transitionend', h)
-                                                })
+                                                }
+                                                container.addEventListener('transitionend', h)
                                                 conference.mount('#conference');
                                             });
                                         this.clickItem(
                                             this.addItem('<span class="icon-uni47"></span>', 'Meeting'),
                                             function() {
-                                                document.querySelector('.container').style.transform = 'translateX(-750px)';
+                                                container.style.transform = 'translateX(-750px)';
                                                 if (conversation) {
                                                     conversation.destroy()
                                                     conversation = null
@@ -560,4 +567,5 @@ var phone = w.register(function() {
         }
     }
 })
+//# sourceURL=rc-phone.html
 </script>
