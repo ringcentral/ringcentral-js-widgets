@@ -1164,7 +1164,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .rc-panel__header {
-    padding: .5em .7em;/*height: $panel-header-height;*/
+    padding: .5em .7em;
+    height: 60px;
     background-color: #fff;
 }
 
@@ -1176,6 +1177,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .rc-panel__header.--center {
     text-align: center;
+}
+
+.rc-panel__header.--flat {
+    padding: 0;
 }
 
 .rc-panel__content {
@@ -1557,8 +1562,8 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
 }
 .rc-contact-picker > .rc-input {
-    font-size: 1.8em;
-    letter-spacing: 0.05em;
+    font-size: 1.2em;
+    letter-spacing: .05em;
 }
 .rc-contact-picker__contacts {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -1578,8 +1583,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-contact__name {}
 .rc-contact__value {
-    margin: 0.5em 0 0 0.5em;
-    font-size: 0.9em;
+    margin: .5em 0;
+    font-size: $.9em;
 }
 .rc-dial-pad .call-button {
     position: absolute;
@@ -1587,7 +1592,7 @@ h1, h2, h3, h4, h5, h6 {
     left: 0;
     width: 100%;
     height: 100%;
-    transform: scale(.22, .11);
+    transform: scale(.22, .12);
     transform-origin: center 90%;
     transition: border-radius       .8s,
                     transform           .3s ease-in, 
@@ -1643,7 +1648,7 @@ h1, h2, h3, h4, h5, h6 {
     left: 0;
     width: 100%;
     height: 100%;
-    transform: scale(.22, .14);
+    transform: scale(.22, .12);
     transform-origin: 90% 95%;
     transition: border-radius       .8s, 
                     transform           .3s ease-in, 

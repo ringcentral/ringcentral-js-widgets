@@ -80,9 +80,11 @@ w.register(function() {
             },
             after: function() {
                 this.props['dropdown'].getData()
-                this.props.dom.input.value = this.data.message
+                this.props.dom.input.value = this.data.message || ''
                 fade.init(this.props.root)
-                fade.in(this.props.root)
+                fade.in(this.props.root, {
+                    after: () => this.props.dom.input.focus()
+                })
             }
         },
         fetchConversations: {

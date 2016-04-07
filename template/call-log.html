@@ -1,11 +1,19 @@
 <div class="rc-panel">
-    <div class="rc-tabs">
-        <a class="rc-tabs__tab --active --color --width2" data-info="allCallTab" data-event="click:enableAllCallTab">
-            All
-        </a>
-        <a class="rc-tabs__tab --color --width2" data-info="missedCallTab" data-event="click:enableMissedCallTab">
-            Missed
-        </a>
+    <div class='rc-panel__header'>
+        <div class="rc-tabs">
+            <a 
+                class="rc-tabs__tab --active --color --width2" 
+                data-info="allCallTab" 
+                data-event="click:enableAllCallTab">
+                All
+            </a>
+            <a 
+                class="rc-tabs__tab --color --width2" 
+                data-info="missedCallTab" 
+                data-event="click:enableMissedCallTab">
+                Missed
+            </a>
+        </div>
     </div>
     <div class="rc-panel__content rc-call-log__content" data-info="logs">
         <call-log-item dynamic></call-log-item>

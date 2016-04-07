@@ -6,23 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="../build/styles/main.css">
     <style type="text/css">
-    html {
-        height: 100%;
-    }
-    
     body {
-        height: 100%;
+        margin: 30px;
+        background: #ecf0f1;
     }
-
-    #phone {
-        float: left;
-        width: 250px;
-        height: 100%;
-        border-right: 1px solid #878787;
-        border-left: 1px solid #878787;
-        overflow: hidden;
-    }
-
     .panel {
         float: left;
         width: 250px;
@@ -34,38 +21,47 @@
         padding: 3px;
         cursor: pointer;
     }
+    .control-panel {
+        display: flex;
+        justify-content: center;
+        font-size: .8em;
+    }
+    header {
+        text-align: center;
+    }
     </style>
 </head>
 
 <body>
+    <header>
+        <h1>RingCentral JavaScript widgets</h1>
+    </header>
     <div id='phone'></div>
     <div class='control-panel'>
-        <div>
-            <code>
-            <pre>
-                phone = w('rc-phone', {
-                    data: {
-                        color: <input onblur='rerun(this.value)'></input>
-                        logo: <span 
-                                class='demo-span'
-                                data-value='ringcentral_logo.png' 
-                                onclick='rerun(null,this.getAttribute("data-value"))'>RingCentral</span><span
-                                class='demo-span' 
-                                data-value='fb.png' 
-                                onclick='rerun(null,this.getAttribute("data-value"))'>Facebook</span>
-                        lang: <span 
-                                class='demo-span'
-                                data-value='en-us'
-                                onclick='rerun(null,null,this.getAttribute("data-value"))'>English</span><span
-                                class='demo-span' 
-                                data-value='zh-tw'
-                                onclick='rerun(null,null,this.getAttribute("data-value"))'>Chinese</span>
-                    }
-                })
-                phone.render('#phone'); 
-            </pre>
-            </code>
-        </div>
+        <code>
+        <pre>
+phone = w('rc-phone', {
+data: {
+    color: <input onblur='rerun(this.value)'></input>
+    logo: <span 
+            class='demo-span'
+            data-value='ringcentral_logo.png' 
+            onclick='rerun(null,this.getAttribute("data-value"))'>RingCentral</span><span
+            class='demo-span' 
+            data-value='fb.png' 
+            onclick='rerun(null,this.getAttribute("data-value"))'>Facebook</span>
+    lang: <span 
+            class='demo-span'
+            data-value='en-us'
+            onclick='rerun(null,null,this.getAttribute("data-value"))'>English</span><span
+            class='demo-span' 
+            data-value='zh-tw'
+            onclick='rerun(null,null,this.getAttribute("data-value"))'>Chinese</span>
+}
+})
+phone.mount('#phone'); 
+        </pre>
+        </code>
     </div>
     <script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
@@ -73,9 +69,9 @@
     <script type="text/javascript">
     var phone;
     var options = {
-            color: '#999',
+            color: '#fff',
             logo: 'ringcentral_logo.png',
-            lang: 'zh-tw'
+            lang: 'en-us'
         };
     w.config({
         path: '../template/',
@@ -86,23 +82,23 @@
             'zh-tw': 'zh-tw.json',
             'en-us': 'en-us.json'
         }
-    }, render)
+    }, mount)
 
     function rerun(color, logo, lang) {
         options.color = color || options.color
         options.logo = logo || options.logo
         options.lang = lang || options.lang
         if (phone) {
-            phone.remove()
+            phone.unmount()
         }
-        render()
+        mount()
     }
 
-    function render() {
+    function mount() {
         phone = w('rc-phone', {
             data: options
         })
-        phone.render('#phone'); 
+        phone.mount('#phone'); 
     }
     </script>
 </body>

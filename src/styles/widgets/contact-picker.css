@@ -1,11 +1,11 @@
-$contact-picker-font-size: 1.8em;
+$contact-picker-font-size: 1.2em;
 $contact-font-size: .9em;
 .rc-contact-picker {
     @mixin block;
     width: 100%;
     > .rc-input {
         font-size: $contact-picker-font-size;
-        letter-spacing: 0.05em;
+        letter-spacing: .05em;
     }
     &__contacts {
         @mixin shadow-1;
@@ -29,7 +29,7 @@ $contact-font-size: .9em;
         
     }
     &__value {
-        margin: 0.5em 0 0 0.5em;
-        font-size: 0.9em   
+        margin: .5em 0;
+        font-size: $$contact-font-size;
     }
 }

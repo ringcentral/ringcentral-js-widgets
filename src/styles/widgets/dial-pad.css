@@ -30,7 +30,7 @@ $dial-pad-call-button-color: #2ecc71;
         left:   0;
         width:  100%;
         height: 100%;
-        transform: scale(.22, .11);
+        transform: scale(.22, .12);
         transform-origin: center 90%;
         transition: border-radius       .8s,
                     transform           .3s ease-in, 

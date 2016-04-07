@@ -6,7 +6,7 @@ $messages-compose-button-color: #2ecc71;
         left:   0;
         width:  100%;
         height: 100%;
-        transform: scale(.22, .14);
+        transform: scale(.22, .12);
         transform-origin: 90% 95%;
         transition: border-radius       .8s, 
                     transform           .3s ease-in, 

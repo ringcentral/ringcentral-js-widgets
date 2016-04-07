@@ -1,5 +1,5 @@
 <div class='rc-panel rc-dial-pad'>
-    <div class='rc-panel__header --colored'>
+    <div class='rc-panel__header --colored' data-info='header'>
         <contact-picker data-info='contact-picker'></contact-picker>
     </div>
     <div class='rc-panel__content'>
@@ -114,6 +114,8 @@ w.register(function() {
         method: function() {},
         after: function() {
             var dialPad = this;
+            var { color, lang, logo } = this.data
+            this.props.dom.header.style['background-color'] = color || '#fff'
             w.customize(this, 'contact-picker', {
                 actions: {
                     autoComplete: {

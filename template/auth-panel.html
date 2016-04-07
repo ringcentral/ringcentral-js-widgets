@@ -1,6 +1,8 @@
 <div class='rc-panel rc-auth-panel'>
     <div class='rc-panel__header rc-auth-panel__header'>
-        <img class='rc-img rc-auth-panel__img' src='./ringcentral_logo.png'>
+        <img    class='rc-img rc-auth-panel__img'
+                src='./ringcentral_logo.png'
+                data-info='logo'>
     </div>
     <div class='rc-panel__content rc-auth-panel__content'>
         <div class='input-panel' data-info='input-panel'>
@@ -39,8 +41,8 @@ w.register(function() {
             this.props.country = 'United States'
             var t = w.t(this.data.lang)
             var { color, lang, logo } = this.data
-            // this.props.dom.login.style['background-color'] = color || '#fff'
-            // this.props.dom.logo.src = logo || ''
+            this.props.dom.login.style['background-color'] = color || '#fff'
+            this.props.dom.logo.src = logo || './ringcentral_logo.png'
             this.props.dom.login.textContent = t('login') || 'login'
         }
     }
@@ -50,7 +52,6 @@ w.register(function() {
             this.props.dom.username.value = localStorage.getItem('username');
             this.props.dom.extension.value = localStorage.getItem('extension');
             this.props.dom.password.value = localStorage.getItem('password');
-            this.props['dropdown'].getData();
             fade.in(this.props.root);
         }
     }
@@ -111,4 +112,5 @@ w.register(function() {
         }
     }
 });
+//# sourceURL=auth-panel.html
 </script>
