@@ -383,7 +383,8 @@
                         method: function() {
                             conversation = w('conversation', {
                                 data: {
-                                    new: true
+                                    new: true,
+                                    message: conference.props.inviteMessage
                                 },
                                 actions: {
                                     init: {
@@ -440,6 +441,12 @@
                                 }
                             })
                             conversation.mount('#conversation')
+                        }
+                    },
+                    joinAsHost: {
+                        method: function() {
+                            document.querySelector('.container').style.transform = 'translateX(0px)';
+                            dialPad.setNumber(conference.props.dialInNumber)
                         }
                     }
                 }

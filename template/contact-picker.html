@@ -24,6 +24,8 @@ w.register(function() {
             },
             after: function() {
                 enlarge.init(this.props.dom.contacts)
+                if (this.data.contact)
+                    this.props.dom.input.value = this.data.contact
             }
         },
         hide: {

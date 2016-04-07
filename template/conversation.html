@@ -36,6 +36,9 @@ w.register(function() {
             after: function() {
                 var conversation = this;
                 w.customize(this, 'contact-picker', {
+                    data: {
+                        contact: conversation.data.contact
+                    },
                     actions: {
                         autoComplete: {
                             method: function() {
@@ -77,6 +80,7 @@ w.register(function() {
             },
             after: function() {
                 this.props['dropdown'].getData()
+                this.props.dom.input.value = this.data.message
                 fade.init(this.props.root)
                 fade.in(this.props.root)
             }

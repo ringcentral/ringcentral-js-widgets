@@ -202,6 +202,11 @@ w.register(function() {
             return finish();
         }
     }
-    
+    this.actions.setNumber = {
+        method: function(finish, value) {
+            this.props['contact-picker'].setInput(value)
+            return finish();
+        }
+    }
 })
 </script>

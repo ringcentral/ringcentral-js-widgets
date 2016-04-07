@@ -81,6 +81,7 @@ w.register(function() {
                 } else {
                     item.addEventListener('click', () => {
                         event.call(this)
+                        this.hideMenu()
                         this.state.push(event)
                     })
                 }
