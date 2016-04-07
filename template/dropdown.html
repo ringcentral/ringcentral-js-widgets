@@ -1,7 +1,7 @@
 <div class='rc-dropdown'>
     <button class='rc-dropdown__trigger rc-button'
             data-info='dropdown'
-            data-event='click:collapse'>Default</button>
+            data-event='click:collapse'>From: </button>
     <div    class='rc-dropdown__list rc-list' 
             data-info='list'>
     </div>
@@ -34,7 +34,7 @@ w.register(function() {
             after: function(text) {
                 var item = document.createElement('div')
                 // FIXME
-                item.classList.add('rc-list__item', 'rc-dropdown-list__item')
+                item.classList.add('rc-list__item', 'rc-dropdown__item')
                 item.textContent = text;
                 item.addEventListener('click', e => {
                     this.switchTitle(text);

@@ -7,7 +7,8 @@ $gray: #bdc3c7;
 $border-radius: 3px;
 
 /* rc-panel */
-$panel-width: 300px;
+$panel-width: 250px;
 $panel-header-height: 60px;
-$panel-content-height: 400px;
+$panel-content-height: 350px;
 $panel-footer-height: 100px;
+$panel-height: $panel-header-height + $panel-content-height;
