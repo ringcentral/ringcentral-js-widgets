@@ -3,15 +3,14 @@ import rcSubscription from './rc-subscription-service'
 import { register } from '../service'
 
 var rcMessageService = function(sdk) {
-    var MESSAGES_MAX_AGE_HOURS = 0.1 * 24
     var messages = {}
     var fetchingPromise = null
     var syncToken = null
     var messageUpdateHandlers = []
 
-    function fullSyncMessages() {
+    function fullSyncMessages(hour) {
         return sdk.platform().get('/account/~/extension/~/message-sync', {
-            dateFrom: new Date(Date.now() - MESSAGES_MAX_AGE_HOURS * 3600 * 1000).toISOString(),
+            dateFrom: new Date(Date.now() - hour * 3600 * 1000).toISOString(),
             syncType: 'FSync'
         }).then(responses => {
             var jsonResponse = responses.json()
@@ -88,8 +87,8 @@ var rcMessageService = function(sdk) {
     }
 
     return {
-        syncMessages: function() {
-            fetchingPromise = fullSyncMessages()
+        syncMessages: function(hour) {
+            fetchingPromise = fullSyncMessages(hour)
             return fetchingPromise
         },
         getMessagesByType: function(type) {
@@ -134,15 +133,14 @@ var rcMessageService = function(sdk) {
         getConversation: function(conversationId, hourFrom, hourTo) {
             return sdk.platform()
                 .get('/account/~/extension/~/message-store', {
-                    dateFrom: new Date(Date.now() - (hourFrom || MESSAGES_MAX_AGE_HOURS) * 3600 * 1000).toISOString(),
+                    dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
                     dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
                     conversationId
                 })
                 .then(response => response.json())
                 .then(data => data.records)
                 .then(records => records.reverse())
-        },
-        MESSAGES_MAX_AGE_HOURS
+        }
     }
 }(sdk)
 

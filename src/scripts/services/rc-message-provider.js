@@ -3,7 +3,7 @@ import { register } from '../service'
 var rcMessageProvider = function() {
     var messageUpdatedHandlers = []
     var conversations = {}
-    var cachedHour = rcMessageService.MESSAGES_MAX_AGE_HOURS
+    var cachedHour = 0
 
     rcMessageService.onMessageUpdated(results => {
         messageUpdatedHandlers.forEach(h => {
@@ -91,16 +91,17 @@ var rcMessageProvider = function() {
 
         getConversation: function(convId, hourFrom) {
             console.log(cachedHour);
+            console.log(hourFrom);
             if (conversations[convId] && (!hourFrom || hourFrom < cachedHour)) {
                 return Promise.resolve(conversations[convId].reverse())
             }
             else {
                 return rcMessageService.getConversation(
                     convId,
-                    hourFrom || cachedHour + rcMessageService.MESSAGES_MAX_AGE_HOURS,
+                    hourFrom,
                     cachedHour)
                 .then(result => {
-                    cachedHour = hourFrom || cachedHour + rcMessageService.MESSAGES_MAX_AGE_HOURS
+                    cachedHour = hourFrom
                     console.log(cachedHour);
                     return result
                 })

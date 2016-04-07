@@ -94,6 +94,7 @@
     var dialPadSearchProviders = [rcContactSearchProvider];
 
     function init() {
+        var cachedMessageHours = 24;
         var authPanel = w('auth-panel', {
             data : { lang: 'en-us' },
             actions: {
@@ -115,7 +116,7 @@
         
         function loadData() {
             rcMessageService.subscribeToMessageUpdate();
-            rcMessageService.syncMessages();
+            rcMessageService.syncMessages(cachedMessageHours);
             accountService.getAccountInfo();
             accountService.getPhoneNumber();
             rcContactService.syncCompanyContact();
@@ -246,6 +247,12 @@
                                     toNumber: messages.props.selectedMessage.contact
                                 },
                                 actions: {
+                                    init: {
+                                        after: function() {
+                                            this.props.hourFrom = cachedMessageHours
+                                            console.log(this.props.hourFrom);
+                                        }
+                                    },
                                     mount: {
                                         after: function() {
                                             rcMessageService.onMessageUpdated(this.confirmMessages);
@@ -276,11 +283,11 @@
                                     },
                                     reachTop: {
                                         method: function() {
+                                            this.props.hourFrom += 100
+                                            console.log(this.props.hourFrom);
                                             return rcMessageProvider.getConversation(
                                                 messages.props.selectedMessage.convId,
-                                                // FIXME
-                                                100
-                                                )
+                                                this.props.hourFrom)
                                         }
                                     }
                                 }
@@ -288,7 +295,9 @@
                             conversation.mount('#conversation');
 
                             return rcMessageProvider
-                            .getConversation(this.props.selectedMessage.convId)
+                            .getConversation(
+                                this.props.selectedMessage.convId,
+                                this.props.hourFrom)
                             .then(conversation.appendMessages)
                         }
                     }
