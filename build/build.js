@@ -931,6 +931,7 @@ function widget(_ref2, options) {
     }
 
     function unmount(widgetUnmount, finish) {
+        if (!this.target || !this.target.parentNode) return;
         this.target.parentNode.removeChild(this.target);
         if (widgetUnmount && isFunction(widgetUnmount)) return widgetUnmount.call(this, finish);
     }

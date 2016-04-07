@@ -14,6 +14,7 @@
     }
     .panel {
         width: 250px;
+        min-height: 1px;
     }
     .panel.--extra {
         position: absolute;
@@ -440,7 +441,7 @@ var phone = w.register(function() {
                             }
                         });
                         
-                        
+                        var panels = [dialPad, messageWidget, contacts, callLog, conference]
                         var toolbar = w('tool-bar', {
                             data : phone.data,
                             actions: {
@@ -454,6 +455,12 @@ var phone = w.register(function() {
                                                     conversation.destroy()
                                                     conversation = null
                                                 }
+                                                document.querySelector('.container')
+                                                .addEventListener('transitionend', function h(e) {
+                                                    panels.filter((p,idx) => idx !== 0).forEach(p => p.unmount())
+                                                    this.removeEventListener('transitionend', h)
+                                                })
+                                                dialPad.mount('#dial-pad');
                                             });
                                         this.clickItem(
                                             this.addItem('<span class="icon-uni2487"></span></span><span class="icon-RC_shapes_1_30_pressed"></span>'),
@@ -463,6 +470,12 @@ var phone = w.register(function() {
                                                     conversation.destroy()
                                                     conversation = null
                                                 }
+                                                document.querySelector('.container')
+                                                .addEventListener('transitionend', function h(e) {
+                                                    panels.filter((p,idx) => idx !== 1).forEach(p => p.unmount())
+                                                    this.removeEventListener('transitionend', h)
+                                                })
+                                                messageWidget.mount('#messages-panel');
                                             });
                                         this.clickItem(
                                             this.addItem('<span class="icon-uni7D"></span><span class="icon-contact_info_pressed"></span>'),
@@ -472,6 +485,12 @@ var phone = w.register(function() {
                                                     conversation.destroy()
                                                     conversation = null
                                                 }
+                                                document.querySelector('.container')
+                                                .addEventListener('transitionend', function h(e) {
+                                                    panels.filter((p,idx) => idx !== 2).forEach(p => p.unmount())
+                                                    this.removeEventListener('transitionend', h)
+                                                })
+                                                contacts.mount('#contacts');
                                             });
                                         this.clickItem(
                                             this.addItem('<span class="icon-uniC8"></span><span class="icon-RC_shapes_2-30_pressed"></span>'),
@@ -481,6 +500,12 @@ var phone = w.register(function() {
                                                     conversation.destroy()
                                                     conversation = null
                                                 }
+                                                document.querySelector('.container')
+                                                .addEventListener('transitionend', function h(e) {
+                                                    panels.filter((p,idx) => idx !== 3).forEach(p => p.unmount())
+                                                    this.removeEventListener('transitionend', h)
+                                                })
+                                                callLog.mount('#call-log');
                                             });
                                         this.clickItem(
                                             this.addItem('<span class="icon-uniA3"></span>', 'Conference'),
@@ -490,6 +515,12 @@ var phone = w.register(function() {
                                                     conversation.destroy()
                                                     conversation = null
                                                 }
+                                                document.querySelector('.container')
+                                                .addEventListener('transitionend', function h(e) {
+                                                    panels.filter((p,idx) => idx !== 4).forEach(p => p.unmount())
+                                                    this.removeEventListener('transitionend', h)
+                                                })
+                                                conference.mount('#conference');
                                             });
                                         this.clickItem(
                                             this.addItem('<span class="icon-uni47"></span>', 'Meeting'),
@@ -506,10 +537,10 @@ var phone = w.register(function() {
                                 mount: {
                                     after: function() {
                                         dialPad.mount('#dial-pad');
-                                        messageWidget.mount('#messages-panel');
-                                        callLog.mount('#call-log');
-                                        contacts.mount('#contacts');
-                                        conference.mount('#conference');
+                                        // messageWidget.mount('#messages-panel');
+                                        // callLog.mount('#call-log');
+                                        // contacts.mount('#contacts');
+                                        // conference.mount('#conference');
                                     }
                                 }
                             }
