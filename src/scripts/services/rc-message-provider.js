@@ -16,7 +16,6 @@ var rcMessageProvider = function() {
     })
 
     function createResult(message) {
-        console.log(message);
         return {
             id: message.id,
             time: message.lastModifiedTime,
@@ -101,7 +100,6 @@ var rcMessageProvider = function() {
                     cachedHour)
                 .then(result => {
                     cachedHour = hourFrom
-                    console.log(cachedHour);
                     return result
                 })
             }

@@ -36,6 +36,9 @@
 w.register(function(){
     this.actions= {
         init: {
+            method: function() {
+                this.getConferenceInfo();
+            },
             after: function() {
                 var t = w.t(this.data.lang);
                 this.props.dom.dialInNumberLabel.textContent = t('conference-dialinnumber-text');
@@ -43,11 +46,6 @@ w.register(function(){
                 this.props.dom.participantCodeLabel.textContent = t('conference-participantcode-text');
                 this.props.dom.inviteWithTextButton.textContent = t('conference-invitewithtext-text');
                 this.props.dom.joinAsHostButton.textContent = t('conference-joinashost-text');
-            }
-        },
-        mount: {
-            after: function() {
-                this.getConferenceInfo();
             }
         },
         getConferenceInfo: {

@@ -633,7 +633,6 @@ var rcMessageProvider = function () {
     });
 
     function createResult(message) {
-        console.log(message);
         return {
             id: message.id,
             time: message.lastModifiedTime,
@@ -709,7 +708,6 @@ var rcMessageProvider = function () {
             } else {
                 return rcMessageService.getConversation(convId, hourFrom, cachedHour).then(function (result) {
                     cachedHour = hourFrom;
-                    console.log(cachedHour);
                     return result;
                 });
             }
