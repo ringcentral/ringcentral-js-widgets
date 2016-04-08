@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for scripts/component.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">scripts/</a> component.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">62.9% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>78/124</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">54.67% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>41/75</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">61.36% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>27/44</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">62.9% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>78/124</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line medium'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-yes">56×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">35×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">6×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">35×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">41×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">49×</span>
+<span class="cline-any cline-yes">44×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">44×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">49×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">8×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">22×</span>
+<span class="cline-any cline-yes">20×</span>
+<span class="cline-any cline-yes">2×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">44×</span>
+<span class="cline-any cline-yes">11×</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">7×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">44×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">33×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">function register(globalSettings) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!globalSettings.actions)
+<span class="cstat-no" title="statement not covered" >        console.warn('Widgets do not have actions defined, maybe you get some typo.');</span>
+&nbsp;
+    ['init', 'render', 'remove', 'error'].forEach(action =&gt; {
+        globalSettings.actions[action] = Object.assign({
+            before: function() {},
+            method: function() {},
+            after: function() {},
+            error: <span class="fstat-no" title="function not covered" >function(e) {</span>
+<span class="cstat-no" title="statement not covered" >                console.error(e);</span>
+<span class="cstat-no" title="statement not covered" >                throw e;</span>
+            }
+        }, globalSettings.actions[action]);
+    });
+    return widget.bind(null, globalSettings);
+}
+&nbsp;
+function widget(globalSettings, options) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!options.internal) {
+<span class="cstat-no" title="statement not covered" >        return Error('You are trying to construct a widget manually, please use w()');</span>
+    }
+    var options = Object.assign({
+        actions: {}
+    }, options);
+    var settings = {
+        // For deep copy
+        actions: Object.assign({}, globalSettings.actions),
+    };
+    this.props = {};
+    this.custom = {};
+    logger = initLogger(options.logLevel);
+&nbsp;
+    Object.keys(settings.actions).forEach(index =&gt; {
+        settings.actions[index] = bindScope(this, settings.actions[index]);
+    });
+    Object.keys(options.actions).forEach(index =&gt; {
+        options.actions[index] = bindScope(this, options.actions[index]);
+    });
+    Object.keys(settings.actions).forEach(index =&gt; {
+        this[index] =
+            generateActions(settings.actions[index], options.actions[index], index);
+    });
+    this.props.dom = generateDocument(this, options.template);
+    this.props.root = getDocumentRoot(options.template);
+    this.props.template = options.template;
+    this.render =
+        generateActions({
+            before: settings.actions.render.before,
+            method: render.bind(this, settings.actions.render.method, this.props.template),
+            after: settings.actions.render.after
+        }, options.actions.render, 'render');
+    this.remove =
+        generateActions({
+            before: settings.actions.remove.before,
+            method: remove.bind(this, settings.actions.remove.method),
+            after: settings.actions.remove.after
+        }, options.actions.remove, 'remove');
+    this.init();
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function remove(widgetRemove) {</span>
+<span class="cstat-no" title="statement not covered" ></span>        while (this.props.target.firstChild)
+<span class="cstat-no" title="statement not covered" >            this.props.target.removeChild(this.props.target.firstChild);</span>
+    }
+&nbsp;
+<span class="fstat-no" title="function not covered" >    function render(widgetRender, template, finish, target, callback) {</span>
+<span class="cstat-no" title="statement not covered" >        if (typeof target === 'string') {</span>
+<span class="cstat-no" title="statement not covered" >            target = document.querySelector(target);</span>
+        } else <span class="cstat-no" title="statement not covered" ></span>if (target instanceof HTMLElement) {
+<span class="cstat-no" title="statement not covered" >            target = target;</span>
+        } else {
+<span class="cstat-no" title="statement not covered" >            logger.warn('first argument of render method should be selector string or dom');</span>
+        }
+<span class="cstat-no" title="statement not covered" >        target.appendChild(template);</span>
+<span class="cstat-no" title="statement not covered" >        this.props.target = target;</span>
+<span class="cstat-no" title="statement not covered" >        callback &amp;&amp; typeof callback === 'function' &amp;&amp; callback();</span>
+<span class="cstat-no" title="statement not covered" ></span>        if (widgetRender &amp;&amp; typeof widgetRender === 'function')
+<span class="cstat-no" title="statement not covered" >            return widgetRender.call(this, finish);</span>
+    }
+}
+&nbsp;
+function bindScope(scope, action) {
+    return {
+        before: a</span>ction.before ? action.before.bind(scope) : <span class="fstat-no" title="function not covered" ><span class="branch-1 cbranch-no" title="branch not covered" >function() {</span>}.bind(scope),
+        method: a</span>ction.method ? action.method.bind(scope) : <span class="fstat-no" title="function not covered" ><span class="branch-1 cbranch-no" title="branch not covered" >function() {</span>}.bind(scope),
+        after: a</span>ction.after ? action.after.bind(scope) : <span class="fstat-no" title="function not covered" ><span class="branch-1 cbranch-no" title="branch not covered" >function() {</span>}.bind(scope),
+        error: action.error ? action.error.bind(scope) : <span class="fstat-no" title="function not covered" >function(err) {</span>
+<span class="cstat-no" title="statement not covered" >            logger.error(err);</span>
+        }.bind(scope)
+    };
+}
+&nbsp;
+function generateDocument(widget, template) {
+    var dom = {};
+    Array.from(template.querySelectorAll('[data-info]')).forEach(<span class="fstat-no" title="function not covered" >doc =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        var info = doc.getAttribute('data-info');</span>
+<span class="cstat-no" title="statement not covered" >        dom[info] = doc;</span>
+    });
+    Array.from(template.querySelectorAll('[data-event]')).forEach(<span class="fstat-no" title="function not covered" >doc =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        var events = doc.getAttribute('data-event');</span>
+<span class="cstat-no" title="statement not covered" >        events.split('|').forEach(<span class="fstat-no" title="function not covered" >event =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >            var eventName;</span>
+<span class="cstat-no" title="statement not covered" >            var action;</span>
+<span class="cstat-no" title="statement not covered" >            event.split(':').forEach(<span class="fstat-no" title="function not covered" >(token, index) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" >                if (index === 0)</span>
+<span class="cstat-no" title="statement not covered" >                    eventName = token;</span>
+                else <span class="cstat-no" title="statement not covered" ></span>if (index === 1)
+<span class="cstat-no" title="statement not covered" >                    action = token;</span>
+            });
+<span class="cstat-no" title="statement not covered" ></span>            if (!widget[action]) {
+<span class="cstat-no" title="statement not covered" >                logger.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');</span>
+<span class="cstat-no" title="statement not covered" >                return;</span>
+            }
+<span class="cstat-no" title="statement not covered" >            doc.addEventListener(eventName, widget[action].bind(widget));</span>
+        });
+    });
+    return dom;
+}
+&nbsp;
+function getDocumentRoot(template) {
+    // Assume the template only have one root
+    return template.querySelector('*');
+}
+&nbsp;
+function generateActions(widgetAction, userAction, name) {
+    if (!userAction) {
+        userAction = {
+            before: function() {},
+            method: <span class="fstat-no" title="function not covered" >function() {</span>},
+            after: function() {},
+            error: <span class="fstat-no" title="function not covered" >function(e) {</span>
+<span class="cstat-no" title="statement not covered" >                logger.error(e);</span>
+<span class="cstat-no" title="statement not covered" >                throw e;</span>
+            }
+        };
+        logger.warn('Widget action [%s] is not defined by users', name);
+    }
+    return function(...args) {
+        var before = function(...args) {
+            logger.info('[%s][before](' + [].concat(...args) + ')', name);
+            return wrapUserEvent(widgetAction.before, userAction.before, ...args);
+        };
+        var method = function(arg) {
+            logger.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            if (typeof arg === 'function') {
+                return widgetAction.method(userAction.method, ...arg()) || arg;
+            }
+            return widgetAction.method(userAction.method, arg) || arg;
+        };
+        var after = function(arg) {
+            logger.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
+            if (typeof arg === 'function') {
+                return w</span>rapUserEvent(widgetAction.after, userAction.after, ...arg()) || <span class="branch-1 cbranch-no" title="branch not covered" >arg;
+            }
+            return w</span>rapUserEvent(widgetAction.after, userAction.after, arg) || <span class="branch-1 cbranch-no" title="branch not covered" >arg;
+        };
+        var error = <span class="fstat-no" title="function not covered" >function(e) {</span>
+<span class="cstat-no" title="statement not covered" >            return wrapUserEvent(widgetAction.error, userAction.error, e);</span>
+        };
+        var finish = function(arg) {
+            if (typeof arg === 'function') {
+                // flatten one level
+                return A</span>rray.isArray(arg()[0])? <span class="branch-0 cbranch-no" title="branch not covered" >[].concat.apply([], arg()) : arg()[0];
+            }
+            return arg;
+        };
+        try {
+            return nextAction(before(...args), [before, method, after, finish], error, 0);
+        } catch (e) {
+<span class="cstat-no" title="statement not covered" >            error(e);</span>
+        }
+    };
+}
+&nbsp;
+function wrapUserEvent(widget, user, ...args) {
+    var continueDefault = (user != null &amp;&amp; user(...args));
+    if (continueDefault || typeof continueDefault === 'undefined')
+        return widget(...args) || (() =&gt; args);
+    return [].concat(...args);
+}
+&nbsp;
+function isThenable(result) {
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (result.then &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" ></span>typeof result.then === 'function')
+<span class="cstat-no" title="statement not covered" >        return true;</span>
+    return false;
+}
+&nbsp;
+function nextAction(result, actions, error, start) {
+    if (start + 1 === actions.length)
+        return result;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (isThenable(result)) {
+<span class="cstat-no" title="statement not covered" >        return actions.reduce(<span class="fstat-no" title="function not covered" >(res, action, index) =&gt; {</span></span>
+<span class="cstat-no" title="statement not covered" ></span>            if (index &gt; start)
+<span class="cstat-no" title="statement not covered" >                return res.then(action);</span>
+<span class="cstat-no" title="statement not covered" >            return res;</span>
+        }, result).catch(error);
+    } else {
+        return nextAction(actions[start + 1](result), actions, error, start + 1);
+    }
+}
+&nbsp;
+function initLogger(level) {
+    return {
+        error: <span class="fstat-no" title="function not covered" >function(...args) {</span>
+<span class="cstat-no" title="statement not covered" >            console.error(...args);</span>
+        },
+        warn: function(...args) {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (level &gt; 0)
+<span class="cstat-no" title="statement not covered" >                console.warn(...args);</span>
+        },
+        info: function(...args) {
+            <span class="missing-if-branch" title="if path not taken" >I</span>if (level &gt; 1)
+<span class="cstat-no" title="statement not covered" >                console.info(...args);</span>
+        },
+        log: <span class="fstat-no" title="function not covered" >function(...args) {</span>
+<span class="cstat-no" title="statement not covered" ></span>            if (level &gt; 1)
+<span class="cstat-no" title="statement not covered" >                console.log(...args);</span>
+        }
+    };
+}
+var logger;
+export { register };
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Mar 22 2016 14:33:41 GMT+0800 (CST)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>
