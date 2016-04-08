@@ -1,10 +1,15 @@
 'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var __commonjs_global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : undefined;
+function __commonjs(fn, module) {
+    return module = { exports: {} }, fn(module, module.exports, __commonjs_global), module.exports;
+}
 
 var sdk = new RingCentral.SDK({
     appKey: '8mOtYiilT5OUPwwdeGgvpw',
@@ -54,10 +59,7 @@ var CallLogService = function (sdk) {
     return {
         getCallLogs: function getCallLogs() {
             return sdk.platform().get('/account/~/extension/~/call-log', { dateFrom: dateFrom.toISOString() }).then(function (response) {
-                console.debug(response.json().records);
                 return response.json().records;
-            }).catch(function (e) {
-                console.error('Recent Calls Error: ' + e.message);
             });
         }
     };
@@ -153,6 +155,7 @@ register('phoneService', PhoneService);
 
 var rcContactService = function (sdk) {
     var companyContacts = [];
+    var fetchingCompanyContacts = null;
 
     function Contact() {
         this.firstName = null;
@@ -173,6 +176,15 @@ var rcContactService = function (sdk) {
         return contact;
     }
 
+    function addToCompanyContact(response) {
+        var records = response.json().records.filter(function (extension) {
+            return extension.status === 'Enabled' && ['DigitalUser', 'User'].indexOf(extension.type) >= 0;
+        }).map(function (extension) {
+            return createContact(extension);
+        });
+        companyContacts.push.apply(companyContacts, records);
+    }
+
     function fetchCompanyContactByPage(page) {
         return sdk.platform().get('/account/~/extension/', { perPage: 250, page: page });
     }
@@ -183,7 +195,7 @@ var rcContactService = function (sdk) {
 
     function fetchCompanyContacts() {
         var page = 1;
-        fetchCompanyContactByPage(page).then(function (response) {
+        fetchingCompanyContacts = fetchCompanyContactByPage(page).then(function (response) {
             var respObj = response.json();
             if (respObj.paging && respObj.paging.totalPages > page) {
                 var promises = [];
@@ -192,18 +204,17 @@ var rcContactService = function (sdk) {
                     promises.push(fetchCompanyContactByPage(page));
                 }
 
-                Promise.all(promises).then(function (responses) {
+                return Promise.all(promises).then(function (responses) {
                     responses.forEach(function (response) {
-                        var records = response.json().records.filter(function (extension) {
-                            return extension.status === 'Enabled' && ['DigitalUser', 'User'].indexOf(extension.type) >= 0;
-                        }).map(function (extension) {
-                            return createContact(extension);
-                        });
-                        companyContacts.push.apply(companyContacts, records);
+                        addToCompanyContact(response);
                     });
-
+                    fetchingCompanyContacts = null;
                     fetchCompanyDirectNumbers();
+                    return companyContacts;
                 });
+            } else {
+                addToCompanyContact(response);
+                return companyContacts;
             }
         }).catch(function (e) {
             console.error(e);
@@ -250,6 +261,13 @@ var rcContactService = function (sdk) {
 
     return {
         companyContacts: companyContacts,
+        asyncGetCompanyContact: function asyncGetCompanyContact() {
+            if (fetchingCompanyContacts) {
+                return fetchingCompanyContacts;
+            } else {
+                return Promise.resolve(companyContacts);
+            }
+        },
         syncCompanyContact: function syncCompanyContact() {
             companyContacts.length = 0;
             fetchCompanyContacts();
@@ -350,6 +368,17 @@ var rcContactSearchProvider = function () {
             }
 
             return results;
+        },
+        searchAll: function searchAll() {
+            return rcContactService.asyncGetCompanyContact().then(function (companyContacts) {
+                return companyContacts.map(function (contact) {
+                    return {
+                        name: contact.displayName,
+                        type: 'rc',
+                        id: contact.id
+                    };
+                });
+            });
         }
     };
 }();
@@ -359,29 +388,36 @@ register('rcContactSearchProvider', rcContactSearchProvider);
 var accountService = function (sdk) {
     var info;
     var numbers;
+    var fetchNumbers = null;
+
+    function getNumbersByType(type) {
+        return numbers.filter(function (number) {
+            return number.type === type;
+        }).map(function (number) {
+            return number.phoneNumber;
+        });
+    }
+
     return {
         getAccountInfo: function getAccountInfo() {
             return sdk.platform().get('/account/~/extension/~').then(function (response) {
-                console.debug(response.json());
                 info = response.json();
                 return info;
             }).catch(function (e) {
-                console.error('Recent Calls Error: ' + e.message);
+                return console.error('Recent Calls Error: ' + e.message);
             });
         },
 
         getPhoneNumber: function getPhoneNumber() {
-            return sdk.platform().get('/account/~/extension/~/phone-number').then(function (response) {
-                console.debug(response.json());
-
-                // info = response.json();
-                return response.json();
-            }).then(function (data) {
+            fetchNumbers = sdk.platform().get('/account/~/extension/~/phone-number').then(function (response) {
+                var data = response.json();
                 numbers = data.records;
+                fetchNumbers = null;
                 return data.records;
             }).catch(function (e) {
-                console.error('Recent Calls Error: ' + e.message);
+                return console.error('Recent Calls Error: ' + e.message);
             });
+            return fetchNumbers;
         },
 
         hasServiceFeature: function hasServiceFeature(name) {
@@ -392,31 +428,326 @@ var accountService = function (sdk) {
         },
 
         listNumber: function listNumber(type) {
-            console.debug(numbers);
-            return numbers.filter(function (number) {
-                return number.type === type;
-            }).map(function (number) {
-                return number.phoneNumber;
-            });
+            if (fetchNumbers) {
+                return fetchNumbers.then(function () {
+                    return getNumbersByType(type);
+                });
+            } else {
+                return getNumbersByType(type);
+            }
         }
     };
 }(sdk);
 
 register('accountService', accountService);
 
-var messageService = function (sdk) {
+var rcSubscription = function () {
+
+    var cacheKey = 'ringcentral-subscription';
+    var subscription = sdk.createCachedSubscription(cacheKey).restore();
+    var handlers = {};
+    subscription.on(subscription.events.notification, function (msg) {
+        for (var key in handlers) {
+            if (handlers.hasOwnProperty(key)) {
+                if (msg.event.indexOf(key) > -1) {
+                    handlers[key].forEach(function (h) {
+                        try {
+                            h(msg);
+                        } catch (e) {
+                            console.error('Error occurs when invoking subscription notification handler for "' + msg.event + '": ' + e);
+                        }
+                    });
+                }
+            }
+        }
+    });
+
     return {
+        subscribe: function subscribe(suffix, event, handler) {
+            if (event && suffix) {
+                if (!handlers[suffix]) {
+                    handlers[suffix] = [];
+                }
+                handlers[suffix].push(handler);
+                subscription.addEventFilters(event).register();
+            }
+        }
+    };
+}();
+
+register('rcSubscription', rcSubscription);
+
+var rcMessageService = function (sdk) {
+    var messages = {};
+    var fetchingPromise = null;
+    var syncToken = null;
+    var messageUpdateHandlers = [];
+
+    function fullSyncMessages(hour) {
+        return sdk.platform().get('/account/~/extension/~/message-sync', {
+            dateFrom: new Date(Date.now() - hour * 3600 * 1000).toISOString(),
+            syncType: 'FSync'
+        }).then(function (responses) {
+            var jsonResponse = responses.json();
+            syncToken = jsonResponse.syncInfo.syncToken;
+            var results = jsonResponse.records;
+            addMessageToList(results);
+            fetchingPromise = null;
+        });
+    }
+
+    function incrementalSyncMessages() {
+        if (syncToken) {
+            return sdk.platform().get('/account/~/extension/~/message-sync', {
+                syncType: 'ISync',
+                syncToken: syncToken
+            }).then(function (responses) {
+                var jsonResponse = responses.json();
+                var results = jsonResponse.records;
+                syncToken = jsonResponse.syncInfo.syncToken;
+                updateMessageList(results);
+                messageUpdateHandlers.forEach(function (h) {
+                    h(results);
+                });
+            });
+        }
+    }
+
+    function concatMessages() {
+        var results = [];
+        for (var key in messages) {
+            if (messages.hasOwnProperty(key)) {
+                results = results.concat(messages[key]);
+            }
+        }
+        return results;
+    }
+
+    function addMessageToList(results) {
+        results.forEach(function (message) {
+            if (!messages[message.type]) {
+                messages[message.type] = [];
+            }
+            messages[message.type].push(message);
+        });
+    }
+
+    function updateMessageList(results) {
+        results.forEach(function (message) {
+            var messageList = messages[message.type];
+            if (!messageList) {
+                if (message.availability === 'Alive') {
+                    messages[message.type] = [];
+                    messages[message.type].splice(0, 0, message);
+                }
+            } else {
+                var index = 0;
+                for (; index < messageList.length; index++) {
+                    if (messageList[index].id === message.id) {
+                        if (message.availability === 'Alive') {
+                            messageList[index] = message;
+                        } else {
+                            messageList.splice(index, 1);
+                        }
+                        break;
+                    }
+                }
+                if (index === messageList.length) {
+                    if (message.availability === 'Alive') {
+                        messageList.splice(0, 0, message);
+                    }
+                }
+            }
+        });
+    }
+
+    return {
+        syncMessages: function syncMessages(hour) {
+            fetchingPromise = fullSyncMessages(hour);
+            return fetchingPromise;
+        },
+        getMessagesByType: function getMessagesByType(type) {
+            if (!fetchingPromise) {
+                if (messages[type]) {
+                    return messages[type];
+                } else {
+                    return [];
+                }
+            } else {
+                return fetchingPromise.then(function () {
+                    return messages[type];
+                });
+            }
+        },
+        getAllMessages: function getAllMessages() {
+            return !fetchingPromise ? concatMessages() : fetchingPromise.then(concatMessages);
+        },
+        subscribeToMessageUpdate: function subscribeToMessageUpdate() {
+            rcSubscription.subscribe('message-store', '/restapi/v1.0/account/~/extension/~/message-store', incrementalSyncMessages);
+        },
+        onMessageUpdated: function onMessageUpdated(handler) {
+            if (handler) {
+                messageUpdateHandlers.push(handler);
+            }
+        },
         sendSMSMessage: function sendSMSMessage(text, fromNumber, toNumber) {
             return sdk.platform().post('/account/~/extension/~/sms/', {
                 from: { phoneNumber: fromNumber },
                 to: [{ phoneNumber: toNumber }],
                 text: text
+            }).then(function (response) {
+                return response.json();
+            });
+        },
+        getConversation: function getConversation(conversationId, hourFrom, hourTo) {
+            return sdk.platform().get('/account/~/extension/~/message-store', {
+                dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
+                dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
+                conversationId: conversationId
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                return data.records;
+            }).then(function (records) {
+                return records.reverse();
             });
         }
     };
 }(sdk);
 
-register('messageService', messageService);
+register('rcMessageService', rcMessageService);
+
+var rcMessageProvider = function () {
+    var messageUpdatedHandlers = [];
+    var conversations = {};
+    var cachedHour = 0;
+
+    rcMessageService.onMessageUpdated(function (results) {
+        messageUpdatedHandlers.forEach(function (h) {
+            try {
+                h(results);
+            } catch (e) {
+                console.error(e);
+            }
+        });
+    });
+
+    function createResult(message) {
+        return {
+            id: message.id,
+            time: message.lastModifiedTime,
+            readStatus: message.readStatus,
+            type: getType(message),
+            contact: getNumber(message.type, getDirection(message, 'Outbound')),
+            subject: message.subject || null,
+            convId: message.conversation ? message.conversation.id : null,
+            author: getNumber(message, getDirection(message, 'Inbound'))
+        };
+
+        function getDirection(message, dir) {
+            return message.direction === dir ? message.to[0] : message.from;
+        }
+
+        function getNumber(message, info) {
+            return message.type === 'Pager' ? info.extensionNumber : info.phoneNumber;
+        }
+
+        function getType(message) {
+            return message.type === 'Fax' || message.type === 'VoiceMail' ? 'Text' : message.type;
+        }
+    }
+
+    return {
+        getTextMessages: function getTextMessages() {
+            return Promise.resolve(rcMessageService.getMessagesByType('SMS')).then(function (messages) {
+                var results = [];
+                messages.forEach(function (message) {
+                    results.push(createResult(message));
+                });
+                return results;
+            });
+        },
+
+        getLastMessagesOfAllType: function getLastMessagesOfAllType() {
+            var results = [];
+            return this.getMessagesOfAllType().then(function (msgs) {
+                for (var key in msgs) {
+                    if (msgs.hasOwnProperty(key)) {
+                        if (key === 'anonymous') results = results.concat(msgs.anonymous[0]);else results.push(msgs[key][0]);
+                    }
+                }
+                return results;
+            });
+        },
+        // Return all messages of type 'VoiceMail' and 'Fax'. For SMS and Pager, only last message in a conversation
+        // will be returned.
+        getMessagesOfAllType: function getMessagesOfAllType() {
+            return Promise.resolve(rcMessageService.getAllMessages()).then(function (messages) {
+                var results = [];
+                var target = {};
+                messages.forEach(function (message) {
+                    var result = createResult(message);
+                    //Combine SMS/Pager messages in conversation
+                    if (message.conversation && message.conversation.id) {
+                        target[message.conversation.id] = target[message.conversation.id] || [];
+                        target[message.conversation.id].push(result);
+                        conversations[message.conversation.id] = conversations[message.conversation.id] || [];
+                        conversations[message.conversation.id].push(message);
+                    } else {
+                        target['anonymous'] = target['anonymous'] || [];
+                        target['anonymous'].push(result);
+                    }
+                });
+                return target;
+            });
+        },
+
+        getConversation: function getConversation(convId, hourFrom) {
+            if (conversations[convId] && (!hourFrom || hourFrom < cachedHour)) {
+                return Promise.resolve(conversations[convId].reverse());
+            } else {
+                return rcMessageService.getConversation(convId, hourFrom, cachedHour).then(function (result) {
+                    cachedHour = hourFrom;
+                    return result;
+                });
+            }
+        },
+
+        onMessageUpdated: function onMessageUpdated(handler) {
+            messageUpdatedHandlers.push(handler);
+        }
+    };
+}();
+register('rcMessageProvider', rcMessageProvider);
+
+var rcConferenceSerivce = function () {
+    var fetchingConferenceInfo = null;
+
+    function fetchConferenceInfo() {
+        fetchingConferenceInfo = sdk.platform().get('/account/~/extension/~/conferencing').then(function (responses) {
+            var jsonResponse = responses.json();
+            var conferenceInfo = {};
+            conferenceInfo.hostCode = jsonResponse.hostCode;
+            conferenceInfo.phoneNumber = jsonResponse.phoneNumber;
+            conferenceInfo.participantCode = jsonResponse.participantCode;
+            fetchingConferenceInfo = null;
+            return conferenceInfo;
+        });
+        return fetchingConferenceInfo;
+    }
+
+    return {
+        getConferenceInfo: function getConferenceInfo() {
+            if (fetchingConferenceInfo) {
+                return fetchingConferenceInfo;
+            } else {
+                return fetchConferenceInfo();
+            }
+        }
+    };
+}();
+
+register('rcConferenceSerivce', rcConferenceSerivce);
 
 var actions = {};
 function register$1(name, action) {
@@ -453,6 +784,7 @@ var interaction = {
             var message = arguments[1];
 
             var mask = document.createElement('div');
+            // FIXME Decouple from rc
             mask.classList.add('rc-mask');
             var message = document.createElement('h4');
             message.classList.add('rc-mask-message');
@@ -473,212 +805,6 @@ var interaction = {
     }
 };
 register$1('interaction', interaction);
-
-function register$2(globalSettings) {
-    if (!globalSettings.actions) console.warn('Widgets do not have actions defined, maybe you get some typo.');
-
-    ['init', 'render', 'remove', 'error'].forEach(function (action) {
-        globalSettings.actions[action] = Object.assign({
-            before: function before() {},
-            method: function method() {},
-            after: function after() {},
-            error: function error(e) {
-                console.error(e);
-                throw e;
-            }
-        }, globalSettings.actions[action]);
-    });
-    var Widget = function Widget(options) {
-        var _this = this;
-
-        var options = Object.assign({
-            actions: {}
-        }, options);
-        var settings = {
-            // For deep copy
-            actions: Object.assign({}, globalSettings.actions)
-        };
-        this.props = {};
-        this.custom = {};
-        logger = initLogger(options.logLevel);
-
-        Object.keys(settings.actions).forEach(function (index) {
-            settings.actions[index] = bindScope(_this, settings.actions[index]);
-        });
-        Object.keys(options.actions).forEach(function (index) {
-            options.actions[index] = bindScope(_this, options.actions[index]);
-        });
-        Object.keys(settings.actions).forEach(function (index) {
-            _this[index] = generateActions(settings.actions[index], options.actions[index], index);
-        });
-        this.props.dom = generateDocument(this, options.template);
-        this.props.root = getDocumentRoot(options.template);
-        this.props.template = options.template;
-        this.render = generateActions({
-            before: settings.actions.render.before,
-            method: render.bind(this, settings.actions.render.method, this.props.template),
-            after: settings.actions.render.after
-        }, options.actions.render, 'render');
-        this.remove = generateActions({
-            before: settings.actions.remove.before,
-            method: remove.bind(this, settings.actions.remove.method),
-            after: settings.actions.remove.after
-        }, options.actions.remove, 'remove');
-        this.init();
-
-        function remove(widgetRemove) {
-            while (this.props.target.firstChild) {
-                this.props.target.removeChild(this.props.target.firstChild);
-            }
-        }
-
-        function render(widgetRender, template, finish, target, callback) {
-            if (typeof target === 'string') {
-                target = document.querySelector(target);
-            } else if (target instanceof HTMLElement) {
-                target = target;
-            } else {
-                logger.warn('first argument of render method should be selector string or dom');
-            }
-            target.appendChild(template);
-            this.props.target = target;
-            callback && typeof callback === 'function' && callback();
-            if (widgetRender && typeof widgetRender === 'function') return widgetRender.call(this, finish);
-        }
-    };
-    return Widget;
-}
-
-function bindScope(scope, action) {
-    return {
-        before: action.before ? action.before.bind(scope) : function () {}.bind(scope),
-        method: action.method ? action.method.bind(scope) : function () {}.bind(scope),
-        after: action.after ? action.after.bind(scope) : function () {}.bind(scope),
-        error: action.error ? action.error.bind(scope) : function (err) {
-            logger.error(err);
-        }.bind(scope)
-    };
-}
-
-function generateDocument(widget, template) {
-    var dom = {};
-    Array.from(template.querySelectorAll('[data-info]')).forEach(function (doc) {
-        var info = doc.getAttribute('data-info');
-        dom[info] = doc;
-    });
-    Array.from(template.querySelectorAll('[data-event]')).forEach(function (doc) {
-        var events = doc.getAttribute('data-event');
-        events.split('|').forEach(function (event) {
-            var eventName;
-            var action;
-            event.split(':').forEach(function (token, index) {
-                if (index === 0) eventName = token;else if (index === 1) action = token;
-            });
-            if (!widget[action]) {
-                logger.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
-                return;
-            }
-            doc.addEventListener(eventName, widget[action].bind(widget));
-        });
-    });
-    return dom;
-}
-
-function getDocumentRoot(template) {
-    // Assume the template only have one root
-    return template.querySelector('*');
-}
-
-function generateActions(widgetAction, userAction, name) {
-    if (!userAction) {
-        userAction = {
-            before: function before() {},
-            method: function method() {},
-            after: function after() {},
-            error: function error(e) {
-                logger.error(e);
-                throw e;
-            }
-        };
-        logger.warn('Widget action [%s] is not defined by users', name);
-    }
-    return function () {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-        }
-
-        var before = function before() {
-            var _ref;
-
-            for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-                args[_key2] = arguments[_key2];
-            }
-
-            logger.info('[%s][before](' + (_ref = []).concat.apply(_ref, args) + ')', name);
-            return wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args));
-        };
-        var method = function method(arg) {
-            logger.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-            if (typeof arg === 'function') {
-                return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg()))) || arg;
-            }
-            return widgetAction.method(userAction.method, arg) || arg;
-        };
-        var after = function after(arg) {
-            logger.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-            if (typeof arg === 'function') {
-                return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(_toConsumableArray(arg()))) || arg;
-            }
-            return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
-        };
-        var error = function error(e) {
-            return wrapUserEvent(widgetAction.error, userAction.error, e);
-        };
-        var finish = function finish(arg) {
-            if (typeof arg === 'function') {
-                // flatten one level
-                return arg()[0] instanceof Array ? [].concat.apply([], arg()) : arg()[0];
-            }
-            return arg;
-        };
-        try {
-            return nextAction(before.apply(undefined, _toConsumableArray(args)), [before, method, after, finish], error, 0);
-        } catch (e) {
-            error(e);
-        }
-    };
-}
-
-function wrapUserEvent(widget, user) {
-    for (var _len3 = arguments.length, args = Array(_len3 > 2 ? _len3 - 2 : 0), _key3 = 2; _key3 < _len3; _key3++) {
-        args[_key3 - 2] = arguments[_key3];
-    }
-
-    var _ref2;
-
-    var continueDefault = !user || user.apply(undefined, args) || true;
-    if (continueDefault || typeof continueDefault === 'undefined') return widget.apply(undefined, args) || function () {
-        return args;
-    };
-    return (_ref2 = []).concat.apply(_ref2, args);
-}
-
-function isThenable(result) {
-    if (result.then && typeof result.then === 'function') return true;
-    return false;
-}
-
-function nextAction(result, actions, error, start) {
-    if (start + 1 === actions.length) return result;
-    if (isThenable(result)) {
-        return actions.reduce(function (res, action, index) {
-            if (index > start) return res.then(action);
-            return res;
-        }, result).catch(error);
-    } else {
-        return nextAction(actions[start + 1](result), actions, error, start + 1);
-    }
-}
 
 function initLogger(level) {
     return {
@@ -704,10 +830,680 @@ function initLogger(level) {
         }
     };
 }
-var logger;
 
-function fetchWidget(filePath) {
-    return fetch(w.options.path + filePath + (filePath.endsWith('.html') ? '' : '.html')).then(function (response) {
+function isThenable(result) {
+    if (result.then && typeof result.then === 'function') return true;
+    return false;
+}
+
+function isFunction(fn) {
+    return typeof fn === 'function';
+}
+
+function ensureTail(string, tail) {
+    if (string.endsWith(tail)) return string;
+    return string + tail;
+}
+
+function toFunction(fn, defalut) {
+    if (fn && isFunction(fn)) return fn;else if (defalut && isFunction(defalut)) return defalut;else return function () {};
+}
+
+function shallowCopy(target) {
+    if (Array.isArray(target)) return target.slice(0);
+    return Object.assign({}, target);
+}
+
+var logger;
+var functionSet = {
+    before: function before() {},
+    method: function method() {},
+    after: function after() {},
+    error: function error(e) {
+        logger.error(e);
+        throw e;
+    }
+};
+function register$2() {
+    var _ref = arguments.length <= 0 || arguments[0] === undefined ? settings : arguments[0];
+
+    var actions = _ref.actions;
+    var data = _ref.data;
+
+    if (!actions) console.warn('Widgets do not have actions defined, maybe you get some typo.');
+    ['init', 'mount', 'unmount', 'destroy', 'error'].forEach(function (action) {
+        actions[action] = Object.assign(shallowCopy(functionSet), actions[action]);
+    });
+    return widget.bind(null, { actions: actions, data: data });
+}
+
+function widget(_ref2, options) {
+    var _this = this;
+
+    var actions = _ref2.actions;
+    var _ref2$data = _ref2.data;
+    var data = _ref2$data === undefined ? {} : _ref2$data;
+
+    if (!options.internal) {
+        return Error('You are trying to construct a widget manually, please use w()');
+    }
+    var defaultActions = shallowCopy(actions);
+    this.props = {};
+    this.custom = {};
+    this.data = Object.assign(data, options.data);
+    logger = initLogger(options.logLevel);
+
+    Object.keys(defaultActions).forEach(function (index) {
+        defaultActions[index] = bindScope(_this, defaultActions[index]);
+    });
+    Object.keys(options.actions).forEach(function (index) {
+        options.actions[index] = bindScope(_this, options.actions[index]);
+    });
+    Object.keys(defaultActions).forEach(function (index) {
+        _this[index] = generateActions(defaultActions[index], options.actions[index], index);
+    });
+    this.props.dom = generateDocument(this, options.template);
+    this.props.root = getDocumentRoot(options.template);
+    this.props.template = options.template;
+    this.mount = generateActions({
+        before: defaultActions.mount.before,
+        method: mount.bind(this, defaultActions.mount.method, this.props.template),
+        after: defaultActions.mount.after
+    }, options.actions.mount, 'mount');
+    this.unmount = generateActions({
+        before: defaultActions.unmount.before,
+        method: unmount.bind(this, defaultActions.unmount.method),
+        after: defaultActions.unmount.after
+    }, options.actions.unmount, 'unmount');
+    this.destroy = generateActions({
+        before: defaultActions.destroy.before,
+        method: destroy.bind(this, defaultActions.destroy.method),
+        after: defaultActions.destroy.after
+    }, options.actions.destroy, 'destroy');
+    this.init();
+
+    function destroy(widgetdestroy, finish) {
+        this.unmount();
+        for (var property in this) {
+            this[property] = null;
+        }if (widgetdestroy && isFunction(widgetdestroy)) return widgetdestroy.call(this, finish);
+    }
+
+    function unmount(widgetUnmount, finish) {
+        if (!this.target || !this.target.parentNode) return;
+        this.target.parentNode.removeChild(this.target);
+        if (widgetUnmount && isFunction(widgetUnmount)) return widgetUnmount.call(this, finish);
+    }
+
+    function mount(widgetMount, template, finish, target, callback) {
+        if (typeof target === 'string') {
+            target = document.querySelector(target);
+        } else {
+            logger.warn('first argument of mount method should be selector string');
+        }
+
+        if (this.target) {
+            target.appendChild(this.target);
+        } else {
+            // templates can only have one root
+            this.target = shallowCopy(Array.from(template.childNodes).filter(function (node) {
+                return node.nodeType === 1;
+            }))[0];
+            target.appendChild(template);
+        }
+        callback && isFunction(callback) && callback();
+        if (widgetMount && isFunction(widgetMount)) return widgetMount.call(this, finish);
+        return this;
+    }
+}
+
+function bindScope(scope, action) {
+    return {
+        before: toFunction(action.before).bind(scope),
+        method: toFunction(action.method).bind(scope),
+        after: toFunction(action.after).bind(scope),
+        error: toFunction(action.error, logger.error).bind(scope)
+    };
+}
+
+function generateDocument(widget, template) {
+    var dom = {};
+    Array.from(template.querySelectorAll('[data-info]')).forEach(function (doc) {
+        var info = doc.getAttribute('data-info');
+        dom[info] = doc;
+    });
+    Array.from(template.querySelectorAll('[data-event]')).forEach(function (doc) {
+        var events = doc.getAttribute('data-event');
+        events.split('|').forEach(function (event) {
+            var eventName;
+            var action;
+            event.split(':').forEach(function (token, index) {
+                if (index === 0) eventName = token;else if (index === 1) action = token;
+            });
+            if (!widget[action]) {
+                logger.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition.');
+                return;
+            }
+            doc.addEventListener(eventName, widget[action].bind(widget));
+        });
+    });
+    return dom;
+}
+
+function getDocumentRoot(template) {
+    // Assume the template only have one root
+    return template.querySelector('*');
+}
+
+function generateActions(widgetAction) {
+    var userAction = arguments.length <= 1 || arguments[1] === undefined ? shallowCopy(functionSet) : arguments[1];
+    var name = arguments[2];
+
+    return function () {
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        var before = function before() {
+            var _ref3;
+
+            for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                args[_key2] = arguments[_key2];
+            }
+
+            logger.info('[' + name + '][before](' + (_ref3 = []).concat.apply(_ref3, args) + ')');
+            return wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args));
+        };
+        var method = function method(arg) {
+            logger.info('[' + name + '][before](' + (isFunction(arg) ? arg() : arg) + ')');
+            if (isFunction(arg)) return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg()))) || arg;
+            return widgetAction.method(userAction.method, arg) || arg;
+        };
+        var after = function after(arg) {
+            logger.info('[' + name + '][after](' + (isFunction(arg) ? arg() : arg) + ')');
+            if (isFunction(arg)) return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(_toConsumableArray(arg()))) || arg;
+            return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
+        };
+        var error = function error(e) {
+            return wrapUserEvent(widgetAction.error, userAction.error, e);
+        };
+        var finish = function finish(arg) {
+            if (isFunction(arg))
+                // flatten one level
+                return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0];
+            return arg;
+        };
+        try {
+            return nextAction(before.apply(undefined, _toConsumableArray(args)), [before, method, after, finish], error);
+        } catch (e) {
+            error(e);
+        }
+    };
+}
+
+function wrapUserEvent(widget, user) {
+    for (var _len3 = arguments.length, args = Array(_len3 > 2 ? _len3 - 2 : 0), _key3 = 2; _key3 < _len3; _key3++) {
+        args[_key3 - 2] = arguments[_key3];
+    }
+
+    var _ref4;
+
+    var continueDefault = user != null && user.apply(undefined, args);
+    if (continueDefault || typeof continueDefault === 'undefined') return widget.apply(undefined, args) || function () {
+        return args;
+    };
+    return (_ref4 = []).concat.apply(_ref4, args);
+}
+
+function nextAction(result, actions, error) {
+    var start = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
+
+    if (start + 1 === actions.length) return result;
+    if (isThenable(result)) {
+        return actions.reduce(function (res, action, index) {
+            if (index > start) return res.then(action);
+            return res;
+        }, result).catch(error);
+    } else {
+        return nextAction(actions[start + 1](result), actions, error, start + 1);
+    }
+}
+
+function transitionIn(effect, target) {
+    var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+    options && options.before && options.before();
+    target.classList.add(effect);
+    target.classList.add(effect + '-in');
+    target.classList.remove(effect + '-out');
+    window.setTimeout(function () {
+        return target.classList.remove(effect + '-in');
+    }, 17);
+    var after = function after() {
+        options && options.after && options.after();
+        target.removeEventListener('transitionend', after);
+    };
+    target.addEventListener('transitionend', after);
+}
+function transitionOut(effect, target) {
+    var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+    options && options.before && options.before();
+    target.classList.add(effect);
+    target.classList.remove(effect + '-in');
+    window.setTimeout(function () {
+        return target.classList.add(effect + '-out');
+    }, 17);
+    var after = function after() {
+        options && options.after && options.after();
+        target.removeEventListener('transitionend', after);
+    };
+    target.addEventListener('transitionend', after);
+}
+function transitionInit(effect, target) {
+    var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+    options && options.before && options.before();
+    target.classList.add(effect + '-in');
+    // window.setTimeout(() => target.classList.add(effect), 17)
+    var after = function after() {
+        options && options.after && options.after();
+        target.removeEventListener('transitionend', after);
+    };
+    target.addEventListener('transitionend', after);
+}
+function transitionToggle(effect, target) {
+    var options = arguments.length <= 2 || arguments[2] === undefined ? {} : arguments[2];
+
+    if (target.classList.contains(effect + '-out') || target.classList.contains(effect + '-in')) transitionIn(effect, target, options);else transitionOut(effect, target, options);
+}
+
+var polyglot$1 = __commonjs(function (module, exports, global) {
+    //     (c) 2012 Airbnb, Inc.
+    //
+    //     polyglot.js may be freely distributed under the terms of the BSD
+    //     license. For all licensing information, details, and documention:
+    //     http://airbnb.github.com/polyglot.js
+    //
+    //
+    // Polyglot.js is an I18n helper library written in JavaScript, made to
+    // work both in the browser and in Node. It provides a simple solution for
+    // interpolation and pluralization, based off of Airbnb's
+    // experience adding I18n functionality to its Backbone.js and Node apps.
+    //
+    // Polylglot is agnostic to your translation backend. It doesn't perform any
+    // translation; it simply gives you a way to manage translated phrases from
+    // your client- or server-side JavaScript application.
+    //
+
+    (function (root, factory) {
+        if (typeof define === 'function' && define.amd) {
+            define([], function () {
+                return factory(root);
+            });
+        } else if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') {
+            module.exports = factory(root);
+        } else {
+            root.Polyglot = factory(root);
+        }
+    })(__commonjs_global, function (root) {
+        'use strict';
+
+        var replace = String.prototype.replace;
+
+        // ### Polyglot class constructor
+        function Polyglot(options) {
+            options = options || {};
+            this.phrases = {};
+            this.extend(options.phrases || {});
+            this.currentLocale = options.locale || 'en';
+            this.allowMissing = !!options.allowMissing;
+            this.warn = options.warn || warn;
+        }
+
+        // ### Version
+        Polyglot.VERSION = '1.0.0';
+
+        // ### polyglot.locale([locale])
+        //
+        // Get or set locale. Internally, Polyglot only uses locale for pluralization.
+        Polyglot.prototype.locale = function (newLocale) {
+            if (newLocale) this.currentLocale = newLocale;
+            return this.currentLocale;
+        };
+
+        // ### polyglot.extend(phrases)
+        //
+        // Use `extend` to tell Polyglot how to translate a given key.
+        //
+        //     polyglot.extend({
+        //       "hello": "Hello",
+        //       "hello_name": "Hello, %{name}"
+        //     });
+        //
+        // The key can be any string.  Feel free to call `extend` multiple times;
+        // it will override any phrases with the same key, but leave existing phrases
+        // untouched.
+        //
+        // It is also possible to pass nested phrase objects, which get flattened
+        // into an object with the nested keys concatenated using dot notation.
+        //
+        //     polyglot.extend({
+        //       "nav": {
+        //         "hello": "Hello",
+        //         "hello_name": "Hello, %{name}",
+        //         "sidebar": {
+        //           "welcome": "Welcome"
+        //         }
+        //       }
+        //     });
+        //
+        //     console.log(polyglot.phrases);
+        //     // {
+        //     //   'nav.hello': 'Hello',
+        //     //   'nav.hello_name': 'Hello, %{name}',
+        //     //   'nav.sidebar.welcome': 'Welcome'
+        //     // }
+        //
+        // `extend` accepts an optional second argument, `prefix`, which can be used
+        // to prefix every key in the phrases object with some string, using dot
+        // notation.
+        //
+        //     polyglot.extend({
+        //       "hello": "Hello",
+        //       "hello_name": "Hello, %{name}"
+        //     }, "nav");
+        //
+        //     console.log(polyglot.phrases);
+        //     // {
+        //     //   'nav.hello': 'Hello',
+        //     //   'nav.hello_name': 'Hello, %{name}'
+        //     // }
+        //
+        // This feature is used internally to support nested phrase objects.
+        Polyglot.prototype.extend = function (morePhrases, prefix) {
+            var phrase;
+
+            for (var key in morePhrases) {
+                if (morePhrases.hasOwnProperty(key)) {
+                    phrase = morePhrases[key];
+                    if (prefix) key = prefix + '.' + key;
+                    if ((typeof phrase === 'undefined' ? 'undefined' : _typeof(phrase)) === 'object') {
+                        this.extend(phrase, key);
+                    } else {
+                        this.phrases[key] = phrase;
+                    }
+                }
+            }
+        };
+
+        // ### polyglot.unset(phrases)
+        // Use `unset` to selectively remove keys from a polyglot instance.
+        //
+        //     polyglot.unset("some_key");
+        //     polyglot.unset({
+        //       "hello": "Hello",
+        //       "hello_name": "Hello, %{name}"
+        //     });
+        //
+        // The unset method can take either a string (for the key), or an object hash with
+        // the keys that you would like to unset.
+        Polyglot.prototype.unset = function (morePhrases, prefix) {
+            var phrase;
+
+            if (typeof morePhrases === 'string') {
+                delete this.phrases[morePhrases];
+            } else {
+                for (var key in morePhrases) {
+                    if (morePhrases.hasOwnProperty(key)) {
+                        phrase = morePhrases[key];
+                        if (prefix) key = prefix + '.' + key;
+                        if ((typeof phrase === 'undefined' ? 'undefined' : _typeof(phrase)) === 'object') {
+                            this.unset(phrase, key);
+                        } else {
+                            delete this.phrases[key];
+                        }
+                    }
+                }
+            }
+        };
+
+        // ### polyglot.clear()
+        //
+        // Clears all phrases. Useful for special cases, such as freeing
+        // up memory if you have lots of phrases but no longer need to
+        // perform any translation. Also used internally by `replace`.
+        Polyglot.prototype.clear = function () {
+            this.phrases = {};
+        };
+
+        // ### polyglot.replace(phrases)
+        //
+        // Completely replace the existing phrases with a new set of phrases.
+        // Normally, just use `extend` to add more phrases, but under certain
+        // circumstances, you may want to make sure no old phrases are lying around.
+        Polyglot.prototype.replace = function (newPhrases) {
+            this.clear();
+            this.extend(newPhrases);
+        };
+
+        // ### polyglot.t(key, options)
+        //
+        // The most-used method. Provide a key, and `t` will return the
+        // phrase.
+        //
+        //     polyglot.t("hello");
+        //     => "Hello"
+        //
+        // The phrase value is provided first by a call to `polyglot.extend()` or
+        // `polyglot.replace()`.
+        //
+        // Pass in an object as the second argument to perform interpolation.
+        //
+        //     polyglot.t("hello_name", {name: "Spike"});
+        //     => "Hello, Spike"
+        //
+        // If you like, you can provide a default value in case the phrase is missing.
+        // Use the special option key "_" to specify a default.
+        //
+        //     polyglot.t("i_like_to_write_in_language", {
+        //       _: "I like to write in %{language}.",
+        //       language: "JavaScript"
+        //     });
+        //     => "I like to write in JavaScript."
+        //
+        Polyglot.prototype.t = function (key, options) {
+            var phrase, result;
+            options = options == null ? {} : options;
+            // allow number as a pluralization shortcut
+            if (typeof options === 'number') {
+                options = { smart_count: options };
+            }
+            if (typeof this.phrases[key] === 'string') {
+                phrase = this.phrases[key];
+            } else if (typeof options._ === 'string') {
+                phrase = options._;
+            } else if (this.allowMissing) {
+                phrase = key;
+            } else {
+                this.warn('Missing translation for key: "' + key + '"');
+                result = key;
+            }
+            if (typeof phrase === 'string') {
+                options = clone(options);
+                result = choosePluralForm(phrase, this.currentLocale, options.smart_count);
+                result = interpolate(result, options);
+            }
+            return result;
+        };
+
+        // ### polyglot.has(key)
+        //
+        // Check if polyglot has a translation for given key
+        Polyglot.prototype.has = function (key) {
+            return key in this.phrases;
+        };
+
+        // #### Pluralization methods
+        // The string that separates the different phrase possibilities.
+        var delimeter = '||||';
+
+        // Mapping from pluralization group plural logic.
+        var pluralTypes = {
+            chinese: function chinese(n) {
+                return 0;
+            },
+            german: function german(n) {
+                return n !== 1 ? 1 : 0;
+            },
+            french: function french(n) {
+                return n > 1 ? 1 : 0;
+            },
+            russian: function russian(n) {
+                return n % 10 === 1 && n % 100 !== 11 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2;
+            },
+            czech: function czech(n) {
+                return n === 1 ? 0 : n >= 2 && n <= 4 ? 1 : 2;
+            },
+            polish: function polish(n) {
+                return n === 1 ? 0 : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20) ? 1 : 2;
+            },
+            icelandic: function icelandic(n) {
+                return n % 10 !== 1 || n % 100 === 11 ? 1 : 0;
+            }
+        };
+
+        // Mapping from pluralization group to individual locales.
+        var pluralTypeToLanguages = {
+            chinese: ['fa', 'id', 'ja', 'ko', 'lo', 'ms', 'th', 'tr', 'zh'],
+            german: ['da', 'de', 'en', 'es', 'fi', 'el', 'he', 'hu', 'it', 'nl', 'no', 'pt', 'sv'],
+            french: ['fr', 'tl', 'pt-br'],
+            russian: ['hr', 'ru'],
+            czech: ['cs'],
+            polish: ['pl'],
+            icelandic: ['is']
+        };
+
+        function langToTypeMap(mapping) {
+            var type,
+                langs,
+                l,
+                ret = {};
+            for (type in mapping) {
+                if (mapping.hasOwnProperty(type)) {
+                    langs = mapping[type];
+                    for (l in langs) {
+                        ret[langs[l]] = type;
+                    }
+                }
+            }
+            return ret;
+        }
+
+        // Trim a string.
+        var trimRe = /^\s+|\s+$/g;
+        function trim(str) {
+            return replace.call(str, trimRe, '');
+        }
+
+        // Based on a phrase text that contains `n` plural forms separated
+        // by `delimeter`, a `locale`, and a `count`, choose the correct
+        // plural form, or none if `count` is `null`.
+        function choosePluralForm(text, locale, count) {
+            var ret, texts, chosenText;
+            if (count != null && text) {
+                texts = text.split(delimeter);
+                chosenText = texts[pluralTypeIndex(locale, count)] || texts[0];
+                ret = trim(chosenText);
+            } else {
+                ret = text;
+            }
+            return ret;
+        }
+
+        function pluralTypeName(locale) {
+            var langToPluralType = langToTypeMap(pluralTypeToLanguages);
+            return langToPluralType[locale] || langToPluralType.en;
+        }
+
+        function pluralTypeIndex(locale, count) {
+            return pluralTypes[pluralTypeName(locale)](count);
+        }
+
+        // ### interpolate
+        //
+        // Does the dirty work. Creates a `RegExp` object for each
+        // interpolation placeholder.
+        var dollarRegex = /\$/g;
+        var dollarBillsYall = '$$$$';
+        function interpolate(phrase, options) {
+            for (var arg in options) {
+                if (arg !== '_' && options.hasOwnProperty(arg)) {
+                    // Ensure replacement value is escaped to prevent special $-prefixed
+                    // regex replace tokens. the "$$$$" is needed because each "$" needs to
+                    // be escaped with "$" itself, and we need two in the resulting output.
+                    var replacement = options[arg];
+                    if (typeof replacement === 'string') {
+                        replacement = replace.call(options[arg], dollarRegex, dollarBillsYall);
+                    }
+                    // We create a new `RegExp` each time instead of using a more-efficient
+                    // string replace so that the same argument can be replaced multiple times
+                    // in the same phrase.
+                    phrase = replace.call(phrase, new RegExp('%\\{' + arg + '\\}', 'g'), replacement);
+                }
+            }
+            return phrase;
+        }
+
+        // ### warn
+        //
+        // Provides a warning in the console if a phrase key is missing.
+        function warn(message) {
+            root.console && root.console.warn && root.console.warn('WARNING: ' + message);
+        }
+
+        // ### clone
+        //
+        // Clone an object.
+        function clone(source) {
+            var ret = {};
+            for (var prop in source) {
+                ret[prop] = source[prop];
+            }
+            return ret;
+        }
+
+        return Polyglot;
+    });
+});
+
+var require$$0 = polyglot$1 && (typeof polyglot$1 === 'undefined' ? 'undefined' : _typeof(polyglot$1)) === 'object' && 'default' in polyglot$1 ? polyglot$1['default'] : polyglot$1;
+
+var index = __commonjs(function (module) {
+    // Added for convenience in the Node environment.
+    // The meat and potatoes exist in ./lib/polyglot.js.
+    module.exports = require$$0;
+});
+
+var Polyglot = index && (typeof index === 'undefined' ? 'undefined' : _typeof(index)) === 'object' && 'default' in index ? index['default'] : index;
+
+var polyglots = {};
+var polyglot = new Polyglot();
+function loadLocale(name, file) {
+    fetch(file).then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        return polyglots[name] = new Polyglot({ phrases: data });
+    });
+}
+function translate(locale) {
+    return function (string) {
+        return polyglots[locale] ? polyglots[locale].t(string) : '';
+    };
+}
+
+function fetchWidget(file) {
+    return fetch(w.options.path + ensureTail(file, '.html')).then(function (response) {
         return response.text();
     }).then(function (body) {
         var template = document.createElement('template');
@@ -718,14 +1514,10 @@ function fetchWidget(filePath) {
 }
 
 function parseDocument(template) {
-    var docs = template.querySelectorAll('*');
-    return Promise.all(Array.from(docs).reduce(function (result, doc) {
-        if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
-            var temp = {};
-            temp[doc.localName] = doc.localName;
-            return result.concat(preload(temp));
-        }
-        return result;
+    return Promise.all(Array.from(template.querySelectorAll('*')).filter(function (doc) {
+        return doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement;
+    }).reduce(function (result, doc) {
+        return result.concat(preload(_defineProperty({}, doc.tagName.toLowerCase(), doc.tagName.toLowerCase())));
     }, []));
 }
 
@@ -733,33 +1525,34 @@ function initNestedWidget(widget) {
     var template = widget.props.template;
     var docs = template.querySelectorAll('*');
     Array.from(docs).forEach(function (doc) {
-        if (doc.localName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+        if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
             if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
                 return;
             }
-            var child = w(doc.localName, widget.custom[doc.localName]);
-            child.render(doc);
-            // FIXME: When multiple child element, has problems
+            var name = doc.tagName.toLowerCase();
+            var child = w(name, widget.custom[name]);
+            child.mount(doc);
             var childName = doc.getAttribute('data-info');
             if (childName) widget.props[childName] = child;
         }
     });
+    return widget;
 }
 
 function preload(widgets, callback) {
     return Promise.all(Object.keys(widgets).reduce(function (result, name) {
-        if (!w.templates[name]) {
-            w.templates[name] = {};
-        }
-        if (!w.templates[name].fetch) {
-            w.templates[name].fetch = fetchWidget(widgets[name]);
-        }
+        if (!w.templates[name]) w.templates[name] = {};
+        if (!w.templates[name].fetch) w.templates[name].fetch = fetchWidget(widgets[name]);
         return result.concat(w.templates[name].fetch.then(function (template) {
             if (!w.templates[name].template) {
                 w.templates[name].template = template;
                 var script = template.querySelector('script');
-                document.body.appendChild(script);
-                document.body.removeChild(script);
+                var style = template.querySelector('style');
+                if (script) {
+                    document.body.appendChild(script);
+                    document.body.removeChild(script);
+                }
+                if (style) document.head.appendChild(style);
             }
             return template;
         }).then(parseDocument).catch(function (err) {
@@ -769,25 +1562,22 @@ function preload(widgets, callback) {
 }
 
 // Public API
-function w(name, options) {
-    options = options || {};
-    var baseWidget;
-    if (!w.templates[name] || !w.templates[name].widget) {
-        throw Error('you need to preload widget:' + name + ' before init it');
-    }
-    baseWidget = new w.templates[name].widget({
+function w(name) {
+    var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
+    if (!w.templates[name] || !w.templates[name].widget) throw Error('you need to preload widget:' + name + ' before init it');
+    return initNestedWidget(new w.templates[name].widget({
         template: w.templates[name].template.cloneNode(true),
         actions: options.actions || {},
-        handlers: options.handlers || {},
-        logLevel: w.options.logLevel
-    });
-    initNestedWidget(baseWidget);
-    return baseWidget;
+        data: options.data || {},
+        logLevel: w.options.logLevel,
+        internal: true // for check it's called by internal
+    }));
 }
 w.templates = {};
 w.options = {};
-w.register = function (constructor) {
-    var settings = new constructor();
+w.register = function (settings) {
+    var settings = new settings();
     Object.keys(w.templates).forEach(function (index) {
         var template = w.templates[index];
         if (template.template && !template.widget) template.widget = register$2(settings);
@@ -797,18 +1587,42 @@ w.config = function (options, callback) {
     w.options.preload = options.preload || {};
     w.options.path = options.path || '';
     w.options.logLevel = options.logLevel || 0;
-    preload(w.options.preload, callback);
+    w.options.locale = options.locale || {};
+    Promise.all([preload(w.options.preload), Object.keys(w.options.locale).forEach(function (index) {
+        var locale = w.options.locale[index];
+        loadLocale(index, locale);
+    })]).then(callback);
 };
 w.customize = function (context, target, options) {
+    // inherit parent's data
+    options.data = Object.assign(context.data, options.data);
     context.custom[target] = options;
 };
 w.service = getServices;
 w.action = function (name) {
-    return Object.assign([], getActions()[name]);
+    return Object.assign({}, getActions()[name]);
 };
+w.transition = function (effect) {
+    return {
+        init: function init(target, options) {
+            return transitionInit(effect, target, options);
+        },
+        in: function _in(target, options) {
+            return transitionIn(effect, target, options);
+        },
+        out: function out(target, options) {
+            return transitionOut(effect, target, options);
+        },
+        toggle: function toggle(target, options) {
+            return transitionToggle(effect, target, options);
+        }
+    };
+};
+w.locale = loadLocale;
+w.translate = translate;
+w.t = translate;
 
 // development only
 window.w = w;
-
-exports.default = w;
+// export default w;
 //# sourceMappingURL=build.js.map

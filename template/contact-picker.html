@@ -1,70 +1,57 @@
-<style>
-.contact-picker .contacts {
-    position: absolute;
-    background-color: #fff;
-    width: 228px;
-    height: 300px;
-    overflow: auto;
-    padding: 2px 0;
-    margin-top: 1px;
-    border: 1px solid #878787;
-    color: #878787;
-}
-
-.contact-picker .contact {
-    font-size: 14px;
-    padding: 5px 10px;
-}
-
-.contact-picker .contact:hover {
-    background-color: #3498db;
-    color: #fff;
-}
-</style>
-<div class='contact-picker'>
-    <input class='rc-input' placeholder="To: Enter name or number" data-info='input' data-event='input:autoComplete'></input>
-    <div data-info='contacts' class='contacts display-none'>
+<div class='rc-contact-picker'>
+    <input  class='rc-input --clean' 
+            data-info='input' 
+            data-event='input:autoComplete'
+            placeholder='To:'>
+    </input>
+    <div class='rc-contact-picker__contacts rc-list' data-info='contacts'>
         <contact-picker-item dynamic></contact-picker-item>
     </div>
 </div>
 <script>
 w.register(function() {
+    var enlarge = w.transition('enlarge')
     this.actions = {
         init:{
-            method: function(finish){
+            method: function(finish) {
                 this.props.limit = 10;
+                this.props.show = false;
                 return finish();
             }
         },
-        render: {
+        mount: {
             method: function(finish) {
                 finish();
             },
             after: function() {
-                window.addEventListener('click', (e) => {
-                    if (e.target !== this.props.dom.input && !e.target.classList.contains('contact')) {
-                        this.hide();
-                    }
-                });
+                enlarge.init(this.props.dom.contacts)
+                if (this.data.contact)
+                    this.props.dom.input.value = this.data.contact
             }
         },
         hide: {
             after: function() {
-                this.props.dom.contacts.classList.add('display-none');
-                if (this.showingTimeout) {
-                    window.clearTimeout(this.showingTimeout);
-                    this.showingTimeout = null;
+                if (this.props.show) {
+                    // delay the hidden process, make options clickable, then hide the panel
+                    setTimeout(() => {
+                        this.props.show = false;
+                        enlarge.out(this.props.dom.contacts)
+                    }, 50)
                 }
             }
         },
         show: {
             after: function() {
-                if (this.showingTimeout) 
-                    return;
-                this.showingTimeout = window.setTimeout(() => {
-                    if (this.props.dom.input === document.activeElement)
-                        this.props.dom.contacts.classList.remove('display-none');
-                }, 300);
+                // if (this.showingTimeout) 
+                //     return;
+                // this.showingTimeout = window.setTimeout(() => {
+                //     if (this.props.dom.input === document.activeElement) 
+                //         enlarge.in(this.props.dom.contacts)
+                // }, 300);
+                if (!this.props.show) {
+                    this.props.show = true;
+                    enlarge.in(this.props.dom.contacts)
+                }
             }
         },
         getInput: {
@@ -76,6 +63,17 @@ w.register(function() {
             before: function(value) {
                 this.props.dom.input.value += value;
                 this.props.dom.input.focus();
+            }
+        },
+        setInput: {
+            before: function(value) {
+                this.props.dom.input.value = value;
+                this.props.dom.input.focus();
+            }
+        },
+        disable: {
+            method: function() {
+                this.props.dom.input.readOnly = true
             }
         },
         autoComplete: {
@@ -105,12 +103,13 @@ w.register(function() {
                                 },
                                 select: {
                                     method:function(){
-                                        parent.appendInput(this.props.value);
+                                        parent.setInput(this.props.contact.value);
+                                        parent.hide();
                                     }
                                 }
                             }
                         });
-                        widget.render(this.props.dom.contacts);    
+                        widget.mount(this.props.dom.contacts);    
                         count++;
                         return true;
                     }else{

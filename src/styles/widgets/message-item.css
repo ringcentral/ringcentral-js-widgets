@@ -1,0 +1,77 @@
+.rc-message-item { 
+    padding: 10px 3px;
+    clear: both;
+    border-bottom: 1px solid;
+    cursor: default;
+    border-bottom-color: #efeff4; 
+    &__icon {
+        background-repeat: no-repeat;
+        background-position: center center;
+        width: 25px;
+        height: 25px;
+        display: block;
+        float: left;
+        margin-right: 13px;
+        margin-top: 5px;
+        &.--text {
+            background-image: url(images/msg_tred_sms_normal.png);
+            &.--not-read {
+                background-image: url(images/msg_tred_sms_unreaded.png);
+            }
+        }
+        &.--voicemail {
+            background-image: url(images/msg_tred_voicemail_normal.png);
+            &.--not-read {
+                background-image: url(images/msg_tred_voicemail_unreaded.png);
+            }
+        }
+        &.--fax {
+            background-image: url(images/msg_tred_fax_normal.png);
+            &.--not-read {
+                background-image: url(images/msg_tred_fax_unreaded.png);
+            }
+        }
+    }
+    &__time {
+        display: block;
+        float: right;
+        font-size: 11px;
+        padding-right: 5px;
+        max-width: 50px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        line-height:35px;
+        white-space: nowrap;
+        color: #b3b3b3;
+    }
+    &__body {
+        line-height: 14px;
+        margin-left: 38px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 0 5px 0 0;
+        height:100%;
+        font-size:14px;
+        display:block;
+        & > .__contact {
+            font-size: 14px;
+            line-height: 18px;
+            color: #2f2f2f;
+            &.--not-read {
+                font-size: 15px;
+                color: #0684bd;
+                & : after {
+                    content:" "; display:inline-block;
+                }
+            }
+        }
+        & > .__text {
+            font-size: 12px;
+            line-height: 18px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            color: #555555; 
+        }
+    }
+}

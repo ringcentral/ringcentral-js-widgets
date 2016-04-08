@@ -1,0 +1,14 @@
+$main-color: #3498db;
+$support-color: #e67e22;
+$bg-color: #fff;
+$gray: #bdc3c7;
+
+/* rc-input.--round, rc-button.--round */
+$border-radius: 3px;
+
+/* rc-panel */
+$panel-width: 250px;
+$panel-header-height: 60px;
+$panel-content-height: 350px;
+$panel-footer-height: 100px;
+$panel-height: $panel-header-height + $panel-content-height;

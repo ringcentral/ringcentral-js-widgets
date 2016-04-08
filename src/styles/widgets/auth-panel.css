@@ -1,0 +1,50 @@
+$auth-panel-padding: 10px;
+$auth-panel-flag-width: 40px;
+.rc-auth-panel {
+    &__content {
+        display: flex;
+        flex-direction: column;
+        padding: $auth-panel-padding;
+        & > .rc-input {
+            margin: 5px 0;
+        }
+        & > .rc-button {
+            width: 100%;
+
+            /* Move to the bottom of flex container */
+            margin-top: auto;
+        }
+    }
+    &__container {
+        @mixin block;
+    }
+    &__header {
+        text-align: center;
+    }
+    &__img {
+        width: 60%;
+    }
+
+    .input-panel {
+        border-radius: $border-radius;
+        border: 1px solid $gray;
+        &__flag {
+            float: left;
+            width: $auth-panel-flag-width;
+            /* For test, the position is for country flag */
+            height: 30px;
+            background: #000;
+        }
+        &__phone {
+            float: left;
+            width: calc(100% - $auth-panel-flag-width);
+        }
+        > .rc-input {
+
+        }
+        &.--focus {
+            border-color: #7f8c8d;
+        }
+    }
+    
+}

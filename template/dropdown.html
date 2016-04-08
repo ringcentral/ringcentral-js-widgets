@@ -1,12 +1,34 @@
-<button class='rc-dropdown' data-info='dropdown' data-event='click:collapse'>Outbound caller ID</button>
-<div class='rc-dropdown-list display-none' data-info='list'>
+<div class='rc-dropdown'>
+    <button class='rc-dropdown__trigger rc-button'
+            data-info='dropdown'
+            data-event='click:collapse'>From: </button>
+    <div    class='rc-dropdown__list rc-list' 
+            data-info='list'>
+    </div>
 </div>
 <script>
 w.register(function() {
+    var enlarge = w.transition('enlarge')
     this.actions = {
+        init: {
+            after: function() {
+                if (this.data.defaultValue)
+                    this.switchTitle(this.data.defaultValue)
+            }
+        },
+        mount: {
+            after: function() {
+                enlarge.init(this.props.dom['list'])
+            }
+        },
         collapse: {
             after: function() {
-                this.props.dom['list'].classList.toggle('display-none');
+                enlarge.toggle(this.props.dom['list'])
+            }
+        },
+        hide: {
+            after: function() {
+                enlarge.out(this.props.dom['list'])
             }
         },
         getData: {
@@ -16,12 +38,14 @@ w.register(function() {
         },
         addItem: {
             after: function(text) {
-                var div = document.createElement('div');
-                div.textContent = text;
-                div.addEventListener('click', e => {
+                var item = document.createElement('div')
+                // FIXME
+                item.classList.add('rc-list__item', 'rc-dropdown__item')
+                item.textContent = text;
+                item.addEventListener('click', e => {
                     this.switchTitle(text);
                 });
-                this.props.dom['list'].appendChild(div);
+                this.props.dom['list'].appendChild(item);
             }
         },
         getSelected: {
@@ -30,13 +54,18 @@ w.register(function() {
             }
         },
         removeItem: {},
+        disable: {
+            method: function() {
+                this.props.dom.dropdown.disabled = true;
+            }
+        },
         switchTitle: {
             method: function(finish, text) {
                 finish(text);
             },
             after: function(text) {
                 this.props.dom['dropdown'].textContent = text;
-                this.collapse();
+                this.hide();
             }
         }
     }

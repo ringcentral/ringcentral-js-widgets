@@ -1,0 +1,77 @@
+.rc-call-log {
+    &__content {
+        overflow: auto;
+    }
+}
+
+.rc-call-log-item {
+    border-bottom:1px solid;
+    border-bottom-color: #efeff4;
+    padding:10px 3px 0px 3px;
+    &__body {
+        line-height: 14px;
+        margin-left: 38px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 0 5px 0 0;
+        height:100%;
+        font-size:14px;
+        cursor: default;
+        & .__contact {
+            font-size: 14px;
+            line-height: 18px;
+        }
+        & .__location {
+            font-size: 12px;
+            line-height: 18px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            color:#555;
+        }
+    }
+    &__info {
+        display: block;
+        float: right;
+        width: 23px;
+        height: 35px;
+        cursor: pointer;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-image: url(images/info_big_normal.png);
+        &:hover {
+            background-image: url(images/info_big_pressed.png);
+        }
+    }
+    &__icon {
+        background-repeat: no-repeat;
+        background-position: center center;
+        width: 25px;
+        height: 25px;
+        display: block;
+        float: left;
+        margin-right: 13px;
+        margin-top: 5px;
+        &.--missed {
+            background-image: url(images/call-missed.png);
+        }
+        &.--inbound {
+            background-image: url(images/call-inbound.png);
+        }
+        &.--outbound {
+            background-image: url(images/call-outbound.png);
+        }
+    }
+    &__time {
+        display: block;
+        float: right;
+        font-size: 11px;
+        padding-right: 5px;
+        max-width: 50px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        line-height:35px;
+        white-space: nowrap;
+        color:#b3b3b3;
+    }
+}

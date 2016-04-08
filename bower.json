@@ -1,11 +1,9 @@
 {
   "name": "ringcentral-js-widget",
-  "ignore": [
-    
-  ],
+  "ignore": [],
   "dependencies": {
     "ringcentral": "~2.0.4",
-    "ringcentral-web-phone" : "~0.2.0"
+    "ringcentral-web-phone": "~0.2.0"
   },
   "devDependencies": {},
   "moduleType": [

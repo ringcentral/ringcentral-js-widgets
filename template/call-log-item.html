@@ -1,58 +1,44 @@
-<div class="call-log-entry" data-info="entry">
-    <i data-info="callResult"></i>
-
-    <a class="call-log-item-info"></a>
-    <span class="call-log-item-time" data-info="time"></span>
-
-    <div class="call-log-item-body">
-        <a class="call-log-item-contact" data-info="contact">
+<div class="rc-call-log-item" data-info="entry">
+    <i data-info="callResult" class="rc-call-log-item__icon"></i>
+    <span class="rc-call-log-item__time" data-info="time"></span>
+    <div class="rc-call-log-item__body">
+        <a class="__contact" data-info="contact">
             <!--Display name or number here-->
         </a>
-        <p class="call-log-item-text" data-info="location"></p>
+        <p class="__location" data-info="location"></p>
     </div>
 </div>
 <script>
 w.register(function() {
-    this.actions = {
-        init: {
-            method: function(finish) {
-                return finish();
-            },
-            after: function(item) {
-                this.props.item = item;
-                if (item.result === 'Missed')
-                    this.props.dom.callResult.classList.add('call-missed');
-                if (item.direction === 'Outbound') {
-                    this.props.dom.time.innerHTML = item.startTime;
-                    if (item.to.name)
-                        this.props.dom.contact.innerHTML = item.to.name;
-                    else 
-                        this.props.dom.contact.innerHTML = item.to.phoneNumber;
-                    if (item.to.location) 
-                        this.props.dom.location.innerHTML = item.to.location;
-                    if (item.result !== 'Missed') 
-                        this.props.dom.callResult.classList.add('call-outbound');
-                } else {
-                    this.props.dom.time.innerHTML = item.startTime;
-                    if (item.from.name) 
-                        this.props.dom.contact.innerHTML = item.from.name;
-                    else 
-                        this.props.dom.contact.innerHTML = item.from.phoneNumber;
-                    if (item.result !== 'Missed')
-                        this.props.dom.callResult.classList.add('call-inbound');
-                }
-            }
+    this.actions = w.action('interaction');
+    this.actions.init = {
+        method: function(finish) {
+            return finish();
         },
-        hide: {
-            after: function() {
-                this.props.dom.entry.classList.add('hidden');
-            }
-        },
-        show: {
-            after: function() {
-                this.props.dom.entry.classList.remove('hidden');
+        after: function(item) {
+            this.props.item = item;
+            if (item.result === 'Missed')
+                this.props.dom.callResult.classList.add('--missed');
+            if (item.direction === 'Outbound') {
+                this.props.dom.time.innerHTML = item.startTime;
+                if (item.to.name)
+                    this.props.dom.contact.innerHTML = item.to.name;
+                else 
+                    this.props.dom.contact.innerHTML = item.to.phoneNumber;
+                if (item.to.location) 
+                    this.props.dom.location.innerHTML = item.to.location;
+                if (item.result !== 'Missed') 
+                    this.props.dom.callResult.classList.add('--outbound');
+            } else {
+                this.props.dom.time.innerHTML = item.startTime;
+                if (item.from.name) 
+                    this.props.dom.contact.innerHTML = item.from.name;
+                else 
+                    this.props.dom.contact.innerHTML = item.from.phoneNumber;
+                if (item.result !== 'Missed')
+                    this.props.dom.callResult.classList.add('--inbound');
             }
         }
-    }
+    };
 });
 </script>

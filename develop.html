@@ -3,8 +3,8 @@
 <head>
     <title>RingCentral JS Widget Develop Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="src/styles/normalize.css">
-    <link rel="stylesheet" type="text/css" href="src/styles/main.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="build/styles/main.css">
 </head>
 <body>
     <div>
@@ -14,6 +14,19 @@
     <script type="text/javascript" src="bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
     <script type="text/javascript" src='build/build.js'></script>
     <script type="text/javascript">
+        w.config({
+            path: './template/',
+            preload: {
+                'dev-panel': 'call-panel'
+            },
+            locale: {
+                'zh-tw': 'demo/zh-tw.json',
+                'en-us': 'demo/en-us.json'
+            },
+            logLevel: 0 /* 0 for error only, 1 for error and warning, 2 for error and warning and log */
+        }, function() {
+            w('dev-panel').mount('#dev-panel')
+        })
     </script>
 </body>
 </html>

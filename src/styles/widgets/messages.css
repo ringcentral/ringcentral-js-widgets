@@ -1,0 +1,23 @@
+$messages-compose-button-color: #2ecc71;
+.rc-messages {
+    .compose-button {
+        position: absolute;
+        top:    0;
+        left:   0;
+        width:  100%;
+        height: 100%;
+        /* 1: 0.6, same as the panel width: panel height*/
+        transform: scale(.21, .131);
+        transform-origin: 90% 95%;
+        transition: border-radius       .8s, 
+                    transform           .3s ease-in, 
+                    background-color    .8s, 
+                    border-color        .8s;
+        background-color:   $messages-compose-button-color;
+        border-color:       $messages-compose-button-color;
+        &.--active {
+            transform: scale(1, 1);
+            border-radius: 0;
+        }
+    }
+}

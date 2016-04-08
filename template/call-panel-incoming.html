@@ -1,0 +1,50 @@
+<div class='rc-panel rc-call-panel'>
+    <div class='rc-panel__header --colored --center'>
+        <h2>Incoming Call</h2>
+        <h1>Howard Zhang</h1>
+    </div>
+    <div class='rc-panel__content'>
+        <div class='rc-call-panel__center'>
+            <img class='rc-img' src=''>
+        </div>
+        <div class='rc-call-panel__footer'>
+            <button class='rc-button rc-call-panel__reply'>Reply with Messages</button>
+            <div class='action-panel text-center'>
+                <button class='rc-button --positive --round action-panel__action'>Accept</button>
+                <button class='rc-button --negative --round action-panel__action'>Ignore</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+w.register(function() {
+    var circle = w.transition('circle')
+    var fade = w.transition('fade')
+    this.actions = {
+        init: {
+            method: function(finish) {
+                return finish()
+            }
+        },
+        mount: {
+            after: function() {
+                fade.init(this.props.root)
+                fade.in(this.props.root)
+            }
+        },
+        called: {
+            method: function(finish) {
+                return finish()
+            }
+        },
+        ignore: {
+            method: function(finish) {
+                return finish()
+            },
+            after: function() {
+                this.unmount()
+            }
+        }
+    }
+})
+</script>

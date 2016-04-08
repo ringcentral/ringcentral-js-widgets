@@ -1,0 +1,13 @@
+$compose-text-send-margin: 8px;
+.rc-compose-text {
+    &__textarea {
+        height: 100%;
+    }
+    &__send {
+        @mixin shadow-1;
+        position: absolute;
+        font-size: 1.2em;
+        bottom: $compose-text-send-margin;
+        right: $compose-text-send-margin;
+    }
+}

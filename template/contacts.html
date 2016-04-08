@@ -1,0 +1,65 @@
+<div class="rc-panel">
+    <div class='rc-panel__header --flat'>
+        <div class="rc-contacts__searchBox">
+            <input class="__input" type="text" data-info="searchText" data-event="input:search">
+        </div>
+    </div>
+    <div class="rc-panel__content">
+        <div data-info="contacts" class="rc-contacts__list">
+            <contact-item dynamic></contact-item>
+        </div>
+    </div>
+</div>
+<script>
+w.register(function(){
+    
+    function createContactWidget(contact) {
+        return w('contact-item', {
+            actions: {
+                init: {
+                    method: function() {
+                        return contact;
+                    }
+                }
+            }
+        });
+    }
+    
+    this.actions= {
+        init: {
+            before: function() {
+                this.props.contactItemWidgets = [];
+            }
+        },
+        mount: {
+            after: function() {
+                this.fetchContacts();
+            }
+        },
+        fetchContacts: {
+            method: function(finish) {
+                return finish();
+            },
+            after: function(contacts) {
+                contacts.forEach(contact => {
+                    var con = createContactWidget(contact);
+                    con.mount(this.props.dom.contacts); 
+                    this.props.contactItemWidgets.push(con);
+                });
+            }
+        },
+        search: {
+            method: function() {
+                var searchText = this.props.dom.searchText.value;
+                this.props.contactItemWidgets.forEach(conWidget => {
+                    if(conWidget.props.contact.name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0) {
+                        conWidget.show();
+                    }else {
+                        conWidget.hide();
+                    }
+                });
+            }
+        }
+    }
+});
+</script>

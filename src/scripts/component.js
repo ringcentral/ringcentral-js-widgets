@@ -1,218 +1,204 @@
-function register(globalSettings) {
-    if (!globalSettings.actions)
+import {initLogger, isThenable, isFunction, toFunction, shallowCopy, assign} from './util/index'
+var logger
+var functionSet = {
+    before: function() {},
+    method: function() {},
+    after: function() {},
+    error: function(e) {
+        logger.error(e)
+        throw e
+    }
+}
+function register({actions, data} = settings) {
+    if (!actions)
         console.warn('Widgets do not have actions defined, maybe you get some typo.');
+    ['init', 'mount', 'unmount', 'destroy', 'error'].forEach(action => {
+        actions[action] = Object.assign(
+            shallowCopy(functionSet),
+            actions[action]
+        )
+    })
+    return widget.bind(null, {actions, data})
+}
 
-    ['init', 'render', 'remove', 'error'].forEach(action => {
-        globalSettings.actions[action] = Object.assign({
-            before: function() {},
-            method: function() {},
-            after: function() {},
-            error: function(e) {
-                console.error(e);
-                throw e;
-            }
-        }, globalSettings.actions[action]);
-    });
-    var Widget = function(options) {
-        var options = Object.assign({
-            actions: {}
-        }, options);
-        var settings = {
-            // For deep copy
-            actions: Object.assign({}, globalSettings.actions),
-        };
-        this.props = {};
-        this.custom = {};
-        logger = initLogger(options.logLevel);
+function widget({actions, data = {}}, options) {
+    if (!options.internal) {
+        return Error('You are trying to construct a widget manually, please use w()')
+    }
+    var defaultActions = shallowCopy(actions)
+    this.props = {}
+    this.custom = {}
+    this.data = Object.assign(data, options.data)
+    logger = initLogger(options.logLevel)
 
-        Object.keys(settings.actions).forEach(index => {
-            settings.actions[index] = bindScope(this, settings.actions[index]);
-        });
-        Object.keys(options.actions).forEach(index => {
-            options.actions[index] = bindScope(this, options.actions[index]);
-        });
-        Object.keys(settings.actions).forEach(index => {
-            this[index] =
-                generateActions(settings.actions[index], options.actions[index], index);
-        });
-        this.props.dom = generateDocument(this, options.template);
-        this.props.root = getDocumentRoot(options.template);
-        this.props.template = options.template;
-        this.render =
-            generateActions({
-                before: settings.actions.render.before,
-                method: render.bind(this, settings.actions.render.method, this.props.template),
-                after: settings.actions.render.after
-            }, options.actions.render, 'render');
-        this.remove =
-            generateActions({
-                before: settings.actions.remove.before,
-                method: remove.bind(this, settings.actions.remove.method),
-                after: settings.actions.remove.after
-            }, options.actions.remove, 'remove');
-        this.init();
+    Object.keys(defaultActions).forEach(index => {
+        defaultActions[index] = bindScope(this, defaultActions[index])
+    })
+    Object.keys(options.actions).forEach(index => {
+        options.actions[index] = bindScope(this, options.actions[index])
+    })
+    Object.keys(defaultActions).forEach(index => {
+        this[index] =
+            generateActions(defaultActions[index], options.actions[index], index)
+    })
+    this.props.dom = generateDocument(this, options.template)
+    this.props.root = getDocumentRoot(options.template)
+    this.props.template = options.template
+    this.mount =
+        generateActions({
+            before: defaultActions.mount.before,
+            method: mount.bind(this, defaultActions.mount.method, this.props.template),
+            after: defaultActions.mount.after
+        }, options.actions.mount, 'mount')
+    this.unmount =
+        generateActions({
+            before: defaultActions.unmount.before,
+            method: unmount.bind(this, defaultActions.unmount.method),
+            after: defaultActions.unmount.after
+        }, options.actions.unmount, 'unmount')
+    this.destroy =
+        generateActions({
+            before: defaultActions.destroy.before,
+            method: destroy.bind(this, defaultActions.destroy.method),
+            after: defaultActions.destroy.after
+        }, options.actions.destroy, 'destroy')
+    this.init()
 
-        function remove(widgetRemove) {
-            while (this.props.target.firstChild)
-                this.props.target.removeChild(this.props.target.firstChild);
+    function destroy(widgetdestroy, finish) {
+        this.unmount()
+        for (var property in this)
+            this[property] = null
+        if (widgetdestroy && isFunction(widgetdestroy))
+            return widgetdestroy.call(this, finish)
+    }
+
+    function unmount(widgetUnmount, finish) {
+        if (!this.target || !this.target.parentNode)
+            return
+        this.target.parentNode.removeChild(this.target)
+        if (widgetUnmount && isFunction(widgetUnmount))
+            return widgetUnmount.call(this, finish)
+    }
+
+    function mount(widgetMount, template, finish, target, callback) {
+        if (typeof target === 'string') {
+            target = document.querySelector(target)
+        } else {
+            logger.warn('first argument of mount method should be selector string')
         }
 
-        function render(widgetRender, template, finish, target, callback) {
-            if (typeof target === 'string') {
-                target = document.querySelector(target);
-            } else if (target instanceof HTMLElement) {
-                target = target;
-            } else {
-                logger.warn('first argument of render method should be selector string or dom');
-            }
-            target.appendChild(template);
-            this.props.target = target;
-            callback && typeof callback === 'function' && callback();
-            if (widgetRender && typeof widgetRender === 'function')
-                return widgetRender.call(this, finish);
+        if (this.target) {
+            target.appendChild(this.target)
+        } else {
+            // templates can only have one root
+            this.target = shallowCopy(
+              Array.from(template.childNodes)
+                  .filter(node => node.nodeType === 1)
+            )[0]
+            target.appendChild(template)
         }
-    };
-    return Widget;
+        callback && isFunction(callback) && callback()
+        if (widgetMount && isFunction(widgetMount))
+            return widgetMount.call(this, finish)
+        return this
+    }
 }
 
 function bindScope(scope, action) {
     return {
-        before: action.before ? action.before.bind(scope) : function() {}.bind(scope),
-        method: action.method ? action.method.bind(scope) : function() {}.bind(scope),
-        after: action.after ? action.after.bind(scope) : function() {}.bind(scope),
-        error: action.error ? action.error.bind(scope) : function(err) {
-            logger.error(err);
-        }.bind(scope)
-    };
+        before: toFunction(action.before).bind(scope),
+        method: toFunction(action.method).bind(scope),
+        after: toFunction(action.after).bind(scope),
+        error: toFunction(action.error, logger.error).bind(scope),
+    }
 }
 
 function generateDocument(widget, template) {
-    var dom = {};
+    var dom = {}
     Array.from(template.querySelectorAll('[data-info]')).forEach(doc => {
-        var info = doc.getAttribute('data-info');
-        dom[info] = doc;
-    });
+        var info = doc.getAttribute('data-info')
+        dom[info] = doc
+    })
     Array.from(template.querySelectorAll('[data-event]')).forEach(doc => {
-        var events = doc.getAttribute('data-event');
+        var events = doc.getAttribute('data-event')
         events.split('|').forEach(event => {
-            var eventName;
-            var action;
+            var eventName
+            var action
             event.split(':').forEach((token, index) => {
                 if (index === 0)
-                    eventName = token;
+                    eventName = token
                 else if (index === 1)
-                    action = token;
-            });
+                    action = token
+            })
             if (!widget[action]) {
-                logger.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition');
-                return;
+                logger.warn(`No such method:${action} in ${events}, check data-event and widget methods definition.`)
+                return
             }
-            doc.addEventListener(eventName, widget[action].bind(widget));
-        });
-    });
-    return dom;
+            doc.addEventListener(eventName, widget[action].bind(widget))
+        })
+    })
+    return dom
 }
 
 function getDocumentRoot(template) {
     // Assume the template only have one root
-    return template.querySelector('*');
+    return template.querySelector('*')
 }
 
-function generateActions(widgetAction, userAction, name) {
-    if (!userAction) {
-        userAction = {
-            before: function() {},
-            method: function() {},
-            after: function() {},
-            error: function(e) {
-                logger.error(e);
-                throw e;
-            }
-        };
-        logger.warn('Widget action [%s] is not defined by users', name);
-    }
+function generateActions(widgetAction, userAction = shallowCopy(functionSet), name) {
     return function(...args) {
         var before = function(...args) {
-            logger.info('[%s][before](' + [].concat(...args) + ')', name);
-            return wrapUserEvent(widgetAction.before, userAction.before, ...args);
-        };
-        var method = function(arg) {
-            logger.info('[%s][method](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-            if (typeof arg === 'function') {
-                return widgetAction.method(userAction.method, ...arg()) || arg;
-            }
-            return widgetAction.method(userAction.method, arg) || arg;
-        };
-        var after = function(arg) {
-            logger.info('[%s][after](' + (typeof arg === 'function' ? arg() : arg) + ')', name);
-            if (typeof arg === 'function') {
-                return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg;
-            }
-            return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
-        };
-        var error = function(e) {
-            return wrapUserEvent(widgetAction.error, userAction.error, e);
-        };
-        var finish = function(arg) {
-            if (typeof arg === 'function') {
-                // flatten one level
-                return arg()[0] instanceof Array ? [].concat.apply([], arg()) : arg()[0];
-            }
-            return arg;
-        };
-        try {
-            return nextAction(before(...args), [before, method, after, finish], error, 0);
-        } catch (e) {
-            error(e);
+            logger.info(`[${name}][before](${[].concat(...args)})`)
+            return wrapUserEvent(widgetAction.before, userAction.before, ...args)
         }
-    };
+        var method = function(arg) {
+            logger.info(`[${name}][before](${isFunction(arg) ? arg() : arg})`)
+            if (isFunction(arg))
+                return widgetAction.method(userAction.method, ...arg()) || arg
+            return widgetAction.method(userAction.method, arg) || arg
+        }
+        var after = function(arg) {
+            logger.info(`[${name}][after](${isFunction(arg) ? arg() : arg})`)
+            if (isFunction(arg))
+                return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg
+            return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg
+        }
+        var error = function(e) {
+            return wrapUserEvent(widgetAction.error, userAction.error, e)
+        }
+        var finish = function(arg) {
+            if (isFunction(arg))
+                // flatten one level
+                return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0]
+            return arg
+        }
+        try {
+            return nextAction(before(...args), [before, method, after, finish], error)
+        } catch (e) {
+            error(e)
+        }
+    }
 }
 
 function wrapUserEvent(widget, user, ...args) {
-    var continueDefault = !user || user(...args) || true;
+    var continueDefault = (user != null && user(...args))
     if (continueDefault || typeof continueDefault === 'undefined')
-        return widget(...args) || (() => args);
-    return [].concat(...args);
+        return widget(...args) || (() => args)
+    return [].concat(...args)
 }
 
-function isThenable(result) {
-    if (result.then && typeof result.then === 'function')
-        return true;
-    return false;
-}
-
-function nextAction(result, actions, error, start) {
+function nextAction(result, actions, error, start = 0) {
     if (start + 1 === actions.length)
-        return result;
+        return result
     if (isThenable(result)) {
         return actions.reduce((res, action, index) => {
             if (index > start)
-                return res.then(action);
-            return res;
-        }, result).catch(error);
+                return res.then(action)
+            return res
+        }, result).catch(error)
     } else {
-        return nextAction(actions[start + 1](result), actions, error, start + 1);
+        return nextAction(actions[start + 1](result), actions, error, start + 1)
     }
 }
 
-function initLogger(level) {
-    return {
-        error: function(...args) {
-            console.error(...args);
-        },
-        warn: function(...args) {
-            if (level > 0)
-                console.warn(...args);
-        },
-        info: function(...args) {
-            if (level > 1)
-                console.info(...args);
-        },
-        log: function(...args) {
-            if (level > 1)
-                console.log(...args);
-        }
-    };
-}
-var logger;
-export { register };
+export { register }

@@ -1,217 +1,388 @@
+/**
+ * CONTENTS
+ *
+ * SETTINGS
+ * Global...............Globally-available variables and config.
+ * Brand................Brand-related variables and settings.
+ *
+ * TOOLS
+ * Mixins...............Useful mixins.
+ *
+ -----------SHOULD BE REMOVED IN INTEGRATION PROJECT-----------
+ * GENERIC
+ * Normalize.css........A level playing field.
+ * Box-sizing...........Better default `box-sizing`.
+ * User-select..........Disable user select.
+ * Font.................
+ * Icon-font............RC-icon font
+ *
+ * BASE
+ * Headings.............H1–H6 styles.
+ --------------------------------------------------------------
+ *
+ * OBJECTS
+ * Wrappers.............Wrapping and constraining elements.
+ *
+ * COMPONENTS
+ * Page-head............The main page header.
+ * Page-foot............The main page footer.
+ * Buttons..............Button elements.
+ * Auth-panel...........
+ * Auto-complete........
+ * Call-log.............
+ * Call-log-item........
+ * Call-panel...........
+ * Compose-text.........
+ * Contact-picker.......
+ * Contact-picker-item..
+ * Dial-pad.............
+ * Dropdown.............
+ * Messages.............
+ * Message-item.........
+ * Tool-bar.............
+ * RC-phone.............
+ *
+ * TRUMPS
+ * Text.................Text helpers.
+ * Transition...........Default transition effect.
+ * Effect...............Some detailed effect (float-left, display-none)
+ */
+
+
+
+
+
+/*------------------------------------*\
+    #SETTINGS
+\*------------------------------------*/
+
+@import "variables.css";
+
+
+
+
+
+/*------------------------------------*\
+    #TOOLS
+\*------------------------------------*/
+
+@import "mixins.css";
+
+
+
+
+
+/*------------------------------------*\
+    #GENERIC
+\*------------------------------------*/
+
+@import "normalize.css";
 * {
     box-sizing: border-box;
-    transition: all 0.1s ease-in-out;
 }
-
 * {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    outline: none
+    -webkit-touch-callout:  none;
+    -webkit-user-select:    none;
+     -khtml-user-select:    none;
+       -moz-user-select:    none;
+        -ms-user-select:    none;
+            user-select:    none;
+    outline:                none;
+}
+/* FIXME use js to load font */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+@import "icon.css";
+
+
+
+/*------------------------------------*\
+    #BASE
+\*------------------------------------*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    /* avoid some margin top collision */
+    margin-top: 0;
+    /* bold is to bold */
+    font-weight: lighter;
 }
 
-h1 {
-    line-height: 2;
-    text-align: center;
-    margin: 0;
-}
 
-.display-none {
-    display: none;
+
+
+
+/*------------------------------------*\
+    #OBJECTS
+\*------------------------------------*/
+
+.rc-list {
+    /* reset to the default color, avoid inherited by parent element */
+    color: #000;
+    &__item {
+        @mixin padding-normal;
+    }
 }
-.rc-phone {
-    background-color: #fff;
+.rc-img {
+    max-width: 100%;
 }
+.rc-fullscreen {}
+.rc-link {}
+
+
+
+
+
+/*------------------------------------*\
+    #COMPONENTS
+\*------------------------------------*/
+
 .rc-panel {
-    position: relative;
+    /**
+    * rc-panels are treated as common containers
+    */
+    @mixin block;
+    &__header {
+        @mixin padding-normal;
+        height: $panel-header-height;
+        background-color: #fff;
+        &.--colored {
+            background-color: $main-color;
+            color: #fff;
+            /* the white text need to be light */
+            font-weight: lighter;
+        }
+        &.--center {
+            text-align: center;
+        }
+        &.--flat {
+            padding: 0;
+        }
+    }
+    &__content {
+        @mixin shadow-1;
+        height: $panel-content-height;
+        background-color: #fff;
+    }
+    &__footer {
+        background-color: #fff;
+        /* height: $panel-footer-height; */
+    }
 }
-.rc-pane-header {
-    border-bottom: 1px solid;
-    border-bottom-color: #e9e9e9;
-    background-color: #f8f8f8;
-}
-.rc-pane-footer {
-    position: absolute;
-    width: 100%;
-    border-top: 1px solid;
-    border-top-color: #e9e9e9;
-    background-color: #f8f8f8;
-    height: 30px;
-    bottom: -30px;
-    transition: height .2s ease-in-out;
-}
-.rc-pane-content {
-    position: relative;
-    margin-top: 20px;
-}
-
-.rc-pane-scrollable {
-    box-sizing: border-box;
-    top: 40px;
-    bottom: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    width: 100%;
-    margin: 0;
-    padding: 0 12px;
-    left: 0;
-}
-
-.rc-input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 2px;
-    font-size: 12px;
-}
-
-.rc-input:focus {
-    border-color: #878787;
-}
-
 .rc-button {
-    width: 100%;
-    border: 0;
-    border-radius: 2px;
-    background-color: #7f8c8d;
-    padding: 8px;
-    font-weight: lighter;
-    color: #fff;
-}
-
-.rc-button:hover {
-    background-color: #bdc3c7;
-}
-
-.rc-button-loading.rc-button-loading.rc-button-loading.rc-button-loading {
-    background-color: #878787;
-    transition: background-color 1.5s;
-}
-
-.rc-button-important {
-    background-color: #e74c3c;
-}
-
-.rc-button-important:hover {
-    background-color: #c0392b;
-}
-
-.rc-dropdown {
-    width: 100%;
-    border: 1px solid #7f8c8d;
+    @mixin padding-normal;
+    border: 1px solid #000;
     background-color: #fff;
-    border-radius: 2px;
-    padding: 8px;
-    font-weight: lighter;
+    
+    &.--circle {
+        border-radius: 50%;
+    }
+    &.--round {
+        border-radius: $border-radius;
+    }
+    &.--clean {
+        background: transparent;
+        &:hover,
+        &:active {
+            border-color: $main-color;
+        }
+    }
+    &.--ghost {
+        border: 0;
+    }
+    &.--dense {
+        @mixin padding-small;
+    }
+    &.--positive {
+        background-color:   #2ecc71;
+        border-color:       #2ecc71;
+        color:              #fff;
+    }
+    &.--negative {
+        background-color:   #e74c3c;
+        border-color:       #e74c3c;
+        color:              #fff;
+    }
+    &:hover,
+    &:active {}
 }
-.rc-dropdown-list {
-    position: absolute;
-    background-color: #fff;
-    width: 225px;
-    padding: 2px 0;
-    border: 1px solid #878787;
-    font-weight: lighter;
-    max-height: 200px;
-    overflow: auto;
-}
-.rc-dropdown-list > div {
-    padding: 5px 5px;
-    cursor: pointer;
-}
-.rc-dropdown-list > div:hover {
-    background-color: #3498db;
-    color: #fff;
-}
-.rc-panel .rc-input,
-.rc-panel .rc-button,
-.rc-panel .rc-dropdown {
-    margin-bottom: 10px;
-}
+.rc-input {
+    @mixin padding-normal;
+    width: 100%;
+    border: 1px solid $gray;
 
-.rc-sub-panel {
-    font-size: 12px;
-    padding: 5px;
+    &.--clean {
+        background: transparent;
+        border: 0;
+    }
+    &.--round {
+        border-radius: $border-radius;
+    }
+    &:focus {
+        border-color: #7f8c8d;
+    }
 }
-
-.rc-dial-wrapper {
-    width: 200px;
-    margin: 0 auto 10px;
-    padding: 10px;
+.rc-tag {
+    border: 1px solid $main-color;
+    padding: .1em .3em;
 }
-
-.rc-dial-button {
-    width: 50px;
-    height: 50px;
-    margin: 2px;
-    border-radius: 50%;
-}
-
-.rc-message {
-    font-size: 12px;
-    color: #878787;
-}
-
-.rc-error-message {
-    min-height: 30px;
-    font-size: 12px;
-    color: #e74c3c;
-}
-.rc-logs {
-    max-height: 500px;
-}
-.rc-calllog {
-    border-bottom: 1px solid #878787;
-}
-
-.rc-calllog-name {
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.rc-calllog-time {
-    font-size: 12px;
-}
-
-.rc-calllog-type {
-    font-size: 12px;
-}
-
-.rc-mask {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: #000;
-    opacity: .5;
-}
-.rc-mask-message {
-    color: #fff;
-    line-height: 2;
-}
-.rc-toolbar {
-    padding: 10px 5px;
-}
-.rc-toolbar-item {
-    background: #fff;
-    border: 0;
-    margin: 2px;
+.rc-label {
+    @mixin padding-normal;
 }
 .rc-textarea {
+    @mixin padding-normal;
     width: 100%;
-    max-width: 100%;
-    min-height: 150px;
-    padding: 5px;
-    font-size: 12px;
-    font-weight: lighter;
+    resize: none;
+    font-size: .8em;
+}
+.rc-tabs {
+    height: 30px;
+    clear: both;
+    /* for auto center */
+    margin: 0 auto 11px;
+    padding: 0 10px;
+    &__tab {
+        @mixin clickable;
+        display: block;
+        float: left;
+
+        height: 30px;
+
+        font-size: 14px;
+        text-align: center;
+        border: 1px solid;
+        padding-top: 7px;
+        &:focus {
+            text-decoration: none;
+        }
+        &:first-child {
+            border-top-left-radius:     3px;
+            border-bottom-left-radius:  3px;
+        }
+        &:last-child {
+            border-top-right-radius:    3px;
+            border-bottom-right-radius: 3px;
+            border-right: 1px solid #c1e0ee;
+        }
+        &.--color {
+            background-color:   #ffffff; 
+            border-color:       #c1e0ee;
+            color:              #1785bb;
+        }
+        &.--active { 
+            background-color:   #1785bb; 
+            border-color:       #1785bb;
+            color:              #ffffff; 
+        }
+        &.--active:last-child {
+            border-right-color: #c1e0ee; 
+        }
+        &.--width2 { width: 50%; }
+        &.--width3 { width: 33%; }
+        &.--width4 { width: 25%; }
+    }
+}
+.rc-avatar {
+    margin-bottom:  15px;
+    margin-top:     15px;
+    margin-left:    auto;
+    margin-right:   auto;
+    background-position:center center;
+    background-repeat:no-repeat;
+    border-radius:65px;
+    &.--big {
+        min-width:  120px;
+        min-height: 120px;
+        max-width:  120px;
+        max-height: 120px;
+    }
+    &.--small {
+        min-width:  35px;
+        min-height: 35px;
+        max-width:  35px;
+        max-height: 35px;
+    }
+}
+.rc-icon-switch {
+    > span:first-child {
+        display: inline;
+    }
+    > span:last-child {
+        display: none;
+    }
+    &:hover {
+        > span:first-child {
+            display: none;
+        }
+        > span:last-child {
+            display: inline;
+        }
+    }
 }
 
+/* @import "old.css"; */
+@import "widgets/auth-panel.css";
+@import "widgets/call-log.css";
+@import "widgets/call-panel.css";
+@import "widgets/compose-text.css";
+@import "widgets/conversation.css";
+@import "widgets/contact-picker.css";
+@import "widgets/dial-pad.css";
+@import "widgets/dropdown.css";
+@import "widgets/messages.css";
+@import "widgets/message-item.css";
+@import "widgets/message-detail.css";
+@import "widgets/tool-bar.css";
+@import "widgets/conference.css";
+@import "widgets/contacts.css";
+
+
+
+
+
+/*------------------------------------*\
+    #TRUMPS
+\*------------------------------------*/
+@import "transition.css";
+
+/**
+* Some common use cases
+*/
 .float-right {
     float: right;
 }
 .float-left {
     float: left;
+}
+.display-none {
+    display: none;
+}
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right;
+}
+.clearfix {
+    &:before,
+    &:after {
+        content: " ";
+        display: table;
+    }
+    &:after {
+        clear: both;
+    }
+
+}
+/**
+* Atomic degisn methodology
+*/
+@for $i from 1 to 10 {
+    .margin-top-$i { margin-top: $(i)0px; }
 }

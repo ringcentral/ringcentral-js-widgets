@@ -1,0 +1,52 @@
+$conversation-bubble-color: #ecf0f1;
+.rc-conversation {
+    &__container {
+        display: flex;
+        flex-direction: column;
+        /* Adjust all conversation related font size */
+        font-size: .8em;
+        transition: transform .2s ease-in;
+    }
+    &__content {
+        /*display: flex;*/
+        /*flex: 1;*/
+        /*flex-direction: column;*/
+        /*justify-content: flex-end;*/
+        overflow: auto;
+        height: 100%;
+    }
+    &__textarea-wrapper {
+        width: 100%;
+        > textarea {
+            @mixin padding-normal;
+            width: 100%;
+            border: 0;
+            border-top: 1px solid $gray;
+            resize: none;
+        }
+    }
+    .conversations {
+        @mixin padding-large;
+        /*height: 100%;*/
+        /*overflow-y: scroll;*/
+        &__bubble {
+            @mixin padding-normal;
+            /* Make the conversations overflow and show scrollbar */
+            word-break: break-word;
+            border: 1px solid $gray;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            &.--opponent {
+                float: left;
+            }
+            &.--self {
+                float: right;
+                background-color: $conversation-bubble-color;
+            }
+        }
+        &__timestamp {
+            text-align: center;
+            color: $gray;
+        }
+    }
+}

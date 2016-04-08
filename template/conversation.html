@@ -1,0 +1,259 @@
+<div class='rc-panel rc-conversation'>
+    <div class='rc-panel__header --colored' data-info='header'>
+        <contact-picker data-info='contact-picker'></contact-picker>
+    </div>
+    <div    class='rc-panel__content rc-conversation__container' 
+            data-info='panel'>
+        <dropdown class='' data-info='dropdown'></dropdown>
+        <div    class='rc-conversation__content' 
+                data-info='container'
+                data-event='scroll:scroll'>
+            <div    class='conversations' 
+                    data-info='conversations'>
+                <div class='conversations__timestamp'>
+                    <span class='__date'>1/24/15</span>
+                    <span class='__time'>6:04</span>
+                </div>
+            </div>
+        </div>
+        <div class='rc-conversation__textarea-wrapper'>
+            <textarea 
+            data-info='input' 
+            data-event='keydown:enter'
+            placeholder='messages...'
+            ></textarea>
+        </div>
+    </div>
+</div>
+<script>
+w.register(function() {
+    var fade = w.transition('fade')
+    this.actions = {
+        init: {
+            method: function() {
+               
+            },
+            after: function() {
+                var conversation = this;
+                w.customize(this, 'contact-picker', {
+                    data: {
+                        contact: conversation.data.toNumber
+                    },
+                    actions: {
+                        autoComplete: {
+                            method: function() {
+                                return conversation.queryContacts(this.props.inputValue);
+                            }
+                        }
+                    }
+                })
+                w.customize(this, 'dropdown', {
+                    data: {
+                        defaultValue: conversation.data.fromNumber
+                    },
+                    actions: {
+                        getData: {
+                            method: function() {
+                                return conversation.getOutboundCallerID();
+                            },
+                            after: function(ids) {
+                                ids.forEach(id => this.addItem(id));
+                            }
+                        },
+                        switchTitle: {
+                            method: function(text) {
+                                conversation.props.fromNumber = text;
+                            }
+                        }
+                    }
+                })
+            }
+        },
+        mount: {
+            method: function() {
+                // There is two type of conversation: 1. to new users 2. existing conversation
+                // will be determined by this.data
+                if (!this.data.new) {
+                    this.props['contact-picker'].disable()
+                    this.props.dropdown.disable()
+                }
+            },
+            after: function() {
+                this.props['dropdown'].getData()
+                this.props.dom.input.value = this.data.message || ''
+                fade.init(this.props.root)
+                fade.in(this.props.root, {
+                    after: () => this.props.dom.input.focus()
+                })
+            }
+        },
+        fetchConversations: {
+            method: function(finish) {
+                return finish()
+            },
+            after: function(convs) {
+                convs.forEach(text => this.addBubble(text))
+                this.scrollToBottom()
+            }
+        },
+        enter: {
+            method: function(finish, e) {
+                if (e.keyCode === 13) {
+                    this.send()
+                    e.preventDefault()
+                }
+            }
+        },
+        send: {
+            before: function() {
+                // send messages on UI
+                this.props.message = this.props.dom.input.value
+                this.props.dom.input.value = ''
+                var bubble = this.addBubble(this.props.message)
+                this.scrollToBottom()
+                return bubble
+            },
+            method: function(finish, dom) {
+                this.props.fromNumber = this.data.fromNumber || this.props.fromNumber
+                this.props.toNumber = this.data.toNumber || this.props['contact-picker'].props.dom.input.value
+                return finish().then(response => {
+                    dom.setAttribute('data-id', response.id)
+                    this.unconfirm = this.unconfirm || []
+                    this.unconfirm.push(dom)
+                    return response
+                }).catch(err => dom.parentNode.removeChild(dom))
+                // user actually send to message to server (SDK)
+            },
+            after: function(response) {}
+        },
+        addBubble: {
+            after: function(text, direction, prepend) {
+                var opponent = (direction === 'Inbound')
+                var template = `<div class='clearfix'>
+                                    <div class='conversations__bubble ${opponent? "--opponent": "--self"}'>
+                                        ${text}
+                                    </div>
+                                </div>`
+                var div = document.createElement('div')
+                div.innerHTML = template
+                if (prepend) {
+                    this.props.dom.conversations.insertBefore(
+                        div.childNodes[0],
+                        this.props.dom.conversations.firstChild
+                    )
+                } else {
+                    this.props.dom.conversations.appendChild(
+                        div.childNodes[0]
+                    )
+                }
+                return this.props.dom.conversations.lastChild;
+            }
+        },
+        disable: {
+            after: function() {
+                this.props['contact-picker'].disable()
+                this.props.dropdown.disable()
+            }
+        },
+        scroll: {
+            method: function(finish, event) {
+                if (event.target.scrollTop < 10)
+                    this.reachTop()
+            }
+        },
+        reachTop: {
+            before: function() {},
+            method: function(finish) {
+                if (this.isLoading)
+                    return
+                this.isLoading = true
+                return finish().then(result => {
+                    this.isLoading = false
+                    return result
+                })
+            },
+            after: function(messages) {
+                if (messages) {
+                    // maintain the scoll position
+                    var scrollBottom = this.props.dom.conversations.offsetHeight
+                    this.prependMessages(messages, false)
+                    this.props.dom.container.scrollTop = 
+                    this.props.dom.conversations.offsetHeight - scrollBottom
+                }
+            }
+        },
+        appendMessages: {
+            method: function(finish, msgs, scroll) {
+                if (msgs)
+                    msgs.forEach(msg => this.addBubble(msg.subject, msg.direction))
+            },
+            after: function(msgs, scroll = true) {
+                if (scroll)
+                    this.scrollToBottom()
+            }
+        },
+        prependMessages: {
+            before: function() {
+
+            },
+            method: function(finish, msgs, scroll) {
+                console.log('prepend');
+                if (msgs)
+                    msgs.forEach(msg => this.addBubble(msg.subject, msg.direction, true))
+            },
+            after: function(msgs, scroll = true) {
+                if (scroll)
+                    this.scrollToBottom()
+            }
+        },
+        warnBubble: {
+            after: function(id) {
+
+            }
+        },
+        scrollToBottom: {
+            after: function() {
+                console.log('update');
+                this.props.dom.container.scrollTop = this.props.dom.container.scrollHeight
+            }
+        },
+        getOutboundCallerID: {
+            method: function(finish) {
+                return finish();
+            }
+        },
+        queryContacts: {
+            method: function(finish, queryText) {
+                this.props.to = queryText;
+                return finish();
+            }
+        },
+        addIncomingMessages: {
+            method: function(finish, messages) {
+                messages
+                .filter(msg => msg.availability === 'Alive')
+                .filter(msg => msg.messageStatus === 'Received')
+                .filter(msg => msg.direction === 'Inbound')
+                .filter(msg => msg.readStatus === 'Unread')
+                .map(msg => msg.subject)
+                .forEach(text => this.addBubble(text, 'Inbound'))
+            },
+            after: this.scrollToBottom
+        },
+        confirmMessages: {
+            method: function(finish, messages) {
+                if (!this.unconfirm)
+                    return []
+                if (!messages)
+                    return []
+                return this.unconfirm
+                .filter(dom => messages
+                    .map(msg => msg.id)
+                    .indexOf(parseInt(dom.getAttribute('data-id'))) > -1)
+                .forEach(dom => dom.removeAttribute('data-id'))
+            }
+        }
+    }
+})
+//# sourceURL=conversation.html
+</script>
