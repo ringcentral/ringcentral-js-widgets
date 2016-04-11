@@ -8,12 +8,17 @@
         <div    class='rc-conversation__content' 
                 data-info='container'
                 data-event='scroll:scroll'>
+            <div    class='conversations__loading display-none'
+                    data-info='loading'>
+                loading...
+            </div>
             <div    class='conversations' 
                     data-info='conversations'>
-                <div class='conversations__timestamp'>
+                <!-- <div class='conversations__timestamp'>
                     <span class='__date'>1/24/15</span>
                     <span class='__time'>6:04</span>
-                </div>
+                </div> -->
+                
             </div>
         </div>
         <div class='rc-conversation__textarea-wrapper'>
@@ -83,7 +88,7 @@ w.register(function() {
                 this.props.dom.input.value = this.data.message || ''
                 fade.init(this.props.root)
                 fade.in(this.props.root, {
-                    after: () => this.props.dom.input.focus()
+                    after: () => this.props['contact-picker'].focus()
                 })
             }
         },
@@ -157,7 +162,7 @@ w.register(function() {
         },
         scroll: {
             method: function(finish, event) {
-                if (event.target.scrollTop < 10)
+                if (event.target.scrollTop === 0)
                     this.reachTop()
             }
         },
@@ -167,8 +172,10 @@ w.register(function() {
                 if (this.isLoading)
                     return
                 this.isLoading = true
+                this.props.dom.loading.classList.remove('display-none')
                 return finish().then(result => {
                     this.isLoading = false
+                    this.props.dom.loading.classList.add('display-none')
                     return result
                 })
             },

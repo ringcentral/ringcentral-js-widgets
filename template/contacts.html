@@ -1,18 +1,19 @@
-<div class="rc-panel">
+<div class='rc-panel'>
     <div class='rc-panel__header --flat'>
-        <div class="rc-contacts__searchBox">
-            <input class="__input" type="text" data-info="searchText" data-event="input:search">
+        <div class='rc-contacts__searchBox'>
+            <input class='__input' type='text' data-info='searchText' data-event='input:search'>
         </div>
     </div>
-    <div class="rc-panel__content">
-        <div data-info="contacts" class="rc-contacts__list">
-            <contact-item dynamic></contact-item>
+    <div class='rc-panel__content' data-info='container'>
+        <div class='rc-contacts__list' data-event='scroll:scroll'>
+            <div data-info='contacts' >
+                <contact-item dynamic></contact-item>
+            </div>
         </div>
     </div>
 </div>
 <script>
 w.register(function(){
-    
     function createContactWidget(parent, contact) {
         return w('contact-item', {
             actions: {
@@ -29,12 +30,15 @@ w.register(function(){
             }
         });
     }
-    
+    this.data = {
+        loadingContacts: 30
+    }
     this.actions= {
         init: {
             before: function() {
                 this.props.selectedContact = null;
-                this.props.contactItemWidgets = [];
+                this.props.contactItemWidgets = []
+                this.props.currentIndex = 0
             }
         },
         mount: {
@@ -47,21 +51,42 @@ w.register(function(){
                 return finish();
             },
             after: function(contacts) {
+                // We already have widgets in view
+                if (this.props.contactItemWidgets.length > 0)
+                    return
                 contacts.forEach(contact => {
                     var con = createContactWidget(this, contact);
-                    con.mount(this.props.dom.contacts); 
                     this.props.contactItemWidgets.push(con);
                 });
+                this.displayContacts(this.props.currentIndex)
+            }
+        },
+        displayContacts: {
+            method: function(finish, beginIndex) {
+                console.log(this.props.contactItemWidgets);
+                console.log(this.props.contactItemWidgets.slice(beginIndex, this.data.loadingContacts));
+                console.log(beginIndex);
+                console.log(this.data.loadingContacts);
+                this.props.contactItemWidgets
+                .slice(beginIndex, beginIndex + this.data.loadingContacts)
+                .forEach(contactWidget => contactWidget.mount(this.props.dom.contacts))
+                this.props.currentIndex = beginIndex + this.data.loadingContacts
+                return finish()
+            },
+            error: function(error) {
+                console.error(error);
             }
         },
         search: {
             method: function() {
                 var searchText = this.props.dom.searchText.value;
-                this.props.contactItemWidgets.forEach(conWidget => {
-                    if(conWidget.props.contact.name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0) {
-                        conWidget.show();
-                    }else {
-                        conWidget.hide();
+                this.props.contactItemWidgets.forEach(contactWidget => {
+                    if(contactWidget.props.contact.name
+                        .toLowerCase()
+                        .indexOf(searchText.toLowerCase()) > -1) {
+                        contactWidget.mount(this.props.dom.contacts);
+                    } else {
+                        contactWidget.unmount();
                     }
                 });
             }
@@ -71,7 +96,26 @@ w.register(function(){
                 this.props.selectedContact = contact;
                 return finish();
             }
-        }
+        },
+        scroll: {
+            method: function(finish, event) {
+                if (event.target.scrollHeight - event.target.scrollTop < event.target.offsetHeight + 10)
+                    this.reachBottom()
+            }
+        },
+        reachBottom: {
+            before: function() {},
+            method: function(finish) {
+               return finish()
+            },
+            after: function() {
+                // maintain the scoll position
+                var scrollBottom = this.props.dom.contacts.offsetHeight
+                this.displayContacts(this.props.currentIndex)
+                this.props.dom.container.scrollTop = 
+                this.props.dom.contacts.offsetHeight - scrollBottom
+            }
+        },
     }
 });
 //# sourceURL=contacts.html

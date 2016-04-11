@@ -1,5 +1,5 @@
 <style>
-    #phone {
+    .rc-phone {
         position: relative;
         width: 250px;
         height: 100%;
@@ -8,24 +8,24 @@
         margin: 0 auto;
     }
 
-    .container {
+    .rc-phone .container {
         width: 3000px;
         transition: transform .1s ease-out;
     }
-    .panel {
+    .rc-phone .panel {
         width: 250px;
         min-height: 1px;
     }
-    .panel.--extra {
+    .rc-phone .panel.--extra {
         position: absolute;
         left: 0;
     }
 </style>
 <div>
-    <div id='phone'>
+    <div id='phone' class='rc-phone'>
         <div id="auth-panel"></div>
         <div id="toolbar"></div>
-        <div class='container'>
+        <div class='container' data-info='container'>
             <div class='panel float-left' id="dial-pad"></div>
             <div class='panel float-left' id="messages-panel"></div>
             <div class='panel float-left' id="contacts"></div>
@@ -36,6 +36,7 @@
         <div class='panel --extra' id="call-panel-incoming"></div>
         <div class='panel --extra' id="conversation"></div>
         <div class='panel --extra' id="contact-detail"></div>
+        <div class='panel --extra' id="notification"></div>
     </div>
     <auth-panel dynamic></auth-panel>
     <tool-bar dynamic></tool-bar>
@@ -49,565 +50,540 @@
     <conference dynamic></conference>
     <conversation dynamic></conversation>
     <contact-detail dynamic></contact-detail>
+    <notification dynamic></notification>
 </div>
 <script>
 var phone = w.register(function() {
     this.actions = {
-        mount: {
-            after: function() {
-                var phoneService = w.service()['phoneService'];
-                var loginService = w.service()['loginService'];
-                var callLogService = w.service()['callLogService'];
-                var accountService = w.service()['accountService'];
-                var rcContactService = w.service()['rcContactService'];
-                var contactSearchService = w.service()['contactSearchService'];
-                var rcContactSearchProvider = w.service()['rcContactSearchProvider'];
-                var rcMessageService = w.service()['rcMessageService'];
-                var rcMessageProvider = w.service()['rcMessageProvider'];
-                var rcConferenceSerivce = w.service()['rcConferenceSerivce'];
-                
-                var contactDetailWidgetAdapter = w.service()['contactDetailWidgetAdapter'];
-
-                
-                var dialPadSearchProviders = [rcContactSearchProvider];
-
-                function init() {
-                    var cachedMessageHours = 7 * 24;
-                    function loadData() {
-                        rcMessageService.subscribeToMessageUpdate();
-                        rcMessageService.syncMessages(cachedMessageHours);
-                        accountService.getAccountInfo();
-                        accountService.getPhoneNumber();
-                        rcContactService.syncCompanyContact();
-                        phoneService.registerSIP();
-                        callLogService.getCallLogs();
-                        phoneService.listen();
-                    } 
-                    
-                    loginService.checkLoginStatus().then(isLoggedIn => {
-                        if (isLoggedIn) {
-                            afterLogin();
-                        } else {
-                            authPanel.mount('#auth-panel');
+        getService: {
+            method: function() {
+                return {
+                    phoneService: w.service()['phoneService'],
+                    loginService: w.service()['loginService'],
+                    callLogService: w.service()['callLogService'],
+                    accountService: w.service()['accountService'],
+                    rcContactService: w.service()['rcContactService'],
+                    contactSearchService: w.service()['contactSearchService'],
+                    rcContactSearchProvider: w.service()['rcContactSearchProvider'],
+                    rcMessageService: w.service()['rcMessageService'],
+                    rcMessageProvider: w.service()['rcMessageProvider'],
+                    rcConferenceSerivce: w.service()['rcConferenceSerivce'],
+                    contactDetailWidgetAdapter: w.service()['contactDetailWidgetAdapter'],
+                    dialPadSearchProviders: [rcContactSearchProvider]
+                }
+            }
+        },
+        loadData: {
+            method: function() {
+                this.getService().rcMessageService.subscribeToMessageUpdate();
+                this.getService().rcMessageService.syncMessages(this.props.cachedMessageHours);
+                this.getService().accountService.getAccountInfo();
+                this.getService().accountService.getPhoneNumber();
+                this.getService().rcContactService.syncCompanyContact();
+                this.getService().phoneService.registerSIP();
+                this.getService().callLogService.getCallLogs();
+                this.getService().phoneService.listen();
+            }
+        },
+        createWidgets: {
+            method: function() {
+                var {
+                    phoneService,
+                    loginService,
+                    callLogService,
+                    accountService,
+                    rcContactService,
+                    contactSearchService,
+                    rcContactSearchProvider,
+                    rcMessageService,
+                    rcMessageProvider,
+                    rcConferenceSerivce,
+                    contactDetailWidgetAdapter,
+                    dialPadSearchProviders
+                } = this.getService()
+                var phone = this
+                this.props.conversation = undefined;
+                this.props.contactDetail = undefined;
+                this.props.dialPad = w('dial-pad', {
+                    data : phone.data,
+                    actions: {
+                        mount: {
+                            after: function() {
+                                if (!accountService.hasServiceFeature("VoipCalling"))
+                                    this.disable();
+                            }
+                        },
+                        callout: {
+                            method: function(fromNo, toNo) {
+                                return phoneService.callout(fromNo, toNo);
+                            },
+                            after: function() {
+                                phone.props.callPanel.mount('#call-panel');
+                            },
+                            error: function(e) {
+                                console.error(e);
+                                phone.props.notification.show('#notification', 4000)
+                                phone.props.notification.msg(e.message)
+                            }
+                        },
+                        queryContacts: {
+                            method: function() {
+                                var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                                    return provider.search(this.props.to);
+                                });
+                                return contactSearchService.query(dialPadSearchFunctions);
+                            }
+                        },
+                        getOutboundCallerID: {
+                            method: function() {
+                                return accountService.listNumber("VoiceFax", 'CallerId');
+                            }
                         }
-                    }).catch(err => console.error(err))
-                    // authPanel.mount('#auth-panel');
-                    
-                    var authPanel = w('auth-panel', {
-                        data : phone.data,
-                        actions: {
-                            login: {
-                                method: function() {
-                                    return loginService.login(
-                                        this.props.username,
-                                        this.props.extension,
-                                        this.props.password
+                    }
+                });
+                this.props.callPanel = w('call-panel', {
+                    data : phone.data,
+                    actions: {
+                        init: {
+                            method: function() {
+                                phoneService.on('callStarted', this.callStarted);
+                                phoneService.on('callRejected', this.callRejected);
+                                phoneService.on('callEnded', this.callEnded);
+                                phoneService.on('callFailed', this.callFailed);
+                            }
+                        },
+                        answer: {
+                            method: function() {
+                                phoneService.answer();
+                            }
+                        },
+                        hangup: {
+                            method: function() {
+                                return phoneService.hangup();
+                            }
+                        }
+                    }
+                })
+                this.props.callPanelIncoming = w('call-panel-incoming', {
+                    data : phone.data,
+                    actions: {
+                        init: {
+                            method: function() {
+                                phoneService.on('called', this.called);
+                            }
+                        },
+                        called: {
+                            method: function() {
+                                this.mount('#call-panel-incoming');
+                            }
+                        }
+                    }
+                })
+                this.props.callLog = w('call-log', {
+                    actions: {
+                        init: {
+                            method: function() {
+                                return callLogService.getCallLogs();
+                            }
+                        }
+                    }
+                });
+                this.props.messageWidget = w('messages', {
+                    data : phone.data,
+                    actions: {
+                        mount: {
+                            after: function(){
+                                rcMessageProvider.onMessageUpdated(this.refreshMessages);
+                            }
+                        },
+                        refreshMessages: {
+                            method: function(){
+                                return rcMessageProvider.getLastMessagesOfAllType();
+                            }
+                        },
+                        viewMessageInfo: {
+                            method: function(){
+                                alert(this.props.selectedMessage.type);
+                            }
+                        },
+                        enterMessage: {
+                            before: function() {},
+                            method: function() {
+                                // TODO: makes the div temp
+                                var messages = this
+                                if (phone.props.conversation)
+                                    phone.props.conversation.destroy()
+                                phone.props.conversation = w('conversation', {
+                                    data: {
+                                        new: false,
+                                        fromNumber: messages.props.selectedMessage.author,
+                                        toNumber: messages.props.selectedMessage.contact
+                                    },
+                                    actions: {
+                                        init: {
+                                            after: function() {
+                                                this.props.hourFrom = phone.props.cachedMessageHours
+                                                this.props.convId = messages.props.selectedMessage.convId
+                                            }
+                                        },
+                                        mount: {
+                                            after: function() {
+                                                rcMessageService.onMessageUpdated(this.confirmMessages);
+                                                rcMessageService.onMessageUpdated(this.addIncomingMessages);
+                                            }
+                                        },
+                                        send: {
+                                            method: function() {
+                                                return rcMessageService.sendSMSMessage(
+                                                    this.props.message,
+                                                    this.props.fromNumber,
+                                                    this.props.toNumber
+                                                );
+                                            }
+                                        },
+                                        queryContacts: {
+                                            method: function() {
+                                                var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                                                    return provider.search(this.props.to);
+                                                });
+                                                return contactSearchService.query(dialPadSearchFunctions);
+                                            }
+                                        },
+                                        getOutboundCallerID: {
+                                            method: function() {
+                                                return accountService.listNumber("VoiceFax", 'SmsSender');
+                                            }
+                                        },
+                                        reachTop: {
+                                            method: function() {
+                                                this.props.hourFrom += 100
+                                                console.log(this.props.hourFrom);
+                                                return rcMessageProvider.getConversation(
+                                                    this.props.convId,
+                                                    this.props.hourFrom)
+                                            }
+                                        }
+                                    }
+                                });
+                                phone.props.conversation.mount('#conversation');
+
+                                return rcMessageProvider
+                                .getConversation(
+                                    this.props.selectedMessage.convId,
+                                    this.props.hourFrom)
+                                .then(phone.props.conversation.appendMessages)
+                            }
+                        },
+                        compose: {
+                            method: function() {
+                                phone.props.conversation = w('conversation', {
+                                    data: {
+                                        new: true
+                                    },
+                                    actions: {
+                                        init: {
+                                            after: function() {
+                                                this.props.hourFrom = phone.props.cachedMessageHours
+                                            }
+                                        },
+                                        mount: {
+                                            after: function() {
+                                                rcMessageService.onMessageUpdated(this.confirmMessages);
+                                                rcMessageService.onMessageUpdated(this.addIncomingMessages);
+                                            }
+                                        },
+                                        send: {
+                                            before: function() {
+                                                this.disable()
+                                            },
+                                            method: function() {
+                                                return rcMessageService.sendSMSMessage(
+                                                    this.props.message,
+                                                    this.props.fromNumber,
+                                                    this.props.toNumber)
+                                            },
+                                            after: function(response) {
+                                                this.props.convId = response.id
+                                                return rcMessageProvider
+                                                        .getConversation(response.id, 24)
+                                                        .then(this.appendMessages)
+                                            }
+                                        },
+                                        queryContacts: {
+                                            method: function() {
+                                                var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                                                    return provider.search(this.props.to);
+                                                });
+                                                return contactSearchService.query(dialPadSearchFunctions);
+                                            }
+                                        },
+                                        getOutboundCallerID: {
+                                            method: function() {
+                                                return accountService.listNumber("VoiceFax", 'SmsSender');
+                                            }
+                                        },
+                                        reachTop: {
+                                            method: function() {
+                                                this.props.hourFrom += 100
+                                                console.log(this.props.hourFrom);
+                                                return rcMessageProvider.getConversation(
+                                                    this.props.convId,
+                                                    this.props.hourFrom)
+                                            }
+                                        }
+                                    }
+                                })
+                                phone.props.conversation.mount('#conversation')
+                            },
+                            after: function() {
+
+                            }
+                        }
+                    }
+                });
+                this.props.conference = w('conference',{
+                    data : phone.data,
+                    actions: {
+                        getConferenceInfo: {
+                            method: function() {
+                                return rcConferenceSerivce.getConferenceInfo();
+                            }
+                        },
+                        inviteWithText: {
+                            method: function() {
+                                phone.props.conversation = w('conversation', {
+                                    data: {
+                                        new: true,
+                                        message: phone.props.conference.props.inviteMessage
+                                    },
+                                    actions: {
+                                        init: {
+                                            after: function() {
+                                                this.props.hourFrom = phone.props.cachedMessageHours
+                                            }
+                                        },
+                                        mount: {
+                                            after: function() {
+                                                rcMessageService.onMessageUpdated(this.confirmMessages);
+                                                rcMessageService.onMessageUpdated(this.addIncomingMessages);
+                                            }
+                                        },
+                                        send: {
+                                            before: function() {
+                                                this.disable()
+                                            },
+                                            method: function() {
+                                                return rcMessageService.sendSMSMessage(
+                                                    this.props.message,
+                                                    this.props.fromNumber,
+                                                    this.props.toNumber)
+                                            },
+                                            after: function(response) {
+                                                this.props.convId = response.id
+                                                return rcMessageProvider
+                                                        .getConversation(response.id, 24)
+                                                        .then(this.appendMessages)
+                                            }
+                                        },
+                                        queryContacts: {
+                                            method: function() {
+                                                var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                                                    return provider.search(this.props.to);
+                                                });
+                                                return contactSearchService.query(dialPadSearchFunctions);
+                                            }
+                                        },
+                                        getOutboundCallerID: {
+                                            method: function() {
+                                                return accountService.listNumber("VoiceFax", 'SmsSender');
+                                            }
+                                        },
+                                        reachTop: {
+                                            method: function() {
+                                                this.props.hourFrom += 100
+                                                console.log(this.props.hourFrom);
+                                                return rcMessageProvider.getConversation(
+                                                    this.props.convId,
+                                                    this.props.hourFrom)
+                                            }
+                                        }
+                                    }
+                                })
+                                phone.props.conversation.mount('#conversation')
+                            }
+                        },
+                        joinAsHost: {
+                            method: function() {
+                                phone.props.dom.container.style.transform = 'translateX(0px)';
+                                phone.props.dialPad.mount('#dial-pad');
+                                phone.props.dialPad.setNumber(phone.props.conference.props.dialInNumber)
+                            }
+                        }
+                    }
+                });
+                this.props.contacts = w('contacts', {
+                    data : phone.data,
+                    actions: {
+                        fetchContacts: {
+                            method: function() {
+                                var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                                    return provider.searchAll();
+                                });
+                                return contactSearchService.query(dialPadSearchFunctions);
+                            }
+                        },
+                        selectContact: {
+                            method: function() {
+                                var selectedContact = this.props.selectedContact;
+                                var contact = contactDetailWidgetAdapter.getContact(selectedContact.id, selectedContact.type);
+                                phone.props.contactDetail = w('contact-detail', {
+                                    actions: {
+                                        init: {
+                                            method: function() {
+                                                return contact;
+                                            }
+                                        }
+                                    }
+                                });
+                                phone.props.contactDetail.mount('#contact-detail');
+                            }
+                        }
+                    }
+                });
+                this.props.toolbar = w('tool-bar', {
+                    data : phone.data,
+                    actions: {
+                        init: {
+                            after: function() {
+                                console.log(phone.switchWidgets());
+                                this.clickItem(
+                                    this.addItem('<span class="icon-uniA4"></span><span class="icon-RC_shapes_1-40_pressed"></span>'), 
+                                        phone.switchWidgets(
+                                            phone.props.dialPad,
+                                            '#dial-pad', 0
+                                        ).fn
                                     )
-                                },
-                                after: function() {
-                                    authPanel.unmount()
-                                    afterLogin();
-                                }
+                                this.clickItem(
+                                    this.addItem('<span class="icon-uni2487"></span></span><span class="icon-RC_shapes_1_30_pressed"></span>'), 
+                                        phone.switchWidgets(
+                                            phone.props.messageWidget,
+                                            '#messages-panel', 1
+                                        ).fn
+                                    )
+                                this.clickItem(
+                                    this.addItem('<span class="icon-uni7D"></span><span class="icon-contact_info_pressed"></span>'), 
+                                        phone.switchWidgets(
+                                            phone.props.contacts,
+                                            '#contacts', 2
+                                        ).fn
+                                    )
+                                this.clickItem(
+                                    this.addItem('<span class="icon-uniC8"></span><span class="icon-RC_shapes_2-30_pressed"></span>'), 
+                                        phone.switchWidgets(
+                                            phone.props.callLog,
+                                            '#call-log', 3
+                                        ).fn
+                                    )
+                                this.clickItem(
+                                    this.addItem('<span class="icon-uniA3"></span>', 'Conference'), 
+                                        phone.switchWidgets(
+                                            phone.props.conference,
+                                            '#conference', 4
+                                        ).fn
+                                    )
+                                this.clickItem(
+                                    this.addItem('<span class="icon-uni47"></span>', 'Meeting'),
+                                    function() {
+                                        phone.props.dom.container.style.transform = 'translateX(-750px)';
+                                        if (phone.props.conversation) {
+                                            phone.props.conversation.destroy()
+                                            phone.props.conversation = null
+                                        }
+                                    });
+                                // this.addItem('<img src="../src/styles/images/settings_normal.png">');
+                            }
+                        },
+                        mount: {
+                            after: function() {
+                                phone.props.dialPad.mount('#dial-pad');
                             }
                         }
-                    });
-                    function afterLogin() {
-                        loadData();
-                        var conversation;
-                        var contactDetail;
-                        var dialPad = w('dial-pad', {
-                            data : phone.data,
-                            actions: {
-                                mount: {
-                                    after: function() {
-                                        if (!accountService.hasServiceFeature("VoipCalling"))
-                                            this.disable();
-                                    }
-                                },
-                                callout: {
-                                    method: function(fromNo, toNo) {
-                                        return phoneService.callout(fromNo, toNo);
-                                    },
-                                    after: function() {
-                                        callPanel.mount('#call-panel');
-                                    }
-                                },
-                                queryContacts: {
-                                    method: function() {
-                                        var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                                            return provider.search(this.props.to);
-                                        });
-                                        return contactSearchService.query(dialPadSearchFunctions);
-                                    }
-                                },
-                                getOutboundCallerID: {
-                                    method: function() {
-                                        return accountService.listNumber("VoiceFax");
-                                    }
-                                }
+                    }
+                });
+                this.props.authPanel = w('auth-panel', {
+                    data : phone.data,
+                    actions: {
+                        login: {
+                            method: function() {
+                                return loginService.login(
+                                    this.props.username,
+                                    this.props.extension,
+                                    this.props.password
+                                )
+                            },
+                            after: function() {
+                                this.unmount()
+                                phone.loadData();
+                                phone.props.toolbar.mount('#toolbar');
                             }
-                        });
-                        var callPanel = w('call-panel', {
-                            data : phone.data,
-                            actions: {
-                                init: {
-                                    method: function() {
-                                        phoneService.on('callStarted', this.callStarted);
-                                        phoneService.on('callRejected', this.callRejected);
-                                        phoneService.on('callEnded', this.callEnded);
-                                        phoneService.on('callFailed', this.callFailed);
-                                    }
-                                },
-                                answer: {
-                                    method: function() {
-                                        phoneService.answer();
-                                    }
-                                },
-                                hangup: {
-                                    method: function() {
-                                        return phoneService.hangup();
-                                    }
-                                }
-                            }
-                        })
-                        var callPanelIncoming = w('call-panel-incoming', {
-                            data : phone.data,
-                            actions: {
-                                init: {
-                                    method: function() {
-                                        console.debug('init')
-                                        phoneService.on('called', this.called);
-                                    }
-                                },
-                                called: {
-                                    method: function() {
-                                        console.debug('called');
-                                        this.mount('#call-panel-incoming');
-                                    }
-                                }
-                            }
-                        })
-                        var callLog = w('call-log', {
-                            actions: {
-                                init: {
-                                    method: function() {
-                                        return callLogService.getCallLogs();
-                                    }
-                                }
-                            }
-                        });
-                        var messageWidget = w('messages', {
-                            data : phone.data,
-                            actions: {
-                                mount: {
-                                    after: function(){
-                                        rcMessageProvider.onMessageUpdated(this.refreshMessages);
-                                    }
-                                },
-                                refreshMessages: {
-                                    method: function(){
-                                        return rcMessageProvider.getLastMessagesOfAllType();
-                                    }
-                                },
-                                viewMessageInfo: {
-                                    method: function(){
-                                        alert(this.props.selectedMessage.type);
-                                    }
-                                },
-                                enterMessage: {
-                                    before: function() {},
-                                    method: function() {
-                                        // TODO: makes the div temp
-                                        var messages = this
-                                        if (conversation)
-                                            conversation.destroy()
-                                        conversation = w('conversation', {
-                                            data: {
-                                                new: false,
-                                                fromNumber: messages.props.selectedMessage.author,
-                                                toNumber: messages.props.selectedMessage.contact
-                                            },
-                                            actions: {
-                                                init: {
-                                                    after: function() {
-                                                        this.props.hourFrom = cachedMessageHours
-                                                        this.props.convId = messages.props.selectedMessage.convId
-                                                        console.log(this.props.hourFrom);
-                                                    }
-                                                },
-                                                mount: {
-                                                    after: function() {
-                                                        rcMessageService.onMessageUpdated(this.confirmMessages);
-                                                        rcMessageService.onMessageUpdated(this.addIncomingMessages);
-                                                    }
-                                                },
-                                                send: {
-                                                    method: function() {
-                                                        return rcMessageService.sendSMSMessage(
-                                                            this.props.message,
-                                                            this.props.fromNumber,
-                                                            this.props.toNumber
-                                                        );
-                                                    }
-                                                },
-                                                queryContacts: {
-                                                    method: function() {
-                                                        var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                                                            return provider.search(this.props.to);
-                                                        });
-                                                        return contactSearchService.query(dialPadSearchFunctions);
-                                                    }
-                                                },
-                                                getOutboundCallerID: {
-                                                    method: function() {
-                                                        return accountService.listNumber("VoiceFax");
-                                                    }
-                                                },
-                                                reachTop: {
-                                                    method: function() {
-                                                        this.props.hourFrom += 100
-                                                        console.log(this.props.hourFrom);
-                                                        return rcMessageProvider.getConversation(
-                                                            this.props.convId,
-                                                            this.props.hourFrom)
-                                                    }
-                                                }
-                                            }
-                                        });
-                                        conversation.mount('#conversation');
-
-                                        return rcMessageProvider
-                                        .getConversation(
-                                            this.props.selectedMessage.convId,
-                                            this.props.hourFrom)
-                                        .then(conversation.appendMessages)
-                                    }
-                                },
-                                compose: {
-                                    method: function() {
-                                        conversation = w('conversation', {
-                                            data: {
-                                                new: true
-                                            },
-                                            actions: {
-                                                init: {
-                                                    after: function() {
-                                                        this.props.hourFrom = cachedMessageHours
-                                                        console.log(this.props.hourFrom);
-                                                    }
-                                                },
-                                                mount: {
-                                                    after: function() {
-                                                        rcMessageService.onMessageUpdated(this.confirmMessages);
-                                                        rcMessageService.onMessageUpdated(this.addIncomingMessages);
-                                                    }
-                                                },
-                                                send: {
-                                                    before: function() {
-                                                        this.disable()
-                                                    },
-                                                    method: function() {
-                                                        return rcMessageService.sendSMSMessage(
-                                                            this.props.message,
-                                                            this.props.fromNumber,
-                                                            this.props.toNumber)
-                                                    },
-                                                    after: function(response) {
-                                                        this.props.convId = response.id
-                                                        return rcMessageProvider
-                                                                .getConversation(response.id, 24)
-                                                                .then(this.appendMessages)
-                                                    }
-                                                },
-                                                queryContacts: {
-                                                    method: function() {
-                                                        var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                                                            return provider.search(this.props.to);
-                                                        });
-                                                        return contactSearchService.query(dialPadSearchFunctions);
-                                                    }
-                                                },
-                                                getOutboundCallerID: {
-                                                    method: function() {
-                                                        return accountService.listNumber("VoiceFax");
-                                                    }
-                                                },
-                                                reachTop: {
-                                                    method: function() {
-                                                        this.props.hourFrom += 100
-                                                        console.log(this.props.hourFrom);
-                                                        return rcMessageProvider.getConversation(
-                                                            this.props.convId,
-                                                            this.props.hourFrom)
-                                                    }
-                                                }
-                                            }
-                                        })
-                                        conversation.mount('#conversation')
-                                    },
-                                    after: function() {
-
-                                    }
-                                }
-                            }
-                        });
-                        var conference = w('conference',{
-                            data : phone.data,
-                            actions: {
-                                getConferenceInfo: {
-                                    method: function() {
-                                        return rcConferenceSerivce.getConferenceInfo();
-                                    }
-                                },
-                                inviteWithText: {
-                                    method: function() {
-                                        conversation = w('conversation', {
-                                            data: {
-                                                new: true,
-                                                message: conference.props.inviteMessage
-                                            },
-                                            actions: {
-                                                init: {
-                                                    after: function() {
-                                                        this.props.hourFrom = cachedMessageHours
-                                                        console.log(this.props.hourFrom);
-                                                    }
-                                                },
-                                                mount: {
-                                                    after: function() {
-                                                        rcMessageService.onMessageUpdated(this.confirmMessages);
-                                                        rcMessageService.onMessageUpdated(this.addIncomingMessages);
-                                                    }
-                                                },
-                                                send: {
-                                                    before: function() {
-                                                        this.disable()
-                                                    },
-                                                    method: function() {
-                                                        return rcMessageService.sendSMSMessage(
-                                                            this.props.message,
-                                                            this.props.fromNumber,
-                                                            this.props.toNumber)
-                                                    },
-                                                    after: function(response) {
-                                                        this.props.convId = response.id
-                                                        return rcMessageProvider
-                                                                .getConversation(response.id, 24)
-                                                                .then(this.appendMessages)
-                                                    }
-                                                },
-                                                queryContacts: {
-                                                    method: function() {
-                                                        var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                                                            return provider.search(this.props.to);
-                                                        });
-                                                        return contactSearchService.query(dialPadSearchFunctions);
-                                                    }
-                                                },
-                                                getOutboundCallerID: {
-                                                    method: function() {
-                                                        return accountService.listNumber("VoiceFax");
-                                                    }
-                                                },
-                                                reachTop: {
-                                                    method: function() {
-                                                        this.props.hourFrom += 100
-                                                        console.log(this.props.hourFrom);
-                                                        return rcMessageProvider.getConversation(
-                                                            this.props.convId,
-                                                            this.props.hourFrom)
-                                                    }
-                                                }
-                                            }
-                                        })
-                                        conversation.mount('#conversation')
-                                    }
-                                },
-                                joinAsHost: {
-                                    method: function() {
-                                        document.querySelector('.container').style.transform = 'translateX(0px)';
-                                        dialPad.mount('#dial-pad');
-                                        dialPad.setNumber(conference.props.dialInNumber)
-                                    }
-                                }
-                            }
-                        });
-                        var contacts = w('contacts', {
-                            data : phone.data,
-                            actions: {
-                                fetchContacts: {
-                                    method: function() {
-                                        var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                                            return provider.searchAll();
-                                        });
-                                        return contactSearchService.query(dialPadSearchFunctions);
-                                    }
-                                },
-                                selectContact: {
-                                    method: function() {
-                                        var selectedContact = this.props.selectedContact;
-                                        var contact = contactDetailWidgetAdapter.getContact(selectedContact.id, selectedContact.type);
-                                        contactDetail = w('contact-detail', {
-                                            actions: {
-                                                init: {
-                                                    method: function() {
-                                                        return contact;
-                                                    }
-                                                }
-                                            }
-                                        });
-                                        contactDetail.mount('#contact-detail');
-                                    }
-                                }
-                            }
-                        });
-                        
-                        var panels = [dialPad, messageWidget, contacts, callLog, conference]
-                        var container = document.querySelector('.container')
-                        var h;
-                        var toolbar = w('tool-bar', {
-                            data : phone.data,
-                            actions: {
-                                init: {
-                                    after: function() {
-                                        this.clickItem(
-                                            this.addItem('<span class="icon-uniA4"></span><span class="icon-RC_shapes_1-40_pressed"></span>'), 
-                                            function() {
-                                                container.style.transform = 'translateX(0)';
-                                                if (conversation) {
-                                                    conversation.destroy()
-                                                    conversation = null
-                                                }
-                                                if (contactDetail) {
-                                                    contactDetail.destroy();
-                                                    contactDetail = null;
-                                                }
-                                                container.removeEventListener('transitionend', h)
-                                                h = function (e) {
-                                                    panels.filter((p,idx) => idx !== 0).forEach(p => p.unmount())
-                                                    this.removeEventListener('transitionend', h)
-                                                }
-                                                container.addEventListener('transitionend', h)
-                                                dialPad.mount('#dial-pad');
-                                            });
-                                        this.clickItem(
-                                            this.addItem('<span class="icon-uni2487"></span></span><span class="icon-RC_shapes_1_30_pressed"></span>'),
-                                            function() {
-                                                container.style.transform = 'translateX(-250px)';
-                                                if (conversation) {
-                                                    conversation.destroy()
-                                                    conversation = null
-                                                }
-                                                if (contactDetail) {
-                                                    contactDetail.destroy();
-                                                    contactDetail = null;
-                                                }
-                                                container.removeEventListener('transitionend', h)
-                                                h = function (e) {
-                                                    panels.filter((p,idx) => idx !== 1).forEach(p => p.unmount())
-                                                    this.removeEventListener('transitionend', h)
-                                                }
-                                                container.addEventListener('transitionend', h)
-                                                messageWidget.mount('#messages-panel')
-                                            });
-                                        this.clickItem(
-                                            this.addItem('<span class="icon-uni7D"></span><span class="icon-contact_info_pressed"></span>'),
-                                             function() {
-                                                container.style.transform = 'translateX(-500px)';
-                                                if (conversation) {
-                                                    conversation.destroy()
-                                                    conversation = null
-                                                }
-                                                if (contactDetail) {
-                                                    contactDetail.destroy();
-                                                    contactDetail = null;
-                                                }
-                                                container.removeEventListener('transitionend', h)
-                                                h = function (e) {
-                                                    panels.filter((p,idx) => idx !== 2).forEach(p => p.unmount())
-                                                    this.removeEventListener('transitionend', h)
-                                                }
-                                                container.addEventListener('transitionend', h)
-                                                contacts.mount('#contacts');
-                                            });
-                                        this.clickItem(
-                                            this.addItem('<span class="icon-uniC8"></span><span class="icon-RC_shapes_2-30_pressed"></span>'),
-                                            function() {
-                                                container.style.transform = 'translateX(-750px)';
-                                                if (conversation) {
-                                                    conversation.destroy()
-                                                    conversation = null
-                                                }
-                                                if (contactDetail) {
-                                                    contactDetail.destroy();
-                                                    contactDetail = null;
-                                                }
-                                                container.removeEventListener('transitionend', h)
-                                                h = function (e) {
-                                                    panels.filter((p,idx) => idx !== 3).forEach(p => p.unmount())
-                                                    this.removeEventListener('transitionend', h)
-                                                }
-                                                container.addEventListener('transitionend', h)
-                                                callLog.mount('#call-log');
-                                            });
-                                        this.clickItem(
-                                            this.addItem('<span class="icon-uniA3"></span>', 'Conference'),
-                                            function() {
-                                                container.style.transform = 'translateX(-1000px)';
-                                                if (conversation) {
-                                                    conversation.destroy()
-                                                    conversation = null
-                                                }
-                                                if (contactDetail) {
-                                                    contactDetail.destroy();
-                                                    contactDetail = null;
-                                                }
-                                                container.removeEventListener('transitionend', h)
-                                                h = function (e) {
-                                                    panels.filter((p,idx) => idx !== 4).forEach(p => p.unmount())
-                                                    this.removeEventListener('transitionend', h)
-                                                }
-                                                container.addEventListener('transitionend', h)
-                                                conference.mount('#conference');
-                                            });
-                                        this.clickItem(
-                                            this.addItem('<span class="icon-uni47"></span>', 'Meeting'),
-                                            function() {
-                                                container.style.transform = 'translateX(-750px)';
-                                                if (conversation) {
-                                                    conversation.destroy()
-                                                    conversation = null
-                                                }
-                                                if (contactDetail) {
-                                                    contactDetail.destroy();
-                                                    contactDetail = null;
-                                                }
-                                            });
-                                        // this.addItem('<img src="../src/styles/images/settings_normal.png">');
-                                    }
-                                },
-                                mount: {
-                                    after: function() {
-                                        dialPad.mount('#dial-pad');
-                                        // messageWidget.mount('#messages-panel');
-                                        // callLog.mount('#call-log');
-                                        // contacts.mount('#contacts');
-                                        // conference.mount('#conference');
-                                    }
-                                }
-                            }
-                        });
-                        
-                        toolbar.mount('#toolbar');
-                        function logout() {
-                            return loginService.logout().then(res => {
-                                [dialPad, conversation, callLog, toolbar].forEach(panel => panel.remove())
-                                init()
-                            }).catch(err => console.error(err));
+                        }
+                    }
+                });
+                this.props.notification = w('notification', {})
+                this.props.panels = [
+                    this.props.dialPad,
+                    this.props.callPanel,
+                    this.props.callPanelIncoming,
+                    this.props.callLog,
+                    this.props.messageWidget,
+                    this.props.conference,
+                    this.props.contacts,
+                    this.props.toolbar,
+                    this.props.authPanel
+                ]
+            }
+        },
+        switchWidgets: {
+            method: function(finish, source, target, index) {
+                return {
+                    fn: () => {
+                        if (this.props.conversation) {
+                            this.props.conversation.destroy()
+                            this.props.conversation = null
+                        }
+                        if(this.props.contactDetail){
+                            this.props.contactDetail.destroy();
+                            this.props.contactDetail = null;
+                        }
+                        this.props.dom.container.style.transform = `translateX(${0 - index * 250}px)`;
+                        this.props.dom.container.removeEventListener('transitionend', h)
+                        this.props.dom.container.addEventListener('transitionend', h)
+                        source.mount(target);
+                        var h = e => {
+                            this.props.panels.filter((p,idx) => idx !== index).forEach(p => p.unmount())
+                            this.removeEventListener('transitionend', h)
                         }
                     }
                 }
-                init()
+            }
+        },
+        init: {
+            after: function() {
+                this.props.cachedMessageHours = 7 * 24
+            }
+        },
+        mount: {
+            after: function() {
+                this.createWidgets()
+                this.getService().loginService.checkLoginStatus().then(isLoggedIn => {
+                    if (isLoggedIn) {
+                        this.loadData();
+                        this.props.toolbar.mount('#toolbar');
+                    } else {
+                        this.props.authPanel.mount('#auth-panel');
+                    }
+                }).catch(err => console.error(err))
+                // this.props.authPanel.mount('#auth-panel');
             }
         }
     }

@@ -249,6 +249,7 @@ h6 {
     padding: 0 10px;
     &__tab {
         @mixin clickable;
+        @mixin padding-normal;
         display: block;
         float: left;
 
@@ -257,7 +258,6 @@ h6 {
         font-size: 14px;
         text-align: center;
         border: 1px solid;
-        padding-top: 7px;
         &:focus {
             text-decoration: none;
         }
@@ -268,20 +268,20 @@ h6 {
         &:last-child {
             border-top-right-radius:    3px;
             border-bottom-right-radius: 3px;
-            border-right: 1px solid #c1e0ee;
+            border-right: 1px solid $main-color;
         }
         &.--color {
-            background-color:   #ffffff; 
-            border-color:       #c1e0ee;
-            color:              #1785bb;
+            background-color:   $white; 
+            border-color:       $main-color;
+            color:              $main-color;
         }
         &.--active { 
-            background-color:   #1785bb; 
-            border-color:       #1785bb;
-            color:              #ffffff; 
+            background-color:   $main-color; 
+            border-color:       $main-color;
+            color:              $white; 
         }
         &.--active:last-child {
-            border-right-color: #c1e0ee; 
+            border-right-color: $main-color; 
         }
         &.--width2 { width: 50%; }
         &.--width3 { width: 33%; }
@@ -329,16 +329,18 @@ h6 {
 @import "widgets/compose-text.css";
 @import "widgets/conversation.css";
 @import "widgets/contact-picker.css";
+@import "widgets/conference.css";
+@import "widgets/contacts.css";
 @import "widgets/dial-pad.css";
 @import "widgets/dropdown.css";
 @import "widgets/messages.css";
 @import "widgets/message-item.css";
 @import "widgets/message-detail.css";
+@import "widgets/notification.css";
 @import "widgets/tool-bar.css";
 @import "widgets/conference.css";
 @import "widgets/contacts.css";
 @import "widgets/contact-detail.css";
-
 
 
 

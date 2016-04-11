@@ -48,5 +48,11 @@ $conversation-bubble-color: #ecf0f1;
             text-align: center;
             color: $gray;
         }
+        &__loading {
+            @mixin padding-normal;
+            position: absolute;
+            width: 100%;
+            text-align: center;
+        }
     }
 }
