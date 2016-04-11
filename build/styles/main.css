@@ -1537,6 +1537,12 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
     color: #bdc3c7;
 }
+.rc-conversation .conversations__loading {
+    padding: .5em .7em;
+    position: absolute;
+    width: 100%;
+    text-align: center;
+}
 .rc-conversation__container {
     display: flex;
     flex-direction: column;/* Adjust all conversation related font size */
@@ -1893,6 +1899,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-notification {
     padding: .5em .7em;
+    cursor: pointer;
     text-align: center;
     background-color: #e74c3c;
 }

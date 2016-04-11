@@ -218,7 +218,7 @@ var phone = w.register(function() {
                                     actions: {
                                         init: {
                                             after: function() {
-                                                this.props.hourFrom = this.props.cachedMessageHours
+                                                this.props.hourFrom = phone.props.cachedMessageHours
                                                 this.props.convId = messages.props.selectedMessage.convId
                                             }
                                         },

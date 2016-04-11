@@ -1,5 +1,6 @@
 .rc-notification {
     @mixin padding-normal;
+    cursor: pointer;
     text-align: center;
     background-color: $alert-color;
     &__text {

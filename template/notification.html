@@ -1,5 +1,5 @@
 <div>
-    <div class='rc-notification'>
+    <div class='rc-notification' data-event='click:unmount'>
         <span class='rc-notification__icon'></span>
         <span class='rc-notification__text' data-info='msg'>Error occur</span>
     </div>
@@ -26,7 +26,9 @@ w.register(function() {
                 finish()
                 return new Promise(resolve => {
                     setTimeout(() => {
-                        slideDown.out(this.props.root, () => resolve(this.unmount()))
+                        slideDown.out(this.props.root, {
+                            after: () => resolve(this.unmount())
+                        })
                     }, sec)
                 })
             }
