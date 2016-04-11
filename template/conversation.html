@@ -88,7 +88,7 @@ w.register(function() {
                 this.props.dom.input.value = this.data.message || ''
                 fade.init(this.props.root)
                 fade.in(this.props.root, {
-                    after: () => this.props.dom.input.focus()
+                    after: () => this.props['contact-picker'].focus()
                 })
             }
         },
