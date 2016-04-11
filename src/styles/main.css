@@ -333,14 +333,16 @@ h6 {
 @import "widgets/compose-text.css";
 @import "widgets/conversation.css";
 @import "widgets/contact-picker.css";
+@import "widgets/conference.css";
+@import "widgets/contacts.css";
 @import "widgets/dial-pad.css";
 @import "widgets/dropdown.css";
 @import "widgets/messages.css";
 @import "widgets/message-item.css";
 @import "widgets/message-detail.css";
+@import "widgets/notification.css";
 @import "widgets/tool-bar.css";
-@import "widgets/conference.css";
-@import "widgets/contacts.css";
+
 
 
 

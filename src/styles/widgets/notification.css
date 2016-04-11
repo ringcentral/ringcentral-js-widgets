@@ -1,0 +1,9 @@
+.rc-notification {
+    @mixin padding-normal;
+    text-align: center;
+    background-color: $alert-color;
+    &__text {
+        color: $white;
+    }
+    &__icon {}
+}

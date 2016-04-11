@@ -35,6 +35,7 @@
         <div class='panel --extra' id="call-panel"></div>
         <div class='panel --extra' id="call-panel-incoming"></div>
         <div class='panel --extra' id="conversation"></div>
+        <div class='panel --extra' id="notification"></div>
     </div>
     <auth-panel dynamic></auth-panel>
     <tool-bar dynamic></tool-bar>
@@ -47,6 +48,7 @@
     <contacts dynamic></contacts>
     <conference dynamic></conference>
     <conversation dynamic></conversation>
+    <notification dynamic></notification>
 
 </div>
 <script>
@@ -113,6 +115,11 @@ var phone = w.register(function() {
                             },
                             after: function() {
                                 phone.props.callPanel.mount('#call-panel');
+                            },
+                            error: function(e) {
+                                console.error(e);
+                                phone.props.notification.show('#notification', 4000)
+                                phone.props.notification.msg(e.message)
                             }
                         },
                         queryContacts: {
@@ -502,6 +509,7 @@ var phone = w.register(function() {
                         }
                     }
                 });
+                this.props.notification = w('notification', {})
                 this.props.panels = [
                     this.props.dialPad,
                     this.props.callPanel,

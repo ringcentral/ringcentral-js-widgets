@@ -96,7 +96,6 @@
                 </button>
             </div>
         </div>
-        <div class='rc-error-message' data-info='error'></div>
     </div>
     <button 
     class='rc-button --circle call-button' 
@@ -181,7 +180,6 @@ w.register(function() {
             setTimeout(() => this.props.dom.callout.classList.remove('--active'), 1000)
         },
         error: function(err) {
-            this.props.dom.error.textContent = err.message;
             this.props.dom.callout.classList.remove('--active')
         }
     }

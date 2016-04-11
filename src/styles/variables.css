@@ -1,7 +1,14 @@
-$main-color: #3498db;
-$support-color: #e67e22;
-$bg-color: #fff;
+$rc-blue: #3498db;
+$rc-orange: #3498db;
+$white: #fff;
 $gray: #bdc3c7;
+$red: #e74c3c;
+
+$main-color: $rc-blue;
+$support-color: $rc-orange;
+$alert-color: $red;
+$bg-color: $white;
+
 
 /* rc-input.--round, rc-button.--round */
 $border-radius: 3px;

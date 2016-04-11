@@ -1,0 +1,37 @@
+<div>
+    <div class='rc-notification'>
+        <span class='rc-notification__icon'></span>
+        <span class='rc-notification__text' data-info='msg'>Error occur</span>
+    </div>
+</div>
+<script>
+var slideDown = w.transition('slide-down')
+w.register(function() {
+    this.actions = {
+        mount: {
+            method: function() {},
+            after: function() {
+                slideDown.in(this.props.root)
+            }
+        },
+        msg: {
+            method: function(finish, msg) {
+                this.props.dom.msg.textContent = msg
+                return finish()
+            }
+        },
+        show: {
+            method: function(finish, target, sec) {
+                this.mount(target)
+                finish()
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        slideDown.out(this.props.root, () => resolve(this.unmount()))
+                    }, sec)
+                })
+            }
+        }
+    }
+})
+//# sourceURL=notification.html
+</script>
