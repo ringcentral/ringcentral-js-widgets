@@ -12,7 +12,6 @@
 </div>
 <script>
 w.register(function(){
-    
     function createContactWidget(contact) {
         return w('contact-item', {
             actions: {
@@ -41,6 +40,9 @@ w.register(function(){
                 return finish();
             },
             after: function(contacts) {
+                // We already have widgets in view
+                if (this.props.contactItemWidgets.length > 0)
+                    return
                 contacts.forEach(contact => {
                     var con = createContactWidget(contact);
                     con.mount(this.props.dom.contacts); 

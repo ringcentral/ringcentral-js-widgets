@@ -79,6 +79,9 @@ w.register(function() {
                 return finish();
             },
             after: function() {
+                // We already have widgets in view
+                if (this.props.widgetItems.length > 0)
+                    return
                 createWidgetItems(this.props.logItems, this.props);
             }
         },
