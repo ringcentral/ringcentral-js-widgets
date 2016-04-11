@@ -2,17 +2,11 @@
     &__section {
         margin: 0 10px;
         padding-top: 10px;
+        border-bottom: 1px solid;
     }
     &__section-line {
         display: block;
         margin-top: 15px;
-        &:last-of-type{ 
-            border-bottom: 1px solid;
-            padding-bottom:0;
-        }
-        &:last-child {
-            border-bottom: 1px solid;
-        }
         & > .__label {
             display: block;
             font-size: 14px;

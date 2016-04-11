@@ -65,6 +65,8 @@ var phone = w.register(function() {
                 var rcMessageService = w.service()['rcMessageService'];
                 var rcMessageProvider = w.service()['rcMessageProvider'];
                 var rcConferenceSerivce = w.service()['rcConferenceSerivce'];
+                
+                var contactDetailWidgetAdapter = w.service()['contactDetailWidgetAdapter'];
 
                 
                 var dialPadSearchProviders = [rcContactSearchProvider];
@@ -112,6 +114,7 @@ var phone = w.register(function() {
                     function afterLogin() {
                         loadData();
                         var conversation;
+                        var contactDetail;
                         var dialPad = w('dial-pad', {
                             data : phone.data,
                             actions: {
@@ -442,12 +445,13 @@ var phone = w.register(function() {
                                 },
                                 selectContact: {
                                     method: function() {
-                                        var parent = this;
-                                        var contactDetail = w('contact-detail', {
+                                        var selectedContact = this.props.selectedContact;
+                                        var contact = contactDetailWidgetAdapter.getContact(selectedContact.id, selectedContact.type);
+                                        contactDetail = w('contact-detail', {
                                             actions: {
                                                 init: {
                                                     method: function() {
-                                                        return parent.props.selectedContact;
+                                                        return contact;
                                                     }
                                                 }
                                             }
@@ -474,6 +478,10 @@ var phone = w.register(function() {
                                                     conversation.destroy()
                                                     conversation = null
                                                 }
+                                                if (contactDetail) {
+                                                    contactDetail.destroy();
+                                                    contactDetail = null;
+                                                }
                                                 container.removeEventListener('transitionend', h)
                                                 h = function (e) {
                                                     panels.filter((p,idx) => idx !== 0).forEach(p => p.unmount())
@@ -489,6 +497,10 @@ var phone = w.register(function() {
                                                 if (conversation) {
                                                     conversation.destroy()
                                                     conversation = null
+                                                }
+                                                if (contactDetail) {
+                                                    contactDetail.destroy();
+                                                    contactDetail = null;
                                                 }
                                                 container.removeEventListener('transitionend', h)
                                                 h = function (e) {
@@ -506,6 +518,10 @@ var phone = w.register(function() {
                                                     conversation.destroy()
                                                     conversation = null
                                                 }
+                                                if (contactDetail) {
+                                                    contactDetail.destroy();
+                                                    contactDetail = null;
+                                                }
                                                 container.removeEventListener('transitionend', h)
                                                 h = function (e) {
                                                     panels.filter((p,idx) => idx !== 2).forEach(p => p.unmount())
@@ -521,6 +537,10 @@ var phone = w.register(function() {
                                                 if (conversation) {
                                                     conversation.destroy()
                                                     conversation = null
+                                                }
+                                                if (contactDetail) {
+                                                    contactDetail.destroy();
+                                                    contactDetail = null;
                                                 }
                                                 container.removeEventListener('transitionend', h)
                                                 h = function (e) {
@@ -538,6 +558,10 @@ var phone = w.register(function() {
                                                     conversation.destroy()
                                                     conversation = null
                                                 }
+                                                if (contactDetail) {
+                                                    contactDetail.destroy();
+                                                    contactDetail = null;
+                                                }
                                                 container.removeEventListener('transitionend', h)
                                                 h = function (e) {
                                                     panels.filter((p,idx) => idx !== 4).forEach(p => p.unmount())
@@ -553,6 +577,10 @@ var phone = w.register(function() {
                                                 if (conversation) {
                                                     conversation.destroy()
                                                     conversation = null
+                                                }
+                                                if (contactDetail) {
+                                                    contactDetail.destroy();
+                                                    contactDetail = null;
                                                 }
                                             });
                                         // this.addItem('<img src="../src/styles/images/settings_normal.png">');

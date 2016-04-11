@@ -4,47 +4,56 @@
         <div class="__name" data-info='displayName'>
         </div>
     </div>
-    <!--<section ng-if="contact.company || contact.jobTitle">
-        <h2>Contact Info</h2>
-        <div class="line" ng-show="contact.company">
-            <label>Company</label>
-
-            <div class="value">
-                {{ contact.company }}
-            </div>
-        </div>
-        <div class="line" ng-show="contact.jobTitle">
-            <label>Title</label>
-
-            <div class="value">
-                {{ contact.jobTitle }}
-            </div>
-        </div>
-    </section>-->
     <div class="rc-panel__content">
-        <section class="rc-contact-detail__section">
-            <div class="rc-contact-detail__section-line">
+        <section class="rc-contact-detail__section" data-info='emails'>
+            <!--<div class="rc-contact-detail__section-line">
                 <label class="__label">Email</label>
                 <div class="__value">
                     colin.liu@ringcentral.com
                 </div>
-            </div>
+            </div>-->
         </section>
-        <section class="rc-contact-detail__section">
-            <div class="rc-contact-detail__section-line">
-                <label class="__label">Extension</label>
-                <div class="__value">6076</div>
-            </div>
-            <div class="rc-contact-detail__section-line">
-                <label class="__label">Direct Number</label>
-                <div class="__value">16508370092</div>
-            </div>
+        <section class="rc-contact-detail__section" data-info='phoneNumbers'>
         </section>
     </div>    
 </div>
 <script>
 w.register(function(){
     var fade = w.transition('fade')
+    
+    function createEmailElements(parent, contact){
+        contact.emails.forEach(email => {
+            var htmlString = `<div class='rc-contact-detail__section-line'>
+                                <label class="__label">Email</label>
+                                <div class="__value">
+                                    ${email}
+                                </div>
+                            </div>`;
+            var div = document.createElement('div');
+            div.innerHTML = htmlString;
+            parent.appendChild(div);
+        });
+    }
+    
+    function createPhoneNumberElements(parent, contact) {
+        var htmlString = `<div class="rc-contact-detail__section-line">
+                            <label class="__label">Extension</label>
+                            <div class="__value">${contact.extension}</div>
+                        </div>`;
+        var div = document.createElement('div');
+        div.innerHTML = htmlString;
+        parent.appendChild(div);         
+        contact.phoneNumbers.forEach(number => {
+            htmlString = `<div class="rc-contact-detail__section-line">
+                            <label class="__label">Direct Number</label>
+                            <div class="__value">${number}</div>
+                        </div>`;
+            div = document.createElement('div');
+            div.innerHTML = htmlString;
+            parent.appendChild(div);   
+        });         
+    }
+    
     this.actions = {
         init: {
             method: function(finish) {
@@ -52,7 +61,9 @@ w.register(function(){
             },
             after: function(contact) {
                 if(contact) {
-                    this.props.dom.displayName.textContent = contact.name;
+                    this.props.dom.displayName.textContent = contact.displayName;
+                    createEmailElements(this.props.dom.emails, contact);
+                    createPhoneNumberElements(this.props.dom.phoneNumbers, contact);
                 }
                 fade.init(this.props.root);
                 fade.in(this.props.root);

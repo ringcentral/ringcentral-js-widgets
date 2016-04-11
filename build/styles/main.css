@@ -1910,17 +1910,11 @@ h1, h2, h3, h4, h5, h6 {
 .rc-contact-detail__section {
     margin: 0 10px;
     padding-top: 10px;
+    border-bottom: 1px solid;
 }
 .rc-contact-detail__section-line {
     display: block;
     margin-top: 15px;
-}
-.rc-contact-detail__section-line:last-of-type {
-    border-bottom: 1px solid;
-    padding-bottom: 0;
-}
-.rc-contact-detail__section-line:last-child {
-    border-bottom: 1px solid;
 }
 .rc-contact-detail__section-line > .__label {
     display: block;
