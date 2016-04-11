@@ -14,12 +14,17 @@
 </div>
 <script>
 w.register(function(){
-    function createContactWidget(contact) {
+    function createContactWidget(parent, contact) {
         return w('contact-item', {
             actions: {
                 init: {
                     method: function() {
                         return contact;
+                    }
+                },
+                select: {
+                    method: function() {
+                        parent.selectContact(this.props.contact);
                     }
                 }
             }
@@ -31,6 +36,7 @@ w.register(function(){
     this.actions= {
         init: {
             before: function() {
+                this.props.selectedContact = null;
                 this.props.contactItemWidgets = []
                 this.props.currentIndex = 0
             }
@@ -49,8 +55,7 @@ w.register(function(){
                 if (this.props.contactItemWidgets.length > 0)
                     return
                 contacts.forEach(contact => {
-                    var con = createContactWidget(contact);
-                    // con.mount(this.props.dom.contacts); 
+                    var con = createContactWidget(this, contact);
                     this.props.contactItemWidgets.push(con);
                 });
                 this.displayContacts(this.props.currentIndex)
@@ -86,6 +91,12 @@ w.register(function(){
                 });
             }
         },
+        selectContact: {
+            method: function(finish, contact) {
+                this.props.selectedContact = contact;
+                return finish();
+            }
+        },
         scroll: {
             method: function(finish, event) {
                 if (event.target.scrollHeight - event.target.scrollTop < event.target.offsetHeight + 10)
@@ -107,4 +118,5 @@ w.register(function(){
         },
     }
 });
+//# sourceURL=contacts.html
 </script>

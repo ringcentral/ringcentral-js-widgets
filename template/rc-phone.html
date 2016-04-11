@@ -35,6 +35,7 @@
         <div class='panel --extra' id="call-panel"></div>
         <div class='panel --extra' id="call-panel-incoming"></div>
         <div class='panel --extra' id="conversation"></div>
+        <div class='panel --extra' id="contact-detail"></div>
         <div class='panel --extra' id="notification"></div>
     </div>
     <auth-panel dynamic></auth-panel>
@@ -48,8 +49,8 @@
     <contacts dynamic></contacts>
     <conference dynamic></conference>
     <conversation dynamic></conversation>
+    <contact-detail dynamic></contact-detail>
     <notification dynamic></notification>
-
 </div>
 <script>
 var phone = w.register(function() {
@@ -67,6 +68,7 @@ var phone = w.register(function() {
                     rcMessageService: w.service()['rcMessageService'],
                     rcMessageProvider: w.service()['rcMessageProvider'],
                     rcConferenceSerivce: w.service()['rcConferenceSerivce'],
+                    contactDetailWidgetAdapter: w.service()['contactDetailWidgetAdapter'],
                     dialPadSearchProviders: [rcContactSearchProvider]
                 }
             }
@@ -96,10 +98,12 @@ var phone = w.register(function() {
                     rcMessageService,
                     rcMessageProvider,
                     rcConferenceSerivce,
+                    contactDetailWidgetAdapter,
                     dialPadSearchProviders
                 } = this.getService()
                 var phone = this
                 this.props.conversation = undefined;
+                this.props.contactDetail = undefined;
                 this.props.dialPad = w('dial-pad', {
                     data : phone.data,
                     actions: {
@@ -427,6 +431,22 @@ var phone = w.register(function() {
                                 });
                                 return contactSearchService.query(dialPadSearchFunctions);
                             }
+                        },
+                        selectContact: {
+                            method: function() {
+                                var selectedContact = this.props.selectedContact;
+                                var contact = contactDetailWidgetAdapter.getContact(selectedContact.id, selectedContact.type);
+                                phone.props.contactDetail = w('contact-detail', {
+                                    actions: {
+                                        init: {
+                                            method: function() {
+                                                return contact;
+                                            }
+                                        }
+                                    }
+                                });
+                                phone.props.contactDetail.mount('#contact-detail');
+                            }
                         }
                     }
                 });
@@ -530,6 +550,10 @@ var phone = w.register(function() {
                         if (this.props.conversation) {
                             this.props.conversation.destroy()
                             this.props.conversation = null
+                        }
+                        if(this.props.contactDetail){
+                            this.props.contactDetail.destroy();
+                            this.props.contactDetail = null;
                         }
                         this.props.dom.container.style.transform = `translateX(${0 - index * 250}px)`;
                         this.props.dom.container.removeEventListener('transitionend', h)
