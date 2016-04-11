@@ -75,11 +75,13 @@ w.register(function(){
         search: {
             method: function() {
                 var searchText = this.props.dom.searchText.value;
-                this.props.contactItemWidgets.forEach(conWidget => {
-                    if(conWidget.props.contact.name.toLowerCase().indexOf(searchText.toLowerCase()) >= 0) {
-                        conWidget.show();
-                    }else {
-                        conWidget.hide();
+                this.props.contactItemWidgets.forEach(contactWidget => {
+                    if(contactWidget.props.contact.name
+                        .toLowerCase()
+                        .indexOf(searchText.toLowerCase()) > -1) {
+                        contactWidget.mount(this.props.dom.contacts);
+                    } else {
+                        contactWidget.unmount();
                     }
                 });
             }
