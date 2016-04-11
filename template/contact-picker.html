@@ -2,7 +2,7 @@
     <input  class='rc-input --clean' 
             data-info='input' 
             data-event='input:autoComplete'
-            placeholder='To:'>
+            placeholder=''>
     </input>
     <div class='rc-contact-picker__contacts rc-list' data-info='contacts'>
         <contact-picker-item dynamic></contact-picker-item>
@@ -25,6 +25,15 @@ w.register(function() {
             },
             after: function() {
                 enlarge.init(this.props.dom.contacts)
+                document.addEventListener('click', e => {
+                    var currentNode = e.target
+                    while(currentNode.parentNode) {
+                        currentNode = currentNode.parentNode
+                        if (currentNode.isEqualNode(this.props.root))
+                            return
+                    }
+                    this.hide()
+                })
                 if (this.data.contact)
                     this.props.dom.input.value = this.data.contact
             }
@@ -74,6 +83,11 @@ w.register(function() {
         disable: {
             method: function() {
                 this.props.dom.input.readOnly = true
+            }
+        },
+        focus: {
+            method: function() {
+                this.props.dom.input.focus();
             }
         },
         autoComplete: {

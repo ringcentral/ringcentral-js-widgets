@@ -31,22 +31,48 @@ $conversation-bubble-color: #ecf0f1;
         /*overflow-y: scroll;*/
         &__bubble {
             @mixin padding-normal;
-            /* Make the conversations overflow and show scrollbar */
+            position: relative;
             word-break: break-word;
             border: 1px solid $gray;
             border-radius: 10px;
             margin-bottom: 5px;
             &.--opponent {
                 float: left;
+                &:after {
+                    left: 0;
+                }
             }
             &.--self {
                 float: right;
                 background-color: $conversation-bubble-color;
+                &:after {
+                    right: 0;
+                }
+            }
+            &:hover {
+                &:after {
+                    position: absolute;
+                    content: attr(data-tooltip);
+                    right: 0;
+                    top: -20px;
+                    background: #000;
+                    color: #fff;
+                    border-radius: 5px;
+                    padding: 5px;
+                    text-align: center;
+                    width: 55px;
+                }
             }
         }
         &__timestamp {
             text-align: center;
             color: $gray;
+        }
+        &__loading {
+            @mixin padding-normal;
+            position: absolute;
+            width: 100%;
+            text-align: center;
         }
     }
 }

@@ -35,6 +35,8 @@
         <div class='panel --extra' id="call-panel"></div>
         <div class='panel --extra' id="call-panel-incoming"></div>
         <div class='panel --extra' id="conversation"></div>
+        <div class='panel --extra' id="contact-detail"></div>
+        <div class='panel --extra' id="notification"></div>
     </div>
     <auth-panel dynamic></auth-panel>
     <tool-bar dynamic></tool-bar>
@@ -47,7 +49,8 @@
     <contacts dynamic></contacts>
     <conference dynamic></conference>
     <conversation dynamic></conversation>
-
+    <contact-detail dynamic></contact-detail>
+    <notification dynamic></notification>
 </div>
 <script>
 var phone = w.register(function() {
@@ -65,6 +68,7 @@ var phone = w.register(function() {
                     rcMessageService: w.service()['rcMessageService'],
                     rcMessageProvider: w.service()['rcMessageProvider'],
                     rcConferenceSerivce: w.service()['rcConferenceSerivce'],
+                    contactDetailWidgetAdapter: w.service()['contactDetailWidgetAdapter'],
                     dialPadSearchProviders: [rcContactSearchProvider]
                 }
             }
@@ -94,10 +98,12 @@ var phone = w.register(function() {
                     rcMessageService,
                     rcMessageProvider,
                     rcConferenceSerivce,
+                    contactDetailWidgetAdapter,
                     dialPadSearchProviders
                 } = this.getService()
                 var phone = this
                 this.props.conversation = undefined;
+                this.props.contactDetail = undefined;
                 this.props.dialPad = w('dial-pad', {
                     data : phone.data,
                     actions: {
@@ -113,6 +119,11 @@ var phone = w.register(function() {
                             },
                             after: function() {
                                 phone.props.callPanel.mount('#call-panel');
+                            },
+                            error: function(e) {
+                                console.error(e);
+                                phone.props.notification.show('#notification', 4000)
+                                phone.props.notification.msg(e.message)
                             }
                         },
                         queryContacts: {
@@ -125,7 +136,7 @@ var phone = w.register(function() {
                         },
                         getOutboundCallerID: {
                             method: function() {
-                                return accountService.listNumber("VoiceFax");
+                                return accountService.listNumber("VoiceFax", 'CallerId');
                             }
                         }
                     }
@@ -211,7 +222,7 @@ var phone = w.register(function() {
                                     actions: {
                                         init: {
                                             after: function() {
-                                                this.props.hourFrom = this.props.cachedMessageHours
+                                                this.props.hourFrom = phone.props.cachedMessageHours
                                                 this.props.convId = messages.props.selectedMessage.convId
                                             }
                                         },
@@ -240,7 +251,7 @@ var phone = w.register(function() {
                                         },
                                         getOutboundCallerID: {
                                             method: function() {
-                                                return accountService.listNumber("VoiceFax");
+                                                return accountService.listNumber("VoiceFax", 'SmsSender');
                                             }
                                         },
                                         reachTop: {
@@ -308,7 +319,7 @@ var phone = w.register(function() {
                                         },
                                         getOutboundCallerID: {
                                             method: function() {
-                                                return accountService.listNumber("VoiceFax");
+                                                return accountService.listNumber("VoiceFax", 'SmsSender');
                                             }
                                         },
                                         reachTop: {
@@ -384,7 +395,7 @@ var phone = w.register(function() {
                                         },
                                         getOutboundCallerID: {
                                             method: function() {
-                                                return accountService.listNumber("VoiceFax");
+                                                return accountService.listNumber("VoiceFax", 'SmsSender');
                                             }
                                         },
                                         reachTop: {
@@ -419,6 +430,22 @@ var phone = w.register(function() {
                                     return provider.searchAll();
                                 });
                                 return contactSearchService.query(dialPadSearchFunctions);
+                            }
+                        },
+                        selectContact: {
+                            method: function() {
+                                var selectedContact = this.props.selectedContact;
+                                var contact = contactDetailWidgetAdapter.getContact(selectedContact.id, selectedContact.type);
+                                phone.props.contactDetail = w('contact-detail', {
+                                    actions: {
+                                        init: {
+                                            method: function() {
+                                                return contact;
+                                            }
+                                        }
+                                    }
+                                });
+                                phone.props.contactDetail.mount('#contact-detail');
                             }
                         }
                     }
@@ -502,6 +529,7 @@ var phone = w.register(function() {
                         }
                     }
                 });
+                this.props.notification = w('notification', {})
                 this.props.panels = [
                     this.props.dialPad,
                     this.props.callPanel,
@@ -519,10 +547,13 @@ var phone = w.register(function() {
             method: function(finish, source, target, index) {
                 return {
                     fn: () => {
-                        console.log(this.props.conversation);
                         if (this.props.conversation) {
                             this.props.conversation.destroy()
                             this.props.conversation = null
+                        }
+                        if(this.props.contactDetail){
+                            this.props.contactDetail.destroy();
+                            this.props.contactDetail = null;
                         }
                         this.props.dom.container.style.transform = `translateX(${0 - index * 250}px)`;
                         this.props.dom.container.removeEventListener('transitionend', h)

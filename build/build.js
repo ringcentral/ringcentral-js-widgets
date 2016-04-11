@@ -162,6 +162,9 @@ var rcContactService = function (sdk) {
         this.lastName = null;
         this.displayName = null;
         this.extension = null;
+        this.email = null;
+        this.type = null;
+        this.id = null;
         this.phoneNumber = [];
     }
 
@@ -171,6 +174,7 @@ var rcContactService = function (sdk) {
         contact.firstName = extension.contact.firstName;
         contact.lastName = extension.contact.lastName;
         contact.displayName = contact.firstName + ' ' + contact.lastName;
+        contact.email = extension.contact.email;
         contact.type = 'rc';
         contact.id = extension.id;
         return contact;
@@ -285,7 +289,8 @@ var contactSearchService = function () {
         return {
             name: item.name,
             value: item.value,
-            type: item.type
+            type: item.type,
+            id: item.id
         };
     }
     return {
@@ -390,11 +395,19 @@ var accountService = function (sdk) {
     var numbers;
     var fetchNumbers = null;
 
-    function getNumbersByType(type) {
+    function getNumbersByType(numbers, type) {
         return numbers.filter(function (number) {
             return number.type === type;
-        }).map(function (number) {
-            return number.phoneNumber;
+        });
+    }
+
+    function getNumbersByFeatures(numbers, features) {
+        if (!Array.isArray(features)) features = [features];
+        // if has duplicate features
+        return numbers.filter(function (number) {
+            return features.filter(function (f) {
+                return number.features.indexOf(f) > -1;
+            }).length > 0;
         });
     }
 
@@ -428,12 +441,18 @@ var accountService = function (sdk) {
         },
 
         listNumber: function listNumber(type) {
+            var features = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+
             if (fetchNumbers) {
                 return fetchNumbers.then(function () {
-                    return getNumbersByType(type);
+                    return getNumbersByFeatures(getNumbersByType(numbers, type), features).map(function (number) {
+                        return number.phoneNumber;
+                    });
                 });
             } else {
-                return getNumbersByType(type);
+                return getNumbersByFeatures(getNumbersByType(numbers, type), features).map(function (number) {
+                    return number.phoneNumber;
+                });
             }
         }
     };
@@ -748,6 +767,53 @@ var rcConferenceSerivce = function () {
 }();
 
 register('rcConferenceSerivce', rcConferenceSerivce);
+
+function ContactDetailObject() {
+    this.id = null;
+    this.displayName = null;
+    this.extension = null;
+    this.type = null;
+    this.emails = [];
+    this.phoneNumbers = [];
+}
+
+function getRCContactForContactDetailWidget(contactId) {
+    for (var i = 0; i < rcContactService.companyContacts.length; i++) {
+        var contact = rcContactService.companyContacts[i];
+        if (contact.id === contactId) {
+            var result = new ContactDetailObject();
+            result.displayName = contact.displayName;
+            result.extension = contact.extension;
+            result.id = contact.id;
+            result.type = 'rc';
+            contact.phoneNumber.forEach(function (number) {
+                result.phoneNumbers.push(number);
+            });
+            result.emails.push(contact.email);
+            return result;
+        }
+    }
+}
+
+var contactDetailWidgetAdapter = function () {
+    var contactProviders = {};
+
+    contactProviders['rc'] = getRCContactForContactDetailWidget;
+
+    return {
+        getContact: function getContact(contactId, contactType) {
+            var provider = contactProviders[contactType];
+            if (provider) {
+                return Promise.resolve(provider(contactId)).then(function (result) {
+                    return result;
+                });
+            } else {
+                throw Error("No provider is associated with specified contactType '" + contactType + "'");
+            }
+        }
+    };
+}();
+register('contactDetailWidgetAdapter', contactDetailWidgetAdapter);
 
 var actions = {};
 function register$1(name, action) {

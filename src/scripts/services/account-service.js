@@ -5,10 +5,17 @@ var accountService = (function(sdk) {
     var numbers
     var fetchNumbers = null
 
-    function getNumbersByType(type) {
+    function getNumbersByType(numbers, type) {
         return numbers
             .filter(number => number.type === type)
-            .map(number => number.phoneNumber)
+    }
+
+    function getNumbersByFeatures(numbers, features) {
+        if (!Array.isArray(features))
+            features = [features]
+        // if has duplicate features
+        return numbers
+            .filter(number => features.filter(f => number.features.indexOf(f) > -1).length > 0)
     }
 
     return {
@@ -43,13 +50,15 @@ var accountService = (function(sdk) {
                 .length > 0
         },
 
-        listNumber: function(type) {
+        listNumber: function(type, features = []) {
             if (fetchNumbers) {
                 return fetchNumbers.then(() => {
-                    return getNumbersByType(type)
+                    return getNumbersByFeatures(getNumbersByType(numbers, type), features)
+                        .map(number => number.phoneNumber)
                 })
             }else {
-                return getNumbersByType(type)
+                return getNumbersByFeatures(getNumbersByType(numbers, type), features)
+                    .map(number => number.phoneNumber)
             }
         },
     }

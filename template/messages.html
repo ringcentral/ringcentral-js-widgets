@@ -1,34 +1,7 @@
 <div class="rc-panel rc-messages">
-    <div class='rc-panel__header'>
-        <div class="rc-tabs">
-            <a 
-            class="rc-tabs__tab --active --color --width4"
-             data-info='allTab' 
-             data-value='all' 
-             data-event='click:enableTab'>
-                All
-            </a>
-            <a 
-            class="rc-tabs__tab --color --width4" 
-            data-info='voiceMailTab' 
-            data-value='voicemail' 
-            data-event='click:enableTab'>
-                VoiceMail
-            </a>
-            <a 
-            class="rc-tabs__tab --color --width4" 
-            data-info='faxTab' 
-            data-value='fax' 
-            data-event='click:enableTab'>
-                Fax
-            </a>
-            <a 
-            class="rc-tabs__tab --color --width4" 
-            data-info='textTab' 
-            data-value='text' 
-            data-event='click:enableTab'>
-                Text
-            </a>
+    <div class='rc-panel__header --flat'>
+        <div class="rc-contacts__searchBox">
+            <input class="__input" type="text" data-info="searchText" data-event="input:search">
         </div>
     </div>
     <div class="rc-panel__content">
@@ -45,7 +18,7 @@
     </div>
 </div>
 <script>
-w.register(function(){
+w.register(function() {
     
     var currentEnabledTab = null;
     
@@ -114,12 +87,12 @@ w.register(function(){
                 this.props.widgetItems = [];  
             },
             after: function() {
-                currentEnabledTab = this.props.dom.allTab;
+                // currentEnabledTab = this.props.dom.allTab;
                 var t = w.t(this.data.lang);
-                this.props.dom.allTab.textContent = t('messages-tab-all');
-                this.props.dom.voiceMailTab.textContent = t('messages-tab-voicemail');
-                this.props.dom.faxTab.textContent = t('messages-tab-fax');
-                this.props.dom.textTab.textContent = t('messages-tab-text');
+                // this.props.dom.allTab.textContent = t('messages-tab-all');
+                // this.props.dom.voiceMailTab.textContent = t('messages-tab-voicemail');
+                // this.props.dom.faxTab.textContent = t('messages-tab-fax');
+                // this.props.dom.textTab.textContent = t('messages-tab-text');
             }
         },
         mount: {

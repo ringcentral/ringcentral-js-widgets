@@ -19,6 +19,15 @@ w.register(function() {
         mount: {
             after: function() {
                 enlarge.init(this.props.dom['list'])
+                document.addEventListener('click', e => {
+                    var currentNode = e.target
+                    while(currentNode.parentNode) {
+                        currentNode = currentNode.parentNode
+                        if (currentNode.isEqualNode(this.props.root))
+                            return
+                    }
+                    this.hide()
+                })
             }
         },
         collapse: {
