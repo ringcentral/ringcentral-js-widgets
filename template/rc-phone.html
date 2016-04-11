@@ -132,7 +132,7 @@ var phone = w.register(function() {
                         },
                         getOutboundCallerID: {
                             method: function() {
-                                return accountService.listNumber("VoiceFax");
+                                return accountService.listNumber("VoiceFax", 'CallerId');
                             }
                         }
                     }
@@ -247,7 +247,7 @@ var phone = w.register(function() {
                                         },
                                         getOutboundCallerID: {
                                             method: function() {
-                                                return accountService.listNumber("VoiceFax");
+                                                return accountService.listNumber("VoiceFax", 'SmsSender');
                                             }
                                         },
                                         reachTop: {
@@ -315,7 +315,7 @@ var phone = w.register(function() {
                                         },
                                         getOutboundCallerID: {
                                             method: function() {
-                                                return accountService.listNumber("VoiceFax");
+                                                return accountService.listNumber("VoiceFax", 'SmsSender');
                                             }
                                         },
                                         reachTop: {
@@ -391,7 +391,7 @@ var phone = w.register(function() {
                                         },
                                         getOutboundCallerID: {
                                             method: function() {
-                                                return accountService.listNumber("VoiceFax");
+                                                return accountService.listNumber("VoiceFax", 'SmsSender');
                                             }
                                         },
                                         reachTop: {
