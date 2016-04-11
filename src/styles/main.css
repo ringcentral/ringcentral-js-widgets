@@ -289,10 +289,6 @@ h6 {
     }
 }
 .rc-avatar {
-    margin-bottom:  15px;
-    margin-top:     15px;
-    margin-left:    auto;
-    margin-right:   auto;
     background-position:center center;
     background-repeat:no-repeat;
     border-radius:65px;
@@ -342,8 +338,9 @@ h6 {
 @import "widgets/message-detail.css";
 @import "widgets/notification.css";
 @import "widgets/tool-bar.css";
-
-
+@import "widgets/conference.css";
+@import "widgets/contacts.css";
+@import "widgets/contact-detail.css";
 
 
 

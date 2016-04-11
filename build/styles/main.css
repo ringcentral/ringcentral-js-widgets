@@ -1306,10 +1306,6 @@ h1, h2, h3, h4, h5, h6 {
     width: 25%;
 }
 .rc-avatar {
-    margin-bottom:  15px;
-    margin-top:     15px;
-    margin-left:    auto;
-    margin-right:   auto;
     background-position:center center;
     background-repeat:no-repeat;
     border-radius:65px
@@ -1952,8 +1948,138 @@ h1, h2, h3, h4, h5, h6 {
 .rc-toolbar__more-item:hover {
     color: #333;
 }
-
-
+.rc-conference {
+    position: relative;
+}
+.rc-conference__content {
+    padding: 0.5em;
+}
+.rc-conference__line {
+    margin: 0 0 6px 0;
+    display: block;
+    padding: 0 0 6px 0;
+    border-bottom: 1px solid #b3b3b3;
+}
+.rc-conference__line > .__label {
+    width: 45%;
+    font-size: 13px;
+    vertical-align: middle;
+}
+.rc-conference__line > .__label.--color {
+    color: #0684bd;
+}
+.rc-conference__line > .__value {
+    font-size: 13px;
+    line-height: 18px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    width: 100%;
+}
+.rc-conference__line > .__value.--right {
+    width: 53%;
+}
+.rc-conference__buttons {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 0.5em 0 0.5em;
+}
+.rc-conference__buttons > .__button {
+    width: 100%;
+    margin: 0 0.2em 0.5em 0.2em;
+    text-align: center;
+}
+.rc-conference.--color {
+    color: #2f2f2f;
+}
+.rc-contacts {}
+.rc-contacts__searchBox {
+    padding: 8px 10px;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    background-color: #f8f8f8;
+    border-bottom-color: #e5e5e5;
+    border-top-color: #e5e5e5;
+}
+.rc-contacts__searchBox .__input {
+    border: 1px solid;
+    width: 100%;
+    border-radius: 5px;
+    padding: 3px 3px 3px 26px;
+    background-repeat: no-repeat;
+    background-position: 3px 2px;
+    font-size: 14px;
+    line-height: 18px;
+    box-sizing: border-box;
+    border-color: #e5e5e5;
+    background-image: url(images/search.png);
+}
+.rc-contacts__list {
+    height: 100%;
+    overflow: auto;
+}
+.rc-contact-item {
+    padding: 10px 3px;
+    clear: both;
+    border-bottom: 1px solid;
+    cursor: default;
+    border-bottom-color: #efeff4;
+}
+.rc-contact-item__body {
+    line-height: 14px;
+    margin-left: 38px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 5px 0 0;
+    height: 100%;
+    font-size: 14px;
+    display: block;
+}
+.rc-contact-item__body > .__contact {
+    font-size: 14px;
+    line-height: 18px;
+    color: #2f2f2f;
+}
+.rc-contact-detail {}
+.rc-contact-detail__section {
+    margin: 0 10px;
+    padding-top: 10px;
+    border-bottom: 1px solid;
+}
+.rc-contact-detail__section-line {
+    display: block;
+    margin-top: 15px;
+}
+.rc-contact-detail__section-line > .__label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #1785bb;
+    line-height: 18px;
+}
+.rc-contact-detail__section-line > .__value {
+    font-size: 13px;
+    line-height: 18px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.rc-contact-detail__info {}
+.rc-contact-detail__info > .__name {
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 10px;
+    margin-left: 25px;
+    float: left;
+}
+.rc-contact-detail__info > .__avatar {
+    float: left;
+    margin-top: 3px;
+    background-image: url(images/incognito.png);
+}
 
 
 

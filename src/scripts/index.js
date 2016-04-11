@@ -11,6 +11,9 @@ import rcMessageProvider from './services/rc-message-provider'
 import rcSubscription from './services/rc-subscription-service'
 import rcConferenceSerivce from './services/rc-conference-service'
 
+//adapters
+import contactDetailWidgetAdapter from './adapters/contact-detail-adapter'
+
 // actions
 import interaction from './actions/interaction'
 import w from './w'
