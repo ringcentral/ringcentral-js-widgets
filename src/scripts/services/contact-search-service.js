@@ -8,6 +8,7 @@ var contactSearchService = (function() {
             name: item.name,
             value: item.value,
             type: item.type,
+            id: item.id
         }
     }
     return {

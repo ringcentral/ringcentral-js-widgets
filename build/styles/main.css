@@ -1306,10 +1306,6 @@ h1, h2, h3, h4, h5, h6 {
     width: 25%;
 }
 .rc-avatar {
-    margin-bottom:  15px;
-    margin-top:     15px;
-    margin-left:    auto;
-    margin-right:   auto;
     background-position:center center;
     background-repeat:no-repeat;
     border-radius:65px
@@ -1909,6 +1905,49 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 14px;
     line-height: 18px;
     color: #2f2f2f;
+}
+.rc-contact-detail {}
+.rc-contact-detail__section {
+    margin: 0 10px;
+    padding-top: 10px;
+}
+.rc-contact-detail__section-line {
+    display: block;
+    margin-top: 15px;
+}
+.rc-contact-detail__section-line:last-of-type {
+    border-bottom: 1px solid;
+    padding-bottom: 0;
+}
+.rc-contact-detail__section-line:last-child {
+    border-bottom: 1px solid;
+}
+.rc-contact-detail__section-line > .__label {
+    display: block;
+    font-size: 14px;
+    font-weight: bold;
+    color: #1785bb;
+    line-height: 18px;
+}
+.rc-contact-detail__section-line > .__value {
+    font-size: 13px;
+    line-height: 18px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.rc-contact-detail__info {}
+.rc-contact-detail__info > .__name {
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 10px;
+    margin-left: 25px;
+    float: left;
+}
+.rc-contact-detail__info > .__avatar {
+    float: left;
+    margin-top: 3px;
+    background-image: url(images/incognito.png);
 }
 
 

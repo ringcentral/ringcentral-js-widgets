@@ -285,7 +285,8 @@ var contactSearchService = function () {
         return {
             name: item.name,
             value: item.value,
-            type: item.type
+            type: item.type,
+            id: item.id
         };
     }
     return {
