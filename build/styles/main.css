@@ -1520,7 +1520,8 @@ h1, h2, h3, h4, h5, h6 {
     padding: .7em .9em;/*height: 100%;*//*overflow-y: scroll;*/
 }
 .rc-conversation .conversations__bubble {
-    padding: .5em .7em;/* Make the conversations overflow and show scrollbar */
+    padding: .5em .7em;
+    position: relative;
     word-break: break-word;
     border: 1px solid #bdc3c7;
     border-radius: 10px;
@@ -1529,9 +1530,28 @@ h1, h2, h3, h4, h5, h6 {
 .rc-conversation .conversations__bubble.--opponent {
     float: left;
 }
+.rc-conversation .conversations__bubble.--opponent:after {
+    left: 0;
+}
 .rc-conversation .conversations__bubble.--self {
     float: right;
     background-color: #ecf0f1;
+}
+.rc-conversation .conversations__bubble.--self:after {
+    right: 0;
+}
+.rc-conversation .conversations__bubble:hover {}
+.rc-conversation .conversations__bubble:hover:after {
+    position: absolute;
+    content: attr(data-tooltip);
+    right: 0;
+    top: -20px;
+    background: #000;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+    width: 55px;
 }
 .rc-conversation .conversations__timestamp {
     text-align: center;

@@ -92,15 +92,6 @@ w.register(function() {
                 })
             }
         },
-        fetchConversations: {
-            method: function(finish) {
-                return finish()
-            },
-            after: function(convs) {
-                convs.forEach(text => this.addBubble(text))
-                this.scrollToBottom()
-            }
-        },
         enter: {
             method: function(finish, e) {
                 if (e.keyCode === 13) {
@@ -114,7 +105,11 @@ w.register(function() {
                 // send messages on UI
                 this.props.message = this.props.dom.input.value
                 this.props.dom.input.value = ''
-                var bubble = this.addBubble(this.props.message)
+                var date = new Date()
+                var bubble = this.addBubble(
+                    this.props.message,
+                    'Outgoing',
+                    `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`)
                 this.scrollToBottom()
                 return bubble
             },
@@ -132,10 +127,12 @@ w.register(function() {
             after: function(response) {}
         },
         addBubble: {
-            after: function(text, direction, prepend) {
+            after: function(text, direction, time, prepend) {
                 var opponent = (direction === 'Inbound')
                 var template = `<div class='clearfix'>
-                                    <div class='conversations__bubble ${opponent? "--opponent": "--self"}'>
+                                    <div
+                                        data-tooltip='${time}' 
+                                        class='conversations__bubble ${opponent? "--opponent": "--self"} '>
                                         ${text}
                                     </div>
                                 </div>`
@@ -191,8 +188,19 @@ w.register(function() {
         },
         appendMessages: {
             method: function(finish, msgs, scroll) {
+                console.debug(msgs)
                 if (msgs)
-                    msgs.forEach(msg => this.addBubble(msg.subject, msg.direction))
+                    msgs
+                    .map(msg => {
+                        var time = new Date(msg.lastModifiedTime)
+                        msg.time = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
+                        return msg
+                    })
+                    .forEach(msg => this.addBubble(
+                        msg.subject,
+                        msg.direction,
+                        msg.time)
+                    )
             },
             after: function(msgs, scroll = true) {
                 if (scroll)
@@ -204,9 +212,19 @@ w.register(function() {
 
             },
             method: function(finish, msgs, scroll) {
-                console.log('prepend');
                 if (msgs)
-                    msgs.forEach(msg => this.addBubble(msg.subject, msg.direction, true))
+                    msgs
+                    .map(msg => {
+                        var time = new Date(msg.lastModifiedTime)
+                        msg.time = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
+                        return msg
+                    })
+                    .forEach(msg => this.addBubble(
+                        msg.subject,
+                        msg.direction,
+                        msg.time,
+                        true)
+                    )
             },
             after: function(msgs, scroll = true) {
                 if (scroll)
@@ -242,8 +260,17 @@ w.register(function() {
                 .filter(msg => msg.messageStatus === 'Received')
                 .filter(msg => msg.direction === 'Inbound')
                 .filter(msg => msg.readStatus === 'Unread')
-                .map(msg => msg.subject)
-                .forEach(text => this.addBubble(text, 'Inbound'))
+                .map(msg => {
+                    var time = new Date(msg.lastModifiedTime)
+                    msg.time = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
+                    return msg
+                })
+                .forEach(msg => this.addBubble(
+                    msg.subject,
+                    msg.direction,
+                    msg.time,
+                    true)
+                )
             },
             after: this.scrollToBottom
         },
