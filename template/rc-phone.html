@@ -527,7 +527,6 @@ var phone = w.register(function() {
             method: function(finish, source, target, index) {
                 return {
                     fn: () => {
-                        console.log(this.props.conversation);
                         if (this.props.conversation) {
                             this.props.conversation.destroy()
                             this.props.conversation = null

@@ -1263,13 +1263,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-tabs__tab {
     cursor: pointer;
+    padding: .5em .7em;
     display: block;
     float: left;
     height: 30px;
     font-size: 14px;
     text-align: center;
     border: 1px solid;
-    padding-top: 7px;
 }
 .rc-tabs__tab:focus {
     text-decoration: none;
@@ -1281,20 +1281,20 @@ h1, h2, h3, h4, h5, h6 {
 .rc-tabs__tab:last-child {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
-    border-right: 1px solid #c1e0ee;
+    border-right: 1px solid #3498db;
 }
 .rc-tabs__tab.--color {
-    background-color: #ffffff;
-    border-color: #c1e0ee;
-    color: #1785bb;
+    background-color: #fff;
+    border-color: #3498db;
+    color: #3498db;
 }
 .rc-tabs__tab.--active {
-    background-color: #1785bb;
-    border-color: #1785bb;
-    color: #ffffff;
+    background-color: #3498db;
+    border-color: #3498db;
+    color: #fff;
 }
 .rc-tabs__tab.--active:last-child {
-    border-right-color: #c1e0ee;
+    border-right-color: #3498db;
 }
 .rc-tabs__tab.--width2 {
     width: 50%;
