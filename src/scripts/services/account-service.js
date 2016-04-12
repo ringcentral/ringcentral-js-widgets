@@ -6,6 +6,8 @@ var accountService = (function(sdk) {
     var fetchNumbers = null
 
     function getNumbersByType(numbers, type) {
+        if (!numbers)
+                return Error('Need to fetch numbers first using accountService.getPhoneNumber')
         return numbers
             .filter(number => number.type === type)
     }

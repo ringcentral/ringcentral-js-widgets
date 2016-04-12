@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Conversation</title>
+    <link rel="stylesheet" type="text/css" href="../build/styles/main.css">
+</head>
+<div id='container'></div>
+<body>
+<script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
+<script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
+<script type="text/javascript" src="../build/build.js"></script>
+<script>
+w.config({
+    path: '../template/',
+    preload: {
+        'conversation': 'conversation',
+        'auth-panel': 'auth-panel'
+    },
+    locale: {
+        'zh-tw': 'zh-tw.json',
+        'en-us': 'en-us.json'
+    }
+}, init)
+var rcMessageService = w.service()['rcMessageService']
+var rcMessageProvider = w.service()['rcMessageProvider']
+var accountService = w.service()['accountService']
+var loginService = w.service()['loginService']
+var rcContactSearchProvider = w.service()['rcContactSearchProvider']
+var rcContactService = w.service()['rcContactService']
+var dialPadSearchProviders = [rcContactSearchProvider]
+function init() {
+    var authPanel = w('auth-panel', {
+        actions: {
+            login: {
+                method: function() {
+                    return loginService.login(
+                        this.props.username,
+                        this.props.extension,
+                        this.props.password
+                    )
+                },
+                after: function() {
+                    this.unmount()
+                    conversation.mount('#container')
+                }
+            }
+        }
+    })
+    var conversation = w('conversation', {
+        data: {
+            new: true
+        },
+        actions: {
+            init: {
+                after: function() {}
+            },
+            mount: {
+                after: function() {
+                    rcMessageService.onMessageUpdated(this.confirmMessages);
+                    rcMessageService.onMessageUpdated(this.addIncomingMessages);
+                    Promise.all([
+                        rcMessageService.syncMessages(24 * 7),
+                        rcContactService.completeCompanyContact()
+                    ]).then(result => {
+                        var [msgs, contacts] = result
+                        console.log(msgs);
+                        console.log(contacts);
+                        var n = contacts.filter(contact => {
+                            var contactNums = contact.phoneNumber.concat(contact.extension)
+                            msgs.map(msg => {
+                                return [
+                                    msg.from.extensionNumber || msg.from.phoneNumber,
+                                    msg.to[0].phoneNumber || msg.to[0].extensionNumber
+                                ]
+                            }).map(nums => {
+                                return nums.filter(num => contactNums.indexOf(num) > -1)
+                            })
+                            return true
+                        })
+                        console.log(n);
+                    })
+                }
+            },
+            send: {
+                method: function() {
+                    return rcMessageService.sendSMSMessage(
+                        this.props.message,
+                        this.props.fromNumber,
+                        this.props.toNumber
+                    );
+                }
+            },
+            queryContacts: {
+                method: function() {
+                    var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                        return provider.search(this.props.to);
+                    });
+                    return contactSearchService.query(dialPadSearchFunctions);
+                }
+            },
+            getOutboundCallerID: {
+                method: function() {
+                    return accountService.getPhoneNumber().then(() => 
+                        accountService.listNumber("VoiceFax", 'SmsSender'));
+                }
+            },
+            reachTop: {
+                method: function() {
+                    this.props.hourFrom += 100
+                    return rcMessageProvider.getConversation(
+                        this.props.convId,
+                        this.props.hourFrom)
+                }
+            }
+        }
+    });
+    authPanel.mount('#container')
+}
+
+function createRoom(msgs) {
+
+}
+
+// test with mocked data
+rcMessageService.syncMessages = () => {
+    return fetch('./message').then(res => res.json())
+}
+rcContactService.completeCompanyContact = () => {
+    return fetch('./contact').then(res => res.json())
+}
+Promise.all([
+    rcMessageService.syncMessages(24 * 7),
+    rcContactService.completeCompanyContact()
+]).then(result => {
+    var [msgs, contacts] = result
+    var n = contacts.filter(contact => {
+        var contactNums = contact.phoneNumber.concat(contact.extension)
+        return msgs.filter(msg => {
+            var msgNumbers = [
+                msg.from.extensionNumber || msg.from.phoneNumber,
+                msg.to[0].phoneNumber || msg.to[0].extensionNumber
+            ]
+            var contain = containSameVal(msgNumbers, contactNums)
+            if (contain) {
+                contact.msg = contact.msg || []
+                contact.msg.push(msg)
+            }
+            return contain
+        }).length > 0
+    })
+    
+    function containSameVal(array1, array2) {
+        return array1.filter(function(n) {
+            return array2.indexOf(n) != -1;
+        }).length > 0
+    }
+})
+//
+</script>
+</body>
+</html>

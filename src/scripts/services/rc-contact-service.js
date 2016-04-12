@@ -73,11 +73,12 @@ var rcContactService = function(sdk) {
             }).catch(function(e) {
                 console.error(e)
             })
+        return fetchingCompanyContacts
     }
 
     function fetchCompanyDirectNumbers() {
         var page = 1
-        fetchCompanyDirectNumbersByPage(page)
+        return fetchCompanyDirectNumbersByPage(page)
         .then(response => {
             var respObj = response.json()
             if (respObj.paging && respObj.paging.totalPages > page) {
@@ -87,7 +88,7 @@ var rcContactService = function(sdk) {
                     promises.push(fetchCompanyDirectNumbersByPage(page))
                 }
 
-                Promise.all(promises).then(responses => {
+                return Promise.all(promises).then(responses => {
                     var numbers = {}
                     responses.forEach(response => {
                         var resp = response.json()
@@ -117,9 +118,9 @@ var rcContactService = function(sdk) {
     return {
         companyContacts: companyContacts,
         asyncGetCompanyContact: function() {
-            if(fetchingCompanyContacts){
+            if (fetchingCompanyContacts){
                 return fetchingCompanyContacts;
-            }else{
+            }else {
                 return Promise.resolve(companyContacts);
             }
         },
@@ -127,6 +128,9 @@ var rcContactService = function(sdk) {
             companyContacts.length = 0
             fetchCompanyContacts()
         },
+        completeCompanyContact: function() {
+            return fetchCompanyContacts().then(fetchCompanyDirectNumbers).then(() => companyContacts)
+        }
     }
 }(sdk)
 

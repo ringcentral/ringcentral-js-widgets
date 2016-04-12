@@ -517,7 +517,7 @@ var phone = w.register(function() {
                         login: {
                             method: function() {
                                 return loginService.login(
-                                    this.props.username,
+                                    PhoneFormat.formatE164('US', this.props.username),
                                     this.props.extension,
                                     this.props.password
                                 )

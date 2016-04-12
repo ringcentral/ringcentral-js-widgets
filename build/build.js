@@ -223,11 +223,12 @@ var rcContactService = function (sdk) {
         }).catch(function (e) {
             console.error(e);
         });
+        return fetchingCompanyContacts;
     }
 
     function fetchCompanyDirectNumbers() {
         var page = 1;
-        fetchCompanyDirectNumbersByPage(page).then(function (response) {
+        return fetchCompanyDirectNumbersByPage(page).then(function (response) {
             var respObj = response.json();
             if (respObj.paging && respObj.paging.totalPages > page) {
                 var promises = [];
@@ -236,7 +237,7 @@ var rcContactService = function (sdk) {
                     promises.push(fetchCompanyDirectNumbersByPage(page));
                 }
 
-                Promise.all(promises).then(function (responses) {
+                return Promise.all(promises).then(function (responses) {
                     var numbers = {};
                     responses.forEach(function (response) {
                         var resp = response.json();
@@ -275,6 +276,11 @@ var rcContactService = function (sdk) {
         syncCompanyContact: function syncCompanyContact() {
             companyContacts.length = 0;
             fetchCompanyContacts();
+        },
+        completeCompanyContact: function completeCompanyContact() {
+            return fetchCompanyContacts().then(fetchCompanyDirectNumbers).then(function () {
+                return companyContacts;
+            });
         }
     };
 }(sdk);
@@ -396,6 +402,7 @@ var accountService = function (sdk) {
     var fetchNumbers = null;
 
     function getNumbersByType(numbers, type) {
+        if (!numbers) return Error('Need to fetch numbers first using accountService.getPhoneNumber');
         return numbers.filter(function (number) {
             return number.type === type;
         });
@@ -512,6 +519,7 @@ var rcMessageService = function (sdk) {
             var results = jsonResponse.records;
             addMessageToList(results);
             fetchingPromise = null;
+            return results;
         });
     }
 

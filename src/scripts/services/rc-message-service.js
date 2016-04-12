@@ -18,6 +18,7 @@ var rcMessageService = function(sdk) {
             var results = jsonResponse.records
             addMessageToList(results)
             fetchingPromise = null
+            return results
         })
     }
 
