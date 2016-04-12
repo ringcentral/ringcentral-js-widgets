@@ -57,12 +57,14 @@ function preload(widgets, callback) {
                     .then(template => {
                         if (!w.templates[name].template) {
                             w.templates[name].template = template
-                            var script = template.querySelector('script')
+                            var scripts = template.querySelectorAll('script')
                             var style = template.querySelector('style')
-                            if (script) {
+                            scripts.forEach(script => {
+                                if (script.src)
+                                    script.src = w.options.path + script.getAttribute('src')
                                 document.body.appendChild(script)
                                 document.body.removeChild(script)
-                            }
+                            })
                             if (style)
                                 document.head.appendChild(style)
                         }
