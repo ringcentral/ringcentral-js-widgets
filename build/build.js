@@ -53,14 +53,57 @@ var LoginService = function (sdk) {
 }(sdk);
 register('loginService', LoginService);
 
+var rcSubscription = function () {
+
+    var cacheKey = 'ringcentral-subscription';
+    var subscription = sdk.createCachedSubscription(cacheKey).restore();
+    var handlers = {};
+    subscription.on(subscription.events.notification, function (msg) {
+        console.log('update from pubnub');
+        for (var key in handlers) {
+            if (handlers.hasOwnProperty(key)) {
+                if (msg.event.indexOf(key) > -1) {
+                    handlers[key].forEach(function (h) {
+                        try {
+                            h(msg);
+                        } catch (e) {
+                            console.error('Error occurs when invoking subscription notification handler for "' + msg.event + '": ' + e);
+                        }
+                    });
+                }
+            }
+        }
+    });
+
+    return {
+        subscribe: function subscribe(suffix, event, handler) {
+            if (event && suffix) {
+                if (!handlers[suffix]) {
+                    handlers[suffix] = [];
+                }
+                handlers[suffix].push(handler);
+                subscription.addEventFilters(event).register();
+            }
+        }
+    };
+}();
+
+register('rcSubscription', rcSubscription);
+
 var CallLogService = function (sdk) {
     var period = 7 * 24 * 3600 * 1000;
     var dateFrom = new Date(Date.now() - period);
+    function onCallLogUpdate(d) {
+        console.log(d);
+    }
     return {
         getCallLogs: function getCallLogs() {
             return sdk.platform().get('/account/~/extension/~/call-log', { dateFrom: dateFrom.toISOString() }).then(function (response) {
                 return response.json().records;
             });
+        },
+        subscribeToCallLogUpdate: function subscribeToCallLogUpdate() {
+            rcSubscription.subscribe('call-log', '/restapi/v1.0/account/~/extension/~/call-log-sync', onCallLogUpdate);
         }
     };
 }(sdk);
@@ -467,42 +510,6 @@ var accountService = function (sdk) {
 
 register('accountService', accountService);
 
-var rcSubscription = function () {
-
-    var cacheKey = 'ringcentral-subscription';
-    var subscription = sdk.createCachedSubscription(cacheKey).restore();
-    var handlers = {};
-    subscription.on(subscription.events.notification, function (msg) {
-        for (var key in handlers) {
-            if (handlers.hasOwnProperty(key)) {
-                if (msg.event.indexOf(key) > -1) {
-                    handlers[key].forEach(function (h) {
-                        try {
-                            h(msg);
-                        } catch (e) {
-                            console.error('Error occurs when invoking subscription notification handler for "' + msg.event + '": ' + e);
-                        }
-                    });
-                }
-            }
-        }
-    });
-
-    return {
-        subscribe: function subscribe(suffix, event, handler) {
-            if (event && suffix) {
-                if (!handlers[suffix]) {
-                    handlers[suffix] = [];
-                }
-                handlers[suffix].push(handler);
-                subscription.addEventFilters(event).register();
-            }
-        }
-    };
-}();
-
-register('rcSubscription', rcSubscription);
-
 var rcMessageService = function (sdk) {
     var messages = {};
     var fetchingPromise = null;
@@ -524,17 +531,19 @@ var rcMessageService = function (sdk) {
     }
 
     function incrementalSyncMessages() {
+        console.log('update from message pre');
         if (syncToken) {
             return sdk.platform().get('/account/~/extension/~/message-sync', {
                 syncType: 'ISync',
                 syncToken: syncToken
             }).then(function (responses) {
+                console.log('update from message');
                 var jsonResponse = responses.json();
                 var results = jsonResponse.records;
                 syncToken = jsonResponse.syncInfo.syncToken;
                 updateMessageList(results);
                 messageUpdateHandlers.forEach(function (h) {
-                    h(results);
+                    return h(results);
                 });
             });
         }

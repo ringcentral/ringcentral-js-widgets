@@ -39,6 +39,7 @@ w.register(function() {
                
             },
             after: function() {
+                this.props.syncedMessages = []
                 var conversation = this;
                 w.customize(this, 'contact-picker', {
                     data: {
@@ -139,14 +140,9 @@ w.register(function() {
                     doc = this.createCallLogTemplate(content, opponent, time)
                 
                 if (prepend) {
-                    this.props.dom.conversations.insertBefore(
-                        doc,
-                        this.props.dom.conversations.firstChild
-                    )
+                    this.props.dom.conversations.insertBefore(doc, this.props.dom.conversations.firstChild)
                 } else {
-                    this.props.dom.conversations.appendChild(
-                        doc
-                    )
+                    this.props.dom.conversations.appendChild(doc)
                 }
                 return this.props.dom.conversations.lastChild;
             }
@@ -166,7 +162,8 @@ w.register(function() {
         },
         createVoiceMailTemplate: {
             method: function(finish, content, opponent, time) {
-                var audio = new Audio(`${content.src}?access_token=${sdk.platform().auth().accessToken()}`)
+                console.log(content);
+                var audio = new Audio(`${content.uri}?access_token=${sdk.platform().auth().accessToken()}`)
                 var div = document.createElement('div')
                 div.innerHTML = `<div class='clearfix'>
                                     <div
@@ -271,6 +268,41 @@ w.register(function() {
                     this.scrollToBottom()
             }
         },
+        addIncomingMessages: {
+            method: function(finish, messages) {
+                messages
+                .filter(msg => this.props.syncedMessages.indexOf(msg.id) === -1)
+                .filter(msg => msg.direction === 'Inbound')
+                .map(msg => {
+                    var time = new Date(msg.lastModifiedTime)
+                    msg.time = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
+                    return msg
+                })
+                .forEach(msg => {
+                    this.props.syncedMessages.push(msg.id)
+                    this.addBubble(
+                        msg.type,
+                        msg.subject,
+                        msg.direction,
+                        msg.time
+                    )
+                })
+            },
+            after: this.scrollToBottom
+        },
+        confirmMessages: {
+            method: function(finish, messages) {
+                if (!this.unconfirm)
+                    return []
+                if (!messages)
+                    return []
+                return this.unconfirm
+                .filter(dom => messages
+                    .map(msg => msg.id)
+                    .indexOf(parseInt(dom.getAttribute('data-id'))) > -1)
+                .forEach(dom => dom.removeAttribute('data-id'))
+            }
+        },
         warnBubble: {
             after: function(id) {
 
@@ -293,39 +325,16 @@ w.register(function() {
                 return finish();
             }
         },
-        addIncomingMessages: {
-            method: function(finish, messages) {
-                messages
-                .filter(msg => msg.availability === 'Alive')
-                .filter(msg => msg.messageStatus === 'Received')
-                .filter(msg => msg.direction === 'Inbound')
-                .filter(msg => msg.readStatus === 'Unread')
-                .map(msg => {
-                    var time = new Date(msg.lastModifiedTime)
-                    msg.time = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
-                    return msg
-                })
-                .forEach(msg => this.addBubble(
-                    msg.type,
-                    msg.subject,
-                    msg.direction,
-                    msg.time,
-                    true)
-                )
-            },
-            after: this.scrollToBottom
+        setSender: {
+            method: function(finish, fromNumber) {
+                this.data.fromNumber = fromNumber
+                this.props['switchTitle'].switchTitle(fromNumber)
+            }
         },
-        confirmMessages: {
-            method: function(finish, messages) {
-                if (!this.unconfirm)
-                    return []
-                if (!messages)
-                    return []
-                return this.unconfirm
-                .filter(dom => messages
-                    .map(msg => msg.id)
-                    .indexOf(parseInt(dom.getAttribute('data-id'))) > -1)
-                .forEach(dom => dom.removeAttribute('data-id'))
+        setReceiver: {
+            method: function(finish, toNumber) {
+                this.data.toNumber = toNumber
+                this.props['contact-picker'].props.dom.input.value = toNumber
             }
         }
     }

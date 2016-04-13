@@ -254,12 +254,14 @@ w.register(function() {
         },
         addIncomingMessages: {
             method: function(finish, messages) {
+                console.log(messages);
                 messages
                 .filter(msg => msg.availability === 'Alive')
                 .filter(msg => msg.messageStatus === 'Received')
                 .filter(msg => msg.direction === 'Inbound')
                 .filter(msg => msg.readStatus === 'Unread')
                 .map(msg => {
+                    console.log(msg);
                     var time = new Date(msg.lastModifiedTime)
                     msg.time = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
                     return msg
@@ -267,8 +269,7 @@ w.register(function() {
                 .forEach(msg => this.addBubble(
                     msg.subject,
                     msg.direction,
-                    msg.time,
-                    true)
+                    msg.time)
                 )
             },
             after: this.scrollToBottom

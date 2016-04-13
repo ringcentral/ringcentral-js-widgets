@@ -7,6 +7,7 @@ var rcSubscription = function() {
     var subscription = sdk.createCachedSubscription(cacheKey).restore()
     var handlers = {}
     subscription.on(subscription.events.notification, function(msg) {
+        console.log('update from pubnub');
         for (var key in handlers) {
             if (handlers.hasOwnProperty(key)) {
                 if (msg.event.indexOf(key) > -1) {

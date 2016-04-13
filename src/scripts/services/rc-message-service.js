@@ -23,18 +23,18 @@ var rcMessageService = function(sdk) {
     }
 
     function incrementalSyncMessages() {
+        console.log('update from message pre');
         if (syncToken) {
             return sdk.platform().get('/account/~/extension/~/message-sync', {
                 syncType: 'ISync',
                 syncToken: syncToken
             }).then(responses => {
+                console.log('update from message');
                 var jsonResponse = responses.json()
                 var results = jsonResponse.records
                 syncToken = jsonResponse.syncInfo.syncToken
                 updateMessageList(results)
-                messageUpdateHandlers.forEach((h) => {
-                    h(results)
-                })
+                messageUpdateHandlers.forEach(h => h(results))
             })
         }
     }

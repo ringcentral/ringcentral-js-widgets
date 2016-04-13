@@ -57,7 +57,7 @@ function init() {
             },
             mount: {
                 after: function() {
-                    // test with mocked data
+                    // test with mocked data----------------------------
                     // rcMessageService.syncMessages = () => {
                     //     return fetch('./message').then(res => res.json())
                     // }
@@ -67,6 +67,32 @@ function init() {
                     // callLogService.getCallLogs = () => {
                     //     return fetch('./calllog').then(res => res.json())
                     // }
+                    //---------------------------------------------------
+                    rcMessageService.subscribeToMessageUpdate()
+                    rcMessageService.onMessageUpdated(this.confirmMessages)
+                    rcMessageService.onMessageUpdated(msgs => this.addIncomingMessages(msgs.map(adaptMessage)))
+                    callLogService.subscribeToCallLogUpdate()
+                    function adaptMessage(msg) {
+                        console.log(msg);
+                        return {
+                            id:                 msg.id,
+                            from:               msg.from.extensionNumber || 
+                                                msg.from.phoneNumber,
+                            to:                 msg.to.phoneNumber || 
+                                                msg.to.extensionNumber || 
+                                                msg.to[0].extensionNumber || 
+                                                msg.to[0].phoneNumber,
+                            direction:          msg.direction,
+                            type:               msg.type,
+                            time:               msg.creationTime || 
+                                                msg.startTime,
+                            lastModifiedTime:   msg.lastModifiedTime || 
+                                                msg.startTime,
+                            subject:            msg.subject ||
+                                                msg.action ||
+                                                msg.attachments[0]
+                        }
+                    }
                     Promise.all([
                         rcMessageService.syncMessages(24 * 7),
                         callLogService.getCallLogs(),
@@ -75,36 +101,22 @@ function init() {
                         var [msgs, logs, contacts] = result
                         msgs = msgs.map(adaptMessage)
                         logs = logs.map(adaptMessage)
-                        var contents = sortOnTime(combine(msgs, logs))
+                        var contents = sortTime(combine(msgs, logs))
                         var relatedContacts = mapContactMessage(contents, contacts)
                         console.log(relatedContacts);
-                        this.appendMessages(relatedContacts[1].msg.reverse())
+                        // FIXME
+                        var currentContact = relatedContacts[1]
+                        // set default outbound caller id as first phone number
+                        this.setReceiver(currentContact.phoneNumber[0])
+                        this.appendMessages(currentContact.msg.reverse())
 
                         function combine(...targets) {
                             return targets.reduce((result, target) => result.concat(target), [])
                         }
-                        function sortOnTime(target) {
+                        function sortTime(target) {
                             return target.sort((a, b) => Date.parse(a.time) < Date.parse(b.time))
                         }
-                        function adaptMessage(msg) {
-                            return {
-                                from:               msg.from.extensionNumber || 
-                                                    msg.from.phoneNumber,
-                                to:                 msg.to.phoneNumber || 
-                                                    msg.to.extensionNumber || 
-                                                    msg.to[0].extensionNumber || 
-                                                    msg.to[0].phoneNumber,
-                                direction:          msg.direction,
-                                type:               msg.type,
-                                time:               msg.lastModifiedTime || 
-                                                    msg.startTime,
-                                lastModifiedTime:   msg.lastModifiedTime || 
-                                                    msg.startTime,
-                                subject:            msg.subject ||
-                                                    msg.action ||
-                                                    msg.attachments[0]
-                            }
-                        }
+                        
 
                         function containSameVal(array1, array2) {
                             return array1.filter(function(n) {
