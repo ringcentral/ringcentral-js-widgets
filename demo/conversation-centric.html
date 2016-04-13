@@ -13,7 +13,7 @@
 w.config({
     path: '../template/',
     preload: {
-        'conversation': 'conversation',
+        'conversation': 'conversation-advanced',
         'auth-panel': 'auth-panel'
     },
     locale: {
@@ -27,6 +27,7 @@ var accountService = w.service()['accountService']
 var loginService = w.service()['loginService']
 var rcContactSearchProvider = w.service()['rcContactSearchProvider']
 var rcContactService = w.service()['rcContactService']
+var callLogService = w.service()['callLogService']
 var dialPadSearchProviders = [rcContactSearchProvider]
 function init() {
     var authPanel = w('auth-panel', {
@@ -56,29 +57,76 @@ function init() {
             },
             mount: {
                 after: function() {
-                    rcMessageService.onMessageUpdated(this.confirmMessages);
-                    rcMessageService.onMessageUpdated(this.addIncomingMessages);
+                    // test with mocked data
+                    // rcMessageService.syncMessages = () => {
+                    //     return fetch('./message').then(res => res.json())
+                    // }
+                    // rcContactService.completeCompanyContact = () => {
+                    //     return fetch('./contact').then(res => res.json())
+                    // }
+                    // callLogService.getCallLogs = () => {
+                    //     return fetch('./calllog').then(res => res.json())
+                    // }
                     Promise.all([
                         rcMessageService.syncMessages(24 * 7),
+                        callLogService.getCallLogs(),
                         rcContactService.completeCompanyContact()
                     ]).then(result => {
-                        var [msgs, contacts] = result
-                        console.log(msgs);
-                        console.log(contacts);
-                        var n = contacts.filter(contact => {
-                            var contactNums = contact.phoneNumber.concat(contact.extension)
-                            msgs.map(msg => {
-                                return [
-                                    msg.from.extensionNumber || msg.from.phoneNumber,
-                                    msg.to[0].phoneNumber || msg.to[0].extensionNumber
-                                ]
-                            }).map(nums => {
-                                return nums.filter(num => contactNums.indexOf(num) > -1)
+                        var [msgs, logs, contacts] = result
+                        msgs = msgs.map(adaptMessage)
+                        logs = logs.map(adaptMessage)
+                        var contents = sortOnTime(combine(msgs, logs))
+                        var relatedContacts = mapContactMessage(contents, contacts)
+                        console.log(relatedContacts);
+                        this.appendMessages(relatedContacts[1].msg.reverse())
+
+                        function combine(...targets) {
+                            return targets.reduce((result, target) => result.concat(target), [])
+                        }
+                        function sortOnTime(target) {
+                            return target.sort((a, b) => Date.parse(a.time) < Date.parse(b.time))
+                        }
+                        function adaptMessage(msg) {
+                            return {
+                                from:               msg.from.extensionNumber || 
+                                                    msg.from.phoneNumber,
+                                to:                 msg.to.phoneNumber || 
+                                                    msg.to.extensionNumber || 
+                                                    msg.to[0].extensionNumber || 
+                                                    msg.to[0].phoneNumber,
+                                direction:          msg.direction,
+                                type:               msg.type,
+                                time:               msg.lastModifiedTime || 
+                                                    msg.startTime,
+                                lastModifiedTime:   msg.lastModifiedTime || 
+                                                    msg.startTime,
+                                subject:            msg.subject ||
+                                                    msg.action ||
+                                                    msg.attachments[0]
+                            }
+                        }
+
+                        function containSameVal(array1, array2) {
+                            return array1.filter(function(n) {
+                                return array2.indexOf(n) != -1;
+                            }).length > 0
+                        }
+
+                        function mapContactMessage(msgs, contacts) {
+                            return contacts.filter(contact => {
+                                var contactNums = contact.phoneNumber.concat(contact.extension)
+                                return msgs.filter(msg => {
+                                    var contain = containSameVal([msg.from, msg.to], contactNums)
+                                    if (contain) {
+                                        contact.msg = contact.msg || []
+                                        contact.msg.push(msg)
+                                    }
+                                    return contain
+                                }).length > 0
                             })
-                            return true
-                        })
-                        console.log(n);
+                        }
                     })
+                    //
                 }
             },
             send: {
@@ -116,46 +164,7 @@ function init() {
     });
     authPanel.mount('#container')
 }
-
-function createRoom(msgs) {
-
-}
-
-// test with mocked data
-rcMessageService.syncMessages = () => {
-    return fetch('./message').then(res => res.json())
-}
-rcContactService.completeCompanyContact = () => {
-    return fetch('./contact').then(res => res.json())
-}
-Promise.all([
-    rcMessageService.syncMessages(24 * 7),
-    rcContactService.completeCompanyContact()
-]).then(result => {
-    var [msgs, contacts] = result
-    var n = contacts.filter(contact => {
-        var contactNums = contact.phoneNumber.concat(contact.extension)
-        return msgs.filter(msg => {
-            var msgNumbers = [
-                msg.from.extensionNumber || msg.from.phoneNumber,
-                msg.to[0].phoneNumber || msg.to[0].extensionNumber
-            ]
-            var contain = containSameVal(msgNumbers, contactNums)
-            if (contain) {
-                contact.msg = contact.msg || []
-                contact.msg.push(msg)
-            }
-            return contain
-        }).length > 0
-    })
-    
-    function containSameVal(array1, array2) {
-        return array1.filter(function(n) {
-            return array2.indexOf(n) != -1;
-        }).length > 0
-    }
-})
-//
+function createRoom(msgs) {}
 </script>
 </body>
 </html>

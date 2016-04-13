@@ -107,6 +107,7 @@ w.register(function() {
                 this.props.dom.input.value = ''
                 var date = new Date()
                 var bubble = this.addBubble(
+                    'SMS',
                     this.props.message,
                     'Outgoing',
                     `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`)
@@ -127,28 +128,71 @@ w.register(function() {
             after: function(response) {}
         },
         addBubble: {
-            after: function(text, direction, time, prepend) {
+            after: function(type, content, direction, time, prepend) {
                 var opponent = (direction === 'Inbound')
-                var template = `<div class='clearfix'>
+                var doc = this.createSMSTemplate(content, opponent, time)
+                if (type === 'SMS')
+                    doc = this.createSMSTemplate(content, opponent, time)
+                else if (type === 'VoiceMail')
+                    doc = this.createVoiceMailTemplate(content, opponent, time)
+                else if (type === 'Voice')
+                    doc = this.createCallLogTemplate(content, opponent, time)
+                
+                if (prepend) {
+                    this.props.dom.conversations.insertBefore(
+                        doc,
+                        this.props.dom.conversations.firstChild
+                    )
+                } else {
+                    this.props.dom.conversations.appendChild(
+                        doc
+                    )
+                }
+                return this.props.dom.conversations.lastChild;
+            }
+        },
+        createSMSTemplate: {
+            method: function(finish, text, opponent, time) {
+                var div = document.createElement('div')
+                div.innerHTML = `<div class='clearfix'>
                                     <div
                                         data-tooltip='${time}' 
                                         class='conversations__bubble ${opponent? "--opponent": "--self"} '>
                                         ${text}
                                     </div>
                                 </div>`
+                return div.firstChild
+            }
+        },
+        createVoiceMailTemplate: {
+            method: function(finish, content, opponent, time) {
+                var audio = new Audio(`${content.src}?access_token=${sdk.platform().auth().accessToken()}`)
                 var div = document.createElement('div')
-                div.innerHTML = template
-                if (prepend) {
-                    this.props.dom.conversations.insertBefore(
-                        div.childNodes[0],
-                        this.props.dom.conversations.firstChild
-                    )
-                } else {
-                    this.props.dom.conversations.appendChild(
-                        div.childNodes[0]
-                    )
-                }
-                return this.props.dom.conversations.lastChild;
+                div.innerHTML = `<div class='clearfix'>
+                                    <div
+                                        data-tooltip='${time}'
+                                        class='conversations__bubble ${opponent? "--opponent": "--self"} '>
+                                        <span class='bubble--voice__play icon-uni7C'></span>
+                                        <span class='bubble--voice__duration' data-length=${content.vmDuration}></span>
+                                    </div>
+                                </div>`
+                div.firstChild.addEventListener('click', e => {
+                    audio.play()
+                });
+                return div.firstChild
+            }
+        },
+        createCallLogTemplate: {
+            method: function(finish, text, opponent, time) {
+                var div = document.createElement('div')
+                div.innerHTML = `<div class='clearfix'>
+                                    <div
+                                        data-tooltip='${time}'
+                                        class='conversations__bubble ${opponent? "--opponent": "--self"} '>
+                                        <span class='bubble--log icon-uniAE'><span>${text}</span>
+                                    </div>
+                                </div>`
+                return div.firstChild
             }
         },
         disable: {
@@ -195,11 +239,7 @@ w.register(function() {
                         msg.time = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
                         return msg
                     })
-                    .forEach(msg => this.addBubble(
-                        msg.subject,
-                        msg.direction,
-                        msg.time)
-                    )
+                    .forEach(msg => this.addBubble(msg.type, msg.subject, msg.direction, msg.time))
             },
             after: function(msgs, scroll = true) {
                 if (scroll)
@@ -219,6 +259,7 @@ w.register(function() {
                         return msg
                     })
                     .forEach(msg => this.addBubble(
+                        msg.type,
                         msg.subject,
                         msg.direction,
                         msg.time,
@@ -265,6 +306,7 @@ w.register(function() {
                     return msg
                 })
                 .forEach(msg => this.addBubble(
+                    msg.type,
                     msg.subject,
                     msg.direction,
                     msg.time,
