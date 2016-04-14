@@ -23,13 +23,11 @@ var rcMessageService = function(sdk) {
     }
 
     function incrementalSyncMessages() {
-        console.log('update from message pre');
         if (syncToken) {
             return sdk.platform().get('/account/~/extension/~/message-sync', {
                 syncType: 'ISync',
                 syncToken: syncToken
             }).then(responses => {
-                console.log('update from message');
                 var jsonResponse = responses.json()
                 var results = jsonResponse.records
                 syncToken = jsonResponse.syncInfo.syncToken
@@ -137,6 +135,17 @@ var rcMessageService = function(sdk) {
                     dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
                     dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
                     conversationId
+                })
+                .then(response => response.json())
+                .then(data => data.records)
+                .then(records => records.reverse())
+        },
+        getMessagesByNumber: function(phoneNumber, hourFrom, hourTo) {
+            return sdk.platform()
+                .get('/account/~/extension/~/message-store', {
+                    dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
+                    dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
+                    phoneNumber
                 })
                 .then(response => response.json())
                 .then(data => data.records)

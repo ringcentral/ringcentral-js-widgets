@@ -172,11 +172,12 @@ w.register(function() {
                 div.innerHTML = `<div class='clearfix'>
                                     <div
                                         data-tooltip='${time}'
-                                        class='conversations__bubble ${opponent? "--opponent": "--self"} '>
-                                        <span class='bubble--voice__play icon-uni7C'></span>
-                                        <span class='bubble--voice__duration' data-length=${content.vmDuration}></span>
+                                        class='conversations__bubble ${opponent? "--opponent": "--self"} voice-bubble'>
+                                        <span class='voice-bubble__play icon-uni7C'></span>
+                                        <span class='voice-bubble__duration' data-length=${content.vmDuration}></span>
                                     </div>
                                 </div>`
+                div.firstChild.querySelector('.voice-bubble__duration').style.width = content.vmDuration * 2 + 'px'
                 div.firstChild.addEventListener('click', e => {
                     audio.play()
                 });
@@ -222,6 +223,7 @@ w.register(function() {
                 })
             },
             after: function(messages) {
+                console.log(messages);
                 if (messages) {
                     // maintain the scoll position
                     var scrollBottom = this.props.dom.conversations.offsetHeight

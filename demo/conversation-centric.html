@@ -53,7 +53,9 @@ function init() {
         },
         actions: {
             init: {
-                after: function() {}
+                after: function() {
+                    this.props.hourOffset = 3 * 24
+                }
             },
             mount: {
                 after: function() {
@@ -71,63 +73,35 @@ function init() {
                     rcMessageService.subscribeToMessageUpdate()
                     rcMessageService.onMessageUpdated(this.confirmMessages)
                     rcMessageService.onMessageUpdated(msgs => this.addIncomingMessages(msgs.map(adaptMessage)))
-                    callLogService.subscribeToCallLogUpdate()
-                    function adaptMessage(msg) {
-                        return {
-                            id:                 msg.id,
-                            from:               msg.from.extensionNumber || 
-                                                msg.from.phoneNumber,
-                            to:                 msg.to.phoneNumber || 
-                                                msg.to.extensionNumber || 
-                                                msg.to[0].extensionNumber || 
-                                                msg.to[0].phoneNumber,
-                            direction:          msg.direction,
-                            type:               msg.type,
-                            time:               msg.creationTime || 
-                                                msg.startTime,
-                            lastModifiedTime:   msg.lastModifiedTime || 
-                                                msg.startTime,
-                            subject:            msg.subject ||
-                                                msg.action ||
-                                                msg.attachments[0]
-                        }
-                    }
+                    
                     Promise.all([
-                        rcMessageService.syncMessages(24 * 7),
+                        rcMessageService.syncMessages(cachedHour),
                         callLogService.getCallLogs(),
                         rcContactService.completeCompanyContact()
                     ]).then(result => {
                         var [msgs, logs, contacts] = result
+                        contacts.forEach(contact => contact.phoneNumber.push(contact.extension))
                         msgs = msgs.map(adaptMessage)
                         logs = logs.map(adaptMessage)
                         var contents = sortTime(combine(msgs, logs))
                         var relatedContacts = mapContactMessage(contents, contacts)
+                                                .map(contact => {
+                                                    contact.syncHour = cachedHour
+                                                    return contact
+                                                })
+                                                .reduce((map, contact) => {
+                                                    map[contact.id] = contact
+                                                    return map
+                                                }, {})
                         console.log(relatedContacts);
                         // FIXME
-                        var currentContact = relatedContacts[1]
+                        var currentContact = this.props.contact = relatedContacts['297709020']
                         // set default outbound caller id as first phone number
                         this.setReceiver(currentContact.phoneNumber[0])
                         this.setReceiverCandidates(currentContact.phoneNumber)
                         this.appendMessages(currentContact.msg.reverse())
 
-                        function combine(...targets) {
-                            return targets.reduce((result, target) => result.concat(target), [])
-                        }
-                        function sortTime(target) {
-                            console.log(target);
-                            return target.sort((a, b) => 
-                                Date.parse(b.lastModifiedTime) - 
-                                Date.parse(a.lastModifiedTime)
-                            )
-                        }
                         
-
-                        function containSameVal(array1, array2) {
-                            return array1.filter(function(n) {
-                                return array2.indexOf(n) != -1;
-                            }).length > 0
-                        }
-
                         function mapContactMessage(msgs, contacts) {
                             return contacts.filter(contact => {
                                 var contactNums = contact.phoneNumber.concat(contact.extension)
@@ -170,10 +144,22 @@ function init() {
             },
             reachTop: {
                 method: function() {
-                    this.props.hourFrom += 100
-                    return rcMessageProvider.getConversation(
-                        this.props.convId,
-                        this.props.hourFrom)
+                    // FIXME
+                    return Promise.all([
+                        getCallLogsByNumber(this.props.contact, this.props.hourOffset),
+                        getMessagesByNumber(this.props.contact, this.props.hourOffset)
+                    ])
+                    .then(result => combine(...result))
+                    .then(msgs => msgs.map(adaptMessage))
+                    .then(sortTime)
+                    .then(msgs => {
+                        console.log(msgs);
+                        cachedHour += this.props.hourOffset
+                        this.props.contact.msg.concat(msgs)
+                        return msgs
+                    })
+                    
+                            
                 }
             }
         }
@@ -181,6 +167,66 @@ function init() {
     authPanel.mount('#container')
 }
 function createRoom(msgs) {}
+var cachedHour = 24 * 0.5
+function getMessagesByNumber(contact, offset) {
+    return Promise.all(contact.phoneNumber.map(
+                number => rcMessageService.getMessagesByNumber(
+                    // FIXME
+                    number,
+                    cachedHour + offset,
+                    cachedHour
+                )
+            )
+    )
+    .then(result => combine(...result))
+}
+function getCallLogsByNumber(contact, offset) {
+    return Promise.all(contact.phoneNumber.map(
+                number => callLogService.getCallLogsByNumber(
+                    // FIXME
+                    number,
+                    cachedHour + offset,
+                    cachedHour
+                )
+            )
+    )
+    .then(result => combine(...result))
+}
+function combine(...targets) {
+    return targets.reduce((result, target) => result.concat(target), [])
+}
+
+function sortTime(target) {
+    return target.sort((a, b) => 
+        Date.parse(b.lastModifiedTime) - 
+        Date.parse(a.lastModifiedTime)
+    )
+}
+function containSameVal(array1, array2) {
+    return array1.filter(function(n) {
+        return array2.indexOf(n) != -1;
+    }).length > 0
+}
+function adaptMessage(msg) {
+    return {
+        id:                 msg.id,
+        from:               msg.from.extensionNumber || 
+                            msg.from.phoneNumber,
+        to:                 msg.to.phoneNumber || 
+                            msg.to.extensionNumber || 
+                            msg.to[0].extensionNumber || 
+                            msg.to[0].phoneNumber,
+        direction:          msg.direction,
+        type:               msg.type,
+        time:               msg.creationTime || 
+                            msg.startTime,
+        lastModifiedTime:   msg.lastModifiedTime || 
+                            msg.startTime,
+        subject:            msg.subject ||
+                            msg.action ||
+                            msg.attachments[0]
+    }
+}
 </script>
 </body>
 </html>

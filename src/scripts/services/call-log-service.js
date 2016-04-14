@@ -16,13 +16,18 @@ var CallLogService = (function(sdk) {
                     return response.json().records
                 })
         },
-        subscribeToCallLogUpdate: function() {
-            rcSubscription.subscribe(
-                'call-log',
-                '/restapi/v1.0/account/~/extension/~/call-log-sync',
-                onCallLogUpdate
-            )
-        },
+        getCallLogsByNumber: function(phoneNumber, hourFrom, hourTo) {
+            console.log(phoneNumber);
+            return sdk.platform()
+                .get('/account/~/extension/~/call-log', {
+                    dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
+                    dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
+                    phoneNumber
+                })
+                .then(response => response.json())
+                .then(data => data.records)
+                .then(records => records.reverse())
+        }
     }
 })(sdk)
 

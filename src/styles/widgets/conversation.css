@@ -75,4 +75,12 @@ $conversation-bubble-color: #ecf0f1;
             text-align: center;
         }
     }
+    .voice-bubble {
+        &__play {}
+        &__duration {
+            height: 10px;
+            border: 1px solid#878787;
+            display: inline-block;
+        }
+    }
 }

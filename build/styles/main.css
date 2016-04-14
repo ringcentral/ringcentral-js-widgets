@@ -1559,6 +1559,13 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     text-align: center;
 }
+.rc-conversation .voice-bubble {}
+.rc-conversation .voice-bubble__play {}
+.rc-conversation .voice-bubble__duration {
+    height: 10px;
+    border: 1px solid#878787;
+    display: inline-block;
+}
 .rc-conversation__container {
     display: flex;
     flex-direction: column;/* Adjust all conversation related font size */

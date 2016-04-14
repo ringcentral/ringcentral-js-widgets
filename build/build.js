@@ -102,8 +102,19 @@ var CallLogService = function (sdk) {
                 return response.json().records;
             });
         },
-        subscribeToCallLogUpdate: function subscribeToCallLogUpdate() {
-            rcSubscription.subscribe('call-log', '/restapi/v1.0/account/~/extension/~/call-log-sync', onCallLogUpdate);
+        getCallLogsByNumber: function getCallLogsByNumber(phoneNumber, hourFrom, hourTo) {
+            console.log(phoneNumber);
+            return sdk.platform().get('/account/~/extension/~/call-log', {
+                dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
+                dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
+                phoneNumber: phoneNumber
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                return data.records;
+            }).then(function (records) {
+                return records.reverse();
+            });
         }
     };
 }(sdk);
@@ -531,13 +542,11 @@ var rcMessageService = function (sdk) {
     }
 
     function incrementalSyncMessages() {
-        console.log('update from message pre');
         if (syncToken) {
             return sdk.platform().get('/account/~/extension/~/message-sync', {
                 syncType: 'ISync',
                 syncToken: syncToken
             }).then(function (responses) {
-                console.log('update from message');
                 var jsonResponse = responses.json();
                 var results = jsonResponse.records;
                 syncToken = jsonResponse.syncInfo.syncToken;
@@ -640,6 +649,19 @@ var rcMessageService = function (sdk) {
                 dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
                 dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
                 conversationId: conversationId
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                return data.records;
+            }).then(function (records) {
+                return records.reverse();
+            });
+        },
+        getMessagesByNumber: function getMessagesByNumber(phoneNumber, hourFrom, hourTo) {
+            return sdk.platform().get('/account/~/extension/~/message-store', {
+                dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
+                dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
+                phoneNumber: phoneNumber
             }).then(function (response) {
                 return response.json();
             }).then(function (data) {
