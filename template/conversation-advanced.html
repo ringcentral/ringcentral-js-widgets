@@ -112,6 +112,7 @@ w.register(function() {
                 this.props.dom.input.value = ''
                 var date = new Date()
                 var bubble = this.addBubble(
+                    null,
                     'SMS',
                     this.props.message,
                     'Outgoing',
@@ -133,15 +134,39 @@ w.register(function() {
             after: function(response) {}
         },
         addBubble: {
-            after: function(type, content, direction, time, prepend) {
+            after: function(id, type, content, direction, time, prepend) {
                 var opponent = (direction === 'Inbound')
-                var doc = this.createSMSTemplate(content, opponent, time)
-                if (type === 'SMS')
-                    doc = this.createSMSTemplate(content, opponent, time)
+                var model = this.props.contact.msg.find(contact => contact.id === id)
+                var doc
+                if (type === 'SMS' || type === 'Pager')
+                    doc = this.createSMSTemplate(id, content, opponent, time)
                 else if (type === 'VoiceMail')
-                    doc = this.createVoiceMailTemplate(content, opponent, time)
+                    doc = this.createVoiceMailTemplate(id, content, opponent, time)
                 else if (type === 'Voice')
-                    doc = this.createCallLogTemplate(content, opponent, time)
+                    doc = this.createCallLogTemplate(id, content, opponent, time)
+
+                doc.addEventListener('mouseover', e => {
+                    console.log(this.props.contact);
+                    var fromNumber = model.from
+                    var toNumber = model.to
+                    this.props.contact.msg
+                    .filter(msg => msg.dom)
+                    .map(msg => msg.dom)
+                    .map(dom => dom.style.background = '#fff')
+
+                    this.props.contact.msg
+                    .filter(contact => 
+                        contact.from === fromNumber || 
+                        contact.from === toNumber ||
+                        contact.to === toNumber ||
+                        contact.to === fromNumber)
+                    .filter(msg => msg.dom)
+                    .map(msg => msg.dom)
+                    .map(dom => dom.style.background = '#ecf0f1')
+                });
+                console.log(this.props.contact.msg.length);
+                console.log(type);
+                model.dom = doc
                 
                 if (prepend) {
                     this.props.dom.conversations.insertBefore(doc, this.props.dom.conversations.firstChild)
@@ -152,7 +177,7 @@ w.register(function() {
             }
         },
         createSMSTemplate: {
-            method: function(finish, text, opponent, time) {
+            method: function(finish, id, text, opponent, time) {
                 var div = document.createElement('div')
                 div.innerHTML = `<div class='clearfix'>
                                     <div
@@ -161,12 +186,12 @@ w.register(function() {
                                         ${text}
                                     </div>
                                 </div>`
+
                 return div.firstChild
             }
         },
         createVoiceMailTemplate: {
-            method: function(finish, content, opponent, time) {
-                console.log(content);
+            method: function(finish, id, content, opponent, time) {
                 var audio = new Audio(`${content.uri}?access_token=${sdk.platform().auth().accessToken()}`)
                 var div = document.createElement('div')
                 div.innerHTML = `<div class='clearfix'>
@@ -185,7 +210,7 @@ w.register(function() {
             }
         },
         createCallLogTemplate: {
-            method: function(finish, text, opponent, time) {
+            method: function(finish, id, text, opponent, time) {
                 var div = document.createElement('div')
                 div.innerHTML = `<div class='clearfix'>
                                     <div
@@ -223,7 +248,6 @@ w.register(function() {
                 })
             },
             after: function(messages) {
-                console.log(messages);
                 if (messages) {
                     // maintain the scoll position
                     var scrollBottom = this.props.dom.conversations.offsetHeight
@@ -242,7 +266,13 @@ w.register(function() {
                         msg.time = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
                         return msg
                     })
-                    .forEach(msg => this.addBubble(msg.type, msg.subject, msg.direction, msg.time))
+                    .forEach(msg => this.addBubble(
+                        msg.id, 
+                        msg.type, 
+                        msg.subject, 
+                        msg.direction, 
+                        msg.time)
+                    )
             },
             after: function(msgs, scroll = true) {
                 if (scroll)
@@ -262,6 +292,7 @@ w.register(function() {
                         return msg
                     })
                     .forEach(msg => this.addBubble(
+                        msg.id,
                         msg.type,
                         msg.subject,
                         msg.direction,
@@ -287,6 +318,7 @@ w.register(function() {
                 .forEach(msg => {
                     this.props.syncedMessages.push(msg.id)
                     this.addBubble(
+                        msg.id,
                         msg.type,
                         msg.subject,
                         msg.direction,
@@ -316,7 +348,6 @@ w.register(function() {
         },
         scrollToBottom: {
             after: function() {
-                console.log('update');
                 this.props.dom.container.scrollTop = this.props.dom.container.scrollHeight
             }
         },
@@ -345,7 +376,6 @@ w.register(function() {
         },
         setReceiverCandidates: {
             method: function(finish, toNumbers) {
-                console.log(toNumbers);
                 this.props.toNumbers = toNumbers
             }
         }

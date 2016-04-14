@@ -29,6 +29,7 @@ var rcContactSearchProvider = w.service()['rcContactSearchProvider']
 var rcContactService = w.service()['rcContactService']
 var callLogService = w.service()['callLogService']
 var dialPadSearchProviders = [rcContactSearchProvider]
+
 function init() {
     var authPanel = w('auth-panel', {
         actions: {
@@ -70,6 +71,7 @@ function init() {
                         return fetch('./calllog').then(res => res.json())
                     }
                     //---------------------------------------------------
+                    accountService.getAccountInfo().then(info => this.props.fromExtension = info.extensionNumber)
                     rcMessageService.subscribeToMessageUpdate()
                     rcMessageService.onMessageUpdated(this.confirmMessages)
                     rcMessageService.onMessageUpdated(msgs => this.addIncomingMessages(msgs.map(adaptMessage)))
@@ -80,13 +82,18 @@ function init() {
                         rcContactService.completeCompanyContact()
                     ]).then(result => {
                         var [msgs, logs, contacts] = result
-                        contacts.forEach(contact => contact.phoneNumber.push(contact.extension))
+                        
                         msgs = msgs.map(adaptMessage)
                         logs = logs.map(adaptMessage)
                         var contents = sortTime(combine(msgs, logs))
                         var relatedContacts = mapContactMessage(contents, contacts)
                                                 .map(contact => {
                                                     contact.syncHour = cachedHour
+                                                    return contact
+                                                })
+                                                .map(contact => {
+                                                    contact.phoneNumber = 
+                                                    uniqueArray(contact.phoneNumber.concat(contact.extension))
                                                     return contact
                                                 })
                                                 .reduce((map, contact) => {
@@ -97,6 +104,7 @@ function init() {
                         // FIXME
                         var currentContact = this.props.contact = relatedContacts['297709020']
                         // set default outbound caller id as first phone number
+                        this.props.toExtension = currentContact.extension
                         this.setReceiver(currentContact.phoneNumber[0])
                         this.setReceiverCandidates(currentContact.phoneNumber)
                         this.appendMessages(currentContact.msg.reverse())
@@ -121,11 +129,20 @@ function init() {
             },
             send: {
                 method: function() {
-                    return rcMessageService.sendSMSMessage(
-                        this.props.message,
-                        this.props.fromNumber,
-                        this.props.toNumber
-                    );
+                    if (this.props.toNumber === this.props.toExtension) {
+                        return rcMessageService.sendPagerMessage(
+                            this.props.message,
+                            this.props.fromExtension,
+                            this.props.toExtension
+                        );
+                    }
+                    else {
+                        return rcMessageService.sendSMSMessage(
+                            this.props.message,
+                            this.props.fromNumber,
+                            this.props.toNumber
+                        );
+                    }
                 }
             },
             queryContacts: {
@@ -155,7 +172,7 @@ function init() {
                     .then(msgs => {
                         console.log(msgs);
                         cachedHour += this.props.hourOffset
-                        this.props.contact.msg.concat(msgs)
+                        this.props.contact.msg = this.props.contact.msg.concat(msgs)
                         return msgs
                     })
                     
@@ -206,6 +223,12 @@ function containSameVal(array1, array2) {
     return array1.filter(function(n) {
         return array2.indexOf(n) != -1;
     }).length > 0
+}
+function uniqueArray(target) {
+     var seen = {};
+    return target.filter(function(item) {
+        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
+    });
 }
 function adaptMessage(msg) {
     return {

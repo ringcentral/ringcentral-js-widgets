@@ -129,6 +129,18 @@ var rcMessageService = function(sdk) {
                 })
                 .then(response => response.json())
         },
+        sendPagerMessage: function(text, fromNumber, toNumber) {
+            console.log(fromNumber);
+            return sdk.platform()
+                .post('/account/~/extension/~/company-pager/', {
+                    from: {extensionNumber: fromNumber},
+                    to: [
+                        {extensionNumber: toNumber}
+                    ],
+                    text: text
+                })
+                .then(response => response.json())
+        },
         getConversation: function(conversationId, hourFrom, hourTo) {
             return sdk.platform()
                 .get('/account/~/extension/~/message-store', {

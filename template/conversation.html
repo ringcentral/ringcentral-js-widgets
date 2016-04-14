@@ -237,7 +237,6 @@ w.register(function() {
         },
         scrollToBottom: {
             after: function() {
-                console.log('update');
                 this.props.dom.container.scrollTop = this.props.dom.container.scrollHeight
             }
         },
@@ -254,7 +253,6 @@ w.register(function() {
         },
         addIncomingMessages: {
             method: function(finish, messages) {
-                console.log(messages);
                 messages
                 .filter(msg => msg.availability === 'Alive')
                 .filter(msg => msg.messageStatus === 'Received')

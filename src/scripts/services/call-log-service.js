@@ -5,9 +5,6 @@ import { register } from '../service'
 var CallLogService = (function(sdk) {
     var period = 7 * 24 * 3600 * 1000
     var dateFrom = new Date(Date.now() - (period))
-    function onCallLogUpdate(d) {
-        console.log(d)
-    }
     return {
         getCallLogs: function() {
             return sdk.platform()
@@ -17,7 +14,6 @@ var CallLogService = (function(sdk) {
                 })
         },
         getCallLogsByNumber: function(phoneNumber, hourFrom, hourTo) {
-            console.log(phoneNumber);
             return sdk.platform()
                 .get('/account/~/extension/~/call-log', {
                     dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),

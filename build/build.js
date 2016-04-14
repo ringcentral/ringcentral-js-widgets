@@ -93,9 +93,6 @@ register('rcSubscription', rcSubscription);
 var CallLogService = function (sdk) {
     var period = 7 * 24 * 3600 * 1000;
     var dateFrom = new Date(Date.now() - period);
-    function onCallLogUpdate(d) {
-        console.log(d);
-    }
     return {
         getCallLogs: function getCallLogs() {
             return sdk.platform().get('/account/~/extension/~/call-log', { dateFrom: dateFrom.toISOString() }).then(function (response) {
@@ -103,7 +100,6 @@ var CallLogService = function (sdk) {
             });
         },
         getCallLogsByNumber: function getCallLogsByNumber(phoneNumber, hourFrom, hourTo) {
-            console.log(phoneNumber);
             return sdk.platform().get('/account/~/extension/~/call-log', {
                 dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
                 dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
@@ -639,6 +635,16 @@ var rcMessageService = function (sdk) {
             return sdk.platform().post('/account/~/extension/~/sms/', {
                 from: { phoneNumber: fromNumber },
                 to: [{ phoneNumber: toNumber }],
+                text: text
+            }).then(function (response) {
+                return response.json();
+            });
+        },
+        sendPagerMessage: function sendPagerMessage(text, fromNumber, toNumber) {
+            console.log(fromNumber);
+            return sdk.platform().post('/account/~/extension/~/company-pager/', {
+                from: { extensionNumber: fromNumber },
+                to: [{ extensionNumber: toNumber }],
                 text: text
             }).then(function (response) {
                 return response.json();
