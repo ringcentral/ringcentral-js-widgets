@@ -61,19 +61,18 @@ function init() {
                     // rcMessageService.syncMessages = () => {
                     //     return fetch('./message').then(res => res.json())
                     // }
-                    // rcContactService.completeCompanyContact = () => {
-                    //     return fetch('./contact').then(res => res.json())
-                    // }
-                    // callLogService.getCallLogs = () => {
-                    //     return fetch('./calllog').then(res => res.json())
-                    // }
+                    rcContactService.completeCompanyContact = () => {
+                        return fetch('./contact').then(res => res.json())
+                    }
+                    callLogService.getCallLogs = () => {
+                        return fetch('./calllog').then(res => res.json())
+                    }
                     //---------------------------------------------------
                     rcMessageService.subscribeToMessageUpdate()
                     rcMessageService.onMessageUpdated(this.confirmMessages)
                     rcMessageService.onMessageUpdated(msgs => this.addIncomingMessages(msgs.map(adaptMessage)))
                     callLogService.subscribeToCallLogUpdate()
                     function adaptMessage(msg) {
-                        console.log(msg);
                         return {
                             id:                 msg.id,
                             from:               msg.from.extensionNumber || 
@@ -108,13 +107,18 @@ function init() {
                         var currentContact = relatedContacts[1]
                         // set default outbound caller id as first phone number
                         this.setReceiver(currentContact.phoneNumber[0])
+                        this.setReceiverCandidates(currentContact.phoneNumber)
                         this.appendMessages(currentContact.msg.reverse())
 
                         function combine(...targets) {
                             return targets.reduce((result, target) => result.concat(target), [])
                         }
                         function sortTime(target) {
-                            return target.sort((a, b) => Date.parse(a.time) < Date.parse(b.time))
+                            console.log(target);
+                            return target.sort((a, b) => 
+                                Date.parse(b.lastModifiedTime) - 
+                                Date.parse(a.lastModifiedTime)
+                            )
                         }
                         
 

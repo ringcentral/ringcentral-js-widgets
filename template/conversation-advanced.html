@@ -40,6 +40,8 @@ w.register(function() {
             },
             after: function() {
                 this.props.syncedMessages = []
+                this.props.toNumbers = []
+
                 var conversation = this;
                 w.customize(this, 'contact-picker', {
                     data: {
@@ -48,7 +50,9 @@ w.register(function() {
                     actions: {
                         autoComplete: {
                             method: function() {
-                                return conversation.queryContacts(this.props.inputValue);
+                                return conversation.props.toNumbers.map(num => {
+                                    return { value: num }
+                                });
                             }
                         }
                     }
@@ -117,7 +121,7 @@ w.register(function() {
             },
             method: function(finish, dom) {
                 this.props.fromNumber = this.data.fromNumber || this.props.fromNumber
-                this.props.toNumber = this.data.toNumber || this.props['contact-picker'].props.dom.input.value
+                this.props.toNumber = this.data.toNumber || this.props['contact-picker'].getInput()
                 return finish().then(response => {
                     dom.setAttribute('data-id', response.id)
                     this.unconfirm = this.unconfirm || []
@@ -327,14 +331,20 @@ w.register(function() {
         },
         setSender: {
             method: function(finish, fromNumber) {
-                this.data.fromNumber = fromNumber
+                this.props.fromNumber = fromNumber
                 this.props['switchTitle'].switchTitle(fromNumber)
             }
         },
         setReceiver: {
             method: function(finish, toNumber) {
-                this.data.toNumber = toNumber
-                this.props['contact-picker'].props.dom.input.value = toNumber
+                this.props.toNumber = toNumber
+                this.props['contact-picker'].setInput(toNumber)
+            }
+        },
+        setReceiverCandidates: {
+            method: function(finish, toNumbers) {
+                console.log(toNumbers);
+                this.props.toNumbers = toNumbers
             }
         }
     }
