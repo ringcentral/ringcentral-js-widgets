@@ -73,7 +73,7 @@ function init() {
                     //---------------------------------------------------
                     accountService.getAccountInfo().then(info => this.props.fromExtension = info.extensionNumber)
                     rcMessageService.subscribeToMessageUpdate()
-                    rcMessageService.onMessageUpdated(this.confirmMessages)
+                    rcMessageService.onMessageUpdated(msgs => this.confirmMessages(msgs.map(adaptMessage)))
                     rcMessageService.onMessageUpdated(msgs => this.addIncomingMessages(msgs.map(adaptMessage)))
                     
                     Promise.all([
@@ -170,9 +170,7 @@ function init() {
                     .then(msgs => msgs.map(adaptMessage))
                     .then(sortTime)
                     .then(msgs => {
-                        console.log(msgs);
                         cachedHour += this.props.hourOffset
-                        this.props.contact.msg = this.props.contact.msg.concat(msgs)
                         return msgs
                     })
                     

@@ -144,9 +144,24 @@ w.register(function() {
                     doc = this.createVoiceMailTemplate(id, content, opponent, time)
                 else if (type === 'Voice')
                     doc = this.createCallLogTemplate(id, content, opponent, time)
-
-                doc.addEventListener('mouseover', e => {
-                    console.log(this.props.contact);
+                if (model) {
+                    model.dom = doc
+                    this.markBubble(model)
+                }
+                
+                if (prepend) {
+                    this.props.dom.conversations.insertBefore(doc, this.props.dom.conversations.firstChild)
+                } else {
+                    this.props.dom.conversations.appendChild(doc)
+                }
+                return this.props.dom.conversations.lastChild;
+            }
+        },
+        markBubble: {
+            method: function(finish, model) {
+                model.dom.addEventListener('mouseover', e => {
+                    console.log(model);
+                    console.log(model.from + ':' + model.to);
                     var fromNumber = model.from
                     var toNumber = model.to
                     this.props.contact.msg
@@ -155,8 +170,8 @@ w.register(function() {
                     .map(dom => dom.style.background = '#fff')
 
                     this.props.contact.msg
-                    .filter(contact => 
-                        contact.from === fromNumber || 
+                    .filter(contact =>
+                        contact.from === fromNumber ||
                         contact.from === toNumber ||
                         contact.to === toNumber ||
                         contact.to === fromNumber)
@@ -164,16 +179,6 @@ w.register(function() {
                     .map(msg => msg.dom)
                     .map(dom => dom.style.background = '#ecf0f1')
                 });
-                console.log(this.props.contact.msg.length);
-                console.log(type);
-                model.dom = doc
-                
-                if (prepend) {
-                    this.props.dom.conversations.insertBefore(doc, this.props.dom.conversations.firstChild)
-                } else {
-                    this.props.dom.conversations.appendChild(doc)
-                }
-                return this.props.dom.conversations.lastChild;
             }
         },
         createSMSTemplate: {
@@ -283,22 +288,20 @@ w.register(function() {
             before: function() {
 
             },
-            method: function(finish, msgs, scroll) {
-                if (msgs)
-                    msgs
-                    .map(msg => {
-                        var time = new Date(msg.lastModifiedTime)
-                        msg.time = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
-                        return msg
-                    })
-                    .forEach(msg => this.addBubble(
-                        msg.id,
-                        msg.type,
-                        msg.subject,
-                        msg.direction,
-                        msg.time,
-                        true)
-                    )
+            method: function(finish, messages, scroll) {
+                this.props.contact.msg = this.props.contact.msg.concat(messages)
+                messages.map(msg => {
+                    var time = new Date(msg.lastModifiedTime)
+                    msg.time = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
+                    return msg
+                }).forEach(msg => this.addBubble(
+                    msg.id,
+                    msg.type,
+                    msg.subject,
+                    msg.direction,
+                    msg.time,
+                    true)
+                )
             },
             after: function(msgs, scroll = true) {
                 if (scroll)
@@ -307,6 +310,9 @@ w.register(function() {
         },
         addIncomingMessages: {
             method: function(finish, messages) {
+                console.log('incoming');
+                console.log(messages);
+                this.props.contact.msg = this.props.contact.msg.concat(messages)
                 messages
                 .filter(msg => this.props.syncedMessages.indexOf(msg.id) === -1)
                 .filter(msg => msg.direction === 'Inbound')
@@ -334,11 +340,18 @@ w.register(function() {
                     return []
                 if (!messages)
                     return []
-                return this.unconfirm
-                .filter(dom => messages
-                    .map(msg => msg.id)
-                    .indexOf(parseInt(dom.getAttribute('data-id'))) > -1)
-                .forEach(dom => dom.removeAttribute('data-id'))
+                this.props.contact.msg = this.props.contact.msg.concat(messages)
+                return messages.map(msg => {
+                    var index = this.unconfirm.findIndex(dom => dom.getAttribute('data-id') == msg.id)
+                    var dom = this.unconfirm[index] || null
+                    if (dom) {
+                        dom.removeAttribute('data-id')
+                        msg.dom = dom
+                        this.unconfirm.splice(index, 1)
+                        this.markBubble(msg)
+                    }
+                    return dom
+                })
             }
         },
         warnBubble: {
@@ -381,5 +394,5 @@ w.register(function() {
         }
     }
 })
-//# sourceURL=conversation.html
+//# sourceURL=conversation-advanced.html
 </script>
