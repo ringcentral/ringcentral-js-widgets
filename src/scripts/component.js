@@ -96,8 +96,6 @@ function widget({actions, data = {}}, options) {
                   .filter(node => node.nodeType === 1)
             )[0]
             target.appendChild(template)
-            console.log(this.target);
-            console.log(this.props.root);
         }
         callback && isFunction(callback) && callback()
         if (widgetMount && isFunction(widgetMount))

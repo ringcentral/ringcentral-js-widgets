@@ -1061,8 +1061,6 @@ function widget(_ref2, options) {
                 return node.nodeType === 1;
             }))[0];
             target.appendChild(template);
-            console.log(this.target);
-            console.log(this.props.root);
         }
         callback && isFunction(callback) && callback();
         if (widgetMount && isFunction(widgetMount)) return widgetMount.call(this, finish);

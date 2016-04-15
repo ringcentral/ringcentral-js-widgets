@@ -78,30 +78,16 @@ w.register(function() {
                 w.customize(this, 'dropdown', {
                     data: {},
                     actions: {
-                        init: {
-                            after: function() {
-                                if (this.props.test === 1)
-                                    console.log('ha');
-                                this.props.test = 1
-                                console.log(this.props.root);
-                            }
-                        },
                         mount: {
-                            before: function() {
-                                console.log(this.props.root);
-                            },
                             after: function() {
-                                console.log(this.props.root);
                                 this.getData()
                             }
                         },
                         getData: {
                             method: function() {
-                                console.log(this.props.root);
                                 return conversation.getOutboundCallerID()
                             },
                             after: function(ids) {
-                                console.log(this.props.root);
                                 ids.forEach(id => this.addItem(id));
                             }
                         }
