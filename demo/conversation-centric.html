@@ -67,11 +67,14 @@ function init() {
                     rcContactService.completeCompanyContact = () => {
                         return fetch('./contact').then(res => res.json())
                     }
-                    callLogService.getCallLogs = () => {
-                        return fetch('./calllog').then(res => res.json())
-                    }
+                    // callLogService.getCallLogs = () => {
+                    //     return fetch('./calllog').then(res => res.json())
+                    // }
                     //---------------------------------------------------
-                    accountService.getAccountInfo().then(info => this.props.fromExtension = info.extensionNumber)
+                    accountService.getAccountInfo()
+                    .then(info => this.props.fromExtension = info.extensionNumber)
+                    .then(() => this.getOutboundCallerID())
+
                     rcMessageService.subscribeToMessageUpdate()
                     rcMessageService.onMessageUpdated(msgs => this.confirmMessages(msgs.map(adaptMessage)))
                     rcMessageService.onMessageUpdated(msgs => this.addIncomingMessages(msgs.map(adaptMessage)))
@@ -243,7 +246,8 @@ function adaptMessage(msg) {
                             msg.startTime,
         lastModifiedTime:   msg.lastModifiedTime || 
                             msg.startTime,
-        subject:            msg.subject ||
+        subject:            msg.recording ||
+                            msg.subject ||
                             msg.action ||
                             msg.attachments[0]
     }

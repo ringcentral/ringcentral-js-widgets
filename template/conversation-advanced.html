@@ -4,7 +4,6 @@
     </div>
     <div    class='rc-panel__content rc-conversation__container' 
             data-info='panel'>
-        <dropdown class='' data-info='dropdown'></dropdown>
         <div    class='rc-conversation__content' 
                 data-info='container'
                 data-event='scroll:scroll'>
@@ -57,39 +56,11 @@ w.register(function() {
                         }
                     }
                 })
-                w.customize(this, 'dropdown', {
-                    data: {
-                        defaultValue: conversation.data.fromNumber
-                    },
-                    actions: {
-                        getData: {
-                            method: function() {
-                                return conversation.getOutboundCallerID();
-                            },
-                            after: function(ids) {
-                                ids.forEach(id => this.addItem(id));
-                            }
-                        },
-                        switchTitle: {
-                            method: function(text) {
-                                conversation.props.fromNumber = text;
-                            }
-                        }
-                    }
-                })
             }
         },
         mount: {
-            method: function() {
-                // There is two type of conversation: 1. to new users 2. existing conversation
-                // will be determined by this.data
-                if (!this.data.new) {
-                    this.props['contact-picker'].disable()
-                    this.props.dropdown.disable()
-                }
-            },
+            method: function() {},
             after: function() {
-                this.props['dropdown'].getData()
                 this.props.dom.input.value = this.data.message || ''
                 fade.init(this.props.root)
                 fade.in(this.props.root, {
@@ -215,22 +186,29 @@ w.register(function() {
             }
         },
         createCallLogTemplate: {
-            method: function(finish, id, text, opponent, time) {
+            method: function(finish, id, content, opponent, time) {
                 var div = document.createElement('div')
                 div.innerHTML = `<div class='clearfix'>
                                     <div
                                         data-tooltip='${time}'
                                         class='conversations__bubble ${opponent? "--opponent": "--self"} '>
-                                        <span class='bubble--log icon-uniAE'><span>${text}</span>
+                                        <span class='bubble--log icon-uniAE'>
+                                        <span class='voice-bubble__play icon-uni7C'></span>
                                     </div>
                                 </div>`
+
+                if (typeof content === 'string') {
+
+                } else {
+                    // TODO:
+                    // get ${content.uri}?access_token=${sdk.platform().auth().accessToken()}
+                    // to get the duration of record
+                    var audio = new Audio(`${content.uri}/content?access_token=${sdk.platform().auth().accessToken()}`)
+                    div.firstChild.addEventListener('click', e => {
+                        audio.play()
+                    });
+                }
                 return div.firstChild
-            }
-        },
-        disable: {
-            after: function() {
-                this.props['contact-picker'].disable()
-                this.props.dropdown.disable()
             }
         },
         scroll: {
@@ -367,6 +345,11 @@ w.register(function() {
         getOutboundCallerID: {
             method: function(finish) {
                 return finish();
+            },
+            after: function(numbers) {
+                // FIXME
+                this.props.fromNumber = numbers[0]
+                this.props.fromNumbers = numbers
             }
         },
         queryContacts: {
@@ -378,7 +361,6 @@ w.register(function() {
         setSender: {
             method: function(finish, fromNumber) {
                 this.props.fromNumber = fromNumber
-                this.props['switchTitle'].switchTitle(fromNumber)
             }
         },
         setReceiver: {
