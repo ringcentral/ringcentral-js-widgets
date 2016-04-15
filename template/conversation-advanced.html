@@ -1,9 +1,13 @@
 <div class='rc-panel rc-conversation'>
     <div class='rc-panel__header --colored' data-info='header'>
-        <contact-picker data-info='contact-picker'></contact-picker>
+        <!-- <contact-picker data-info='contact-picker'></contact-picker> -->
     </div>
     <div    class='rc-panel__content rc-conversation__container' 
             data-info='panel'>
+        <div class='rc-conversation__bar'>
+            <div class='rc-conversation__hint' data-info='to-number'>to</div>
+            <div class='rc-conversation__hint' data-info='from-number'>from</div>
+        </div>
         <div    class='rc-conversation__content' 
                 data-info='container'
                 data-event='scroll:scroll'>
@@ -26,7 +30,22 @@
             data-event='keydown:enter'
             placeholder='messages...'
             ></textarea>
+            <button 
+                class='rc-button --circle rc-conversation__callout'
+                data-info='callout'
+            >+
+            </button>
         </div>
+    </div>
+    <div 
+        class='rc-conversation__modal display-none'
+        data-info='phone-modal'>
+        <h2>Phone call</h2>
+        <div>
+            <dropdown data-info='from-number-dropdown'></dropdown>
+            <dropdown data-info='to-number-dropdown'></dropdown>
+        </div>
+        <button class='rc-button --round'>Call out</button>
     </div>
 </div>
 <script>
@@ -56,6 +75,38 @@ w.register(function() {
                         }
                     }
                 })
+                w.customize(this, 'dropdown', {
+                    data: {},
+                    actions: {
+                        init: {
+                            after: function() {
+                                if (this.props.test === 1)
+                                    console.log('ha');
+                                this.props.test = 1
+                                console.log(this.props.root);
+                            }
+                        },
+                        mount: {
+                            before: function() {
+                                console.log(this.props.root);
+                            },
+                            after: function() {
+                                console.log(this.props.root);
+                                this.getData()
+                            }
+                        },
+                        getData: {
+                            method: function() {
+                                console.log(this.props.root);
+                                return conversation.getOutboundCallerID()
+                            },
+                            after: function(ids) {
+                                console.log(this.props.root);
+                                ids.forEach(id => this.addItem(id));
+                            }
+                        }
+                    }
+                })
             }
         },
         mount: {
@@ -63,9 +114,8 @@ w.register(function() {
             after: function() {
                 this.props.dom.input.value = this.data.message || ''
                 fade.init(this.props.root)
-                fade.in(this.props.root, {
-                    after: () => this.props['contact-picker'].focus()
-                })
+                fade.in(this.props.root)
+                this.props.dom.callout.addEventListener('click', this.togglePhoneModal);
             }
         },
         enter: {
@@ -131,10 +181,17 @@ w.register(function() {
         markBubble: {
             method: function(finish, model) {
                 model.dom.addEventListener('mouseover', e => {
-                    console.log(model);
-                    console.log(model.from + ':' + model.to);
                     var fromNumber = model.from
                     var toNumber = model.to
+                    if (this.props.contact.extension == fromNumber || 
+                        this.props.fromNumbers.indexOf(fromNumber) > -1) {
+                        this.props.dom['from-number'].textContent = fromNumber
+                        this.props.dom['to-number'].textContent = toNumber
+                    } else {
+                        this.props.dom['from-number'].textContent = toNumber
+                        this.props.dom['to-number'].textContent = fromNumber
+                    }
+                    
                     this.props.contact.msg
                     .filter(msg => msg.dom)
                     .map(msg => msg.dom)
@@ -142,10 +199,10 @@ w.register(function() {
 
                     this.props.contact.msg
                     .filter(contact =>
-                        contact.from === fromNumber ||
-                        contact.from === toNumber ||
-                        contact.to === toNumber ||
-                        contact.to === fromNumber)
+                        contact.from == fromNumber ||
+                        contact.from == toNumber ||
+                        contact.to == toNumber ||
+                        contact.to == fromNumber)
                     .filter(msg => msg.dom)
                     .map(msg => msg.dom)
                     .map(dom => dom.style.background = '#ecf0f1')
@@ -366,12 +423,16 @@ w.register(function() {
         setReceiver: {
             method: function(finish, toNumber) {
                 this.props.toNumber = toNumber
-                this.props['contact-picker'].setInput(toNumber)
             }
         },
         setReceiverCandidates: {
             method: function(finish, toNumbers) {
                 this.props.toNumbers = toNumbers
+            }
+        },
+        togglePhoneModal: {
+            before: function() {
+                this.props.dom['phone-modal'].classList.toggle('display-none')
             }
         }
     }

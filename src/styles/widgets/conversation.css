@@ -16,6 +16,7 @@ $conversation-bubble-color: #ecf0f1;
         height: 100%;
     }
     &__textarea-wrapper {
+        position: relative;
         width: 100%;
         > textarea {
             @mixin padding-normal;
@@ -25,6 +26,41 @@ $conversation-bubble-color: #ecf0f1;
             resize: none;
         }
     }
+    &__bar {
+
+    }
+    &__hint {
+        display: inline-block;
+        width: 49%;
+    }
+    &__callout {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 40px;
+        height: 40px;
+    }
+    &__modal {
+        @mixin shadow-3;
+        @mixin padding-large;
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 5%;
+        left: 5%;
+        width: 90%;
+        height: 90%;
+        border: 1px solid $gray;
+        background-color: #fff;
+        text-align: center;
+        & > .rc-button {
+            width: 100%;
+            margin-top: auto;
+            align-self: center;
+        }
+    }
+
+
     .conversations {
         @mixin padding-large;
         /*height: 100%;*/

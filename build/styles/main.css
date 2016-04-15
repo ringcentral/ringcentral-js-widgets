@@ -1577,6 +1577,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 100%;
 }
 .rc-conversation__textarea-wrapper {
+    position: relative;
     width: 100%;
 }
 .rc-conversation__textarea-wrapper > textarea {
@@ -1585,6 +1586,37 @@ h1, h2, h3, h4, h5, h6 {
     border: 0;
     border-top: 1px solid #bdc3c7;
     resize: none;
+}
+.rc-conversation__bar {}
+.rc-conversation__hint {
+    display: inline-block;
+    width: 49%;
+}
+.rc-conversation__callout {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+}
+.rc-conversation__modal {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    padding: .7em .9em;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 90%;
+    border: 1px solid #bdc3c7;
+    background-color: #fff;
+    text-align: center;
+}
+.rc-conversation__modal > .rc-button {
+    width: 100%;
+    margin-top: auto;
+    align-self: center;
 }
 .rc-contact-picker {/* used as a positioned reference */
     position: relative;

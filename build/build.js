@@ -999,11 +999,11 @@ function widget(_ref2, options) {
         return Error('You are trying to construct a widget manually, please use w()');
     }
     var defaultActions = shallowCopy(actions);
+    options.actions = shallowCopy(options.actions);
     this.props = {};
     this.custom = {};
     this.data = Object.assign(data, options.data);
     logger = initLogger(options.logLevel);
-
     Object.keys(defaultActions).forEach(function (index) {
         defaultActions[index] = bindScope(_this, defaultActions[index]);
     });
@@ -1061,6 +1061,8 @@ function widget(_ref2, options) {
                 return node.nodeType === 1;
             }))[0];
             target.appendChild(template);
+            console.log(this.target);
+            console.log(this.props.root);
         }
         callback && isFunction(callback) && callback();
         if (widgetMount && isFunction(widgetMount)) return widgetMount.call(this, finish);
