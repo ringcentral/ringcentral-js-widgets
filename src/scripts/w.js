@@ -60,7 +60,7 @@ function preload(widgets, callback) {
                             var scripts = template.querySelectorAll('script')
                             var style = template.querySelector('style')
                             scripts.forEach(script => {
-                                if (script.src)
+                                if (script.src && script.src.indexOf('http') !== 0)
                                     script.src = w.options.path + script.getAttribute('src')
                                 document.body.appendChild(script)
                                 document.body.removeChild(script)

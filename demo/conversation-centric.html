@@ -59,17 +59,17 @@ function init() {
                 }
             },
             mount: {
-                after: function() {
+                method: function() {
                     // test with mocked data----------------------------
-                    rcMessageService.syncMessages = () => {
-                        return fetch('./message').then(res => res.json())
-                    }
+                    // rcMessageService.syncMessages = () => {
+                    //     return fetch('./message').then(res => res.json())
+                    // }
                     rcContactService.completeCompanyContact = () => {
                         return fetch('./contact').then(res => res.json())
                     }
-                    callLogService.getCallLogs = () => {
-                        return fetch('./calllog').then(res => res.json())
-                    }
+                    // callLogService.getCallLogs = () => {
+                    //     return fetch('./calllog').then(res => res.json())
+                    // }
                     //---------------------------------------------------
                     accountService.getAccountInfo()
                     .then(info => this.props.fromExtension = info.extensionNumber)
@@ -79,7 +79,7 @@ function init() {
                     rcMessageService.onMessageUpdated(msgs => this.confirmMessages(msgs.map(adaptMessage)))
                     rcMessageService.onMessageUpdated(msgs => this.addIncomingMessages(msgs.map(adaptMessage)))
                     
-                    Promise.all([
+                    return Promise.all([
                         rcMessageService.syncMessages(cachedHour),
                         callLogService.getCallLogs(),
                         rcContactService.completeCompanyContact()
@@ -103,16 +103,6 @@ function init() {
                                                     map[contact.id] = contact
                                                     return map
                                                 }, {})
-                        console.log(relatedContacts);
-                        // FIXME
-                        var currentContact = this.props.contact = relatedContacts['297709020']
-                        // set default outbound caller id as first phone number
-                        this.props.toExtension = currentContact.extension
-                        this.setReceiver(currentContact.phoneNumber[0])
-                        this.setReceiverCandidates(currentContact.phoneNumber)
-                        this.appendMessages(currentContact.msg.reverse())
-
-                        
                         function mapContactMessage(msgs, contacts) {
                             return contacts.filter(contact => {
                                 var contactNums = contact.phoneNumber.concat(contact.extension)
@@ -126,6 +116,8 @@ function init() {
                                 }).length > 0
                             })
                         }
+
+                        return relatedContacts
                     })
                     //
                 }

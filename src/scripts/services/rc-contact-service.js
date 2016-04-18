@@ -25,16 +25,16 @@ var rcContactService = function(sdk) {
         contact.email = extension.contact.email
         contact.type = 'rc'
         contact.id  = extension.id
+        contact.profileImage = extension.profileImage.uri
         return contact
     }
     
     function addToCompanyContact(response) {
          var records = response.json().records
-            .filter(extension => {
-                return extension.status === 'Enabled' && ['DigitalUser', 'User'].indexOf(extension.type) >= 0
-            }).map(extension => {
-                return createContact(extension)
-            });
+            .filter(extension => 
+                extension.status === 'Enabled' && 
+                ['DigitalUser', 'User'].indexOf(extension.type) >= 0)
+            .map(extension => createContact(extension));
         companyContacts.push.apply(companyContacts, records);
     }
 

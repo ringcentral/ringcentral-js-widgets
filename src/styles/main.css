@@ -200,8 +200,8 @@ h6 {
         @mixin padding-small;
     }
     &.--positive {
-        background-color:   #2ecc71;
-        border-color:       #2ecc71;
+        background-color:   $rc-green;
+        border-color:       $rc-green;
         color:              #fff;
     }
     &.--negative {
