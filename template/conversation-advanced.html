@@ -175,7 +175,7 @@ w.register(function() {
             },
             method: function(finish, dom) {
                 this.props.fromNumber = this.data.fromNumber || this.props.fromNumber
-                this.props.toNumber = this.data.toNumber || this.props['contact-picker'].getInput()
+                this.props.toNumber = this.data.toNumber || this.props.toNumber
                 return finish().then(response => {
                     dom.setAttribute('data-id', response.id)
                     this.unconfirm = this.unconfirm || []
@@ -410,7 +410,9 @@ w.register(function() {
                         .filter(msg => msg.direction === 'Inbound'), false
                 )
             },
-            after: this.scrollToBottom
+            after: function() {
+                this.scrollToBottom()
+            }
         },
         confirmMessages: {
             method: function(finish, messages) {
