@@ -61,19 +61,19 @@ function init() {
             mount: {
                 after: function() {
                     // test with mocked data----------------------------
-                    // rcMessageService.syncMessages = () => {
-                    //     return fetch('./message').then(res => res.json())
-                    // }
+                    rcMessageService.syncMessages = () => {
+                        return fetch('./message').then(res => res.json())
+                    }
                     rcContactService.completeCompanyContact = () => {
                         return fetch('./contact').then(res => res.json())
                     }
-                    // callLogService.getCallLogs = () => {
-                    //     return fetch('./calllog').then(res => res.json())
-                    // }
+                    callLogService.getCallLogs = () => {
+                        return fetch('./calllog').then(res => res.json())
+                    }
                     //---------------------------------------------------
                     accountService.getAccountInfo()
                     .then(info => this.props.fromExtension = info.extensionNumber)
-                    .then(() => this.getOutboundCallerID())
+                    .then(this.getOutboundCallerID)
 
                     rcMessageService.subscribeToMessageUpdate()
                     rcMessageService.onMessageUpdated(msgs => this.confirmMessages(msgs.map(adaptMessage)))

@@ -1170,7 +1170,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .rc-panel__header.--colored {
-    background-color: #3498db;
+    background-color: #1e89ed;
     color: #fff;/* the white text need to be light */
     font-weight: lighter;
 }
@@ -1207,7 +1207,7 @@ h1, h2, h3, h4, h5, h6 {
     background: transparent;
 }
 .rc-button.--clean:hover, .rc-button.--clean:active {
-    border-color: #3498db;
+    border-color: #1e89ed;
 }
 .rc-button.--ghost {
     border: 0;
@@ -1242,7 +1242,7 @@ h1, h2, h3, h4, h5, h6 {
     border-color: #7f8c8d;
 }
 .rc-tag {
-    border: 1px solid #3498db;
+    border: 1px solid #1e89ed;
     padding: .1em .3em;
 }
 .rc-label {
@@ -1281,20 +1281,20 @@ h1, h2, h3, h4, h5, h6 {
 .rc-tabs__tab:last-child {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
-    border-right: 1px solid #3498db;
+    border-right: 1px solid #1e89ed;
 }
 .rc-tabs__tab.--color {
     background-color: #fff;
-    border-color: #3498db;
-    color: #3498db;
+    border-color: #1e89ed;
+    color: #1e89ed;
 }
 .rc-tabs__tab.--active {
-    background-color: #3498db;
-    border-color: #3498db;
+    background-color: #1e89ed;
+    border-color: #1e89ed;
     color: #fff;
 }
 .rc-tabs__tab.--active:last-child {
-    border-right-color: #3498db;
+    border-right-color: #1e89ed;
 }
 .rc-tabs__tab.--width2 {
     width: 50%;
@@ -1485,7 +1485,7 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: 10px;
 }
 .rc-call-panel .control-panel__item {
-    color: #3498db;
+    color: #1e89ed;
 }
 .rc-call-panel .control-panel__button {
     margin-bottom: 3px;
@@ -1512,8 +1512,13 @@ h1, h2, h3, h4, h5, h6 {
     bottom: 8px;
     right: 8px;
 }
-.rc-conversation .conversations {
-    padding: .7em .9em;/*height: 100%;*//*overflow-y: scroll;*/
+.rc-conversation .conversations {}
+.rc-conversation .conversations__conv {
+    padding-left: 1em;
+    padding-right: 1em;
+}
+.rc-conversation .conversations__conv.--marked {
+    background-color: #eee;
 }
 .rc-conversation .conversations__bubble {
     padding: .5em .7em;
@@ -1535,6 +1540,14 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-conversation .conversations__bubble.--self:after {
     right: 0;
+}
+.rc-conversation .conversations__bubble.--log {
+    background-color: #B7C1A9;
+    border-color: #B7C1A9;
+}
+.rc-conversation .conversations__bubble.--voice {
+    background-color: #CAC3A9;
+    border-color: #CAC3A9;
 }
 .rc-conversation .conversations__bubble:hover {}
 .rc-conversation .conversations__bubble:hover:after {
@@ -1617,6 +1630,11 @@ h1, h2, h3, h4, h5, h6 {
     width: 100%;
     margin-top: auto;
     align-self: center;
+}
+.rc-conversation__timestamp {
+    padding: .5em .7em;
+    text-align: center;
+    color: #bdc3c7;
 }
 .rc-contact-picker {/* used as a positioned reference */
     position: relative;
@@ -1777,8 +1795,8 @@ h1, h2, h3, h4, h5, h6 {
     margin: 4px 8px;
     width: 3.2em;
     height: 3.2em;
-    color: #3498db;
-    border-color: #3498db;
+    color: #1e89ed;
+    border-color: #1e89ed;
 }
 .rc-dial-pad__line > .dial-button > .dial-button__number {
     font-weight: bold;

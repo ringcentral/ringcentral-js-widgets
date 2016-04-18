@@ -80,7 +80,7 @@ w.register(function() {
                     actions: {
                         mount: {
                             after: function() {
-                                this.getData()
+                                // this.getData()
                             }
                         },
                         getData: {
@@ -177,11 +177,6 @@ w.register(function() {
                         this.props.dom['from-number'].textContent = toNumber
                         this.props.dom['to-number'].textContent = fromNumber
                     }
-                    
-                    this.props.contact.msg
-                    .filter(msg => msg.dom)
-                    .map(msg => msg.dom)
-                    .map(dom => dom.style.background = '#fff')
 
                     this.props.contact.msg
                     .filter(contact =>
@@ -191,14 +186,31 @@ w.register(function() {
                         contact.to == fromNumber)
                     .filter(msg => msg.dom)
                     .map(msg => msg.dom)
-                    .map(dom => dom.style.background = '#ecf0f1')
+                    .map(dom => dom.classList.add('--marked'))
+                });
+                model.dom.addEventListener('mouseout', e => {
+                    var fromNumber = model.from
+                    var toNumber = model.to
+                    if (this.props.contact.extension == fromNumber || 
+                        this.props.fromNumbers.indexOf(fromNumber) > -1) {
+                        this.props.dom['from-number'].textContent = fromNumber
+                        this.props.dom['to-number'].textContent = toNumber
+                    } else {
+                        this.props.dom['from-number'].textContent = toNumber
+                        this.props.dom['to-number'].textContent = fromNumber
+                    }
+                    
+                    this.props.contact.msg
+                    .filter(msg => msg.dom)
+                    .map(msg => msg.dom)
+                    .map(dom => dom.classList.remove('--marked'))
                 });
             }
         },
         createSMSTemplate: {
             method: function(finish, id, text, opponent, time) {
                 var div = document.createElement('div')
-                div.innerHTML = `<div class='clearfix'>
+                div.innerHTML = `<div class='clearfix conversations__conv'>
                                     <div
                                         data-tooltip='${time}' 
                                         class='conversations__bubble ${opponent? "--opponent": "--self"} '>
@@ -213,10 +225,10 @@ w.register(function() {
             method: function(finish, id, content, opponent, time) {
                 var audio = new Audio(`${content.uri}?access_token=${sdk.platform().auth().accessToken()}`)
                 var div = document.createElement('div')
-                div.innerHTML = `<div class='clearfix'>
+                div.innerHTML = `<div class='clearfix conversations__conv'>
                                     <div
                                         data-tooltip='${time}'
-                                        class='conversations__bubble ${opponent? "--opponent": "--self"} voice-bubble'>
+                                        class='conversations__bubble ${opponent? "--opponent": "--self"} --voice voice-bubble'>
                                         <span class='voice-bubble__play icon-uni7C'></span>
                                         <span class='voice-bubble__duration' data-length=${content.vmDuration}></span>
                                     </div>
@@ -231,10 +243,10 @@ w.register(function() {
         createCallLogTemplate: {
             method: function(finish, id, content, opponent, time) {
                 var div = document.createElement('div')
-                div.innerHTML = `<div class='clearfix'>
+                div.innerHTML = `<div class='clearfix conversations__conv'>
                                     <div
                                         data-tooltip='${time}'
-                                        class='conversations__bubble ${opponent? "--opponent": "--self"} '>
+                                        class='conversations__bubble ${opponent? "--opponent": "--self"} --log'>
                                         <span class='bubble--log icon-uniAE'>
                                         <span class='voice-bubble__play icon-uni7C'></span>
                                     </div>
@@ -283,22 +295,45 @@ w.register(function() {
                 }
             }
         },
-        appendMessages: {
-            method: function(finish, msgs, scroll) {
-                if (msgs)
-                    msgs
-                    .map(msg => {
+        addTimestamp: {
+            method: function(finish, time) {
+                var div = document.createElement('div')
+                div.innerHTML = `<div class='clearfix conversations__conv'>
+                                    <div class='rc-conversation__timestamp'>
+                                        ${time}
+                                    </div>
+                                </div>`
+                this.props.dom.conversations.appendChild(div.firstChild)
+            }
+        },
+        parseMessages: {
+            method: function(finish, msgs, prepend) {
+                msgs.map(msg => {
                         var time = new Date(msg.lastModifiedTime)
                         msg.time = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
                         return msg
                     })
-                    .forEach(msg => this.addBubble(
-                        msg.id, 
-                        msg.type, 
-                        msg.subject, 
-                        msg.direction, 
-                        msg.time)
+                    .forEach(msg => {
+                            this.addBubble(
+                                msg.id, 
+                                msg.type, 
+                                msg.subject, 
+                                msg.direction, 
+                                msg.time,
+                                prepend
+                            )
+                            var date = new Date(msg.lastModifiedTime).getDate()
+                            var month = new Date(msg.lastModifiedTime).getMonth()
+                            if (date > this.convDate)
+                                this.addTimestamp(month + '/' + date)
+                            this.convDate = new Date(msg.lastModifiedTime).getDate()
+                        }
                     )
+            }
+        },
+        appendMessages: {
+            method: function(finish, msgs, scroll) {
+                if (msgs) this.parseMessages(msgs, false)
             },
             after: function(msgs, scroll = true) {
                 if (scroll)
@@ -309,20 +344,9 @@ w.register(function() {
             before: function() {
 
             },
-            method: function(finish, messages, scroll) {
+            method: function(finish, msgs, scroll) {
                 this.props.contact.msg = this.props.contact.msg.concat(messages)
-                messages.map(msg => {
-                    var time = new Date(msg.lastModifiedTime)
-                    msg.time = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
-                    return msg
-                }).forEach(msg => this.addBubble(
-                    msg.id,
-                    msg.type,
-                    msg.subject,
-                    msg.direction,
-                    msg.time,
-                    true)
-                )
+                if (msgs) this.parseMessages(msgs, true)
             },
             after: function(msgs, scroll = true) {
                 if (scroll)
@@ -331,27 +355,12 @@ w.register(function() {
         },
         addIncomingMessages: {
             method: function(finish, messages) {
-                console.log('incoming');
-                console.log(messages);
                 this.props.contact.msg = this.props.contact.msg.concat(messages)
-                messages
-                .filter(msg => this.props.syncedMessages.indexOf(msg.id) === -1)
-                .filter(msg => msg.direction === 'Inbound')
-                .map(msg => {
-                    var time = new Date(msg.lastModifiedTime)
-                    msg.time = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
-                    return msg
-                })
-                .forEach(msg => {
-                    this.props.syncedMessages.push(msg.id)
-                    this.addBubble(
-                        msg.id,
-                        msg.type,
-                        msg.subject,
-                        msg.direction,
-                        msg.time
-                    )
-                })
+                this.parseMessages(
+                    messages
+                        .filter(msg => this.props.syncedMessages.indexOf(msg.id) === -1)
+                        .filter(msg => msg.direction === 'Inbound'), false
+                )
             },
             after: this.scrollToBottom
         },

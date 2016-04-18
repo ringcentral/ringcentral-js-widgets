@@ -1,11 +1,20 @@
 $rc-blue: #3498db;
 $rc-orange: #3498db;
-$white: #fff;
-$gray: #bdc3c7;
-$red: #e74c3c;
 
-$main-color: $rc-blue;
-$support-color: $rc-orange;
+$gray: #bdc3c7;
+$dark-gray: #6C7A89;
+$light-gray: #BDC3C7;
+
+$blue: #1e89ed;
+$dark-blue: #346689;
+$light-blue: #4aa8ba;
+$white: #fff;
+$red: #e74c3c;
+$yellow: #f4c118;
+$orange: #f47718;
+
+$main-color: $blue;
+$support-color: $orange;
 $alert-color: $red;
 $bg-color: $white;
 

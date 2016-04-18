@@ -1,4 +1,7 @@
 $conversation-bubble-color: #ecf0f1;
+$conversation-bubble-log-color: #B7C1A9;
+$conversation-bubble-voice-color: #CAC3A9;
+$conversation-bubble-marked-color: #eee;
 .rc-conversation {
     &__container {
         display: flex;
@@ -59,12 +62,21 @@ $conversation-bubble-color: #ecf0f1;
             align-self: center;
         }
     }
+    &__timestamp {
+        @mixin padding-normal;
+        text-align: center;
+        color: $gray;
+    }
 
 
     .conversations {
-        @mixin padding-large;
-        /*height: 100%;*/
-        /*overflow-y: scroll;*/
+        &__conv {
+            padding-left: 1em;
+            padding-right: 1em;
+            &.--marked {
+                background-color: $conversation-bubble-marked-color;
+            }
+        }
         &__bubble {
             @mixin padding-normal;
             position: relative;
@@ -84,6 +96,14 @@ $conversation-bubble-color: #ecf0f1;
                 &:after {
                     right: 0;
                 }
+            }
+            &.--log {
+                background-color: $conversation-bubble-log-color;
+                border-color: $conversation-bubble-log-color;
+            }
+            &.--voice {
+                background-color: $conversation-bubble-voice-color;
+                border-color: $conversation-bubble-voice-color;
             }
             &:hover {
                 &:after {
