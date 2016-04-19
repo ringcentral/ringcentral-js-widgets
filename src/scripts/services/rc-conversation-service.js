@@ -118,7 +118,19 @@ var conversationService = (function(sdk) {
                         cachedHour += offset
                         return msgs
                     })
-        }
+        },
+        onConversationUpdate: function(handler) {
+            rcMessageService.onMessageUpdated(msgs => {
+                try {
+                    var msgs = sortTime(msgs.map(adaptMessage)).reverse()
+                    handler(msgs)
+                } catch (e) {
+                    console.error(e)
+                    throw e
+                }
+            })
+        },
+        adaptMessage
     }
 })(sdk)
 

@@ -787,7 +787,19 @@ var conversationService = function (sdk) {
                 cachedHour += offset;
                 return msgs;
             });
-        }
+        },
+        onConversationUpdate: function onConversationUpdate(handler) {
+            rcMessageService.onMessageUpdated(function (msgs) {
+                try {
+                    var msgs = sortTime(msgs.map(adaptMessage)).reverse();
+                    handler(msgs);
+                } catch (e) {
+                    console.error(e);
+                    throw e;
+                }
+            });
+        },
+        adaptMessage: adaptMessage
     };
 }(sdk);
 

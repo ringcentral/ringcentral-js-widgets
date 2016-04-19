@@ -73,20 +73,6 @@ w.register(function() {
                 this.props.toNumbers = []
 
                 var conversation = this;
-                w.customize(this, 'contact-picker', {
-                    data: {
-                        contact: conversation.data.toNumber
-                    },
-                    actions: {
-                        autoComplete: {
-                            method: function() {
-                                return conversation.props.toNumbers.map(num => {
-                                    return { value: num }
-                                });
-                            }
-                        }
-                    }
-                })
                 w.customize(this, 'dropdown', {
                     data: {},
                     actions: {
@@ -109,27 +95,25 @@ w.register(function() {
         },
         mount: {
             method: function(finish) {
-                finish().then(relatedContacts => {
-                    var currentContact = this.props.contact = relatedContacts[this.data.contactId]
-                    // set default outbound caller id as first phone number
-                    this.props.toExtension = currentContact.extension
-                    this.setReceiver(currentContact.phoneNumber[0])
-                    this.setReceiverCandidates(currentContact.phoneNumber)
-                    this.appendMessages(currentContact.msg.reverse())
-                    this.setTitle(currentContact.displayName)
-                    console.log(currentContact.profileImage+`?access_token=${sdk.platform().auth().accessToken()}`)
-                    sdk.platform()
-                    .get(currentContact.profileImage)
-                    .then(r => r.response())
-                    .then(r => {
-                        if (r.status === 204) {
-                            var hash = md5(currentContact.id)
-                            this.props.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
-                        } else {
-                            this.props.dom['profile-img'].src = 
-                            currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
-                        }
-                    })
+                var currentContact = this.props.contact = this.data.contact
+                // set default outbound caller id as first phone number
+                this.props.toExtension = currentContact.extension
+                this.setReceiver(currentContact.phoneNumber[0])
+                this.setReceiverCandidates(currentContact.phoneNumber)
+                this.appendMessages(currentContact.msg.reverse())
+                this.setTitle(currentContact.displayName)
+                console.log(currentContact.profileImage+`?access_token=${sdk.platform().auth().accessToken()}`)
+                sdk.platform()
+                .get(currentContact.profileImage)
+                .then(r => r.response())
+                .then(r => {
+                    if (r.status === 204) {
+                        var hash = md5(currentContact.id)
+                        this.props.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
+                    } else {
+                        this.props.dom['profile-img'].src = 
+                        currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
+                    }
                 })
             },
             after: function() {
@@ -211,6 +195,8 @@ w.register(function() {
         markBubble: {
             method: function(finish, model) {
                 model.dom.addEventListener('mouseover', e => {
+                    if (!this.props.fromNumbers)
+                        return // not yet loaded
                     var fromNumber = model.from
                     var toNumber = model.to
                     if (this.props.contact.extension == fromNumber || 
@@ -233,6 +219,8 @@ w.register(function() {
                     .map(dom => dom.classList.add('--marked'))
                 });
                 model.dom.addEventListener('mouseout', e => {
+                    if (!this.props.fromNumbers)
+                        return // not yet loaded
                     var fromNumber = model.from
                     var toNumber = model.to
                     if (this.props.contact.extension == fromNumber || 
@@ -405,6 +393,10 @@ w.register(function() {
                 this.parseMessages(
                     messages
                         .filter(msg => this.props.syncedMessages.indexOf(msg.id) === -1)
+                        .map(msg => {
+                            this.props.syncedMessages.push(msg.id)
+                            return msg
+                        })
                         .filter(msg => msg.direction === 'Inbound'), false
                 )
             },

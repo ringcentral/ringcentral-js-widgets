@@ -57,8 +57,8 @@ function init() {
         actions: {
             mount: {
                 after: function(){
+                    rcMessageService.subscribeToMessageUpdate()
                     rcMessageProvider.onMessageUpdated(this.refreshMessages)
-
                 }
             },
             refreshMessages: {
@@ -74,13 +74,7 @@ function init() {
                     //     return fetch('./calllog').then(res => res.json())
                     // }
                     //---------------------------------------------------
-                    accountService.getAccountInfo()
-                    .then(info => this.props.fromExtension = info.extensionNumber)
-                    .then(this.getOutboundCallerID)
-
-                    rcMessageService.subscribeToMessageUpdate()
-                    rcMessageService.onMessageUpdated(msgs => this.confirmMessages(msgs.map(adaptMessage)))
-                    rcMessageService.onMessageUpdated(msgs => this.addIncomingMessages(msgs.map(adaptMessage)))
+                    
                     return Promise.all([
                         rcMessageService.syncMessages(conversationService.cachedHour),
                         callLogService.getCallLogs(),
@@ -88,7 +82,11 @@ function init() {
                     ]).then(result => {
                         var [msgs, logs, contacts] = result
                         return conversationService.getConversations(contacts, msgs, logs)
-                    }).then(relateContacts => 
+                    }).then(relateContacts => {
+                        this.props.relateContacts = relateContacts
+                        return relateContacts
+                    })
+                    .then(relateContacts => 
                         Object.keys(relateContacts).map(index => {
                             console.log(relateContacts);
                             // adapt to messages template format
@@ -104,13 +102,12 @@ function init() {
                 before: function() {},
                 method: function() {
                     // TODO: makes the div temp
-                    console.log(this.props.selectedMessage.contactId);
                     this.unmount()
-                    var parent = this
+                    var contact = this.props.relateContacts[this.props.selectedMessage.contactId]
                     var conversation = w('conversation', {
                         data: {
                             new: true,
-                            contactId: parent.props.selectedMessage.contactId
+                            contact: contact
                         },
                         actions: {
                             init: {
@@ -119,34 +116,12 @@ function init() {
                                 }
                             },
                             mount: {
-                                method: function() {
-                                    // test with mocked data----------------------------
-                                    // rcMessageService.syncMessages = () => {
-                                    //     return fetch('./message').then(res => res.json())
-                                    // }
-                                    rcContactService.completeCompanyContact = () => {
-                                        return fetch('./contact').then(res => res.json())
-                                    }
-                                    // callLogService.getCallLogs = () => {
-                                    //     return fetch('./calllog').then(res => res.json())
-                                    // }
-                                    //---------------------------------------------------
-                                    accountService.getAccountInfo()
-                                    .then(info => this.props.fromExtension = info.extensionNumber)
-                                    .then(this.getOutboundCallerID)
-
-                                    rcMessageService.subscribeToMessageUpdate()
-                                    rcMessageService.onMessageUpdated(msgs => this.confirmMessages(msgs.map(adaptMessage)))
-                                    rcMessageService.onMessageUpdated(msgs => this.addIncomingMessages(msgs.map(adaptMessage)))
-                                    return Promise.all([
-                                        rcMessageService.syncMessages(conversationService.cachedHour),
-                                        callLogService.getCallLogs(),
-                                        rcContactService.completeCompanyContact()
-                                    ]).then(result => {
-                                        var [msgs, logs, contacts] = result
-                                        return conversationService.getConversations(contacts, msgs, logs)
-                                    })
-                                    //
+                                after: function() {
+                                    conversationService.onConversationUpdate(this.confirmMessages)
+                                    conversationService.onConversationUpdate(this.addIncomingMessages)
+                                    return accountService.getAccountInfo()
+                                            .then(info => this.props.fromExtension = info.extensionNumber)
+                                            .then(this.getOutboundCallerID)
                                 }
                             },
                             send: {
