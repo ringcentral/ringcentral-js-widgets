@@ -109,10 +109,8 @@ w.register(function() {
         },
         mount: {
             method: function(finish) {
-                var relatedContacts = finish().then(relatedContacts => {
-                    console.log(relatedContacts);
-                    // FIXME
-                    var currentContact = this.props.contact = relatedContacts['297709020']
+                finish().then(relatedContacts => {
+                    var currentContact = this.props.contact = relatedContacts[this.data.contactId]
                     // set default outbound caller id as first phone number
                     this.props.toExtension = currentContact.extension
                     this.setReceiver(currentContact.phoneNumber[0])

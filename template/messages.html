@@ -112,6 +112,7 @@ w.register(function() {
                 return finish();
             },
             after: function(messages){
+                console.log(messages);
                 var root = this.props.dom.messages;
                 while(root.firstChild){
                     root.removeChild(root.firstChild);

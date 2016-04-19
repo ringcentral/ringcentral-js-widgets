@@ -3,7 +3,7 @@ import callLogService from './call-log-service'
 import rcMessageService from './rc-message-service'
 import { register } from '../service'
 var conversationService = (function(sdk) {
-    var cachedHour = 24 * 0.5
+    var cachedHour = 24 * 7
     function mapContactMessage(msgs, contacts) {
         return contacts.filter(contact => {
             var contactNums = contact.phoneNumber.concat(contact.extension)

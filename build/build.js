@@ -683,7 +683,7 @@ var rcMessageService = function (sdk) {
 register('rcMessageService', rcMessageService);
 
 var conversationService = function (sdk) {
-    var cachedHour = 24 * 0.5;
+    var cachedHour = 24 * 7;
     function mapContactMessage(msgs, contacts) {
         return contacts.filter(function (contact) {
             var contactNums = contact.phoneNumber.concat(contact.extension);
