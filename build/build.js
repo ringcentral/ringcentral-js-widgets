@@ -682,6 +682,119 @@ var rcMessageService = function (sdk) {
 
 register('rcMessageService', rcMessageService);
 
+var conversationService = function (sdk) {
+    var cachedHour = 24 * 0.5;
+    function mapContactMessage(msgs, contacts) {
+        return contacts.filter(function (contact) {
+            var contactNums = contact.phoneNumber.concat(contact.extension);
+            return msgs.filter(function (msg) {
+                var contain = containSameVal([msg.from, msg.to], contactNums);
+                if (contain) {
+                    contact.msg = contact.msg || [];
+                    contact.msg.push(msg);
+                }
+                return contain;
+            }).length > 0;
+        });
+    }
+
+    function combine() {
+        for (var _len = arguments.length, targets = Array(_len), _key = 0; _key < _len; _key++) {
+            targets[_key] = arguments[_key];
+        }
+
+        return targets.reduce(function (result, target) {
+            return result.concat(target);
+        }, []);
+    }
+
+    function sortTime(target) {
+        return target.sort(function (a, b) {
+            return Date.parse(b.lastModifiedTime) - Date.parse(a.lastModifiedTime);
+        });
+    }
+    function containSameVal(array1, array2) {
+        return array1.filter(function (n) {
+            return array2.indexOf(n) != -1;
+        }).length > 0;
+    }
+    function uniqueArray(target) {
+        var seen = {};
+        return target.filter(function (item) {
+            return seen.hasOwnProperty(item) ? false : seen[item] = true;
+        });
+    }
+    function adaptMessage(msg) {
+        return {
+            id: msg.id,
+            from: msg.from.extensionNumber || msg.from.phoneNumber,
+            to: msg.to.phoneNumber || msg.to.extensionNumber || msg.to[0].extensionNumber || msg.to[0].phoneNumber,
+            direction: msg.direction,
+            type: msg.type,
+            time: msg.creationTime || msg.startTime,
+            lastModifiedTime: msg.lastModifiedTime || msg.startTime,
+            subject: msg.recording || msg.subject || msg.action || msg.attachments[0]
+        };
+    }
+    function getMessagesByNumber(contact, offset) {
+        return Promise.all(contact.phoneNumber.map(function (number) {
+            return rcMessageService.getMessagesByNumber(
+            // FIXME
+            number, cachedHour + offset, cachedHour);
+        })).then(function (result) {
+            return combine.apply(undefined, _toConsumableArray(result));
+        });
+    }
+    function getCallLogsByNumber(contact, offset) {
+        return Promise.all(contact.phoneNumber.map(function (number) {
+            return CallLogService.getCallLogsByNumber(
+            // FIXME
+            number, cachedHour + offset, cachedHour);
+        })).then(function (result) {
+            return combine.apply(undefined, _toConsumableArray(result));
+        });
+    }
+    return {
+        get cachedHour() {
+            return cachedHour;
+        },
+        getConversations: function getConversations(contacts) {
+            for (var _len2 = arguments.length, sources = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+                sources[_key2 - 1] = arguments[_key2];
+            }
+
+            var contents = sortTime(combine.apply(undefined, _toConsumableArray(sources.map(function (source) {
+                return source.map(adaptMessage);
+            }))));
+            var relatedContacts = mapContactMessage(contents, contacts).map(function (contact) {
+                contact.syncHour = cachedHour;
+                return contact;
+            }).map(function (contact) {
+                contact.phoneNumber = uniqueArray(contact.phoneNumber.concat(contact.extension));
+                return contact;
+            }).reduce(function (map, contact) {
+                map[contact.id] = contact;
+                return map;
+            }, {});
+            return relatedContacts;
+        },
+        syncContent: function syncContent(contact, offset) {
+            var _this = this;
+
+            return Promise.all([getCallLogsByNumber(contact, offset), getMessagesByNumber(contact, offset)]).then(function (result) {
+                return combine.apply(undefined, _toConsumableArray(result));
+            }).then(function (msgs) {
+                return msgs.map(adaptMessage);
+            }).then(sortTime).then(function (msgs) {
+                cachedHour += _this.props.hourOffset;
+                return msgs;
+            });
+        }
+    };
+}(sdk);
+
+register('conversationService', conversationService);
+
 var rcMessageProvider = function () {
     var messageUpdatedHandlers = [];
     var conversations = {};
@@ -990,7 +1103,7 @@ function register$2() {
 }
 
 function widget(_ref2, options) {
-    var _this = this;
+    var _this2 = this;
 
     var actions = _ref2.actions;
     var _ref2$data = _ref2.data;
@@ -1006,13 +1119,13 @@ function widget(_ref2, options) {
     this.data = Object.assign(data, options.data);
     logger = initLogger(options.logLevel);
     Object.keys(defaultActions).forEach(function (index) {
-        defaultActions[index] = bindScope(_this, defaultActions[index]);
+        defaultActions[index] = bindScope(_this2, defaultActions[index]);
     });
     Object.keys(options.actions).forEach(function (index) {
-        options.actions[index] = bindScope(_this, options.actions[index]);
+        options.actions[index] = bindScope(_this2, options.actions[index]);
     });
     Object.keys(defaultActions).forEach(function (index) {
-        _this[index] = generateActions(defaultActions[index], options.actions[index], index);
+        _this2[index] = generateActions(defaultActions[index], options.actions[index], index);
     });
     this.props.dom = generateDocument(this, options.template);
     this.props.root = getDocumentRoot(options.template);
@@ -1112,15 +1225,15 @@ function generateActions(widgetAction) {
     var name = arguments[2];
 
     return function () {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
+        for (var _len3 = arguments.length, args = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+            args[_key3] = arguments[_key3];
         }
 
         var before = function before() {
             var _ref3;
 
-            for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-                args[_key2] = arguments[_key2];
+            for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+                args[_key4] = arguments[_key4];
             }
 
             logger.info('[' + name + '][before](' + (_ref3 = []).concat.apply(_ref3, args) + ')');
@@ -1154,8 +1267,8 @@ function generateActions(widgetAction) {
 }
 
 function wrapUserEvent(widget, user) {
-    for (var _len3 = arguments.length, args = Array(_len3 > 2 ? _len3 - 2 : 0), _key3 = 2; _key3 < _len3; _key3++) {
-        args[_key3 - 2] = arguments[_key3];
+    for (var _len5 = arguments.length, args = Array(_len5 > 2 ? _len5 - 2 : 0), _key5 = 2; _key5 < _len5; _key5++) {
+        args[_key5 - 2] = arguments[_key5];
     }
 
     var _ref4;

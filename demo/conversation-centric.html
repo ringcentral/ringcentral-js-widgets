@@ -28,6 +28,7 @@ var loginService = w.service()['loginService']
 var rcContactSearchProvider = w.service()['rcContactSearchProvider']
 var rcContactService = w.service()['rcContactService']
 var callLogService = w.service()['callLogService']
+var conversationService = w.service()['conversationService']
 var dialPadSearchProviders = [rcContactSearchProvider]
 
 function init() {
@@ -78,46 +79,13 @@ function init() {
                     rcMessageService.subscribeToMessageUpdate()
                     rcMessageService.onMessageUpdated(msgs => this.confirmMessages(msgs.map(adaptMessage)))
                     rcMessageService.onMessageUpdated(msgs => this.addIncomingMessages(msgs.map(adaptMessage)))
-                    
                     return Promise.all([
-                        rcMessageService.syncMessages(cachedHour),
+                        rcMessageService.syncMessages(conversationService.cachedHour),
                         callLogService.getCallLogs(),
                         rcContactService.completeCompanyContact()
                     ]).then(result => {
                         var [msgs, logs, contacts] = result
-                        
-                        msgs = msgs.map(adaptMessage)
-                        logs = logs.map(adaptMessage)
-                        var contents = sortTime(combine(msgs, logs))
-                        var relatedContacts = mapContactMessage(contents, contacts)
-                                                .map(contact => {
-                                                    contact.syncHour = cachedHour
-                                                    return contact
-                                                })
-                                                .map(contact => {
-                                                    contact.phoneNumber = 
-                                                    uniqueArray(contact.phoneNumber.concat(contact.extension))
-                                                    return contact
-                                                })
-                                                .reduce((map, contact) => {
-                                                    map[contact.id] = contact
-                                                    return map
-                                                }, {})
-                        function mapContactMessage(msgs, contacts) {
-                            return contacts.filter(contact => {
-                                var contactNums = contact.phoneNumber.concat(contact.extension)
-                                return msgs.filter(msg => {
-                                    var contain = containSameVal([msg.from, msg.to], contactNums)
-                                    if (contain) {
-                                        contact.msg = contact.msg || []
-                                        contact.msg.push(msg)
-                                    }
-                                    return contain
-                                }).length > 0
-                            })
-                        }
-
-                        return relatedContacts
+                        return conversationService.getConversations(contacts, msgs, logs)
                     })
                     //
                 }
@@ -156,91 +124,12 @@ function init() {
             },
             reachTop: {
                 method: function() {
-                    // FIXME
-                    return Promise.all([
-                        getCallLogsByNumber(this.props.contact, this.props.hourOffset),
-                        getMessagesByNumber(this.props.contact, this.props.hourOffset)
-                    ])
-                    .then(result => combine(...result))
-                    .then(msgs => msgs.map(adaptMessage))
-                    .then(sortTime)
-                    .then(msgs => {
-                        cachedHour += this.props.hourOffset
-                        return msgs
-                    })
+                    return conversationService.syncContent(this.props.contact, this.props.hourOffset)
                 }
             }
         }
     });
     authPanel.mount('#container')
-}
-function createRoom(msgs) {}
-var cachedHour = 24 * 0.5
-function getMessagesByNumber(contact, offset) {
-    return Promise.all(contact.phoneNumber.map(
-                number => rcMessageService.getMessagesByNumber(
-                    // FIXME
-                    number,
-                    cachedHour + offset,
-                    cachedHour
-                )
-            )
-    )
-    .then(result => combine(...result))
-}
-function getCallLogsByNumber(contact, offset) {
-    return Promise.all(contact.phoneNumber.map(
-                number => callLogService.getCallLogsByNumber(
-                    // FIXME
-                    number,
-                    cachedHour + offset,
-                    cachedHour
-                )
-            )
-    )
-    .then(result => combine(...result))
-}
-function combine(...targets) {
-    return targets.reduce((result, target) => result.concat(target), [])
-}
-
-function sortTime(target) {
-    return target.sort((a, b) => 
-        Date.parse(b.lastModifiedTime) - 
-        Date.parse(a.lastModifiedTime)
-    )
-}
-function containSameVal(array1, array2) {
-    return array1.filter(function(n) {
-        return array2.indexOf(n) != -1;
-    }).length > 0
-}
-function uniqueArray(target) {
-     var seen = {};
-    return target.filter(function(item) {
-        return seen.hasOwnProperty(item) ? false : (seen[item] = true);
-    });
-}
-function adaptMessage(msg) {
-    return {
-        id:                 msg.id,
-        from:               msg.from.extensionNumber || 
-                            msg.from.phoneNumber,
-        to:                 msg.to.phoneNumber || 
-                            msg.to.extensionNumber || 
-                            msg.to[0].extensionNumber || 
-                            msg.to[0].phoneNumber,
-        direction:          msg.direction,
-        type:               msg.type,
-        time:               msg.creationTime || 
-                            msg.startTime,
-        lastModifiedTime:   msg.lastModifiedTime || 
-                            msg.startTime,
-        subject:            msg.recording ||
-                            msg.subject ||
-                            msg.action ||
-                            msg.attachments[0]
-    }
 }
 </script>
 </body>
