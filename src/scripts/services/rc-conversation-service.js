@@ -115,7 +115,7 @@ var conversationService = (function(sdk) {
                     .then(msgs => msgs.map(adaptMessage))
                     .then(sortTime)
                     .then(msgs => {
-                        cachedHour += this.props.hourOffset
+                        cachedHour += offset
                         return msgs
                     })
         }

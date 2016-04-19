@@ -779,14 +779,12 @@ var conversationService = function (sdk) {
             return relatedContacts;
         },
         syncContent: function syncContent(contact, offset) {
-            var _this = this;
-
             return Promise.all([getCallLogsByNumber(contact, offset), getMessagesByNumber(contact, offset)]).then(function (result) {
                 return combine.apply(undefined, _toConsumableArray(result));
             }).then(function (msgs) {
                 return msgs.map(adaptMessage);
             }).then(sortTime).then(function (msgs) {
-                cachedHour += _this.props.hourOffset;
+                cachedHour += offset;
                 return msgs;
             });
         }
@@ -1103,7 +1101,7 @@ function register$2() {
 }
 
 function widget(_ref2, options) {
-    var _this2 = this;
+    var _this = this;
 
     var actions = _ref2.actions;
     var _ref2$data = _ref2.data;
@@ -1119,13 +1117,13 @@ function widget(_ref2, options) {
     this.data = Object.assign(data, options.data);
     logger = initLogger(options.logLevel);
     Object.keys(defaultActions).forEach(function (index) {
-        defaultActions[index] = bindScope(_this2, defaultActions[index]);
+        defaultActions[index] = bindScope(_this, defaultActions[index]);
     });
     Object.keys(options.actions).forEach(function (index) {
-        options.actions[index] = bindScope(_this2, options.actions[index]);
+        options.actions[index] = bindScope(_this, options.actions[index]);
     });
     Object.keys(defaultActions).forEach(function (index) {
-        _this2[index] = generateActions(defaultActions[index], options.actions[index], index);
+        _this[index] = generateActions(defaultActions[index], options.actions[index], index);
     });
     this.props.dom = generateDocument(this, options.template);
     this.props.root = getDocumentRoot(options.template);
