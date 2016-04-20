@@ -20,7 +20,15 @@ var conversationService = (function(sdk) {
             knownContactsIndex.reverse().forEach(index => msgs.splice(index, 1))
             return contactMsgs.length > 0
         })
-        msgs.forEach(msg => relatedContacts.push(fakeContact(msg)))
+        msgs.forEach(msg => {
+            // FIXME, the "from" is unstable
+            var contact = relatedContacts.filter(contact => contact.id === msg.from)[0]
+            if (contact) {
+                contact.msg.push(msg)
+            } else {
+                relatedContacts.push(fakeContact(msg))
+            }
+        })
         return relatedContacts
     }
     

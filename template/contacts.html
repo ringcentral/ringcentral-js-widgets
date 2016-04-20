@@ -89,11 +89,30 @@ w.register(function(){
         },
         pinContacts: {
             method: function() {
-                this.props.contactItemWidgets
-                .filter(widget =>
-                    Object.keys(this.props.relateContacts).indexOf(widget.props.contact.id + '') > -1
-                )
-                .forEach(relatedWidget => relatedWidget.mount(this.props.dom['pin-contacts']))
+                Object.keys(this.props.relateContacts)
+                .filter(id => {
+                    var matchedWidgets = this.props.contactItemWidgets
+                                            .filter(widget => {
+                                                // console.log(widget.props.contact.id + ',' + id);
+                                                var contact = widget.props.contact.id == id
+                                                if (contact) {
+                                                    widget.mount(this.props.dom['pin-contacts'])
+                                                }
+                                                return contact
+                                            })
+                    return matchedWidgets.length === 0
+                })
+                .forEach(id => {
+                    var unknownContact = this.props.relateContacts[id]
+                    // for contect-item model
+                    unknownContact.name = unknownContact.displayName
+                    createContactWidget(this, unknownContact).mount(this.props.dom['pin-contacts'])
+                })
+                // this.props.contactItemWidgets
+                //     .filter(widget =>
+                //         Object.keys(this.props.relateContacts).indexOf(widget.props.contact.id + '') > -1
+                //     )
+                //     .forEach(relatedWidget => relatedWidget.mount(this.props.dom['pin-contacts']))
             }
         },
         search: {

@@ -705,7 +705,15 @@ var conversationService = function (sdk) {
             return contactMsgs.length > 0;
         });
         msgs.forEach(function (msg) {
-            return relatedContacts.push(fakeContact(msg));
+            // FIXME, the "from" is unstable
+            var contact = relatedContacts.filter(function (contact) {
+                return contact.id === msg.from;
+            })[0];
+            if (contact) {
+                contact.msg.push(msg);
+            } else {
+                relatedContacts.push(fakeContact(msg));
+            }
         });
         return relatedContacts;
     }
