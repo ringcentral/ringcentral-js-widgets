@@ -1823,7 +1823,7 @@ function preload(widgets, callback) {
                 w.templates[name].template = template;
                 var scripts = template.querySelectorAll('script');
                 var style = template.querySelector('style');
-                scripts.forEach(function (script) {
+                Array.from(scripts).forEach(function (script) {
                     if (script.src && script.src.indexOf('http') !== 0) script.src = w.options.path + script.getAttribute('src');
                     document.body.appendChild(script);
                     document.body.removeChild(script);
