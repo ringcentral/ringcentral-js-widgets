@@ -738,7 +738,7 @@ var conversationService = function (sdk) {
 
     function sortTime(target) {
         return target.sort(function (a, b) {
-            return Date.parse(b.lastModifiedTime) - Date.parse(a.lastModifiedTime);
+            return Date.parse(b.time) - Date.parse(a.time);
         });
     }
     function containSameVal(array1, array2) {

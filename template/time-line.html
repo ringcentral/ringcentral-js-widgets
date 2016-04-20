@@ -16,7 +16,6 @@ w.register(function(){
                 return finish()
             },
             after: function(data) {
-                console.log(data)
                 data.forEach(item => this.addLine(item))
             }
         },

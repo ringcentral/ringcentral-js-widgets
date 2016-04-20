@@ -38,8 +38,8 @@ var conversationService = (function(sdk) {
 
     function sortTime(target) {
         return target.sort((a, b) => 
-            Date.parse(b.lastModifiedTime) - 
-            Date.parse(a.lastModifiedTime)
+            Date.parse(b.time) - 
+            Date.parse(a.time)
         )
     }
     function containSameVal(array1, array2) {
