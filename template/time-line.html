@@ -1,0 +1,33 @@
+<div class='rc-panel rc-timeline'>
+    <time-line-item dynamic></time-line-item>
+    <div data-info='container'></div>
+</div>
+<script>
+w.register(function(){
+    this.data = {}
+    this.actions= {
+        mount: {
+            after: function() {
+                this.fetchData()
+            }
+        },
+        fetchData: {
+            method: function(finish) {
+                return finish()
+            },
+            after: function(data) {
+                console.log(data)
+                data.forEach(item => this.addLine(item))
+            }
+        },
+        addLine: {
+            after: function(item) {
+                w('time-line-item', {
+                    data: item
+                }).mount(this.props.dom.container)
+            }
+        }
+    }
+});
+//# sourceURL=time-line.html
+</script>

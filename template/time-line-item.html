@@ -1,0 +1,40 @@
+<div class='rc-panel rc-timeline-item' data-event='click:collapse'>
+    <div class='rc-timeline-item__content'>
+        <h3 class='rc-timeline-item__title' data-info='title'></h3>
+        <div class='rc-timeline-item__time' data-info='time'></div>
+        <div class='rc-timeline-item__count' data-info='count'></div>
+    </div>
+    <div data-info='collapse' class='rc-timeline-item__collapse'>
+    </div>
+</div>
+<script>
+w.register(function(){
+    this.actions= {
+        init: {
+            after: function() {
+                this.props.dom.title.textContent = this.data.type
+                this.props.dom.time.textContent = this.data.time
+                if (this.data.others) {
+                    this.props.dom.count.textContent = this.data.others.length
+                    this.data.others.forEach(content => {
+                        var div = document.createElement('div')
+                        div.innerHTML = `<div>${content.subject}</div>`
+                        this.props.dom.collapse.appendChild(div.firstChild)
+                    })
+                }
+            }
+        },
+        mount: {
+            after: function() {
+                console.log(this.data);
+            }
+        },
+        collapse: {
+            after: function() {
+                this.props.dom.collapse.classList.toggle('--active')
+            }
+        }
+    }
+});
+//# sourceURL=time-line-item.html
+</script>

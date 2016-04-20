@@ -1,0 +1,32 @@
+.rc-timeline {
+    @mixin padding-normal;
+    cursor: pointer;
+}
+
+
+.rc-timeline-item {
+    @mixin shadow-1;
+    @mixin padding-normal;
+    /* Hide the collapse */
+    padding-bottom: 0;
+    overflow: hidden;
+    &__title {}
+    &__time {
+        font-size: .9em;
+    }
+    &__count {
+        font-size: .9em;
+    }
+    &__content {
+        margin-bottom: 20px;
+    }
+    &__collapse {
+        /* workaround for height transition */
+        max-height: 0;
+        transition: max-height .5s ease-in;
+        &.--active {
+            /* workaround for height transition */
+            max-height: 4000px;
+        }
+    }
+}

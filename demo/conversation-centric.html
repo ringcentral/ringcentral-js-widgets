@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <div id='container'></div>
+<div id='container2'></div>
 <body>
 <script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
 <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
@@ -18,6 +19,7 @@ w.config({
         'conversation': 'conversation-advanced',
         'contacts': 'contacts',
         'auth-panel': 'auth-panel',
+        'time-line': 'time-line',
     },
     locale: {
         'zh-tw': 'zh-tw.json',
@@ -50,6 +52,20 @@ function init() {
                     // conversation.mount('#container')
                     // messageWidget.mount('#container')
                     contacts.mount('#container')
+                    timeline.mount('#container2')
+                }
+            }
+        }
+    })
+
+    var timeline = w('time-line', {
+        actions: {
+            fetchData: {
+                method: function() {
+                    return Promise.all([
+                        rcMessageService.syncMessages(conversationService.cachedHour),
+                        callLogService.getCallLogs()
+                    ]).then(result => conversationService.organizeContent(...result))
                 }
             }
         }
@@ -58,11 +74,7 @@ function init() {
     var contacts = w('contacts', {
         actions: {
             init: {
-                after: function() {
-                    // rcContactService.completeCompanyContact = () => {
-                    //     return fetch('./contact').then(res => res.json())
-                    // }
-                }
+                after: function() {}
             },
             mount: {
                 after: function() {
@@ -191,10 +203,13 @@ function init() {
 
 function cacheContacts() {
     var data = localStorage.getItem('rc-contacts')
-    var fetch = rcContactService.completeCompanyContact().then(data => {
-                    localStorage.setItem('rc-contacts', JSON.stringify(data))
-                    return data
-                })
+    var fetch
+    // FIXME: temp disable it
+    
+    // var fetch = rcContactService.completeCompanyContact().then(data => {
+    //                 localStorage.setItem('rc-contacts', JSON.stringify(data))
+    //                 return data
+    //             })
     return data? Promise.resolve(JSON.parse(data)): fetch
 }
 

@@ -110,12 +110,42 @@ var conversationService = (function(sdk) {
         )
         .then(result => combine(...result))
     }
+    function combineContent(...sources) {
+        return sortTime(combine(...sources.map(source => source.map(adaptMessage))))
+    }
     return {
         get cachedHour() {
             return cachedHour
         },
+        organizeContent: function(...sources) {
+            var contents = combineContent(...sources)
+            var savedContent
+            var result = []
+            for (let i = 0; i < contents.length; ++ i) {
+                var content = contents[i]
+                if (content.type !== 'SMS') {
+                    if (savedContent) {
+                        result.push(savedContent)
+                        savedContent = null
+                    }
+                    result.push(content)
+                    continue
+                }
+                if (savedContent && 
+                    [savedContent.from, savedContent.to].indexOf(content.from) > -1 &&
+                    [savedContent.from, savedContent.to].indexOf(content.to) > -1) {
+                    console.log('match!');
+                    savedContent.others.push(content)
+                } else {
+                    savedContent && result.push(savedContent)
+                    content.others = []
+                    savedContent = content
+                }
+            }
+            return result
+        },
         getConversations: function(contacts, ...sources) {
-            var contents = sortTime(combine(...sources.map(source => source.map(adaptMessage))))
+            var contents = combineContent(...sources)
             var relatedContacts = mapContactMessage(contents, contacts)
                                 .map(contact => {
                                     contact.syncHour = cachedHour
