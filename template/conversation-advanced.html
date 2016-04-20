@@ -103,14 +103,24 @@ w.register(function() {
                 this.appendMessages(currentContact.msg.reverse())
                 this.setTitle(currentContact.displayName)
                 console.log(currentContact.profileImage+`?access_token=${sdk.platform().auth().accessToken()}`)
+
+                // Fake contact
+                if (!currentContact.profileImage) {
+                    var hash = md5(currentContact.id)
+                    this.props.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
+                    return
+                }
+
                 sdk.platform()
                 .get(currentContact.profileImage)
                 .then(r => r.response())
                 .then(r => {
+                    // Real contact, no avatar
                     if (r.status === 204) {
                         var hash = md5(currentContact.id)
                         this.props.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
                     } else {
+                        // Real contact, has avatar
                         this.props.dom['profile-img'].src = 
                         currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
                     }
@@ -124,11 +134,6 @@ w.register(function() {
         },
         setTitle: {
             after: function(text) {
-                this.props.dom.header.textContent = text
-            }
-        },
-        setProfileImage: {
-            after: function(uri) {
                 this.props.dom.header.textContent = text
             }
         },
