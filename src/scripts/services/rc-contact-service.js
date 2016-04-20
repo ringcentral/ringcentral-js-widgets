@@ -3,17 +3,20 @@ import { register } from '../service'
 
 var rcContactService = function(sdk) {
     var companyContacts = []
-    var fetchingCompanyContacts = null;
+    var completeCompanyContacts = null
+    
+    var fetchingCompanyContacts = null
+    var fetchingCompleteCompanyContacts = null
 
     function Contact() {
         this.firstName = null
         this.lastName = null
         this.displayName = null
         this.extension = null
-        this.email = null;
-        this.type = null;
-        this.id = null;
-        this.phoneNumber = [];
+        this.email = null
+        this.type = null
+        this.id = null
+        this.phoneNumber = []
     }
 
     function createContact(extension) {
@@ -28,14 +31,14 @@ var rcContactService = function(sdk) {
         contact.profileImage = extension.profileImage.uri
         return contact
     }
-    
+
     function addToCompanyContact(response) {
-         var records = response.json().records
-            .filter(extension => 
-                extension.status === 'Enabled' && 
+        var records = response.json().records
+           .filter(extension =>
+                extension.status === 'Enabled' &&
                 ['DigitalUser', 'User'].indexOf(extension.type) >= 0)
-            .map(extension => createContact(extension));
-        companyContacts.push.apply(companyContacts, records);
+           .map(extension => createContact(extension))
+        companyContacts.push.apply(companyContacts, records)
     }
 
     function fetchCompanyContactByPage(page) {
@@ -60,15 +63,14 @@ var rcContactService = function(sdk) {
 
                     return Promise.all(promises).then(responses=> {
                         responses.forEach(function(response) {
-                            addToCompanyContact(response);
+                            addToCompanyContact(response)
                         })
-                        fetchingCompanyContacts = null;
-                        fetchCompanyDirectNumbers();
-                        return companyContacts;
-                    });
-                }else{
-                    addToCompanyContact(response);
-                    return companyContacts;
+                        fetchingCompanyContacts = null
+                        return companyContacts
+                    })
+                }else {
+                    addToCompanyContact(response)
+                    return companyContacts
                 }
             }).catch(function(e) {
                 console.error(e)
@@ -118,18 +120,28 @@ var rcContactService = function(sdk) {
     return {
         companyContacts: companyContacts,
         asyncGetCompanyContact: function() {
-            if (fetchingCompanyContacts){
-                return fetchingCompanyContacts;
+            if (fetchingCompanyContacts) {
+                return fetchingCompanyContacts
             }else {
-                return Promise.resolve(companyContacts);
+                return Promise.resolve(companyContacts)
             }
         },
         syncCompanyContact: function() {
             companyContacts.length = 0
             fetchCompanyContacts()
+            fetchCompanyDirectNumbers()
         },
         completeCompanyContact: function() {
-            return fetchCompanyContacts().then(fetchCompanyDirectNumbers).then(() => companyContacts)
+            if (completeCompanyContacts) 
+                return Promise.resolve(completeCompanyContacts)
+            if (fetchingCompleteCompanyContacts)
+                return fetchingCompleteCompanyContacts
+            fetchingCompleteCompanyContacts = fetchCompanyContacts().then(fetchCompanyDirectNumbers)
+            return fetchingCompleteCompanyContacts.then(() => {
+                completeCompanyContacts = companyContacts
+                fetchingCompleteCompanyContacts = null
+                return companyContacts
+            })
         }
     }
 }(sdk)

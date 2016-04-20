@@ -205,7 +205,10 @@ register('phoneService', PhoneService);
 
 var rcContactService = function (sdk) {
     var companyContacts = [];
+    var completeCompanyContacts = null;
+
     var fetchingCompanyContacts = null;
+    var fetchingCompleteCompanyContacts = null;
 
     function Contact() {
         this.firstName = null;
@@ -264,7 +267,6 @@ var rcContactService = function (sdk) {
                         addToCompanyContact(response);
                     });
                     fetchingCompanyContacts = null;
-                    fetchCompanyDirectNumbers();
                     return companyContacts;
                 });
             } else {
@@ -327,9 +329,15 @@ var rcContactService = function (sdk) {
         syncCompanyContact: function syncCompanyContact() {
             companyContacts.length = 0;
             fetchCompanyContacts();
+            fetchCompanyDirectNumbers();
         },
         completeCompanyContact: function completeCompanyContact() {
-            return fetchCompanyContacts().then(fetchCompanyDirectNumbers).then(function () {
+            if (completeCompanyContacts) return Promise.resolve(completeCompanyContacts);
+            if (fetchingCompleteCompanyContacts) return fetchingCompleteCompanyContacts;
+            fetchingCompleteCompanyContacts = fetchCompanyContacts().then(fetchCompanyDirectNumbers);
+            return fetchingCompleteCompanyContacts.then(function () {
+                completeCompanyContacts = companyContacts;
+                fetchingCompleteCompanyContacts = null;
                 return companyContacts;
             });
         }

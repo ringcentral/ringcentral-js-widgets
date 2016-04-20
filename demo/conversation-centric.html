@@ -3,6 +3,7 @@
 <head>
     <title>Conversation</title>
     <link rel="stylesheet" type="text/css" href="../build/styles/main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <div id='container'></div>
 <body>
@@ -58,9 +59,9 @@ function init() {
         actions: {
             init: {
                 after: function() {
-                    rcContactService.completeCompanyContact = () => {
-                        return fetch('./contact').then(res => res.json())
-                    }
+                    // rcContactService.completeCompanyContact = () => {
+                    //     return fetch('./contact').then(res => res.json())
+                    // }
                 }
             },
             mount: {
@@ -73,7 +74,7 @@ function init() {
                     return Promise.all([
                         rcMessageService.syncMessages(conversationService.cachedHour),
                         callLogService.getCallLogs(),
-                        rcContactService.completeCompanyContact()
+                        cacheContacts()
                     ]).then(result => {
                         var [msgs, logs, contacts] = result
                         return conversationService.getConversations(contacts, msgs, logs)
@@ -94,10 +95,19 @@ function init() {
             },
             fetchContacts: {
                 method: function() {
-                    var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                        return provider.searchAll();
-                    });
-                    return contactSearchService.query(dialPadSearchFunctions);
+                    // var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                    //     return provider.searchAll();
+                    // });
+                    // return contactSearchService.query(dialPadSearchFunctions);
+                    return cacheContacts().then(companyContacts => {
+                        return companyContacts.map(contact => {
+                            return {
+                                name: contact.displayName,
+                                type: 'rc',
+                                id: contact.id,
+                            }
+                        });
+                    }).catch(e => console.error(e))
                 }
             },
             selectContact: {
@@ -177,6 +187,15 @@ function init() {
     });
     
     authPanel.mount('#container')
+}
+
+function cacheContacts() {
+    var data = localStorage.getItem('rc-contacts')
+    var fetch = rcContactService.completeCompanyContact().then(data => {
+                    localStorage.setItem('rc-contacts', JSON.stringify(data))
+                    return data
+                })
+    return data? Promise.resolve(JSON.parse(data)): fetch
 }
 
 function conv(contact) {
