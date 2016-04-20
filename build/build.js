@@ -432,7 +432,7 @@ var rcContactSearchProvider = function () {
             return results;
         },
         searchAll: function searchAll() {
-            return rcContactService.asyncGetCompanyContact().then(function (companyContacts) {
+            return rcContactService.completeCompanyContact().then(function (companyContacts) {
                 return companyContacts.map(function (contact) {
                     return {
                         name: contact.displayName,
@@ -440,6 +440,8 @@ var rcContactSearchProvider = function () {
                         id: contact.id
                     };
                 });
+            }).catch(function (e) {
+                return console.error(e);
             });
         }
     };
@@ -685,17 +687,27 @@ register('rcMessageService', rcMessageService);
 var conversationService = function (sdk) {
     var cachedHour = 24 * 7;
     function mapContactMessage(msgs, contacts) {
-        return contacts.filter(function (contact) {
+        var relatedContacts = contacts.filter(function (contact) {
+            var knownContactsIndex = [];
             var contactNums = contact.phoneNumber.concat(contact.extension);
-            return msgs.filter(function (msg) {
+            var contactMsgs = msgs.filter(function (msg, index) {
                 var contain = containSameVal([msg.from, msg.to], contactNums);
                 if (contain) {
                     contact.msg = contact.msg || [];
                     contact.msg.push(msg);
+                    knownContactsIndex.push(index);
                 }
                 return contain;
-            }).length > 0;
+            });
+            knownContactsIndex.reverse().forEach(function (index) {
+                return msgs.splice(index, 1);
+            });
+            return contactMsgs.length > 0;
         });
+        msgs.forEach(function (msg) {
+            return relatedContacts.push(fakeContact(msg));
+        });
+        return relatedContacts;
     }
 
     function combine() {
@@ -724,6 +736,18 @@ var conversationService = function (sdk) {
             return seen.hasOwnProperty(item) ? false : seen[item] = true;
         });
     }
+
+    function fakeContact(msg) {
+        return {
+            // FIXME
+            displayName: msg.from,
+            id: msg.from,
+            phoneNumber: [msg.from],
+            extension: msg.from,
+            msg: [msg]
+        };
+    }
+
     function adaptMessage(msg) {
         return {
             id: msg.id,

@@ -5,17 +5,23 @@ import { register } from '../service'
 var conversationService = (function(sdk) {
     var cachedHour = 24 * 7
     function mapContactMessage(msgs, contacts) {
-        return contacts.filter(contact => {
+        var relatedContacts = contacts.filter(contact => {
+            var knownContactsIndex = []
             var contactNums = contact.phoneNumber.concat(contact.extension)
-            return msgs.filter(msg => {
+            var contactMsgs = msgs.filter((msg, index) => {
                 var contain = containSameVal([msg.from, msg.to], contactNums)
                 if (contain) {
                     contact.msg = contact.msg || []
                     contact.msg.push(msg)
+                    knownContactsIndex.push(index)
                 }
                 return contain
-            }).length > 0
+            })
+            knownContactsIndex.reverse().forEach(index => msgs.splice(index, 1))
+            return contactMsgs.length > 0
         })
+        msgs.forEach(msg => relatedContacts.push(fakeContact(msg)))
+        return relatedContacts
     }
     
     function combine(...targets) {
@@ -39,6 +45,18 @@ var conversationService = (function(sdk) {
             return seen.hasOwnProperty(item) ? false : (seen[item] = true);
         });
     }
+
+    function fakeContact(msg) {
+        return {
+            // FIXME
+            displayName: msg.from,
+            id: msg.from,
+            phoneNumber: [msg.from],
+            extension: msg.from,
+            msg: [msg]
+        }
+    }
+
     function adaptMessage(msg) {
         return {
             id:                 msg.id,

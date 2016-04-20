@@ -49,7 +49,7 @@ var rcContactSearchProvider = function() {
             return results
         },
         searchAll: function() {
-            return rcContactService.asyncGetCompanyContact().then(companyContacts => {
+            return rcContactService.completeCompanyContact().then(companyContacts => {
                 return companyContacts.map(contact => {
                     return {
                         name: contact.displayName,
@@ -57,7 +57,7 @@ var rcContactSearchProvider = function() {
                         id: contact.id,
                     }
                 });
-            });
+            }).catch(e => console.error(e))
         }
     }
 }()

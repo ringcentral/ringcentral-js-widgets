@@ -15,6 +15,7 @@ w.config({
     preload: {
         'messages': 'messages',
         'conversation': 'conversation-advanced',
+        'contacts': 'contacts',
         'auth-panel': 'auth-panel',
     },
     locale: {
@@ -46,13 +47,69 @@ function init() {
                 after: function() {
                     this.unmount()
                     // conversation.mount('#container')
-                    messageWidget.mount('#container')
+                    // messageWidget.mount('#container')
+                    contacts.mount('#container')
                 }
             }
         }
     })
 
-    // TODO: adapt to conversation service
+    var contacts = w('contacts', {
+        actions: {
+            init: {
+                after: function() {
+                    rcContactService.completeCompanyContact = () => {
+                        return fetch('./contact').then(res => res.json())
+                    }
+                }
+            },
+            mount: {
+                after: function() {
+                    
+                }
+            },
+            fetchRelatedContact: {
+                method: function() {
+                    return Promise.all([
+                        rcMessageService.syncMessages(conversationService.cachedHour),
+                        callLogService.getCallLogs(),
+                        rcContactService.completeCompanyContact()
+                    ]).then(result => {
+                        var [msgs, logs, contacts] = result
+                        return conversationService.getConversations(contacts, msgs, logs)
+                    }).then(relateContacts => {
+                        this.props.relateContacts = relateContacts
+                        return relateContacts
+                    }).then(relateContacts => 
+                        Object.keys(relateContacts).map(index => {
+                            console.log(relateContacts);
+                            // adapt to messages template format
+                            relateContacts[index].msg[0].contact = relateContacts[index].displayName
+                            // for conversation-advance temaplate
+                            relateContacts[index].msg[0].contactId = index
+                            return relateContacts[index].msg[0]
+                        })
+                    )
+                }
+            },
+            fetchContacts: {
+                method: function() {
+                    var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                        return provider.searchAll();
+                    });
+                    return contactSearchService.query(dialPadSearchFunctions);
+                }
+            },
+            selectContact: {
+                method: function() {
+                    this.unmount()
+                    var contact = this.props.relateContacts[this.props.selectedContact.id]
+                    var conversation = conv(contact)
+                    conversation.mount('#container')
+                }
+            }
+        }
+    });
     var messageWidget = w('messages', {
         actions: {
             mount: {
@@ -104,65 +161,7 @@ function init() {
                     // TODO: makes the div temp
                     this.unmount()
                     var contact = this.props.relateContacts[this.props.selectedMessage.contactId]
-                    var conversation = w('conversation', {
-                        data: {
-                            new: true,
-                            contact: contact
-                        },
-                        actions: {
-                            init: {
-                                after: function() {
-                                    this.props.hourOffset = 3 * 24
-                                }
-                            },
-                            mount: {
-                                after: function() {
-                                    conversationService.onConversationUpdate(this.confirmMessages)
-                                    conversationService.onConversationUpdate(this.addIncomingMessages)
-                                    return accountService.getAccountInfo()
-                                            .then(info => this.props.fromExtension = info.extensionNumber)
-                                            .then(this.getOutboundCallerID)
-                                }
-                            },
-                            send: {
-                                method: function() {
-                                    if (this.props.toNumber === this.props.toExtension) {
-                                        return rcMessageService.sendPagerMessage(
-                                            this.props.message,
-                                            this.props.fromExtension,
-                                            this.props.toExtension
-                                        );
-                                    }
-                                    else {
-                                        return rcMessageService.sendSMSMessage(
-                                            this.props.message,
-                                            this.props.fromNumber,
-                                            this.props.toNumber
-                                        );
-                                    }
-                                }
-                            },
-                            queryContacts: {
-                                method: function() {
-                                    var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                                        return provider.search(this.props.to);
-                                    });
-                                    return contactSearchService.query(dialPadSearchFunctions);
-                                }
-                            },
-                            getOutboundCallerID: {
-                                method: function() {
-                                    return accountService.getPhoneNumber().then(() => 
-                                        accountService.listNumber("VoiceFax", 'SmsSender'));
-                                }
-                            },
-                            reachTop: {
-                                method: function() {
-                                    return conversationService.syncContent(this.props.contact, this.props.hourOffset)
-                                }
-                            }
-                        }
-                    });
+                    var conversation = conv(contact)
                     conversation.mount('#container')
                 }
             },
@@ -178,6 +177,69 @@ function init() {
     });
     
     authPanel.mount('#container')
+}
+
+function conv(contact) {
+    return w('conversation', {
+        data: {
+            new: true,
+            contact: contact
+        },
+        actions: {
+            init: {
+                after: function() {
+                    this.props.hourOffset = 3 * 24
+                }
+            },
+            mount: {
+                after: function() {
+                    conversationService.onConversationUpdate(this.confirmMessages)
+                    conversationService.onConversationUpdate(this.addIncomingMessages)
+                    return accountService.getAccountInfo()
+                            .then(info => this.props.fromExtension = info.extensionNumber)
+                            .then(this.getOutboundCallerID)
+                }
+            },
+            send: {
+                method: function() {
+                    if (this.props.toNumber === this.props.toExtension) {
+                        return rcMessageService.sendPagerMessage(
+                            this.props.message,
+                            this.props.fromExtension,
+                            this.props.toExtension
+                        );
+                    }
+                    else {
+                        return rcMessageService.sendSMSMessage(
+                            this.props.message,
+                            this.props.fromNumber,
+                            this.props.toNumber
+                        );
+                    }
+                }
+            },
+            queryContacts: {
+                method: function() {
+                    var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                        return provider.search(this.props.to);
+                    });
+                    return contactSearchService.query(dialPadSearchFunctions);
+                }
+            },
+            getOutboundCallerID: {
+                method: function() {
+                    return accountService.getPhoneNumber().then(() => 
+                        accountService.listNumber("VoiceFax", 'SmsSender'));
+                }
+            },
+            reachTop: {
+                method: function() {
+                    return conversationService.syncContent(this.props.contact, this.props.hourOffset)
+                }
+            }
+        }
+    });
+    conversation.mount('#container')
 }
 </script>
 </body>

@@ -24,6 +24,12 @@
         height: 100%;
         overflow: auto;    
     }
+    &__pins {
+        @mixin shadow-1;
+        > .rc-contact-item {
+            /*background-color: $gray;*/
+        }
+    }
 }
 
 .rc-contact-item {
@@ -32,20 +38,27 @@
     border-bottom: 1px solid;
     cursor: default;
     border-bottom-color: #efeff4; 
+    cursor: pointer;
     &__body {
-        line-height: 14px;
+        display: block;
+        height: 100%;
+
         margin-left: 38px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
         padding: 0 5px 0 0;
-        height:100%;
-        font-size:14px;
-        display:block;
-        & > .__contact {
+
+        overflow: hidden;
+        line-height: 14px;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        white-space: nowrap;
+
+        > .__contact {
             font-size: 14px;
             line-height: 18px;
             color: #2f2f2f;
         }
+    }
+    &:hover {
+        background-color: #eee;
     }
 }
