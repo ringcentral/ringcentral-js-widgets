@@ -737,7 +737,7 @@ var conversationService = function (sdk) {
     }
 
     function sortTime(target) {
-        return target.sort(function (a, b) {
+        return target.slice().sort(function (a, b) {
             return Date.parse(b.time) - Date.parse(a.time);
         });
     }
@@ -822,7 +822,6 @@ var conversationService = function (sdk) {
                     continue;
                 }
                 if (savedContent && [savedContent.from, savedContent.to].indexOf(content.from) > -1 && [savedContent.from, savedContent.to].indexOf(content.to) > -1) {
-                    console.log('match!');
                     savedContent.others.push(content);
                 } else {
                     savedContent && result.push(savedContent);

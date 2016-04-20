@@ -37,7 +37,7 @@ var conversationService = (function(sdk) {
     }
 
     function sortTime(target) {
-        return target.sort((a, b) => 
+        return target.slice().sort((a, b) => 
             Date.parse(b.time) - 
             Date.parse(a.time)
         )
@@ -134,7 +134,6 @@ var conversationService = (function(sdk) {
                 if (savedContent && 
                     [savedContent.from, savedContent.to].indexOf(content.from) > -1 &&
                     [savedContent.from, savedContent.to].indexOf(content.to) > -1) {
-                    console.log('match!');
                     savedContent.others.push(content)
                 } else {
                     savedContent && result.push(savedContent)
