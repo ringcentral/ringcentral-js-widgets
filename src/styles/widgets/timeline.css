@@ -16,15 +16,18 @@
 
 
 .rc-timeline-item {
+    @mixin padding-large;
     @mixin shadow-1;
-    @mixin padding-normal;
     /* Hide the collapse */
     padding-top:    0;
     padding-bottom: 0;
     margin-bottom:  5px;
     overflow: hidden;
     &__icon {
-        font-size: 1.5em;
+    }
+    &__contact {
+        padding-left: 1em;
+        font-size: .9em;
     }
     &__time {
         float: right;
@@ -65,7 +68,8 @@
         }
     }
     &:hover {
-        background-color: #eee;
+        @mixin shadow-2;
+        /*background-color: #eee;*/
     }
 
     .timeline-extra {

@@ -2123,8 +2123,8 @@ h1, h2, h3, h4, h5, h6 {
     top: 0;
 }
 .rc-timeline-item {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    padding: .5em .7em;/* Hide the collapse */
+    padding: .7em .9em;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);/* Hide the collapse */
     padding-top: 0;
     padding-bottom: 0;
     margin-bottom: 5px;
@@ -2132,8 +2132,10 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-timeline-item .timeline-extra {}
 .rc-timeline-item .timeline-extra__content {}
-.rc-timeline-item__icon {
-    font-size: 1.5em;
+.rc-timeline-item__icon {}
+.rc-timeline-item__contact {
+    padding-left: 1em;
+    font-size: .9em;
 }
 .rc-timeline-item__time {
     float: right;
@@ -2170,7 +2172,7 @@ h1, h2, h3, h4, h5, h6 {
     max-height: 4000px;
 }
 .rc-timeline-item:hover {
-    background-color: #eee;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);/*background-color: #eee;*/
 }
 
 
