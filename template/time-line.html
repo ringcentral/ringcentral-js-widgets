@@ -17,7 +17,7 @@
     </div>
 </div>
 <script>
-w.register(function(){
+w.register(function() {
     this.data = {}
     this.actions= {
         mount: {
@@ -35,8 +35,17 @@ w.register(function(){
         },
         addLine: {
             after: function(item) {
+                var parent = this
                 w('time-line-item', {
-                    data: item
+                    data: item,
+                    actions: {
+                        enter: {
+                            after: function() {
+                                parent.props.selectedContent = this.props.content
+                                parent.enterItem()
+                            }
+                        }
+                    }
                 }).mount(this.props.dom.timeline)
             }
         },
@@ -61,6 +70,10 @@ w.register(function(){
             },
             after: function() {
             }
+        },
+        enterItem: {
+            method: function() {},
+            after: function() {}
         }
     }
 });

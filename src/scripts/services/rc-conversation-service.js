@@ -4,7 +4,7 @@ import rcMessageService from './rc-message-service'
 import { register } from '../service'
 var conversationService = (function(sdk) {
     var cachedHour = 24 * 7
-    function mapContactMessage(msgs, contacts) {
+    function groupMessageToContact(msgs, contacts) {
         var relatedContacts = contacts.filter(contact => {
             var knownContactsIndex = []
             var contactNums = contact.phoneNumber.concat(contact.extension)
@@ -20,16 +20,60 @@ var conversationService = (function(sdk) {
             knownContactsIndex.reverse().forEach(index => msgs.splice(index, 1))
             return contactMsgs.length > 0
         })
-        msgs.forEach(msg => {
-            var msgNumber = msg.direction === 'Inbound'? msg.from: msg.to
-            var contact = relatedContacts.filter(contact => contact.id === msgNumber)[0]
-            if (contact) {
-                contact.msg.push(msg)
-            } else {
-                relatedContacts.push(fakeContact(msg))
-            }
-        })
+        // msgs.forEach(msg => {
+        //     var msgNumber = msg.direction === 'Inbound'? msg.from: msg.to
+        //     var contact = relatedContacts.filter(contact => contact.id === msgNumber)[0]
+        //     if (contact) {
+        //         contact.msg.push(msg)
+        //     } else {
+        //         relatedContacts.push(fakeContact(msg))
+        //     }
+        // })
         return relatedContacts
+    }
+
+    function groupContactToMessage(msgs, contacts) {
+        return msgs.map(msg => {
+            var unknownContact = true
+            contacts.forEach(contact => {
+                var contactNums = contact.phoneNumber.concat(contact.extension)
+                var contain = containSameVal([msg.from, msg.to], contactNums)
+                if (contain) {
+                    msg.contact = contact
+                    unknownContact = false
+                }
+            })
+            unknownContact && (msg.contact = fakeContact(msg))
+            return msg
+        })
+    }
+
+    function combineAdjacentMessage(contents) {
+        // group related SMS message
+        var savedContent
+        var result = []
+        for (let i = 0; i < contents.length; ++ i) {
+            let content = contents[i]
+            // if (content.type !== 'SMS') {
+            //     if (savedContent) {
+            //         result.push(savedContent)
+            //         savedContent = null
+            //     }
+            //     result.push(content)
+            //     continue
+            // }
+            console.log(savedContent);
+            if (savedContent && 
+                savedContent.type === content.type &&
+                savedContent.contact.id === content.contact.id) {
+                savedContent.others.push(content)
+            } else {
+                savedContent && result.push(savedContent)
+                content.others = []
+                savedContent = content
+            }
+        }
+        return result
     }
     
     function combine(...targets) {
@@ -118,33 +162,14 @@ var conversationService = (function(sdk) {
         },
         organizeContent: function(contacts, ...sources) {
             var contents = combineContent(...sources)
-            var savedContent
-            var result = []
-            for (let i = 0; i < contents.length; ++ i) {
-                var content = contents[i]
-                if (content.type !== 'SMS') {
-                    if (savedContent) {
-                        result.push(savedContent)
-                        savedContent = null
-                    }
-                    result.push(content)
-                    continue
-                }
-                if (savedContent && 
-                    [savedContent.from, savedContent.to].indexOf(content.from) > -1 &&
-                    [savedContent.from, savedContent.to].indexOf(content.to) > -1) {
-                    savedContent.others.push(content)
-                } else {
-                    savedContent && result.push(savedContent)
-                    content.others = []
-                    savedContent = content
-                }
-            }
-            return result
+            var relatedContacts = groupMessageToContact(contents.slice(), contacts)
+
+            contents = groupContactToMessage(contents, relatedContacts)
+            return combineAdjacentMessage(contents)
         },
         getConversations: function(contacts, ...sources) {
             var contents = combineContent(...sources)
-            var relatedContacts = mapContactMessage(contents, contacts)
+            var relatedContacts = groupMessageToContact(contents, contacts)
                                 .map(contact => {
                                     contact.syncHour = cachedHour
                                     return contact

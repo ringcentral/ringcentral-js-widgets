@@ -2127,12 +2127,16 @@ h1, h2, h3, h4, h5, h6 {
     padding: .5em .7em;/* Hide the collapse */
     padding-top: 0;
     padding-bottom: 0;
+    margin-bottom: 5px;
     overflow: hidden;
 }
-.rc-timeline-item__title {
-    font-size: 1.2em;
+.rc-timeline-item .timeline-extra {}
+.rc-timeline-item .timeline-extra__content {}
+.rc-timeline-item__icon {
+    font-size: 1.5em;
 }
 .rc-timeline-item__time {
+    float: right;
     font-size: .7em;
     color: #878787;
 }
@@ -2155,6 +2159,7 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 0;
     padding-bottom: 0;/* workaround for height transition */
     max-height: 0;
+    overflow: hidden;
     transition: max-height .5s ease-in;
 }
 .rc-timeline-item__collapse > .timeline-extra {
@@ -2163,6 +2168,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-timeline-item__collapse.--active {/* workaround for height transition */
     max-height: 4000px;
+}
+.rc-timeline-item:hover {
+    background-color: #eee;
 }
 
 

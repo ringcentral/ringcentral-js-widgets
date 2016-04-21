@@ -694,7 +694,7 @@ register('rcMessageService', rcMessageService);
 
 var conversationService = function (sdk) {
     var cachedHour = 24 * 7;
-    function mapContactMessage(msgs, contacts) {
+    function groupMessageToContact(msgs, contacts) {
         var relatedContacts = contacts.filter(function (contact) {
             var knownContactsIndex = [];
             var contactNums = contact.phoneNumber.concat(contact.extension);
@@ -712,18 +712,58 @@ var conversationService = function (sdk) {
             });
             return contactMsgs.length > 0;
         });
-        msgs.forEach(function (msg) {
-            var msgNumber = msg.direction === 'Inbound' ? msg.from : msg.to;
-            var contact = relatedContacts.filter(function (contact) {
-                return contact.id === msgNumber;
-            })[0];
-            if (contact) {
-                contact.msg.push(msg);
-            } else {
-                relatedContacts.push(fakeContact(msg));
-            }
-        });
+        // msgs.forEach(msg => {
+        //     var msgNumber = msg.direction === 'Inbound'? msg.from: msg.to
+        //     var contact = relatedContacts.filter(contact => contact.id === msgNumber)[0]
+        //     if (contact) {
+        //         contact.msg.push(msg)
+        //     } else {
+        //         relatedContacts.push(fakeContact(msg))
+        //     }
+        // })
         return relatedContacts;
+    }
+
+    function groupContactToMessage(msgs, contacts) {
+        return msgs.map(function (msg) {
+            var unknownContact = true;
+            contacts.forEach(function (contact) {
+                var contactNums = contact.phoneNumber.concat(contact.extension);
+                var contain = containSameVal([msg.from, msg.to], contactNums);
+                if (contain) {
+                    msg.contact = contact;
+                    unknownContact = false;
+                }
+            });
+            unknownContact && (msg.contact = fakeContact(msg));
+            return msg;
+        });
+    }
+
+    function combineAdjacentMessage(contents) {
+        // group related SMS message
+        var savedContent;
+        var result = [];
+        for (var i = 0; i < contents.length; ++i) {
+            var content = contents[i];
+            // if (content.type !== 'SMS') {
+            //     if (savedContent) {
+            //         result.push(savedContent)
+            //         savedContent = null
+            //     }
+            //     result.push(content)
+            //     continue
+            // }
+            console.log(savedContent);
+            if (savedContent && savedContent.type === content.type && savedContent.contact.id === content.contact.id) {
+                savedContent.others.push(content);
+            } else {
+                savedContent && result.push(savedContent);
+                content.others = [];
+                savedContent = content;
+            }
+        }
+        return result;
     }
 
     function combine() {
@@ -812,27 +852,10 @@ var conversationService = function (sdk) {
             }
 
             var contents = combineContent.apply(undefined, sources);
-            var savedContent;
-            var result = [];
-            for (var i = 0; i < contents.length; ++i) {
-                var content = contents[i];
-                if (content.type !== 'SMS') {
-                    if (savedContent) {
-                        result.push(savedContent);
-                        savedContent = null;
-                    }
-                    result.push(content);
-                    continue;
-                }
-                if (savedContent && [savedContent.from, savedContent.to].indexOf(content.from) > -1 && [savedContent.from, savedContent.to].indexOf(content.to) > -1) {
-                    savedContent.others.push(content);
-                } else {
-                    savedContent && result.push(savedContent);
-                    content.others = [];
-                    savedContent = content;
-                }
-            }
-            return result;
+            var relatedContacts = groupMessageToContact(contents.slice(), contacts);
+
+            contents = groupContactToMessage(contents, relatedContacts);
+            return combineAdjacentMessage(contents);
         },
         getConversations: function getConversations(contacts) {
             for (var _len4 = arguments.length, sources = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
@@ -840,7 +863,7 @@ var conversationService = function (sdk) {
             }
 
             var contents = combineContent.apply(undefined, sources);
-            var relatedContacts = mapContactMessage(contents, contacts).map(function (contact) {
+            var relatedContacts = groupMessageToContact(contents, contacts).map(function (contact) {
                 contact.syncHour = cachedHour;
                 return contact;
             }).map(function (contact) {

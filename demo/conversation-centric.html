@@ -84,6 +84,12 @@ function init() {
                     this.props.dom.mask.classList.add('display-none')
                     this.props.dom.timeline.classList.remove('display-none')
                 }
+            },
+            enterItem: {
+                after: function() {
+                    this.unmount()
+                    conv(this.props.selectedContent.contact).mount('#container')
+                }
             }
         }
     })
