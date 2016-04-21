@@ -3,6 +3,9 @@ $conversation-bubble-log-color: #B7C1A9;
 $conversation-bubble-voice-color: #CAC3A9;
 $conversation-bubble-marked-color: #eee;
 .rc-conversation {
+    &__close {
+        position: absolute;
+    }
     &__container {
         display: flex;
         flex-direction: column;
@@ -85,12 +88,21 @@ $conversation-bubble-marked-color: #eee;
         text-align: center;
         color: $gray;
     }
+    &__header {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+    &__header-title {
+        align-self: center;
+        font-size: 1.2em;
+    }
     &__avatar-wrapper {
         width: 40px;
         height: 40px;
+        margin-right: .8em;
         border-radius: 50%;
         overflow: hidden;
-        display: inline-block;
         line-height: 2;
     }
     &__avatar {

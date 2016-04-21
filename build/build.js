@@ -699,7 +699,8 @@ var conversationService = function (sdk) {
             var knownContactsIndex = [];
             var contactNums = contact.phoneNumber.concat(contact.extension);
             var contactMsgs = msgs.filter(function (msg, index) {
-                var contain = containSameVal([msg.from, msg.to], contactNums);
+                var msgNumber = msg.direction === 'Inbound' ? msg.from : msg.to;
+                var contain = contactNums.indexOf(msgNumber) > -1;
                 if (contain) {
                     contact.msg = contact.msg || [];
                     contact.msg.push(msg);
@@ -729,7 +730,8 @@ var conversationService = function (sdk) {
             var unknownContact = true;
             contacts.forEach(function (contact) {
                 var contactNums = contact.phoneNumber.concat(contact.extension);
-                var contain = containSameVal([msg.from, msg.to], contactNums);
+                var msgNumber = msg.direction === 'Inbound' ? msg.from : msg.to;
+                var contain = contactNums.indexOf(msgNumber) > -1;
                 if (contain) {
                     msg.contact = contact;
                     unknownContact = false;
@@ -754,7 +756,6 @@ var conversationService = function (sdk) {
             //     result.push(content)
             //     continue
             // }
-            console.log(savedContent);
             if (savedContent && savedContent.type === content.type && savedContent.contact.id === content.contact.id) {
                 savedContent.others.push(content);
             } else {
@@ -853,8 +854,9 @@ var conversationService = function (sdk) {
 
             var contents = combineContent.apply(undefined, sources);
             var relatedContacts = groupMessageToContact(contents.slice(), contacts);
-
+            console.log(relatedContacts);
             contents = groupContactToMessage(contents, relatedContacts);
+            console.log(contents);
             return combineAdjacentMessage(contents);
         },
         getConversations: function getConversations(contacts) {

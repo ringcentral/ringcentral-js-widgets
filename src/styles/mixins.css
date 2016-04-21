@@ -18,7 +18,7 @@
     padding: .5em .7em;
 }
 @define-mixin padding-large {
-    padding: .7em .9em;
+    padding: .9em 1.1em;
 }
 @define-mixin clickable {
     cursor: pointer;

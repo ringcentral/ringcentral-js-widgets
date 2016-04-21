@@ -238,7 +238,8 @@ function cacheContacts() {
     // FIXME: temp disable it
     
     // var fetch = rcContactService.completeCompanyContact().then(data => {
-    //                 localStorage.setItem('rc-contacts', JSON.stringify(data))
+    //                 if (data)
+    //                     localStorage.setItem('rc-contacts', JSON.stringify(data))
     //                 return data
     //             })
     return data? Promise.resolve(JSON.parse(data)): fetch

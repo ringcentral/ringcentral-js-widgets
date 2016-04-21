@@ -16,17 +16,16 @@
 
 
 .rc-timeline-item {
-    @mixin padding-large;
+    @mixin padding-normal;
     @mixin shadow-1;
-    /* Hide the collapse */
-    padding-top:    0;
-    padding-bottom: 0;
     margin-bottom:  5px;
     overflow: hidden;
+    &__line {
+        margin-bottom: 10px;
+    }
     &__icon {
     }
     &__contact {
-        padding-left: 1em;
         font-size: .9em;
     }
     &__time {
@@ -51,17 +50,11 @@
     &__collapse {
         @mixin padding-normal;
         @mixin shadow-1;
-        /* Hide it from the view */
-        padding-top:    0;
-        padding-bottom: 0;
-        /* workaround for height transition */
-        max-height: 0;
+        height: 0;
         overflow: hidden;
-        transition: max-height .5s ease-in;
-        &.--active {
-            /* workaround for height transition */
-            max-height: 4000px;
-        }
+        transition: height .5s ease-in-out;
+        padding-top: 0;
+        padding-bottom: 0;
         > .timeline-extra {
             @mixin padding-normal;
             font-size: .8em;

@@ -1,6 +1,6 @@
 <div class='rc-panel rc-timeline-item' data-event='click:enter'>
     <div class='rc-timeline-item__content'>
-    <div>
+    <div class='rc-timeline-item__line'>
         <span class='rc-timeline-item__icon' data-info='icon'></span>
         <span class='rc-timeline-item__contact' data-info='contact'></span>
     </div>
@@ -55,8 +55,30 @@ w.register(function(){
         },
         collapse: {
             after: function(event) {
-                this.props.dom.collapse.classList.toggle('--active')
                 event.stopPropagation()
+
+                var element = this.props.dom.collapse
+                if (!element.classList.contains('--active')) {
+                    var prevWidth = element.style.height
+                    element.style.height = 'auto'
+                    var endWidth = getComputedStyle(element).height
+                    element.style.height = prevWidth
+                    element.offsetWidth // force repaint
+                    element.style.height = endWidth
+                    element.addEventListener('transitionend', function transitionEnd(event) {
+                        if (event.propertyName == 'height') {
+                            element.style.transition = ''
+                            element.style.height = 'auto'
+                            element.removeEventListener('transitionend', transitionEnd, false)
+                        }
+                    }, false)
+                    element.classList.add('--active')
+                } else {
+                    element.style.height = getComputedStyle(element).height
+                    element.offsetWidth // force repaint
+                    element.style.height = '0px'
+                    element.classList.remove('--active')
+                }
             }
         },
         enter: {

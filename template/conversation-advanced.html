@@ -1,9 +1,12 @@
 <div class='rc-panel rc-conversation'>
     <div class='rc-panel__header --colored'>
-        <div class='rc-conversation__avatar-wrapper'>
-            <img class='rc-conversation__avatar' data-info='profile-img' src="">
+        <span class='rc-conversation__close icon-uni3E'></span>
+        <div class='rc-conversation__header'>
+            <div class='rc-conversation__avatar-wrapper'>
+                <img class='rc-conversation__avatar' data-info='profile-img' src="">
+            </div>
+            <div class='rc-conversation__header-title' data-info='header'></div>
         </div>
-        <span data-info='header'></span>
     </div>
     <div    class='rc-panel__content rc-conversation__container' 
             data-info='panel'>
@@ -473,6 +476,11 @@ w.register(function() {
         togglePhoneModal: {
             before: function() {
                 this.props.dom['phone-mask'].classList.toggle('display-none')
+            }
+        },
+        back: {
+            after: function() {
+
             }
         }
     }

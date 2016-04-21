@@ -1585,6 +1585,9 @@ h1, h2, h3, h4, h5, h6 {
     border: 1px solid#878787;
     display: inline-block;
 }
+.rc-conversation__close {
+    position: absolute;
+}
 .rc-conversation__container {
     display: flex;
     flex-direction: column;/* Adjust all conversation related font size */
@@ -1637,7 +1640,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-conversation__modal {
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-    padding: .7em .9em;
+    padding: .9em 1.1em;
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -1661,12 +1664,21 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
     color: #bdc3c7;
 }
+.rc-conversation__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.rc-conversation__header-title {
+    align-self: center;
+    font-size: 1.2em;
+}
 .rc-conversation__avatar-wrapper {
     width: 40px;
     height: 40px;
+    margin-right: .8em;
     border-radius: 50%;
     overflow: hidden;
-    display: inline-block;
     line-height: 2;
 }
 .rc-conversation__avatar {
@@ -1928,7 +1940,7 @@ h1, h2, h3, h4, h5, h6 {
     background: #fff;
 }
 .rc-dropdown__item {
-    padding: .7em .9em;
+    padding: .9em 1.1em;
     font-size: .9em;
     text-align: center;
     cursor: pointer;
@@ -2123,18 +2135,18 @@ h1, h2, h3, h4, h5, h6 {
     top: 0;
 }
 .rc-timeline-item {
-    padding: .7em .9em;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);/* Hide the collapse */
-    padding-top: 0;
-    padding-bottom: 0;
+    padding: .5em .7em;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     margin-bottom: 5px;
     overflow: hidden;
 }
 .rc-timeline-item .timeline-extra {}
 .rc-timeline-item .timeline-extra__content {}
+.rc-timeline-item__line {
+    margin-bottom: 10px;
+}
 .rc-timeline-item__icon {}
 .rc-timeline-item__contact {
-    padding-left: 1em;
     font-size: .9em;
 }
 .rc-timeline-item__time {
@@ -2157,19 +2169,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-timeline-item__collapse {
     padding: .5em .7em;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);/* Hide it from the view */
-    padding-top: 0;
-    padding-bottom: 0;/* workaround for height transition */
-    max-height: 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    height: 0;
     overflow: hidden;
-    transition: max-height .5s ease-in;
+    transition: height .5s ease-in-out;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 .rc-timeline-item__collapse > .timeline-extra {
     padding: .5em .7em;
     font-size: .8em;
-}
-.rc-timeline-item__collapse.--active {/* workaround for height transition */
-    max-height: 4000px;
 }
 .rc-timeline-item:hover {
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);/*background-color: #eee;*/
