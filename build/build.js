@@ -713,9 +713,9 @@ var conversationService = function (sdk) {
             return contactMsgs.length > 0;
         });
         msgs.forEach(function (msg) {
-            // FIXME, the "from" is unstable
+            var msgNumber = msg.direction === 'Inbound' ? msg.from : msg.to;
             var contact = relatedContacts.filter(function (contact) {
-                return contact.id === msg.from;
+                return contact.id === msgNumber;
             })[0];
             if (contact) {
                 contact.msg.push(msg);
@@ -755,9 +755,8 @@ var conversationService = function (sdk) {
 
     function fakeContact(msg) {
         return {
-            // FIXME
-            displayName: msg.from,
-            id: msg.from,
+            displayName: msg.direction === 'Inbound' ? msg.from : msg.to,
+            id: msg.direction === 'Inbound' ? msg.from : msg.to,
             phoneNumber: [msg.from],
             extension: msg.from,
             msg: [msg]
@@ -807,8 +806,12 @@ var conversationService = function (sdk) {
         get cachedHour() {
             return cachedHour;
         },
-        organizeContent: function organizeContent() {
-            var contents = combineContent.apply(undefined, arguments);
+        organizeContent: function organizeContent(contacts) {
+            for (var _len3 = arguments.length, sources = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+                sources[_key3 - 1] = arguments[_key3];
+            }
+
+            var contents = combineContent.apply(undefined, sources);
             var savedContent;
             var result = [];
             for (var i = 0; i < contents.length; ++i) {
@@ -832,8 +835,8 @@ var conversationService = function (sdk) {
             return result;
         },
         getConversations: function getConversations(contacts) {
-            for (var _len3 = arguments.length, sources = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
-                sources[_key3 - 1] = arguments[_key3];
+            for (var _len4 = arguments.length, sources = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
+                sources[_key4 - 1] = arguments[_key4];
             }
 
             var contents = combineContent.apply(undefined, sources);
@@ -1306,15 +1309,15 @@ function generateActions(widgetAction) {
     var name = arguments[2];
 
     return function () {
-        for (var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-            args[_key4] = arguments[_key4];
+        for (var _len5 = arguments.length, args = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+            args[_key5] = arguments[_key5];
         }
 
         var before = function before() {
             var _ref3;
 
-            for (var _len5 = arguments.length, args = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
-                args[_key5] = arguments[_key5];
+            for (var _len6 = arguments.length, args = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
+                args[_key6] = arguments[_key6];
             }
 
             logger.info('[' + name + '][before](' + (_ref3 = []).concat.apply(_ref3, args) + ')');
@@ -1348,8 +1351,8 @@ function generateActions(widgetAction) {
 }
 
 function wrapUserEvent(widget, user) {
-    for (var _len6 = arguments.length, args = Array(_len6 > 2 ? _len6 - 2 : 0), _key6 = 2; _key6 < _len6; _key6++) {
-        args[_key6 - 2] = arguments[_key6];
+    for (var _len7 = arguments.length, args = Array(_len7 > 2 ? _len7 - 2 : 0), _key7 = 2; _key7 < _len7; _key7++) {
+        args[_key7 - 2] = arguments[_key7];
     }
 
     var _ref4;

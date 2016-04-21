@@ -21,8 +21,8 @@ var conversationService = (function(sdk) {
             return contactMsgs.length > 0
         })
         msgs.forEach(msg => {
-            // FIXME, the "from" is unstable
-            var contact = relatedContacts.filter(contact => contact.id === msg.from)[0]
+            var msgNumber = msg.direction === 'Inbound'? msg.from: msg.to
+            var contact = relatedContacts.filter(contact => contact.id === msgNumber)[0]
             if (contact) {
                 contact.msg.push(msg)
             } else {
@@ -56,9 +56,8 @@ var conversationService = (function(sdk) {
 
     function fakeContact(msg) {
         return {
-            // FIXME
-            displayName: msg.from,
-            id: msg.from,
+            displayName: msg.direction === 'Inbound'? msg.from: msg.to,
+            id: msg.direction === 'Inbound'? msg.from: msg.to,
             phoneNumber: [msg.from],
             extension: msg.from,
             msg: [msg]
@@ -117,7 +116,7 @@ var conversationService = (function(sdk) {
         get cachedHour() {
             return cachedHour
         },
-        organizeContent: function(...sources) {
+        organizeContent: function(contacts, ...sources) {
             var contents = combineContent(...sources)
             var savedContent
             var result = []

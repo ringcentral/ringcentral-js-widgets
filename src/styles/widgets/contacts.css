@@ -1,11 +1,11 @@
 .rc-contacts {
     &__searchBox {
         padding: 8px 10px;
-        border-bottom: 1px solid;
-        border-top: 1px solid;
-        background-color: #f8f8f8;
-        border-bottom-color: #e5e5e5; 
-        border-top-color: #e5e5e5;
+        border-bottom:  1px solid;
+        border-top:     1px solid;
+        background-color:       #f8f8f8;
+        border-bottom-color:    #e5e5e5; 
+        border-top-color:       #e5e5e5;
         & .__input {
             border: 1px solid;
             width: 100%;

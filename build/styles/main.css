@@ -1165,6 +1165,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .rc-panel__header {
     padding: .5em .7em;
+    position: relative;
     height: 60px;
     background-color: #fff;
 }
@@ -1185,11 +1186,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .rc-panel__content {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    position: relative;
     height: 350px;
     background-color: #fff;
 }
 
 .rc-panel__footer {
+    position: relative;
     background-color: #fff;/* height: $panel-footer-height; */
 }
 .rc-button {
@@ -2105,28 +2108,58 @@ h1, h2, h3, h4, h5, h6 {
     color: #333;
 }
 .rc-timeline {
-    padding: .5em .7em;
     cursor: pointer;
+}
+.rc-timeline > .rc-panel__content {
+    overflow: auto;
+}
+.rc-timeline__list {
+    padding: .5em .7em;
+}
+.rc-timeline__mask {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
 }
 .rc-timeline-item {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     padding: .5em .7em;/* Hide the collapse */
+    padding-top: 0;
     padding-bottom: 0;
     overflow: hidden;
 }
-.rc-timeline-item__title {}
+.rc-timeline-item__title {
+    font-size: 1.2em;
+}
 .rc-timeline-item__time {
-    font-size: .9em;
+    font-size: .7em;
+    color: #878787;
+}
+.rc-timeline-item__subject {
+    font-size: .8em;
 }
 .rc-timeline-item__count {
+    position: absolute;/* Equal to padding-normal */
+    top: .5em;
+    right: .7em;
     font-size: .9em;
 }
 .rc-timeline-item__content {
-    margin-bottom: 20px;
+    padding: .5em .7em;
+    position: relative;
 }
-.rc-timeline-item__collapse {/* workaround for height transition */
+.rc-timeline-item__collapse {
+    padding: .5em .7em;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);/* Hide it from the view */
+    padding-top: 0;
+    padding-bottom: 0;/* workaround for height transition */
     max-height: 0;
     transition: max-height .5s ease-in;
+}
+.rc-timeline-item__collapse > .timeline-extra {
+    padding: .5em .7em;
+    font-size: .8em;
 }
 .rc-timeline-item__collapse.--active {/* workaround for height transition */
     max-height: 4000px;

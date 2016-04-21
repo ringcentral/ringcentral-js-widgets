@@ -4,9 +4,11 @@
     <title>Conversation</title>
     <link rel="stylesheet" type="text/css" href="../build/styles/main.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+
+    </style>
 </head>
 <div id='container'></div>
-<div id='container2'></div>
 <body>
 <script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
 <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
@@ -51,8 +53,8 @@ function init() {
                     this.unmount()
                     // conversation.mount('#container')
                     // messageWidget.mount('#container')
-                    contacts.mount('#container')
-                    timeline.mount('#container2')
+                    // contacts.mount('#container')
+                    timeline.mount('#container')
                 }
             }
         }
@@ -63,15 +65,33 @@ function init() {
             fetchData: {
                 method: function() {
                     return Promise.all([
+                        cacheContacts(), // first one must be the contacts
                         rcMessageService.syncMessages(conversationService.cachedHour),
-                        callLogService.getCallLogs()
+                        callLogService.getCallLogs(),
                     ]).then(result => conversationService.organizeContent(...result))
+                }
+            },
+            focusSearchBox: {
+                after: function() {
+                    contacts.mount(this.props.dom.mask)
+                    this.props.dom.mask.classList.remove('display-none')
+                    this.props.dom.timeline.classList.add('display-none')
+                }
+            },
+            blurSearchBox: {
+                after: function() {
+                    contacts.unmount()
+                    this.props.dom.mask.classList.add('display-none')
+                    this.props.dom.timeline.classList.remove('display-none')
                 }
             }
         }
     })
 
     var contacts = w('contacts', {
+        data: {
+            searchBox: false
+        },
         actions: {
             init: {
                 after: function() {}
@@ -128,6 +148,11 @@ function init() {
                     var contact = this.props.relateContacts[this.props.selectedContact.id]
                     var conversation = conv(contact)
                     conversation.mount('#container')
+                }
+            },
+            focus: {
+                after: function() {
+                    console.log('focus');
                 }
             }
         }

@@ -1,7 +1,8 @@
 <div class='rc-panel rc-timeline-item' data-event='click:collapse'>
     <div class='rc-timeline-item__content'>
-        <h3 class='rc-timeline-item__title' data-info='title'></h3>
+        <div class='rc-timeline-item__title' data-info='title'></div>
         <div class='rc-timeline-item__time' data-info='time'></div>
+        <div class='rc-timeline-item__subject' data-info='subject'></div>
         <div class='rc-timeline-item__count' data-info='count'></div>
     </div>
     <div data-info='collapse' class='rc-timeline-item__collapse'>
@@ -12,13 +13,17 @@ w.register(function(){
     this.actions= {
         init: {
             after: function() {
+                console.log(this.data);
+                var time = new Date(this.data.time)
                 this.props.dom.title.textContent = this.data.type
-                this.props.dom.time.textContent = this.data.time
+                this.props.dom.subject.textContent = this.data.subject
+                this.props.dom.time.textContent = 
+                `${time.getMonth()}/${time.getDate()}, ${time.getMinutes()}:${time.getSeconds()}`
                 if (this.data.others) {
-                    this.props.dom.count.textContent = this.data.others.length
+                    this.props.dom.count.textContent = this.data.others.length || ''
                     this.data.others.forEach(content => {
                         var div = document.createElement('div')
-                        div.innerHTML = `<div>${content.subject}</div>`
+                        div.innerHTML = `<div class='timeline-extra'>${content.subject}</div>`
                         this.props.dom.collapse.appendChild(div.firstChild)
                     })
                 }

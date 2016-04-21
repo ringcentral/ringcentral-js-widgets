@@ -1,7 +1,12 @@
 <div class='rc-panel'>
-    <div class='rc-panel__header --flat'>
-        <div class='rc-contacts__searchBox'>
-            <input class='__input' type='text' data-info='searchText' data-event='input:search'>
+    <div class='rc-panel__header --flat' data-info='header'>
+        <div data-info='search-box' class='rc-contacts__searchBox'>
+            <input 
+                class='__input' 
+                type='text' 
+                data-info='searchText' 
+                data-event='input:search|focus:focus'
+            >
         </div>
     </div>
     <div class='rc-panel__content' data-info='container'>
@@ -15,7 +20,7 @@
     </div>
 </div>
 <script>
-w.register(function(){
+w.register(function() {
     function createContactWidget(parent, contact) {
         return w('contact-item', {
             actions: {
@@ -33,7 +38,8 @@ w.register(function(){
         });
     }
     this.data = {
-        loadingContacts: 30
+        loadingContacts: 30,
+        searchBox: true
     }
     this.actions= {
         init: {
@@ -41,6 +47,10 @@ w.register(function(){
                 this.props.selectedContact = null;
                 this.props.contactItemWidgets = []
                 this.props.currentIndex = 0
+            },
+            after: function() {
+                if (typeof this.data.searchBox !== 'undefined' && !this.data.searchBox)
+                    this.props.dom['header'].classList.add('display-none')
             }
         },
         mount: {
@@ -154,6 +164,14 @@ w.register(function(){
                 this.props.dom.contacts.offsetHeight - scrollBottom
             }
         },
+        focus: {
+            method: function(finish) {
+                return finish()
+            },
+            after: function() {
+
+            }
+        }
     }
 });
 //# sourceURL=contacts.html

@@ -1,6 +1,17 @@
 .rc-timeline {
-    @mixin padding-normal;
     cursor: pointer;
+    > .rc-panel__content {
+        overflow: auto;
+    }
+    &__list {
+        @mixin padding-normal;
+    }
+    &__mask {
+        position: absolute;
+        width:  100%;
+        height: 100%;
+        top: 0;
+    }
 }
 
 
@@ -8,25 +19,46 @@
     @mixin shadow-1;
     @mixin padding-normal;
     /* Hide the collapse */
+    padding-top:    0;
     padding-bottom: 0;
     overflow: hidden;
-    &__title {}
+    &__title {
+        font-size: 1.2em;
+    }
     &__time {
-        font-size: .9em;
+        font-size: .7em;
+        color: #878787;
+    }
+    &__subject {
+        font-size: .8em;
     }
     &__count {
+        position: absolute;
+        /* Equal to padding-normal */
+        top:    .5em;
+        right:  .7em;
         font-size: .9em;
     }
     &__content {
-        margin-bottom: 20px;
+        @mixin padding-normal;
+        position: relative;
     }
     &__collapse {
+        @mixin padding-normal;
+        @mixin shadow-1;
+        /* Hide it from the view */
+        padding-top:    0;
+        padding-bottom: 0;
         /* workaround for height transition */
         max-height: 0;
         transition: max-height .5s ease-in;
         &.--active {
             /* workaround for height transition */
             max-height: 4000px;
+        }
+        > .timeline-extra {
+            @mixin padding-normal;
+            font-size: .8em;
         }
     }
 }
