@@ -74,6 +74,9 @@ w.register(function() {
             after: function() {
                 this.props.syncedMessages = []
                 this.props.toNumbers = []
+                this.props.toNumber = this.data.toNumber
+                this.props.fromNumber = this.data.fromNumber
+                this.props.fromNumbers = this.data.fromNumbers || []
 
                 var conversation = this;
                 w.customize(this, 'dropdown', {
@@ -101,7 +104,8 @@ w.register(function() {
                 var currentContact = this.props.contact = this.data.contact
                 // set default outbound caller id as first phone number
                 this.props.toExtension = currentContact.extension
-                this.setReceiver(currentContact.phoneNumber[0])
+                this.data.fromNumber && this.setSender(this.data.fromNumber)
+                this.setReceiver(this.data.toNumber || currentContact.phoneNumber[0])
                 this.setReceiverCandidates(currentContact.phoneNumber)
                 currentContact.msg && this.appendMessages(currentContact.msg.slice().reverse())
                 this.setTitle(currentContact.displayName)
@@ -447,9 +451,8 @@ w.register(function() {
                 return finish();
             },
             after: function(numbers) {
-                // FIXME
-                this.props.fromNumber = numbers[0]
-                this.props.fromNumbers = numbers
+                // this.setSender(numbers[0])
+                this.setSenderCandidates(numbers)
             }
         },
         queryContacts: {
@@ -461,6 +464,11 @@ w.register(function() {
         setSender: {
             method: function(finish, fromNumber) {
                 this.props.fromNumber = fromNumber
+            }
+        },
+        setSenderCandidates: {
+            method: function(finish, fromNumbers) {
+                this.props.fromNumbers = fromNumbers
             }
         },
         setReceiver: {

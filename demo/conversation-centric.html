@@ -105,8 +105,14 @@ function init() {
             enterItem: {
                 after: function() {
                     this.unmount()
-                    conv(this.props.selectedContent.contact, () => {
+                    var contact = this.props.selectedContent.contact
+                    var fromNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].from: contact.msg[0].to
+                    var toNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].to: contact.msg[0].from
+                    conv(contact, () => {
                         this.mount('#container')
+                    }, {
+                        fromNumber,
+                        toNumber
                     }).mount('#container')
                 }
             }
@@ -212,11 +218,13 @@ function cacheContacts() {
     return data? Promise.resolve(JSON.parse(LZString.decompressFromUTF16(data))): fetch
 }
 
-function conv(contact, afterBack) {
+function conv(contact, afterBack, options = {}) {
     return w('conversation', {
         data: {
             new: true,
-            contact: contact
+            contact: contact,
+            fromNumber: options.fromNumber,
+            toNumber: options.toNumber
         },
         actions: {
             init: {

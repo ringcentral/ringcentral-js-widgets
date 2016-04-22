@@ -54,15 +54,10 @@ w.register(function() {
                         this.props.latestMessage.contact.id === content.contact.id) {
 
                         this.props.latestMessage.others = this.props.latestMessage.others || []
-                        // FIXME: Expensive to use unshift: O(n)
                         content.others = content.others || []
                         content.others.push(this.props.latestMessage)
                         content.others = content.others.concat(this.props.latestMessage.others)
-
-                        // this.props.latestMessage.others.unshift(content)
                         this.props.latestMessage.widget.unmount()
-                        // this.props.latestMessage.widget.fillData(this.props.latestMessage)
-                        // this.props.latestMessage.widget.mount(this.props.dom.timeline, true)
                     }
                     this.addLine(content, true)
                     this.props.latestMessage = content
