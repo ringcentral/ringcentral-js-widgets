@@ -30,7 +30,7 @@ w.register(function(){
                 this.props.dom.subject.textContent = this.data.subject
                 this.data.contact && (this.props.dom.contact.textContent = this.data.contact.displayName)
                 this.props.dom.time.textContent = 
-                `${time.getMonth()}/${time.getDate()}, ${time.getMinutes()}:${time.getSeconds()}`
+                `${time.getMonth() + 1}/${time.getDate()}, ${time.getMinutes()}:${time.getSeconds()}`
                 if (this.data.others && this.data.others.length > 0) {
                     this.props.dom['count-wrapper'].classList.remove('display-none')
                     this.props.dom.count.textContent = this.data.others.length
@@ -41,7 +41,7 @@ w.register(function(){
                         `<div class='timeline-extra .clearfix'>
                             <div class='timeline-extra__content'>${content.subject}</div>
                             <div class='rc-timeline-item__time'>
-                                ${time.getMonth()}/${time.getDate()}, ${time.getMinutes()}:${time.getSeconds()}
+                                ${time.getMonth() + 1}/${time.getDate()}, ${time.getMinutes()}:${time.getSeconds()}
                             </div>
                         </div>`
                         this.props.dom.collapse.appendChild(div.firstChild)
