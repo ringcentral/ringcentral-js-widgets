@@ -103,7 +103,7 @@ w.register(function() {
                 this.props.toExtension = currentContact.extension
                 this.setReceiver(currentContact.phoneNumber[0])
                 this.setReceiverCandidates(currentContact.phoneNumber)
-                this.appendMessages(currentContact.msg.reverse())
+                currentContact.msg && this.appendMessages(currentContact.msg.reverse())
                 this.setTitle(currentContact.displayName)
                 console.log(currentContact.profileImage+`?access_token=${sdk.platform().auth().accessToken()}`)
 
@@ -179,7 +179,7 @@ w.register(function() {
         addBubble: {
             after: function(id, type, content, direction, time, prepend) {
                 var opponent = (direction === 'Inbound')
-                var model = this.props.contact.msg.find(contact => contact.id === id)
+                var model = this.props.contact.msg && this.props.contact.msg.find(contact => contact.id === id)
                 var doc
                 if (type === 'SMS' || type === 'Pager')
                     doc = this.createSMSTemplate(id, content, opponent, time)
@@ -187,6 +187,7 @@ w.register(function() {
                     doc = this.createVoiceMailTemplate(id, content, opponent, time)
                 else if (type === 'Voice')
                     doc = this.createCallLogTemplate(id, content, opponent, time)
+
                 if (model) {
                     model.dom = doc
                     this.markBubble(model)

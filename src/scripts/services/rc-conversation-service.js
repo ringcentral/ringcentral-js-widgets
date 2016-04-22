@@ -74,6 +74,7 @@ var conversationService = (function(sdk) {
                 savedContent = content
             }
         }
+        savedContent && result.push(savedContent)
         return result
     }
     
@@ -165,10 +166,9 @@ var conversationService = (function(sdk) {
         organizeContent: function(contacts, ...sources) {
             var contents = combineContent(...sources)
             var relatedContacts = groupMessageToContact(contents.slice(), contacts)
-            console.log(relatedContacts);
             contents = groupContactToMessage(contents, relatedContacts)
-            console.log(contents);
-            return combineAdjacentMessage(contents)
+            contents = combineAdjacentMessage(contents)
+            return contents
         },
         getConversations: function(contacts, ...sources) {
             var contents = combineContent(...sources)

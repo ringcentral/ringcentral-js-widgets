@@ -764,6 +764,7 @@ var conversationService = function (sdk) {
                 savedContent = content;
             }
         }
+        savedContent && result.push(savedContent);
         return result;
     }
 
@@ -855,10 +856,9 @@ var conversationService = function (sdk) {
 
             var contents = combineContent.apply(undefined, sources);
             var relatedContacts = groupMessageToContact(contents.slice(), contacts);
-            console.log(relatedContacts);
             contents = groupContactToMessage(contents, relatedContacts);
-            console.log(contents);
-            return combineAdjacentMessage(contents);
+            contents = combineAdjacentMessage(contents);
+            return contents;
         },
         getConversations: function getConversations(contacts) {
             for (var _len4 = arguments.length, sources = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {

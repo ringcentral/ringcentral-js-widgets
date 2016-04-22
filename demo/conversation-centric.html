@@ -63,6 +63,18 @@ function init() {
 
     var timeline = w('time-line', {
         actions: {
+            mount: {
+                after: function() {
+                    rcMessageService.subscribeToMessageUpdate()
+                    rcMessageProvider.onMessageUpdated(msg => {
+                        console.log(msg);
+                        cacheContacts().then(contacts => 
+                            this.updateTimeline(conversationService.organizeContent(contacts, msg))
+                        )
+                        
+                    })
+                }
+            },
             fetchData: {
                 method: function() {
                     return Promise.all([
@@ -126,6 +138,10 @@ function init() {
                         cacheContacts()
                     ]).then(result => {
                         var [msgs, logs, contacts] = result
+                        this.props.contacts = contacts.reduce((result, contact) => {
+                            result[contact.id] = contact
+                            return result
+                        }, {})
                         return conversationService.getConversations(contacts, msgs, logs)
                     }).then(relateContacts => {
                         this.props.relateContacts = relateContacts
@@ -148,8 +164,12 @@ function init() {
                     //     return provider.searchAll();
                     // });
                     // return contactSearchService.query(dialPadSearchFunctions);
-                    return cacheContacts().then(companyContacts => {
-                        return companyContacts.map(contact => {
+                    return cacheContacts().then(contacts => {
+                        this.props.contacts = contacts.reduce((result, contact) => {
+                            result[contact.id] = contact
+                            return result
+                        }, {})
+                        return contacts.map(contact => {
                             return {
                                 name: contact.displayName,
                                 type: 'rc',
@@ -163,7 +183,10 @@ function init() {
                 method: function() {
                     this.unmount()
                     timeline.unmount()
-                    var contact = this.props.relateContacts[this.props.selectedContact.id]
+                    var contact = 
+                        (this.props.relateContacts && 
+                        this.props.relateContacts[this.props.selectedContact.id]) ||
+                        this.props.contacts[this.props.selectedContact.id]
                     var conversation = conv(contact, () => {
                         timeline.mount('#container')
                     }).mount('#container')
@@ -172,71 +195,6 @@ function init() {
             focus: {
                 after: function() {
                     console.log('focus');
-                }
-            }
-        }
-    });
-    var messageWidget = w('messages', {
-        actions: {
-            mount: {
-                after: function(){
-                    rcMessageService.subscribeToMessageUpdate()
-                    rcMessageProvider.onMessageUpdated(this.refreshMessages)
-                }
-            },
-            refreshMessages: {
-                method: function(){
-                    // test with mocked data----------------------------
-                    // rcMessageService.syncMessages = () => {
-                    //     return fetch('./message').then(res => res.json())
-                    // }
-                    rcContactService.completeCompanyContact = () => {
-                        return fetch('./contact').then(res => res.json())
-                    }
-                    // callLogService.getCallLogs = () => {
-                    //     return fetch('./calllog').then(res => res.json())
-                    // }
-                    //---------------------------------------------------
-                    
-                    return Promise.all([
-                        rcMessageService.syncMessages(conversationService.cachedHour),
-                        callLogService.getCallLogs(),
-                        rcContactService.completeCompanyContact()
-                    ]).then(result => {
-                        var [msgs, logs, contacts] = result
-                        return conversationService.getConversations(contacts, msgs, logs)
-                    }).then(relateContacts => {
-                        this.props.relateContacts = relateContacts
-                        return relateContacts
-                    })
-                    .then(relateContacts => 
-                        Object.keys(relateContacts).map(index => {
-                            console.log(relateContacts);
-                            // adapt to messages template format
-                            relateContacts[index].msg[0].contact = relateContacts[index].displayName
-                            // for conversation-advance temaplate
-                            relateContacts[index].msg[0].contactId = index
-                            return relateContacts[index].msg[0]
-                        })
-                    )
-                }
-            },
-            enterMessage: {
-                before: function() {},
-                method: function() {
-                    // TODO: makes the div temp
-                    this.unmount()
-                    var contact = this.props.relateContacts[this.props.selectedMessage.contactId]
-                    var conversation = conv(contact)
-                    conversation.mount('#container')
-                }
-            },
-            compose: {
-                method: function() {
-                   
-                },
-                after: function() {
-
                 }
             }
         }

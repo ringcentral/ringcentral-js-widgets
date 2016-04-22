@@ -29,15 +29,20 @@ w.register(function() {
             method: function(finish) {
                 return finish()
             },
-            after: function(data) {
-                data.forEach(item => this.addLine(item))
+            after: function(contents) {
+                contents.forEach(content => this.addLine(content))
+            }
+        },
+        updateTimeline: {
+            after: function(contents) {
+                contents.forEach(content => this.addLine(content, true))
             }
         },
         addLine: {
-            after: function(item) {
+            after: function(content, prepend) {
                 var parent = this
-                w('time-line-item', {
-                    data: item,
+                var item = w('time-line-item', {
+                    data: content,
                     actions: {
                         enter: {
                             after: function() {
@@ -46,7 +51,16 @@ w.register(function() {
                             }
                         }
                     }
-                }).mount(this.props.dom.timeline)
+                })
+                // FIXME: widget cannot prepend, it's a workaround
+                // TODO: make a notification
+                if (prepend) {
+                    var div = document.createElement('div')
+                    item.mount(div)
+                    this.props.dom.timeline.insertBefore(div, this.props.dom.timeline.firstChild)
+                }
+                else
+                    item.mount(this.props.dom.timeline)
             }
         },
         search: {
