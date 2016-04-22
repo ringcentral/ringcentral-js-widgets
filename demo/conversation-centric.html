@@ -66,13 +66,9 @@ function init() {
             mount: {
                 after: function() {
                     rcMessageService.subscribeToMessageUpdate()
-                    rcMessageProvider.onMessageUpdated(msg => {
-                        console.log(msg);
-                        cacheContacts().then(contacts => 
-                            this.updateTimeline(conversationService.getContent(contacts, msg))
-                        )
-                        
-                    })
+                    rcMessageProvider.onMessageUpdated(msg => 
+                        this.updateTimeline(conversationService.getContent(this.props.contacts, msg)))
+                    return cacheContacts().then(contacts => this.props.contacts = contacts)
                 }
             },
             fetchData: {

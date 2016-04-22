@@ -8,7 +8,7 @@ var rcMessageProvider = function() {
     rcMessageService.onMessageUpdated(results => {
         messageUpdatedHandlers.forEach(h => {
             try {
-                h(results)
+                h(results.slice())
             } catch (e) {
                 console.error(e)
             }

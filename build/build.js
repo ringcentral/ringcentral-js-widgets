@@ -923,7 +923,7 @@ var rcMessageProvider = function () {
     rcMessageService.onMessageUpdated(function (results) {
         messageUpdatedHandlers.forEach(function (h) {
             try {
-                h(results);
+                h(results.slice());
             } catch (e) {
                 console.error(e);
             }

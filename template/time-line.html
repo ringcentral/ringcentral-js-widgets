@@ -28,11 +28,13 @@ w.register(function() {
         },
         mount: {
             after: function() {
-                this.fetchData()
+                if (!this.props.mounted)
+                    this.fetchData()
             }
         },
         fetchData: {
             method: function(finish) {
+                this.props.mounted = true
                 return finish()
             },
             after: function(contents) {
@@ -42,7 +44,6 @@ w.register(function() {
         },
         updateTimeline: {
             after: function(contents) {
-
                 contents
                 .reverse()
                 // Avoid duplicated notifications
@@ -54,14 +55,17 @@ w.register(function() {
 
                         this.props.latestMessage.others = this.props.latestMessage.others || []
                         // FIXME: Expensive to use unshift: O(n)
-                        this.props.latestMessage.others.unshift(content)
+                        content.others = content.others || []
+                        content.others.push(this.props.latestMessage)
+                        content.others = content.others.concat(this.props.latestMessage.others)
+
+                        // this.props.latestMessage.others.unshift(content)
                         this.props.latestMessage.widget.unmount()
-                        this.props.latestMessage.widget.fillData(this.props.latestMessage)
-                        this.props.latestMessage.widget.mount(this.props.dom.timeline, true)
-                    } else {
-                        this.addLine(content, true)
-                        this.props.latestMessage = content
+                        // this.props.latestMessage.widget.fillData(this.props.latestMessage)
+                        // this.props.latestMessage.widget.mount(this.props.dom.timeline, true)
                     }
+                    this.addLine(content, true)
+                    this.props.latestMessage = content
                     this.props.syncedMessages.push(content.id)
                 })
             }

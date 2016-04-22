@@ -103,9 +103,8 @@ w.register(function() {
                 this.props.toExtension = currentContact.extension
                 this.setReceiver(currentContact.phoneNumber[0])
                 this.setReceiverCandidates(currentContact.phoneNumber)
-                currentContact.msg && this.appendMessages(currentContact.msg.reverse())
+                currentContact.msg && this.appendMessages(currentContact.msg.slice().reverse())
                 this.setTitle(currentContact.displayName)
-                console.log(currentContact.profileImage+`?access_token=${sdk.platform().auth().accessToken()}`)
 
                 // Fake contact
                 if (!currentContact.profileImage) {
@@ -353,7 +352,7 @@ w.register(function() {
             method: function(finish, messages, prepend) {
                 messages.map(msg => {
                         var time = new Date(msg.lastModifiedTime)
-                        msg.time = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
+                        msg.displayTime = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
                         return msg
                     })
                     .forEach(msg => {
@@ -362,7 +361,7 @@ w.register(function() {
                                 msg.type, 
                                 msg.subject, 
                                 msg.direction, 
-                                msg.time,
+                                msg.displayTime,
                                 prepend
                             )
                             var date = new Date(msg.lastModifiedTime).getDate()

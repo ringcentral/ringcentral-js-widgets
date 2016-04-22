@@ -28,7 +28,7 @@ w.register(function(){
             },
             method: function(finish, data) {
                 this.props.content = data
-
+                console.log(data);
                 var time = new Date(data.time)
                 if (data.type === 'SMS')
                     this.props.dom.icon.classList.add('icon-uni2487')
@@ -48,6 +48,9 @@ w.register(function(){
                     this.props.dom['count-wrapper'].classList.remove('display-none')
                     this.props.dom.count.textContent = data.others.length
                     var currentDate
+
+                    while(this.props.dom.collapse.firstChild)
+                        this.props.dom.collapse.removeChild(this.props.dom.collapse.firstChild)
                     data.others.forEach(content => {
                         var time = new Date(content.time)
                         var div = document.createElement('div')
@@ -55,7 +58,7 @@ w.register(function(){
                         var date = time.getDate()
                         var calender = date > currentDate? (month + '/' + date + ','): ''
                         div.innerHTML = 
-                        `<div class='timeline-extra .clearfix'>
+                        `<div class='timeline-extra clearfix'>
                             <div class='timeline-extra__content'>${content.subject}</div>
                             <div class='rc-timeline-item__time'>
                                 ${calender} 
