@@ -20,6 +20,12 @@
 w.register(function() {
     this.data = {}
     this.actions= {
+        init: {
+            after: function() {
+                this.props.syncedMessages = []
+                this.props.latestMessage = null
+            }
+        },
         mount: {
             after: function() {
                 this.fetchData()
@@ -30,12 +36,34 @@ w.register(function() {
                 return finish()
             },
             after: function(contents) {
+                this.props.latestMessage = contents[0]
                 contents.forEach(content => this.addLine(content))
             }
         },
         updateTimeline: {
             after: function(contents) {
-                contents.forEach(content => this.addLine(content, true))
+
+                contents
+                .reverse()
+                // Avoid duplicated notifications
+                .filter(content => this.props.syncedMessages.indexOf(content.id) === -1)
+                .forEach(content => {
+                    if (this.props.latestMessage &&
+                        this.props.latestMessage.type === content.type &&
+                        this.props.latestMessage.contact.id === content.contact.id) {
+
+                        this.props.latestMessage.others = this.props.latestMessage.others || []
+                        // FIXME: Expensive to use unshift: O(n)
+                        this.props.latestMessage.others.unshift(content)
+                        this.props.latestMessage.widget.unmount()
+                        this.props.latestMessage.widget.fillData(this.props.latestMessage)
+                        this.props.latestMessage.widget.mount(this.props.dom.timeline, true)
+                    } else {
+                        this.addLine(content, true)
+                        this.props.latestMessage = content
+                    }
+                    this.props.syncedMessages.push(content.id)
+                })
             }
         },
         addLine: {
@@ -52,15 +80,8 @@ w.register(function() {
                         }
                     }
                 })
-                // FIXME: widget cannot prepend, it's a workaround
-                // TODO: make a notification
-                if (prepend) {
-                    var div = document.createElement('div')
-                    item.mount(div)
-                    this.props.dom.timeline.insertBefore(div, this.props.dom.timeline.firstChild)
-                }
-                else
-                    item.mount(this.props.dom.timeline)
+                content.widget = item
+                item.mount(this.props.dom.timeline, prepend)
             }
         },
         search: {

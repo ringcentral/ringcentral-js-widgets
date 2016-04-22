@@ -80,24 +80,28 @@ function widget({actions, data = {}}, options) {
             return widgetUnmount.call(this, finish)
     }
 
-    function mount(widgetMount, template, finish, target, callback) {
+    function mount(widgetMount, template, finish, target, prepend) {
         if (typeof target === 'string') {
             target = document.querySelector(target)
         } else {
             logger.warn('first argument of mount method should be selector string')
         }
-
         if (this.target) {
-            target.appendChild(this.target)
+            if (prepend)
+                target.insertBefore(this.target, target.firstChild)
+            else
+                target.appendChild(this.target)
         } else {
             // templates can only have one root
             this.target = shallowCopy(
               Array.from(template.childNodes)
                   .filter(node => node.nodeType === 1)
             )[0]
-            target.appendChild(template)
+            if (prepend)
+                target.insertBefore(template, target.firstChild)
+            else
+                target.appendChild(template)
         }
-        callback && isFunction(callback) && callback()
         if (widgetMount && isFunction(widgetMount))
             return widgetMount.call(this, finish)
         return this

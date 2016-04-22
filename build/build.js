@@ -849,9 +849,19 @@ var conversationService = function (sdk) {
         get cachedHour() {
             return cachedHour;
         },
-        organizeContent: function organizeContent(contacts) {
+        getContent: function getContent(contacts) {
             for (var _len3 = arguments.length, sources = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
                 sources[_key3 - 1] = arguments[_key3];
+            }
+
+            var contents = combineContent.apply(undefined, sources);
+            var relatedContacts = groupMessageToContact(contents.slice(), contacts);
+            contents = groupContactToMessage(contents, relatedContacts);
+            return contents;
+        },
+        organizeContent: function organizeContent(contacts) {
+            for (var _len4 = arguments.length, sources = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
+                sources[_key4 - 1] = arguments[_key4];
             }
 
             var contents = combineContent.apply(undefined, sources);
@@ -861,8 +871,8 @@ var conversationService = function (sdk) {
             return contents;
         },
         getConversations: function getConversations(contacts) {
-            for (var _len4 = arguments.length, sources = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
-                sources[_key4 - 1] = arguments[_key4];
+            for (var _len5 = arguments.length, sources = Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
+                sources[_key5 - 1] = arguments[_key5];
             }
 
             var contents = combineContent.apply(undefined, sources);
@@ -1270,23 +1280,21 @@ function widget(_ref2, options) {
         if (widgetUnmount && isFunction(widgetUnmount)) return widgetUnmount.call(this, finish);
     }
 
-    function mount(widgetMount, template, finish, target, callback) {
+    function mount(widgetMount, template, finish, target, prepend) {
         if (typeof target === 'string') {
             target = document.querySelector(target);
         } else {
             logger.warn('first argument of mount method should be selector string');
         }
-
         if (this.target) {
-            target.appendChild(this.target);
+            if (prepend) target.insertBefore(this.target, target.firstChild);else target.appendChild(this.target);
         } else {
             // templates can only have one root
             this.target = shallowCopy(Array.from(template.childNodes).filter(function (node) {
                 return node.nodeType === 1;
             }))[0];
-            target.appendChild(template);
+            if (prepend) target.insertBefore(template, target.firstChild);else target.appendChild(template);
         }
-        callback && isFunction(callback) && callback();
         if (widgetMount && isFunction(widgetMount)) return widgetMount.call(this, finish);
         return this;
     }
@@ -1335,15 +1343,15 @@ function generateActions(widgetAction) {
     var name = arguments[2];
 
     return function () {
-        for (var _len5 = arguments.length, args = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
-            args[_key5] = arguments[_key5];
+        for (var _len6 = arguments.length, args = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
+            args[_key6] = arguments[_key6];
         }
 
         var before = function before() {
             var _ref3;
 
-            for (var _len6 = arguments.length, args = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
-                args[_key6] = arguments[_key6];
+            for (var _len7 = arguments.length, args = Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
+                args[_key7] = arguments[_key7];
             }
 
             logger.info('[' + name + '][before](' + (_ref3 = []).concat.apply(_ref3, args) + ')');
@@ -1377,8 +1385,8 @@ function generateActions(widgetAction) {
 }
 
 function wrapUserEvent(widget, user) {
-    for (var _len7 = arguments.length, args = Array(_len7 > 2 ? _len7 - 2 : 0), _key7 = 2; _key7 < _len7; _key7++) {
-        args[_key7 - 2] = arguments[_key7];
+    for (var _len8 = arguments.length, args = Array(_len8 > 2 ? _len8 - 2 : 0), _key8 = 2; _key8 < _len8; _key8++) {
+        args[_key8 - 2] = arguments[_key8];
     }
 
     var _ref4;

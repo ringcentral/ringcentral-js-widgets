@@ -163,6 +163,12 @@ var conversationService = (function(sdk) {
         get cachedHour() {
             return cachedHour
         },
+        getContent: function(contacts, ...sources) {
+            var contents = combineContent(...sources)
+            var relatedContacts = groupMessageToContact(contents.slice(), contacts)
+            contents = groupContactToMessage(contents, relatedContacts)
+            return contents
+        },
         organizeContent: function(contacts, ...sources) {
             var contents = combineContent(...sources)
             var relatedContacts = groupMessageToContact(contents.slice(), contacts)

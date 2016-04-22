@@ -69,7 +69,7 @@ function init() {
                     rcMessageProvider.onMessageUpdated(msg => {
                         console.log(msg);
                         cacheContacts().then(contacts => 
-                            this.updateTimeline(conversationService.organizeContent(contacts, msg))
+                            this.updateTimeline(conversationService.getContent(contacts, msg))
                         )
                         
                     })

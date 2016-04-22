@@ -20,6 +20,7 @@
     @mixin shadow-1;
     margin-bottom:  5px;
     overflow: hidden;
+    transition: background-color .5s ease-in-out;
     &__line {
         margin-bottom: 10px;
     }

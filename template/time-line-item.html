@@ -19,27 +19,36 @@ w.register(function(){
     this.actions= {
         init: {
             after: function() {
-                this.props.content = this.data
-                var time = new Date(this.data.time)
-                if (this.data.type === 'SMS')
+                this.fillData(this.data)
+            }
+        },
+        fillData: {
+            before: function() {
+                this.props.root.style['background-color'] = '#eee'
+            },
+            method: function(finish, data) {
+                this.props.content = data
+
+                var time = new Date(data.time)
+                if (data.type === 'SMS')
                     this.props.dom.icon.classList.add('icon-uni2487')
-                else if (this.data.type === 'Voice')
+                else if (data.type === 'Voice')
                     this.props.dom.icon.classList.add('icon-uniAE')
-                else if (this.data.type === 'Pager')
+                else if (data.type === 'Pager')
                     this.props.dom.icon.classList.add('icon-uniCB')
-                this.props.dom.subject.textContent = this.data.subject
-                this.data.contact && (this.props.dom.contact.textContent = this.data.contact.displayName)
+                this.props.dom.subject.textContent = data.subject
+                data.contact && (this.props.dom.contact.textContent = data.contact.displayName)
                 this.props.dom.time.textContent = 
                 `
                 ${time.getMonth() + 1}/${time.getDate()}, 
                 ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}
                 `
 
-                if (this.data.others && this.data.others.length > 0) {
+                if (data.others && data.others.length > 0) {
                     this.props.dom['count-wrapper'].classList.remove('display-none')
-                    this.props.dom.count.textContent = this.data.others.length
+                    this.props.dom.count.textContent = data.others.length
                     var currentDate
-                    this.data.others.forEach(content => {
+                    data.others.forEach(content => {
                         var time = new Date(content.time)
                         var div = document.createElement('div')
                         var month = time.getMonth() + 1
@@ -57,6 +66,9 @@ w.register(function(){
                         this.props.dom.collapse.appendChild(div.firstChild)
                     })
                 }
+            },
+            after: function(data) {
+                setTimeout(() => this.props.root.style['background-color'] = '#fff', 1000)
             }
         },
         mount: {
