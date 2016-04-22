@@ -49,6 +49,11 @@ w.register(function() {
                 }).mount(this.props.dom.timeline)
             }
         },
+        search: {
+            method: function(finish) {
+                return finish()
+            }
+        },
         focusSearchBox: {
             method: function(finish) {
                 return finish()

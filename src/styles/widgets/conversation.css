@@ -5,6 +5,7 @@ $conversation-bubble-marked-color: #eee;
 .rc-conversation {
     &__close {
         position: absolute;
+        cursor: pointer;
     }
     &__container {
         display: flex;

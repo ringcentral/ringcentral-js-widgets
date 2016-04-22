@@ -81,15 +81,25 @@ function init() {
             },
             blurSearchBox: {
                 after: function() {
-                    contacts.unmount()
-                    this.props.dom.mask.classList.add('display-none')
-                    this.props.dom.timeline.classList.remove('display-none')
+                    setTimeout(() => {
+                        contacts.unmount()
+                        this.props.dom.mask.classList.add('display-none')
+                        this.props.dom.timeline.classList.remove('display-none')
+                    }, 100)
+                }
+            },
+            search: {
+                method: function() {
+                    contacts.props.dom.searchText.value = this.props.dom.searchText.value 
+                    contacts.search()
                 }
             },
             enterItem: {
                 after: function() {
                     this.unmount()
-                    conv(this.props.selectedContent.contact).mount('#container')
+                    conv(this.props.selectedContent.contact, () => {
+                        this.mount('#container')
+                    }).mount('#container')
                 }
             }
         }
@@ -152,9 +162,11 @@ function init() {
             selectContact: {
                 method: function() {
                     this.unmount()
+                    timeline.unmount()
                     var contact = this.props.relateContacts[this.props.selectedContact.id]
-                    var conversation = conv(contact)
-                    conversation.mount('#container')
+                    var conversation = conv(contact, () => {
+                        timeline.mount('#container')
+                    }).mount('#container')
                 }
             },
             focus: {
@@ -238,15 +250,15 @@ function cacheContacts() {
     var fetch
     // FIXME: temp disable it
     
-    var fetch = rcContactService.completeCompanyContact().then(data => {
-                    if (data)
-                        localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
-                    return data
-                })
+    // var fetch = rcContactService.completeCompanyContact().then(data => {
+    //                 if (data)
+    //                     localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
+    //                 return data
+    //             })
     return data? Promise.resolve(JSON.parse(LZString.decompressFromUTF16(data))): fetch
 }
 
-function conv(contact) {
+function conv(contact, afterBack) {
     return w('conversation', {
         data: {
             new: true,
@@ -302,6 +314,13 @@ function conv(contact) {
             reachTop: {
                 method: function() {
                     return conversationService.syncContent(this.props.contact, this.props.hourOffset)
+                }
+            },
+            back: {
+                after: function() {
+                    this.unmount()
+                    if (afterBack && typeof afterBack === 'function')
+                        afterBack()
                 }
             }
         }

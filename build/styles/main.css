@@ -1587,6 +1587,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-conversation__close {
     position: absolute;
+    cursor: pointer;
 }
 .rc-conversation__container {
     display: flex;
