@@ -102,6 +102,7 @@ w.register(function() {
         mount: {
             method: function(finish) {
                 var currentContact = this.props.contact = this.data.contact
+                console.log(currentContact)
                 // set default outbound caller id as first phone number
                 this.props.toExtension = currentContact.extension
                 this.data.fromNumber && this.setSender(this.data.fromNumber)
@@ -391,6 +392,7 @@ w.register(function() {
 
             },
             method: function(finish, messages, scroll) {
+                this.props.contact.msg = this.props.contact.msg || []
                 this.props.contact.msg = this.props.contact.msg.concat(messages)
                 if (messages) this.parseMessages(messages, true)
             },
@@ -401,6 +403,7 @@ w.register(function() {
         },
         addIncomingMessages: {
             method: function(finish, messages) {
+                this.props.contact.msg = this.props.contact.msg || []
                 this.props.contact.msg = this.props.contact.msg.concat(messages)
                 this.parseMessages(
                     messages
@@ -422,6 +425,7 @@ w.register(function() {
                     return []
                 if (!messages)
                     return []
+                this.props.contact.msg = this.props.contact.msg || []
                 this.props.contact.msg = this.props.contact.msg.concat(messages)
                 return messages.map(msg => {
                     var index = this.unconfirm.findIndex(dom => dom.getAttribute('data-id') == msg.id)
@@ -451,7 +455,9 @@ w.register(function() {
                 return finish();
             },
             after: function(numbers) {
-                // this.setSender(numbers[0])
+                // If we didn't get the default number, set to the first one of candidates
+                if (!this.props.fromNumber)
+                    this.setSender(numbers[0])
                 this.setSenderCandidates(numbers)
             }
         },
