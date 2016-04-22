@@ -30,20 +30,30 @@ w.register(function(){
                 this.props.dom.subject.textContent = this.data.subject
                 this.data.contact && (this.props.dom.contact.textContent = this.data.contact.displayName)
                 this.props.dom.time.textContent = 
-                `${time.getMonth() + 1}/${time.getDate()}, ${time.getMinutes()}:${time.getSeconds()}`
+                `
+                ${time.getMonth() + 1}/${time.getDate()}, 
+                ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}
+                `
+
                 if (this.data.others && this.data.others.length > 0) {
                     this.props.dom['count-wrapper'].classList.remove('display-none')
                     this.props.dom.count.textContent = this.data.others.length
+                    var currentDate
                     this.data.others.forEach(content => {
                         var time = new Date(content.time)
                         var div = document.createElement('div')
+                        var month = time.getMonth() + 1
+                        var date = time.getDate()
+                        var calender = date > currentDate? (month + '/' + date + ','): ''
                         div.innerHTML = 
                         `<div class='timeline-extra .clearfix'>
                             <div class='timeline-extra__content'>${content.subject}</div>
                             <div class='rc-timeline-item__time'>
-                                ${time.getMonth() + 1}/${time.getDate()}, ${time.getMinutes()}:${time.getSeconds()}
+                                ${calender} 
+                                ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}
                             </div>
                         </div>`
+                        currentDate = date
                         this.props.dom.collapse.appendChild(div.firstChild)
                     })
                 }
@@ -57,7 +67,10 @@ w.register(function(){
             after: function(event) {
                 event.stopPropagation()
 
+                // FIXME: double clicks will cause problems
                 var element = this.props.dom.collapse
+                if (element.classList.contains('--collapsing'))
+                    return
                 if (!element.classList.contains('--active')) {
                     var prevWidth = element.style.height
                     element.style.height = 'auto'
@@ -65,10 +78,12 @@ w.register(function(){
                     element.style.height = prevWidth
                     element.offsetWidth // force repaint
                     element.style.height = endWidth
+                    element.classList.add('--collapsing')
                     element.addEventListener('transitionend', function transitionEnd(event) {
                         if (event.propertyName == 'height') {
                             element.style.transition = ''
                             element.style.height = 'auto'
+                            element.classList.remove('--collapsing')
                             element.removeEventListener('transitionend', transitionEnd, false)
                         }
                     }, false)
@@ -78,6 +93,13 @@ w.register(function(){
                     element.offsetWidth // force repaint
                     element.style.height = '0px'
                     element.classList.remove('--active')
+                    element.classList.add('--collapsing')
+                    element.addEventListener('transitionend', function transitionEnd(event) {
+                        if (event.propertyName == 'height') {
+                            element.classList.remove('--collapsing')
+                            element.removeEventListener('transitionend', transitionEnd, false)
+                        }
+                    }, false)
                 }
             }
         },
