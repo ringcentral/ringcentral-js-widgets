@@ -100,11 +100,12 @@ var conversationService = (function(sdk) {
     }
 
     function fakeContact(msg) {
+        var phoneNumber = msg.direction === 'Inbound'? msg.from: msg.to
         return {
-            displayName: msg.direction === 'Inbound'? msg.from: msg.to,
-            id: msg.direction === 'Inbound'? msg.from: msg.to,
-            phoneNumber: [msg.from],
-            extension: msg.from,
+            displayName: phoneNumber,
+            id: phoneNumber,
+            phoneNumber: [phoneNumber],
+            extension: null,
             msg: [msg]
         }
     }
