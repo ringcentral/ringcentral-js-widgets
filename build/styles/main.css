@@ -2163,10 +2163,17 @@ h1, h2, h3, h4, h5, h6 {
     font-size: .8em;
 }
 .rc-timeline-item__count {
-    position: absolute;/* Equal to padding-normal */
-    top: .5em;
-    right: .7em;
-    font-size: .9em;
+    padding: .5em .7em;
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: .8em;
+}
+.rc-timeline-item__count > .__number {
+    color: #878787;
+}
+.rc-timeline-item__count:hover > .__number {
+    color: #000;
 }
 .rc-timeline-item__content {
     padding: .5em .7em;

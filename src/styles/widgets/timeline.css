@@ -1,3 +1,4 @@
+$timeline-gray: #878787;
 .rc-timeline {
     cursor: pointer;
     > .rc-panel__content {
@@ -32,17 +33,23 @@
     &__time {
         float: right;
         font-size: .7em;
-        color: #878787;
+        color: $timeline-gray;
     }
     &__subject {
         font-size: .8em;
     }
     &__count {
+        @mixin padding-normal;
         position: absolute;
-        /* Equal to padding-normal */
-        top:    .5em;
-        right:  .7em;
-        font-size: .9em;
+        top:    0;
+        right:  0;
+        font-size: .8em;
+        > .__number {
+            color: $timeline-gray;
+        }
+        &:hover > .__number {
+            color: #000;
+        }
     }
     &__content {
         @mixin padding-normal;
