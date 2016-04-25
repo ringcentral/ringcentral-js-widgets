@@ -14,7 +14,7 @@
             <div class='rc-conversation__hint' data-info='to-number'>to</div>
             <div class='rc-conversation__hint' data-info='from-number'>from</div>
         </div>
-        <div    class='rc-conversation__content' 
+        <div    class='rc-conversation__content'
                 data-info='container'
                 data-event='scroll:scroll'>
             <div    class='conversations__loading display-none'
@@ -32,7 +32,7 @@
         </div>
         <div class='rc-conversation__textarea-wrapper'>
             <textarea 
-            data-info='input' 
+            data-info='input'
             data-event='keydown:enter'
             placeholder='messages...'
             ></textarea>
@@ -78,7 +78,7 @@ w.register(function() {
                 this.props.fromNumber = this.data.fromNumber
                 this.props.fromNumbers = this.data.fromNumbers || []
 
-                var conversation = this;
+                var conversation = this
                 w.customize(this, 'dropdown', {
                     data: {},
                     actions: {

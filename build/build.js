@@ -701,8 +701,12 @@ var conversationService = function (sdk) {
             var contactMsgs = msgs.filter(function (msg, index) {
                 var msgNumber = msg.direction === 'Inbound' ? msg.from : msg.to;
                 var contain = contactNums.indexOf(msgNumber) > -1;
-                if (contain) {
-                    contact.msg = contact.msg || [];
+                contact.msg = contact.msg || [];
+                var alreadyExist = contact.msg.find(function (contactMsg) {
+                    return contactMsg.id == msg.id;
+                });
+                if (contain && !alreadyExist) {
+
                     contact.msg.push(msg);
                     knownContactsIndex.push(index);
                 }
@@ -845,6 +849,12 @@ var conversationService = function (sdk) {
             number, cachedHour + offset, cachedHour);
         })).then(function (result) {
             return combine.apply(undefined, _toConsumableArray(result));
+        });
+    }
+    function uniqId(target) {
+        var seen = {};
+        return target.filter(function (item) {
+            return seen.hasOwnProperty(item.id) ? false : seen[item.id] = true;
         });
     }
     function combineContent() {

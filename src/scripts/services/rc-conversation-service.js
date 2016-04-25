@@ -9,10 +9,12 @@ var conversationService = (function(sdk) {
             var knownContactsIndex = []
             var contactNums = contact.phoneNumber.concat(contact.extension)
             var contactMsgs = msgs.filter((msg, index) => {
-                var msgNumber = msg.direction === 'Inbound'? msg.from: msg.to
+                var msgNumber = msg.direction === 'Inbound' ? msg.from : msg.to
                 var contain = contactNums.indexOf(msgNumber) > -1
-                if (contain) {
-                    contact.msg = contact.msg || []
+                contact.msg = contact.msg || []
+                var alreadyExist = contact.msg.find(contactMsg => contactMsg.id == msg.id)
+                if (contain && !alreadyExist) {
+                    
                     contact.msg.push(msg)
                     knownContactsIndex.push(index)
                 }
@@ -22,7 +24,7 @@ var conversationService = (function(sdk) {
             return contactMsgs.length > 0
         })
         msgs.forEach(msg => {
-            var msgNumber = msg.direction === 'Inbound'? msg.from: msg.to
+            var msgNumber = msg.direction === 'Inbound' ? msg.from : msg.to
             var contact = relatedContacts.filter(contact => contact.id === msgNumber)[0]
             if (contact) {
                 contact.msg.push(msg)
@@ -38,7 +40,7 @@ var conversationService = (function(sdk) {
             var unknownContact = true
             contacts.forEach(contact => {
                 var contactNums = contact.phoneNumber.concat(contact.extension)
-                var msgNumber = msg.direction === 'Inbound'? msg.from: msg.to
+                var msgNumber = msg.direction === 'Inbound' ? msg.from : msg.to
                 var contain = contactNums.indexOf(msgNumber) > -1
                 if (contain) {
                     msg.contact = contact
@@ -59,7 +61,7 @@ var conversationService = (function(sdk) {
         // group related SMS message
         var savedContent
         var result = []
-        for (let i = contents.length - 1; i > 0; -- i) {
+        for (let i = contents.length - 1; i > 0; --i) {
             let content = contents[i]
             // if (content.type !== 'SMS') {
             //     if (savedContent) {
@@ -69,7 +71,7 @@ var conversationService = (function(sdk) {
             //     result.push(content)
             //     continue
             // }
-            if (savedContent && 
+            if (savedContent &&
                 savedContent.type === content.type &&
                 savedContent.contact.id === content.contact.id) {
                 savedContent.others.push(content)
@@ -82,31 +84,31 @@ var conversationService = (function(sdk) {
         savedContent && result.push(savedContent)
         return result
     }
-    
+
     function combine(...targets) {
         return targets.reduce((result, target) => result.concat(target), [])
     }
 
     function sortTime(target) {
-        return target.slice().sort((a, b) => 
-            Date.parse(a.time) - 
+        return target.slice().sort((a, b) =>
+            Date.parse(a.time) -
             Date.parse(b.time)
         )
     }
     function containSameVal(array1, array2) {
         return array1.filter(function(n) {
-            return array2.indexOf(n) != -1;
+            return array2.indexOf(n) != -1
         }).length > 0
     }
     function uniqueArray(target) {
-         var seen = {};
+        var seen = {}
         return target.filter(function(item) {
-            return seen.hasOwnProperty(item) ? false : (seen[item] = true);
-        });
+            return seen.hasOwnProperty(item) ? false : (seen[item] = true)
+        })
     }
 
     function fakeContact(msg) {
-        var phoneNumber = msg.direction === 'Inbound'? msg.from: msg.to
+        var phoneNumber = msg.direction === 'Inbound' ? msg.from : msg.to
         return {
             displayName: phoneNumber,
             id: phoneNumber,
@@ -119,17 +121,17 @@ var conversationService = (function(sdk) {
     function adaptMessage(msg) {
         return {
             id:                 msg.id,
-            from:               msg.from.extensionNumber || 
+            from:               msg.from.extensionNumber ||
                                 msg.from.phoneNumber,
-            to:                 msg.to.phoneNumber || 
-                                msg.to.extensionNumber || 
-                                msg.to[0].extensionNumber || 
+            to:                 msg.to.phoneNumber ||
+                                msg.to.extensionNumber ||
+                                msg.to[0].extensionNumber ||
                                 msg.to[0].phoneNumber,
             direction:          msg.direction,
             type:               msg.type,
-            time:               msg.creationTime || 
+            time:               msg.creationTime ||
                                 msg.startTime,
-            lastModifiedTime:   msg.lastModifiedTime || 
+            lastModifiedTime:   msg.lastModifiedTime ||
                                 msg.startTime,
             subject:            msg.recording ||
                                 msg.subject ||
@@ -165,6 +167,12 @@ var conversationService = (function(sdk) {
         )
         .then(result => combine(...result))
     }
+    function uniqId(target) {
+        var seen = {}
+        return target.filter(function(item) {
+            return seen.hasOwnProperty(item.id) ? false : (seen[item.id] = true)
+        })
+    }
     function combineContent(...sources) {
         return sortTime(combine(...sources.map(source => source.map(adaptMessage))))
     }
@@ -173,14 +181,14 @@ var conversationService = (function(sdk) {
             return cachedHour
         },
         syncContent: function(contacts, ...sources) {
-            console.log('get content');  
+            console.log('get content')
             var contents = combineContent(...sources)
             var relatedContacts = groupMessageToContact(contents.slice(), contacts)
             contents = groupContactToMessage(contents, relatedContacts)
             return contents
         },
         organizeContent: function(contacts, ...sources) {
-            console.log('org content');
+            console.log('org content')
             var contents = combineContent(...sources)
             var relatedContacts = groupMessageToContact(contents.slice(), contacts)
             contents = groupContactToMessage(contents, relatedContacts)
@@ -188,7 +196,7 @@ var conversationService = (function(sdk) {
             return contents
         },
         getConversations: function(contacts, ...sources) {
-            console.log('get conv');
+            console.log('get conv')
             var contents = combineContent(...sources)
             var relatedContacts = groupMessageToContact(contents, contacts)
                                 .map(contact => {

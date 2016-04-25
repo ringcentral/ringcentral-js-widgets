@@ -199,10 +199,10 @@ function init() {
                         (this.props.relateContacts && 
                         this.props.relateContacts[this.props.selectedContact.id]) ||
                         this.props.contacts[this.props.selectedContact.id]
-                    var conv = timeline.props.currentConv = conv(contact, () => {
+                    var conversation = timeline.props.currentConv = conv(contact, () => {
                         timeline.mount('#container')
                     })
-                    conv.mount('#container')
+                    conversation.mount('#container')
                 }
             },
             focus: {
