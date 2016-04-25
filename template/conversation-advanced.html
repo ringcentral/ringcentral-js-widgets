@@ -109,6 +109,8 @@ w.register(function() {
                 this.setReceiver(this.data.toNumber || currentContact.phoneNumber[0])
                 this.setReceiverCandidates(currentContact.phoneNumber)
                 currentContact.msg && this.appendMessages(currentContact.msg.slice().reverse())
+                this.scrollToAnchor()
+                    
                 this.setTitle(currentContact.displayName)
 
                 // Fake contact
@@ -118,6 +120,7 @@ w.register(function() {
                     return
                 }
 
+                // FIXME: API call in here is a anti-pattern, should be in services
                 sdk.platform()
                 .get(currentContact.profileImage)
                 .then(r => r.response())
@@ -438,6 +441,16 @@ w.register(function() {
                     }
                     return dom
                 })
+            }
+        },
+        scrollToAnchor: {
+            after: function() {
+                var anchor
+                if (this.data.anchorContent &&
+                    (anchor = 
+                        this.props.contact.msg.find(content => content.time === this.data.anchorContent.time))) {
+                    this.props.dom.container.scrollTop = anchor.dom.offsetTop - anchor.dom.offsetHeight
+                }
             }
         },
         warnBubble: {

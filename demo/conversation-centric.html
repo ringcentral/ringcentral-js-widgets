@@ -112,7 +112,8 @@ function init() {
                         this.mount('#container')
                     }, {
                         fromNumber,
-                        toNumber
+                        toNumber,
+                        anchorContent: this.props.selectedContent
                     }).mount('#container')
                 }
             }
@@ -230,7 +231,8 @@ function conv(contact, afterBack, options = {}) {
             new: true,
             contact: contact,
             fromNumber: options.fromNumber,
-            toNumber: options.toNumber
+            toNumber: options.toNumber,
+            anchorContent: options.anchorContent
         },
         actions: {
             init: {
