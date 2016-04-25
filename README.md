@@ -34,6 +34,11 @@ To start
       "brand": {
         "name": "${brand name}",
         "id": "${brand id}"
+      },
+      "user": {
+        "username": "${RingCentral sandbox account username}",
+        "extension": "${RingCentral sandbox account extension}",
+        "password": "${RingCentral sandbox account password}"
       }
     }
     ```
