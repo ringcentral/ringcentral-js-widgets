@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
+    "lz-string": "^1.4.4",
     "node-polyglot": "^1.0.0",
     "phoneformat.js": "^1.0.3",
     "whatwg-fetch": "^0.11.0"

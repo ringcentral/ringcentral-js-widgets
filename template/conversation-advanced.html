@@ -448,7 +448,7 @@ w.register(function() {
                 var anchor
                 if (this.data.anchorContent &&
                     (anchor = 
-                        this.props.contact.msg.find(content => content.time === this.data.anchorContent.time))) {
+                        this.props.contact.msg.find(content => content.id == this.data.anchorContent.id))) {
                     this.props.dom.container.scrollTop = anchor.dom.offsetTop - anchor.dom.offsetHeight
                 }
             }

@@ -2144,6 +2144,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-timeline-item .timeline-extra {}
 .rc-timeline-item .timeline-extra__content {}
+.rc-timeline-item .timeline-extra:hover {
+    background-color: #eee;
+}
 .rc-timeline-item__line {
     margin-bottom: 10px;
 }
@@ -2170,13 +2173,10 @@ h1, h2, h3, h4, h5, h6 {
     position: relative;
 }
 .rc-timeline-item__collapse {
-    padding: .5em .7em;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     height: 0;
     overflow: hidden;
     transition: height .5s ease-in-out;
-    padding-top: 0;
-    padding-bottom: 0;
 }
 .rc-timeline-item__collapse > .timeline-extra {
     padding: .5em .7em;

@@ -44,6 +44,7 @@ w.register(function() {
         },
         updateTimeline: {
             after: function(contents) {
+                // FIXME: The action of combining messages should be in service
                 contents
                 .reverse()
                 // Avoid duplicated notifications
@@ -73,7 +74,7 @@ w.register(function() {
                     actions: {
                         enter: {
                             after: function() {
-                                parent.props.selectedContent = this.props.content
+                                parent.props.selectedContent = this.props.selectedMessage || this.props.content
                                 parent.enterItem()
                             }
                         }

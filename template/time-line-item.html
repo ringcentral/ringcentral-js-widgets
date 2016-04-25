@@ -64,6 +64,10 @@ w.register(function(){
                                 ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}
                             </div>
                         </div>`
+                        div.firstChild.addEventListener('click', event => {
+                            event.stopPropagation()
+                            this.enter(null, content) // null for event
+                        })
                         currentDate = date
                         this.props.dom.collapse.appendChild(div.firstChild)
                     })
@@ -118,7 +122,9 @@ w.register(function(){
             }
         },
         enter: {
-            after: function() {}
+            before: function(event, message) {
+                message && (this.props.selectedMessage = message)
+            }
         }
     }
 });

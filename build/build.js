@@ -713,15 +713,17 @@ var conversationService = function (sdk) {
             });
             return contactMsgs.length > 0;
         });
-        // msgs.forEach(msg => {
-        //     var msgNumber = msg.direction === 'Inbound'? msg.from: msg.to
-        //     var contact = relatedContacts.filter(contact => contact.id === msgNumber)[0]
-        //     if (contact) {
-        //         contact.msg.push(msg)
-        //     } else {
-        //         relatedContacts.push(fakeContact(msg))
-        //     }
-        // })
+        msgs.forEach(function (msg) {
+            var msgNumber = msg.direction === 'Inbound' ? msg.from : msg.to;
+            var contact = relatedContacts.filter(function (contact) {
+                return contact.id === msgNumber;
+            })[0];
+            if (contact) {
+                contact.msg.push(msg);
+            } else {
+                relatedContacts.push(fakeContact(msg));
+            }
+        });
         return relatedContacts;
     }
 
@@ -737,7 +739,12 @@ var conversationService = function (sdk) {
                     unknownContact = false;
                 }
             });
-            unknownContact && (msg.contact = fakeContact(msg));
+            // if (unknownContact) {
+            //     console.log(msg);
+            //     var fake = fakeContact(msg)
+            //     msg.contact = fake
+            //     contacts.push(fake)
+            // }
             return msg;
         });
     }
@@ -868,6 +875,7 @@ var conversationService = function (sdk) {
             var relatedContacts = groupMessageToContact(contents.slice(), contacts);
             contents = groupContactToMessage(contents, relatedContacts);
             contents = combineAdjacentMessage(contents);
+            console.log(relatedContacts);
             return contents;
         },
         getConversations: function getConversations(contacts) {

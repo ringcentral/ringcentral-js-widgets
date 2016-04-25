@@ -49,13 +49,10 @@
         position: relative;
     }
     &__collapse {
-        @mixin padding-normal;
         @mixin shadow-1;
         height: 0;
         overflow: hidden;
         transition: height .5s ease-in-out;
-        padding-top: 0;
-        padding-bottom: 0;
         > .timeline-extra {
             @mixin padding-normal;
             font-size: .8em;
@@ -69,6 +66,9 @@
     .timeline-extra {
         &__content {
             
+        }
+        &:hover {
+            background-color: #eee;
         }
     }
 }
