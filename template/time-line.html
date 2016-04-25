@@ -46,7 +46,6 @@ w.register(function() {
             after: function(contents) {
                 // FIXME: The action of combining messages should be in service
                 contents
-                .reverse()
                 // Avoid duplicated notifications
                 .filter(content => this.props.syncedMessages.indexOf(content.id) === -1)
                 .forEach(content => {

@@ -63,11 +63,20 @@ function init() {
 
     var timeline = w('time-line', {
         actions: {
-            mount: {
+            init: {
                 after: function() {
                     rcMessageService.subscribeToMessageUpdate()
-                    rcMessageProvider.onMessageUpdated(msg => 
-                        this.updateTimeline(conversationService.getContent(this.props.contacts, msg)))
+                    rcMessageProvider.onMessageUpdated(msg => {
+                        this.updateTimeline(conversationService.syncContent(this.props.contacts, msg))
+                        if (this.props.currentConv) {
+                            this.props.currentConv.confirmMessages()
+                            this.props.currentConv.addIncomingMessages()
+                        }
+                    })
+                }
+            },
+            mount: {
+                after: function() {
                     return cacheContacts().then(contacts => this.props.contacts = contacts)
                 }
             },
@@ -108,13 +117,14 @@ function init() {
                     var contact = this.props.selectedContent.contact
                     var fromNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].from: contact.msg[0].to
                     var toNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].to: contact.msg[0].from
-                    conv(contact, () => {
+                    this.props.currentConv = conv(contact, () => {
                         this.mount('#container')
                     }, {
                         fromNumber,
                         toNumber,
                         anchorContent: this.props.selectedContent
-                    }).mount('#container')
+                    })
+                    this.props.currentConv.mount('#container')
                 }
             }
         }
@@ -189,9 +199,10 @@ function init() {
                         (this.props.relateContacts && 
                         this.props.relateContacts[this.props.selectedContact.id]) ||
                         this.props.contacts[this.props.selectedContact.id]
-                    var conversation = conv(contact, () => {
+                    var conv = timeline.props.currentConv = conv(contact, () => {
                         timeline.mount('#container')
-                    }).mount('#container')
+                    })
+                    conv.mount('#container')
                 }
             },
             focus: {
@@ -237,12 +248,11 @@ function conv(contact, afterBack, options = {}) {
             init: {
                 after: function() {
                     this.props.hourOffset = 3 * 24
+                    
                 }
             },
             mount: {
                 after: function() {
-                    conversationService.onConversationUpdate(this.confirmMessages)
-                    conversationService.onConversationUpdate(this.addIncomingMessages)
                     return accountService.getAccountInfo()
                             .then(info => this.props.fromExtension = info.extensionNumber)
                             .then(this.getOutboundCallerID)
@@ -282,7 +292,7 @@ function conv(contact, afterBack, options = {}) {
             },
             reachTop: {
                 method: function() {
-                    return conversationService.syncContent(this.props.contact, this.props.hourOffset)
+                    return conversationService.loadContent(this.props.contact, this.props.hourOffset)
                 }
             },
             back: {

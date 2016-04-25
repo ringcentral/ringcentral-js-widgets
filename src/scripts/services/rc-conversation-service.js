@@ -59,7 +59,7 @@ var conversationService = (function(sdk) {
         // group related SMS message
         var savedContent
         var result = []
-        for (let i = 0; i < contents.length; ++ i) {
+        for (let i = contents.length - 1; i > 0; -- i) {
             let content = contents[i]
             // if (content.type !== 'SMS') {
             //     if (savedContent) {
@@ -89,8 +89,8 @@ var conversationService = (function(sdk) {
 
     function sortTime(target) {
         return target.slice().sort((a, b) => 
-            Date.parse(b.time) - 
-            Date.parse(a.time)
+            Date.parse(a.time) - 
+            Date.parse(b.time)
         )
     }
     function containSameVal(array1, array2) {
@@ -134,7 +134,11 @@ var conversationService = (function(sdk) {
             subject:            msg.recording ||
                                 msg.subject ||
                                 msg.action ||
-                                msg.attachments[0]
+                                msg.attachments[0],
+            status: {
+                sendConfirmed: false,
+                receiveConfirmed: false
+            }
         }
     }
     function getMessagesByNumber(contact, offset) {
@@ -168,21 +172,23 @@ var conversationService = (function(sdk) {
         get cachedHour() {
             return cachedHour
         },
-        getContent: function(contacts, ...sources) {
+        syncContent: function(contacts, ...sources) {
+            console.log('get content');  
             var contents = combineContent(...sources)
             var relatedContacts = groupMessageToContact(contents.slice(), contacts)
             contents = groupContactToMessage(contents, relatedContacts)
             return contents
         },
         organizeContent: function(contacts, ...sources) {
+            console.log('org content');
             var contents = combineContent(...sources)
             var relatedContacts = groupMessageToContact(contents.slice(), contacts)
             contents = groupContactToMessage(contents, relatedContacts)
             contents = combineAdjacentMessage(contents)
-            console.log(relatedContacts);
             return contents
         },
         getConversations: function(contacts, ...sources) {
+            console.log('get conv');
             var contents = combineContent(...sources)
             var relatedContacts = groupMessageToContact(contents, contacts)
                                 .map(contact => {
@@ -200,7 +206,7 @@ var conversationService = (function(sdk) {
                                 }, {})
             return relatedContacts
         },
-        syncContent: function(contact, offset) {
+        loadContent: function(contact, offset) {
             return Promise.all([
                         getCallLogsByNumber(contact, offset),
                         getMessagesByNumber(contact, offset)
@@ -216,7 +222,7 @@ var conversationService = (function(sdk) {
         onConversationUpdate: function(handler) {
             rcMessageService.onMessageUpdated(msgs => {
                 try {
-                    var msgs = sortTime(msgs.map(adaptMessage)).reverse()
+                    var msgs = sortTime(msgs.map(adaptMessage))
                     handler(msgs)
                 } catch (e) {
                     console.error(e)

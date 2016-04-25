@@ -108,7 +108,7 @@ w.register(function() {
                 this.data.fromNumber && this.setSender(this.data.fromNumber)
                 this.setReceiver(this.data.toNumber || currentContact.phoneNumber[0])
                 this.setReceiverCandidates(currentContact.phoneNumber)
-                currentContact.msg && this.appendMessages(currentContact.msg.slice().reverse())
+                currentContact.msg && this.appendMessages(currentContact.msg)
                 this.scrollToAnchor()
                     
                 this.setTitle(currentContact.displayName)
@@ -223,7 +223,6 @@ w.register(function() {
                         this.props.dom['from-number'].textContent = toNumber
                         this.props.dom['to-number'].textContent = fromNumber
                     }
-
                     this.props.contact.msg
                     .filter(contact =>
                         contact.from == fromNumber ||
@@ -358,9 +357,12 @@ w.register(function() {
         },
         parseMessages: {
             method: function(finish, messages, prepend) {
-                messages.map(msg => {
+                messages
+                    .map(msg => {
                         var time = new Date(msg.lastModifiedTime)
                         msg.displayTime = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
+                        msg.status.sendConfirmed = true
+                        msg.status.receiveConfirmed = true
                         return msg
                     })
                     .forEach(msg => {
@@ -405,11 +407,12 @@ w.register(function() {
             }
         },
         addIncomingMessages: {
-            method: function(finish, messages) {
+            method: function(finish) {
                 this.props.contact.msg = this.props.contact.msg || []
-                this.props.contact.msg = this.props.contact.msg.concat(messages)
+                console.log('incoming');
                 this.parseMessages(
-                    messages
+                    this.props.contact.msg
+                        .filter(msg => !msg.status.receiveConfirmed)
                         .filter(msg => this.props.syncedMessages.indexOf(msg.id) === -1)
                         .map(msg => {
                             this.props.syncedMessages.push(msg.id)
@@ -423,19 +426,21 @@ w.register(function() {
             }
         },
         confirmMessages: {
-            method: function(finish, messages) {
+            method: function(finish) {
                 if (!this.unconfirm)
                     return []
-                if (!messages)
-                    return []
                 this.props.contact.msg = this.props.contact.msg || []
-                this.props.contact.msg = this.props.contact.msg.concat(messages)
-                return messages.map(msg => {
+                return this.props.contact.msg
+                .filter(msg => !msg.status.sendConfirmed)
+                .map(msg => {
+                    // FIXME: cache getAttribute, perf
                     var index = this.unconfirm.findIndex(dom => dom.getAttribute('data-id') == msg.id)
                     var dom = this.unconfirm[index] || null
+                    console.log(msg);
                     if (dom) {
                         dom.removeAttribute('data-id')
                         msg.dom = dom
+                        msg.status.sendConfirmed = true
                         this.unconfirm.splice(index, 1)
                         this.markBubble(msg)
                     }

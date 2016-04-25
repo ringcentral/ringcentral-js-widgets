@@ -753,7 +753,7 @@ var conversationService = function (sdk) {
         // group related SMS message
         var savedContent;
         var result = [];
-        for (var i = 0; i < contents.length; ++i) {
+        for (var i = contents.length - 1; i > 0; --i) {
             var content = contents[i];
             // if (content.type !== 'SMS') {
             //     if (savedContent) {
@@ -787,7 +787,7 @@ var conversationService = function (sdk) {
 
     function sortTime(target) {
         return target.slice().sort(function (a, b) {
-            return Date.parse(b.time) - Date.parse(a.time);
+            return Date.parse(a.time) - Date.parse(b.time);
         });
     }
     function containSameVal(array1, array2) {
@@ -822,7 +822,11 @@ var conversationService = function (sdk) {
             type: msg.type,
             time: msg.creationTime || msg.startTime,
             lastModifiedTime: msg.lastModifiedTime || msg.startTime,
-            subject: msg.recording || msg.subject || msg.action || msg.attachments[0]
+            subject: msg.recording || msg.subject || msg.action || msg.attachments[0],
+            status: {
+                sendConfirmed: false,
+                receiveConfirmed: false
+            }
         };
     }
     function getMessagesByNumber(contact, offset) {
@@ -856,7 +860,9 @@ var conversationService = function (sdk) {
         get cachedHour() {
             return cachedHour;
         },
-        getContent: function getContent(contacts) {
+        syncContent: function syncContent(contacts) {
+            console.log('get content');
+
             for (var _len3 = arguments.length, sources = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
                 sources[_key3 - 1] = arguments[_key3];
             }
@@ -867,6 +873,8 @@ var conversationService = function (sdk) {
             return contents;
         },
         organizeContent: function organizeContent(contacts) {
+            console.log('org content');
+
             for (var _len4 = arguments.length, sources = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
                 sources[_key4 - 1] = arguments[_key4];
             }
@@ -875,10 +883,11 @@ var conversationService = function (sdk) {
             var relatedContacts = groupMessageToContact(contents.slice(), contacts);
             contents = groupContactToMessage(contents, relatedContacts);
             contents = combineAdjacentMessage(contents);
-            console.log(relatedContacts);
             return contents;
         },
         getConversations: function getConversations(contacts) {
+            console.log('get conv');
+
             for (var _len5 = arguments.length, sources = Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
                 sources[_key5 - 1] = arguments[_key5];
             }
@@ -896,7 +905,7 @@ var conversationService = function (sdk) {
             }, {});
             return relatedContacts;
         },
-        syncContent: function syncContent(contact, offset) {
+        loadContent: function loadContent(contact, offset) {
             return Promise.all([getCallLogsByNumber(contact, offset), getMessagesByNumber(contact, offset)]).then(function (result) {
                 return combine.apply(undefined, _toConsumableArray(result));
             }).then(function (msgs) {
@@ -909,7 +918,7 @@ var conversationService = function (sdk) {
         onConversationUpdate: function onConversationUpdate(handler) {
             rcMessageService.onMessageUpdated(function (msgs) {
                 try {
-                    var msgs = sortTime(msgs.map(adaptMessage)).reverse();
+                    var msgs = sortTime(msgs.map(adaptMessage));
                     handler(msgs);
                 } catch (e) {
                     console.error(e);
