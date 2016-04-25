@@ -12,7 +12,8 @@
 <body>
 <script src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
 <script src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
-<script src='../node_modules/lz-string/libs/lz-string.min.js'></script>
+<!-- <script src='../node_modules/lz-string/libs/lz-string.min.js'></script> -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js'></script>
 <script src="../build/build.js"></script>
 <script>
 w.config({
@@ -221,11 +222,11 @@ var cacheContacts = (function() {
     var fetch
     // FIXME: temp disable it
     
-    // var fetch = rcContactService.completeCompanyContact().then(data => {
-    //                 if (data)
-    //                     localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
-    //                 return data
-    //             })
+    var fetch = rcContactService.completeCompanyContact().then(data => {
+                    if (data)
+                        localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
+                    return data
+                })
     return function() {
         if (contact)
             return contact
