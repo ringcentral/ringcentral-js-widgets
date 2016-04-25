@@ -1,5 +1,5 @@
 import RingCentral from 'ringcentral';
-import Wrapper from './wrapper';
+import Wrapper from '../lib/wrapper';
 
 
 /**

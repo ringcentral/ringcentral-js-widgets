@@ -1,8 +1,8 @@
-import Sdk from './lib/sdk';
-import Subscription from './lib/subscription';
-import Brand from './lib/brand';
-import Api from './lib/api';
-import Auth from './lib/auth';
+import Sdk from './modules/sdk';
+import Subscription from './modules/subscription';
+import Brand from './modules/brand';
+import Api from './modules/api';
+import Auth from './modules/auth';
 
 const SDK = Symbol();
 const SUBSCRIPTION = Symbol();

@@ -1,4 +1,4 @@
-import Wrapper from './wrapper';
+import Wrapper from '../lib/wrapper';
 
 const BRAND = Symbol();
 const PLATFORM = Symbol();
@@ -28,9 +28,9 @@ export default class Auth extends Wrapper {
     }else{
       await this._getClientCredential();
       this._isLoginWithClientCredential = true;
-    } 
+    }
   }
-  
+
   /**
    * @param {string} options.username
    * @param {string} options.password
@@ -46,16 +46,16 @@ export default class Auth extends Wrapper {
       await this._login(options);
     }
   }
-  
+
   async authorize(authCode) {
-    
+
   }
-  
+
   async logout() {
     await this[PLATFORM].logout();
     this._isLoginWithClientCredential = false;
   }
-  
+
   async getLoggedInStatus() {
     let loggedIn = await this[PLATFORM].loggedIn();
     if(loggedIn) {
@@ -68,7 +68,7 @@ export default class Auth extends Wrapper {
       return 'notLoggedIn'
     }
   }
-  
+
   async _getClientCredential() {
     let resp = await this[PLATFORM]._tokenRequest('/restapi/oauth/token', {
       'grant_type': 'client_credentials',
@@ -76,7 +76,7 @@ export default class Auth extends Wrapper {
     });
     this.base.setData(resp.json());
   }
-  
+
   async _login(options) {
     let result = await this[PLATFORM].login(options);
     this._isLoginWithClientCredential = false;
