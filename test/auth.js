@@ -3,8 +3,7 @@ import config from '../config';
 
 import RcPhone from '../src/rc-phone';
 
-describe('Auth Test Suite', async function(done) {
-  this.timeout(10000);
+describe('Auth Test Suite', async () => {
   let phone = new RcPhone({
     sdkSettings: {
       ...config.sdk,
@@ -14,25 +13,22 @@ describe('Auth Test Suite', async function(done) {
     }
   });
   let auth = phone.auth;
-  
-  it('Login & Logout', async function() {
+
+  it('Login & Logout', async () => {
     await auth.login({...config.user});
     expect(await auth.getLoggedInStatus()).to.equal('loggedIn');
     await auth.logout();
     expect(await auth.getLoggedInStatus()).to.equal('notLoggedIn');
-    setTimeout(done, 300);
   });
-  
-  it('Request client credentials', async function() {
+
+  it('Request client credentials', async () => {
     await auth.requestClientCredential();
     expect(await auth.getLoggedInStatus()).to.equal('loggedInWithClientCredential');
-    setTimeout(done, 300);
   });
-  
-  it('Loin after request client credentials', async function() {
+
+  it('Loin after request client credentials', async () => {
     await auth.login({...config.user});
     expect(await auth.getLoggedInStatus()).to.equal('loggedIn');
-    setTimeout(done, 300);
   });
 });
 

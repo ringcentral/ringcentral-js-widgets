@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test",
-    "coverage": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js coverage"
+    "coverage": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js coverage",
+    "unitTest": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js unitTest"
   },
   "repository": {
     "type": "git",

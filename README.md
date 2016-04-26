@@ -31,6 +31,7 @@ To start
         "appKey": "${your app key}",
         "appSecret": "${your app secret}"
       },
+      "apiServer": "${apiServer address}"
       "brand": {
         "name": "${brand name}",
         "id": "${brand id}"

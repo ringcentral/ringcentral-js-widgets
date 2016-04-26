@@ -4,7 +4,7 @@ import RingCentral from 'ringcentral';
 export default {
   sdk: {
     ...accounts.app,
-    server: RingCentral.server.sandbox
+    server: accounts.apiServer
   },
   brand: {
     ...accounts.brand

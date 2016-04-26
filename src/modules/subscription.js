@@ -1,4 +1,4 @@
-import Wrapper from './wrapper';
+import Wrapper from '../lib/wrapper';
 
 const SDK = Symbol();
 const HANDLERS = Symbol();
