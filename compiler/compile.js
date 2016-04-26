@@ -1,8 +1,24 @@
+/*
+*
+* TODO:
+* 1. compile style sheet in template also, inject to the right position
+* 2. preprocessor (Babel, postCSS, etc.)
+* 3. watch (integrate with gulp? webpack?)
+* 4. unit test
+* 5. source map
+* 6. import files
+*/
+
 var fs = require('fs')
 var dir = require('node-dir')
 var parse5 = require('parse5')
 var path = require('path')
-const GLOBAL_PREFIX = `__w_widgets = {};`
+var babel = require('babel-core')
+var postcss = require('postcss')
+var precss = require('precss')
+var autoprefixer = require('autoprefixer')
+var es2015 = require('babel-preset-es2015')
+const GLOBAL_PREFIX = '__w_widgets = {};'
 
 function readFiles() {
     var p = path.resolve(__dirname) + '/../template'
@@ -19,8 +35,7 @@ function readFiles() {
         if (err) throw err
     })
 }
-writeFile(GLOBAL_PREFIX, true)
-readFiles()
+
 function compile(content) {
     var fragment = parse5.parseFragment(content, {
         locationInfo: true
@@ -32,20 +47,34 @@ function compile(content) {
     }
     fragment.childNodes.forEach(node => {
         var type = node.tagName
+        var lang = getAttribute(node, 'lang')
+        var src = getAttribute(node, 'src')
+        // TODO: #6
+
         if (type === 'script') {
+
             var start = node.childNodes[0].__location.startOffset
             var end = node.childNodes[node.childNodes.length - 1].__location.endOffset
-            var script = output.script = extract(content, start, end)
 
+            // console.log(extract(content, start, end));
+            // console.log(babel.transform(extract(content, start, end)).code);
+            var script = output.script = babel.transform(extract(content, start, end),
+                { presets: [es2015] }).code
         } else if (type === 'template') {
             var start = node.__location.startTag.endOffset
             var end = node.__location.endTag.startOffset
             var template = output.template = extract(content, start, end)
-
         } else if (type === 'style') {
             var start = node.__location.startTag.endOffset
             var end = node.__location.endTag.startOffset
+            // postcss([autoprefixer, precss]).process(extract(content, start, end)).then(result => {
+            //     console.log(result.css);
+            // })
             var style = output.style = extract(content, start, end)
+        } else if (type === 'div' && !output.template) {
+            var start = node.__location.startTag.endOffset
+            var end = node.__location.endTag.startOffset
+            var template = output.template = extract(content, start, end)
         }
     })
     return output
@@ -55,19 +84,32 @@ function extract(content, start, end) {
     return content.slice(start, end)
 }
 
-
 function writeFile(content, override) {
     if (override)
-        fs.writeFile('compiler/test.js', content, function(err) {
+        fs.writeFile('build/widgets.js', content, function(err) {
             if (err) {
                 return console.log(err)
             }
         })
     else
-        fs.appendFile('compiler/test.js', content, function(err) {
+        fs.appendFile('build/widgets.js', content, function(err) {
             if (err) {
                 return console.log(err)
             }
         })
 }
 
+function getAttribute(node, name) {
+    if (node.attrs) {
+        var i = node.attrs.length
+        var attr
+        while (i--) {
+            attr = node.attrs[i]
+            if (attr.name === name) {
+                return attr.value
+            }
+        }
+    }
+}
+writeFile(GLOBAL_PREFIX, true)
+readFiles()

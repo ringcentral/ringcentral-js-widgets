@@ -65,6 +65,7 @@ phone.mount('#phone');
     </div>
     <script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
     <script type="text/javascript" src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
+    <script type="text/javascript" src="../build/widgets.js"></script>
     <script type="text/javascript" src="../build/build.js"></script>
     <script type="text/javascript">
     var phone;
@@ -73,16 +74,16 @@ phone.mount('#phone');
             logo: 'ringcentral_logo.png',
             lang: 'en-us'
         };
-    w.config({
-        path: '../template/',
-        preload: {
-            'rc-phone': 'rc-phone'
-        },
-        locale: {
-            'zh-tw': 'zh-tw.json',
-            'en-us': 'en-us.json'
-        }
-    }, mount)
+    // w.config({
+    //     path: '../template/',
+    //     preload: {
+    //         'rc-phone': 'rc-phone'
+    //     },
+    //     locale: {
+    //         'zh-tw': 'zh-tw.json',
+    //         'en-us': 'en-us.json'
+    //     }
+    // }, mount)
 
     function rerun(color, logo, lang) {
         options.color = color || options.color
@@ -100,6 +101,7 @@ phone.mount('#phone');
         })
         phone.mount('#phone'); 
     }
+    mount()
     </script>
 </body>
 

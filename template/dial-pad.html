@@ -1,111 +1,113 @@
-<div class='rc-panel rc-dial-pad'>
-    <div class='rc-panel__header --colored' data-info='header'>
-        <contact-picker data-info='contact-picker'></contact-picker>
-    </div>
-    <div data-info='container'>
-        <div class='rc-panel__content'>
-            
-            <dropdown data-info='dropdown'></dropdown>
-            <div class='margin-top-2'>
-                <div class='rc-dial-pad__line'>
-                    <button 
-                        class='rc-button --circle dial-button' 
-                        data-info='dial-button-1'
-                        data-value='1' 
-                        data-event='click:dialing'>
-                        <div class='dial-button__number'>1</div>
-                    </button>
-                    <button 
-                        class='rc-button --circle dial-button' 
-                        data-info='dial-button-2'
-                        data-value='2' 
-                        data-event='click:dialing'>
-                        <div class='dial-button__number'>2</div>
-                        <div class='dial-button__symbol'>ABC</div>
-                    </button>
-                    <button 
-                        class='rc-button --circle dial-button' 
-                        data-info='dial-button-3'
-                        data-value='3' 
-                        data-event='click:dialing'>
-                        <div class='dial-button__number'>3</div>
-                        <div class='dial-button__symbol'>DEF</div>
-                    </button>
-                </div>
-                <div class='rc-dial-pad__line'>
-                    <button 
-                        class='rc-button --circle dial-button' 
-                        data-info='dial-button-4'
-                        data-value='4'
-                        data-event='click:dialing'>
-                        <div class='dial-button__number'>4</div>
-                        <div class='dial-button__symbol'>GHI</div>
-                    </button>
-                    <button 
-                        class='rc-button --circle dial-button' 
-                        data-info='dial-button-5'
-                        data-value='5'
-                        data-event='click:dialing'>
-                        <div class='dial-button__number'>5</div>
-                        <div class='dial-button__symbol'>JKL</div>
-                    </button>
-                    <button 
-                        class='rc-button --circle dial-button' 
-                        data-info='dial-button-6'
-                        data-value='6'
-                        data-event='click:dialing'>
-                        <div class='dial-button__number'>6</div>
-                        <div class='dial-button__symbol'>MNO</div>
-                    </button>
-                </div>
-                <div class='rc-dial-pad__line'>
-                    <button 
-                        class='rc-button --circle dial-button' 
-                        data-info='dial-button-7'
-                        data-value='7' 
-                        data-event='click:dialing'>
-                        <div class='dial-button__number'>7</div>
-                        <div class='dial-button__symbol'>PQRS</div>
-                    </button>
-                    <button 
-                        class='rc-button --circle dial-button' 
-                        data-info='dial-button-8'
-                        data-value='8' 
-                        data-event='click:dialing'>
-                        <div class='dial-button__number'>8</div>
-                        <div class='dial-button__symbol'>TUV</div>
-                    </button>
-                    <button 
-                        class='rc-button --circle dial-button' 
-                        data-info='dial-button-9'
-                        data-value='9' 
-                        data-event='click:dialing'>
-                        <div class='dial-button__number'>9</div>
-                        <div class='dial-button__symbol'>WXYZ</div>
-                    </button>
-                </div>
-                <div class='rc-dial-pad__line'>
-                    <button 
-                        class='rc-button --circle dial-button' 
-                        data-info='dial-button-0'
-                        data-value='0' 
-                        data-event='click:dialing'>
-                        <div class='dial-button__number'>0</div>
-                        <div class='dial-button__symbol'>+</div>
-                    </button>
+<template>
+    <div class='rc-panel rc-dial-pad'>
+        <div class='rc-panel__header --colored' data-info='header'>
+            <contact-picker data-info='contact-picker'></contact-picker>
+        </div>
+        <div data-info='container'>
+            <div class='rc-panel__content'>
+                
+                <dropdown data-info='dropdown'></dropdown>
+                <div class='margin-top-2'>
+                    <div class='rc-dial-pad__line'>
+                        <button 
+                            class='rc-button --circle dial-button' 
+                            data-info='dial-button-1'
+                            data-value='1' 
+                            data-event='click:dialing'>
+                            <div class='dial-button__number'>1</div>
+                        </button>
+                        <button 
+                            class='rc-button --circle dial-button' 
+                            data-info='dial-button-2'
+                            data-value='2' 
+                            data-event='click:dialing'>
+                            <div class='dial-button__number'>2</div>
+                            <div class='dial-button__symbol'>ABC</div>
+                        </button>
+                        <button 
+                            class='rc-button --circle dial-button' 
+                            data-info='dial-button-3'
+                            data-value='3' 
+                            data-event='click:dialing'>
+                            <div class='dial-button__number'>3</div>
+                            <div class='dial-button__symbol'>DEF</div>
+                        </button>
+                    </div>
+                    <div class='rc-dial-pad__line'>
+                        <button 
+                            class='rc-button --circle dial-button' 
+                            data-info='dial-button-4'
+                            data-value='4'
+                            data-event='click:dialing'>
+                            <div class='dial-button__number'>4</div>
+                            <div class='dial-button__symbol'>GHI</div>
+                        </button>
+                        <button 
+                            class='rc-button --circle dial-button' 
+                            data-info='dial-button-5'
+                            data-value='5'
+                            data-event='click:dialing'>
+                            <div class='dial-button__number'>5</div>
+                            <div class='dial-button__symbol'>JKL</div>
+                        </button>
+                        <button 
+                            class='rc-button --circle dial-button' 
+                            data-info='dial-button-6'
+                            data-value='6'
+                            data-event='click:dialing'>
+                            <div class='dial-button__number'>6</div>
+                            <div class='dial-button__symbol'>MNO</div>
+                        </button>
+                    </div>
+                    <div class='rc-dial-pad__line'>
+                        <button 
+                            class='rc-button --circle dial-button' 
+                            data-info='dial-button-7'
+                            data-value='7' 
+                            data-event='click:dialing'>
+                            <div class='dial-button__number'>7</div>
+                            <div class='dial-button__symbol'>PQRS</div>
+                        </button>
+                        <button 
+                            class='rc-button --circle dial-button' 
+                            data-info='dial-button-8'
+                            data-value='8' 
+                            data-event='click:dialing'>
+                            <div class='dial-button__number'>8</div>
+                            <div class='dial-button__symbol'>TUV</div>
+                        </button>
+                        <button 
+                            class='rc-button --circle dial-button' 
+                            data-info='dial-button-9'
+                            data-value='9' 
+                            data-event='click:dialing'>
+                            <div class='dial-button__number'>9</div>
+                            <div class='dial-button__symbol'>WXYZ</div>
+                        </button>
+                    </div>
+                    <div class='rc-dial-pad__line'>
+                        <button 
+                            class='rc-button --circle dial-button' 
+                            data-info='dial-button-0'
+                            data-value='0' 
+                            data-event='click:dialing'>
+                            <div class='dial-button__number'>0</div>
+                            <div class='dial-button__symbol'>+</div>
+                        </button>
+                    </div>
                 </div>
             </div>
+            <button 
+            class='rc-button --circle call-button' 
+            data-info='callout' 
+            data-event='click:callout'>
+            </button>
         </div>
-        <button 
-        class='rc-button --circle call-button' 
-        data-info='callout' 
-        data-event='click:callout'>
-        </button>
+        <div class='rc-dial-pad__mask display-none' data-info='disabled-mask'>
+            <p>Your account doesn't not have Web Phone permission.</p>
+        </div>
     </div>
-    <div class='rc-dial-pad__mask display-none' data-info='disabled-mask'>
-        <p>Your account doesn't not have Web Phone permission.</p>
-    </div>
-</div>
+</template>
 <script>
 w.register(function() {
     var fade = w.transition('fade')

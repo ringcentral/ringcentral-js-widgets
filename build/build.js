@@ -2,8 +2,6 @@
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var __commonjs_global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : undefined;
@@ -1212,11 +1210,6 @@ function isFunction(fn) {
     return typeof fn === 'function';
 }
 
-function ensureTail(string, tail) {
-    if (string.endsWith(tail)) return string;
-    return string + tail;
-}
-
 function toFunction(fn, defalut) {
     if (fn && isFunction(fn)) return fn;else if (defalut && isFunction(defalut)) return defalut;else return function () {};
 }
@@ -1872,47 +1865,89 @@ function translate(locale) {
     };
 }
 
-function fetchWidget(file) {
-    return fetch(w.options.path + ensureTail(file, '.html')).then(function (response) {
-        return response.text();
-    }).then(function (body) {
-        var template = document.createElement('template');
-        template.innerHTML = body;
-        var clone = document.importNode(template.content, true);
-        return clone;
-    });
-}
+// function fetchWidget(file) {
+//     return fetch(w.options.path + ensureTail(file, '.html'))
+//         .then(response => response.text())
+//         .then(body => {
+//             var template = document.createElement('template')
+//             template.innerHTML = body
+//             var clone = document.importNode(template.content, true)
+//             return clone
+//         })
+// }
 
-function parseDocument(template) {
-    return Promise.all(Array.from(template.querySelectorAll('*')).filter(function (doc) {
-        return doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement;
-    }).reduce(function (result, doc) {
-        return result.concat(preload(_defineProperty({}, doc.tagName.toLowerCase(), doc.tagName.toLowerCase())));
-    }, []));
-}
+// function parseDocument(template) {
+//     return Promise.all(Array.from(template.querySelectorAll('*'))
+//         .filter(doc => doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement)
+//         .reduce((result, doc) => {
+//             return result.concat(preload({
+//                 [doc.tagName.toLowerCase()]: doc.tagName.toLowerCase()
+//             }))
+//         }, []))
+// }
 
-function preload(widgets, callback) {
-    return Promise.all(Object.keys(widgets).reduce(function (result, name) {
-        if (!w.templates[name]) w.templates[name] = {};
-        if (!w.templates[name].fetch) w.templates[name].fetch = fetchWidget(widgets[name]);
-        return result.concat(w.templates[name].fetch.then(function (template) {
-            if (!w.templates[name].template) {
-                w.templates[name].template = template;
-                var scripts = template.querySelectorAll('script');
-                var style = template.querySelector('style');
-                Array.from(scripts).forEach(function (script) {
-                    if (script.src && script.src.indexOf('http') !== 0) script.src = w.options.path + script.getAttribute('src');
-                    document.body.appendChild(script);
-                    document.body.removeChild(script);
-                });
-                if (style) document.head.appendChild(style);
+function initNestedWidget(widget) {
+    var template = widget.props.template;
+    var docs = template.querySelectorAll('*');
+    Array.from(docs).forEach(function (doc) {
+        if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+            if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
+                return;
             }
-            return template;
-        }).then(parseDocument).catch(function (err) {
-            return console.error('Widgets preload error:' + err);
-        }));
-    }, [])).then(callback);
+            var name = doc.tagName.toLowerCase();
+            var child = w(name, widget.custom[name]);
+            child.mount(doc);
+            var childName = doc.getAttribute('data-info');
+            if (childName) widget.props[childName] = child;
+        }
+    });
+    return widget;
 }
+
+// function preload(widgets, callback) {
+//     return Promise.all(
+//         Object.keys(widgets).reduce(
+//             (result, name) => {
+//                 if (!w.templates[name])
+//                     w.templates[name] = {}
+//                 if (!w.templates[name].fetch)
+//                     w.templates[name].fetch = fetchWidget(widgets[name])
+//                 return result.concat(
+//                     w.templates[name].fetch
+//                     .then(template => {
+//                         if (!w.templates[name].template) {
+//                             w.templates[name].template = template
+//                             var scripts = template.querySelectorAll('script')
+//                             var style = template.querySelector('style')
+//                             Array.from(scripts).forEach(script => {
+//                                 if (script.src && script.src.indexOf('http') !== 0)
+//                                     script.src = w.options.path + script.getAttribute('src')
+//                                 document.body.appendChild(script)
+//                                 document.body.removeChild(script)
+//                             })
+//                             if (style)
+//                                 document.head.appendChild(style)
+//                         }
+//                         return template
+//                     })
+//                     .then(parseDocument)
+//                     .catch(err => console.error('Widgets preload error:' + err)))
+//             }, [])
+//     ).then(callback)
+// }
+
+// Public API
+// function w(name, options = {}) {
+//     if (!w.templates[name] || !w.templates[name].widget)
+//         throw Error('you need to preload widget:' + name + ' before init it')
+//     return initNestedWidget(new w.templates[name].widget({
+//         template: w.templates[name].template.cloneNode(true),
+//         actions: options.actions || {},
+//         data: options.data || {},
+//         logLevel: w.options.logLevel,
+//         internal: true // for check it's called by internal
+//     }))
+// }
 
 var WIDGETS = __w_widgets;
 function w(name) {
@@ -1926,18 +1961,29 @@ function w(name) {
     var clone = document.importNode(template.content, true);
     w.templates[name] = w.templates[name] || {};
     w.templates[name].template = clone;
+
     // script
-    var script = document.createElement('script');
-    script.text = widget.script;
-    document.body.appendChild(script);
-    document.body.removeChild(script);
-    return new w.templates[name].widget({
+    if (widget.script) {
+        var script = document.createElement('script');
+        script.text = widget.script;
+        document.body.appendChild(script);
+        document.body.removeChild(script);
+    }
+
+    // style
+    if (widget.style) {
+        var style = document.createElement('style');
+        style.innerHTML = widget.style;
+        document.head.appendChild(style);
+    }
+
+    return initNestedWidget(new w.templates[name].widget({
         template: w.templates[name].template.cloneNode(true),
         actions: options.actions || {},
         data: options.data || {},
         logLevel: w.options.logLevel,
         internal: true // for check it's called by internal
-    });
+    }));
 }
 
 w.templates = {};

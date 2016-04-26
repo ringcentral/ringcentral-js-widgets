@@ -40,7 +40,6 @@ w.register(function() {
             finish();
         },
         after: function() {
-            console.log(this);
             this.props.country = 'United States'
             var t = w.t(this.data.lang)
             var { color, lang, logo } = this.data
