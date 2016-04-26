@@ -1,68 +1,70 @@
-<div class='rc-panel rc-conversation'>
-    <div class='rc-panel__header --colored'>
-        <span class='rc-conversation__close icon-uni3E' data-event='click:back'></span>
-        <div class='rc-conversation__header'>
-            <div class='rc-conversation__avatar-wrapper'>
-                <img class='rc-conversation__avatar' data-info='profile-img' src="">
+<template>
+    <div class='rc-panel rc-conversation'>
+        <div class='rc-panel__header --colored'>
+            <span class='rc-conversation__close icon-uni3E' data-event='click:back'></span>
+            <div class='rc-conversation__header'>
+                <div class='rc-conversation__avatar-wrapper'>
+                    <img class='rc-conversation__avatar' data-info='profile-img' src="">
+                </div>
+                <div class='rc-conversation__header-title' data-info='header'></div>
             </div>
-            <div class='rc-conversation__header-title' data-info='header'></div>
+        </div>
+        <div    class='rc-panel__content rc-conversation__container' 
+                data-info='panel'>
+            <div class='rc-conversation__bar'>
+                <div class='rc-conversation__hint' data-info='to-number'>to</div>
+                <div class='rc-conversation__hint' data-info='from-number'>from</div>
+            </div>
+            <div    class='rc-conversation__content'
+                    data-info='container'
+                    data-event='scroll:scroll'>
+                <div    class='conversations__loading display-none'
+                        data-info='loading'>
+                    loading...
+                </div>
+                <div    class='conversations' 
+                        data-info='conversations'>
+                    <!-- <div class='conversations__timestamp'>
+                        <span class='__date'>1/24/15</span>
+                        <span class='__time'>6:04</span>
+                    </div> -->
+                    
+                </div>
+            </div>
+            <div class='rc-conversation__textarea-wrapper'>
+                <textarea 
+                data-info='input'
+                data-event='keydown:enter'
+                placeholder='messages...'
+                ></textarea>
+                <button 
+                    class='rc-button --circle --positive rc-conversation__callout'
+                    data-info='callout'
+                    data-event='click:togglePhoneModal'
+                >
+                </button>
+            </div>
+        </div>
+        <div    class='rc-conversation__mask display-none'
+                data-info='phone-mask'
+                data-event='click:togglePhoneModal'>
+            <div 
+                class='rc-conversation__modal'
+                data-info='phone-modal'>
+                <h2>
+                    <span class='voice-bubble__play icon-uniAE'></span>
+                    <span>Phone call</span>
+                </h2>
+                <div>
+                    <dropdown data-info='from-number-dropdown'></dropdown>
+                    <dropdown data-info='to-number-dropdown'></dropdown>
+                </div>
+                <button class='rc-button --round --positive'>Call out</button>
+            </div>
         </div>
     </div>
-    <div    class='rc-panel__content rc-conversation__container' 
-            data-info='panel'>
-        <div class='rc-conversation__bar'>
-            <div class='rc-conversation__hint' data-info='to-number'>to</div>
-            <div class='rc-conversation__hint' data-info='from-number'>from</div>
-        </div>
-        <div    class='rc-conversation__content'
-                data-info='container'
-                data-event='scroll:scroll'>
-            <div    class='conversations__loading display-none'
-                    data-info='loading'>
-                loading...
-            </div>
-            <div    class='conversations' 
-                    data-info='conversations'>
-                <!-- <div class='conversations__timestamp'>
-                    <span class='__date'>1/24/15</span>
-                    <span class='__time'>6:04</span>
-                </div> -->
-                
-            </div>
-        </div>
-        <div class='rc-conversation__textarea-wrapper'>
-            <textarea 
-            data-info='input'
-            data-event='keydown:enter'
-            placeholder='messages...'
-            ></textarea>
-            <button 
-                class='rc-button --circle --positive rc-conversation__callout'
-                data-info='callout'
-                data-event='click:togglePhoneModal'
-            >
-            </button>
-        </div>
-    </div>
-    <div    class='rc-conversation__mask display-none'
-            data-info='phone-mask'
-            data-event='click:togglePhoneModal'>
-        <div 
-            class='rc-conversation__modal'
-            data-info='phone-modal'>
-            <h2>
-                <span class='voice-bubble__play icon-uniAE'></span>
-                <span>Phone call</span>
-            </h2>
-            <div>
-                <dropdown data-info='from-number-dropdown'></dropdown>
-                <dropdown data-info='to-number-dropdown'></dropdown>
-            </div>
-            <button class='rc-button --round --positive'>Call out</button>
-        </div>
-    </div>
-</div>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.3.0/js/md5.min.js'></script>
+</template>
+<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.3.0/js/md5.min.js'></script> -->
 <script>
 w.register(function() {
     var fade = w.transition('fade')

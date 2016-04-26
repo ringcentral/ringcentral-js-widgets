@@ -1,21 +1,23 @@
-<div class='rc-panel rc-timeline-item' data-event='click:enter'>
-    <div class='rc-timeline-item__content'>
-    <div class='rc-timeline-item__line'>
-        <span class='rc-timeline-item__icon' data-info='icon'></span>
-        <span class='rc-timeline-item__contact' data-info='contact'></span>
+<template>
+    <div class='rc-panel rc-timeline-item' data-event='click:enter'>
+        <div class='rc-timeline-item__content'>
+        <div class='rc-timeline-item__line'>
+            <span class='rc-timeline-item__icon' data-info='icon'></span>
+            <span class='rc-timeline-item__contact' data-info='contact'></span>
+        </div>
+            <div class='rc-timeline-item__time' data-info='time'></div>
+            <div class='rc-timeline-item__subject' data-info='subject'></div>
+        </div>
+        <div    class='rc-timeline-item__count display-none' 
+                data-info='count-wrapper'
+                data-event='click:collapse'>
+            <span class='__number' data-info='count'></span>
+            <span class='icon-uni2466'></span>
+        </div>
+        <div data-info='collapse' class='rc-timeline-item__collapse'>
+        </div>
     </div>
-        <div class='rc-timeline-item__time' data-info='time'></div>
-        <div class='rc-timeline-item__subject' data-info='subject'></div>
-    </div>
-    <div    class='rc-timeline-item__count display-none' 
-            data-info='count-wrapper'
-            data-event='click:collapse'>
-        <span class='__number' data-info='count'></span>
-        <span class='icon-uni2466'></span>
-    </div>
-    <div data-info='collapse' class='rc-timeline-item__collapse'>
-    </div>
-</div>
+</template>
 <script>
 w.register(function(){
     this.actions= {

@@ -88,6 +88,32 @@ function w(name, options = {}) {
         internal: true // for check it's called by internal
     }))
 }
+
+const WIDGETS = __w_widgets
+function w(name, options = {}) {
+    var widget = WIDGETS[name]
+
+    // template
+    var template = document.createElement('template')
+    template.innerHTML = widget.template
+    var clone = document.importNode(template.content, true)
+    w.templates[name] = w.templates[name] || {}
+    w.templates[name].template = clone
+    // script
+    var script = document.createElement('script')
+    script.text = widget.script
+    document.body.appendChild(script)
+    document.body.removeChild(script)
+    return (new w.templates[name].widget({
+        template: w.templates[name].template.cloneNode(true),
+        actions: options.actions || {},
+        data: options.data || {},
+        logLevel: w.options.logLevel,
+        internal: true // for check it's called by internal
+    }))
+}
+
+
 w.templates = {}
 w.options = {}
 w.register = function(settings) {

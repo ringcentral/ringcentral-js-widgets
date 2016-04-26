@@ -14,22 +14,23 @@
 <script src="../bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
 <!-- <script src='../node_modules/lz-string/libs/lz-string.min.js'></script> -->
 <script src='https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js'></script>
+<script src='../compiler/test.js'></script>
 <script src="../build/build.js"></script>
 <script>
-w.config({
-    path: '../template/',
-    preload: {
-        'messages': 'messages',
-        'conversation': 'conversation-advanced',
-        'contacts': 'contacts',
-        'auth-panel': 'auth-panel',
-        'time-line': 'time-line',
-    },
-    locale: {
-        'zh-tw': 'zh-tw.json',
-        'en-us': 'en-us.json'
-    }
-}, init)
+// w.config({
+//     path: '../template/',
+//     preload: {
+//         'messages': 'messages',
+//         'conversation': 'conversation-advanced',
+//         'contacts': 'contacts',
+//         'auth-panel': 'auth-panel',
+//         'time-line': 'time-line',
+//     },
+//     locale: {
+//         'zh-tw': 'zh-tw.json',
+//         'en-us': 'en-us.json'
+//     }
+// }, init)
 var rcMessageService = w.service()['rcMessageService']
 var rcMessageProvider = w.service()['rcMessageProvider']
 var accountService = w.service()['accountService']
@@ -39,7 +40,7 @@ var rcContactService = w.service()['rcContactService']
 var callLogService = w.service()['callLogService']
 var conversationService = w.service()['conversationService']
 var dialPadSearchProviders = [rcContactSearchProvider]
-
+init()
 function init() {
     var authPanel = w('auth-panel', {
         actions: {
@@ -222,6 +223,17 @@ var cacheContacts = (function() {
     var fetch
     // FIXME: temp disable it
     
+    var fetch = new Promise((resolve, reject) => {
+      // Hack for delay the refreshing request
+      setTimeout(() => {
+        rcContactService.completeCompanyContact()
+        .then(data => {
+            if (data)
+                localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
+            return resolve(data)
+        })
+      }, 100)
+    })
     var fetch = rcContactService.completeCompanyContact().then(data => {
                     if (data)
                         localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
@@ -237,7 +249,7 @@ var cacheContacts = (function() {
 
 
 function conv(contact, afterBack, options = {}) {
-    return w('conversation', {
+    return w('conversation-advanced', {
         data: {
             new: true,
             contact: contact,

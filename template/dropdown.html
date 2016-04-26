@@ -1,11 +1,13 @@
-<div class='rc-dropdown'>
-    <button class='rc-dropdown__trigger rc-button'
-            data-info='dropdown'
-            data-event='click:collapse'>From: </button>
-    <div    class='rc-dropdown__list rc-list' 
-            data-info='list'>
+<template>
+    <div class='rc-dropdown'>
+        <button class='rc-dropdown__trigger rc-button'
+                data-info='dropdown'
+                data-event='click:collapse'>From: </button>
+        <div    class='rc-dropdown__list rc-list' 
+                data-info='list'>
+        </div>
     </div>
-</div>
+</template>
 <script>
 w.register(function() {
     var enlarge = w.transition('enlarge')

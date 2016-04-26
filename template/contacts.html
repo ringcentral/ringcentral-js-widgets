@@ -1,24 +1,26 @@
-<div class='rc-panel'>
-    <div class='rc-panel__header --flat' data-info='header'>
-        <div data-info='search-box' class='rc-contacts__searchBox'>
-            <input 
-                class='__input' 
-                type='text' 
-                data-info='searchText' 
-                data-event='input:search|focus:focus'
-            >
-        </div>
-    </div>
-    <div class='rc-panel__content' data-info='container'>
-        <div class='rc-contacts__list' data-event='scroll:scroll'>
-            <div data-info='pin-contacts' class='rc-contacts__pins'>
-            </div>
-            <div data-info='contacts'>
-                <contact-item dynamic></contact-item>
+<template>
+    <div class='rc-panel'>
+        <div class='rc-panel__header --flat' data-info='header'>
+            <div data-info='search-box' class='rc-contacts__searchBox'>
+                <input 
+                    class='__input' 
+                    type='text' 
+                    data-info='searchText' 
+                    data-event='input:search|focus:focus'
+                >
             </div>
         </div>
+        <div class='rc-panel__content' data-info='container'>
+            <div class='rc-contacts__list' data-event='scroll:scroll'>
+                <div data-info='pin-contacts' class='rc-contacts__pins'>
+                </div>
+                <div data-info='contacts'>
+                    <contact-item dynamic></contact-item>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</template>
 <script>
 w.register(function() {
     function createContactWidget(parent, contact) {

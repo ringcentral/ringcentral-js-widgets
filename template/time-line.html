@@ -1,21 +1,23 @@
-<div class='rc-panel rc-timeline'>
-    <div class='rc-panel__header --flat'>
-        <div class='rc-contacts__searchBox'>
-            <input 
-                class='__input' 
-                type='text' 
-                data-info='searchText' 
-                data-event='input:search|focus:focusSearchBox|blur:blurSearchBox'
-            >
+<template>
+    <div class='rc-panel rc-timeline'>
+        <div class='rc-panel__header --flat'>
+            <div class='rc-contacts__searchBox'>
+                <input 
+                    class='__input' 
+                    type='text' 
+                    data-info='searchText' 
+                    data-event='input:search|focus:focusSearchBox|blur:blurSearchBox'
+                >
+            </div>
+        </div>
+        <div class='rc-panel__content' data-info='content'>
+            <div class='rc-timeline__list' data-info='timeline'>
+                <time-line-item dynamic></time-line-item>
+            </div>
+            <div class='rc-timeline__mask display-none' data-info='mask'></div>
         </div>
     </div>
-    <div class='rc-panel__content' data-info='content'>
-        <div class='rc-timeline__list' data-info='timeline'>
-            <time-line-item dynamic></time-line-item>
-        </div>
-        <div class='rc-timeline__mask display-none' data-info='mask'></div>
-    </div>
-</div>
+</template>
 <script>
 w.register(function() {
     this.data = {}

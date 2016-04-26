@@ -12,21 +12,26 @@
     </div>
     <script type="text/javascript" src="bower_components/ringcentral/build/ringcentral-bundle.js"></script>
     <script type="text/javascript" src="bower_components/ringcentral-web-phone/build/ringcentral-web-phone.js"></script>
+    <script type="text/javascript" src='compiler/test.js'></script>
     <script type="text/javascript" src='build/build.js'></script>
     <script type="text/javascript">
-        w.config({
-            path: './template/',
-            preload: {
-                'dev-panel': 'call-panel'
-            },
-            locale: {
-                'zh-tw': 'demo/zh-tw.json',
-                'en-us': 'demo/en-us.json'
-            },
-            logLevel: 0 /* 0 for error only, 1 for error and warning, 2 for error and warning and log */
-        }, function() {
-            w('dev-panel').mount('#dev-panel')
-        })
+    var callPanel = w('call-panel')
+    console.log(callPanel);
+    callPanel.mount('#dev-panel')
+    // w('dev-panel').mount('#dev-panel')
+        // w.config({
+        //     path: './template/',
+        //     preload: {
+        //         'dev-panel': 'call-panel'
+        //     },
+        //     locale: {
+        //         'zh-tw': 'demo/zh-tw.json',
+        //         'en-us': 'demo/en-us.json'
+        //     },
+        //     logLevel: 0 /* 0 for error only, 1 for error and warning, 2 for error and warning and log */
+        // }, function() {
+        //     w('dev-panel').mount('#dev-panel')
+        // })
     </script>
 </body>
 </html>

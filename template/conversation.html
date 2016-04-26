@@ -1,30 +1,32 @@
-<div class='rc-panel rc-conversation'>
-    <div class='rc-panel__header --colored' data-info='header'>
-        <contact-picker data-info='contact-picker'></contact-picker>
-    </div>
-    <div    class='rc-panel__content rc-conversation__container' 
-            data-info='panel'>
-        <dropdown class='' data-info='dropdown'></dropdown>
-        <div    class='rc-conversation__content' 
-                data-info='container'
-                data-event='scroll:scroll'>
-            <div    class='conversations__loading display-none'
-                    data-info='loading'>
-                loading...
+<template>
+    <div class='rc-panel rc-conversation'>
+        <div class='rc-panel__header --colored' data-info='header'>
+            <contact-picker data-info='contact-picker'></contact-picker>
+        </div>
+        <div    class='rc-panel__content rc-conversation__container' 
+                data-info='panel'>
+            <dropdown class='' data-info='dropdown'></dropdown>
+            <div    class='rc-conversation__content' 
+                    data-info='container'
+                    data-event='scroll:scroll'>
+                <div    class='conversations__loading display-none'
+                        data-info='loading'>
+                    loading...
+                </div>
+                <div    class='conversations' 
+                        data-info='conversations'>
+                </div>
             </div>
-            <div    class='conversations' 
-                    data-info='conversations'>
+            <div class='rc-conversation__textarea-wrapper'>
+                <textarea 
+                data-info='input' 
+                data-event='keydown:enter'
+                placeholder='messages...'
+                ></textarea>
             </div>
         </div>
-        <div class='rc-conversation__textarea-wrapper'>
-            <textarea 
-            data-info='input' 
-            data-event='keydown:enter'
-            placeholder='messages...'
-            ></textarea>
-        </div>
     </div>
-</div>
+</template>
 <script>
 w.register(function() {
     var fade = w.transition('fade')

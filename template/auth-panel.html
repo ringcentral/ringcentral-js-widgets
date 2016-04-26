@@ -1,33 +1,35 @@
-<div class='rc-panel rc-auth-panel'>
-    <div class='rc-panel__header rc-auth-panel__header'>
-        <img    class='rc-img rc-auth-panel__img'
-                src='./ringcentral_logo.png'
-                data-info='logo'>
-    </div>
-    <div class='rc-panel__content rc-auth-panel__content'>
-        <div class='input-panel' data-info='input-panel'>
-          <div class='input-panel__flag'>
-              <img class='rc-img' data-info='flag' src=''>
-          </div>
-          <input 
-              class='rc-input --clean input-panel__phone' 
-              data-info='username' 
-              placeholder='username'
-              data-event='focus:focus|blur:blur'>
-          </input>
+<template>
+    <div class='rc-panel rc-auth-panel'>
+        <div class='rc-panel__header rc-auth-panel__header'>
+            <img    class='rc-img rc-auth-panel__img'
+                    src='./ringcentral_logo.png'
+                    data-info='logo'>
         </div>
-        <input class='rc-input --round' data-info='extension' placeholder="extension"></input>
-        <input class='rc-input --round' data-info='password' placeholder="password" type='password'></input>
-        <button class='rc-button --round' data-info='login' data-event='click:login'>Login</button>
-        <div class='rc-label'>
-            <label for='remember'>Remember me:</label>
-            <input id='remember' type='checkbox' data-info='remember' checked>
+        <div class='rc-panel__content rc-auth-panel__content'>
+            <div class='input-panel' data-info='input-panel'>
+              <div class='input-panel__flag'>
+                  <img class='rc-img' data-info='flag' src=''>
+              </div>
+              <input 
+                  class='rc-input --clean input-panel__phone' 
+                  data-info='username' 
+                  placeholder='username'
+                  data-event='focus:focus|blur:blur'>
+              </input>
+            </div>
+            <input class='rc-input --round' data-info='extension' placeholder="extension"></input>
+            <input class='rc-input --round' data-info='password' placeholder="password" type='password'></input>
+            <button class='rc-button --round' data-info='login' data-event='click:login'>Login</button>
+            <div class='rc-label'>
+                <label for='remember'>Remember me:</label>
+                <input id='remember' type='checkbox' data-info='remember' checked>
+            </div>
+            <div class='rc-label' data-info='error'></div>
         </div>
-        <div class='rc-label' data-info='error'></div>
+        <!-- <div class='rc-panel__footer' data-info='footer'></div> -->
+        </div>
     </div>
-    <!-- <div class='rc-panel__footer' data-info='footer'></div> -->
-    </div>
-</div>
+</template>
 <script>
 w.register(function() {
     var fade = w.transition('fade')
@@ -38,6 +40,7 @@ w.register(function() {
             finish();
         },
         after: function() {
+            console.log(this);
             this.props.country = 'United States'
             var t = w.t(this.data.lang)
             var { color, lang, logo } = this.data

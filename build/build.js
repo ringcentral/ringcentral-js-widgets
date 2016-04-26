@@ -1891,24 +1891,6 @@ function parseDocument(template) {
     }, []));
 }
 
-function initNestedWidget(widget) {
-    var template = widget.props.template;
-    var docs = template.querySelectorAll('*');
-    Array.from(docs).forEach(function (doc) {
-        if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
-            if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
-                return;
-            }
-            var name = doc.tagName.toLowerCase();
-            var child = w(name, widget.custom[name]);
-            child.mount(doc);
-            var childName = doc.getAttribute('data-info');
-            if (childName) widget.props[childName] = child;
-        }
-    });
-    return widget;
-}
-
 function preload(widgets, callback) {
     return Promise.all(Object.keys(widgets).reduce(function (result, name) {
         if (!w.templates[name]) w.templates[name] = {};
@@ -1932,19 +1914,32 @@ function preload(widgets, callback) {
     }, [])).then(callback);
 }
 
-// Public API
+var WIDGETS = __w_widgets;
 function w(name) {
     var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-    if (!w.templates[name] || !w.templates[name].widget) throw Error('you need to preload widget:' + name + ' before init it');
-    return initNestedWidget(new w.templates[name].widget({
+    var widget = WIDGETS[name];
+
+    // template
+    var template = document.createElement('template');
+    template.innerHTML = widget.template;
+    var clone = document.importNode(template.content, true);
+    w.templates[name] = w.templates[name] || {};
+    w.templates[name].template = clone;
+    // script
+    var script = document.createElement('script');
+    script.text = widget.script;
+    document.body.appendChild(script);
+    document.body.removeChild(script);
+    return new w.templates[name].widget({
         template: w.templates[name].template.cloneNode(true),
         actions: options.actions || {},
         data: options.data || {},
         logLevel: w.options.logLevel,
         internal: true // for check it's called by internal
-    }));
+    });
 }
+
 w.templates = {};
 w.options = {};
 w.register = function (settings) {

@@ -4,7 +4,9 @@
   "dependencies": {
     "isomorphic-fetch": "^2.2.1",
     "lz-string": "^1.4.4",
+    "node-dir": "^0.1.11",
     "node-polyglot": "^1.0.0",
+    "parse5": "^2.1.5",
     "phoneformat.js": "^1.0.3",
     "whatwg-fetch": "^0.11.0"
   },
