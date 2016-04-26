@@ -2,37 +2,36 @@ import gulp from 'gulp';
 import mocha from 'gulp-mocha';
 import istanbul from 'gulp-istanbul';
 import babelIstanbul from 'babel-istanbul';
-import config from './config';
 
 const TIMEOUT = 10000;
 
-gulp.task('pre-coverage', () => {
-  return gulp.src('src/**/*.js')
+gulp.task('pre-coverage', () => (
+  gulp.src('src/**/*.js')
   .pipe(istanbul({
     includeUntested: true,
-    instrumenter: babelIstanbul.Instrumenter
+    instrumenter: babelIstanbul.Instrumenter,
   }))
-  .pipe(istanbul.hookRequire());
-});
+  .pipe(istanbul.hookRequire())
+));
 
-gulp.task('coverage', ['pre-coverage'], () => {
-  return gulp.src('test/**/*.js')
+gulp.task('coverage', ['pre-coverage'], () => (
+  gulp.src('test/**/*.js')
   .pipe(mocha({
-    timeout: TIMEOUT
+    timeout: TIMEOUT,
   }))
-  .pipe(istanbul.writeReports());
-});
+  .pipe(istanbul.writeReports())
+));
 
-gulp.task('test', () => {
-  return gulp.src('test/**/*.js')
+gulp.task('test', () => (
+  gulp.src('test/**/*.js')
   .pipe(mocha({
-    timeout: TIMEOUT
-  }));
-});
+    timeout: TIMEOUT,
+  }))
+));
 
-gulp.task('unitTest', () => {
-  return gulp.src('test/unit/*')
+gulp.task('unitTest', () => (
+  gulp.src('test/unit/*')
   .pipe(mocha({
-    timeout: TIMEOUT
-  }));
-});
+    timeout: TIMEOUT,
+  }))
+));

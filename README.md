@@ -9,8 +9,8 @@ The result should be an UI agnostic rc phone unit that can easily be custominzed
 
 - [x] Server-side test framework setup
 - [ ] Browser-side test framework setup
-- [ ] Coding style guide document
-- [ ] Eslint check setup
+- [x] Coding style guide document
+- [x] Eslint check setup
 - [ ] jscs check setup
 - [ ] Webpack setup for distributing code
 - [ ] CI setup
@@ -31,7 +31,7 @@ To start
         "appKey": "${your app key}",
         "appSecret": "${your app secret}"
       },
-      "apiServer": "${apiServer address}"
+      "apiServer": "${apiServer address}",
       "brand": {
         "name": "${brand name}",
         "id": "${brand id}"
@@ -48,6 +48,23 @@ To start
     ```bash
     npm run test
     ```
+
+Coding Style
+---
+
+Please refer to [airbnb/javascript](https://github.com/airbnb/javascript).
+We will use the recommended linter settings and jscs settings, and adjust as we progress.
+
+Also refer to .eslintrc for our own overrides.
+
+Linting
+---
+
+```bash
+npm run eslint
+```
+
+
 
 
 Please fork and contribute via PR.

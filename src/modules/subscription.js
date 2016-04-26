@@ -14,24 +14,25 @@ export default class Subscription extends Wrapper {
   constructor({
     sdk,
     subscription,
-    subscriptionProvider = DefaultSubscriptionProvider,
+    SubscriptionProvider = DefaultSubscriptionProvider,
   }) {
-    if(!subscription) {
-      subscription = new subscriptionProvider({
-        sdk
-      });
-    }
-    super(subscription);
+    const tmp = subscription || new SubscriptionProvider({
+      sdk,
+    });
+    super(tmp);
     this[SDK] = sdk;
     this[FILTERS] = new Set();
     this[HANDLERS] = new Map();
     this.base.on(this.events.notification, m => {
-      if(this[HANDLERS].has(m.event)) {
+      if (this[HANDLERS].has(m.event)) {
         this[HANDLERS].get(m.event).forEach(handler => {
           try {
             handler(m);
-          } catch(e) {
-            console.error(`Error occurs when invoking subscription notification handler for "${m.event}":`, e);
+          } catch (e) {
+            console.error(
+              `Error occurs when invoking subscription notification handler for "${m.event}":`,
+              e
+            );
           }
         });
       }
@@ -41,11 +42,11 @@ export default class Subscription extends Wrapper {
     return this.base.events;
   }
   subscribe(event, handler) {
-    if(event && typeof handler === 'function') {
-      if(!this[HANDLERS].has(event)) {
+    if (event && typeof handler === 'function') {
+      if (!this[HANDLERS].has(event)) {
         this[HANDLERS].set(event, new Set());
       }
-      if(!this[FILTERS].has(event)) {
+      if (!this[FILTERS].has(event)) {
         this[FILTERS].add(event);
         this.base.setEventFilters(Array.from(this[FILTERS]));
         this.base.register();

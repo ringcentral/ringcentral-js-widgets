@@ -7,7 +7,7 @@ export default class Brand {
   constructor({
     id,
     name,
-    prefix
+    prefix,
   }) {
     this[ID] = id;
     this[NAME] = name;
@@ -21,6 +21,6 @@ export default class Brand {
     return this[NAME];
   }
   get prefix() {
-    return this[PREFIX]
+    return this[PREFIX];
   }
 }
