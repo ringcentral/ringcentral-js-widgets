@@ -9,6 +9,7 @@ const SUBSCRIPTION = Symbol();
 const BRAND = Symbol();
 const API = Symbol();
 const AUTH = Symbol();
+const PLATFORM = Symbol();
 
 
 /**
@@ -19,41 +20,36 @@ export default class RcPhone {
   constructor({
     sdkInstance,
     sdkSettings,
-    sdkProvider = Sdk,
+    SdkProvider = Sdk,
     storage,
-    brandSettings, //TODO: should we default to rcus?
-    brandProvider = Brand,
-    authProvider = Auth,
+    brandSettings, // TODO: should we default to rcus?
+    BrandProvider = Brand,
+    AuthProvider = Auth,
   }) {
-
-    if(!sdkInstance) {
-      if(!sdkSettings) {
-        throw new Error('no sdk settings found...');
-      }
-      sdkInstance = new sdkProvider({
-        ...sdkSettings,
-        storage
-      });
+    if (!sdkInstance && !sdkSettings) {
+      throw new Error('no sdk settings found...');
     }
-    this[SDK] = sdkInstance;
+    this[SDK] = sdkInstance || new SdkProvider({
+      storage,
+      ...sdkSettings,
+    });
 
-    this[BRAND] = new brandProvider(brandSettings);
+    this[BRAND] = new BrandProvider(brandSettings);
 
-    this[AUTH] = new authProvider({
+    this[AUTH] = new AuthProvider({
       platform: this[SDK].base.platform(),
-      brand: this[BRAND]
+      brand: this[BRAND],
     });
 
     this[API] = new Api({
       platform: this[SDK].base.platform(),
-      auth: this[AUTH]
+      auth: this[AUTH],
     });
 
     this[SUBSCRIPTION] = new Subscription({
       sdk: this[SDK],
       auth: this[AUTH],
     });
-
   }
 
   get sdk() {
@@ -73,7 +69,7 @@ export default class RcPhone {
   }
 
   get cache() {
-    this[SDK].base._cache;
+    return this[SDK].base._cache;
   }
 
   get contact() {
@@ -96,7 +92,5 @@ export default class RcPhone {
   get subscription() {
     return this[SUBSCRIPTION];
   }
-
-
 
 }
