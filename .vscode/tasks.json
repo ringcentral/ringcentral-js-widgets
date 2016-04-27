@@ -1,0 +1,31 @@
+{
+	// See http://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "0.1.0",
+	"command": "npm",
+	"isShellCommand": true,
+	"showOutput": "always",
+	"suppressTaskName": true,
+	"tasks": [
+    {
+			"taskName": "install",
+			"args": ["install"]
+		},
+		{
+			"taskName": "test",
+			"args": ["run", "test"]
+		},
+		{
+			"taskName": "coverage",
+			"args": ["run", "coverage"]
+		},
+		{
+			"taskName": "unitTest",
+			"args": ["run", "unitTest"]
+		},
+		{
+			"taskName": "eslint",
+			"args": ["run", "eslint"]
+		}
+	]
+}
