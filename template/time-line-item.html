@@ -19,10 +19,16 @@
     </div>
 </template>
 <script>
-w.register(function(){
+w.register(function() {
     this.actions= {
         init: {
             after: function() {
+                this.props.selectedMessage = null
+                this.props.content = null
+                this.props.contact = null
+                this.props.time = null
+                this.props.subject = null
+                this.props.count = 0
                 this.fillData(this.data)
             }
         },
@@ -39,9 +45,10 @@ w.register(function(){
                     this.props.dom.icon.classList.add('icon-uniAE')
                 else if (data.type === 'Pager')
                     this.props.dom.icon.classList.add('icon-uniCB')
-                this.props.dom.subject.textContent = data.subject
-                data.contact && (this.props.dom.contact.textContent = data.contact.displayName)
-                this.props.dom.time.textContent = 
+                this.props.dom.subject.textContent = this.props.subject = data.subject
+                data.contact && 
+                    (this.props.dom.contact.textContent = this.props.contact = data.contact.displayName)
+                this.props.dom.time.textContent = this.props.time =
                 `
                 ${time.getMonth() + 1}/${time.getDate()}, 
                 ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}
@@ -49,7 +56,7 @@ w.register(function(){
 
                 if (data.others && data.others.length > 0) {
                     this.props.dom['count-wrapper'].classList.remove('display-none')
-                    this.props.dom.count.textContent = data.others.length
+                    this.props.dom.count.textContent = this.props.count = data.others.length
                     var currentDate
 
                     while(this.props.dom.collapse.firstChild)
@@ -82,8 +89,7 @@ w.register(function(){
             }
         },
         mount: {
-            after: function() {
-            }
+            after: function() {}
         },
         collapse: {
             after: function(event) {
@@ -126,7 +132,7 @@ w.register(function(){
             }
         },
         enter: {
-            before: function(event, message) {
+            method: function(finish, event, message) {
                 message && (this.props.selectedMessage = message)
             }
         }
