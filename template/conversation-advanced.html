@@ -24,11 +24,6 @@
                 </div>
                 <div    class='conversations' 
                         data-info='conversations'>
-                    <!-- <div class='conversations__timestamp'>
-                        <span class='__date'>1/24/15</span>
-                        <span class='__time'>6:04</span>
-                    </div> -->
-                    
                 </div>
             </div>
             <div class='rc-conversation__textarea-wrapper'>
@@ -64,7 +59,7 @@
         </div>
     </div>
 </template>
-<!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.3.0/js/md5.min.js'></script> -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.3.0/js/md5.min.js'></script>
 <script>
 w.register(function() {
     var fade = w.transition('fade')
@@ -128,14 +123,20 @@ w.register(function() {
                 .then(r => r.response())
                 .then(r => {
                     // Real contact, no avatar
-                    if (r.status === 204) {
+                    console.log(r)
+                    if (r.status === 204 || r.status === 404) {
                         var hash = md5(currentContact.id)
                         this.props.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
                     } else {
                         // Real contact, has avatar
                         this.props.dom['profile-img'].src = 
-                        currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
+                            currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
                     }
+                })
+                .catch(e => {
+                    // Real contact, no avatar
+                    var hash = md5(currentContact.id)
+                    this.props.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
                 })
             },
             after: function() {
@@ -347,14 +348,20 @@ w.register(function() {
             }
         },
         addTimestamp: {
-            method: function(finish, time) {
+            method: function(finish, time, prepend) {
                 var div = document.createElement('div')
                 div.innerHTML = `<div class='clearfix conversations__conv'>
                                     <div class='rc-conversation__timestamp'>
                                         ${time}
                                     </div>
                                 </div>`
-                this.props.dom.conversations.appendChild(div.firstChild)
+                if (prepend)
+                    this.props.dom.conversations.insertBefore(
+                        div.firstChild, 
+                        this.props.dom.conversations.firstChild
+                    )
+                else
+                    this.props.dom.conversations.appendChild(div.firstChild)
             }
         },
         parseMessages: {
@@ -377,9 +384,9 @@ w.register(function() {
                                 prepend
                             )
                             var date = new Date(msg.lastModifiedTime).getDate()
-                            var month = new Date(msg.lastModifiedTime).getMonth()
+                            var month = new Date(msg.lastModifiedTime).getMonth() + 1
                             if (date > this.convDate)
-                                this.addTimestamp(month + '/' + date)
+                                this.addTimestamp(month + '/' + date, prepend)
                             this.convDate = new Date(msg.lastModifiedTime).getDate()
                         }
                     )

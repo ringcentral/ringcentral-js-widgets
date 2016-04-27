@@ -51,9 +51,6 @@ function init() {
                 },
                 after: function() {
                     this.unmount()
-                    // conversation.mount('#container')
-                    // messageWidget.mount('#container')
-                    // contacts.mount('#container')
                     timeline.mount('#container')
                 }
             }
@@ -64,6 +61,11 @@ function init() {
         actions: {
             init: {
                 after: function() {
+                    
+                }
+            },
+            mount: {
+                after: function() {
                     rcMessageService.subscribeToMessageUpdate()
                     rcMessageProvider.onMessageUpdated(msg => {
                         this.updateTimeline(conversationService.syncContent(this.props.contacts, msg))
@@ -72,10 +74,6 @@ function init() {
                             this.props.currentConv.addIncomingMessages()
                         }
                     })
-                }
-            },
-            mount: {
-                after: function() {
                     return cacheContacts().then(contacts => this.props.contacts = contacts)
                 }
             },
@@ -219,24 +217,19 @@ var cacheContacts = (function() {
     var data = localStorage.getItem('rc-contacts')
     var fetch
     // FIXME: temp disable it
-    
-    var fetch = new Promise((resolve, reject) => {
-      // Hack for delay the refreshing request
-      setTimeout(() => {
-        rcContactService.completeCompanyContact()
-        .then(data => {
-            if (data)
-                localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
-            return resolve(data)
-        })
-      }, 100)
-    })
-    var fetch = rcContactService.completeCompanyContact().then(data => {
-                    if (data)
-                        localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
-                    return data
-                })
+   
     return function() {
+        var fetch = new Promise((resolve, reject) => {
+        // Hack for delay the refreshing request
+          setTimeout(() => {
+            rcContactService.completeCompanyContact()
+            .then(data => {
+                if (data)
+                    localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
+                return resolve(data)
+            })
+          }, 100)
+        })
         if (contact)
             return contact
         contact = data? Promise.resolve(JSON.parse(LZString.decompressFromUTF16(data))): fetch

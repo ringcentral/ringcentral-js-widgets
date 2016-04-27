@@ -7,6 +7,7 @@
 * 4. unit test
 * 5. source map
 * 6. import files
+* 7. support non compiled file insertion
 */
 
 var fs = require('fs')
@@ -43,7 +44,11 @@ function compile(content) {
     var output = {
         script: null,
         template: null,
-        style: null
+        style: null,
+        imports: {
+            scripts: [],
+            styles: []
+        }
     }
     fragment.childNodes.forEach(node => {
         var type = node.tagName
@@ -52,14 +57,15 @@ function compile(content) {
         // TODO: #6
 
         if (type === 'script') {
-
-            var start = node.childNodes[0].__location.startOffset
-            var end = node.childNodes[node.childNodes.length - 1].__location.endOffset
-
-            // console.log(extract(content, start, end));
-            // console.log(babel.transform(extract(content, start, end)).code);
-            var script = output.script = babel.transform(extract(content, start, end),
-                { presets: [es2015] }).code
+            if (src) {
+                output.imports.scripts.push(src)
+            } else {
+                var start = node.childNodes[0].__location.startOffset
+                var end = node.childNodes[node.childNodes.length - 1].__location.endOffset
+                var script = output.script = babel.transform(extract(content, start, end),
+                    { presets: [es2015] }).code
+            }
+            
         } else if (type === 'template') {
             var start = node.__location.startTag.endOffset
             var end = node.__location.endTag.startOffset
@@ -67,13 +73,16 @@ function compile(content) {
         } else if (type === 'style') {
             var start = node.__location.startTag.endOffset
             var end = node.__location.endTag.startOffset
+
+            // FIXME: ASYNC
             // postcss([autoprefixer, precss]).process(extract(content, start, end)).then(result => {
             //     console.log(result.css);
             // })
+
             var style = output.style = extract(content, start, end)
         } else if (type === 'div' && !output.template) {
-            var start = node.__location.startTag.endOffset
-            var end = node.__location.endTag.startOffset
+            var start = node.__location.startTag.startOffset
+            var end = node.__location.endTag.endOffset
             var template = output.template = extract(content, start, end)
         }
     })

@@ -100,6 +100,18 @@ function w(name, options = {}) {
     w.templates[name] = w.templates[name] || {}
     w.templates[name].template = clone
 
+    widget.imports.scripts.forEach(src => {
+        var script = document.createElement('script')
+        script.src = src
+        document.body.appendChild(script)
+    })
+
+     widget.imports.scripts.forEach(src => {
+        var style = document.createElement('style')
+        style.src = src
+        document.head.appendChild(style)
+    })
+
     // script
     if (widget.script) {
         var script = document.createElement('script')
