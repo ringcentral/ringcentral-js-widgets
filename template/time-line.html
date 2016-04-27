@@ -11,6 +11,7 @@
             </div>
         </div>
         <div class='rc-panel__content' data-info='content'>
+            <div class='rc-timeline__loading' data-info='loading'>Loading ...</div>
             <div class='rc-timeline__list' data-info='timeline'>
                 <time-line-item dynamic></time-line-item>
             </div>
@@ -41,6 +42,7 @@ w.register(function() {
             },
             after: function(contents) {
                 this.props.latestMessage = contents[0]
+                this.props.dom.loading.classList.add('display-none')
                 contents.forEach(content => this.addLine(content))
             }
         },
