@@ -181,14 +181,12 @@ var conversationService = (function(sdk) {
             return cachedHour
         },
         syncContent: function(contacts, ...sources) {
-            console.log('get content')
             var contents = combineContent(...sources)
             var relatedContacts = groupMessageToContact(contents.slice(), contacts)
             contents = groupContactToMessage(contents, relatedContacts)
             return contents
         },
         organizeContent: function(contacts, ...sources) {
-            console.log('org content')
             var contents = combineContent(...sources)
             var relatedContacts = groupMessageToContact(contents.slice(), contacts)
             contents = groupContactToMessage(contents, relatedContacts)
@@ -196,7 +194,6 @@ var conversationService = (function(sdk) {
             return contents
         },
         getConversations: function(contacts, ...sources) {
-            console.log('get conv')
             var contents = combineContent(...sources)
             var relatedContacts = groupMessageToContact(contents, contacts)
                                 .map(contact => {
