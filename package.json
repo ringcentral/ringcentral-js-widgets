@@ -8,6 +8,7 @@
     "lz-string": "^1.4.4",
     "node-dir": "^0.1.11",
     "node-polyglot": "^1.0.0",
+    "node-watch": "^0.3.5",
     "parse5": "^2.1.5",
     "phoneformat.js": "^1.0.3",
     "whatwg-fetch": "^0.11.0"
@@ -49,7 +50,8 @@
   },
   "scripts": {
     "test": "nyc ava test/*.spec.js",
-    "report": "nyc report --reporter=html"
+    "report": "nyc report --reporter=html",
+    "compile": "node compiler/index.js"
   },
   "ava": {
     "require": [
