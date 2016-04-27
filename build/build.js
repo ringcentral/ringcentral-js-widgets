@@ -869,8 +869,6 @@ var conversationService = function (sdk) {
             return cachedHour;
         },
         syncContent: function syncContent(contacts) {
-            console.log('get content');
-
             for (var _len3 = arguments.length, sources = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
                 sources[_key3 - 1] = arguments[_key3];
             }
@@ -881,8 +879,6 @@ var conversationService = function (sdk) {
             return contents;
         },
         organizeContent: function organizeContent(contacts) {
-            console.log('org content');
-
             for (var _len4 = arguments.length, sources = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
                 sources[_key4 - 1] = arguments[_key4];
             }
@@ -894,8 +890,6 @@ var conversationService = function (sdk) {
             return contents;
         },
         getConversations: function getConversations(contacts) {
-            console.log('get conv');
-
             for (var _len5 = arguments.length, sources = Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
                 sources[_key5 - 1] = arguments[_key5];
             }
