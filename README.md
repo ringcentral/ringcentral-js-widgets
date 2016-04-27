@@ -60,10 +60,22 @@ Also refer to .eslintrc for our own overrides.
 Linting
 ---
 
-```bash
-npm run eslint
-```
+1. Run linter from commandline:
+    ```bash
+    npm run eslint
+    ```
 
+2. Linter in sublime
+
+    ```bash
+    npm install -g eslint babel-eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react 
+    ```
+    
+    Install sublime package control from [packagecontrol.io](https://packagecontrol.io/installation)
+    
+    In sublime install SublimeLinter and SublimeLinter-contrib-eslint.
+    
+    Linting should happen on file write.
 
 
 
