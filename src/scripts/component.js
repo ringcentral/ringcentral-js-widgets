@@ -32,6 +32,7 @@ function widget({actions, data = {}}, options) {
     this.custom = {}
     this.children = []
     this.data = Object.assign(data, options.data)
+    this._mounted = false
     logger = initLogger(options.logLevel)
     Object.keys(options.actions).forEach(index => bindToTarget(options.actions, index))
     Object.keys(defaultActions).forEach(index => bindToTarget(defaultActions, index))
@@ -73,16 +74,19 @@ function widget({actions, data = {}}, options) {
 
     function destroy(widgetdestroy, finish) {
         this.unmount()
-        for (var property in this)
+        // TODO: find out better way to destroy it
+        for (let property in this)
             this[property] = null
         if (widgetdestroy && isFunction(widgetdestroy))
             return widgetdestroy.call(this, finish)
     }
 
     function unmount(widgetUnmount, finish) {
-        if (!this.target || !this.target.parentNode)
+        console.log(this.props.template);
+        if (!this._mounted || !this.props.template || !this.props.template.parentNode)
             return
-        this.target.parentNode.removeChild(this.target)
+        this.props.template.parentNode.removeChild(this.props.template)
+        this._mounted = false
         if (widgetUnmount && isFunction(widgetUnmount))
             return widgetUnmount.call(this, finish)
     }
@@ -93,7 +97,7 @@ function widget({actions, data = {}}, options) {
         } else {
             logger.warn('first argument of mount method should be selector string')
         }
-        if (this.target) {
+        if (this._mounted) {
             // Already mounted before
             if (prepend)
                 target.insertBefore(this.target, target.firstChild)
@@ -103,13 +107,11 @@ function widget({actions, data = {}}, options) {
             // First time mount
             this.children.forEach(child => child.widget.mount(child.target))
             // templates can only have one root
-            this.target = shallowCopy(
-                Array.from(template.childNodes).filter(node => node.nodeType === 1)
-            )[0]
             if (prepend)
                 target.insertBefore(template, target.firstChild)
             else
                 target.appendChild(template)
+            this._mounted = true
         }
         if (widgetMount && isFunction(widgetMount))
             return widgetMount.call(this, finish)

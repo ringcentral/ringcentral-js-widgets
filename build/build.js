@@ -1251,6 +1251,7 @@ function widget(_ref2, options) {
     this.custom = {};
     this.children = [];
     this.data = Object.assign(data, options.data);
+    this._mounted = false;
     logger = initLogger(options.logLevel);
     Object.keys(options.actions).forEach(function (index) {
         return bindToTarget(options.actions, index);
@@ -1291,14 +1292,17 @@ function widget(_ref2, options) {
 
     function destroy(widgetdestroy, finish) {
         this.unmount();
+        // TODO: find out better way to destroy it
         for (var property in this) {
             this[property] = null;
         }if (widgetdestroy && isFunction(widgetdestroy)) return widgetdestroy.call(this, finish);
     }
 
     function unmount(widgetUnmount, finish) {
-        if (!this.target || !this.target.parentNode) return;
-        this.target.parentNode.removeChild(this.target);
+        console.log(this.props.template);
+        if (!this._mounted || !this.props.template || !this.props.template.parentNode) return;
+        this.props.template.parentNode.removeChild(this.props.template);
+        this._mounted = false;
         if (widgetUnmount && isFunction(widgetUnmount)) return widgetUnmount.call(this, finish);
     }
 
@@ -1308,7 +1312,7 @@ function widget(_ref2, options) {
         } else {
             logger.warn('first argument of mount method should be selector string');
         }
-        if (this.target) {
+        if (this._mounted) {
             // Already mounted before
             if (prepend) target.insertBefore(this.target, target.firstChild);else target.appendChild(this.target);
         } else {
@@ -1317,10 +1321,8 @@ function widget(_ref2, options) {
                 return child.widget.mount(child.target);
             });
             // templates can only have one root
-            this.target = shallowCopy(Array.from(template.childNodes).filter(function (node) {
-                return node.nodeType === 1;
-            }))[0];
             if (prepend) target.insertBefore(template, target.firstChild);else target.appendChild(template);
+            this._mounted = true;
         }
         if (widgetMount && isFunction(widgetMount)) return widgetMount.call(this, finish);
         return this;

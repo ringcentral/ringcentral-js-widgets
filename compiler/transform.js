@@ -3,11 +3,10 @@ var postcss = require('postcss')
 var precss = require('precss')
 var autoprefixer = require('autoprefixer')
 var es2015 = require('babel-preset-es2015')
-var rollup = require('rollup')
 var fs = require('fs')
-var nodeResolve = require('rollup-plugin-node-resolve')
-var commonjs    = require('rollup-plugin-commonjs')
+var bundle = require('./bundle').bundle
 
+const TEMP_FILE = '__w_temp'
 var id = ''
 var scope = postcss.plugin('scope', function() {
     return function(root) {
@@ -32,9 +31,9 @@ function transform(input, options) {
 function transformScript(input) {
     // FIXME: don't modify original data
     input.script && (input.script = babel.transform(input.script, {presets: [es2015]}).code)
-    fs.writeFileSync('__w_temp.js', input.script)
+    fs.writeFileSync(TEMP_FILE, input.script)
     // TODO: remove temp.js
-    return bundle('__w_temp.js').then(bundle => {
+    return bundle(TEMP_FILE).then(bundle => {
         input.script && (input.script = bundle)
         return input
     })
@@ -55,22 +54,3 @@ function transformStyle(input, scopedStyle) {
     .catch(e => console.error(e))
 }
 exports.transform = transform
-
-function bundle(file) {
-    console.log('transform: ' + id);
-
-    return rollup.rollup({
-      entry: file,
-      sourceMap: true,
-      plugins: [
-            nodeResolve({jsnext: true, main: true}),
-            commonjs()
-        ]}
-    ).then(function(bundle) {
-        var result = bundle.generate({
-            format: 'iife',
-            moduleName: id
-        })
-        return result.code
-    }).catch(e => console.error(e))
-}

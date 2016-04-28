@@ -3,3 +3,5 @@ bower_components/
 .DS_Store
 .nyc_output
 coverage/
+npm-debug.log
+__w_temp

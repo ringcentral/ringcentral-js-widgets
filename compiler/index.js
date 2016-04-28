@@ -1,14 +1,17 @@
 /*
 *
 * TODO:
-* 1. [ ] compile style sheet in template also, inject to the right position
+* 1. [x] compile style sheet in template also, inject to the right position
 * 2. [x] preprocessor (Babel, postCSS, etc.)
-* 3. [ ] watch (integrate with gulp? webpack?)
+* 3. [x] watch (integrate with gulp? webpack?)
 * 4. [ ] unit test
-* 5. [ ] source map
+* 5. [-] source map (it seems okay for now)
 * 6. [x] import files
 * 7. [ ] support non-compiled file insertion
-* 8. [ ] modulize
+* 8. [x] modulize
+* 9. [ ] cli
+* 10.[ ] minify
+* 11.[ ] config
 */
 
 var path = require('path')
