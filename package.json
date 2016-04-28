@@ -7,7 +7,8 @@
     "test": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test",
     "coverage": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js coverage",
     "unitTest": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js unitTest",
-    "eslint": "node ./node_modules/eslint/bin/eslint.js src test gulpfile.js config.js"
+    "eslint": "node ./node_modules/eslint/bin/eslint.js src test gulpfile.js config.js",
+    "gulp": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js"
   },
   "repository": {
     "type": "git",
@@ -48,5 +49,8 @@
     "babel-runtime": "^6.6.1",
     "ringcentral": "^2.0.6",
     "ringcentral-web-phone": "^0.2.0"
+  },
+  "dependencies": {
+    "yargs": "^4.6.0"
   }
 }

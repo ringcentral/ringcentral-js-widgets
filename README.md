@@ -5,7 +5,7 @@ The goal of this project is to create an extensible wrapper around the current r
 The result should be an UI agnostic rc phone unit that can easily be custominzed. It should therefore be easy to fit any UI to the phone system, be it jQuery based UI implementation, Angular, or React.
 
 
-## Project Init
+# Project Init
 
 - [x] Server-side test framework setup
 - [ ] Browser-side test framework setup
@@ -15,8 +15,7 @@ The result should be an UI agnostic rc phone unit that can easily be custominzed
 - [ ] Webpack setup for distributing code
 - [ ] CI setup
 
-To start
----
+#To start
 
 1. Install dependencies
 
@@ -27,56 +26,84 @@ To start
 
     ```json
     {
-      "app": {
+    "app": {
         "appKey": "${your app key}",
         "appSecret": "${your app secret}"
-      },
-      "apiServer": "${apiServer address}",
-      "brand": {
+    },
+    "apiServer": "${apiServer address}",
+    "brand": {
         "name": "${brand name}",
         "id": "${brand id}"
-      },
-      "user": {
+    },
+    "user": {
         "username": "${RingCentral sandbox account username}",
         "extension": "${RingCentral sandbox account extension}",
         "password": "${RingCentral sandbox account password}"
-      }
+    }
     }
     ```
-3. Run test
 
-    ```bash
-    npm run test
-    ```
-
-Coding Style
----
+#Coding Style
 
 Please refer to [airbnb/javascript](https://github.com/airbnb/javascript).
 We will use the recommended linter settings and jscs settings, and adjust as we progress.
 
 Also refer to .eslintrc for our own overrides.
 
-Linting
+#Linting
+
+Run linter from commandline:
 ---
 
-1. Run linter from commandline:
-    ```bash
-    npm run eslint
-    ```
+```bash
+npm run eslint
+```
+Linter in Editors:
+---
 
-2. Linter in sublime
+```bash
+npm install -g eslint babel-eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react
+```
 
-    ```bash
-    npm install -g eslint babel-eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react 
-    ```
-    
+1. SublimeText
+
     Install sublime package control from [packagecontrol.io](https://packagecontrol.io/installation)
-    
-    In sublime install SublimeLinter and SublimeLinter-contrib-eslint.
-    
+
+    Required Packages:
+        * SublimeLinter
+        * SublimeLinter-contrib-eslint
+        * EditorConfig
+    Recommended Pakcages:
+        * Babel
+        * GitGutter
+
     Linting should happen on file write.
 
+2. VSCode
 
+    Required Extensions:
+        * ESLint
+        * EditorConfig for VS Code
+    Recommended Extensions:
+        * Babel ES6/ES7
+
+    The linting errors and warnings should show as ~~~ under the code.
+
+
+#Tests
+
+Run all tests:
+```bash
+npm run test
+```
+
+Run tests in specific test folder:
+```bash
+npm run test -- --folder folder1 --folder folder2
+npm run test -- --folder folder1,folder2,path/inside/test
+```
+Both multiple --folder declaration, or comma-delimmated list will work.
+
+#Contribution
 
 Please fork and contribute via PR.
