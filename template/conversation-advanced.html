@@ -331,11 +331,7 @@ w.register(function() {
                     return
                 this.isLoading = true
                 this.props.dom.loading.classList.remove('display-none')
-                return finish().then(result => {
-                    this.isLoading = false
-                    this.props.dom.loading.classList.add('display-none')
-                    return result
-                })
+                return finish()
             },
             after: function(messages) {
                 if (messages) {
@@ -344,6 +340,9 @@ w.register(function() {
                     this.prependMessages(messages, false)
                     this.props.dom.container.scrollTop = 
                     this.props.dom.conversations.offsetHeight - scrollBottom
+
+                    this.isLoading = false
+                    this.props.dom.loading.classList.add('display-none')
                 }
             }
         },
@@ -407,7 +406,7 @@ w.register(function() {
             },
             method: function(finish, messages, scroll) {
                 this.props.contact.msg = this.props.contact.msg || []
-                this.props.contact.msg = this.props.contact.msg.concat(messages)
+                // this.props.contact.msg = this.props.contact.msg.concat(messages)
                 if (messages) this.parseMessages(messages, true)
             },
             after: function(messages, scroll = true) {

@@ -909,12 +909,11 @@ var conversationService = function (sdk) {
         },
         loadContent: function loadContent(contact, offset) {
             return Promise.all([getCallLogsByNumber(contact, offset), getMessagesByNumber(contact, offset)]).then(function (result) {
-                return combine.apply(undefined, _toConsumableArray(result));
-            }).then(function (msgs) {
-                return msgs.map(adaptMessage);
-            }).then(sortTime).then(function (msgs) {
+                return combineContent.apply(undefined, _toConsumableArray(result));
+            }).then(function (contents) {
+                contact.msg = contents.concat(contact.msg);
                 cachedHour += offset;
-                return msgs;
+                return contents;
             });
         },
         onConversationUpdate: function onConversationUpdate(handler) {

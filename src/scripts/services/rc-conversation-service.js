@@ -216,12 +216,11 @@ var conversationService = (function(sdk) {
                         getCallLogsByNumber(contact, offset),
                         getMessagesByNumber(contact, offset)
                     ])
-                    .then(result => combine(...result))
-                    .then(msgs => msgs.map(adaptMessage))
-                    .then(sortTime)
-                    .then(msgs => {
+                    .then(result => combineContent(...result))
+                    .then(contents => {
+                        contact.msg = contents.concat(contact.msg)
                         cachedHour += offset
-                        return msgs
+                        return contents
                     })
         },
         onConversationUpdate: function(handler) {
