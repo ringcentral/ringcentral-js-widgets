@@ -1591,11 +1591,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-conversation__container {
     display: flex;
-    flex-direction: column;/* Adjust all conversation related font size */
+    flex-direction: column;
     font-size: .8em;
     transition: transform .2s ease-in;
 }
-.rc-conversation__content {/*display: flex;*//*flex: 1;*//*flex-direction: column;*//*justify-content: flex-end;*/
+.rc-conversation__content {
     overflow: auto;
     height: 100%;
 }

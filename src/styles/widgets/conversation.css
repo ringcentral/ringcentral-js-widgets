@@ -10,15 +10,10 @@ $conversation-bubble-marked-color: #eee;
     &__container {
         display: flex;
         flex-direction: column;
-        /* Adjust all conversation related font size */
         font-size: .8em;
         transition: transform .2s ease-in;
     }
     &__content {
-        /*display: flex;*/
-        /*flex: 1;*/
-        /*flex-direction: column;*/
-        /*justify-content: flex-end;*/
         overflow: auto;
         height: 100%;
     }

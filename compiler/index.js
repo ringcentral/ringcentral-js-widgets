@@ -24,14 +24,18 @@ function start() {
     file.writeFile(GLOBAL_PREFIX, true)
     // TODO
     file.readFiles(function(content, id) {
-        transform(compile(content)).then(output => {
+        var content = compile(content)
+        return transform(content, {
+            widgetId: id,
+            scopedStyle: content.options.scopedStyle
+        }).then(output => {
             var prefix = `__w_widgets['${id}'] = `
             var postfix = ';\n'
             file.writeFile(prefix + JSON.stringify(output) + postfix)
         }).catch(e => console.error(e))
     })
     file.writeFile(GLOBAL_POSTFIX, false)
-
+    // file.removeFile('__w_temp.js')
 }
 watch(path.resolve(__dirname) + '/../template', start)
 start()

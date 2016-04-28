@@ -96,7 +96,6 @@ function initNestedWidget(widget) {
 const WIDGETS = __w_widgets
 function w(name, options = {}) {
     var widget = WIDGETS[name]
-
     // template
     var template = document.createElement('template')
     template.innerHTML = widget.template
@@ -133,6 +132,7 @@ function w(name, options = {}) {
     
 
     return initNestedWidget(new w.templates[name].widget({
+        is: name,
         template: w.templates[name].template.cloneNode(true),
         actions: options.actions || {},
         data: options.data || {},

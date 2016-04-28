@@ -26,25 +26,31 @@ function widget({actions, data = {}}, options) {
         return Error('You are trying to construct a widget manually, please use w()')
     }
     var defaultActions = shallowCopy(actions)
+    var ctx = this
     options.actions = shallowCopy(options.actions)
     this.props = {}
     this.custom = {}
     this.children = []
     this.data = Object.assign(data, options.data)
     logger = initLogger(options.logLevel)
-    Object.keys(defaultActions).forEach(index => {
-        defaultActions[index] = bindScope(this, defaultActions[index])
-    })
-    Object.keys(options.actions).forEach(index => {
-        options.actions[index] = bindScope(this, options.actions[index])
-    })
-    Object.keys(defaultActions).forEach(index => {
-        this[index] =
-            generateActions(defaultActions[index], options.actions[index], index)
-    })
-    this.props.dom = generateDocument(this, options.template)
-    this.props.root = getDocumentRoot(options.template)
-    this.props.template = options.template
+    Object.keys(options.actions).forEach(index => bindToTarget(options.actions, index))
+    Object.keys(defaultActions).forEach(index => bindToTarget(defaultActions, index))
+
+    for (let prop in defaultActions) {
+        if (defaultActions.hasOwnProperty(prop))
+            this[prop] =
+                generateActions(defaultActions[prop], options.actions[prop], prop)
+    }
+
+    function bindToTarget(target, index) {
+        target[index] = bindScope(ctx, target[index])
+    }
+    var container = document.createElement(options.is)
+    container.appendChild(options.template)
+
+    this.props.dom = generateDocument(this, container)
+    this.props.root = getDocumentRoot(container)
+    this.props.template = container
     this.mount =
         generateActions({
             before: defaultActions.mount.before,
@@ -95,13 +101,10 @@ function widget({actions, data = {}}, options) {
                 target.appendChild(this.target)
         } else {
             // First time mount
-            this.children.forEach(child => {
-                child.widget.mount(child.target)
-            })
+            this.children.forEach(child => child.widget.mount(child.target))
             // templates can only have one root
             this.target = shallowCopy(
-              Array.from(template.childNodes)
-                  .filter(node => node.nodeType === 1)
+                Array.from(template.childNodes).filter(node => node.nodeType === 1)
             )[0]
             if (prepend)
                 target.insertBefore(template, target.firstChild)

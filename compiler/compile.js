@@ -10,6 +10,9 @@ function compile(content) {
         imports: {
             scripts: [],
             styles: []
+        },
+        options: {
+            scopedStyle: false
         }
     }
     fragment.childNodes.forEach(node => {
@@ -34,6 +37,8 @@ function compile(content) {
             if (src) {
                 output.imports.styles.push(src)
             } else {
+                if (getAttribute(node, 'scoped') != null)
+                    output.options.scopedStyle = true
                 var start = node.__location.startTag.endOffset
                 var end = node.__location.endTag.startOffset
                 var style = output.style = extract(content, start, end)

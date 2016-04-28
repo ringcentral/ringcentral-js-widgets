@@ -1237,8 +1237,6 @@ function register$2() {
 }
 
 function widget(_ref2, options) {
-    var _this = this;
-
     var actions = _ref2.actions;
     var _ref2$data = _ref2.data;
     var data = _ref2$data === undefined ? {} : _ref2$data;
@@ -1247,24 +1245,33 @@ function widget(_ref2, options) {
         return Error('You are trying to construct a widget manually, please use w()');
     }
     var defaultActions = shallowCopy(actions);
+    var ctx = this;
     options.actions = shallowCopy(options.actions);
     this.props = {};
     this.custom = {};
     this.children = [];
     this.data = Object.assign(data, options.data);
     logger = initLogger(options.logLevel);
-    Object.keys(defaultActions).forEach(function (index) {
-        defaultActions[index] = bindScope(_this, defaultActions[index]);
-    });
     Object.keys(options.actions).forEach(function (index) {
-        options.actions[index] = bindScope(_this, options.actions[index]);
+        return bindToTarget(options.actions, index);
     });
     Object.keys(defaultActions).forEach(function (index) {
-        _this[index] = generateActions(defaultActions[index], options.actions[index], index);
+        return bindToTarget(defaultActions, index);
     });
-    this.props.dom = generateDocument(this, options.template);
-    this.props.root = getDocumentRoot(options.template);
-    this.props.template = options.template;
+
+    for (var prop in defaultActions) {
+        if (defaultActions.hasOwnProperty(prop)) this[prop] = generateActions(defaultActions[prop], options.actions[prop], prop);
+    }
+
+    function bindToTarget(target, index) {
+        target[index] = bindScope(ctx, target[index]);
+    }
+    var container = document.createElement(options.is);
+    container.appendChild(options.template);
+
+    this.props.dom = generateDocument(this, container);
+    this.props.root = getDocumentRoot(container);
+    this.props.template = container;
     this.mount = generateActions({
         before: defaultActions.mount.before,
         method: mount.bind(this, defaultActions.mount.method, this.props.template),
@@ -1307,7 +1314,7 @@ function widget(_ref2, options) {
         } else {
             // First time mount
             this.children.forEach(function (child) {
-                child.widget.mount(child.target);
+                return child.widget.mount(child.target);
             });
             // templates can only have one root
             this.target = shallowCopy(Array.from(template.childNodes).filter(function (node) {
@@ -1958,7 +1965,6 @@ function w(name) {
     var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
     var widget = WIDGETS[name];
-
     // template
     var template = document.createElement('template');
     template.innerHTML = widget.template;
@@ -1994,6 +2000,7 @@ function w(name) {
     }
 
     return initNestedWidget(new w.templates[name].widget({
+        is: name,
         template: w.templates[name].template.cloneNode(true),
         actions: options.actions || {},
         data: options.data || {},

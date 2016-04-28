@@ -10,8 +10,7 @@ function readFiles(cb) {
     dir.readFiles(p,
     function(err, content, filename, next) {
         if (err) throw err
-        cb(content, path.basename(filename).split('.')[0])
-        next()
+        cb(content, path.basename(filename).split('.')[0]).then(next())
     },
     function(err, files) {
         if (err) throw err
@@ -32,5 +31,10 @@ function writeFile(content, override) {
             }
         })
 }
+
+function removeFile(path) {
+    fs.unlink(path)
+}
 exports.readFiles = readFiles
 exports.writeFile = writeFile
+exports.removeFile = removeFile
