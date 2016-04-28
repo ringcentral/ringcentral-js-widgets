@@ -337,7 +337,9 @@ w.register(function() {
                 if (messages) {
                     // maintain the scoll position
                     var scrollBottom = this.props.dom.conversations.offsetHeight
-                    this.prependMessages(messages, false)
+                    // We prepend the messages, so the order is reversed,
+                    // and we don't want to modify the original msgs, so shallow copy first
+                    this.prependMessages(messages.slice().reverse(), false)
                     this.props.dom.container.scrollTop = 
                     this.props.dom.conversations.offsetHeight - scrollBottom
 
@@ -367,7 +369,7 @@ w.register(function() {
             method: function(finish, messages, prepend) {
                 messages
                     .map(msg => {
-                        var time = new Date(msg.lastModifiedTime)
+                        var time = new Date(msg.time)
                         msg.displayTime = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
                         msg.status.sendConfirmed = true
                         msg.status.receiveConfirmed = true
@@ -382,11 +384,14 @@ w.register(function() {
                                 msg.displayTime,
                                 prepend
                             )
-                            var date = new Date(msg.lastModifiedTime).getDate()
-                            var month = new Date(msg.lastModifiedTime).getMonth() + 1
-                            if (date > this.convDate)
+                            var time = new Date(msg.time)
+                            var date = time.getDate()
+                            var month = time.getMonth() + 1
+                            if ((!prepend && date > this.props.convDate && month >= this.props.convMonth) ||
+                                (prepend && date < this.props.convDate && month <= this.props.convMonth))
                                 this.addTimestamp(month + '/' + date, prepend)
-                            this.convDate = new Date(msg.lastModifiedTime).getDate()
+                            this.props.convDate = date
+                            this.props.convMonth = month
                         }
                     )
             }

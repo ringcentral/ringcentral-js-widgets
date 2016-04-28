@@ -911,6 +911,7 @@ var conversationService = function (sdk) {
             return Promise.all([getCallLogsByNumber(contact, offset), getMessagesByNumber(contact, offset)]).then(function (result) {
                 return combineContent.apply(undefined, _toConsumableArray(result));
             }).then(function (contents) {
+                console.log(contents);
                 contact.msg = contents.concat(contact.msg);
                 cachedHour += offset;
                 return contents;

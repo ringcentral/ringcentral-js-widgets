@@ -218,6 +218,7 @@ var conversationService = (function(sdk) {
                     ])
                     .then(result => combineContent(...result))
                     .then(contents => {
+                        console.log(contents);
                         contact.msg = contents.concat(contact.msg)
                         cachedHour += offset
                         return contents
