@@ -29,6 +29,7 @@ function widget({actions, data = {}}, options) {
     options.actions = shallowCopy(options.actions)
     this.props = {}
     this.custom = {}
+    this.children = []
     this.data = Object.assign(data, options.data)
     logger = initLogger(options.logLevel)
     Object.keys(defaultActions).forEach(index => {
@@ -87,11 +88,16 @@ function widget({actions, data = {}}, options) {
             logger.warn('first argument of mount method should be selector string')
         }
         if (this.target) {
+            // Already mounted before
             if (prepend)
                 target.insertBefore(this.target, target.firstChild)
             else
                 target.appendChild(this.target)
         } else {
+            // First time mount
+            this.children.forEach(child => {
+                child.widget.mount(child.target)
+            })
             // templates can only have one root
             this.target = shallowCopy(
               Array.from(template.childNodes)

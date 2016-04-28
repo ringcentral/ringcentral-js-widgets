@@ -1250,6 +1250,7 @@ function widget(_ref2, options) {
     options.actions = shallowCopy(options.actions);
     this.props = {};
     this.custom = {};
+    this.children = [];
     this.data = Object.assign(data, options.data);
     logger = initLogger(options.logLevel);
     Object.keys(defaultActions).forEach(function (index) {
@@ -1301,8 +1302,13 @@ function widget(_ref2, options) {
             logger.warn('first argument of mount method should be selector string');
         }
         if (this.target) {
+            // Already mounted before
             if (prepend) target.insertBefore(this.target, target.firstChild);else target.appendChild(this.target);
         } else {
+            // First time mount
+            this.children.forEach(function (child) {
+                child.widget.mount(child.target);
+            });
             // templates can only have one root
             this.target = shallowCopy(Array.from(template.childNodes).filter(function (node) {
                 return node.nodeType === 1;
@@ -1890,7 +1896,11 @@ function initNestedWidget(widget) {
             }
             var name = doc.tagName.toLowerCase();
             var child = w(name, widget.custom[name]);
-            child.mount(doc);
+            // child.mount(doc)
+            widget.children.push({
+                target: doc,
+                widget: child
+            });
             var childName = doc.getAttribute('data-info');
             if (childName) widget.props[childName] = child;
         }
