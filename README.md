@@ -97,12 +97,14 @@ Run all tests:
 npm run test
 ```
 
-Run tests in specific test folder:
+Run tests in specific test folder or file:
 ```bash
-npm run test -- --folder folder1 --folder folder2
-npm run test -- --folder folder1,folder2,path/inside/test
+npm run test -- --folder folder1 --folder folder2,folder3
+npm run test -- --folder test/unit
+
+npm run test -- --file test/unit/enum.js
 ```
-Both multiple --folder declaration, or comma-delimmated list will work.
+Both multiple --folder/--file declaration, or comma-delimmated list will work too.
 
 #Contribution
 

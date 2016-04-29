@@ -9,22 +9,40 @@ const argv = yargs.argv;
 
 function getTestSources() {
   const src = new Set();
-  if (!argv.folder) {
-    src.add('test/**/*.js');
-  } else if (Array.isArray(argv.folder)) {
-    argv.folder.forEach(str => {
-      str.split(',').forEach(f => {
-        src.add(`test/${f}/**/*.js`);
+
+  // check --folder
+  if (argv.folder) {
+    if (Array.isArray(argv.folder)) {
+      argv.folder.forEach(str => {
+        str.split(',').forEach(f => {
+          src.add(`${f}/**/*.js`);
+        });
       });
-    });
-  } else {
-    argv.folder.split(',').forEach(f => {
-      src.add(`test/${f}/**/*.js`);
-    });
+    } else {
+      argv.folder.split(',').forEach(f => {
+        src.add(`${f}/**/*.js`);
+      });
+    }
   }
 
-  let folders = argv.folder || '';
-  if (!Array.isArray(folders)) folders = [folders];
+  // check --file
+  if (argv.file) {
+    if (Array.isArray(argv.file)) {
+      argv.file.forEach(str => {
+        str.split(',').forEach(f => {
+          src.add(f);
+        });
+      });
+    } else {
+      argv.file.split(',').forEach(f => {
+        src.add(f);
+      });
+    }
+  }
+
+  if (!src.size) {
+    src.add('test/**/*.js');
+  }
 
   return [...src];
 }
@@ -32,24 +50,24 @@ function getTestSources() {
 
 gulp.task('pre-coverage', () => (
   gulp.src('src/**/*.js')
-  .pipe(istanbul({
-    includeUntested: true,
-    instrumenter: babelIstanbul.Instrumenter,
-  }))
-  .pipe(istanbul.hookRequire())
+    .pipe(istanbul({
+      includeUntested: true,
+      instrumenter: babelIstanbul.Instrumenter,
+    }))
+    .pipe(istanbul.hookRequire())
 ));
 
 gulp.task('coverage', ['pre-coverage'], () => (
   gulp.src('test/**/*.js')
-  .pipe(mocha({
-    timeout: TIMEOUT,
-  }))
-  .pipe(istanbul.writeReports())
+    .pipe(mocha({
+      timeout: TIMEOUT,
+    }))
+    .pipe(istanbul.writeReports())
 ));
 
 gulp.task('test', () => (
   gulp.src(getTestSources())
-  .pipe(mocha({
-    timeout: TIMEOUT,
-  }))
+    .pipe(mocha({
+      timeout: TIMEOUT,
+    }))
 ));
