@@ -61,12 +61,12 @@ w.register(function(){
             },
             after: function(contact) {
                 if(contact) {
-                    this.props.dom.displayName.textContent = contact.displayName;
-                    createEmailElements(this.props.dom.emails, contact);
-                    createPhoneNumberElements(this.props.dom.phoneNumbers, contact);
+                    this.dom.displayName.textContent = contact.displayName;
+                    createEmailElements(this.dom.emails, contact);
+                    createPhoneNumberElements(this.dom.phoneNumbers, contact);
                 }
-                fade.init(this.props.root);
-                fade.in(this.props.root);
+                fade.init(this.root);
+                fade.in(this.root);
             }
         }
     };

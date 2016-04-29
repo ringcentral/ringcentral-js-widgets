@@ -118,7 +118,7 @@ w.register(function() {
         after: function() {
             var dialPad = this;
             var { color, lang, logo } = this.data
-            this.props.dom.header.style['background-color'] = color || '#fff'
+            this.dom.header.style['background-color'] = color || '#fff'
             w.customize(this, 'contact-picker', {
                 actions: {
                     autoComplete: {
@@ -153,7 +153,7 @@ w.register(function() {
         after: function() {
             this.props['dropdown'].getData();
             this.props['contact-picker'].focus();
-            // fade.in(this.props.root);
+            // fade.in(this.root);
         }
     }
     this.actions.dialing = {
@@ -172,7 +172,7 @@ w.register(function() {
     }
     this.actions.callout = {
         before: function() {
-            this.props.dom.callout.classList.add('--active')
+            this.dom.callout.classList.add('--active')
         },
         method: function(finish) {
             // TODO: Do some basic validation.
@@ -182,10 +182,10 @@ w.register(function() {
             return finish(this.props.fromNumber, this.props.toNumber);
         },
         after: function() {
-            setTimeout(() => this.props.dom.callout.classList.remove('--active'), 1000)
+            setTimeout(() => this.dom.callout.classList.remove('--active'), 1000)
         },
         error: function(err) {
-            this.props.dom.callout.classList.remove('--active')
+            this.dom.callout.classList.remove('--active')
         }
     }
     this.actions.disable = {
@@ -193,8 +193,8 @@ w.register(function() {
             return finish();
         },
         after: function() {
-            this.props.dom['disabled-mask'].classList.remove('display-none');
-            this.props.dom['container'].classList.add('blur');
+            this.dom['disabled-mask'].classList.remove('display-none');
+            this.dom['container'].classList.add('blur');
         }
     }
     this.actions.getOutboundCallerID = {

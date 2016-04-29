@@ -4,6 +4,7 @@ import { getActions } from './action'
 import { transitionIn, transitionOut, transitionInit, transitionToggle } from './transition'
 import { ensureTail } from './util/index'
 import { loadLocale, translate } from './translation'
+import { insert } from './insertion'
 // function fetchWidget(file) {
 //     return fetch(w.options.path + ensureTail(file, '.html'))
 //         .then(response => response.text())
@@ -26,8 +27,8 @@ import { loadLocale, translate } from './translation'
 // }
 
 function initNestedWidget(widget) {
-    var template = widget.props.template
-    var docs = template.querySelectorAll('*')
+    var fragment = widget.props.fragment
+    var docs = fragment.querySelectorAll('*')
     Array.from(docs).forEach(doc => {
         if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
             if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
@@ -95,45 +96,46 @@ function initNestedWidget(widget) {
 
 const WIDGETS = __w_widgets
 function w(name, options = {}) {
-    var widget = WIDGETS[name]
+    var widgetInfo = WIDGETS[name]
     // template
-    var template = document.createElement('template')
-    template.innerHTML = widget.template
-    var clone = document.importNode(template.content, true)
+    // var template = document.createElement('template')
+    // template.innerHTML = widget.template
+    // var clone = document.importNode(template.content, true)
     w.templates[name] = w.templates[name] || {}
-    w.templates[name].template = clone
+    w.templates[name].template = widgetInfo.template
 
-    widget.imports.scripts.forEach(src => {
-        var script = document.createElement('script')
-        script.src = src
-        document.body.appendChild(script)
-    })
+    // widget.imports.scripts.forEach(src => {
+    //     var script = document.createElement('script')
+    //     script.src = src
+    //     document.body.appendChild(script)
+    // })
 
-     widget.imports.scripts.forEach(src => {
-        var style = document.createElement('style')
-        style.src = src
-        document.head.appendChild(style)
-    })
+    //  widget.imports.scripts.forEach(src => {
+    //     var style = document.createElement('style')
+    //     style.src = src
+    //     document.head.appendChild(style)
+    // })
 
-    // script
-    if (widget.script) {
-        var script = document.createElement('script')
-        script.text = widget.script
-        document.body.appendChild(script)
-        document.body.removeChild(script)
-    }
+    // // script
+    // if (widget.script) {
+    //     console.log(widget.script)
+    //     var script = document.createElement('script')
+    //     script.text = widget.script
+    //     document.body.appendChild(script)
+    //     document.body.removeChild(script)
+    // }
     
-    // style
-    if (widget.style) {
-        var style = document.createElement('style')
-        style.innerHTML = widget.style
-        document.head.appendChild(style)
-    }
-    
+    // // style
+    // if (widget.style) {
+    //     var style = document.createElement('style')
+    //     style.innerHTML = widget.style
+    //     document.head.appendChild(style)
+    // }
+    insert(name, widgetInfo)
 
-    return initNestedWidget(new w.templates[name].widget({
+    return (new w.templates[name].widget({
         is: name,
-        template: w.templates[name].template.cloneNode(true),
+        template: w.templates[name].template,
         actions: options.actions || {},
         data: options.data || {},
         logLevel: w.options.logLevel,

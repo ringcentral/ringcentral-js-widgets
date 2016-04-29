@@ -39,7 +39,7 @@ w.register(function() {
             },
             after: function() {
                 window.addEventListener('click', (e) => {
-                    if (e.target !== this.props.dom.input && !e.target.classList.contains('candidate')) {
+                    if (e.target !== this.dom.input && !e.target.classList.contains('candidate')) {
                         this.hide();
                     }
                 });
@@ -47,7 +47,7 @@ w.register(function() {
         },
         hide: {
             after: function() {
-                this.props.dom.candidates.classList.add('display-none');
+                this.dom.candidates.classList.add('display-none');
                 if (this.showingTimeout) {
                     window.clearTimeout(this.showingTimeout);
                     this.showingTimeout = null;
@@ -59,15 +59,15 @@ w.register(function() {
                 if (this.showingTimeout) 
                     return;
                 this.showingTimeout = window.setTimeout(() => {
-                    if (this.props.dom.input === document.activeElement)
-                        this.props.dom.candidates.classList.remove('display-none');
+                    if (this.dom.input === document.activeElement)
+                        this.dom.candidates.classList.remove('display-none');
                 }, 300);
             }
         },
         appendInput: {
             before: function(value) {
-                this.props.dom.input.value += value;
-                this.props.dom.input.focus();
+                this.dom.input.value += value;
+                this.dom.input.focus();
             }
         },
         autoComplete: {
@@ -78,20 +78,20 @@ w.register(function() {
             after: function(candidates) {
                 if (!candidates)
                     return;
-                while (this.props.dom.candidates.firstChild)
-                    this.props.dom.candidates.removeChild(this.props.dom.candidates.firstChild);
+                while (this.dom.candidates.firstChild)
+                    this.dom.candidates.removeChild(this.dom.candidates.firstChild);
                 if (candidates.length > 0)
                     this.show();
                 else
                     this.hide();
                 candidates.forEach(candidate => {
-                    var template = this.props.dom['candidate-template'].cloneNode(true);
+                    var template = this.dom['candidate-template'].cloneNode(true);
                     template.addEventListener('click', (e) => {
-                        this.props.dom.input.value = template.textContent;
+                        this.dom.input.value = template.textContent;
                         this.hide();
                     });
                     template.textContent = candidate.from.phoneNumber;
-                    this.props.dom.candidates.appendChild(template);
+                    this.dom.candidates.appendChild(template);
                 })
             }
         }

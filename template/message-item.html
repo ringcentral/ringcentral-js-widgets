@@ -20,12 +20,12 @@ w.register(function(){
         },
         after:function(item) {
             if(item.readStatus === 'Unread'){
-                this.props.dom.icon.classList.add('--not-read');
-                this.props.dom.contact.classList.add('--not-read');
+                this.dom.icon.classList.add('--not-read');
+                this.dom.contact.classList.add('--not-read');
             }
-            this.props.dom.icon.classList.add("--" + item.type.toLowerCase());
-            this.props.dom.time.textContent = item.time;
-            this.props.dom.contact.textContent = item.contact;
+            this.dom.icon.classList.add("--" + item.type.toLowerCase());
+            this.dom.time.textContent = item.time;
+            this.dom.contact.textContent = item.contact;
         }
     };
     this.actions.setShortText = {
@@ -33,7 +33,7 @@ w.register(function(){
             return finish();
         },
         after: function(text){
-            this.props.dom.text.textContent = text;
+            this.dom.text.textContent = text;
         }  
     };
     this.actions.open = {

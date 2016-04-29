@@ -89,23 +89,23 @@ function init() {
             },
             focusSearchBox: {
                 after: function() {
-                    contacts.mount(this.props.dom.mask)
-                    this.props.dom.mask.classList.remove('display-none')
-                    this.props.dom.timeline.classList.add('display-none')
+                    contacts.mount(this.dom.mask)
+                    this.dom.mask.classList.remove('display-none')
+                    this.dom.timeline.classList.add('display-none')
                 }
             },
             blurSearchBox: {
                 after: function() {
                     setTimeout(() => {
                         contacts.unmount()
-                        this.props.dom.mask.classList.add('display-none')
-                        this.props.dom.timeline.classList.remove('display-none')
+                        this.dom.mask.classList.add('display-none')
+                        this.dom.timeline.classList.remove('display-none')
                     }, 100)
                 }
             },
             search: {
                 method: function() {
-                    contacts.props.dom.searchText.value = this.props.dom.searchText.value 
+                    contacts.props.dom.searchText.value = this.dom.searchText.value 
                     contacts.search()
                 }
             },
@@ -221,17 +221,17 @@ var cacheContacts = (function() {
    
     return function() {
         var fetch
-        // var fetch = new Promise((resolve, reject) => {
-        // // Hack for delay the refreshing request
-        //   setTimeout(() => {
-        //     rcContactService.completeCompanyContact()
-        //     .then(data => {
-        //         if (data)
-        //             localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
-        //         return resolve(data)
-        //     })
-        //   }, 100)
-        // })
+        var fetch = new Promise((resolve, reject) => {
+        // Hack for delay the refreshing request
+          setTimeout(() => {
+            rcContactService.completeCompanyContact()
+            .then(data => {
+                if (data)
+                    localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
+                return resolve(data)
+            })
+          }, 100)
+        })
         if (contact)
             return contact
         contact = data? Promise.resolve(JSON.parse(LZString.decompressFromUTF16(data))): fetch

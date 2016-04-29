@@ -11,8 +11,8 @@ w.register(function() {
             },
             after: function(contact){
                 this.props.contact = contact;
-                this.props.dom.name.textContent = contact.name;
-                this.props.dom.value.textContent = contact.value;
+                this.dom.name.textContent = contact.name;
+                this.dom.value.textContent = contact.value;
             }
         },
         select: {

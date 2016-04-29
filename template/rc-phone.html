@@ -543,9 +543,9 @@ var phone = w.register(function() {
                             this.props.contactDetail.destroy();
                             this.props.contactDetail = null;
                         }
-                        this.props.dom.container.style.transform = `translateX(${0 - index * 250}px)`;
-                        this.props.dom.container.removeEventListener('transitionend', h)
-                        this.props.dom.container.addEventListener('transitionend', h)
+                        this.dom.container.style.transform = `translateX(${0 - index * 250}px)`;
+                        this.dom.container.removeEventListener('transitionend', h)
+                        this.dom.container.addEventListener('transitionend', h)
                         source.mount(target);
                         var h = e => {
                             this.props.panels.filter((p,idx) => idx !== index).forEach(p => p.unmount())

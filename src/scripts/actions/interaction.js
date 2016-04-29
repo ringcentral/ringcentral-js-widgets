@@ -3,21 +3,21 @@ var interaction = {
     show: {
         before: function() {},
         method: function(finish) {},
-        after: function(target = this.props.root) {
+        after: function(target = this.root) {
             target.classList.remove('display-none')
         }
     },
     hide: {
         before: function() {},
         method: function(finish) {},
-        after: function(target = this.props.root) {
+        after: function(target = this.root) {
             target.classList.add('display-none')
         }
     },
     diabled: {
         before: function() {},
         method: function(finish) {},
-        after: function(target = this.props.root, message) {
+        after: function(target = this.root, message) {
             var mask = document.createElement('div')
             // FIXME Decouple from rc
             mask.classList.add('rc-mask')

@@ -52,8 +52,11 @@ function shallowCopy(target) {
 function assign(target, name, source) {
     var tmp = {}
     tmp[name] = source
-    Object.assign(tmp)
-    return target
+    return Object.assign(target, tmp)
+}
+
+function find(array, prop, value) {
+    return array.find(item => item[prop] === value)
 }
 
 export {
@@ -63,5 +66,6 @@ export {
     toFunction,
     shallowCopy,
     ensureTail,
-    assign
+    assign,
+    find
 }

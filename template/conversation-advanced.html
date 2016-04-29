@@ -301,7 +301,7 @@ w.register(function() {
                 // Fake contact
                 if (!currentContact.profileImage) {
                     var hash = md5(currentContact.id)
-                    this.props.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
+                    this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
                     return
                 }
 
@@ -314,28 +314,28 @@ w.register(function() {
                     console.log(r)
                     if (r.status === 204 || r.status === 404) {
                         var hash = md5(currentContact.id)
-                        this.props.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
+                        this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
                     } else {
                         // Real contact, has avatar
-                        this.props.dom['profile-img'].src = 
+                        this.dom['profile-img'].src = 
                             currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
                     }
                 })
                 .catch(e => {
                     // Real contact, no avatar
                     var hash = md5(currentContact.id)
-                    this.props.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
+                    this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
                 })
             },
             after: function() {
-                this.props.dom.input.value = this.data.message || ''
-                fade.init(this.props.root)
-                fade.in(this.props.root)
+                this.dom.input.value = this.data.message || ''
+                fade.init(this.root)
+                fade.in(this.root)
             }
         },
         setTitle: {
             after: function(text) {
-                this.props.dom.header.textContent = text
+                this.dom.header.textContent = text
             }
         },
         enter: {
@@ -349,8 +349,8 @@ w.register(function() {
         send: {
             before: function() {
                 // send messages on UI
-                this.props.message = this.props.dom.input.value
-                this.props.dom.input.value = ''
+                this.props.message = this.dom.input.value
+                this.dom.input.value = ''
                 var date = new Date()
                 var bubble = this.addBubble(
                     null,
@@ -392,11 +392,11 @@ w.register(function() {
                 }
                 
                 if (prepend) {
-                    this.props.dom.conversations.insertBefore(doc, this.props.dom.conversations.firstChild)
+                    this.dom.conversations.insertBefore(doc, this.dom.conversations.firstChild)
                 } else {
-                    this.props.dom.conversations.appendChild(doc)
+                    this.dom.conversations.appendChild(doc)
                 }
-                return this.props.dom.conversations.lastChild;
+                return this.dom.conversations.lastChild;
             }
         },
         markBubble: {
@@ -408,11 +408,11 @@ w.register(function() {
                     var toNumber = model.to
                     if (this.props.contact.extension == fromNumber || 
                         this.props.fromNumbers.indexOf(fromNumber) > -1) {
-                        this.props.dom['from-number'].textContent = fromNumber
-                        this.props.dom['to-number'].textContent = toNumber
+                        this.dom['from-number'].textContent = fromNumber
+                        this.dom['to-number'].textContent = toNumber
                     } else {
-                        this.props.dom['from-number'].textContent = toNumber
-                        this.props.dom['to-number'].textContent = fromNumber
+                        this.dom['from-number'].textContent = toNumber
+                        this.dom['to-number'].textContent = fromNumber
                     }
                     this.props.contact.msg
                     .filter(contact =>
@@ -431,11 +431,11 @@ w.register(function() {
                     var toNumber = model.to
                     if (this.props.contact.extension == fromNumber || 
                         this.props.fromNumbers.indexOf(fromNumber) > -1) {
-                        this.props.dom['from-number'].textContent = fromNumber
-                        this.props.dom['to-number'].textContent = toNumber
+                        this.dom['from-number'].textContent = fromNumber
+                        this.dom['to-number'].textContent = toNumber
                     } else {
-                        this.props.dom['from-number'].textContent = toNumber
-                        this.props.dom['to-number'].textContent = fromNumber
+                        this.dom['from-number'].textContent = toNumber
+                        this.dom['to-number'].textContent = fromNumber
                     }
                     
                     this.props.contact.msg
@@ -518,21 +518,21 @@ w.register(function() {
                 if (this.isLoading)
                     return
                 this.isLoading = true
-                this.props.dom.loading.classList.remove('display-none')
+                this.dom.loading.classList.remove('display-none')
                 return finish()
             },
             after: function(messages) {
                 if (messages) {
                     // maintain the scoll position
-                    var scrollBottom = this.props.dom.conversations.offsetHeight
+                    var scrollBottom = this.dom.conversations.offsetHeight
                     // We prepend the messages, so the order is reversed,
                     // and we don't want to modify the original msgs, so shallow copy first
                     this.prependMessages(messages.slice().reverse(), false)
-                    this.props.dom.container.scrollTop = 
-                    this.props.dom.conversations.offsetHeight - scrollBottom
+                    this.dom.container.scrollTop = 
+                    this.dom.conversations.offsetHeight - scrollBottom
 
                     this.isLoading = false
-                    this.props.dom.loading.classList.add('display-none')
+                    this.dom.loading.classList.add('display-none')
                 }
             }
         },
@@ -545,12 +545,12 @@ w.register(function() {
                                     </div>
                                 </div>`
                 if (prepend)
-                    this.props.dom.conversations.insertBefore(
+                    this.dom.conversations.insertBefore(
                         div.firstChild, 
-                        this.props.dom.conversations.firstChild
+                        this.dom.conversations.firstChild
                     )
                 else
-                    this.props.dom.conversations.appendChild(div.firstChild)
+                    this.dom.conversations.appendChild(div.firstChild)
             }
         },
         parseMessages: {
@@ -655,7 +655,7 @@ w.register(function() {
                 if (this.data.anchorContent &&
                     (anchor = 
                         this.props.contact.msg.find(content => content.id == this.data.anchorContent.id))) {
-                    this.props.dom.container.scrollTop = anchor.dom.offsetTop - anchor.dom.offsetHeight
+                    this.dom.container.scrollTop = anchor.dom.offsetTop - anchor.dom.offsetHeight
                 }
             }
         },
@@ -666,7 +666,7 @@ w.register(function() {
         },
         scrollToBottom: {
             after: function() {
-                this.props.dom.container.scrollTop = this.props.dom.container.scrollHeight
+                this.dom.container.scrollTop = this.dom.container.scrollHeight
             }
         },
         getOutboundCallerID: {
@@ -708,7 +708,7 @@ w.register(function() {
         },
         togglePhoneModal: {
             before: function() {
-                this.props.dom['phone-mask'].classList.toggle('display-none')
+                this.dom['phone-mask'].classList.toggle('display-none')
             }
         },
         back: {

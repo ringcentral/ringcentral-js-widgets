@@ -87,13 +87,13 @@ w.register(function() {
         },
         enableAllCallTab: {
             after: function() {
-                enableTab(this.props.dom.allCallTab, this.props.dom.missedCallTab);
+                enableTab(this.dom.allCallTab, this.dom.missedCallTab);
                 filterWidgetItems(this.props.widgetItems, function() {return true;});
             }
         },
         enableMissedCallTab: {
             after: function() {
-                enableTab(this.props.dom.missedCallTab, this.props.dom.allCallTab);
+                enableTab(this.dom.missedCallTab, this.dom.allCallTab);
                 filterWidgetItems(this.props.widgetItems, function(widget) {
                     if (widget.props.item.result === 'Missed') {
                         return true;

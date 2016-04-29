@@ -1,4 +1,6 @@
 import {initLogger, isThenable, isFunction, toFunction, shallowCopy, assign} from './util/index'
+import { createFragment } from './fragment'
+import lifecycle from './lifecycle'
 var logger
 var functionSet = {
     before: function() {},
@@ -11,111 +13,66 @@ var functionSet = {
 }
 function register({actions, data} = settings) {
     if (!actions)
-        console.warn('Widgets do not have actions defined, maybe you get some typo.');
-    ['init', 'mount', 'unmount', 'destroy', 'error'].forEach(action => {
+        console.warn('Widgets do not have actions defined, maybe you get some typo.')
+
+    ;['init', 'mount', 'unmount', 'destroy', 'error'].forEach(action => {
         actions[action] = Object.assign(
             shallowCopy(functionSet),
             actions[action]
         )
     })
-    return widget.bind(null, {actions, data})
+    return Widget.bind(null, {actions, data})
 }
 
-function widget({actions, data = {}}, options) {
+function Widget({actions, data = {}}, options) {
     if (!options.internal) {
         return Error('You are trying to construct a widget manually, please use w()')
     }
-    var defaultActions = shallowCopy(actions)
-    var ctx = this
-    options.actions = shallowCopy(options.actions)
+    logger = initLogger(options.logLevel)
+
     this.props = {}
     this.custom = {}
     this.children = []
     this.data = Object.assign(data, options.data)
     this._mounted = false
-    logger = initLogger(options.logLevel)
-    Object.keys(options.actions).forEach(index => bindToTarget(options.actions, index))
-    Object.keys(defaultActions).forEach(index => bindToTarget(defaultActions, index))
+    this.fragment = createFragment(options.is, options.template)
+    this.root = getDocumentRoot(options.is, this.fragment)
+    this.dom = undefined
 
-    for (let prop in defaultActions) {
-        if (defaultActions.hasOwnProperty(prop))
+    var actions = shallowCopy(actions)
+    options.actions = shallowCopy(options.actions)
+
+    var ctx = this
+    
+    Object.keys(options.actions).forEach(index => bindToTarget(options.actions, index))
+    Object.keys(actions).forEach(index => bindToTarget(actions, index))
+
+    for (let prop in actions) {
+        if (actions.hasOwnProperty(prop))
             this[prop] =
-                generateActions(defaultActions[prop], options.actions[prop], prop)
+                generateActions(actions[prop], options.actions[prop], prop)
     }
+
+    ['mount', 'unmount', 'destroy'].forEach(action => {
+        this[action] = generateActions({
+            before: actions[action].before,
+            method: extendLifecycle(lifecycle[action].bind(this), actions[action].method),
+            after: actions[action].after
+        }, options.actions[action], action)
+    })
 
     function bindToTarget(target, index) {
         target[index] = bindScope(ctx, target[index])
     }
-    var container = document.createElement(options.is)
-    container.appendChild(options.template)
-
-    this.props.dom = generateDocument(this, container)
-    this.props.root = getDocumentRoot(container)
-    this.props.template = container
-    this.mount =
-        generateActions({
-            before: defaultActions.mount.before,
-            method: mount.bind(this, defaultActions.mount.method, this.props.template),
-            after: defaultActions.mount.after
-        }, options.actions.mount, 'mount')
-    this.unmount =
-        generateActions({
-            before: defaultActions.unmount.before,
-            method: unmount.bind(this, defaultActions.unmount.method),
-            after: defaultActions.unmount.after
-        }, options.actions.unmount, 'unmount')
-    this.destroy =
-        generateActions({
-            before: defaultActions.destroy.before,
-            method: destroy.bind(this, defaultActions.destroy.method),
-            after: defaultActions.destroy.after
-        }, options.actions.destroy, 'destroy')
+    this.dom = generateDocument(this, this.fragment)
     this.init()
+}
 
-    function destroy(widgetdestroy, finish) {
-        this.unmount()
-        // TODO: find out better way to destroy it
-        for (let property in this)
-            this[property] = null
-        if (widgetdestroy && isFunction(widgetdestroy))
-            return widgetdestroy.call(this, finish)
-    }
-
-    function unmount(widgetUnmount, finish) {
-        console.log(this.props.template);
-        if (!this._mounted || !this.props.template || !this.props.template.parentNode)
-            return
-        this.props.template.parentNode.removeChild(this.props.template)
-        this._mounted = false
-        if (widgetUnmount && isFunction(widgetUnmount))
-            return widgetUnmount.call(this, finish)
-    }
-
-    function mount(widgetMount, template, finish, target, prepend) {
-        if (typeof target === 'string') {
-            target = document.querySelector(target)
-        } else {
-            logger.warn('first argument of mount method should be selector string')
-        }
-        if (this._mounted) {
-            // Already mounted before
-            if (prepend)
-                target.insertBefore(this.target, target.firstChild)
-            else
-                target.appendChild(this.target)
-        } else {
-            // First time mount
-            this.children.forEach(child => child.widget.mount(child.target))
-            // templates can only have one root
-            if (prepend)
-                target.insertBefore(template, target.firstChild)
-            else
-                target.appendChild(template)
-            this._mounted = true
-        }
-        if (widgetMount && isFunction(widgetMount))
-            return widgetMount.call(this, finish)
-        return this
+function extendLifecycle(base, extend) {
+    return function(finish, ...args) {
+        base(...args)
+        if (extend && isFunction(extend))
+            return extend.call(this, finish)
     }
 }
 
@@ -155,25 +112,21 @@ function generateDocument(widget, template) {
     return dom
 }
 
-function getDocumentRoot(template) {
-    // Assume the template only have one root
-    return template.querySelector('*')
+function getDocumentRoot(name, fragment) {
+    return fragment.querySelector(name)
 }
 
 function generateActions(widgetAction, userAction = shallowCopy(functionSet), name) {
     return function(...args) {
         var before = function(...args) {
-            logger.info(`[${name}][before](${[].concat(...args)})`)
             return wrapUserEvent(widgetAction.before, userAction.before, ...args)
         }
         var method = function(arg) {
-            logger.info(`[${name}][before](${isFunction(arg) ? arg() : arg})`)
             if (isFunction(arg))
                 return widgetAction.method(userAction.method, ...arg()) || arg
             return widgetAction.method(userAction.method, arg) || arg
         }
         var after = function(arg) {
-            logger.info(`[${name}][after](${isFunction(arg) ? arg() : arg})`)
             if (isFunction(arg))
                 return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg
             return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg
@@ -187,11 +140,11 @@ function generateActions(widgetAction, userAction = shallowCopy(functionSet), na
                 return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0]
             return arg
         }
-        try {
+        // try {
             return nextAction(before(...args), [before, method, after, finish], error)
-        } catch (e) {
-            error(e)
-        }
+        // } catch (e) {
+            // error(e)
+        // }
     }
 }
 

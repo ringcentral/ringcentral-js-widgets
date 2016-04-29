@@ -1126,7 +1126,7 @@ var interaction = {
         before: function before() {},
         method: function method(finish) {},
         after: function after() {
-            var target = arguments.length <= 0 || arguments[0] === undefined ? this.props.root : arguments[0];
+            var target = arguments.length <= 0 || arguments[0] === undefined ? this.root : arguments[0];
 
             target.classList.remove('display-none');
         }
@@ -1135,7 +1135,7 @@ var interaction = {
         before: function before() {},
         method: function method(finish) {},
         after: function after() {
-            var target = arguments.length <= 0 || arguments[0] === undefined ? this.props.root : arguments[0];
+            var target = arguments.length <= 0 || arguments[0] === undefined ? this.root : arguments[0];
 
             target.classList.add('display-none');
         }
@@ -1144,7 +1144,7 @@ var interaction = {
         before: function before() {},
         method: function method(finish) {},
         after: function after() {
-            var target = arguments.length <= 0 || arguments[0] === undefined ? this.props.root : arguments[0];
+            var target = arguments.length <= 0 || arguments[0] === undefined ? this.root : arguments[0];
             var message = arguments[1];
 
             var mask = document.createElement('div');
@@ -1213,6 +1213,70 @@ function shallowCopy(target) {
     return Object.assign({}, target);
 }
 
+function find(array, prop, value) {
+    return array.find(function (item) {
+        return item[prop] === value;
+    });
+}
+
+var fragments = [];
+
+// Create a fragment with a custom tag as wrapper
+function createFragment(name, template) {
+    var frag;
+    if (frag = find(fragments, 'name', name)) return frag.fragment.cloneNode(true);
+
+    frag = document.createDocumentFragment();
+    var customTag = document.createElement(name);
+    var wrapper = document.createElement('div');
+    wrapper.innerHTML = template;
+
+    frag.appendChild(customTag);
+    customTag.appendChild([].concat(_toConsumableArray(wrapper.childNodes)).find(function (node) {
+        return node.nodeType === 1;
+    }));
+
+    fragments.push({
+        name: name,
+        fragment: frag.cloneNode(true)
+    });
+    return frag;
+}
+
+var lifecycle = {
+    destroy: function destroy() {
+        this.unmount();
+        // TODO: find out better way to destroy it
+        for (var property in this) {
+            this[property] = null;
+        }
+    },
+    unmount: function unmount() {
+        if (!this._mounted || !this.root || !this.root.parentNode) return;
+        this.root.parentNode.removeChild(this.root);
+        this._mounted = false;
+    },
+    mount: function mount(target, prepend) {
+        if (this._mounted) return;
+
+        typeof target === 'string' && (target = document.querySelector(target));
+
+        if (this.target) {
+            // Already mounted and unmounted before
+            if (prepend) target.insertBefore(this.root, target.firstChild);else target.appendChild(this.root);
+        } else {
+            // First time mount
+            this.children.forEach(function (child) {
+                return child.widget.mount(child.target);
+            });
+            // templates can only have one root
+            if (prepend) target.insertBefore(this.root, target.firstChild);else target.appendChild(this.root);
+            this._mounted = true;
+        }
+        return this;
+    }
+};
+
 var logger;
 var functionSet = {
     before: function before() {},
@@ -1229,14 +1293,15 @@ function register$2() {
     var actions = _ref.actions;
     var data = _ref.data;
 
-    if (!actions) console.warn('Widgets do not have actions defined, maybe you get some typo.');
-    ['init', 'mount', 'unmount', 'destroy', 'error'].forEach(function (action) {
+    if (!actions) console.warn('Widgets do not have actions defined, maybe you get some typo.');['init', 'mount', 'unmount', 'destroy', 'error'].forEach(function (action) {
         actions[action] = Object.assign(shallowCopy(functionSet), actions[action]);
     });
-    return widget.bind(null, { actions: actions, data: data });
+    return Widget.bind(null, { actions: actions, data: data });
 }
 
-function widget(_ref2, options) {
+function Widget(_ref2, options) {
+    var _this = this;
+
     var actions = _ref2.actions;
     var _ref2$data = _ref2.data;
     var data = _ref2$data === undefined ? {} : _ref2$data;
@@ -1244,89 +1309,57 @@ function widget(_ref2, options) {
     if (!options.internal) {
         return Error('You are trying to construct a widget manually, please use w()');
     }
-    var defaultActions = shallowCopy(actions);
-    var ctx = this;
-    options.actions = shallowCopy(options.actions);
+    logger = initLogger(options.logLevel);
+
     this.props = {};
     this.custom = {};
     this.children = [];
     this.data = Object.assign(data, options.data);
     this._mounted = false;
-    logger = initLogger(options.logLevel);
+    this.fragment = createFragment(options.is, options.template);
+    this.root = getDocumentRoot(options.is, this.fragment);
+    this.dom = undefined;
+
+    var actions = shallowCopy(actions);
+    options.actions = shallowCopy(options.actions);
+
+    var ctx = this;
+
     Object.keys(options.actions).forEach(function (index) {
         return bindToTarget(options.actions, index);
     });
-    Object.keys(defaultActions).forEach(function (index) {
-        return bindToTarget(defaultActions, index);
+    Object.keys(actions).forEach(function (index) {
+        return bindToTarget(actions, index);
     });
 
-    for (var prop in defaultActions) {
-        if (defaultActions.hasOwnProperty(prop)) this[prop] = generateActions(defaultActions[prop], options.actions[prop], prop);
+    for (var prop in actions) {
+        if (actions.hasOwnProperty(prop)) this[prop] = generateActions(actions[prop], options.actions[prop], prop);
     }
+
+    ['mount', 'unmount', 'destroy'].forEach(function (action) {
+        _this[action] = generateActions({
+            before: actions[action].before,
+            method: extendLifecycle(lifecycle[action].bind(_this), actions[action].method),
+            after: actions[action].after
+        }, options.actions[action], action);
+    });
 
     function bindToTarget(target, index) {
         target[index] = bindScope(ctx, target[index]);
     }
-    var container = document.createElement(options.is);
-    container.appendChild(options.template);
-
-    this.props.dom = generateDocument(this, container);
-    this.props.root = getDocumentRoot(container);
-    this.props.template = container;
-    this.mount = generateActions({
-        before: defaultActions.mount.before,
-        method: mount.bind(this, defaultActions.mount.method, this.props.template),
-        after: defaultActions.mount.after
-    }, options.actions.mount, 'mount');
-    this.unmount = generateActions({
-        before: defaultActions.unmount.before,
-        method: unmount.bind(this, defaultActions.unmount.method),
-        after: defaultActions.unmount.after
-    }, options.actions.unmount, 'unmount');
-    this.destroy = generateActions({
-        before: defaultActions.destroy.before,
-        method: destroy.bind(this, defaultActions.destroy.method),
-        after: defaultActions.destroy.after
-    }, options.actions.destroy, 'destroy');
+    this.dom = generateDocument(this, this.fragment);
     this.init();
+}
 
-    function destroy(widgetdestroy, finish) {
-        this.unmount();
-        // TODO: find out better way to destroy it
-        for (var property in this) {
-            this[property] = null;
-        }if (widgetdestroy && isFunction(widgetdestroy)) return widgetdestroy.call(this, finish);
-    }
-
-    function unmount(widgetUnmount, finish) {
-        console.log(this.props.template);
-        if (!this._mounted || !this.props.template || !this.props.template.parentNode) return;
-        this.props.template.parentNode.removeChild(this.props.template);
-        this._mounted = false;
-        if (widgetUnmount && isFunction(widgetUnmount)) return widgetUnmount.call(this, finish);
-    }
-
-    function mount(widgetMount, template, finish, target, prepend) {
-        if (typeof target === 'string') {
-            target = document.querySelector(target);
-        } else {
-            logger.warn('first argument of mount method should be selector string');
+function extendLifecycle(base, extend) {
+    return function (finish) {
+        for (var _len6 = arguments.length, args = Array(_len6 > 1 ? _len6 - 1 : 0), _key6 = 1; _key6 < _len6; _key6++) {
+            args[_key6 - 1] = arguments[_key6];
         }
-        if (this._mounted) {
-            // Already mounted before
-            if (prepend) target.insertBefore(this.target, target.firstChild);else target.appendChild(this.target);
-        } else {
-            // First time mount
-            this.children.forEach(function (child) {
-                return child.widget.mount(child.target);
-            });
-            // templates can only have one root
-            if (prepend) target.insertBefore(template, target.firstChild);else target.appendChild(template);
-            this._mounted = true;
-        }
-        if (widgetMount && isFunction(widgetMount)) return widgetMount.call(this, finish);
-        return this;
-    }
+
+        base.apply(undefined, args);
+        if (extend && isFunction(extend)) return extend.call(this, finish);
+    };
 }
 
 function bindScope(scope, action) {
@@ -1362,9 +1395,8 @@ function generateDocument(widget, template) {
     return dom;
 }
 
-function getDocumentRoot(template) {
-    // Assume the template only have one root
-    return template.querySelector('*');
+function getDocumentRoot(name, fragment) {
+    return fragment.querySelector(name);
 }
 
 function generateActions(widgetAction) {
@@ -1372,27 +1404,22 @@ function generateActions(widgetAction) {
     var name = arguments[2];
 
     return function () {
-        for (var _len6 = arguments.length, args = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
-            args[_key6] = arguments[_key6];
+        for (var _len7 = arguments.length, args = Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
+            args[_key7] = arguments[_key7];
         }
 
         var before = function before() {
-            var _ref3;
-
-            for (var _len7 = arguments.length, args = Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
-                args[_key7] = arguments[_key7];
+            for (var _len8 = arguments.length, args = Array(_len8), _key8 = 0; _key8 < _len8; _key8++) {
+                args[_key8] = arguments[_key8];
             }
 
-            logger.info('[' + name + '][before](' + (_ref3 = []).concat.apply(_ref3, args) + ')');
             return wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args));
         };
         var method = function method(arg) {
-            logger.info('[' + name + '][before](' + (isFunction(arg) ? arg() : arg) + ')');
             if (isFunction(arg)) return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg()))) || arg;
             return widgetAction.method(userAction.method, arg) || arg;
         };
         var after = function after(arg) {
-            logger.info('[' + name + '][after](' + (isFunction(arg) ? arg() : arg) + ')');
             if (isFunction(arg)) return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(_toConsumableArray(arg()))) || arg;
             return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
         };
@@ -1405,26 +1432,26 @@ function generateActions(widgetAction) {
                 return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0];
             return arg;
         };
-        try {
-            return nextAction(before.apply(undefined, _toConsumableArray(args)), [before, method, after, finish], error);
-        } catch (e) {
-            error(e);
-        }
+        // try {
+        return nextAction(before.apply(undefined, _toConsumableArray(args)), [before, method, after, finish], error);
+        // } catch (e) {
+        // error(e)
+        // }
     };
 }
 
 function wrapUserEvent(widget, user) {
-    for (var _len8 = arguments.length, args = Array(_len8 > 2 ? _len8 - 2 : 0), _key8 = 2; _key8 < _len8; _key8++) {
-        args[_key8 - 2] = arguments[_key8];
+    for (var _len9 = arguments.length, args = Array(_len9 > 2 ? _len9 - 2 : 0), _key9 = 2; _key9 < _len9; _key9++) {
+        args[_key9 - 2] = arguments[_key9];
     }
 
-    var _ref4;
+    var _ref3;
 
     var continueDefault = user != null && user.apply(undefined, args);
     if (continueDefault || typeof continueDefault === 'undefined') return widget.apply(undefined, args) || function () {
         return args;
     };
-    return (_ref4 = []).concat.apply(_ref4, args);
+    return (_ref3 = []).concat.apply(_ref3, args);
 }
 
 function nextAction(result, actions, error) {
@@ -1874,47 +1901,41 @@ function translate(locale) {
     };
 }
 
-// function fetchWidget(file) {
-//     return fetch(w.options.path + ensureTail(file, '.html'))
-//         .then(response => response.text())
-//         .then(body => {
-//             var template = document.createElement('template')
-//             template.innerHTML = body
-//             var clone = document.importNode(template.content, true)
-//             return clone
-//         })
-// }
+var importedScripts = [];
+var importedStyles = [];
+function insertScript(script) {
+    var tag = document.createElement('script');
+    tag.text = script;
+    document.body.appendChild(tag);
+    document.body.removeChild(tag);
+}
+function insertStyle(style) {
+    var tag = document.createElement('style');
+    tag.innerHTML = style;
+    document.head.appendChild(tag);
+}
+function importStyle(src) {
+    var style = document.createElement('style');
+    style.src = src;
+    document.head.appendChild(style);
+}
+function importScript(src) {
+    var script = document.createElement('script');
+    script.src = src;
+    document.body.appendChild(script);
+}
 
-// function parseDocument(template) {
-//     return Promise.all(Array.from(template.querySelectorAll('*'))
-//         .filter(doc => doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement)
-//         .reduce((result, doc) => {
-//             return result.concat(preload({
-//                 [doc.tagName.toLowerCase()]: doc.tagName.toLowerCase()
-//             }))
-//         }, []))
-// }
-
-function initNestedWidget(widget) {
-    var template = widget.props.template;
-    var docs = template.querySelectorAll('*');
-    Array.from(docs).forEach(function (doc) {
-        if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
-            if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
-                return;
-            }
-            var name = doc.tagName.toLowerCase();
-            var child = w(name, widget.custom[name]);
-            // child.mount(doc)
-            widget.children.push({
-                target: doc,
-                widget: child
-            });
-            var childName = doc.getAttribute('data-info');
-            if (childName) widget.props[childName] = child;
-        }
-    });
-    return widget;
+function insert(name, input) {
+    input.imports.scripts.forEach(importScript);
+    input.imports.styles.forEach(importStyle);
+    if (input.script && importedScripts.indexOf(name) === -1) {
+        importedScripts.push(name);
+        insertScript(input.script);
+    }
+    if (input.style && importedStyles.indexOf(name) === -1) {
+        importedStyles.push(name);
+        insertStyle(input.style);
+    }
 }
 
 // function preload(widgets, callback) {
@@ -1966,49 +1987,51 @@ var WIDGETS = __w_widgets;
 function w(name) {
     var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-    var widget = WIDGETS[name];
+    var widgetInfo = WIDGETS[name];
     // template
-    var template = document.createElement('template');
-    template.innerHTML = widget.template;
-    var clone = document.importNode(template.content, true);
+    // var template = document.createElement('template')
+    // template.innerHTML = widget.template
+    // var clone = document.importNode(template.content, true)
     w.templates[name] = w.templates[name] || {};
-    w.templates[name].template = clone;
+    w.templates[name].template = widgetInfo.template;
 
-    widget.imports.scripts.forEach(function (src) {
-        var script = document.createElement('script');
-        script.src = src;
-        document.body.appendChild(script);
-    });
+    // widget.imports.scripts.forEach(src => {
+    //     var script = document.createElement('script')
+    //     script.src = src
+    //     document.body.appendChild(script)
+    // })
 
-    widget.imports.scripts.forEach(function (src) {
-        var style = document.createElement('style');
-        style.src = src;
-        document.head.appendChild(style);
-    });
+    //  widget.imports.scripts.forEach(src => {
+    //     var style = document.createElement('style')
+    //     style.src = src
+    //     document.head.appendChild(style)
+    // })
 
-    // script
-    if (widget.script) {
-        var script = document.createElement('script');
-        script.text = widget.script;
-        document.body.appendChild(script);
-        document.body.removeChild(script);
-    }
+    // // script
+    // if (widget.script) {
+    //     console.log(widget.script)
+    //     var script = document.createElement('script')
+    //     script.text = widget.script
+    //     document.body.appendChild(script)
+    //     document.body.removeChild(script)
+    // }
 
-    // style
-    if (widget.style) {
-        var style = document.createElement('style');
-        style.innerHTML = widget.style;
-        document.head.appendChild(style);
-    }
+    // // style
+    // if (widget.style) {
+    //     var style = document.createElement('style')
+    //     style.innerHTML = widget.style
+    //     document.head.appendChild(style)
+    // }
+    insert(name, widgetInfo);
 
-    return initNestedWidget(new w.templates[name].widget({
+    return new w.templates[name].widget({
         is: name,
-        template: w.templates[name].template.cloneNode(true),
+        template: w.templates[name].template,
         actions: options.actions || {},
         data: options.data || {},
         logLevel: w.options.logLevel,
         internal: true // for check it's called by internal
-    }));
+    });
 }
 
 w.templates = {};

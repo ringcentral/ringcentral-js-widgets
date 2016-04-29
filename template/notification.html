@@ -11,12 +11,12 @@ w.register(function() {
         mount: {
             method: function() {},
             after: function() {
-                slideDown.in(this.props.root)
+                slideDown.in(this.root)
             }
         },
         msg: {
             method: function(finish, msg) {
-                this.props.dom.msg.textContent = msg
+                this.dom.msg.textContent = msg
                 return finish()
             }
         },
@@ -26,7 +26,7 @@ w.register(function() {
                 finish()
                 return new Promise(resolve => {
                     setTimeout(() => {
-                        slideDown.out(this.props.root, {
+                        slideDown.out(this.root, {
                             after: () => resolve(this.unmount())
                         })
                     }, sec)

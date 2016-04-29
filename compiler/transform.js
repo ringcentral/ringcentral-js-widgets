@@ -7,8 +7,7 @@ var fs = require('fs')
 var bundle = require('./bundle').bundle
 
 const TEMP_FILE = '__w_temp'
-var id = ''
-var scope = postcss.plugin('scope', function() {
+var scope = (id) => postcss.plugin('scope', function() {
     return function(root) {
         root.each(function rewriteSelector(node) {
             if (!node.selector) {
@@ -24,8 +23,8 @@ var scope = postcss.plugin('scope', function() {
 })
 
 function transform(input, options) {
-    id = options.widgetId
-    return transformScript(input).then(input => transformStyle(input, options.scopedStyle))
+    var id = options.widgetId
+    return transformScript(input).then(input => transformStyle(input, options.scopedStyle, id))
 }
 
 function transformScript(input) {
@@ -39,10 +38,12 @@ function transformScript(input) {
     })
 }
 
-function transformStyle(input, scopedStyle) {
+function transformStyle(input, scopedStyle, id) {
+    console.log(id);
+    console.log(input.style);
     var processors = [autoprefixer, precss]
     if (scopedStyle)
-        processors.push(scope)
+        processors.push(scope(id))
     // FIXME: don't modify original data
     if (!input.style)
         return Promise.resolve(input)

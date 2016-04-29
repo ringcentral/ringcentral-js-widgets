@@ -24,18 +24,18 @@ w.register(function() {
                 finish();
             },
             after: function() {
-                enlarge.init(this.props.dom.contacts)
+                enlarge.init(this.dom.contacts)
                 document.addEventListener('click', e => {
                     var currentNode = e.target
                     while(currentNode.parentNode) {
                         currentNode = currentNode.parentNode
-                        if (currentNode.isEqualNode(this.props.root))
+                        if (currentNode.isEqualNode(this.root))
                             return
                     }
                     this.hide()
                 })
                 if (this.data.contact)
-                    this.props.dom.input.value = this.data.contact
+                    this.dom.input.value = this.data.contact
             }
         },
         hide: {
@@ -44,7 +44,7 @@ w.register(function() {
                     // delay the hidden process, make options clickable, then hide the panel
                     setTimeout(() => {
                         this.props.show = false;
-                        enlarge.out(this.props.dom.contacts)
+                        enlarge.out(this.dom.contacts)
                     }, 50)
                 }
             }
@@ -54,52 +54,52 @@ w.register(function() {
                 // if (this.showingTimeout) 
                 //     return;
                 // this.showingTimeout = window.setTimeout(() => {
-                //     if (this.props.dom.input === document.activeElement) 
-                //         enlarge.in(this.props.dom.contacts)
+                //     if (this.dom.input === document.activeElement) 
+                //         enlarge.in(this.dom.contacts)
                 // }, 300);
                 if (!this.props.show) {
                     this.props.show = true;
-                    enlarge.in(this.props.dom.contacts)
+                    enlarge.in(this.dom.contacts)
                 }
             }
         },
         getInput: {
             method: function() {
-                return this.props.dom.input.value;
+                return this.dom.input.value;
             }
         },
         appendInput: {
             before: function(value) {
-                this.props.dom.input.value += value;
-                this.props.dom.input.focus();
+                this.dom.input.value += value;
+                this.dom.input.focus();
             }
         },
         setInput: {
             before: function(value) {
-                this.props.dom.input.value = value;
-                this.props.dom.input.focus();
+                this.dom.input.value = value;
+                this.dom.input.focus();
             }
         },
         disable: {
             method: function() {
-                this.props.dom.input.readOnly = true
+                this.dom.input.readOnly = true
             }
         },
         focus: {
             method: function() {
-                this.props.dom.input.focus();
+                this.dom.input.focus();
             }
         },
         autoComplete: {
             method: function(finish) {
-                this.props.inputValue = this.props.dom.input.value;
+                this.props.inputValue = this.dom.input.value;
                 return finish();
             },
             after: function(contacts) {
                 if (!contacts)
                     return;
-                while (this.props.dom.contacts.firstChild)
-                    this.props.dom.contacts.removeChild(this.props.dom.contacts.firstChild);
+                while (this.dom.contacts.firstChild)
+                    this.dom.contacts.removeChild(this.dom.contacts.firstChild);
                 if (contacts.length > 0)
                     this.show();
                 else
@@ -123,7 +123,7 @@ w.register(function() {
                                 }
                             }
                         });
-                        widget.mount(this.props.dom.contacts);    
+                        widget.mount(this.dom.contacts);    
                         count++;
                         return true;
                     }else{

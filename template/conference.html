@@ -41,11 +41,11 @@ w.register(function(){
             },
             after: function() {
                 var t = w.t(this.data.lang);
-                this.props.dom.dialInNumberLabel.textContent = t('conference-dialinnumber-text');
-                this.props.dom.hostCodeLabel.textContent = t('conference-hostcode-text');
-                this.props.dom.participantCodeLabel.textContent = t('conference-participantcode-text');
-                this.props.dom.inviteWithTextButton.textContent = t('conference-invitewithtext-text');
-                this.props.dom.joinAsHostButton.textContent = t('conference-joinashost-text');
+                this.dom.dialInNumberLabel.textContent = t('conference-dialinnumber-text');
+                this.dom.hostCodeLabel.textContent = t('conference-hostcode-text');
+                this.dom.participantCodeLabel.textContent = t('conference-participantcode-text');
+                this.dom.inviteWithTextButton.textContent = t('conference-invitewithtext-text');
+                this.dom.joinAsHostButton.textContent = t('conference-joinashost-text');
             }
         },
         getConferenceInfo: {
@@ -57,9 +57,9 @@ w.register(function(){
                 });
             },
             after: function(conferenceInfo) {
-                this.props.dom.dialInNumber.textContent = conferenceInfo.phoneNumber;
-                this.props.dom.hostCode.textContent = conferenceInfo.hostCode;
-                this.props.dom.participantCode.textContent = conferenceInfo.participantCode;
+                this.dom.dialInNumber.textContent = conferenceInfo.phoneNumber;
+                this.dom.hostCode.textContent = conferenceInfo.hostCode;
+                this.dom.participantCode.textContent = conferenceInfo.participantCode;
                 this.enable();
             }
         },
@@ -75,8 +75,8 @@ w.register(function(){
         },
         enable: {
             method: function() {
-                this.props.dom.inviteWithTextButton.disabled = false
-                this.props.dom.joinAsHostButton.disabled = false
+                this.dom.inviteWithTextButton.disabled = false
+                this.dom.joinAsHostButton.disabled = false
             }
         }
     }
