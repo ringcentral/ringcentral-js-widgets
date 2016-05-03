@@ -55,11 +55,7 @@ w.register(function() {
                     this.dom['header'].classList.add('display-none')
             }
         },
-        mount: {
-            after: function() {
-                this.fetchContacts();
-            }
-        },
+        mount: {},
         fetchContacts: {
             method: function(finish) {
                 return finish();

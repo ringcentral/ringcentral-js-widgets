@@ -21,7 +21,7 @@
 </div>
 <script>
 w.register(function() {
-    function createWidgetItems(logItems, props) {
+    function createWidgetItems(logItems, parent) {
         if (!logItems)
             return;
         logItems.forEach(function(item) {
@@ -34,8 +34,8 @@ w.register(function() {
                     }
                 }
             });
-            widget.mount(props.dom.logs);
-            props.widgetItems.push(widget);
+            widget.mount(parent.dom.logs);
+            parent.props.widgetItems.push(widget);
         });
     }
 
@@ -82,7 +82,7 @@ w.register(function() {
                 // We already have widgets in view
                 if (this.props.widgetItems.length > 0)
                     return
-                createWidgetItems(this.props.logItems, this.props);
+                createWidgetItems(this.props.logItems, this);
             }
         },
         enableAllCallTab: {

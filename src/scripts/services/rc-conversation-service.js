@@ -158,7 +158,6 @@ var conversationService = (function(sdk) {
     function getCallLogsByNumber(contact, offset) {
         return Promise.all(contact.phoneNumber.map(
                     number => callLogService.getCallLogsByNumber(
-                        // FIXME
                         number,
                         cachedHour + offset,
                         cachedHour
@@ -218,7 +217,6 @@ var conversationService = (function(sdk) {
                     ])
                     .then(result => combineContent(...result))
                     .then(contents => {
-                        console.log(contents);
                         contact.msg = contents.concat(contact.msg)
                         cachedHour += offset
                         return contents

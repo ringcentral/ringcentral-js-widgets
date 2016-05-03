@@ -33,14 +33,21 @@
 <script>
 w.register(function() {
     var fade = w.transition('fade')
-    this.actions = w.action('interaction');
+
+    this.props = {
+        country: 'United States',
+        username: null,
+        extension: null,
+        password: null,
+    }
+
+    this.actions = w.action('interaction')
     this.actions.init = {
         before: function() {},
         method: function(finish) {
             finish();
         },
         after: function() {
-            this.props.country = 'United States'
             var t = w.t(this.data.lang)
             var { color, lang, logo } = this.data
             this.dom.login.style['background-color'] = color || '#fff'
@@ -83,7 +90,6 @@ w.register(function() {
                 localStorage.setItem('extension', this.dom.extension.value || '');
                 localStorage.setItem('password', this.dom.password.value || '');
             }
-            
         },
         error: function(err) {
             console.error(err);

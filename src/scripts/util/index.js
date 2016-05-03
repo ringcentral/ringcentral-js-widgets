@@ -19,7 +19,7 @@ export function initLogger(level) {
 }
 
 export function isThenable(result) {
-    if (result.then && typeof result.then === 'function')
+    if (result && result.then && typeof result.then === 'function')
         return true
     return false
 }
@@ -81,8 +81,8 @@ export function bindNoArgs(func, context) {
   };
 };
 
-export function bind5Args (fn, ctx) {
-  return function (a, b, c, d, e) {
-    return fn.call(ctx, a, b, c, d, e)
+export function bind6Args (fn, ctx) {
+  return function (a, b, c, d, e, f) {
+    return fn.call(ctx, a, b, c, d, e, f)
   }
 }

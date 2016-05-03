@@ -67,7 +67,7 @@ var phone = w.register(function() {
                 this.getService().rcMessageService.syncMessages(this.props.cachedMessageHours);
                 this.getService().accountService.getAccountInfo();
                 this.getService().accountService.getPhoneNumber();
-                this.getService().rcContactService.syncCompanyContact();
+                // this.getService().rcContactService.syncCompanyContact();
                 this.getService().phoneService.registerSIP();
                 this.getService().callLogService.getCallLogs();
                 this.getService().phoneService.listen();
@@ -402,7 +402,7 @@ var phone = w.register(function() {
                         },
                         joinAsHost: {
                             method: function() {
-                                phone.props.dom.container.style.transform = 'translateX(0px)';
+                                phone.dom.container.style.transform = 'translateX(0px)';
                                 phone.props.dialPad.mount('#dial-pad');
                                 phone.props.dialPad.setNumber(phone.props.conference.props.dialInNumber)
                             }
@@ -412,6 +412,11 @@ var phone = w.register(function() {
                 this.props.contacts = w('contacts', {
                     data : phone.data,
                     actions: {
+                        mount: {
+                            after: function() {
+                                this.fetchContacts()
+                            }
+                        },
                         fetchContacts: {
                             method: function() {
                                 var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
@@ -443,7 +448,6 @@ var phone = w.register(function() {
                     actions: {
                         init: {
                             after: function() {
-                                console.log(phone.switchWidgets());
                                 this.clickItem(
                                     this.addItem('<span class="icon-uniA4"></span><span class="icon-RC_shapes_1-40_pressed"></span>'), 
                                         phone.switchWidgets(
@@ -482,7 +486,7 @@ var phone = w.register(function() {
                                 this.clickItem(
                                     this.addItem('<span class="icon-uni47"></span>', 'Meeting'),
                                     function() {
-                                        phone.props.dom.container.style.transform = 'translateX(-750px)';
+                                        phone.dom.container.style.transform = 'translateX(-750px)';
                                         if (phone.props.conversation) {
                                             phone.props.conversation.destroy()
                                             phone.props.conversation = null

@@ -27,8 +27,8 @@ import { insert } from './insertion'
 // }
 
 function initNestedWidget(widget) {
-    var fragment = widget.props.fragment
-    var docs = fragment.querySelectorAll('*')
+    // TODO: perf hit
+    var docs = widget.root.querySelectorAll('*')
     Array.from(docs).forEach(doc => {
         if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
             if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
@@ -41,9 +41,10 @@ function initNestedWidget(widget) {
                 target: doc,
                 widget: child
             })
+            widget.refs[name] = child
             var childName = doc.getAttribute('data-info')
             if (childName)
-                widget.props[childName] = child
+                widget.refs[name] = child
         }
     })
     return widget
@@ -133,7 +134,7 @@ function w(name, options = {}) {
     // }
     insert(name, widgetInfo)
 
-    return (new w.templates[name].widget({
+    return initNestedWidget(new w.templates[name].widget({
         is: name,
         template: w.templates[name].template,
         actions: options.actions || {},

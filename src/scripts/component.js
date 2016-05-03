@@ -6,7 +6,7 @@ import {
     shallowCopy,
     assign,
     bindNoArgs,
-    bind5Args,
+    bind6Args,
     bind
 } from './util/index'
 
@@ -41,6 +41,7 @@ function Widget({actions, data = {}}, options) {
     }
     logger = initLogger(options.logLevel)
 
+    this.refs = {}
     this.props = {}
     this.custom = {}
     this.children = []
@@ -89,10 +90,10 @@ function extendLifecycle(base, extend) {
 
 function bindScope(scope, action) {
     return {
-        before: bind5Args(toFunction(action.before), scope),
-        method: bind5Args(toFunction(action.method), scope),
-        after: bind5Args(toFunction(action.after), scope),
-        error: bind5Args(toFunction(action.error, logger.error), scope),
+        before: bind6Args(toFunction(action.before), scope),
+        method: bind6Args(toFunction(action.method), scope),
+        after: bind6Args(toFunction(action.after), scope),
+        error: bind6Args(toFunction(action.error, logger.error), scope),
     }
 }
 
@@ -128,45 +129,58 @@ function getDocumentRoot(name, fragment) {
 }
 
 function generateActions(widgetAction, userAction = shallowCopy(functionSet), name) {
-    return function(...args) {
-        var before = function(...args) {
-            return wrapUserEvent(widgetAction.before, userAction.before, ...args)
+    return function(a, b, c, d, e, f) {
+        var before = function(a, b, c, d, e, f) {
+            userAction.before(a, b, c, d, e, f)
+            widgetAction.before(a, b, c, d, e, f)
+            // Something like Monad
+            return {
+                __custom: true,
+                data: [a, b, c, d, e, f].filter(item => item != null)
+            }
         }
         var method = function(arg) {
-            if (isFunction(arg))
-                return widgetAction.method(userAction.method, ...arg()) || arg
-            return widgetAction.method(userAction.method, arg) || arg
+            return widgetAction.method(userAction.method, ...arg.data) || arg
         }
         var after = function(arg) {
-            if (isFunction(arg))
-                return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg
-            return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg
+            if (arg.__custom) {
+                arg = arg.data
+                userAction.after(...arg)
+                return widgetAction.after(...arg) || arg
+            } else {
+                userAction.after(arg)
+                return widgetAction.after(arg) || arg
+            }
         }
         var error = function(e) {
-            return wrapUserEvent(widgetAction.error, userAction.error, e)
+            widgetAction.error(e)
+            userAction.error(e)
         }
         var finish = function(arg) {
-            if (isFunction(arg))
-                // flatten one level
-                return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0]
+            if (arg.__custom) {
+                arg = arg.data
+            }
+            // if (isFunction(arg))
+            //     // flatten one level
+            //     return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0]
             return arg
         }
         // try {
-        return nextAction(before(...args), [before, method, after, finish], error)
+        return chainActions(before(a, b, c, d, e, f), [before, method, after, finish], error)
         // } catch (e) {
         // error(e)
         // }
     }
 }
 
-function wrapUserEvent(widget, user, ...args) {
-    var continueDefault = (user != null && user(...args))
-    if (continueDefault || typeof continueDefault === 'undefined')
-        return widget(...args) || (() => args)
-    return [].concat(...args)
-}
+// function wrapUserAction(widget, user, ...args) {
+//     var continueDefault = (user != null && user(...args))
+//     if (continueDefault || typeof continueDefault === 'undefined')
+//         return widget(...args) || (() => args)
+//     return [].concat(...args)
+// }
 
-function nextAction(result, actions, error, start = 0) {
+function chainActions(result, actions, error, start = 0) {
     if (start + 1 === actions.length)
         return result
     if (isThenable(result)) {
@@ -176,7 +190,7 @@ function nextAction(result, actions, error, start = 0) {
             return res
         }, result).catch(error)
     } else {
-        return nextAction(actions[start + 1](result), actions, error, start + 1)
+        return chainActions(actions[start + 1](result), actions, error, start + 1)
     }
 }
 

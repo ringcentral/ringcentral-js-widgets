@@ -2,7 +2,7 @@ import { find } from './util/index'
 var fragments = []
 
 // Create a fragment with a custom tag as wrapper
-function createFragment(name, template) {
+export function createFragment(name, template) {
     var frag
     if (frag = find(fragments, 'name', name)) return frag.fragment.cloneNode(true)
 
@@ -19,7 +19,4 @@ function createFragment(name, template) {
         fragment: frag.cloneNode(true)
     })
     return frag
-}
-export {
-    createFragment
 }

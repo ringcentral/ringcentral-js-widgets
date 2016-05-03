@@ -62,7 +62,7 @@ w.register(function() {
             }else {
                 widget = createMessageWidget('message-item-text', message, parent)
             }
-            widget.mount(parent.props.dom.messages);
+            widget.mount(parent.dom.messages);
             parent.props.widgetItems.push(widget);
         });
     }

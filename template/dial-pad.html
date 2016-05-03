@@ -151,8 +151,10 @@ w.register(function() {
         before: function() {},
         method: function() {},
         after: function() {
-            this.props['dropdown'].getData();
-            this.props['contact-picker'].focus();
+            console.log(this.props);
+            console.log(this.refs);
+            this.refs['dropdown'].getData();
+            this.refs['contact-picker'].focus();
             // fade.in(this.root);
         }
     }
@@ -161,13 +163,13 @@ w.register(function() {
             var button = event.target;
             if (!button.getAttribute('data-value')) // click on the number or symbol
                 button = button.parentNode
-            var cp = this.props['contact-picker'];
+            var cp = this.refs['contact-picker'];
             cp.appendInput(button.getAttribute('data-value'));
             cp.autoComplete();
             return finish();
         },
         after: function() {
-            this.props['contact-picker'].props.dom.input.focus();
+            this.refs['contact-picker'].dom.input.focus();
         }
     }
     this.actions.callout = {
@@ -176,8 +178,8 @@ w.register(function() {
         },
         method: function(finish) {
             // TODO: Do some basic validation.
-            var ac = this.props['contact-picker'];
-            this.props.toNumber = ac.props.dom.input.value;
+            var ac = this.refs['contact-picker'];
+            this.props.toNumber = ac.dom.input.value;
             this.props.fromNumber = localStorage.getItem('username');
             return finish(this.props.fromNumber, this.props.toNumber);
         },
@@ -210,9 +212,10 @@ w.register(function() {
     }
     this.actions.setNumber = {
         method: function(finish, value) {
-            this.props['contact-picker'].setInput(value)
+            this.refs['contact-picker'].setInput(value)
             return finish();
         }
     }
 })
+//# sourceURL=dial-pad.html
 </script>

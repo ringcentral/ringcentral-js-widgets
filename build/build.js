@@ -842,9 +842,7 @@ var conversationService = function (sdk) {
     }
     function getCallLogsByNumber(contact, offset) {
         return Promise.all(contact.phoneNumber.map(function (number) {
-            return CallLogService.getCallLogsByNumber(
-            // FIXME
-            number, cachedHour + offset, cachedHour);
+            return CallLogService.getCallLogsByNumber(number, cachedHour + offset, cachedHour);
         })).then(function (result) {
             return combine.apply(undefined, _toConsumableArray(result));
         });
@@ -911,7 +909,6 @@ var conversationService = function (sdk) {
             return Promise.all([getCallLogsByNumber(contact, offset), getMessagesByNumber(contact, offset)]).then(function (result) {
                 return combineContent.apply(undefined, _toConsumableArray(result));
             }).then(function (contents) {
-                console.log(contents);
                 contact.msg = contents.concat(contact.msg);
                 cachedHour += offset;
                 return contents;
@@ -1196,7 +1193,7 @@ function initLogger(level) {
 }
 
 function isThenable(result) {
-    if (result.then && typeof result.then === 'function') return true;
+    if (result && result.then && typeof result.then === 'function') return true;
     return false;
 }
 
@@ -1219,9 +1216,9 @@ function find(array, prop, value) {
     });
 }
 
-function bind5Args(fn, ctx) {
-    return function (a, b, c, d, e) {
-        return fn.call(ctx, a, b, c, d, e);
+function bind6Args(fn, ctx) {
+    return function (a, b, c, d, e, f) {
+        return fn.call(ctx, a, b, c, d, e, f);
     };
 }
 
@@ -1317,6 +1314,7 @@ function Widget(_ref2, options) {
     }
     logger = initLogger(options.logLevel);
 
+    this.refs = {};
     this.props = {};
     this.custom = {};
     this.children = [];
@@ -1370,10 +1368,10 @@ function extendLifecycle(base, extend) {
 
 function bindScope(scope, action) {
     return {
-        before: bind5Args(toFunction(action.before), scope),
-        method: bind5Args(toFunction(action.method), scope),
-        after: bind5Args(toFunction(action.after), scope),
-        error: bind5Args(toFunction(action.error, logger.error), scope)
+        before: bind6Args(toFunction(action.before), scope),
+        method: bind6Args(toFunction(action.method), scope),
+        after: bind6Args(toFunction(action.after), scope),
+        error: bind6Args(toFunction(action.error, logger.error), scope)
     };
 }
 
@@ -1409,58 +1407,60 @@ function generateActions(widgetAction) {
     var userAction = arguments.length <= 1 || arguments[1] === undefined ? shallowCopy(functionSet) : arguments[1];
     var name = arguments[2];
 
-    return function () {
-        for (var _len7 = arguments.length, args = Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
-            args[_key7] = arguments[_key7];
-        }
-
-        var before = function before() {
-            for (var _len8 = arguments.length, args = Array(_len8), _key8 = 0; _key8 < _len8; _key8++) {
-                args[_key8] = arguments[_key8];
-            }
-
-            return wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args));
+    return function (a, b, c, d, e, f) {
+        var before = function before(a, b, c, d, e, f) {
+            userAction.before(a, b, c, d, e, f);
+            widgetAction.before(a, b, c, d, e, f);
+            // Something like Monad
+            return {
+                __custom: true,
+                data: [a, b, c, d, e, f].filter(function (item) {
+                    return item != null;
+                })
+            };
         };
         var method = function method(arg) {
-            if (isFunction(arg)) return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg()))) || arg;
-            return widgetAction.method(userAction.method, arg) || arg;
+            return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg.data))) || arg;
         };
         var after = function after(arg) {
-            if (isFunction(arg)) return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(_toConsumableArray(arg()))) || arg;
-            return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
+            if (arg.__custom) {
+                arg = arg.data;
+                userAction.after.apply(userAction, _toConsumableArray(arg));
+                return widgetAction.after.apply(widgetAction, _toConsumableArray(arg)) || arg;
+            } else {
+                userAction.after(arg);
+                return widgetAction.after(arg) || arg;
+            }
         };
         var error = function error(e) {
-            return wrapUserEvent(widgetAction.error, userAction.error, e);
+            widgetAction.error(e);
+            userAction.error(e);
         };
         var finish = function finish(arg) {
-            if (isFunction(arg))
-                // flatten one level
-                return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0];
+            if (arg.__custom) {
+                arg = arg.data;
+            }
+            // if (isFunction(arg))
+            //     // flatten one level
+            //     return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0]
             return arg;
         };
         // try {
-        return nextAction(before.apply(undefined, _toConsumableArray(args)), [before, method, after, finish], error);
+        return chainActions(before(a, b, c, d, e, f), [before, method, after, finish], error);
         // } catch (e) {
         // error(e)
         // }
     };
 }
 
-function wrapUserEvent(widget, user) {
-    for (var _len9 = arguments.length, args = Array(_len9 > 2 ? _len9 - 2 : 0), _key9 = 2; _key9 < _len9; _key9++) {
-        args[_key9 - 2] = arguments[_key9];
-    }
+// function wrapUserAction(widget, user, ...args) {
+//     var continueDefault = (user != null && user(...args))
+//     if (continueDefault || typeof continueDefault === 'undefined')
+//         return widget(...args) || (() => args)
+//     return [].concat(...args)
+// }
 
-    var _ref3;
-
-    var continueDefault = user != null && user.apply(undefined, args);
-    if (continueDefault || typeof continueDefault === 'undefined') return widget.apply(undefined, args) || function () {
-        return args;
-    };
-    return (_ref3 = []).concat.apply(_ref3, args);
-}
-
-function nextAction(result, actions, error) {
+function chainActions(result, actions, error) {
     var start = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
 
     if (start + 1 === actions.length) return result;
@@ -1470,7 +1470,7 @@ function nextAction(result, actions, error) {
             return res;
         }, result).catch(error);
     } else {
-        return nextAction(actions[start + 1](result), actions, error, start + 1);
+        return chainActions(actions[start + 1](result), actions, error, start + 1);
     }
 }
 
@@ -1944,6 +1944,50 @@ function insert(name, input) {
     }
 }
 
+// function fetchWidget(file) {
+//     return fetch(w.options.path + ensureTail(file, '.html'))
+//         .then(response => response.text())
+//         .then(body => {
+//             var template = document.createElement('template')
+//             template.innerHTML = body
+//             var clone = document.importNode(template.content, true)
+//             return clone
+//         })
+// }
+
+// function parseDocument(template) {
+//     return Promise.all(Array.from(template.querySelectorAll('*'))
+//         .filter(doc => doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement)
+//         .reduce((result, doc) => {
+//             return result.concat(preload({
+//                 [doc.tagName.toLowerCase()]: doc.tagName.toLowerCase()
+//             }))
+//         }, []))
+// }
+
+function initNestedWidget(widget) {
+    // TODO: perf hit
+    var docs = widget.root.querySelectorAll('*');
+    Array.from(docs).forEach(function (doc) {
+        if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+            if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
+                return;
+            }
+            var name = doc.tagName.toLowerCase();
+            var child = w(name, widget.custom[name]);
+            // child.mount(doc)
+            widget.children.push({
+                target: doc,
+                widget: child
+            });
+            widget.refs[name] = child;
+            var childName = doc.getAttribute('data-info');
+            if (childName) widget.refs[name] = child;
+        }
+    });
+    return widget;
+}
+
 // function preload(widgets, callback) {
 //     return Promise.all(
 //         Object.keys(widgets).reduce(
@@ -2030,14 +2074,14 @@ function w(name) {
     // }
     insert(name, widgetInfo);
 
-    return new w.templates[name].widget({
+    return initNestedWidget(new w.templates[name].widget({
         is: name,
         template: w.templates[name].template,
         actions: options.actions || {},
         data: options.data || {},
         logLevel: w.options.logLevel,
         internal: true // for check it's called by internal
-    });
+    }));
 }
 
 w.templates = {};
