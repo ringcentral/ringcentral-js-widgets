@@ -39,7 +39,7 @@
         <div class='panel --extra' id="notification"></div>
     </div>
 </div>
-<!-- <script src='phone-format-global.js'></script> -->
+<script src='../bower_components/phoneformat/dist/phone-format-global.js'></script>
 <script>
 var phone = w.register(function() {
     this.actions = {
@@ -568,12 +568,7 @@ var phone = w.register(function() {
             after: function() {
                 this.createWidgets()
                 this.getService().loginService.checkLoginStatus().then(isLoggedIn => {
-                    if (isLoggedIn) {
-                        this.loadData();
-                        this.props.toolbar.mount('#toolbar');
-                    } else {
-                        this.props.authPanel.mount('#auth-panel');
-                    }
+                    this.props.authPanel.mount('#auth-panel')
                 }).catch(err => console.error(err))
                 // this.props.authPanel.mount('#auth-panel');
             }
