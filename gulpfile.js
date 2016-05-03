@@ -3,12 +3,19 @@ import mocha from 'gulp-mocha';
 import istanbul from 'gulp-istanbul';
 import babelIstanbul from 'babel-istanbul';
 import yargs from 'yargs';
+import through from 'through2';
+import path from 'path';
+import fs from 'fs-promise';
+import webpack from 'webpack';
+import WebpackDevServer from 'webpack-dev-server';
+import testServerConfig from './test-server/webpack.config';
 
 const TIMEOUT = 10000;
 const argv = yargs.argv;
 
 function getTestSources() {
   const src = new Set();
+
 
   // check --folder
   if (argv.folder) {
@@ -71,3 +78,41 @@ gulp.task('test', () => (
       timeout: TIMEOUT,
     }))
 ));
+
+const jsExt = /\.js$/;
+function ensurePosixPath(str) {
+  return str.split(path.sep).join('/');
+}
+
+gulp.task('test-browser', done => {
+  const files = new Set();
+  const testServerPath = path.resolve(__dirname, 'test-server');
+  gulp.src(getTestSources())
+    .pipe(through.obj((file, enc, cb) => {
+      files.add(ensurePosixPath(path.relative(testServerPath, file.path).replace(jsExt, '')));
+      cb();
+    }))
+    .on('finish', async () => {
+      const loaderScript = `mocha.setup('bdd');
+        mocha.timeout(${TIMEOUT});
+        ${[...files].map(f => `require('${f}');`).join('\n')}
+        mocha.run();
+      `;
+
+      await fs.writeFile(path.resolve(__dirname, './test-server/auto-loader.js'), loaderScript);
+
+      await new Promise((resolve, reject) => {
+        const compiler = webpack(testServerConfig, err => {
+          if (err) return reject(err);
+
+          new WebpackDevServer(compiler, {
+            contentBase: testServerPath,
+            publicPath: testServerConfig.output.publicPath,
+            hot: true,
+          }).listen(8190);
+          return resolve();
+        });
+      });
+      done();
+    });
+});

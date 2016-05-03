@@ -8,7 +8,7 @@ The result should be an UI agnostic rc phone unit that can easily be custominzed
 # Project Init
 
 - [x] Server-side test framework setup
-- [ ] Browser-side test framework setup
+- [x] Browser-side test framework setup
 - [x] Coding style guide document
 - [x] Eslint check setup
 - [ ] jscs check setup
@@ -105,6 +105,14 @@ npm run test -- --folder test/unit
 npm run test -- --file test/unit/enum.js
 ```
 Both multiple --folder/--file declaration, or comma-delimmated list will work too.
+
+#Test in Browsers
+
+```bash
+npm run test-Browser
+```
+
+Open localhost:8190 in your browser to run the tests.
 
 #Contribution
 
