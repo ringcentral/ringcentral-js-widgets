@@ -1,9 +1,10 @@
-# ringcentral-js-unity
-Extensible sdk wrapper framework around ringcentral-js sdk and ringcentral-web-phone.
+# ringcentral-js-integration-commons
 
-The goal of this project is to create an extensible wrapper around the current ringcentral-js and ringcentral-web-phone.
-The result should be an UI agnostic rc phone unit that can easily be custominzed. It should therefore be easy to fit any UI to the phone system, be it jQuery based UI implementation, Angular, or React.
+Integration common javascript core library.
+In this project we aim to:
 
+1. Refactor and converge all integration js code bases into a common package.
+2. Utilize official ringcentral js sdk libraries as much as possible.
 
 # Project Init
 
@@ -11,7 +12,6 @@ The result should be an UI agnostic rc phone unit that can easily be custominzed
 - [x] Browser-side test framework setup
 - [x] Coding style guide document
 - [x] Eslint check setup
-- [ ] jscs check setup
 - [ ] Webpack setup for distributing code
 - [ ] CI setup
 
@@ -117,3 +117,4 @@ Open localhost:8190 in your browser to run the tests.
 #Contribution
 
 Please fork and contribute via PR.
+
