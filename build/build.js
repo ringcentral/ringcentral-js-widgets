@@ -1219,6 +1219,12 @@ function find(array, prop, value) {
     });
 }
 
+function bind5Args(fn, ctx) {
+    return function (a, b, c, d, e) {
+        return fn.call(ctx, a, b, c, d, e);
+    };
+}
+
 var fragments = [];
 
 // Create a fragment with a custom tag as wrapper
@@ -1364,10 +1370,10 @@ function extendLifecycle(base, extend) {
 
 function bindScope(scope, action) {
     return {
-        before: toFunction(action.before).bind(scope),
-        method: toFunction(action.method).bind(scope),
-        after: toFunction(action.after).bind(scope),
-        error: toFunction(action.error, logger.error).bind(scope)
+        before: bind5Args(toFunction(action.before), scope),
+        method: bind5Args(toFunction(action.method), scope),
+        after: bind5Args(toFunction(action.after), scope),
+        error: bind5Args(toFunction(action.error, logger.error), scope)
     };
 }
 

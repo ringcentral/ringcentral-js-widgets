@@ -1,4 +1,15 @@
-import {initLogger, isThenable, isFunction, toFunction, shallowCopy, assign} from './util/index'
+import {
+    initLogger,
+    isThenable,
+    isFunction,
+    toFunction,
+    shallowCopy,
+    assign,
+    bindNoArgs,
+    bind5Args,
+    bind
+} from './util/index'
+
 import { createFragment } from './fragment'
 import lifecycle from './lifecycle'
 var logger
@@ -43,7 +54,7 @@ function Widget({actions, data = {}}, options) {
     options.actions = shallowCopy(options.actions)
 
     var ctx = this
-    
+
     Object.keys(options.actions).forEach(index => bindToTarget(options.actions, index))
     Object.keys(actions).forEach(index => bindToTarget(actions, index))
 
@@ -78,10 +89,10 @@ function extendLifecycle(base, extend) {
 
 function bindScope(scope, action) {
     return {
-        before: toFunction(action.before).bind(scope),
-        method: toFunction(action.method).bind(scope),
-        after: toFunction(action.after).bind(scope),
-        error: toFunction(action.error, logger.error).bind(scope),
+        before: bind5Args(toFunction(action.before), scope),
+        method: bind5Args(toFunction(action.method), scope),
+        after: bind5Args(toFunction(action.after), scope),
+        error: bind5Args(toFunction(action.error, logger.error), scope),
     }
 }
 
@@ -141,9 +152,9 @@ function generateActions(widgetAction, userAction = shallowCopy(functionSet), na
             return arg
         }
         // try {
-            return nextAction(before(...args), [before, method, after, finish], error)
+        return nextAction(before(...args), [before, method, after, finish], error)
         // } catch (e) {
-            // error(e)
+        // error(e)
         // }
     }
 }
