@@ -42,6 +42,7 @@
     "gulp-mocha": "^2.2.0",
     "json-loader": "^0.5.4",
     "ringcentral": "^2.0.6",
+    "ringcentral-js-client": "https://github.com/LingForCC/ringcentral-js-client.git#working",
     "ringcentral-web-phone": "^0.2.0",
     "source-map-support": "^0.4.0",
     "through2": "^2.0.1",

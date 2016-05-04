@@ -1,5 +1,6 @@
 import RcBase from './lib/rc-base';
 import RingCentral from 'ringcentral';
+import RingCentralClient from 'ringcentral-client';
 import Subscription from './modules/subscription';
 import Brand from './modules/brand';
 import Auth from './modules/auth';
@@ -28,6 +29,8 @@ export default class RcPhone extends RcBase {
       cachePrefix: `${cachePrefix}`,
       server,
     }));
+
+    this.addModule('client', new RingCentralClient(this.sdk));
 
     this.addModule('brand', new Brand(brandSettings));
     this.addModule('auth', new Auth({
