@@ -118,7 +118,9 @@ var rcContactService = function(sdk) {
     }
 
     return {
-        companyContacts: companyContacts,
+        get companyContacts() {
+            return companyContacts
+        },
         asyncGetCompanyContact: function() {
             if (fetchingCompanyContacts) {
                 return fetchingCompanyContacts
@@ -142,7 +144,37 @@ var rcContactService = function(sdk) {
                 fetchingCompleteCompanyContacts = null
                 return companyContacts
             })
-        }
+        },
+        cacheContacts: (function() {
+            var contact = null
+            var data = localStorage.getItem('rc-contacts')
+            var fetch
+            // FIXME: temp disable it
+           
+            return function() {
+                var fetch
+                // var fetch = new Promise((resolve, reject) => {
+                // // Hack for delay the refreshing request
+                //   setTimeout(() => {
+                //     rcContactService.completeCompanyContact()
+                //     .then(data => {
+                //         if (data)
+                //             localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
+                //         return resolve(data)
+                //     })
+                //   }, 100)
+                // })
+                if (contact) {
+                    contact.then(value => {
+                        completeCompanyContacts = companyContacts = value
+                    })
+                    return contact
+                }
+                data && (completeCompanyContacts = companyContacts = JSON.parse(LZString.decompressFromUTF16(data)))
+                contact = data? Promise.resolve(JSON.parse(LZString.decompressFromUTF16(data))): fetch
+                return contact
+            }
+        }())
     }
 }(sdk)
 

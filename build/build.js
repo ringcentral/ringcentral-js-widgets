@@ -316,7 +316,9 @@ var rcContactService = function (sdk) {
     }
 
     return {
-        companyContacts: companyContacts,
+        get companyContacts() {
+            return companyContacts;
+        },
         asyncGetCompanyContact: function asyncGetCompanyContact() {
             if (fetchingCompanyContacts) {
                 return fetchingCompanyContacts;
@@ -338,7 +340,37 @@ var rcContactService = function (sdk) {
                 fetchingCompleteCompanyContacts = null;
                 return companyContacts;
             });
-        }
+        },
+        cacheContacts: function () {
+            var contact = null;
+            var data = localStorage.getItem('rc-contacts');
+            var fetch;
+            // FIXME: temp disable it
+
+            return function () {
+                var fetch;
+                // var fetch = new Promise((resolve, reject) => {
+                // // Hack for delay the refreshing request
+                //   setTimeout(() => {
+                //     rcContactService.completeCompanyContact()
+                //     .then(data => {
+                //         if (data)
+                //             localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
+                //         return resolve(data)
+                //     })
+                //   }, 100)
+                // })
+                if (contact) {
+                    contact.then(function (value) {
+                        completeCompanyContacts = companyContacts = value;
+                    });
+                    return contact;
+                }
+                data && (completeCompanyContacts = companyContacts = JSON.parse(LZString.decompressFromUTF16(data)));
+                contact = data ? Promise.resolve(JSON.parse(LZString.decompressFromUTF16(data))) : fetch;
+                return contact;
+            };
+        }()
     };
 }(sdk);
 
@@ -1246,6 +1278,45 @@ function createFragment(name, template) {
     return frag;
 }
 
+function generateDocument(widget, fragment) {
+    var dom = {};
+    var getRefsToDOM = getRefsTo(dom);
+    var assignEventToWidget = assignEventTo(widget);
+    Array.from(fragment.querySelectorAll('[data-info]')).forEach(getRefsToDOM);
+    Array.from(fragment.querySelectorAll('[data-event]')).forEach(assignEventToWidget);
+    return dom;
+}
+
+function getRefsTo(target) {
+    return function (doc) {
+        var info = doc.getAttribute('data-info');
+        target[info] = doc;
+    };
+}
+
+function assignEventTo(widget) {
+    return function (doc) {
+        var events = doc.getAttribute('data-event').split('|');
+        for (var i = 0; i < events.length; ++i) {
+            var event = events[i];
+            var eventName = void 0;
+            var action = void 0;
+            event.split(':').forEach(function (token, index) {
+                if (index === 0) eventName = token;else if (index === 1) action = token;
+            });
+            if (!widget[action]) {
+                logger.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition.');
+                return;
+            }
+            doc.addEventListener(eventName, widget[action].bind(widget));
+        }
+    };
+}
+
+function getDocumentRoot(name, fragment) {
+    return fragment.querySelector(name);
+}
+
 var lifecycle = {
     destroy: function destroy() {
         this.unmount();
@@ -1280,13 +1351,13 @@ var lifecycle = {
     }
 };
 
-var logger;
+var logger$1;
 var functionSet = {
     before: function before() {},
     method: function method() {},
     after: function after() {},
     error: function error(e) {
-        logger.error(e);
+        logger$1.error(e);
         throw e;
     }
 };
@@ -1315,7 +1386,7 @@ function Widget(_ref2, options) {
     if (!options.internal) {
         return Error('You are trying to construct a widget manually, please use w()');
     }
-    logger = initLogger(options.logLevel);
+    logger$1 = initLogger(options.logLevel);
     this.refs = {};
     this.props = props;
     this.custom = {};
@@ -1373,36 +1444,8 @@ function bindScope(scope, action) {
         before: bind6Args(toFunction(action.before), scope),
         method: bind6Args(toFunction(action.method), scope),
         after: bind6Args(toFunction(action.after), scope),
-        error: bind6Args(toFunction(action.error, logger.error), scope)
+        error: bind6Args(toFunction(action.error, logger$1.error), scope)
     };
-}
-
-function generateDocument(widget, template) {
-    var dom = {};
-    Array.from(template.querySelectorAll('[data-info]')).forEach(function (doc) {
-        var info = doc.getAttribute('data-info');
-        dom[info] = doc;
-    });
-    Array.from(template.querySelectorAll('[data-event]')).forEach(function (doc) {
-        var events = doc.getAttribute('data-event');
-        events.split('|').forEach(function (event) {
-            var eventName;
-            var action;
-            event.split(':').forEach(function (token, index) {
-                if (index === 0) eventName = token;else if (index === 1) action = token;
-            });
-            if (!widget[action]) {
-                logger.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition.');
-                return;
-            }
-            doc.addEventListener(eventName, widget[action].bind(widget));
-        });
-    });
-    return dom;
-}
-
-function getDocumentRoot(name, fragment) {
-    return fragment.querySelector(name);
 }
 
 function generateActions(widgetAction) {
@@ -1412,17 +1455,18 @@ function generateActions(widgetAction) {
     return function (a, b, c, d, e, f) {
         var before = function before(a, b, c, d, e, f) {
             userAction.before(a, b, c, d, e, f);
-            widgetAction.before(a, b, c, d, e, f);
+            var result = widgetAction.before(a, b, c, d, e, f);
             // Something like Monad
+            if (typeof result !== 'undefined') return result;
             return {
                 __custom: true,
                 data: [a, b, c, d, e, f].filter(function (item) {
-                    return item != null;
+                    return typeof item !== 'undefined';
                 })
             };
         };
         var method = function method(arg) {
-            return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg.data))) || arg;
+            if (arg.__custom) return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg.data))) || arg;else return widgetAction.method(userAction.method, arg) || arg;
         };
         var after = function after(arg) {
             if (arg.__custom) {

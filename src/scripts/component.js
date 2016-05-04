@@ -10,7 +10,12 @@ import {
     bind
 } from './util/index'
 
-import { createFragment } from './fragment'
+import { 
+    createFragment,
+    generateDocument,
+    getDocumentRoot
+ } from './fragment'
+ 
 import lifecycle from './lifecycle'
 var logger
 var functionSet = {
@@ -96,50 +101,24 @@ function bindScope(scope, action) {
     }
 }
 
-function generateDocument(widget, template) {
-    var dom = {}
-    Array.from(template.querySelectorAll('[data-info]')).forEach(doc => {
-        var info = doc.getAttribute('data-info')
-        dom[info] = doc
-    })
-    Array.from(template.querySelectorAll('[data-event]')).forEach(doc => {
-        var events = doc.getAttribute('data-event')
-        events.split('|').forEach(event => {
-            var eventName
-            var action
-            event.split(':').forEach((token, index) => {
-                if (index === 0)
-                    eventName = token
-                else if (index === 1)
-                    action = token
-            })
-            if (!widget[action]) {
-                logger.warn(`No such method:${action} in ${events}, check data-event and widget methods definition.`)
-                return
-            }
-            doc.addEventListener(eventName, widget[action].bind(widget))
-        })
-    })
-    return dom
-}
-
-function getDocumentRoot(name, fragment) {
-    return fragment.querySelector(name)
-}
 
 function generateActions(widgetAction, userAction = shallowCopy(functionSet), name) {
     return function(a, b, c, d, e, f) {
         var before = function(a, b, c, d, e, f) {
             userAction.before(a, b, c, d, e, f)
-            widgetAction.before(a, b, c, d, e, f)
+            var result = widgetAction.before(a, b, c, d, e, f)
             // Something like Monad
+            if (typeof result !== 'undefined') return result
             return {
                 __custom: true,
-                data: [a, b, c, d, e, f].filter(item => item != null)
+                data: [a, b, c, d, e, f].filter(item => typeof item !== 'undefined')
             }
         }
         var method = function(arg) {
-            return widgetAction.method(userAction.method, ...arg.data) || arg
+            if (arg.__custom)
+                return widgetAction.method(userAction.method, ...arg.data) || arg
+            else
+                return widgetAction.method(userAction.method, arg) || arg
         }
         var after = function(arg) {
             if (arg.__custom) {

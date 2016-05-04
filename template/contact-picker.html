@@ -95,13 +95,14 @@ w.register(function() {
                 return finish()
             },
             after: function(contacts) {
+                console.log(contacts);
                 if (!contacts) return
                 while (this.dom.contacts.firstChild)
                     this.dom.contacts.removeChild(this.dom.contacts.firstChild);
                 if (contacts.length > 0) this.show()
                 else this.hide()
                 var parent = this
-                count = this.props.limit
+                var count = this.props.limit
                 contacts.forEach(contact => {
                     if(--count) {
                         w('contact-picker-item', {
@@ -125,5 +126,5 @@ w.register(function() {
         }
     }
 })
-//# sourceURL=dial-pad.html
+//# sourceURL=contact-picker.html
 </script>

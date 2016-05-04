@@ -117,6 +117,7 @@ var phone = w.register(function() {
                         },
                         queryContacts: {
                             method: function() {
+                                console.log(this.props.to);
                                 var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
                                     return provider.search(this.props.to);
                                 });
@@ -189,13 +190,13 @@ var phone = w.register(function() {
                                         this.props.currentConv.addIncomingMessages()
                                     }
                                 })
-                                return cacheContacts().then(contacts => this.props.contacts = contacts)
+                                return rcContactService.cacheContacts().then(contacts => this.props.contacts = contacts)
                             }
                         },
                         fetchData: {
                             method: function() {
                                 return Promise.all([
-                                    cacheContacts(), // first one must be the contacts
+                                    rcContactService.cacheContacts(), // first one must be the contacts
                                     rcMessageService.syncMessages(conversationService.cachedHour),
                                     callLogService.getCallLogs(),
                                 ]).then(result => conversationService.organizeContent(...result))
@@ -279,7 +280,7 @@ var phone = w.register(function() {
                                 return Promise.all([
                                     rcMessageService.syncMessages(conversationService.cachedHour),
                                     callLogService.getCallLogs(),
-                                    cacheContacts()
+                                    rcContactService.cacheContacts()
                                 ]).then(result => {
                                     var [msgs, logs, contacts] = result
                                     this.props.contacts = contacts.reduce((result, contact) => {
@@ -307,7 +308,7 @@ var phone = w.register(function() {
                                 //     return provider.searchAll();
                                 // });
                                 // return contactSearchService.query(dialPadSearchFunctions);
-                                return cacheContacts().then(contacts => {
+                                return rcContactService.cacheContacts().then(contacts => {
                                     this.props.contacts = contacts.reduce((result, contact) => {
                                         result[contact.id] = contact
                                         return result
@@ -325,13 +326,13 @@ var phone = w.register(function() {
                         selectContact: {
                             method: function() {
                                 this.unmount()
-                                timeline.unmount()
+                                phone.props.timeline.unmount()
                                 var contact = 
                                     (this.props.relateContacts && 
                                     this.props.relateContacts[this.props.selectedContact.id]) ||
                                     this.props.contacts[this.props.selectedContact.id]
-                                var conversation = timeline.props.currentConv = conv(contact, () => {
-                                    timeline.mount('#container')
+                                var conversation = phone.props.timeline.props.currentConv = conv(contact, () => {
+                                    phone.props.timeline.mount('#container')
                                 })
                                 conversation.mount('#container')
                             }
@@ -547,31 +548,7 @@ function conv(contact, afterBack, options = {}) {
         }
     });
 }
-var cacheContacts = (function() {
-    var contact = null
-    var data = localStorage.getItem('rc-contacts')
-    var fetch
-    // FIXME: temp disable it
-   
-    return function() {
-        var fetch
-        // var fetch = new Promise((resolve, reject) => {
-        // // Hack for delay the refreshing request
-        //   setTimeout(() => {
-        //     rcContactService.completeCompanyContact()
-        //     .then(data => {
-        //         if (data)
-        //             localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
-        //         return resolve(data)
-        //     })
-        //   }, 100)
-        // })
-        if (contact)
-            return contact
-        contact = data? Promise.resolve(JSON.parse(LZString.decompressFromUTF16(data))): fetch
-        return contact
-    }
-})()
+
 
 //# sourceURL=rc-phone.html
 </script>
