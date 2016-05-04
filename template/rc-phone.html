@@ -12,11 +12,11 @@
         width: 3000px;
         transition: transform .1s ease-out;
     }
-    .rc-phone > .panel {
+    .rc-phone .panel {
         width: 250px;
         min-height: 1px;
     }
-    .rc-phone > .panel.--extra {
+    .rc-phone .panel.--extra {
         position: absolute;
         left: 0;
     }
@@ -177,70 +177,70 @@ var phone = w.register(function() {
                         }
                     }
                 });
-                this.props.messageWidget = w('time-line', {
-                actions: {
-                    mount: {
-                        after: function() {
-                            rcMessageService.subscribeToMessageUpdate()
-                            rcMessageProvider.onMessageUpdated(msg => {
-                                this.updateTimeline(conversationService.syncContent(this.props.contacts, msg))
-                                if (this.props.currentConv) {
-                                    this.props.currentConv.confirmMessages()
-                                    this.props.currentConv.addIncomingMessages()
-                                }
-                            })
-                            return cacheContacts().then(contacts => this.props.contacts = contacts)
-                        }
-                    },
-                    fetchData: {
-                        method: function() {
-                            return Promise.all([
-                                cacheContacts(), // first one must be the contacts
-                                rcMessageService.syncMessages(conversationService.cachedHour),
-                                callLogService.getCallLogs(),
-                            ]).then(result => conversationService.organizeContent(...result))
-                        }
-                    },
-                    focusSearchBox: {
-                        after: function() {
-                            contacts.mount(this.dom.mask)
-                            this.dom.mask.classList.remove('display-none')
-                            this.dom.timeline.classList.add('display-none')
-                        }
-                    },
-                    blurSearchBox: {
-                        after: function() {
-                            setTimeout(() => {
-                                contacts.unmount()
-                                this.dom.mask.classList.add('display-none')
-                                this.dom.timeline.classList.remove('display-none')
-                            }, 100)
-                        }
-                    },
-                    search: {
-                        method: function() {
-                            contacts.dom.searchText.value = this.dom.searchText.value 
-                            contacts.search()
-                        }
-                    },
-                    enterItem: {
-                        after: function() {
-                            this.unmount()
-                            var contact = this.props.selectedContent.contact
-                            var fromNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].from: contact.msg[0].to
-                            var toNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].to: contact.msg[0].from
-                            this.props.currentConv = conv(contact, () => {
-                                this.props.currentConv.unmount()
-                            }, {
-                                fromNumber,
-                                toNumber,
-                                anchorContent: this.props.selectedContent
-                            })
-                            this.props.currentConv.mount('#conversation')
+                this.props.timeline = w('time-line', {
+                    actions: {
+                        mount: {
+                            after: function() {
+                                rcMessageService.subscribeToMessageUpdate()
+                                rcMessageProvider.onMessageUpdated(msg => {
+                                    this.updateTimeline(conversationService.syncContent(this.props.contacts, msg))
+                                    if (this.props.currentConv) {
+                                        this.props.currentConv.confirmMessages()
+                                        this.props.currentConv.addIncomingMessages()
+                                    }
+                                })
+                                return cacheContacts().then(contacts => this.props.contacts = contacts)
+                            }
+                        },
+                        fetchData: {
+                            method: function() {
+                                return Promise.all([
+                                    cacheContacts(), // first one must be the contacts
+                                    rcMessageService.syncMessages(conversationService.cachedHour),
+                                    callLogService.getCallLogs(),
+                                ]).then(result => conversationService.organizeContent(...result))
+                            }
+                        },
+                        focusSearchBox: {
+                            after: function() {
+                                contacts.mount(this.dom.mask)
+                                this.dom.mask.classList.remove('display-none')
+                                this.dom.timeline.classList.add('display-none')
+                            }
+                        },
+                        blurSearchBox: {
+                            after: function() {
+                                setTimeout(() => {
+                                    contacts.unmount()
+                                    this.dom.mask.classList.add('display-none')
+                                    this.dom.timeline.classList.remove('display-none')
+                                }, 100)
+                            }
+                        },
+                        search: {
+                            method: function() {
+                                contacts.dom.searchText.value = this.dom.searchText.value 
+                                contacts.search()
+                            }
+                        },
+                        enterItem: {
+                            after: function() {
+                                this.unmount()
+                                var contact = this.props.selectedContent.contact
+                                var fromNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].from: contact.msg[0].to
+                                var toNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].to: contact.msg[0].from
+                                this.props.currentConv = conv(contact, () => {
+                                    this.props.currentConv.unmount()
+                                }, {
+                                    fromNumber,
+                                    toNumber,
+                                    anchorContent: this.props.selectedContent
+                                })
+                                this.props.currentConv.mount('#conversation')
+                            }
                         }
                     }
-                }
-            })
+                })
                 this.props.conference = w('conference',{
                     data : phone.data,
                     actions: {
@@ -264,35 +264,81 @@ var phone = w.register(function() {
                     }
                 });
                 this.props.contacts = w('contacts', {
-                    data : phone.data,
+                    data: {},
                     actions: {
+                        init: {
+                            after: function() {}
+                        },
                         mount: {
                             after: function() {
                                 this.fetchContacts()
                             }
                         },
+                        fetchRelatedContact: {
+                            method: function() {
+                                return Promise.all([
+                                    rcMessageService.syncMessages(conversationService.cachedHour),
+                                    callLogService.getCallLogs(),
+                                    cacheContacts()
+                                ]).then(result => {
+                                    var [msgs, logs, contacts] = result
+                                    this.props.contacts = contacts.reduce((result, contact) => {
+                                        result[contact.id] = contact
+                                        return result
+                                    }, {})
+                                    return conversationService.getConversations(contacts, msgs, logs)
+                                }).then(relateContacts => {
+                                    this.props.relateContacts = relateContacts
+                                    return relateContacts
+                                }).then(relateContacts => 
+                                    Object.keys(relateContacts).map(index => {
+                                        // adapt to messages template format
+                                        relateContacts[index].msg[0].contact = relateContacts[index].displayName
+                                        // for conversation-advance temaplate
+                                        relateContacts[index].msg[0].contactId = index
+                                        return relateContacts[index].msg[0]
+                                    })
+                                )
+                            }
+                        },
                         fetchContacts: {
                             method: function() {
-                                var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                                    return provider.searchAll();
-                                });
-                                return contactSearchService.query(dialPadSearchFunctions);
+                                // var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                                //     return provider.searchAll();
+                                // });
+                                // return contactSearchService.query(dialPadSearchFunctions);
+                                return cacheContacts().then(contacts => {
+                                    this.props.contacts = contacts.reduce((result, contact) => {
+                                        result[contact.id] = contact
+                                        return result
+                                    }, {})
+                                    return contacts.map(contact => {
+                                        return {
+                                            name: contact.displayName,
+                                            type: 'rc',
+                                            id: contact.id,
+                                        }
+                                    });
+                                }).catch(e => console.error(e))
                             }
                         },
                         selectContact: {
                             method: function() {
-                                var selectedContact = this.props.selectedContact;
-                                var contact = contactDetailWidgetAdapter.getContact(selectedContact.id, selectedContact.type);
-                                phone.props.contactDetail = w('contact-detail', {
-                                    actions: {
-                                        init: {
-                                            method: function() {
-                                                return contact;
-                                            }
-                                        }
-                                    }
-                                });
-                                phone.props.contactDetail.mount('#contact-detail');
+                                this.unmount()
+                                timeline.unmount()
+                                var contact = 
+                                    (this.props.relateContacts && 
+                                    this.props.relateContacts[this.props.selectedContact.id]) ||
+                                    this.props.contacts[this.props.selectedContact.id]
+                                var conversation = timeline.props.currentConv = conv(contact, () => {
+                                    timeline.mount('#container')
+                                })
+                                conversation.mount('#container')
+                            }
+                        },
+                        focus: {
+                            after: function() {
+                                console.log('focus');
                             }
                         }
                     }
@@ -312,7 +358,7 @@ var phone = w.register(function() {
                                 this.clickItem(
                                     this.addItem('<span class="icon-uni2487"></span></span><span class="icon-RC_shapes_1_30_pressed"></span>'), 
                                         phone.switchWidgets(
-                                            phone.props.messageWidget,
+                                            phone.props.timeline,
                                             '#messages-panel', 1
                                         ).fn
                                     )
@@ -381,7 +427,7 @@ var phone = w.register(function() {
                     this.props.callPanel,
                     this.props.callPanelIncoming,
                     this.props.callLog,
-                    this.props.messageWidget,
+                    this.props.timeline,
                     this.props.conference,
                     this.props.contacts,
                     this.props.toolbar,
@@ -406,7 +452,7 @@ var phone = w.register(function() {
                         this.dom.container.addEventListener('transitionend', h)
                         source.mount(target);
                         var h = e => {
-                            this.props.panels.filter((p,idx) => idx !== index).forEach(p => p.unmount())
+                            this.props.panels.filter((p, idx) => idx !== index).forEach(p => p.unmount())
                             this.removeEventListener('transitionend', h)
                         }
                     }
