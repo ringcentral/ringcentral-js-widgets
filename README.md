@@ -41,16 +41,18 @@ Auth panel provides an authorization interface to the targeted service. Default 
    Fade out (hide) the whole panel.
 2. login()
    Assign the following  `props` based on the DOM input value.
-   `this.props.username = this.dom.username.value`
-   `this.props.extension = this.dom.extension.value`
-   `this.props.password = this.dom.password.value`
-3. showCountry(event)
+```javascript
+   this.props.username = this.dom.username.value
+   this.props.extension = this.dom.extension.value
+   this.props.password = this.dom.password.value
+```
+1. showCountry(event)
    Display the country list.    
-4. switchCountry(event)
+2. switchCountry(event)
     Switch the selected country base on `event.target`.
-5. focus(event)
+3. focus(event)
     Focus the panel.
-6. blur(event)
+4. blur(event)
     Blur the panel.
 
 #### Relevant service

@@ -22,7 +22,7 @@ var functionSet = {
         throw e
     }
 }
-function register({actions, data} = settings) {
+function register({actions, data, props} = settings) {
     if (!actions)
         console.warn('Widgets do not have actions defined, maybe you get some typo.')
 
@@ -32,17 +32,16 @@ function register({actions, data} = settings) {
             actions[action]
         )
     })
-    return Widget.bind(null, {actions, data})
+    return Widget.bind(null, {actions, data, props})
 }
 
-function Widget({actions, data = {}}, options) {
+function Widget({actions, data = {}, props = {}}, options) {
     if (!options.internal) {
         return Error('You are trying to construct a widget manually, please use w()')
     }
     logger = initLogger(options.logLevel)
-
     this.refs = {}
-    this.props = {}
+    this.props = props
     this.custom = {}
     this.children = []
     this.data = Object.assign(data, options.data)

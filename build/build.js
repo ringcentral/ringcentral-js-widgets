@@ -1295,11 +1295,12 @@ function register$2() {
 
     var actions = _ref.actions;
     var data = _ref.data;
+    var props = _ref.props;
 
     if (!actions) console.warn('Widgets do not have actions defined, maybe you get some typo.');['init', 'mount', 'unmount', 'destroy', 'error'].forEach(function (action) {
         actions[action] = Object.assign(shallowCopy(functionSet), actions[action]);
     });
-    return Widget.bind(null, { actions: actions, data: data });
+    return Widget.bind(null, { actions: actions, data: data, props: props });
 }
 
 function Widget(_ref2, options) {
@@ -1308,14 +1309,15 @@ function Widget(_ref2, options) {
     var actions = _ref2.actions;
     var _ref2$data = _ref2.data;
     var data = _ref2$data === undefined ? {} : _ref2$data;
+    var _ref2$props = _ref2.props;
+    var props = _ref2$props === undefined ? {} : _ref2$props;
 
     if (!options.internal) {
         return Error('You are trying to construct a widget manually, please use w()');
     }
     logger = initLogger(options.logLevel);
-
     this.refs = {};
-    this.props = {};
+    this.props = props;
     this.custom = {};
     this.children = [];
     this.data = Object.assign(data, options.data);
@@ -2079,6 +2081,7 @@ function w(name) {
         template: w.templates[name].template,
         actions: options.actions || {},
         data: options.data || {},
+        props: options.props || {},
         logLevel: w.options.logLevel,
         internal: true // for check it's called by internal
     }));

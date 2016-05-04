@@ -4,10 +4,9 @@
             <contact-picker data-info='contact-picker'></contact-picker>
         </div>
         <div data-info='container'>
-            <div class='rc-panel__content'>
-                
+            <div class='rc-panel__content'>         
                 <dropdown data-info='dropdown'></dropdown>
-                <div class='margin-top-2'>
+                <div data-info='dialing-panel' class='margin-top-2'>
                     <div class='rc-dial-pad__line'>
                         <button 
                             class='rc-button --circle dial-button' 
@@ -111,7 +110,13 @@
 <script>
 w.register(function() {
     var fade = w.transition('fade')
-    this.actions = w.action('interaction');
+
+    this.props = {
+        queryText: null,
+        fromNumber: null,
+        toNumber: null
+    }
+    this.actions = w.action('interaction')
     this.actions.init = {
         before: function() {},
         method: function() {},
@@ -120,6 +125,9 @@ w.register(function() {
             var { color, lang, logo } = this.data
             this.dom.header.style['background-color'] = color || '#fff'
             w.customize(this, 'contact-picker', {
+                data: {
+                    whiteList: this.dom['dialing-panel']
+                },
                 actions: {
                     autoComplete: {
                         method: function() {
@@ -151,8 +159,6 @@ w.register(function() {
         before: function() {},
         method: function() {},
         after: function() {
-            console.log(this.props);
-            console.log(this.refs);
             this.refs['dropdown'].getData();
             this.refs['contact-picker'].focus();
             // fade.in(this.root);

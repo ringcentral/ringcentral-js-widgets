@@ -79,8 +79,6 @@ w.register(function() {
             this.props.username = this.dom.username.value;
             this.props.extension = this.dom.extension.value;
             this.props.password = this.dom.password.value;
-            if (this.props.country === 'United States')
-                this.props.username = '1' + this.props.username;
             return finish();
         },
         after: function() {

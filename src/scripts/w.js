@@ -139,6 +139,7 @@ function w(name, options = {}) {
         template: w.templates[name].template,
         actions: options.actions || {},
         data: options.data || {},
+        props: options.props || {},
         logLevel: w.options.logLevel,
         internal: true // for check it's called by internal
     }))
