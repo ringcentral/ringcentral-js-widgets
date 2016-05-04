@@ -4,18 +4,22 @@ import config from '../config';
 import RcPhone from '../src/rc-phone';
 import loginStatus from '../src/enums/login-status';
 
-/* global describe it */
+/* global describe it before */
 
 describe('Auth Test Suite', async () => {
-  const phone = new RcPhone({
-    sdkSettings: {
-      ...config.sdk,
-    },
-    brandSettings: {
-      ...config.brand,
-    },
+  let phone;
+  let auth;
+  before(() => {
+    phone = new RcPhone({
+      sdkSettings: {
+        ...config.sdk,
+      },
+      brandSettings: {
+        ...config.brand,
+      },
+    });
+    auth = phone.auth;
   });
-  const auth = phone.auth;
 
   it('Login & Logout', async () => {
     await auth.login({ ...config.user });

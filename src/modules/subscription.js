@@ -1,26 +1,14 @@
 import Wrapper from '../lib/wrapper';
 
-const SDK = Symbol();
 const HANDLERS = Symbol();
 const FILTERS = Symbol();
-
-class DefaultSubscriptionProvider {
-  constructor({ sdk }) {
-    return sdk.base.createSubscription();
-  }
-}
 
 export default class Subscription extends Wrapper {
   constructor({
     sdk,
-    subscription,
-    SubscriptionProvider = DefaultSubscriptionProvider,
   }) {
-    const tmp = subscription || new SubscriptionProvider({
-      sdk,
-    });
-    super(tmp);
-    this[SDK] = sdk;
+    super(sdk.createSubscription());
+
     this[FILTERS] = new Set();
     this[HANDLERS] = new Map();
     this.base.on(this.events.notification, m => {
@@ -31,7 +19,7 @@ export default class Subscription extends Wrapper {
           } catch (e) {
             console.error(
               `Error occurs when invoking subscription notification handler for "${m.event}":`,
-              e
+              e,
             );
           }
         });

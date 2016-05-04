@@ -1,96 +1,42 @@
-import Sdk from './modules/sdk';
+import RcBase from './lib/rc-base';
+import RingCentral from 'ringcentral';
 import Subscription from './modules/subscription';
 import Brand from './modules/brand';
-import Api from './modules/api';
 import Auth from './modules/auth';
-
-const SDK = Symbol();
-const SUBSCRIPTION = Symbol();
-const BRAND = Symbol();
-const API = Symbol();
-const AUTH = Symbol();
-const PLATFORM = Symbol();
-
 
 /**
  * @class RcPhone
- * RingCentral phone class, provide feature complete ringcentral phone without UI.
+ * Default RingCentral phone class, provide feature complete ringcentral phone without UI.
+ * Application builders can directly use RcBase and build their own phone class if they need
+ * different sets of modules.
  */
-export default class RcPhone {
+export default class RcPhone extends RcBase {
   constructor({
-    sdkInstance,
-    sdkSettings,
-    SdkProvider = Sdk,
-    storage,
+    sdkSettings: {
+      appKey,
+      appSecret,
+      cachePrefix = 'rc',
+      server,
+    },
     brandSettings, // TODO: should we default to rcus?
-    BrandProvider = Brand,
-    AuthProvider = Auth,
   }) {
-    if (!sdkInstance && !sdkSettings) {
-      throw new Error('no sdk settings found...');
-    }
-    this[SDK] = sdkInstance || new SdkProvider({
-      storage,
-      ...sdkSettings,
-    });
+    super();
 
-    this[BRAND] = new BrandProvider(brandSettings);
+    this.addModule('sdk', new RingCentral({
+      appKey,
+      appSecret,
+      cachePrefix: `${cachePrefix}`,
+      server,
+    }));
 
-    this[AUTH] = new AuthProvider({
-      platform: this[SDK].base.platform(),
-      brand: this[BRAND],
-    });
+    this.addModule('brand', new Brand(brandSettings));
+    this.addModule('auth', new Auth({
+      ...this,
+      platform: this.sdk.platform(),
+    }));
 
-    this[API] = new Api({
-      platform: this[SDK].base.platform(),
-      auth: this[AUTH],
-    });
-
-    this[SUBSCRIPTION] = new Subscription({
-      sdk: this[SDK],
-      auth: this[AUTH],
-    });
+    this.addModule('subscription', new Subscription({
+      ...this,
+    }));
   }
-
-  get sdk() {
-    return this[SDK];
-  }
-
-  get brand() {
-    return this[BRAND];
-  }
-
-  get auth() {
-    return this[AUTH];
-  }
-
-  get platform() {
-    return this[PLATFORM];
-  }
-
-  get cache() {
-    return this[SDK].base._cache;
-  }
-
-  get contact() {
-
-  }
-
-
-  get conference() {
-
-  }
-
-  get meeting() {
-
-  }
-
-  get message() {
-
-  }
-
-  get subscription() {
-    return this[SUBSCRIPTION];
-  }
-
 }
