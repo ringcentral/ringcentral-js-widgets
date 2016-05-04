@@ -1,13 +1,15 @@
 <template>
     <div class='rc-panel rc-auth-panel'>
-        <div class='rc-panel__header rc-auth-panel__header'>
+        <div class='rc-panel__header rc-auth-panel__header rc-auth-panel__header--color'>
             <img    class='rc-img rc-auth-panel__img'
                     src='./ringcentral_logo.png'
                     data-info='logo'>
         </div>
-        <div class='rc-panel__content rc-auth-panel__content'>
+        <div class='rc-panel__content rc-auth-panel__content rc-auth-panel__content--color'>
             <div class='input-panel' data-info='input-panel'>
-              <div class='input-panel__flag'>
+              <div 
+                data-info='country-selector'
+                class='input-panel__flag'>
                   <img class='rc-img' data-info='flag' src=''>
               </div>
               <input 
@@ -17,9 +19,23 @@
                   data-event='focus:focus|blur:blur'>
               </input>
             </div>
-            <input class='rc-input --round' data-info='extension' placeholder="extension"></input>
-            <input class='rc-input --round' data-info='password' placeholder="password" type='password'></input>
-            <button class='rc-button --round' data-info='login' data-event='click:login'>Login</button>
+            <input 
+                class='rc-input --round' 
+                data-info='extension'
+                data-event='focus:focus|blur:blur'
+                placeholder="extension"
+                ></input>
+            <input 
+                class='rc-input --round' 
+                data-info='password'
+                data-event='focus:focus|blur:blur'
+                placeholder="password"
+                 type='password'></input>
+            <button 
+                class='rc-button --round rc-auth-panel__button rc-auth-panel__button--color' 
+                data-info='login-button' 
+                data-event='click:login'>Login
+            </button>
             <div class='rc-label'>
                 <label for='remember'>Remember me:</label>
                 <input id='remember' type='checkbox' data-info='remember' checked>
@@ -50,9 +66,9 @@ w.register(function() {
         after: function() {
             var t = w.t(this.data.lang)
             var {color, lang, logo} = this.data
-            this.dom.login.style['background-color'] = color || '#fff'
+            this.dom['login-button'].style['background-color'] = color || '#fff'
             this.dom.logo.src = logo || './ringcentral_logo.png'
-            this.dom.login.textContent = t('login') || 'login'
+            this.dom['login-button'].textContent = t('login') || 'login'
         }
     }
     this.actions.mount = {
@@ -64,25 +80,20 @@ w.register(function() {
             fade.in(this.root)
         }
     }
-    this.actions.remove = {
-        before: function() {
-            fade.out(this.root)
-        }
-    }
     this.actions.login = {
-        before: function() {
-            this.dom.login.disabled = true
+        before: function(event) {
+            this.dom['login-button'].disabled = true
             this.dom.error.textContent = ''
-            this.dom.login.classList.add('rc-button-loading')
+            this.dom['login-button'].classList.add('rc-button-loading')
         },
-        method: function(finish) {
+        method: function(finish, event) {
             this.props.username = this.dom.username.value
             this.props.extension = this.dom.extension.value
             this.props.password = this.dom.password.value
             return finish()
         },
         after: function() {
-            // this.dom.login.disabled = false;
+            // this.dom['login-button'].disabled = false;
             if (this.dom.remember.checked) {
                 localStorage.setItem('username', this.dom.username.value || '')
                 localStorage.setItem('extension', this.dom.extension.value || '')
@@ -92,7 +103,7 @@ w.register(function() {
         error: function(err) {
             console.error(err)
             this.dom.error.textContent = err.message
-            this.dom.login.disabled = false
+            this.dom['login-button'].disabled = false
         }
     }
     this.actions.showCountry = {
@@ -102,22 +113,79 @@ w.register(function() {
     }
     this.actions.switchCountry = {
         before: function(event) {
-            this.dom['country-dropdown'].textContent = event.target.textContent
+            var target = event.target || event
+            this.dom['country-dropdown'].textContent = target.textContent
             this.dom['country-list'].classList.add('display-none')
-            this.props.country = event.target.textContent
+            this.props.country = target.textContent
         }
     }
     this.actions.focus = {
         before: function(event) {
-            this.dom['input-panel'].classList.add('--focus')
+            var target = event.target || event
+            target.classList.add('--focus')
         }
     }
     this.actions.blur = {
         before: function(event) {
-            this.dom['input-panel'].classList.remove('--focus')
+            var target = event.target || event
+            target.classList.remove('--focus')
         }
     }
 })
 
 //# sourceURL=auth-panel.html
 </script>
+<style>
+@import "src/styles/variables.css";
+@import "src/styles/mixins.css";
+$auth-panel-padding: 10px;
+$auth-panel-flag-width: 40px;
+.rc-auth-panel {
+    &__content {
+        display: flex;
+        flex-direction: column;
+        padding: $auth-panel-padding;
+        & > .rc-input {
+            margin: 5px 0;
+        }
+        & > .rc-button {
+            width: 100%;
+
+            /* Move to the bottom of flex container */
+            margin-top: auto;
+        }
+    }
+    &__container {
+        @mixin block;
+    }
+    &__header {
+        text-align: center;
+    }
+    &__img {
+        width: 60%;
+    }
+
+    .input-panel {
+        border-radius: $border-radius;
+        border: 1px solid $gray;
+        &__flag {
+            float: left;
+            width: $auth-panel-flag-width;
+            /* For test, the position is for country flag */
+            height: 30px;
+            background: #000;
+        }
+        &__phone {
+            float: left;
+            width: calc(100% - $auth-panel-flag-width);
+        }
+        > .rc-input {
+
+        }
+        &.--focus {
+            border-color: #7f8c8d;
+        }
+    }
+}
+
+</style>

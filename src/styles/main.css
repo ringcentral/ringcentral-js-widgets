@@ -326,7 +326,6 @@ h6 {
 }
 
 /* @import "old.css"; */
-@import "widgets/auth-panel.css";
 @import "widgets/call-log.css";
 @import "widgets/call-panel.css";
 @import "widgets/compose-text.css";

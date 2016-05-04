@@ -1339,45 +1339,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* @import "old.css"; */
-.rc-auth-panel .input-panel {
-    border-radius: 3px;
-    border: 1px solid #bdc3c7;
-}
-.rc-auth-panel .input-panel > .rc-input {}
-.rc-auth-panel .input-panel__flag {
-    float: left;
-    width: 40px;/* For test, the position is for country flag */
-    height: 30px;
-    background: #000;
-}
-.rc-auth-panel .input-panel__phone {
-    float: left;
-    width: calc(100% - 40px);
-}
-.rc-auth-panel .input-panel.--focus {
-    border-color: #7f8c8d;
-}
-.rc-auth-panel__content {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-}
-.rc-auth-panel__content > .rc-input {
-    margin: 5px 0;
-}
-.rc-auth-panel__content > .rc-button {
-    width: 100%;/* Move to the bottom of flex container */
-    margin-top: auto;
-}
-.rc-auth-panel__container {/* used as a positioned reference */
-    position: relative;
-}
-.rc-auth-panel__header {
-    text-align: center;
-}
-.rc-auth-panel__img {
-    width: 60%;
-}
 .rc-call-log {}
 .rc-call-log__content {
     overflow: auto;
