@@ -9,6 +9,9 @@ import fs from 'fs-promise';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import testServerConfig from './test-server/webpack.config';
+import babel from 'gulp-babel';
+import sourcemaps from 'gulp-sourcemaps';
+import distConfig from './webpack.config';
 
 const TIMEOUT = 10000;
 const argv = yargs.argv;
@@ -115,4 +118,38 @@ gulp.task('test-browser', done => {
       });
       done();
     });
+});
+
+gulp.task('build', () => (
+  gulp.src('src/**/*.js')
+    .pipe(sourcemaps.init())
+    .pipe(babel())
+    .pipe(sourcemaps.write('.'))
+    .pipe(gulp.dest('build'))
+));
+
+gulp.task('dist', async () => {
+  await new Promise((resolve, reject) => {
+    webpack(distConfig, err => {
+      if (err) reject(err);
+      resolve();
+    });
+  });
+  await new Promise((resolve, reject) => {
+    distConfig.plugins = [
+      new webpack.optimize.UglifyJsPlugin({
+        compressor: {
+          warnings: false,
+        },
+        output: {
+          comments: false,
+        },
+      }),
+    ];
+    distConfig.output.filename = 'ringcentral-js-integration-commons.min.js';
+    webpack(distConfig, err => {
+      if (err) reject(err);
+      resolve();
+    });
+  });
 });

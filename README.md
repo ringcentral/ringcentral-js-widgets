@@ -26,20 +26,20 @@ In this project we aim to:
 
     ```json
     {
-    "app": {
+      "app": {
         "appKey": "${your app key}",
         "appSecret": "${your app secret}"
-    },
-    "apiServer": "${apiServer address}",
-    "brand": {
+      },
+      "apiServer": "${apiServer address}",
+      "brand": {
         "name": "${brand name}",
         "id": "${brand id}"
-    },
-    "user": {
+      },
+      "user": {
         "username": "${RingCentral sandbox account username}",
         "extension": "${RingCentral sandbox account extension}",
         "password": "${RingCentral sandbox account password}"
-    }
+      }
     }
     ```
 
