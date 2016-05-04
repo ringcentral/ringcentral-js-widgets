@@ -69,7 +69,7 @@ var phone = w.register(function() {
                 this.getService().accountService.getAccountInfo();
                 this.getService().accountService.getPhoneNumber();
                 // this.getService().rcContactService.syncCompanyContact();
-                this.getService().phoneService.registerSIP();
+                // this.getService().phoneService.registerSIP();
                 this.getService().callLogService.getCallLogs();
                 this.getService().phoneService.listen();
             }
@@ -117,9 +117,8 @@ var phone = w.register(function() {
                         },
                         queryContacts: {
                             method: function() {
-                                console.log(this.props.to);
                                 var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                                    return provider.search(this.props.to);
+                                    return provider.search(this.props.toNumber);
                                 });
                                 return contactSearchService.query(dialPadSearchFunctions);
                             }
@@ -202,22 +201,6 @@ var phone = w.register(function() {
                                 ]).then(result => conversationService.organizeContent(...result))
                             }
                         },
-                        focusSearchBox: {
-                            after: function() {
-                                contacts.mount(this.dom.mask)
-                                this.dom.mask.classList.remove('display-none')
-                                this.dom.timeline.classList.add('display-none')
-                            }
-                        },
-                        blurSearchBox: {
-                            after: function() {
-                                setTimeout(() => {
-                                    contacts.unmount()
-                                    this.dom.mask.classList.add('display-none')
-                                    this.dom.timeline.classList.remove('display-none')
-                                }, 100)
-                            }
-                        },
                         search: {
                             method: function() {
                                 contacts.dom.searchText.value = this.dom.searchText.value 
@@ -226,7 +209,7 @@ var phone = w.register(function() {
                         },
                         enterItem: {
                             after: function() {
-                                this.unmount()
+                                // this.unmount()
                                 var contact = this.props.selectedContent.contact
                                 var fromNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].from: contact.msg[0].to
                                 var toNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].to: contact.msg[0].from
@@ -325,16 +308,14 @@ var phone = w.register(function() {
                         },
                         selectContact: {
                             method: function() {
-                                this.unmount()
-                                phone.props.timeline.unmount()
                                 var contact = 
                                     (this.props.relateContacts && 
                                     this.props.relateContacts[this.props.selectedContact.id]) ||
                                     this.props.contacts[this.props.selectedContact.id]
                                 var conversation = phone.props.timeline.props.currentConv = conv(contact, () => {
-                                    phone.props.timeline.mount('#container')
+                                    phone.props.timeline.mount('#contact-detail')
                                 })
-                                conversation.mount('#container')
+                                conversation.mount('#contact-detail')
                             }
                         },
                         focus: {

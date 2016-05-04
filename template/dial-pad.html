@@ -112,7 +112,6 @@ w.register(function() {
     var fade = w.transition('fade')
 
     this.props = {
-        to: null,
         fromNumber: null,
         toNumber: null
     }
@@ -165,7 +164,7 @@ w.register(function() {
         }
     }
     this.actions.dialing = {
-        method: function(finish) {
+        method: function(finish, event) {
             var button = event.target
             if (!button.getAttribute('data-value')) // click on the number or symbol
                 button = button.parentNode
@@ -182,7 +181,7 @@ w.register(function() {
         before: function() {
             this.dom.callout.classList.add('--active')
         },
-        method: function(finish) {
+        method: function(finish, event) {
             // TODO: Do some basic validation.
             var ac = this.refs['contact-picker']
             this.props.toNumber = ac.dom.input.value
@@ -212,7 +211,7 @@ w.register(function() {
     }
     this.actions.queryContacts = {
         method: function(finish, queryText) {
-            this.props.to = queryText
+            this.props.toNumber = queryText
             return finish()
         }
     }
