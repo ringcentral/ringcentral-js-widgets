@@ -7,7 +7,9 @@ const BUILD_FILE = 'build/widgets.js'
 
 function readFiles(cb) {
     var p = path.resolve(__dirname) + DIR_PATH
-    dir.readFiles(p,
+    dir.readFiles(p, {
+        match: /.html$/,
+    },
     function(err, content, filename, next) {
         if (err) throw err
         cb(content, path.basename(filename).split('.')[0]).then(next())

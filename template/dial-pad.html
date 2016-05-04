@@ -121,8 +121,8 @@ w.register(function() {
         before: function() {},
         method: function() {},
         after: function() {
-            var dialPad = this;
-            var { color, lang, logo } = this.data
+            var dialPad = this
+            var {color, lang, logo} = this.data
             this.dom.header.style['background-color'] = color || '#fff'
             w.customize(this, 'contact-picker', {
                 data: {
@@ -131,7 +131,7 @@ w.register(function() {
                 actions: {
                     autoComplete: {
                         method: function() {
-                            return dialPad.queryContacts(this.props.inputValue);
+                            return dialPad.queryContacts(this.props.inputValue)
                         }
                     }
                 }
@@ -140,15 +140,15 @@ w.register(function() {
                 actions: {
                     getData: {
                         method: function() {
-                            return dialPad.getOutboundCallerID();
+                            return dialPad.getOutboundCallerID()
                         },
                         after: function(ids) {
-                            ids.forEach(id => this.addItem(id));
+                            ids.forEach(id => this.addItem(id))
                         }
                     },
                     switchTitle: {
                         method: function(text) {
-                            dialPad.props.fromNumber = text;
+                            dialPad.props.fromNumber = text
                         }
                     }
                 }
@@ -159,23 +159,23 @@ w.register(function() {
         before: function() {},
         method: function() {},
         after: function() {
-            this.refs['dropdown'].getData();
-            this.refs['contact-picker'].focus();
+            this.refs['dropdown'].getData()
+            this.refs['contact-picker'].focus()
             // fade.in(this.root);
         }
     }
     this.actions.dialing = {
         method: function(finish) {
-            var button = event.target;
+            var button = event.target
             if (!button.getAttribute('data-value')) // click on the number or symbol
                 button = button.parentNode
-            var cp = this.refs['contact-picker'];
-            cp.appendInput(button.getAttribute('data-value'));
-            cp.autoComplete();
-            return finish();
+            var cp = this.refs['contact-picker']
+            cp.appendInput(button.getAttribute('data-value'))
+            cp.autoComplete()
+            return finish()
         },
         after: function() {
-            this.refs['contact-picker'].dom.input.focus();
+            this.refs['contact-picker'].dom.input.focus()
         }
     }
     this.actions.callout = {
@@ -184,10 +184,10 @@ w.register(function() {
         },
         method: function(finish) {
             // TODO: Do some basic validation.
-            var ac = this.refs['contact-picker'];
-            this.props.toNumber = ac.dom.input.value;
-            this.props.fromNumber = localStorage.getItem('username');
-            return finish(this.props.fromNumber, this.props.toNumber);
+            var ac = this.refs['contact-picker']
+            this.props.toNumber = ac.dom.input.value
+            this.props.fromNumber = localStorage.getItem('username')
+            return finish(this.props.fromNumber, this.props.toNumber)
         },
         after: function() {
             setTimeout(() => this.dom.callout.classList.remove('--active'), 1000)
@@ -198,30 +198,31 @@ w.register(function() {
     }
     this.actions.disable = {
         method: function(finish) {
-            return finish();
+            return finish()
         },
         after: function() {
-            this.dom['disabled-mask'].classList.remove('display-none');
-            this.dom['container'].classList.add('blur');
+            this.dom['disabled-mask'].classList.remove('display-none')
+            this.dom['container'].classList.add('blur')
         }
     }
     this.actions.getOutboundCallerID = {
         method: function(finish) {
-            return finish();
+            return finish()
         }
     }
     this.actions.queryContacts = {
         method: function(finish, queryText) {
-            this.props.to = queryText;
-            return finish();
+            this.props.to = queryText
+            return finish()
         }
     }
     this.actions.setNumber = {
         method: function(finish, value) {
             this.refs['contact-picker'].setInput(value)
-            return finish();
+            return finish()
         }
     }
 })
+
 //# sourceURL=dial-pad.html
 </script>
