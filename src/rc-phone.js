@@ -4,6 +4,7 @@ import RingCentralClient from 'ringcentral-client';
 import Subscription from './modules/subscription';
 import Brand from './modules/brand';
 import Auth from './modules/auth';
+import User from './modules/user';
 
 /**
  * @class RcPhone
@@ -30,7 +31,8 @@ export default class RcPhone extends RcBase {
       server,
     }));
 
-    this.addModule('client', new RingCentralClient(this.sdk));
+    const client = new RingCentralClient(this.sdk);
+    this.addModule('client', client);
 
     this.addModule('brand', new Brand(brandSettings));
     this.addModule('auth', new Auth({
@@ -41,5 +43,7 @@ export default class RcPhone extends RcBase {
     this.addModule('subscription', new Subscription({
       ...this,
     }));
+
+    this.addModule('user', new User(client));
   }
 }
