@@ -95,7 +95,6 @@ w.register(function() {
                 return finish()
             },
             after: function(contacts) {
-                console.log(contacts);
                 if (!contacts) return
                 while (this.dom.contacts.firstChild)
                     this.dom.contacts.removeChild(this.dom.contacts.firstChild);

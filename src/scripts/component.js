@@ -14,7 +14,7 @@ import {
     createFragment,
     generateDocument,
     getDocumentRoot
- } from './fragment'
+} from './fragment'
  
 import lifecycle from './lifecycle'
 var logger
@@ -37,11 +37,23 @@ function register({actions, data, props} = settings) {
             actions[action]
         )
     })
-    return Widget.bind(null, {actions, data, props})
+
+    var Clone = function(options) {
+        Widget.call(this, {actions, data, props}, options)
+    }
+    for (let prop in actions) {
+        if (actions.hasOwnProperty(prop))
+            Clone.prototype[prop] = generateActions(actions[prop])
+    }
+
+    // var Clone = Object.create(Widget.prototype)
+    // return Widget.bind(null, {actions, data, props})
+    return Clone
+    // TODO: prototype here
 }
 
 function Widget({actions, data = {}, props = {}}, options) {
-    if (!options.internal) {
+    if (!options || !options.internal) {
         return Error('You are trying to construct a widget manually, please use w()')
     }
     logger = initLogger(options.logLevel)
@@ -54,17 +66,14 @@ function Widget({actions, data = {}, props = {}}, options) {
     this.fragment = createFragment(options.is, options.template)
     this.root = getDocumentRoot(options.is, this.fragment)
     this.dom = undefined
-
     var actions = shallowCopy(actions)
     options.actions = shallowCopy(options.actions)
 
     var ctx = this
-
-    Object.keys(options.actions).forEach(index => bindToTarget(options.actions, index))
-    Object.keys(actions).forEach(index => bindToTarget(actions, index))
-
-    for (let prop in actions) {
-        if (actions.hasOwnProperty(prop))
+    // Object.keys(options.actions).forEach(index => bindToTarget(options.actions, index))
+    // Object.keys(actions).forEach(index => bindToTarget(actions, index))
+    for (let prop in options.actions) {
+        if (options.actions.hasOwnProperty(prop))
             this[prop] =
                 generateActions(actions[prop], options.actions[prop], prop)
     }
@@ -81,7 +90,7 @@ function Widget({actions, data = {}, props = {}}, options) {
         target[index] = bindScope(ctx, target[index])
     }
     this.dom = generateDocument(this, this.fragment)
-    this.init()
+    this.init.call(this)
 }
 
 function extendLifecycle(base, extend) {
@@ -102,11 +111,11 @@ function bindScope(scope, action) {
 }
 
 
-function generateActions(widgetAction, userAction = shallowCopy(functionSet), name) {
+function generateActions(widgetAction, userAction = shallowCopy(functionSet)) {
     return function(a, b, c, d, e, f) {
-        var before = function(a, b, c, d, e, f) {
-            userAction.before && userAction.before(a, b, c, d, e, f)
-            var result = widgetAction.before? widgetAction.before(a, b, c, d, e, f): undefined
+        var before = (a, b, c, d, e, f) => {
+            userAction.before && userAction.before.call(this, a, b, c, d, e, f)
+            var result = widgetAction.before? widgetAction.before.call(this, a, b, c, d, e, f): undefined
             // Something like Monad
             if (typeof result !== 'undefined') return result
             return {
@@ -114,25 +123,27 @@ function generateActions(widgetAction, userAction = shallowCopy(functionSet), na
                 data: [a, b, c, d, e, f].filter(item => typeof item !== 'undefined')
             }
         }
-        var method = function(arg) {
+        var method = arg => {
             if (arg.__custom)
-                return (widgetAction.method && widgetAction.method(userAction.method, ...arg.data)) || arg
+                return (widgetAction.method && 
+                    widgetAction.method.call(this, bind6Args(userAction.method, this), ...arg.data)) || arg
             else
-                return (widgetAction.method && widgetAction.method(userAction.method, arg)) || arg
+                return (widgetAction.method && 
+                    widgetAction.method.call(this, bind6Args(userAction.method, this), arg)) || arg
         }
-        var after = function(arg) {
+        var after = arg => {
             if (arg.__custom) {
                 arg = arg.data
-                userAction.after && userAction.after(...arg)
-                return (widgetAction.after && widgetAction.after(...arg)) || arg
+                userAction.after && userAction.after.call(this, ...arg)
+                return (widgetAction.after && widgetAction.after.call(this, ...arg)) || arg
             } else {
-                userAction.after && userAction.after(arg)
-                return (widgetAction.after && widgetAction.after(arg)) || arg
+                userAction.after && userAction.after.call(this, arg)
+                return (widgetAction.after && widgetAction.after.call(this, arg)) || arg
             }
         }
-        var error = function(e) {
-            widgetAction.error(e)
-            userAction.error(e)
+        var error = e => {
+            widgetAction.error && widgetAction.error.call(this, e)
+            userAction.error && userAction.error.call(this, e)
         }
         var finish = function(arg) {
             if (arg.__custom) {

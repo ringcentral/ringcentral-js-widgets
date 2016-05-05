@@ -22,11 +22,15 @@ export function createFragment(name, template) {
 }
 
 export function generateDocument(widget, fragment) {
+    // FIXME: DOM based is slower then String based
     var dom = {}
     var getRefsToDOM = getRefsTo(dom)
     var assignEventToWidget = assignEventTo(widget)
     Array.from(fragment.querySelectorAll('[data-info]')).forEach(getRefsToDOM)
-    Array.from(fragment.querySelectorAll('[data-event]')).forEach(assignEventToWidget)
+    if (widget.click) {
+        widget.root.addEventListener('click', widget.click.bind(widget))
+    }
+    // Array.from(fragment.querySelectorAll('[data-event]')).forEach(assignEventToWidget)
     return dom
 }
 

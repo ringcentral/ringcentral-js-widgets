@@ -103,8 +103,8 @@ var phone = w.register(function() {
                             }
                         },
                         callout: {
-                            method: function(fromNo, toNo) {
-                                return phoneService.callout(fromNo, toNo);
+                            method: function() {
+                                return phoneService.callout(this.props.fromNumber, this.props.toNumber);
                             },
                             after: function() {
                                 phone.props.callPanel.mount('#call-panel');
@@ -158,6 +158,7 @@ var phone = w.register(function() {
                     actions: {
                         init: {
                             method: function() {
+                                console.log(this);
                                 phoneService.on('called', this.called);
                             }
                         },

@@ -4,92 +4,72 @@
             <contact-picker data-info='contact-picker'></contact-picker>
         </div>
         <div data-info='container'>
-            <div class='rc-panel__content'>         
+            <div class='rc-panel__content'>
                 <dropdown data-info='dropdown'></dropdown>
                 <div data-info='dialing-panel' class='margin-top-2'>
                     <div class='rc-dial-pad__line'>
                         <button 
-                            class='rc-button --circle dial-button' 
-                            data-info='dial-button-1'
-                            data-value='1' 
-                            data-event='click:dialing'>
+                            class='rc-button --circle dial-button dial-button--color' 
+                            data-info='dial-button-1'>
                             <div class='dial-button__number'>1</div>
                         </button>
-                        <button 
-                            class='rc-button --circle dial-button' 
-                            data-info='dial-button-2'
-                            data-value='2' 
-                            data-event='click:dialing'>
+                        <button
+                            class='rc-button --circle dial-button dial-button--color' 
+                            data-info='dial-button-2'>
                             <div class='dial-button__number'>2</div>
                             <div class='dial-button__symbol'>ABC</div>
                         </button>
                         <button 
-                            class='rc-button --circle dial-button' 
-                            data-info='dial-button-3'
-                            data-value='3' 
-                            data-event='click:dialing'>
+                            class='rc-button --circle dial-button dial-button--color' 
+                            data-info='dial-button-3'>
                             <div class='dial-button__number'>3</div>
                             <div class='dial-button__symbol'>DEF</div>
                         </button>
                     </div>
                     <div class='rc-dial-pad__line'>
                         <button 
-                            class='rc-button --circle dial-button' 
-                            data-info='dial-button-4'
-                            data-value='4'
-                            data-event='click:dialing'>
+                            class='rc-button --circle dial-button dial-button--color' 
+                            data-info='dial-button-4'>
                             <div class='dial-button__number'>4</div>
                             <div class='dial-button__symbol'>GHI</div>
                         </button>
                         <button 
-                            class='rc-button --circle dial-button' 
-                            data-info='dial-button-5'
-                            data-value='5'
-                            data-event='click:dialing'>
+                            class='rc-button --circle dial-button dial-button--color' 
+                            data-info='dial-button-5'>
                             <div class='dial-button__number'>5</div>
                             <div class='dial-button__symbol'>JKL</div>
                         </button>
                         <button 
-                            class='rc-button --circle dial-button' 
-                            data-info='dial-button-6'
-                            data-value='6'
-                            data-event='click:dialing'>
+                            class='rc-button --circle dial-button dial-button--color' 
+                            data-info='dial-button-6'>
                             <div class='dial-button__number'>6</div>
                             <div class='dial-button__symbol'>MNO</div>
                         </button>
                     </div>
                     <div class='rc-dial-pad__line'>
                         <button 
-                            class='rc-button --circle dial-button' 
-                            data-info='dial-button-7'
-                            data-value='7' 
-                            data-event='click:dialing'>
+                            class='rc-button --circle dial-button dial-button--color' 
+                            data-info='dial-button-7'>
                             <div class='dial-button__number'>7</div>
                             <div class='dial-button__symbol'>PQRS</div>
                         </button>
                         <button 
-                            class='rc-button --circle dial-button' 
-                            data-info='dial-button-8'
-                            data-value='8' 
-                            data-event='click:dialing'>
+                            class='rc-button --circle dial-button dial-button--color' 
+                            data-info='dial-button-8'>
                             <div class='dial-button__number'>8</div>
                             <div class='dial-button__symbol'>TUV</div>
                         </button>
                         <button 
-                            class='rc-button --circle dial-button' 
-                            data-info='dial-button-9'
-                            data-value='9' 
-                            data-event='click:dialing'>
+                            class='rc-button --circle dial-button dial-button--color' 
+                            data-info='dial-button-9'>
                             <div class='dial-button__number'>9</div>
                             <div class='dial-button__symbol'>WXYZ</div>
                         </button>
                     </div>
                     <div class='rc-dial-pad__line'>
                         <button 
-                            class='rc-button --circle dial-button' 
-                            data-info='dial-button-0'
-                            data-value='0' 
-                            data-event='click:dialing'>
+                            class='rc-button --circle dial-button dial-button--color' 
+                            data-info='dial-button-0'>
                             <div class='dial-button__number'>0</div>
                             <div class='dial-button__symbol'>+</div>
                         </button>
@@ -97,9 +77,8 @@
                 </div>
             </div>
             <button 
-            class='rc-button --circle call-button' 
-            data-info='callout' 
-            data-event='click:callout'>
+            class='rc-button --circle call-button call-button--color' 
+            data-info='callout'>
             </button>
         </div>
         <div class='rc-dial-pad__mask display-none' data-info='disabled-mask'>
@@ -115,112 +94,120 @@ w.register(function() {
         fromNumber: null,
         toNumber: null
     }
-    this.actions = w.action('interaction')
-    this.actions.init = {
-        before: function() {},
-        method: function() {},
-        after: function() {
-            var dialPad = this
-            var {color, lang, logo} = this.data
-            this.dom.header.style['background-color'] = color || '#fff'
-            w.customize(this, 'contact-picker', {
-                data: {
-                    whiteList: this.dom['dialing-panel']
-                },
-                actions: {
-                    autoComplete: {
-                        method: function() {
-                            return dialPad.queryContacts(this.props.inputValue)
-                        }
-                    }
-                }
-            })
-            w.customize(this, 'dropdown', {
-                actions: {
-                    getData: {
-                        method: function() {
-                            return dialPad.getOutboundCallerID()
-                        },
-                        after: function(ids) {
-                            ids.forEach(id => this.addItem(id))
-                        }
+    this.actions = {
+        init: {
+            before: function() {},
+            method: function() {},
+            after: function() {
+                var dialPad = this
+                var {color, lang, logo} = this.data
+                this.dom.header.style['background-color'] = color || '#fff'
+                w.customize(this, 'contact-picker', {
+                    data: {
+                        whiteList: this.dom['dialing-panel']
                     },
-                    switchTitle: {
-                        method: function(text) {
-                            dialPad.props.fromNumber = text
+                    actions: {
+                        autoComplete: {
+                            method: function() {
+                                return dialPad.queryContacts(this.props.inputValue)
+                            }
                         }
                     }
+                })
+                w.customize(this, 'dropdown', {
+                    actions: {
+                        getData: {
+                            method: function() {
+                                return dialPad.getOutboundCallerID()
+                            },
+                            after: function(ids) {
+                                ids.forEach(id => this.addItem(id))
+                            }
+                        },
+                        switchTitle: {
+                            method: function(text) {
+                                dialPad.props.fromNumber = text
+                            }
+                        }
+                    }
+                })
+            }
+        },
+        mount: {
+            before: function() {},
+            method: function() {},
+            after: function() {
+                this.refs['dropdown'].getData()
+                this.refs['contact-picker'].focus()
+                // fade.in(this.root);
+            }
+        },
+        dialing: {
+            method: function(finish, value) {
+                var cp = this.refs['contact-picker']
+                cp.appendInput(value)
+                cp.autoComplete()
+                return finish()
+            },
+            after: function() {
+                this.refs['contact-picker'].dom.input.focus()
+            }
+        },
+        callout: {
+            before: function() {
+                this.dom.callout.classList.add('--active')
+            },
+            method: function(finish, event) {
+                // TODO: Do some basic validation.
+                var ac = this.refs['contact-picker']
+                this.props.toNumber = ac.dom.input.value
+                this.props.fromNumber = localStorage.getItem('username')
+                return finish()
+            },
+            after: function() {
+                setTimeout(() => this.dom.callout.classList.remove('--active'), 1000)
+            },
+            error: function(err) {
+                this.dom.callout.classList.remove('--active')
+            }
+        },
+        disable: {
+            method: function(finish) {
+                return finish()
+            },
+            after: function() {
+                this.dom['disabled-mask'].classList.remove('display-none')
+                this.dom['container'].classList.add('blur')
+            }
+        },
+        getOutboundCallerID: {
+            method: function(finish) {
+                return finish()
+            }
+        },
+        queryContacts: {
+            method: function(finish, queryText) {
+                this.props.toNumber = queryText
+                return finish()
+            }
+        },
+        setNumber: {
+            method: function(finish, value) {
+                this.refs['contact-picker'].setInput(value)
+                return finish()
+            }
+        },
+        click: {
+            method: function(finish, event) {
+                for (let i = 0; i < 10; i ++) {
+                    if (event.target === this.dom[`dial-button-${i}`] ||
+                        event.target.parentNode === this.dom[`dial-button-${i}`]) this.dialing(i)
                 }
-            })
+                if (event.target === this.dom.callout) this.callout()
+            }
         }
     }
-    this.actions.mount = {
-        before: function() {},
-        method: function() {},
-        after: function() {
-            this.refs['dropdown'].getData()
-            this.refs['contact-picker'].focus()
-            // fade.in(this.root);
-        }
-    }
-    this.actions.dialing = {
-        method: function(finish, event) {
-            var button = event.target
-            if (!button.getAttribute('data-value')) // click on the number or symbol
-                button = button.parentNode
-            var cp = this.refs['contact-picker']
-            cp.appendInput(button.getAttribute('data-value'))
-            cp.autoComplete()
-            return finish()
-        },
-        after: function() {
-            this.refs['contact-picker'].dom.input.focus()
-        }
-    }
-    this.actions.callout = {
-        before: function() {
-            this.dom.callout.classList.add('--active')
-        },
-        method: function(finish, event) {
-            // TODO: Do some basic validation.
-            var ac = this.refs['contact-picker']
-            this.props.toNumber = ac.dom.input.value
-            this.props.fromNumber = localStorage.getItem('username')
-            return finish(this.props.fromNumber, this.props.toNumber)
-        },
-        after: function() {
-            setTimeout(() => this.dom.callout.classList.remove('--active'), 1000)
-        },
-        error: function(err) {
-            this.dom.callout.classList.remove('--active')
-        }
-    }
-    this.actions.disable = {
-        method: function(finish) {
-            return finish()
-        },
-        after: function() {
-            this.dom['disabled-mask'].classList.remove('display-none')
-            this.dom['container'].classList.add('blur')
-        }
-    }
-    this.actions.getOutboundCallerID = {
-        method: function(finish) {
-            return finish()
-        }
-    }
-    this.actions.queryContacts = {
-        method: function(finish, queryText) {
-            this.props.toNumber = queryText
-            return finish()
-        }
-    }
-    this.actions.setNumber = {
-        method: function(finish, value) {
-            this.refs['contact-picker'].setInput(value)
-            return finish()
-        }
-    }
+    
 })
 
 //# sourceURL=dial-pad.html

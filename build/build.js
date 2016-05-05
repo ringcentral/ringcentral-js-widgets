@@ -201,6 +201,530 @@ var PhoneService = function () {
 }();
 register('phoneService', PhoneService);
 
+var lzString = __commonjs(function (module) {
+    // Copyright (c) 2013 Pieroxy <pieroxy@pieroxy.net>
+    // This work is free. You can redistribute it and/or modify it
+    // under the terms of the WTFPL, Version 2
+    // For more information see LICENSE.txt or http://www.wtfpl.net/
+    //
+    // For more information, the home page:
+    // http://pieroxy.net/blog/pages/lz-string/testing.html
+    //
+    // LZ-based compression algorithm, version 1.4.4
+    var LZString = function () {
+
+        // private property
+        var f = String.fromCharCode;
+        var keyStrBase64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        var keyStrUriSafe = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$";
+        var baseReverseDic = {};
+
+        function getBaseValue(alphabet, character) {
+            if (!baseReverseDic[alphabet]) {
+                baseReverseDic[alphabet] = {};
+                for (var i = 0; i < alphabet.length; i++) {
+                    baseReverseDic[alphabet][alphabet.charAt(i)] = i;
+                }
+            }
+            return baseReverseDic[alphabet][character];
+        }
+
+        var LZString = {
+            compressToBase64: function compressToBase64(input) {
+                if (input == null) return "";
+                var res = LZString._compress(input, 6, function (a) {
+                    return keyStrBase64.charAt(a);
+                });
+                switch (res.length % 4) {// To produce valid Base64
+                    default: // When could this happen ?
+                    case 0:
+                        return res;
+                    case 1:
+                        return res + "===";
+                    case 2:
+                        return res + "==";
+                    case 3:
+                        return res + "=";
+                }
+            },
+
+            decompressFromBase64: function decompressFromBase64(input) {
+                if (input == null) return "";
+                if (input == "") return null;
+                return LZString._decompress(input.length, 32, function (index) {
+                    return getBaseValue(keyStrBase64, input.charAt(index));
+                });
+            },
+
+            compressToUTF16: function compressToUTF16(input) {
+                if (input == null) return "";
+                return LZString._compress(input, 15, function (a) {
+                    return f(a + 32);
+                }) + " ";
+            },
+
+            decompressFromUTF16: function decompressFromUTF16(compressed) {
+                if (compressed == null) return "";
+                if (compressed == "") return null;
+                return LZString._decompress(compressed.length, 16384, function (index) {
+                    return compressed.charCodeAt(index) - 32;
+                });
+            },
+
+            //compress into uint8array (UCS-2 big endian format)
+            compressToUint8Array: function compressToUint8Array(uncompressed) {
+                var compressed = LZString.compress(uncompressed);
+                var buf = new Uint8Array(compressed.length * 2); // 2 bytes per character
+
+                for (var i = 0, TotalLen = compressed.length; i < TotalLen; i++) {
+                    var current_value = compressed.charCodeAt(i);
+                    buf[i * 2] = current_value >>> 8;
+                    buf[i * 2 + 1] = current_value % 256;
+                }
+                return buf;
+            },
+
+            //decompress from uint8array (UCS-2 big endian format)
+            decompressFromUint8Array: function decompressFromUint8Array(compressed) {
+                if (compressed === null || compressed === undefined) {
+                    return LZString.decompress(compressed);
+                } else {
+                    var buf = new Array(compressed.length / 2); // 2 bytes per character
+                    for (var i = 0, TotalLen = buf.length; i < TotalLen; i++) {
+                        buf[i] = compressed[i * 2] * 256 + compressed[i * 2 + 1];
+                    }
+
+                    var result = [];
+                    buf.forEach(function (c) {
+                        result.push(f(c));
+                    });
+                    return LZString.decompress(result.join(''));
+                }
+            },
+
+            //compress into a string that is already URI encoded
+            compressToEncodedURIComponent: function compressToEncodedURIComponent(input) {
+                if (input == null) return "";
+                return LZString._compress(input, 6, function (a) {
+                    return keyStrUriSafe.charAt(a);
+                });
+            },
+
+            //decompress from an output of compressToEncodedURIComponent
+            decompressFromEncodedURIComponent: function decompressFromEncodedURIComponent(input) {
+                if (input == null) return "";
+                if (input == "") return null;
+                input = input.replace(/ /g, "+");
+                return LZString._decompress(input.length, 32, function (index) {
+                    return getBaseValue(keyStrUriSafe, input.charAt(index));
+                });
+            },
+
+            compress: function compress(uncompressed) {
+                return LZString._compress(uncompressed, 16, function (a) {
+                    return f(a);
+                });
+            },
+            _compress: function _compress(uncompressed, bitsPerChar, getCharFromInt) {
+                if (uncompressed == null) return "";
+                var i,
+                    value,
+                    context_dictionary = {},
+                    context_dictionaryToCreate = {},
+                    context_c = "",
+                    context_wc = "",
+                    context_w = "",
+                    context_enlargeIn = 2,
+                    // Compensate for the first entry which should not count
+                context_dictSize = 3,
+                    context_numBits = 2,
+                    context_data = [],
+                    context_data_val = 0,
+                    context_data_position = 0,
+                    ii;
+
+                for (ii = 0; ii < uncompressed.length; ii += 1) {
+                    context_c = uncompressed.charAt(ii);
+                    if (!Object.prototype.hasOwnProperty.call(context_dictionary, context_c)) {
+                        context_dictionary[context_c] = context_dictSize++;
+                        context_dictionaryToCreate[context_c] = true;
+                    }
+
+                    context_wc = context_w + context_c;
+                    if (Object.prototype.hasOwnProperty.call(context_dictionary, context_wc)) {
+                        context_w = context_wc;
+                    } else {
+                        if (Object.prototype.hasOwnProperty.call(context_dictionaryToCreate, context_w)) {
+                            if (context_w.charCodeAt(0) < 256) {
+                                for (i = 0; i < context_numBits; i++) {
+                                    context_data_val = context_data_val << 1;
+                                    if (context_data_position == bitsPerChar - 1) {
+                                        context_data_position = 0;
+                                        context_data.push(getCharFromInt(context_data_val));
+                                        context_data_val = 0;
+                                    } else {
+                                        context_data_position++;
+                                    }
+                                }
+                                value = context_w.charCodeAt(0);
+                                for (i = 0; i < 8; i++) {
+                                    context_data_val = context_data_val << 1 | value & 1;
+                                    if (context_data_position == bitsPerChar - 1) {
+                                        context_data_position = 0;
+                                        context_data.push(getCharFromInt(context_data_val));
+                                        context_data_val = 0;
+                                    } else {
+                                        context_data_position++;
+                                    }
+                                    value = value >> 1;
+                                }
+                            } else {
+                                value = 1;
+                                for (i = 0; i < context_numBits; i++) {
+                                    context_data_val = context_data_val << 1 | value;
+                                    if (context_data_position == bitsPerChar - 1) {
+                                        context_data_position = 0;
+                                        context_data.push(getCharFromInt(context_data_val));
+                                        context_data_val = 0;
+                                    } else {
+                                        context_data_position++;
+                                    }
+                                    value = 0;
+                                }
+                                value = context_w.charCodeAt(0);
+                                for (i = 0; i < 16; i++) {
+                                    context_data_val = context_data_val << 1 | value & 1;
+                                    if (context_data_position == bitsPerChar - 1) {
+                                        context_data_position = 0;
+                                        context_data.push(getCharFromInt(context_data_val));
+                                        context_data_val = 0;
+                                    } else {
+                                        context_data_position++;
+                                    }
+                                    value = value >> 1;
+                                }
+                            }
+                            context_enlargeIn--;
+                            if (context_enlargeIn == 0) {
+                                context_enlargeIn = Math.pow(2, context_numBits);
+                                context_numBits++;
+                            }
+                            delete context_dictionaryToCreate[context_w];
+                        } else {
+                            value = context_dictionary[context_w];
+                            for (i = 0; i < context_numBits; i++) {
+                                context_data_val = context_data_val << 1 | value & 1;
+                                if (context_data_position == bitsPerChar - 1) {
+                                    context_data_position = 0;
+                                    context_data.push(getCharFromInt(context_data_val));
+                                    context_data_val = 0;
+                                } else {
+                                    context_data_position++;
+                                }
+                                value = value >> 1;
+                            }
+                        }
+                        context_enlargeIn--;
+                        if (context_enlargeIn == 0) {
+                            context_enlargeIn = Math.pow(2, context_numBits);
+                            context_numBits++;
+                        }
+                        // Add wc to the dictionary.
+                        context_dictionary[context_wc] = context_dictSize++;
+                        context_w = String(context_c);
+                    }
+                }
+
+                // Output the code for w.
+                if (context_w !== "") {
+                    if (Object.prototype.hasOwnProperty.call(context_dictionaryToCreate, context_w)) {
+                        if (context_w.charCodeAt(0) < 256) {
+                            for (i = 0; i < context_numBits; i++) {
+                                context_data_val = context_data_val << 1;
+                                if (context_data_position == bitsPerChar - 1) {
+                                    context_data_position = 0;
+                                    context_data.push(getCharFromInt(context_data_val));
+                                    context_data_val = 0;
+                                } else {
+                                    context_data_position++;
+                                }
+                            }
+                            value = context_w.charCodeAt(0);
+                            for (i = 0; i < 8; i++) {
+                                context_data_val = context_data_val << 1 | value & 1;
+                                if (context_data_position == bitsPerChar - 1) {
+                                    context_data_position = 0;
+                                    context_data.push(getCharFromInt(context_data_val));
+                                    context_data_val = 0;
+                                } else {
+                                    context_data_position++;
+                                }
+                                value = value >> 1;
+                            }
+                        } else {
+                            value = 1;
+                            for (i = 0; i < context_numBits; i++) {
+                                context_data_val = context_data_val << 1 | value;
+                                if (context_data_position == bitsPerChar - 1) {
+                                    context_data_position = 0;
+                                    context_data.push(getCharFromInt(context_data_val));
+                                    context_data_val = 0;
+                                } else {
+                                    context_data_position++;
+                                }
+                                value = 0;
+                            }
+                            value = context_w.charCodeAt(0);
+                            for (i = 0; i < 16; i++) {
+                                context_data_val = context_data_val << 1 | value & 1;
+                                if (context_data_position == bitsPerChar - 1) {
+                                    context_data_position = 0;
+                                    context_data.push(getCharFromInt(context_data_val));
+                                    context_data_val = 0;
+                                } else {
+                                    context_data_position++;
+                                }
+                                value = value >> 1;
+                            }
+                        }
+                        context_enlargeIn--;
+                        if (context_enlargeIn == 0) {
+                            context_enlargeIn = Math.pow(2, context_numBits);
+                            context_numBits++;
+                        }
+                        delete context_dictionaryToCreate[context_w];
+                    } else {
+                        value = context_dictionary[context_w];
+                        for (i = 0; i < context_numBits; i++) {
+                            context_data_val = context_data_val << 1 | value & 1;
+                            if (context_data_position == bitsPerChar - 1) {
+                                context_data_position = 0;
+                                context_data.push(getCharFromInt(context_data_val));
+                                context_data_val = 0;
+                            } else {
+                                context_data_position++;
+                            }
+                            value = value >> 1;
+                        }
+                    }
+                    context_enlargeIn--;
+                    if (context_enlargeIn == 0) {
+                        context_enlargeIn = Math.pow(2, context_numBits);
+                        context_numBits++;
+                    }
+                }
+
+                // Mark the end of the stream
+                value = 2;
+                for (i = 0; i < context_numBits; i++) {
+                    context_data_val = context_data_val << 1 | value & 1;
+                    if (context_data_position == bitsPerChar - 1) {
+                        context_data_position = 0;
+                        context_data.push(getCharFromInt(context_data_val));
+                        context_data_val = 0;
+                    } else {
+                        context_data_position++;
+                    }
+                    value = value >> 1;
+                }
+
+                // Flush the last char
+                while (true) {
+                    context_data_val = context_data_val << 1;
+                    if (context_data_position == bitsPerChar - 1) {
+                        context_data.push(getCharFromInt(context_data_val));
+                        break;
+                    } else context_data_position++;
+                }
+                return context_data.join('');
+            },
+
+            decompress: function decompress(compressed) {
+                if (compressed == null) return "";
+                if (compressed == "") return null;
+                return LZString._decompress(compressed.length, 32768, function (index) {
+                    return compressed.charCodeAt(index);
+                });
+            },
+
+            _decompress: function _decompress(length, resetValue, getNextValue) {
+                var dictionary = [],
+                    next,
+                    enlargeIn = 4,
+                    dictSize = 4,
+                    numBits = 3,
+                    entry = "",
+                    result = [],
+                    i,
+                    w,
+                    bits,
+                    resb,
+                    maxpower,
+                    power,
+                    c,
+                    data = { val: getNextValue(0), position: resetValue, index: 1 };
+
+                for (i = 0; i < 3; i += 1) {
+                    dictionary[i] = i;
+                }
+
+                bits = 0;
+                maxpower = Math.pow(2, 2);
+                power = 1;
+                while (power != maxpower) {
+                    resb = data.val & data.position;
+                    data.position >>= 1;
+                    if (data.position == 0) {
+                        data.position = resetValue;
+                        data.val = getNextValue(data.index++);
+                    }
+                    bits |= (resb > 0 ? 1 : 0) * power;
+                    power <<= 1;
+                }
+
+                switch (next = bits) {
+                    case 0:
+                        bits = 0;
+                        maxpower = Math.pow(2, 8);
+                        power = 1;
+                        while (power != maxpower) {
+                            resb = data.val & data.position;
+                            data.position >>= 1;
+                            if (data.position == 0) {
+                                data.position = resetValue;
+                                data.val = getNextValue(data.index++);
+                            }
+                            bits |= (resb > 0 ? 1 : 0) * power;
+                            power <<= 1;
+                        }
+                        c = f(bits);
+                        break;
+                    case 1:
+                        bits = 0;
+                        maxpower = Math.pow(2, 16);
+                        power = 1;
+                        while (power != maxpower) {
+                            resb = data.val & data.position;
+                            data.position >>= 1;
+                            if (data.position == 0) {
+                                data.position = resetValue;
+                                data.val = getNextValue(data.index++);
+                            }
+                            bits |= (resb > 0 ? 1 : 0) * power;
+                            power <<= 1;
+                        }
+                        c = f(bits);
+                        break;
+                    case 2:
+                        return "";
+                }
+                dictionary[3] = c;
+                w = c;
+                result.push(c);
+                while (true) {
+                    if (data.index > length) {
+                        return "";
+                    }
+
+                    bits = 0;
+                    maxpower = Math.pow(2, numBits);
+                    power = 1;
+                    while (power != maxpower) {
+                        resb = data.val & data.position;
+                        data.position >>= 1;
+                        if (data.position == 0) {
+                            data.position = resetValue;
+                            data.val = getNextValue(data.index++);
+                        }
+                        bits |= (resb > 0 ? 1 : 0) * power;
+                        power <<= 1;
+                    }
+
+                    switch (c = bits) {
+                        case 0:
+                            bits = 0;
+                            maxpower = Math.pow(2, 8);
+                            power = 1;
+                            while (power != maxpower) {
+                                resb = data.val & data.position;
+                                data.position >>= 1;
+                                if (data.position == 0) {
+                                    data.position = resetValue;
+                                    data.val = getNextValue(data.index++);
+                                }
+                                bits |= (resb > 0 ? 1 : 0) * power;
+                                power <<= 1;
+                            }
+
+                            dictionary[dictSize++] = f(bits);
+                            c = dictSize - 1;
+                            enlargeIn--;
+                            break;
+                        case 1:
+                            bits = 0;
+                            maxpower = Math.pow(2, 16);
+                            power = 1;
+                            while (power != maxpower) {
+                                resb = data.val & data.position;
+                                data.position >>= 1;
+                                if (data.position == 0) {
+                                    data.position = resetValue;
+                                    data.val = getNextValue(data.index++);
+                                }
+                                bits |= (resb > 0 ? 1 : 0) * power;
+                                power <<= 1;
+                            }
+                            dictionary[dictSize++] = f(bits);
+                            c = dictSize - 1;
+                            enlargeIn--;
+                            break;
+                        case 2:
+                            return result.join('');
+                    }
+
+                    if (enlargeIn == 0) {
+                        enlargeIn = Math.pow(2, numBits);
+                        numBits++;
+                    }
+
+                    if (dictionary[c]) {
+                        entry = dictionary[c];
+                    } else {
+                        if (c === dictSize) {
+                            entry = w + w.charAt(0);
+                        } else {
+                            return null;
+                        }
+                    }
+                    result.push(entry);
+
+                    // Add w+entry[0] to the dictionary.
+                    dictionary[dictSize++] = w + entry.charAt(0);
+                    enlargeIn--;
+
+                    w = entry;
+
+                    if (enlargeIn == 0) {
+                        enlargeIn = Math.pow(2, numBits);
+                        numBits++;
+                    }
+                }
+            }
+        };
+        return LZString;
+    }();
+
+    if (typeof define === 'function' && define.amd) {
+        define(function () {
+            return LZString;
+        });
+    } else if (typeof module !== 'undefined' && module != null) {
+        module.exports = LZString;
+    }
+});
+
+var LZString = lzString && (typeof lzString === 'undefined' ? 'undefined' : _typeof(lzString)) === 'object' && 'default' in lzString ? lzString['default'] : lzString;
+
 var rcContactService = function (sdk) {
     var companyContacts = [];
     var completeCompanyContacts = null;
@@ -1142,63 +1666,6 @@ var contactDetailWidgetAdapter = function () {
 }();
 register('contactDetailWidgetAdapter', contactDetailWidgetAdapter);
 
-var actions = {};
-function register$1(name, action) {
-    actions[name] = action;
-}
-function getActions() {
-    return actions;
-}
-
-var interaction = {
-    show: {
-        before: function before() {},
-        method: function method(finish) {},
-        after: function after() {
-            var target = arguments.length <= 0 || arguments[0] === undefined ? this.root : arguments[0];
-
-            target.classList.remove('display-none');
-        }
-    },
-    hide: {
-        before: function before() {},
-        method: function method(finish) {},
-        after: function after() {
-            var target = arguments.length <= 0 || arguments[0] === undefined ? this.root : arguments[0];
-
-            target.classList.add('display-none');
-        }
-    },
-    diabled: {
-        before: function before() {},
-        method: function method(finish) {},
-        after: function after() {
-            var target = arguments.length <= 0 || arguments[0] === undefined ? this.root : arguments[0];
-            var message = arguments[1];
-
-            var mask = document.createElement('div');
-            // FIXME Decouple from rc
-            mask.classList.add('rc-mask');
-            var message = document.createElement('h4');
-            message.classList.add('rc-mask-message');
-            message.textContent = message;
-            target.appendChild(mask);
-            this.props.mask = mask;
-            return mask;
-        }
-    },
-    enable: {
-        before: function before() {},
-        method: function method(finish) {},
-        after: function after() {
-            if (this.props.mask && this.props.mask instanceof HTMLElement) {
-                this.props.mask.parentNode.removeChild(this.props.mask);
-            }
-        }
-    }
-};
-register$1('interaction', interaction);
-
 function initLogger(level) {
     return {
         error: function error() {
@@ -1275,11 +1742,15 @@ function createFragment(name, template) {
 }
 
 function generateDocument(widget, fragment) {
+    // FIXME: DOM based is slower then String based
     var dom = {};
     var getRefsToDOM = getRefsTo(dom);
     var assignEventToWidget = assignEventTo(widget);
     Array.from(fragment.querySelectorAll('[data-info]')).forEach(getRefsToDOM);
-    Array.from(fragment.querySelectorAll('[data-event]')).forEach(assignEventToWidget);
+    if (widget.click) {
+        widget.root.addEventListener('click', widget.click.bind(widget));
+    }
+    // Array.from(fragment.querySelectorAll('[data-event]')).forEach(assignEventToWidget)
     return dom;
 }
 
@@ -1314,6 +1785,7 @@ function getDocumentRoot(name, fragment) {
 }
 
 var lifecycle = {
+    init: function init() {},
     destroy: function destroy() {
         this.unmount();
         // TODO: find out better way to destroy it
@@ -1344,7 +1816,8 @@ var lifecycle = {
             this._mounted = true;
         }
         return this;
-    }
+    },
+    error: function error() {}
 };
 
 var logger$1;
@@ -1357,7 +1830,7 @@ var functionSet = {
         throw e;
     }
 };
-function register$2() {
+function register$1() {
     var _ref = arguments.length <= 0 || arguments[0] === undefined ? settings : arguments[0];
 
     var actions = _ref.actions;
@@ -1367,7 +1840,18 @@ function register$2() {
     if (!actions) console.warn('Widgets do not have actions defined, maybe you get some typo.');['init', 'mount', 'unmount', 'destroy', 'error'].forEach(function (action) {
         actions[action] = Object.assign(shallowCopy(functionSet), actions[action]);
     });
-    return Widget.bind(null, { actions: actions, data: data, props: props });
+
+    var Clone = function Clone(options) {
+        Widget.call(this, { actions: actions, data: data, props: props }, options);
+    };
+    for (var prop in actions) {
+        if (actions.hasOwnProperty(prop)) Clone.prototype[prop] = generateActions(actions[prop]);
+    }
+
+    // var Clone = Object.create(Widget.prototype)
+    // return Widget.bind(null, {actions, data, props})
+    return Clone;
+    // TODO: prototype here
 }
 
 function Widget(_ref2, options) {
@@ -1379,7 +1863,7 @@ function Widget(_ref2, options) {
     var _ref2$props = _ref2.props;
     var props = _ref2$props === undefined ? {} : _ref2$props;
 
-    if (!options.internal) {
+    if (!options || !options.internal) {
         return Error('You are trying to construct a widget manually, please use w()');
     }
     logger$1 = initLogger(options.logLevel);
@@ -1392,21 +1876,14 @@ function Widget(_ref2, options) {
     this.fragment = createFragment(options.is, options.template);
     this.root = getDocumentRoot(options.is, this.fragment);
     this.dom = undefined;
-
     var actions = shallowCopy(actions);
     options.actions = shallowCopy(options.actions);
 
     var ctx = this;
-
-    Object.keys(options.actions).forEach(function (index) {
-        return bindToTarget(options.actions, index);
-    });
-    Object.keys(actions).forEach(function (index) {
-        return bindToTarget(actions, index);
-    });
-
-    for (var prop in actions) {
-        if (actions.hasOwnProperty(prop)) this[prop] = generateActions(actions[prop], options.actions[prop], prop);
+    // Object.keys(options.actions).forEach(index => bindToTarget(options.actions, index))
+    // Object.keys(actions).forEach(index => bindToTarget(actions, index))
+    for (var prop in options.actions) {
+        if (options.actions.hasOwnProperty(prop)) this[prop] = generateActions(actions[prop], options.actions[prop], prop);
     }
 
     ['mount', 'unmount', 'destroy'].forEach(function (action) {
@@ -1421,7 +1898,7 @@ function Widget(_ref2, options) {
         target[index] = bindScope(ctx, target[index]);
     }
     this.dom = generateDocument(this, this.fragment);
-    this.init();
+    this.init.call(this);
 }
 
 function extendLifecycle(base, extend) {
@@ -1446,12 +1923,13 @@ function bindScope(scope, action) {
 
 function generateActions(widgetAction) {
     var userAction = arguments.length <= 1 || arguments[1] === undefined ? shallowCopy(functionSet) : arguments[1];
-    var name = arguments[2];
 
     return function (a, b, c, d, e, f) {
+        var _this2 = this;
+
         var before = function before(a, b, c, d, e, f) {
-            userAction.before && userAction.before(a, b, c, d, e, f);
-            var result = widgetAction.before ? widgetAction.before(a, b, c, d, e, f) : undefined;
+            userAction.before && userAction.before.call(_this2, a, b, c, d, e, f);
+            var result = widgetAction.before ? widgetAction.before.call(_this2, a, b, c, d, e, f) : undefined;
             // Something like Monad
             if (typeof result !== 'undefined') return result;
             return {
@@ -1462,21 +1940,25 @@ function generateActions(widgetAction) {
             };
         };
         var method = function method(arg) {
-            if (arg.__custom) return widgetAction.method && widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg.data))) || arg;else return widgetAction.method && widgetAction.method(userAction.method, arg) || arg;
+            var _widgetAction$method;
+
+            if (arg.__custom) return widgetAction.method && (_widgetAction$method = widgetAction.method).call.apply(_widgetAction$method, [_this2, bind6Args(userAction.method, _this2)].concat(_toConsumableArray(arg.data))) || arg;else return widgetAction.method && widgetAction.method.call(_this2, bind6Args(userAction.method, _this2), arg) || arg;
         };
         var after = function after(arg) {
             if (arg.__custom) {
+                var _userAction$after, _widgetAction$after;
+
                 arg = arg.data;
-                userAction.after && userAction.after.apply(userAction, _toConsumableArray(arg));
-                return widgetAction.after && widgetAction.after.apply(widgetAction, _toConsumableArray(arg)) || arg;
+                userAction.after && (_userAction$after = userAction.after).call.apply(_userAction$after, [_this2].concat(_toConsumableArray(arg)));
+                return widgetAction.after && (_widgetAction$after = widgetAction.after).call.apply(_widgetAction$after, [_this2].concat(_toConsumableArray(arg))) || arg;
             } else {
-                userAction.after && userAction.after(arg);
-                return widgetAction.after && widgetAction.after(arg) || arg;
+                userAction.after && userAction.after.call(_this2, arg);
+                return widgetAction.after && widgetAction.after.call(_this2, arg) || arg;
             }
         };
         var error = function error(e) {
-            widgetAction.error(e);
-            userAction.error(e);
+            widgetAction.error && widgetAction.error.call(_this2, e);
+            userAction.error && userAction.error.call(_this2, e);
         };
         var finish = function finish(arg) {
             if (arg.__custom) {
@@ -1507,6 +1989,11 @@ function chainActions(result, actions, error) {
     } else {
         return chainActions(actions[start + 1](result), actions, error, start + 1);
     }
+}
+
+var actions = {};
+function getActions() {
+    return actions;
 }
 
 function transitionIn(effect, target) {
@@ -2000,25 +2487,29 @@ function insert(name, input) {
 //         }, []))
 // }
 
-function initNestedWidget(widget) {
+function initNestedWidget(widget, template) {
+    if (template.__flat) return widget;
     // TODO: perf hit
     var docs = widget.root.querySelectorAll('*');
-    Array.from(docs).forEach(function (doc) {
-        if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
-            if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
-                return;
-            }
-            var name = doc.tagName.toLowerCase();
-            var child = w(name, widget.custom[name]);
-            // child.mount(doc)
-            widget.children.push({
-                target: doc,
-                widget: child
-            });
-            widget.refs[name] = child;
-            var childName = doc.getAttribute('data-info');
-            if (childName) widget.refs[name] = child;
+    var customElements = Array.from(docs).filter(function (doc) {
+        return doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement;
+    });
+    if (customElements.length === 0) template.__flat = true;
+    customElements.forEach(function (doc) {
+        // FIXME: dynamic is not needed
+        if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
+            return;
         }
+        var name = doc.tagName.toLowerCase();
+        var child = w(name, widget.custom[name]);
+        // child.mount(doc)
+        widget.children.push({
+            target: doc,
+            widget: child
+        });
+        widget.refs[name] = child;
+        var childName = doc.getAttribute('data-info');
+        if (childName) widget.refs[name] = child;
     });
     return widget;
 }
@@ -2077,7 +2568,9 @@ function w(name) {
     // var template = document.createElement('template')
     // template.innerHTML = widget.template
     // var clone = document.importNode(template.content, true)
-    w.templates[name] = w.templates[name] || {};
+    w.templates[name] = w.templates[name] || {
+        __flat: false
+    };
     w.templates[name].template = widgetInfo.template;
 
     // widget.imports.scripts.forEach(src => {
@@ -2108,7 +2601,6 @@ function w(name) {
     //     document.head.appendChild(style)
     // }
     insert(name, widgetInfo);
-
     return initNestedWidget(new w.templates[name].widget({
         is: name,
         template: w.templates[name].template,
@@ -2117,7 +2609,7 @@ function w(name) {
         props: options.props || {},
         logLevel: w.options.logLevel,
         internal: true // for check it's called by internal
-    }));
+    }), w.templates[name]);
 }
 
 w.templates = {};
@@ -2126,7 +2618,7 @@ w.register = function (settings) {
     var settings = new settings();
     Object.keys(w.templates).forEach(function (index) {
         var template = w.templates[index];
-        if (template.template && !template.widget) template.widget = register$2(settings);
+        if (template.template && !template.widget) template.widget = register$1(settings);
     });
 };
 w.config = function (options, callback) {

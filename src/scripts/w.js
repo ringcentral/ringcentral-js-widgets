@@ -26,11 +26,16 @@ import { insert } from './insertion'
 //         }, []))
 // }
 
-function initNestedWidget(widget) {
+function initNestedWidget(widget, template) {
+    if (template.__flat) return widget
     // TODO: perf hit
     var docs = widget.root.querySelectorAll('*')
-    Array.from(docs).forEach(doc => {
-        if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+    var customElements = Array.from(docs)
+        .filter(doc => doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement)
+    if (customElements.length === 0) template.__flat = true
+    customElements
+        .forEach(doc => {
+            // FIXME: dynamic is not needed
             if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
                 return
             }
@@ -45,8 +50,7 @@ function initNestedWidget(widget) {
             var childName = doc.getAttribute('data-info')
             if (childName)
                 widget.refs[name] = child
-        }
-    })
+        })
     return widget
 }
 
@@ -102,7 +106,9 @@ function w(name, options = {}) {
     // var template = document.createElement('template')
     // template.innerHTML = widget.template
     // var clone = document.importNode(template.content, true)
-    w.templates[name] = w.templates[name] || {}
+    w.templates[name] = w.templates[name] || {
+        __flat: false
+    }
     w.templates[name].template = widgetInfo.template
 
     // widget.imports.scripts.forEach(src => {
@@ -133,7 +139,6 @@ function w(name, options = {}) {
     //     document.head.appendChild(style)
     // }
     insert(name, widgetInfo)
-
     return initNestedWidget(new w.templates[name].widget({
         is: name,
         template: w.templates[name].template,
@@ -142,7 +147,7 @@ function w(name, options = {}) {
         props: options.props || {},
         logLevel: w.options.logLevel,
         internal: true // for check it's called by internal
-    }))
+    }), w.templates[name])
 }
 
 

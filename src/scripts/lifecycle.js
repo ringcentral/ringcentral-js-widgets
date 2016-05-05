@@ -1,4 +1,6 @@
 var lifecycle = {
+    init() {},
+
     destroy() {
         this.unmount()
         // TODO: find out better way to destroy it
@@ -35,6 +37,7 @@ var lifecycle = {
             this._mounted = true
         }
         return this
-    }
+    },
+    error() {}
 }
 export default lifecycle

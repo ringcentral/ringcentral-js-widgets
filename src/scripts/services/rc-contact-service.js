@@ -1,5 +1,6 @@
 import sdk from './rc-sdk'
 import { register } from '../service'
+import LZString from 'lz-string'
 
 var rcContactService = function(sdk) {
     var companyContacts = []

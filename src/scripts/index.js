@@ -15,8 +15,6 @@ import rcConferenceSerivce from './services/rc-conference-service'
 //adapters
 import contactDetailWidgetAdapter from './adapters/contact-detail-adapter'
 
-// actions
-import interaction from './actions/interaction'
 import w from './w'
 // development only
 window.w = w
