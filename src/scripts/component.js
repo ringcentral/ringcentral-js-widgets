@@ -94,10 +94,10 @@ function extendLifecycle(base, extend) {
 
 function bindScope(scope, action) {
     return {
-        before: bind6Args(toFunction(action.before), scope),
-        method: bind6Args(toFunction(action.method), scope),
-        after: bind6Args(toFunction(action.after), scope),
-        error: bind6Args(toFunction(action.error, logger.error), scope),
+        before: action.before? bind6Args(action.before, scope): null,
+        method: action.method? bind6Args(action.method, scope): null,
+        after: action.after? bind6Args(action.after, scope): null,
+        error: action.error? bind6Args(action.error, scope): null,
     }
 }
 
@@ -105,8 +105,8 @@ function bindScope(scope, action) {
 function generateActions(widgetAction, userAction = shallowCopy(functionSet), name) {
     return function(a, b, c, d, e, f) {
         var before = function(a, b, c, d, e, f) {
-            userAction.before(a, b, c, d, e, f)
-            var result = widgetAction.before(a, b, c, d, e, f)
+            userAction.before && userAction.before(a, b, c, d, e, f)
+            var result = widgetAction.before? widgetAction.before(a, b, c, d, e, f): undefined
             // Something like Monad
             if (typeof result !== 'undefined') return result
             return {
@@ -116,18 +116,18 @@ function generateActions(widgetAction, userAction = shallowCopy(functionSet), na
         }
         var method = function(arg) {
             if (arg.__custom)
-                return widgetAction.method(userAction.method, ...arg.data) || arg
+                return (widgetAction.method && widgetAction.method(userAction.method, ...arg.data)) || arg
             else
-                return widgetAction.method(userAction.method, arg) || arg
+                return (widgetAction.method && widgetAction.method(userAction.method, arg)) || arg
         }
         var after = function(arg) {
             if (arg.__custom) {
                 arg = arg.data
-                userAction.after(...arg)
-                return widgetAction.after(...arg) || arg
+                userAction.after && userAction.after(...arg)
+                return (widgetAction.after && widgetAction.after(...arg)) || arg
             } else {
-                userAction.after(arg)
-                return widgetAction.after(arg) || arg
+                userAction.after && userAction.after(arg)
+                return (widgetAction.after && widgetAction.after(arg)) || arg
             }
         }
         var error = function(e) {
@@ -138,16 +138,9 @@ function generateActions(widgetAction, userAction = shallowCopy(functionSet), na
             if (arg.__custom) {
                 arg = arg.data
             }
-            // if (isFunction(arg))
-            //     // flatten one level
-            //     return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0]
             return arg
         }
-        // try {
         return chainActions(before(a, b, c, d, e, f), [before, method, after, finish], error)
-        // } catch (e) {
-        // error(e)
-        // }
     }
 }
 

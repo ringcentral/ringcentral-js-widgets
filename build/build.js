@@ -1233,10 +1233,6 @@ function isFunction(fn) {
     return typeof fn === 'function';
 }
 
-function toFunction(fn, defalut) {
-    if (fn && isFunction(fn)) return fn;else if (defalut && isFunction(defalut)) return defalut;else return function () {};
-}
-
 function shallowCopy(target) {
     if (Array.isArray(target)) return target.slice(0);
     return Object.assign({}, target);
@@ -1441,10 +1437,10 @@ function extendLifecycle(base, extend) {
 
 function bindScope(scope, action) {
     return {
-        before: bind6Args(toFunction(action.before), scope),
-        method: bind6Args(toFunction(action.method), scope),
-        after: bind6Args(toFunction(action.after), scope),
-        error: bind6Args(toFunction(action.error, logger$1.error), scope)
+        before: action.before ? bind6Args(action.before, scope) : null,
+        method: action.method ? bind6Args(action.method, scope) : null,
+        after: action.after ? bind6Args(action.after, scope) : null,
+        error: action.error ? bind6Args(action.error, scope) : null
     };
 }
 
@@ -1454,8 +1450,8 @@ function generateActions(widgetAction) {
 
     return function (a, b, c, d, e, f) {
         var before = function before(a, b, c, d, e, f) {
-            userAction.before(a, b, c, d, e, f);
-            var result = widgetAction.before(a, b, c, d, e, f);
+            userAction.before && userAction.before(a, b, c, d, e, f);
+            var result = widgetAction.before ? widgetAction.before(a, b, c, d, e, f) : undefined;
             // Something like Monad
             if (typeof result !== 'undefined') return result;
             return {
@@ -1466,16 +1462,16 @@ function generateActions(widgetAction) {
             };
         };
         var method = function method(arg) {
-            if (arg.__custom) return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg.data))) || arg;else return widgetAction.method(userAction.method, arg) || arg;
+            if (arg.__custom) return widgetAction.method && widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg.data))) || arg;else return widgetAction.method && widgetAction.method(userAction.method, arg) || arg;
         };
         var after = function after(arg) {
             if (arg.__custom) {
                 arg = arg.data;
-                userAction.after.apply(userAction, _toConsumableArray(arg));
-                return widgetAction.after.apply(widgetAction, _toConsumableArray(arg)) || arg;
+                userAction.after && userAction.after.apply(userAction, _toConsumableArray(arg));
+                return widgetAction.after && widgetAction.after.apply(widgetAction, _toConsumableArray(arg)) || arg;
             } else {
-                userAction.after(arg);
-                return widgetAction.after(arg) || arg;
+                userAction.after && userAction.after(arg);
+                return widgetAction.after && widgetAction.after(arg) || arg;
             }
         };
         var error = function error(e) {
@@ -1486,16 +1482,9 @@ function generateActions(widgetAction) {
             if (arg.__custom) {
                 arg = arg.data;
             }
-            // if (isFunction(arg))
-            //     // flatten one level
-            //     return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0]
             return arg;
         };
-        // try {
         return chainActions(before(a, b, c, d, e, f), [before, method, after, finish], error);
-        // } catch (e) {
-        // error(e)
-        // }
     };
 }
 
