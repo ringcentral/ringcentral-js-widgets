@@ -39,7 +39,7 @@
         <div class='panel --extra' id="notification"></div>
     </div>
 </div>
-<script src='../bower_components/phoneformat/dist/phone-format-global.js'></script>
+<script src='./bower_components/phoneformat/dist/phone-format-global.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js'></script>
 <script>
 var phone = w.register(function() {
@@ -94,6 +94,7 @@ var phone = w.register(function() {
                 this.props.conversation = undefined;
                 this.props.contactDetail = undefined;
                 this.props.dialPad = w('dial-pad', {
+                    shadowRoot: phone.data.shadowRoot,
                     data : phone.data,
                     actions: {
                         mount: {
@@ -131,6 +132,7 @@ var phone = w.register(function() {
                     }
                 });
                 this.props.callPanel = w('call-panel', {
+                    shadowRoot: phone.data.shadowRoot,
                     data : phone.data,
                     actions: {
                         init: {
@@ -154,6 +156,7 @@ var phone = w.register(function() {
                     }
                 })
                 this.props.callPanelIncoming = w('call-panel-incoming', {
+                    shadowRoot: phone.data.shadowRoot,
                     data : phone.data,
                     actions: {
                         init: {
@@ -170,6 +173,7 @@ var phone = w.register(function() {
                     }
                 })
                 this.props.callLog = w('call-log', {
+                    shadowRoot: phone.data.shadowRoot,
                     actions: {
                         init: {
                             method: function() {
@@ -179,6 +183,7 @@ var phone = w.register(function() {
                     }
                 });
                 this.props.timeline = w('time-line', {
+                    shadowRoot: phone.data.shadowRoot,
                     actions: {
                         mount: {
                             after: function() {
@@ -249,6 +254,7 @@ var phone = w.register(function() {
                     }
                 });
                 this.props.contacts = w('contacts', {
+                    shadowRoot: phone.data.shadowRoot,
                     data: {},
                     actions: {
                         init: {
@@ -327,6 +333,7 @@ var phone = w.register(function() {
                     }
                 });
                 this.props.toolbar = w('tool-bar', {
+                    shadowRoot: phone.data.shadowRoot,
                     data : phone.data,
                     actions: {
                         init: {
@@ -386,6 +393,7 @@ var phone = w.register(function() {
                     }
                 });
                 this.props.authPanel = w('auth-panel', {
+                    shadowRoot: phone.data.shadowRoot,
                     data : phone.data,
                     actions: {
                         login: {
@@ -399,7 +407,10 @@ var phone = w.register(function() {
                             after: function() {
                                 this.unmount()
                                 phone.loadData();
-                                phone.props.toolbar.mount('#toolbar');
+                                if (phone.data.shadowRoot)
+                                    phone.props.toolbar.mount(phone.data.shadowRoot.querySelector('#toolbar'))
+                                else
+                                    phone.props.toolbar.mount('#toolbar');
                             }
                         }
                     }
@@ -451,7 +462,10 @@ var phone = w.register(function() {
             after: function() {
                 this.createWidgets()
                 this.getService().loginService.checkLoginStatus().then(isLoggedIn => {
-                    this.props.authPanel.mount('#auth-panel')
+                    if (this.data.shadowRoot)
+                        this.props.authPanel.mount(this.data.shadowRoot.querySelector('#auth-panel'))
+                    else
+                        this.props.authPanel.mount('#auth-panel')
                 }).catch(err => console.error(err))
                 // this.props.authPanel.mount('#auth-panel');
             }

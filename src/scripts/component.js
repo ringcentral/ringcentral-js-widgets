@@ -52,7 +52,7 @@ function Widget({actions, data = {}, props = {}}, options) {
     }
     logger = initLogger(options.logLevel)
     this._mounted = false
-    
+
     this.refs = {}
     this.props = props
     this.custom = {}
@@ -136,13 +136,8 @@ function generateActions(widgetAction, userAction = shallowCopy(functionSet)) {
             widgetAction.error && widgetAction.error.call(this, e)
             userAction.error && userAction.error.call(this, e)
         }
-        var finish = function(arg) {
-            if (arg.__custom) {
-                arg = arg.data
-            }
-            return arg
-        }
-        return chainActions(before(a, b, c, d, e, f), [before, method, after, finish], error)
+        
+        return chainActions(before(a, b, c, d, e, f), [before, method, after], error)
     }
 }
 

@@ -26,7 +26,7 @@ import { insert } from './insertion'
 //         }, []))
 // }
 
-function initNestedWidget(widget, template) {
+function initNestedWidget(widget, template, options) {
     if (template.__flat) return widget
     // TODO: perf hit
     var docs = widget.root.querySelectorAll('*')
@@ -40,7 +40,7 @@ function initNestedWidget(widget, template) {
                 return
             }
             var name = doc.tagName.toLowerCase()
-            var child = w(name, widget.custom[name])
+            var child = w(name, Object.assign(widget.custom[name], options))
             // child.mount(doc)
             widget.children.push({
                 target: doc,
@@ -102,43 +102,12 @@ function initNestedWidget(widget, template) {
 const WIDGETS = __w_widgets
 function w(name, options = {}) {
     var widgetInfo = WIDGETS[name]
-    // template
-    // var template = document.createElement('template')
-    // template.innerHTML = widget.template
-    // var clone = document.importNode(template.content, true)
     w.templates[name] = w.templates[name] || {
+        // indicate that the template is not including nested widget, perf improvement for skip parsing
         __flat: false
     }
     w.templates[name].template = widgetInfo.template
-
-    // widget.imports.scripts.forEach(src => {
-    //     var script = document.createElement('script')
-    //     script.src = src
-    //     document.body.appendChild(script)
-    // })
-
-    //  widget.imports.scripts.forEach(src => {
-    //     var style = document.createElement('style')
-    //     style.src = src
-    //     document.head.appendChild(style)
-    // })
-
-    // // script
-    // if (widget.script) {
-    //     console.log(widget.script)
-    //     var script = document.createElement('script')
-    //     script.text = widget.script
-    //     document.body.appendChild(script)
-    //     document.body.removeChild(script)
-    // }
-    
-    // // style
-    // if (widget.style) {
-    //     var style = document.createElement('style')
-    //     style.innerHTML = widget.style
-    //     document.head.appendChild(style)
-    // }
-    insert(name, widgetInfo)
+    insert(name, widgetInfo, options.shadowRoot)
     return initNestedWidget(new w.templates[name].widget({
         is: name,
         template: w.templates[name].template,
@@ -147,7 +116,11 @@ function w(name, options = {}) {
         props: options.props || {},
         logLevel: w.options.logLevel,
         internal: true // for check it's called by internal
-    }), w.templates[name])
+    }), w.templates[name], {
+        // inherited options
+        logLevel: options.logLevel,
+        shadowRoot: options.shadowRoot
+    })
 }
 
 

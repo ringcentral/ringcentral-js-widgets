@@ -1,5 +1,5 @@
 <template>
-    <div class='rc-panel rc-auth-panel' data-event='click:onClick'>
+    <div class='rc-panel rc-auth-panel'>
         <div class='rc-panel__header rc-auth-panel__header rc-auth-panel__header--color'>
             <img    class='rc-img rc-auth-panel__img'
                     src='./ringcentral_logo.png'
@@ -131,9 +131,8 @@ w.register(function() {
             method: function(finish, event) {
                 if (event.target === this.dom['login-button']) this.login()
             }
-        }
+        },
     }
-    
 })
 
 //# sourceURL=auth-panel.html

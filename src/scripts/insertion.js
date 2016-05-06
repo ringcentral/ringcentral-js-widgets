@@ -1,40 +1,43 @@
 var importedScripts = []
 var importedStyles = []
-function insertScript (script) {
+function insertScript (script, shadow) {
     var tag = document.createElement('script')
     tag.text = script
-    document.body.appendChild(tag)
-    document.body.removeChild(tag)
+    if (shadow)
+        shadow.appendChild(tag)
+    else {
+        document.body.appendChild(tag)
+        document.body.removeChild(tag)
+    }
 }
-function insertStyle(style) {
+function insertStyle(style, shadow) {
+    console.log(shadow);
+    console.log(style);
     var tag = document.createElement('style')
     tag.innerHTML = style
-    document.head.appendChild(tag)
+    shadow? shadow.appendChild(tag): document.body.appendChild(tag)
 }
-function importStyle(src) {
+function importStyle(src, shadow) {
     var style = document.createElement('style')
     style.src = src
-    document.head.appendChild(style)
+    shadow? shadow.appendChild(style): document.body.appendChild(style)
 }
-function importScript(src) {
+function importScript(src, shadow) {
     var script = document.createElement('script')
     script.src = src
-    document.body.appendChild(script)
+    shadow? shadow.appendChild(script): document.body.appendChild(script)
+    
 }
 
-function insert(name, input) {
-    input.imports.scripts.forEach(importScript)
-    input.imports.styles.forEach(importStyle)
+export function insert(name, input, shadow) {
+    input.imports.scripts.forEach(src => importScript(src, shadow))
+    input.imports.styles.forEach(src => importStyle(src, shadow))
     if (input.script && importedScripts.indexOf(name) === -1) {
         importedScripts.push(name)
-        insertScript(input.script)
+        insertScript(input.script, shadow)
     } 
     if (input.style && importedStyles.indexOf(name) === -1) {
         importedStyles.push(name)
-        insertStyle(input.style)
+        insertStyle(input.style, shadow)
     }
-}
-
-export {
-    insert
 }

@@ -1943,13 +1943,8 @@ function generateActions(widgetAction) {
             widgetAction.error && widgetAction.error.call(_this2, e);
             userAction.error && userAction.error.call(_this2, e);
         };
-        var finish = function finish(arg) {
-            if (arg.__custom) {
-                arg = arg.data;
-            }
-            return arg;
-        };
-        return chainActions(before(a, b, c, d, e, f), [before, method, after, finish], error);
+
+        return chainActions(before(a, b, c, d, e, f), [before, method, after], error);
     };
 }
 
@@ -2414,38 +2409,46 @@ function translate(locale) {
 
 var importedScripts = [];
 var importedStyles = [];
-function insertScript(script) {
+function insertScript(script, shadow) {
     var tag = document.createElement('script');
     tag.text = script;
-    document.body.appendChild(tag);
-    document.body.removeChild(tag);
+    if (shadow) shadow.appendChild(tag);else {
+        document.body.appendChild(tag);
+        document.body.removeChild(tag);
+    }
 }
-function insertStyle(style) {
+function insertStyle(style, shadow) {
+    console.log(shadow);
+    console.log(style);
     var tag = document.createElement('style');
     tag.innerHTML = style;
-    document.head.appendChild(tag);
+    shadow ? shadow.appendChild(tag) : document.body.appendChild(tag);
 }
-function importStyle(src) {
+function importStyle(src, shadow) {
     var style = document.createElement('style');
     style.src = src;
-    document.head.appendChild(style);
+    shadow ? shadow.appendChild(style) : document.body.appendChild(style);
 }
-function importScript(src) {
+function importScript(src, shadow) {
     var script = document.createElement('script');
     script.src = src;
-    document.body.appendChild(script);
+    shadow ? shadow.appendChild(script) : document.body.appendChild(script);
 }
 
-function insert(name, input) {
-    input.imports.scripts.forEach(importScript);
-    input.imports.styles.forEach(importStyle);
+function insert(name, input, shadow) {
+    input.imports.scripts.forEach(function (src) {
+        return importScript(src, shadow);
+    });
+    input.imports.styles.forEach(function (src) {
+        return importStyle(src, shadow);
+    });
     if (input.script && importedScripts.indexOf(name) === -1) {
         importedScripts.push(name);
-        insertScript(input.script);
+        insertScript(input.script, shadow);
     }
     if (input.style && importedStyles.indexOf(name) === -1) {
         importedStyles.push(name);
-        insertStyle(input.style);
+        insertStyle(input.style, shadow);
     }
 }
 
@@ -2470,7 +2473,7 @@ function insert(name, input) {
 //         }, []))
 // }
 
-function initNestedWidget(widget, template) {
+function initNestedWidget(widget, template, options) {
     if (template.__flat) return widget;
     // TODO: perf hit
     var docs = widget.root.querySelectorAll('*');
@@ -2484,7 +2487,7 @@ function initNestedWidget(widget, template) {
             return;
         }
         var name = doc.tagName.toLowerCase();
-        var child = w(name, widget.custom[name]);
+        var child = w(name, Object.assign(widget.custom[name], options));
         // child.mount(doc)
         widget.children.push({
             target: doc,
@@ -2547,43 +2550,12 @@ function w(name) {
     var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
     var widgetInfo = WIDGETS[name];
-    // template
-    // var template = document.createElement('template')
-    // template.innerHTML = widget.template
-    // var clone = document.importNode(template.content, true)
     w.templates[name] = w.templates[name] || {
+        // indicate that the template is not including nested widget, perf improvement for skip parsing
         __flat: false
     };
     w.templates[name].template = widgetInfo.template;
-
-    // widget.imports.scripts.forEach(src => {
-    //     var script = document.createElement('script')
-    //     script.src = src
-    //     document.body.appendChild(script)
-    // })
-
-    //  widget.imports.scripts.forEach(src => {
-    //     var style = document.createElement('style')
-    //     style.src = src
-    //     document.head.appendChild(style)
-    // })
-
-    // // script
-    // if (widget.script) {
-    //     console.log(widget.script)
-    //     var script = document.createElement('script')
-    //     script.text = widget.script
-    //     document.body.appendChild(script)
-    //     document.body.removeChild(script)
-    // }
-
-    // // style
-    // if (widget.style) {
-    //     var style = document.createElement('style')
-    //     style.innerHTML = widget.style
-    //     document.head.appendChild(style)
-    // }
-    insert(name, widgetInfo);
+    insert(name, widgetInfo, options.shadowRoot);
     return initNestedWidget(new w.templates[name].widget({
         is: name,
         template: w.templates[name].template,
@@ -2592,7 +2564,11 @@ function w(name) {
         props: options.props || {},
         logLevel: w.options.logLevel,
         internal: true // for check it's called by internal
-    }), w.templates[name]);
+    }), w.templates[name], {
+        // inherited options
+        logLevel: options.logLevel,
+        shadowRoot: options.shadowRoot
+    });
 }
 
 w.templates = {};
