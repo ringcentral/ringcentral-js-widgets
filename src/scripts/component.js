@@ -30,14 +30,12 @@ var functionSet = {
 function register({actions, data, props} = settings) {
     if (!actions)
         console.warn('Widgets do not have actions defined, maybe you get some typo.')
-
     ;['init', 'mount', 'unmount', 'destroy', 'error'].forEach(action => {
         actions[action] = Object.assign(
             shallowCopy(functionSet),
             actions[action]
         )
     })
-
     var Clone = function(options) {
         Widget.call(this, {actions, data, props}, options)
     }
@@ -45,11 +43,7 @@ function register({actions, data, props} = settings) {
         if (actions.hasOwnProperty(prop))
             Clone.prototype[prop] = generateActions(actions[prop])
     }
-
-    // var Clone = Object.create(Widget.prototype)
-    // return Widget.bind(null, {actions, data, props})
     return Clone
-    // TODO: prototype here
 }
 
 function Widget({actions, data = {}, props = {}}, options) {
@@ -57,19 +51,19 @@ function Widget({actions, data = {}, props = {}}, options) {
         return Error('You are trying to construct a widget manually, please use w()')
     }
     logger = initLogger(options.logLevel)
+    this._mounted = false
+    
     this.refs = {}
     this.props = props
     this.custom = {}
     this.children = []
     this.data = Object.assign(data, options.data)
-    this._mounted = false
     this.fragment = createFragment(options.is, options.template)
     this.root = getDocumentRoot(options.is, this.fragment)
     this.dom = undefined
-    var actions = shallowCopy(actions)
-    options.actions = shallowCopy(options.actions)
+    // var actions = shallowCopy(actions)
+    // options.actions = shallowCopy(options.actions)
 
-    var ctx = this
     // Object.keys(options.actions).forEach(index => bindToTarget(options.actions, index))
     // Object.keys(actions).forEach(index => bindToTarget(actions, index))
     for (let prop in options.actions) {
@@ -86,9 +80,6 @@ function Widget({actions, data = {}, props = {}}, options) {
         }, options.actions[action], action)
     })
 
-    function bindToTarget(target, index) {
-        target[index] = bindScope(ctx, target[index])
-    }
     this.dom = generateDocument(this, this.fragment)
     this.init.call(this)
 }

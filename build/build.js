@@ -1840,18 +1840,13 @@ function register$1() {
     if (!actions) console.warn('Widgets do not have actions defined, maybe you get some typo.');['init', 'mount', 'unmount', 'destroy', 'error'].forEach(function (action) {
         actions[action] = Object.assign(shallowCopy(functionSet), actions[action]);
     });
-
     var Clone = function Clone(options) {
         Widget.call(this, { actions: actions, data: data, props: props }, options);
     };
     for (var prop in actions) {
         if (actions.hasOwnProperty(prop)) Clone.prototype[prop] = generateActions(actions[prop]);
     }
-
-    // var Clone = Object.create(Widget.prototype)
-    // return Widget.bind(null, {actions, data, props})
     return Clone;
-    // TODO: prototype here
 }
 
 function Widget(_ref2, options) {
@@ -1867,19 +1862,19 @@ function Widget(_ref2, options) {
         return Error('You are trying to construct a widget manually, please use w()');
     }
     logger$1 = initLogger(options.logLevel);
+    this._mounted = false;
+
     this.refs = {};
     this.props = props;
     this.custom = {};
     this.children = [];
     this.data = Object.assign(data, options.data);
-    this._mounted = false;
     this.fragment = createFragment(options.is, options.template);
     this.root = getDocumentRoot(options.is, this.fragment);
     this.dom = undefined;
-    var actions = shallowCopy(actions);
-    options.actions = shallowCopy(options.actions);
+    // var actions = shallowCopy(actions)
+    // options.actions = shallowCopy(options.actions)
 
-    var ctx = this;
     // Object.keys(options.actions).forEach(index => bindToTarget(options.actions, index))
     // Object.keys(actions).forEach(index => bindToTarget(actions, index))
     for (var prop in options.actions) {
@@ -1894,9 +1889,6 @@ function Widget(_ref2, options) {
         }, options.actions[action], action);
     });
 
-    function bindToTarget(target, index) {
-        target[index] = bindScope(ctx, target[index]);
-    }
     this.dom = generateDocument(this, this.fragment);
     this.init.call(this);
 }
@@ -1909,15 +1901,6 @@ function extendLifecycle(base, extend) {
 
         base.apply(undefined, args);
         if (extend && isFunction(extend)) return extend.call(this, finish);
-    };
-}
-
-function bindScope(scope, action) {
-    return {
-        before: action.before ? bind6Args(action.before, scope) : null,
-        method: action.method ? bind6Args(action.method, scope) : null,
-        after: action.after ? bind6Args(action.after, scope) : null,
-        error: action.error ? bind6Args(action.error, scope) : null
     };
 }
 
