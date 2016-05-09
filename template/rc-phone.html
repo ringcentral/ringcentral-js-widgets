@@ -42,54 +42,17 @@
 <script src='../bower_components/phoneformat/dist/phone-format-global.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js'></script>
 <script>
+var factory = new Factory()
 var phone = w.register(function() {
     this.actions = {
-        getService: {
-            method: function() {
-                return {
-                    phoneService: w.service()['phoneService'],
-                    loginService: w.service()['loginService'],
-                    callLogService: w.service()['callLogService'],
-                    accountService: w.service()['accountService'],
-                    rcContactService: w.service()['rcContactService'],
-                    contactSearchService: w.service()['contactSearchService'],
-                    rcContactSearchProvider: w.service()['rcContactSearchProvider'],
-                    rcMessageService: w.service()['rcMessageService'],
-                    rcMessageProvider: w.service()['rcMessageProvider'],
-                    rcConferenceSerivce: w.service()['rcConferenceSerivce'],
-                    contactDetailWidgetAdapter: w.service()['contactDetailWidgetAdapter'],
-                    dialPadSearchProviders: [rcContactSearchProvider]
-                }
-            }
-        },
         loadData: {
             method: function() {
-                this.getService().rcMessageService.subscribeToMessageUpdate();
-                this.getService().rcMessageService.syncMessages(this.props.cachedMessageHours);
-                this.getService().accountService.getAccountInfo();
-                this.getService().accountService.getPhoneNumber();
-                // this.getService().rcContactService.syncCompanyContact();
-                // this.getService().phoneService.registerSIP();
-                this.getService().callLogService.getCallLogs();
-                this.getService().phoneService.listen();
+                var a = factory.create('rcPhone')
+                console.log(a)
             }
         },
         createWidgets: {
             method: function() {
-                var {
-                    phoneService,
-                    loginService,
-                    callLogService,
-                    accountService,
-                    rcContactService,
-                    contactSearchService,
-                    rcContactSearchProvider,
-                    rcMessageService,
-                    rcMessageProvider,
-                    rcConferenceSerivce,
-                    contactDetailWidgetAdapter,
-                    dialPadSearchProviders
-                } = this.getService()
                 var phone = this
                 this.props.conversation = undefined;
                 this.props.contactDetail = undefined;
@@ -131,207 +94,207 @@ var phone = w.register(function() {
                         }
                     }
                 });
-                this.props.callPanel = w('call-panel', {
-                    shadowRoot: phone.data.shadowRoot,
-                    data : phone.data,
-                    actions: {
-                        init: {
-                            method: function() {
-                                phoneService.on('callStarted', this.callStarted);
-                                phoneService.on('callRejected', this.callRejected);
-                                phoneService.on('callEnded', this.callEnded);
-                                phoneService.on('callFailed', this.callFailed);
-                            }
-                        },
-                        answer: {
-                            method: function() {
-                                phoneService.answer();
-                            }
-                        },
-                        hangup: {
-                            method: function() {
-                                return phoneService.hangup();
-                            }
-                        }
-                    }
-                })
-                this.props.callPanelIncoming = w('call-panel-incoming', {
-                    shadowRoot: phone.data.shadowRoot,
-                    data : phone.data,
-                    actions: {
-                        init: {
-                            method: function() {
-                                console.log(this);
-                                phoneService.on('called', this.called);
-                            }
-                        },
-                        called: {
-                            method: function() {
-                                this.mount('#call-panel-incoming');
-                            }
-                        }
-                    }
-                })
-                this.props.callLog = w('call-log', {
-                    shadowRoot: phone.data.shadowRoot,
-                    actions: {
-                        init: {
-                            method: function() {
-                                return callLogService.getCallLogs();
-                            }
-                        }
-                    }
-                });
-                this.props.timeline = w('time-line', {
-                    shadowRoot: phone.data.shadowRoot,
-                    actions: {
-                        mount: {
-                            after: function() {
-                                rcMessageService.subscribeToMessageUpdate()
-                                rcMessageProvider.onMessageUpdated(msg => {
-                                    this.updateTimeline(conversationService.syncContent(this.props.contacts, msg))
-                                    if (this.props.currentConv) {
-                                        this.props.currentConv.confirmMessages()
-                                        this.props.currentConv.addIncomingMessages()
-                                    }
-                                })
-                                return rcContactService.cacheContacts().then(contacts => this.props.contacts = contacts)
-                            }
-                        },
-                        fetchData: {
-                            method: function() {
-                                return Promise.all([
-                                    rcContactService.cacheContacts(), // first one must be the contacts
-                                    rcMessageService.syncMessages(conversationService.cachedHour),
-                                    callLogService.getCallLogs(),
-                                ]).then(result => conversationService.organizeContent(...result))
-                            }
-                        },
-                        search: {
-                            method: function() {
-                                contacts.dom.searchText.value = this.dom.searchText.value 
-                                contacts.search()
-                            }
-                        },
-                        enterItem: {
-                            after: function() {
-                                // this.unmount()
-                                var contact = this.props.selectedContent.contact
-                                var fromNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].from: contact.msg[0].to
-                                var toNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].to: contact.msg[0].from
-                                this.props.currentConv = conv(contact, () => {
-                                    this.props.currentConv.unmount()
-                                }, {
-                                    fromNumber,
-                                    toNumber,
-                                    anchorContent: this.props.selectedContent
-                                })
-                                this.props.currentConv.mount('#conversation')
-                            }
-                        }
-                    }
-                })
-                this.props.conference = w('conference',{
-                    data : phone.data,
-                    actions: {
-                        getConferenceInfo: {
-                            method: function() {
-                                return rcConferenceSerivce.getConferenceInfo();
-                            }
-                        },
-                        inviteWithText: {
-                            method: function() {
+                // this.props.callPanel = w('call-panel', {
+                //     shadowRoot: phone.data.shadowRoot,
+                //     data : phone.data,
+                //     actions: {
+                //         init: {
+                //             method: function() {
+                //                 phoneService.on('callStarted', this.callStarted);
+                //                 phoneService.on('callRejected', this.callRejected);
+                //                 phoneService.on('callEnded', this.callEnded);
+                //                 phoneService.on('callFailed', this.callFailed);
+                //             }
+                //         },
+                //         answer: {
+                //             method: function() {
+                //                 phoneService.answer();
+                //             }
+                //         },
+                //         hangup: {
+                //             method: function() {
+                //                 return phoneService.hangup();
+                //             }
+                //         }
+                //     }
+                // })
+                // this.props.callPanelIncoming = w('call-panel-incoming', {
+                //     shadowRoot: phone.data.shadowRoot,
+                //     data : phone.data,
+                //     actions: {
+                //         init: {
+                //             method: function() {
+                //                 console.log(this);
+                //                 phoneService.on('called', this.called);
+                //             }
+                //         },
+                //         called: {
+                //             method: function() {
+                //                 this.mount('#call-panel-incoming');
+                //             }
+                //         }
+                //     }
+                // })
+                // this.props.callLog = w('call-log', {
+                //     shadowRoot: phone.data.shadowRoot,
+                //     actions: {
+                //         init: {
+                //             method: function() {
+                //                 return callLogService.getCallLogs();
+                //             }
+                //         }
+                //     }
+                // });
+                // this.props.timeline = w('time-line', {
+                //     shadowRoot: phone.data.shadowRoot,
+                //     actions: {
+                //         mount: {
+                //             after: function() {
+                //                 rcMessageService.subscribeToMessageUpdate()
+                //                 rcMessageProvider.onMessageUpdated(msg => {
+                //                     this.updateTimeline(conversationService.syncContent(this.props.contacts, msg))
+                //                     if (this.props.currentConv) {
+                //                         this.props.currentConv.confirmMessages()
+                //                         this.props.currentConv.addIncomingMessages()
+                //                     }
+                //                 })
+                //                 return rcContactService.cacheContacts().then(contacts => this.props.contacts = contacts)
+                //             }
+                //         },
+                //         fetchData: {
+                //             method: function() {
+                //                 return Promise.all([
+                //                     rcContactService.cacheContacts(), // first one must be the contacts
+                //                     rcMessageService.syncMessages(conversationService.cachedHour),
+                //                     callLogService.getCallLogs(),
+                //                 ]).then(result => conversationService.organizeContent(...result))
+                //             }
+                //         },
+                //         search: {
+                //             method: function() {
+                //                 contacts.dom.searchText.value = this.dom.searchText.value 
+                //                 contacts.search()
+                //             }
+                //         },
+                //         enterItem: {
+                //             after: function() {
+                //                 // this.unmount()
+                //                 var contact = this.props.selectedContent.contact
+                //                 var fromNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].from: contact.msg[0].to
+                //                 var toNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].to: contact.msg[0].from
+                //                 this.props.currentConv = conv(contact, () => {
+                //                     this.props.currentConv.unmount()
+                //                 }, {
+                //                     fromNumber,
+                //                     toNumber,
+                //                     anchorContent: this.props.selectedContent
+                //                 })
+                //                 this.props.currentConv.mount('#conversation')
+                //             }
+                //         }
+                //     }
+                // })
+                // this.props.conference = w('conference',{
+                //     data : phone.data,
+                //     actions: {
+                //         getConferenceInfo: {
+                //             method: function() {
+                //                 return rcConferenceSerivce.getConferenceInfo();
+                //             }
+                //         },
+                //         inviteWithText: {
+                //             method: function() {
                                 
-                            }
-                        },
-                        joinAsHost: {
-                            method: function() {
-                                phone.dom.container.style.transform = 'translateX(0px)';
-                                phone.props.dialPad.mount('#dial-pad');
-                                phone.props.dialPad.setNumber(phone.props.conference.props.dialInNumber)
-                            }
-                        }
-                    }
-                });
-                this.props.contacts = w('contacts', {
-                    shadowRoot: phone.data.shadowRoot,
-                    data: {},
-                    actions: {
-                        init: {
-                            after: function() {}
-                        },
-                        mount: {
-                            after: function() {
-                                this.fetchContacts()
-                            }
-                        },
-                        fetchRelatedContact: {
-                            method: function() {
-                                return Promise.all([
-                                    rcMessageService.syncMessages(conversationService.cachedHour),
-                                    callLogService.getCallLogs(),
-                                    rcContactService.cacheContacts()
-                                ]).then(result => {
-                                    var [msgs, logs, contacts] = result
-                                    this.props.contacts = contacts.reduce((result, contact) => {
-                                        result[contact.id] = contact
-                                        return result
-                                    }, {})
-                                    return conversationService.getConversations(contacts, msgs, logs)
-                                }).then(relateContacts => {
-                                    this.props.relateContacts = relateContacts
-                                    return relateContacts
-                                }).then(relateContacts => 
-                                    Object.keys(relateContacts).map(index => {
-                                        // adapt to messages template format
-                                        relateContacts[index].msg[0].contact = relateContacts[index].displayName
-                                        // for conversation-advance temaplate
-                                        relateContacts[index].msg[0].contactId = index
-                                        return relateContacts[index].msg[0]
-                                    })
-                                )
-                            }
-                        },
-                        fetchContacts: {
-                            method: function() {
-                                // var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                                //     return provider.searchAll();
-                                // });
-                                // return contactSearchService.query(dialPadSearchFunctions);
-                                return rcContactService.cacheContacts().then(contacts => {
-                                    this.props.contacts = contacts.reduce((result, contact) => {
-                                        result[contact.id] = contact
-                                        return result
-                                    }, {})
-                                    return contacts.map(contact => {
-                                        return {
-                                            name: contact.displayName,
-                                            type: 'rc',
-                                            id: contact.id,
-                                        }
-                                    });
-                                }).catch(e => console.error(e))
-                            }
-                        },
-                        selectContact: {
-                            method: function() {
-                                var contact = 
-                                    (this.props.relateContacts && 
-                                    this.props.relateContacts[this.props.selectedContact.id]) ||
-                                    this.props.contacts[this.props.selectedContact.id]
-                                var conversation = phone.props.timeline.props.currentConv = conv(contact, () => {
-                                    phone.props.timeline.mount('#contact-detail')
-                                })
-                                conversation.mount('#contact-detail')
-                            }
-                        },
-                        focus: {
-                            after: function() {
-                                console.log('focus');
-                            }
-                        }
-                    }
-                });
+                //             }
+                //         },
+                //         joinAsHost: {
+                //             method: function() {
+                //                 phone.dom.container.style.transform = 'translateX(0px)';
+                //                 phone.props.dialPad.mount('#dial-pad');
+                //                 phone.props.dialPad.setNumber(phone.props.conference.props.dialInNumber)
+                //             }
+                //         }
+                //     }
+                // });
+                // this.props.contacts = w('contacts', {
+                //     shadowRoot: phone.data.shadowRoot,
+                //     data: {},
+                //     actions: {
+                //         init: {
+                //             after: function() {}
+                //         },
+                //         mount: {
+                //             after: function() {
+                //                 this.fetchContacts()
+                //             }
+                //         },
+                //         fetchRelatedContact: {
+                //             method: function() {
+                //                 return Promise.all([
+                //                     rcMessageService.syncMessages(conversationService.cachedHour),
+                //                     callLogService.getCallLogs(),
+                //                     rcContactService.cacheContacts()
+                //                 ]).then(result => {
+                //                     var [msgs, logs, contacts] = result
+                //                     this.props.contacts = contacts.reduce((result, contact) => {
+                //                         result[contact.id] = contact
+                //                         return result
+                //                     }, {})
+                //                     return conversationService.getConversations(contacts, msgs, logs)
+                //                 }).then(relateContacts => {
+                //                     this.props.relateContacts = relateContacts
+                //                     return relateContacts
+                //                 }).then(relateContacts => 
+                //                     Object.keys(relateContacts).map(index => {
+                //                         // adapt to messages template format
+                //                         relateContacts[index].msg[0].contact = relateContacts[index].displayName
+                //                         // for conversation-advance temaplate
+                //                         relateContacts[index].msg[0].contactId = index
+                //                         return relateContacts[index].msg[0]
+                //                     })
+                //                 )
+                //             }
+                //         },
+                //         fetchContacts: {
+                //             method: function() {
+                //                 // var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                //                 //     return provider.searchAll();
+                //                 // });
+                //                 // return contactSearchService.query(dialPadSearchFunctions);
+                //                 return rcContactService.cacheContacts().then(contacts => {
+                //                     this.props.contacts = contacts.reduce((result, contact) => {
+                //                         result[contact.id] = contact
+                //                         return result
+                //                     }, {})
+                //                     return contacts.map(contact => {
+                //                         return {
+                //                             name: contact.displayName,
+                //                             type: 'rc',
+                //                             id: contact.id,
+                //                         }
+                //                     });
+                //                 }).catch(e => console.error(e))
+                //             }
+                //         },
+                //         selectContact: {
+                //             method: function() {
+                //                 var contact = 
+                //                     (this.props.relateContacts && 
+                //                     this.props.relateContacts[this.props.selectedContact.id]) ||
+                //                     this.props.contacts[this.props.selectedContact.id]
+                //                 var conversation = phone.props.timeline.props.currentConv = conv(contact, () => {
+                //                     phone.props.timeline.mount('#contact-detail')
+                //                 })
+                //                 conversation.mount('#contact-detail')
+                //             }
+                //         },
+                //         focus: {
+                //             after: function() {
+                //                 console.log('focus');
+                //             }
+                //         }
+                //     }
+                // });
                 this.props.toolbar = w('tool-bar', {
                     shadowRoot: phone.data.shadowRoot,
                     data : phone.data,
@@ -395,25 +358,17 @@ var phone = w.register(function() {
                 this.props.authPanel = w('auth-panel', {
                     shadowRoot: phone.data.shadowRoot,
                     data : phone.data,
-                    actions: {
+                    actions: factory.create('auth-panel', {
                         login: {
-                            method: function() {
-                                return loginService.login(
-                                    PhoneFormat.formatE164('US', this.props.username),
-                                    this.props.extension,
-                                    this.props.password
-                                )
-                            },
                             after: function() {
-                                this.unmount()
                                 phone.loadData();
                                 if (phone.data.shadowRoot)
                                     phone.props.toolbar.mount(phone.data.shadowRoot.querySelector('#toolbar'))
                                 else
-                                    phone.props.toolbar.mount('#toolbar');
+                                    phone.props.toolbar.mount('#toolbar')
                             }
                         }
-                    }
+                    })
                 });
                 this.props.notification = w('notification', {})
                 this.props.panels = [
@@ -461,13 +416,13 @@ var phone = w.register(function() {
         mount: {
             after: function() {
                 this.createWidgets()
-                this.getService().loginService.checkLoginStatus().then(isLoggedIn => {
-                    if (this.data.shadowRoot)
-                        this.props.authPanel.mount(this.data.shadowRoot.querySelector('#auth-panel'))
-                    else
-                        this.props.authPanel.mount('#auth-panel')
-                }).catch(err => console.error(err))
-                // this.props.authPanel.mount('#auth-panel');
+                // this.getService().loginService.checkLoginStatus().then(isLoggedIn => {
+                //     if (this.data.shadowRoot)
+                //         this.props.authPanel.mount(this.data.shadowRoot.querySelector('#auth-panel'))
+                //     else
+                //         this.props.authPanel.mount('#auth-panel')
+                // }).catch(err => console.error(err))
+                this.props.authPanel.mount('#auth-panel');
             }
         }
     }

@@ -1,6 +1,5 @@
 import sdk from './rc-sdk'
 import webPhone from './rc-webphone'
-import { register } from '../service'
 
 var PhoneService = function() {
     var line
@@ -81,4 +80,4 @@ var PhoneService = function() {
         },
     }
 }()
-register('phoneService', PhoneService)
+export default PhoneService

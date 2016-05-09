@@ -1,6 +1,5 @@
 import sdk from './rc-sdk'
 import rcSubscription from './rc-subscription-service'
-import { register } from '../service'
 
 var CallLogService = (function(sdk) {
     var period = 7 * 24 * 3600 * 1000
@@ -27,5 +26,4 @@ var CallLogService = (function(sdk) {
     }
 })(sdk)
 
-register('callLogService', CallLogService)
 export default CallLogService

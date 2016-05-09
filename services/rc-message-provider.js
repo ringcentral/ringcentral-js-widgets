@@ -1,5 +1,4 @@
 import rcMessageService from './rc-message-service'
-import { register } from '../service'
 var rcMessageProvider = function() {
     var messageUpdatedHandlers = []
     var conversations = {}
@@ -110,6 +109,5 @@ var rcMessageProvider = function() {
         }
     }
 }()
-register('rcMessageProvider', rcMessageProvider)
 export default rcMessageProvider
 

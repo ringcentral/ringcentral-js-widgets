@@ -1,6 +1,4 @@
 import { register as registerComponent } from './component'
-import { getServices } from './service'
-import { getActions } from './action'
 import { transitionIn, transitionOut, transitionInit, transitionToggle } from './transition'
 import { ensureTail } from './util/index'
 import { loadLocale, translate } from './translation'
@@ -166,10 +164,6 @@ w.customize = function(context, target, options) {
     // inherit parent's data
     options.data = Object.assign(context.data , options.data)
     context.custom[target] = options
-}
-w.service = getServices
-w.action = function(name) {
-    return Object.assign({}, getActions()[name])
 }
 w.transition = function(effect) {
     return {

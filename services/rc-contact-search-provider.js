@@ -1,5 +1,4 @@
 import rcContactService from './rc-contact-service'
-import { register } from '../service'
 var rcContactSearchProvider = function() {
     return {
         search: function(text) {
@@ -62,5 +61,4 @@ var rcContactSearchProvider = function() {
     }
 }()
 
-register('rcContactSearchProvider', rcContactSearchProvider)
 export default rcContactSearchProvider

@@ -1,4 +1,3 @@
-import { register } from '../service'
 var contactSearchService = (function() {
     var searchProviders = []
     var queryCompletedHandlers = []
@@ -42,5 +41,4 @@ var contactSearchService = (function() {
         },
     }
 })()
-register('contactSearchService', contactSearchService)
 export default contactSearchService

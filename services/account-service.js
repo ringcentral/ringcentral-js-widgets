@@ -1,5 +1,4 @@
 import sdk from './rc-sdk'
-import { register } from '../service'
 var accountService = (function(sdk) {
     var info
     var numbers
@@ -66,5 +65,4 @@ var accountService = (function(sdk) {
     }
 })(sdk)
 
-register('accountService', accountService)
 export default accountService

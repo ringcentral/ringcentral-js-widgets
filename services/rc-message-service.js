@@ -1,6 +1,5 @@
 import sdk from './rc-sdk'
 import rcSubscription from './rc-subscription-service'
-import { register } from '../service'
 
 var rcMessageService = function(sdk) {
     var messages = {}
@@ -166,5 +165,4 @@ var rcMessageService = function(sdk) {
     }
 }(sdk)
 
-register('rcMessageService', rcMessageService)
 export default rcMessageService

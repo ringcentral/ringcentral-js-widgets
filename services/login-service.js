@@ -1,5 +1,4 @@
 import sdk from './rc-sdk'
-import { register } from '../service'
 var LoginService = function(sdk) {
     var onLoginHandler = []
     return {
@@ -25,4 +24,4 @@ var LoginService = function(sdk) {
 
     }
 }(sdk)
-register('loginService', LoginService)
+export default LoginService

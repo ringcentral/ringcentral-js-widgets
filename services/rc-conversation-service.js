@@ -1,7 +1,6 @@
 import sdk from './rc-sdk'
 import callLogService from './call-log-service'
 import rcMessageService from './rc-message-service'
-import { register } from '../service'
 var conversationService = (function(sdk) {
     var cachedHour = 24 * 7
     function groupMessageToContact(msgs, contacts) {
@@ -237,5 +236,4 @@ var conversationService = (function(sdk) {
     }
 })(sdk)
 
-register('conversationService', conversationService)
 export default conversationService

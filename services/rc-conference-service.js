@@ -1,5 +1,4 @@
 import sdk from './rc-sdk';
-import { register } from '../service';
 
 var rcConferenceSerivce = function() {
     var fetchingConferenceInfo = null;
@@ -29,5 +28,4 @@ var rcConferenceSerivce = function() {
     };
 }();
 
-register('rcConferenceSerivce', rcConferenceSerivce);
 export default rcConferenceSerivce;

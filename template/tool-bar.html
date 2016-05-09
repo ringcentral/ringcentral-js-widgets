@@ -13,7 +13,7 @@
 <script>
 w.register(function() {
     var slideDown = w.transition('slide-down')
-    this.actions = Object.assign(w.action('interaction'), {
+    this.actions = {
         init: {
             method: function() {
                 this.state = []
@@ -106,7 +106,7 @@ w.register(function() {
                 slideDown.out(this.dom.menu)
             }
         }
-    })
+    }
 })
 //# sourceURL=toolbar.html
 </script>

@@ -1,5 +1,4 @@
 import sdk from './rc-sdk'
-import { register } from '../service'
 import LZString from 'lz-string'
 
 var rcContactService = function(sdk) {
@@ -179,5 +178,4 @@ var rcContactService = function(sdk) {
     }
 }(sdk)
 
-register('rcContactService', rcContactService)
 export default rcContactService

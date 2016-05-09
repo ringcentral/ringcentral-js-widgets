@@ -1,5 +1,4 @@
 import sdk from './rc-sdk'
-import { register } from '../service'
 
 var rcSubscription = function() {
 
@@ -37,5 +36,4 @@ var rcSubscription = function() {
     }
 }()
 
-register('rcSubscription', rcSubscription)
 export default rcSubscription

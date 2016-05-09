@@ -1,6 +1,4 @@
-
 (function() {
-
     const PHONE_URL = './build/widgets.js'
     const LIB_URL = './build/build.js'
     const COMMON_STYLE_URL = ['./build/styles/main.css']
@@ -68,7 +66,7 @@
         var iframe = document.createElement('iframe')
         iframe.height = 500
         iframe.width = 500
-        iframe.style.border = '0'
+        iframe.style.border = 0
         iframe.src = IFRAME_URL
         document.querySelector(TARGET_TAG).appendChild(iframe)
     }
@@ -83,7 +81,6 @@
         // fallback to iframe
         createIframe()
     }
-    
 }())
 // Fetch
 
