@@ -127,11 +127,26 @@ function w(name, options = {}) {
 w.templates = {}
 w.options = {}
 w.register = function(settings) {
-    var settings = new settings()
+    // var settings = new settings()
+    var draft = {}
+    draft.events = []
+    draft.on = function(event, target, callback) {
+        if (typeof target === 'function') {
+            callback = target
+            target = null
+        }
+        console.log(event)
+        draft.events.push({
+            event,
+            target,
+            callback
+        })
+    }
+    settings.call(draft)
     Object.keys(w.templates).forEach(index => {
         var template = w.templates[index]
         if (template.template && !template.widget)
-            template.widget = registerComponent(settings)
+            template.widget = registerComponent(draft)
     })
 }
 w.config = function(options, callback) {

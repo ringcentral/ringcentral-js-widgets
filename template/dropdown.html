@@ -1,8 +1,7 @@
 <template>
     <div class='rc-dropdown'>
         <button class='rc-dropdown__trigger rc-button'
-                data-info='dropdown'
-                data-event='click:collapse'>From: </button>
+                data-info='dropdown'>From: </button>
         <div    class='rc-dropdown__list rc-list' 
                 data-info='list'>
         </div>
@@ -77,6 +76,12 @@ w.register(function() {
             after: function(text) {
                 this.dom['dropdown'].textContent = text;
                 this.hide();
+            }
+        },
+        click: {
+            method: function(finish, event) {
+                if (event.target === this.dom.dropdown)
+                    this.collapse()
             }
         }
     }

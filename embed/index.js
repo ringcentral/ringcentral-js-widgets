@@ -6,11 +6,11 @@
     const COMMON_STYLE_URL = ['./build/styles/main.css']
     const TARGET_TAG = 'rc-phone'
     const IFRAME_URL = './embed.html'
+    const useShadowDOM = false /* Always fallback to iframe for now */
 
     var safeEval = function(script, target) {
         var tag = document.createElement('script')
         tag.text = script
-        console.log(target);
         if (target) {
             target.appendChild(tag)
             // target.removeChild(tag)
@@ -72,7 +72,7 @@
         iframe.src = IFRAME_URL
         document.querySelector(TARGET_TAG).appendChild(iframe)
     }
-    if (document.body.createShadowRoot) {
+    if (document.body.createShadowRoot && useShadowDOM) {
         // shadow dom is supported
         // The order is important
         fetchAndEvalWidget()

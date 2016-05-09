@@ -27,7 +27,7 @@ var functionSet = {
         throw e
     }
 }
-function register({actions, data, props} = settings) {
+function register({actions, events, data, props} = settings) {
     if (!actions)
         console.warn('Widgets do not have actions defined, maybe you get some typo.')
     ;['init', 'mount', 'unmount', 'destroy', 'error'].forEach(action => {
@@ -37,7 +37,7 @@ function register({actions, data, props} = settings) {
         )
     })
     var Clone = function(options) {
-        Widget.call(this, {actions, data, props}, options)
+        Widget.call(this, {actions, events, data, props}, options)
     }
     for (let prop in actions) {
         if (actions.hasOwnProperty(prop))
@@ -46,7 +46,7 @@ function register({actions, data, props} = settings) {
     return Clone
 }
 
-function Widget({actions, data = {}, props = {}}, options) {
+function Widget({actions, events, data = {}, props = {}}, options) {
     if (!options || !options.internal) {
         return Error('You are trying to construct a widget manually, please use w()')
     }
@@ -81,6 +81,16 @@ function Widget({actions, data = {}, props = {}}, options) {
     })
 
     this.dom = generateDocument(this, this.fragment)
+    // bind event
+    events.forEach(event => {
+        var target
+        if (!event.target) 
+            target = this.root
+        else
+            target = this.dom[event.target]
+        console.log(target)
+        target.addEventListener(event.event, event.callback.bind(this));
+    })
     this.init.call(this)
 }
 

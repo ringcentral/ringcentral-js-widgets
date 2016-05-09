@@ -127,12 +127,10 @@ w.register(function() {
         //         target.classList.remove('--focus')
         //     }
         // },
-        click: {
-            method: function(finish, event) {
-                if (event.target === this.dom['login-button']) this.login()
-            }
-        },
     }
+    this.on('click', function(e) {
+        if (event.target === this.dom['login-button']) this.login()
+    })
 })
 
 //# sourceURL=auth-panel.html

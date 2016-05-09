@@ -1745,11 +1745,14 @@ function generateDocument(widget, fragment) {
     // FIXME: DOM based is slower then String based
     var dom = {};
     var getRefsToDOM = getRefsTo(dom);
-    var assignEventToWidget = assignEventTo(widget);
+    // var assignEventToWidget = assignEventTo(widget)
     Array.from(fragment.querySelectorAll('[data-info]')).forEach(getRefsToDOM);
-    if (widget.click) {
-        widget.root.addEventListener('click', widget.click.bind(widget));
-    }
+    // if (widget.click)
+    //     widget.root.addEventListener('click', widget.click.bind(widget))
+    // if (widget.scroll)
+    //     widget.root.addEventListener('scroll', widget.scroll.bind(widget))
+    // if (widget.input)
+    //     widget.root.addEventListener('input', widget.scroll.bind(widget))
     // Array.from(fragment.querySelectorAll('[data-event]')).forEach(assignEventToWidget)
     return dom;
 }
@@ -1758,25 +1761,6 @@ function getRefsTo(target) {
     return function (doc) {
         var info = doc.getAttribute('data-info');
         target[info] = doc;
-    };
-}
-
-function assignEventTo(widget) {
-    return function (doc) {
-        var events = doc.getAttribute('data-event').split('|');
-        for (var i = 0; i < events.length; ++i) {
-            var event = events[i];
-            var eventName = void 0;
-            var action = void 0;
-            event.split(':').forEach(function (token, index) {
-                if (index === 0) eventName = token;else if (index === 1) action = token;
-            });
-            if (!widget[action]) {
-                logger.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition.');
-                return;
-            }
-            doc.addEventListener(eventName, widget[action].bind(widget));
-        }
     };
 }
 
@@ -1834,6 +1818,7 @@ function register$1() {
     var _ref = arguments.length <= 0 || arguments[0] === undefined ? settings : arguments[0];
 
     var actions = _ref.actions;
+    var events = _ref.events;
     var data = _ref.data;
     var props = _ref.props;
 
@@ -1841,7 +1826,7 @@ function register$1() {
         actions[action] = Object.assign(shallowCopy(functionSet), actions[action]);
     });
     var Clone = function Clone(options) {
-        Widget.call(this, { actions: actions, data: data, props: props }, options);
+        Widget.call(this, { actions: actions, events: events, data: data, props: props }, options);
     };
     for (var prop in actions) {
         if (actions.hasOwnProperty(prop)) Clone.prototype[prop] = generateActions(actions[prop]);
@@ -1853,6 +1838,7 @@ function Widget(_ref2, options) {
     var _this = this;
 
     var actions = _ref2.actions;
+    var events = _ref2.events;
     var _ref2$data = _ref2.data;
     var data = _ref2$data === undefined ? {} : _ref2$data;
     var _ref2$props = _ref2.props;
@@ -1890,6 +1876,13 @@ function Widget(_ref2, options) {
     });
 
     this.dom = generateDocument(this, this.fragment);
+    // bind event
+    events.forEach(function (event) {
+        var target;
+        if (!event.target) target = _this.root;else target = _this.dom[event.target];
+        console.log(target);
+        target.addEventListener(event.event, event.callback.bind(_this));
+    });
     this.init.call(this);
 }
 
@@ -2572,10 +2565,25 @@ function w(name) {
 w.templates = {};
 w.options = {};
 w.register = function (settings) {
-    var settings = new settings();
+    // var settings = new settings()
+    var draft = {};
+    draft.events = [];
+    draft.on = function (event, target, callback) {
+        if (typeof target === 'function') {
+            callback = target;
+            target = null;
+        }
+        console.log(event);
+        draft.events.push({
+            event: event,
+            target: target,
+            callback: callback
+        });
+    };
+    settings.call(draft);
     Object.keys(w.templates).forEach(function (index) {
         var template = w.templates[index];
-        if (template.template && !template.widget) template.widget = register$1(settings);
+        if (template.template && !template.widget) template.widget = register$1(draft);
     });
 };
 w.config = function (options, callback) {

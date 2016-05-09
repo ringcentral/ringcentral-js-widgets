@@ -196,17 +196,15 @@ w.register(function() {
                 this.refs['contact-picker'].setInput(value)
                 return finish()
             }
-        },
-        click: {
-            method: function(finish, event) {
-                for (let i = 0; i < 10; i ++) {
-                    if (event.target === this.dom[`dial-button-${i}`] ||
-                        event.target.parentNode === this.dom[`dial-button-${i}`]) this.dialing(i)
-                }
-                if (event.target === this.dom.callout) this.callout()
-            }
         }
     }
+    this.on('click', function(e) {
+        for (let i = 0; i < 10; i ++) {
+            if (event.target === this.dom[`dial-button-${i}`] ||
+                event.target.parentNode === this.dom[`dial-button-${i}`]) this.dialing(i)
+        }
+        if (event.target === this.dom.callout) this.callout()
+    })
     
 })
 
