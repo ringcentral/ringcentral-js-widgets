@@ -1880,7 +1880,6 @@ function Widget(_ref2, options) {
     events.forEach(function (event) {
         var target;
         if (!event.target) target = _this.root;else target = _this.dom[event.target];
-        console.log(target);
         target.addEventListener(event.event, event.callback.bind(_this));
     });
     this.init.call(this);

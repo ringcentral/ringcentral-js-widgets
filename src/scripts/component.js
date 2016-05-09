@@ -88,7 +88,6 @@ function Widget({actions, events, data = {}, props = {}}, options) {
             target = this.root
         else
             target = this.dom[event.target]
-        console.log(target)
         target.addEventListener(event.event, event.callback.bind(this));
     })
     this.init.call(this)
