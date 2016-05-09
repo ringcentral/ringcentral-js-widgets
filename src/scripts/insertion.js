@@ -11,8 +11,6 @@ function insertScript (script, shadow) {
     }
 }
 function insertStyle(style, shadow) {
-    console.log(shadow);
-    console.log(style);
     var tag = document.createElement('style')
     tag.innerHTML = style
     shadow? shadow.appendChild(tag): document.body.appendChild(tag)

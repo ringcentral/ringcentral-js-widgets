@@ -5,18 +5,25 @@
     const LIB_URL = './build/build.js'
     const COMMON_STYLE_URL = ['./build/styles/main.css']
     const TARGET_TAG = 'rc-phone'
+    const IFRAME_URL = './embed.html'
 
-    var safeEval = function(script) {
+    var safeEval = function(script, target) {
         var tag = document.createElement('script')
         tag.text = script
-        document.body.appendChild(tag)
-        document.body.removeChild(tag)
+        console.log(target);
+        if (target) {
+            target.appendChild(tag)
+            // target.removeChild(tag)
+        } else {
+            document.body.appendChild(tag)
+            document.body.removeChild(tag)
+        }
     }
-    var fetchAndEval = function(url) {
+    var fetchAndEval = function(url, target) {
         return function() {
             return fetch(url)
                     .then(res => res.text())
-                    .then(data => safeEval(data))
+                    .then(data => safeEval(data, target))
         }
     }
 
@@ -26,9 +33,10 @@
     var createContainer = function() {
         var target = document.querySelector(TARGET_TAG)
         if (!target) return
-        // shadow dom
         var shadow = target.createShadowRoot()
         var container = document.createElement('div')
+        shadow.appendChild(container)
+
         COMMON_STYLE_URL.forEach(src => {
             fetch(src)
             .then(res => res.text())
@@ -38,9 +46,7 @@
                 shadow.appendChild(tag)
             })
         })
-        shadow.appendChild(container)
         appendWidget(container, shadow)
-
         function appendStyle() {
 
         }
@@ -58,11 +64,26 @@
         return container
     }
 
-    // The order is important
-    fetchAndEvalWidget()
-    .then(fetchAndEvalFramework)
-    .then(createContainer)
-    .catch(e => console.error(e))
+    var createIframe = function() {
+        var iframe = document.createElement('iframe')
+        iframe.height = 500
+        iframe.width = 500
+        iframe.style.border = '0'
+        iframe.src = IFRAME_URL
+        document.querySelector(TARGET_TAG).appendChild(iframe)
+    }
+    if (document.body.createShadowRoot) {
+        // shadow dom is supported
+        // The order is important
+        fetchAndEvalWidget()
+        .then(fetchAndEvalFramework)
+        .then(createContainer)
+        .catch(e => console.error(e))
+    } else {
+        // fallback to iframe
+        createIframe()
+    }
+    
 }())
 // Fetch
 
