@@ -7,6 +7,8 @@ var fs = require('fs')
 var bundle = require('./bundle').bundle
 
 const TEMP_FILE = '__w_temp'
+const SCRIPT_HEADER = 'w.register(function() {'
+const SCRIPT_TRAILER = '})'
 var scope = (id) => postcss.plugin('scope', function() {
     return function(root) {
         root.each(function rewriteSelector(node) {
@@ -29,6 +31,10 @@ function transform(input, options) {
 
 function transformScript(input) {
     // FIXME: don't modify original data
+    if (input.script.indexOf('w.register') === -1) {
+        input.script = SCRIPT_HEADER + input.script + SCRIPT_TRAILER
+        console.log(input.script);
+    }
     input.script && (input.script = babel.transform(input.script, {presets: [es2015]}).code)
     fs.writeFileSync(TEMP_FILE, input.script)
     // TODO: remove temp.js
@@ -39,8 +45,6 @@ function transformScript(input) {
 }
 
 function transformStyle(input, scopedStyle, id) {
-    console.log(id);
-    console.log(input.style);
     var processors = [autoprefixer, precss]
     if (scopedStyle)
         processors.push(scope(id))
