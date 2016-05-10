@@ -128,6 +128,21 @@ var phone = w.register(function() {
                         },
                         enterItem: {
                             after: function() {
+                                // this.unmount()
+                                var contact = this.props.selectedContent.contact
+                                var fromNumber = contact.msg[0].direction === 'Outbound'? 
+                                                contact.msg[0].from: 
+                                                contact.msg[0].to
+                                var toNumber = contact.msg[0].direction === 'Outbound'? 
+                                                contact.msg[0].to: 
+                                                contact.msg[0].from
+                                this.props.currentConv = conv(contact, () => {
+                                    this.props.currentConv.unmount()
+                                }, {
+                                    fromNumber,
+                                    toNumber,
+                                    anchorContent: this.props.selectedContent
+                                })
                                 this.props.currentConv.mount('#conversation')
                             }
                         }

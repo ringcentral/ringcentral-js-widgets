@@ -197,12 +197,7 @@ function frame(frameStart) {
   // console.log(scriptDuration)
   // if (styleDuration < 17) {
     // console.log(styleDuration);
-    console.log(styleDuration);
-    if ((goal < styleDuration && styleDuration < goal + 1 || 
-        goal * 2 < styleDuration && styleDuration < (goal + 1) * 2 ||
-        goal * 3 < styleDuration && styleDuration < (goal + 1) * 3 || 
-        goal * 4 < styleDuration && styleDuration < (goal + 1) * 4 || 
-        goal * 5 < styleDuration && styleDuration < (goal + 1) * 5) &&
+    if ((goal < styleDuration && styleDuration < goal + 1) &&
         styleDuration !== 0) {
       accelerate = accelerate * 2
       limit += accelerate

@@ -1,5 +1,5 @@
 <template>
-    <div class='rc-panel rc-timeline-item' data-event='click:enter'>
+    <div class='rc-panel rc-timeline-item'>
         <div class='rc-timeline-item__content'>
         <div class='rc-timeline-item__line'>
             <span class='rc-timeline-item__icon' data-info='icon'></span>
@@ -9,8 +9,7 @@
             <div class='rc-timeline-item__subject' data-info='subject'></div>
         </div>
         <div    class='rc-timeline-item__count display-none' 
-                data-info='count-wrapper'
-                data-event='click:collapse'>
+                data-info='count-wrapper'>
             <span class='__number' data-info='count'></span>
             <span class='icon-uni2466'></span>
         </div>
@@ -77,7 +76,7 @@ w.register(function() {
                         </div>`
                         div.firstChild.addEventListener('click', event => {
                             event.stopPropagation()
-                            this.enter(null, content) // null for event
+                            this.enter(content) // null for event
                         })
                         currentDate = date
                         this.dom.collapse.appendChild(div.firstChild)
@@ -92,9 +91,7 @@ w.register(function() {
             after: function() {}
         },
         collapse: {
-            after: function(event) {
-                event.stopPropagation()
-
+            after: function() {
                 // FIXME: double clicks will cause problems
                 var element = this.dom.collapse
                 if (element.classList.contains('--collapsing'))
@@ -132,11 +129,19 @@ w.register(function() {
             }
         },
         enter: {
-            method: function(finish, event, message) {
+            method: function(finish, message) {
                 message && (this.props.selectedMessage = message)
             }
         }
     }
+    this.on('click', function(e) {
+        if (e.target === this.dom['count-wrapper']) {
+            this.collapse()
+            e.stopPropagation()
+        } else {
+            this.enter()
+        }
+    })
 });
 //# sourceURL=time-line-item.html
 </script>

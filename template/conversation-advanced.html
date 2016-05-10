@@ -1,7 +1,9 @@
 <template>
     <div class='rc-panel rc-conversation'>
         <div class='rc-panel__header --colored'>
-            <span class='close icon-uni3E' data-event='click:back'></span>
+            <span 
+                class='close icon-uni3E' 
+                data-info='back'></span>
             <div class='header'>
                 <div class='avatar-wrapper'>
                     <img class='avatar' data-info='profile-img' src="">
@@ -16,8 +18,7 @@
                 <div class='hint' data-info='from-number'>from</div>
             </div>
             <div    class='content'
-                    data-info='container'
-                    data-event='scroll:scroll'>
+                    data-info='container'>
                 <div    class='conversations__loading display-none'
                         data-info='loading'>
                     loading...
@@ -29,20 +30,17 @@
             <div class='textarea-wrapper'>
                 <textarea 
                 data-info='input'
-                data-event='keydown:enter'
                 placeholder='messages...'
                 ></textarea>
                 <button 
                     class='rc-button --circle --positive callout'
                     data-info='callout'
-                    data-event='click:togglePhoneModal'
                 >
                 </button>
             </div>
         </div>
         <div    class='mask display-none'
-                data-info='phone-mask'
-                data-event='click:togglePhoneModal'>
+                data-info='phone-mask'>
             <div 
                 class='modal'
                 data-info='phone-modal'>
@@ -66,7 +64,7 @@ w.register(function() {
     this.actions = {
         init: {
             method: function() {
-               
+
             },
             after: function() {
                 this.props.syncedMessages = []
@@ -148,14 +146,6 @@ w.register(function() {
         setTitle: {
             after: function(text) {
                 this.dom.header.textContent = text
-            }
-        },
-        enter: {
-            method: function(finish, e) {
-                if (e.keyCode === 13) {
-                    this.send()
-                    e.preventDefault()
-                }
             }
         },
         send: {
@@ -316,12 +306,6 @@ w.register(function() {
                     });
                 }
                 return div.firstChild
-            }
-        },
-        scroll: {
-            method: function(finish, event) {
-                if (event.target.scrollTop === 0)
-                    this.reachTop()
             }
         },
         reachTop: {
@@ -529,6 +513,26 @@ w.register(function() {
             }
         }
     }
+    this.on('click', function(e) {
+        if (e.target === this.dom.back)
+            this.back()
+        if (e.target === this.dom.callout || e.target === this.dom['phone-mask'])
+            this.togglePhoneModal()
+    })
+    this.on('keydown', function(e) {
+        if (e.target === this.dom.input) {
+            if (e.keyCode === 13) {
+                this.send()
+                e.preventDefault()
+            }
+        }
+    })
+    this.on('scroll', function(e) {
+        if (e.target === this.dom.container) {
+            if (e.target.scrollTop === 0)
+                this.reachTop()
+        }
+    })
 })
 //# sourceURL=conversation-advanced.html
 </script>

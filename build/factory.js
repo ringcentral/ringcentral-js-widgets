@@ -1688,24 +1688,6 @@ services['time-line'] = {
                 return conversationService.organizeContent.apply(conversationService, _toConsumableArray(result));
             });
         }
-    },
-
-    enterItem: {
-        after: function after() {
-            var _this3 = this;
-
-            // this.unmount()
-            var contact = this.props.selectedContent.contact;
-            var fromNumber = contact.msg[0].direction === 'Outbound' ? contact.msg[0].from : contact.msg[0].to;
-            var toNumber = contact.msg[0].direction === 'Outbound' ? contact.msg[0].to : contact.msg[0].from;
-            this.props.currentConv = conv(contact, function () {
-                _this3.props.currentConv.unmount();
-            }, {
-                fromNumber: fromNumber,
-                toNumber: toNumber,
-                anchorContent: this.props.selectedContent
-            });
-        }
     }
 };
 
@@ -1717,7 +1699,7 @@ services['contacts'] = {
     },
     fetchRelatedContact: {
         method: function method() {
-            var _this4 = this;
+            var _this3 = this;
 
             return Promise.all([rcMessageService.syncMessages(conversationService.cachedHour), CallLogService.getCallLogs(), rcContactService.cacheContacts()]).then(function (result) {
                 var _result = _slicedToArray(result, 3);
@@ -1726,13 +1708,13 @@ services['contacts'] = {
                 var logs = _result[1];
                 var contacts = _result[2];
 
-                _this4.props.contacts = contacts.reduce(function (result, contact) {
+                _this3.props.contacts = contacts.reduce(function (result, contact) {
                     result[contact.id] = contact;
                     return result;
                 }, {});
                 return conversationService.getConversations(contacts, msgs, logs);
             }).then(function (relateContacts) {
-                _this4.props.relateContacts = relateContacts;
+                _this3.props.relateContacts = relateContacts;
                 return relateContacts;
             }).then(function (relateContacts) {
                 return Object.keys(relateContacts).map(function (index) {
@@ -1747,14 +1729,14 @@ services['contacts'] = {
     },
     fetchContacts: {
         method: function method() {
-            var _this5 = this;
+            var _this4 = this;
 
             // var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
             //     return provider.searchAll();
             // });
             // return contactSearchService.query(dialPadSearchFunctions);
             return rcContactService.cacheContacts().then(function (contacts) {
-                _this5.props.contacts = contacts.reduce(function (result, contact) {
+                _this4.props.contacts = contacts.reduce(function (result, contact) {
                     result[contact.id] = contact;
                     return result;
                 }, {});
@@ -1780,7 +1762,7 @@ services['contacts'] = {
     }
 };
 
-services['conversation-advance'] = {
+services['conversation-advanced'] = {
     init: {
         after: function after() {
             this.props.hourOffset = 3 * 24;
@@ -1788,10 +1770,10 @@ services['conversation-advance'] = {
     },
     mount: {
         after: function after() {
-            var _this6 = this;
+            var _this5 = this;
 
             return accountService.getAccountInfo().then(function (info) {
-                return _this6.props.fromExtension = info.extensionNumber;
+                return _this5.props.fromExtension = info.extensionNumber;
             }).then(this.getOutboundCallerID);
         }
     },
@@ -1806,10 +1788,10 @@ services['conversation-advance'] = {
     },
     queryContacts: {
         method: function method() {
-            var _this7 = this;
+            var _this6 = this;
 
             var dialPadSearchFunctions = dialPadSearchProviders.map(function (provider) {
-                return provider.search(_this7.props.to);
+                return provider.search(_this6.props.to);
             });
             return contactSearchService.query(dialPadSearchFunctions);
         }

@@ -77,14 +77,11 @@ w.register(function() {
                 this.dom['dropdown'].textContent = text;
                 this.hide();
             }
-        },
-        click: {
-            method: function(finish, event) {
-                if (event.target === this.dom.dropdown)
-                    this.collapse()
-            }
         }
     }
+    this.on('click', 'dropdown', function() {
+        this.collapse()
+    })
 })
 //# sourceURL=dropdown.html
 </script>

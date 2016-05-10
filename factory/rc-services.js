@@ -105,22 +105,6 @@ services['time-line'] = {
                 callLogService.getCallLogs(),
             ]).then(result => conversationService.organizeContent(...result))
         }
-    },
-    
-    enterItem: {
-        after: function() {
-            // this.unmount()
-            var contact = this.props.selectedContent.contact
-            var fromNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].from: contact.msg[0].to
-            var toNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].to: contact.msg[0].from
-            this.props.currentConv = conv(contact, () => {
-                this.props.currentConv.unmount()
-            }, {
-                fromNumber,
-                toNumber,
-                anchorContent: this.props.selectedContent
-            })
-        }
     }
 }
 
@@ -191,7 +175,7 @@ services['contacts'] = {
     }
 }
 
-services['conversation-advance'] = {
+services['conversation-advanced'] = {
     init: {
         after: function() {
             this.props.hourOffset = 3 * 24

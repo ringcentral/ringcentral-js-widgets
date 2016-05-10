@@ -222,8 +222,10 @@ function Widget(_ref2, options) {
     // bind event
     events.forEach(function (event) {
         var target;
+        var capture = false;
+        if (event.event === 'scroll') capture = true;
         if (!event.target) target = _this.root;else target = _this.dom[event.target];
-        target.addEventListener(event.event, event.callback.bind(_this));
+        target.addEventListener(event.event, event.callback.bind(_this), capture);
     });
     this.init.call(this);
 }

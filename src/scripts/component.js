@@ -84,11 +84,14 @@ function Widget({actions, events, data = {}, props = {}}, options) {
     // bind event
     events.forEach(event => {
         var target
+        var capture = false
+        if (event.event === 'scroll')
+            capture = true
         if (!event.target) 
             target = this.root
         else
             target = this.dom[event.target]
-        target.addEventListener(event.event, event.callback.bind(this));
+        target.addEventListener(event.event, event.callback.bind(this), capture);
     })
     this.init.call(this)
 }
