@@ -119,10 +119,6 @@ w.register(function() {
                         getData: {
                             method: function() {
                                 return dialPad.getOutboundCallerID()
-                            },
-                            after: function(ids) {
-                                console.log(ids);
-                                ids.forEach(id => this.addItem(id))
                             }
                         },
                         switchTitle: {
@@ -148,6 +144,7 @@ w.register(function() {
                 var cp = this.refs['contact-picker']
                 cp.appendInput(value)
                 cp.autoComplete()
+                this.props.toNumber = cp.dom.input.value
                 return finish()
             },
             after: function() {
@@ -160,9 +157,10 @@ w.register(function() {
             },
             method: function(finish, event) {
                 // TODO: Do some basic validation.
-                var ac = this.refs['contact-picker']
-                this.props.toNumber = ac.dom.input.value
-                this.props.fromNumber = localStorage.getItem('username')
+                if (!this.props.toNumber || this.props.fromNumber)
+                    console.error('from- or to-Number is missing.');
+                var cp = this.refs['contact-picker']
+                this.props.toNumber = cp.dom.input.value
                 return finish()
             },
             after: function() {
@@ -192,7 +190,7 @@ w.register(function() {
                 return finish()
             }
         },
-        setNumber: {
+        number: {
             method: function(finish, value) {
                 this.refs['contact-picker'].setInput(value)
                 return finish()

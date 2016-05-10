@@ -60,7 +60,6 @@ services['dial-pad'] = {
     },
     getOutboundCallerID: {
         method: function() {
-            console.log('get outbound');
             return accountService.getPhoneNumber().then(() => {
                 return accountService.listNumber("VoiceFax", 'CallerId')
             })

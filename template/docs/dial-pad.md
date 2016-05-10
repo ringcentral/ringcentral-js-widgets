@@ -67,25 +67,18 @@ See styles at the bottom of [auth-panel.html](https://github.com/LingForCC/ringc
 
 #### actions
 
-1. `dialing(event)`
-    Action for the number buttons. Default action will be add specific number to the input field.
-2. `callout(event)`
-    Action for the callout button. Will set `props.fromNumber` and `props.toNumber`, widgets users need to provide a callout action using these two props.
+1. `number(String)`
+    Set the targeted number to call. Will also set the `props.fromNumber`
+2. `callout()`
+    Hook for callout logic.
 3. `disable()`
     Disable the panel, will add a mask above whole panel.
-4. `getOutboundCallerID()`
-    Used by the nested `dropdown` widget, reference [`getData`]().
-5. `queryContacts()`
-    Used by the nested `contact-picker` widget, reference [`autoComplete`]().
-6. `setNumber(value)`
-    Manually fill the input field based on the value.
+4. `getOutboundCallerID(Array)`
+    Get the list of outbound caller id.
+5. `queryContacts(Array[{name, value}])`
+    Get the list of contacts who can be called.
 
 #### Relevant services
 
 1. phoneService
 2. accountService
-
-
-
-
-

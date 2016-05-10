@@ -44,6 +44,9 @@ w.register(function() {
         getData: {
             method: function(finish) {
                 return finish();
+            },
+            after: function(ids) {
+                ids.forEach(id => this.addItem(id))
             }
         },
         addItem: {
@@ -63,7 +66,6 @@ w.register(function() {
                 return this.dom['dropdown'].textContent;
             }
         },
-        removeItem: {},
         disable: {
             method: function() {
                 this.dom.dropdown.disabled = true;

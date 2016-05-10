@@ -912,7 +912,6 @@ w.register = function (settings) {
             callback = target;
             target = null;
         }
-        console.log(event);
         draft.events.push({
             event: event,
             target: target,

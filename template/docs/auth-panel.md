@@ -61,40 +61,17 @@ See styles at the bottom of [auth-panel.html](https://github.com/LingForCC/ringc
 | lang | *String* | L11N support. The value should be language codes, such as **en-us**. | en-us   |
 
 #### actions
-1. `login(event)`
+1. `login()`
 
-   Trigger by: **login-button** (`event.target === this.dom['login-button']`)
-
-   Use following `props` to log in the targeted service.
+Use following `props` to log in the targeted service.
 ```javascript
    this.props.username
    this.props.extension
    this.props.password
 ```
-1. `showCountry(event)`
-
-   Trigger by: **country-selector**
-
-   Display the country list.    
-
-2. `switchCountry(event)`
-
-   **WIP**
-
-   Switch the selected country base on `event.target`.
-
-3. `focus(event)`
-
-   Trigger by: **username|extension|password**
-
-   Fire when input fields be focused.
-
-4. `blur(event)`
-
-   Trigger by: **username|extension|password**
-
-   Fire when input fields are blurred.
-
+2. `disable()`
+3. `country(value)`
+4. `warn(message)`
 #### Relevant services
 1. loginService
 
