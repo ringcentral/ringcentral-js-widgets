@@ -56,7 +56,7 @@ w.register(function() {
             toDisableTab.classList.remove('--active');
         }
     }
-    this.actions = Object.assign(w.action('interaction'), {
+    this.actions = {
         init: {
             before: function() {
                 this.props.widgetItems = [];
@@ -103,6 +103,6 @@ w.register(function() {
                 });
             }
         }
-    });
+    }
 });
 </script>

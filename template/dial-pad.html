@@ -121,6 +121,7 @@ w.register(function() {
                                 return dialPad.getOutboundCallerID()
                             },
                             after: function(ids) {
+                                console.log(ids);
                                 ids.forEach(id => this.addItem(id))
                             }
                         },

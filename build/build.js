@@ -260,10 +260,10 @@ function generateActions(widgetAction) {
         var method = function method(arg) {
             var _widgetAction$method;
 
-            if (arg.__custom) return widgetAction.method && (_widgetAction$method = widgetAction.method).call.apply(_widgetAction$method, [_this2, bind6Args(userAction.method, _this2)].concat(_toConsumableArray(arg.data))) || arg;else return widgetAction.method && widgetAction.method.call(_this2, bind6Args(userAction.method, _this2), arg) || arg;
+            if (arg && arg.__custom) return widgetAction.method && (_widgetAction$method = widgetAction.method).call.apply(_widgetAction$method, [_this2, bind6Args(userAction.method, _this2)].concat(_toConsumableArray(arg.data))) || arg;else return widgetAction.method && widgetAction.method.call(_this2, bind6Args(userAction.method, _this2), arg) || arg;
         };
         var after = function after(arg) {
-            if (arg.__custom) {
+            if (arg && arg.__custom) {
                 var _userAction$after, _widgetAction$after;
 
                 arg = arg.data;

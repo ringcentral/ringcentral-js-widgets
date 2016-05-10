@@ -1,6 +1,10 @@
 'use strict';
 
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function __commonjs(fn, module) {
     return module = { exports: {} }, fn(module, module.exports), module.exports;
@@ -950,6 +954,50 @@ var rcContactService = function (sdk) {
     };
 }(sdk);
 
+var contactSearchService = function () {
+    var searchProviders = [];
+    var queryCompletedHandlers = [];
+
+    function createResult(item) {
+        return {
+            name: item.name,
+            value: item.value,
+            type: item.type,
+            id: item.id
+        };
+    }
+    return {
+        query: function query(searchFunctions, filter) {
+            return Promise.all(searchFunctions).then(function (results) {
+                var searchResultsKeys = {};
+                var searchResults = [];
+                results.forEach(function (result) {
+                    result.forEach(function (item) {
+                        if (filter) {
+                            if (filter(item)) {
+                                var key = item.name + item.value;
+                                if (!searchResultsKeys[key]) {
+                                    var toAddItem = createResult(item);
+                                    searchResultsKeys[key] = toAddItem;
+                                    searchResults.push(toAddItem);
+                                }
+                            }
+                        } else {
+                            var key = item.name + item.value;
+                            if (!searchResultsKeys[key]) {
+                                var toAddItem = createResult(item);
+                                searchResultsKeys[key] = toAddItem;
+                                searchResults.push(toAddItem);
+                            }
+                        }
+                    });
+                });
+                return searchResults;
+            });
+        }
+    };
+}();
+
 var rcContactSearchProvider = function () {
     return {
         search: function search(text) {
@@ -1305,6 +1353,247 @@ var rcConferenceSerivce = function () {
     };
 }();
 
+var conversationService = function (sdk) {
+    var cachedHour = 24 * 7;
+    function groupMessageToContact(msgs, contacts) {
+        var relatedContacts = contacts.filter(function (contact) {
+            var knownContactsIndex = [];
+            var contactNums = contact.phoneNumber.concat(contact.extension);
+            var contactMsgs = msgs.filter(function (msg, index) {
+                var msgNumber = msg.direction === 'Inbound' ? msg.from : msg.to;
+                var contain = contactNums.indexOf(msgNumber) > -1;
+                contact.msg = contact.msg || [];
+                var alreadyExist = contact.msg.find(function (contactMsg) {
+                    return contactMsg.id == msg.id;
+                });
+                if (contain && !alreadyExist) {
+
+                    contact.msg.push(msg);
+                    knownContactsIndex.push(index);
+                }
+                return contain;
+            });
+            knownContactsIndex.reverse().forEach(function (index) {
+                return msgs.splice(index, 1);
+            });
+            return contactMsgs.length > 0;
+        });
+        msgs.forEach(function (msg) {
+            var msgNumber = msg.direction === 'Inbound' ? msg.from : msg.to;
+            var contact = relatedContacts.filter(function (contact) {
+                return contact.id === msgNumber;
+            })[0];
+            if (contact) {
+                contact.msg.push(msg);
+            } else {
+                relatedContacts.push(fakeContact(msg));
+            }
+        });
+        return relatedContacts;
+    }
+
+    function groupContactToMessage(msgs, contacts) {
+        return msgs.map(function (msg) {
+            var unknownContact = true;
+            contacts.forEach(function (contact) {
+                var contactNums = contact.phoneNumber.concat(contact.extension);
+                var msgNumber = msg.direction === 'Inbound' ? msg.from : msg.to;
+                var contain = contactNums.indexOf(msgNumber) > -1;
+                if (contain) {
+                    msg.contact = contact;
+                    unknownContact = false;
+                }
+            });
+            // if (unknownContact) {
+            //     console.log(msg);
+            //     var fake = fakeContact(msg)
+            //     msg.contact = fake
+            //     contacts.push(fake)
+            // }
+            return msg;
+        });
+    }
+
+    function combineAdjacentMessage(contents) {
+        // group related SMS message
+        var savedContent;
+        var result = [];
+        for (var i = contents.length - 1; i > 0; --i) {
+            var content = contents[i];
+            // if (content.type !== 'SMS') {
+            //     if (savedContent) {
+            //         result.push(savedContent)
+            //         savedContent = null
+            //     }
+            //     result.push(content)
+            //     continue
+            // }
+            if (savedContent && savedContent.type === content.type && savedContent.contact.id === content.contact.id) {
+                savedContent.others.push(content);
+            } else {
+                savedContent && result.push(savedContent);
+                content.others = [];
+                savedContent = content;
+            }
+        }
+        savedContent && result.push(savedContent);
+        return result;
+    }
+
+    function combine() {
+        for (var _len = arguments.length, targets = Array(_len), _key = 0; _key < _len; _key++) {
+            targets[_key] = arguments[_key];
+        }
+
+        return targets.reduce(function (result, target) {
+            return result.concat(target);
+        }, []);
+    }
+
+    function sortTime(target) {
+        return target.slice().sort(function (a, b) {
+            return Date.parse(a.time) - Date.parse(b.time);
+        });
+    }
+    function containSameVal(array1, array2) {
+        return array1.filter(function (n) {
+            return array2.indexOf(n) != -1;
+        }).length > 0;
+    }
+    function uniqueArray(target) {
+        var seen = {};
+        return target.filter(function (item) {
+            return seen.hasOwnProperty(item) ? false : seen[item] = true;
+        });
+    }
+
+    function fakeContact(msg) {
+        var phoneNumber = msg.direction === 'Inbound' ? msg.from : msg.to;
+        return {
+            displayName: phoneNumber,
+            id: phoneNumber,
+            phoneNumber: [phoneNumber],
+            extension: null,
+            msg: [msg]
+        };
+    }
+
+    function adaptMessage(msg) {
+        return {
+            id: msg.id,
+            from: msg.from.extensionNumber || msg.from.phoneNumber,
+            to: msg.to.phoneNumber || msg.to.extensionNumber || msg.to[0].extensionNumber || msg.to[0].phoneNumber,
+            direction: msg.direction,
+            type: msg.type,
+            time: msg.creationTime || msg.startTime,
+            lastModifiedTime: msg.lastModifiedTime || msg.startTime,
+            subject: msg.recording || msg.subject || msg.action || msg.attachments[0],
+            status: {
+                sendConfirmed: false,
+                receiveConfirmed: false
+            }
+        };
+    }
+    function getMessagesByNumber(contact, offset) {
+        return Promise.all(contact.phoneNumber.map(function (number) {
+            return rcMessageService.getMessagesByNumber(
+            // FIXME
+            number, cachedHour + offset, cachedHour);
+        })).then(function (result) {
+            return combine.apply(undefined, _toConsumableArray(result));
+        });
+    }
+    function getCallLogsByNumber(contact, offset) {
+        return Promise.all(contact.phoneNumber.map(function (number) {
+            return CallLogService.getCallLogsByNumber(number, cachedHour + offset, cachedHour);
+        })).then(function (result) {
+            return combine.apply(undefined, _toConsumableArray(result));
+        });
+    }
+    function uniqId(target) {
+        var seen = {};
+        return target.filter(function (item) {
+            return seen.hasOwnProperty(item.id) ? false : seen[item.id] = true;
+        });
+    }
+    function combineContent() {
+        for (var _len2 = arguments.length, sources = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+            sources[_key2] = arguments[_key2];
+        }
+
+        return sortTime(combine.apply(undefined, _toConsumableArray(sources.map(function (source) {
+            return source.map(adaptMessage);
+        }))));
+    }
+    return {
+        get cachedHour() {
+            return cachedHour;
+        },
+        syncContent: function syncContent(contacts) {
+            for (var _len3 = arguments.length, sources = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+                sources[_key3 - 1] = arguments[_key3];
+            }
+
+            var contents = combineContent.apply(undefined, sources);
+            var relatedContacts = groupMessageToContact(contents.slice(), contacts);
+            contents = groupContactToMessage(contents, relatedContacts);
+            return contents;
+        },
+        organizeContent: function organizeContent(contacts) {
+            for (var _len4 = arguments.length, sources = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
+                sources[_key4 - 1] = arguments[_key4];
+            }
+
+            var contents = combineContent.apply(undefined, sources);
+            var relatedContacts = groupMessageToContact(contents.slice(), contacts);
+            contents = groupContactToMessage(contents, relatedContacts);
+            contents = combineAdjacentMessage(contents);
+            return contents;
+        },
+        getConversations: function getConversations(contacts) {
+            for (var _len5 = arguments.length, sources = Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
+                sources[_key5 - 1] = arguments[_key5];
+            }
+
+            var contents = combineContent.apply(undefined, sources);
+            var relatedContacts = groupMessageToContact(contents, contacts).map(function (contact) {
+                contact.syncHour = cachedHour;
+                return contact;
+            }).map(function (contact) {
+                contact.phoneNumber = uniqueArray(contact.phoneNumber.concat(contact.extension));
+                return contact;
+            }).reduce(function (map, contact) {
+                map[contact.id] = contact;
+                return map;
+            }, {});
+            return relatedContacts;
+        },
+        loadContent: function loadContent(contact, offset) {
+            return Promise.all([getCallLogsByNumber(contact, offset), getMessagesByNumber(contact, offset)]).then(function (result) {
+                return combineContent.apply(undefined, _toConsumableArray(result));
+            }).then(function (contents) {
+                contact.msg = contents.concat(contact.msg);
+                cachedHour += offset;
+                return contents;
+            });
+        },
+        onConversationUpdate: function onConversationUpdate(handler) {
+            rcMessageService.onMessageUpdated(function (msgs) {
+                try {
+                    var msgs = sortTime(msgs.map(adaptMessage));
+                    handler(msgs);
+                } catch (e) {
+                    console.error(e);
+                    throw e;
+                }
+            });
+        },
+        adaptMessage: adaptMessage
+    };
+}(sdk);
+
+var dialPadSearchProviders = [rcContactSearchProvider];
+
 var services = {};
 services.rcPhone = {
     loadData: {
@@ -1325,10 +1614,216 @@ services['auth-panel'] = {
         method: function method() {
             console.log('login');
             return LoginService.login(PhoneFormat.formatE164('US', this.props.username), this.props.extension, this.props.password);
-        },
+        }
+    }
+};
+services['dial-pad'] = {
+    mount: {
         after: function after() {
-            console.log(this);
-            this.unmount();
+            if (!accountService.hasServiceFeature("VoipCalling")) this.disable();
+        }
+    },
+    callout: {
+        method: function method() {
+            return PhoneService.callout(this.props.fromNumber, this.props.toNumber);
+        }
+    },
+    queryContacts: {
+        method: function method() {
+            var _this = this;
+
+            var dialPadSearchFunctions = dialPadSearchProviders.map(function (provider) {
+                return provider.search(_this.props.toNumber);
+            });
+            return contactSearchService.query(dialPadSearchFunctions);
+        }
+    },
+    getOutboundCallerID: {
+        method: function method() {
+            console.log('get outbound');
+            return accountService.getPhoneNumber().then(function () {
+                return accountService.listNumber("VoiceFax", 'CallerId');
+            });
+        }
+    }
+};
+
+services['conference'] = {
+    getConferenceInfo: {
+        method: function method() {
+            return rcConferenceSerivce.getConferenceInfo();
+        }
+    }
+};
+services['call-log'] = {
+    init: {
+        method: function method() {
+            return CallLogService.getCallLogs();
+        }
+    }
+};
+
+services['time-line'] = {
+    mount: {
+        after: function after() {
+            var _this2 = this;
+
+            rcMessageService.subscribeToMessageUpdate();
+            rcMessageProvider.onMessageUpdated(function (msg) {
+                _this2.updateTimeline(conversationService.syncContent(_this2.props.contacts, msg));
+                if (_this2.props.currentConv) {
+                    _this2.props.currentConv.confirmMessages();
+                    _this2.props.currentConv.addIncomingMessages();
+                }
+            });
+            return rcContactService.cacheContacts().then(function (contacts) {
+                return _this2.props.contacts = contacts;
+            });
+        }
+    },
+    fetchData: {
+        method: function method() {
+            return Promise.all([rcContactService.cacheContacts(), // first one must be the contacts
+            rcMessageService.syncMessages(conversationService.cachedHour), CallLogService.getCallLogs()]).then(function (result) {
+                return conversationService.organizeContent.apply(conversationService, _toConsumableArray(result));
+            });
+        }
+    },
+
+    enterItem: {
+        after: function after() {
+            var _this3 = this;
+
+            // this.unmount()
+            var contact = this.props.selectedContent.contact;
+            var fromNumber = contact.msg[0].direction === 'Outbound' ? contact.msg[0].from : contact.msg[0].to;
+            var toNumber = contact.msg[0].direction === 'Outbound' ? contact.msg[0].to : contact.msg[0].from;
+            this.props.currentConv = conv(contact, function () {
+                _this3.props.currentConv.unmount();
+            }, {
+                fromNumber: fromNumber,
+                toNumber: toNumber,
+                anchorContent: this.props.selectedContent
+            });
+        }
+    }
+};
+
+services['contacts'] = {
+    mount: {
+        after: function after() {
+            this.fetchContacts();
+        }
+    },
+    fetchRelatedContact: {
+        method: function method() {
+            var _this4 = this;
+
+            return Promise.all([rcMessageService.syncMessages(conversationService.cachedHour), CallLogService.getCallLogs(), rcContactService.cacheContacts()]).then(function (result) {
+                var _result = _slicedToArray(result, 3);
+
+                var msgs = _result[0];
+                var logs = _result[1];
+                var contacts = _result[2];
+
+                _this4.props.contacts = contacts.reduce(function (result, contact) {
+                    result[contact.id] = contact;
+                    return result;
+                }, {});
+                return conversationService.getConversations(contacts, msgs, logs);
+            }).then(function (relateContacts) {
+                _this4.props.relateContacts = relateContacts;
+                return relateContacts;
+            }).then(function (relateContacts) {
+                return Object.keys(relateContacts).map(function (index) {
+                    // adapt to messages template format
+                    relateContacts[index].msg[0].contact = relateContacts[index].displayName;
+                    // for conversation-advance temaplate
+                    relateContacts[index].msg[0].contactId = index;
+                    return relateContacts[index].msg[0];
+                });
+            });
+        }
+    },
+    fetchContacts: {
+        method: function method() {
+            var _this5 = this;
+
+            // var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+            //     return provider.searchAll();
+            // });
+            // return contactSearchService.query(dialPadSearchFunctions);
+            return rcContactService.cacheContacts().then(function (contacts) {
+                _this5.props.contacts = contacts.reduce(function (result, contact) {
+                    result[contact.id] = contact;
+                    return result;
+                }, {});
+                return contacts.map(function (contact) {
+                    return {
+                        name: contact.displayName,
+                        type: 'rc',
+                        id: contact.id
+                    };
+                });
+            }).catch(function (e) {
+                return console.error(e);
+            });
+        }
+    },
+    selectContact: {
+        method: function method() {
+            var contact = this.props.relateContacts && this.props.relateContacts[this.props.selectedContact.id] || this.props.contacts[this.props.selectedContact.id];
+            var conversation = phone.props.timeline.props.currentConv = conv(contact, function () {
+                phone.props.timeline.mount('#contact-detail');
+            });
+        }
+    }
+};
+
+services['conversation-advance'] = {
+    init: {
+        after: function after() {
+            this.props.hourOffset = 3 * 24;
+        }
+    },
+    mount: {
+        after: function after() {
+            var _this6 = this;
+
+            return accountService.getAccountInfo().then(function (info) {
+                return _this6.props.fromExtension = info.extensionNumber;
+            }).then(this.getOutboundCallerID);
+        }
+    },
+    send: {
+        method: function method() {
+            if (this.props.toNumber === this.props.toExtension) {
+                return rcMessageService.sendPagerMessage(this.props.message, this.props.fromExtension, this.props.toExtension);
+            } else {
+                return rcMessageService.sendSMSMessage(this.props.message, this.props.fromNumber, this.props.toNumber);
+            }
+        }
+    },
+    queryContacts: {
+        method: function method() {
+            var _this7 = this;
+
+            var dialPadSearchFunctions = dialPadSearchProviders.map(function (provider) {
+                return provider.search(_this7.props.to);
+            });
+            return contactSearchService.query(dialPadSearchFunctions);
+        }
+    },
+    getOutboundCallerID: {
+        method: function method() {
+            return accountService.getPhoneNumber().then(function () {
+                return accountService.listNumber("VoiceFax", 'SmsSender');
+            });
+        }
+    },
+    reachTop: {
+        method: function method() {
+            return conversationService.loadContent(this.props.contact, this.props.hourOffset);
         }
     }
 };
@@ -1340,13 +1835,16 @@ function extend(base, mixin) {
                 var origin = base[action][hook];
                 base[action][hook] = function () {
                     console.log(this);
+                    var result;
+                    if (origin) {
+                        for (var _len6 = arguments.length, args = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
+                            args[_key6] = arguments[_key6];
+                        }
 
-                    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                        args[_key] = arguments[_key];
+                        result = origin.call.apply(origin, [this].concat(args));
                     }
-
-                    origin && origin.call.apply(origin, [this].concat(args));
                     mixin[action][hook].call(this);
+                    return result;
                 };
             }
         } else {

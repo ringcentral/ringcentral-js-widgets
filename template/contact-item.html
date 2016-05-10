@@ -6,23 +6,24 @@
     </div>
 </template>
 <script>
-w.register(function(){
-    this.actions = w.action('interaction');
-    this.actions.init = {
-        before: function() {
-          this.props.contact = null;  
+w.register(function() {
+    this.actions = {
+        init: {
+            before: function() {
+              this.props.contact = null;  
+            },
+            method: function(finish) {
+                return finish();
+            },
+            after: function(contact) {
+                this.props.contact = contact;
+                this.dom.name.textContent = contact.name;
+            }
         },
-        method: function(finish) {
-            return finish();
-        },
-        after: function(contact) {
-            this.props.contact = contact;
-            this.dom.name.textContent = contact.name;
-        }
-    };
-    this.actions.select = {
-        method: function(finish) {
-            return finish();
+        select: {
+            method: function(finish) {
+                return finish();
+            }
         }
     }
 });

@@ -59,17 +59,8 @@ var phone = w.register(function() {
                 this.props.dialPad = w('dial-pad', {
                     shadowRoot: phone.data.shadowRoot,
                     data : phone.data,
-                    actions: {
-                        mount: {
-                            after: function() {
-                                if (!accountService.hasServiceFeature("VoipCalling"))
-                                    this.disable();
-                            }
-                        },
+                    actions: factory.create('dial-pad', {
                         callout: {
-                            method: function() {
-                                return phoneService.callout(this.props.fromNumber, this.props.toNumber);
-                            },
                             after: function() {
                                 phone.props.callPanel.mount('#call-panel');
                             },
@@ -78,21 +69,8 @@ var phone = w.register(function() {
                                 phone.props.notification.show('#notification', 4000)
                                 phone.props.notification.msg(e.message)
                             }
-                        },
-                        queryContacts: {
-                            method: function() {
-                                var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                                    return provider.search(this.props.toNumber);
-                                });
-                                return contactSearchService.query(dialPadSearchFunctions);
-                            }
-                        },
-                        getOutboundCallerID: {
-                            method: function() {
-                                return accountService.listNumber("VoiceFax", 'CallerId');
-                            }
                         }
-                    }
+                    })
                 });
                 // this.props.callPanel = w('call-panel', {
                 //     shadowRoot: phone.data.shadowRoot,
@@ -135,166 +113,54 @@ var phone = w.register(function() {
                 //         }
                 //     }
                 // })
-                // this.props.callLog = w('call-log', {
-                //     shadowRoot: phone.data.shadowRoot,
-                //     actions: {
-                //         init: {
-                //             method: function() {
-                //                 return callLogService.getCallLogs();
-                //             }
-                //         }
-                //     }
-                // });
-                // this.props.timeline = w('time-line', {
-                //     shadowRoot: phone.data.shadowRoot,
-                //     actions: {
-                //         mount: {
-                //             after: function() {
-                //                 rcMessageService.subscribeToMessageUpdate()
-                //                 rcMessageProvider.onMessageUpdated(msg => {
-                //                     this.updateTimeline(conversationService.syncContent(this.props.contacts, msg))
-                //                     if (this.props.currentConv) {
-                //                         this.props.currentConv.confirmMessages()
-                //                         this.props.currentConv.addIncomingMessages()
-                //                     }
-                //                 })
-                //                 return rcContactService.cacheContacts().then(contacts => this.props.contacts = contacts)
-                //             }
-                //         },
-                //         fetchData: {
-                //             method: function() {
-                //                 return Promise.all([
-                //                     rcContactService.cacheContacts(), // first one must be the contacts
-                //                     rcMessageService.syncMessages(conversationService.cachedHour),
-                //                     callLogService.getCallLogs(),
-                //                 ]).then(result => conversationService.organizeContent(...result))
-                //             }
-                //         },
-                //         search: {
-                //             method: function() {
-                //                 contacts.dom.searchText.value = this.dom.searchText.value 
-                //                 contacts.search()
-                //             }
-                //         },
-                //         enterItem: {
-                //             after: function() {
-                //                 // this.unmount()
-                //                 var contact = this.props.selectedContent.contact
-                //                 var fromNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].from: contact.msg[0].to
-                //                 var toNumber = contact.msg[0].direction === 'Outbound'? contact.msg[0].to: contact.msg[0].from
-                //                 this.props.currentConv = conv(contact, () => {
-                //                     this.props.currentConv.unmount()
-                //                 }, {
-                //                     fromNumber,
-                //                     toNumber,
-                //                     anchorContent: this.props.selectedContent
-                //                 })
-                //                 this.props.currentConv.mount('#conversation')
-                //             }
-                //         }
-                //     }
-                // })
-                // this.props.conference = w('conference',{
-                //     data : phone.data,
-                //     actions: {
-                //         getConferenceInfo: {
-                //             method: function() {
-                //                 return rcConferenceSerivce.getConferenceInfo();
-                //             }
-                //         },
-                //         inviteWithText: {
-                //             method: function() {
+                this.props.callLog = w('call-log', {
+                    shadowRoot: phone.data.shadowRoot,
+                    actions: factory.create('call-log')
+                });
+                this.props.timeline = w('time-line', {
+                    shadowRoot: phone.data.shadowRoot,
+                    actions: factory.create('time-line', {
+                        search: {
+                            method: function() {
+                                contacts.dom.searchText.value = this.dom.searchText.value 
+                                contacts.search()
+                            }
+                        },
+                        enterItem: {
+                            after: function() {
+                                this.props.currentConv.mount('#conversation')
+                            }
+                        }
+                    })
+                })
+                this.props.conference = w('conference',{
+                    data : phone.data,
+                    actions: factory.create('conference', {
+                        inviteWithText: {
+                            method: function() {
                                 
-                //             }
-                //         },
-                //         joinAsHost: {
-                //             method: function() {
-                //                 phone.dom.container.style.transform = 'translateX(0px)';
-                //                 phone.props.dialPad.mount('#dial-pad');
-                //                 phone.props.dialPad.setNumber(phone.props.conference.props.dialInNumber)
-                //             }
-                //         }
-                //     }
-                // });
-                // this.props.contacts = w('contacts', {
-                //     shadowRoot: phone.data.shadowRoot,
-                //     data: {},
-                //     actions: {
-                //         init: {
-                //             after: function() {}
-                //         },
-                //         mount: {
-                //             after: function() {
-                //                 this.fetchContacts()
-                //             }
-                //         },
-                //         fetchRelatedContact: {
-                //             method: function() {
-                //                 return Promise.all([
-                //                     rcMessageService.syncMessages(conversationService.cachedHour),
-                //                     callLogService.getCallLogs(),
-                //                     rcContactService.cacheContacts()
-                //                 ]).then(result => {
-                //                     var [msgs, logs, contacts] = result
-                //                     this.props.contacts = contacts.reduce((result, contact) => {
-                //                         result[contact.id] = contact
-                //                         return result
-                //                     }, {})
-                //                     return conversationService.getConversations(contacts, msgs, logs)
-                //                 }).then(relateContacts => {
-                //                     this.props.relateContacts = relateContacts
-                //                     return relateContacts
-                //                 }).then(relateContacts => 
-                //                     Object.keys(relateContacts).map(index => {
-                //                         // adapt to messages template format
-                //                         relateContacts[index].msg[0].contact = relateContacts[index].displayName
-                //                         // for conversation-advance temaplate
-                //                         relateContacts[index].msg[0].contactId = index
-                //                         return relateContacts[index].msg[0]
-                //                     })
-                //                 )
-                //             }
-                //         },
-                //         fetchContacts: {
-                //             method: function() {
-                //                 // var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                //                 //     return provider.searchAll();
-                //                 // });
-                //                 // return contactSearchService.query(dialPadSearchFunctions);
-                //                 return rcContactService.cacheContacts().then(contacts => {
-                //                     this.props.contacts = contacts.reduce((result, contact) => {
-                //                         result[contact.id] = contact
-                //                         return result
-                //                     }, {})
-                //                     return contacts.map(contact => {
-                //                         return {
-                //                             name: contact.displayName,
-                //                             type: 'rc',
-                //                             id: contact.id,
-                //                         }
-                //                     });
-                //                 }).catch(e => console.error(e))
-                //             }
-                //         },
-                //         selectContact: {
-                //             method: function() {
-                //                 var contact = 
-                //                     (this.props.relateContacts && 
-                //                     this.props.relateContacts[this.props.selectedContact.id]) ||
-                //                     this.props.contacts[this.props.selectedContact.id]
-                //                 var conversation = phone.props.timeline.props.currentConv = conv(contact, () => {
-                //                     phone.props.timeline.mount('#contact-detail')
-                //                 })
-                //                 conversation.mount('#contact-detail')
-                //             }
-                //         },
-                //         focus: {
-                //             after: function() {
-                //                 console.log('focus');
-                //             }
-                //         }
-                //     }
-                // });
+                            }
+                        },
+                        joinAsHost: {
+                            method: function() {
+                                phone.dom.container.style.transform = 'translateX(0px)';
+                                phone.props.dialPad.mount('#dial-pad');
+                                phone.props.dialPad.setNumber(phone.props.conference.props.dialInNumber)
+                            }
+                        }
+                    })
+                });
+                this.props.contacts = w('contacts', {
+                    shadowRoot: phone.data.shadowRoot,
+                    data: {},
+                    actions: factory.create('contacts', {
+                        selectContact: {
+                            method: function() {
+                                conversation.mount('#contact-detail')
+                            }
+                        }
+                    })
+                })
                 this.props.toolbar = w('tool-bar', {
                     shadowRoot: phone.data.shadowRoot,
                     data : phone.data,
@@ -361,6 +227,7 @@ var phone = w.register(function() {
                     actions: factory.create('auth-panel', {
                         login: {
                             after: function() {
+                                this.unmount()
                                 phone.loadData();
                                 if (phone.data.shadowRoot)
                                     phone.props.toolbar.mount(phone.data.shadowRoot.querySelector('#toolbar'))
@@ -438,57 +305,7 @@ function conv(contact, afterBack, options = {}) {
             toNumber: options.toNumber,
             anchorContent: options.anchorContent
         },
-        actions: {
-            init: {
-                after: function() {
-                    this.props.hourOffset = 3 * 24
-                    
-                }
-            },
-            mount: {
-                after: function() {
-                    return accountService.getAccountInfo()
-                            .then(info => this.props.fromExtension = info.extensionNumber)
-                            .then(this.getOutboundCallerID)
-                }
-            },
-            send: {
-                method: function() {
-                    if (this.props.toNumber === this.props.toExtension) {
-                        return rcMessageService.sendPagerMessage(
-                            this.props.message,
-                            this.props.fromExtension,
-                            this.props.toExtension
-                        );
-                    }
-                    else {
-                        return rcMessageService.sendSMSMessage(
-                            this.props.message,
-                            this.props.fromNumber,
-                            this.props.toNumber
-                        );
-                    }
-                }
-            },
-            queryContacts: {
-                method: function() {
-                    var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                        return provider.search(this.props.to);
-                    });
-                    return contactSearchService.query(dialPadSearchFunctions);
-                }
-            },
-            getOutboundCallerID: {
-                method: function() {
-                    return accountService.getPhoneNumber().then(() => 
-                        accountService.listNumber("VoiceFax", 'SmsSender'));
-                }
-            },
-            reachTop: {
-                method: function() {
-                    return conversationService.loadContent(this.props.contact, this.props.hourOffset)
-                }
-            },
+        actions: factory.create('conversation-advanced', {
             back: {
                 after: function() {
                     this.unmount()
@@ -496,8 +313,8 @@ function conv(contact, afterBack, options = {}) {
                         afterBack()
                 }
             }
-        }
-    });
+        })
+    })
 }
 
 

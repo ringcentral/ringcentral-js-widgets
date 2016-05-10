@@ -124,7 +124,7 @@ function generateActions(widgetAction, userAction = shallowCopy(functionSet)) {
             }
         }
         var method = arg => {
-            if (arg.__custom)
+            if (arg && arg.__custom)
                 return (widgetAction.method && 
                     widgetAction.method.call(this, bind6Args(userAction.method, this), ...arg.data)) || arg
             else
@@ -132,7 +132,7 @@ function generateActions(widgetAction, userAction = shallowCopy(functionSet)) {
                     widgetAction.method.call(this, bind6Args(userAction.method, this), arg)) || arg
         }
         var after = arg => {
-            if (arg.__custom) {
+            if (arg && arg.__custom) {
                 arg = arg.data
                 userAction.after && userAction.after.call(this, ...arg)
                 return (widgetAction.after && widgetAction.after.call(this, ...arg)) || arg
