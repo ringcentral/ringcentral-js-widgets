@@ -12,7 +12,7 @@ In this project we aim to:
 - [x] Browser-side test framework setup
 - [x] Coding style guide document
 - [x] Eslint check setup
-- [ ] Webpack setup for distributing code
+- [x] Webpack setup for distributing code
 - [ ] CI setup
 
 #To start
