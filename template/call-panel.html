@@ -1,121 +1,239 @@
 <template>
     <div class='rc-panel rc-call-panel'>
-        <section class='rc-panel__header --colored --center'>
-            <div class='text-right'>
-                Time 00:07
-            </div>
-            <div>
-                <h1>Howard Zhang</h1>
-                <h4>From <span>(650)555-1234</span></h4>
-            </div>
-        </section>
-        <section class='rc-panel__content'>
-            <div class='rc-call-panel__center control-panel'>
-                <h4 class='control-panel__title'>
-                    You're on a VoIP call. If your WiFi signal gets weak, switch the call to carrier service.
-                </h4>
-                <div class='control-panel__line'>
-                    <div class='control-panel__item'>
-                        <button class='rc-button --circle --ghost --dense rc-icon-switch control-panel__button'>
-                            <span class="icon-uni28"></span>
-                            <span class="icon-uni35"></span>
-                        </button>
-                        <div class='text-center'>Hold</div>
+        <div data-info='main'>
+            <section class='rc-panel__header --colored --center'>
+                <div
+                    data-info='time-wrapper' 
+                    class='text-right display-none'>
+                    <span data-info='time'></span>
+                </div>
+                <div>
+                    <h1 data-info='name'>Number</h1>
+                </div>
+            </section>
+            <section class='rc-panel__content'>
+                <div class='rc-call-panel__center control-panel'>
+                    <h4 class='control-panel__title'>
+                        You're on a VoIP call. If your WiFi signal gets weak, switch the call to carrier service.
+                    </h4>
+                    <div class='control-panel__line'>
+                        <div class='control-panel__item'>
+                            <button 
+                                data-info='hold'
+                                class='rc-button --circle --ghost --dense rc-icon-switch control-panel__button'>
+                                <span class="icon-uni28"></span>
+                                <span class="icon-uni35"></span>
+                            </button>
+                            <div class='text-center'>Hold</div>
+                        </div>
+                        <div class='control-panel__item'>
+                            <button class='rc-button --circle --ghost --dense rc-icon-switch control-panel__button'>
+                                <span class="icon-uni21"></span>
+                                <span class="icon-uni2D"></span>
+                            </button>
+                            <div class='text-center'>Keypad</div>
+                        </div>
+                        <div class='control-panel__item'>
+                            <button 
+                                data-info='record'
+                                class='rc-button --circle --ghost --dense rc-icon-switch control-panel__button'>
+                                <span class="icon-uni24"></span>
+                                <span class="icon-uni30"></span>
+                            </button>
+                            <div class='text-center'>Record</div>
+                        </div>
+                        <div class='control-panel__item'>
+                            <button class='rc-button --circle --ghost --dense rc-icon-switch control-panel__button'>
+                                <span class="icon-uni26"></span>
+                                <span class="icon-uni33"></span>
+                            </button>
+                            <div class='text-center'>Audio</div>
+                        </div>
                     </div>
-                    <div class='control-panel__item'>
-                        <button class='rc-button --circle --ghost --dense rc-icon-switch control-panel__button'>
-                            <span class="icon-uni21"></span>
-                            <span class="icon-uni2D"></span>
-                        </button>
-                        <div class='text-center'>Keypad</div>
-                    </div>
-                    <div class='control-panel__item'>
-                        <button class='rc-button --circle --ghost --dense rc-icon-switch control-panel__button'>
-                            <span class="icon-uni24"></span>
-                            <span class="icon-uni30"></span>
-                        </button>
-                        <div class='text-center'>Record</div>
-                    </div>
-                    <div class='control-panel__item'>
-                        <button class='rc-button --circle --ghost --dense rc-icon-switch control-panel__button'>
-                            <span class="icon-uni26"></span>
-                            <span class="icon-uni33"></span>
-                        </button>
-                        <div class='text-center'>Audio</div>
+                    <div class='control-panel__line'>
+                        <div class='control-panel__item'>
+                            <button 
+                                data-info='flip'
+                                class='rc-button --circle --ghost --dense rc-icon-switch control-panel__button'>
+                                <span class="icon-uni27"></span>
+                                <span class="icon-uni34"></span>
+                            </button>
+                            <div class='text-center'>Flip</div>
+                        </div>
+                        <div class='control-panel__item'>
+                            <button 
+                                data-info='transfer'
+                                class='rc-button --circle --ghost --dense rc-icon-switch control-panel__button'>
+                                <span class="icon-uni23"></span>
+                                <span class="icon-uni2F"></span>
+                            </button>
+                            <div class='text-center'>Transfer</div>
+                        </div>
+                        <div class='control-panel__item'>
+                            <button
+                                data-info='park'
+                                class='rc-button --circle --ghost --dense rc-icon-switch control-panel__button'>
+                                <span class="icon-uni22"></span>
+                                <span class="icon-uni2E"></span>
+                            </button>
+                            <div class='text-center'>Park</div>
+                        </div>
                     </div>
                 </div>
-                <div class='control-panel__line'>
-                    <div class='control-panel__item'>
-                        <button class='rc-button --circle --ghost --dense rc-icon-switch control-panel__button'>
-                            <span class="icon-uni27"></span>
-                            <span class="icon-uni34"></span>
+                <div class='rc-call-panel__footer'>
+                    <div class='action-panel'>
+                        <button class='rc-button --round action-panel__action'>
+                            <span class='icon-uniCE'></span>
                         </button>
-                        <div class='text-center'>Flip</div>
-                    </div>
-                    <div class='control-panel__item'>
-                        <button class='rc-button --circle --ghost --dense rc-icon-switch control-panel__button'>
-                            <span class="icon-uni23"></span>
-                            <span class="icon-uni2F"></span>
+                        <button 
+                            data-info='hangup'
+                            class='rc-button --negative --round action-panel__action'>
+                            <span class='icon-uni44'></span>
                         </button>
-                        <div class='text-center'>Transfer</div>
-                    </div>
-                    <div class='control-panel__item'>
-                        <button class='rc-button --circle --ghost --dense rc-icon-switch control-panel__button'>
-                            <span class="icon-uni22"></span>
-                            <span class="icon-uni2E"></span>
-                        </button>
-                        <div class='text-center'>Park</div>
                     </div>
                 </div>
-            </div>
-            <div class='rc-call-panel__footer'>
-                <div class='action-panel'>
-                    <button class='rc-button --round action-panel__action'>
-                        <span class='icon-uniCE'></span>
-                    </button>
-                    <button class='rc-button --negative --round action-panel__action' data-event='click:hangup'>
-                        <span class='icon-uni44'></span>
-                    </button>
-                </div>
-            </div>
-        </section>
+            </section>
+        </div>
+        <div
+            data-info='bar' 
+            class='bar display-none'>
+            <span data-info='bar-name' class='bar__name'>bar</span>
+            <span data-info='bar-time' class='bar__time'></span>
+        </div>
     </div>
 </template>
 <script>
-w.register(function() {
-    var fade = w.transition('fade')
-    this.actions = {
-        init: {},
-        mount: {
-            after: function () {
-                fade.init(this.root)
-                fade.in(this.root)
-            }
+var fade = w.transition('fade')
+this.props = {
+    name: null,
+    time: 0,
+    minimized: false
+}
+this.actions = {
+    init: {
+        after: function() {
+            this.props.name = this.data.name
+        }
+    },
+    mount: {
+        after: function () {
+            fade.init(this.root)
+            fade.in(this.root)
+            this.setName(this.data.name)
+        }
+    },
+    setName: {
+        method: function(finish, value) {
+            this.props.name = value
+            this.dom.name.textContent = value
+            this.dom['bar-name'].textContent = value
+        }
+    },
+    start: {
+        after: function(time) {
+            this.dom['time-wrapper'].classList.remove('display-none')
+            this.props.startTime = Date.now()
+            this.props.duration = 0
+            var minutes = Math.floor(this.props.duration / 60)
+            var seconds = this.props.duration % 60
+            this.dom['time'].textContent = `${minutes}:${seconds}`
+            // FIXME: NOT accurate
+            // TODO: check for real startTime from SIP
+            setInterval(() => {
+                this.count()
+            }, 1000)
+        }
+    },
+    count: {
+        after: function() {
+            this.props.duration += 1
+            var minutes = Math.floor(this.props.duration / 60)
+            var seconds = this.props.duration % 60
+            this.dom.time.textContent = `${minutes}:${seconds}`
+            this.dom['bar-time'].textContent = `${minutes}:${seconds}`
+        }
+    },
+    ended: {
+        after: function() {
+            this.unmount()
+        }
+    },
+    hangup: {
+        method: function(finish) {
+            console.log('ui hangup');
+            return finish()
         },
-        callStarted: {},
-        callRejected: {
-            after: function() {
-                this.unmount()
-            }
-        },
-        callEnded: {
-            after: function() {
-                this.unmount()
-            }
-        },
-        callFailed: {
-            after: function() {
-                this.unmount()
-            }
-        },
-        hangup: {
-            method: function(finish) {
-                return finish()
-            },
-            after: function() {
-                this.unmount()
-            }
+        after: function() {
+            this.ended()
+        }
+    },
+    hold: {
+        method: function(finish) {
+            console.log('ui hold');
+            return finish()
+        }
+    },
+    mute: {
+        method: function(finish) {
+            console.log('ui mute');
+            return finish()
+        }
+    },
+    flip: {
+        method: function(finish, number) {
+            console.log('ui flip');
+            return finish()
+        }
+    },
+    forward: {
+        method: function(finish, number) {
+            console.log('ui forward');
+            return finish()
+        }
+    },
+    record: {
+        method: function(finish) {
+            console.log('ui record');
+            return finish()
+        }
+    },
+    minimize: {
+        after: function() {
+            this.dom.bar.classList.remove('display-none')
+            this.dom.main.classList.add('display-none')
+            this.props.minimized = true
+        }
+    },
+    resume: {
+        after: function() {
+            this.dom.bar.classList.add('display-none')
+            this.dom.main.classList.remove('display-none')
+            this.props.minimized = false
         }
     }
+}
+this.on('click', function(e) {
+    ['hangup', 'hold', 'mute', 'flip', 'forward', 'record'].forEach(action => {
+        if (e.target === this.dom[action] || e.target.parentNode === this.dom[action])
+            this[action]()
+    })
+    if (e.target === this.dom.bar)
+        this.resume()
 })
 </script>
+<style scoped>
+@import "src/styles/variables.css";
+@import "src/styles/mixins.css";
+    .bar {
+        width: 100%;
+        height: 30px;
+        background-color: $red;
+        text-align: center;
+        line-height: 2;
+        color: #fff;
+        cursor: pointer;
+        &__name {
+            margin-right: 10px;
+        }
+    }
+</style>

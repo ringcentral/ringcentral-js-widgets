@@ -9,20 +9,25 @@ import rcMessageService from '../services/rc-message-service'
 import rcMessageProvider from '../services/rc-message-provider'
 import rcConferenceSerivce from '../services/rc-conference-service'
 import conversationService from '../services/rc-conversation-service'
+
+import config from '../services/rc-config'
 var dialPadSearchProviders = [rcContactSearchProvider]
 
 var services = {}
 services.rcPhone = {
     loadData: {
         method: function() {
+            console.log('load data');
             rcMessageService.subscribeToMessageUpdate();
-            rcMessageService.syncMessages(this.props.cachedMessageHours);
-            accountService.getAccountInfo();
-            accountService.getPhoneNumber();
-            rcContactService.syncCompanyContact();
-            phoneService.registerSIP();
+            // rcMessageService.syncMessages(this.props.cachedMessageHours);
+            // accountService.getAccountInfo();
+            // accountService.getPhoneNumber();
+            // rcContactService.syncCompanyContact();
+            phoneService.init({
+                incomingAudio: config.incomingAudio,
+                outgoingAudio: config.outgoingAudio
+            });
             callLogService.getCallLogs();
-            phoneService.listen();
         }
     }
 }
@@ -47,7 +52,13 @@ services['dial-pad'] = {
     },
     callout: {
         method: function() {
-            return phoneService.callout(this.props.fromNumber, this.props.toNumber);
+            console.log(this.props.remoteVideo);
+            return phoneService.call(
+                this.props.fromNumber, 
+                this.props.toNumber, {
+                    remoteVideo: this.props.remoteVideo,
+                    localVideo: this.props.localVideo
+                })
         }
     },
     queryContacts: {
@@ -160,17 +171,6 @@ services['contacts'] = {
                 });
             }).catch(e => console.error(e))
         }
-    },
-    selectContact: {
-        method: function() {
-            var contact = 
-                (this.props.relateContacts && 
-                this.props.relateContacts[this.props.selectedContact.id]) ||
-                this.props.contacts[this.props.selectedContact.id]
-            var conversation = phone.props.timeline.props.currentConv = conv(contact, () => {
-                phone.props.timeline.mount('#contact-detail')
-            })
-        }
     }
 }
 
@@ -225,5 +225,57 @@ services['conversation-advanced'] = {
             return conversationService.loadContent(this.props.contact, this.props.hourOffset)
         }
     },
+}
+services['call-panel'] = {
+    hangup: {
+        method: function() {
+            return phoneService.hangup()
+        },
+    },
+    hold: {
+        method: function() {
+            return phoneService.hold()
+        },
+    },
+    mute: {
+        method: function() {
+            return phoneService.mute()
+        },
+    },
+    flip: {
+        method: function() {
+            return phoneService.flip()
+        },
+    },
+    forward: {
+        method: function() {
+            return phoneService.forward()
+        },
+    },
+    record: {
+        method: function() {
+            return phoneService.record()
+        },
+    },
+}
+services['call-panel-incoming'] = {
+    init: {
+        method: function() {
+            phoneService.on('invite', (session) => {
+                this.props.session = session
+                console.log(session);
+                this.setName(session.request.from.displayName)
+                this.mount(this.props.target)
+            })
+        }
+    },
+    accept: {
+        method: function() {
+            phoneService.accept({
+                remoteVideo: this.props.remoteVideo,
+                localVideo: this.props.localVideo,
+            })
+        }
+    }
 }
 export default services

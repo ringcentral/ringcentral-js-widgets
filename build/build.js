@@ -224,8 +224,8 @@ function Widget(_ref2, options) {
         var target;
         var capture = false;
         if (event.event === 'scroll') capture = true;
-        if (!event.target) target = _this.root;else target = _this.dom[event.target];
-        target.addEventListener(event.event, event.callback.bind(_this), capture);
+        if (!event.target) target = _this.root;else if (event.target === 'document') target = document;else target = _this.dom[event.target];
+        target.addEventListener(event.event, event.callback.bind(_this), capture || event.capture);
     });
     this.init.call(this);
 }
@@ -907,15 +907,17 @@ w.register = function (settings) {
     // var settings = new settings()
     var draft = {};
     draft.events = [];
-    draft.on = function (event, target, callback) {
+    draft.on = function (event, target, callback, capture) {
         if (typeof target === 'function') {
+            capture = callback;
             callback = target;
             target = null;
         }
         draft.events.push({
             event: event,
             target: target,
-            callback: callback
+            callback: callback,
+            capture: capture
         });
     };
     settings.call(draft);

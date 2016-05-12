@@ -1,7 +1,6 @@
 <div class='rc-panel rc-call-panel'>
     <div class='rc-panel__header --colored --center'>
-        <h2>Incoming Call</h2>
-        <h1>Howard Zhang</h1>
+        <h1 data-info='name'>Incoming call</h1>
     </div>
     <div class='rc-panel__content'>
         <div class='rc-call-panel__center'>
@@ -10,41 +9,69 @@
         <div class='rc-call-panel__footer'>
             <button class='rc-button rc-call-panel__reply'>Reply with Messages</button>
             <div class='action-panel text-center'>
-                <button class='rc-button --positive --round action-panel__action'>Accept</button>
-                <button class='rc-button --negative --round action-panel__action'>Ignore</button>
+                <button 
+                    data-info='accept'
+                    class='rc-button --positive --round action-panel__action'>Accept</button>
+                <button
+                    data-info='ignore' 
+                    class='rc-button --negative --round action-panel__action'>Ignore</button>
             </div>
         </div>
     </div>
+    <video data-info='local' class='display-none'></video>
+    <video data-info='remote' class='display-none'></video>
 </div>
 <script>
-w.register(function() {
-    var circle = w.transition('circle')
-    var fade = w.transition('fade')
-    this.actions = {
-        init: {
-            method: function(finish) {
-                return finish()
-            }
+var circle = w.transition('circle')
+var fade = w.transition('fade')
+this.props = {
+    name: null,
+    target: null,
+    remoteVideo: null,
+    localVideo: null,
+    session: null
+}
+this.actions = {
+    init: {
+        method: function(finish) {
+            return finish()
         },
-        mount: {
-            after: function() {
-                fade.init(this.root)
-                fade.in(this.root)
-            }
+        after: function() {
+            this.props.target = this.data.target
+            this.props.remoteVideo = this.dom.remoteVideo
+            this.props.localVideo = this.dom.localVideo
+        }
+    },
+    mount: {
+        after: function() {
+            fade.init(this.root)
+            fade.in(this.root)
+        }
+    },
+    setName: {
+        method: function(finish, value) {
+            this.props.name = value
+            this.dom.name.textContent = value
+        }
+    },
+    ignore: {
+        method: function(finish) {
+            return finish()
         },
-        called: {
-            method: function(finish) {
-                return finish()
-            }
-        },
-        ignore: {
-            method: function(finish) {
-                return finish()
-            },
-            after: function() {
-                this.unmount()
-            }
+        after: function() {
+            this.unmount()
+        }
+    },
+    accept: {
+        method: function(finish) {
+            return finish()
         }
     }
+}
+this.on('click', function(e) {
+    if (e.target === this.dom.accept)
+        this.accept()
+    if (e.target === this.dom.ignore)
+        this.ignore()
 })
 </script>

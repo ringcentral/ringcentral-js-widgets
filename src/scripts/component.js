@@ -89,9 +89,11 @@ function Widget({actions, events, data = {}, props = {}}, options) {
             capture = true
         if (!event.target) 
             target = this.root
+        else if (event.target === 'document')
+            target = document
         else
             target = this.dom[event.target]
-        target.addEventListener(event.event, event.callback.bind(this), capture);
+        target.addEventListener(event.event, event.callback.bind(this), capture || event.capture);
     })
     this.init.call(this)
 }

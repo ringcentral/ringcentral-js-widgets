@@ -10,6 +10,7 @@ var plumber = require('gulp-plumber')
 var print = require('gulp-print')
 var nodeResolve = require('rollup-plugin-node-resolve')
 var commonjs    = require('rollup-plugin-commonjs')
+var json = require('rollup-plugin-json')
 
 var postcss = require('gulp-postcss')
 
@@ -20,7 +21,7 @@ gulp.task('compile', () => {
     return compile()
 })
 gulp.task('factory', () => {
-    watch('./factory/**/**', factory)
+    watch(['./factory/**/**', './services/**'], factory)
     return factory()
 })
 
@@ -79,14 +80,20 @@ function factory() {
                 this.emit('end')
             }
         }))
+        .pipe(babel())
         .pipe(rollup({
             sourceMap: true,
             plugins: [
-                nodeResolve({jsnext: true, main: true, browser: true}),
-                commonjs()
-            ]
+                nodeResolve({
+                  jsnext: true, 
+                  main: true, 
+                  browser: true, 
+                  preferBuiltins: false,
+                }),
+                commonjs(),
+                json()
+            ],
         }))
-        .pipe(babel())
         .on('error', util.log)
         .pipe(rename('factory.js'))
         .pipe(sourcemaps.write('.'))

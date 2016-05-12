@@ -84,127 +84,156 @@
         <div class='rc-dial-pad__mask display-none' data-info='disabled-mask'>
             <p>Your account doesn't not have Web Phone permission.</p>
         </div>
+        <video data-info='local' class='display-none'></video>
+        <video data-info='remote' class='display-none'></video>
     </div>
 </template>
 <script>
-w.register(function() {
-    var fade = w.transition('fade')
-
-    this.props = {
-        fromNumber: null,
-        toNumber: null
-    }
-    this.actions = {
-        init: {
-            before: function() {},
-            method: function() {},
-            after: function() {
-                var dialPad = this
-                var {color, lang, logo} = this.data
-                this.dom.header.style['background-color'] = color || '#fff'
-                w.customize(this, 'contact-picker', {
-                    data: {
-                        whiteList: this.dom['dialing-panel']
+var fade = w.transition('fade')
+this.data = {
+    autoComplete: true,
+    outboundID: true
+}
+this.props = {
+    fromNumber: null,
+    toNumber: null,
+    isListenToKeyboard: false,
+    remoteVideo: null,
+    localVideo: null
+}
+this.actions = {
+    init: {
+        before: function() {},
+        method: function() {},
+        after: function() {
+            var dialPad = this
+            var {color, lang, logo} = this.data
+            this.dom.header.style['background-color'] = color || '#fff'
+            this.props.remoteVideo = this.dom.remote
+            this.props.localVideo = this.dom.local
+            w.customize(this, 'contact-picker', {
+                data: {
+                    whiteList: this.dom['dialing-panel']
+                },
+                actions: {
+                    autoComplete: {
+                        method: function() {
+                            if (!dialPad.data.autoComplete)
+                                return []
+                            return dialPad.queryContacts(this.props.inputValue)
+                        }
+                    }
+                }
+            })
+            w.customize(this, 'dropdown', {
+                actions: {
+                    getData: {
+                        method: function() {
+                            return dialPad.getOutboundCallerID()
+                        }
                     },
-                    actions: {
-                        autoComplete: {
-                            method: function() {
-                                return dialPad.queryContacts(this.props.inputValue)
-                            }
+                    switchTitle: {
+                        method: function(text) {
+                            dialPad.props.fromNumber = text
                         }
                     }
-                })
-                w.customize(this, 'dropdown', {
-                    actions: {
-                        getData: {
-                            method: function() {
-                                return dialPad.getOutboundCallerID()
-                            }
-                        },
-                        switchTitle: {
-                            method: function(text) {
-                                dialPad.props.fromNumber = text
-                            }
-                        }
-                    }
-                })
-            }
+                }
+            })
+        }
+    },
+    mount: {
+        before: function() {},
+        method: function() {},
+        after: function() {
+            this.refs['dropdown'].getData()
+            this.refs['contact-picker'].focus()
+            if (!this.data.outboundID)
+                this.dom.dropdown.classList.add('display-none')
+            this.listenToKeyboard(true)
+            // fade.in(this.root);
+        }
+    },
+    unmount: {
+        method: function(finish) {
+            this.listenToKeyboard(false)
+        }
+    },
+    dialing: {
+        method: function(finish, value) {
+            var cp = this.refs['contact-picker']
+            cp.appendInput(value)
+            cp.autoComplete()
+            this.props.toNumber = cp.dom.input.value
+            return finish()
         },
-        mount: {
-            before: function() {},
-            method: function() {},
-            after: function() {
-                this.refs['dropdown'].getData()
-                this.refs['contact-picker'].focus()
-                // fade.in(this.root);
-            }
+        after: function() {
+            this.refs['contact-picker'].dom.input.focus()
+        }
+    },
+    callout: {
+        before: function() {
+            this.dom.callout.classList.add('--active')
         },
-        dialing: {
-            method: function(finish, value) {
-                var cp = this.refs['contact-picker']
-                cp.appendInput(value)
-                cp.autoComplete()
-                this.props.toNumber = cp.dom.input.value
-                return finish()
-            },
-            after: function() {
-                this.refs['contact-picker'].dom.input.focus()
-            }
+        method: function(finish, event) {
+            // TODO: Do some basic validation.
+            if (!this.props.toNumber || !this.props.fromNumber)
+                console.error('from- or to-Number is missing.')
+            var cp = this.refs['contact-picker']
+            this.props.toNumber = cp.dom.input.value
+            return finish()
         },
-        callout: {
-            before: function() {
-                this.dom.callout.classList.add('--active')
-            },
-            method: function(finish, event) {
-                // TODO: Do some basic validation.
-                if (!this.props.toNumber || this.props.fromNumber)
-                    console.error('from- or to-Number is missing.');
-                var cp = this.refs['contact-picker']
-                this.props.toNumber = cp.dom.input.value
-                return finish()
-            },
-            after: function() {
-                setTimeout(() => this.dom.callout.classList.remove('--active'), 1000)
-            },
-            error: function(err) {
-                this.dom.callout.classList.remove('--active')
-            }
+        after: function() {
+            setTimeout(() => this.dom.callout.classList.remove('--active'), 1000)
         },
-        disable: {
-            method: function(finish) {
-                return finish()
-            },
-            after: function() {
-                this.dom['disabled-mask'].classList.remove('display-none')
-                this.dom['container'].classList.add('blur')
-            }
+        error: function(err) {
+            this.dom.callout.classList.remove('--active')
+        }
+    },
+    disable: {
+        method: function(finish) {
+            return finish()
         },
-        getOutboundCallerID: {
-            method: function(finish) {
-                return finish()
-            }
-        },
-        queryContacts: {
-            method: function(finish, queryText) {
-                this.props.toNumber = queryText
-                return finish()
-            }
-        },
-        number: {
-            method: function(finish, value) {
-                this.refs['contact-picker'].setInput(value)
-                return finish()
-            }
+        after: function() {
+            this.dom['disabled-mask'].classList.remove('display-none')
+            this.dom['container'].classList.add('blur')
+        }
+    },
+    getOutboundCallerID: {
+        method: function(finish) {
+            return finish()
+        }
+    },
+    queryContacts: {
+        method: function(finish, queryText) {
+            this.props.toNumber = queryText
+            return finish()
+        }
+    },
+    number: {
+        method: function(finish, value) {
+            this.refs['contact-picker'].setInput(value)
+            return finish()
+        }
+    },
+    listenToKeyboard: {
+        method: function(finish, value) {
+            this.props.isListenToKeyboard = !!value
+            return finish()
         }
     }
-    this.on('click', function(e) {
-        for (let i = 0; i < 10; i ++) {
-            if (event.target === this.dom[`dial-button-${i}`] ||
-                event.target.parentNode === this.dom[`dial-button-${i}`]) this.dialing(i)
-        }
-        if (event.target === this.dom.callout) this.callout()
-    })
-    
+}
+this.on('click', function(e) {
+    for (let i = 0; i < 10; i ++) {
+        if (event.target === this.dom[`dial-button-${i}`] ||
+            event.target.parentNode === this.dom[`dial-button-${i}`]) this.dialing(i)
+    }
+    if (event.target === this.dom.callout) this.callout()
+})
+this.on('keydown', 'document', function(e) {
+    if (!e.target.isEqualNode(this.refs['contact-picker'].dom.input) && 
+        this.props.isListenToKeyboard) {
+        this.dialing('')
+    }
 })
 
 //# sourceURL=dial-pad.html

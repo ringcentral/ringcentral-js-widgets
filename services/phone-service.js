@@ -1,17 +1,16 @@
 import sdk from './rc-sdk'
-import webPhone from './rc-webphone'
-
+import WebPhone from './rc-webphone'
+import config from './rc-config'
+var webPhone = {}
 var PhoneService = function() {
-    var line
+    var webPhone
+    var session
     var handlers = {
-        called: [],
-        callStarted: [],
-        callRejected: [],
-        callEnded: [],
-        callFailed: []
+        invite: []
     }
     return {
-        registerSIP: function() {
+        init: function(options) {
+            console.log('init phone');
             return sdk.platform()
                 .post('/client-info/sip-provision', {
                     sipInfo: [{
@@ -19,65 +18,91 @@ var PhoneService = function() {
                     }]
                 })
                 .then(res => {
-                    return webPhone.register(res.json(), false)
-                        .catch(function(e) {
-                            return Promise.reject(err)
-                        })
+                    console.log(res.json());
+                    return new WebPhone(res.json(), { // optional
+                        appKey: config.key,
+                        logLevel: 1,
+                        audioHelper: {
+                            enabled: true, // enables audio feedback when web phone is ringing or making a call
+                            incoming: options.incomingAudio, // path to audio file for incoming call
+                            outgoing: options.outgoingAudio // path to aduotfile for outgoing call
+                        }
+                    })
+                })
+                .then(phone => {
+                    webPhone = phone
+                    webPhone.userAgent.on('invite', function (s) {
+                        session = s
+                        handlers['invite'].forEach(handler => handler(session))
+                    })
                 })
         },
-        callout: function(fromNumber, toNumber) {
-            // TODO: validate toNumber and fromNumber
-            if (!sdk || !webPhone) {
-                throw Error('Need to set up SDK and webPhone first.')
-                return
-            }
-            return sdk.platform()
-                .get('/restapi/v1.0/account/~/extension/~')
-                .then(res => {
-                    var info = res.json()
-                    if (info && info.regionalSettings && info.regionalSettings.homeCountry) {
-                        return info.regionalSettings.homeCountry.id
+        on: function(name, callback) {
+            handlers[name].push(callback)
+        },
+        call: function(fromNumber, toNumber, options) {
+            session = webPhone.userAgent.invite(toNumber, {
+                media: {
+                    render: {
+                        remote: options.remoteVideo,
+                        local: options.localVideo
                     }
-                    return null
-                })
-                .then(countryId => {
-                    webPhone.call(toNumber, fromNumber, countryId)
-                })
+                },
+                fromNumber: fromNumber
+            })
+            session.on('accept', function() {
+                console.log('accept');
+            })
+            session.on('progress', function() {
+                console.log('progress');
+            })
+            session.on('rejected', function() {
+                console.log('rejected');
+            })
+            session.on('terminated', function() {
+                console.log('terminated');
+            })
+            session.on('bye', function() {
+                console.log('bye');
+            })
+            session.on('refer', function() {
+                console.log('refer');
+            })
         },
-        answer: function() {
-            return webPhone
-                .answer(line)
-        },
-        ignore: function() {},
-        cancel: function() {
-            return line
-                .cancel()
+        accept: function(options) {
+            return session.accept({
+                media: {
+                    render: {
+                        remote: options.remoteVideo,
+                        local: options.localVideo
+                    }
+                }
+            })
         },
         hangup: function() {
-            return webPhone
-                .hangup(line)
+            return session.bye()
         },
-        on: function(name, handler) {
-            handlers[name].push(handler)
+        hold: function() {
+            return session.hold()
         },
-        listen: function() {
-            webPhone.ua.on('incomingCall', e => {
-                line = e
-                handlers.called.forEach(h => h(e))
-            })
-            webPhone.ua.on('callStarted', e => {
-                handlers.callStarted.forEach(h => h(e))
-            })
-            webPhone.ua.on('callRejected', e => {
-                handlers.callRejected.forEach(h => h(e))
-            })
-            webPhone.ua.on('callEnded', e => {
-                handlers.callEnded.forEach(h => h(e))
-            })
-            webPhone.ua.on('callFailed', e => {
-                handlers.callFailed.forEach(h => h(e))
-            })
+        mute: function() {
+            return session.mute()
         },
+        flip: function(number) {
+            return session.flip(number)
+        },
+        forward: function(number) {
+            return session.forward(number)
+        },
+        transfer: function(number) {
+            return session.transfer(number)
+        },
+        park: function() {
+            return session.park()
+        },
+        record: function() {
+            return session.startRecord()
+        }
     }
 }()
 export default PhoneService

@@ -56,23 +56,31 @@ See styles at the bottom of [auth-panel.html](https://github.com/LingForCC/ringc
 
 #### data
 
-| Name | Type     | Usage                                    | Default |
-| ---- | -------- | ---------------------------------------- | ------- |
-| lang | *String* | L11N support. The value should be language codes, such as **en-us**. | en-us   |
+| Name     | Type     | Usage                                    | Default |
+| -------- | -------- | ---------------------------------------- | ------- |
+| lang     | *String* | L11N support. The value should be language codes, such as **en-us**. | en-us   |
+| external | Boolean  | Used for third-party login or Oauth 2.0. Hide the default input fields. |         |
 
 #### actions
-1. `login()`
 
-Use following `props` to log in the targeted service.
+##### `login()`
+
+ Use following `props` to log in the targeted service.
 ```javascript
    this.props.username
    this.props.extension
    this.props.password
 ```
-2. `disable()`
-3. `country(value)`
-4. `warn(message)`
-#### Relevant services
-1. loginService
+##### `externalLogin()`
 
 
+
+##### `disable()`
+
+
+
+##### `country(value)`
+
+
+
+##### `warn(message)`

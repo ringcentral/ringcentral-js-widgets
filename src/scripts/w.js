@@ -128,15 +128,17 @@ w.register = function(settings) {
     // var settings = new settings()
     var draft = {}
     draft.events = []
-    draft.on = function(event, target, callback) {
+    draft.on = function(event, target, callback, capture) {
         if (typeof target === 'function') {
+            capture = callback
             callback = target
             target = null
         }
         draft.events.push({
             event,
             target,
-            callback
+            callback,
+            capture
         })
     }
     settings.call(draft)

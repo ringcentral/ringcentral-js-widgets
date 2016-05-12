@@ -6,32 +6,41 @@
                     data-info='logo'>
         </div>
         <div class='rc-panel__content rc-auth-panel__content rc-auth-panel__content--color'>
-            <div class='input-panel' data-info='input-panel'>
-              <div 
-                data-info='country-selector'
-                class='input-panel__flag'>
-                  <img class='rc-img' data-info='flag' src=''>
-              </div>
-              <input 
-                  class='rc-input --clean input-panel__phone' 
-                  data-info='username' 
-                  placeholder='username'>
-              </input>
+            <div data-info='user-info'>
+                <div class='input-panel' data-info='input-panel'>
+                  <div 
+                    data-info='country-selector'
+                    class='input-panel__flag'>
+                      <img class='rc-img' data-info='flag' src=''>
+                  </div>
+                  <input 
+                      class='rc-input --clean input-panel__phone' 
+                      data-info='username' 
+                      placeholder='username'>
+                  </input>
+                </div>
+                <input 
+                    class='rc-input --round' 
+                    data-info='extension'
+                    placeholder="extension"
+                    ></input>
+                <input 
+                    class='rc-input --round' 
+                    data-info='password'
+                    placeholder="password"
+                    type='password'>
+                </input>
             </div>
-            <input 
-                class='rc-input --round' 
-                data-info='extension'
-                placeholder="extension"
-                ></input>
-            <input 
-                class='rc-input --round' 
-                data-info='password'
-                placeholder="password"
-                 type='password'></input>
-            <button 
-                class='rc-button --round rc-auth-panel__button rc-auth-panel__button--color' 
-                data-info='login-button'>Login
-            </button>
+            <div class='button-panel'>
+                <button 
+                    class='rc-button --round rc-auth-panel__button rc-auth-panel__button--color' 
+                    data-info='external-login-button'>Third party
+                </button>
+                <button 
+                    class='rc-button --round rc-auth-panel__button rc-auth-panel__button--color' 
+                    data-info='login-button'>Login
+                </button>
+            </div>
             <div class='rc-label'>
                 <label for='remember'>Remember me:</label>
                 <input id='remember' type='checkbox' data-info='remember' checked>
@@ -72,6 +81,15 @@ this.actions = {
             this.dom.username.value = localStorage.getItem('username')
             this.dom.extension.value = localStorage.getItem('extension')
             this.dom.password.value = localStorage.getItem('password')
+
+            if (this.data.external) {
+                this.dom['login-button'].classList.add('display-none')
+                this.dom['user-info'].classList.add('display-none')
+
+            } else {
+                this.dom['external-login-button'].classList.add('display-none')
+            }
+
             fade.in(this.root)
         }
     },
@@ -101,6 +119,24 @@ this.actions = {
             this.dom['login-button'].disabled = false
         }
     },
+    externalLogin: {
+        before: function() {
+            this.dom['login-button'].disabled = true
+            this.dom.error.textContent = ''
+            this.dom['login-button'].classList.add('rc-button-loading')
+        },
+        method: function(finish) {
+            return finish()
+        },
+        after: function() {
+            // this.dom['login-button'].disabled = false
+        },
+        error: function(err) {
+            console.error(err)
+            this.dom.error.textContent = err.message
+            this.dom['login-button'].disabled = false
+        }
+    },
     disable: {
         method: function(finish) {}
     },
@@ -115,12 +151,12 @@ this.actions = {
             } else {
                 // return this.props.country
             }
-
         }
     }
 }
 this.on('click', function(e) {
     if (event.target === this.dom['login-button']) this.login()
+    if (event.target === this.dom['external-login-button']) this.externalLogin()
     if (event.target === this.dom['']) showCountry.call(this)
 })
 
@@ -147,14 +183,8 @@ $auth-panel-flag-width: 40px;
         display: flex;
         flex-direction: column;
         padding: $auth-panel-padding;
-        & > .rc-input {
+        .rc-input {
             margin: 5px 0;
-        }
-        & > .rc-button {
-            width: 100%;
-
-            /* Move to the bottom of flex container */
-            margin-top: auto;
         }
     }
     &__container {
@@ -165,6 +195,11 @@ $auth-panel-flag-width: 40px;
     }
     &__img {
         width: 60%;
+    }
+    &__button {
+        &--color {
+
+        }
     }
 
     .input-panel {
@@ -184,8 +219,14 @@ $auth-panel-flag-width: 40px;
         > .rc-input {
 
         }
-        &.--focus {
-            border-color: #7f8c8d;
+    }
+
+    .button-panel {
+        /* Move to the bottom of flex container */
+        margin-top: auto;
+        & > .rc-button {
+            margin-top: 10px;
+            width: 100%;
         }
     }
 }

@@ -1,5 +1,3 @@
-var webPhone = new RingCentral.WebPhone({
-    audioHelper: {}
-})
+import WebPhone from 'ringcentral-web-phone'
 
-export default webPhone
+export default WebPhone

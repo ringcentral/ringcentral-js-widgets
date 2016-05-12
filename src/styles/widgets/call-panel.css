@@ -14,7 +14,7 @@ $call-panel-icon-size-sm: 1.6em;
     }
     &__footer {}
 
-    > .rc-panel__content {
+    .rc-panel__content {
         @mixin padding-normal;
         display: flex;
         flex-direction: column;

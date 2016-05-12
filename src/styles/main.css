@@ -356,19 +356,19 @@ h6 {
 * Some common use cases
 */
 .float-right {
-    float: right;
+    float: right !important;
 }
 .float-left {
-    float: left;
+    float: left !important;
 }
 .display-none {
-    display: none;
+    display: none !important;
 }
 .text-center {
-    text-align: center;
+    text-align: center !important;
 }
 .text-right {
-    text-align: right;
+    text-align: right !important;
 }
 .clearfix {
     &:before,
