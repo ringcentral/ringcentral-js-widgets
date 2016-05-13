@@ -317,18 +317,18 @@ this.actions = {
             return finish()
         },
         after: function(messages) {
-            if (messages) {
+            if (messages && messages.length) {
                 // maintain the scoll position
-                var scrollBottom = this.dom.conversations.offsetHeight
+                var scrollBottom = 
+                    this.dom.conversations.offsetHeight - this.dom.container.scrollTop
                 // We prepend the messages, so the order is reversed,
                 // and we don't want to modify the original msgs, so shallow copy first
                 this.prependMessages(messages.slice().reverse(), false)
                 this.dom.container.scrollTop = 
-                this.dom.conversations.offsetHeight - scrollBottom
-
-                this.isLoading = false
-                this.dom.loading.classList.add('display-none')
+                    this.dom.conversations.offsetHeight - scrollBottom
             }
+            this.isLoading = false
+            this.dom.loading.classList.add('display-none')
         }
     },
     addTimestamp: {

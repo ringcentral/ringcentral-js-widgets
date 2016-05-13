@@ -44,6 +44,11 @@ w.register(function() {
                     this.dom.icon.classList.add('icon-uniAE')
                 else if (data.type === 'Pager')
                     this.dom.icon.classList.add('icon-uniCB')
+                else if (data.type === 'VoiceMail') {
+                    this.dom.icon.classList.add('icon-uniCB')
+                    data.subject = data.subject.type
+                }
+
                 this.dom.subject.textContent = this.props.subject = data.subject
                 data.contact && 
                     (this.dom.contact.textContent = this.props.contact = data.contact.displayName)
@@ -135,7 +140,7 @@ w.register(function() {
         }
     }
     this.on('click', function(e) {
-        if (e.target === this.dom['count-wrapper']) {
+        if (e.target === this.dom['count-wrapper'] || e.target.parentNode === this.dom['count-wrapper']) {
             this.collapse()
             e.stopPropagation()
         } else {
