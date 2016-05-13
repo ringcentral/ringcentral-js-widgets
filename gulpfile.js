@@ -42,7 +42,8 @@ function compile() {
             plugins: [
                 nodeResolve({jsnext: true, main: true, browser: true}),
                 commonjs()
-            ]
+            ],
+
         }))
         .pipe(babel())
         .on('error', util.log)
@@ -93,6 +94,7 @@ function factory() {
                 commonjs(),
                 json()
             ],
+            format: 'cjs'
         }))
         .on('error', util.log)
         .pipe(rename('factory.js'))

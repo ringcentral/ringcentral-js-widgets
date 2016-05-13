@@ -39,11 +39,13 @@
         <div class='panel --extra' id="notification"></div>
     </div>
 </div>
-<script src='../bower_components/phoneformat/dist/phone-format-global.js'></script>
+<script src='./bower_components/phoneformat/dist/phone-format-global.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js'></script>
+<!-- <script src="./build/factory.js"></script> -->
 <script>
-var factory = new Factory()
-var phone = w.register(function() {
+import Factory from './build/factory'
+w.register(function() {
+    var factory = new Factory()
     this.actions = factory.create('rcPhone', {
         
         createWidgets: {
@@ -295,30 +297,29 @@ var phone = w.register(function() {
             }
         }
     })
-})
 
 
-function conv(contact, afterBack, options = {}) {
-    return w('conversation-advanced', {
-        data: {
-            new: true,
-            contact: contact,
-            fromNumber: options.fromNumber,
-            toNumber: options.toNumber,
-            anchorContent: options.anchorContent
-        },
-        actions: factory.create('conversation-advanced', {
-            back: {
-                after: function() {
-                    this.unmount()
-                    if (afterBack && typeof afterBack === 'function')
-                        afterBack()
+    function conv(contact, afterBack, options = {}) {
+        return w('conversation-advanced', {
+            data: {
+                new: true,
+                contact: contact,
+                fromNumber: options.fromNumber,
+                toNumber: options.toNumber,
+                anchorContent: options.anchorContent
+            },
+            actions: factory.create('conversation-advanced', {
+                back: {
+                    after: function() {
+                        this.unmount()
+                        if (afterBack && typeof afterBack === 'function')
+                            afterBack()
+                    }
                 }
-            }
+            })
         })
-    })
-}
-
+    }
+})
 
 //# sourceURL=rc-phone.html
 </script>

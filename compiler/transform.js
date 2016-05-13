@@ -2,11 +2,11 @@ var babel = require('babel-core')
 var postcss = require('postcss')
 var precss = require('precss')
 var autoprefixer = require('autoprefixer')
-var es2015 = require('babel-preset-es2015')
+var es2015 = require('babel-preset-es2015-loose')
 var fs = require('fs')
 var bundle = require('./bundle').bundle
 
-const TEMP_FILE = '__w_temp'
+const TEMP_FILE = '__w_temp.js'
 const SCRIPT_HEADER = 'w.register(function() {'
 const SCRIPT_TRAILER = '})'
 var scope = (id) => postcss.plugin('scope', function() {
@@ -33,7 +33,6 @@ function transformScript(input) {
     // FIXME: don't modify original data
     if (input.script.indexOf('w.register') === -1) {
         input.script = SCRIPT_HEADER + input.script + SCRIPT_TRAILER
-        console.log(input.script);
     }
     input.script && (input.script = babel.transform(input.script, {presets: [es2015]}).code)
     fs.writeFileSync(TEMP_FILE, input.script)

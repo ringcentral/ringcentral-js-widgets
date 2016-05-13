@@ -1,3 +1,5 @@
+'use strict';
+
 var __commonjs_global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : this;
 function __commonjs(fn, module) { return module = { exports: {} }, fn(module, module.exports, __commonjs_global), module.exports; }
 
@@ -23251,5 +23253,7 @@ Factory.prototype.create = function(type, mixin = {}) {
     return extend(services[type], mixin)
 }
 
-window.Factory = Factory
+console.log(Factory);
+
+module.exports = Factory;
 //# sourceMappingURL=factory.js.map

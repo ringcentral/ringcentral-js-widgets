@@ -1,2 +1,5 @@
 import Factory from './factory.js'
-window.Factory = Factory
+console.log(Factory);
+
+// window.Factory = Factory
+export default Factory

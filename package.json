@@ -4,6 +4,8 @@
   "dependencies": {
     "autoprefixer": "^6.3.6",
     "babel-core": "^6.7.7",
+    "babel-preset-es2015-loose": "^7.0.0",
+    "babel-preset-es2015-rollup": "^1.1.1",
     "http": "0.0.0",
     "isomorphic-fetch": "^2.2.1",
     "lz-string": "^1.4.4",
