@@ -62,14 +62,29 @@
         return container
     }
 
-    var createIframe = function() {
+    var createIframe = function(options) {
+        var target = document.querySelector(TARGET_TAG)
+        var options = getOptions(target)
         var iframe = document.createElement('iframe')
         iframe.height = 500
         iframe.width = 500
         iframe.style.border = 0
-        iframe.src = IFRAME_URL
-        document.querySelector(TARGET_TAG).appendChild(iframe)
+        iframe.src = IFRAME_URL + '?' +
+                        `first-level=${options.firstLevel}&` +
+                        `width=${options.width}&` +
+                        `height=${options.height}`
+        console.log(iframe.src);
+        target.appendChild(iframe)
     }
+
+    var getOptions = function(target) {
+        return {
+            firstLevel: target.getAttribute('first-level'),
+            width: target.getAttribute('width'),
+            height: target.getAttribute('height'),
+        }
+    }
+
     if (document.body.createShadowRoot && useShadowDOM) {
         // shadow dom is supported
         // The order is important

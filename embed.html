@@ -12,7 +12,23 @@
 
 
 <script>
-    var phone = w('rc-phone')
+
+    function getURLParameter(name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+    }
+
+    var firstLevel = getURLParameter('first-level')
+    var width = getURLParameter('width')
+    var height = getURLParameter('height')
+    console.log(firstLevel);
+
+    var phone = w('rc-phone', {
+        data: {
+            firstLevel: firstLevel,
+            width: width,
+            height: height
+        }
+    })
     phone.mount(document.body); 
 </script>
 

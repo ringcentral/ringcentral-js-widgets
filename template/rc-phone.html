@@ -26,11 +26,6 @@
         <div id="auth-panel"></div>
         <div id="toolbar"></div>
         <div class='container' data-info='container'>
-            <div class='panel float-left' id="dial-pad"></div>
-            <div class='panel float-left' id="messages-panel"></div>
-            <div class='panel float-left' id="contacts"></div>
-            <div class='panel float-left' id="call-log"></div>
-            <div class='panel float-left' id="conference"></div>
         </div>
         <div class='panel --extra' id="call-panel"></div>
         <div class='panel --extra' id="call-panel-incoming"></div>
@@ -46,6 +41,9 @@
 import Factory from './build/factory'
 w.register(function() {
     var factory = new Factory()
+    this.props = {
+        panels: []
+    }
     this.actions = factory.create('rcPhone', {
         
         createWidgets: {
@@ -53,171 +51,191 @@ w.register(function() {
                 var phone = this
                 this.props.conversation = undefined;
                 this.props.contactDetail = undefined;
-                this.props.dialPad = w('dial-pad', {
-                    shadowRoot: phone.data.shadowRoot,
-                    data : phone.data,
-                    actions: factory.create('dial-pad', {
-                        callout: {
-                            after: function() {
-                                phone.props.callPanel.mount('#call-panel')
-                                phone.props.callPanel.setName(this.props.toNumber)
-                            },
-                            // error: function(e) {
-                            //     console.error(e);
-                            //     phone.props.notification.show('#notification', 4000)
-                            //     phone.props.notification.msg(e.message || e)
-                            // }
-                        }
-                    })
-                });
-                this.props.callPanel = w('call-panel', {
-                    shadowRoot: phone.data.shadowRoot,
-                    data : phone.data,
-                    actions: factory.create('call-panel')
-                })
-                this.props.callPanelIncoming = w('call-panel-incoming', {
-                    shadowRoot: phone.data.shadowRoot,
-                    data : {
-                        target: '#call-panel-incoming'
-                    },
-                    actions: factory.create('call-panel-incoming', {
-                        accept: {
-                            after: function() {
-                                this.unmount()
-                                var name = this.props.session.request.from.displayName
-                                phone.props.callPanel.mount('#call-panel')
-                                phone.props.callPanel.setName(name)
-                                phone.props.callPanel.start()
-                            }
-                        }
-                    })
-                })
-                this.props.callLog = w('call-log', {
-                    shadowRoot: phone.data.shadowRoot,
-                    actions: factory.create('call-log')
-                });
-                this.props.timeline = w('time-line', {
-                    shadowRoot: phone.data.shadowRoot,
-                    actions: factory.create('time-line', {
-                        search: {
-                            method: function() {
-                                contacts.dom.searchText.value = this.dom.searchText.value 
-                                contacts.search()
-                            }
-                        },
-                        enterItem: {
-                            after: function() {
-                                // this.unmount()
-                                var contact = this.props.selectedContent.contact
-                                var fromNumber = contact.msg[0].direction === 'Outbound'? 
-                                                contact.msg[0].from: 
-                                                contact.msg[0].to
-                                var toNumber = contact.msg[0].direction === 'Outbound'? 
-                                                contact.msg[0].to: 
-                                                contact.msg[0].from
-                                this.props.currentConv = conv(contact, () => {
-                                    this.props.currentConv.unmount()
-                                }, {
-                                    fromNumber,
-                                    toNumber,
-                                    anchorContent: this.props.selectedContent
-                                })
-                                this.props.currentConv.mount('#conversation')
-                            }
-                        }
-                    })
-                })
-                this.props.conference = w('conference',{
-                    data : phone.data,
-                    actions: factory.create('conference', {
-                        inviteWithText: {
-                            method: function() {
+                // this.props.dialPad = w('dial-pad', {
+                //     shadowRoot: phone.data.shadowRoot,
+                //     data : phone.data,
+                //     actions: factory.create('dial-pad', {
+                //         callout: {
+                //             after: function() {
+                //                 phone.props.callPanel.mount('#call-panel')
+                //                 phone.props.callPanel.setName(this.props.toNumber)
+                //             },
+                //             // error: function(e) {
+                //             //     console.error(e);
+                //             //     phone.props.notification.show('#notification', 4000)
+                //             //     phone.props.notification.msg(e.message || e)
+                //             // }
+                //         }
+                //     })
+                // });
+                // this.props.callPanel = w('call-panel', {
+                //     shadowRoot: phone.data.shadowRoot,
+                //     data : phone.data,
+                //     actions: factory.create('call-panel')
+                // })
+                // this.props.callPanelIncoming = w('call-panel-incoming', {
+                //     shadowRoot: phone.data.shadowRoot,
+                //     data : {
+                //         target: '#call-panel-incoming'
+                //     },
+                //     actions: factory.create('call-panel-incoming', {
+                //         accept: {
+                //             after: function() {
+                //                 this.unmount()
+                //                 var name = this.props.session.request.from.displayName
+                //                 phone.props.callPanel.mount('#call-panel')
+                //                 phone.props.callPanel.setName(name)
+                //                 phone.props.callPanel.start()
+                //             }
+                //         }
+                //     })
+                // })
+                
+                // this.props.callLog = w('call-log', {
+                //     shadowRoot: phone.data.shadowRoot,
+                //     actions: factory.create('call-log')
+                // });
+                // this.props.timeline = w('time-line', {
+                //     shadowRoot: phone.data.shadowRoot,
+                //     actions: factory.create('time-line', {
+                //         search: {
+                //             method: function() {
+                //                 contacts.dom.searchText.value = this.dom.searchText.value 
+                //                 contacts.search()
+                //             }
+                //         },
+                //         enterItem: {
+                //             after: function() {
+                //                 // this.unmount()
+                //                 var contact = this.props.selectedContent.contact
+                //                 var fromNumber = contact.msg[0].direction === 'Outbound'? 
+                //                                 contact.msg[0].from: 
+                //                                 contact.msg[0].to
+                //                 var toNumber = contact.msg[0].direction === 'Outbound'? 
+                //                                 contact.msg[0].to: 
+                //                                 contact.msg[0].from
+                //                 this.props.currentConv = conv(contact, () => {
+                //                     this.props.currentConv.unmount()
+                //                 }, {
+                //                     fromNumber,
+                //                     toNumber,
+                //                     anchorContent: this.props.selectedContent
+                //                 })
+                //                 this.props.currentConv.mount('#conversation')
+                //             }
+                //         }
+                //     })
+                // })
+                // this.props.conference = w('conference',{
+                //     data : phone.data,
+                //     actions: factory.create('conference', {
+                //         inviteWithText: {
+                //             method: function() {
                                 
-                            }
-                        },
-                        joinAsHost: {
-                            method: function() {
-                                phone.dom.container.style.transform = 'translateX(0px)';
-                                phone.props.dialPad.mount('#dial-pad');
-                                phone.props.dialPad.setNumber(phone.props.conference.props.dialInNumber)
-                            }
-                        }
-                    })
-                });
-                this.props.contacts = w('contacts', {
-                    shadowRoot: phone.data.shadowRoot,
-                    data: {},
-                    actions: factory.create('contacts', {
-                        selectContact: {
-                            method: function() {
-                                var contact = 
-                                    (this.props.relateContacts && 
-                                    this.props.relateContacts[this.props.selectedContact.id]) ||
-                                    this.props.contacts[this.props.selectedContact.id]
-                                var conversation = phone.props.timeline.props.currentConv = conv(contact, () => {
-                                    phone.props.timeline.mount('#contact-detail')
-                                })
-                                conversation.mount('#contact-detail')
-                            }
-                        },
-                    })
-                })
+                //             }
+                //         },
+                //         joinAsHost: {
+                //             method: function() {
+                //                 phone.dom.container.style.transform = 'translateX(0px)';
+                //                 phone.props.dialPad.mount('#dial-pad');
+                //                 phone.props.dialPad.setNumber(phone.props.conference.props.dialInNumber)
+                //             }
+                //         }
+                //     })
+                // });
+                // this.props.contacts = w('contacts', {
+                //     shadowRoot: phone.data.shadowRoot,
+                //     data: {},
+                //     actions: factory.create('contacts', {
+                //         selectContact: {
+                //             method: function() {
+                //                 var contact = 
+                //                     (this.props.relateContacts && 
+                //                     this.props.relateContacts[this.props.selectedContact.id]) ||
+                //                     this.props.contacts[this.props.selectedContact.id]
+                //                 var conversation = phone.props.timeline.props.currentConv = conv(contact, () => {
+                //                     phone.props.timeline.mount('#contact-detail')
+                //                 })
+                //                 conversation.mount('#contact-detail')
+                //             }
+                //         },
+                //     })
+                // })
+                // this.props.panels = [
+                //     this.props.dialPad,
+                //     this.props.timeline,
+                //     this.props.contacts,
+                //     this.props.callLog,
+                //     this.props.conference,
+                // ]
                 this.props.toolbar = w('tool-bar', {
                     shadowRoot: phone.data.shadowRoot,
                     data : phone.data,
                     actions: {
                         init: {
                             after: function() {
-                                this.clickItem(
+                                console.log(phone.props.panels);
+                                phone.props.panels.forEach((panel, index) => {
+                                    this.clickItem(
                                     this.addItem('<span class="icon-uniA4"></span><span class="icon-RC_shapes_1-40_pressed"></span>'), 
                                         phone.switchWidgets(
-                                            phone.props.dialPad,
-                                            '#dial-pad', 0
+                                            panel,
+                                            '#first-level' + index, 
+                                            index
                                         )
                                     )
-                                this.clickItem(
-                                    this.addItem('<span class="icon-uni2487"></span></span><span class="icon-RC_shapes_1_30_pressed"></span>'), 
-                                        phone.switchWidgets(
-                                            phone.props.timeline,
-                                            '#messages-panel', 1
-                                        )
-                                    )
-                                this.clickItem(
-                                    this.addItem('<span class="icon-uni7D"></span><span class="icon-contact_info_pressed"></span>'), 
-                                        phone.switchWidgets(
-                                            phone.props.contacts,
-                                            '#contacts', 2
-                                        )
-                                    )
-                                this.clickItem(
-                                    this.addItem('<span class="icon-uniC8"></span><span class="icon-RC_shapes_2-30_pressed"></span>'), 
-                                        phone.switchWidgets(
-                                            phone.props.callLog,
-                                            '#call-log', 3
-                                        )
-                                    )
-                                this.clickItem(
-                                    this.addItem('<span class="icon-uniA3"></span>', 'Conference'), 
-                                        phone.switchWidgets(
-                                            phone.props.conference,
-                                            '#conference', 4
-                                        )
-                                    )
-                                this.clickItem(
-                                    this.addItem('<span class="icon-uni47"></span>', 'Meeting'),
-                                    function() {
-                                        phone.dom.container.style.transform = 'translateX(-750px)';
-                                        if (phone.props.conversation) {
-                                            phone.props.conversation.destroy()
-                                            phone.props.conversation = null
-                                        }
-                                    });
+                                })
+                                // this.clickItem(
+                                //     this.addItem('<span class="icon-uniA4"></span><span class="icon-RC_shapes_1-40_pressed"></span>'), 
+                                //         phone.switchWidgets(
+                                //             phone.props.dialPad,
+                                //             '#dial-pad', 0
+                                //         )
+                                //     )
+                                // this.clickItem(
+                                //     this.addItem('<span class="icon-uni2487"></span></span><span class="icon-RC_shapes_1_30_pressed"></span>'), 
+                                //         phone.switchWidgets(
+                                //             phone.props.timeline,
+                                //             '#messages-panel', 1
+                                //         )
+                                //     )
+                                // this.clickItem(
+                                //     this.addItem('<span class="icon-uni7D"></span><span class="icon-contact_info_pressed"></span>'), 
+                                //         phone.switchWidgets(
+                                //             phone.props.contacts,
+                                //             '#contacts', 2
+                                //         )
+                                //     )
+                                // this.clickItem(
+                                //     this.addItem('<span class="icon-uniC8"></span><span class="icon-RC_shapes_2-30_pressed"></span>'), 
+                                //         phone.switchWidgets(
+                                //             phone.props.callLog,
+                                //             '#call-log', 3
+                                //         )
+                                //     )
+                                // this.clickItem(
+                                //     this.addItem('<span class="icon-uniA3"></span>', 'Conference'), 
+                                //         phone.switchWidgets(
+                                //             phone.props.conference,
+                                //             '#conference', 4
+                                //         )
+                                //     )
+                                // this.clickItem(
+                                //     this.addItem('<span class="icon-uni47"></span>', 'Meeting'),
+                                //     function() {
+                                //         phone.dom.container.style.transform = 'translateX(-750px)';
+                                //         if (phone.props.conversation) {
+                                //             phone.props.conversation.destroy()
+                                //             phone.props.conversation = null
+                                //         }
+                                //     });
                                 // this.addItem('<img src="../src/styles/images/settings_normal.png">');
                             }
                         },
                         mount: {
                             after: function() {
-                                phone.props.dialPad.mount('#dial-pad');
+                                // phone.props.dialPad.mount('#dial-pad');
+                                phone.props.panels[0].mount('#first-level-0')
                             }
                         }
                     }
@@ -239,13 +257,7 @@ w.register(function() {
                     })
                 });
                 this.props.notification = w('notification', {})
-                this.props.panels = [
-                    this.props.dialPad,
-                    this.props.timeline,
-                    this.props.contacts,
-                    this.props.callLog,
-                    this.props.conference,
-                ]
+                
             }
         },
         switchWidgets: {
@@ -259,7 +271,7 @@ w.register(function() {
                         this.props.contactDetail.destroy();
                         this.props.contactDetail = null;
                     }
-                    if(this.props.callPanel._mounted){
+                    if(this.props.callPanel && this.props.callPanel._mounted){
                         this.props.callPanel.minimize()
                     }
                     if (this.props.currentIndex === index)
@@ -275,13 +287,144 @@ w.register(function() {
                     this.props.currentIndex = index
                     this.dom.container.style.transform = `translateX(${0 - index * 250}px)`;
                     this.dom.container.addEventListener('transitionend', h)
-                    source.mount(target);
+                    source.mount('#first-level-' + index);
                 }
             }
         },
         init: {
             after: function() {
+                var phone = this
                 this.props.cachedMessageHours = 7 * 24
+
+                if (this.data.firstLevel) {
+                    var names = this.data.firstLevel.split(',')
+                    names.forEach(name => {
+                        var widget
+                        if (name === 'call-log') {
+                            widget = this.props.callLog = w('call-log', {
+                                shadowRoot: phone.data.shadowRoot,
+                                actions: factory.create('call-log')
+                            })
+                        } else if (name === 'time-line') {
+                            widget =  this.props.timeline = w('time-line', {
+                                shadowRoot: phone.data.shadowRoot,
+                                actions: factory.create('time-line', {
+                                    search: {
+                                        method: function() {
+                                            contacts.dom.searchText.value = this.dom.searchText.value 
+                                            contacts.search()
+                                        }
+                                    },
+                                    enterItem: {
+                                        after: function() {
+                                            // this.unmount()
+                                            var contact = this.props.selectedContent.contact
+                                            var fromNumber = contact.msg[0].direction === 'Outbound'? 
+                                                            contact.msg[0].from: 
+                                                            contact.msg[0].to
+                                            var toNumber = contact.msg[0].direction === 'Outbound'? 
+                                                            contact.msg[0].to: 
+                                                            contact.msg[0].from
+                                            this.props.currentConv = conv(contact, () => {
+                                                this.props.currentConv.unmount()
+                                            }, {
+                                                fromNumber,
+                                                toNumber,
+                                                anchorContent: this.props.selectedContent
+                                            })
+                                            this.props.currentConv.mount('#conversation')
+                                        }
+                                    }
+                                })
+                            })
+                        } else if (name === 'contacts') {
+                            widget = this.props.contacts = w('contacts', {
+                                shadowRoot: phone.data.shadowRoot,
+                                data: {},
+                                actions: factory.create('contacts', {
+                                    selectContact: {
+                                        method: function() {
+                                            var contact = 
+                                                (this.props.relateContacts && 
+                                                this.props.relateContacts[this.props.selectedContact.id]) ||
+                                                this.props.contacts[this.props.selectedContact.id]
+                                            var conversation = phone.props.timeline.props.currentConv = conv(contact, () => {
+                                                phone.props.timeline.mount('#contact-detail')
+                                            })
+                                            conversation.mount('#contact-detail')
+                                        }
+                                    },
+                                })
+                            })
+                        } else if (name === 'dial-pad') {
+                            widget = this.props.dialPad = w('dial-pad', {
+                                shadowRoot: phone.data.shadowRoot,
+                                data : phone.data,
+                                actions: factory.create('dial-pad', {
+                                    callout: {
+                                        after: function() {
+                                            phone.props.callPanel.mount('#call-panel')
+                                            phone.props.callPanel.setName(this.props.toNumber)
+                                        },
+                                        // error: function(e) {
+                                        //     console.error(e);
+                                        //     phone.props.notification.show('#notification', 4000)
+                                        //     phone.props.notification.msg(e.message || e)
+                                        // }
+                                    }
+                                })
+                            });
+                            this.props.callPanel = w('call-panel', {
+                                shadowRoot: phone.data.shadowRoot,
+                                data : phone.data,
+                                actions: factory.create('call-panel')
+                            })
+                            this.props.callPanelIncoming = w('call-panel-incoming', {
+                                shadowRoot: phone.data.shadowRoot,
+                                data : {
+                                    target: '#call-panel-incoming'
+                                },
+                                actions: factory.create('call-panel-incoming', {
+                                    accept: {
+                                        after: function() {
+                                            this.unmount()
+                                            var name = this.props.session.request.from.displayName
+                                            phone.props.callPanel.mount('#call-panel')
+                                            phone.props.callPanel.setName(name)
+                                            phone.props.callPanel.start()
+                                        }
+                                    }
+                                })
+                            })
+                        } else if (name === 'conference') {
+                            widget = this.props.conference = w('conference',{
+                                data : phone.data,
+                                actions: factory.create('conference', {
+                                    inviteWithText: {
+                                        method: function() {
+                                            
+                                        }
+                                    },
+                                    joinAsHost: {
+                                        method: function() {
+                                            phone.dom.container.style.transform = 'translateX(0px)';
+                                            phone.props.dialPad.mount('#dial-pad');
+                                            phone.props.dialPad.setNumber(phone.props.conference.props.dialInNumber)
+                                        }
+                                    }
+                                })
+                            });
+                        }
+                        if (widget) {
+                            this.props.panels.push(widget)
+                            var div = document.createElement('div')
+                            div.classList.add('panel')
+                            div.classList.add('float-left')
+                            div.setAttribute('id', 'first-level-' + (this.props.panels.length - 1))
+                            this.dom.container.appendChild(div)
+                        }
+                    })
+                }
             }
         },
         mount: {
@@ -293,7 +436,10 @@ w.register(function() {
                 //     else
                 //         this.props.authPanel.mount('#auth-panel')
                 // }).catch(err => console.error(err))
-                this.props.authPanel.mount('#auth-panel');
+                if (this.data.shadowRoot)
+                    this.props.authPanel.mount(this.data.shadowRoot.querySelector('#auth-panel'))
+                else
+                    this.props.authPanel.mount('#auth-panel')
             }
         }
     })
