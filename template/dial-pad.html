@@ -3,7 +3,7 @@
         <div class='rc-panel__header --colored' data-info='header'>
             <contact-picker data-info='contact-picker'></contact-picker>
         </div>
-        <div data-info='container'>
+        <div class='container' data-info='container'>
             <div class='rc-panel__content'>
                 <dropdown data-info='dropdown'></dropdown>
                 <div data-info='dialing-panel' class='margin-top-2'>
@@ -238,3 +238,8 @@ this.on('keydown', 'document', function(e) {
 
 //# sourceURL=dial-pad.html
 </script>
+<style scoped>
+    .container {
+        height: 100%;
+    }
+</style>

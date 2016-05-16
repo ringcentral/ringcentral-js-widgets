@@ -1160,7 +1160,10 @@ h1, h2, h3, h4, h5, h6 {
     * rc-panels are treated as common containers
     */
     /* used as a positioned reference */
-    position: relative
+    position: relative;
+    position: relative;
+    height: 100%;
+    width:  100%
 }
 
 .rc-panel__header {
@@ -1187,7 +1190,7 @@ h1, h2, h3, h4, h5, h6 {
 .rc-panel__content {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     position: relative;
-    height: 350px;
+    height: calc(100% - 61px);
     background-color: #fff;
 }
 

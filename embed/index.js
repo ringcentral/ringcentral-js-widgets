@@ -66,8 +66,8 @@
         var target = document.querySelector(TARGET_TAG)
         var options = getOptions(target)
         var iframe = document.createElement('iframe')
-        iframe.height = 500
-        iframe.width = 500
+        iframe.width = parseInt(options.width) + 2 // border
+        iframe.height = options.height
         iframe.style.border = 0
         iframe.src = IFRAME_URL + '?' +
                         `first-level=${options.firstLevel}&` +

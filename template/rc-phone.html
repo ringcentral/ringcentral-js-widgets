@@ -13,18 +13,20 @@
         transition: transform .1s ease-out;
     }
     .rc-phone .panel {
-        width: 250px;
         min-height: 1px;
     }
     .rc-phone .panel.--extra {
         position: absolute;
         left: 0;
     }
+    .rc-phone .auth-panel {
+        position: absolute;
+    }
 </style>
 <div>
-    <div id='phone' class='rc-phone'>
-        <div id="auth-panel"></div>
-        <div id="toolbar"></div>
+    <div data-info='phone' id='phone' class='rc-phone'>
+        <div data-info='auth-panel' id="auth-panel" class='auth-panel'></div>
+        <div data-info='toolbar' id="toolbar"></div>
         <div class='container' data-info='container'>
         </div>
         <div class='panel --extra' id="call-panel"></div>
@@ -41,8 +43,15 @@
 import Factory from './build/factory'
 w.register(function() {
     var factory = new Factory()
+    this.data = {
+      width: 250,
+      height: 500
+    }
     this.props = {
-        panels: []
+        panels: [],
+        width: 250,
+        height: 500,
+        toolbarHeight: 40
     }
     this.actions = factory.create('rcPhone', {
         
@@ -252,6 +261,7 @@ w.register(function() {
                                     phone.props.toolbar.mount(phone.data.shadowRoot.querySelector('#toolbar'))
                                 else
                                     phone.props.toolbar.mount('#toolbar')
+                                phone.dom['auth-panel'].parentNode.removeChild(phone.dom['auth-panel'])
                             }
                         }
                     })
@@ -285,7 +295,7 @@ w.register(function() {
                     }
                     this.props.isTranistioning = true
                     this.props.currentIndex = index
-                    this.dom.container.style.transform = `translateX(${0 - index * 250}px)`;
+                    this.dom.container.style.transform = `translateX(${0 - index * this.props.width}px)`;
                     this.dom.container.addEventListener('transitionend', h)
                     source.mount('#first-level-' + index);
                 }
@@ -295,7 +305,13 @@ w.register(function() {
             after: function() {
                 var phone = this
                 this.props.cachedMessageHours = 7 * 24
-
+                this.props.width = this.data.width
+                this.props.height = this.data.height
+                this.dom.toolbar.style.height = this.props.toolbarHeight + 'px'
+                this.dom.phone.style.width = this.props.width + 'px'
+                this.dom.phone.style.height = this.props.height + 'px'
+                this.dom['auth-panel'].style.width = this.props.width + 'px'
+                this.dom['auth-panel'].style.height = this.props.height + 'px'
                 if (this.data.firstLevel) {
                     var names = this.data.firstLevel.split(',')
                     names.forEach(name => {
@@ -419,6 +435,8 @@ w.register(function() {
                             this.props.panels.push(widget)
                             var div = document.createElement('div')
                             div.classList.add('panel')
+                            div.style.width = this.props.width + 'px'
+                            div.style.height = (this.props.height - this.props.toolbarHeight) + 'px'
                             div.classList.add('float-left')
                             div.setAttribute('id', 'first-level-' + (this.props.panels.length - 1))
                             this.dom.container.appendChild(div)

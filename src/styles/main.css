@@ -148,6 +148,9 @@ h6 {
     * rc-panels are treated as common containers
     */
     @mixin block;
+    position: relative;
+    height: 100%;
+    width:  100%;
     &__header {
         @mixin padding-normal;
         position: relative;
