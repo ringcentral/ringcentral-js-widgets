@@ -1,9 +1,9 @@
 (function() {
-    const PHONE_URL = './build/widgets.js'
-    const LIB_URL = './build/build.js'
-    const COMMON_STYLE_URL = ['./build/styles/main.css']
+    const PHONE_URL = 'http://127.0.0.1/ringcentral-js-widget/build/widgets.js'
+    const LIB_URL = 'http://127.0.0.1/ringcentral-js-widget/build/build.js'
+    const COMMON_STYLE_URL = ['http://127.0.0.1/ringcentral-js-widget/build/styles/main.css']
     const TARGET_TAG = 'rc-phone'
-    const IFRAME_URL = './embed.html'
+    const IFRAME_URL = 'http://127.0.0.1/ringcentral-js-widget/demo/embed.html'
     const useShadowDOM = false /* Always fallback to iframe for now */
 
     var safeEval = function(script, target) {

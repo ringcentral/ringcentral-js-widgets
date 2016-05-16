@@ -43,8 +43,10 @@ w.register(function() {
                 return finish()
             },
             after: function(contents) {
-                this.props.latestMessage = contents[0]
                 this.dom.loading.classList.add('display-none')
+                if (!contents || !contents[0])
+                    return
+                this.props.latestMessage = contents[0]
                 contents.forEach(content => this.addLine(content))
             }
         },

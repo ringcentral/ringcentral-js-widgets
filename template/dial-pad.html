@@ -3,7 +3,7 @@
         <div class='rc-panel__header --colored' data-info='header'>
             <contact-picker data-info='contact-picker'></contact-picker>
         </div>
-        <div class='container' data-info='container'>
+        <div class='pad-container' data-info='container'>
             <div class='rc-panel__content'>
                 <dropdown data-info='dropdown'></dropdown>
                 <div data-info='dialing-panel' class='margin-top-2'>
@@ -229,17 +229,98 @@ this.on('click', function(e) {
     }
     if (event.target === this.dom.callout) this.callout()
 })
-this.on('keydown', 'document', function(e) {
-    if (!e.target.isEqualNode(this.refs['contact-picker'].dom.input) && 
-        this.props.isListenToKeyboard) {
-        this.dialing('')
-    }
-})
+// this.on('keydown', 'document', function(e) {
+//     if (!e.target.isEqualNode(this.refs['contact-picker'].dom.input) && 
+//         this.props.isListenToKeyboard) {
+//         this.dialing('')
+//     }
+// })
 
 //# sourceURL=dial-pad.html
 </script>
-<style scoped>
-    .container {
+<style>
+@import "src/styles/variables.css";
+@import "src/styles/mixins.css";
+$dial-pad-button-radius: 3.2em;
+$dial-pad-symbol-size: .5em;
+$dial-pad-call-button-color: #2ecc71;
+.rc-dial-pad {
+
+    &__line {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        & > .dial-button {
+            margin: 4px 8px;
+            width:  $dial-pad-button-radius;
+            height: $dial-pad-button-radius;
+            color:          $main-color;
+            border-color:   $main-color;
+
+            & > .dial-button__number {
+                font-weight: bold;
+            }
+            & > .dial-button__symbol {
+                font-size: $dial-pad-symbol-size;
+            }
+
+        }
+    }
+    &__mask {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        > p {
+            font-weight: bold;
+            text-align: center;
+        }
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            
+        }
+    }
+    .blur {
+        filter: blur(2px);
+        -webkit-filter: blur(2px);
+    }
+    .call-button {
+        @mixin shadow-3;
+        position: absolute;
+        top:    0;
+        left:   0;
+        width:  100%;
+        height: 100%;
+        /* 1: 0.6, same as the panel width: panel height*/
+        transform: scale(.21, .131);
+        transform-origin: center 95%;
+        transition: border-radius       .8s,
+                    transform           .3s ease-in, 
+                    background-color    .8s,
+                    border-color        .8s;
+        background-color:   $dial-pad-call-button-color;
+        border-color:       $dial-pad-call-button-color;
+        &.--active {
+            transform: scale(1, 1);
+            border-radius: 0;
+            /* background-color: #fff; */
+            /* border-color: #fff; */
+        }
+    }
+    .pad-container {
         height: 100%;
     }
+}
+
+
 </style>

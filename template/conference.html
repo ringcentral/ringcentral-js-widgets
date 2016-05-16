@@ -51,16 +51,20 @@ w.register(function(){
         getConferenceInfo: {
             method: function(finish) {
                 return Promise.resolve(finish()).then(conferenceInfo => {
+                    if (conferenceInfo) {
+                        this.props.dialInNumber = conferenceInfo.phoneNumber;
+                    }
                     this.props.inviteMessage = 'Test';
-                    this.props.dialInNumber = conferenceInfo.phoneNumber;
                     return conferenceInfo;
                 });
             },
             after: function(conferenceInfo) {
-                this.dom.dialInNumber.textContent = conferenceInfo.phoneNumber;
-                this.dom.hostCode.textContent = conferenceInfo.hostCode;
-                this.dom.participantCode.textContent = conferenceInfo.participantCode;
-                this.enable();
+                if (conferenceInfo) {
+                    this.dom.dialInNumber.textContent = conferenceInfo.phoneNumber;
+                    this.dom.hostCode.textContent = conferenceInfo.hostCode;
+                    this.dom.participantCode.textContent = conferenceInfo.participantCode;
+                    this.enable();
+                }
             }
         },
         inviteWithText: {
