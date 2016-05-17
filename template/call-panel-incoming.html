@@ -29,7 +29,9 @@ this.props = {
     target: null,
     remoteVideo: null,
     localVideo: null,
-    session: null
+    session: null,
+    width: 250,
+    height: 400
 }
 this.actions = {
     init: {
@@ -40,6 +42,11 @@ this.actions = {
             this.props.target = this.data.target
             this.props.remoteVideo = this.dom.remoteVideo
             this.props.localVideo = this.dom.localVideo
+            this.props.width = this.data.width
+            this.props.height = this.data.height
+
+            this.root.firstChild.style.width = this.props.width + 'px'
+            this.root.firstChild.style.height = this.props.height + 'px'
         }
     },
     mount: {

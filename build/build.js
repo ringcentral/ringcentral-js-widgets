@@ -169,7 +169,12 @@ function register() {
         actions[action] = Object.assign(shallowCopy(functionSet), actions[action]);
     });
     var Clone = function Clone(options) {
-        Widget.call(this, { actions: actions, events: events, data: data, props: props }, options);
+        Widget.call(this, {
+            actions: actions,
+            events: events,
+            data: shallowCopy(data),
+            props: shallowCopy(props)
+        }, options);
     };
     for (var prop in actions) {
         if (actions.hasOwnProperty(prop)) Clone.prototype[prop] = generateActions(actions[prop]);
@@ -188,6 +193,7 @@ function Widget(_ref2, options) {
     var props = _ref2$props === undefined ? {} : _ref2$props;
 
     if (!options || !options.internal) {
+        console.error('You are trying to construct a widget manually, please use w()');
         return Error('You are trying to construct a widget manually, please use w()');
     }
     logger$1 = initLogger(options.logLevel);

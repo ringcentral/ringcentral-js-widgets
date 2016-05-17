@@ -14,7 +14,8 @@ w.register(function() {
     this.props = {
         limit: 10,
         show: false,
-        whiteList: null
+        whiteList: null,
+        contacts: []
     }
     this.actions = {
         init:{
@@ -100,26 +101,49 @@ w.register(function() {
                     this.dom.contacts.removeChild(this.dom.contacts.firstChild);
                 if (contacts.length > 0) this.show()
                 else this.hide()
+                this.props.contacts.length = 0
                 var parent = this
                 var count = this.props.limit
                 contacts.forEach(contact => {
-                    if(--count) {
-                        w('contact-picker-item', {
-                            actions: {
-                                init: {
-                                    method: function() {
-                                        return contact;
-                                    }
-                                },
-                                select: {
-                                    method: function() {
-                                        parent.setInput(this.props.contact.value);
-                                        parent.hide();
-                                    }
+                    var contact = w('contact-picker-item', {
+                        actions: {
+                            init: {
+                                method: function() {
+                                    return contact;
+                                }
+                            },
+                            select: {
+                                method: function() {
+                                    parent.setInput(this.props.contact.value);
+                                    parent.hide();
+                                }
+                            },
+                            hover: {
+                                before: function(bool) {
+                                    // avoid circular calling
+                                    if (!bool)
+                                        return
+                                    parent.props.contacts.forEach(contact => {
+                                        if (contact.props.focused) contact.focus(false)
+                                        if (contact.props.hovered) contact.hover(false)
+                                    })
+                                }
+                            },
+                            focus: {
+                                before: function(bool) {
+                                    // avoid circular calling
+                                    if (!bool)
+                                        return
+                                    parent.props.contacts.forEach(contact => {
+                                        if (contact.props.focused) contact.focus(false)
+                                        if (contact.props.hovered) contact.hover(false)
+                                    })
                                 }
                             }
-                        }).mount(this.dom.contacts)
-                    }
+                        }
+                    })
+                    contact.mount(this.dom.contacts)
+                    this.props.contacts.push(contact)
                 })
             }
         }
@@ -129,6 +153,42 @@ w.register(function() {
             this.hide()
         else
             this.autoComplete()
+    })
+    this.on('keydown', 'input', function(e) {
+        if (e.keyCode === 38) { // up
+            e.preventDefault()
+            var index = this.props.contacts.findIndex(contact => contact.props.hovered)
+            if (index === -1) 
+                index = this.props.contacts.findIndex(contact => contact.props.focused)
+            if (index === -1)
+                index = 0
+            var hoverObj = this.props.contacts[index]
+            if (index === 0)
+                index = this.props.contacts.length
+            this.props.contacts[index - 1].focus(true)
+        } else if (e.keyCode === 40) { // down
+            e.preventDefault()
+            var index = this.props.contacts.findIndex(contact => contact.props.hovered)
+            if (index === -1) 
+                index = this.props.contacts.findIndex(contact => contact.props.focused)
+            if (index === -1)
+                index = 0
+            var hoverObj = this.props.contacts[index]
+            if (index === this.props.contacts.length - 1)
+                index = -1
+            this.props.contacts[index + 1].focus(true)
+        } else if (e.keyCode === 13) { // enter
+            e.preventDefault()
+            var index = this.props.contacts.findIndex(contact => contact.props.hovered)
+            if (index === -1) 
+                index = this.props.contacts.findIndex(contact => contact.props.focused)
+            if (index === -1)
+                index = 0
+            var hoverObj = this.props.contacts[index]
+            this.setInput(hoverObj.props.contact.value);
+            this.hide();
+        }
+
     })
 })
 

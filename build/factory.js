@@ -22964,9 +22964,9 @@ services.rcPhone = {
             console.log('load data');
             rcMessageService.subscribeToMessageUpdate();
             // rcMessageService.syncMessages(this.props.cachedMessageHours);
-            // accountService.getAccountInfo();
-            // accountService.getPhoneNumber();
-            // rcContactService.syncCompanyContact();
+            accountService.getAccountInfo();
+            accountService.getPhoneNumber();
+            rcContactService.cacheContacts();
             PhoneService.init({
                 incomingAudio: config.incomingAudio,
                 outgoingAudio: config.outgoingAudio
@@ -22990,6 +22990,7 @@ services['auth-panel'] = {
 services['dial-pad'] = {
     mount: {
         after: function() {
+            console.log('mount');
             if (!accountService.hasServiceFeature("VoipCalling"))
                 this.disable();
         }
@@ -23010,6 +23011,7 @@ services['dial-pad'] = {
             var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
                 return provider.search(this.props.toNumber);
             });
+            console.log(dialPadSearchFunctions);
             return contactSearchService.query(dialPadSearchFunctions);
         }
     },

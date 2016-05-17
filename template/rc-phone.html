@@ -29,11 +29,11 @@
         <div data-info='toolbar' id="toolbar"></div>
         <div class='phone-container' data-info='container'>
         </div>
-        <div class='panel --extra' id="call-panel"></div>
-        <div class='panel --extra' id="call-panel-incoming"></div>
-        <div class='panel --extra' id="conversation"></div>
-        <div class='panel --extra' id="contact-detail"></div>
-        <div class='panel --extra' id="notification"></div>
+        <div data-info='call-panel' class='panel --extra' id="call-panel"></div>
+        <div data-info='call-panel-incoming' class='panel --extra' id="call-panel-incoming"></div>
+        <div data-info='conversation' class='panel --extra' id="conversation"></div>
+        <div data-info='contact-detail' class='panel --extra' id="contact-detail"></div>
+        <div data-info='notification' class='panel --extra' id="notification"></div>
     </div>
 </div>
 <script src='../bower_components/phoneformat/dist/phone-format-global.js'></script>
@@ -312,6 +312,18 @@ w.register(function() {
                 this.dom.phone.style.height = this.props.height + 'px'
                 this.dom['auth-panel'].style.width = this.props.width + 'px'
                 this.dom['auth-panel'].style.height = this.props.height + 'px'
+                ;[
+                'auth-panel',
+                // 'conversation', 
+                // 'call-panel', 
+                // 'call-panel-incoming', 
+                // 'contact-detail', 
+                // 'notification'
+                ].forEach(name => {
+                    this.dom[name].style.width = this.props.width + 'px'
+                    this.dom[name].style.height = this.props.height - this.props.toolbarHeight + 'px'
+                })
+
                 if (this.data.firstLevel) {
                     var names = this.data.firstLevel.split(',')
                     names.forEach(name => {
@@ -344,6 +356,8 @@ w.register(function() {
                                             this.props.currentConv = conv(contact, () => {
                                                 this.props.currentConv.unmount()
                                             }, {
+                                                width: phone.props.width,
+                                                height: phone.props.height - phone.props.toolbarHeight,
                                                 fromNumber,
                                                 toNumber,
                                                 anchorContent: this.props.selectedContent
@@ -392,13 +406,20 @@ w.register(function() {
                             });
                             this.props.callPanel = w('call-panel', {
                                 shadowRoot: phone.data.shadowRoot,
-                                data : phone.data,
+                                data: {
+                                    ...phone.data,
+                                    width: this.props.width,
+                                    height: this.props.height - this.props.toolbarHeight
+                                },
                                 actions: factory.create('call-panel')
                             })
                             this.props.callPanelIncoming = w('call-panel-incoming', {
                                 shadowRoot: phone.data.shadowRoot,
-                                data : {
-                                    target: '#call-panel-incoming'
+                                data: {
+                                    target: '#call-panel-incoming',
+                                    ...phone.data,
+                                    width: this.props.width,
+                                    height: this.props.height - this.props.toolbarHeight
                                 },
                                 actions: factory.create('call-panel-incoming', {
                                     accept: {
@@ -435,9 +456,9 @@ w.register(function() {
                             this.props.panels.push(widget)
                             var div = document.createElement('div')
                             div.classList.add('panel')
+                            div.classList.add('float-left')
                             div.style.width = this.props.width + 'px'
                             div.style.height = (this.props.height - this.props.toolbarHeight) + 'px'
-                            div.classList.add('float-left')
                             div.setAttribute('id', 'first-level-' + (this.props.panels.length - 1))
                             this.dom.container.appendChild(div)
                         }
@@ -466,11 +487,9 @@ w.register(function() {
     function conv(contact, afterBack, options = {}) {
         return w('conversation-advanced', {
             data: {
+                ...options,
                 new: true,
                 contact: contact,
-                fromNumber: options.fromNumber,
-                toNumber: options.toNumber,
-                anchorContent: options.anchorContent
             },
             actions: factory.create('conversation-advanced', {
                 back: {

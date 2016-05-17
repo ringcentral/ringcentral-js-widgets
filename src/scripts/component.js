@@ -37,7 +37,12 @@ function register({actions, events, data, props} = settings) {
         )
     })
     var Clone = function(options) {
-        Widget.call(this, {actions, events, data, props}, options)
+        Widget.call(this, {
+            actions, 
+            events, 
+            data: shallowCopy(data), 
+            props: shallowCopy(props), 
+        }, options)
     }
     for (let prop in actions) {
         if (actions.hasOwnProperty(prop))
@@ -48,6 +53,7 @@ function register({actions, events, data, props} = settings) {
 
 function Widget({actions, events, data = {}, props = {}}, options) {
     if (!options || !options.internal) {
+        console.error('You are trying to construct a widget manually, please use w()')
         return Error('You are trying to construct a widget manually, please use w()')
     }
     logger = initLogger(options.logLevel)

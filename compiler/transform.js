@@ -2,7 +2,8 @@ var babel = require('babel-core')
 var postcss = require('postcss')
 var precss = require('precss')
 var autoprefixer = require('autoprefixer')
-var es2015 = require('babel-preset-es2015-loose')
+var es2015 = require('babel-preset-es2015')
+var stage2 = require('babel-preset-stage-2')
 var fs = require('fs')
 var bundle = require('./bundle').bundle
 
@@ -34,7 +35,7 @@ function transformScript(input) {
     if (input.script.indexOf('w.register') === -1) {
         input.script = SCRIPT_HEADER + input.script + SCRIPT_TRAILER
     }
-    input.script && (input.script = babel.transform(input.script, {presets: [es2015]}).code)
+    input.script && (input.script = babel.transform(input.script, {presets: [es2015, stage2]}).code)
     fs.writeFileSync(TEMP_FILE, input.script)
     // TODO: remove temp.js
     return bundle(TEMP_FILE).then(bundle => {

@@ -34,8 +34,7 @@
                 ></textarea>
                 <button 
                     class='rc-button --circle --positive callout'
-                    data-info='callout'
-                >
+                    data-info='callout'>
                 </button>
             </div>
         </div>
@@ -60,6 +59,15 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.3.0/js/md5.min.js'></script>
 <script>
 var fade = w.transition('fade')
+this.props = {
+    syncedMessages: [],
+    toNumbers: [],
+    toNumber: null,
+    fromNumbers: [],
+    fromNumber: null,
+    width: 250,
+    height: 400
+}
 this.actions = {
     init: {
         method: function() {
@@ -68,9 +76,14 @@ this.actions = {
         after: function() {
             this.props.syncedMessages = []
             this.props.toNumbers = []
-            this.props.toNumber = this.data.toNumber
-            this.props.fromNumber = this.data.fromNumber
-            this.props.fromNumbers = this.data.fromNumbers || []
+            this.data.toNumber && (this.props.toNumber = this.data.toNumber)
+            this.data.fromNumber && (this.props.fromNumber = this.data.fromNumber)
+            this.data.fromNumbers && (this.props.fromNumbers = this.data.fromNumbers)
+            this.data.width && (this.props.width = this.data.width)
+            this.data.height && (this.props.height = this.data.height)
+            
+            this.root.firstChild.style.width = this.props.width + 'px'
+            this.root.firstChild.style.height = this.props.height + 'px'
 
             var conversation = this
             w.customize(this, 'dropdown', {
