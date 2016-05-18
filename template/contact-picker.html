@@ -9,6 +9,7 @@
     </div>
 </div>
 <script>
+import Leopard from 'leopard.js'
 w.register(function() {
     var enlarge = w.transition('enlarge')
     this.props = {
@@ -91,11 +92,15 @@ w.register(function() {
             }
         },
         autoComplete: {
+            before: function() {
+                Leopard.stop()
+            },
             method: function(finish) {
                 this.props.inputValue = this.dom.input.value;
                 return finish()
             },
             after: function(contacts) {
+                Leopard.stop()
                 if (!contacts) return
                 while (this.dom.contacts.firstChild)
                     this.dom.contacts.removeChild(this.dom.contacts.firstChild);
@@ -104,46 +109,53 @@ w.register(function() {
                 this.props.contacts.length = 0
                 var parent = this
                 var count = this.props.limit
+                Leopard.start({
+                    autoStop: true,
+                    strategy: 'batch',
+                    limit: 1000
+                })
                 contacts.forEach(contact => {
-                    var contact = w('contact-picker-item', {
-                        actions: {
-                            init: {
-                                method: function() {
-                                    return contact;
-                                }
-                            },
-                            select: {
-                                method: function() {
-                                    parent.setInput(this.props.contact.value);
-                                    parent.hide();
-                                }
-                            },
-                            hover: {
-                                before: function(bool) {
-                                    // avoid circular calling
-                                    if (!bool)
-                                        return
-                                    parent.props.contacts.forEach(contact => {
-                                        if (contact.props.focused) contact.focus(false)
-                                        if (contact.props.hovered) contact.hover(false)
-                                    })
-                                }
-                            },
-                            focus: {
-                                before: function(bool) {
-                                    // avoid circular calling
-                                    if (!bool)
-                                        return
-                                    parent.props.contacts.forEach(contact => {
-                                        if (contact.props.focused) contact.focus(false)
-                                        if (contact.props.hovered) contact.hover(false)
-                                    })
+                    Leopard.put(1, () => {
+                        var widget = w('contact-picker-item', {
+                            actions: {
+                                init: {
+                                    method: function() {
+                                        return contact;
+                                    }
+                                },
+                                select: {
+                                    method: function() {
+                                        parent.setInput(this.props.contact.value);
+                                        parent.hide();
+                                    }
+                                },
+                                hover: {
+                                    before: function(bool) {
+                                        // avoid circular calling
+                                        if (!bool)
+                                            return
+                                        parent.props.contacts.forEach(contact => {
+                                            if (contact.props.focused) contact.focus(false)
+                                            if (contact.props.hovered) contact.hover(false)
+                                        })
+                                    }
+                                },
+                                focus: {
+                                    before: function(bool) {
+                                        // avoid circular calling
+                                        if (!bool)
+                                            return
+                                        parent.props.contacts.forEach(contact => {
+                                            if (contact.props.focused) contact.focus(false)
+                                            if (contact.props.hovered) contact.hover(false)
+                                        })
+                                    }
                                 }
                             }
-                        }
+                        })
+                        widget.mount(this.dom.contacts)
+                        this.props.contacts.push(widget)
                     })
-                    contact.mount(this.dom.contacts)
-                    this.props.contacts.push(contact)
                 })
             }
         }
