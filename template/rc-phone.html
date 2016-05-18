@@ -393,7 +393,6 @@ w.register(function() {
                                 actions: factory.create('dial-pad', {
                                     callout: {
                                         after: function() {
-                                            phone.props.callPanel.mount('#call-panel')
                                             phone.props.callPanel.setName(this.props.toNumber)
                                         },
                                         // error: function(e) {
@@ -408,6 +407,7 @@ w.register(function() {
                                 shadowRoot: phone.data.shadowRoot,
                                 data: {
                                     ...phone.data,
+                                    target: '#call-panel',
                                     width: this.props.width,
                                     height: this.props.height - this.props.toolbarHeight
                                 },

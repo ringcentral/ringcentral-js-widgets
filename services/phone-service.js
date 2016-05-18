@@ -7,7 +7,7 @@ var PhoneService = function() {
     var session
     var handlers = {
         invite: [],
-        accept: [],
+        accepted: [],
         progress: [],
         rejected: [],
         terminated: [],
@@ -17,8 +17,8 @@ var PhoneService = function() {
     }
     function listen(session) {
         session.on('accepted', function() {
-            console.log('accept');
-            handlers['accept'].forEach(handler => handler(session))
+            console.log('accepted');
+            handlers['accepted'].forEach(handler => handler(session))
         })
         session.on('progress', function() {
             console.log('progress');

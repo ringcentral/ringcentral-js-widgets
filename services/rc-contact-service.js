@@ -121,6 +121,9 @@ var rcContactService = function(sdk) {
         get companyContacts() {
             return companyContacts
         },
+        accessToken: function() {
+            return sdk.platform().auth().accessToken()
+        },
         asyncGetCompanyContact: function() {
             if (fetchingCompanyContacts) {
                 return fetchingCompanyContacts

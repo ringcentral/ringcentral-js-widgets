@@ -1,3 +1,4 @@
+import sdk from '../services/rc-sdk'
 import phoneService from '../services/phone-service'
 import loginService from '../services/login-service'
 import callLogService from '../services/call-log-service'
@@ -227,8 +228,54 @@ services['conversation-advanced'] = {
             return conversationService.loadContent(this.props.contact, this.props.hourOffset)
         }
     },
+    getAvatar: {
+        method: function() {
+            if (!this.props.profileImage)
+                return Promise.resolve(`http://www.gravatar.com/avatar/${md5(this.props.contact.id)}?d=retro`)
+            return sdk.platform()
+                .get(this.props.profileImage)
+                .then(r => r.response())
+                .then(r => {
+                    // Real contact, no avatar
+                    console.log(r)
+                    if (r.status === 204 || r.status === 404) {
+                        console.log('1');
+                        var hash = md5(this.props.contact.id)
+                        return `http://www.gravatar.com/avatar/${hash}?d=retro`
+                    } else {
+                        console.log('2');
+                        console.log(this.props.profileImage);
+                        console.log(`?access_token=${rcContactService.accessToken()}`);
+                        // Real contact, has avatar
+                        return
+                            this.props.profileImage + `?access_token=${rcContactService.accessToken()}`
+                    }
+                })
+                .catch(e => {
+                    console.log('3');
+                    // Real contact, no avatar
+                    var hash = md5(this.props.contact.id)
+                    return `http://www.gravatar.com/avatar/${hash}?d=retro`
+                })
+        }
+    },
+    transformURL: {
+        method: function() {
+            return this.props.transformee + `?access_token=${rcContactService.accessToken()}`
+        }
+    },
 }
 services['call-panel'] = {
+    init: {
+        after: function() {
+            console.log('register progree on');
+            phoneService.on('progress', () => {
+                console.log('progress, ready to mount');
+                console.log(this.props.target);
+                this.mount(this.props.target)
+            })
+        }
+    },
     mount: {
         after: function() {
             phoneService.on('bye', () => {
@@ -240,9 +287,13 @@ services['call-panel'] = {
             phoneService.on('rejected', () => {
                 this.unmount()
             })
-            phoneService.on('failed', () => () => {
+            phoneService.on('failed', () => {
                 this.unmount()
             })
+            phoneService.on('accepted', () => {
+                this.mount(this.props.target)
+            })
+
         }
     },
     hangup: {

@@ -66,7 +66,8 @@ this.props = {
     fromNumbers: [],
     fromNumber: null,
     width: 250,
-    height: 400
+    height: 400,
+    profileImage: null
 }
 this.actions = {
     init: {
@@ -121,33 +122,39 @@ this.actions = {
             this.setTitle(currentContact.displayName)
 
             // Fake contact
-            if (!currentContact.profileImage) {
-                var hash = md5(currentContact.id)
-                this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
-                return
-            }
+            // if (!currentContact.profileImage) {
+            //     var hash = md5(currentContact.id)
+            //     this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
+            //     return
+            // }
+            this.props.profileImage = currentContact.profileImage
+            console.log(currentContact);
+            this.getAvatar().then(url => this.dom['profile-img'].src = url)
+            console.log(this.getAvatar())
+
+                // currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
 
             // FIXME: API call in here is a anti-pattern, should be in services
-            sdk.platform()
-            .get(currentContact.profileImage)
-            .then(r => r.response())
-            .then(r => {
-                // Real contact, no avatar
-                console.log(r)
-                if (r.status === 204 || r.status === 404) {
-                    var hash = md5(currentContact.id)
-                    this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
-                } else {
-                    // Real contact, has avatar
-                    this.dom['profile-img'].src = 
-                        currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
-                }
-            })
-            .catch(e => {
-                // Real contact, no avatar
-                var hash = md5(currentContact.id)
-                this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
-            })
+            // sdk.platform()
+            // .get(currentContact.profileImage)
+            // .then(r => r.response())
+            // .then(r => {
+            //     // Real contact, no avatar
+            //     console.log(r)
+            //     if (r.status === 204 || r.status === 404) {
+            //         var hash = md5(currentContact.id)
+            //         this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
+            //     } else {
+            //         // Real contact, has avatar
+            //         this.dom['profile-img'].src = 
+            //             currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
+            //     }
+            // })
+            // .catch(e => {
+            //     // Real contact, no avatar
+            //     var hash = md5(currentContact.id)
+            //     this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
+            // })
         },
         after: function() {
             this.dom.input.value = this.data.message || ''
@@ -275,7 +282,9 @@ this.actions = {
     },
     createVoiceMailTemplate: {
         method: function(finish, id, content, opponent, time) {
-            var audio = new Audio(`${content.uri}?access_token=${sdk.platform().auth().accessToken()}`)
+            this.props.transformee = content.uri
+            console.log(this.transformURL())
+            var audio = new Audio(this.transformURL())
             var div = document.createElement('div')
             div.innerHTML = `<div class='clearfix conversations__conv'>
                                 <div
@@ -312,7 +321,9 @@ this.actions = {
                 // TODO:
                 // get ${content.uri}?access_token=${sdk.platform().auth().accessToken()}
                 // to get the duration of record
-                var audio = new Audio(`${content.uri}/content?access_token=${sdk.platform().auth().accessToken()}`)
+                this.props.transformee =`${content.uri}/content`
+                console.log(this.transformURL())
+                var audio = new Audio(this.transformURL())
                 div.firstChild.addEventListener('click', e => {
                     audio.play()
                 });
@@ -324,12 +335,14 @@ this.actions = {
         before: function() {},
         method: function(finish) {
             if (this.isLoading)
-                return
+                return null
             this.isLoading = true
             this.dom.loading.classList.remove('display-none')
             return finish()
         },
         after: function(messages) {
+            this.isLoading = false
+            this.dom.loading.classList.add('display-none')
             if (messages && messages.length) {
                 // maintain the scoll position
                 var scrollBottom = 
@@ -339,9 +352,11 @@ this.actions = {
                 this.prependMessages(messages.slice().reverse(), false)
                 this.dom.container.scrollTop = 
                     this.dom.conversations.offsetHeight - scrollBottom
+            } else if (messages && !messages.length){
+                console.log('load again');
+                this.reachTop()
             }
-            this.isLoading = false
-            this.dom.loading.classList.add('display-none')
+            
         }
     },
     addTimestamp: {
@@ -455,6 +470,16 @@ this.actions = {
                 }
                 return dom
             })
+        }
+    },
+    getAvatar: {
+        method: function(finish) {
+            return finish()
+        }
+    },
+    transformURL: {
+        method: function(finish) {
+            return finish()
         }
     },
     scrollToAnchor: {

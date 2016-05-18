@@ -57,9 +57,17 @@ var accountService = (function(sdk) {
                     return getNumbersByFeatures(getNumbersByType(numbers, type), features)
                         .map(number => number.phoneNumber)
                 })
-            }else {
-                return getNumbersByFeatures(getNumbersByType(numbers, type), features)
-                    .map(number => number.phoneNumber)
+            } else {
+                return getNumbersByFeatures(
+                            getNumbersByType(numbers, type), 
+                            features
+                        )
+                        .sort((number1, number2) => {
+                            if (number2.usageType === 'DirectNumber')
+                                return 1
+                            return -1
+                        })
+                        .map(number => number.phoneNumber)
             }
         },
     }

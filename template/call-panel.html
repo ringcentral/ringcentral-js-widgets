@@ -108,6 +108,7 @@ this.props = {
     minimized: false,
     width: 250,
     height: 400,
+    target: null
 }
 this.actions = {
     init: {
@@ -115,6 +116,7 @@ this.actions = {
             this.props.name = this.data.name
             this.props.width = this.data.width
             this.props.height = this.data.height
+            this.props.target = this.data.target
 
             this.root.firstChild.style.width = this.props.width + 'px'
             this.root.firstChild.style.height = this.props.height + 'px'
@@ -124,7 +126,7 @@ this.actions = {
         after: function () {
             fade.init(this.root)
             fade.in(this.root)
-            this.setName(this.data.name)
+            this.props.name && this.setName(this.props.name)
         }
     },
     unmount: {
