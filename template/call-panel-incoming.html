@@ -18,8 +18,6 @@
             </div>
         </div>
     </div>
-    <video data-info='local' class='display-none'></video>
-    <video data-info='remote' class='display-none'></video>
 </div>
 <script>
 var circle = w.transition('circle')
@@ -40,8 +38,8 @@ this.actions = {
         },
         after: function() {
             this.props.target = this.data.target
-            this.props.remoteVideo = this.dom.remoteVideo
-            this.props.localVideo = this.dom.localVideo
+            this.props.remoteVideo = this.data.remoteVideo
+            this.props.localVideo = this.data.localVideo
             this.props.width = this.data.width
             this.props.height = this.data.height
 

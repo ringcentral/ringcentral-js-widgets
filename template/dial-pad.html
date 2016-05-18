@@ -6,6 +6,7 @@
         <button 
             class='rc-button --circle call-button call-button--color' 
             data-info='callout'>
+            <span class='icon-ActionButtons_Filters'></span>
         </button>
         <div class='pad-container' data-info='container'>
             <div class='rc-panel__content'>
@@ -110,8 +111,8 @@ this.actions = {
         after: function() {
             var dialPad = this
             var {color, lang, logo} = this.data
-            this.props.remoteVideo = this.dom.remote
-            this.props.localVideo = this.dom.local
+            this.props.remoteVideo = this.data.remoteVideo
+            this.props.localVideo = this.data.localVideo
             this.data.pad && (this.props.pad = this.data.pad)
             if (!this.props.pad)
                 this.dom.container.classList.add('display-none')
@@ -306,13 +307,17 @@ $dial-pad-call-button-color: #2ecc71;
         position: absolute;
         top: 2px;
         right: 5px;
-        width:  $dial-pad-button-radius;
-        height: $dial-pad-button-radius;
+        width:  3em;
+        height: 3em;
         /* 1: 0.6, same as the panel width: panel height*/
         background-color:   $dial-pad-call-button-color;
         border-color:       $dial-pad-call-button-color;
         &.--active {
 
+        }
+        > span {
+            color: #fff;
+            font-size: 1.2em;
         }
     }
     .pad-container {

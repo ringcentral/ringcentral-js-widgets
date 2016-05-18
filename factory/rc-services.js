@@ -11,6 +11,8 @@ import rcMessageProvider from '../services/rc-message-provider'
 import rcConferenceSerivce from '../services/rc-conference-service'
 import conversationService from '../services/rc-conversation-service'
 
+import md5 from 'blueimp-md5'
+
 import config from '../services/rc-config'
 var dialPadSearchProviders = [rcContactSearchProvider]
 
@@ -207,6 +209,17 @@ services['conversation-advanced'] = {
                     this.props.toNumber
                 );
             }
+        }
+    },
+    callout: {
+        method: function() {
+            console.log(this.props.remoteVideo);
+            return phoneService.call(
+                this.props.fromNumber, 
+                this.props.toNumber, {
+                    remoteVideo: this.props.remoteVideo,
+                    localVideo: this.props.localVideo
+                })
         }
     },
     queryContacts: {

@@ -29,9 +29,9 @@
         <div data-info='toolbar' id="toolbar"></div>
         <div class='phone-container' data-info='container'>
         </div>
+        <div data-info='conversation' class='panel --extra' id="conversation"></div>
         <div data-info='call-panel' class='panel --extra' id="call-panel"></div>
         <div data-info='call-panel-incoming' class='panel --extra' id="call-panel-incoming"></div>
-        <div data-info='conversation' class='panel --extra' id="conversation"></div>
         <div data-info='contact-detail' class='panel --extra' id="contact-detail"></div>
         <div data-info='notification' class='panel --extra' id="notification"></div>
     </div>
@@ -334,6 +334,19 @@ w.register(function() {
                                 actions: factory.create('call-log')
                             })
                         } else if (name === 'time-line') {
+                            if (!this.props.callPanel) {
+                                this.props.callPanel = w('call-panel', {
+                                    shadowRoot: phone.data.shadowRoot,
+                                    data: {
+                                        ...phone.data,
+                                        target: '#call-panel',
+                                        width: this.props.width,
+                                        height: this.props.height - this.props.toolbarHeight
+                                    },
+                                    actions: factory.create('call-panel')
+                                })
+                            }
+                            
                             widget =  this.props.timeline = w('time-line', {
                                 shadowRoot: phone.data.shadowRoot,
                                 actions: factory.create('time-line', {
@@ -360,7 +373,9 @@ w.register(function() {
                                                 height: phone.props.height - phone.props.toolbarHeight,
                                                 fromNumber,
                                                 toNumber,
-                                                anchorContent: this.props.selectedContent
+                                                anchorContent: this.props.selectedContent,
+                                                remoteVideo: phone.props.callPanel.props.remoteVideo,
+                                                localVideo: phone.props.callPanel.props.localVideo,
                                             })
                                             this.props.currentConv.mount('#conversation')
                                         }
@@ -387,9 +402,25 @@ w.register(function() {
                                 })
                             })
                         } else if (name === 'dial-pad') {
+                            if (!this.props.callPanel) {
+                                this.props.callPanel = w('call-panel', {
+                                    shadowRoot: phone.data.shadowRoot,
+                                    data: {
+                                        ...phone.data,
+                                        target: '#call-panel',
+                                        width: this.props.width,
+                                        height: this.props.height - this.props.toolbarHeight
+                                    },
+                                    actions: factory.create('call-panel')
+                                })
+                            }
                             widget = this.props.dialPad = w('dial-pad', {
                                 shadowRoot: phone.data.shadowRoot,
-                                data : phone.data,
+                                data: {
+                                    ...phone.data,
+                                    remoteVideo: phone.props.callPanel.props.remoteVideo,
+                                    localVideo: phone.props.callPanel.props.localVideo,
+                                },
                                 actions: factory.create('dial-pad', {
                                     callout: {
                                         after: function() {
@@ -403,23 +434,16 @@ w.register(function() {
                                     }
                                 })
                             });
-                            this.props.callPanel = w('call-panel', {
-                                shadowRoot: phone.data.shadowRoot,
-                                data: {
-                                    ...phone.data,
-                                    target: '#call-panel',
-                                    width: this.props.width,
-                                    height: this.props.height - this.props.toolbarHeight
-                                },
-                                actions: factory.create('call-panel')
-                            })
+                            
                             this.props.callPanelIncoming = w('call-panel-incoming', {
                                 shadowRoot: phone.data.shadowRoot,
                                 data: {
                                     target: '#call-panel-incoming',
                                     ...phone.data,
                                     width: this.props.width,
-                                    height: this.props.height - this.props.toolbarHeight
+                                    height: this.props.height - this.props.toolbarHeight,
+                                    remoteVideo: phone.props.callPanel.props.remoteVideo,
+                                    localVideo: phone.props.callPanel.props.localVideo,
                                 },
                                 actions: factory.create('call-panel-incoming', {
                                     accept: {

@@ -35,6 +35,7 @@
                 <button 
                     class='rc-button --circle --positive callout'
                     data-info='callout'>
+                    <span class='icon-ActionButtons_Filters'></span>
                 </button>
             </div>
         </div>
@@ -67,7 +68,9 @@ this.props = {
     fromNumber: null,
     width: 250,
     height: 400,
-    profileImage: null
+    profileImage: null,
+    remoteVideo: null,
+    localVideo: null
 }
 this.actions = {
     init: {
@@ -82,6 +85,9 @@ this.actions = {
             this.data.fromNumbers && (this.props.fromNumbers = this.data.fromNumbers)
             this.data.width && (this.props.width = this.data.width)
             this.data.height && (this.props.height = this.data.height)
+            this.data.remoteVideo && (this.props.remoteVideo = this.data.remoteVideo)
+            this.data.localVideo && (this.props.localVideo = this.data.localVideo)
+            
             
             this.root.firstChild.style.width = this.props.width + 'px'
             this.root.firstChild.style.height = this.props.height + 'px'
@@ -544,6 +550,13 @@ this.actions = {
             this.dom['phone-mask'].classList.toggle('display-none')
         }
     },
+    callout: {
+        method: function(finish) {
+            console.log(this.props.fromNumber)
+            console.log(this.props.toNumber)
+            return finish()
+        }
+    },
     back: {
         after: function() {
 
@@ -553,8 +566,10 @@ this.actions = {
 this.on('click', function(e) {
     if (e.target === this.dom.back)
         this.back()
-    if (e.target === this.dom.callout || e.target === this.dom['phone-mask'])
-        this.togglePhoneModal()
+    // if (e.target === this.dom.callout || e.target === this.dom['phone-mask'])
+    //     this.togglePhoneModal()
+    if (e.target === this.dom.callout)
+        this.callout()
 })
 this.on('keydown', function(e) {
     if (e.target === this.dom.input) {

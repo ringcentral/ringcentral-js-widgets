@@ -98,6 +98,8 @@
             <span data-info='bar-time' class='bar__time'></span>
         </div>
     </div>
+    <video data-info='local' class='display-none'></video>
+    <video data-info='remote' class='display-none'></video>
 </template>
 <script>
 var fade = w.transition('fade')
@@ -108,7 +110,9 @@ this.props = {
     minimized: false,
     width: 250,
     height: 400,
-    target: null
+    target: null,
+    remoteVideo: null,
+    localVideo: null,
 }
 this.actions = {
     init: {
@@ -117,6 +121,8 @@ this.actions = {
             this.props.width = this.data.width
             this.props.height = this.data.height
             this.props.target = this.data.target
+            this.props.remoteVideo = this.dom.remote
+            this.props.localVideo = this.dom.local
 
             this.root.firstChild.style.width = this.props.width + 'px'
             this.root.firstChild.style.height = this.props.height + 'px'
