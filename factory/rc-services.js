@@ -229,6 +229,22 @@ services['conversation-advanced'] = {
     },
 }
 services['call-panel'] = {
+    mount: {
+        after: function() {
+            phoneService.on('bye', () => {
+                this.unmount()
+            })
+            phoneService.on('terminated', () => {
+                this.unmount()
+            })
+            phoneService.on('rejected', () => {
+                this.unmount()
+            })
+            phoneService.on('failed', () => () => {
+                this.unmount()
+            })
+        }
+    },
     hangup: {
         method: function() {
             return phoneService.hangup()
@@ -263,11 +279,17 @@ services['call-panel'] = {
 services['call-panel-incoming'] = {
     init: {
         method: function() {
-            phoneService.on('invite', (session) => {
+            phoneService.on('invite', session => {
                 this.props.session = session
-                console.log(session);
                 this.setName(session.request.from.displayName)
                 this.mount(this.props.target)
+                console.log('register..');  
+                phoneService.on('terminated', () => {
+                    this.unmount()
+                })
+                phoneService.on('failed', () => {
+                    this.unmount()
+                })
             })
         }
     },

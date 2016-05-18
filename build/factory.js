@@ -21375,7 +21375,44 @@ var PhoneService = function() {
     var webPhone
     var session
     var handlers = {
-        invite: []
+        invite: [],
+        accept: [],
+        progress: [],
+        rejected: [],
+        terminated: [],
+        failed: [],
+        bye: [],
+        refer: [],
+    }
+    function listen(session) {
+        session.on('accepted', function() {
+            console.log('accept');
+            handlers['accept'].forEach(handler => handler(session))
+        })
+        session.on('progress', function() {
+            console.log('progress');
+            handlers['progress'].forEach(handler => handler(session))
+        })
+        session.on('rejected', function() {
+            console.log('rejected');
+            handlers['rejected'].forEach(handler => handler(session))
+        })
+        session.on('terminated', function() {
+            console.log('terminated');
+            handlers['terminated'].forEach(handler => handler(session))
+        })
+        session.on('failed', function() {
+            console.log('failed');
+            handlers['failed'].forEach(handler => handler(session))
+        })
+        session.on('bye', function() {
+            console.log('bye');
+            handlers['bye'].forEach(handler => handler(session))
+        })
+        session.on('refer', function() {
+            console.log('refer');
+            handlers['refer'].forEach(handler => handler(session))
+        })
     }
     return {
         init: function(options) {
@@ -21403,6 +21440,7 @@ var PhoneService = function() {
                     webPhone.userAgent.on('invite', function (s) {
                         session = s
                         handlers['invite'].forEach(handler => handler(session))
+                        listen(session)
                     })
                 })
         },
@@ -21419,24 +21457,7 @@ var PhoneService = function() {
                 },
                 fromNumber: fromNumber
             })
-            session.on('accept', function() {
-                console.log('accept');
-            })
-            session.on('progress', function() {
-                console.log('progress');
-            })
-            session.on('rejected', function() {
-                console.log('rejected');
-            })
-            session.on('terminated', function() {
-                console.log('terminated');
-            })
-            session.on('bye', function() {
-                console.log('bye');
-            })
-            session.on('refer', function() {
-                console.log('refer');
-            })
+            listen(session)
         },
         accept: function(options) {
             return session.accept({
@@ -23173,6 +23194,22 @@ services['conversation-advanced'] = {
     },
 }
 services['call-panel'] = {
+    mount: {
+        after: function() {
+            PhoneService.on('bye', () => {
+                this.unmount()
+            })
+            PhoneService.on('terminated', () => {
+                this.unmount()
+            })
+            PhoneService.on('rejected', () => {
+                this.unmount()
+            })
+            PhoneService.on('failed', () => () => {
+                this.unmount()
+            })
+        }
+    },
     hangup: {
         method: function() {
             return PhoneService.hangup()
@@ -23207,11 +23244,17 @@ services['call-panel'] = {
 services['call-panel-incoming'] = {
     init: {
         method: function() {
-            PhoneService.on('invite', (session) => {
+            PhoneService.on('invite', session => {
                 this.props.session = session
-                console.log(session);
                 this.setName(session.request.from.displayName)
                 this.mount(this.props.target)
+                console.log('register..');  
+                PhoneService.on('terminated', () => {
+                    this.unmount()
+                })
+                PhoneService.on('failed', () => {
+                    this.unmount()
+                })
             })
         }
     },

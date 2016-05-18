@@ -101,12 +101,13 @@
 </template>
 <script>
 var fade = w.transition('fade')
+var _interval
 this.props = {
     name: null,
     time: 0,
     minimized: false,
     width: 250,
-    height: 400
+    height: 400,
 }
 this.actions = {
     init: {
@@ -130,6 +131,11 @@ this.actions = {
         after: function() {
             this.dom.time.textContent = '0:0'
             this.props.duration = 0
+            if (_interval) {
+                // clear interval
+                _interval()
+                _interval = null
+            }
         }
     },
     setName: {
@@ -149,9 +155,15 @@ this.actions = {
             this.dom['time'].textContent = `${minutes}:${seconds}`
             // FIXME: NOT accurate
             // TODO: check for real startTime from SIP
-            setInterval(() => {
-                this.count()
-            }, 1000)
+            _interval = (function(self) {
+                var id = setInterval(() => {
+                    self.count()
+                }, 1000)
+                return function() {
+                    clearInterval(id)
+                }
+            }(this))
+            
         }
     },
     count: {
