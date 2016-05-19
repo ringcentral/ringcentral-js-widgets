@@ -97,9 +97,9 @@
             <span data-info='bar-name' class='bar__name'>bar</span>
             <span data-info='bar-time' class='bar__time'></span>
         </div>
+        <video data-info='local' class='display-none'></video>
+        <video data-info='remote' class='display-none'></video>
     </div>
-    <video data-info='local' class='display-none'></video>
-    <video data-info='remote' class='display-none'></video>
 </template>
 <script>
 var fade = w.transition('fade')
@@ -133,6 +133,11 @@ this.actions = {
             fade.init(this.root)
             fade.in(this.root)
             this.props.name && this.setName(this.props.name)
+            this.getContact().then(result => {
+                if (result && result[0]) {
+                    this.setName(result[0].name)
+                }
+            })
         }
     },
     unmount: {
@@ -144,6 +149,11 @@ this.actions = {
                 _interval()
                 _interval = null
             }
+        }
+    },
+    getContact: {
+        method: function(finish) {
+            return finish()
         }
     },
     setName: {

@@ -22390,6 +22390,8 @@ var contactSearchService = (function() {
 var rcContactSearchProvider = function() {
     return {
         search: function(text) {
+            console.log('search');
+            console.log(text);
             var results = []
             if (text) {
                 text = text.toLowerCase()
@@ -23289,6 +23291,11 @@ services.rcPhone = {
             });
             CallLogService.getCallLogs();
         }
+    },
+    checkLogin: {
+        method: function() {
+            return LoginService.checkLoginStatus()
+        }
     }
 }
 services['auth-panel'] = {
@@ -23306,14 +23313,12 @@ services['auth-panel'] = {
 services['dial-pad'] = {
     mount: {
         after: function() {
-            console.log('mount');
             if (!accountService.hasServiceFeature("VoipCalling"))
                 this.disable();
         }
     },
     callout: {
         method: function() {
-            console.log(this.props.remoteVideo);
             return PhoneService.call(
                 this.props.fromNumber, 
                 this.props.toNumber, {
@@ -23326,9 +23331,8 @@ services['dial-pad'] = {
         method: function() {
             var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
                 return provider.search(this.props.toNumber);
-            });
-            console.log(dialPadSearchFunctions);
-            return contactSearchService.query(dialPadSearchFunctions);
+            })
+            return contactSearchService.query(dialPadSearchFunctions)
         }
     },
     getOutboundCallerID: {
@@ -23479,20 +23483,6 @@ services['conversation-advanced'] = {
                 })
         }
     },
-    queryContacts: {
-        method: function() {
-            var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                return provider.search(this.props.to);
-            });
-            return contactSearchService.query(dialPadSearchFunctions);
-        }
-    },
-    getOutboundCallerID: {
-        method: function() {
-            return accountService.getPhoneNumber().then(() => 
-                accountService.listNumber("VoiceFax", 'SmsSender'));
-        }
-    },
     reachTop: {
         method: function() {
             return conversationService.loadContent(this.props.contact, this.props.hourOffset)
@@ -23507,13 +23497,10 @@ services['conversation-advanced'] = {
                 .then(r => r.response())
                 .then(r => {
                     // Real contact, no avatar
-                    console.log(r)
                     if (r.status === 204 || r.status === 404) {
-                        console.log('1');
                         var hash = md5$1(this.props.contact.id)
                         return `http://www.gravatar.com/avatar/${hash}?d=retro`
                     } else {
-                        console.log('2');
                         console.log(this.props.profileImage);
                         console.log(`?access_token=${rcContactService.accessToken()}`);
                         // Real contact, has avatar
@@ -23522,7 +23509,6 @@ services['conversation-advanced'] = {
                     }
                 })
                 .catch(e => {
-                    console.log('3');
                     // Real contact, no avatar
                     var hash = md5$1(this.props.contact.id)
                     return `http://www.gravatar.com/avatar/${hash}?d=retro`
@@ -23538,11 +23524,13 @@ services['conversation-advanced'] = {
 services['call-panel'] = {
     init: {
         after: function() {
-            console.log('register progree on');
+            var _mount = false
             PhoneService.on('progress', () => {
                 console.log('progress, ready to mount');
-                console.log(this.props.target);
-                this.mount(this.props.target)
+                if (!_mount) {
+                    this.mount(this.props.target)
+                    _mount = true
+                }
             })
         }
     },
@@ -23561,9 +23549,17 @@ services['call-panel'] = {
                 this.unmount()
             })
             PhoneService.on('accepted', () => {
-                this.mount(this.props.target)
+                console.log('accept');
+                this.start()
             })
-
+        }
+    },
+    getContact: {
+        method: function() {
+            var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                return provider.search(this.props.name)
+            })
+            return contactSearchService.query(dialPadSearchFunctions)
         }
     },
     hangup: {
@@ -23604,7 +23600,6 @@ services['call-panel-incoming'] = {
                 this.props.session = session
                 this.setName(session.request.from.displayName)
                 this.mount(this.props.target)
-                console.log('register..');  
                 PhoneService.on('terminated', () => {
                     this.unmount()
                 })

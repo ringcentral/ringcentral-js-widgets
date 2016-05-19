@@ -2,6 +2,8 @@ import rcContactService from './rc-contact-service'
 var rcContactSearchProvider = function() {
     return {
         search: function(text) {
+            console.log('search');
+            console.log(text);
             var results = []
             if (text) {
                 text = text.toLowerCase()

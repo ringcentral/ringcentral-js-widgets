@@ -21,14 +21,12 @@ function importStyle(src, shadow) {
     shadow? shadow.appendChild(style): document.body.appendChild(style)
 }
 function importScript(src, shadow) {
-    console.log(src);
     var script = document.createElement('script')
     script.onload = function() {
         console.log('script loaded:' + src);
     }
     script.src = src
     shadow? shadow.appendChild(script): document.body.appendChild(script)
-    
 }
 
 export function insert(name, input, shadow) {
