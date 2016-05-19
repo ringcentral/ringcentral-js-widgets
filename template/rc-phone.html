@@ -185,14 +185,7 @@ w.register(function() {
                             after: function() {
                                 console.log(phone.props.panels);
                                 phone.props.panels.forEach((panel, index) => {
-                                    this.clickItem(
-                                    this.addItem('<span class="icon-uniA4"></span><span class="icon-RC_shapes_1-40_pressed"></span>'), 
-                                        phone.switchWidgets(
-                                            panel,
-                                            '#first-level' + index, 
-                                            index
-                                        )
-                                    )
+                                   
                                 })
                                 // this.clickItem(
                                 //     this.addItem('<span class="icon-uniA4"></span><span class="icon-RC_shapes_1-40_pressed"></span>'), 
@@ -267,51 +260,6 @@ w.register(function() {
                     })
                 });
                 this.props.notification = w('notification', {})
-                
-            }
-        },
-        switchWidgets: {
-            method: function(finish, source, target, index) {
-                return () => {
-                    if (this.props.conversation) {
-                        this.props.conversation.destroy()
-                        this.props.conversation = null
-                    }
-                    if(this.props.contactDetail){
-                        this.props.contactDetail.destroy();
-                        this.props.contactDetail = null;
-                    }
-                    if(this.props.callPanel && this.props.callPanel._mounted){
-                        this.props.callPanel.minimize()
-                    }
-                    if (this.props.currentIndex === index)
-                        return
-                    if (this.props.isTranistioning)
-                        return
-                    var h = e => {
-                        this.props.panels.filter((p, idx) => idx !== index).forEach(p => p.unmount())
-                        this.dom.container.removeEventListener('transitionend', h)
-                        this.props.isTranistioning = false
-                    }
-                    this.props.isTranistioning = true
-                    this.props.currentIndex = index
-                    this.dom.container.style.transform = `translateX(${0 - index * this.props.width}px)`;
-                    this.dom.container.addEventListener('transitionend', h)
-                    source.mount('#first-level-' + index);
-                }
-            }
-        },
-        init: {
-            after: function() {
-                var phone = this
-                this.props.cachedMessageHours = 7 * 24
-                this.props.width = this.data.width
-                this.props.height = this.data.height
-                this.dom.toolbar.style.height = this.props.toolbarHeight + 'px'
-                this.dom.phone.style.width = this.props.width + 'px'
-                this.dom.phone.style.height = this.props.height + 'px'
-                this.dom['auth-panel'].style.width = this.props.width + 'px'
-                this.dom['auth-panel'].style.height = this.props.height + 'px'
                 ;[
                 'auth-panel',
                 // 'conversation', 
@@ -326,13 +274,22 @@ w.register(function() {
 
                 if (this.data.firstLevel) {
                     var names = this.data.firstLevel.split(',')
-                    names.forEach(name => {
+                    var toolbar = this.props.toolbar
+                    names.forEach((name, index) => {
                         var widget
                         if (name === 'call-log') {
                             widget = this.props.callLog = w('call-log', {
                                 shadowRoot: phone.data.shadowRoot,
                                 actions: factory.create('call-log')
                             })
+                            toolbar.clickItem(
+                                toolbar.addItem('<span class="icon-uniC8"></span><span class="icon-RC_shapes_2-30_pressed"></span>'), 
+                                phone.switchWidgets(
+                                    panel,
+                                    '#first-level' + index, 
+                                    index
+                                )
+                            )
                         } else if (name === 'time-line') {
                             if (!this.props.callPanel) {
                                 this.props.callPanel = w('call-panel', {
@@ -382,6 +339,14 @@ w.register(function() {
                                     }
                                 })
                             })
+                            toolbar.clickItem(
+                                toolbar.addItem('<span class="icon-uni2487"></span></span><span class="icon-RC_shapes_1_30_pressed"></span>'), 
+                                phone.switchWidgets(
+                                    widget,
+                                    '#first-level' + index, 
+                                    index
+                                )
+                            )
                         } else if (name === 'contacts') {
                             widget = this.props.contacts = w('contacts', {
                                 shadowRoot: phone.data.shadowRoot,
@@ -401,6 +366,14 @@ w.register(function() {
                                     },
                                 })
                             })
+                            toolbar.clickItem(
+                                toolbar.addItem('<span class="icon-uni7D"></span><span class="icon-contact_info_pressed"></span>'), 
+                                phone.switchWidgets(
+                                    widget,
+                                    '#first-level' + index, 
+                                    index
+                                )
+                            )
                         } else if (name === 'dial-pad') {
                             if (!this.props.callPanel) {
                                 this.props.callPanel = w('call-panel', {
@@ -457,6 +430,14 @@ w.register(function() {
                                     }
                                 })
                             })
+                            toolbar.clickItem(
+                                toolbar.addItem('<span class="icon-uniA4"></span><span class="icon-RC_shapes_1-40_pressed"></span>'), 
+                                phone.switchWidgets(
+                                    widget,
+                                    '#first-level' + index, 
+                                    index
+                                )
+                            )
                         } else if (name === 'conference') {
                             widget = this.props.conference = w('conference',{
                                 data : phone.data,
@@ -474,7 +455,15 @@ w.register(function() {
                                         }
                                     }
                                 })
-                            });
+                            })
+                            toolbar.clickItem(
+                                toolbar.addItem('<span class="icon-uniA3"></span>'), 
+                                phone.switchWidgets(
+                                    widget,
+                                    '#first-level' + index, 
+                                    index
+                                )
+                            )
                         }
                         if (widget) {
                             this.props.panels.push(widget)
@@ -490,9 +479,56 @@ w.register(function() {
                 }
             }
         },
+        switchWidgets: {
+            method: function(finish, source, target, index) {
+                return () => {
+                    if (this.props.conversation) {
+                        this.props.conversation.destroy()
+                        this.props.conversation = null
+                    }
+                    if(this.props.contactDetail){
+                        this.props.contactDetail.destroy();
+                        this.props.contactDetail = null;
+                    }
+                    if(this.props.callPanel && this.props.callPanel._mounted){
+                        this.props.callPanel.minimize()
+                    }
+                    if (this.props.currentIndex === index)
+                        return
+                    if (this.props.isTranistioning)
+                        return
+                    var h = e => {
+                        this.props.panels.filter((p, idx) => idx !== index).forEach(p => p.unmount())
+                        this.dom.container.removeEventListener('transitionend', h)
+                        this.props.isTranistioning = false
+                    }
+                    this.props.isTranistioning = true
+                    this.props.currentIndex = index
+                    this.dom.container.style.transform = `translateX(${0 - index * this.props.width}px)`;
+                    this.dom.container.addEventListener('transitionend', h)
+                    source.mount('#first-level-' + index);
+                }
+            }
+        },
+        init: {
+            after: function() {
+                var phone = this
+                this.props.cachedMessageHours = 7 * 24
+                this.props.width = this.data.width
+                this.props.height = this.data.height
+                this.dom.toolbar.style.height = this.props.toolbarHeight + 'px'
+                this.dom.phone.style.width = this.props.width + 'px'
+                this.dom.phone.style.height = this.props.height + 'px'
+                this.dom['auth-panel'].style.width = this.props.width + 'px'
+                this.dom['auth-panel'].style.height = this.props.height + 'px'
+
+                this.createWidgets()
+                
+            }
+        },
         mount: {
             after: function() {
-                this.createWidgets()
+                
                 // this.getService().loginService.checkLoginStatus().then(isLoggedIn => {
                 //     if (this.data.shadowRoot)
                 //         this.props.authPanel.mount(this.data.shadowRoot.querySelector('#auth-panel'))
