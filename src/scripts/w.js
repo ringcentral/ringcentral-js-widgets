@@ -38,7 +38,7 @@ function initNestedWidget(widget, template, options) {
                 return
             }
             var name = doc.tagName.toLowerCase()
-            var child = w(name, Object.assign(widget.custom[name], options))
+            var child = w(name, Object.assign(widget.custom[name] || {}, options))
             // child.mount(doc)
             widget.children.push({
                 target: doc,

@@ -21472,26 +21472,47 @@ var PhoneService = function() {
         hangup: function() {
             return session.bye()
         },
-        hold: function() {
-            return session.hold()
+        hold: function(flag) {
+            if (flag) {
+                return session.hold().then(() => {
+                    return session
+                })
+            }
+            return session.unhold().then(() => {
+                return session
+            })
         },
-        mute: function() {
-            return session.mute()
+        mute: function(flag) {
+            if (flag)
+                session.mute()
+            else
+                session.unmute()
+            return session
         },
         flip: function(number) {
-            return session.flip(number)
+            return session.flip(number).then(() => {
+                return session
+            })
         },
         forward: function(number) {
-            return session.forward(number)
+            return session.forward(number).then(() => {
+                return session
+            })
         },
         transfer: function(number) {
-            return session.transfer(number)
+            return session.transfer(number).then(() => {
+                return session
+            })
         },
         park: function() {
-            return session.park()
+            return session.park().then(() => {
+                return session
+            })
         },
         record: function() {
-            return session.startRecord()
+            return session.startRecord().then(() => {
+                return session
+            })
         }
     }
 }()
@@ -23569,12 +23590,12 @@ services['call-panel'] = {
     },
     hold: {
         method: function() {
-            return PhoneService.hold()
+            return PhoneService.hold(!this.props.isHold)
         },
     },
     mute: {
         method: function() {
-            return PhoneService.mute()
+            return PhoneService.mute(!this.props.isMute)
         },
     },
     flip: {
@@ -23591,6 +23612,19 @@ services['call-panel'] = {
         method: function() {
             return PhoneService.record()
         },
+    },
+    park: {
+        method: function() {
+            return PhoneService.park()
+        },
+    },
+    queryContacts: {
+        method: function() {
+            var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                return provider.search(this.props.inputValue);
+            })
+            return contactSearchService.query(dialPadSearchFunctions)
+        }
     },
 }
 services['call-panel-incoming'] = {

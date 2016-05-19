@@ -1417,57 +1417,6 @@ h1, h2, h3, h4, h5, h6 {
     white-space: nowrap;
     color: #b3b3b3;
 }
-.rc-call-panel {
-    font-size: .8em;
-}
-.rc-call-panel .rc-panel__content {
-    padding: .5em .7em;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-}
-.rc-call-panel .action-panel {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-.rc-call-panel .action-panel__action {
-    width: 130px;
-}
-.rc-call-panel .action-panel__action > [class^="icon-"] {
-    font-size: 1.6em;
-}
-.rc-call-panel .action-panel__action:first-child {
-    margin-right: 10px;
-}
-.rc-call-panel .control-panel {}
-.rc-call-panel .control-panel__title {
-    padding: .1em .3em;
-}
-.rc-call-panel .control-panel__line {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-.rc-call-panel .control-panel__item {
-    color: #1e89ed;
-}
-.rc-call-panel .control-panel__button {
-    margin-bottom: 3px;
-}
-.rc-call-panel .control-panel__button > [class^="icon-"] {
-    font-size: 4em;
-}
-.rc-call-panel__reply {
-    width: 100%;
-}
-.rc-call-panel__center {/* fill out all flex panel */
-    height: 100%;
-    margin-bottom: 30px;
-}
-.rc-call-panel__footer {}
 .rc-compose-text {}
 .rc-compose-text__textarea {
     height: 100%;

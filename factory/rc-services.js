@@ -310,12 +310,12 @@ services['call-panel'] = {
     },
     hold: {
         method: function() {
-            return phoneService.hold()
+            return phoneService.hold(!this.props.isHold)
         },
     },
     mute: {
         method: function() {
-            return phoneService.mute()
+            return phoneService.mute(!this.props.isMute)
         },
     },
     flip: {
@@ -332,6 +332,19 @@ services['call-panel'] = {
         method: function() {
             return phoneService.record()
         },
+    },
+    park: {
+        method: function() {
+            return phoneService.park()
+        },
+    },
+    queryContacts: {
+        method: function() {
+            var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                return provider.search(this.props.inputValue);
+            })
+            return contactSearchService.query(dialPadSearchFunctions)
+        }
     },
 }
 services['call-panel-incoming'] = {

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RingCentral JS Widget Develop Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="build/styles/main.css">
+</head>
+<body>
+<div id='test'></div>
+<script type="text/javascript" src="./bower_components/ringcentral/build/ringcentral-bundle.js"></script>
+<script type="text/javascript" src="./build/widgets.js"></script>
+<script type="text/javascript" src="./build/build.js"></script>
+
+<script>
+    w('call-panel').mount('#test')
+</script>
+</body>
+</html>
