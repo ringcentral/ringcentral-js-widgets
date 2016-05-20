@@ -21,8 +21,18 @@ w.register(function() {
     this.actions = {
         init:{
             method: function(finish) {
-                this.data.whiteList && (this.props.whiteList = this.data.whiteList)
-                return finish();
+                this.data.whiteList && (this.props.whiteList = this.data.whiteList.slice())
+                document.addEventListener('click', e => {
+                    var currentNode = e.target
+                    while(currentNode.parentNode) {
+                        if (currentNode === this.root ||
+                            (this.props.whiteList && this.props.whiteList.indexOf(currentNode) > -1))
+                            return
+                        currentNode = currentNode.parentNode
+                    }
+                    this.hide()
+                })
+                return finish()
             }
         },
         mount: {
@@ -31,16 +41,7 @@ w.register(function() {
             },
             after: function() {
                 enlarge.init(this.dom.contacts)
-                document.addEventListener('click', e => {
-                    var currentNode = e.target
-                    while(currentNode.parentNode) {
-                        currentNode = currentNode.parentNode
-                        if (currentNode.isEqualNode(this.root) ||
-                            (this.props.whiteList && currentNode.isEqualNode(this.props.whiteList)))
-                            return
-                    }
-                    this.hide()
-                })
+                
                 if (this.data.contact)
                     this.dom.input.value = this.data.contact
             }
