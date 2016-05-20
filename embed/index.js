@@ -5,7 +5,10 @@
     const TARGET_TAG = 'rc-phone'
     const IFRAME_URL = 'http://127.0.0.1/ringcentral-js-widget/demo/embed.html'
     const useShadowDOM = false /* Always fallback to iframe for now */
+    const iframeReadyQueue = []
+
     var iframeReady = false
+    var drag = false
 
     var safeEval = function(script, target) {
         var tag = document.createElement('script')
@@ -77,11 +80,21 @@
                         `width=${options.width}&` +
                         `height=${options.height}&` +
                         `origin=${window.location.origin}`
-        console.log(iframe.src);
         if (options.dynamic != null) {
             target.style.display = 'none'
             clickToDial(target, iframe)
+            
         }
+        iframeReadyQueue.push(function(contentWindow) {
+            console.log('flush qu');
+            var preX
+            var preY
+
+            requestAnimationFrame(function frame() {
+                requestAnimationFrame(frame)
+                console.log(drag);
+            })
+        })
         target.appendChild(iframe)
     }
 
@@ -124,8 +137,16 @@
     }
 
     window.addEventListener('message', function(e) {
-        if (e.data === 'init') {
+        if (e.data.type === 'mousedown') {
+            drag = true
+        } else if (e.data.type === 'mouseup') {
+            drag = false
+        }
+        if (e.data.type === 'init') {
+            console.log(e);
             iframeReady = true
+            iframeReadyQueue.forEach(action => action(e.source))
+            iframeReadyQueue.length = 0
         }
     })
 
