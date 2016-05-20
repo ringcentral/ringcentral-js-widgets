@@ -11,7 +11,6 @@
 
 
 <script>
-
     function getURLParameter(name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
     }
@@ -19,7 +18,7 @@
     var firstLevel = getURLParameter('first-level')
     var width = getURLParameter('width')
     var height = getURLParameter('height')
-    console.log(firstLevel);
+    var origin = getURLParameter('origin')
 
     var phone = w('rc-phone', {
         data: {
@@ -28,7 +27,14 @@
             height: height
         }
     })
-    phone.mount(document.body); 
+    phone.mount(document.body);
+    window.addEventListener('message', function(e) {
+        var data = e.data
+        if (data.type === 'phone') {
+            phone.props.dialPad.setNumber(data.value)
+        }
+    })
+    parent.postMessage('init', origin)
 </script>
 
 </body>

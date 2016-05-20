@@ -186,6 +186,14 @@ this.actions = {
             this.refs['contact-picker'].dom.input.focus()
         }
     },
+    setNumber: {
+        method: function(finish, value) {
+            var cp = this.refs['contact-picker']
+            cp.setInput(value)
+            this.props.toNumber = cp.dom.input.value
+            return finish()
+        },
+    },
     callout: {
         before: function() {
             this.dom.callout.classList.add('--active')

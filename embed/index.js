@@ -5,6 +5,7 @@
     const TARGET_TAG = 'rc-phone'
     const IFRAME_URL = 'http://127.0.0.1/ringcentral-js-widget/demo/embed.html'
     const useShadowDOM = false /* Always fallback to iframe for now */
+    var iframeReady = false
 
     var safeEval = function(script, target) {
         var tag = document.createElement('script')
@@ -62,18 +63,25 @@
         return container
     }
 
-    var createIframe = function(options) {
+    var createIframe = function() {
         var target = document.querySelector(TARGET_TAG)
         var options = getOptions(target)
         var iframe = document.createElement('iframe')
+        
+
         iframe.width = parseInt(options.width) + 2 // border
         iframe.height = options.height
         iframe.style.border = 0
         iframe.src = IFRAME_URL + '?' +
                         `first-level=${options.firstLevel}&` +
                         `width=${options.width}&` +
-                        `height=${options.height}`
+                        `height=${options.height}&` +
+                        `origin=${window.location.origin}`
         console.log(iframe.src);
+        if (options.dynamic != null) {
+            target.style.display = 'none'
+            clickToDial(target, iframe)
+        }
         target.appendChild(iframe)
     }
 
@@ -82,8 +90,44 @@
             firstLevel: target.getAttribute('first-level'),
             width: target.getAttribute('width'),
             height: target.getAttribute('height'),
+            dynamic: target.getAttribute('dynamic'),
         }
     }
+
+    var clickToDial = function(target, iframe) {
+        [...document.querySelectorAll('[data-phone]')].forEach(ele => {
+            ele.style['text-decoration'] = 'underline black'
+            ele.style['cursor'] = 'pointer'
+            ele.addEventListener('click', e => {
+                target.style.display = 'block'
+                target.style.position = 'absolute'
+                target.style.top = `${e.pageY + 3}px`
+                target.style.left = `${e.pageX + 3}px`
+                iframe.contentWindow.postMessage({
+                    type: 'phone',
+                    value: ele.getAttribute('data-phone')
+                }, IFRAME_URL)
+                e.stopPropagation()
+            })
+        })
+        document.addEventListener('click', e => {
+            console.log(e);
+            var clicked = e.target
+            while (clicked.parentNode) {
+                if (clicked === target) {
+                    return
+                }
+                clicked = clicked.parentNode
+            }
+            target.style.display = 'none'
+        })
+    }
+
+    window.addEventListener('message', function(e) {
+        if (e.data === 'init') {
+            iframeReady = true
+        }
+    })
 
     if (document.body.createShadowRoot && useShadowDOM) {
         // shadow dom is supported
@@ -97,7 +141,4 @@
         createIframe()
     }
 }())
-// Fetch
 
-
-// Create container
