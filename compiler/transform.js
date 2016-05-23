@@ -6,6 +6,8 @@ var es2015 = require('babel-preset-es2015')
 var stage2 = require('babel-preset-stage-2')
 var fs = require('fs')
 var bundle = require('./bundle').bundle
+var UglifyJS = require("uglify-js")
+var minifyHTML = require('html-minifier').minify
 
 const TEMP_FILE = '__w_temp.js'
 const SCRIPT_HEADER = 'w.register(function() {'
@@ -27,6 +29,10 @@ var scope = (id) => postcss.plugin('scope', function() {
 
 function transform(input, options) {
     var id = options.widgetId
+    input.template = minifyHTML(input.template, {
+      removeAttributeQuotes: true,
+      removeComments: true
+    })
     return transformScript(input).then(input => transformStyle(input, options.scopedStyle, id))
 }
 
@@ -35,7 +41,15 @@ function transformScript(input) {
     if (input.script.indexOf('w.register') === -1) {
         input.script = SCRIPT_HEADER + input.script + SCRIPT_TRAILER
     }
-    input.script && (input.script = babel.transform(input.script, {presets: [es2015, stage2]}).code)
+    if (input.script) {
+        input.script = 
+            UglifyJS.minify(
+                babel.transform(input.script, {
+                    presets: [es2015, stage2]
+                }).code, {
+                fromString: true
+            }).code
+    }
     fs.writeFileSync(TEMP_FILE, input.script)
     // TODO: remove temp.js
     return bundle(TEMP_FILE).then(bundle => {

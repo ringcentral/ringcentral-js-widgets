@@ -5,16 +5,22 @@ var dir = require('node-dir')
 const DIR_PATH = '/../template'
 const BUILD_FILE = 'build/widgets.js'
 
-function readFiles(cb) {
+function readFiles(cb, finishCb) {
     var p = path.resolve(__dirname) + DIR_PATH
+    var currentOperation
     dir.readFiles(p, {
         match: /.html$/,
     },
     function(err, content, filename, next) {
         if (err) throw err
-        cb(content, path.basename(filename).split('.')[0]).then(next())
+        currentOperation = cb(content, path.basename(filename).split('.')[0]).then(function() {
+            return next()
+        })
     },
     function(err, files) {
+        currentOperation.then(function() {
+            finishCb(files)
+        })
         if (err) throw err
     })
 }

@@ -10,6 +10,9 @@
 <script>
 w.register(function() {
     var enlarge = w.transition('enlarge')
+    this.props = {
+        items: []
+    }
     this.actions = {
         init: {
             after: function() {
@@ -45,6 +48,9 @@ w.register(function() {
                 return finish();
             },
             after: function(ids) {
+                if (this.props.items && this.props.items.length)
+                    return
+                this.props.items = ids
                 ids.forEach(id => this.addItem(id))
                 this.switchTitle(ids[0])
             }
