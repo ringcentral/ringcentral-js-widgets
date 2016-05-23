@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../build/styles/main.css">
+</head>
+<body>
+<script type="text/javascript" src="../bower_components/ringcentral/build/ringcentral-bundle.js"></script>
+<script type="text/javascript" src="../build/widgets.js"></script>
+<script type="text/javascript" src="../build/build.js"></script>
+
+
+<script>
+    function getURLParameter(name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search)||[,""])[1].replace(/\+/g, '%20'))||null;
+    }
+
+    var firstLevel = getURLParameter('first-level')
+    var width = getURLParameter('width')
+    var height = getURLParameter('height')
+    var origin = getURLParameter('origin')
+
+    var phone = w('rc-phone', {
+        data: {
+            firstLevel: firstLevel,
+            width: width,
+            height: height
+        }
+    })
+    phone.mount(document.body);
+    window.addEventListener('message', function(e) {
+        var data = e.data
+        if (data.type === 'phone') {
+            phone.props.dialPad.setNumber(data.value)
+        }
+    })
+    parent.postMessage({
+        type: 'init'
+    }, origin)
+</script>
+
+</body>
+</html>

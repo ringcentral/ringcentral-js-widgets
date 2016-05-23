@@ -1,9 +1,8 @@
 import { register as registerComponent } from './component'
-import { getServices } from './service'
-import { getActions } from './action'
 import { transitionIn, transitionOut, transitionInit, transitionToggle } from './transition'
 import { ensureTail } from './util/index'
 import { loadLocale, translate } from './translation'
+import { insert } from './insertion'
 // function fetchWidget(file) {
 //     return fetch(w.options.path + ensureTail(file, '.html'))
 //         .then(response => response.text())
@@ -25,22 +24,31 @@ import { loadLocale, translate } from './translation'
 //         }, []))
 // }
 
-function initNestedWidget(widget) {
-    var template = widget.props.template
-    var docs = template.querySelectorAll('*')
-    Array.from(docs).forEach(doc => {
-        if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
+function initNestedWidget(widget, template, options) {
+    if (template.__flat) return widget
+    // TODO: perf hit
+    var docs = widget.root.querySelectorAll('*')
+    var customElements = Array.from(docs)
+        .filter(doc => doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement)
+    if (customElements.length === 0) template.__flat = true
+    customElements
+        .forEach(doc => {
+            // FIXME: dynamic is not needed
             if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
                 return
             }
             var name = doc.tagName.toLowerCase()
-            var child = w(name, widget.custom[name])
-            child.mount(doc)
+            var child = w(name, Object.assign(widget.custom[name] || {}, options))
+            // child.mount(doc)
+            widget.children.push({
+                target: doc,
+                widget: child
+            })
+            widget.refs[name] = child
             var childName = doc.getAttribute('data-info')
             if (childName)
-                widget.props[childName] = child
-        }
-    })
+                widget.refs[name] = child
+        })
     return widget
 }
 
@@ -91,61 +99,53 @@ function initNestedWidget(widget) {
 
 const WIDGETS = __w_widgets
 function w(name, options = {}) {
-    var widget = WIDGETS[name]
-
-    // template
-    var template = document.createElement('template')
-    template.innerHTML = widget.template
-    var clone = document.importNode(template.content, true)
-    w.templates[name] = w.templates[name] || {}
-    w.templates[name].template = clone
-
-    widget.imports.scripts.forEach(src => {
-        var script = document.createElement('script')
-        script.src = src
-        document.body.appendChild(script)
-    })
-
-     widget.imports.scripts.forEach(src => {
-        var style = document.createElement('style')
-        style.src = src
-        document.head.appendChild(style)
-    })
-
-    // script
-    if (widget.script) {
-        var script = document.createElement('script')
-        script.text = widget.script
-        document.body.appendChild(script)
-        document.body.removeChild(script)
+    var widgetInfo = WIDGETS[name]
+    w.templates[name] = w.templates[name] || {
+        // indicate that the template is not including nested widget, perf improvement for skip parsing
+        __flat: false
     }
-    
-    // style
-    if (widget.style) {
-        var style = document.createElement('style')
-        style.innerHTML = widget.style
-        document.head.appendChild(style)
-    }
-    
-
+    w.templates[name].template = widgetInfo.template
+    insert(name, widgetInfo, options.shadowRoot)
     return initNestedWidget(new w.templates[name].widget({
-        template: w.templates[name].template.cloneNode(true),
+        is: name,
+        template: w.templates[name].template,
         actions: options.actions || {},
         data: options.data || {},
+        props: options.props || {},
         logLevel: w.options.logLevel,
         internal: true // for check it's called by internal
-    }))
+    }), w.templates[name], {
+        // inherited options
+        logLevel: options.logLevel,
+        shadowRoot: options.shadowRoot
+    })
 }
 
 
 w.templates = {}
 w.options = {}
 w.register = function(settings) {
-    var settings = new settings()
+    // var settings = new settings()
+    var draft = {}
+    draft.events = []
+    draft.on = function(event, target, callback, capture) {
+        if (typeof target === 'function') {
+            capture = callback
+            callback = target
+            target = null
+        }
+        draft.events.push({
+            event,
+            target,
+            callback,
+            capture
+        })
+    }
+    settings.call(draft)
     Object.keys(w.templates).forEach(index => {
         var template = w.templates[index]
         if (template.template && !template.widget)
-            template.widget = registerComponent(settings)
+            template.widget = registerComponent(draft)
     })
 }
 w.config = function(options, callback) {
@@ -165,10 +165,6 @@ w.customize = function(context, target, options) {
     // inherit parent's data
     options.data = Object.assign(context.data , options.data)
     context.custom[target] = options
-}
-w.service = getServices
-w.action = function(name) {
-    return Object.assign({}, getActions()[name])
 }
 w.transition = function(effect) {
     return {

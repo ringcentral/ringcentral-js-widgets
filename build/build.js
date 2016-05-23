@@ -9,1167 +9,6 @@ function __commonjs(fn, module) {
     return module = { exports: {} }, fn(module, module.exports, __commonjs_global), module.exports;
 }
 
-var sdk = new RingCentral.SDK({
-    appKey: '8mOtYiilT5OUPwwdeGgvpw',
-    appSecret: 'cqNn89RmR2SR76Kpp8xJaAdNzNOqR8Qfmjb0B-gDOHTw',
-    server: RingCentral.SDK.server.production
-});
-
-var services = {};
-function register(name, service) {
-    services[name] = service;
-}
-function getServices() {
-    return services;
-}
-
-var LoginService = function (sdk) {
-    var onLoginHandler = [];
-    return {
-        login: function login(username, extension, password) {
-            return sdk.platform().login({
-                'username': username,
-                'extension': extension,
-                'password': password
-            });
-        },
-        logout: function logout() {
-            return sdk.platform().logout();
-        },
-        checkLoginStatus: function checkLoginStatus() {
-            return sdk.platform().loggedIn().then(function (isLoggedIn) {
-                if (isLoggedIn) {
-                    onLoginHandler.forEach(function (handler) {
-                        return handler();
-                    });
-                }
-                return isLoggedIn;
-            });
-        }
-
-    };
-}(sdk);
-register('loginService', LoginService);
-
-var rcSubscription = function () {
-
-    var cacheKey = 'ringcentral-subscription';
-    var subscription = sdk.createCachedSubscription(cacheKey).restore();
-    var handlers = {};
-    subscription.on(subscription.events.notification, function (msg) {
-        console.log('update from pubnub');
-        for (var key in handlers) {
-            if (handlers.hasOwnProperty(key)) {
-                if (msg.event.indexOf(key) > -1) {
-                    handlers[key].forEach(function (h) {
-                        try {
-                            h(msg);
-                        } catch (e) {
-                            console.error('Error occurs when invoking subscription notification handler for "' + msg.event + '": ' + e);
-                        }
-                    });
-                }
-            }
-        }
-    });
-
-    return {
-        subscribe: function subscribe(suffix, event, handler) {
-            if (event && suffix) {
-                if (!handlers[suffix]) {
-                    handlers[suffix] = [];
-                }
-                handlers[suffix].push(handler);
-                subscription.addEventFilters(event).register();
-            }
-        }
-    };
-}();
-
-register('rcSubscription', rcSubscription);
-
-var CallLogService = function (sdk) {
-    var period = 7 * 24 * 3600 * 1000;
-    var dateFrom = new Date(Date.now() - period);
-    return {
-        getCallLogs: function getCallLogs() {
-            return sdk.platform().get('/account/~/extension/~/call-log', { dateFrom: dateFrom.toISOString() }).then(function (response) {
-                return response.json().records;
-            });
-        },
-        getCallLogsByNumber: function getCallLogsByNumber(phoneNumber, hourFrom, hourTo) {
-            return sdk.platform().get('/account/~/extension/~/call-log', {
-                dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
-                dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
-                phoneNumber: phoneNumber
-            }).then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                return data.records;
-            }).then(function (records) {
-                return records.reverse();
-            });
-        }
-    };
-}(sdk);
-
-register('callLogService', CallLogService);
-
-var webPhone = new RingCentral.WebPhone({
-    audioHelper: {}
-});
-
-var PhoneService = function () {
-    var line;
-    var handlers = {
-        called: [],
-        callStarted: [],
-        callRejected: [],
-        callEnded: [],
-        callFailed: []
-    };
-    return {
-        registerSIP: function registerSIP() {
-            return sdk.platform().post('/client-info/sip-provision', {
-                sipInfo: [{
-                    transport: 'WSS'
-                }]
-            }).then(function (res) {
-                return webPhone.register(res.json(), false).catch(function (e) {
-                    return Promise.reject(err);
-                });
-            });
-        },
-        callout: function callout(fromNumber, toNumber) {
-            // TODO: validate toNumber and fromNumber
-            if (!sdk || !webPhone) {
-                throw Error('Need to set up SDK and webPhone first.');
-                return;
-            }
-            return sdk.platform().get('/restapi/v1.0/account/~/extension/~').then(function (res) {
-                var info = res.json();
-                if (info && info.regionalSettings && info.regionalSettings.homeCountry) {
-                    return info.regionalSettings.homeCountry.id;
-                }
-                return null;
-            }).then(function (countryId) {
-                webPhone.call(toNumber, fromNumber, countryId);
-            });
-        },
-        answer: function answer() {
-            return webPhone.answer(line);
-        },
-        ignore: function ignore() {},
-        cancel: function cancel() {
-            return line.cancel();
-        },
-        hangup: function hangup() {
-            return webPhone.hangup(line);
-        },
-        on: function on(name, handler) {
-            handlers[name].push(handler);
-        },
-        listen: function listen() {
-            webPhone.ua.on('incomingCall', function (e) {
-                line = e;
-                handlers.called.forEach(function (h) {
-                    return h(e);
-                });
-            });
-            webPhone.ua.on('callStarted', function (e) {
-                handlers.callStarted.forEach(function (h) {
-                    return h(e);
-                });
-            });
-            webPhone.ua.on('callRejected', function (e) {
-                handlers.callRejected.forEach(function (h) {
-                    return h(e);
-                });
-            });
-            webPhone.ua.on('callEnded', function (e) {
-                handlers.callEnded.forEach(function (h) {
-                    return h(e);
-                });
-            });
-            webPhone.ua.on('callFailed', function (e) {
-                handlers.callFailed.forEach(function (h) {
-                    return h(e);
-                });
-            });
-        }
-    };
-}();
-register('phoneService', PhoneService);
-
-var rcContactService = function (sdk) {
-    var companyContacts = [];
-    var completeCompanyContacts = null;
-
-    var fetchingCompanyContacts = null;
-    var fetchingCompleteCompanyContacts = null;
-
-    function Contact() {
-        this.firstName = null;
-        this.lastName = null;
-        this.displayName = null;
-        this.extension = null;
-        this.email = null;
-        this.type = null;
-        this.id = null;
-        this.phoneNumber = [];
-    }
-
-    function createContact(extension) {
-        var contact = new Contact();
-        contact.extension = extension.extensionNumber;
-        contact.firstName = extension.contact.firstName;
-        contact.lastName = extension.contact.lastName;
-        contact.displayName = contact.firstName + ' ' + contact.lastName;
-        contact.email = extension.contact.email;
-        contact.type = 'rc';
-        contact.id = extension.id;
-        contact.profileImage = extension.profileImage.uri;
-        return contact;
-    }
-
-    function addToCompanyContact(response) {
-        var records = response.json().records.filter(function (extension) {
-            return extension.status === 'Enabled' && ['DigitalUser', 'User'].indexOf(extension.type) >= 0;
-        }).map(function (extension) {
-            return createContact(extension);
-        });
-        companyContacts.push.apply(companyContacts, records);
-    }
-
-    function fetchCompanyContactByPage(page) {
-        return sdk.platform().get('/account/~/extension/', { perPage: 250, page: page });
-    }
-
-    function fetchCompanyDirectNumbersByPage(page) {
-        return sdk.platform().get('/account/~/phone-number', { perPage: 250, page: page });
-    }
-
-    function fetchCompanyContacts() {
-        var page = 1;
-        fetchingCompanyContacts = fetchCompanyContactByPage(page).then(function (response) {
-            var respObj = response.json();
-            if (respObj.paging && respObj.paging.totalPages > page) {
-                var promises = [];
-                while (respObj.paging.totalPages > page) {
-                    page++;
-                    promises.push(fetchCompanyContactByPage(page));
-                }
-
-                return Promise.all(promises).then(function (responses) {
-                    responses.forEach(function (response) {
-                        addToCompanyContact(response);
-                    });
-                    fetchingCompanyContacts = null;
-                    return companyContacts;
-                });
-            } else {
-                addToCompanyContact(response);
-                return companyContacts;
-            }
-        }).catch(function (e) {
-            console.error(e);
-        });
-        return fetchingCompanyContacts;
-    }
-
-    function fetchCompanyDirectNumbers() {
-        var page = 1;
-        return fetchCompanyDirectNumbersByPage(page).then(function (response) {
-            var respObj = response.json();
-            if (respObj.paging && respObj.paging.totalPages > page) {
-                var promises = [];
-                while (respObj.paging.totalPages > page) {
-                    page++;
-                    promises.push(fetchCompanyDirectNumbersByPage(page));
-                }
-
-                return Promise.all(promises).then(function (responses) {
-                    var numbers = {};
-                    responses.forEach(function (response) {
-                        var resp = response.json();
-                        resp.records.forEach(function (el) {
-                            if (el.extension && el.extension.extensionNumber) {
-                                if (!numbers[el.extension.extensionNumber]) {
-                                    numbers[el.extension.extensionNumber] = [];
-                                }
-
-                                numbers[el.extension.extensionNumber].push(el);
-                            }
-                        });
-                    });
-                    companyContacts.forEach(function (contact) {
-                        var phones = numbers[contact.extension];
-                        if (phones) {
-                            phones.forEach(function (phone) {
-                                contact.phoneNumber.push(phone.phoneNumber);
-                            });
-                        }
-                    });
-                });
-            }
-        });
-    }
-
-    return {
-        companyContacts: companyContacts,
-        asyncGetCompanyContact: function asyncGetCompanyContact() {
-            if (fetchingCompanyContacts) {
-                return fetchingCompanyContacts;
-            } else {
-                return Promise.resolve(companyContacts);
-            }
-        },
-        syncCompanyContact: function syncCompanyContact() {
-            companyContacts.length = 0;
-            fetchCompanyContacts();
-            fetchCompanyDirectNumbers();
-        },
-        completeCompanyContact: function completeCompanyContact() {
-            if (completeCompanyContacts) return Promise.resolve(completeCompanyContacts);
-            if (fetchingCompleteCompanyContacts) return fetchingCompleteCompanyContacts;
-            fetchingCompleteCompanyContacts = fetchCompanyContacts().then(fetchCompanyDirectNumbers);
-            return fetchingCompleteCompanyContacts.then(function () {
-                completeCompanyContacts = companyContacts;
-                fetchingCompleteCompanyContacts = null;
-                return companyContacts;
-            });
-        }
-    };
-}(sdk);
-
-register('rcContactService', rcContactService);
-
-var contactSearchService = function () {
-    var searchProviders = [];
-    var queryCompletedHandlers = [];
-
-    function createResult(item) {
-        return {
-            name: item.name,
-            value: item.value,
-            type: item.type,
-            id: item.id
-        };
-    }
-    return {
-        query: function query(searchFunctions, filter) {
-            return Promise.all(searchFunctions).then(function (results) {
-                var searchResultsKeys = {};
-                var searchResults = [];
-                results.forEach(function (result) {
-                    result.forEach(function (item) {
-                        if (filter) {
-                            if (filter(item)) {
-                                var key = item.name + item.value;
-                                if (!searchResultsKeys[key]) {
-                                    var toAddItem = createResult(item);
-                                    searchResultsKeys[key] = toAddItem;
-                                    searchResults.push(toAddItem);
-                                }
-                            }
-                        } else {
-                            var key = item.name + item.value;
-                            if (!searchResultsKeys[key]) {
-                                var toAddItem = createResult(item);
-                                searchResultsKeys[key] = toAddItem;
-                                searchResults.push(toAddItem);
-                            }
-                        }
-                    });
-                });
-                return searchResults;
-            });
-        }
-    };
-}();
-register('contactSearchService', contactSearchService);
-
-var rcContactSearchProvider = function () {
-    return {
-        search: function search(text) {
-            var results = [];
-            if (text) {
-                text = text.toLowerCase();
-                rcContactService.companyContacts.map(function (contact) {
-                    if (contact.displayName && contact.displayName.toLowerCase().indexOf(text) >= 0) {
-                        results.push({
-                            name: contact.displayName,
-                            value: contact.extension,
-                            type: 'rc',
-                            id: contact.id
-                        });
-                        contact.phoneNumber.forEach(function (phone) {
-                            results.push({
-                                name: contact.displayName,
-                                value: phone,
-                                type: 'rc',
-                                id: contact.id
-                            });
-                        });
-                    } else {
-                        if (contact.extension && contact.extension.indexOf(text) >= 0) {
-                            results.push({
-                                name: contact.displayName,
-                                value: contact.extension,
-                                type: 'rc',
-                                id: contact.id
-                            });
-                        }
-
-                        contact.phoneNumber.forEach(function (phone) {
-                            if (phone.indexOf(text) >= 0) {
-                                results.push({
-                                    name: contact.displayName,
-                                    value: phone,
-                                    type: 'rc',
-                                    id: contact.id
-                                });
-                            }
-                        });
-                    }
-                });
-            }
-
-            return results;
-        },
-        searchAll: function searchAll() {
-            return rcContactService.completeCompanyContact().then(function (companyContacts) {
-                return companyContacts.map(function (contact) {
-                    return {
-                        name: contact.displayName,
-                        type: 'rc',
-                        id: contact.id
-                    };
-                });
-            }).catch(function (e) {
-                return console.error(e);
-            });
-        }
-    };
-}();
-
-register('rcContactSearchProvider', rcContactSearchProvider);
-
-var accountService = function (sdk) {
-    var info;
-    var numbers;
-    var fetchNumbers = null;
-
-    function getNumbersByType(numbers, type) {
-        if (!numbers) return Error('Need to fetch numbers first using accountService.getPhoneNumber');
-        return numbers.filter(function (number) {
-            return number.type === type;
-        });
-    }
-
-    function getNumbersByFeatures(numbers, features) {
-        if (!Array.isArray(features)) features = [features];
-        // if has duplicate features
-        return numbers.filter(function (number) {
-            return features.filter(function (f) {
-                return number.features.indexOf(f) > -1;
-            }).length > 0;
-        });
-    }
-
-    return {
-        getAccountInfo: function getAccountInfo() {
-            return sdk.platform().get('/account/~/extension/~').then(function (response) {
-                info = response.json();
-                return info;
-            }).catch(function (e) {
-                return console.error('Recent Calls Error: ' + e.message);
-            });
-        },
-
-        getPhoneNumber: function getPhoneNumber() {
-            fetchNumbers = sdk.platform().get('/account/~/extension/~/phone-number').then(function (response) {
-                var data = response.json();
-                numbers = data.records;
-                fetchNumbers = null;
-                return data.records;
-            }).catch(function (e) {
-                return console.error('Recent Calls Error: ' + e.message);
-            });
-            return fetchNumbers;
-        },
-
-        hasServiceFeature: function hasServiceFeature(name) {
-            if (!info) return Error('Need to fetch account info by accountService.getAccountInfo');
-            return info.serviceFeatures.filter(function (feature) {
-                return feature.featureName.toLowerCase() === name.toLowerCase();
-            }).length > 0;
-        },
-
-        listNumber: function listNumber(type) {
-            var features = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
-
-            if (fetchNumbers) {
-                return fetchNumbers.then(function () {
-                    return getNumbersByFeatures(getNumbersByType(numbers, type), features).map(function (number) {
-                        return number.phoneNumber;
-                    });
-                });
-            } else {
-                return getNumbersByFeatures(getNumbersByType(numbers, type), features).map(function (number) {
-                    return number.phoneNumber;
-                });
-            }
-        }
-    };
-}(sdk);
-
-register('accountService', accountService);
-
-var rcMessageService = function (sdk) {
-    var messages = {};
-    var fetchingPromise = null;
-    var syncToken = null;
-    var messageUpdateHandlers = [];
-
-    function fullSyncMessages(hour) {
-        return sdk.platform().get('/account/~/extension/~/message-sync', {
-            dateFrom: new Date(Date.now() - hour * 3600 * 1000).toISOString(),
-            syncType: 'FSync'
-        }).then(function (responses) {
-            var jsonResponse = responses.json();
-            syncToken = jsonResponse.syncInfo.syncToken;
-            var results = jsonResponse.records;
-            addMessageToList(results);
-            fetchingPromise = null;
-            return results;
-        });
-    }
-
-    function incrementalSyncMessages() {
-        if (syncToken) {
-            return sdk.platform().get('/account/~/extension/~/message-sync', {
-                syncType: 'ISync',
-                syncToken: syncToken
-            }).then(function (responses) {
-                var jsonResponse = responses.json();
-                var results = jsonResponse.records;
-                syncToken = jsonResponse.syncInfo.syncToken;
-                updateMessageList(results);
-                messageUpdateHandlers.forEach(function (h) {
-                    return h(results);
-                });
-            });
-        }
-    }
-
-    function concatMessages() {
-        var results = [];
-        for (var key in messages) {
-            if (messages.hasOwnProperty(key)) {
-                results = results.concat(messages[key]);
-            }
-        }
-        return results;
-    }
-
-    function addMessageToList(results) {
-        results.forEach(function (message) {
-            if (!messages[message.type]) {
-                messages[message.type] = [];
-            }
-            messages[message.type].push(message);
-        });
-    }
-
-    function updateMessageList(results) {
-        results.forEach(function (message) {
-            var messageList = messages[message.type];
-            if (!messageList) {
-                if (message.availability === 'Alive') {
-                    messages[message.type] = [];
-                    messages[message.type].splice(0, 0, message);
-                }
-            } else {
-                var index = 0;
-                for (; index < messageList.length; index++) {
-                    if (messageList[index].id === message.id) {
-                        if (message.availability === 'Alive') {
-                            messageList[index] = message;
-                        } else {
-                            messageList.splice(index, 1);
-                        }
-                        break;
-                    }
-                }
-                if (index === messageList.length) {
-                    if (message.availability === 'Alive') {
-                        messageList.splice(0, 0, message);
-                    }
-                }
-            }
-        });
-    }
-
-    return {
-        syncMessages: function syncMessages(hour) {
-            fetchingPromise = fullSyncMessages(hour);
-            return fetchingPromise;
-        },
-        getMessagesByType: function getMessagesByType(type) {
-            if (!fetchingPromise) {
-                if (messages[type]) {
-                    return messages[type];
-                } else {
-                    return [];
-                }
-            } else {
-                return fetchingPromise.then(function () {
-                    return messages[type];
-                });
-            }
-        },
-        getAllMessages: function getAllMessages() {
-            return !fetchingPromise ? concatMessages() : fetchingPromise.then(concatMessages);
-        },
-        subscribeToMessageUpdate: function subscribeToMessageUpdate() {
-            rcSubscription.subscribe('message-store', '/restapi/v1.0/account/~/extension/~/message-store', incrementalSyncMessages);
-        },
-        onMessageUpdated: function onMessageUpdated(handler) {
-            if (handler) {
-                messageUpdateHandlers.push(handler);
-            }
-        },
-        sendSMSMessage: function sendSMSMessage(text, fromNumber, toNumber) {
-            return sdk.platform().post('/account/~/extension/~/sms/', {
-                from: { phoneNumber: fromNumber },
-                to: [{ phoneNumber: toNumber }],
-                text: text
-            }).then(function (response) {
-                return response.json();
-            });
-        },
-        sendPagerMessage: function sendPagerMessage(text, fromNumber, toNumber) {
-            console.log(fromNumber);
-            return sdk.platform().post('/account/~/extension/~/company-pager/', {
-                from: { extensionNumber: fromNumber },
-                to: [{ extensionNumber: toNumber }],
-                text: text
-            }).then(function (response) {
-                return response.json();
-            });
-        },
-        getConversation: function getConversation(conversationId, hourFrom, hourTo) {
-            return sdk.platform().get('/account/~/extension/~/message-store', {
-                dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
-                dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
-                conversationId: conversationId
-            }).then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                return data.records;
-            }).then(function (records) {
-                return records.reverse();
-            });
-        },
-        getMessagesByNumber: function getMessagesByNumber(phoneNumber, hourFrom, hourTo) {
-            return sdk.platform().get('/account/~/extension/~/message-store', {
-                dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
-                dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
-                phoneNumber: phoneNumber
-            }).then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                return data.records;
-            }).then(function (records) {
-                return records.reverse();
-            });
-        }
-    };
-}(sdk);
-
-register('rcMessageService', rcMessageService);
-
-var conversationService = function (sdk) {
-    var cachedHour = 24 * 7;
-    function groupMessageToContact(msgs, contacts) {
-        var relatedContacts = contacts.filter(function (contact) {
-            var knownContactsIndex = [];
-            var contactNums = contact.phoneNumber.concat(contact.extension);
-            var contactMsgs = msgs.filter(function (msg, index) {
-                var msgNumber = msg.direction === 'Inbound' ? msg.from : msg.to;
-                var contain = contactNums.indexOf(msgNumber) > -1;
-                contact.msg = contact.msg || [];
-                var alreadyExist = contact.msg.find(function (contactMsg) {
-                    return contactMsg.id == msg.id;
-                });
-                if (contain && !alreadyExist) {
-
-                    contact.msg.push(msg);
-                    knownContactsIndex.push(index);
-                }
-                return contain;
-            });
-            knownContactsIndex.reverse().forEach(function (index) {
-                return msgs.splice(index, 1);
-            });
-            return contactMsgs.length > 0;
-        });
-        msgs.forEach(function (msg) {
-            var msgNumber = msg.direction === 'Inbound' ? msg.from : msg.to;
-            var contact = relatedContacts.filter(function (contact) {
-                return contact.id === msgNumber;
-            })[0];
-            if (contact) {
-                contact.msg.push(msg);
-            } else {
-                relatedContacts.push(fakeContact(msg));
-            }
-        });
-        return relatedContacts;
-    }
-
-    function groupContactToMessage(msgs, contacts) {
-        return msgs.map(function (msg) {
-            var unknownContact = true;
-            contacts.forEach(function (contact) {
-                var contactNums = contact.phoneNumber.concat(contact.extension);
-                var msgNumber = msg.direction === 'Inbound' ? msg.from : msg.to;
-                var contain = contactNums.indexOf(msgNumber) > -1;
-                if (contain) {
-                    msg.contact = contact;
-                    unknownContact = false;
-                }
-            });
-            // if (unknownContact) {
-            //     console.log(msg);
-            //     var fake = fakeContact(msg)
-            //     msg.contact = fake
-            //     contacts.push(fake)
-            // }
-            return msg;
-        });
-    }
-
-    function combineAdjacentMessage(contents) {
-        // group related SMS message
-        var savedContent;
-        var result = [];
-        for (var i = contents.length - 1; i > 0; --i) {
-            var content = contents[i];
-            // if (content.type !== 'SMS') {
-            //     if (savedContent) {
-            //         result.push(savedContent)
-            //         savedContent = null
-            //     }
-            //     result.push(content)
-            //     continue
-            // }
-            if (savedContent && savedContent.type === content.type && savedContent.contact.id === content.contact.id) {
-                savedContent.others.push(content);
-            } else {
-                savedContent && result.push(savedContent);
-                content.others = [];
-                savedContent = content;
-            }
-        }
-        savedContent && result.push(savedContent);
-        return result;
-    }
-
-    function combine() {
-        for (var _len = arguments.length, targets = Array(_len), _key = 0; _key < _len; _key++) {
-            targets[_key] = arguments[_key];
-        }
-
-        return targets.reduce(function (result, target) {
-            return result.concat(target);
-        }, []);
-    }
-
-    function sortTime(target) {
-        return target.slice().sort(function (a, b) {
-            return Date.parse(a.time) - Date.parse(b.time);
-        });
-    }
-    function containSameVal(array1, array2) {
-        return array1.filter(function (n) {
-            return array2.indexOf(n) != -1;
-        }).length > 0;
-    }
-    function uniqueArray(target) {
-        var seen = {};
-        return target.filter(function (item) {
-            return seen.hasOwnProperty(item) ? false : seen[item] = true;
-        });
-    }
-
-    function fakeContact(msg) {
-        var phoneNumber = msg.direction === 'Inbound' ? msg.from : msg.to;
-        return {
-            displayName: phoneNumber,
-            id: phoneNumber,
-            phoneNumber: [phoneNumber],
-            extension: null,
-            msg: [msg]
-        };
-    }
-
-    function adaptMessage(msg) {
-        return {
-            id: msg.id,
-            from: msg.from.extensionNumber || msg.from.phoneNumber,
-            to: msg.to.phoneNumber || msg.to.extensionNumber || msg.to[0].extensionNumber || msg.to[0].phoneNumber,
-            direction: msg.direction,
-            type: msg.type,
-            time: msg.creationTime || msg.startTime,
-            lastModifiedTime: msg.lastModifiedTime || msg.startTime,
-            subject: msg.recording || msg.subject || msg.action || msg.attachments[0],
-            status: {
-                sendConfirmed: false,
-                receiveConfirmed: false
-            }
-        };
-    }
-    function getMessagesByNumber(contact, offset) {
-        return Promise.all(contact.phoneNumber.map(function (number) {
-            return rcMessageService.getMessagesByNumber(
-            // FIXME
-            number, cachedHour + offset, cachedHour);
-        })).then(function (result) {
-            return combine.apply(undefined, _toConsumableArray(result));
-        });
-    }
-    function getCallLogsByNumber(contact, offset) {
-        return Promise.all(contact.phoneNumber.map(function (number) {
-            return CallLogService.getCallLogsByNumber(
-            // FIXME
-            number, cachedHour + offset, cachedHour);
-        })).then(function (result) {
-            return combine.apply(undefined, _toConsumableArray(result));
-        });
-    }
-    function uniqId(target) {
-        var seen = {};
-        return target.filter(function (item) {
-            return seen.hasOwnProperty(item.id) ? false : seen[item.id] = true;
-        });
-    }
-    function combineContent() {
-        for (var _len2 = arguments.length, sources = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-            sources[_key2] = arguments[_key2];
-        }
-
-        return sortTime(combine.apply(undefined, _toConsumableArray(sources.map(function (source) {
-            return source.map(adaptMessage);
-        }))));
-    }
-    return {
-        get cachedHour() {
-            return cachedHour;
-        },
-        syncContent: function syncContent(contacts) {
-            for (var _len3 = arguments.length, sources = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
-                sources[_key3 - 1] = arguments[_key3];
-            }
-
-            var contents = combineContent.apply(undefined, sources);
-            var relatedContacts = groupMessageToContact(contents.slice(), contacts);
-            contents = groupContactToMessage(contents, relatedContacts);
-            return contents;
-        },
-        organizeContent: function organizeContent(contacts) {
-            for (var _len4 = arguments.length, sources = Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
-                sources[_key4 - 1] = arguments[_key4];
-            }
-
-            var contents = combineContent.apply(undefined, sources);
-            var relatedContacts = groupMessageToContact(contents.slice(), contacts);
-            contents = groupContactToMessage(contents, relatedContacts);
-            contents = combineAdjacentMessage(contents);
-            return contents;
-        },
-        getConversations: function getConversations(contacts) {
-            for (var _len5 = arguments.length, sources = Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
-                sources[_key5 - 1] = arguments[_key5];
-            }
-
-            var contents = combineContent.apply(undefined, sources);
-            var relatedContacts = groupMessageToContact(contents, contacts).map(function (contact) {
-                contact.syncHour = cachedHour;
-                return contact;
-            }).map(function (contact) {
-                contact.phoneNumber = uniqueArray(contact.phoneNumber.concat(contact.extension));
-                return contact;
-            }).reduce(function (map, contact) {
-                map[contact.id] = contact;
-                return map;
-            }, {});
-            return relatedContacts;
-        },
-        loadContent: function loadContent(contact, offset) {
-            return Promise.all([getCallLogsByNumber(contact, offset), getMessagesByNumber(contact, offset)]).then(function (result) {
-                return combine.apply(undefined, _toConsumableArray(result));
-            }).then(function (msgs) {
-                return msgs.map(adaptMessage);
-            }).then(sortTime).then(function (msgs) {
-                cachedHour += offset;
-                return msgs;
-            });
-        },
-        onConversationUpdate: function onConversationUpdate(handler) {
-            rcMessageService.onMessageUpdated(function (msgs) {
-                try {
-                    var msgs = sortTime(msgs.map(adaptMessage));
-                    handler(msgs);
-                } catch (e) {
-                    console.error(e);
-                    throw e;
-                }
-            });
-        },
-        adaptMessage: adaptMessage
-    };
-}(sdk);
-
-register('conversationService', conversationService);
-
-var rcMessageProvider = function () {
-    var messageUpdatedHandlers = [];
-    var conversations = {};
-    var cachedHour = 0;
-
-    rcMessageService.onMessageUpdated(function (results) {
-        messageUpdatedHandlers.forEach(function (h) {
-            try {
-                h(results.slice());
-            } catch (e) {
-                console.error(e);
-            }
-        });
-    });
-
-    function createResult(message) {
-        return {
-            id: message.id,
-            time: message.lastModifiedTime,
-            readStatus: message.readStatus,
-            type: getType(message),
-            contact: getNumber(message.type, getDirection(message, 'Outbound')),
-            subject: message.subject || null,
-            convId: message.conversation ? message.conversation.id : null,
-            author: getNumber(message, getDirection(message, 'Inbound'))
-        };
-
-        function getDirection(message, dir) {
-            return message.direction === dir ? message.to[0] : message.from;
-        }
-
-        function getNumber(message, info) {
-            return message.type === 'Pager' ? info.extensionNumber : info.phoneNumber;
-        }
-
-        function getType(message) {
-            return message.type === 'Fax' || message.type === 'VoiceMail' ? 'Text' : message.type;
-        }
-    }
-
-    return {
-        getTextMessages: function getTextMessages() {
-            return Promise.resolve(rcMessageService.getMessagesByType('SMS')).then(function (messages) {
-                var results = [];
-                messages.forEach(function (message) {
-                    results.push(createResult(message));
-                });
-                return results;
-            });
-        },
-
-        getLastMessagesOfAllType: function getLastMessagesOfAllType() {
-            var results = [];
-            return this.getMessagesOfAllType().then(function (msgs) {
-                for (var key in msgs) {
-                    if (msgs.hasOwnProperty(key)) {
-                        if (key === 'anonymous') results = results.concat(msgs.anonymous[0]);else results.push(msgs[key][0]);
-                    }
-                }
-                return results;
-            });
-        },
-        // Return all messages of type 'VoiceMail' and 'Fax'. For SMS and Pager, only last message in a conversation
-        // will be returned.
-        getMessagesOfAllType: function getMessagesOfAllType() {
-            return Promise.resolve(rcMessageService.getAllMessages()).then(function (messages) {
-                var results = [];
-                var target = {};
-                messages.forEach(function (message) {
-                    var result = createResult(message);
-                    //Combine SMS/Pager messages in conversation
-                    if (message.conversation && message.conversation.id) {
-                        target[message.conversation.id] = target[message.conversation.id] || [];
-                        target[message.conversation.id].push(result);
-                        conversations[message.conversation.id] = conversations[message.conversation.id] || [];
-                        conversations[message.conversation.id].push(message);
-                    } else {
-                        target['anonymous'] = target['anonymous'] || [];
-                        target['anonymous'].push(result);
-                    }
-                });
-                return target;
-            });
-        },
-
-        getConversation: function getConversation(convId, hourFrom) {
-            if (conversations[convId] && (!hourFrom || hourFrom < cachedHour)) {
-                return Promise.resolve(conversations[convId].reverse());
-            } else {
-                return rcMessageService.getConversation(convId, hourFrom, cachedHour).then(function (result) {
-                    cachedHour = hourFrom;
-                    return result;
-                });
-            }
-        },
-
-        onMessageUpdated: function onMessageUpdated(handler) {
-            messageUpdatedHandlers.push(handler);
-        }
-    };
-}();
-register('rcMessageProvider', rcMessageProvider);
-
-var rcConferenceSerivce = function () {
-    var fetchingConferenceInfo = null;
-
-    function fetchConferenceInfo() {
-        fetchingConferenceInfo = sdk.platform().get('/account/~/extension/~/conferencing').then(function (responses) {
-            var jsonResponse = responses.json();
-            var conferenceInfo = {};
-            conferenceInfo.hostCode = jsonResponse.hostCode;
-            conferenceInfo.phoneNumber = jsonResponse.phoneNumber;
-            conferenceInfo.participantCode = jsonResponse.participantCode;
-            fetchingConferenceInfo = null;
-            return conferenceInfo;
-        });
-        return fetchingConferenceInfo;
-    }
-
-    return {
-        getConferenceInfo: function getConferenceInfo() {
-            if (fetchingConferenceInfo) {
-                return fetchingConferenceInfo;
-            } else {
-                return fetchConferenceInfo();
-            }
-        }
-    };
-}();
-
-register('rcConferenceSerivce', rcConferenceSerivce);
-
-function ContactDetailObject() {
-    this.id = null;
-    this.displayName = null;
-    this.extension = null;
-    this.type = null;
-    this.emails = [];
-    this.phoneNumbers = [];
-}
-
-function getRCContactForContactDetailWidget(contactId) {
-    for (var i = 0; i < rcContactService.companyContacts.length; i++) {
-        var contact = rcContactService.companyContacts[i];
-        if (contact.id === contactId) {
-            var result = new ContactDetailObject();
-            result.displayName = contact.displayName;
-            result.extension = contact.extension;
-            result.id = contact.id;
-            result.type = 'rc';
-            contact.phoneNumber.forEach(function (number) {
-                result.phoneNumbers.push(number);
-            });
-            result.emails.push(contact.email);
-            return result;
-        }
-    }
-}
-
-var contactDetailWidgetAdapter = function () {
-    var contactProviders = {};
-
-    contactProviders['rc'] = getRCContactForContactDetailWidget;
-
-    return {
-        getContact: function getContact(contactId, contactType) {
-            var provider = contactProviders[contactType];
-            if (provider) {
-                return Promise.resolve(provider(contactId)).then(function (result) {
-                    return result;
-                });
-            } else {
-                throw Error("No provider is associated with specified contactType '" + contactType + "'");
-            }
-        }
-    };
-}();
-register('contactDetailWidgetAdapter', contactDetailWidgetAdapter);
-
-var actions = {};
-function register$1(name, action) {
-    actions[name] = action;
-}
-function getActions() {
-    return actions;
-}
-
-var interaction = {
-    show: {
-        before: function before() {},
-        method: function method(finish) {},
-        after: function after() {
-            var target = arguments.length <= 0 || arguments[0] === undefined ? this.props.root : arguments[0];
-
-            target.classList.remove('display-none');
-        }
-    },
-    hide: {
-        before: function before() {},
-        method: function method(finish) {},
-        after: function after() {
-            var target = arguments.length <= 0 || arguments[0] === undefined ? this.props.root : arguments[0];
-
-            target.classList.add('display-none');
-        }
-    },
-    diabled: {
-        before: function before() {},
-        method: function method(finish) {},
-        after: function after() {
-            var target = arguments.length <= 0 || arguments[0] === undefined ? this.props.root : arguments[0];
-            var message = arguments[1];
-
-            var mask = document.createElement('div');
-            // FIXME Decouple from rc
-            mask.classList.add('rc-mask');
-            var message = document.createElement('h4');
-            message.classList.add('rc-mask-message');
-            message.textContent = message;
-            target.appendChild(mask);
-            this.props.mask = mask;
-            return mask;
-        }
-    },
-    enable: {
-        before: function before() {},
-        method: function method(finish) {},
-        after: function after() {
-            if (this.props.mask && this.props.mask instanceof HTMLElement) {
-                this.props.mask.parentNode.removeChild(this.props.mask);
-            }
-        }
-    }
-};
-register$1('interaction', interaction);
-
 function initLogger(level) {
     return {
         error: function error() {
@@ -1196,7 +35,7 @@ function initLogger(level) {
 }
 
 function isThenable(result) {
-    if (result.then && typeof result.then === 'function') return true;
+    if (result && result.then && typeof result.then === 'function') return true;
     return false;
 }
 
@@ -1204,215 +43,262 @@ function isFunction(fn) {
     return typeof fn === 'function';
 }
 
-function toFunction(fn, defalut) {
-    if (fn && isFunction(fn)) return fn;else if (defalut && isFunction(defalut)) return defalut;else return function () {};
-}
-
 function shallowCopy(target) {
     if (Array.isArray(target)) return target.slice(0);
     return Object.assign({}, target);
 }
 
-var logger;
+function find(array, prop, value) {
+    return array.find(function (item) {
+        return item[prop] === value;
+    });
+}
+
+function bind6Args(fn, ctx) {
+    return function (a, b, c, d, e, f) {
+        return fn.call(ctx, a, b, c, d, e, f);
+    };
+}
+
+var fragments = [];
+
+// Create a fragment with a custom tag as wrapper
+function createFragment(name, template) {
+    var frag;
+    if (frag = find(fragments, 'name', name)) return frag.fragment.cloneNode(true);
+
+    frag = document.createDocumentFragment();
+    var customTag = document.createElement(name);
+    var wrapper = document.createElement('div');
+    wrapper.innerHTML = template;
+
+    frag.appendChild(customTag);
+    customTag.appendChild([].concat(_toConsumableArray(wrapper.childNodes)).find(function (node) {
+        return node.nodeType === 1;
+    }));
+
+    fragments.push({
+        name: name,
+        fragment: frag.cloneNode(true)
+    });
+    return frag;
+}
+
+function generateDocument(widget, fragment) {
+    // FIXME: DOM based is slower then String based
+    var dom = {};
+    var getRefsToDOM = getRefsTo(dom);
+    // var assignEventToWidget = assignEventTo(widget)
+    Array.from(fragment.querySelectorAll('[data-info]')).forEach(getRefsToDOM);
+    // if (widget.click)
+    //     widget.root.addEventListener('click', widget.click.bind(widget))
+    // if (widget.scroll)
+    //     widget.root.addEventListener('scroll', widget.scroll.bind(widget))
+    // if (widget.input)
+    //     widget.root.addEventListener('input', widget.scroll.bind(widget))
+    // Array.from(fragment.querySelectorAll('[data-event]')).forEach(assignEventToWidget)
+    return dom;
+}
+
+function getRefsTo(target) {
+    return function (doc) {
+        var info = doc.getAttribute('data-info');
+        target[info] = doc;
+    };
+}
+
+function getDocumentRoot(name, fragment) {
+    return fragment.querySelector(name);
+}
+
+var lifecycle = {
+    init: function init() {},
+    destroy: function destroy() {
+        this.unmount();
+        // TODO: find out better way to destroy it
+        for (var property in this) {
+            this[property] = null;
+        }
+    },
+    unmount: function unmount() {
+        if (!this._mounted || !this.root || !this.root.parentNode) return;
+        this.root.parentNode.removeChild(this.root);
+        this._mounted = false;
+    },
+    mount: function mount(target, prepend) {
+        if (this._mounted) return;
+
+        typeof target === 'string' && (target = document.querySelector(target));
+
+        if (this.target) {
+            // Already mounted and unmounted before
+            if (prepend) target.insertBefore(this.root, target.firstChild);else target.appendChild(this.root);
+        } else {
+            // First time mount
+            this.children.forEach(function (child) {
+                return child.widget.mount(child.target);
+            });
+            // templates can only have one root
+            if (prepend) target.insertBefore(this.root, target.firstChild);else target.appendChild(this.root);
+            this._mounted = true;
+        }
+        return this;
+    },
+    error: function error() {}
+};
+
+var logger$1;
 var functionSet = {
     before: function before() {},
     method: function method() {},
     after: function after() {},
     error: function error(e) {
-        logger.error(e);
+        logger$1.error(e);
         throw e;
     }
 };
-function register$2() {
+function register() {
     var _ref = arguments.length <= 0 || arguments[0] === undefined ? settings : arguments[0];
 
     var actions = _ref.actions;
+    var events = _ref.events;
     var data = _ref.data;
+    var props = _ref.props;
 
-    if (!actions) console.warn('Widgets do not have actions defined, maybe you get some typo.');
-    ['init', 'mount', 'unmount', 'destroy', 'error'].forEach(function (action) {
+    if (!actions) console.warn('Widgets do not have actions defined, maybe you get some typo.');['init', 'mount', 'unmount', 'destroy', 'error'].forEach(function (action) {
         actions[action] = Object.assign(shallowCopy(functionSet), actions[action]);
     });
-    return widget.bind(null, { actions: actions, data: data });
+    var Clone = function Clone(options) {
+        Widget.call(this, {
+            actions: actions,
+            events: events,
+            data: shallowCopy(data),
+            props: shallowCopy(props)
+        }, options);
+    };
+    for (var prop in actions) {
+        if (actions.hasOwnProperty(prop)) Clone.prototype[prop] = generateActions(actions[prop]);
+    }
+    return Clone;
 }
 
-function widget(_ref2, options) {
+function Widget(_ref2, options) {
     var _this = this;
 
     var actions = _ref2.actions;
+    var events = _ref2.events;
     var _ref2$data = _ref2.data;
     var data = _ref2$data === undefined ? {} : _ref2$data;
+    var _ref2$props = _ref2.props;
+    var props = _ref2$props === undefined ? {} : _ref2$props;
 
-    if (!options.internal) {
+    if (!options || !options.internal) {
+        console.error('You are trying to construct a widget manually, please use w()');
         return Error('You are trying to construct a widget manually, please use w()');
     }
-    var defaultActions = shallowCopy(actions);
-    options.actions = shallowCopy(options.actions);
-    this.props = {};
+    logger$1 = initLogger(options.logLevel);
+    this._mounted = false;
+
+    this.refs = {};
+    this.props = props;
     this.custom = {};
+    this.children = [];
     this.data = Object.assign(data, options.data);
-    logger = initLogger(options.logLevel);
-    Object.keys(defaultActions).forEach(function (index) {
-        defaultActions[index] = bindScope(_this, defaultActions[index]);
-    });
-    Object.keys(options.actions).forEach(function (index) {
-        options.actions[index] = bindScope(_this, options.actions[index]);
-    });
-    Object.keys(defaultActions).forEach(function (index) {
-        _this[index] = generateActions(defaultActions[index], options.actions[index], index);
-    });
-    this.props.dom = generateDocument(this, options.template);
-    this.props.root = getDocumentRoot(options.template);
-    this.props.template = options.template;
-    this.mount = generateActions({
-        before: defaultActions.mount.before,
-        method: mount.bind(this, defaultActions.mount.method, this.props.template),
-        after: defaultActions.mount.after
-    }, options.actions.mount, 'mount');
-    this.unmount = generateActions({
-        before: defaultActions.unmount.before,
-        method: unmount.bind(this, defaultActions.unmount.method),
-        after: defaultActions.unmount.after
-    }, options.actions.unmount, 'unmount');
-    this.destroy = generateActions({
-        before: defaultActions.destroy.before,
-        method: destroy.bind(this, defaultActions.destroy.method),
-        after: defaultActions.destroy.after
-    }, options.actions.destroy, 'destroy');
-    this.init();
+    this.fragment = createFragment(options.is, options.template);
+    this.root = getDocumentRoot(options.is, this.fragment);
+    this.dom = undefined;
+    // var actions = shallowCopy(actions)
+    // options.actions = shallowCopy(options.actions)
 
-    function destroy(widgetdestroy, finish) {
-        this.unmount();
-        for (var property in this) {
-            this[property] = null;
-        }if (widgetdestroy && isFunction(widgetdestroy)) return widgetdestroy.call(this, finish);
+    // Object.keys(options.actions).forEach(index => bindToTarget(options.actions, index))
+    // Object.keys(actions).forEach(index => bindToTarget(actions, index))
+    for (var prop in options.actions) {
+        if (options.actions.hasOwnProperty(prop)) this[prop] = generateActions(actions[prop], options.actions[prop], prop);
     }
 
-    function unmount(widgetUnmount, finish) {
-        if (!this.target || !this.target.parentNode) return;
-        this.target.parentNode.removeChild(this.target);
-        if (widgetUnmount && isFunction(widgetUnmount)) return widgetUnmount.call(this, finish);
-    }
+    ['mount', 'unmount', 'destroy'].forEach(function (action) {
+        _this[action] = generateActions({
+            before: actions[action].before,
+            method: extendLifecycle(lifecycle[action].bind(_this), actions[action].method),
+            after: actions[action].after
+        }, options.actions[action], action);
+    });
 
-    function mount(widgetMount, template, finish, target, prepend) {
-        if (typeof target === 'string') {
-            target = document.querySelector(target);
-        } else {
-            logger.warn('first argument of mount method should be selector string');
-        }
-        if (this.target) {
-            if (prepend) target.insertBefore(this.target, target.firstChild);else target.appendChild(this.target);
-        } else {
-            // templates can only have one root
-            this.target = shallowCopy(Array.from(template.childNodes).filter(function (node) {
-                return node.nodeType === 1;
-            }))[0];
-            if (prepend) target.insertBefore(template, target.firstChild);else target.appendChild(template);
-        }
-        if (widgetMount && isFunction(widgetMount)) return widgetMount.call(this, finish);
-        return this;
-    }
+    this.dom = generateDocument(this, this.fragment);
+    // bind event
+    events.forEach(function (event) {
+        var target;
+        var capture = false;
+        if (event.event === 'scroll') capture = true;
+        if (!event.target) target = _this.root;else if (event.target === 'document') target = document;else target = _this.dom[event.target];
+        target.addEventListener(event.event, event.callback.bind(_this), capture || event.capture);
+    });
+    this.init.call(this);
 }
 
-function bindScope(scope, action) {
-    return {
-        before: toFunction(action.before).bind(scope),
-        method: toFunction(action.method).bind(scope),
-        after: toFunction(action.after).bind(scope),
-        error: toFunction(action.error, logger.error).bind(scope)
+function extendLifecycle(base, extend) {
+    return function (finish) {
+        for (var _len = arguments.length, args = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+            args[_key - 1] = arguments[_key];
+        }
+
+        base.apply(undefined, args);
+        if (extend && isFunction(extend)) return extend.call(this, finish);
     };
-}
-
-function generateDocument(widget, template) {
-    var dom = {};
-    Array.from(template.querySelectorAll('[data-info]')).forEach(function (doc) {
-        var info = doc.getAttribute('data-info');
-        dom[info] = doc;
-    });
-    Array.from(template.querySelectorAll('[data-event]')).forEach(function (doc) {
-        var events = doc.getAttribute('data-event');
-        events.split('|').forEach(function (event) {
-            var eventName;
-            var action;
-            event.split(':').forEach(function (token, index) {
-                if (index === 0) eventName = token;else if (index === 1) action = token;
-            });
-            if (!widget[action]) {
-                logger.warn('No such method:' + action + ' in ' + events + ', check data-event and widget methods definition.');
-                return;
-            }
-            doc.addEventListener(eventName, widget[action].bind(widget));
-        });
-    });
-    return dom;
-}
-
-function getDocumentRoot(template) {
-    // Assume the template only have one root
-    return template.querySelector('*');
 }
 
 function generateActions(widgetAction) {
     var userAction = arguments.length <= 1 || arguments[1] === undefined ? shallowCopy(functionSet) : arguments[1];
-    var name = arguments[2];
 
-    return function () {
-        for (var _len6 = arguments.length, args = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
-            args[_key6] = arguments[_key6];
-        }
+    return function (a, b, c, d, e, f) {
+        var _this2 = this;
 
-        var before = function before() {
-            var _ref3;
-
-            for (var _len7 = arguments.length, args = Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
-                args[_key7] = arguments[_key7];
-            }
-
-            logger.info('[' + name + '][before](' + (_ref3 = []).concat.apply(_ref3, args) + ')');
-            return wrapUserEvent.apply(undefined, [widgetAction.before, userAction.before].concat(args));
+        var before = function before(a, b, c, d, e, f) {
+            userAction.before && userAction.before.call(_this2, a, b, c, d, e, f);
+            var result = widgetAction.before ? widgetAction.before.call(_this2, a, b, c, d, e, f) : undefined;
+            // Something like Monad
+            if (typeof result !== 'undefined') return result;
+            return {
+                __custom: true,
+                data: [a, b, c, d, e, f].filter(function (item) {
+                    return typeof item !== 'undefined';
+                })
+            };
         };
         var method = function method(arg) {
-            logger.info('[' + name + '][before](' + (isFunction(arg) ? arg() : arg) + ')');
-            if (isFunction(arg)) return widgetAction.method.apply(widgetAction, [userAction.method].concat(_toConsumableArray(arg()))) || arg;
-            return widgetAction.method(userAction.method, arg) || arg;
+            var _widgetAction$method;
+
+            if (arg && arg.__custom) return widgetAction.method && (_widgetAction$method = widgetAction.method).call.apply(_widgetAction$method, [_this2, bind6Args(userAction.method, _this2)].concat(_toConsumableArray(arg.data))) || arg;else return widgetAction.method && widgetAction.method.call(_this2, bind6Args(userAction.method, _this2), arg) || arg;
         };
         var after = function after(arg) {
-            logger.info('[' + name + '][after](' + (isFunction(arg) ? arg() : arg) + ')');
-            if (isFunction(arg)) return wrapUserEvent.apply(undefined, [widgetAction.after, userAction.after].concat(_toConsumableArray(arg()))) || arg;
-            return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg;
+            if (arg && arg.__custom) {
+                var _userAction$after, _widgetAction$after;
+
+                arg = arg.data;
+                userAction.after && (_userAction$after = userAction.after).call.apply(_userAction$after, [_this2].concat(_toConsumableArray(arg)));
+                return widgetAction.after && (_widgetAction$after = widgetAction.after).call.apply(_widgetAction$after, [_this2].concat(_toConsumableArray(arg))) || arg;
+            } else {
+                userAction.after && userAction.after.call(_this2, arg);
+                return widgetAction.after && widgetAction.after.call(_this2, arg) || arg;
+            }
         };
         var error = function error(e) {
-            return wrapUserEvent(widgetAction.error, userAction.error, e);
+            widgetAction.error && widgetAction.error.call(_this2, e);
+            userAction.error && userAction.error.call(_this2, e);
         };
-        var finish = function finish(arg) {
-            if (isFunction(arg))
-                // flatten one level
-                return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0];
-            return arg;
-        };
-        try {
-            return nextAction(before.apply(undefined, _toConsumableArray(args)), [before, method, after, finish], error);
-        } catch (e) {
-            error(e);
-        }
+
+        return chainActions(before(a, b, c, d, e, f), [before, method, after], error);
     };
 }
 
-function wrapUserEvent(widget, user) {
-    for (var _len8 = arguments.length, args = Array(_len8 > 2 ? _len8 - 2 : 0), _key8 = 2; _key8 < _len8; _key8++) {
-        args[_key8 - 2] = arguments[_key8];
-    }
+// function wrapUserAction(widget, user, ...args) {
+//     var continueDefault = (user != null && user(...args))
+//     if (continueDefault || typeof continueDefault === 'undefined')
+//         return widget(...args) || (() => args)
+//     return [].concat(...args)
+// }
 
-    var _ref4;
-
-    var continueDefault = user != null && user.apply(undefined, args);
-    if (continueDefault || typeof continueDefault === 'undefined') return widget.apply(undefined, args) || function () {
-        return args;
-    };
-    return (_ref4 = []).concat.apply(_ref4, args);
-}
-
-function nextAction(result, actions, error) {
+function chainActions(result, actions, error) {
     var start = arguments.length <= 3 || arguments[3] === undefined ? 0 : arguments[3];
 
     if (start + 1 === actions.length) return result;
@@ -1422,7 +308,7 @@ function nextAction(result, actions, error) {
             return res;
         }, result).catch(error);
     } else {
-        return nextAction(actions[start + 1](result), actions, error, start + 1);
+        return chainActions(actions[start + 1](result), actions, error, start + 1);
     }
 }
 
@@ -1859,6 +745,52 @@ function translate(locale) {
     };
 }
 
+var importedScripts = [];
+var importedStyles = [];
+function insertScript(script, shadow) {
+    var tag = document.createElement('script');
+    tag.text = script;
+    if (shadow) shadow.appendChild(tag);else {
+        document.body.appendChild(tag);
+        document.body.removeChild(tag);
+    }
+}
+function insertStyle(style, shadow) {
+    var tag = document.createElement('style');
+    tag.innerHTML = style;
+    shadow ? shadow.appendChild(tag) : document.body.appendChild(tag);
+}
+function importStyle(src, shadow) {
+    var style = document.createElement('style');
+    style.src = src;
+    shadow ? shadow.appendChild(style) : document.body.appendChild(style);
+}
+function importScript(src, shadow) {
+    var script = document.createElement('script');
+    script.onload = function () {
+        console.log('script loaded:' + src);
+    };
+    script.src = src;
+    shadow ? shadow.appendChild(script) : document.body.appendChild(script);
+}
+
+function insert(name, input, shadow) {
+    input.imports.scripts.forEach(function (src) {
+        return importScript(src, shadow);
+    });
+    input.imports.styles.forEach(function (src) {
+        return importStyle(src, shadow);
+    });
+    if (input.script && importedScripts.indexOf(name) === -1) {
+        importedScripts.push(name);
+        insertScript(input.script, shadow);
+    }
+    if (input.style && importedStyles.indexOf(name) === -1) {
+        importedStyles.push(name);
+        insertStyle(input.style, shadow);
+    }
+}
+
 // function fetchWidget(file) {
 //     return fetch(w.options.path + ensureTail(file, '.html'))
 //         .then(response => response.text())
@@ -1880,20 +812,29 @@ function translate(locale) {
 //         }, []))
 // }
 
-function initNestedWidget(widget) {
-    var template = widget.props.template;
-    var docs = template.querySelectorAll('*');
-    Array.from(docs).forEach(function (doc) {
-        if (doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement) {
-            if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
-                return;
-            }
-            var name = doc.tagName.toLowerCase();
-            var child = w(name, widget.custom[name]);
-            child.mount(doc);
-            var childName = doc.getAttribute('data-info');
-            if (childName) widget.props[childName] = child;
+function initNestedWidget(widget, template, options) {
+    if (template.__flat) return widget;
+    // TODO: perf hit
+    var docs = widget.root.querySelectorAll('*');
+    var customElements = Array.from(docs).filter(function (doc) {
+        return doc.tagName.indexOf('-') > -1 || doc instanceof HTMLUnknownElement;
+    });
+    if (customElements.length === 0) template.__flat = true;
+    customElements.forEach(function (doc) {
+        // FIXME: dynamic is not needed
+        if (typeof doc.getAttribute('dynamic') !== 'undefine' && doc.getAttribute('dynamic') !== null) {
+            return;
         }
+        var name = doc.tagName.toLowerCase();
+        var child = w(name, Object.assign(widget.custom[name] || {}, options));
+        // child.mount(doc)
+        widget.children.push({
+            target: doc,
+            widget: child
+        });
+        widget.refs[name] = child;
+        var childName = doc.getAttribute('data-info');
+        if (childName) widget.refs[name] = child;
     });
     return widget;
 }
@@ -1947,58 +888,51 @@ var WIDGETS = __w_widgets;
 function w(name) {
     var options = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
 
-    var widget = WIDGETS[name];
-
-    // template
-    var template = document.createElement('template');
-    template.innerHTML = widget.template;
-    var clone = document.importNode(template.content, true);
-    w.templates[name] = w.templates[name] || {};
-    w.templates[name].template = clone;
-
-    widget.imports.scripts.forEach(function (src) {
-        var script = document.createElement('script');
-        script.src = src;
-        document.body.appendChild(script);
-    });
-
-    widget.imports.scripts.forEach(function (src) {
-        var style = document.createElement('style');
-        style.src = src;
-        document.head.appendChild(style);
-    });
-
-    // script
-    if (widget.script) {
-        var script = document.createElement('script');
-        script.text = widget.script;
-        document.body.appendChild(script);
-        document.body.removeChild(script);
-    }
-
-    // style
-    if (widget.style) {
-        var style = document.createElement('style');
-        style.innerHTML = widget.style;
-        document.head.appendChild(style);
-    }
-
+    var widgetInfo = WIDGETS[name];
+    w.templates[name] = w.templates[name] || {
+        // indicate that the template is not including nested widget, perf improvement for skip parsing
+        __flat: false
+    };
+    w.templates[name].template = widgetInfo.template;
+    insert(name, widgetInfo, options.shadowRoot);
     return initNestedWidget(new w.templates[name].widget({
-        template: w.templates[name].template.cloneNode(true),
+        is: name,
+        template: w.templates[name].template,
         actions: options.actions || {},
         data: options.data || {},
+        props: options.props || {},
         logLevel: w.options.logLevel,
         internal: true // for check it's called by internal
-    }));
+    }), w.templates[name], {
+        // inherited options
+        logLevel: options.logLevel,
+        shadowRoot: options.shadowRoot
+    });
 }
 
 w.templates = {};
 w.options = {};
 w.register = function (settings) {
-    var settings = new settings();
+    // var settings = new settings()
+    var draft = {};
+    draft.events = [];
+    draft.on = function (event, target, callback, capture) {
+        if (typeof target === 'function') {
+            capture = callback;
+            callback = target;
+            target = null;
+        }
+        draft.events.push({
+            event: event,
+            target: target,
+            callback: callback,
+            capture: capture
+        });
+    };
+    settings.call(draft);
     Object.keys(w.templates).forEach(function (index) {
         var template = w.templates[index];
-        if (template.template && !template.widget) template.widget = register$2(settings);
+        if (template.template && !template.widget) template.widget = register(draft);
     });
 };
 w.config = function (options, callback) {
@@ -2015,10 +949,6 @@ w.customize = function (context, target, options) {
     // inherit parent's data
     options.data = Object.assign(context.data, options.data);
     context.custom[target] = options;
-};
-w.service = getServices;
-w.action = function (name) {
-    return Object.assign({}, getActions()[name]);
 };
 w.transition = function (effect) {
     return {
@@ -2040,7 +970,7 @@ w.locale = loadLocale;
 w.translate = translate;
 w.t = translate;
 
-// development only
+// TODO: make it compatible with Commonjs, AMD, UMD
 window.w = w;
 // export default w;
 //# sourceMappingURL=build.js.map

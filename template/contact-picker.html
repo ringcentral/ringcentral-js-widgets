@@ -9,14 +9,30 @@
     </div>
 </div>
 <script>
+import Leopard from 'leopard.js'
 w.register(function() {
     var enlarge = w.transition('enlarge')
+    this.props = {
+        limit: 10,
+        show: false,
+        whiteList: null,
+        contacts: []
+    }
     this.actions = {
         init:{
             method: function(finish) {
-                this.props.limit = 10;
-                this.props.show = false;
-                return finish();
+                this.data.whiteList && (this.props.whiteList = this.data.whiteList.slice())
+                document.addEventListener('click', e => {
+                    var currentNode = e.target
+                    while(currentNode.parentNode) {
+                        if (currentNode === this.root ||
+                            (this.props.whiteList && this.props.whiteList.indexOf(currentNode) > -1))
+                            return
+                        currentNode = currentNode.parentNode
+                    }
+                    this.hide()
+                })
+                return finish()
             }
         },
         mount: {
@@ -24,18 +40,10 @@ w.register(function() {
                 finish();
             },
             after: function() {
-                enlarge.init(this.props.dom.contacts)
-                document.addEventListener('click', e => {
-                    var currentNode = e.target
-                    while(currentNode.parentNode) {
-                        currentNode = currentNode.parentNode
-                        if (currentNode.isEqualNode(this.props.root))
-                            return
-                    }
-                    this.hide()
-                })
+                enlarge.init(this.dom.contacts)
+                
                 if (this.data.contact)
-                    this.props.dom.input.value = this.data.contact
+                    this.dom.input.value = this.data.contact
             }
         },
         hide: {
@@ -44,94 +52,158 @@ w.register(function() {
                     // delay the hidden process, make options clickable, then hide the panel
                     setTimeout(() => {
                         this.props.show = false;
-                        enlarge.out(this.props.dom.contacts)
+                        enlarge.out(this.dom.contacts)
                     }, 50)
                 }
             }
         },
         show: {
             after: function() {
-                // if (this.showingTimeout) 
-                //     return;
-                // this.showingTimeout = window.setTimeout(() => {
-                //     if (this.props.dom.input === document.activeElement) 
-                //         enlarge.in(this.props.dom.contacts)
-                // }, 300);
                 if (!this.props.show) {
                     this.props.show = true;
-                    enlarge.in(this.props.dom.contacts)
+                    enlarge.in(this.dom.contacts)
                 }
             }
         },
         getInput: {
             method: function() {
-                return this.props.dom.input.value;
+                return this.dom.input.value;
             }
         },
         appendInput: {
             before: function(value) {
-                this.props.dom.input.value += value;
-                this.props.dom.input.focus();
+                this.dom.input.value += value;
+                this.dom.input.focus();
             }
         },
         setInput: {
             before: function(value) {
-                this.props.dom.input.value = value;
-                this.props.dom.input.focus();
+                this.dom.input.value = value;
+                this.dom.input.focus();
             }
         },
         disable: {
             method: function() {
-                this.props.dom.input.readOnly = true
+                this.dom.input.readOnly = true
             }
         },
         focus: {
             method: function() {
-                this.props.dom.input.focus();
+                this.dom.input.focus();
             }
         },
         autoComplete: {
+            before: function() {
+                Leopard.stop()
+            },
             method: function(finish) {
-                this.props.inputValue = this.props.dom.input.value;
-                return finish();
+                this.props.inputValue = this.dom.input.value;
+                return finish()
             },
             after: function(contacts) {
-                if (!contacts)
-                    return;
-                while (this.props.dom.contacts.firstChild)
-                    this.props.dom.contacts.removeChild(this.props.dom.contacts.firstChild);
-                if (contacts.length > 0)
-                    this.show();
-                else
-                    this.hide();
-                var count = 0;
-                var parent = this;
-                contacts.every(contact => {
-                    if(count < this.props.limit){
+                Leopard.stop()
+                if (!contacts) return
+                while (this.dom.contacts.firstChild)
+                    this.dom.contacts.removeChild(this.dom.contacts.firstChild);
+                if (contacts.length > 0) this.show()
+                else this.hide()
+                this.props.contacts.length = 0
+                var parent = this
+                var count = this.props.limit
+                Leopard.start({
+                    autoStop: true,
+                    strategy: 'batch',
+                    limit: 1000
+                })
+                contacts.forEach(contact => {
+                    Leopard.put(1, () => {
                         var widget = w('contact-picker-item', {
                             actions: {
                                 init: {
-                                    method:function(){
+                                    method: function() {
                                         return contact;
                                     }
                                 },
                                 select: {
-                                    method:function(){
+                                    method: function() {
                                         parent.setInput(this.props.contact.value);
                                         parent.hide();
                                     }
+                                },
+                                hover: {
+                                    before: function(bool) {
+                                        // avoid circular calling
+                                        if (!bool)
+                                            return
+                                        parent.props.contacts.forEach(contact => {
+                                            if (contact.props.focused) contact.focus(false)
+                                            if (contact.props.hovered) contact.hover(false)
+                                        })
+                                    }
+                                },
+                                focus: {
+                                    before: function(bool) {
+                                        // avoid circular calling
+                                        if (!bool)
+                                            return
+                                        parent.props.contacts.forEach(contact => {
+                                            if (contact.props.focused) contact.focus(false)
+                                            if (contact.props.hovered) contact.hover(false)
+                                        })
+                                    }
                                 }
                             }
-                        });
-                        widget.mount(this.props.dom.contacts);    
-                        count++;
-                        return true;
-                    }else{
-                        return false;
-                    }
+                        })
+                        widget.mount(this.dom.contacts)
+                        this.props.contacts.push(widget)
+                    })
                 })
             }
         }
     }
+    this.on('input', 'input', function(e) {
+        if (this.dom.input.value === '')
+            this.hide()
+        else
+            this.autoComplete()
+    })
+    this.on('keydown', 'input', function(e) {
+        if (e.keyCode === 38) { // up
+            e.preventDefault()
+            var index = this.props.contacts.findIndex(contact => contact.props.hovered)
+            if (index === -1) 
+                index = this.props.contacts.findIndex(contact => contact.props.focused)
+            if (index === -1)
+                index = 0
+            var hoverObj = this.props.contacts[index]
+            if (index === 0)
+                index = this.props.contacts.length
+            this.props.contacts[index - 1].focus(true)
+        } else if (e.keyCode === 40) { // down
+            e.preventDefault()
+            var index = this.props.contacts.findIndex(contact => contact.props.hovered)
+            if (index === -1) 
+                index = this.props.contacts.findIndex(contact => contact.props.focused)
+            if (index === -1)
+                index = 0
+            var hoverObj = this.props.contacts[index]
+            if (index === this.props.contacts.length - 1)
+                index = -1
+            this.props.contacts[index + 1].focus(true)
+        } else if (e.keyCode === 13) { // enter
+            e.preventDefault()
+            var index = this.props.contacts.findIndex(contact => contact.props.hovered)
+            if (index === -1) 
+                index = this.props.contacts.findIndex(contact => contact.props.focused)
+            if (index === -1)
+                index = 0
+            var hoverObj = this.props.contacts[index]
+            this.setInput(hoverObj.props.contact.value);
+            this.hide();
+        }
+
+    })
 })
+
+//# sourceURL=contact-picker.html
 </script>

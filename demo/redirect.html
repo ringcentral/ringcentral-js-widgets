@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body>
+Login successfully, closing the page...
+<script>
+    window.opener && window.opener.postMessage({
+        type: 'oauth',
+        value: document.URL
+    }, document.domain)
+    setTimeout(function() {
+        window.close()
+    }, 1000)
+</script>
+</body>
+</html>

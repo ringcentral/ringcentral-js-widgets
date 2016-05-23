@@ -10,6 +10,7 @@ var plumber = require('gulp-plumber')
 var print = require('gulp-print')
 var nodeResolve = require('rollup-plugin-node-resolve')
 var commonjs    = require('rollup-plugin-commonjs')
+var json = require('rollup-plugin-json')
 
 var postcss = require('gulp-postcss')
 
@@ -19,6 +20,11 @@ gulp.task('compile', () => {
     styles()
     return compile()
 })
+gulp.task('factory', () => {
+    watch(['./factory/**/**', './services/**'], factory)
+    return factory()
+})
+
 
 function compile() {
     return gulp.src('./src/scripts/index.js')
@@ -36,7 +42,8 @@ function compile() {
             plugins: [
                 nodeResolve({jsnext: true, main: true, browser: true}),
                 commonjs()
-            ]
+            ],
+
         }))
         .pipe(babel())
         .on('error', util.log)
@@ -63,6 +70,37 @@ function styles() {
         gulp.dest('./build/styles')
     )
 }
+function factory() {
+    return gulp.src('./factory/index.js')
+        .pipe(print(function(filepath) {
+            return 'built: ' + filepath
+        }))
+        .pipe(plumber({
+            errorHandler: function(err) {
+                console.log(err.message)
+                this.emit('end')
+            }
+        }))
+        .pipe(babel())
+        .pipe(rollup({
+            sourceMap: true,
+            plugins: [
+                nodeResolve({
+                  jsnext: true, 
+                  main: true, 
+                  browser: true, 
+                  preferBuiltins: false,
+                }),
+                commonjs(),
+                json()
+            ],
+            format: 'cjs'
+        }))
+        .on('error', util.log)
+        .pipe(rename('factory.js'))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('./build'))
+}
 
 gulp.task('lint', function() {
     return gulp.src('src/scripts/**/**')
@@ -79,3 +117,4 @@ gulp.task('css', function() {
     )
 })
 gulp.task('default', ['compile'])
+gulp.task('fac', ['factory'])

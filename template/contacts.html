@@ -6,12 +6,11 @@
                     class='__input' 
                     type='text' 
                     data-info='searchText' 
-                    data-event='input:search|focus:focus'
                 >
             </div>
         </div>
         <div class='rc-panel__content' data-info='container'>
-            <div class='rc-contacts__list' data-event='scroll:scroll'>
+            <div class='rc-contacts__list'>
                 <div data-info='pin-contacts' class='rc-contacts__pins'>
                 </div>
                 <div data-info='contacts'>
@@ -43,7 +42,7 @@ w.register(function() {
         loadingContacts: 30,
         searchBox: true
     }
-    this.actions= {
+    this.actions = {
         init: {
             before: function() {
                 this.props.selectedContact = null;
@@ -52,12 +51,7 @@ w.register(function() {
             },
             after: function() {
                 if (typeof this.data.searchBox !== 'undefined' && !this.data.searchBox)
-                    this.props.dom['header'].classList.add('display-none')
-            }
-        },
-        mount: {
-            after: function() {
-                this.fetchContacts();
+                    this.dom['header'].classList.add('display-none')
             }
         },
         fetchContacts: {
@@ -80,7 +74,7 @@ w.register(function() {
             method: function(finish, beginIndex) {
                 this.props.contactItemWidgets
                     .slice(beginIndex, beginIndex + this.data.loadingContacts)
-                    .forEach(contactWidget => contactWidget.mount(this.props.dom.contacts))
+                    .forEach(contactWidget => contactWidget.mount(this.dom.contacts))
                 this.props.currentIndex = beginIndex + this.data.loadingContacts
                 return finish()
             },
@@ -108,7 +102,7 @@ w.register(function() {
                                                 // console.log(widget.props.contact.id + ',' + id);
                                                 var contact = widget.props.contact.id == id
                                                 if (contact) {
-                                                    widget.mount(this.props.dom['pin-contacts'])
+                                                    widget.mount(this.dom['pin-contacts'])
                                                 }
                                                 return contact
                                             })
@@ -118,23 +112,23 @@ w.register(function() {
                     var unknownContact = this.props.relateContacts[id]
                     // for contect-item model
                     unknownContact.name = unknownContact.displayName
-                    createContactWidget(this, unknownContact).mount(this.props.dom['pin-contacts'])
+                    createContactWidget(this, unknownContact).mount(this.dom['pin-contacts'])
                 })
                 // this.props.contactItemWidgets
                 //     .filter(widget =>
                 //         Object.keys(this.props.relateContacts).indexOf(widget.props.contact.id + '') > -1
                 //     )
-                //     .forEach(relatedWidget => relatedWidget.mount(this.props.dom['pin-contacts']))
+                //     .forEach(relatedWidget => relatedWidget.mount(this.dom['pin-contacts']))
             }
         },
         search: {
             method: function() {
-                var searchText = this.props.dom.searchText.value;
+                var searchText = this.dom.searchText.value;
                 this.props.contactItemWidgets.forEach(contactWidget => {
                     if(contactWidget.props.contact.name
                         .toLowerCase()
                         .indexOf(searchText.toLowerCase()) > -1) {
-                        contactWidget.mount(this.props.dom.contacts);
+                        contactWidget.mount(this.dom.contacts);
                     } else {
                         contactWidget.unmount();
                     }
@@ -147,10 +141,10 @@ w.register(function() {
                 return finish();
             }
         },
-        scroll: {
+        input: {
             method: function(finish, event) {
-                if (event.target.scrollHeight - event.target.scrollTop < event.target.offsetHeight + 10)
-                    this.reachBottom()
+                if (event.target === 'searchText')
+                    this.search()
             }
         },
         reachBottom: {
@@ -160,10 +154,10 @@ w.register(function() {
             },
             after: function() {
                 // maintain the scoll position
-                var scrollBottom = this.props.dom.contacts.offsetHeight
+                var scrollBottom = this.dom.contacts.offsetHeight
                 this.displayContacts(this.props.currentIndex)
-                this.props.dom.container.scrollTop = 
-                this.props.dom.contacts.offsetHeight - scrollBottom
+                this.dom.container.scrollTop = 
+                this.dom.contacts.offsetHeight - scrollBottom
             }
         },
         focus: {
@@ -175,6 +169,16 @@ w.register(function() {
             }
         }
     }
+    this.on('click', 'searchText', function(e) {
+        this.focus()
+    })
+    this.on('scroll', 'container', function(e) {
+        if (e.target.scrollHeight - e.target.scrollTop < e.target.offsetHeight + 10)
+            this.reachBottom()
+    })
+    this.on('input', 'searchText', function(e) {
+        this.search()
+    })
 });
 //# sourceURL=contacts.html
 </script>

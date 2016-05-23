@@ -1,4 +1,4 @@
-function transitionIn(effect, target, options = {}) {
+export function transitionIn(effect, target, options = {}) {
     options && options.before && options.before()
     target.classList.add(effect)
     target.classList.add(`${effect}-in`)
@@ -10,7 +10,7 @@ function transitionIn(effect, target, options = {}) {
     }
     target.addEventListener('transitionend', after)
 }
-function transitionOut(effect, target, options = {}) {
+export function transitionOut(effect, target, options = {}) {
     options && options.before && options.before()
     target.classList.add(effect)
     target.classList.remove(`${effect}-in`)
@@ -21,7 +21,7 @@ function transitionOut(effect, target, options = {}) {
     }
     target.addEventListener('transitionend', after)
 }
-function transitionInit(effect, target, options = {}) {
+export function transitionInit(effect, target, options = {}) {
     options && options.before && options.before()
     target.classList.add(`${effect}-in`)
     // window.setTimeout(() => target.classList.add(effect), 17)
@@ -31,15 +31,9 @@ function transitionInit(effect, target, options = {}) {
     }
     target.addEventListener('transitionend', after)
 }
-function transitionToggle(effect, target, options = {}) {
+export function transitionToggle(effect, target, options = {}) {
     if (target.classList.contains(`${effect}-out`) || target.classList.contains(`${effect}-in`))
         transitionIn(effect, target, options)
     else
         transitionOut(effect, target, options)
-}
-export {
-    transitionIn,
-    transitionOut,
-    transitionToggle,
-    transitionInit
 }

@@ -1,23 +1,24 @@
 <template>
     <div class='rc-panel rc-conversation'>
         <div class='rc-panel__header --colored'>
-            <span class='rc-conversation__close icon-uni3E' data-event='click:back'></span>
-            <div class='rc-conversation__header'>
-                <div class='rc-conversation__avatar-wrapper'>
-                    <img class='rc-conversation__avatar' data-info='profile-img' src="">
+            <span 
+                class='close icon-uni3E' 
+                data-info='back'></span>
+            <div class='header'>
+                <div class='avatar-wrapper'>
+                    <img class='avatar' data-info='profile-img' src="">
                 </div>
-                <div class='rc-conversation__header-title' data-info='header'></div>
+                <div class='header-title' data-info='header'></div>
             </div>
         </div>
-        <div    class='rc-panel__content rc-conversation__container' 
+        <div    class='rc-panel__content container' 
                 data-info='panel'>
-            <div class='rc-conversation__bar'>
-                <div class='rc-conversation__hint' data-info='to-number'>to</div>
-                <div class='rc-conversation__hint' data-info='from-number'>from</div>
+            <div class='bar'>
+                <div class='hint' data-info='to-number'>to</div>
+                <div class='hint' data-info='from-number'>from</div>
             </div>
-            <div    class='rc-conversation__content'
-                    data-info='container'
-                    data-event='scroll:scroll'>
+            <div    class='content'
+                    data-info='container'>
                 <div    class='conversations__loading display-none'
                         data-info='loading'>
                     loading...
@@ -26,25 +27,22 @@
                         data-info='conversations'>
                 </div>
             </div>
-            <div class='rc-conversation__textarea-wrapper'>
+            <div class='textarea-wrapper'>
                 <textarea 
                 data-info='input'
-                data-event='keydown:enter'
                 placeholder='messages...'
                 ></textarea>
                 <button 
-                    class='rc-button --circle --positive rc-conversation__callout'
-                    data-info='callout'
-                    data-event='click:togglePhoneModal'
-                >
+                    class='rc-button --circle --positive callout'
+                    data-info='callout'>
+                    <span class='icon-ActionButtons_Filters'></span>
                 </button>
             </div>
         </div>
-        <div    class='rc-conversation__mask display-none'
-                data-info='phone-mask'
-                data-event='click:togglePhoneModal'>
+        <div    class='mask display-none'
+                data-info='phone-mask'>
             <div 
-                class='rc-conversation__modal'
+                class='modal'
                 data-info='phone-modal'>
                 <h2>
                     <span class='voice-bubble__play icon-uniAE'></span>
@@ -61,470 +59,721 @@
 </template>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.3.0/js/md5.min.js'></script>
 <script>
-w.register(function() {
-    var fade = w.transition('fade')
-    this.actions = {
-        init: {
-            method: function() {
-               
-            },
-            after: function() {
-                this.props.syncedMessages = []
-                this.props.toNumbers = []
-                this.props.toNumber = this.data.toNumber
-                this.props.fromNumber = this.data.fromNumber
-                this.props.fromNumbers = this.data.fromNumbers || []
+var fade = w.transition('fade')
+this.props = {
+    syncedMessages: [],
+    toNumbers: [],
+    toNumber: null,
+    fromNumbers: [],
+    fromNumber: null,
+    width: 250,
+    height: 400,
+    profileImage: null,
+    remoteVideo: null,
+    localVideo: null
+}
+this.actions = {
+    init: {
+        method: function() {
 
-                var conversation = this
-                w.customize(this, 'dropdown', {
-                    data: {},
-                    actions: {
-                        mount: {
-                            after: function() {
-                                // this.getData()
-                            }
+        },
+        after: function() {
+            this.props.syncedMessages = []
+            this.props.toNumbers = []
+            this.data.toNumber && (this.props.toNumber = this.data.toNumber)
+            this.data.fromNumber && (this.props.fromNumber = this.data.fromNumber)
+            this.data.fromNumbers && (this.props.fromNumbers = this.data.fromNumbers)
+            this.data.width && (this.props.width = this.data.width)
+            this.data.height && (this.props.height = this.data.height)
+            this.data.remoteVideo && (this.props.remoteVideo = this.data.remoteVideo)
+            this.data.localVideo && (this.props.localVideo = this.data.localVideo)
+            
+            
+            this.root.firstChild.style.width = this.props.width + 'px'
+            this.root.firstChild.style.height = this.props.height + 'px'
+
+            var conversation = this
+            w.customize(this, 'dropdown', {
+                data: {},
+                actions: {
+                    mount: {
+                        after: function() {
+                            // this.getData()
+                        }
+                    },
+                    getData: {
+                        method: function() {
+                            return conversation.getOutboundCallerID()
                         },
-                        getData: {
-                            method: function() {
-                                return conversation.getOutboundCallerID()
-                            },
-                            after: function(ids) {
-                                ids.forEach(id => this.addItem(id));
-                            }
+                        after: function(ids) {
+                            ids.forEach(id => this.addItem(id));
                         }
                     }
-                })
-            }
-        },
-        mount: {
-            method: function(finish) {
-                var currentContact = this.props.contact = this.data.contact
-                console.log(currentContact)
-                // set default outbound caller id as first phone number
-                this.props.toExtension = currentContact.extension
-                this.data.fromNumber && this.setSender(this.data.fromNumber)
-                this.setReceiver(this.data.toNumber || currentContact.phoneNumber[0])
-                this.setReceiverCandidates(currentContact.phoneNumber)
-                currentContact.msg && this.appendMessages(currentContact.msg)
-                this.scrollToAnchor()
-                    
-                this.setTitle(currentContact.displayName)
-
-                // Fake contact
-                if (!currentContact.profileImage) {
-                    var hash = md5(currentContact.id)
-                    this.props.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
-                    return
                 }
+            })
+        }
+    },
+    mount: {
+        method: function(finish) {
+            var currentContact = this.props.contact = this.data.contact
+            console.log(currentContact)
+            // set default outbound caller id as first phone number
+            this.props.toExtension = currentContact.extension
+            this.data.fromNumber && this.setSender(this.data.fromNumber)
+            this.setReceiver(this.data.toNumber || currentContact.phoneNumber[0])
+            this.setReceiverCandidates(currentContact.phoneNumber)
+            currentContact.msg && this.appendMessages(currentContact.msg)
+            this.scrollToAnchor()
+                
+            this.setTitle(currentContact.displayName)
 
-                // FIXME: API call in here is a anti-pattern, should be in services
-                sdk.platform()
-                .get(currentContact.profileImage)
-                .then(r => r.response())
-                .then(r => {
-                    // Real contact, no avatar
-                    console.log(r)
-                    if (r.status === 204 || r.status === 404) {
-                        var hash = md5(currentContact.id)
-                        this.props.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
-                    } else {
-                        // Real contact, has avatar
-                        this.props.dom['profile-img'].src = 
-                            currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
-                    }
-                })
-                .catch(e => {
-                    // Real contact, no avatar
-                    var hash = md5(currentContact.id)
-                    this.props.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
-                })
-            },
-            after: function() {
-                this.props.dom.input.value = this.data.message || ''
-                fade.init(this.props.root)
-                fade.in(this.props.root)
-            }
+            // Fake contact
+            // if (!currentContact.profileImage) {
+            //     var hash = md5(currentContact.id)
+            //     this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
+            //     return
+            // }
+            this.props.profileImage = currentContact.profileImage
+            console.log(currentContact);
+            this.getAvatar().then(url => this.dom['profile-img'].src = url)
+            console.log(this.getAvatar())
+
+                // currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
+
+            // FIXME: API call in here is a anti-pattern, should be in services
+            // sdk.platform()
+            // .get(currentContact.profileImage)
+            // .then(r => r.response())
+            // .then(r => {
+            //     // Real contact, no avatar
+            //     console.log(r)
+            //     if (r.status === 204 || r.status === 404) {
+            //         var hash = md5(currentContact.id)
+            //         this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
+            //     } else {
+            //         // Real contact, has avatar
+            //         this.dom['profile-img'].src = 
+            //             currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
+            //     }
+            // })
+            // .catch(e => {
+            //     // Real contact, no avatar
+            //     var hash = md5(currentContact.id)
+            //     this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
+            // })
         },
-        setTitle: {
-            after: function(text) {
-                this.props.dom.header.textContent = text
-            }
+        after: function() {
+            this.dom.input.value = this.data.message || ''
+            fade.init(this.root)
+            fade.in(this.root)
+        }
+    },
+    setTitle: {
+        after: function(text) {
+            this.dom.header.textContent = text
+        }
+    },
+    send: {
+        before: function() {
+            // send messages on UI
+            this.props.message = this.dom.input.value
+            this.dom.input.value = ''
+            var date = new Date()
+            var bubble = this.addBubble(
+                null,
+                'SMS',
+                this.props.message,
+                'Outgoing',
+                `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`)
+            this.scrollToBottom()
+            return bubble
         },
-        enter: {
-            method: function(finish, e) {
-                if (e.keyCode === 13) {
-                    this.send()
-                    e.preventDefault()
+        method: function(finish, dom) {
+            this.props.fromNumber = this.data.fromNumber || this.props.fromNumber
+            this.props.toNumber = this.data.toNumber || this.props.toNumber
+            return finish().then(response => {
+                dom.setAttribute('data-id', response.id)
+                this.unconfirm = this.unconfirm || []
+                this.unconfirm.push(dom)
+                return response
+            }).catch(err => dom.parentNode.removeChild(dom))
+            // user actually send to message to server (SDK)
+        },
+        after: function(response) {}
+    },
+    addBubble: {
+        after: function(id, type, content, direction, time, prepend) {
+            var opponent = (direction === 'Inbound')
+            var model = this.props.contact.msg && this.props.contact.msg.find(contact => contact.id === id)
+            var doc
+            if (type === 'SMS' || type === 'Pager')
+                doc = this.createSMSTemplate(id, content, opponent, time)
+            else if (type === 'VoiceMail')
+                doc = this.createVoiceMailTemplate(id, content, opponent, time)
+            else if (type === 'Voice')
+                doc = this.createCallLogTemplate(id, content, opponent, time)
+
+            if (model) {
+                model.dom = doc
+                this.markBubble(model)
+            }
+            
+            if (prepend) {
+                this.dom.conversations.insertBefore(doc, this.dom.conversations.firstChild)
+            } else {
+                this.dom.conversations.appendChild(doc)
+            }
+            return this.dom.conversations.lastChild;
+        }
+    },
+    markBubble: {
+        method: function(finish, model) {
+            model.dom.addEventListener('mouseover', e => {
+                if (!this.props.fromNumbers)
+                    return // not yet loaded
+                var fromNumber = model.from
+                var toNumber = model.to
+                if (this.props.contact.extension == fromNumber || 
+                    this.props.fromNumbers.indexOf(fromNumber) > -1) {
+                    this.dom['from-number'].textContent = fromNumber
+                    this.dom['to-number'].textContent = toNumber
+                } else {
+                    this.dom['from-number'].textContent = toNumber
+                    this.dom['to-number'].textContent = fromNumber
                 }
-            }
-        },
-        send: {
-            before: function() {
-                // send messages on UI
-                this.props.message = this.props.dom.input.value
-                this.props.dom.input.value = ''
-                var date = new Date()
-                var bubble = this.addBubble(
-                    null,
-                    'SMS',
-                    this.props.message,
-                    'Outgoing',
-                    `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`)
-                this.scrollToBottom()
-                return bubble
-            },
-            method: function(finish, dom) {
-                this.props.fromNumber = this.data.fromNumber || this.props.fromNumber
-                this.props.toNumber = this.data.toNumber || this.props.toNumber
-                return finish().then(response => {
-                    dom.setAttribute('data-id', response.id)
-                    this.unconfirm = this.unconfirm || []
-                    this.unconfirm.push(dom)
-                    return response
-                }).catch(err => dom.parentNode.removeChild(dom))
-                // user actually send to message to server (SDK)
-            },
-            after: function(response) {}
-        },
-        addBubble: {
-            after: function(id, type, content, direction, time, prepend) {
-                var opponent = (direction === 'Inbound')
-                var model = this.props.contact.msg && this.props.contact.msg.find(contact => contact.id === id)
-                var doc
-                if (type === 'SMS' || type === 'Pager')
-                    doc = this.createSMSTemplate(id, content, opponent, time)
-                else if (type === 'VoiceMail')
-                    doc = this.createVoiceMailTemplate(id, content, opponent, time)
-                else if (type === 'Voice')
-                    doc = this.createCallLogTemplate(id, content, opponent, time)
-
-                if (model) {
-                    model.dom = doc
-                    this.markBubble(model)
+                this.props.contact.msg
+                .filter(contact =>
+                    contact.from == fromNumber ||
+                    contact.from == toNumber ||
+                    contact.to == toNumber ||
+                    contact.to == fromNumber)
+                .filter(msg => msg.dom)
+                .map(msg => msg.dom)
+                .map(dom => dom.classList.add('--marked'))
+            });
+            model.dom.addEventListener('mouseout', e => {
+                if (!this.props.fromNumbers)
+                    return // not yet loaded
+                var fromNumber = model.from
+                var toNumber = model.to
+                if (this.props.contact.extension == fromNumber || 
+                    this.props.fromNumbers.indexOf(fromNumber) > -1) {
+                    this.dom['from-number'].textContent = fromNumber
+                    this.dom['to-number'].textContent = toNumber
+                } else {
+                    this.dom['from-number'].textContent = toNumber
+                    this.dom['to-number'].textContent = fromNumber
                 }
                 
-                if (prepend) {
-                    this.props.dom.conversations.insertBefore(doc, this.props.dom.conversations.firstChild)
-                } else {
-                    this.props.dom.conversations.appendChild(doc)
-                }
-                return this.props.dom.conversations.lastChild;
-            }
-        },
-        markBubble: {
-            method: function(finish, model) {
-                model.dom.addEventListener('mouseover', e => {
-                    if (!this.props.fromNumbers)
-                        return // not yet loaded
-                    var fromNumber = model.from
-                    var toNumber = model.to
-                    if (this.props.contact.extension == fromNumber || 
-                        this.props.fromNumbers.indexOf(fromNumber) > -1) {
-                        this.props.dom['from-number'].textContent = fromNumber
-                        this.props.dom['to-number'].textContent = toNumber
-                    } else {
-                        this.props.dom['from-number'].textContent = toNumber
-                        this.props.dom['to-number'].textContent = fromNumber
-                    }
-                    this.props.contact.msg
-                    .filter(contact =>
-                        contact.from == fromNumber ||
-                        contact.from == toNumber ||
-                        contact.to == toNumber ||
-                        contact.to == fromNumber)
-                    .filter(msg => msg.dom)
-                    .map(msg => msg.dom)
-                    .map(dom => dom.classList.add('--marked'))
-                });
-                model.dom.addEventListener('mouseout', e => {
-                    if (!this.props.fromNumbers)
-                        return // not yet loaded
-                    var fromNumber = model.from
-                    var toNumber = model.to
-                    if (this.props.contact.extension == fromNumber || 
-                        this.props.fromNumbers.indexOf(fromNumber) > -1) {
-                        this.props.dom['from-number'].textContent = fromNumber
-                        this.props.dom['to-number'].textContent = toNumber
-                    } else {
-                        this.props.dom['from-number'].textContent = toNumber
-                        this.props.dom['to-number'].textContent = fromNumber
-                    }
-                    
-                    this.props.contact.msg
-                    .filter(msg => msg.dom)
-                    .map(msg => msg.dom)
-                    .map(dom => dom.classList.remove('--marked'))
-                });
-            }
-        },
-        createSMSTemplate: {
-            method: function(finish, id, text, opponent, time) {
-                var div = document.createElement('div')
-                div.innerHTML = `<div class='clearfix conversations__conv'>
-                                    <div
-                                        data-tooltip='${time}' 
-                                        class='conversations__bubble ${opponent? "--opponent": "--self"} '>
-                                        ${text}
-                                    </div>
-                                </div>`
+                this.props.contact.msg
+                .filter(msg => msg.dom)
+                .map(msg => msg.dom)
+                .map(dom => dom.classList.remove('--marked'))
+            });
+        }
+    },
+    createSMSTemplate: {
+        method: function(finish, id, text, opponent, time) {
+            var div = document.createElement('div')
+            div.innerHTML = `<div class='clearfix conversations__conv'>
+                                <div
+                                    data-tooltip='${time}' 
+                                    class='conversations__bubble ${opponent? "--opponent": "--self"} '>
+                                    ${text}
+                                </div>
+                            </div>`
 
-                return div.firstChild
-            }
-        },
-        createVoiceMailTemplate: {
-            method: function(finish, id, content, opponent, time) {
-                var audio = new Audio(`${content.uri}?access_token=${sdk.platform().auth().accessToken()}`)
-                var div = document.createElement('div')
-                div.innerHTML = `<div class='clearfix conversations__conv'>
-                                    <div
-                                        data-tooltip='${time}'
-                                        class='conversations__bubble ${opponent? "--opponent": "--self"} --voice voice-bubble'>
-                                        <span class='voice-bubble__play icon-uni7C'></span>
-                                        <span class='voice-bubble__duration' data-length=${content.vmDuration}></span>
-                                    </div>
-                                </div>`
-                div.firstChild.querySelector('.voice-bubble__duration').style.width = content.vmDuration * 2 + 'px'
+            return div.firstChild
+        }
+    },
+    createVoiceMailTemplate: {
+        method: function(finish, id, content, opponent, time) {
+            this.props.transformee = content.uri
+            console.log(this.transformURL())
+            var audio = new Audio(this.transformURL())
+            var div = document.createElement('div')
+            div.innerHTML = `<div class='clearfix conversations__conv'>
+                                <div
+                                    data-tooltip='${time}'
+                                    class='conversations__bubble ${opponent? "--opponent": "--self"} --voice voice-bubble'>
+                                    <span class='voice-bubble__play icon-uni7C'></span>
+                                    <span class='voice-bubble__duration' data-length=${content.vmDuration}></span>
+                                </div>
+                            </div>`
+            div.firstChild.querySelector('.voice-bubble__duration').style.width = content.vmDuration * 2 + 'px'
+            div.firstChild.addEventListener('click', e => {
+                audio.play()
+            });
+            return div.firstChild
+        }
+    },
+    createCallLogTemplate: {
+        method: function(finish, id, content, opponent, time) {
+            var div = document.createElement('div')
+            div.innerHTML = `<div class='clearfix conversations__conv'>
+                                <div
+                                    data-tooltip='${time}'
+                                    class='conversations__bubble ${opponent? "--opponent": "--self"} --log'>
+                                    <span class='bubble--log icon-uniAE'>
+                                    ${typeof content === 'string'?
+                                     `<span>${content}</span>`: 
+                                     "<span class='voice-bubble__play icon-uni7C'></span>"}
+                                </div>
+                            </div>`
+
+            if (typeof content === 'string') {
+
+            } else {
+                // TODO:
+                // get ${content.uri}?access_token=${sdk.platform().auth().accessToken()}
+                // to get the duration of record
+                this.props.transformee =`${content.uri}/content`
+                console.log(this.transformURL())
+                var audio = new Audio(this.transformURL())
                 div.firstChild.addEventListener('click', e => {
                     audio.play()
                 });
-                return div.firstChild
             }
+            return div.firstChild
+        }
+    },
+    reachTop: {
+        before: function() {},
+        method: function(finish) {
+            if (this.isLoading)
+                return null
+            this.isLoading = true
+            this.dom.loading.classList.remove('display-none')
+            return finish()
         },
-        createCallLogTemplate: {
-            method: function(finish, id, content, opponent, time) {
-                var div = document.createElement('div')
-                div.innerHTML = `<div class='clearfix conversations__conv'>
-                                    <div
-                                        data-tooltip='${time}'
-                                        class='conversations__bubble ${opponent? "--opponent": "--self"} --log'>
-                                        <span class='bubble--log icon-uniAE'>
-                                        ${typeof content === 'string'?
-                                         `<span>${content}</span>`: 
-                                         "<span class='voice-bubble__play icon-uni7C'></span>"}
-                                    </div>
-                                </div>`
-
-                if (typeof content === 'string') {
-
-                } else {
-                    // TODO:
-                    // get ${content.uri}?access_token=${sdk.platform().auth().accessToken()}
-                    // to get the duration of record
-                    var audio = new Audio(`${content.uri}/content?access_token=${sdk.platform().auth().accessToken()}`)
-                    div.firstChild.addEventListener('click', e => {
-                        audio.play()
-                    });
-                }
-                return div.firstChild
+        after: function(messages) {
+            this.isLoading = false
+            this.dom.loading.classList.add('display-none')
+            if (messages && messages.length) {
+                // maintain the scoll position
+                var scrollBottom = 
+                    this.dom.conversations.offsetHeight - this.dom.container.scrollTop
+                // We prepend the messages, so the order is reversed,
+                // and we don't want to modify the original msgs, so shallow copy first
+                this.prependMessages(messages.slice().reverse(), false)
+                this.dom.container.scrollTop = 
+                    this.dom.conversations.offsetHeight - scrollBottom
+            } else if (messages && !messages.length){
+                console.log('load again');
+                this.reachTop()
             }
-        },
-        scroll: {
-            method: function(finish, event) {
-                if (event.target.scrollTop === 0)
-                    this.reachTop()
-            }
-        },
-        reachTop: {
-            before: function() {},
-            method: function(finish) {
-                if (this.isLoading)
-                    return
-                this.isLoading = true
-                this.props.dom.loading.classList.remove('display-none')
-                return finish().then(result => {
-                    this.isLoading = false
-                    this.props.dom.loading.classList.add('display-none')
-                    return result
+            
+        }
+    },
+    addTimestamp: {
+        method: function(finish, time, prepend) {
+            var div = document.createElement('div')
+            div.innerHTML = `<div class='clearfix conversations__conv'>
+                                <div class='timestamp'>
+                                    ${time}
+                                </div>
+                            </div>`
+            if (prepend)
+                this.dom.conversations.insertBefore(
+                    div.firstChild, 
+                    this.dom.conversations.firstChild
+                )
+            else
+                this.dom.conversations.appendChild(div.firstChild)
+        }
+    },
+    parseMessages: {
+        method: function(finish, messages, prepend) {
+            messages
+                .map(msg => {
+                    var time = new Date(msg.time)
+                    msg.displayTime = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
+                    msg.status.sendConfirmed = true
+                    msg.status.receiveConfirmed = true
+                    return msg
                 })
-            },
-            after: function(messages) {
-                if (messages) {
-                    // maintain the scoll position
-                    var scrollBottom = this.props.dom.conversations.offsetHeight
-                    this.prependMessages(messages, false)
-                    this.props.dom.container.scrollTop = 
-                    this.props.dom.conversations.offsetHeight - scrollBottom
-                }
-            }
+                .forEach(msg => {
+                        this.addBubble(
+                            msg.id, 
+                            msg.type, 
+                            msg.subject, 
+                            msg.direction, 
+                            msg.displayTime,
+                            prepend
+                        )
+                        var time = new Date(msg.time)
+                        var date = time.getDate()
+                        var month = time.getMonth() + 1
+                        if ((!prepend && date > this.props.convDate && month >= this.props.convMonth) ||
+                            (prepend && date < this.props.convDate && month <= this.props.convMonth))
+                            this.addTimestamp(month + '/' + date, prepend)
+                        this.props.convDate = date
+                        this.props.convMonth = month
+                    }
+                )
+        }
+    },
+    appendMessages: {
+        method: function(finish, messages, scroll) {
+            if (messages) this.parseMessages(messages, false)
         },
-        addTimestamp: {
-            method: function(finish, time, prepend) {
-                var div = document.createElement('div')
-                div.innerHTML = `<div class='clearfix conversations__conv'>
-                                    <div class='rc-conversation__timestamp'>
-                                        ${time}
-                                    </div>
-                                </div>`
-                if (prepend)
-                    this.props.dom.conversations.insertBefore(
-                        div.firstChild, 
-                        this.props.dom.conversations.firstChild
-                    )
-                else
-                    this.props.dom.conversations.appendChild(div.firstChild)
-            }
+        after: function(messages, scroll = true) {
+            if (scroll)
+                this.scrollToBottom()
+        }
+    },
+    prependMessages: {
+        before: function() {
+
         },
-        parseMessages: {
-            method: function(finish, messages, prepend) {
-                messages
+        method: function(finish, messages, scroll) {
+            this.props.contact.msg = this.props.contact.msg || []
+            // this.props.contact.msg = this.props.contact.msg.concat(messages)
+            if (messages) this.parseMessages(messages, true)
+        },
+        after: function(messages, scroll = true) {
+            if (scroll)
+                this.scrollToBottom()
+        }
+    },
+    addIncomingMessages: {
+        method: function(finish) {
+            this.props.contact.msg = this.props.contact.msg || []
+            console.log('incoming');
+            this.parseMessages(
+                this.props.contact.msg
+                    .filter(msg => !msg.status.receiveConfirmed)
+                    .filter(msg => this.props.syncedMessages.indexOf(msg.id) === -1)
                     .map(msg => {
-                        var time = new Date(msg.lastModifiedTime)
-                        msg.displayTime = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
-                        msg.status.sendConfirmed = true
-                        msg.status.receiveConfirmed = true
+                        this.props.syncedMessages.push(msg.id)
                         return msg
                     })
-                    .forEach(msg => {
-                            this.addBubble(
-                                msg.id, 
-                                msg.type, 
-                                msg.subject, 
-                                msg.direction, 
-                                msg.displayTime,
-                                prepend
-                            )
-                            var date = new Date(msg.lastModifiedTime).getDate()
-                            var month = new Date(msg.lastModifiedTime).getMonth() + 1
-                            if (date > this.convDate)
-                                this.addTimestamp(month + '/' + date, prepend)
-                            this.convDate = new Date(msg.lastModifiedTime).getDate()
-                        }
-                    )
-            }
+                    .filter(msg => msg.direction === 'Inbound'), false
+            )
         },
-        appendMessages: {
-            method: function(finish, messages, scroll) {
-                if (messages) this.parseMessages(messages, false)
-            },
-            after: function(messages, scroll = true) {
-                if (scroll)
-                    this.scrollToBottom()
-            }
-        },
-        prependMessages: {
-            before: function() {
-
-            },
-            method: function(finish, messages, scroll) {
-                this.props.contact.msg = this.props.contact.msg || []
-                this.props.contact.msg = this.props.contact.msg.concat(messages)
-                if (messages) this.parseMessages(messages, true)
-            },
-            after: function(messages, scroll = true) {
-                if (scroll)
-                    this.scrollToBottom()
-            }
-        },
-        addIncomingMessages: {
-            method: function(finish) {
-                this.props.contact.msg = this.props.contact.msg || []
-                console.log('incoming');
-                this.parseMessages(
-                    this.props.contact.msg
-                        .filter(msg => !msg.status.receiveConfirmed)
-                        .filter(msg => this.props.syncedMessages.indexOf(msg.id) === -1)
-                        .map(msg => {
-                            this.props.syncedMessages.push(msg.id)
-                            return msg
-                        })
-                        .filter(msg => msg.direction === 'Inbound'), false
-                )
-            },
-            after: function() {
-                this.scrollToBottom()
-            }
-        },
-        confirmMessages: {
-            method: function(finish) {
-                if (!this.unconfirm)
-                    return []
-                this.props.contact.msg = this.props.contact.msg || []
-                return this.props.contact.msg
-                .filter(msg => !msg.status.sendConfirmed)
-                .map(msg => {
-                    // FIXME: cache getAttribute, perf
-                    var index = this.unconfirm.findIndex(dom => dom.getAttribute('data-id') == msg.id)
-                    var dom = this.unconfirm[index] || null
-                    console.log(msg);
-                    if (dom) {
-                        dom.removeAttribute('data-id')
-                        msg.dom = dom
-                        msg.status.sendConfirmed = true
-                        this.unconfirm.splice(index, 1)
-                        this.markBubble(msg)
-                    }
-                    return dom
-                })
-            }
-        },
-        scrollToAnchor: {
-            after: function() {
-                var anchor
-                if (this.data.anchorContent &&
-                    (anchor = 
-                        this.props.contact.msg.find(content => content.id == this.data.anchorContent.id))) {
-                    this.props.dom.container.scrollTop = anchor.dom.offsetTop - anchor.dom.offsetHeight
+        after: function() {
+            this.scrollToBottom()
+        }
+    },
+    confirmMessages: {
+        method: function(finish) {
+            if (!this.unconfirm)
+                return []
+            this.props.contact.msg = this.props.contact.msg || []
+            return this.props.contact.msg
+            .filter(msg => !msg.status.sendConfirmed)
+            .map(msg => {
+                // FIXME: cache getAttribute, perf
+                var index = this.unconfirm.findIndex(dom => dom.getAttribute('data-id') == msg.id)
+                var dom = this.unconfirm[index] || null
+                console.log(msg);
+                if (dom) {
+                    dom.removeAttribute('data-id')
+                    msg.dom = dom
+                    msg.status.sendConfirmed = true
+                    this.unconfirm.splice(index, 1)
+                    this.markBubble(msg)
                 }
-            }
-        },
-        warnBubble: {
-            after: function(id) {
-
-            }
-        },
-        scrollToBottom: {
-            after: function() {
-                this.props.dom.container.scrollTop = this.props.dom.container.scrollHeight
-            }
-        },
-        getOutboundCallerID: {
-            method: function(finish) {
-                return finish();
-            },
-            after: function(numbers) {
-                // If we didn't get the default number, set to the first one of candidates
-                if (!this.props.fromNumber)
-                    this.setSender(numbers[0])
-                this.setSenderCandidates(numbers)
-            }
-        },
-        queryContacts: {
-            method: function(finish, queryText) {
-                this.props.to = queryText;
-                return finish();
-            }
-        },
-        setSender: {
-            method: function(finish, fromNumber) {
-                this.props.fromNumber = fromNumber
-            }
-        },
-        setSenderCandidates: {
-            method: function(finish, fromNumbers) {
-                this.props.fromNumbers = fromNumbers
-            }
-        },
-        setReceiver: {
-            method: function(finish, toNumber) {
-                this.props.toNumber = toNumber
-            }
-        },
-        setReceiverCandidates: {
-            method: function(finish, toNumbers) {
-                this.props.toNumbers = toNumbers
-            }
-        },
-        togglePhoneModal: {
-            before: function() {
-                this.props.dom['phone-mask'].classList.toggle('display-none')
-            }
-        },
-        back: {
-            after: function() {
-
+                return dom
+            })
+        }
+    },
+    getAvatar: {
+        method: function(finish) {
+            return finish()
+        }
+    },
+    transformURL: {
+        method: function(finish) {
+            return finish()
+        }
+    },
+    scrollToAnchor: {
+        after: function() {
+            var anchor
+            if (this.data.anchorContent &&
+                (anchor = 
+                    this.props.contact.msg.find(content => content.id == this.data.anchorContent.id))) {
+                this.dom.container.scrollTop = anchor.dom.offsetTop - anchor.dom.offsetHeight
             }
         }
+    },
+    warnBubble: {
+        after: function(id) {
+
+        }
+    },
+    scrollToBottom: {
+        after: function() {
+            this.dom.container.scrollTop = this.dom.container.scrollHeight
+        }
+    },
+    getOutboundCallerID: {
+        method: function(finish) {
+            return finish();
+        },
+        after: function(numbers) {
+            // If we didn't get the default number, set to the first one of candidates
+            if (!this.props.fromNumber)
+                this.setSender(numbers[0])
+            this.setSenderCandidates(numbers)
+        }
+    },
+    queryContacts: {
+        method: function(finish, queryText) {
+            this.props.to = queryText;
+            return finish();
+        }
+    },
+    setSender: {
+        method: function(finish, fromNumber) {
+            this.props.fromNumber = fromNumber
+        }
+    },
+    setSenderCandidates: {
+        method: function(finish, fromNumbers) {
+            this.props.fromNumbers = fromNumbers
+        }
+    },
+    setReceiver: {
+        method: function(finish, toNumber) {
+            this.props.toNumber = toNumber
+        }
+    },
+    setReceiverCandidates: {
+        method: function(finish, toNumbers) {
+            this.props.toNumbers = toNumbers
+        }
+    },
+    togglePhoneModal: {
+        before: function() {
+            this.dom['phone-mask'].classList.toggle('display-none')
+        }
+    },
+    callout: {
+        method: function(finish) {
+            console.log(this.props.fromNumber)
+            console.log(this.props.toNumber)
+            return finish()
+        }
+    },
+    back: {
+        after: function() {
+
+        }
+    }
+}
+this.on('click', function(e) {
+    if (e.target === this.dom.back)
+        this.back()
+    // if (e.target === this.dom.callout || e.target === this.dom['phone-mask'])
+    //     this.togglePhoneModal()
+    if (e.target === this.dom.callout)
+        this.callout()
+})
+this.on('keydown', function(e) {
+    if (e.target === this.dom.input) {
+        if (e.keyCode === 13) {
+            this.send()
+            e.preventDefault()
+        }
+    }
+})
+this.on('scroll', function(e) {
+    if (e.target === this.dom.container) {
+        if (e.target.scrollTop === 0)
+            this.reachTop()
     }
 })
 //# sourceURL=conversation-advanced.html
 </script>
+<style scoped>
+@import "src/styles/variables.css";
+@import "src/styles/mixins.css";
+
+$conversation-bubble-color: #ecf0f1;
+$conversation-bubble-log-color: #B7C1A9;
+$conversation-bubble-voice-color: #CAC3A9;
+$conversation-bubble-marked-color: #eee;
+$gray: #bdc3c7;
+
+/* TODO */
+
+.close {
+    position: absolute;
+    cursor: pointer;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    /* Adjust all conversation related font size */
+    font-size: .8em;
+    transition: transform .2s ease-in;
+}
+.content {
+    overflow: auto;
+    height: 100%;
+}
+.textarea-wrapper {
+    position: relative;
+    width: 100%;
+    > textarea {
+        @mixin padding-normal;
+        width: 100%;
+        border: 0;
+        border-top: 1px solid $gray;
+        resize: none;
+    }
+}
+.bar {
+    margin-bottom: 5px;
+}
+.hint {
+    @mixin padding-normal;
+    @mixin shadow-1;
+    /* overlay bubbles */
+    position: relative;
+    display: inline-block;
+    width: 49%;
+    text-align: center;
+    font-size: .9em;
+}
+.callout {
+    @mixin shadow-2;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    width: 40px;
+    height: 40px;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    &:hover {
+        @mixin shadow-hover;
+    }
+}
+.mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10,10,10,.6);
+}
+.modal {
+    @mixin shadow-3;
+    @mixin padding-large;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 2;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 50%;
+    border: 1px solid $gray;
+    border-radius: 4px;
+    background-color: #fff;
+    text-align: center;
+    & > .rc-button {
+        width: 100%;
+        margin-top: auto;
+        align-self: center;
+    }
+}
+.timestamp {
+    @mixin padding-normal;
+    text-align: center;
+    color: $gray;
+}
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.header-title {
+    align-self: center;
+    font-size: 1.2em;
+}
+.avatar-wrapper {
+    width: 40px;
+    height: 40px;
+    margin-right: .8em;
+    border-radius: 50%;
+    overflow: hidden;
+    line-height: 2;
+}
+.avatar {
+    max-width: 100%;
+}
+
+.conversations {
+    &__conv {
+        padding-left: 1em;
+        padding-right: 1em;
+        &.--marked {
+            background-color: $conversation-bubble-marked-color;
+        }
+    }
+    &__bubble {
+        @mixin padding-normal;
+        position: relative;
+        word-break: break-word;
+        border: 1px solid $gray;
+        border-radius: 10px;
+        margin-bottom: 5px;
+        &.--opponent {
+            float: left;
+            &:after {
+                left: 100%;
+            }
+        }
+        &.--self {
+            float: right;
+            background-color: $conversation-bubble-color;
+            &:after {
+                right: 100%;
+            }
+        }
+        &.--log {
+            background-color: $conversation-bubble-log-color;
+            border-color: $conversation-bubble-log-color;
+        }
+        &.--voice {
+            background-color: $conversation-bubble-voice-color;
+            border-color: $conversation-bubble-voice-color;
+        }
+        &:hover {
+            &:after {
+                box-sizing: border-box;
+                position: absolute;
+                z-index: 2;
+                content: attr(data-tooltip);
+                top: 0;
+                background-color: #000;
+                color: #fff;
+                font-size: .8em;
+                border-radius: 2px;
+                padding: .5em .7em;
+                text-align: center;
+                min-width: calc(100%-1px);
+                word-break: normal;
+            }
+        }
+    }
+    &__timestamp {
+        text-align: center;
+        color: $gray;
+    }
+    &__loading {
+        @mixin padding-normal;
+        text-align: center;
+    }
+}
+.voice-bubble {
+    &__play {}
+    &__duration {
+        height: 10px;
+        border: 1px solid#878787;
+        display: inline-block;
+    }
+}
+</style>

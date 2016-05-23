@@ -62,7 +62,7 @@ w.register(function() {
             }else {
                 widget = createMessageWidget('message-item-text', message, parent)
             }
-            widget.mount(parent.props.dom.messages);
+            widget.mount(parent.dom.messages);
             parent.props.widgetItems.push(widget);
         });
     }
@@ -87,12 +87,12 @@ w.register(function() {
                 this.props.widgetItems = [];  
             },
             after: function() {
-                // currentEnabledTab = this.props.dom.allTab;
+                // currentEnabledTab = this.dom.allTab;
                 var t = w.t(this.data.lang);
-                // this.props.dom.allTab.textContent = t('messages-tab-all');
-                // this.props.dom.voiceMailTab.textContent = t('messages-tab-voicemail');
-                // this.props.dom.faxTab.textContent = t('messages-tab-fax');
-                // this.props.dom.textTab.textContent = t('messages-tab-text');
+                // this.dom.allTab.textContent = t('messages-tab-all');
+                // this.dom.voiceMailTab.textContent = t('messages-tab-voicemail');
+                // this.dom.faxTab.textContent = t('messages-tab-fax');
+                // this.dom.textTab.textContent = t('messages-tab-text');
             }
         },
         mount: {
@@ -113,7 +113,7 @@ w.register(function() {
             },
             after: function(messages){
                 console.log(messages);
-                var root = this.props.dom.messages;
+                var root = this.dom.messages;
                 while(root.firstChild){
                     root.removeChild(root.firstChild);
                 }
@@ -134,13 +134,13 @@ w.register(function() {
         },
         compose: {
             before: function() {
-                this.props.dom.compose.classList.add('--active')
+                this.dom.compose.classList.add('--active')
             },
             method: function(finish) {
                 return new Promise(resolve => setTimeout(() => resolve(finish()), 500))
             },
             after: function() {
-                setTimeout(() => this.props.dom.compose.classList.remove('--active'), 1000)
+                setTimeout(() => this.dom.compose.classList.remove('--active'), 1000)
             }
         }
     }

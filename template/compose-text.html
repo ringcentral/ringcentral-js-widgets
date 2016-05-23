@@ -61,7 +61,7 @@ w.register(function() {
     }
     this.actions.send = {
         method: function(finish) {
-            this.props.text = this.props.dom['text'].value;
+            this.props.text = this.dom['text'].value;
             this.props.fromNumber = this.props['dropdown'].getSelected();
             this.props.toNumber = this.props['contact-picker'].getInput();
             return finish();
@@ -73,13 +73,13 @@ w.register(function() {
     };
     this.actions.sent = {
         after: function() {
-            this.props.dom['send'].textContent = 'Success!';
-            this.props.dom['text'].value = '';
+            this.dom['send'].textContent = 'Success!';
+            this.dom['text'].value = '';
         }
     }
     this.actions.readyToSend = {
         after: function() {
-            this.props.dom['send'].textContent = 'Send';
+            this.dom['send'].textContent = 'Send';
         }
     }
     this.actions.getOutboundCallerID = {

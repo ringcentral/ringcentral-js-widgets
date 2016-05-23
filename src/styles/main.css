@@ -148,6 +148,9 @@ h6 {
     * rc-panels are treated as common containers
     */
     @mixin block;
+    position: relative;
+    height: 100%;
+    width:  100%;
     &__header {
         @mixin padding-normal;
         position: relative;
@@ -326,7 +329,6 @@ h6 {
 }
 
 /* @import "old.css"; */
-@import "widgets/auth-panel.css";
 @import "widgets/call-log.css";
 @import "widgets/call-panel.css";
 @import "widgets/compose-text.css";
@@ -335,7 +337,6 @@ h6 {
 @import "widgets/conference.css";
 @import "widgets/contact-detail.css";
 @import "widgets/contacts.css";
-@import "widgets/dial-pad.css";
 @import "widgets/dropdown.css";
 @import "widgets/messages.css";
 @import "widgets/message-item.css";
@@ -357,19 +358,19 @@ h6 {
 * Some common use cases
 */
 .float-right {
-    float: right;
+    float: right !important;
 }
 .float-left {
-    float: left;
+    float: left !important;
 }
 .display-none {
-    display: none;
+    display: none !important;
 }
 .text-center {
-    text-align: center;
+    text-align: center !important;
 }
 .text-right {
-    text-align: right;
+    text-align: right !important;
 }
 .clearfix {
     &:before,

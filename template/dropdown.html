@@ -1,8 +1,7 @@
 <template>
     <div class='rc-dropdown'>
         <button class='rc-dropdown__trigger rc-button'
-                data-info='dropdown'
-                data-event='click:collapse'>From: </button>
+                data-info='dropdown'>From: </button>
         <div    class='rc-dropdown__list rc-list' 
                 data-info='list'>
         </div>
@@ -16,35 +15,38 @@ w.register(function() {
             after: function() {
                 if (this.data.defaultValue)
                     this.switchTitle(this.data.defaultValue)
+                enlarge.init(this.dom['list'])
             }
         },
         mount: {
             after: function() {
-                enlarge.init(this.props.dom['list'])
                 document.addEventListener('click', e => {
                     var currentNode = e.target
                     while(currentNode.parentNode) {
                         currentNode = currentNode.parentNode
-                        if (currentNode.isEqualNode(this.props.root))
+                        if (currentNode === this.root)
                             return
                     }
-                    this.hide()
                 })
             }
         },
         collapse: {
             after: function() {
-                enlarge.toggle(this.props.dom['list'])
+                enlarge.toggle(this.dom['list'])
             }
         },
         hide: {
             after: function() {
-                enlarge.out(this.props.dom['list'])
+                enlarge.out(this.dom['list'])
             }
         },
         getData: {
             method: function(finish) {
                 return finish();
+            },
+            after: function(ids) {
+                ids.forEach(id => this.addItem(id))
+                this.switchTitle(ids[0])
             }
         },
         addItem: {
@@ -56,18 +58,17 @@ w.register(function() {
                 item.addEventListener('click', e => {
                     this.switchTitle(text);
                 });
-                this.props.dom['list'].appendChild(item);
+                this.dom['list'].appendChild(item);
             }
         },
         getSelected: {
             method: function() {
-                return this.props.dom['dropdown'].textContent;
+                return this.dom['dropdown'].textContent;
             }
         },
-        removeItem: {},
         disable: {
             method: function() {
-                this.props.dom.dropdown.disabled = true;
+                this.dom.dropdown.disabled = true;
             }
         },
         switchTitle: {
@@ -75,11 +76,14 @@ w.register(function() {
                 finish(text);
             },
             after: function(text) {
-                this.props.dom['dropdown'].textContent = text;
+                this.dom['dropdown'].textContent = text;
                 this.hide();
             }
         }
     }
+    this.on('click', 'dropdown', function() {
+        this.collapse()
+    })
 })
 //# sourceURL=dropdown.html
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <div class='rc-panel rc-timeline-item' data-event='click:enter'>
+    <div class='rc-panel rc-timeline-item'>
         <div class='rc-timeline-item__content'>
         <div class='rc-timeline-item__line'>
             <span class='rc-timeline-item__icon' data-info='icon'></span>
@@ -9,8 +9,7 @@
             <div class='rc-timeline-item__subject' data-info='subject'></div>
         </div>
         <div    class='rc-timeline-item__count display-none' 
-                data-info='count-wrapper'
-                data-event='click:collapse'>
+                data-info='count-wrapper'>
             <span class='__number' data-info='count'></span>
             <span class='icon-uni2466'></span>
         </div>
@@ -19,41 +18,53 @@
     </div>
 </template>
 <script>
-w.register(function(){
+w.register(function() {
     this.actions= {
         init: {
             after: function() {
+                this.props.selectedMessage = null
+                this.props.content = null
+                this.props.contact = null
+                this.props.time = null
+                this.props.subject = null
+                this.props.count = 0
                 this.fillData(this.data)
             }
         },
         fillData: {
             before: function() {
-                this.props.root.style['background-color'] = '#eee'
+                this.root.style['background-color'] = '#eee'
             },
             method: function(finish, data) {
                 this.props.content = data
                 var time = new Date(data.time)
                 if (data.type === 'SMS')
-                    this.props.dom.icon.classList.add('icon-uni2487')
+                    this.dom.icon.classList.add('icon-uni2487')
                 else if (data.type === 'Voice')
-                    this.props.dom.icon.classList.add('icon-uniAE')
+                    this.dom.icon.classList.add('icon-uniAE')
                 else if (data.type === 'Pager')
-                    this.props.dom.icon.classList.add('icon-uniCB')
-                this.props.dom.subject.textContent = data.subject
-                data.contact && (this.props.dom.contact.textContent = data.contact.displayName)
-                this.props.dom.time.textContent = 
+                    this.dom.icon.classList.add('icon-uniCB')
+                else if (data.type === 'VoiceMail') {
+                    this.dom.icon.classList.add('icon-uniCB')
+                    data.subject = data.subject.type
+                }
+
+                this.dom.subject.textContent = this.props.subject = data.subject
+                data.contact && 
+                    (this.dom.contact.textContent = this.props.contact = data.contact.displayName)
+                this.dom.time.textContent = this.props.time =
                 `
                 ${time.getMonth() + 1}/${time.getDate()}, 
                 ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}
                 `
 
                 if (data.others && data.others.length > 0) {
-                    this.props.dom['count-wrapper'].classList.remove('display-none')
-                    this.props.dom.count.textContent = data.others.length
+                    this.dom['count-wrapper'].classList.remove('display-none')
+                    this.dom.count.textContent = this.props.count = data.others.length
                     var currentDate
 
-                    while(this.props.dom.collapse.firstChild)
-                        this.props.dom.collapse.removeChild(this.props.dom.collapse.firstChild)
+                    while(this.dom.collapse.firstChild)
+                        this.dom.collapse.removeChild(this.dom.collapse.firstChild)
                     data.others.forEach(content => {
                         var time = new Date(content.time)
                         var div = document.createElement('div')
@@ -70,27 +81,24 @@ w.register(function(){
                         </div>`
                         div.firstChild.addEventListener('click', event => {
                             event.stopPropagation()
-                            this.enter(null, content) // null for event
+                            this.enter(content) // null for event
                         })
                         currentDate = date
-                        this.props.dom.collapse.appendChild(div.firstChild)
+                        this.dom.collapse.appendChild(div.firstChild)
                     })
                 }
             },
             after: function(data) {
-                setTimeout(() => this.props.root.style['background-color'] = '#fff', 1000)
+                setTimeout(() => this.root.style['background-color'] = '#fff', 1000)
             }
         },
         mount: {
-            after: function() {
-            }
+            after: function() {}
         },
         collapse: {
-            after: function(event) {
-                event.stopPropagation()
-
+            after: function() {
                 // FIXME: double clicks will cause problems
-                var element = this.props.dom.collapse
+                var element = this.dom.collapse
                 if (element.classList.contains('--collapsing'))
                     return
                 if (!element.classList.contains('--active')) {
@@ -126,11 +134,19 @@ w.register(function(){
             }
         },
         enter: {
-            before: function(event, message) {
+            method: function(finish, message) {
                 message && (this.props.selectedMessage = message)
             }
         }
     }
+    this.on('click', function(e) {
+        if (e.target === this.dom['count-wrapper'] || e.target.parentNode === this.dom['count-wrapper']) {
+            this.collapse()
+            e.stopPropagation()
+        } else {
+            this.enter()
+        }
+    })
 });
 //# sourceURL=time-line-item.html
 </script>

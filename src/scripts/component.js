@@ -1,4 +1,22 @@
-import {initLogger, isThenable, isFunction, toFunction, shallowCopy, assign} from './util/index'
+import {
+    initLogger,
+    isThenable,
+    isFunction,
+    toFunction,
+    shallowCopy,
+    assign,
+    bindNoArgs,
+    bind6Args,
+    bind
+} from './util/index'
+
+import { 
+    createFragment,
+    generateDocument,
+    getDocumentRoot
+} from './fragment'
+ 
+import lifecycle from './lifecycle'
 var logger
 var functionSet = {
     before: function() {},
@@ -9,189 +27,148 @@ var functionSet = {
         throw e
     }
 }
-function register({actions, data} = settings) {
+function register({actions, events, data, props} = settings) {
     if (!actions)
-        console.warn('Widgets do not have actions defined, maybe you get some typo.');
-    ['init', 'mount', 'unmount', 'destroy', 'error'].forEach(action => {
+        console.warn('Widgets do not have actions defined, maybe you get some typo.')
+    ;['init', 'mount', 'unmount', 'destroy', 'error'].forEach(action => {
         actions[action] = Object.assign(
             shallowCopy(functionSet),
             actions[action]
         )
     })
-    return widget.bind(null, {actions, data})
+    var Clone = function(options) {
+        Widget.call(this, {
+            actions, 
+            events, 
+            data: shallowCopy(data), 
+            props: shallowCopy(props), 
+        }, options)
+    }
+    for (let prop in actions) {
+        if (actions.hasOwnProperty(prop))
+            Clone.prototype[prop] = generateActions(actions[prop])
+    }
+    return Clone
 }
 
-function widget({actions, data = {}}, options) {
-    if (!options.internal) {
+function Widget({actions, events, data = {}, props = {}}, options) {
+    if (!options || !options.internal) {
+        console.error('You are trying to construct a widget manually, please use w()')
         return Error('You are trying to construct a widget manually, please use w()')
     }
-    var defaultActions = shallowCopy(actions)
-    options.actions = shallowCopy(options.actions)
-    this.props = {}
-    this.custom = {}
-    this.data = Object.assign(data, options.data)
     logger = initLogger(options.logLevel)
-    Object.keys(defaultActions).forEach(index => {
-        defaultActions[index] = bindScope(this, defaultActions[index])
-    })
-    Object.keys(options.actions).forEach(index => {
-        options.actions[index] = bindScope(this, options.actions[index])
-    })
-    Object.keys(defaultActions).forEach(index => {
-        this[index] =
-            generateActions(defaultActions[index], options.actions[index], index)
-    })
-    this.props.dom = generateDocument(this, options.template)
-    this.props.root = getDocumentRoot(options.template)
-    this.props.template = options.template
-    this.mount =
-        generateActions({
-            before: defaultActions.mount.before,
-            method: mount.bind(this, defaultActions.mount.method, this.props.template),
-            after: defaultActions.mount.after
-        }, options.actions.mount, 'mount')
-    this.unmount =
-        generateActions({
-            before: defaultActions.unmount.before,
-            method: unmount.bind(this, defaultActions.unmount.method),
-            after: defaultActions.unmount.after
-        }, options.actions.unmount, 'unmount')
-    this.destroy =
-        generateActions({
-            before: defaultActions.destroy.before,
-            method: destroy.bind(this, defaultActions.destroy.method),
-            after: defaultActions.destroy.after
-        }, options.actions.destroy, 'destroy')
-    this.init()
+    this._mounted = false
 
-    function destroy(widgetdestroy, finish) {
-        this.unmount()
-        for (var property in this)
-            this[property] = null
-        if (widgetdestroy && isFunction(widgetdestroy))
-            return widgetdestroy.call(this, finish)
+    this.refs = {}
+    this.props = props
+    this.custom = {}
+    this.children = []
+    this.data = Object.assign(data, options.data)
+    this.fragment = createFragment(options.is, options.template)
+    this.root = getDocumentRoot(options.is, this.fragment)
+    this.dom = undefined
+    // var actions = shallowCopy(actions)
+    // options.actions = shallowCopy(options.actions)
+
+    // Object.keys(options.actions).forEach(index => bindToTarget(options.actions, index))
+    // Object.keys(actions).forEach(index => bindToTarget(actions, index))
+    for (let prop in options.actions) {
+        if (options.actions.hasOwnProperty(prop))
+            this[prop] =
+                generateActions(actions[prop], options.actions[prop], prop)
     }
 
-    function unmount(widgetUnmount, finish) {
-        if (!this.target || !this.target.parentNode)
-            return
-        this.target.parentNode.removeChild(this.target)
-        if (widgetUnmount && isFunction(widgetUnmount))
-            return widgetUnmount.call(this, finish)
-    }
+    ['mount', 'unmount', 'destroy'].forEach(action => {
+        this[action] = generateActions({
+            before: actions[action].before,
+            method: extendLifecycle(lifecycle[action].bind(this), actions[action].method),
+            after: actions[action].after
+        }, options.actions[action], action)
+    })
 
-    function mount(widgetMount, template, finish, target, prepend) {
-        if (typeof target === 'string') {
-            target = document.querySelector(target)
-        } else {
-            logger.warn('first argument of mount method should be selector string')
-        }
-        if (this.target) {
-            if (prepend)
-                target.insertBefore(this.target, target.firstChild)
-            else
-                target.appendChild(this.target)
-        } else {
-            // templates can only have one root
-            this.target = shallowCopy(
-              Array.from(template.childNodes)
-                  .filter(node => node.nodeType === 1)
-            )[0]
-            if (prepend)
-                target.insertBefore(template, target.firstChild)
-            else
-                target.appendChild(template)
-        }
-        if (widgetMount && isFunction(widgetMount))
-            return widgetMount.call(this, finish)
-        return this
+    this.dom = generateDocument(this, this.fragment)
+    // bind event
+    events.forEach(event => {
+        var target
+        var capture = false
+        if (event.event === 'scroll')
+            capture = true
+        if (!event.target) 
+            target = this.root
+        else if (event.target === 'document')
+            target = document
+        else
+            target = this.dom[event.target]
+        target.addEventListener(event.event, event.callback.bind(this), capture || event.capture);
+    })
+    this.init.call(this)
+}
+
+function extendLifecycle(base, extend) {
+    return function(finish, ...args) {
+        base(...args)
+        if (extend && isFunction(extend))
+            return extend.call(this, finish)
     }
 }
 
 function bindScope(scope, action) {
     return {
-        before: toFunction(action.before).bind(scope),
-        method: toFunction(action.method).bind(scope),
-        after: toFunction(action.after).bind(scope),
-        error: toFunction(action.error, logger.error).bind(scope),
+        before: action.before? bind6Args(action.before, scope): null,
+        method: action.method? bind6Args(action.method, scope): null,
+        after: action.after? bind6Args(action.after, scope): null,
+        error: action.error? bind6Args(action.error, scope): null,
     }
 }
 
-function generateDocument(widget, template) {
-    var dom = {}
-    Array.from(template.querySelectorAll('[data-info]')).forEach(doc => {
-        var info = doc.getAttribute('data-info')
-        dom[info] = doc
-    })
-    Array.from(template.querySelectorAll('[data-event]')).forEach(doc => {
-        var events = doc.getAttribute('data-event')
-        events.split('|').forEach(event => {
-            var eventName
-            var action
-            event.split(':').forEach((token, index) => {
-                if (index === 0)
-                    eventName = token
-                else if (index === 1)
-                    action = token
-            })
-            if (!widget[action]) {
-                logger.warn(`No such method:${action} in ${events}, check data-event and widget methods definition.`)
-                return
+
+function generateActions(widgetAction, userAction = shallowCopy(functionSet)) {
+    return function(a, b, c, d, e, f) {
+        var before = (a, b, c, d, e, f) => {
+            userAction.before && userAction.before.call(this, a, b, c, d, e, f)
+            var result = widgetAction.before? widgetAction.before.call(this, a, b, c, d, e, f): undefined
+            // Something like Monad
+            if (typeof result !== 'undefined') return result
+            return {
+                __custom: true,
+                data: [a, b, c, d, e, f].filter(item => typeof item !== 'undefined')
             }
-            doc.addEventListener(eventName, widget[action].bind(widget))
-        })
-    })
-    return dom
-}
-
-function getDocumentRoot(template) {
-    // Assume the template only have one root
-    return template.querySelector('*')
-}
-
-function generateActions(widgetAction, userAction = shallowCopy(functionSet), name) {
-    return function(...args) {
-        var before = function(...args) {
-            logger.info(`[${name}][before](${[].concat(...args)})`)
-            return wrapUserEvent(widgetAction.before, userAction.before, ...args)
         }
-        var method = function(arg) {
-            logger.info(`[${name}][before](${isFunction(arg) ? arg() : arg})`)
-            if (isFunction(arg))
-                return widgetAction.method(userAction.method, ...arg()) || arg
-            return widgetAction.method(userAction.method, arg) || arg
+        var method = arg => {
+            if (arg && arg.__custom)
+                return (widgetAction.method && 
+                    widgetAction.method.call(this, bind6Args(userAction.method, this), ...arg.data)) || arg
+            else
+                return (widgetAction.method && 
+                    widgetAction.method.call(this, bind6Args(userAction.method, this), arg)) || arg
         }
-        var after = function(arg) {
-            logger.info(`[${name}][after](${isFunction(arg) ? arg() : arg})`)
-            if (isFunction(arg))
-                return wrapUserEvent(widgetAction.after, userAction.after, ...arg()) || arg
-            return wrapUserEvent(widgetAction.after, userAction.after, arg) || arg
+        var after = arg => {
+            if (arg && arg.__custom) {
+                arg = arg.data
+                userAction.after && userAction.after.call(this, ...arg)
+                return (widgetAction.after && widgetAction.after.call(this, ...arg)) || arg
+            } else {
+                userAction.after && userAction.after.call(this, arg)
+                return (widgetAction.after && widgetAction.after.call(this, arg)) || arg
+            }
         }
-        var error = function(e) {
-            return wrapUserEvent(widgetAction.error, userAction.error, e)
+        var error = e => {
+            widgetAction.error && widgetAction.error.call(this, e)
+            userAction.error && userAction.error.call(this, e)
         }
-        var finish = function(arg) {
-            if (isFunction(arg))
-                // flatten one level
-                return Array.isArray(arg()[0]) ? [].concat.apply([], arg()) : arg()[0]
-            return arg
-        }
-        try {
-            return nextAction(before(...args), [before, method, after, finish], error)
-        } catch (e) {
-            error(e)
-        }
+        
+        return chainActions(before(a, b, c, d, e, f), [before, method, after], error)
     }
 }
 
-function wrapUserEvent(widget, user, ...args) {
-    var continueDefault = (user != null && user(...args))
-    if (continueDefault || typeof continueDefault === 'undefined')
-        return widget(...args) || (() => args)
-    return [].concat(...args)
-}
+// function wrapUserAction(widget, user, ...args) {
+//     var continueDefault = (user != null && user(...args))
+//     if (continueDefault || typeof continueDefault === 'undefined')
+//         return widget(...args) || (() => args)
+//     return [].concat(...args)
+// }
 
-function nextAction(result, actions, error, start = 0) {
+function chainActions(result, actions, error, start = 0) {
     if (start + 1 === actions.length)
         return result
     if (isThenable(result)) {
@@ -201,7 +178,7 @@ function nextAction(result, actions, error, start = 0) {
             return res
         }, result).catch(error)
     } else {
-        return nextAction(actions[start + 1](result), actions, error, start + 1)
+        return chainActions(actions[start + 1](result), actions, error, start + 1)
     }
 }
 

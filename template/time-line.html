@@ -13,7 +13,7 @@
         <div class='rc-panel__content' data-info='content'>
             <div class='rc-timeline__loading' data-info='loading'>Loading ...</div>
             <div class='rc-timeline__list' data-info='timeline'>
-                <time-line-item dynamic></time-line-item>
+                <!-- timeline-item -->
             </div>
             <div class='rc-timeline__mask display-none' data-info='mask'></div>
         </div>
@@ -21,28 +21,32 @@
 </template>
 <script>
 w.register(function() {
+    var syncedMessages = []
     this.data = {}
     this.actions= {
         init: {
             after: function() {
-                this.props.syncedMessages = []
+                this.props.mounted = false
                 this.props.latestMessage = null
             }
         },
         mount: {
             after: function() {
-                if (!this.props.mounted)
+                if (!this.props.mounted) {
                     this.fetchData()
+                    this.props.mounted = true
+                }
             }
         },
         fetchData: {
             method: function(finish) {
-                this.props.mounted = true
                 return finish()
             },
             after: function(contents) {
+                this.dom.loading.classList.add('display-none')
+                if (!contents || !contents[0])
+                    return
                 this.props.latestMessage = contents[0]
-                this.props.dom.loading.classList.add('display-none')
                 contents.forEach(content => this.addLine(content))
             }
         },
@@ -51,7 +55,7 @@ w.register(function() {
                 // FIXME: The action of combining messages should be in service
                 contents
                 // Avoid duplicated notifications
-                .filter(content => this.props.syncedMessages.indexOf(content.id) === -1)
+                .filter(content => syncedMessages.indexOf(content.id) === -1)
                 .forEach(content => {
                     if (this.props.latestMessage &&
                         this.props.latestMessage.type === content.type &&
@@ -65,7 +69,7 @@ w.register(function() {
                     }
                     this.addLine(content, true)
                     this.props.latestMessage = content
-                    this.props.syncedMessages.push(content.id)
+                    syncedMessages.push(content.id)
                 })
             }
         },
@@ -84,7 +88,7 @@ w.register(function() {
                     }
                 })
                 content.widget = item
-                item.mount(this.props.dom.timeline, prepend)
+                item.mount(this.dom.timeline, prepend)
             }
         },
         search: {
@@ -96,29 +100,23 @@ w.register(function() {
             method: function(finish) {
                 return finish()
             },
-            after: function() {
-
-            }
+            after: function() {}
         },
         blurSearchBox: {
             method: function(finish) {
                 return finish()
             },
-            after: function() {
-
-            }
+            after: function() {}
         },
         switchContent: {
-            method: function() {
-            },
-            after: function() {
-            }
+            method: function() {},
+            after: function() {}
         },
         enterItem: {
             method: function() {},
             after: function() {}
         }
     }
-});
+})
 //# sourceURL=time-line.html
 </script>

@@ -76,16 +76,16 @@ w.register(function() {
                 // There is two type of conversation: 1. to new users 2. existing conversation
                 // will be determined by this.data
                 if (!this.data.new) {
-                    this.props['contact-picker'].disable()
-                    this.props.dropdown.disable()
+                    this.refs['contact-picker'].disable()
+                    this.refs.dropdown.disable()
                 }
             },
             after: function() {
-                this.props['dropdown'].getData()
-                this.props.dom.input.value = this.data.message || ''
-                fade.init(this.props.root)
-                fade.in(this.props.root, {
-                    after: () => this.props['contact-picker'].focus()
+                this.refs['dropdown'].getData()
+                this.dom.input.value = this.data.message || ''
+                fade.init(this.root)
+                fade.in(this.root, {
+                    after: () => this.refs['contact-picker'].focus()
                 })
             }
         },
@@ -100,8 +100,8 @@ w.register(function() {
         send: {
             before: function() {
                 // send messages on UI
-                this.props.message = this.props.dom.input.value
-                this.props.dom.input.value = ''
+                this.props.message = this.dom.input.value
+                this.dom.input.value = ''
                 var date = new Date()
                 var bubble = this.addBubble(
                     this.props.message,
@@ -112,7 +112,7 @@ w.register(function() {
             },
             method: function(finish, dom) {
                 this.props.fromNumber = this.data.fromNumber || this.props.fromNumber
-                this.props.toNumber = this.data.toNumber || this.props['contact-picker'].props.dom.input.value
+                this.props.toNumber = this.data.toNumber || this.refs['contact-picker'].dom.input.value
                 return finish().then(response => {
                     dom.setAttribute('data-id', response.id)
                     this.unconfirm = this.unconfirm || []
@@ -136,22 +136,22 @@ w.register(function() {
                 var div = document.createElement('div')
                 div.innerHTML = template
                 if (prepend) {
-                    this.props.dom.conversations.insertBefore(
+                    this.dom.conversations.insertBefore(
                         div.childNodes[0],
-                        this.props.dom.conversations.firstChild
+                        this.dom.conversations.firstChild
                     )
                 } else {
-                    this.props.dom.conversations.appendChild(
+                    this.dom.conversations.appendChild(
                         div.childNodes[0]
                     )
                 }
-                return this.props.dom.conversations.lastChild;
+                return this.dom.conversations.lastChild;
             }
         },
         disable: {
             after: function() {
-                this.props['contact-picker'].disable()
-                this.props.dropdown.disable()
+                this.refs['contact-picker'].disable()
+                this.refs.dropdown.disable()
             }
         },
         scroll: {
@@ -166,20 +166,20 @@ w.register(function() {
                 if (this.isLoading)
                     return
                 this.isLoading = true
-                this.props.dom.loading.classList.remove('display-none')
+                this.dom.loading.classList.remove('display-none')
                 return finish().then(result => {
                     this.isLoading = false
-                    this.props.dom.loading.classList.add('display-none')
+                    this.dom.loading.classList.add('display-none')
                     return result
                 })
             },
             after: function(messages) {
                 if (messages) {
                     // maintain the scoll position
-                    var scrollBottom = this.props.dom.conversations.offsetHeight
+                    var scrollBottom = this.dom.conversations.offsetHeight
                     this.prependMessages(messages, false)
-                    this.props.dom.container.scrollTop = 
-                    this.props.dom.conversations.offsetHeight - scrollBottom
+                    this.dom.container.scrollTop = 
+                    this.dom.conversations.offsetHeight - scrollBottom
                 }
             }
         },
@@ -234,7 +234,7 @@ w.register(function() {
         },
         scrollToBottom: {
             after: function() {
-                this.props.dom.container.scrollTop = this.props.dom.container.scrollHeight
+                this.dom.container.scrollTop = this.dom.container.scrollHeight
             }
         },
         getOutboundCallerID: {

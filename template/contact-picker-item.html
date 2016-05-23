@@ -3,23 +3,62 @@
     <div class='rc-contact__value' data-info='value'></div>
 </div>
 <script>
-w.register(function() {
-    this.actions = {
-        init: {
-            method: function(finish){
-                return finish();
-            },
-            after: function(contact){
-                this.props.contact = contact;
-                this.props.dom.name.textContent = contact.name;
-                this.props.dom.value.textContent = contact.value;
-            }
+this.props = {
+    contact: null,
+    hovered: false,
+    focused: false
+}
+this.actions = {
+    init: {
+        method: function(finish){
+            return finish();
         },
-        select: {
-            method: function(finish){
-                return finish();
-            }
+        after: function(contact){
+            this.props.contact = contact;
+            this.dom.name.textContent = contact.name;
+            this.dom.value.textContent = contact.value;
+        }
+    },
+    select: {
+        method: function(finish){
+            return finish();
+        }
+    },
+    hover: {
+        after: function(value) {
+            if (value)
+                this.root.firstChild.classList.add('hover')
+            else
+                this.root.firstChild.classList.remove('hover')
+            this.props.hovered = value
+        }
+    },
+    focus: {
+        after: function(value) {
+            if (value)
+                this.root.firstChild.classList.add('--focus')
+            else
+                this.root.firstChild.classList.remove('--focus')
+            this.props.focused = value
         }
     }
+
+}
+this.on('click', function(e) {
+    this.select()
 })
+this.on('mouseover', function(e) {
+    this.hover(true)
+})
+this.on('mouseout', function(e) {
+    this.hover(false)
+})
+//# sourceURL=contact-picker-item.html
 </script>
+<style>
+    .rc-contact {
+        &.--focus {
+            background: #64B5F6;
+        }
+    }
+</style>

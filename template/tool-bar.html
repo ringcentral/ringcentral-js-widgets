@@ -13,7 +13,7 @@
 <script>
 w.register(function() {
     var slideDown = w.transition('slide-down')
-    this.actions = Object.assign(w.action('interaction'), {
+    this.actions = {
         init: {
             method: function() {
                 this.state = []
@@ -22,25 +22,25 @@ w.register(function() {
         },
         mount: {
             after: function() {
-                slideDown.init(this.props.dom.menu)
+                slideDown.init(this.dom.menu)
                 window.addEventListener('click', e => {
                     this.hideMenu()
                 }, false)
-                this.props.root.addEventListener('click', function(e) {
+                this.root.addEventListener('click', function(e) {
                     e.stopPropagation()
                 });
             }
         },
         adjustMenuButton: {
             after: function() {
-                Array.from(this.props.dom['toolbar'].childNodes).forEach(node => {
+                Array.from(this.dom['toolbar'].childNodes).forEach(node => {
                     if (node.nodeType === 3)
                         node.parentNode.removeChild(node)
                 })
-                var mid = Math.floor((Array.from(this.props.dom['toolbar'].childNodes).length - 1) / 2) + 1
-                var target = this.props.dom['toolbar'].childNodes[mid]
+                var mid = Math.floor((Array.from(this.dom['toolbar'].childNodes).length - 1) / 2) + 1
+                var target = this.dom['toolbar'].childNodes[mid]
                 target.parentNode.insertBefore(
-                    this.props.dom['menu-button'], target
+                    this.dom['menu-button'], target
                 )
             }
         },
@@ -60,14 +60,14 @@ w.register(function() {
                     
                     div.innerHTML = template
                     item = div.childNodes[0]
-                    this.props.dom['menu'].appendChild(item)
+                    this.dom['menu'].appendChild(item)
                 } else {
                     var template = `<button class='rc-toolbar__item rc-button --ghost rc-icon-switch'>
                                         ${icon}
                                     </button>`
                     div.innerHTML = template
                     item = div.childNodes[0]
-                    this.props.dom['toolbar'].appendChild(item)
+                    this.dom['toolbar'].appendChild(item)
                 }
                 this.adjustMenuButton()
                 ++ this.itemCount
@@ -98,14 +98,18 @@ w.register(function() {
         },
         toggleMenu: {
             after: function() {
-                slideDown.toggle(this.props.dom.menu)
+                slideDown.toggle(this.dom.menu)
             }
         },
         hideMenu: {
             after: function() {
-                slideDown.out(this.props.dom.menu)
+                slideDown.out(this.dom.menu)
             }
         }
+    }
+    this.on('click', 'menu-button', function(e) {
+        this.toggleMenu()
     })
 })
+//# sourceURL=toolbar.html
 </script>

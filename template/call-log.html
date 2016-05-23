@@ -3,14 +3,12 @@
         <div class="rc-tabs">
             <a 
                 class="rc-tabs__tab --active --color --width2" 
-                data-info="allCallTab" 
-                data-event="click:enableAllCallTab">
+                data-info="allCallTab">
                 All
             </a>
             <a 
                 class="rc-tabs__tab --color --width2" 
-                data-info="missedCallTab" 
-                data-event="click:enableMissedCallTab">
+                data-info="missedCallTab">
                 Missed
             </a>
         </div>
@@ -20,89 +18,93 @@
     </div>
 </div>
 <script>
-w.register(function() {
-    function createWidgetItems(logItems, props) {
-        if (!logItems)
-            return;
-        logItems.forEach(function(item) {
-            var widget = w('call-log-item', {
-                actions: {
-                    init: {
-                        method: function() {
-                            return item;
-                        }
+function createWidgetItems(logItems, parent) {
+    if (!logItems)
+        return;
+    logItems.forEach(function(item) {
+        var widget = w('call-log-item', {
+            actions: {
+                init: {
+                    method: function() {
+                        return item;
                     }
                 }
-            });
-            widget.mount(props.dom.logs);
-            props.widgetItems.push(widget);
+            }
         });
-    }
-
-    function filterWidgetItems(widgetItems, filter) {
-        widgetItems.forEach(function(widget) {
-            if (filter(widget)) {
-                widget.show();
-            }else {
-                widget.hide();
-            }
-
-        });
-    }
-
-    function enableTab(toEnableTab, toDisableTab) {
-        if (toEnableTab.classList.contains('--active') === false) {
-            toEnableTab.classList.add('--active');
-            toDisableTab.classList.remove('--active');
-        }
-    }
-    this.actions = Object.assign(w.action('interaction'), {
-        init: {
-            before: function() {
-                this.props.widgetItems = [];
-            },
-            method: function(finish) {
-                return finish();
-            },
-            after: function(items) {
-                this.props.logItems = items;
-                this.refreshCallLogs();
-            }
-        },
-        mount: {
-            after: function() {
-                this.refreshCallLogs();
-            }
-        },
-        refreshCallLogs: {
-            method: function(finish) {
-                return finish();
-            },
-            after: function() {
-                // We already have widgets in view
-                if (this.props.widgetItems.length > 0)
-                    return
-                createWidgetItems(this.props.logItems, this.props);
-            }
-        },
-        enableAllCallTab: {
-            after: function() {
-                enableTab(this.props.dom.allCallTab, this.props.dom.missedCallTab);
-                filterWidgetItems(this.props.widgetItems, function() {return true;});
-            }
-        },
-        enableMissedCallTab: {
-            after: function() {
-                enableTab(this.props.dom.missedCallTab, this.props.dom.allCallTab);
-                filterWidgetItems(this.props.widgetItems, function(widget) {
-                    if (widget.props.item.result === 'Missed') {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                });
-            }
-        }
+        widget.mount(parent.dom.logs);
+        parent.props.widgetItems.push(widget);
     });
-});
+}
+
+function filterWidgetItems(widgetItems, filter) {
+    widgetItems.forEach(function(widget) {
+        if (filter(widget)) {
+            widget.show();
+        }else {
+            widget.hide();
+        }
+
+    });
+}
+
+function enableTab(toEnableTab, toDisableTab) {
+    if (toEnableTab.classList.contains('--active') === false) {
+        toEnableTab.classList.add('--active');
+        toDisableTab.classList.remove('--active');
+    }
+}
+this.actions = {
+    init: {
+        before: function() {
+            this.props.widgetItems = [];
+        },
+        method: function(finish) {
+            return finish();
+        },
+        after: function(items) {
+            this.props.logItems = items;
+            this.refreshCallLogs();
+        }
+    },
+    mount: {
+        after: function() {
+            this.refreshCallLogs();
+        }
+    },
+    refreshCallLogs: {
+        method: function(finish) {
+            return finish();
+        },
+        after: function() {
+            // We already have widgets in view
+            if (this.props.widgetItems.length > 0)
+                return
+            createWidgetItems(this.props.logItems, this);
+        }
+    },
+    enableAllCallTab: {
+        after: function() {
+            enableTab(this.dom.allCallTab, this.dom.missedCallTab);
+            filterWidgetItems(this.props.widgetItems, function() {return true;});
+        }
+    },
+    enableMissedCallTab: {
+        after: function() {
+            enableTab(this.dom.missedCallTab, this.dom.allCallTab);
+            filterWidgetItems(this.props.widgetItems, function(widget) {
+                if (widget.props.item.result === 'Missed') {
+                    return true;
+                } else {
+                    return false;
+                }
+            });
+        }
+    }
+}
+this.on('click', function(e) {
+    if (e.target === this.dom.allCallTab) 
+        this.enableAllCallTab()
+    else if (e.target === this.dom.missedCallTab)
+        this.enableMissedCallTab()
+})
 </script>

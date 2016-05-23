@@ -1160,7 +1160,10 @@ h1, h2, h3, h4, h5, h6 {
     * rc-panels are treated as common containers
     */
     /* used as a positioned reference */
-    position: relative
+    position: relative;
+    position: relative;
+    height: 100%;
+    width:  100%
 }
 
 .rc-panel__header {
@@ -1187,7 +1190,7 @@ h1, h2, h3, h4, h5, h6 {
 .rc-panel__content {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     position: relative;
-    height: 350px;
+    height: calc(100% - 61px);
     background-color: #fff;
 }
 
@@ -1339,45 +1342,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* @import "old.css"; */
-.rc-auth-panel .input-panel {
-    border-radius: 3px;
-    border: 1px solid #bdc3c7;
-}
-.rc-auth-panel .input-panel > .rc-input {}
-.rc-auth-panel .input-panel__flag {
-    float: left;
-    width: 40px;/* For test, the position is for country flag */
-    height: 30px;
-    background: #000;
-}
-.rc-auth-panel .input-panel__phone {
-    float: left;
-    width: calc(100% - 40px);
-}
-.rc-auth-panel .input-panel.--focus {
-    border-color: #7f8c8d;
-}
-.rc-auth-panel__content {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-}
-.rc-auth-panel__content > .rc-input {
-    margin: 5px 0;
-}
-.rc-auth-panel__content > .rc-button {
-    width: 100%;/* Move to the bottom of flex container */
-    margin-top: auto;
-}
-.rc-auth-panel__container {/* used as a positioned reference */
-    position: relative;
-}
-.rc-auth-panel__header {
-    text-align: center;
-}
-.rc-auth-panel__img {
-    width: 60%;
-}
 .rc-call-log {}
 .rc-call-log__content {
     overflow: auto;
@@ -1453,57 +1417,6 @@ h1, h2, h3, h4, h5, h6 {
     white-space: nowrap;
     color: #b3b3b3;
 }
-.rc-call-panel {
-    font-size: .8em;
-}
-.rc-call-panel > .rc-panel__content {
-    padding: .5em .7em;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-}
-.rc-call-panel .action-panel {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-top: 10px;
-}
-.rc-call-panel .action-panel__action {
-    width: 130px;
-}
-.rc-call-panel .action-panel__action > [class^="icon-"] {
-    font-size: 1.6em;
-}
-.rc-call-panel .action-panel__action:first-child {
-    margin-right: 10px;
-}
-.rc-call-panel .control-panel {}
-.rc-call-panel .control-panel__title {
-    padding: .1em .3em;
-}
-.rc-call-panel .control-panel__line {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-.rc-call-panel .control-panel__item {
-    color: #1e89ed;
-}
-.rc-call-panel .control-panel__button {
-    margin-bottom: 3px;
-}
-.rc-call-panel .control-panel__button > [class^="icon-"] {
-    font-size: 4em;
-}
-.rc-call-panel__reply {
-    width: 100%;
-}
-.rc-call-panel__center {/* fill out all flex panel */
-    height: 100%;
-    margin-bottom: 30px;
-}
-.rc-call-panel__footer {}
 .rc-compose-text {}
 .rc-compose-text__textarea {
     height: 100%;
@@ -1526,6 +1439,7 @@ h1, h2, h3, h4, h5, h6 {
 .rc-conversation .conversations__bubble {
     padding: .5em .7em;
     position: relative;
+    max-width: 80%;
     word-break: break-word;
     border: 1px solid #bdc3c7;
     border-radius: 10px;
@@ -1581,6 +1495,7 @@ h1, h2, h3, h4, h5, h6 {
 .rc-conversation .voice-bubble {}
 .rc-conversation .voice-bubble__play {}
 .rc-conversation .voice-bubble__duration {
+    max-width: 100%;
     height: 10px;
     border: 1px solid#878787;
     display: inline-block;
@@ -1591,11 +1506,11 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-conversation__container {
     display: flex;
-    flex-direction: column;/* Adjust all conversation related font size */
+    flex-direction: column;
     font-size: .8em;
     transition: transform .2s ease-in;
 }
-.rc-conversation__content {/*display: flex;*//*flex: 1;*//*flex-direction: column;*//*justify-content: flex-end;*/
+.rc-conversation__content {
     overflow: auto;
     height: 100%;
 }
@@ -1856,70 +1771,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-contact-item:hover {
     background-color: #eee;
-}
-.rc-dial-pad .blur {
-    filter: blur(2px);
-    -webkit-filter: blur(2px);
-}
-.rc-dial-pad .call-button {
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;/* 1: 0.6, same as the panel width: panel height*/
-    transform: scale(.21, .131);
-    transform-origin: center 95%;
-    transition: border-radius       .8s,
-                    transform           .3s ease-in, 
-                    background-color    .8s,
-                    border-color        .8s;
-    background-color: #2ecc71;
-    border-color: #2ecc71;
-}
-.rc-dial-pad .call-button.--active {
-    transform: scale(1, 1);
-    border-radius: 0;/* background-color: #fff; *//* border-color: #fff; */
-}
-.rc-dial-pad__line {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-.rc-dial-pad__line > .dial-button {
-    margin: 4px 8px;
-    width: 3.2em;
-    height: 3.2em;
-    color: #1e89ed;
-    border-color: #1e89ed;
-}
-.rc-dial-pad__line > .dial-button > .dial-button__number {
-    font-weight: bold;
-}
-.rc-dial-pad__line > .dial-button > .dial-button__symbol {
-    font-size: .5em;
-}
-.rc-dial-pad__mask {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-}
-.rc-dial-pad__mask > p {
-    font-weight: bold;
-    text-align: center;
-}
-.rc-dial-pad__mask::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
 }
 .rc-dropdown {/* used as a positioned reference */
     position: relative;
@@ -2241,19 +2092,19 @@ h1, h2, h3, h4, h5, h6 {
 * Some common use cases
 */
 .float-right {
-    float: right;
+    float: right !important;
 }
 .float-left {
-    float: left;
+    float: left !important;
 }
 .display-none {
-    display: none;
+    display: none !important;
 }
 .text-center {
-    text-align: center;
+    text-align: center !important;
 }
 .text-right {
-    text-align: right;
+    text-align: right !important;
 }
 .clearfix {
 
