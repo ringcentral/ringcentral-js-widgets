@@ -265,18 +265,11 @@ services['conversation-advanced'] = {
 services['call-panel'] = {
     init: {
         after: function() {
-            var _mount = false
             phoneService.on('progress', () => {
-                console.log('progress, ready to mount');
-                if (!_mount) {
+                if (!this._mounted) {
                     this.mount(this.props.target)
-                    _mount = true
                 }
             })
-        }
-    },
-    mount: {
-        after: function() {
             phoneService.on('bye', () => {
                 this.unmount()
             })
@@ -293,6 +286,11 @@ services['call-panel'] = {
                 console.log('accept');
                 this.start()
             })
+        }
+    },
+    mount: {
+        after: function() {
+            
         }
     },
     getContact: {

@@ -250,6 +250,7 @@ this.actions = {
             this.props.duration = 0
             if (_interval) {
                 // clear interval
+                console.log('clear interval');
                 _interval()
                 _interval = null
             }
@@ -278,6 +279,7 @@ this.actions = {
             // FIXME: NOT accurate
             // TODO: check for real startTime from SIP
             _interval = (function(self) {
+                console.log('set interval');
                 var id = setInterval(() => {
                     self.count()
                 }, 1000)

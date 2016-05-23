@@ -633,7 +633,6 @@ $gray: #bdc3c7;
     @mixin shadow-1;
     /* overlay bubbles */
     position: relative;
-    z-index: 1;
     display: inline-block;
     width: 49%;
     text-align: center;
@@ -646,6 +645,10 @@ $gray: #bdc3c7;
     right: 10px;
     width: 40px;
     height: 40px;
+    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    &:hover {
+        @mixin shadow-hover;
+    }
 }
 .mask {
     position: absolute;

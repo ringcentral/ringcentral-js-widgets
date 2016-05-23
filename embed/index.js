@@ -82,19 +82,9 @@
                         `origin=${window.location.origin}`
         if (options.dynamic != null) {
             target.style.display = 'none'
+            iframe.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
             clickToDial(target, iframe)
-            
         }
-        iframeReadyQueue.push(function(contentWindow) {
-            console.log('flush qu');
-            var preX
-            var preY
-
-            requestAnimationFrame(function frame() {
-                requestAnimationFrame(frame)
-                console.log(drag);
-            })
-        })
         target.appendChild(iframe)
     }
 

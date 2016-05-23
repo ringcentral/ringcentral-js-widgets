@@ -59,50 +59,53 @@ w.register(function() {
                 var phone = this
                 this.props.conversation = undefined;
                 this.props.contactDetail = undefined;
-                this.props.toolbar = w('tool-bar', {
-                    shadowRoot: phone.data.shadowRoot,
-                    data : phone.data,
-                    actions: {
-                        mount: {
-                            after: function() {
-                                phone.props.panels[0].mount('#first-level-0')
-                            }
-                        }
-                    }
-                });
-                this.props.authPanel = w('auth-panel', {
-                    shadowRoot: phone.data.shadowRoot,
-                    data : phone.data,
-                    actions: factory.create('auth-panel', {
-                        login: {
-                            after: function() {
-                                this.unmount()
-                                phone.loadData();
-                                if (phone.data.shadowRoot)
-                                    phone.props.toolbar.mount(phone.data.shadowRoot.querySelector('#toolbar'))
-                                else
-                                    phone.props.toolbar.mount('#toolbar')
-                                phone.dom['auth-panel'].parentNode.removeChild(phone.dom['auth-panel'])
-                            }
-                        }
-                    })
-                });
+                
+
                 this.props.notification = w('notification', {})
-                ;[
-                'auth-panel',
-                // 'conversation', 
-                // 'call-panel', 
-                // 'call-panel-incoming', 
-                // 'contact-detail', 
-                // 'notification'
-                ].forEach(name => {
-                    this.dom[name].style.width = this.props.width + 'px'
-                    this.dom[name].style.height = this.props.height - this.props.toolbarHeight + 'px'
-                })
+               
 
                 if (this.data.firstLevel) {
                     var names = this.data.firstLevel.split(',')
-                    var toolbar = this.props.toolbar
+                    console.log(names);
+                    this.props.authPanel = w('auth-panel', {
+                        shadowRoot: phone.data.shadowRoot,
+                        data : phone.data,
+                        actions: factory.create('auth-panel', {
+                            login: {
+                                after: function() {
+                                    this.unmount()
+                                    phone.loadData();
+                                    console.log(names);
+                                    if (names.length > 1) {
+                                        if (phone.data.shadowRoot)
+                                            phone.props.toolbar.mount(phone.data.shadowRoot.querySelector('#toolbar'))
+                                        else
+                                            phone.props.toolbar.mount('#toolbar')
+                                    } else {
+                                        phone.props.panels[0].mount('#first-level-0')
+                                        phone.dom['toolbar'].parentNode.removeChild(phone.dom['toolbar'])
+                                    }
+                                    phone.dom['auth-panel'].parentNode.removeChild(phone.dom['auth-panel'])
+                                }
+                            }
+                        })
+                    });
+                    if (names.length > 1) {
+                        var toolbar = this.props.toolbar = w('tool-bar', {
+                            shadowRoot: phone.data.shadowRoot,
+                            data : phone.data,
+                            actions: {
+                                mount: {
+                                    after: function() {
+                                        phone.props.panels[0].mount('#first-level-0')
+                                    }
+                                }
+                            }
+                        })
+                        
+                    } else if (names.length === 1) {
+
+                    }
                     names.forEach((name, index) => {
                         var widget
                         if (name === 'call-log') {
@@ -110,14 +113,16 @@ w.register(function() {
                                 shadowRoot: phone.data.shadowRoot,
                                 actions: factory.create('call-log')
                             })
-                            toolbar.clickItem(
-                                toolbar.addItem('<span class="icon-uniC8"></span><span class="icon-RC_shapes_2-30_pressed"></span>'), 
-                                phone.switchWidgets(
-                                    panel,
-                                    '#first-level' + index, 
-                                    index
+                            if (names.length > 1) {
+                                toolbar.clickItem(
+                                    toolbar.addItem('<span class="icon-uniC8"></span><span class="icon-RC_shapes_2-30_pressed"></span>'), 
+                                    phone.switchWidgets(
+                                        panel,
+                                        '#first-level' + index, 
+                                        index
+                                    )
                                 )
-                            )
+                            }
                         } else if (name === 'time-line') {
                             if (!this.props.callPanel) {
                                 this.props.callPanel = w('call-panel', {
@@ -258,14 +263,16 @@ w.register(function() {
                                     }
                                 })
                             })
-                            toolbar.clickItem(
-                                toolbar.addItem('<span class="icon-uniA4"></span><span class="icon-RC_shapes_1-40_pressed"></span>'), 
-                                phone.switchWidgets(
-                                    widget,
-                                    '#first-level' + index, 
-                                    index
+                            if (names.length > 1) {
+                                toolbar.clickItem(
+                                    toolbar.addItem('<span class="icon-uniA4"></span><span class="icon-RC_shapes_1-40_pressed"></span>'), 
+                                    phone.switchWidgets(
+                                        widget,
+                                        '#first-level' + index, 
+                                        index
+                                    )
                                 )
-                            )
+                            }
                         } else if (name === 'conference') {
                             widget = this.props.conference = w('conference',{
                                 data : phone.data,
@@ -299,11 +306,14 @@ w.register(function() {
                             div.classList.add('panel')
                             div.classList.add('float-left')
                             div.style.width = this.props.width + 'px'
-                            div.style.height = (this.props.height - this.props.toolbarHeight) + 'px'
+                            div.style.height = this.props.height+ 'px'
+                            if (names.length > 1)
+                                div.style.height = (this.props.height - this.props.toolbarHeight) + 'px'
                             div.setAttribute('id', 'first-level-' + (this.props.panels.length - 1))
                             this.dom.container.appendChild(div)
                         }
                     })
+                    
                 }
             }
         },
@@ -349,33 +359,34 @@ w.register(function() {
                 this.dom.phone.style.height = this.props.height + 'px'
                 this.dom['auth-panel'].style.width = this.props.width + 'px'
                 this.dom['auth-panel'].style.height = this.props.height + 'px'
+                console.log(this.props.height);
 
                 this.createWidgets()
             }
         },
         mount: {
             after: function() {
-                this.checkLogin().then(loggedin => {
-                    if (loggedin) {
-                        this.loadData();
-                        if (this.data.shadowRoot)
-                            this.props.toolbar.mount(phone.data.shadowRoot.querySelector('#toolbar'))
-                        else
-                            this.props.toolbar.mount('#toolbar')
-                        this.dom['auth-panel'].parentNode.removeChild(phone.dom['auth-panel'])
-                    } else {
-                        if (this.data.shadowRoot)
-                            this.props.authPanel.mount(this.data.shadowRoot.querySelector('#auth-panel'))
-                        else
-                            this.props.authPanel.mount('#auth-panel')
-                    }
-                })
-                // this.getService().loginService.checkLoginStatus().then(isLoggedIn => {
-                //     if (this.data.shadowRoot)
-                //         this.props.authPanel.mount(this.data.shadowRoot.querySelector('#auth-panel'))
-                //     else
-                //         this.props.authPanel.mount('#auth-panel')
-                // }).catch(err => console.error(err))
+                // this.checkLogin().then(loggedin => {
+                //     if (loggedin) {
+                //         this.loadData();
+                //         if (this.data.shadowRoot)
+                //             this.props.toolbar.mount(phone.data.shadowRoot.querySelector('#toolbar'))
+                //         else
+                //             this.props.toolbar.mount('#toolbar')
+                //         this.dom['auth-panel'].parentNode.removeChild(phone.dom['auth-panel'])
+                //     } else {
+                //         if (this.data.shadowRoot)
+                //             this.props.authPanel.mount(this.data.shadowRoot.querySelector('#auth-panel'))
+                //         else
+                //             this.props.authPanel.mount('#auth-panel')
+                //     }
+                // })
+                this.checkLogin().then(isLoggedIn => {
+                    if (this.data.shadowRoot)
+                        this.props.authPanel.mount(this.data.shadowRoot.querySelector('#auth-panel'))
+                    else
+                        this.props.authPanel.mount('#auth-panel')
+                }).catch(err => console.error(err))
             }
         },
     })

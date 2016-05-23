@@ -254,7 +254,8 @@ this.on('click', function(e) {
         if (event.target === this.dom[`dial-button-${i}`] ||
             event.target.parentNode === this.dom[`dial-button-${i}`]) this.dialing(i)
     }
-    if (event.target === this.dom.callout) this.callout()
+    if (event.target === this.dom.callout ||
+        event.target.parentNode === this.dom.callout) this.callout()
 })
 // this.on('keydown', 'document', function(e) {
 //     if (!e.target.isEqualNode(this.refs['contact-picker'].dom.input) && 
@@ -334,8 +335,12 @@ $dial-pad-call-button-color: #2ecc71;
         /* 1: 0.6, same as the panel width: panel height*/
         background-color:   $dial-pad-call-button-color;
         border-color:       $dial-pad-call-button-color;
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
         &.--active {
 
+        }
+        &:hover {
+            @mixin shadow-hover;
         }
         > span {
             color: #fff;

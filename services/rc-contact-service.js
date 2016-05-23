@@ -156,17 +156,17 @@ var rcContactService = function(sdk) {
            
             return function() {
                 var fetch
-                // var fetch = new Promise((resolve, reject) => {
-                // // Hack for delay the refreshing request
-                //   setTimeout(() => {
-                //     rcContactService.completeCompanyContact()
-                //     .then(data => {
-                //         if (data)
-                //             localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
-                //         return resolve(data)
-                //     })
-                //   }, 100)
-                // })
+                var fetch = new Promise((resolve, reject) => {
+                // Hack for delay the refreshing request
+                  setTimeout(() => {
+                    rcContactService.completeCompanyContact()
+                    .then(data => {
+                        if (data)
+                            localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
+                        return resolve(data)
+                    })
+                  }, 100)
+                })
                 if (contact) {
                     contact.then(value => {
                         completeCompanyContacts = companyContacts = value

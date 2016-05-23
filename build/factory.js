@@ -22339,17 +22339,17 @@ var rcContactService = function(sdk) {
            
             return function() {
                 var fetch
-                // var fetch = new Promise((resolve, reject) => {
-                // // Hack for delay the refreshing request
-                //   setTimeout(() => {
-                //     rcContactService.completeCompanyContact()
-                //     .then(data => {
-                //         if (data)
-                //             localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
-                //         return resolve(data)
-                //     })
-                //   }, 100)
-                // })
+                var fetch = new Promise((resolve, reject) => {
+                // Hack for delay the refreshing request
+                  setTimeout(() => {
+                    rcContactService.completeCompanyContact()
+                    .then(data => {
+                        if (data)
+                            localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
+                        return resolve(data)
+                    })
+                  }, 100)
+                })
                 if (contact) {
                     contact.then(value => {
                         completeCompanyContacts = companyContacts = value
@@ -23545,18 +23545,11 @@ services['conversation-advanced'] = {
 services['call-panel'] = {
     init: {
         after: function() {
-            var _mount = false
             PhoneService.on('progress', () => {
-                console.log('progress, ready to mount');
-                if (!_mount) {
+                if (!this._mounted) {
                     this.mount(this.props.target)
-                    _mount = true
                 }
             })
-        }
-    },
-    mount: {
-        after: function() {
             PhoneService.on('bye', () => {
                 this.unmount()
             })
@@ -23573,6 +23566,11 @@ services['call-panel'] = {
                 console.log('accept');
                 this.start()
             })
+        }
+    },
+    mount: {
+        after: function() {
+            
         }
     },
     getContact: {

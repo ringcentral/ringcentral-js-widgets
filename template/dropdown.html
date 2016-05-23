@@ -15,19 +15,18 @@ w.register(function() {
             after: function() {
                 if (this.data.defaultValue)
                     this.switchTitle(this.data.defaultValue)
+                enlarge.init(this.dom['list'])
             }
         },
         mount: {
             after: function() {
-                enlarge.init(this.dom['list'])
                 document.addEventListener('click', e => {
                     var currentNode = e.target
                     while(currentNode.parentNode) {
                         currentNode = currentNode.parentNode
-                        if (currentNode.isEqualNode(this.root))
+                        if (currentNode === this.root)
                             return
                     }
-                    this.hide()
                 })
             }
         },
@@ -47,6 +46,7 @@ w.register(function() {
             },
             after: function(ids) {
                 ids.forEach(id => this.addItem(id))
+                this.switchTitle(ids[0])
             }
         },
         addItem: {
