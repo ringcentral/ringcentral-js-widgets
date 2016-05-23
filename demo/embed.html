@@ -34,17 +34,6 @@
             phone.props.dialPad.setNumber(data.value)
         }
     })
-    window.addEventListener('mousedown', function(e) {
-        console.log('iframe down');
-        parent.postMessage({
-            type: 'mousedown'
-        }, origin)
-    })
-    window.addEventListener('mouseup', function(e) {
-        parent.postMessage({
-            type: 'mouseup'
-        }, origin)
-    })
     parent.postMessage({
         type: 'init'
     }, origin)

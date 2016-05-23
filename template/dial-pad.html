@@ -251,11 +251,11 @@ this.actions = {
 }
 this.on('click', function(e) {
     for (let i = 0; i < 10; i ++) {
-        if (event.target === this.dom[`dial-button-${i}`] ||
-            event.target.parentNode === this.dom[`dial-button-${i}`]) this.dialing(i)
+        if (e.target === this.dom[`dial-button-${i}`] ||
+            e.target.parentNode === this.dom[`dial-button-${i}`]) this.dialing(i)
     }
-    if (event.target === this.dom.callout ||
-        event.target.parentNode === this.dom.callout) this.callout()
+    if (e.target === this.dom.callout ||
+        e.target.parentNode === this.dom.callout) this.callout()
 })
 // this.on('keydown', 'document', function(e) {
 //     if (!e.target.isEqualNode(this.refs['contact-picker'].dom.input) && 

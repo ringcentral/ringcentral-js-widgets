@@ -148,19 +148,18 @@ this.actions = {
     }
 }
 this.on('click', function(e) {
-    if (event.target === this.dom['login-button']) this.login()
-    if (event.target === this.dom['external-login-button']) this.externalLogin()
-    if (event.target === this.dom['']) showCountry.call(this)
+    if (e.target === this.dom['login-button']) this.login()
+    if (e.target === this.dom['external-login-button']) this.externalLogin()
+    if (e.target === this.dom['']) showCountry.call(this, e.target.textContent)
 })
 function showCountry() {
     this.dom['country-list'].classList.toggle('display-none')
 }
 
 function switchCountry(value) {
-    var target = event.target || event
-    this.dom['country-dropdown'].textContent = target.textContent
+    this.dom['country-dropdown'].textContent = value
     this.dom['country-list'].classList.add('display-none')
-    this.props.country = target.textContent
+    this.props.country = value
 }
 
 //# sourceURL=auth-panel.html

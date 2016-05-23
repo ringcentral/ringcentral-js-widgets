@@ -42,12 +42,12 @@ services.rcPhone = {
 services['auth-panel'] = {
     login: {
         method: function() {
-            console.log('login');
-            return loginService.login(
-                PhoneFormat.formatE164('US', this.props.username),
-                this.props.extension,
-                this.props.password
-            )
+            // return loginService.login(
+            //     PhoneFormat.formatE164('US', this.props.username),
+            //     this.props.extension,
+            //     this.props.password
+            // )
+            return loginService.oauth()
         }
     }
 }

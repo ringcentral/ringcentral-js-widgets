@@ -21,7 +21,9 @@ var LoginService = function(sdk) {
                 return isLoggedIn
             })
         },
-
+        oauth: function() {
+            return parent.oauth(sdk).then(qs => sdk.platform().login(qs))
+        }
     }
 }(sdk)
 export default LoginService

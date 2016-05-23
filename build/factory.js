@@ -8699,8 +8699,8 @@ exports.default = CachedSubscription;
 var RingCentral = (ringcentralBundle && typeof ringcentralBundle === 'object' && 'default' in ringcentralBundle ? ringcentralBundle['default'] : ringcentralBundle);
 
 var config = {
-    key: '8mOtYiilT5OUPwwdeGgvpw',
-    secret: 'cqNn89RmR2SR76Kpp8xJaAdNzNOqR8Qfmjb0B-gDOHTw',
+    key: 'rzn-_RbxTd-iV9f9l0S2mw',
+    secret: 'sW3ufZ5cQ269scuORDMl0A1kv9ziPoT92Gx6MarVvL7g',
 
     incomingAudio: '../src/assets/audio/incoming.ogg',
     outgoingAudio: '../src/assets/audio/outgoing.ogg'
@@ -8709,7 +8709,7 @@ var config = {
 var sdk = new RingCentral({
     appKey: config.key,
     appSecret: config.secret,
-    server: RingCentral.server.production
+    server: 'https://platform.devtest.ringcentral.com'
 })
 
 var Transport$1 = __commonjs(function (module) {
@@ -21539,7 +21539,9 @@ var LoginService = function(sdk) {
                 return isLoggedIn
             })
         },
-
+        oauth: function() {
+            return parent.oauth(sdk).then(qs => sdk.platform().login(qs))
+        }
     }
 }(sdk)
 
@@ -23322,12 +23324,12 @@ services.rcPhone = {
 services['auth-panel'] = {
     login: {
         method: function() {
-            console.log('login');
-            return LoginService.login(
-                PhoneFormat.formatE164('US', this.props.username),
-                this.props.extension,
-                this.props.password
-            )
+            // return loginService.login(
+            //     PhoneFormat.formatE164('US', this.props.username),
+            //     this.props.extension,
+            //     this.props.password
+            // )
+            return LoginService.oauth()
         }
     }
 }

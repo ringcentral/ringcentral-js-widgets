@@ -57,10 +57,9 @@ w.register(function() {
         createWidgets: {
             method: function() {
                 var phone = this
+                var panelHeight = this.props.height
                 this.props.conversation = undefined;
                 this.props.contactDetail = undefined;
-                
-
                 this.props.notification = w('notification', {})
                
 
@@ -102,7 +101,7 @@ w.register(function() {
                                 }
                             }
                         })
-                        
+                        panelHeight = this.props.height - this.props.toolbarHeight
                     } else if (names.length === 1) {
 
                     }
@@ -131,7 +130,7 @@ w.register(function() {
                                         ...phone.data,
                                         target: '#call-panel',
                                         width: this.props.width,
-                                        height: this.props.height - this.props.toolbarHeight
+                                        height: panelHeight
                                     },
                                     actions: factory.create('call-panel')
                                 })
@@ -160,7 +159,7 @@ w.register(function() {
                                                 this.props.currentConv.unmount()
                                             }, {
                                                 width: phone.props.width,
-                                                height: phone.props.height - phone.props.toolbarHeight,
+                                                height: panelHeight,
                                                 fromNumber,
                                                 toNumber,
                                                 anchorContent: this.props.selectedContent,
@@ -172,14 +171,16 @@ w.register(function() {
                                     }
                                 })
                             })
-                            toolbar.clickItem(
-                                toolbar.addItem('<span class="icon-uni2487"></span></span><span class="icon-RC_shapes_1_30_pressed"></span>'), 
-                                phone.switchWidgets(
-                                    widget,
-                                    '#first-level' + index, 
-                                    index
+                            if (names.length > 1) {
+                                toolbar.clickItem(
+                                    toolbar.addItem('<span class="icon-uni2487"></span></span><span class="icon-RC_shapes_1_30_pressed"></span>'), 
+                                    phone.switchWidgets(
+                                        widget,
+                                        '#first-level' + index, 
+                                        index
+                                    )
                                 )
-                            )
+                            }
                         } else if (name === 'contacts') {
                             widget = this.props.contacts = w('contacts', {
                                 shadowRoot: phone.data.shadowRoot,
@@ -199,14 +200,16 @@ w.register(function() {
                                     },
                                 })
                             })
-                            toolbar.clickItem(
-                                toolbar.addItem('<span class="icon-uni7D"></span><span class="icon-contact_info_pressed"></span>'), 
-                                phone.switchWidgets(
-                                    widget,
-                                    '#first-level' + index, 
-                                    index
+                            if (names.length > 1) {
+                                toolbar.clickItem(
+                                    toolbar.addItem('<span class="icon-uni7D"></span><span class="icon-contact_info_pressed"></span>'), 
+                                    phone.switchWidgets(
+                                        widget,
+                                        '#first-level' + index, 
+                                        index
+                                    )
                                 )
-                            )
+                            }
                         } else if (name === 'dial-pad') {
                             if (!this.props.callPanel) {
                                 this.props.callPanel = w('call-panel', {
@@ -215,7 +218,7 @@ w.register(function() {
                                         ...phone.data,
                                         target: '#call-panel',
                                         width: this.props.width,
-                                        height: this.props.height - this.props.toolbarHeight
+                                        height: panelHeight
                                     },
                                     actions: factory.create('call-panel')
                                 })
@@ -247,7 +250,7 @@ w.register(function() {
                                     target: '#call-panel-incoming',
                                     ...phone.data,
                                     width: this.props.width,
-                                    height: this.props.height - this.props.toolbarHeight,
+                                    height: panelHeight,
                                     remoteVideo: phone.props.callPanel.props.remoteVideo,
                                     localVideo: phone.props.callPanel.props.localVideo,
                                 },
@@ -291,14 +294,16 @@ w.register(function() {
                                     }
                                 })
                             })
-                            toolbar.clickItem(
-                                toolbar.addItem('<span class="icon-uniA3"></span>'), 
-                                phone.switchWidgets(
-                                    widget,
-                                    '#first-level' + index, 
-                                    index
+                            if (names.length > 1) {
+                                toolbar.clickItem(
+                                    toolbar.addItem('<span class="icon-uniA3"></span>'), 
+                                    phone.switchWidgets(
+                                        widget,
+                                        '#first-level' + index, 
+                                        index
+                                    )
                                 )
-                            )
+                            }
                         }
                         if (widget) {
                             this.props.panels.push(widget)

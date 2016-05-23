@@ -80,6 +80,7 @@
                         `width=${options.width}&` +
                         `height=${options.height}&` +
                         `origin=${window.location.origin}`
+        iframe.setAttribute('name', 'rc-iframe')
         if (options.dynamic != null) {
             target.style.display = 'none'
             iframe.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
@@ -127,11 +128,7 @@
     }
 
     window.addEventListener('message', function(e) {
-        if (e.data.type === 'mousedown') {
-            drag = true
-        } else if (e.data.type === 'mouseup') {
-            drag = false
-        }
+        console.log(e);
         if (e.data.type === 'init') {
             console.log(e);
             iframeReady = true
@@ -153,3 +150,20 @@
     }
 }())
 
+function oauth(sdk) {
+    var redirectUri = 'https://ringcentral.github.io/ringcentral-js-widget/demo/redirect.html'
+    var authUri = sdk.platform().authUrl({redirectUri})
+    console.log(window.location);
+    var win         = window.open(authUri, 'rc-iframe-2', 'width=800, height=600'); 
+    
+    return new Promise((resolve, reject) => {
+        window.addEventListener('message', function(e) {
+            console.log(e);
+            if (e.data.type === 'oauth') {
+                var qs = sdk.platform().parseAuthRedirectUrl(e.data.value);
+                qs.redirectUri = redirectUri;
+                resolve(qs)
+            }
+        })
+    })
+}
