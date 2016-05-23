@@ -1,9 +1,10 @@
 (function() {
-    const PHONE_URL = 'http://127.0.0.1/ringcentral-js-widget/build/widgets.js'
-    const LIB_URL = 'http://127.0.0.1/ringcentral-js-widget/build/build.js'
-    const COMMON_STYLE_URL = ['http://127.0.0.1/ringcentral-js-widget/build/styles/main.css']
+    const DOMAIN = window.location.origin
+    const PHONE_URL = DOMAIN + '/ringcentral-js-widget/build/widgets.js'
+    const LIB_URL = DOMAIN + '/ringcentral-js-widget/build/build.js'
+    const COMMON_STYLE_URL = [DOMAIN + '/ringcentral-js-widget/build/styles/main.css']
     const TARGET_TAG = 'rc-phone'
-    const IFRAME_URL = 'http://127.0.0.1/ringcentral-js-widget/demo/embed.html'
+    const IFRAME_URL = DOMAIN + '/ringcentral-js-widget/demo/embed.html'
     const useShadowDOM = false /* Always fallback to iframe for now */
     const iframeReadyQueue = []
 
@@ -75,6 +76,7 @@
         iframe.width = parseInt(options.width) + 2 // border
         iframe.height = options.height
         iframe.style.border = 0
+        console.log(IFRAME_URL);
         iframe.src = IFRAME_URL + '?' +
                         `first-level=${options.firstLevel}&` +
                         `width=${options.width}&` +
@@ -86,6 +88,7 @@
             iframe.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
             clickToDial(target, iframe)
         }
+        console.log(iframe.src);
         target.appendChild(iframe)
     }
 
@@ -151,7 +154,7 @@
 }())
 
 function oauth(sdk) {
-    var redirectUri = 'https://ringcentral.github.io/ringcentral-js-widget/demo/redirect.html'
+    var redirectUri = window.location.origin + '/ringcentral-js-widget/demo/redirect.html'
     var authUri = sdk.platform().authUrl({redirectUri})
     console.log(window.location);
     var win         = window.open(authUri, 'rc-iframe-2', 'width=800, height=600'); 
