@@ -1,7 +1,5 @@
-var Ringcentral = Ringcentral || {}
-Ringcentral.widgets = {}
-// Ringcentral.on()
-// Ringcentral.oauth()
+var __commonjs_global = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : this;
+function __commonjs(fn, module) { return module = { exports: {} }, fn(module, module.exports, __commonjs_global), module.exports; }
 
 ;(function() {
     const DOMAIN = window.location.origin
@@ -158,20 +156,901 @@ Ringcentral.widgets = {}
     }
 }())
 
-function oauth(sdk) {
-    var redirectUri = window.location.origin + '/ringcentral-js-widget/demo/redirect.html'
-    window.open(
-        sdk.platform().authUrl({redirectUri}),
-        'rc-iframe-2',
-        'width=400, height=600'
-    )
-    return new Promise((resolve, reject) => {
-        window.addEventListener('message', function(e) {
-            if (e.data.type === 'oauth') {
-                var qs = sdk.platform().parseAuthRedirectUrl(e.data.value);
-                qs.redirectUri = redirectUri;
-                resolve(qs)
-            }
-        })
-    })
+/* Built-in method references for those with the same name as other `lodash` methods. */
+var nativeGetPrototype = Object.getPrototypeOf;
+
+/**
+ * Gets the `[[Prototype]]` of `value`.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {null|Object} Returns the `[[Prototype]]`.
+ */
+function getPrototype(value) {
+  return nativeGetPrototype(Object(value));
 }
+
+/**
+ * Checks if `value` is a host object in IE < 9.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
+ */
+function isHostObject(value) {
+  // Many host objects are `Object` objects that can coerce to strings
+  // despite having improperly defined `toString` methods.
+  var result = false;
+  if (value != null && typeof value.toString != 'function') {
+    try {
+      result = !!(value + '');
+    } catch (e) {}
+  }
+  return result;
+}
+
+/**
+ * Checks if `value` is object-like. A value is object-like if it's not `null`
+ * and has a `typeof` result of "object".
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
+ * @example
+ *
+ * _.isObjectLike({});
+ * // => true
+ *
+ * _.isObjectLike([1, 2, 3]);
+ * // => true
+ *
+ * _.isObjectLike(_.noop);
+ * // => false
+ *
+ * _.isObjectLike(null);
+ * // => false
+ */
+function isObjectLike(value) {
+  return !!value && typeof value == 'object';
+}
+
+/** `Object#toString` result references. */
+var objectTag = '[object Object]';
+
+/** Used for built-in method references. */
+var objectProto = Object.prototype;
+
+/** Used to resolve the decompiled source of functions. */
+var funcToString = Function.prototype.toString;
+
+/** Used to check objects for own properties. */
+var hasOwnProperty = objectProto.hasOwnProperty;
+
+/** Used to infer the `Object` constructor. */
+var objectCtorString = funcToString.call(Object);
+
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+var objectToString = objectProto.toString;
+
+/**
+ * Checks if `value` is a plain object, that is, an object created by the
+ * `Object` constructor or one with a `[[Prototype]]` of `null`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.8.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a plain object,
+ *  else `false`.
+ * @example
+ *
+ * function Foo() {
+ *   this.a = 1;
+ * }
+ *
+ * _.isPlainObject(new Foo);
+ * // => false
+ *
+ * _.isPlainObject([1, 2, 3]);
+ * // => false
+ *
+ * _.isPlainObject({ 'x': 0, 'y': 0 });
+ * // => true
+ *
+ * _.isPlainObject(Object.create(null));
+ * // => true
+ */
+function isPlainObject(value) {
+  if (!isObjectLike(value) ||
+      objectToString.call(value) != objectTag || isHostObject(value)) {
+    return false;
+  }
+  var proto = getPrototype(value);
+  if (proto === null) {
+    return true;
+  }
+  var Ctor = hasOwnProperty.call(proto, 'constructor') && proto.constructor;
+  return (typeof Ctor == 'function' &&
+    Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString);
+}
+
+var ponyfill = __commonjs(function (module) {
+'use strict';
+
+module.exports = function symbolObservablePonyfill(root) {
+	var result;
+	var Symbol = root.Symbol;
+
+	if (typeof Symbol === 'function') {
+		if (Symbol.observable) {
+			result = Symbol.observable;
+		} else {
+			result = Symbol('observable');
+			Symbol.observable = result;
+		}
+	} else {
+		result = '@@observable';
+	}
+
+	return result;
+};
+});
+
+var require$$0 = (ponyfill && typeof ponyfill === 'object' && 'default' in ponyfill ? ponyfill['default'] : ponyfill);
+
+var index = __commonjs(function (module, exports, global) {
+/* global window */
+'use strict';
+
+module.exports = require$$0(global || window || __commonjs_global);
+});
+
+var $$observable = (index && typeof index === 'object' && 'default' in index ? index['default'] : index);
+
+/**
+ * These are private action types reserved by Redux.
+ * For any unknown actions, you must return the current state.
+ * If the current state is undefined, you must return the initial state.
+ * Do not reference these action types directly in your code.
+ */
+var ActionTypes = {
+  INIT: '@@redux/INIT'
+};
+
+/**
+ * Creates a Redux store that holds the state tree.
+ * The only way to change the data in the store is to call `dispatch()` on it.
+ *
+ * There should only be a single store in your app. To specify how different
+ * parts of the state tree respond to actions, you may combine several reducers
+ * into a single reducer function by using `combineReducers`.
+ *
+ * @param {Function} reducer A function that returns the next state tree, given
+ * the current state tree and the action to handle.
+ *
+ * @param {any} [initialState] The initial state. You may optionally specify it
+ * to hydrate the state from the server in universal apps, or to restore a
+ * previously serialized user session.
+ * If you use `combineReducers` to produce the root reducer function, this must be
+ * an object with the same shape as `combineReducers` keys.
+ *
+ * @param {Function} enhancer The store enhancer. You may optionally specify it
+ * to enhance the store with third-party capabilities such as middleware,
+ * time travel, persistence, etc. The only store enhancer that ships with Redux
+ * is `applyMiddleware()`.
+ *
+ * @returns {Store} A Redux store that lets you read the state, dispatch actions
+ * and subscribe to changes.
+ */
+function createStore(reducer, initialState, enhancer) {
+  var _ref2;
+
+  if (typeof initialState === 'function' && typeof enhancer === 'undefined') {
+    enhancer = initialState;
+    initialState = undefined;
+  }
+
+  if (typeof enhancer !== 'undefined') {
+    if (typeof enhancer !== 'function') {
+      throw new Error('Expected the enhancer to be a function.');
+    }
+
+    return enhancer(createStore)(reducer, initialState);
+  }
+
+  if (typeof reducer !== 'function') {
+    throw new Error('Expected the reducer to be a function.');
+  }
+
+  var currentReducer = reducer;
+  var currentState = initialState;
+  var currentListeners = [];
+  var nextListeners = currentListeners;
+  var isDispatching = false;
+
+  function ensureCanMutateNextListeners() {
+    if (nextListeners === currentListeners) {
+      nextListeners = currentListeners.slice();
+    }
+  }
+
+  /**
+   * Reads the state tree managed by the store.
+   *
+   * @returns {any} The current state tree of your application.
+   */
+  function getState() {
+    return currentState;
+  }
+
+  /**
+   * Adds a change listener. It will be called any time an action is dispatched,
+   * and some part of the state tree may potentially have changed. You may then
+   * call `getState()` to read the current state tree inside the callback.
+   *
+   * You may call `dispatch()` from a change listener, with the following
+   * caveats:
+   *
+   * 1. The subscriptions are snapshotted just before every `dispatch()` call.
+   * If you subscribe or unsubscribe while the listeners are being invoked, this
+   * will not have any effect on the `dispatch()` that is currently in progress.
+   * However, the next `dispatch()` call, whether nested or not, will use a more
+   * recent snapshot of the subscription list.
+   *
+   * 2. The listener should not expect to see all state changes, as the state
+   * might have been updated multiple times during a nested `dispatch()` before
+   * the listener is called. It is, however, guaranteed that all subscribers
+   * registered before the `dispatch()` started will be called with the latest
+   * state by the time it exits.
+   *
+   * @param {Function} listener A callback to be invoked on every dispatch.
+   * @returns {Function} A function to remove this change listener.
+   */
+  function subscribe(listener) {
+    if (typeof listener !== 'function') {
+      throw new Error('Expected listener to be a function.');
+    }
+
+    var isSubscribed = true;
+
+    ensureCanMutateNextListeners();
+    nextListeners.push(listener);
+
+    return function unsubscribe() {
+      if (!isSubscribed) {
+        return;
+      }
+
+      isSubscribed = false;
+
+      ensureCanMutateNextListeners();
+      var index = nextListeners.indexOf(listener);
+      nextListeners.splice(index, 1);
+    };
+  }
+
+  /**
+   * Dispatches an action. It is the only way to trigger a state change.
+   *
+   * The `reducer` function, used to create the store, will be called with the
+   * current state tree and the given `action`. Its return value will
+   * be considered the **next** state of the tree, and the change listeners
+   * will be notified.
+   *
+   * The base implementation only supports plain object actions. If you want to
+   * dispatch a Promise, an Observable, a thunk, or something else, you need to
+   * wrap your store creating function into the corresponding middleware. For
+   * example, see the documentation for the `redux-thunk` package. Even the
+   * middleware will eventually dispatch plain object actions using this method.
+   *
+   * @param {Object} action A plain object representing “what changed”. It is
+   * a good idea to keep actions serializable so you can record and replay user
+   * sessions, or use the time travelling `redux-devtools`. An action must have
+   * a `type` property which may not be `undefined`. It is a good idea to use
+   * string constants for action types.
+   *
+   * @returns {Object} For convenience, the same action object you dispatched.
+   *
+   * Note that, if you use a custom middleware, it may wrap `dispatch()` to
+   * return something else (for example, a Promise you can await).
+   */
+  function dispatch(action) {
+    if (!isPlainObject(action)) {
+      throw new Error('Actions must be plain objects. ' + 'Use custom middleware for async actions.');
+    }
+
+    if (typeof action.type === 'undefined') {
+      throw new Error('Actions may not have an undefined "type" property. ' + 'Have you misspelled a constant?');
+    }
+
+    if (isDispatching) {
+      throw new Error('Reducers may not dispatch actions.');
+    }
+
+    try {
+      isDispatching = true;
+      currentState = currentReducer(currentState, action);
+    } finally {
+      isDispatching = false;
+    }
+
+    var listeners = currentListeners = nextListeners;
+    for (var i = 0; i < listeners.length; i++) {
+      listeners[i]();
+    }
+
+    return action;
+  }
+
+  /**
+   * Replaces the reducer currently used by the store to calculate the state.
+   *
+   * You might need this if your app implements code splitting and you want to
+   * load some of the reducers dynamically. You might also need this if you
+   * implement a hot reloading mechanism for Redux.
+   *
+   * @param {Function} nextReducer The reducer for the store to use instead.
+   * @returns {void}
+   */
+  function replaceReducer(nextReducer) {
+    if (typeof nextReducer !== 'function') {
+      throw new Error('Expected the nextReducer to be a function.');
+    }
+
+    currentReducer = nextReducer;
+    dispatch({ type: ActionTypes.INIT });
+  }
+
+  /**
+   * Interoperability point for observable/reactive libraries.
+   * @returns {observable} A minimal observable of state changes.
+   * For more information, see the observable proposal:
+   * https://github.com/zenparsing/es-observable
+   */
+  function observable() {
+    var _ref;
+
+    var outerSubscribe = subscribe;
+    return _ref = {
+      /**
+       * The minimal observable subscription method.
+       * @param {Object} observer Any object that can be used as an observer.
+       * The observer object should have a `next` method.
+       * @returns {subscription} An object with an `unsubscribe` method that can
+       * be used to unsubscribe the observable from the store, and prevent further
+       * emission of values from the observable.
+       */
+
+      subscribe: function subscribe(observer) {
+        if (typeof observer !== 'object') {
+          throw new TypeError('Expected the observer to be an object.');
+        }
+
+        function observeState() {
+          if (observer.next) {
+            observer.next(getState());
+          }
+        }
+
+        observeState();
+        var unsubscribe = outerSubscribe(observeState);
+        return { unsubscribe: unsubscribe };
+      }
+    }, _ref[$$observable] = function () {
+      return this;
+    }, _ref;
+  }
+
+  // When a store is created, an "INIT" action is dispatched so that every
+  // reducer returns their initial state. This effectively populates
+  // the initial state tree.
+  dispatch({ type: ActionTypes.INIT });
+
+  return _ref2 = {
+    dispatch: dispatch,
+    subscribe: subscribe,
+    getState: getState,
+    replaceReducer: replaceReducer
+  }, _ref2[$$observable] = observable, _ref2;
+}
+
+var initialState = {
+    size: {
+        width: 250,
+        height: 500,
+    },
+    toolbarHeight: 40,
+    minimized: false
+}
+
+function resize({width, height}) {
+    return {
+        type: 'RESIZE',
+        width,
+        height
+    }
+}
+function phone(state = initialState, action) {
+    switch (action.type) {
+        case 'MINIMIZED':
+            return Object.assign({}, state, {
+                minimized: action.minimized,
+            })
+        case 'RESIZE':
+            return Object.assign({}, state, {
+                size: {
+                    width: action.width,
+                    height: action.height
+                }
+            })
+        default:
+            return state
+    }
+}
+
+// var reducer = combineReducers({
+//     phone,
+//     size
+// })
+var store = createStore(phone)
+store.subscribe(() => {
+    console.log(store.getState());
+})
+store.dispatch(resize({width: 200, height: 200}))
+
+/*!
+ * EventEmitter v5.0.0 - git.io/ee
+ * Unlicense - http://unlicense.org/
+ * Oliver Caldwell - http://oli.me.uk/
+ * @preserve
+ */
+
+
+/**
+ * Class for managing events.
+ * Can be extended to provide event functionality in other classes.
+ *
+ * @class EventEmitter Manages event registering and emitting.
+ */
+function EventEmitter() {}
+
+// Shortcuts to improve speed and size
+var proto = EventEmitter.prototype;
+
+/**
+ * Finds the index of the listener for the event in its storage array.
+ *
+ * @param {Function[]} listeners Array of listeners to search through.
+ * @param {Function} listener Method to look for.
+ * @return {Number} Index of the specified listener, -1 if not found
+ * @api private
+ */
+function indexOfListener(listeners, listener) {
+    var i = listeners.length;
+    while (i--) {
+        if (listeners[i].listener === listener) {
+            return i;
+        }
+    }
+
+    return -1;
+}
+
+/**
+ * Alias a method while keeping the context correct, to allow for overwriting of target method.
+ *
+ * @param {String} name The name of the target method.
+ * @return {Function} The aliased method
+ * @api private
+ */
+function alias(name) {
+    return function aliasClosure() {
+        return this[name].apply(this, arguments);
+    };
+}
+
+/**
+ * Returns the listener array for the specified event.
+ * Will initialise the event object and listener arrays if required.
+ * Will return an object if you use a regex search. The object contains keys for each matched event. So /ba[rz]/ might return an object containing bar and baz. But only if you have either defined them with defineEvent or added some listeners to them.
+ * Each property in the object response is an array of listener functions.
+ *
+ * @param {String|RegExp} evt Name of the event to return the listeners from.
+ * @return {Function[]|Object} All listener functions for the event.
+ */
+proto.getListeners = function getListeners(evt) {
+    var events = this._getEvents();
+    var response;
+    var key;
+
+    // Return a concatenated array of all matching events if
+    // the selector is a regular expression.
+    if (evt instanceof RegExp) {
+        response = {};
+        for (key in events) {
+            if (events.hasOwnProperty(key) && evt.test(key)) {
+                response[key] = events[key];
+            }
+        }
+    }
+    else {
+        response = events[evt] || (events[evt] = []);
+    }
+
+    return response;
+};
+
+/**
+ * Takes a list of listener objects and flattens it into a list of listener functions.
+ *
+ * @param {Object[]} listeners Raw listener objects.
+ * @return {Function[]} Just the listener functions.
+ */
+proto.flattenListeners = function flattenListeners(listeners) {
+    var flatListeners = [];
+    var i;
+
+    for (i = 0; i < listeners.length; i += 1) {
+        flatListeners.push(listeners[i].listener);
+    }
+
+    return flatListeners;
+};
+
+/**
+ * Fetches the requested listeners via getListeners but will always return the results inside an object. This is mainly for internal use but others may find it useful.
+ *
+ * @param {String|RegExp} evt Name of the event to return the listeners from.
+ * @return {Object} All listener functions for an event in an object.
+ */
+proto.getListenersAsObject = function getListenersAsObject(evt) {
+    var listeners = this.getListeners(evt);
+    var response;
+
+    if (listeners instanceof Array) {
+        response = {};
+        response[evt] = listeners;
+    }
+
+    return response || listeners;
+};
+
+/**
+ * Adds a listener function to the specified event.
+ * The listener will not be added if it is a duplicate.
+ * If the listener returns true then it will be removed after it is called.
+ * If you pass a regular expression as the event name then the listener will be added to all events that match it.
+ *
+ * @param {String|RegExp} evt Name of the event to attach the listener to.
+ * @param {Function} listener Method to be called when the event is emitted. If the function returns true then it will be removed after calling.
+ * @return {Object} Current instance of EventEmitter for chaining.
+ */
+proto.addListener = function addListener(evt, listener) {
+    var listeners = this.getListenersAsObject(evt);
+    var listenerIsWrapped = typeof listener === 'object';
+    var key;
+
+    for (key in listeners) {
+        if (listeners.hasOwnProperty(key) && indexOfListener(listeners[key], listener) === -1) {
+            listeners[key].push(listenerIsWrapped ? listener : {
+                listener: listener,
+                once: false
+            });
+        }
+    }
+
+    return this;
+};
+
+/**
+ * Alias of addListener
+ */
+proto.on = alias('addListener');
+
+/**
+ * Semi-alias of addListener. It will add a listener that will be
+ * automatically removed after its first execution.
+ *
+ * @param {String|RegExp} evt Name of the event to attach the listener to.
+ * @param {Function} listener Method to be called when the event is emitted. If the function returns true then it will be removed after calling.
+ * @return {Object} Current instance of EventEmitter for chaining.
+ */
+proto.addOnceListener = function addOnceListener(evt, listener) {
+    return this.addListener(evt, {
+        listener: listener,
+        once: true
+    });
+};
+
+/**
+ * Alias of addOnceListener.
+ */
+proto.once = alias('addOnceListener');
+
+/**
+ * Defines an event name. This is required if you want to use a regex to add a listener to multiple events at once. If you don't do this then how do you expect it to know what event to add to? Should it just add to every possible match for a regex? No. That is scary and bad.
+ * You need to tell it what event names should be matched by a regex.
+ *
+ * @param {String} evt Name of the event to create.
+ * @return {Object} Current instance of EventEmitter for chaining.
+ */
+proto.defineEvent = function defineEvent(evt) {
+    this.getListeners(evt);
+    return this;
+};
+
+/**
+ * Uses defineEvent to define multiple events.
+ *
+ * @param {String[]} evts An array of event names to define.
+ * @return {Object} Current instance of EventEmitter for chaining.
+ */
+proto.defineEvents = function defineEvents(evts) {
+    for (var i = 0; i < evts.length; i += 1) {
+        this.defineEvent(evts[i]);
+    }
+    return this;
+};
+
+/**
+ * Removes a listener function from the specified event.
+ * When passed a regular expression as the event name, it will remove the listener from all events that match it.
+ *
+ * @param {String|RegExp} evt Name of the event to remove the listener from.
+ * @param {Function} listener Method to remove from the event.
+ * @return {Object} Current instance of EventEmitter for chaining.
+ */
+proto.removeListener = function removeListener(evt, listener) {
+    var listeners = this.getListenersAsObject(evt);
+    var index;
+    var key;
+
+    for (key in listeners) {
+        if (listeners.hasOwnProperty(key)) {
+            index = indexOfListener(listeners[key], listener);
+
+            if (index !== -1) {
+                listeners[key].splice(index, 1);
+            }
+        }
+    }
+
+    return this;
+};
+
+/**
+ * Alias of removeListener
+ */
+proto.off = alias('removeListener');
+
+/**
+ * Adds listeners in bulk using the manipulateListeners method.
+ * If you pass an object as the second argument you can add to multiple events at once. The object should contain key value pairs of events and listeners or listener arrays. You can also pass it an event name and an array of listeners to be added.
+ * You can also pass it a regular expression to add the array of listeners to all events that match it.
+ * Yeah, this function does quite a bit. That's probably a bad thing.
+ *
+ * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to add to multiple events at once.
+ * @param {Function[]} [listeners] An optional array of listener functions to add.
+ * @return {Object} Current instance of EventEmitter for chaining.
+ */
+proto.addListeners = function addListeners(evt, listeners) {
+    // Pass through to manipulateListeners
+    return this.manipulateListeners(false, evt, listeners);
+};
+
+/**
+ * Removes listeners in bulk using the manipulateListeners method.
+ * If you pass an object as the second argument you can remove from multiple events at once. The object should contain key value pairs of events and listeners or listener arrays.
+ * You can also pass it an event name and an array of listeners to be removed.
+ * You can also pass it a regular expression to remove the listeners from all events that match it.
+ *
+ * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to remove from multiple events at once.
+ * @param {Function[]} [listeners] An optional array of listener functions to remove.
+ * @return {Object} Current instance of EventEmitter for chaining.
+ */
+proto.removeListeners = function removeListeners(evt, listeners) {
+    // Pass through to manipulateListeners
+    return this.manipulateListeners(true, evt, listeners);
+};
+
+/**
+ * Edits listeners in bulk. The addListeners and removeListeners methods both use this to do their job. You should really use those instead, this is a little lower level.
+ * The first argument will determine if the listeners are removed (true) or added (false).
+ * If you pass an object as the second argument you can add/remove from multiple events at once. The object should contain key value pairs of events and listeners or listener arrays.
+ * You can also pass it an event name and an array of listeners to be added/removed.
+ * You can also pass it a regular expression to manipulate the listeners of all events that match it.
+ *
+ * @param {Boolean} remove True if you want to remove listeners, false if you want to add.
+ * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to add/remove from multiple events at once.
+ * @param {Function[]} [listeners] An optional array of listener functions to add/remove.
+ * @return {Object} Current instance of EventEmitter for chaining.
+ */
+proto.manipulateListeners = function manipulateListeners(remove, evt, listeners) {
+    var i;
+    var value;
+    var single = remove ? this.removeListener : this.addListener;
+    var multiple = remove ? this.removeListeners : this.addListeners;
+
+    // If evt is an object then pass each of its properties to this method
+    if (typeof evt === 'object' && !(evt instanceof RegExp)) {
+        for (i in evt) {
+            if (evt.hasOwnProperty(i) && (value = evt[i])) {
+                // Pass the single listener straight through to the singular method
+                if (typeof value === 'function') {
+                    single.call(this, i, value);
+                }
+                else {
+                    // Otherwise pass back to the multiple function
+                    multiple.call(this, i, value);
+                }
+            }
+        }
+    }
+    else {
+        // So evt must be a string
+        // And listeners must be an array of listeners
+        // Loop over it and pass each one to the multiple method
+        i = listeners.length;
+        while (i--) {
+            single.call(this, evt, listeners[i]);
+        }
+    }
+
+    return this;
+};
+
+/**
+ * Removes all listeners from a specified event.
+ * If you do not specify an event then all listeners will be removed.
+ * That means every event will be emptied.
+ * You can also pass a regex to remove all events that match it.
+ *
+ * @param {String|RegExp} [evt] Optional name of the event to remove all listeners for. Will remove from every event if not passed.
+ * @return {Object} Current instance of EventEmitter for chaining.
+ */
+proto.removeEvent = function removeEvent(evt) {
+    var type = typeof evt;
+    var events = this._getEvents();
+    var key;
+
+    // Remove different things depending on the state of evt
+    if (type === 'string') {
+        // Remove all listeners for the specified event
+        delete events[evt];
+    }
+    else if (evt instanceof RegExp) {
+        // Remove all events matching the regex.
+        for (key in events) {
+            if (events.hasOwnProperty(key) && evt.test(key)) {
+                delete events[key];
+            }
+        }
+    }
+    else {
+        // Remove all listeners in all events
+        delete this._events;
+    }
+
+    return this;
+};
+
+/**
+ * Alias of removeEvent.
+ *
+ * Added to mirror the node API.
+ */
+proto.removeAllListeners = alias('removeEvent');
+
+/**
+ * Emits an event of your choice.
+ * When emitted, every listener attached to that event will be executed.
+ * If you pass the optional argument array then those arguments will be passed to every listener upon execution.
+ * Because it uses `apply`, your array of arguments will be passed as if you wrote them out separately.
+ * So they will not arrive within the array on the other side, they will be separate.
+ * You can also pass a regular expression to emit to all events that match it.
+ *
+ * @param {String|RegExp} evt Name of the event to emit and execute listeners for.
+ * @param {Array} [args] Optional array of arguments to be passed to each listener.
+ * @return {Object} Current instance of EventEmitter for chaining.
+ */
+proto.emitEvent = function emitEvent(evt, args) {
+    var listenersMap = this.getListenersAsObject(evt);
+    var listeners;
+    var listener;
+    var i;
+    var key;
+    var response;
+
+    for (key in listenersMap) {
+        if (listenersMap.hasOwnProperty(key)) {
+            listeners = listenersMap[key].slice(0);
+
+            for (i = 0; i < listeners.length; i++) {
+                // If the listener returns true then it shall be removed from the event
+                // The function is executed either with a basic call or an apply if there is an args array
+                listener = listeners[i];
+
+                if (listener.once === true) {
+                    this.removeListener(evt, listener.listener);
+                }
+
+                response = listener.listener.apply(this, args || []);
+
+                if (response === this._getOnceReturnValue()) {
+                    this.removeListener(evt, listener.listener);
+                }
+            }
+        }
+    }
+
+    return this;
+};
+
+/**
+ * Alias of emitEvent
+ */
+proto.trigger = alias('emitEvent');
+
+/**
+ * Subtly different from emitEvent in that it will pass its arguments on to the listeners, as opposed to taking a single array of arguments to pass on.
+ * As with emitEvent, you can pass a regex in place of the event name to emit to all events that match it.
+ *
+ * @param {String|RegExp} evt Name of the event to emit and execute listeners for.
+ * @param {...*} Optional additional arguments to be passed to each listener.
+ * @return {Object} Current instance of EventEmitter for chaining.
+ */
+proto.emit = function emit(evt) {
+    var args = Array.prototype.slice.call(arguments, 1);
+    return this.emitEvent(evt, args);
+};
+
+/**
+ * Sets the current value to check against when executing listeners. If a
+ * listeners return value matches the one set here then it will be removed
+ * after execution. This value defaults to true.
+ *
+ * @param {*} value The new value to check for when executing listeners.
+ * @return {Object} Current instance of EventEmitter for chaining.
+ */
+proto.setOnceReturnValue = function setOnceReturnValue(value) {
+    this._onceReturnValue = value;
+    return this;
+};
+
+/**
+ * Fetches the current value to check against when executing listeners. If
+ * the listeners return value matches this one then it should be removed
+ * automatically. It will return true by default.
+ *
+ * @return {*|Boolean} The current value to check for or the default, true.
+ * @api private
+ */
+proto._getOnceReturnValue = function _getOnceReturnValue() {
+    if (this.hasOwnProperty('_onceReturnValue')) {
+        return this._onceReturnValue;
+    }
+    else {
+        return true;
+    }
+};
+
+/**
+ * Fetches the events object and creates one if required.
+ *
+ * @return {Object} The events storage object.
+ * @api private
+ */
+proto._getEvents = function _getEvents() {
+    return this._events || (this._events = {});
+};
+
+console.log(EventEmitter);
+//# sourceMappingURL=host.js.map

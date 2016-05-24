@@ -11,6 +11,7 @@ var print = require('gulp-print')
 var nodeResolve = require('rollup-plugin-node-resolve')
 var commonjs    = require('rollup-plugin-commonjs')
 var json = require('rollup-plugin-json')
+var replace = require('rollup-plugin-replace')
 
 var postcss = require('gulp-postcss')
 
@@ -24,7 +25,13 @@ gulp.task('factory', () => {
     watch(['./factory/**/**', './services/**'], factory)
     return factory()
 })
-
+gulp.task('embed', () => {
+    console.log('embed');
+    watch(['./embed/host/**/**'], embed.bind(null, 'host'))
+    watch(['./embed/guest/**/**'], embed.bind(null, 'guest'))
+    embed('host')
+    embed('guest')
+})
 
 function compile() {
     return gulp.src('./src/scripts/index.js')
@@ -92,7 +99,10 @@ function factory() {
                   preferBuiltins: false,
                 }),
                 commonjs(),
-                json()
+                json(),
+                replace({
+                    'process.env.NODE_ENV': JSON.stringify( 'production' )
+                })
             ],
             format: 'cjs'
         }))
@@ -100,6 +110,38 @@ function factory() {
         .pipe(rename('factory.js'))
         .pipe(sourcemaps.write('.'))
         .pipe(gulp.dest('./build'))
+}
+
+function embed(target) {
+    return gulp.src('./embed/' + target +'/index.js')
+        .pipe(print(function(filepath) {
+            return 'built: ' + filepath
+        }))
+        .pipe(plumber({
+            errorHandler: function(err) {
+                console.log(err.message)
+                this.emit('end')
+            }
+        }))
+        .pipe(babel())
+        .pipe(rollup({
+            sourceMap: true,
+            plugins: [
+                nodeResolve({
+                  jsnext: true,
+                  main: true,
+                }),
+                commonjs(),
+                json(),
+                replace({
+                    'process.env.NODE_ENV': JSON.stringify( 'production' )
+                })
+            ],
+        }))
+        .on('error', util.log)
+        .pipe(rename(target + '.js'))
+        .pipe(sourcemaps.write('.'))
+        .pipe(gulp.dest('./embed'))
 }
 
 gulp.task('lint', function() {
@@ -118,3 +160,4 @@ gulp.task('css', function() {
 })
 gulp.task('default', ['compile'])
 gulp.task('fac', ['factory'])
+gulp.task('ebd', ['embed'])
