@@ -1,4 +1,9 @@
-(function() {
+var Ringcentral = Ringcentral || {}
+Ringcentral.widgets = {}
+// Ringcentral.on()
+// Ringcentral.oauth()
+
+;(function() {
     const DOMAIN = window.location.origin
     const PHONE_URL = DOMAIN + '/ringcentral-js-widget/build/widgets.js'
     const LIB_URL = DOMAIN + '/ringcentral-js-widget/build/build.js'
@@ -50,6 +55,7 @@
             })
         })
         appendWidget(container, shadow)
+
         function appendStyle() {
 
         }
@@ -111,14 +117,13 @@
                 target.style.top = `${e.pageY + 3}px`
                 target.style.left = `${e.pageX + 3}px`
                 iframe.contentWindow.postMessage({
-                    type: 'phone',
+                    type: 'PHONE_NUMBER',
                     value: ele.getAttribute('data-phone')
                 }, IFRAME_URL)
                 e.stopPropagation()
             })
         })
         document.addEventListener('click', e => {
-            console.log(e);
             var clicked = e.target
             while (clicked.parentNode) {
                 if (clicked === target) {
@@ -157,10 +162,9 @@ function oauth(sdk) {
     var redirectUri = window.location.origin + '/ringcentral-js-widget/demo/redirect.html'
     window.open(
         sdk.platform().authUrl({redirectUri}),
-        'rc-iframe-2', 
+        'rc-iframe-2',
         'width=400, height=600'
     )
-    
     return new Promise((resolve, reject) => {
         window.addEventListener('message', function(e) {
             if (e.data.type === 'oauth') {

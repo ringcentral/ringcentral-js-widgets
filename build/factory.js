@@ -8699,8 +8699,8 @@ exports.default = CachedSubscription;
 var RingCentral = (ringcentralBundle && typeof ringcentralBundle === 'object' && 'default' in ringcentralBundle ? ringcentralBundle['default'] : ringcentralBundle);
 
 var config = {
-    key: 'rzn-_RbxTd-iV9f9l0S2mw',
-    secret: 'sW3ufZ5cQ269scuORDMl0A1kv9ziPoT92Gx6MarVvL7g',
+    key: '8mOtYiilT5OUPwwdeGgvpw',
+    secret: 'cqNn89RmR2SR76Kpp8xJaAdNzNOqR8Qfmjb0B-gDOHTw',
 
     incomingAudio: '../src/assets/audio/incoming.ogg',
     outgoingAudio: '../src/assets/audio/outgoing.ogg'
@@ -8709,7 +8709,7 @@ var config = {
 var sdk = new RingCentral({
     appKey: config.key,
     appSecret: config.secret,
-    server: 'https://platform.devtest.ringcentral.com'
+    server: RingCentral.server.production
 })
 
 var Transport$1 = __commonjs(function (module) {
@@ -23324,12 +23324,12 @@ services.rcPhone = {
 services['auth-panel'] = {
     login: {
         method: function() {
-            // return loginService.login(
-            //     PhoneFormat.formatE164('US', this.props.username),
-            //     this.props.extension,
-            //     this.props.password
-            // )
-            return LoginService.oauth()
+            return LoginService.login(
+                PhoneFormat.formatE164('US', this.props.username),
+                this.props.extension,
+                this.props.password
+            )
+            // return loginService.oauth()
         }
     }
 }
@@ -23659,7 +23659,6 @@ function extend(base, mixin) {
             for (var hook in mixin[action]) {
                 var origin = base[action][hook]
                 base[action][hook] = function(...args) {
-                    console.log(this);
                     var result
                     if (origin) {
                         result = origin.call(this, ...args)
@@ -23682,8 +23681,6 @@ var Factory = function () {
 Factory.prototype.create = function(type, mixin = {}) {
     return extend(services[type], mixin)
 }
-
-console.log(Factory);
 
 module.exports = Factory;
 //# sourceMappingURL=factory.js.map

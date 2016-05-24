@@ -7,7 +7,6 @@ function extend(base, mixin) {
             for (var hook in mixin[action]) {
                 var origin = base[action][hook]
                 base[action][hook] = function(...args) {
-                    console.log(this);
                     var result
                     if (origin) {
                         result = origin.call(this, ...args)

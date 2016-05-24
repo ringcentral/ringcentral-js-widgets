@@ -3,6 +3,6 @@ import config from './rc-config'
 var sdk = new RingCentral({
     appKey: config.key,
     appSecret: config.secret,
-    server: 'https://platform.devtest.ringcentral.com'
+    server: RingCentral.server.production
 })
 export default sdk
