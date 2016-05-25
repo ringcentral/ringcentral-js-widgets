@@ -128,6 +128,7 @@ w.register(function() {
                         actions: factory.create('auth-panel', {
                             login: {
                                 after: function() {
+                                    console.log('login after');
                                     this.unmount()
                                     phone.loadData();
                                     if (names.length > 1) {
@@ -292,12 +293,11 @@ w.register(function() {
                                             console.log(this.props.toNumber);
                                             phone.props.callPanel.setName(this.props.toNumber)
                                         },
-                                        
-                                        error: function(e) {
-                                            console.error(e);
-                                            phone.props.notification.show('#notification', 4000)
-                                            phone.props.notification.msg(e.message || e)
-                                        }
+                                        // error: function(e) {
+                                        //     console.error(e);
+                                        //     phone.props.notification.show('#notification', 4000)
+                                        //     phone.props.notification.msg(e.message || e)
+                                        // }
                                     },
                                     numberChange: {
                                         after: function () {
@@ -330,6 +330,7 @@ w.register(function() {
                                     },
                                     accept: {
                                         after: function() {
+                                            console.log('accept');
                                             this.unmount()
                                             var name = this.props.session.request.from.displayName
                                             phone.props.callPanel.mount('#call-panel')

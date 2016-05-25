@@ -237,6 +237,7 @@ this.actions = {
             fade.init(this.root)
             fade.in(this.root)
             this.props.name && this.setName(this.props.name)
+            console.log('mount');
             this.getContact().then(result => {
                 if (result && result[0]) {
                     this.setName(result[0].name)

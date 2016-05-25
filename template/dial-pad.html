@@ -201,7 +201,7 @@ this.actions = {
             console.log('callout dialpad');
             if (!this.props.toNumber || !this.props.fromNumber) {
                 console.error('from- or to-Number is missing.')
-                throw Error
+                throw Error('from- or to-Number is missing.')
             }
             var cp = this.refs['contact-picker']
             this.props.toNumber = cp.dom.input.value
@@ -211,10 +211,10 @@ this.actions = {
             console.log('callout dialpad after');
             setTimeout(() => this.dom.callout.classList.remove('--active'), 1000)
         },
-        error: function(err) {
-            console.error(err);
-            this.dom.callout.classList.remove('--active')
-        }
+        // error: function(err) {
+        //     console.error(err);
+        //     this.dom.callout.classList.remove('--active')
+        // }
     },
     disable: {
         method: function(finish) {
