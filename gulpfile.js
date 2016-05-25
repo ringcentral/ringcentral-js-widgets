@@ -27,8 +27,10 @@ gulp.task('factory', () => {
 })
 gulp.task('embed', () => {
     console.log('embed');
-    watch(['./embed/host/**/**'], embed.bind(null, 'host'))
-    watch(['./embed/guest/**/**'], embed.bind(null, 'guest'))
+    watch(['./embed/host/**/**', './embed/guest/**/**'], function() {
+        embed('host')
+        embed('guest')
+    })
     embed('host')
     embed('guest')
 })

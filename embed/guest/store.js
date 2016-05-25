@@ -1,9 +1,10 @@
 import { createStore, combineReducers } from 'redux'
 import actions from '../actions'
 var initialState = {
+    init: false,
     size: {
         width: 250,
-        height: 500,
+        height: 800,
     },
     toolbarHeight: 40,
     minimized: false,
@@ -30,17 +31,25 @@ function phone(state = initialState, action) {
             return Object.assign({}, state, {
                 minimized: action.minimized,
             })
-        case 'RESIZE':
+        case actions.HOST_DIALPAD_NUMBER:
             return Object.assign({}, state, {
+                dialPad: {
+                    phoneNumber: action.value,
+                }
+            })
+        case actions.GUEST_INIT:
+            return Object.assign({}, state, {
+                init: true,
                 size: {
                     width: action.width,
                     height: action.height
                 }
             })
-        case actions.HOST_DIALPAD_NUMBER:
+        case actions.GUEST_PHONE_RESIZE:
             return Object.assign({}, state, {
-                dialPad: {
-                    phoneNumber: action.value,
+                size: {
+                    width: action.width,
+                    height: action.height
                 }
             })
         default:

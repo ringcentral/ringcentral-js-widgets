@@ -505,6 +505,9 @@ $dial-pad-call-button-color: #2ecc71;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
+        &.--min {
+            justify-content: flex-start;
+        }
     }
 
     .action-panel {
@@ -573,7 +576,6 @@ $dial-pad-call-button-color: #2ecc71;
     }
 }
 .rc-dial-pad {
-
     &__line {
         display: flex;
         flex-direction: row;

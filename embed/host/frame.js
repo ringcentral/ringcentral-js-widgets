@@ -1,8 +1,4 @@
-var actions = {
-    HOST_DIALPAD_NUMBER: 100,
-    GUEST_INIT: 200,
-    GUEST_PHONE_RESIZE: 201,
-};
+import actions from '../actions'
 
 const DOMAIN = window.location.origin
 const PHONE_URL = DOMAIN + '/ringcentral-js-widget/build/widgets.js'
@@ -15,6 +11,8 @@ const iframeReadyQueue = []
 var frame
 
 var iframeReady = false
+var drag = false
+
 var safeEval = function(script, target) {
     var tag = document.createElement('script')
     tag.text = script
@@ -160,14 +158,4 @@ if (document.body.createShadowRoot && useShadowDOM) {
     // fallback to iframe
     frame = createIframe()
 }
-var frame$1 = frame
-
-window.addEventListener('message', function(e) {
-    var state = e.data
-    console.log(state);
-    frame$1.width = state.size.width
-    frame$1.height = state.size.height
-})
-// Ringcentral.on()
-// Ringcentral.oauth()
-//# sourceMappingURL=host.js.map
+export default frame

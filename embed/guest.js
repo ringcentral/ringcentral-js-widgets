@@ -6,14 +6,14 @@ function getURLParameter(name) {
 }
 
 const firstLevel = getURLParameter('first-level')
-const width = getURLParameter('width')
-const height = getURLParameter('height')
+const width$1 = getURLParameter('width')
+const height$1 = getURLParameter('height')
 
 var phone = w('rc-phone', {
     data: {
         firstLevel: firstLevel,
-        width: width,
-        height: height
+        width: width$1,
+        originalHeight: height$1
     }
 })
 
@@ -424,13 +424,16 @@ function createStore(reducer, initialState, enhancer) {
 }
 
 var actions = {
-    HOST_DIALPAD_NUMBER: 0,
-}
+    HOST_DIALPAD_NUMBER: 100,
+    GUEST_INIT: 200,
+    GUEST_PHONE_RESIZE: 201,
+};
 
 var initialState = {
+    init: false,
     size: {
         width: 250,
-        height: 500,
+        height: 800,
     },
     toolbarHeight: 40,
     minimized: false,
@@ -444,17 +447,25 @@ function phone$1(state = initialState, action) {
             return Object.assign({}, state, {
                 minimized: action.minimized,
             })
-        case 'RESIZE':
+        case actions.HOST_DIALPAD_NUMBER:
             return Object.assign({}, state, {
+                dialPad: {
+                    phoneNumber: action.value,
+                }
+            })
+        case actions.GUEST_INIT:
+            return Object.assign({}, state, {
+                init: true,
                 size: {
                     width: action.width,
                     height: action.height
                 }
             })
-        case actions.HOST_DIALPAD_NUMBER:
+        case actions.GUEST_PHONE_RESIZE:
             return Object.assign({}, state, {
-                dialPad: {
-                    phoneNumber: action.value,
+                size: {
+                    width: action.width,
+                    height: action.height
                 }
             })
         default:
@@ -472,15 +483,34 @@ store.subscribe(() => {
 })
 
 const origin = getURLParameter('origin')
+const width = getURLParameter('width')
+const height = getURLParameter('height')
+
 phone.mount(document.body)
+document.body.style.overflow = 'hidden'
+
 window.addEventListener('message', function(e) {
     store.dispatch(e.data)
 })
 store.subscribe(() => {
-    var { dialPad } = store.getState()
+    var state = store.getState()
+    var {size, dialPad} = state
     phone.props.dialPad.setNumber(dialPad.phoneNumber)
+    phone.setSize(size.width, size.height)
+
+    parent.postMessage(state, origin)
 })
-parent.postMessage({
-    type: 'init'
-}, origin)
+parent.postMessage(store.getState(), origin)
+store.dispatch({
+    type: actions.GUEST_INIT,
+    width,
+    height
+})
+phone.on('resize', function(width, height) {
+    store.dispatch({
+        type: actions.GUEST_PHONE_RESIZE,
+        width,
+        height
+    })
+})
 //# sourceMappingURL=guest.js.map

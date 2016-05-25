@@ -1,3 +1,5 @@
 export default {
-    HOST_DIALPAD_NUMBER: 0,
-}
+    HOST_DIALPAD_NUMBER: 100,
+    GUEST_INIT: 200,
+    GUEST_PHONE_RESIZE: 201,
+};

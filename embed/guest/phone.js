@@ -7,7 +7,7 @@ var phone = w('rc-phone', {
     data: {
         firstLevel: firstLevel,
         width: width,
-        height: height
+        originalHeight: height
     }
 })
 
