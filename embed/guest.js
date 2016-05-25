@@ -427,13 +427,14 @@ var actions = {
     HOST_DIALPAD_NUMBER: 100,
     GUEST_INIT: 200,
     GUEST_PHONE_RESIZE: 201,
+    GUEST_DIALPAD_NUMBER: 202
 };
 
 var initialState = {
     init: false,
     size: {
         width: 250,
-        height: 800,
+        height: 400,
     },
     toolbarHeight: 40,
     minimized: false,
@@ -448,6 +449,7 @@ function phone$1(state = initialState, action) {
                 minimized: action.minimized,
             })
         case actions.HOST_DIALPAD_NUMBER:
+        case actions.GUEST_DIALPAD_NUMBER:
             return Object.assign({}, state, {
                 dialPad: {
                     phoneNumber: action.value,
@@ -495,7 +497,7 @@ window.addEventListener('message', function(e) {
 store.subscribe(() => {
     var state = store.getState()
     var {size, dialPad} = state
-    phone.props.dialPad.setNumber(dialPad.phoneNumber)
+    phone.props.dialPad.number(dialPad.phoneNumber)
     phone.setSize(size.width, size.height)
 
     parent.postMessage(state, origin)
@@ -511,6 +513,13 @@ phone.on('resize', function(width, height) {
         type: actions.GUEST_PHONE_RESIZE,
         width,
         height
+    })
+})
+phone.on('dialing', function(number) {
+    console.log(number);
+    store.dispatch({
+        type: actions.GUEST_DIALPAD_NUMBER,
+        value: number
     })
 })
 //# sourceMappingURL=guest.js.map

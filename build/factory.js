@@ -23342,6 +23342,7 @@ services['dial-pad'] = {
     },
     callout: {
         method: function() {
+            console.log('real call');
             return PhoneService.call(
                 this.props.fromNumber, 
                 this.props.toNumber, {

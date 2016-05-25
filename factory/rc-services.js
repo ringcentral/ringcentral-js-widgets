@@ -60,6 +60,7 @@ services['dial-pad'] = {
     },
     callout: {
         method: function() {
+            console.log('real call');
             return phoneService.call(
                 this.props.fromNumber, 
                 this.props.toNumber, {

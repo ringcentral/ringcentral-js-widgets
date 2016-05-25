@@ -138,6 +138,12 @@ this.actions = {
                                 return []
                             return dialPad.queryContacts(this.props.inputValue)
                         }
+                    },
+                    setInput: {
+                        after: function() {
+                            if (dialPad.props.toNumber !== this.dom.input.value)
+                                dialPad.numberChange()
+                        }
                     }
                 }
             })
@@ -186,20 +192,13 @@ this.actions = {
             this.refs['contact-picker'].dom.input.focus()
         }
     },
-    setNumber: {
-        method: function(finish, value) {
-            var cp = this.refs['contact-picker']
-            cp.setInput(value)
-            this.props.toNumber = cp.dom.input.value
-            return finish()
-        },
-    },
     callout: {
         before: function() {
             this.dom.callout.classList.add('--active')
         },
         method: function(finish, event) {
             // TODO: Do some basic validation.
+            console.log('callout dialpad');
             if (!this.props.toNumber || !this.props.fromNumber) {
                 console.error('from- or to-Number is missing.')
                 throw Error
@@ -209,10 +208,11 @@ this.actions = {
             return finish()
         },
         after: function() {
-            console.log('after');
+            console.log('callout dialpad after');
             setTimeout(() => this.dom.callout.classList.remove('--active'), 1000)
         },
         error: function(err) {
+            console.error(err);
             this.dom.callout.classList.remove('--active')
         }
     },
@@ -239,7 +239,15 @@ this.actions = {
     number: {
         method: function(finish, value) {
             this.refs['contact-picker'].setInput(value)
-            return finish()
+            // avoid cyclic calling
+            if (this.props.toNumber !== this.refs['contact-picker'].dom.input.value)
+                this.numberChange()
+        }
+    },
+    numberChange: {
+        method: function(finish) {
+            // fake event system
+            this.props.toNumber = this.refs['contact-picker'].dom.input.value
         }
     },
     listenToKeyboard: {

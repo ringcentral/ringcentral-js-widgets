@@ -50,8 +50,8 @@
 /*
 * Events:
 * 1. resize
-* 
-*
+* 2. dialing
+* 3. ready
 */
 import Factory from './build/factory'
 import EventEmitter from './template/vendor/eventemitter'
@@ -130,7 +130,6 @@ w.register(function() {
                                 after: function() {
                                     this.unmount()
                                     phone.loadData();
-                                    console.log(names);
                                     if (names.length > 1) {
                                         if (phone.data.shadowRoot)
                                             phone.props.toolbar.mount(phone.data.shadowRoot.querySelector('#toolbar'))
@@ -289,13 +288,21 @@ w.register(function() {
                                 actions: factory.create('dial-pad', {
                                     callout: {
                                         after: function() {
+                                            console.log('tonumber');
+                                            console.log(this.props.toNumber);
                                             phone.props.callPanel.setName(this.props.toNumber)
                                         },
-                                        // error: function(e) {
-                                        //     console.error(e);
-                                        //     phone.props.notification.show('#notification', 4000)
-                                        //     phone.props.notification.msg(e.message || e)
-                                        // }
+                                        
+                                        error: function(e) {
+                                            console.error(e);
+                                            phone.props.notification.show('#notification', 4000)
+                                            phone.props.notification.msg(e.message || e)
+                                        }
+                                    },
+                                    numberChange: {
+                                        after: function () {
+                                            phone.props.ee.trigger('dialing', [this.props.toNumber])
+                                        }
                                     }
                                 })
                             });
@@ -330,6 +337,11 @@ w.register(function() {
                                             phone.props.callPanel.start()
                                             phone.resize(phone.props.originalHeight)
                                         }
+                                    },
+                                    ignore: {
+                                        after: function() {
+                                            phone.resize(phone.props.minimizedHeight)
+                                        }
                                     }
                                 })
                             })
@@ -356,7 +368,7 @@ w.register(function() {
                                         method: function() {
                                             phone.dom.container.style.transform = 'translateX(0px)';
                                             phone.props.dialPad.mount('#dial-pad');
-                                            phone.props.dialPad.setNumber(phone.props.conference.props.dialInNumber)
+                                            phone.props.dialPad.number(phone.props.conference.props.dialInNumber)
                                         }
                                     }
                                 })
@@ -450,6 +462,10 @@ w.register(function() {
     this.on('click', function(e) {
         if (e.target === this.dom.resize) {
             this.resize()
+        } else {
+            if (this.props.height === this.props.minimizedHeight) {
+                this.resize()
+            }
         }
     })
 

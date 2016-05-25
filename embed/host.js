@@ -2,6 +2,7 @@ var actions = {
     HOST_DIALPAD_NUMBER: 100,
     GUEST_INIT: 200,
     GUEST_PHONE_RESIZE: 201,
+    GUEST_DIALPAD_NUMBER: 202
 };
 
 const DOMAIN = window.location.origin
@@ -60,7 +61,6 @@ var createContainer = function() {
     }
 
     function appendWidget(container, shadowRoot) {
-        console.log(container)
         var phone = w(TARGET_TAG, {
             shadowRoot,
             data: {
@@ -80,7 +80,6 @@ var createIframe = function() {
     iframe.width = parseInt(options.width) + 2 // border
     iframe.height = options.height
     iframe.style.border = 0
-    console.log(IFRAME_URL)
     iframe.src = IFRAME_URL + '?' +
                     `first-level=${options.firstLevel}&` +
                     `width=${options.width}&` +
@@ -142,7 +141,6 @@ var clickToDial = function(target, iframe) {
 
 window.addEventListener('message', function(e) {
     if (e.data.type === 'init') {
-        console.log(e)
         iframeReady = true
         iframeReadyQueue.forEach(action => action(e.source))
         iframeReadyQueue.length = 0

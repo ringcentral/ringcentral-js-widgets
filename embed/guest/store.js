@@ -4,7 +4,7 @@ var initialState = {
     init: false,
     size: {
         width: 250,
-        height: 800,
+        height: 400,
     },
     toolbarHeight: 40,
     minimized: false,
@@ -32,6 +32,7 @@ function phone(state = initialState, action) {
                 minimized: action.minimized,
             })
         case actions.HOST_DIALPAD_NUMBER:
+        case actions.GUEST_DIALPAD_NUMBER:
             return Object.assign({}, state, {
                 dialPad: {
                     phoneNumber: action.value,
