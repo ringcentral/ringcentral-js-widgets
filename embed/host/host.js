@@ -1,6 +1,6 @@
+import actions from '../actions'
 
-
-;(function() {
+(function() {
     const DOMAIN = window.location.origin
     const PHONE_URL = DOMAIN + '/ringcentral-js-widget/build/widgets.js'
     const LIB_URL = DOMAIN + '/ringcentral-js-widget/build/build.js'
@@ -114,7 +114,7 @@
                 target.style.top = `${e.pageY + 3}px`
                 target.style.left = `${e.pageX + 3}px`
                 iframe.contentWindow.postMessage({
-                    type: 'PHONE_NUMBER',
+                    type: actions.HOST_DIALPAD_NUMBER,
                     value: ele.getAttribute('data-phone')
                 }, IFRAME_URL)
                 e.stopPropagation()
@@ -153,6 +153,6 @@
         // fallback to iframe
         createIframe()
     }
-}())
+})()
 
 

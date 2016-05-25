@@ -1,14 +1,16 @@
 import { createStore, combineReducers } from 'redux'
-
+import actions from '../actions'
 var initialState = {
     size: {
         width: 250,
         height: 500,
     },
     toolbarHeight: 40,
-    minimized: false
+    minimized: false,
+    dialPad: {
+        phoneNumber: ''
+    }
 }
-
 function resize({width, height}) {
     return {
         type: 'RESIZE',
@@ -35,6 +37,12 @@ function phone(state = initialState, action) {
                     height: action.height
                 }
             })
+        case actions.HOST_DIALPAD_NUMBER:
+            return Object.assign({}, state, {
+                dialPad: {
+                    phoneNumber: action.value,
+                }
+            })
         default:
             return state
     }
@@ -48,6 +56,5 @@ var store = createStore(phone)
 store.subscribe(() => {
     console.log(store.getState());
 })
-store.dispatch(resize({width: 200, height: 200}))
 
 export default store
