@@ -464,6 +464,17 @@ this.actions = {
         },
         error: function(e) {
             console.error(e)
+            if (e.code === -200) {
+                this.props.isRecord = true
+                var span1 = document.createElement('span')
+                var span2 = document.createElement('span')
+                span1.classList.add('icon-uni30')
+                span2.classList.add('icon-uni30')
+                while (this.dom.record.firstChild)
+                    this.dom.record.removeChild(this.dom.record.firstChild)
+                this.dom.record.appendChild(span1)
+                this.dom.record.appendChild(span2)
+            }
             // this.props.isRecord = false
         }
     },

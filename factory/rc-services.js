@@ -1,4 +1,4 @@
-import sdk from '../services/rc-sdk'
+import { RC, injectSDK } from '../services/rc-sdk'
 import phoneService from '../services/phone-service'
 import loginService from '../services/login-service'
 import callLogService from '../services/call-log-service'
@@ -18,6 +18,15 @@ var dialPadSearchProviders = [rcContactSearchProvider]
 
 var services = {}
 services.rcPhone = {
+    init: {
+        after: function() {
+            /// critical, inject app key & secret into service
+            injectSDK({
+                key: this.props.key,
+                secret: this.props.secret
+            })
+        }
+    },
     loadData: {
         method: function() {
             console.log('load data');
@@ -234,7 +243,7 @@ services['conversation-advanced'] = {
         method: function() {
             if (!this.props.profileImage)
                 return Promise.resolve(`http://www.gravatar.com/avatar/${md5(this.props.contact.id)}?d=retro`)
-            return sdk.platform()
+            return RC.sdk.platform()
                 .get(this.props.profileImage)
                 .then(r => r.response())
                 .then(r => {

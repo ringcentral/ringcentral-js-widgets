@@ -81,6 +81,8 @@ var createIframe = function() {
                     `first-level=${options.firstLevel}&` +
                     `width=${options.width}&` +
                     `height=${options.height}&` +
+                    `key=${options.key}&` +
+                    `secret=${options.secret}&` +
                     `origin=${window.location.origin}`
     iframe.setAttribute('name', 'rc-iframe')
     if (options.dynamic != null) {
@@ -105,6 +107,8 @@ var getOptions = function(target) {
         height: target.getAttribute('height'),
         dynamic: target.getAttribute('dynamic'),
         fixed: target.getAttribute('fixed'),
+        key: target.getAttribute('key'),
+        secret: target.getAttribute('secret'),
     }
 }
 

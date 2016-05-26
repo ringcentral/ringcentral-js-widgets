@@ -1,7 +1,7 @@
-import sdk from './rc-sdk'
+import { RC } from './rc-sdk'
 import LZString from 'lz-string'
 
-var rcContactService = function(sdk) {
+var rcContactService = function() {
     var companyContacts = []
     var completeCompanyContacts = null
     
@@ -42,11 +42,11 @@ var rcContactService = function(sdk) {
     }
 
     function fetchCompanyContactByPage(page) {
-        return sdk.platform().get('/account/~/extension/', {perPage: 250, page: page})
+        return RC.sdk.platform().get('/account/~/extension/', {perPage: 250, page: page})
     }
 
     function fetchCompanyDirectNumbersByPage(page) {
-        return sdk.platform().get('/account/~/phone-number', {perPage: 250, page: page})
+        return RC.sdk.platform().get('/account/~/phone-number', {perPage: 250, page: page})
     }
 
     function fetchCompanyContacts() {
@@ -122,7 +122,7 @@ var rcContactService = function(sdk) {
             return companyContacts
         },
         accessToken: function() {
-            return sdk.platform().auth().accessToken()
+            return RC.sdk.platform().auth().accessToken()
         },
         asyncGetCompanyContact: function() {
             if (fetchingCompanyContacts) {
@@ -179,6 +179,6 @@ var rcContactService = function(sdk) {
             }
         }())
     }
-}(sdk)
+}()
 
 export default rcContactService

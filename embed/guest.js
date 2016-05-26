@@ -8,12 +8,16 @@ function getURLParameter(name) {
 const firstLevel = getURLParameter('first-level')
 const width$1 = getURLParameter('width')
 const height$1 = getURLParameter('height')
+const key = getURLParameter('key')
+const secret = getURLParameter('secret')
 
 var phone = w('rc-phone', {
     data: {
-        firstLevel: firstLevel,
+        firstLevel,
         width: width$1,
-        originalHeight: height$1
+        originalHeight: height$1,
+        key,
+        secret
     }
 })
 
@@ -487,6 +491,7 @@ store.subscribe(() => {
 const origin = getURLParameter('origin')
 const width = getURLParameter('width')
 const height = getURLParameter('height')
+
 
 phone.mount(document.body)
 document.body.style.overflow = 'hidden'

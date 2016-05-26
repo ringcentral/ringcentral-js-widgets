@@ -1,4 +1,4 @@
-import sdk from './rc-sdk'
+import { RC } from './rc-sdk'
 import WebPhone from './rc-webphone'
 import config from './rc-config'
 var webPhone = {}
@@ -48,7 +48,7 @@ var PhoneService = function() {
     return {
         init: function(options) {
             console.log('init phone');
-            return sdk.platform()
+            return RC.sdk.platform()
                 .post('/client-info/sip-provision', {
                     sipInfo: [{
                         transport: 'WSS'

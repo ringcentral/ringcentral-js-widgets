@@ -79,7 +79,7 @@ w.register(function() {
     var factory = new Factory()
     this.data = {
         width: 250,
-        originalHeight: 400
+        originalHeight: 400,
     }
     this.props = {
         panels: [],
@@ -88,6 +88,8 @@ w.register(function() {
         minimizedHeight: 100,
         height: 400,
         toolbarHeight: 40,
+        key: null,
+        secret: null,
         ee: new EventEmitter()
     }
     this.actions = factory.create('rcPhone', {
@@ -120,10 +122,12 @@ w.register(function() {
             }
         },
         init: {
-            after: function() {
+            before: function() {
                 this.props.cachedMessageHours = 7 * 24
                 this.props.originalHeight = this.data.originalHeight
                 this.props.width = this.data.width
+                this.props.key = this.data.key
+                this.props.secret = this.data.secret
                 this.setSize(this.props.width, this.props.originalHeight)
                 this.dom['toolbar'].style.height = this.props.toolbarHeight + 'px'
                 this.dom['auth-panel'].style.width = this.props.width + 'px'

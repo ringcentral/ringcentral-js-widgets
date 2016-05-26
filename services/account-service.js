@@ -1,5 +1,5 @@
-import sdk from './rc-sdk'
-var accountService = (function(sdk) {
+import { RC } from './rc-sdk'
+var accountService = (function(RC) {
     var info
     var numbers
     var fetchNumbers = null
@@ -21,7 +21,7 @@ var accountService = (function(sdk) {
 
     return {
         getAccountInfo: function() {
-            return sdk.platform()
+            return RC.sdk.platform()
                 .get('/account/~/extension/~')
                 .then(response => {
                     info = response.json()
@@ -31,7 +31,7 @@ var accountService = (function(sdk) {
         },
 
         getPhoneNumber: function() {
-            fetchNumbers = sdk.platform()
+            fetchNumbers = RC.sdk.platform()
                 .get('/account/~/extension/~/phone-number')
                 .then(response => {
                     var data = response.json()
@@ -71,6 +71,6 @@ var accountService = (function(sdk) {
             }
         },
     }
-})(sdk)
+})(RC)
 
 export default accountService

@@ -1,4 +1,4 @@
-import sdk from './rc-sdk'
+import { RC } from './rc-sdk'
 import rcSubscription from './rc-subscription-service'
 
 var CallLogService = (function(sdk) {
@@ -6,14 +6,14 @@ var CallLogService = (function(sdk) {
     var dateFrom = new Date(Date.now() - (period))
     return {
         getCallLogs: function() {
-            return sdk.platform()
+            return RC.sdk.platform()
                 .get('/account/~/extension/~/call-log', {dateFrom: dateFrom.toISOString()})
                 .then(response => {
                     return response.json().records
                 })
         },
         getCallLogsByNumber: function(phoneNumber, hourFrom, hourTo) {
-            return sdk.platform()
+            return RC.sdk.platform()
                 .get('/account/~/extension/~/call-log', {
                     dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
                     dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
@@ -24,6 +24,6 @@ var CallLogService = (function(sdk) {
                 .then(records => records.reverse())
         }
     }
-})(sdk)
+})()
 
 export default CallLogService

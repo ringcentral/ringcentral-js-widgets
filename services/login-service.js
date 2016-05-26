@@ -1,9 +1,9 @@
-import sdk from './rc-sdk'
+import { RC } from './rc-sdk'
 var LoginService = function(sdk) {
     var onLoginHandler = []
     return {
         login: function(username, extension, password) {
-            return sdk.platform()
+            return RC.sdk.platform()
                 .login({
                     'username': username,
                     'extension': extension,
@@ -11,10 +11,10 @@ var LoginService = function(sdk) {
                 })
         },
         logout: function() {
-            return sdk.platform().logout()
+            return RC.sdk.platform().logout()
         },
         checkLoginStatus: function() {
-            return sdk.platform().loggedIn().then(function(isLoggedIn) {
+            return RC.sdk.platform().loggedIn().then(function(isLoggedIn) {
                 if (isLoggedIn) {
                     onLoginHandler.forEach(handler => handler())
                 }
@@ -22,8 +22,8 @@ var LoginService = function(sdk) {
             })
         },
         oauth: function() {
-            return parent.oauth(sdk).then(qs => sdk.platform().login(qs))
+            return parent.oauth(RC.sdk).then(qs => RC.sdk.platform().login(qs))
         }
     }
-}(sdk)
+}()
 export default LoginService
