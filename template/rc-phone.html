@@ -1,36 +1,55 @@
 <style>
-    .rc-phone {
-        position: relative;
-        width: 250px;
-        height: 100%;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        overflow: hidden;
-        margin: 0 auto;
-    }
+@import "src/styles/variables.css";
+@import "src/styles/mixins.css";
+.rc-phone {
+    position: relative;
+    width: 250px;
+    height: 100%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    overflow: hidden;
+    margin: 0 auto;
+}
 
-    .rc-phone > .phone-container {
-        width: 3000px;
-        transition: transform .1s ease-out;
+.rc-phone > .phone-container {
+    width: 3000px;
+    transition: transform .1s ease-out;
+}
+.rc-phone .panel {
+    min-height: 1px;
+}
+.rc-phone .panel.--extra {
+    position: absolute;
+    left: 0;
+}
+.rc-phone .auth-panel {
+    position: absolute;
+}
+.window {
+    position: absolute;
+    z-index: 5;
+    top: 3px;
+    left: 3px;
+    &__button {
+        width: 12px;
+        height: 12px;
+        padding: 0;
+        border-radius: 50%;
+        &.--remove {
+            background-color: $light-red;
+            border: 1px solid $red;
+        }
+        &.--resize {
+            background-color: $light-yellow;
+            border: 1px solid $yellow;
+        }
     }
-    .rc-phone .panel {
-        min-height: 1px;
-    }
-    .rc-phone .panel.--extra {
-        position: absolute;
-        left: 0;
-    }
-    .rc-phone .auth-panel {
-        position: absolute;
-    }
-    .resize-button {
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 10;
-    }
+}
 </style>
 <div>
-    <button data-info='resize' class='resize-button'>resize</button>
+    <div class='window'>
+        <button data-info='remove' class='rc-button --circle window__button --remove'></button>
+        <button data-info='resize' class='rc-button --circle window__button --resize'></button>
+    </div>
     <div data-info='phone' id='phone' class='rc-phone'>
         <div data-info='auth-panel' id="auth-panel" class='auth-panel'></div>
         <div data-info='toolbar' id="toolbar"></div>
@@ -52,6 +71,7 @@
 * 1. resize
 * 2. dialing
 * 3. ready
+* 4. unmount
 */
 import Factory from './build/factory'
 import EventEmitter from './template/vendor/eventemitter'
@@ -289,8 +309,6 @@ w.register(function() {
                                 actions: factory.create('dial-pad', {
                                     callout: {
                                         after: function() {
-                                            console.log('tonumber');
-                                            console.log(this.props.toNumber);
                                             phone.props.callPanel.setName(this.props.toNumber)
                                         },
                                         // error: function(e) {
@@ -467,6 +485,9 @@ w.register(function() {
             if (this.props.height === this.props.minimizedHeight) {
                 this.resize()
             }
+        }
+        if (e.target === this.dom.remove) {
+            this.unmount()
         }
     })
 

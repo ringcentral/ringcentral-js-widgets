@@ -49,7 +49,7 @@
                         <div class='text-center'>Audio</div>
                     </div> -->
                 </div>
-                <div class='control-panel__line'>
+                <div class='control-panel__line display-none'>
                     <div class='control-panel__item'>
                         <button 
                             data-info='flip'
@@ -250,11 +250,44 @@ this.actions = {
             this.dom.time.textContent = '0:0'
             this.props.duration = 0
             if (_interval) {
-                // clear interval
-                console.log('clear interval');
                 _interval()
                 _interval = null
             }
+            // mute
+            this.props.isMute = false
+            var span1 = document.createElement('span')
+            span1.classList.add('icon-uniCE')
+            while (this.dom.mute.firstChild)
+                this.dom.mute.removeChild(this.dom.mute.firstChild)
+            this.dom.mute.appendChild(span1)
+
+            // hold
+            this.props.isHold = false
+            var span1 = document.createElement('span')
+            var span2 = document.createElement('span')
+            span1.classList.add('icon-uni28')
+            span2.classList.add('icon-uni35')
+            while (this.dom.hold.firstChild)
+                this.dom.hold.removeChild(this.dom.hold.firstChild)
+            this.dom.hold.appendChild(span1)
+            this.dom.hold.appendChild(span2)
+
+            // record
+            this.props.isRecord = false
+            var span1 = document.createElement('span')
+            var span2 = document.createElement('span')
+            span1.classList.add('icon-uni24')
+            span2.classList.add('icon-Active_Call-33')
+            while (this.dom.record.firstChild)
+                this.dom.record.removeChild(this.dom.record.firstChild)
+            this.dom.record.appendChild(span1)
+            this.dom.record.appendChild(span2)
+
+            // keypad
+            this.dom['contral-panel'].classList.remove('display-none')
+            this.dom['dialing-panel'].classList.add('display-none')
+
+            this.props.isPark = false
         }
     },
     getContact: {
@@ -279,6 +312,10 @@ this.actions = {
             this.dom['time'].textContent = `${minutes}:${seconds}`
             // FIXME: NOT accurate
             // TODO: check for real startTime from SIP
+            if (_interval) {
+                _interval()
+                _interval = null
+            }
             _interval = (function(self) {
                 console.log('set interval');
                 var id = setInterval(() => {
@@ -319,8 +356,8 @@ this.actions = {
             return finish()
         },
         after: function(result) {
-            console.log(result);
             result && (this.props.isHold = result.isOnHold().local)
+            console.log('now holding status:' + this.props.isHold);
             if (this.props.isHold) {
                 var span1 = document.createElement('span')
                 var span2 = document.createElement('span')
@@ -343,6 +380,7 @@ this.actions = {
         },
         error: function(e) {
             console.error(e)
+            this.props.isHold = e.isOnHold().local
         }
     },
     mute: {
@@ -402,19 +440,31 @@ this.actions = {
         },
         after: function() {
             console.log('after record');
-            this.props.isRecord = true
-            var span1 = document.createElement('span')
-            var span2 = document.createElement('span')
-            span1.classList.add('icon-uni30')
-            span2.classList.add('icon-uni30')
-            while (this.dom.record.firstChild)
-                this.dom.record.removeChild(this.dom.record.firstChild)
-            this.dom.record.appendChild(span1)
-            this.dom.record.appendChild(span2)
+            this.props.isRecord = !this.props.isRecord
+            if (this.props.isRecord) {
+                var span1 = document.createElement('span')
+                var span2 = document.createElement('span')
+                span1.classList.add('icon-uni30')
+                span2.classList.add('icon-uni30')
+                while (this.dom.record.firstChild)
+                    this.dom.record.removeChild(this.dom.record.firstChild)
+                this.dom.record.appendChild(span1)
+                this.dom.record.appendChild(span2)
+            } else {
+                var span1 = document.createElement('span')
+                var span2 = document.createElement('span')
+                span1.classList.add('icon-uni24')
+                span2.classList.add('icon-Active_Call-33')
+                while (this.dom.record.firstChild)
+                    this.dom.record.removeChild(this.dom.record.firstChild)
+                this.dom.record.appendChild(span1)
+                this.dom.record.appendChild(span2)
+            }
+            
         },
         error: function(e) {
             console.error(e)
-            this.props.isRecord = false
+            // this.props.isRecord = false
         }
     },
     park: {

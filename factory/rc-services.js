@@ -329,7 +329,8 @@ services['call-panel'] = {
     },
     record: {
         method: function() {
-            return phoneService.record()
+            console.log(this.props.isRecord);
+            return phoneService.record(!this.props.isRecord)
         },
     },
     park: {

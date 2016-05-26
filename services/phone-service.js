@@ -104,6 +104,7 @@ var PhoneService = function() {
             return session.bye()
         },
         hold: function(flag) {
+            console.log('real hold:' + flag)
             if (flag) {
                 return session.hold().then(() => {
                     return session
@@ -114,6 +115,7 @@ var PhoneService = function() {
             })
         },
         mute: function(flag) {
+            console.log('real mute:' + flag)
             if (flag)
                 session.mute()
             else
@@ -140,10 +142,17 @@ var PhoneService = function() {
                 return session
             })
         },
-        record: function() {
-            return session.startRecord().then(() => {
-                return session
-            })
+        record: function(flag) {
+            if (flag) {
+                return session.startRecord().then(() => {
+                    return session
+                })
+            } else {
+                return session.stopRecord().then(() => {
+                    return session
+                })
+            }
+            
         }
     }
 }()
