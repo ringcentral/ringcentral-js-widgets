@@ -473,6 +473,7 @@ w.register(function() {
                 //             this.props.authPanel.mount('#auth-panel')
                 //     }
                 // })
+                this.props.ee.trigger('ready')
                 this.checkLogin().then(isLoggedIn => {
                     if (this.data.shadowRoot)
                         this.props.authPanel.mount(this.data.shadowRoot.querySelector('#auth-panel'))

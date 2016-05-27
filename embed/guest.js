@@ -517,7 +517,8 @@ var actions = {
     GUEST_INIT: 200,
     GUEST_PHONE_RESIZE: 201,
     GUEST_DIALPAD_NUMBER: 202,
-    GUEST_PHONE_UNMOUNT: 203
+    GUEST_PHONE_UNMOUNT: 203,
+    GUEST_PHONE_READY: 204
 };
 
 var initialState = {
@@ -537,6 +538,7 @@ var initialState = {
     },
 }
 function status(state = initialState.status, action) {
+    console.log(action);
     switch (action.type) {
         case actions.GUEST_INIT:
             return Object.assign({}, state, {
@@ -545,6 +547,10 @@ function status(state = initialState.status, action) {
         case actions.GUEST_PHONE_UNMOUNT:
             return Object.assign({}, state, {
                 unmount: true
+            })
+        case actions.GUEST_PHONE_READY:
+            return Object.assign({}, state, {
+                ready: true
             })
         default:
             return state
@@ -595,7 +601,6 @@ const width = getURLParameter('width')
 const height = getURLParameter('height')
 
 
-phone.mount(document.body)
 document.body.style.overflow = 'hidden'
 
 window.addEventListener('message', function(e) {
@@ -629,9 +634,16 @@ phone.on('dialing', function(number) {
         value: number
     })
 })
-phone.on('unmount', function(number) {
+phone.on('unmount', function() {
     store.dispatch({
         type: actions.GUEST_PHONE_UNMOUNT
     })
 })
+phone.on('ready', function() {
+    console.log('yea');
+    store.dispatch({
+        type: actions.GUEST_PHONE_READY
+    })
+})
+phone.mount(document.body)
 //# sourceMappingURL=guest.js.map

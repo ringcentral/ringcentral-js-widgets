@@ -31,6 +31,7 @@ function minimize(minimized) {
 }
 
 function status(state = initialState.status, action) {
+    console.log(action);
     switch (action.type) {
         case actions.GUEST_INIT:
             return Object.assign({}, state, {
@@ -39,6 +40,10 @@ function status(state = initialState.status, action) {
         case actions.GUEST_PHONE_UNMOUNT:
             return Object.assign({}, state, {
                 unmount: true
+            })
+        case actions.GUEST_PHONE_READY:
+            return Object.assign({}, state, {
+                ready: true
             })
         default:
             return state

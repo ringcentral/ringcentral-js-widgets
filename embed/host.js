@@ -3,7 +3,8 @@ var actions = {
     GUEST_INIT: 200,
     GUEST_PHONE_RESIZE: 201,
     GUEST_DIALPAD_NUMBER: 202,
-    GUEST_PHONE_UNMOUNT: 203
+    GUEST_PHONE_UNMOUNT: 203,
+    GUEST_PHONE_READY: 204
 };
 
 const DOMAIN = window.location.origin
@@ -98,6 +99,7 @@ var createIframe = function() {
         target.style.position = 'fixed'
         target.style.top = 0
         target.style.right = '5px'
+        iframe.style.background = '#1e89ed'
         iframe.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
     }
     target.appendChild(iframe)
@@ -171,6 +173,9 @@ window.addEventListener('message', function(e) {
     frame$1.height = state.size.height
     if (state.status.unmount) {
         frame$1.parentNode.removeChild(frame$1)
+    }
+    if (state.status.ready) {
+        frame$1.style.background = 'transparent'
     }
 })
 // Ringcentral.on()

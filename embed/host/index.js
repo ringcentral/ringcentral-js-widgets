@@ -11,6 +11,9 @@ window.addEventListener('message', function(e) {
     if (state.status.unmount) {
         frame.parentNode.removeChild(frame)
     }
+    if (state.status.ready) {
+        frame.style.background = 'transparent'
+    }
 })
 // Ringcentral.on()
 // Ringcentral.oauth()
