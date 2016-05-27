@@ -431,20 +431,22 @@ var actions = {
     HOST_DIALPAD_NUMBER: 100,
     GUEST_INIT: 200,
     GUEST_PHONE_RESIZE: 201,
-    GUEST_DIALPAD_NUMBER: 202
+    GUEST_DIALPAD_NUMBER: 202,
+    GUEST_PHONE_UNMOUNT: 203
 };
 
 var initialState = {
     init: false,
+    unmount: false,
+    minimized: false,
     size: {
         width: 250,
         height: 400,
     },
     toolbarHeight: 40,
-    minimized: false,
     dialPad: {
         phoneNumber: ''
-    }
+    },
 }
 function phone$1(state = initialState, action) {
     switch (action.type) {
@@ -473,6 +475,10 @@ function phone$1(state = initialState, action) {
                     width: action.width,
                     height: action.height
                 }
+            })
+        case actions.GUEST_PHONE_UNMOUNT:
+            return Object.assign({}, state, {
+                unmount: true
             })
         default:
             return state
@@ -525,6 +531,11 @@ phone.on('dialing', function(number) {
     store.dispatch({
         type: actions.GUEST_DIALPAD_NUMBER,
         value: number
+    })
+})
+phone.on('unmount', function(number) {
+    store.dispatch({
+        type: actions.GUEST_PHONE_UNMOUNT
     })
 })
 //# sourceMappingURL=guest.js.map

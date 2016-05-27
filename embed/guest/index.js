@@ -41,3 +41,8 @@ phone.on('dialing', function(number) {
         value: number
     })
 })
+phone.on('unmount', function(number) {
+    store.dispatch({
+        type: actions.GUEST_PHONE_UNMOUNT
+    })
+})

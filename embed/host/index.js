@@ -6,9 +6,11 @@ Ringcentral.widgets = {
 }
 window.addEventListener('message', function(e) {
     var state = e.data
-    console.log(state);
     frame.width = state.size.width
     frame.height = state.size.height
+    if (state.unmount) {
+        frame.parentNode.removeChild(frame)
+    }
 })
 // Ringcentral.on()
 // Ringcentral.oauth()

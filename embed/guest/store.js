@@ -2,15 +2,16 @@ import { createStore, combineReducers } from 'redux'
 import actions from '../actions'
 var initialState = {
     init: false,
+    unmount: false,
+    minimized: false,
     size: {
         width: 250,
         height: 400,
     },
     toolbarHeight: 40,
-    minimized: false,
     dialPad: {
         phoneNumber: ''
-    }
+    },
 }
 function resize({width, height}) {
     return {
@@ -52,6 +53,10 @@ function phone(state = initialState, action) {
                     width: action.width,
                     height: action.height
                 }
+            })
+        case actions.GUEST_PHONE_UNMOUNT:
+            return Object.assign({}, state, {
+                unmount: true
             })
         default:
             return state

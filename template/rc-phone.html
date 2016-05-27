@@ -491,6 +491,7 @@ w.register(function() {
             }
         }
         if (e.target === this.dom.remove) {
+            this.props.ee.trigger('unmount')
             this.unmount()
         }
     })
