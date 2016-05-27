@@ -8699,18 +8699,27 @@ exports.default = CachedSubscription;
 var RingCentral = (ringcentralBundle && typeof ringcentralBundle === 'object' && 'default' in ringcentralBundle ? ringcentralBundle['default'] : ringcentralBundle);
 
 var config = {
-    key: 'rzn-_RbxTd-iV9f9l0S2mw',
-    secret: 'sW3ufZ5cQ269scuORDMl0A1kv9ziPoT92Gx6MarVvL7g',
+    key: '8mOtYiilT5OUPwwdeGgvpw',
+    secret: 'cqNn89RmR2SR76Kpp8xJaAdNzNOqR8Qfmjb0B-gDOHTw',
 
     incomingAudio: '../src/assets/audio/incoming.ogg',
     outgoingAudio: '../src/assets/audio/outgoing.ogg'
 }
 
-var sdk = new RingCentral({
-    appKey: config.key,
-    appSecret: config.secret,
-    server: 'https://platform.devtest.ringcentral.com'
-})
+var RC = {}
+
+// for dependency injection
+var sdk = (function () {
+    return RC.sdk
+})()
+
+var injectSDK = function ({key, secret}) {
+    RC.sdk = new RingCentral({
+        appKey: key,
+        appSecret: secret,
+        server: RingCentral.server.production
+    })
+}
 
 var Transport$1 = __commonjs(function (module) {
 "use strict";
@@ -21417,7 +21426,7 @@ var PhoneService = function() {
     return {
         init: function(options) {
             console.log('init phone');
-            return sdk.platform()
+            return RC.sdk.platform()
                 .post('/client-info/sip-provision', {
                     sipInfo: [{
                         transport: 'WSS'
@@ -21473,6 +21482,7 @@ var PhoneService = function() {
             return session.bye()
         },
         hold: function(flag) {
+            console.log('real hold:' + flag)
             if (flag) {
                 return session.hold().then(() => {
                     return session
@@ -21483,6 +21493,7 @@ var PhoneService = function() {
             })
         },
         mute: function(flag) {
+            console.log('real mute:' + flag)
             if (flag)
                 session.mute()
             else
@@ -21509,10 +21520,17 @@ var PhoneService = function() {
                 return session
             })
         },
-        record: function() {
-            return session.startRecord().then(() => {
-                return session
-            })
+        record: function(flag) {
+            if (flag) {
+                return session.startRecord().then(() => {
+                    return session
+                })
+            } else {
+                return session.stopRecord().then(() => {
+                    return session
+                })
+            }
+            
         }
     }
 }()
@@ -21521,7 +21539,7 @@ var LoginService = function(sdk) {
     var onLoginHandler = []
     return {
         login: function(username, extension, password) {
-            return sdk.platform()
+            return RC.sdk.platform()
                 .login({
                     'username': username,
                     'extension': extension,
@@ -21529,10 +21547,10 @@ var LoginService = function(sdk) {
                 })
         },
         logout: function() {
-            return sdk.platform().logout()
+            return RC.sdk.platform().logout()
         },
         checkLoginStatus: function() {
-            return sdk.platform().loggedIn().then(function(isLoggedIn) {
+            return RC.sdk.platform().loggedIn().then(function(isLoggedIn) {
                 if (isLoggedIn) {
                     onLoginHandler.forEach(handler => handler())
                 }
@@ -21540,36 +21558,41 @@ var LoginService = function(sdk) {
             })
         },
         oauth: function() {
-            return parent.oauth(sdk).then(qs => sdk.platform().login(qs))
+            return parent.oauth(RC.sdk).then(qs => RC.sdk.platform().login(qs))
         }
     }
-}(sdk)
+}()
 
 var rcSubscription = function() {
-
+    var _init = false
     var cacheKey = 'ringcentral-subscription'
-    var subscription = sdk.createCachedSubscription(cacheKey).restore()
+    var subscription
     var handlers = {}
-    subscription.on(subscription.events.notification, function(msg) {
-        console.log('update from pubnub');
-        for (var key in handlers) {
-            if (handlers.hasOwnProperty(key)) {
-                if (msg.event.indexOf(key) > -1) {
-                    handlers[key].forEach(h => {
-                        try {
-                            h(msg)
-                        } catch (e) {
-                            console.error('Error occurs when invoking subscription notification handler for "' +
-                        msg.event + '": ' + e)
-                        }
-                    })
+    function init() {
+        _init = true
+        subscription = RC.sdk.createCachedSubscription(cacheKey).restore()
+        subscription.on(subscription.events.notification, function(msg) {
+            for (var key in handlers) {
+                if (handlers.hasOwnProperty(key)) {
+                    if (msg.event.indexOf(key) > -1) {
+                        handlers[key].forEach(h => {
+                            try {
+                                h(msg)
+                            } catch (e) {
+                                console.error('Error occurs when invoking subscription notification handler for "' +
+                            msg.event + '": ' + e)
+                            }
+                        })
+                    }
                 }
             }
-        }
-    })
+        })
+    }
+    
 
     return {
         subscribe: function(suffix, event, handler) {
+            if (!_init) init()
             if (event && suffix) {
                 if (!handlers[suffix]) {
                     handlers[suffix] = []
@@ -21586,14 +21609,14 @@ var CallLogService = (function(sdk) {
     var dateFrom = new Date(Date.now() - (period))
     return {
         getCallLogs: function() {
-            return sdk.platform()
+            return RC.sdk.platform()
                 .get('/account/~/extension/~/call-log', {dateFrom: dateFrom.toISOString()})
                 .then(response => {
                     return response.json().records
                 })
         },
         getCallLogsByNumber: function(phoneNumber, hourFrom, hourTo) {
-            return sdk.platform()
+            return RC.sdk.platform()
                 .get('/account/~/extension/~/call-log', {
                     dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
                     dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
@@ -21604,9 +21627,9 @@ var CallLogService = (function(sdk) {
                 .then(records => records.reverse())
         }
     }
-})(sdk)
+})()
 
-var accountService = (function(sdk) {
+var accountService = (function(RC) {
     var info
     var numbers
     var fetchNumbers = null
@@ -21628,7 +21651,7 @@ var accountService = (function(sdk) {
 
     return {
         getAccountInfo: function() {
-            return sdk.platform()
+            return RC.sdk.platform()
                 .get('/account/~/extension/~')
                 .then(response => {
                     info = response.json()
@@ -21638,7 +21661,7 @@ var accountService = (function(sdk) {
         },
 
         getPhoneNumber: function() {
-            fetchNumbers = sdk.platform()
+            fetchNumbers = RC.sdk.platform()
                 .get('/account/~/extension/~/phone-number')
                 .then(response => {
                     var data = response.json()
@@ -21678,7 +21701,7 @@ var accountService = (function(sdk) {
             }
         },
     }
-})(sdk)
+})(RC)
 
 var lzString = __commonjs(function (module) {
 // Copyright (c) 2013 Pieroxy <pieroxy@pieroxy.net>
@@ -22186,7 +22209,7 @@ if (typeof define === 'function' && define.amd) {
 
 var LZString = (lzString && typeof lzString === 'object' && 'default' in lzString ? lzString['default'] : lzString);
 
-var rcContactService = function(sdk) {
+var rcContactService = function() {
     var companyContacts = []
     var completeCompanyContacts = null
     
@@ -22227,11 +22250,11 @@ var rcContactService = function(sdk) {
     }
 
     function fetchCompanyContactByPage(page) {
-        return sdk.platform().get('/account/~/extension/', {perPage: 250, page: page})
+        return RC.sdk.platform().get('/account/~/extension/', {perPage: 250, page: page})
     }
 
     function fetchCompanyDirectNumbersByPage(page) {
-        return sdk.platform().get('/account/~/phone-number', {perPage: 250, page: page})
+        return RC.sdk.platform().get('/account/~/phone-number', {perPage: 250, page: page})
     }
 
     function fetchCompanyContacts() {
@@ -22307,7 +22330,7 @@ var rcContactService = function(sdk) {
             return companyContacts
         },
         accessToken: function() {
-            return sdk.platform().auth().accessToken()
+            return RC.sdk.platform().auth().accessToken()
         },
         asyncGetCompanyContact: function() {
             if (fetchingCompanyContacts) {
@@ -22364,7 +22387,7 @@ var rcContactService = function(sdk) {
             }
         }())
     }
-}(sdk)
+}()
 
 var contactSearchService = (function() {
     var searchProviders = []
@@ -22474,14 +22497,14 @@ var rcContactSearchProvider = function() {
     }
 }()
 
-var rcMessageService = function(sdk) {
+var rcMessageService = function() {
     var messages = {}
     var fetchingPromise = null
     var syncToken = null
     var messageUpdateHandlers = []
 
     function fullSyncMessages(hour) {
-        return sdk.platform().get('/account/~/extension/~/message-sync', {
+        return RC.sdk.platform().get('/account/~/extension/~/message-sync', {
             dateFrom: new Date(Date.now() - hour * 3600 * 1000).toISOString(),
             syncType: 'FSync'
         }).then(responses => {
@@ -22496,7 +22519,7 @@ var rcMessageService = function(sdk) {
 
     function incrementalSyncMessages() {
         if (syncToken) {
-            return sdk.platform().get('/account/~/extension/~/message-sync', {
+            return RC.sdk.platform().get('/account/~/extension/~/message-sync', {
                 syncType: 'ISync',
                 syncToken: syncToken
             }).then(responses => {
@@ -22591,7 +22614,7 @@ var rcMessageService = function(sdk) {
             }
         },
         sendSMSMessage: function(text, fromNumber, toNumber) {
-            return sdk.platform()
+            return RC.sdk.platform()
                 .post('/account/~/extension/~/sms/', {
                     from: {phoneNumber: fromNumber},
                     to: [
@@ -22603,7 +22626,7 @@ var rcMessageService = function(sdk) {
         },
         sendPagerMessage: function(text, fromNumber, toNumber) {
             console.log(fromNumber);
-            return sdk.platform()
+            return RC.sdk.platform()
                 .post('/account/~/extension/~/company-pager/', {
                     from: {extensionNumber: fromNumber},
                     to: [
@@ -22614,7 +22637,7 @@ var rcMessageService = function(sdk) {
                 .then(response => response.json())
         },
         getConversation: function(conversationId, hourFrom, hourTo) {
-            return sdk.platform()
+            return RC.sdk.platform()
                 .get('/account/~/extension/~/message-store', {
                     dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
                     dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
@@ -22625,7 +22648,7 @@ var rcMessageService = function(sdk) {
                 .then(records => records.reverse())
         },
         getMessagesByNumber: function(phoneNumber, hourFrom, hourTo) {
-            return sdk.platform()
+            return RC.sdk.platform()
                 .get('/account/~/extension/~/message-store', {
                     dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
                     dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
@@ -22636,7 +22659,7 @@ var rcMessageService = function(sdk) {
                 .then(records => records.reverse())
         }
     }
-}(sdk)
+}()
 
 var rcMessageProvider = function() {
     var messageUpdatedHandlers = []
@@ -22753,7 +22776,7 @@ var rcConferenceSerivce = function() {
     var fetchingConferenceInfo = null;
     
     function fetchConferenceInfo() {
-        fetchingConferenceInfo = sdk.platform().get('/account/~/extension/~/conferencing')
+        fetchingConferenceInfo = RC.sdk.platform().get('/account/~/extension/~/conferencing')
             .then(responses => {
                 var jsonResponse = responses.json();
                 var conferenceInfo = {};
@@ -22777,7 +22800,7 @@ var rcConferenceSerivce = function() {
     };
 }();
 
-var conversationService = (function(sdk) {
+var conversationService = (function() {
     var cachedHour = 24 * 7
     function groupMessageToContact(msgs, contacts) {
         var relatedContacts = contacts.filter(contact => {
@@ -23010,7 +23033,7 @@ var conversationService = (function(sdk) {
         },
         adaptMessage
     }
-})(sdk)
+})()
 
 var md5 = __commonjs(function (module, exports, global) {
 /*
@@ -23300,6 +23323,15 @@ var dialPadSearchProviders = [rcContactSearchProvider]
 
 var services = {}
 services.rcPhone = {
+    init: {
+        after: function() {
+            /// critical, inject app key & secret into service
+            injectSDK({
+                key: this.props.key,
+                secret: this.props.secret
+            })
+        }
+    },
     loadData: {
         method: function() {
             console.log('load data');
@@ -23324,12 +23356,12 @@ services.rcPhone = {
 services['auth-panel'] = {
     login: {
         method: function() {
-            // return loginService.login(
-            //     PhoneFormat.formatE164('US', this.props.username),
-            //     this.props.extension,
-            //     this.props.password
-            // )
-            return LoginService.oauth()
+            return LoginService.login(
+                PhoneFormat.formatE164('US', this.props.username),
+                this.props.extension,
+                this.props.password
+            )
+            // return loginService.oauth()
         }
     }
 }
@@ -23342,6 +23374,7 @@ services['dial-pad'] = {
     },
     callout: {
         method: function() {
+            console.log('real call');
             return PhoneService.call(
                 this.props.fromNumber, 
                 this.props.toNumber, {
@@ -23515,7 +23548,7 @@ services['conversation-advanced'] = {
         method: function() {
             if (!this.props.profileImage)
                 return Promise.resolve(`http://www.gravatar.com/avatar/${md5$1(this.props.contact.id)}?d=retro`)
-            return sdk.platform()
+            return RC.sdk.platform()
                 .get(this.props.profileImage)
                 .then(r => r.response())
                 .then(r => {
@@ -23610,7 +23643,8 @@ services['call-panel'] = {
     },
     record: {
         method: function() {
-            return PhoneService.record()
+            console.log(this.props.isRecord);
+            return PhoneService.record(!this.props.isRecord)
         },
     },
     park: {
@@ -23658,13 +23692,13 @@ function extend(base, mixin) {
         if (base[action]) {
             for (var hook in mixin[action]) {
                 var origin = base[action][hook]
+                var mix = mixin[action][hook]
                 base[action][hook] = function(...args) {
-                    console.log(this);
                     var result
                     if (origin) {
                         result = origin.call(this, ...args)
                     }
-                    mixin[action][hook].call(this)
+                    mix.call(this)
                     return result
                 }
             }
@@ -23682,8 +23716,6 @@ var Factory = function () {
 Factory.prototype.create = function(type, mixin = {}) {
     return extend(services[type], mixin)
 }
-
-console.log(Factory);
 
 module.exports = Factory;
 //# sourceMappingURL=factory.js.map

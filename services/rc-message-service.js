@@ -1,14 +1,14 @@
-import sdk from './rc-sdk'
+import { RC } from './rc-sdk'
 import rcSubscription from './rc-subscription-service'
 
-var rcMessageService = function(sdk) {
+var rcMessageService = function() {
     var messages = {}
     var fetchingPromise = null
     var syncToken = null
     var messageUpdateHandlers = []
 
     function fullSyncMessages(hour) {
-        return sdk.platform().get('/account/~/extension/~/message-sync', {
+        return RC.sdk.platform().get('/account/~/extension/~/message-sync', {
             dateFrom: new Date(Date.now() - hour * 3600 * 1000).toISOString(),
             syncType: 'FSync'
         }).then(responses => {
@@ -23,7 +23,7 @@ var rcMessageService = function(sdk) {
 
     function incrementalSyncMessages() {
         if (syncToken) {
-            return sdk.platform().get('/account/~/extension/~/message-sync', {
+            return RC.sdk.platform().get('/account/~/extension/~/message-sync', {
                 syncType: 'ISync',
                 syncToken: syncToken
             }).then(responses => {
@@ -118,7 +118,7 @@ var rcMessageService = function(sdk) {
             }
         },
         sendSMSMessage: function(text, fromNumber, toNumber) {
-            return sdk.platform()
+            return RC.sdk.platform()
                 .post('/account/~/extension/~/sms/', {
                     from: {phoneNumber: fromNumber},
                     to: [
@@ -130,7 +130,7 @@ var rcMessageService = function(sdk) {
         },
         sendPagerMessage: function(text, fromNumber, toNumber) {
             console.log(fromNumber);
-            return sdk.platform()
+            return RC.sdk.platform()
                 .post('/account/~/extension/~/company-pager/', {
                     from: {extensionNumber: fromNumber},
                     to: [
@@ -141,7 +141,7 @@ var rcMessageService = function(sdk) {
                 .then(response => response.json())
         },
         getConversation: function(conversationId, hourFrom, hourTo) {
-            return sdk.platform()
+            return RC.sdk.platform()
                 .get('/account/~/extension/~/message-store', {
                     dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
                     dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
@@ -152,7 +152,7 @@ var rcMessageService = function(sdk) {
                 .then(records => records.reverse())
         },
         getMessagesByNumber: function(phoneNumber, hourFrom, hourTo) {
-            return sdk.platform()
+            return RC.sdk.platform()
                 .get('/account/~/extension/~/message-store', {
                     dateFrom: new Date(Date.now() - hourFrom * 3600 * 1000).toISOString(),
                     dateTo: new Date(Date.now() - (hourTo || 0) * 3600 * 1000).toISOString(),
@@ -163,6 +163,6 @@ var rcMessageService = function(sdk) {
                 .then(records => records.reverse())
         }
     }
-}(sdk)
+}()
 
 export default rcMessageService

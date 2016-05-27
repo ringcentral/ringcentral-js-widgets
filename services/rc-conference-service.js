@@ -1,10 +1,10 @@
-import sdk from './rc-sdk';
+import { RC } from './rc-sdk';
 
 var rcConferenceSerivce = function() {
     var fetchingConferenceInfo = null;
     
     function fetchConferenceInfo() {
-        fetchingConferenceInfo = sdk.platform().get('/account/~/extension/~/conferencing')
+        fetchingConferenceInfo = RC.sdk.platform().get('/account/~/extension/~/conferencing')
             .then(responses => {
                 var jsonResponse = responses.json();
                 var conferenceInfo = {};

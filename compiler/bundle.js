@@ -1,7 +1,8 @@
 var rollup = require('rollup')
 var nodeResolve = require('rollup-plugin-node-resolve')
 var commonjs    = require('rollup-plugin-commonjs')
-var browserify = require('browserify');
+var browserify = require('browserify')
+var replace = require('rollup-plugin-replace')
 var f = true
 function bundle(file) {
     // console.log('transform: ' + id);
@@ -11,10 +12,13 @@ function bundle(file) {
         sourceMap: true,
         plugins: [
             nodeResolve({
-                jsnext: true, 
+                // jsnext: true, 
                 main: true
             }),
-            commonjs()
+            commonjs(),
+            replace({
+                'process.env.NODE_ENV': JSON.stringify( 'production' )
+            })
         ],
     }).then(function(bundle) {
         var result = bundle.generate({

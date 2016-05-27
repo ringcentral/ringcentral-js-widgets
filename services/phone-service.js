@@ -1,4 +1,4 @@
-import sdk from './rc-sdk'
+import { RC } from './rc-sdk'
 import WebPhone from './rc-webphone'
 import config from './rc-config'
 var webPhone = {}
@@ -48,7 +48,7 @@ var PhoneService = function() {
     return {
         init: function(options) {
             console.log('init phone');
-            return sdk.platform()
+            return RC.sdk.platform()
                 .post('/client-info/sip-provision', {
                     sipInfo: [{
                         transport: 'WSS'
@@ -104,6 +104,7 @@ var PhoneService = function() {
             return session.bye()
         },
         hold: function(flag) {
+            console.log('real hold:' + flag)
             if (flag) {
                 return session.hold().then(() => {
                     return session
@@ -114,6 +115,7 @@ var PhoneService = function() {
             })
         },
         mute: function(flag) {
+            console.log('real mute:' + flag)
             if (flag)
                 session.mute()
             else
@@ -140,10 +142,17 @@ var PhoneService = function() {
                 return session
             })
         },
-        record: function() {
-            return session.startRecord().then(() => {
-                return session
-            })
+        record: function(flag) {
+            if (flag) {
+                return session.startRecord().then(() => {
+                    return session
+                })
+            } else {
+                return session.stopRecord().then(() => {
+                    return session
+                })
+            }
+            
         }
     }
 }()

@@ -1,29 +1,55 @@
 <style>
-    .rc-phone {
-        position: relative;
-        width: 250px;
-        height: 100%;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        overflow: hidden;
-        margin: 0 auto;
-    }
+@import "src/styles/variables.css";
+@import "src/styles/mixins.css";
+.rc-phone {
+    position: relative;
+    width: 250px;
+    height: 100%;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    overflow: hidden;
+    margin: 0 auto;
+}
 
-    .rc-phone > .phone-container {
-        width: 3000px;
-        transition: transform .1s ease-out;
+.rc-phone > .phone-container {
+    width: 3000px;
+    transition: transform .1s ease-out;
+}
+.rc-phone .panel {
+    min-height: 1px;
+}
+.rc-phone .panel.--extra {
+    position: absolute;
+    left: 0;
+}
+.rc-phone .auth-panel {
+    position: absolute;
+}
+.window {
+    position: absolute;
+    z-index: 5;
+    top: 3px;
+    left: 3px;
+    &__button {
+        width: 12px;
+        height: 12px;
+        padding: 0;
+        border-radius: 50%;
+        &.--remove {
+            background-color: $light-red;
+            border: 1px solid $red;
+        }
+        &.--resize {
+            background-color: $light-yellow;
+            border: 1px solid $yellow;
+        }
     }
-    .rc-phone .panel {
-        min-height: 1px;
-    }
-    .rc-phone .panel.--extra {
-        position: absolute;
-        left: 0;
-    }
-    .rc-phone .auth-panel {
-        position: absolute;
-    }
+}
 </style>
 <div>
+    <div class='window'>
+        <button data-info='remove' class='rc-button --circle window__button --remove'></button>
+        <button data-info='resize' class='rc-button --circle window__button --resize'></button>
+    </div>
     <div data-info='phone' id='phone' class='rc-phone'>
         <div data-info='auth-panel' id="auth-panel" class='auth-panel'></div>
         <div data-info='toolbar' id="toolbar"></div>
@@ -40,20 +66,75 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js'></script>
 <!-- <script src="./build/factory.js"></script> -->
 <script>
+/*
+* Events:
+* 1. resize
+* 2. dialing
+* 3. ready
+* 4. unmount
+*/
 import Factory from './build/factory'
+import EventEmitter from './template/vendor/eventemitter'
 w.register(function() {
     var factory = new Factory()
     this.data = {
-      width: 250,
-      height: 500
+        width: 250,
+        originalHeight: 400,
     }
     this.props = {
         panels: [],
         width: 250,
-        height: 500,
-        toolbarHeight: 40
+        originalHeight: 400,
+        minimizedHeight: 100,
+        height: 400,
+        toolbarHeight: 40,
+        key: null,
+        secret: null,
+        ee: new EventEmitter()
     }
     this.actions = factory.create('rcPhone', {
+        on: {
+            method: function(finish, event, callback) {
+                this.props.ee.on(event, callback)
+            }
+        },
+        resize: {
+            before: function() {
+
+            },
+            after: function(height) {
+                var newHeight
+                if (height) 
+                    newHeight = height
+                else if (this.props.height === this.props.minimizedHeight)
+                    newHeight = this.props.originalHeight
+                else
+                    newHeight = this.props.minimizedHeight
+                this.props.ee.trigger('resize', [this.props.width, newHeight])
+            }
+        },
+        setSize: {
+            method: function(finish, width, height) {
+                this.props.width = width
+                this.props.height = height
+                this.dom.phone.style.width = this.props.width + 'px'
+                this.dom.phone.style.height = this.props.height + 'px'
+            }
+        },
+        init: {
+            before: function() {
+                this.props.cachedMessageHours = 7 * 24
+                this.props.originalHeight = this.data.originalHeight
+                this.props.width = this.data.width
+                this.props.key = this.data.key
+                this.props.secret = this.data.secret
+                this.setSize(this.props.width, this.props.originalHeight)
+                this.dom['toolbar'].style.height = this.props.toolbarHeight + 'px'
+                this.dom['auth-panel'].style.width = this.props.width + 'px'
+                this.dom['auth-panel'].style.height = this.props.height + 'px'
+                this.createWidgets()
+            }
+        },
         createWidgets: {
             method: function() {
                 var phone = this
@@ -65,16 +146,15 @@ w.register(function() {
 
                 if (this.data.firstLevel) {
                     var names = this.data.firstLevel.split(',')
-                    console.log(names);
                     this.props.authPanel = w('auth-panel', {
                         shadowRoot: phone.data.shadowRoot,
                         data : phone.data,
                         actions: factory.create('auth-panel', {
                             login: {
                                 after: function() {
+                                    console.log('login after');
                                     this.unmount()
                                     phone.loadData();
-                                    console.log(names);
                                     if (names.length > 1) {
                                         if (phone.data.shadowRoot)
                                             phone.props.toolbar.mount(phone.data.shadowRoot.querySelector('#toolbar'))
@@ -240,6 +320,11 @@ w.register(function() {
                                         //     phone.props.notification.show('#notification', 4000)
                                         //     phone.props.notification.msg(e.message || e)
                                         // }
+                                    },
+                                    numberChange: {
+                                        after: function () {
+                                            phone.props.ee.trigger('dialing', [this.props.toNumber])
+                                        }
                                     }
                                 })
                             });
@@ -255,13 +340,30 @@ w.register(function() {
                                     localVideo: phone.props.callPanel.props.localVideo,
                                 },
                                 actions: factory.create('call-panel-incoming', {
+                                    mount: {
+                                        after: function() {
+                                            if (phone.props.height === phone.props.minimizedHeight) {
+                                                this.simplify(true)
+                                            } else {
+                                                this.simplify(false)
+                                            }
+                                            phone.resize(Math.max(200, phone.props.height))
+                                        }
+                                    },
                                     accept: {
                                         after: function() {
+                                            console.log('accept');
                                             this.unmount()
                                             var name = this.props.session.request.from.displayName
                                             phone.props.callPanel.mount('#call-panel')
                                             phone.props.callPanel.setName(name)
                                             phone.props.callPanel.start()
+                                            phone.resize(phone.props.originalHeight)
+                                        }
+                                    },
+                                    ignore: {
+                                        after: function() {
+                                            phone.resize(phone.props.minimizedHeight)
                                         }
                                     }
                                 })
@@ -289,7 +391,7 @@ w.register(function() {
                                         method: function() {
                                             phone.dom.container.style.transform = 'translateX(0px)';
                                             phone.props.dialPad.mount('#dial-pad');
-                                            phone.props.dialPad.setNumber(phone.props.conference.props.dialInNumber)
+                                            phone.props.dialPad.number(phone.props.conference.props.dialInNumber)
                                         }
                                     }
                                 })
@@ -353,22 +455,7 @@ w.register(function() {
                 }
             }
         },
-        init: {
-            after: function() {
-                var phone = this
-                this.props.cachedMessageHours = 7 * 24
-                this.props.width = this.data.width
-                this.props.height = this.data.height
-                this.dom.toolbar.style.height = this.props.toolbarHeight + 'px'
-                this.dom.phone.style.width = this.props.width + 'px'
-                this.dom.phone.style.height = this.props.height + 'px'
-                this.dom['auth-panel'].style.width = this.props.width + 'px'
-                this.dom['auth-panel'].style.height = this.props.height + 'px'
-                console.log(this.props.height);
-
-                this.createWidgets()
-            }
-        },
+        
         mount: {
             after: function() {
                 // this.checkLogin().then(loggedin => {
@@ -395,7 +482,19 @@ w.register(function() {
             }
         },
     })
-
+    this.on('click', function(e) {
+        if (e.target === this.dom.resize) {
+            this.resize()
+        } else {
+            if (this.props.height === this.props.minimizedHeight) {
+                this.resize()
+            }
+        }
+        if (e.target === this.dom.remove) {
+            this.props.ee.trigger('unmount')
+            this.unmount()
+        }
+    })
 
     function conv(contact, afterBack, options = {}) {
         return w('conversation-advanced', {

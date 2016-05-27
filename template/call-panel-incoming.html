@@ -2,8 +2,8 @@
     <div class='rc-panel__header --colored --center'>
         <h1 data-info='name'>Incoming call</h1>
     </div>
-    <div class='rc-panel__content'>
-        <div class='rc-call-panel__center'>
+    <div class='rc-panel__content' data-info='panel'>
+        <div class='rc-call-panel__center' data-info='img-wrapper'>
             <img class='rc-img' src=''>
         </div>
         <div class='rc-call-panel__footer'>
@@ -29,7 +29,8 @@ this.props = {
     localVideo: null,
     session: null,
     width: 250,
-    height: 400
+    height: 400,
+    simple: false
 }
 this.actions = {
     init: {
@@ -70,6 +71,17 @@ this.actions = {
     accept: {
         method: function(finish) {
             return finish()
+        }
+    },
+    simplify: {
+        before: function(bool) {
+            if (bool) {
+                this.dom.panel.classList.add('--min')
+                this.dom['img-wrapper'].classList.add('display-none')
+            } else {
+                this.dom.panel.classList.remove('--min')
+                this.dom['img-wrapper'].classList.remove('display-none')
+            }
         }
     }
 }

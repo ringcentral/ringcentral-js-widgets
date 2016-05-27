@@ -1,4 +1,4 @@
-import sdk from '../services/rc-sdk'
+import { RC, injectSDK } from '../services/rc-sdk'
 import phoneService from '../services/phone-service'
 import loginService from '../services/login-service'
 import callLogService from '../services/call-log-service'
@@ -18,6 +18,15 @@ var dialPadSearchProviders = [rcContactSearchProvider]
 
 var services = {}
 services.rcPhone = {
+    init: {
+        after: function() {
+            /// critical, inject app key & secret into service
+            injectSDK({
+                key: this.props.key,
+                secret: this.props.secret
+            })
+        }
+    },
     loadData: {
         method: function() {
             console.log('load data');
@@ -42,12 +51,12 @@ services.rcPhone = {
 services['auth-panel'] = {
     login: {
         method: function() {
-            // return loginService.login(
-            //     PhoneFormat.formatE164('US', this.props.username),
-            //     this.props.extension,
-            //     this.props.password
-            // )
-            return loginService.oauth()
+            return loginService.login(
+                PhoneFormat.formatE164('US', this.props.username),
+                this.props.extension,
+                this.props.password
+            )
+            // return loginService.oauth()
         }
     }
 }
@@ -60,6 +69,7 @@ services['dial-pad'] = {
     },
     callout: {
         method: function() {
+            console.log('real call');
             return phoneService.call(
                 this.props.fromNumber, 
                 this.props.toNumber, {
@@ -233,7 +243,7 @@ services['conversation-advanced'] = {
         method: function() {
             if (!this.props.profileImage)
                 return Promise.resolve(`http://www.gravatar.com/avatar/${md5(this.props.contact.id)}?d=retro`)
-            return sdk.platform()
+            return RC.sdk.platform()
                 .get(this.props.profileImage)
                 .then(r => r.response())
                 .then(r => {
@@ -328,7 +338,8 @@ services['call-panel'] = {
     },
     record: {
         method: function() {
-            return phoneService.record()
+            console.log(this.props.isRecord);
+            return phoneService.record(!this.props.isRecord)
         },
     },
     park: {

@@ -1,7 +1,6 @@
-import sdk from './rc-sdk'
 import callLogService from './call-log-service'
 import rcMessageService from './rc-message-service'
-var conversationService = (function(sdk) {
+var conversationService = (function() {
     var cachedHour = 24 * 7
     function groupMessageToContact(msgs, contacts) {
         var relatedContacts = contacts.filter(contact => {
@@ -234,6 +233,6 @@ var conversationService = (function(sdk) {
         },
         adaptMessage
     }
-})(sdk)
+})()
 
 export default conversationService

@@ -6,13 +6,13 @@ function extend(base, mixin) {
         if (base[action]) {
             for (var hook in mixin[action]) {
                 var origin = base[action][hook]
+                var mix = mixin[action][hook]
                 base[action][hook] = function(...args) {
-                    console.log(this);
                     var result
                     if (origin) {
                         result = origin.call(this, ...args)
                     }
-                    mixin[action][hook].call(this)
+                    mix.call(this)
                     return result
                 }
             }

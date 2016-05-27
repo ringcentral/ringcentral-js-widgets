@@ -80,6 +80,7 @@ w.register(function() {
             before: function(value) {
                 this.dom.input.value = value;
                 this.dom.input.focus();
+                this.props.input = value
             }
         },
         disable: {
