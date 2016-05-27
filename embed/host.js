@@ -169,7 +169,7 @@ window.addEventListener('message', function(e) {
     var state = e.data
     frame$1.width = state.size.width
     frame$1.height = state.size.height
-    if (state.unmount) {
+    if (state.status.unmount) {
         frame$1.parentNode.removeChild(frame$1)
     }
 })

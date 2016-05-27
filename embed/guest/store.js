@@ -1,14 +1,17 @@
 import { createStore, combineReducers } from 'redux'
 import actions from '../actions'
 var initialState = {
-    init: false,
-    unmount: false,
-    minimized: false,
+    status: {
+        init: false,
+        ready: false,
+        unmount: false,
+        minimized: false,
+    },
     size: {
         width: 250,
         height: 400,
+        toolbarHeight: 40,
     },
-    toolbarHeight: 40,
     dialPad: {
         phoneNumber: ''
     },
@@ -26,33 +29,12 @@ function minimize(minimized) {
         minimized
     }
 }
-function phone(state = initialState, action) {
+
+function status(state = initialState.status, action) {
     switch (action.type) {
-        case 'MINIMIZED':
-            return Object.assign({}, state, {
-                minimized: action.minimized,
-            })
-        case actions.HOST_DIALPAD_NUMBER:
-        case actions.GUEST_DIALPAD_NUMBER:
-            return Object.assign({}, state, {
-                dialPad: {
-                    phoneNumber: action.value,
-                }
-            })
         case actions.GUEST_INIT:
             return Object.assign({}, state, {
                 init: true,
-                size: {
-                    width: action.width,
-                    height: action.height
-                }
-            })
-        case actions.GUEST_PHONE_RESIZE:
-            return Object.assign({}, state, {
-                size: {
-                    width: action.width,
-                    height: action.height
-                }
             })
         case actions.GUEST_PHONE_UNMOUNT:
             return Object.assign({}, state, {
@@ -63,11 +45,41 @@ function phone(state = initialState, action) {
     }
 }
 
-// var reducer = combineReducers({
-//     phone,
-//     size
-// })
-var store = createStore(phone)
+function size(state = initialState.size, action) {
+    switch (action.type) {
+        case actions.GUEST_INIT:
+            return Object.assign({}, state, {
+                width: action.width,
+                height: action.height
+            })
+        case actions.GUEST_PHONE_RESIZE:
+            return Object.assign({}, state, {
+                width: action.width,
+                height: action.height
+            })
+        default:
+            return state
+    }
+}
+
+function dialPad(state = initialState.dialPad, action) {
+    switch (action.type) {
+        case actions.HOST_DIALPAD_NUMBER:
+        case actions.GUEST_DIALPAD_NUMBER:
+            return Object.assign({}, state, {
+                phoneNumber: action.value,
+            })
+        default:
+            return state
+    }
+}
+
+var reducer = combineReducers({
+    status,
+    size,
+    dialPad
+})
+var store = createStore(reducer)
 store.subscribe(() => {
     console.log(store.getState());
 })
