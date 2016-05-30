@@ -51,8 +51,6 @@ services.rcPhone = {
 services['auth-panel'] = {
     login: {
         method: function() {
-            console.log(PhoneFormat.formatE164('US', this.props.username));
-            console.log(this.props.password);
             return loginService.login(
                 PhoneFormat.formatE164('US', this.props.username),
                 this.props.extension,
@@ -227,7 +225,6 @@ services['conversation-advanced'] = {
     },
     callout: {
         method: function() {
-            console.log(this.props.remoteVideo);
             return phoneService.call(
                 this.props.fromNumber, 
                 this.props.toNumber, {
@@ -254,8 +251,6 @@ services['conversation-advanced'] = {
                         var hash = md5(this.props.contact.id)
                         return `http://www.gravatar.com/avatar/${hash}?d=retro`
                     } else {
-                        console.log(this.props.profileImage);
-                        console.log(`?access_token=${rcContactService.accessToken()}`);
                         // Real contact, has avatar
                         return
                             this.props.profileImage + `?access_token=${rcContactService.accessToken()}`

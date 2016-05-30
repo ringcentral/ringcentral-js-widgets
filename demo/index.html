@@ -7,13 +7,29 @@
 </head>
 <body>
     <div>
-        <h1>Howard Zhang</h1>
-        <a data-phone='18695677305'>18695677305</a>
-        <a data-phone='16508370092'>16508370092</a>
-        <a data-phone='16503976085'>16503976085</a>
+        <h1>RingCentral JS Widgets</h1>
+        
 
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam nec mollis dui. Curabitur ac justo dignissim, condimentum mauris at, pellentesque purus. Nullam vitae risus diam. Suspendisse ac elit finibus, sagittis ipsum id, imperdiet nisl. Curabitur dignissim sagittis massa, quis sollicitudin diam egestas vel. Quisque a libero pharetra nunc dapibus aliquam ut ut purus. Fusce sagittis euismod rhoncus.
+        <p>
+        Below code snippet will produce a functionality-ready RingCentral WebPhone
+            <code>
+            <pre>
+&lt;rc-phone 
+    first-level=dial-pad,time-line 
+    width=250
+    height=400
+    key=8mOtYiilT5OUPwwdeGgvpw
+    secret=cqNn89RmR2SR76Kpp8xJaAdNzNOqR8Qfmjb0B-gDOHTw
+    fixed&gt;
+&lt;/rc-phone&gt;
+&lt;script async defer src='https://ringcentral.github.io/ringcentral-js-widget/build/host.js'&gt;&lt;/script&gt;
+            </pre>
+            </code>
+
+        The embedded web phone can be interacted with main pages, such as click-to-dial.
         </p>
+
+        <a data-phone='16503976085'>16503976085</a>
     </div>
     <div>
         <rc-phone 
@@ -24,7 +40,7 @@
             secret=cqNn89RmR2SR76Kpp8xJaAdNzNOqR8Qfmjb0B-gDOHTw
             fixed>
         </rc-phone>
-        <script async defer src='../embed/host.js'></script>
+        <script async defer src='../build/host.js'></script>
     </div>
 </body>
 </html>

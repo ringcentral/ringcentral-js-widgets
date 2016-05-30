@@ -152,7 +152,6 @@ w.register(function() {
                         actions: factory.create('auth-panel', {
                             login: {
                                 after: function() {
-                                    console.log('login after');
                                     this.unmount()
                                     phone.loadData();
                                     if (names.length > 1) {
