@@ -13,21 +13,21 @@
         float: left;
         margin-right: 13px;
         margin-top: 5px;
-        &.--text {
+        &--text {
             background-image: url(images/msg_tred_sms_normal.png);
-            &.--not-read {
+            &--not-read {
                 background-image: url(images/msg_tred_sms_unreaded.png);
             }
         }
-        &.--voicemail {
+        &--voicemail {
             background-image: url(images/msg_tred_voicemail_normal.png);
-            &.--not-read {
+            &--not-read {
                 background-image: url(images/msg_tred_voicemail_unreaded.png);
             }
         }
-        &.--fax {
+        &--fax {
             background-image: url(images/msg_tred_fax_normal.png);
-            &.--not-read {
+            &--not-read {
                 background-image: url(images/msg_tred_fax_unreaded.png);
             }
         }
@@ -58,7 +58,7 @@
             font-size: 14px;
             line-height: 18px;
             color: #2f2f2f;
-            &.--not-read {
+            &--not-read {
                 font-size: 15px;
                 color: #0684bd;
                 & : after {

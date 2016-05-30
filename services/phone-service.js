@@ -1,7 +1,6 @@
 import { RC } from './rc-sdk'
 import WebPhone from './rc-webphone'
 import config from './rc-config'
-var webPhone = {}
 var PhoneService = function() {
     var webPhone
     var session
@@ -47,7 +46,6 @@ var PhoneService = function() {
     }
     return {
         init: function(options) {
-            console.log('init phone');
             return RC.sdk.platform()
                 .post('/client-info/sip-provision', {
                     sipInfo: [{
@@ -66,19 +64,21 @@ var PhoneService = function() {
                         }
                     })
                 })
-                .then(phone => {
-                    webPhone = phone
+                .then(p => {
+                    webPhone = p
                     webPhone.userAgent.on('invite', function (s) {
                         session = s
                         handlers['invite'].forEach(handler => handler(session))
                         listen(session)
                     })
                 })
+                .catch(e => console.error(e))
         },
         on: function(name, callback) {
             handlers[name].push(callback)
         },
         call: function(fromNumber, toNumber, options) {
+            console.log(webPhone);
             session = webPhone.userAgent.invite(toNumber, {
                 media: {
                     render: {

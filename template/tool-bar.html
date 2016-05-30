@@ -52,7 +52,7 @@ w.register(function() {
                 var item
                 if (this.itemCount > 3) {
                     var template = `<div class='rc-toolbar__more-item text-center'>
-                                        <button class='rc-button --circle'>
+                                        <button class='rc-button rc-button--circle'>
                                             ${icon}
                                         </button>
                                         <div>${text}</div>
@@ -62,7 +62,7 @@ w.register(function() {
                     item = div.childNodes[0]
                     this.dom['menu'].appendChild(item)
                 } else {
-                    var template = `<button class='rc-toolbar__item rc-button --ghost rc-icon-switch'>
+                    var template = `<button class='rc-toolbar__item rc-button rc-button--ghost rc-icon-switch'>
                                         ${icon}
                                     </button>`
                     div.innerHTML = template

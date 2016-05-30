@@ -8,17 +8,17 @@
         <div class='rc-panel__content rc-auth-panel__content rc-auth-panel__content--color'>
             <div data-info='user-info'>
                 <input 
-                    class='rc-input --round' 
+                    class='rc-input rc-input--round' 
                     data-info='username' 
                     placeholder='username'>
                 </input>
                 <input 
-                    class='rc-input --round' 
+                    class='rc-input rc-input--round' 
                     data-info='extension'
                     placeholder="extension"
                     ></input>
                 <input 
-                    class='rc-input --round' 
+                    class='rc-input rc-input--round' 
                     data-info='password'
                     placeholder="password"
                     type='password'>
@@ -26,11 +26,11 @@
             </div>
             <div class='button-panel'>
                 <button 
-                    class='rc-button --round rc-auth-panel__button rc-auth-panel__button--color' 
+                    class='rc-button rc-button--round rc-auth-panel__button rc-auth-panel__button--color' 
                     data-info='external-login-button'>Third party
                 </button>
                 <button 
-                    class='rc-button --round rc-auth-panel__button rc-auth-panel__button--color' 
+                    class='rc-button rc-button--round rc-auth-panel__button rc-auth-panel__button--color' 
                     data-info='login-button'>Login
                 </button>
             </div>
@@ -64,7 +64,6 @@ this.actions = {
         after: function() {
             var t = w.t(this.data.lang)
             var {color, lang, logo} = this.data
-            this.dom['login-button'].style['background-color'] = color || '#fff'
             this.dom.logo.src = logo || './ringcentral_logo.png'
             this.dom['login-button'].textContent = t('login') || 'login'
             if (this.props.oauth) {
@@ -95,7 +94,8 @@ this.actions = {
         before: function() {
             this.dom['login-button'].disabled = true
             this.dom.error.textContent = ''
-            this.dom['login-button'].classList.add('rc-button-loading')
+            this.dom['login-button'].classList.add('--loading')
+            this.dom['login-button'].classList.add('--active')
         },
         method: function(finish) {
             this.props.username = this.dom.username.value

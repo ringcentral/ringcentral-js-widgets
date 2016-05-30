@@ -1,5 +1,5 @@
 <div class='rc-panel rc-call-panel'>
-    <div class='rc-panel__header --colored --center'>
+    <div class='rc-panel__header rc-panel__header--colored rc-panel__header--center'>
         <h1 data-info='name'>Incoming call</h1>
     </div>
     <div class='rc-panel__content' data-info='panel'>
@@ -11,10 +11,10 @@
             <div class='action-panel text-center'>
                 <button 
                     data-info='accept'
-                    class='rc-button --positive --round action-panel__action'>Accept</button>
+                    class='rc-button rc-button--positive rc-button--round action-panel__action'>Accept</button>
                 <button
                     data-info='ignore' 
-                    class='rc-button --negative --round action-panel__action'>Ignore</button>
+                    class='rc-button rc-button--negative rc-button--round action-panel__action'>Ignore</button>
             </div>
         </div>
     </div>
@@ -76,10 +76,10 @@ this.actions = {
     simplify: {
         before: function(bool) {
             if (bool) {
-                this.dom.panel.classList.add('--min')
+                this.dom.panel.classList.add('rc-panel__content--min')
                 this.dom['img-wrapper'].classList.add('display-none')
             } else {
-                this.dom.panel.classList.remove('--min')
+                this.dom.panel.classList.remove('rc-panel__content--min')
                 this.dom['img-wrapper'].classList.remove('display-none')
             }
         }

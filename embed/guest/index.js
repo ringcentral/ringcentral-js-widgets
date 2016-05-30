@@ -7,7 +7,6 @@ const width = getURLParameter('width')
 const height = getURLParameter('height')
 
 
-phone.mount(document.body)
 document.body.style.overflow = 'hidden'
 
 window.addEventListener('message', function(e) {
@@ -41,8 +40,15 @@ phone.on('dialing', function(number) {
         value: number
     })
 })
-phone.on('unmount', function(number) {
+phone.on('unmount', function() {
     store.dispatch({
         type: actions.GUEST_PHONE_UNMOUNT
     })
 })
+phone.on('ready', function() {
+    console.log('yea');
+    store.dispatch({
+        type: actions.GUEST_PHONE_READY
+    })
+})
+phone.mount(document.body)

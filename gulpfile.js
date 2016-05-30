@@ -26,7 +26,6 @@ gulp.task('factory', () => {
     return factory()
 })
 gulp.task('embed', () => {
-    console.log('embed');
     watch(['./embed/host/**/**', './embed/guest/**/**'], function() {
         embed('host')
         embed('guest')
@@ -80,7 +79,7 @@ function styles() {
     )
 }
 function factory() {
-    return gulp.src('./factory/index.js')
+    return gulp.src('./factory/factory.js')
         .pipe(print(function(filepath) {
             return 'built: ' + filepath
         }))
@@ -90,7 +89,6 @@ function factory() {
                 this.emit('end')
             }
         }))
-        .pipe(babel())
         .pipe(rollup({
             sourceMap: true,
             plugins: [
@@ -108,6 +106,8 @@ function factory() {
             ],
             format: 'cjs'
         }))
+        .pipe(babel())
+        
         .on('error', util.log)
         .pipe(rename('factory.js'))
         .pipe(sourcemaps.write('.'))
@@ -125,7 +125,6 @@ function embed(target) {
                 this.emit('end')
             }
         }))
-        .pipe(babel())
         .pipe(rollup({
             sourceMap: true,
             plugins: [
@@ -139,7 +138,10 @@ function embed(target) {
                     'process.env.NODE_ENV': JSON.stringify( 'production' )
                 })
             ],
+            format: 'umd'
         }))
+        .pipe(babel())
+        
         .on('error', util.log)
         .pipe(rename(target + '.js'))
         .pipe(sourcemaps.write('.'))
@@ -161,5 +163,5 @@ gulp.task('css', function() {
     )
 })
 gulp.task('default', ['compile'])
-gulp.task('fac', ['factory'])
+// gulp.task('fac', ['factory'])
 gulp.task('ebd', ['embed'])

@@ -1,10 +1,10 @@
 <template>
     <div class='rc-panel rc-dial-pad'>
-        <div class='rc-panel__header --colored' data-info='header'>
+        <div class='rc-panel__header rc-panel__header--colored' data-info='header'>
             <contact-picker data-info='contact-picker'></contact-picker>
         </div>
         <button 
-            class='rc-button --circle call-button call-button--color' 
+            class='rc-button rc-button--circle call-button call-button--color' 
             data-info='callout'>
             <span class='icon-ActionButtons_Filters'></span>
         </button>
@@ -14,18 +14,18 @@
                 <div data-info='dialing-panel' class='margin-top-2'>
                     <div class='rc-dial-pad__line'>
                         <button 
-                            class='rc-button --circle dial-button dial-button--color' 
+                            class='rc-button rc-button--circle dial-button dial-button--color' 
                             data-info='dial-button-1'>
                             <div class='dial-button__number'>1</div>
                         </button>
                         <button
-                            class='rc-button --circle dial-button dial-button--color' 
+                            class='rc-button rc-button--circle dial-button dial-button--color' 
                             data-info='dial-button-2'>
                             <div class='dial-button__number'>2</div>
                             <div class='dial-button__symbol'>ABC</div>
                         </button>
                         <button 
-                            class='rc-button --circle dial-button dial-button--color' 
+                            class='rc-button rc-button--circle dial-button dial-button--color' 
                             data-info='dial-button-3'>
                             <div class='dial-button__number'>3</div>
                             <div class='dial-button__symbol'>DEF</div>
@@ -33,19 +33,19 @@
                     </div>
                     <div class='rc-dial-pad__line'>
                         <button 
-                            class='rc-button --circle dial-button dial-button--color' 
+                            class='rc-button rc-button--circle dial-button dial-button--color' 
                             data-info='dial-button-4'>
                             <div class='dial-button__number'>4</div>
                             <div class='dial-button__symbol'>GHI</div>
                         </button>
                         <button 
-                            class='rc-button --circle dial-button dial-button--color' 
+                            class='rc-button rc-button--circle dial-button dial-button--color' 
                             data-info='dial-button-5'>
                             <div class='dial-button__number'>5</div>
                             <div class='dial-button__symbol'>JKL</div>
                         </button>
                         <button 
-                            class='rc-button --circle dial-button dial-button--color' 
+                            class='rc-button rc-button--circle dial-button dial-button--color' 
                             data-info='dial-button-6'>
                             <div class='dial-button__number'>6</div>
                             <div class='dial-button__symbol'>MNO</div>
@@ -53,19 +53,19 @@
                     </div>
                     <div class='rc-dial-pad__line'>
                         <button 
-                            class='rc-button --circle dial-button dial-button--color' 
+                            class='rc-button rc-button--circle dial-button dial-button--color' 
                             data-info='dial-button-7'>
                             <div class='dial-button__number'>7</div>
                             <div class='dial-button__symbol'>PQRS</div>
                         </button>
                         <button 
-                            class='rc-button --circle dial-button dial-button--color' 
+                            class='rc-button rc-button--circle dial-button dial-button--color' 
                             data-info='dial-button-8'>
                             <div class='dial-button__number'>8</div>
                             <div class='dial-button__symbol'>TUV</div>
                         </button>
                         <button 
-                            class='rc-button --circle dial-button dial-button--color' 
+                            class='rc-button rc-button--circle dial-button dial-button--color' 
                             data-info='dial-button-9'>
                             <div class='dial-button__number'>9</div>
                             <div class='dial-button__symbol'>WXYZ</div>
@@ -73,7 +73,7 @@
                     </div>
                     <div class='rc-dial-pad__line'>
                         <button 
-                            class='rc-button --circle dial-button dial-button--color' 
+                            class='rc-button rc-button--circle dial-button dial-button--color' 
                             data-info='dial-button-0'>
                             <div class='dial-button__number'>0</div>
                             <div class='dial-button__symbol'>+</div>
@@ -194,7 +194,7 @@ this.actions = {
     },
     callout: {
         before: function() {
-            this.dom.callout.classList.add('--active')
+            this.dom.callout.classList.add('rc-button--active')
         },
         method: function(finish, event) {
             // TODO: Do some basic validation.
@@ -209,7 +209,7 @@ this.actions = {
         },
         after: function() {
             console.log('callout dialpad after');
-            setTimeout(() => this.dom.callout.classList.remove('--active'), 1000)
+            setTimeout(() => this.dom.callout.classList.remove('rc-button--active'), 1000)
         },
         // error: function(err) {
         //     console.error(err);
@@ -344,7 +344,7 @@ $dial-pad-call-button-color: #2ecc71;
         background-color:   $dial-pad-call-button-color;
         border-color:       $dial-pad-call-button-color;
         transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-        &.--active {
+        &--active {
 
         }
         &:hover {

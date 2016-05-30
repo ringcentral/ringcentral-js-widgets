@@ -94,6 +94,7 @@ var createIframe = function() {
         target.style.position = 'fixed'
         target.style.top = 0
         target.style.right = '5px'
+        iframe.style.background = '#1e89ed'
         iframe.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
     }
     target.appendChild(iframe)

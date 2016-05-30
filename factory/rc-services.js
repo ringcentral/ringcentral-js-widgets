@@ -51,6 +51,8 @@ services.rcPhone = {
 services['auth-panel'] = {
     login: {
         method: function() {
+            console.log(PhoneFormat.formatE164('US', this.props.username));
+            console.log(this.props.password);
             return loginService.login(
                 PhoneFormat.formatE164('US', this.props.username),
                 this.props.extension,

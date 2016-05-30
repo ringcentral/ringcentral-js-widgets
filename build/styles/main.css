@@ -468,12 +468,12 @@ td, th {
     box-sizing: border-box;
 }
 * {
-    -webkit-touch-callout:  none;
+/*    -webkit-touch-callout:  none;
     -webkit-user-select:    none;
      -khtml-user-select:    none;
        -moz-user-select:    none;
         -ms-user-select:    none;
-            user-select:    none;
+            user-select:    none;*/
     outline:                none;
 }
 /* FIXME use js to load font */
@@ -1173,17 +1173,17 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #fff;
 }
 
-.rc-panel__header.--colored {
+.rc-panel__header--colored {
     background-color: #1e89ed;
     color: #fff;/* the white text need to be light */
     font-weight: lighter;
 }
 
-.rc-panel__header.--center {
+.rc-panel__header--center {
     text-align: center;
 }
 
-.rc-panel__header.--flat {
+.rc-panel__header--flat {
     padding: 0;
 }
 
@@ -1202,46 +1202,52 @@ h1, h2, h3, h4, h5, h6 {
     padding: .5em .7em;
     border: 1px solid #000;
     background-color: #fff
+
 }
-.rc-button.--circle {
+.rc-button:hover, .rc-button:active, .rc-button--active {
+    background-color: #eee;
+}
+.rc-button--circle {
     border-radius: 50%;
 }
-.rc-button.--round {
+.rc-button--round {
     border-radius: 3px;
 }
-.rc-button.--clean {
+.rc-button--clean {
     background: transparent;
 }
-.rc-button.--clean:hover, .rc-button.--clean:active {
+.rc-button--clean:hover, .rc-button--clean:active {
     border-color: #1e89ed;
 }
-.rc-button.--ghost {
+.rc-button--ghost {
     border: 0;
 }
-.rc-button.--dense {
+.rc-button--ghost:hover, .rc-button--ghost:active, .rc-button--ghost--active {
+    background-color: #fff;
+}
+.rc-button--dense {
     padding: .1em .3em;
 }
-.rc-button.--positive {
+.rc-button--positive {
     background-color: #2ecc71;
     border-color: #2ecc71;
     color: #fff;
 }
-.rc-button.--negative {
+.rc-button--negative {
     background-color: #e74c3c;
     border-color: #e74c3c;
     color: #fff;
 }
-.rc-button:hover, .rc-button:active {}
 .rc-input {
     padding: .5em .7em;
     width: 100%;
     border: 1px solid #bdc3c7
 }
-.rc-input.--clean {
+.rc-input--clean {
     background: transparent;
     border: 0;
 }
-.rc-input.--round {
+.rc-input--round {
     border-radius: 3px;
 }
 .rc-input:focus {
@@ -1289,26 +1295,26 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom-right-radius: 3px;
     border-right: 1px solid #1e89ed;
 }
-.rc-tabs__tab.--color {
+.rc-tabs__tab--color {
     background-color: #fff;
     border-color: #1e89ed;
     color: #1e89ed;
 }
-.rc-tabs__tab.--active {
+.rc-tabs__tab--active {
     background-color: #1e89ed;
     border-color: #1e89ed;
     color: #fff;
 }
-.rc-tabs__tab.--active:last-child {
+.rc-tabs__tab--active:last-child {
     border-right-color: #1e89ed;
 }
-.rc-tabs__tab.--width2 {
+.rc-tabs__tab--width2 {
     width: 50%;
 }
-.rc-tabs__tab.--width3 {
+.rc-tabs__tab--width3 {
     width: 33%;
 }
-.rc-tabs__tab.--width4 {
+.rc-tabs__tab--width4 {
     width: 25%;
 }
 .rc-avatar {
@@ -1316,13 +1322,13 @@ h1, h2, h3, h4, h5, h6 {
     background-repeat:no-repeat;
     border-radius:65px
 }
-.rc-avatar.--big {
+.rc-avatar--big {
     min-width: 120px;
     min-height: 120px;
     max-width: 120px;
     max-height: 120px;
 }
-.rc-avatar.--small {
+.rc-avatar--small {
     min-width: 35px;
     min-height: 35px;
     max-width: 35px;
@@ -1396,13 +1402,13 @@ h1, h2, h3, h4, h5, h6 {
     margin-right: 13px;
     margin-top: 5px;
 }
-.rc-call-log-item__icon.--missed {
+.rc-call-log-item__icon--missed {
     background-image: url(images/call-missed.png);
 }
-.rc-call-log-item__icon.--inbound {
+.rc-call-log-item__icon--inbound {
     background-image: url(images/call-inbound.png);
 }
-.rc-call-log-item__icon.--outbound {
+.rc-call-log-item__icon--outbound {
     background-image: url(images/call-outbound.png);
 }
 .rc-call-log-item__time {
@@ -1427,178 +1433,6 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 1.2em;
     bottom: 8px;
     right: 8px;
-}
-.rc-conversation .conversations {}
-.rc-conversation .conversations__conv {
-    padding-left: 1em;
-    padding-right: 1em;
-}
-.rc-conversation .conversations__conv.--marked {
-    background-color: #eee;
-}
-.rc-conversation .conversations__bubble {
-    padding: .5em .7em;
-    position: relative;
-    max-width: 80%;
-    word-break: break-word;
-    border: 1px solid #bdc3c7;
-    border-radius: 10px;
-    margin-bottom: 5px;
-}
-.rc-conversation .conversations__bubble.--opponent {
-    float: left;
-}
-.rc-conversation .conversations__bubble.--opponent:after {
-    left: 100%;
-}
-.rc-conversation .conversations__bubble.--self {
-    float: right;
-    background-color: #ecf0f1;
-}
-.rc-conversation .conversations__bubble.--self:after {
-    right: 100%;
-}
-.rc-conversation .conversations__bubble.--log {
-    background-color: #B7C1A9;
-    border-color: #B7C1A9;
-}
-.rc-conversation .conversations__bubble.--voice {
-    background-color: #CAC3A9;
-    border-color: #CAC3A9;
-}
-.rc-conversation .conversations__bubble:hover {}
-.rc-conversation .conversations__bubble:hover:after {
-    box-sizing: border-box;
-    position: absolute;
-    z-index: 2;
-    content: attr(data-tooltip);
-    top: 0;
-    background-color: #000;
-    color: #fff;
-    font-size: .8em;
-    border-radius: 2px;
-    padding: .5em .7em;
-    text-align: center;
-    min-width: calc(100%-1px);
-    word-break: normal;
-}
-.rc-conversation .conversations__timestamp {
-    text-align: center;
-    color: #bdc3c7;
-}
-.rc-conversation .conversations__loading {
-    padding: .5em .7em;
-    position: absolute;
-    width: 100%;
-    text-align: center;
-}
-.rc-conversation .voice-bubble {}
-.rc-conversation .voice-bubble__play {}
-.rc-conversation .voice-bubble__duration {
-    max-width: 100%;
-    height: 10px;
-    border: 1px solid#878787;
-    display: inline-block;
-}
-.rc-conversation__close {
-    position: absolute;
-    cursor: pointer;
-}
-.rc-conversation__container {
-    display: flex;
-    flex-direction: column;
-    font-size: .8em;
-    transition: transform .2s ease-in;
-}
-.rc-conversation__content {
-    overflow: auto;
-    height: 100%;
-}
-.rc-conversation__textarea-wrapper {
-    position: relative;
-    width: 100%;
-}
-.rc-conversation__textarea-wrapper > textarea {
-    padding: .5em .7em;
-    width: 100%;
-    border: 0;
-    border-top: 1px solid #bdc3c7;
-    resize: none;
-}
-.rc-conversation__bar {
-    margin-bottom: 5px;
-}
-.rc-conversation__hint {
-    padding: .5em .7em;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);/* overlay bubbles */
-    position: relative;
-    z-index: 1;
-    display: inline-block;
-    width: 49%;
-    text-align: center;
-    font-size: .9em;
-}
-.rc-conversation__callout {
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    width: 40px;
-    height: 40px;
-}
-.rc-conversation__mask {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(10,10,10,.6);
-}
-.rc-conversation__modal {
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-    padding: .9em 1.1em;
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    z-index: 2;
-    top: 5%;
-    left: 5%;
-    width: 90%;
-    height: 50%;
-    border: 1px solid #bdc3c7;
-    border-radius: 4px;
-    background-color: #fff;
-    text-align: center;
-}
-.rc-conversation__modal > .rc-button {
-    width: 100%;
-    margin-top: auto;
-    align-self: center;
-}
-.rc-conversation__timestamp {
-    padding: .5em .7em;
-    text-align: center;
-    color: #bdc3c7;
-}
-.rc-conversation__header {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-.rc-conversation__header-title {
-    align-self: center;
-    font-size: 1.2em;
-}
-.rc-conversation__avatar-wrapper {
-    width: 40px;
-    height: 40px;
-    margin-right: .8em;
-    border-radius: 50%;
-    overflow: hidden;
-    line-height: 2;
-}
-.rc-conversation__avatar {
-    max-width: 100%;
 }
 .rc-contact-picker {/* used as a positioned reference */
     position: relative;
@@ -1648,7 +1482,7 @@ h1, h2, h3, h4, h5, h6 {
     font-size: 13px;
     vertical-align: middle;
 }
-.rc-conference__line > .__label.--color {
+.rc-conference__line > .__label--color {
     color: #0684bd;
 }
 .rc-conference__line > .__value {
@@ -1659,7 +1493,7 @@ h1, h2, h3, h4, h5, h6 {
     vertical-align: middle;
     width: 100%;
 }
-.rc-conference__line > .__value.--right {
+.rc-conference__line > .__value--right {
     width: 53%;
 }
 .rc-conference__buttons {
@@ -1674,7 +1508,7 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 0.2em 0.5em 0.2em;
     text-align: center;
 }
-.rc-conference.--color {
+.rc-conference--color {
     color: #2f2f2f;
 }
 .rc-contact-detail {}
@@ -1815,7 +1649,7 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #2ecc71;
     border-color: #2ecc71;
 }
-.rc-messages .compose-button.--active {
+.rc-messages .compose-button--active {
     transform: scale(1, 1);
     border-radius: 0;
 }
@@ -1836,22 +1670,22 @@ h1, h2, h3, h4, h5, h6 {
     margin-right: 13px;
     margin-top: 5px;
 }
-.rc-message-item__icon.--text {
+.rc-message-item__icon--text {
     background-image: url(images/msg_tred_sms_normal.png);
 }
-.rc-message-item__icon.--text.--not-read {
+.rc-message-item__icon--text--not-read {
     background-image: url(images/msg_tred_sms_unreaded.png);
 }
-.rc-message-item__icon.--voicemail {
+.rc-message-item__icon--voicemail {
     background-image: url(images/msg_tred_voicemail_normal.png);
 }
-.rc-message-item__icon.--voicemail.--not-read {
+.rc-message-item__icon--voicemail--not-read {
     background-image: url(images/msg_tred_voicemail_unreaded.png);
 }
-.rc-message-item__icon.--fax {
+.rc-message-item__icon--fax {
     background-image: url(images/msg_tred_fax_normal.png);
 }
-.rc-message-item__icon.--fax.--not-read {
+.rc-message-item__icon--fax--not-read {
     background-image: url(images/msg_tred_fax_unreaded.png);
 }
 .rc-message-item__time {
@@ -1882,11 +1716,11 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 18px;
     color: #2f2f2f;
 }
-.rc-message-item__body > .__contact.--not-read {
+.rc-message-item__body > .__contact--not-read {
     font-size: 15px;
     color: #0684bd;
 }
-.rc-message-item__body > .__contact.--not-read : after {
+.rc-message-item__body > .__contact--not-read : after {
     content: " ";
     display: inline-block;
 }

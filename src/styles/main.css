@@ -81,12 +81,12 @@
     box-sizing: border-box;
 }
 * {
-    -webkit-touch-callout:  none;
+/*    -webkit-touch-callout:  none;
     -webkit-user-select:    none;
      -khtml-user-select:    none;
        -moz-user-select:    none;
         -ms-user-select:    none;
-            user-select:    none;
+            user-select:    none;*/
     outline:                none;
 }
 /* FIXME use js to load font */
@@ -156,16 +156,16 @@ h6 {
         position: relative;
         height: $panel-header-height;
         background-color: #fff;
-        &.--colored {
+        &--colored {
             background-color: $main-color;
             color: #fff;
             /* the white text need to be light */
             font-weight: lighter;
         }
-        &.--center {
+        &--center {
             text-align: center;
         }
-        &.--flat {
+        &--flat {
             padding: 0;
         }
     }
@@ -185,49 +185,58 @@ h6 {
     @mixin padding-normal;
     border: 1px solid #000;
     background-color: #fff;
-    
-    &.--circle {
+
+    &:hover,
+    &:active,
+    &--active {
+        background-color: #eee;
+    }
+    &--circle {
         border-radius: 50%;
     }
-    &.--round {
+    &--round {
         border-radius: $border-radius;
     }
-    &.--clean {
+    &--clean {
         background: transparent;
         &:hover,
         &:active {
             border-color: $main-color;
         }
     }
-    &.--ghost {
+    &--ghost {
         border: 0;
+        &:hover,
+        &:active,
+        &--active {
+            background-color: #fff;
+        }
     }
-    &.--dense {
+    &--dense {
         @mixin padding-small;
     }
-    &.--positive {
+    &--positive {
         background-color:   $rc-green;
         border-color:       $rc-green;
         color:              #fff;
     }
-    &.--negative {
+    &--negative {
         background-color:   #e74c3c;
         border-color:       #e74c3c;
         color:              #fff;
     }
-    &:hover,
-    &:active {}
+
 }
 .rc-input {
     @mixin padding-normal;
     width: 100%;
     border: 1px solid $gray;
 
-    &.--clean {
+    &--clean {
         background: transparent;
         border: 0;
     }
-    &.--round {
+    &--round {
         border-radius: $border-radius;
     }
     &:focus {
@@ -276,35 +285,35 @@ h6 {
             border-bottom-right-radius: 3px;
             border-right: 1px solid $main-color;
         }
-        &.--color {
+        &--color {
             background-color:   $white; 
             border-color:       $main-color;
             color:              $main-color;
         }
-        &.--active { 
+        &--active { 
             background-color:   $main-color; 
             border-color:       $main-color;
             color:              $white; 
         }
-        &.--active:last-child {
+        &--active:last-child {
             border-right-color: $main-color; 
         }
-        &.--width2 { width: 50%; }
-        &.--width3 { width: 33%; }
-        &.--width4 { width: 25%; }
+        &--width2 { width: 50%; }
+        &--width3 { width: 33%; }
+        &--width4 { width: 25%; }
     }
 }
 .rc-avatar {
     background-position:center center;
     background-repeat:no-repeat;
     border-radius:65px;
-    &.--big {
+    &--big {
         min-width:  120px;
         min-height: 120px;
         max-width:  120px;
         max-height: 120px;
     }
-    &.--small {
+    &--small {
         min-width:  35px;
         min-height: 35px;
         max-width:  35px;
