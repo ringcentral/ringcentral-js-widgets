@@ -15,7 +15,7 @@ $messages-compose-button-color: #2ecc71;
                     border-color        .8s;
         background-color:   $messages-compose-button-color;
         border-color:       $messages-compose-button-color;
-        &.--active {
+        &--active {
             transform: scale(1, 1);
             border-radius: 0;
         }

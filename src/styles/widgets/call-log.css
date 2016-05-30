@@ -52,13 +52,13 @@
         float: left;
         margin-right: 13px;
         margin-top: 5px;
-        &.--missed {
+        &--missed {
             background-image: url(images/call-missed.png);
         }
-        &.--inbound {
+        &--inbound {
             background-image: url(images/call-inbound.png);
         }
-        &.--outbound {
+        &--outbound {
             background-image: url(images/call-outbound.png);
         }
     }

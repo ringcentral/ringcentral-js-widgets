@@ -1,6 +1,6 @@
 <template>
     <div class='rc-panel rc-conversation'>
-        <div class='rc-panel__header --colored'>
+        <div class='rc-panel__header rc-panel__header--colored'>
             <span 
                 class='close icon-uni3E' 
                 data-info='back'></span>
@@ -33,7 +33,7 @@
                 placeholder='messages...'
                 ></textarea>
                 <button 
-                    class='rc-button --circle --positive callout'
+                    class='rc-button rc-button--circle rc-button--positive callout'
                     data-info='callout'>
                     <span class='icon-ActionButtons_Filters'></span>
                 </button>
@@ -52,7 +52,7 @@
                     <dropdown data-info='from-number-dropdown'></dropdown>
                     <dropdown data-info='to-number-dropdown'></dropdown>
                 </div>
-                <button class='rc-button --round --positive'>Call out</button>
+                <button class='rc-button rc-button--round rc-button--positive'>Call out</button>
             </div>
         </div>
     </div>
@@ -249,7 +249,7 @@ this.actions = {
                     contact.to == fromNumber)
                 .filter(msg => msg.dom)
                 .map(msg => msg.dom)
-                .map(dom => dom.classList.add('--marked'))
+                .map(dom => dom.classList.add('conversations__conv--marked'))
             });
             model.dom.addEventListener('mouseout', e => {
                 if (!this.props.fromNumbers)
@@ -268,7 +268,7 @@ this.actions = {
                 this.props.contact.msg
                 .filter(msg => msg.dom)
                 .map(msg => msg.dom)
-                .map(dom => dom.classList.remove('--marked'))
+                .map(dom => dom.classList.remove('conversations__conv--marked'))
             });
         }
     },
@@ -278,7 +278,7 @@ this.actions = {
             div.innerHTML = `<div class='clearfix conversations__conv'>
                                 <div
                                     data-tooltip='${time}' 
-                                    class='conversations__bubble ${opponent? "--opponent": "--self"} '>
+                                    class='conversations__bubble ${opponent? "conversations__bubble--opponent": "conversations__bubble--self"} '>
                                     ${text}
                                 </div>
                             </div>`
@@ -295,7 +295,7 @@ this.actions = {
             div.innerHTML = `<div class='clearfix conversations__conv'>
                                 <div
                                     data-tooltip='${time}'
-                                    class='conversations__bubble ${opponent? "--opponent": "--self"} --voice voice-bubble'>
+                                    class='conversations__bubble ${opponent? "conversations__bubble--opponent": "conversations__bubble--self"} --voice voice-bubble'>
                                     <span class='voice-bubble__play icon-uni7C'></span>
                                     <span class='voice-bubble__duration' data-length=${content.vmDuration}></span>
                                 </div>
@@ -313,7 +313,7 @@ this.actions = {
             div.innerHTML = `<div class='clearfix conversations__conv'>
                                 <div
                                     data-tooltip='${time}'
-                                    class='conversations__bubble ${opponent? "--opponent": "--self"} --log'>
+                                    class='conversations__bubble ${opponent? "conversations__bubble--opponent": "conversations__bubble--self"} conversations__bubble--log'>
                                     <span class='bubble--log icon-uniAE'>
                                     ${typeof content === 'string'?
                                      `<span>${content}</span>`: 
@@ -709,7 +709,7 @@ $gray: #bdc3c7;
     &__conv {
         padding-left: 1em;
         padding-right: 1em;
-        &.--marked {
+        &--marked {
             background-color: $conversation-bubble-marked-color;
         }
     }
@@ -720,24 +720,24 @@ $gray: #bdc3c7;
         border: 1px solid $gray;
         border-radius: 10px;
         margin-bottom: 5px;
-        &.--opponent {
+        &--opponent {
             float: left;
             &:after {
                 left: 100%;
             }
         }
-        &.--self {
+        &--self {
             float: right;
             background-color: $conversation-bubble-color;
             &:after {
                 right: 100%;
             }
         }
-        &.--log {
+        &--log {
             background-color: $conversation-bubble-log-color;
             border-color: $conversation-bubble-log-color;
         }
-        &.--voice {
+        &--voice {
             background-color: $conversation-bubble-voice-color;
             border-color: $conversation-bubble-voice-color;
         }
@@ -754,7 +754,7 @@ $gray: #bdc3c7;
                 border-radius: 2px;
                 padding: .5em .7em;
                 text-align: center;
-                min-width: calc(100%-1px);
+                /*min-width: 100%;*/
                 word-break: normal;
             }
         }

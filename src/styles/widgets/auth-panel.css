@@ -42,7 +42,7 @@ $auth-panel-flag-width: 40px;
         > .rc-input {
 
         }
-        &.--focus {
+        &--focus {
             border-color: #7f8c8d;
         }
     }

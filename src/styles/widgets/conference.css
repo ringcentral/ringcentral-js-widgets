@@ -12,7 +12,7 @@
             width: 45%;
             font-size: 13px;
             vertical-align: middle;
-            &.--color {
+            &--color {
                 color: #0684bd;
             }
         }
@@ -23,7 +23,7 @@
             text-overflow: ellipsis;
             vertical-align: middle;
             width: 100%;
-            &.--right {
+            &--right {
                 width: 53%;
             }
         }
@@ -40,7 +40,7 @@
             text-align: center;
         }   
     },
-    &.--color {
+    &--color {
         color: #2f2f2f;
     }
 }
