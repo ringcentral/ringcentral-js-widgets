@@ -163,5 +163,5 @@ gulp.task('css', function() {
     )
 })
 gulp.task('default', ['compile'])
-gulp.task('fac', ['factory'])
+// gulp.task('fac', ['factory'])
 gulp.task('ebd', ['embed'])
