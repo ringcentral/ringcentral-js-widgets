@@ -12,7 +12,7 @@ window.addEventListener('message', function(e) {
         frame.parentNode.removeChild(frame)
     }
     if (state.status.ready) {
-        frame.style.background = 'transparent'
+        frame.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
     }
 })
 // Ringcentral.on()
