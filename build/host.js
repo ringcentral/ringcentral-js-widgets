@@ -67,7 +67,7 @@
 	        _frame2.default.parentNode.removeChild(_frame2.default);
 	    }
 	    if (state.status.ready) {
-	        _frame2.default.style.background = 'transparent';
+	        _frame2.default.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)';
 	    }
 	});
 	// Ringcentral.on()
@@ -200,8 +200,8 @@
 	        target.style.position = 'fixed';
 	        target.style.top = 0;
 	        target.style.right = '5px';
-	        iframe.style.background = '#1e89ed';
-	        iframe.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)';
+	        // iframe.style.background = '#1e89ed'
+	        // iframe.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
 	    }
 	    target.appendChild(iframe);
 	    return iframe;
