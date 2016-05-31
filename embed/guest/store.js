@@ -31,7 +31,6 @@ function minimize(minimized) {
 }
 
 function status(state = initialState.status, action) {
-    console.log(action);
     switch (action.type) {
         case actions.GUEST_INIT:
             return Object.assign({}, state, {
@@ -85,8 +84,4 @@ var reducer = combineReducers({
     dialPad
 })
 var store = createStore(reducer)
-store.subscribe(() => {
-    console.log(store.getState());
-})
-
 export default store
