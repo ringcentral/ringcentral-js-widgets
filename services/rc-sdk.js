@@ -11,7 +11,7 @@ var injectSDK = function ({key, secret}) {
     holder.sdk = new RingCentral({
         appKey: key,
         appSecret: secret,
-        server: RingCentral.server.production
+        server: RingCentral.server.sandbox
     })
 }
 export {

@@ -29,7 +29,6 @@ services.rcPhone = {
     },
     loadData: {
         method: function() {
-            console.log('load data');
             rcMessageService.subscribeToMessageUpdate();
             // rcMessageService.syncMessages(this.props.cachedMessageHours);
             accountService.getAccountInfo();

@@ -55,8 +55,8 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Ringcentral = Ringcentral || {};
-	Ringcentral.widgets = {
+	window.Ringcentral = window.Ringcentral || {};
+	window.Ringcentral.widgets = {
 	    oauth: _oauth.oauth
 	};
 	window.addEventListener('message', function (e) {
@@ -111,7 +111,8 @@
 	
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 	
-	var DOMAIN = window.location.origin;
+	var TAG = document.querySelector('#rc-widgets-script').getAttribute('src');
+	var DOMAIN = new URL(TAG).origin;
 	var PHONE_URL = DOMAIN + '/ringcentral-js-widget/build/widgets.js';
 	var LIB_URL = DOMAIN + '/ringcentral-js-widget/build/build.js';
 	var COMMON_STYLE_URL = [DOMAIN + '/ringcentral-js-widget/build/styles/main.css'];

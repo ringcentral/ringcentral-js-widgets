@@ -178,7 +178,6 @@
 	    },
 	    loadData: {
 	        method: function method() {
-	            console.log('load data');
 	            _rcMessageService2.default.subscribeToMessageUpdate();
 	            // rcMessageService.syncMessages(this.props.cachedMessageHours);
 	            _accountService2.default.getAccountInfo();
@@ -564,7 +563,7 @@
 	    holder.sdk = new _ringcentralBundle2.default({
 	        appKey: key,
 	        appSecret: secret,
-	        server: _ringcentralBundle2.default.server.production
+	        server: _ringcentralBundle2.default.server.sandbox
 	    });
 	};
 	exports.injectSDK = injectSDK;
@@ -24145,7 +24144,7 @@
 	            });
 	        },
 	        oauth: function oauth() {
-	            return parent.oauth(_rcSdk.RC.sdk).then(function (qs) {
+	            return parent.Ringcentral.widgets.oauth(_rcSdk.RC.sdk).then(function (qs) {
 	                return _rcSdk.RC.sdk.platform().login(qs);
 	            });
 	        }

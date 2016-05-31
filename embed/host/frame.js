@@ -1,6 +1,7 @@
 import actions from '../actions'
 
-const DOMAIN = window.location.origin
+const TAG = document.querySelector('#rc-widgets-script').getAttribute('src')
+const DOMAIN = new URL(TAG).origin
 const PHONE_URL = DOMAIN + '/ringcentral-js-widget/build/widgets.js'
 const LIB_URL = DOMAIN + '/ringcentral-js-widget/build/build.js'
 const COMMON_STYLE_URL = [DOMAIN + '/ringcentral-js-widget/build/styles/main.css']

@@ -1,7 +1,7 @@
 import frame from './frame'
 import { oauth } from './oauth'
-var Ringcentral = Ringcentral || {}
-Ringcentral.widgets = {
+window.Ringcentral = window.Ringcentral || {}
+window.Ringcentral.widgets = {
     oauth
 }
 window.addEventListener('message', function(e) {
