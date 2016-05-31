@@ -22,7 +22,7 @@ var LoginService = function(sdk) {
             })
         },
         oauth: function() {
-            return parent.oauth(RC.sdk).then(qs => RC.sdk.platform().login(qs))
+            return parent.Ringcentral.widgets.oauth(RC.sdk).then(qs => RC.sdk.platform().login(qs))
         }
     }
 }()
