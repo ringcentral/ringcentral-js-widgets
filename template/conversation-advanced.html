@@ -13,9 +13,9 @@
         </div>
         <div    class='rc-panel__content container' 
                 data-info='panel'>
-            <div class='bar'>
+            <div class='bar clearfix'>
                 <div class='hint' data-info='to-number'>to</div>
-                <div class='hint' data-info='from-number'>from</div>
+                <div class='hint hint--right' data-info='from-number'>from</div>
             </div>
             <div    class='content'
                     data-info='container'>
@@ -60,6 +60,7 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.3.0/js/md5.min.js'></script>
 <script>
 var fade = w.transition('fade')
+var _numberOfRetryLoading = 0
 this.props = {
     syncedMessages: [],
     toNumbers: [],
@@ -116,7 +117,6 @@ this.actions = {
     mount: {
         method: function(finish) {
             var currentContact = this.props.contact = this.data.contact
-            console.log(currentContact)
             // set default outbound caller id as first phone number
             this.props.toExtension = currentContact.extension
             this.data.fromNumber && this.setSender(this.data.fromNumber)
@@ -134,9 +134,7 @@ this.actions = {
             //     return
             // }
             this.props.profileImage = currentContact.profileImage
-            console.log(currentContact);
             this.getAvatar().then(url => this.dom['profile-img'].src = url)
-            console.log(this.getAvatar())
 
                 // currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
 
@@ -166,6 +164,11 @@ this.actions = {
             this.dom.input.value = this.data.message || ''
             fade.init(this.root)
             fade.in(this.root)
+        }
+    },
+    unmount: {
+        after: function() {
+            _numberOfRetryLoading = 0
         }
     },
     setTitle: {
@@ -205,6 +208,7 @@ this.actions = {
         after: function(id, type, content, direction, time, prepend) {
             var opponent = (direction === 'Inbound')
             var model = this.props.contact.msg && this.props.contact.msg.find(contact => contact.id === id)
+            console.log(type);
             var doc
             if (type === 'SMS' || type === 'Pager')
                 doc = this.createSMSTemplate(id, content, opponent, time)
@@ -212,7 +216,9 @@ this.actions = {
                 doc = this.createVoiceMailTemplate(id, content, opponent, time)
             else if (type === 'Voice')
                 doc = this.createCallLogTemplate(id, content, opponent, time)
-
+            else if (type === 'Fax') {
+                doc = this.createFaxTemplate(id, content, opponent, time)
+            }
             if (model) {
                 model.dom = doc
                 this.markBubble(model)
@@ -286,10 +292,25 @@ this.actions = {
             return div.firstChild
         }
     },
+    createFaxTemplate: {
+        method: function(finish, id, content, opponent, time) {
+            if (content === 'Outgoing Fax') // For outgoing FAX, you cannot get the fax connet :(
+                return this.createSMSTemplate(id, content, opponent, time)
+            this.props.transformee = content.uri
+            var div = document.createElement('div')
+            div.innerHTML = `<div class='clearfix conversations__conv'>
+                                <div
+                                    data-tooltip='${time}'
+                                    class='conversations__bubble ${opponent? "conversations__bubble--opponent": "conversations__bubble--self"} --voice voice-bubble'>
+                                    <a href='${this.transformURL()}'>**File** Don't click me</a>
+                                </div>
+                            </div>`
+            return div.firstChild
+        }
+    },
     createVoiceMailTemplate: {
         method: function(finish, id, content, opponent, time) {
             this.props.transformee = content.uri
-            console.log(this.transformURL())
             var audio = new Audio(this.transformURL())
             var div = document.createElement('div')
             div.innerHTML = `<div class='clearfix conversations__conv'>
@@ -328,7 +349,6 @@ this.actions = {
                 // get ${content.uri}?access_token=${sdk.platform().auth().accessToken()}
                 // to get the duration of record
                 this.props.transformee =`${content.uri}/content`
-                console.log(this.transformURL())
                 var audio = new Audio(this.transformURL())
                 div.firstChild.addEventListener('click', e => {
                     audio.play()
@@ -358,7 +378,11 @@ this.actions = {
                 this.prependMessages(messages.slice().reverse(), false)
                 this.dom.container.scrollTop = 
                     this.dom.conversations.offsetHeight - scrollBottom
+                _numberOfRetryLoading = 0
             } else if (messages && !messages.length){
+                if (_numberOfRetryLoading ++ > 10) {
+                    return
+                }
                 console.log('load again');
                 this.reachTop()
             }
@@ -466,7 +490,6 @@ this.actions = {
                 // FIXME: cache getAttribute, perf
                 var index = this.unconfirm.findIndex(dom => dom.getAttribute('data-id') == msg.id)
                 var dom = this.unconfirm[index] || null
-                console.log(msg);
                 if (dom) {
                     dom.removeAttribute('data-id')
                     msg.dom = dom
@@ -552,8 +575,6 @@ this.actions = {
     },
     callout: {
         method: function(finish) {
-            console.log(this.props.fromNumber)
-            console.log(this.props.toNumber)
             return finish()
         }
     },
@@ -632,11 +653,14 @@ $gray: #bdc3c7;
     @mixin padding-normal;
     @mixin shadow-1;
     /* overlay bubbles */
+    float: left;
     position: relative;
-    display: inline-block;
-    width: 49%;
+    width: 48%;
     text-align: center;
     font-size: .9em;
+    &--right {
+        float: right;
+    }
 }
 .callout {
     @mixin shadow-2;

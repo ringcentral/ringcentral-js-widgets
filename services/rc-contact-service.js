@@ -4,7 +4,7 @@ import LZString from 'lz-string'
 var rcContactService = function() {
     var companyContacts = []
     var completeCompanyContacts = null
-    
+
     var fetchingCompanyContacts = null
     var fetchingCompleteCompanyContacts = null
 
@@ -137,7 +137,7 @@ var rcContactService = function() {
             fetchCompanyDirectNumbers()
         },
         completeCompanyContact: function() {
-            if (completeCompanyContacts) 
+            if (completeCompanyContacts)
                 return Promise.resolve(completeCompanyContacts)
             if (fetchingCompleteCompanyContacts)
                 return fetchingCompleteCompanyContacts
@@ -152,29 +152,25 @@ var rcContactService = function() {
             var contact = null
             var data = localStorage.getItem('rc-contacts')
             var fetch
-            // FIXME: temp disable it
-           
             return function() {
-                var fetch
-                var fetch = new Promise((resolve, reject) => {
-                // Hack for delay the refreshing request
-                  setTimeout(() => {
-                    rcContactService.completeCompanyContact()
-                    .then(data => {
-                        if (data)
-                            localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
-                        return resolve(data)
-                    })
-                  }, 100)
-                })
                 if (contact) {
                     contact.then(value => {
                         completeCompanyContacts = companyContacts = value
                     })
                     return contact
                 }
-                data && (completeCompanyContacts = companyContacts = JSON.parse(LZString.decompressFromUTF16(data)))
-                contact = data? Promise.resolve(JSON.parse(LZString.decompressFromUTF16(data))): fetch
+                var fetch = new Promise((resolve, reject) => {
+                    // Hack for delay the refreshing request
+                    setTimeout(() => {
+                        rcContactService.completeCompanyContact()
+                        .then(data => {
+                            if (data)
+                                localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
+                            return resolve(data)
+                        })
+                    }, 100)
+                })
+                contact = data ? Promise.resolve(JSON.parse(LZString.decompressFromUTF16(data))) : fetch
                 return contact
             }
         }())

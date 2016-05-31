@@ -108,7 +108,6 @@
 	    });
 	});
 	_phone2.default.on('ready', function () {
-	    console.log('yea');
 	    _store2.default.dispatch({
 	        type: _actions2.default.GUEST_PHONE_READY
 	    });

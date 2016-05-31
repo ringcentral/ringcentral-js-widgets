@@ -46,7 +46,6 @@ phone.on('unmount', function() {
     })
 })
 phone.on('ready', function() {
-    console.log('yea');
     store.dispatch({
         type: actions.GUEST_PHONE_READY
     })

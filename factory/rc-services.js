@@ -324,12 +324,17 @@ services['call-panel'] = {
     },
     flip: {
         method: function() {
-            return phoneService.flip()
+            return phoneService.flip(this.props.actionNumber)
         },
     },
     forward: {
         method: function() {
-            return phoneService.forward()
+            return phoneService.forward(this.props.actionNumber)
+        },
+    },
+    transfer: {
+        method: function() {
+            return phoneService.transfer(this.props.actionNumber)
         },
     },
     record: {

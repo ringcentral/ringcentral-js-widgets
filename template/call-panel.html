@@ -3,7 +3,7 @@
         <section data-info='header' class='rc-panel__header rc-panel__header--colored rc-panel__header--center'>
             <div
                 data-info='time-wrapper' 
-                class='text-right display-none'>
+                class='text-right time-wrapper'>
                 <span data-info='time'></span>
             </div>
             <div>
@@ -64,10 +64,10 @@
                         <div class='text-center'>Audio</div>
                     </div> -->
                 </div>
-                <div class='control-panel__line display-none'>
+                <div class='control-panel__line'>
                     <div class='control-panel__item'>
                         <button 
-                            data-info='flip'
+                            data-info='readyFlip'
                             class='rc-button 
                                 rc-button--circle 
                                 rc-button--ghost 
@@ -81,7 +81,7 @@
                     </div>
                     <div class='control-panel__item'>
                         <button 
-                            data-info='readyForward'
+                            data-info='readyTransfer'
                             class='rc-button 
                                 rc-button--circle 
                                 rc-button--ghost 
@@ -91,7 +91,7 @@
                             <span class="icon-uni23"></span>
                             <span class="icon-uni2F"></span>
                         </button>
-                        <div class='text-center'>Forward</div>
+                        <div class='text-center'>Transfer</div>
                     </div>
                     <div class='control-panel__item'>
                         <button
@@ -171,19 +171,22 @@
                 </div>
                 <div class='rc-dial-pad__line'>
                     <button 
-                        class='rc-button --circle dial-button dial-button--color' 
+                        class='rc-button rc-button--circle dial-button dial-button--color' 
                         data-info='dial-button-0'>
                         <div class='dial-button__number'>0</div>
                         <div class='dial-button__symbol'>+</div>
                     </button>
                 </div>
             </div>
+            <div class='rc-call-panel__mask display-none' data-info='mask'>
+                
+            </div>
             <div class='advance-panel display-none' data-info='advance-panel'>
                 <contact-picker data-info='contact-picker'></contact-picker>
             </div>
             <div class='rc-call-panel__footer'>
                 <div class='action-panel'>
-                    <button 
+                    <button
                         data-info='mute'
                         class='rc-button rc-button--round action-panel__action'>
                         <span class='icon-uniCE'></span>
@@ -210,17 +213,20 @@
 var fade = w.transition('fade')
 var _interval
 var _setAdvancedAction = function(action) {
-    if (action === 'forward') {
-        var div = document.createElement('div')
-        div.innerHTML = 
-            `<button 
-                data-info='advance-button'
-                class='rc-button rc-button--ghost advance-panel__button'>
-                <span class='icon-uni23'></span>
-            </button>`
-        div.firstChild.addEventListener('click', e => this.forward())
-        this.dom['advance-panel'].appendChild(div.firstChild)
-    }
+    if (document.querySelector('#rc-advance-button'))
+        this.dom['advance-panel'].removeChild(document.querySelector('#rc-advance-button'))
+    var div = document.createElement('div')
+    div.innerHTML = 
+        `<button 
+            id='rc-advance-button'
+            class='rc-button rc-button--circle rc-button--positive advance-panel__button'>
+        </button>`
+
+    div.firstChild.addEventListener('click', e => {
+        var number = this.refs['contact-picker'].getInput()
+        this[action](number)
+    })
+    this.dom['advance-panel'].appendChild(div.firstChild)
 }
 this.props = {
     name: null,
@@ -234,7 +240,8 @@ this.props = {
     isMute: false,
     isHold: false,
     isRecord: false,
-    isPark: false
+    isPark: false,
+    actionNumber: ''
 }
 this.actions = {
     init: {
@@ -253,7 +260,6 @@ this.actions = {
                 actions: {
                     autoComplete: {
                         method: function() {
-                            console.log(this.props.inputValue);
                             callPanel.props.inputValue = this.props.inputValue
                             return callPanel.queryContacts()
                         }
@@ -317,7 +323,16 @@ this.actions = {
             this.dom['contral-panel'].classList.remove('display-none')
             this.dom['dialing-panel'].classList.add('display-none')
 
+            // park
             this.props.isPark = false
+            var span1 = document.createElement('span')
+            var span2 = document.createElement('span')
+            span1.classList.add('icon-uni22')
+            span2.classList.add('icon-uni2E')
+            while (this.dom.park.firstChild)
+                this.dom.park.removeChild(this.dom.park.firstChild)
+            this.dom.park.appendChild(span1)
+            this.dom.park.appendChild(span2)
         }
     },
     getContact: {
@@ -435,27 +450,42 @@ this.actions = {
             }
         }
     },
+    readyFlip: {
+        method: function(finish, number) {
+            this.dom['advance-panel'].classList.remove('display-none')
+            _setAdvancedAction.call(this, 'flip')
+            return finish()
+        }
+    },
     flip: {
         method: function(finish, number) {
-            console.log('ui flip');
-            return finish()
-        }
-    },
-    readyForward: {
-        method: function(finish, number) {
-            console.log('ui forward');
-            this.dom['advance-panel'].classList.remove('display-none')
-            _setAdvancedAction.call(this, 'forward')
-            return finish()
-        }
-    },
-    forward: {
-        method: function(finish, number) {
-            console.log('forwarding');
+            console.log('flip: ' + number);
+            this.props.actionNumber = number
             return finish()
         },
         after: function() {
-            console.log('after forwarding');
+            this.dom['advance-panel'].classList.add('display-none')
+        },
+        error: function(e) {
+            console.error(e);
+            this.dom['advance-panel'].classList.add('display-none')
+        }
+    },
+    readyTransfer: {
+        method: function(finish, number) {
+            this.dom['advance-panel'].classList.remove('display-none')
+            _setAdvancedAction.call(this, 'transfer')
+            return finish()
+        }
+    },
+    transfer: {
+        method: function(finish, number) {
+            console.log('transfer:' + number);
+            this.props.actionNumber = number
+            return finish()
+        },
+        after: function() {
+            console.log('after transfer');
             this.dom['advance-panel'].classList.add('display-none')
         },
         error: function(e) {
@@ -513,8 +543,6 @@ this.actions = {
             return finish()
         },
         after: function(result) {
-            console.log(result);
-            this.props.isRecord = true
             var span1 = document.createElement('span')
             var span2 = document.createElement('span')
             span1.classList.add('icon-uni2E')
@@ -552,6 +580,14 @@ this.actions = {
         method: function(finish) {
             this.dom['contral-panel'].classList.add('display-none')
             this.dom['dialing-panel'].classList.remove('display-none')
+            this.dom['mask'].classList.remove('display-none')
+        }
+    },
+    hideKeypad: {
+        method: function(finish) {
+            this.dom['contral-panel'].classList.remove('display-none')
+            this.dom['dialing-panel'].classList.add('display-none')
+            this.dom['mask'].classList.add('display-none')
         }
     },
     queryContacts: {
@@ -562,12 +598,14 @@ this.actions = {
     
 }
 this.on('click', function(e) {
-    ['hangup', 'hold', 'mute', 'flip', 'readyForward', 'record', 'keypad', 'park'].forEach(action => {
+    ['hangup', 'hold', 'mute', 'readyFlip', 'readyTransfer', 'record', 'keypad', 'park'].forEach(action => {
         if (e.target === this.dom[action] || e.target.parentNode === this.dom[action])
             this[action]()
     })
     if (e.target === this.dom.bar)
         this.resume()
+    if (e.target === this.dom.mask)
+        this.hideKeypad()
 })
 //# sourceURL=call-panel.html
 </script>
@@ -601,7 +639,9 @@ $dial-pad-call-button-color: #2ecc71;
             justify-content: flex-start;
         }
     }
-
+    .time-wrapper {
+        min-height: 15px;
+    }
     .action-panel {
         display: flex;
         flex-direction: row;
@@ -654,39 +694,22 @@ $dial-pad-call-button-color: #2ecc71;
     .advance-panel {
         @mixin shadow-2;
         position: relative;
+        z-index: 2;
         background: #fff;
     }
     .dialing-panel {
+        @mixin padding-normal;
+        border-radius: 3px;
         font-size: 1.2em;
     }
     .advance-panel {
         &__button {
             position: absolute;
-            top: 0;
-            right: 0;
-        }
-    }
-}
-.rc-dial-pad {
-    &__line {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-
-        & > .dial-button {
-            margin: 4px 8px;
-            width:  $dial-pad-button-radius;
-            height: $dial-pad-button-radius;
-            color:          $main-color;
-            border-color:   $main-color;
-
-            & > .dial-button__number {
-                font-weight: bold;
-            }
-            & > .dial-button__symbol {
-                font-size: $dial-pad-symbol-size;
-            }
-
+            top: 12px;
+            right: 10px;
+            padding: 0;
+            width: 10px;
+            height: 10px;
         }
     }
     &__mask {
@@ -694,14 +717,13 @@ $dial-pad-call-button-color: #2ecc71;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        z-index: 1;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        > p {
-            font-weight: bold;
-            text-align: center;
-        }
+        background: #000;
+        opacity: .3;
         &::before {
             content: '';
             position: absolute;
@@ -711,31 +733,6 @@ $dial-pad-call-button-color: #2ecc71;
             height: 100%;
             
         }
-    }
-    .blur {
-        filter: blur(2px);
-        -webkit-filter: blur(2px);
-    }
-    .call-button {
-        @mixin shadow-1;
-        position: absolute;
-        top: 2px;
-        right: 5px;
-        width:  3em;
-        height: 3em;
-        /* 1: 0.6, same as the panel width: panel height*/
-        background-color:   $dial-pad-call-button-color;
-        border-color:       $dial-pad-call-button-color;
-        &--active {
-
-        }
-        > span {
-            color: #fff;
-            font-size: 1.2em;
-        }
-    }
-    .pad-container {
-        height: 100%;
     }
 }
 

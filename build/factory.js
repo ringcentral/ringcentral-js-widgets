@@ -469,12 +469,17 @@
 	    },
 	    flip: {
 	        method: function method() {
-	            return _phoneService2.default.flip();
+	            return _phoneService2.default.flip(this.props.actionNumber);
 	        }
 	    },
 	    forward: {
 	        method: function method() {
-	            return _phoneService2.default.forward();
+	            return _phoneService2.default.forward(this.props.actionNumber);
+	        }
+	    },
+	    transfer: {
+	        method: function method() {
+	            return _phoneService2.default.transfer(this.props.actionNumber);
 	        }
 	    },
 	    record: {
@@ -24501,10 +24506,13 @@
 	            var contact = null;
 	            var data = localStorage.getItem('rc-contacts');
 	            var fetch;
-	            // FIXME: temp disable it
-	
 	            return function () {
-	                var fetch;
+	                if (contact) {
+	                    contact.then(function (value) {
+	                        completeCompanyContacts = companyContacts = value;
+	                    });
+	                    return contact;
+	                }
 	                var fetch = new Promise(function (resolve, reject) {
 	                    // Hack for delay the refreshing request
 	                    setTimeout(function () {
@@ -24514,13 +24522,6 @@
 	                        });
 	                    }, 100);
 	                });
-	                if (contact) {
-	                    contact.then(function (value) {
-	                        completeCompanyContacts = companyContacts = value;
-	                    });
-	                    return contact;
-	                }
-	                data && (completeCompanyContacts = companyContacts = JSON.parse(_lzString2.default.decompressFromUTF16(data)));
 	                contact = data ? Promise.resolve(JSON.parse(_lzString2.default.decompressFromUTF16(data))) : fetch;
 	                return contact;
 	            };
@@ -25667,7 +25668,8 @@
 	    function adaptMessage(msg) {
 	        return {
 	            id: msg.id,
-	            from: msg.from.extensionNumber || msg.from.phoneNumber,
+	            from: !msg.from && 'anonymous' || // For fax
+	            msg.from.extensionNumber || msg.from.phoneNumber,
 	            to: msg.to.phoneNumber || msg.to.extensionNumber || msg.to[0].extensionNumber || msg.to[0].phoneNumber,
 	            direction: msg.direction,
 	            type: msg.type,

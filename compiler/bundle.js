@@ -32,6 +32,7 @@ function config(file) {
             },
             ],
         },
+        plugins: []
     }
 }
 function bundle(file) {
