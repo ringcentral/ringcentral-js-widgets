@@ -134,6 +134,8 @@ this.actions = {
                         method: function() {
                             if (!dialPad.data.autoComplete)
                                 return []
+                            if (dialPad.props.toNumber !== this.dom.input.value)
+                                dialPad.numberChange()
                             return dialPad.queryContacts(this.props.inputValue)
                         }
                     },

@@ -40,15 +40,20 @@ w.register(function() {
                 var time = new Date(data.time)
                 if (data.type === 'SMS')
                     this.dom.icon.classList.add('icon-uni2487')
-                else if (data.type === 'Voice')
+                else if (data.type === 'Voice') {
                     this.dom.icon.classList.add('icon-uniAE')
+                    if (data.subject && data.subject.type === 'Automatic') {
+                        data.subject = 'Call recording'
+                    }
+                }
                 else if (data.type === 'Pager')
                     this.dom.icon.classList.add('icon-uniCB')
                 else if (data.type === 'VoiceMail') {
                     this.dom.icon.classList.add('icon-uniCB')
-                    data.subject = data.subject.type
+                    data.subject = 'Call recording'
+                } else if (data.type === 'Fax') {
+                    data.subject = 'Fax'
                 }
-
                 this.dom.subject.textContent = this.props.subject = data.subject
                 data.contact && 
                     (this.dom.contact.textContent = this.props.contact = data.contact.displayName)
