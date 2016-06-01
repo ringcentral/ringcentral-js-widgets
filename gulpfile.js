@@ -38,4 +38,4 @@ gulp.task('lint', function() {
           .pipe(gulp.dest('src/scripts'))
 })
 
-gulp.task('defalut', ['compile'])
+gulp.task('default', ['compile'])

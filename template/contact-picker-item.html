@@ -36,9 +36,9 @@ this.actions = {
     focus: {
         after: function(value) {
             if (value)
-                this.root.firstChild.classList.add('--focus')
+                this.root.firstChild.classList.add('rc-contact--focus')
             else
-                this.root.firstChild.classList.remove('--focus')
+                this.root.firstChild.classList.remove('rc-contact--focus')
             this.props.focused = value
         }
     }

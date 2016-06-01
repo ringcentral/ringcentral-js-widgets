@@ -113,11 +113,11 @@
 	
 	var TAG = document.querySelector('#rc-widgets-script').getAttribute('src');
 	var DOMAIN = new URL(TAG).origin;
-	var PHONE_URL = DOMAIN + '/ringcentral-js-widget/build/widgets.js';
-	var LIB_URL = DOMAIN + '/ringcentral-js-widget/build/build.js';
-	var COMMON_STYLE_URL = [DOMAIN + '/ringcentral-js-widget/build/styles/main.css'];
+	// const PHONE_URL = DOMAIN + '/ringcentral-js-widget/build/widgets.js'
+	// const LIB_URL = DOMAIN + '/ringcentral-js-widget/build/build.js'
+	// const COMMON_STYLE_URL = [DOMAIN + '/ringcentral-js-widget/build/styles/main.css']
 	var TARGET_TAG = 'rc-phone';
-	var IFRAME_URL = DOMAIN + '/ringcentral-js-widget/demo/embed.html';
+	var IFRAME_URL = DOMAIN + '/ringcentral-js-widget/build/embed.html';
 	var useShadowDOM = false; /* Always fallback to iframe for now */
 	var iframeReadyQueue = [];
 	var frame;
@@ -125,29 +125,27 @@
 	var iframeReady = false;
 	var drag = false;
 	
-	var safeEval = function safeEval(script, target) {
-	    var tag = document.createElement('script');
-	    tag.text = script;
-	    if (target) {
-	        target.appendChild(tag);
-	        // target.removeChild(tag)
-	    } else {
-	            document.body.appendChild(tag);
-	            document.body.removeChild(tag);
-	        }
-	};
-	var fetchAndEval = function fetchAndEval(url, target) {
-	    return function () {
-	        return fetch(url).then(function (res) {
-	            return res.text();
-	        }).then(function (data) {
-	            return safeEval(data, target);
-	        });
-	    };
-	};
+	// var safeEval = function(script, target) {
+	//     var tag = document.createElement('script')
+	//     tag.text = script
+	//     if (target) {
+	//         target.appendChild(tag)
+	//         // target.removeChild(tag)
+	//     } else {
+	//         document.body.appendChild(tag)
+	//         document.body.removeChild(tag)
+	//     }
+	// }
+	// var fetchAndEval = function(url, target) {
+	//     return function() {
+	//         return fetch(url)
+	//                 .then(res => res.text())
+	//                 .then(data => safeEval(data, target))
+	//     }
+	// }
 	
-	var fetchAndEvalFramework = fetchAndEval(LIB_URL);
-	var fetchAndEvalWidget = fetchAndEval(PHONE_URL);
+	// var fetchAndEvalFramework = fetchAndEval(LIB_URL)
+	// var fetchAndEvalWidget = fetchAndEval(PHONE_URL)
 	
 	var createContainer = function createContainer() {
 	    var target = document.querySelector(TARGET_TAG);
@@ -200,6 +198,7 @@
 	        target.style.position = 'fixed';
 	        target.style.top = 0;
 	        target.style.right = '5px';
+	        clickToDial(target, iframe);
 	        // iframe.style.background = '#1e89ed'
 	        // iframe.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
 	    }
@@ -224,26 +223,16 @@
 	        ele.style['text-decoration'] = 'underline black';
 	        ele.style['cursor'] = 'pointer';
 	        ele.addEventListener('click', function (e) {
-	            target.style.display = 'block';
-	            target.style.position = 'absolute';
-	            target.style.top = e.pageY + 3 + 'px';
-	            target.style.left = e.pageX + 3 + 'px';
+	            // target.style.display = 'block'
+	            // target.style.position = 'absolute'
+	            // target.style.top = `${e.pageY + 3}px`
+	            // target.style.left = `${e.pageX + 3}px`
 	            iframe.contentWindow.postMessage({
 	                type: _actions2.default.HOST_DIALPAD_NUMBER,
 	                value: ele.getAttribute('data-phone')
 	            }, IFRAME_URL);
 	            e.stopPropagation();
 	        });
-	    });
-	    document.addEventListener('click', function (e) {
-	        var clicked = e.target;
-	        while (clicked.parentNode) {
-	            if (clicked === target) {
-	                return;
-	            }
-	            clicked = clicked.parentNode;
-	        }
-	        target.style.display = 'none';
 	    });
 	};
 	

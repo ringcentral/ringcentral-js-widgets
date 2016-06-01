@@ -199,7 +199,8 @@ w.register(function() {
             if (index === -1)
                 index = 0
             var hoverObj = this.props.contacts[index]
-            this.setInput(hoverObj.props.contact.value);
+            if (hoverObj)
+                this.setInput(hoverObj.props.contact.value);
             this.hide();
         }
 

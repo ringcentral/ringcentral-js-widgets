@@ -17,7 +17,7 @@ import config from '../services/rc-config'
 var dialPadSearchProviders = [rcContactSearchProvider]
 
 var services = {}
-services.rcPhone = {
+services['rcPhone'] = {
     init: {
         after: function() {
             /// critical, inject app key & secret into service
@@ -45,13 +45,18 @@ services.rcPhone = {
         method: function() {
             return loginService.checkLoginStatus()
         }
+    },
+    logout: {
+        method: function() {
+            return loginService.logout()
+        }
     }
 }
 services['auth-panel'] = {
     login: {
         method: function() {
             return loginService.login(
-                PhoneFormat.formatE164('US', this.props.username),
+                this.props.username,
                 this.props.extension,
                 this.props.password
             )
@@ -324,12 +329,17 @@ services['call-panel'] = {
     },
     flip: {
         method: function() {
-            return phoneService.flip()
+            return phoneService.flip(this.props.actionNumber)
         },
     },
     forward: {
         method: function() {
-            return phoneService.forward()
+            return phoneService.forward(this.props.actionNumber)
+        },
+    },
+    transfer: {
+        method: function() {
+            return phoneService.transfer(this.props.actionNumber)
         },
     },
     record: {

@@ -2,9 +2,10 @@
 import services from './rc-services'
 
 function extend(base, mixin) {
-    for (var action in mixin) {
+    // FIXME: avoid create function in for loop
+    Object.keys(mixin).forEach(action => {
         if (base[action]) {
-            for (var hook in mixin[action]) {
+            Object.keys(mixin[action]).forEach(hook => {
                 var origin = base[action][hook]
                 var mix = mixin[action][hook]
                 base[action][hook] = function(...args) {
@@ -15,11 +16,11 @@ function extend(base, mixin) {
                     mix.call(this)
                     return result
                 }
-            }
+            })
         } else {
             base[action] = mixin[action]
         }
-    }
+    })
     return base
 }
 

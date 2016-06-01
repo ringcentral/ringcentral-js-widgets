@@ -119,7 +119,8 @@ var conversationService = (function() {
     function adaptMessage(msg) {
         return {
             id:                 msg.id,
-            from:               msg.from.extensionNumber ||
+            from:               (!msg.from && 'anonymous') || // For fax
+                                msg.from.extensionNumber ||
                                 msg.from.phoneNumber,
             to:                 msg.to.phoneNumber ||
                                 msg.to.extensionNumber ||
