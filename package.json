@@ -7,6 +7,7 @@
     "lz-string": "^1.4.4",
     "redux": "^3.5.2",
     "ringcentral": "^2.0.6",
+    "ringcentral-web-phone": "~0.2.0",
     "whatwg-fetch": "^0.11.0"
   },
   "devDependencies": {
