@@ -2,11 +2,11 @@ import actions from '../actions'
 
 const TAG = document.querySelector('#rc-widgets-script').getAttribute('src')
 const DOMAIN = new URL(TAG).origin
-const PHONE_URL = DOMAIN + '/ringcentral-js-widget/build/widgets.js'
-const LIB_URL = DOMAIN + '/ringcentral-js-widget/build/build.js'
-const COMMON_STYLE_URL = [DOMAIN + '/ringcentral-js-widget/build/styles/main.css']
+// const PHONE_URL = DOMAIN + '/ringcentral-js-widget/build/widgets.js'
+// const LIB_URL = DOMAIN + '/ringcentral-js-widget/build/build.js'
+// const COMMON_STYLE_URL = [DOMAIN + '/ringcentral-js-widget/build/styles/main.css']
 const TARGET_TAG = 'rc-phone'
-const IFRAME_URL = DOMAIN + '/ringcentral-js-widget/demo/embed.html'
+const IFRAME_URL = DOMAIN + '/ringcentral-js-widget/build/embed.html'
 const useShadowDOM = false /* Always fallback to iframe for now */
 const iframeReadyQueue = []
 var frame
@@ -14,27 +14,27 @@ var frame
 var iframeReady = false
 var drag = false
 
-var safeEval = function(script, target) {
-    var tag = document.createElement('script')
-    tag.text = script
-    if (target) {
-        target.appendChild(tag)
-        // target.removeChild(tag)
-    } else {
-        document.body.appendChild(tag)
-        document.body.removeChild(tag)
-    }
-}
-var fetchAndEval = function(url, target) {
-    return function() {
-        return fetch(url)
-                .then(res => res.text())
-                .then(data => safeEval(data, target))
-    }
-}
+// var safeEval = function(script, target) {
+//     var tag = document.createElement('script')
+//     tag.text = script
+//     if (target) {
+//         target.appendChild(tag)
+//         // target.removeChild(tag)
+//     } else {
+//         document.body.appendChild(tag)
+//         document.body.removeChild(tag)
+//     }
+// }
+// var fetchAndEval = function(url, target) {
+//     return function() {
+//         return fetch(url)
+//                 .then(res => res.text())
+//                 .then(data => safeEval(data, target))
+//     }
+// }
 
-var fetchAndEvalFramework = fetchAndEval(LIB_URL)
-var fetchAndEvalWidget = fetchAndEval(PHONE_URL)
+// var fetchAndEvalFramework = fetchAndEval(LIB_URL)
+// var fetchAndEvalWidget = fetchAndEval(PHONE_URL)
 
 var createContainer = function() {
     var target = document.querySelector(TARGET_TAG)

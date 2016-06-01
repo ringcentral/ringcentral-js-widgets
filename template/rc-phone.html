@@ -23,6 +23,8 @@
 }
 .rc-phone .auth-panel {
     position: absolute;
+    /* overlap with container */
+    z-index: 1;
 }
 .window {
     position: absolute;
@@ -32,25 +34,33 @@
     &__button {
         width: 12px;
         height: 12px;
-        padding: 0;
-        border-radius: 50%;
+        cursor: pointer;
         &--remove {
-            background-color: $light-red;
-            border: 1px solid $red;
+            color: $light-red;
         }
         &--resize {
-            background-color: $light-yellow;
-            border: 1px solid $yellow;
+            color: $light-yellow;
         }
+        &--logout {
+        }
+    }
+    &--right {
+        left: auto;
+        right: 3px;
+        z-index: 2;
     }
 }
 </style>
 <div>
     <div class='window'>
-        <button data-info='remove' class='rc-button rc-button--circle window__button window__button--remove'></button>
-        <button data-info='resize' class='rc-button rc-button--circle window__button window__button--resize'></button>
+        <span data-info='remove' class='icon-RC_close2 window__button window__button--remove'></span>
+        <span data-info='resize' class='icon-RC_status window__button window__button--resize'></span>
     </div>
+    
     <div data-info='phone' id='phone' class='rc-phone'>
+        <div class='window window--right'>
+            <span data-info='logout' class='icon-RC_Logout window__button window__button--logout'></span>
+        </div>
         <div data-info='auth-panel' id="auth-panel" class='auth-panel'></div>
         <div data-info='toolbar' id="toolbar"></div>
         <div class='phone-container' data-info='container'>
@@ -62,7 +72,6 @@
         <div data-info='notification' class='panel panel--extra' id="notification"></div>
     </div>
 </div>
-<script src='../bower_components/phoneformat/dist/phone-format-global.js'></script>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js'></script>
 <!-- <script src="./build/factory.js"></script> -->
 <script>
@@ -163,7 +172,7 @@ w.register(function() {
                                         phone.props.panels[0].mount('#first-level-0')
                                         phone.dom['toolbar'].parentNode.removeChild(phone.dom['toolbar'])
                                     }
-                                    phone.dom['auth-panel'].parentNode.removeChild(phone.dom['auth-panel'])
+                                    phone.dom['auth-panel'].style['z-index'] = '-1'
                                 }
                             }
                         })
@@ -454,33 +463,40 @@ w.register(function() {
                 }
             }
         },
-        
         mount: {
             after: function() {
-                // this.checkLogin().then(loggedin => {
-                //     if (loggedin) {
-                //         this.loadData();
-                //         if (this.data.shadowRoot)
-                //             this.props.toolbar.mount(phone.data.shadowRoot.querySelector('#toolbar'))
-                //         else
-                //             this.props.toolbar.mount('#toolbar')
-                //         this.dom['auth-panel'].parentNode.removeChild(phone.dom['auth-panel'])
-                //     } else {
-                //         if (this.data.shadowRoot)
-                //             this.props.authPanel.mount(this.data.shadowRoot.querySelector('#auth-panel'))
-                //         else
-                //             this.props.authPanel.mount('#auth-panel')
-                //     }
-                // })
+                this.checkLogin().then(loggedin => {
+                    if (loggedin) {
+                        this.loadData();
+                        if (this.data.shadowRoot)
+                            this.props.toolbar.mount(phone.data.shadowRoot.querySelector('#toolbar'))
+                        else
+                            this.props.toolbar.mount('#toolbar')
+                        this.dom['auth-panel'].style['z-index'] = '-1'
+                    } else {
+                        if (this.data.shadowRoot)
+                            this.props.authPanel.mount(this.data.shadowRoot.querySelector('#auth-panel'))
+                        else
+                            this.props.authPanel.mount('#auth-panel')
+                    }
+                })
                 this.props.ee.trigger('ready')
-                this.checkLogin().then(isLoggedIn => {
-                    if (this.data.shadowRoot)
-                        this.props.authPanel.mount(this.data.shadowRoot.querySelector('#auth-panel'))
-                    else
-                        this.props.authPanel.mount('#auth-panel')
-                }).catch(err => console.error(err))
+                // this.checkLogin().then(isLoggedIn => {
+                //     if (this.data.shadowRoot)
+                //         this.props.authPanel.mount(this.data.shadowRoot.querySelector('#auth-panel'))
+                //     else
+                //         this.props.authPanel.mount('#auth-panel')
+                // }).catch(err => console.error(err))
             }
         },
+        logout: {
+            after: function() {
+                this.props.authPanel.mount(this.dom['auth-panel'])
+                this.dom['auth-panel'].style['z-index'] = '5'
+                this.props.toolbar.unmount()
+                this.props.panels.forEach(panel => panel.unmount())
+            }
+        }
     })
     this.on('click', function(e) {
         if (e.target === this.dom.resize) {
@@ -493,6 +509,8 @@ w.register(function() {
         if (e.target === this.dom.remove) {
             this.props.ee.trigger('unmount')
             this.unmount()
+        } else if (e.target === this.dom.logout) {
+            this.logout()
         }
     })
 

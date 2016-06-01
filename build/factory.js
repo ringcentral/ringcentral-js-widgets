@@ -57,9 +57,10 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function extend(base, mixin) {
-	    for (var action in mixin) {
+	    // FIXME: avoid create function in for loop
+	    Object.keys(mixin).forEach(function (action) {
 	        if (base[action]) {
-	            for (var hook in mixin[action]) {
+	            Object.keys(mixin[action]).forEach(function (hook) {
 	                var origin = base[action][hook];
 	                var mix = mixin[action][hook];
 	                base[action][hook] = function () {
@@ -74,11 +75,11 @@
 	                    mix.call(this);
 	                    return result;
 	                };
-	            }
+	            });
 	        } else {
 	            base[action] = mixin[action];
 	        }
-	    }
+	    });
 	    return base;
 	} // TODO: use dependency injection
 	
@@ -166,7 +167,7 @@
 	var dialPadSearchProviders = [_rcContactSearchProvider2.default];
 	
 	var services = {};
-	services.rcPhone = {
+	services['rcPhone'] = {
 	    init: {
 	        after: function after() {
 	            /// critical, inject app key & secret into service
@@ -194,12 +195,17 @@
 	        method: function method() {
 	            return _loginService2.default.checkLoginStatus();
 	        }
+	    },
+	    logout: {
+	        method: function method() {
+	            return _loginService2.default.logout();
+	        }
 	    }
 	};
 	services['auth-panel'] = {
 	    login: {
 	        method: function method() {
-	            return _loginService2.default.login(PhoneFormat.formatE164('US', this.props.username), this.props.extension, this.props.password);
+	            return _loginService2.default.login(this.props.username, this.props.extension, this.props.password);
 	            // return loginService.oauth()
 	        }
 	    }

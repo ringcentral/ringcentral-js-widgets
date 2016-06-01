@@ -113,11 +113,11 @@
 	
 	var TAG = document.querySelector('#rc-widgets-script').getAttribute('src');
 	var DOMAIN = new URL(TAG).origin;
-	var PHONE_URL = DOMAIN + '/ringcentral-js-widget/build/widgets.js';
-	var LIB_URL = DOMAIN + '/ringcentral-js-widget/build/build.js';
-	var COMMON_STYLE_URL = [DOMAIN + '/ringcentral-js-widget/build/styles/main.css'];
+	// const PHONE_URL = DOMAIN + '/ringcentral-js-widget/build/widgets.js'
+	// const LIB_URL = DOMAIN + '/ringcentral-js-widget/build/build.js'
+	// const COMMON_STYLE_URL = [DOMAIN + '/ringcentral-js-widget/build/styles/main.css']
 	var TARGET_TAG = 'rc-phone';
-	var IFRAME_URL = DOMAIN + '/ringcentral-js-widget/demo/embed.html';
+	var IFRAME_URL = DOMAIN + '/ringcentral-js-widget/build/embed.html';
 	var useShadowDOM = false; /* Always fallback to iframe for now */
 	var iframeReadyQueue = [];
 	var frame;
@@ -125,29 +125,27 @@
 	var iframeReady = false;
 	var drag = false;
 	
-	var safeEval = function safeEval(script, target) {
-	    var tag = document.createElement('script');
-	    tag.text = script;
-	    if (target) {
-	        target.appendChild(tag);
-	        // target.removeChild(tag)
-	    } else {
-	            document.body.appendChild(tag);
-	            document.body.removeChild(tag);
-	        }
-	};
-	var fetchAndEval = function fetchAndEval(url, target) {
-	    return function () {
-	        return fetch(url).then(function (res) {
-	            return res.text();
-	        }).then(function (data) {
-	            return safeEval(data, target);
-	        });
-	    };
-	};
+	// var safeEval = function(script, target) {
+	//     var tag = document.createElement('script')
+	//     tag.text = script
+	//     if (target) {
+	//         target.appendChild(tag)
+	//         // target.removeChild(tag)
+	//     } else {
+	//         document.body.appendChild(tag)
+	//         document.body.removeChild(tag)
+	//     }
+	// }
+	// var fetchAndEval = function(url, target) {
+	//     return function() {
+	//         return fetch(url)
+	//                 .then(res => res.text())
+	//                 .then(data => safeEval(data, target))
+	//     }
+	// }
 	
-	var fetchAndEvalFramework = fetchAndEval(LIB_URL);
-	var fetchAndEvalWidget = fetchAndEval(PHONE_URL);
+	// var fetchAndEvalFramework = fetchAndEval(LIB_URL)
+	// var fetchAndEvalWidget = fetchAndEval(PHONE_URL)
 	
 	var createContainer = function createContainer() {
 	    var target = document.querySelector(TARGET_TAG);

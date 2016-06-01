@@ -228,6 +228,9 @@ var _setAdvancedAction = function(action) {
     })
     this.dom['advance-panel'].appendChild(div.firstChild)
 }
+function _pad(n) {
+    return (n < 10) ? ("0" + n) : n;
+}
 this.props = {
     name: null,
     time: 0,
@@ -349,12 +352,11 @@ this.actions = {
     },
     start: {
         after: function(time) {
-            this.dom['time-wrapper'].classList.remove('display-none')
             this.props.startTime = Date.now()
             this.props.duration = 0
             var minutes = Math.floor(this.props.duration / 60)
             var seconds = this.props.duration % 60
-            this.dom['time'].textContent = `${minutes}:${seconds}`
+            this.dom['time'].textContent = `${_pad(minutes)}:${_pad(seconds)}`
             // FIXME: NOT accurate
             // TODO: check for real startTime from SIP
             if (_interval) {
@@ -378,8 +380,8 @@ this.actions = {
             this.props.duration += 1
             var minutes = Math.floor(this.props.duration / 60)
             var seconds = this.props.duration % 60
-            this.dom.time.textContent = `${minutes}:${seconds}`
-            this.dom['bar-time'].textContent = `${minutes}:${seconds}`
+            this.dom.time.textContent = `${_pad(minutes)}:${_pad(seconds)}`
+            this.dom['bar-time'].textContent = `${_pad(minutes)}:${_pad(seconds)}`
         }
     },
     ended: {
