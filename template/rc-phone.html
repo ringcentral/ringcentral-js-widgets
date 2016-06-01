@@ -495,6 +495,7 @@ w.register(function() {
                 this.dom['auth-panel'].style['z-index'] = '5'
                 this.props.toolbar.unmount()
                 this.props.panels.forEach(panel => panel.unmount())
+                this.dom.container.style.transform = `translateX(0px)`;
             }
         }
     })
