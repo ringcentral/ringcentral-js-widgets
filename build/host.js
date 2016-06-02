@@ -112,12 +112,12 @@
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 	
 	var TAG = document.querySelector('#rc-widgets-script').getAttribute('src');
-	var DOMAIN = new URL(TAG).origin;
+	var BASEURL = new URL(TAG).href;
 	// const PHONE_URL = DOMAIN + '/ringcentral-js-widget/build/widgets.js'
 	// const LIB_URL = DOMAIN + '/ringcentral-js-widget/build/build.js'
 	// const COMMON_STYLE_URL = [DOMAIN + '/ringcentral-js-widget/build/styles/main.css']
 	var TARGET_TAG = 'rc-phone';
-	var IFRAME_URL = DOMAIN + '/ringcentral-js-widget/build/embed.html';
+	var IFRAME_URL = BASEURL.substr(0, BASEURL.lastIndexOf('/')) + '/embed.html';
 	var useShadowDOM = false; /* Always fallback to iframe for now */
 	var iframeReadyQueue = [];
 	var frame;
