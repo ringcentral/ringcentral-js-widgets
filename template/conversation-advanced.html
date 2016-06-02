@@ -301,7 +301,7 @@ this.actions = {
                                     <span class='voice-bubble__duration' data-length=${content.vmDuration}></span>
                                 </div>
                             </div>`
-            div.firstChild.querySelector('.voice-bubble__duration').style.width = content.vmDuration * 2 + 'px'
+            div.firstChild.querySelector('.voice-bubble__duration').style.width = content.vmDuration + 'px'
             div.firstChild.addEventListener('click', e => {
                 audio.play()
             });
@@ -779,6 +779,7 @@ $gray: #bdc3c7;
     &__play {}
     &__duration {
         height: 10px;
+        max-width: 100%;
         border: 1px solid#878787;
         display: inline-block;
     }
