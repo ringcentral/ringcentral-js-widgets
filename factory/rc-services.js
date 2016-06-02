@@ -23,7 +23,8 @@ services['rcPhone'] = {
             /// critical, inject app key & secret into service
             injectSDK({
                 key: this.props.key,
-                secret: this.props.secret
+                secret: this.props.secret,
+                sandbox: this.props.sandbox
             })
         }
     },
@@ -239,6 +240,7 @@ services['conversation-advanced'] = {
     },
     reachTop: {
         method: function() {
+            console.log('load content');
             return conversationService.loadContent(this.props.contact, this.props.hourOffset)
         }
     },

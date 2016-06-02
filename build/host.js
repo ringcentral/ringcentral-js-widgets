@@ -187,7 +187,7 @@
 	    iframe.width = parseInt(options.width) + 2; // border
 	    iframe.height = options.height;
 	    iframe.style.border = 0;
-	    iframe.src = IFRAME_URL + '?' + ('first-level=' + options.firstLevel + '&') + ('width=' + options.width + '&') + ('height=' + options.height + '&') + ('key=' + options.key + '&') + ('secret=' + options.secret + '&') + ('origin=' + window.location.origin);
+	    iframe.src = IFRAME_URL + '?' + ('first-level=' + options.firstLevel + '&') + ('width=' + options.width + '&') + ('height=' + options.height + '&') + ('key=' + options.key + '&') + ('secret=' + options.secret + '&') + ('sandbox=' + (options.sandbox != null) + '&') + ('origin=' + window.location.origin);
 	    iframe.setAttribute('name', 'rc-iframe');
 	    if (options.dynamic != null) {
 	        target.style.display = 'none';
@@ -202,6 +202,7 @@
 	        // iframe.style.background = '#1e89ed'
 	        // iframe.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
 	    }
+	
 	    target.appendChild(iframe);
 	    return iframe;
 	};
@@ -214,7 +215,8 @@
 	        dynamic: target.getAttribute('dynamic'),
 	        fixed: target.getAttribute('fixed'),
 	        key: target.getAttribute('key'),
-	        secret: target.getAttribute('secret')
+	        secret: target.getAttribute('secret'),
+	        sandbox: target.getAttribute('sandbox')
 	    };
 	};
 	

@@ -117,48 +117,15 @@ this.actions = {
     mount: {
         method: function(finish) {
             var currentContact = this.props.contact = this.data.contact
-            // set default outbound caller id as first phone number
             this.props.toExtension = currentContact.extension
-            this.data.fromNumber && this.setSender(this.data.fromNumber)
-            this.setReceiver(this.data.toNumber || currentContact.phoneNumber[0])
-            this.setReceiverCandidates(currentContact.phoneNumber)
+            // this.data.fromNumber && this.setSender(this.data.fromNumber)
+            // this.setReceiver(this.data.toNumber || currentContact.phoneNumber[0])
+            // this.setReceiverCandidates(currentContact.phoneNumber)
             currentContact.msg && this.appendMessages(currentContact.msg)
             this.scrollToAnchor()
-                
             this.setTitle(currentContact.displayName)
-
-            // Fake contact
-            // if (!currentContact.profileImage) {
-            //     var hash = md5(currentContact.id)
-            //     this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
-            //     return
-            // }
             this.props.profileImage = currentContact.profileImage
             this.getAvatar().then(url => this.dom['profile-img'].src = url)
-
-                // currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
-
-            // FIXME: API call in here is a anti-pattern, should be in services
-            // sdk.platform()
-            // .get(currentContact.profileImage)
-            // .then(r => r.response())
-            // .then(r => {
-            //     // Real contact, no avatar
-            //     console.log(r)
-            //     if (r.status === 204 || r.status === 404) {
-            //         var hash = md5(currentContact.id)
-            //         this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
-            //     } else {
-            //         // Real contact, has avatar
-            //         this.dom['profile-img'].src = 
-            //             currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
-            //     }
-            // })
-            // .catch(e => {
-            //     // Real contact, no avatar
-            //     var hash = md5(currentContact.id)
-            //     this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
-            // })
         },
         after: function() {
             this.dom.input.value = this.data.message || ''
@@ -208,7 +175,6 @@ this.actions = {
         after: function(id, type, content, direction, time, prepend) {
             var opponent = (direction === 'Inbound')
             var model = this.props.contact.msg && this.props.contact.msg.find(contact => contact.id === id)
-            console.log(type);
             var doc
             if (type === 'SMS' || type === 'Pager')
                 doc = this.createSMSTemplate(id, content, opponent, time)
@@ -255,7 +221,14 @@ this.actions = {
                     contact.to == fromNumber)
                 .filter(msg => msg.dom)
                 .map(msg => msg.dom)
-                .map(dom => dom.classList.add('conversations__conv--marked'))
+                .map(dom => {
+                    dom.classList.add('conversations__conv--marked')
+                    if (dom.previousSibling &&
+                        dom.previousSibling.classList &&
+                        dom.previousSibling.classList.contains('conversations__conv--ts')) {
+                        dom.previousSibling.classList.add('conversations__conv--marked')
+                    }
+                })
             });
             model.dom.addEventListener('mouseout', e => {
                 if (!this.props.fromNumbers)
@@ -274,7 +247,14 @@ this.actions = {
                 this.props.contact.msg
                 .filter(msg => msg.dom)
                 .map(msg => msg.dom)
-                .map(dom => dom.classList.remove('conversations__conv--marked'))
+                .map(dom => {
+                    dom.classList.remove('conversations__conv--marked')
+                    if (dom.previousSibling &&
+                        dom.previousSibling.classList &&
+                        dom.previousSibling.classList.contains('conversations__conv--marked')) {
+                        dom.previousSibling.classList.remove('conversations__conv--marked')
+                    }
+                })
             });
         }
     },
@@ -361,14 +341,16 @@ this.actions = {
         before: function() {},
         method: function(finish) {
             if (this.isLoading)
-                return null
+                return false
             this.isLoading = true
             this.dom.loading.classList.remove('display-none')
             return finish()
         },
         after: function(messages) {
-            this.isLoading = false
-            this.dom.loading.classList.add('display-none')
+            if (messages) {
+                this.isLoading = false
+                this.dom.loading.classList.add('display-none')
+            }
             if (messages && messages.length) {
                 // maintain the scoll position
                 var scrollBottom = 
@@ -383,7 +365,6 @@ this.actions = {
                 if (_numberOfRetryLoading ++ > 10) {
                     return
                 }
-                console.log('load again');
                 this.reachTop()
             }
             
@@ -392,7 +373,7 @@ this.actions = {
     addTimestamp: {
         method: function(finish, time, prepend) {
             var div = document.createElement('div')
-            div.innerHTML = `<div class='clearfix conversations__conv'>
+            div.innerHTML = `<div class='clearfix conversations__conv conversations__conv--ts'>
                                 <div class='timestamp'>
                                     ${time}
                                 </div>
@@ -589,7 +570,8 @@ this.on('click', function(e) {
         this.back()
     // if (e.target === this.dom.callout || e.target === this.dom['phone-mask'])
     //     this.togglePhoneModal()
-    if (e.target === this.dom.callout)
+    if (e.target === this.dom.callout || 
+        e.target.parentNode === this.dom.callout)
         this.callout()
 })
 this.on('keydown', function(e) {
@@ -740,6 +722,7 @@ $gray: #bdc3c7;
     &__bubble {
         @mixin padding-normal;
         position: relative;
+        max-width: 80%;
         word-break: break-word;
         border: 1px solid $gray;
         border-radius: 10px;

@@ -1233,10 +1233,16 @@ h1, h2, h3, h4, h5, h6 {
     border-color: #2ecc71;
     color: #fff;
 }
+.rc-button--positive:hover, .rc-button--positive:active, .rc-button--positive--active {
+    background-color: #2ecc71;
+}
 .rc-button--negative {
     background-color: #e74c3c;
     border-color: #e74c3c;
     color: #fff;
+}
+.rc-button--negative:hover, .rc-button--negative:active, .rc-button--negative--active {
+    background-color: #e74c3c;
 }
 .rc-input {
     padding: .5em .7em;
@@ -1804,83 +1810,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-toolbar__more-item:hover {
     color: #333;
-}
-.rc-timeline {
-    cursor: pointer;
-}
-.rc-timeline > .rc-panel__content {
-    overflow: auto;
-}
-.rc-timeline__list {
-    padding: .5em .7em;
-}
-.rc-timeline__mask {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-}
-.rc-timeline__loading {
-    padding: .9em 1.1em;
-    color: #878787;
-    text-align: center;
-}
-.rc-timeline-item {
-    padding: .5em .7em;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    margin-bottom: 5px;
-    overflow: hidden;
-    transition: background-color .5s ease-in-out;
-}
-.rc-timeline-item .timeline-extra {}
-.rc-timeline-item .timeline-extra__content {}
-.rc-timeline-item .timeline-extra:hover {
-    background-color: #eee;
-}
-.rc-timeline-item__line {
-    margin-bottom: 10px;
-}
-.rc-timeline-item__icon {}
-.rc-timeline-item__contact {
-    font-size: .9em;
-}
-.rc-timeline-item__time {
-    float: right;
-    font-size: .7em;
-    color: #878787;
-}
-.rc-timeline-item__subject {
-    font-size: .8em;
-}
-.rc-timeline-item__count {
-    padding: .5em .7em;
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: .8em;
-}
-.rc-timeline-item__count > .__number {
-    color: #878787;
-}
-.rc-timeline-item__count:hover > .__number {
-    color: #000;
-}
-.rc-timeline-item__content {
-    padding: .5em .7em;
-    position: relative;
-}
-.rc-timeline-item__collapse {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    height: 0;
-    overflow: hidden;
-    transition: height .5s ease-in-out;
-}
-.rc-timeline-item__collapse > .timeline-extra {
-    padding: .5em .7em;
-    font-size: .8em;
-}
-.rc-timeline-item:hover {
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);/*background-color: #eee;*/
 }
 
 

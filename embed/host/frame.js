@@ -84,6 +84,7 @@ var createIframe = function() {
                     `height=${options.height}&` +
                     `key=${options.key}&` +
                     `secret=${options.secret}&` +
+                    `sandbox=${options.sandbox != null}&` +
                     `origin=${window.location.origin}`
     iframe.setAttribute('name', 'rc-iframe')
     if (options.dynamic != null) {
@@ -99,6 +100,7 @@ var createIframe = function() {
         // iframe.style.background = '#1e89ed'
         // iframe.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
     }
+    
     target.appendChild(iframe)
     return iframe
 }
@@ -112,6 +114,7 @@ var getOptions = function(target) {
         fixed: target.getAttribute('fixed'),
         key: target.getAttribute('key'),
         secret: target.getAttribute('secret'),
+        sandbox: target.getAttribute('sandbox'),
     }
 }
 

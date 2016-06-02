@@ -219,11 +219,21 @@ h6 {
         background-color:   $rc-green;
         border-color:       $rc-green;
         color:              #fff;
+        &:hover,
+        &:active,
+        &--active {
+            background-color: $rc-green;
+        }
     }
     &--negative {
         background-color:   #e74c3c;
         border-color:       #e74c3c;
         color:              #fff;
+        &:hover,
+        &:active,
+        &--active {
+            background-color: #e74c3c;
+        }
     }
 
 }

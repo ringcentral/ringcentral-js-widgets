@@ -4,7 +4,7 @@
             <div
                 data-info='time-wrapper' 
                 class='text-right time-wrapper'>
-                <span data-info='time'></span>
+                <span data-info='time'>00:00</span>
             </div>
             <div>
                 <h1 data-info='name'>Number</h1>
@@ -203,7 +203,7 @@
             data-info='bar' 
             class='bar display-none'>
             <span data-info='bar-name' class='bar__name'>bar</span>
-            <span data-info='bar-time' class='bar__time'></span>
+            <span data-info='bar-time' class='bar__time'>00:00</span>
         </div>
         <video data-info='local' class='display-none'></video>
         <video data-info='remote' class='display-none'></video>
@@ -286,7 +286,7 @@ this.actions = {
     },
     unmount: {
         after: function() {
-            this.dom.time.textContent = '0:0'
+            this.dom.time.textContent = '00:00'
             this.props.duration = 0
             if (_interval) {
                 _interval()
@@ -336,6 +336,9 @@ this.actions = {
                 this.dom.park.removeChild(this.dom.park.firstChild)
             this.dom.park.appendChild(span1)
             this.dom.park.appendChild(span2)
+
+            // advanced panel
+            this.dom['advance-panel'].classList.add('display-none')
         }
     },
     getContact: {
@@ -600,11 +603,21 @@ this.actions = {
     
 }
 this.on('click', function(e) {
-    ['hangup', 'hold', 'mute', 'readyFlip', 'readyTransfer', 'record', 'keypad', 'park'].forEach(action => {
+    [
+        'hangup', 
+        'hold', 
+        'mute', 
+        'readyFlip', 
+        'readyTransfer', 
+        'record', 
+        'keypad', 
+        'park'
+    ].forEach(action => {
         if (e.target === this.dom[action] || e.target.parentNode === this.dom[action])
             this[action]()
     })
-    if (e.target === this.dom.bar)
+    if (e.target === this.dom.bar ||
+        e.target.parent === this.dom.bar)
         this.resume()
     if (e.target === this.dom.mask)
         this.hideKeypad()

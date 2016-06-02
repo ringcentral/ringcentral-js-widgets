@@ -42,7 +42,11 @@ w.register(function() {
                     this.dom.icon.classList.add('icon-uni2487')
                 else if (data.type === 'Voice') {
                     this.dom.icon.classList.add('icon-uniAE')
-                    if (data.subject && data.subject.type === 'Automatic') {
+                    if (data.subject && 
+                        (
+                            data.subject.type === 'Automatic' || 
+                            data.subject.type === 'OnDemand'
+                        )) {
                         data.subject = 'Call recording'
                     }
                 }

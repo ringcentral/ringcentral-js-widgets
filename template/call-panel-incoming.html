@@ -11,10 +11,22 @@
             <div class='action-panel text-center'>
                 <button 
                     data-info='accept'
-                    class='rc-button rc-button--positive rc-button--round action-panel__action'>Accept</button>
+                    class='
+                    rc-button 
+                    rc-button--positive 
+                    rc-button--round 
+                    action-panel__action'>
+                        <span class='icon-uniAE'></span>
+                    </button>
                 <button
                     data-info='ignore' 
-                    class='rc-button rc-button--negative rc-button--round action-panel__action'>Ignore</button>
+                    class='
+                    rc-button 
+                    rc-button--negative 
+                    rc-button--round 
+                    action-panel__action'>
+                        <span class='icon-uni44'></span>
+                    </button>
             </div>
         </div>
     </div>
@@ -61,9 +73,6 @@ this.actions = {
         }
     },
     ignore: {
-        method: function(finish) {
-            return finish()
-        },
         after: function() {
             this.unmount()
         }
@@ -86,9 +95,11 @@ this.actions = {
     }
 }
 this.on('click', function(e) {
-    if (e.target === this.dom.accept)
+    if (e.target === this.dom.accept ||
+        e.target.parentNode === this.dom.accept)
         this.accept()
-    if (e.target === this.dom.ignore)
+    if (e.target === this.dom.ignore ||
+        e.target.parentNode === this.dom.accept)
         this.ignore()
 })
 </script>

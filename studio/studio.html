@@ -77,7 +77,7 @@
     </div>
     <script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.0/dragula.js'></script>
     <script type="text/javascript" src="../build/widgets.js"></script>
-    <script type="text/javascript" src="../build/build.js"></script>
+    <script type="text/javascript" src="../build/lib.js"></script>
     <script type="text/javascript">
     (function() {
         var main = document.getElementById('main')
@@ -131,7 +131,7 @@
                                     .reduce((sum, panel) => sum + ',' + panel, '')
                                     .slice(1): ''
                 var URL = `<rc-phone first-level=${panels} width=${width} height=${height}></rc-phone>` +
-                        `<script async defer src='http://127.0.0.1/ringcentral-js-widget/embed/index.js'>\</script\>`
+                        `<script id='rc-widgets-script' async defer src='https://ringcentral.github.io/ringcentral-js-widget/build/host.js'>\</script\>`
                 urlInput.value = URL
             }
         }())

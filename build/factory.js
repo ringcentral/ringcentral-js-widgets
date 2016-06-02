@@ -173,7 +173,8 @@
 	            /// critical, inject app key & secret into service
 	            (0, _rcSdk.injectSDK)({
 	                key: this.props.key,
-	                secret: this.props.secret
+	                secret: this.props.secret,
+	                sandbox: this.props.sandbox
 	            });
 	        }
 	    },
@@ -384,6 +385,7 @@
 	    },
 	    reachTop: {
 	        method: function method() {
+	            console.log('load content');
 	            return _rcConversationService2.default.loadContent(this.props.contact, this.props.hourOffset);
 	        }
 	    },
@@ -570,11 +572,12 @@
 	var injectSDK = function injectSDK(_ref) {
 	    var key = _ref.key;
 	    var secret = _ref.secret;
+	    var sandbox = _ref.sandbox;
 	
 	    holder.sdk = new _ringcentralBundle2.default({
 	        appKey: key,
 	        appSecret: secret,
-	        server: _ringcentralBundle2.default.server.sandbox
+	        server: sandbox ? _ringcentralBundle2.default.server.sandbox : _ringcentralBundle2.default.server.production
 	    });
 	};
 	exports.injectSDK = injectSDK;
@@ -9290,9 +9293,6 @@
 	var queueIndex = -1;
 	
 	function cleanUpNextTick() {
-	    if (!draining || !currentQueue) {
-	        return;
-	    }
 	    draining = false;
 	    if (currentQueue.length) {
 	        queue = currentQueue.concat(queue);
@@ -12214,6 +12214,7 @@
 	
 	}));
 
+
 /***/ },
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
@@ -12284,7 +12285,7 @@
 		"_args": [
 			[
 				"sip.js@0.7.3",
-				"d:\\Apache24\\htdocs\\ringcentral\\ringcentral-js-widget\\node_modules\\ringcentral-web-phone"
+				"/Users/howard.zhang/Sites/ringcentral-js-widget/node_modules/ringcentral-web-phone"
 			]
 		],
 		"_from": "sip.js@0.7.3",
@@ -12314,7 +12315,7 @@
 		"_shasum": "fc2ee6227d23a37a91976966f952d82c3da317b5",
 		"_shrinkwrap": null,
 		"_spec": "sip.js@0.7.3",
-		"_where": "d:\\Apache24\\htdocs\\ringcentral\\ringcentral-js-widget\\node_modules\\ringcentral-web-phone",
+		"_where": "/Users/howard.zhang/Sites/ringcentral-js-widget/node_modules/ringcentral-web-phone",
 		"author": {
 			"email": "will@onsip.com",
 			"name": "Will Mitchell"
@@ -24513,7 +24514,6 @@
 	        cacheContacts: function () {
 	            var contact = null;
 	            var data = localStorage.getItem('rc-contacts');
-	            var fetch;
 	            return function () {
 	                if (contact) {
 	                    contact.then(function (value) {
@@ -24521,15 +24521,21 @@
 	                    });
 	                    return contact;
 	                }
-	                var fetch = new Promise(function (resolve, reject) {
-	                    // Hack for delay the refreshing request
-	                    setTimeout(function () {
-	                        rcContactService.completeCompanyContact().then(function (data) {
-	                            if (data) localStorage.setItem('rc-contacts', _lzString2.default.compressToUTF16(JSON.stringify(data)));
-	                            return resolve(data);
-	                        });
-	                    }, 100);
-	                });
+	                // For test
+	                if (window.location.href.indexOf('127.0.0.1') === -1) {
+	                    var fetch = new Promise(function (resolve, reject) {
+	                        // Hack for delay the refreshing request
+	                        setTimeout(function () {
+	                            rcContactService.completeCompanyContact().then(function (data) {
+	                                if (data) localStorage.setItem('rc-contacts', _lzString2.default.compressToUTF16(JSON.stringify(data)));
+	                                return resolve(data);
+	                            });
+	                        }, 100);
+	                    });
+	                } else {
+	                    var fetch;
+	                }
+	
 	                contact = data ? Promise.resolve(JSON.parse(_lzString2.default.decompressFromUTF16(data))) : fetch;
 	                return contact;
 	            };

@@ -137,6 +137,7 @@ w.register(function() {
                 this.props.width = this.data.width
                 this.props.key = this.data.key
                 this.props.secret = this.data.secret
+                this.props.sandbox = this.data.sandbox === 'true'
                 this.setSize(this.props.width, this.props.originalHeight)
                 this.dom['toolbar'].style.height = this.props.toolbarHeight + 'px'
                 this.dom['auth-panel'].style.width = this.props.width + 'px'
@@ -253,6 +254,12 @@ w.register(function() {
                                                 anchorContent: this.props.selectedContent,
                                                 remoteVideo: phone.props.callPanel.props.remoteVideo,
                                                 localVideo: phone.props.callPanel.props.localVideo,
+                                            }, {
+                                                callout: {
+                                                    after: function() {
+                                                        phone.props.callPanel.setName(this.props.toNumber)
+                                                    }
+                                                }
                                             })
                                             this.props.currentConv.mount('#conversation')
                                         }
@@ -319,6 +326,24 @@ w.register(function() {
                                     localVideo: phone.props.callPanel.props.localVideo,
                                 },
                                 actions: factory.create('dial-pad', {
+                                    mount: {
+                                        after: function() {
+                                            var isWebRTCSupported = false;
+                                            [
+                                                'RTCPeerConnection', 
+                                                'webkitRTCPeerConnection', 
+                                                'mozRTCPeerConnection', 
+                                                'RTCIceGatherer'
+                                            ].forEach(function(item) {
+                                                if (isWebRTCSupported) return
+                                                isWebRTCSupported = (item in window)
+                                            })
+
+                                            if (!isWebRTCSupported) {
+                                                this.disable('This browser does not support WebRTC.')
+                                            }
+                                        }
+                                    },
                                     callout: {
                                         after: function() {
                                             phone.props.callPanel.setName(this.props.toNumber)
@@ -356,6 +381,12 @@ w.register(function() {
                                                 this.simplify(false)
                                             }
                                             phone.resize(Math.max(200, phone.props.height))
+                                        }
+                                    },
+                                    unmount: {
+                                        after: function() {
+                                            if (phone.props.height !== phone.props.originalHeight)
+                                                phone.resize(phone.props.minimizedHeight)
                                         }
                                     },
                                     accept: {
@@ -439,11 +470,11 @@ w.register(function() {
                         this.props.conversation.destroy()
                         this.props.conversation = null
                     }
-                    if(this.props.contactDetail){
+                    if (this.props.contactDetail){
                         this.props.contactDetail.destroy();
                         this.props.contactDetail = null;
                     }
-                    if(this.props.callPanel && this.props.callPanel._mounted){
+                    if (this.props.callPanel && this.props.callPanel._mounted){
                         this.props.callPanel.minimize()
                     }
                     if (this.props.currentIndex === index)
@@ -495,6 +526,7 @@ w.register(function() {
                 this.dom['auth-panel'].style['z-index'] = '5'
                 this.props.toolbar.unmount()
                 this.props.panels.forEach(panel => panel.unmount())
+                this.props.currentIndex = 0
                 this.dom.container.style.transform = `translateX(0px)`;
             }
         }
@@ -515,7 +547,7 @@ w.register(function() {
         }
     })
 
-    function conv(contact, afterBack, options = {}) {
+    function conv(contact, afterBack, options = {}, actions = {}) {
         return w('conversation-advanced', {
             data: {
                 ...options,
@@ -523,13 +555,14 @@ w.register(function() {
                 contact: contact,
             },
             actions: factory.create('conversation-advanced', {
+                ...actions,
                 back: {
                     after: function() {
                         this.unmount()
                         if (afterBack && typeof afterBack === 'function')
                             afterBack()
                     }
-                }
+                },
             })
         })
     }
