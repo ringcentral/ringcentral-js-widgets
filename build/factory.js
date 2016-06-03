@@ -9290,6 +9290,9 @@
 	var queueIndex = -1;
 	
 	function cleanUpNextTick() {
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
 	    draining = false;
 	    if (currentQueue.length) {
 	        queue = currentQueue.concat(queue);
@@ -12211,7 +12214,6 @@
 	
 	}));
 
-
 /***/ },
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
@@ -12282,7 +12284,7 @@
 		"_args": [
 			[
 				"sip.js@0.7.3",
-				"/Users/howard.zhang/Sites/ringcentral-js-widget/node_modules/ringcentral-web-phone"
+				"d:\\Apache24\\htdocs\\ringcentral\\ringcentral-js-widget\\node_modules\\ringcentral-web-phone"
 			]
 		],
 		"_from": "sip.js@0.7.3",
@@ -12312,7 +12314,7 @@
 		"_shasum": "fc2ee6227d23a37a91976966f952d82c3da317b5",
 		"_shrinkwrap": null,
 		"_spec": "sip.js@0.7.3",
-		"_where": "/Users/howard.zhang/Sites/ringcentral-js-widget/node_modules/ringcentral-web-phone",
+		"_where": "d:\\Apache24\\htdocs\\ringcentral\\ringcentral-js-widget\\node_modules\\ringcentral-web-phone",
 		"author": {
 			"email": "will@onsip.com",
 			"name": "Will Mitchell"
