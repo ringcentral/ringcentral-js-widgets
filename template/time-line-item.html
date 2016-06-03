@@ -1,5 +1,5 @@
 <template>
-    <div class='rc-panel rc-timeline-item'>
+    <div class='rc-panel rc-timeline-item transition-in'>
         <div class='rc-timeline-item__content'>
         <div class='rc-timeline-item__line'>
             <span class='rc-timeline-item__icon' data-info='icon'></span>
@@ -18,7 +18,9 @@
     </div>
 </template>
 <script>
-var fade = w.transition('fade')
+function _pad(n) {
+    return (n < 100) ? ("0" + n) : n;
+}
 w.register(function() {
     this.actions= {
         init: {
@@ -30,12 +32,17 @@ w.register(function() {
                 this.props.subject = null
                 this.props.count = 0
                 this.fillData(this.data)
-                fade.init()
+                this.root.firstChild.style.opacity = 0
+                this.root.firstChild.style.transform = `translateY(20px)`
+                this.root.firstChild.style['transition-delay'] = `.${_pad(this.data.showingDelay || 0)}s`
             }
         },
         mount: {
             after: function() {
-                fade.in(this.root)
+                setTimeout(() => {
+                    this.root.firstChild.style.opacity = 1
+                    this.root.firstChild.style.transform = `translateY(0px)`
+                }, 17)
             }
         },
         fillData: {
@@ -163,3 +170,8 @@ w.register(function() {
 });
 //# sourceURL=time-line-item.html
 </script>
+<style scope>
+    .transition-in {
+        transition: opacity, transform .350s cubic-bezier(0.0, 0.0, 0.2, 1);
+    }
+</style>

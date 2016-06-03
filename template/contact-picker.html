@@ -1,7 +1,6 @@
 <div class='rc-contact-picker'>
     <input  class='rc-input rc-input--clean' 
             data-info='input' 
-            data-event='input:autoComplete'
             placeholder=''>
     </input>
     <div class='rc-contact-picker__contacts rc-list' data-info='contacts'>
@@ -10,8 +9,23 @@
 </div>
 <script>
 import Leopard from 'leopard.js'
+var timeout
+function _readyAC() {
+    if (this.props.show) {
+        this.autoComplete()
+        return
+    }
+    if (timeout) {
+        clearTimeout(timeout)
+        timeout = false
+    }
+    timeout = setTimeout(() => {
+        this.autoComplete()
+    }, 500)
+}
 w.register(function() {
-    var enlarge = w.transition('enlarge')
+    var enter = w.transition('enter')
+    var fade = w.transition('fade')
     this.props = {
         limit: 10,
         show: false,
@@ -19,7 +33,7 @@ w.register(function() {
         contacts: []
     }
     this.actions = {
-        init:{
+        init: {
             method: function(finish) {
                 this.data.whiteList && (this.props.whiteList = this.data.whiteList.slice())
                 document.addEventListener('click', e => {
@@ -40,8 +54,13 @@ w.register(function() {
                 finish();
             },
             after: function() {
-                enlarge.init(this.dom.contacts)
-                
+                enter.init(this.dom.contacts)
+                fade.init(this.dom.contacts)
+                this.dom.contacts.transition = 
+                `
+                transform .25s cubic-bezier(0.4, 0.0, 0.2, 1),
+                opacity .08s cubic-bezier(0.4, 0.0, 0.2, 1)
+                `
                 if (this.data.contact)
                     this.dom.input.value = this.data.contact
             }
@@ -52,7 +71,9 @@ w.register(function() {
                     // delay the hidden process, make options clickable, then hide the panel
                     setTimeout(() => {
                         this.props.show = false;
-                        enlarge.out(this.dom.contacts)
+                        console.log('out');
+                        enter.out(this.dom.contacts)
+                        fade.out(this.dom.contacts)
                     }, 50)
                 }
             }
@@ -61,7 +82,8 @@ w.register(function() {
             after: function() {
                 if (!this.props.show) {
                     this.props.show = true;
-                    enlarge.in(this.dom.contacts)
+                    enter.in(this.dom.contacts)
+                    fade.in(this.dom.contacts)
                 }
             }
         },
@@ -166,7 +188,7 @@ w.register(function() {
         if (this.dom.input.value === '')
             this.hide()
         else
-            this.autoComplete()
+            _readyAC.call(this)
     })
     this.on('keydown', 'input', function(e) {
         if (e.keyCode === 38) { // up

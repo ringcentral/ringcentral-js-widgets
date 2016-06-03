@@ -1194,6 +1194,10 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #fff;
 }
 
+.rc-panel__content--full {
+    height: 100%;
+}
+
 .rc-panel__footer {
     position: relative;
     background-color: #fff;/* height: $panel-footer-height; */
@@ -1783,7 +1787,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .fade {
     opacity: 1;
-    transition: opacity .6s ease;
+    transition: all .150s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 .fade-in, .fade-out {
     opacity: 0;
@@ -1804,6 +1808,14 @@ h1, h2, h3, h4, h5, h6 {
 .circle-in, .circle-out {
     border-radius: 50%;
     transform: scale(0.1, 0.1);
+}
+.enter {
+    transition: all .150s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transform-origin: top left;
+    transform: scale(1);
+}
+.enter-in, .enter-out {
+    transform: scale(0);
 }
 
 /**
