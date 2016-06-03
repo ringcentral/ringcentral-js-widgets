@@ -12,7 +12,7 @@
 
 .rc-phone > .phone-container {
     width: 3000px;
-    transition: transform .1s ease-out;
+    transition: transform .1s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 .rc-phone .panel {
     min-height: 1px;
@@ -31,6 +31,8 @@
     z-index: 5;
     top: 3px;
     left: 3px;
+    /* need some space to fit the icon font */
+    padding-right: 2px; 
     &__button {
         width: 12px;
         height: 12px;
@@ -380,7 +382,7 @@ w.register(function() {
                                             } else {
                                                 this.simplify(false)
                                             }
-                                            phone.resize(Math.max(200, phone.props.height))
+                                            phone.resize(Math.max(280, phone.props.height))
                                         }
                                     },
                                     unmount: {
@@ -404,7 +406,12 @@ w.register(function() {
                                         after: function() {
                                             phone.resize(phone.props.minimizedHeight)
                                         }
-                                    }
+                                    },
+                                    // message: {
+                                    //     after: function() {
+                                    //         this.unmount()
+                                    //     }
+                                    // }
                                 })
                             })
                             if (names.length > 1) {

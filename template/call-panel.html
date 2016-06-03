@@ -244,7 +244,8 @@ this.props = {
     isHold: false,
     isRecord: false,
     isPark: false,
-    actionNumber: ''
+    actionNumber: '',
+    dtmfNumber: ''
 }
 this.actions = {
     init: {
@@ -563,6 +564,12 @@ this.actions = {
             this.props.isPark = false
         }
     },
+    dtmf: {
+        method: function(finish, number) {
+            this.props.dtmfNumber = number
+            return finish()
+        }
+    },
     minimize: {
         after: function() {
             this.dom.bar.classList.remove('display-none')
@@ -603,7 +610,7 @@ this.actions = {
     
 }
 this.on('click', function(e) {
-    [
+    ;[
         'hangup', 
         'hold', 
         'mute', 
@@ -616,8 +623,15 @@ this.on('click', function(e) {
         if (e.target === this.dom[action] || e.target.parentNode === this.dom[action])
             this[action]()
     })
+    ;[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    .forEach(number => {
+        if (e.target === this.dom[`dial-button-${number}`] ||
+            e.target.parentNode === this.dom[`dial-button-${number}`]) {
+            this.dtmf(number)
+        }
+    })
     if (e.target === this.dom.bar ||
-        e.target.parent === this.dom.bar)
+        e.target.parentNode === this.dom.bar)
         this.resume()
     if (e.target === this.dom.mask)
         this.hideKeypad()
@@ -751,4 +765,31 @@ $dial-pad-call-button-color: #2ecc71;
     }
 }
 
+/* We need to use some element from dial pad */
+.rc-dial-pad {
+    &__line {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        & > .dial-button {
+            margin: 4px 8px;
+            width:  $dial-pad-button-radius;
+            height: $dial-pad-button-radius;
+            color:          $main-color;
+            border-color:   $main-color;
+
+            & > .dial-button__number {
+                font-weight: bold;
+            }
+            & > .dial-button__symbol {
+                font-size: $dial-pad-symbol-size;
+            }
+            &:hover {
+                background-color:   $main-color;
+                color:              #fff;
+            }
+        }
+    }
+}
 </style>

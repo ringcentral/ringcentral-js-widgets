@@ -168,7 +168,7 @@ this.actions = {
         method: function() {},
         after: function() {
             this.refs['dropdown'].getData()
-            // this.refs['contact-picker'].focus()
+            requestAnimationFrame(() => this.refs['contact-picker'].focus())
             if (!this.data.outboundID)
                 this.dom.dropdown.classList.add('display-none')
             this.listenToKeyboard(true)

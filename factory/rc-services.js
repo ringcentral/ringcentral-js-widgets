@@ -333,11 +333,6 @@ services['call-panel'] = {
             return phoneService.flip(this.props.actionNumber)
         },
     },
-    forward: {
-        method: function() {
-            return phoneService.forward(this.props.actionNumber)
-        },
-    },
     transfer: {
         method: function() {
             return phoneService.transfer(this.props.actionNumber)
@@ -353,6 +348,11 @@ services['call-panel'] = {
         method: function() {
             return phoneService.park()
         },
+    },
+    dtmf: {
+        method: function(number) {
+            return phoneService.dtmf(this.props.dtmfNumber)
+        }
     },
     queryContacts: {
         method: function() {
@@ -381,11 +381,29 @@ services['call-panel-incoming'] = {
     },
     accept: {
         method: function() {
-            phoneService.accept({
+            return phoneService.accept({
                 remoteVideo: this.props.remoteVideo,
                 localVideo: this.props.localVideo,
             })
         }
-    }
+    },
+    reject: {
+        method: function() {
+            return phoneService.reject()
+        }
+    },
+    forward: {
+        method: function() {
+            return phoneService.forward(this.props.actionNumber)
+        },
+    },
+    queryContacts: {
+        method: function() {
+            var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                return provider.search(this.props.inputValue)
+            })
+            return contactSearchService.query(dialPadSearchFunctions)
+        }
+    },
 }
 export default services

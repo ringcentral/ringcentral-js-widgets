@@ -3,11 +3,58 @@
         <h1 data-info='name'>Incoming call</h1>
     </div>
     <div class='rc-panel__content' data-info='panel'>
-        <div class='rc-call-panel__center' data-info='img-wrapper'>
-            <img class='rc-img' src=''>
+        <div class='control-panel' data-info='contral-panel'>
+            <div class='control-panel__line'>
+                <div class='control-panel__item'>
+                    <button 
+                        data-info='readyForward'
+                        class='rc-button 
+                            rc-button--circle 
+                            rc-button--ghost 
+                            rc-button--dense 
+                            rc-icon-switch 
+                            control-panel__button'>
+                        <span class="icon-uni28"></span>
+                        <span class="icon-uni35"></span>
+                    </button>
+                    <div class='text-center'>Forward</div>
+                </div>
+                <div class='control-panel__item'>
+                    <button 
+                        data-info='message'
+                        class='rc-button 
+                            rc-button--circle 
+                            rc-button--ghost 
+                            rc-button--dense 
+                            rc-icon-switch 
+                            control-panel__button'>
+                        <span class="icon-uni21"></span>
+                        <span class="icon-uni2D"></span>
+                    </button>
+                    <div class='text-center'>Message</div>
+                </div>
+                <div class='control-panel__item'>
+                    <button 
+                        data-info='ignore'
+                        class='rc-button 
+                            rc-button--circle 
+                            rc-button--ghost 
+                            rc-button--dense 
+                            rc-icon-switch 
+                            control-panel__button'>
+                        <span class="icon-uni24"></span>
+                        <span class="icon-Active_Call-33"></span>
+                    </button>
+                    <div class='text-center'>Ignore</div>
+                </div>
+            </div>
+        </div>
+        <div class='advance-panel display-none' data-info='advance-panel'>
+            <contact-picker data-info='contact-picker'></contact-picker>
         </div>
         <div class='rc-call-panel__footer'>
             <!-- <button class='rc-button rc-call-panel__reply'>Reply with Messages</button> -->
+
             <div class='action-panel text-center'>
                 <button 
                     data-info='accept'
@@ -19,7 +66,7 @@
                         <span class='icon-uniAE'></span>
                     </button>
                 <button
-                    data-info='ignore' 
+                    data-info='reject' 
                     class='
                     rc-button 
                     rc-button--negative 
@@ -34,6 +81,22 @@
 <script>
 var circle = w.transition('circle')
 var fade = w.transition('fade')
+var _setAdvancedAction = function(action) {
+    if (document.querySelector('#rc-advance-button'))
+        this.dom['advance-panel'].removeChild(document.querySelector('#rc-advance-button'))
+    var div = document.createElement('div')
+    div.innerHTML = 
+        `<button 
+            id='rc-advance-button'
+            class='rc-button rc-button--circle rc-button--positive advance-panel__button'>
+        </button>`
+
+    div.firstChild.addEventListener('click', e => {
+        var number = this.refs['contact-picker'].getInput()
+        this[action](number)
+    })
+    this.dom['advance-panel'].appendChild(div.firstChild)
+}
 this.props = {
     name: null,
     target: null,
@@ -42,7 +105,8 @@ this.props = {
     session: null,
     width: 250,
     height: 400,
-    simple: false
+    simple: false,
+    actionNumber: ''
 }
 this.actions = {
     init: {
@@ -58,12 +122,28 @@ this.actions = {
 
             this.root.firstChild.style.width = this.props.width + 'px'
             this.root.firstChild.style.height = this.props.height + 'px'
+            var parent = this
+            w.customize(this, 'contact-picker', {
+                actions: {
+                    autoComplete: {
+                        method: function() {
+                            parent.props.inputValue = this.props.inputValue
+                            return parent.queryContacts()
+                        }
+                    }
+                }
+            })
         }
     },
     mount: {
         after: function() {
             fade.init(this.root)
             fade.in(this.root)
+        }
+    },
+    unmount: {
+        after: function() {
+            this.dom['advance-panel'].classList.add('display-none')
         }
     },
     setName: {
@@ -77,8 +157,33 @@ this.actions = {
             this.unmount()
         }
     },
+    reject: {
+        method: function(finish) {
+            return finish()
+        },
+        after: function() {
+            this.unmount()
+        }
+    },
     accept: {
         method: function(finish) {
+            return finish()
+        }
+    },
+    // message: {
+    //     method: function(finish) {
+    //         return finish()
+    //     }
+    // },
+    readyForward: {
+        after: function() {
+            this.dom['advance-panel'].classList.remove('display-none')
+            _setAdvancedAction.call(this, 'forward')
+        }
+    },
+    forward: {
+        method: function(finish, number) {
+            this.props.actionNumber = number
             return finish()
         }
     },
@@ -86,20 +191,22 @@ this.actions = {
         before: function(bool) {
             if (bool) {
                 this.dom.panel.classList.add('rc-panel__content--min')
-                this.dom['img-wrapper'].classList.add('display-none')
             } else {
                 this.dom.panel.classList.remove('rc-panel__content--min')
-                this.dom['img-wrapper'].classList.remove('display-none')
             }
         }
-    }
+    },
+    queryContacts: {
+        method: function(finish) {
+            return finish()
+        }
+    },
 }
 this.on('click', function(e) {
-    if (e.target === this.dom.accept ||
-        e.target.parentNode === this.dom.accept)
-        this.accept()
-    if (e.target === this.dom.ignore ||
-        e.target.parentNode === this.dom.accept)
-        this.ignore()
+    ['accept', 'ignore', 'reject', 'message', 'readyForward'].forEach(action => {
+        if (e.target === this.dom[action] ||
+            e.target.parentNode === this.dom[action])
+            this[action]()
+    })
 })
 </script>

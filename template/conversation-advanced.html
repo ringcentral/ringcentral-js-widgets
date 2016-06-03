@@ -129,6 +129,7 @@ this.actions = {
         },
         after: function() {
             this.dom.input.value = this.data.message || ''
+            requestAnimationFrame(() => this.dom.input.focus())
             fade.init(this.root)
             fade.in(this.root)
         }

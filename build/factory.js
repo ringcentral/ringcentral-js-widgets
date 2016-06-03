@@ -480,11 +480,6 @@
 	            return _phoneService2.default.flip(this.props.actionNumber);
 	        }
 	    },
-	    forward: {
-	        method: function method() {
-	            return _phoneService2.default.forward(this.props.actionNumber);
-	        }
-	    },
 	    transfer: {
 	        method: function method() {
 	            return _phoneService2.default.transfer(this.props.actionNumber);
@@ -499,6 +494,11 @@
 	    park: {
 	        method: function method() {
 	            return _phoneService2.default.park();
+	        }
+	    },
+	    dtmf: {
+	        method: function method(number) {
+	            return _phoneService2.default.dtmf(this.props.dtmfNumber);
 	        }
 	    },
 	    queryContacts: {
@@ -532,10 +532,30 @@
 	    },
 	    accept: {
 	        method: function method() {
-	            _phoneService2.default.accept({
+	            return _phoneService2.default.accept({
 	                remoteVideo: this.props.remoteVideo,
 	                localVideo: this.props.localVideo
 	            });
+	        }
+	    },
+	    reject: {
+	        method: function method() {
+	            return _phoneService2.default.reject();
+	        }
+	    },
+	    forward: {
+	        method: function method() {
+	            return _phoneService2.default.forward(this.props.actionNumber);
+	        }
+	    },
+	    queryContacts: {
+	        method: function method() {
+	            var _this11 = this;
+	
+	            var dialPadSearchFunctions = dialPadSearchProviders.map(function (provider) {
+	                return provider.search(_this11.props.inputValue);
+	            });
+	            return _contactSearchService2.default.query(dialPadSearchFunctions);
 	        }
 	    }
 	};
@@ -11267,7 +11287,6 @@
 	                    transport: 'WSS'
 	                }]
 	            }).then(function (res) {
-	                console.log(res.json());
 	                return new _rcWebphone2.default(res.json(), { // optional
 	                    appKey: _rcConfig2.default.key,
 	                    logLevel: 1,
@@ -11307,7 +11326,8 @@
 	            listen(session);
 	        },
 	        accept: function accept(options) {
-	            return session.accept({
+	            console.log(session);
+	            if (session.accept && !session.startTime) return session.accept({
 	                media: {
 	                    render: {
 	                        remote: options.remoteVideo,
@@ -11315,6 +11335,10 @@
 	                    }
 	                }
 	            });
+	            return null;
+	        },
+	        reject: function reject() {
+	            return session.reject();
 	        },
 	        hangup: function hangup() {
 	            return session.bye();
@@ -11354,6 +11378,9 @@
 	            return session.park().then(function () {
 	                return session;
 	            });
+	        },
+	        dtmf: function dtmf(number) {
+	            return session.dtmf(number);
 	        },
 	        record: function record(flag) {
 	            if (flag) {
