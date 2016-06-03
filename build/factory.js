@@ -214,7 +214,7 @@
 	services['dial-pad'] = {
 	    mount: {
 	        after: function after() {
-	            if (!_accountService2.default.hasServiceFeature("VoipCalling")) this.disable();
+	            if (!_accountService2.default.hasServiceFeature('VoipCalling')) this.disable();
 	        }
 	    },
 	    callout: {
@@ -239,7 +239,7 @@
 	    getOutboundCallerID: {
 	        method: function method() {
 	            return _accountService2.default.getPhoneNumber().then(function () {
-	                return _accountService2.default.listNumber("VoiceFax", 'CallerId');
+	                return _accountService2.default.listNumber('VoiceFax', 'CallerId');
 	            });
 	        }
 	    }
@@ -24527,16 +24527,21 @@
 	                        // Hack for delay the refreshing request
 	                        setTimeout(function () {
 	                            rcContactService.completeCompanyContact().then(function (data) {
-	                                if (data) localStorage.setItem('rc-contacts', _lzString2.default.compressToUTF16(JSON.stringify(data)));
+	                                if (data) {
+	                                    completeCompanyContacts = companyContacts = data;
+	                                    localStorage.setItem('rc-contacts', _lzString2.default.compressToUTF16(JSON.stringify(data)));
+	                                }
 	                                return resolve(data);
 	                            });
 	                        }, 100);
 	                    });
 	                } else {
+	
 	                    var fetch;
 	                }
-	
-	                contact = data ? Promise.resolve(JSON.parse(_lzString2.default.decompressFromUTF16(data))) : fetch;
+	                var fetchedContact = JSON.parse(_lzString2.default.decompressFromUTF16(data));
+	                completeCompanyContacts = companyContacts = fetchedContact;
+	                contact = data ? Promise.resolve(fetchedContact) : fetch;
 	                return contact;
 	            };
 	        }()

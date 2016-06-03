@@ -30,16 +30,16 @@ services['rcPhone'] = {
     },
     loadData: {
         method: function() {
-            rcMessageService.subscribeToMessageUpdate();
+            rcMessageService.subscribeToMessageUpdate()
             // rcMessageService.syncMessages(this.props.cachedMessageHours);
-            accountService.getAccountInfo();
-            accountService.getPhoneNumber();
-            rcContactService.cacheContacts();
+            accountService.getAccountInfo()
+            accountService.getPhoneNumber()
+            rcContactService.cacheContacts()
             phoneService.init({
                 incomingAudio: config.incomingAudio,
                 outgoingAudio: config.outgoingAudio
-            });
-            callLogService.getCallLogs();
+            })
+            callLogService.getCallLogs()
         }
     },
     checkLogin: {
@@ -68,15 +68,15 @@ services['auth-panel'] = {
 services['dial-pad'] = {
     mount: {
         after: function() {
-            if (!accountService.hasServiceFeature("VoipCalling"))
-                this.disable();
+            if (!accountService.hasServiceFeature('VoipCalling'))
+                this.disable()
         }
     },
     callout: {
         method: function() {
-            console.log('real call');
+            console.log('real call')
             return phoneService.call(
-                this.props.fromNumber, 
+                this.props.fromNumber,
                 this.props.toNumber, {
                     remoteVideo: this.props.remoteVideo,
                     localVideo: this.props.localVideo
@@ -86,7 +86,7 @@ services['dial-pad'] = {
     queryContacts: {
         method: function() {
             var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                return provider.search(this.props.toNumber);
+                return provider.search(this.props.toNumber)
             })
             return contactSearchService.query(dialPadSearchFunctions)
         }
@@ -94,7 +94,7 @@ services['dial-pad'] = {
     getOutboundCallerID: {
         method: function() {
             return accountService.getPhoneNumber().then(() => {
-                return accountService.listNumber("VoiceFax", 'CallerId')
+                return accountService.listNumber('VoiceFax', 'CallerId')
             })
         }
     }
@@ -103,14 +103,14 @@ services['dial-pad'] = {
 services['conference'] = {
     getConferenceInfo: {
         method: function() {
-            return rcConferenceSerivce.getConferenceInfo();
+            return rcConferenceSerivce.getConferenceInfo()
         }
     }
 }
 services['call-log'] = {
     init: {
         method: function() {
-            return callLogService.getCallLogs();
+            return callLogService.getCallLogs()
         }
     }
 }
@@ -162,7 +162,7 @@ services['contacts'] = {
             }).then(relateContacts => {
                 this.props.relateContacts = relateContacts
                 return relateContacts
-            }).then(relateContacts => 
+            }).then(relateContacts =>
                 Object.keys(relateContacts).map(index => {
                     // adapt to messages template format
                     relateContacts[index].msg[0].contact = relateContacts[index].displayName
@@ -190,7 +190,7 @@ services['contacts'] = {
                         type: 'rc',
                         id: contact.id,
                     }
-                });
+                })
             }).catch(e => console.error(e))
         }
     }
@@ -200,7 +200,7 @@ services['conversation-advanced'] = {
     init: {
         after: function() {
             this.props.hourOffset = 3 * 24
-            
+
         }
     },
     mount: {
@@ -217,21 +217,20 @@ services['conversation-advanced'] = {
                     this.props.message,
                     this.props.fromExtension,
                     this.props.toExtension
-                );
-            }
-            else {
+                )
+            } else {
                 return rcMessageService.sendSMSMessage(
                     this.props.message,
                     this.props.fromNumber,
                     this.props.toNumber
-                );
+                )
             }
         }
     },
     callout: {
         method: function() {
             return phoneService.call(
-                this.props.fromNumber, 
+                this.props.fromNumber,
                 this.props.toNumber, {
                     remoteVideo: this.props.remoteVideo,
                     localVideo: this.props.localVideo
@@ -240,7 +239,7 @@ services['conversation-advanced'] = {
     },
     reachTop: {
         method: function() {
-            console.log('load content');
+            console.log('load content')
             return conversationService.loadContent(this.props.contact, this.props.hourOffset)
         }
     },
@@ -259,7 +258,7 @@ services['conversation-advanced'] = {
                     } else {
                         // Real contact, has avatar
                         return
-                            this.props.profileImage + `?access_token=${rcContactService.accessToken()}`
+                        this.props.profileImage + `?access_token=${rcContactService.accessToken()}`
                     }
                 })
                 .catch(e => {
@@ -296,14 +295,14 @@ services['call-panel'] = {
                 this.unmount()
             })
             phoneService.on('accepted', () => {
-                console.log('accept');
+                console.log('accept')
                 this.start()
             })
         }
     },
     mount: {
         after: function() {
-            
+
         }
     },
     getContact: {
@@ -346,7 +345,7 @@ services['call-panel'] = {
     },
     record: {
         method: function() {
-            console.log(this.props.isRecord);
+            console.log(this.props.isRecord)
             return phoneService.record(!this.props.isRecord)
         },
     },
@@ -358,7 +357,7 @@ services['call-panel'] = {
     queryContacts: {
         method: function() {
             var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                return provider.search(this.props.inputValue);
+                return provider.search(this.props.inputValue)
             })
             return contactSearchService.query(dialPadSearchFunctions)
         }

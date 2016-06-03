@@ -165,17 +165,21 @@ var rcContactService = function() {
                         setTimeout(() => {
                             rcContactService.completeCompanyContact()
                             .then(data => {
-                                if (data)
+                                if (data) {
+                                    completeCompanyContacts = companyContacts = data
                                     localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
+                                }
                                 return resolve(data)
                             })
                         }, 100)
                     })
                 } else {
+                    
                     var fetch
                 }
-                
-                contact = data ? Promise.resolve(JSON.parse(LZString.decompressFromUTF16(data))) : fetch
+                var fetchedContact = JSON.parse(LZString.decompressFromUTF16(data))
+                completeCompanyContacts = companyContacts = fetchedContact
+                contact = data ? Promise.resolve(fetchedContact) : fetch
                 return contact
             }
         }())
