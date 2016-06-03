@@ -24563,12 +24563,15 @@
 	                        }, 100);
 	                    });
 	                } else {
-	
 	                    var fetch;
 	                }
-	                var fetchedContact = JSON.parse(_lzString2.default.decompressFromUTF16(data));
-	                completeCompanyContacts = companyContacts = fetchedContact;
-	                contact = data ? Promise.resolve(fetchedContact) : fetch;
+	                if (data) {
+	                    var fetchedContact = JSON.parse(_lzString2.default.decompressFromUTF16(data));
+	                    completeCompanyContacts = companyContacts = fetchedContact;
+	                    contact = Promise.resolve(fetchedContact);
+	                } else {
+	                    contact = fetch;
+	                }
 	                return contact;
 	            };
 	        }()
