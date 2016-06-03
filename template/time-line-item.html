@@ -18,6 +18,7 @@
     </div>
 </template>
 <script>
+var fade = w.transition('fade')
 w.register(function() {
     this.actions= {
         init: {
@@ -29,6 +30,12 @@ w.register(function() {
                 this.props.subject = null
                 this.props.count = 0
                 this.fillData(this.data)
+                fade.init()
+            }
+        },
+        mount: {
+            after: function() {
+                fade.in(this.root)
             }
         },
         fillData: {
@@ -100,9 +107,6 @@ w.register(function() {
             after: function(data) {
                 setTimeout(() => this.root.style['background-color'] = '#fff', 1000)
             }
-        },
-        mount: {
-            after: function() {}
         },
         collapse: {
             after: function() {

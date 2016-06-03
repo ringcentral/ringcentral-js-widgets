@@ -89,7 +89,6 @@
     </div>
 </template>
 <script>
-var fade = w.transition('fade')
 this.data = {
     autoComplete: true,
     outboundID: true
@@ -172,7 +171,6 @@ this.actions = {
             if (!this.data.outboundID)
                 this.dom.dropdown.classList.add('display-none')
             this.listenToKeyboard(true)
-            // fade.in(this.root);
         }
     },
     unmount: {

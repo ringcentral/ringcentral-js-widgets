@@ -1766,51 +1766,6 @@ h1, h2, h3, h4, h5, h6 {
     color: #fff;
 }
 .rc-notification__icon {}
-.rc-toolbar {/* used as a positioned reference */
-    position: relative;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    z-index: 1;
-}
-.rc-toolbar__bar {/* used as a positioned reference */
-    position: relative;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    z-index: 1;
-    background-color: #fff;
-}
-.rc-toolbar__menu-button {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    position: relative;
-    z-index: 1;
-    border: 0;
-    border-left: 1px solid #bdc3c7;
-    border-right: 1px solid #bdc3c7;
-    border-bottom: 1px solid #bdc3c7;
-    height: calc(25px + 20px);
-    margin-bottom: -20px;
-}
-.rc-toolbar__panel {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    position: absolute;
-    width: 100%;
-    min-height: 100px;
-    background-color: #fff;
-}
-.rc-toolbar__item {}
-.rc-toolbar__more-item {
-    font-size: .6em;
-    margin: 5px;
-}
-.rc-toolbar__more-item > .rc-button {
-    font-size: 1.8em;
-    width: 45px;
-    height: 45px;
-}
-.rc-toolbar__more-item:hover {
-    color: #333;
-}
 
 
 

@@ -155,6 +155,7 @@ function generateActions(widgetAction, userAction = shallowCopy(functionSet)) {
         var error = e => {
             widgetAction.error && widgetAction.error.call(this, e)
             userAction.error && userAction.error.call(this, e)
+            throw e
         }
         
         return chainActions(before(a, b, c, d, e, f), [before, method, after], error)
