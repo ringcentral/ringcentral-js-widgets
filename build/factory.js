@@ -359,9 +359,12 @@
 	        after: function after() {
 	            var _this5 = this;
 	
+	            console.log('get account info');
 	            return _accountService2.default.getAccountInfo().then(function (info) {
 	                return _this5.props.fromExtension = info.extensionNumber;
-	            }).then(this.getOutboundCallerID);
+	            }).then(function () {
+	                _this5.setOutboundCallerID();
+	            });
 	        }
 	    },
 	    send: {
@@ -414,6 +417,13 @@
 	    transformURL: {
 	        method: function method() {
 	            return this.props.transformee + ('?access_token=' + _rcContactService2.default.accessToken());
+	        }
+	    },
+	    setOutboundCallerID: {
+	        method: function method() {
+	            return _accountService2.default.getPhoneNumber().then(function () {
+	                return _accountService2.default.listNumber('VoiceFax', 'CallerId');
+	            });
 	        }
 	    }
 	};

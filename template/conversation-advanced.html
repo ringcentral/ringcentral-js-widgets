@@ -95,7 +95,6 @@ this.actions = {
             this.data.remoteVideo && (this.props.remoteVideo = this.data.remoteVideo)
             this.data.localVideo && (this.props.localVideo = this.data.localVideo)
             
-            
             this.root.firstChild.style.width = this.props.width + 'px'
             this.root.firstChild.style.height = this.props.height + 'px'
 
@@ -132,6 +131,7 @@ this.actions = {
             this.setTitle(currentContact.displayName)
             this.props.profileImage = currentContact.profileImage
             this.getAvatar().then(url => this.dom['profile-img'].src = url)
+            // this.setOutboundCallerID()
         },
         after: function() {
             this.dom.input.value = this.data.message || ''
@@ -562,7 +562,7 @@ this.actions = {
             this.dom.container.scrollTop = this.dom.container.scrollHeight
         }
     },
-    getOutboundCallerID: {
+    setOutboundCallerID: {
         method: function(finish) {
             return finish();
         },

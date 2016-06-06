@@ -21,7 +21,7 @@ Release a minor version every 2 weeks.
 
 #### General
 
-1. Widgets studio
+1. Widgets studio (*worth to do?*)
    1. Have an Interface to combine different widgets (drag and drop)
 2. Embedded widget
    1. Can be placed at arbitary position
@@ -45,7 +45,7 @@ Release a minor version every 2 weeks.
 #### Messages list (Timeline)
 
 1. display recent messages or activities (7 days)
-2. have notification when receive new messages
+2. have notification when receiving new messages
 
 #### Conversation
 

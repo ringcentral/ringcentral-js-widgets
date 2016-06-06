@@ -203,9 +203,12 @@ services['conversation-advanced'] = {
     },
     mount: {
         after: function() {
+            console.log('get account info');
             return accountService.getAccountInfo()
                     .then(info => this.props.fromExtension = info.extensionNumber)
-                    .then(this.getOutboundCallerID)
+                    .then(() => {
+                        this.setOutboundCallerID()
+                    })
         }
     },
     send: {
@@ -271,6 +274,13 @@ services['conversation-advanced'] = {
             return this.props.transformee + `?access_token=${rcContactService.accessToken()}`
         }
     },
+    setOutboundCallerID: {
+        method: function() {
+            return accountService.getPhoneNumber().then(() => {
+                return accountService.listNumber('VoiceFax', 'CallerId')
+            })
+        }
+    }
 }
 services['call-panel'] = {
     init: {

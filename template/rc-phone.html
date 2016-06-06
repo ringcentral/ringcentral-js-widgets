@@ -239,20 +239,13 @@ w.register(function() {
                                     },
                                     enterItem: {
                                         after: function() {
-                                            // this.unmount()
                                             var contact = this.props.selectedContent.contact
-                                            var fromNumber = contact.msg[0].direction === 'Outbound'? 
-                                                            contact.msg[0].from: 
-                                                            contact.msg[0].to
-                                            var toNumber = contact.msg[0].direction === 'Outbound'? 
-                                                            contact.msg[0].to: 
-                                                            contact.msg[0].from
+                                            var toNumber = contact.phoneNumber[0]
                                             this.props.currentConv = conv(contact, () => {
                                                 this.props.currentConv.unmount()
                                             }, {
                                                 width: phone.props.width,
                                                 height: panelHeight,
-                                                fromNumber,
                                                 toNumber,
                                                 anchorContent: this.props.selectedContent,
                                                 remoteVideo: phone.props.callPanel.props.remoteVideo,
