@@ -199,8 +199,6 @@ services['contacts'] = {
 services['conversation-advanced'] = {
     init: {
         after: function() {
-            this.props.hourOffset = 3 * 24
-
         }
     },
     mount: {
@@ -240,7 +238,7 @@ services['conversation-advanced'] = {
     reachTop: {
         method: function() {
             console.log('load content')
-            return conversationService.loadContent(this.props.contact, this.props.hourOffset)
+            return conversationService.loadContent(this.props.contact, this.props.loadingPeriod)
         }
     },
     getAvatar: {

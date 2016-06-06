@@ -71,7 +71,10 @@ this.props = {
     height: 400,
     profileImage: null,
     remoteVideo: null,
-    localVideo: null
+    localVideo: null,
+    originalLoadingPeriod: 3 * 24,
+    loadingPeriod: 3 * 24,
+    limitOfRetry: 3
 }
 this.actions = {
     init: {
@@ -392,13 +395,15 @@ this.actions = {
                 this.dom.container.scrollTop = 
                     this.dom.conversations.offsetHeight - scrollBottom
                 _numberOfRetryLoading = 0
+                this.props.loadingPeriod = this.props.originalLoadingPeriod
             } else if (messages && !messages.length){
-                if (_numberOfRetryLoading ++ > 10) {
+                if (_numberOfRetryLoading ++ > this.props.limitOfRetry) {
                     return
                 }
+                this.props.loadingPeriod *= 10
+                console.log(this.props.loadingPeriod );
                 this.reachTop()
             }
-            
         }
     },
     addTimestamp: {
