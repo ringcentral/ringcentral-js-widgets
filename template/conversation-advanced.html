@@ -283,7 +283,10 @@ this.actions = {
                                 <div
                                     data-tooltip='${time}'
                                     class='conversations__bubble ${opponent? "conversations__bubble--opponent": "conversations__bubble--self"} --voice voice-bubble'>
-                                    <a href='${this.transformURL()}'>**File** Don't click me</a>
+
+                                    <a target="_blank" href='${this.transformURL()}'>
+                                        <span class='icon-uniCB'></span>
+                                    </a>
                                 </div>
                             </div>`
             return div.firstChild
@@ -297,14 +300,41 @@ this.actions = {
             div.innerHTML = `<div class='clearfix conversations__conv'>
                                 <div
                                     data-tooltip='${time}'
-                                    class='conversations__bubble ${opponent? "conversations__bubble--opponent": "conversations__bubble--self"} --voice voice-bubble'>
-                                    <span class='voice-bubble__play icon-uni7C'></span>
-                                    <span class='voice-bubble__duration' data-length=${content.vmDuration}></span>
+                                    class=' conversations__bubble 
+                                            ${opponent? 
+                                                "conversations__bubble--opponent": "conversations__bubble--self"} 
+                                            conversations__bubble--voice 
+                                            voice-bubble'>
+                                    <span class='voice-bubble__play icon-uniA5'></span>
                                 </div>
                             </div>`
-            div.firstChild.querySelector('.voice-bubble__duration').style.width = content.vmDuration + 'px'
-            div.firstChild.addEventListener('click', e => {
-                audio.play()
+            var bubble = div.firstChild.querySelector('.voice-bubble')
+            var ratio = content.vmDuration * 2 > 167? 
+                            content.vmDuration * 2 / 167: 
+                            1
+            var length = content.vmDuration * 2 / ratio
+            bubble.style.width = length + 'px'
+            bubble.addEventListener('click', e => {
+                var interval
+                var playing = false
+                if (playing)
+                    audio.pause()
+                else
+                    audio.play()
+                audio.addEventListener('pause', function(e) {
+                    playing = false
+                })
+                audio.addEventListener('playing', function(e) {
+                    playing = true
+                    interval = requestAnimationFrame(function frame() {
+                        if (!playing)
+                            return
+                        var pos = audio.currentTime * 2 / ratio
+                        bubble.style.background = 
+                        `linear-gradient( 90deg, #eee ${pos}px, white ${pos}px, white )`
+                        requestAnimationFrame(frame)
+                    })
+                })
             });
             return div.firstChild
         }
@@ -777,6 +807,9 @@ $gray: #bdc3c7;
     }
 }
 .voice-bubble {
+    min-width: 30px;
+    cursor: pointer;
+    transition: background .1s ease-in-out;
     &__play {}
     &__duration {
         height: 10px;

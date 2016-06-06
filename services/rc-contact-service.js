@@ -159,7 +159,7 @@ var rcContactService = function() {
                     return contact
                 }
                 // For test
-                if (window.location.href.indexOf('127.0.0.1') === -1) {
+                if (window.location.href.indexOf('127.0.0.11') === -1) {
                     var fetch = new Promise((resolve, reject) => {
                         // Hack for delay the refreshing request
                         setTimeout(() => {
