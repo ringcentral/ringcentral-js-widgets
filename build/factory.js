@@ -392,7 +392,7 @@
 	            var _this6 = this;
 	
 	            if (!this.props.profileImage) return Promise.resolve('http://www.gravatar.com/avatar/' + (0, _blueimpMd2.default)(this.props.contact.id) + '?d=retro');
-	            return _rcSdk.RC.sdk.platform().get(this.props.profileImage).then(function (r) {
+	            return _rcSdk.RC.sdk.platform().get(this.props.profileImage + ('?access_token=' + _rcContactService2.default.accessToken())).then(function (r) {
 	                return r.response();
 	            }).then(function (r) {
 	                // Real contact, no avatar

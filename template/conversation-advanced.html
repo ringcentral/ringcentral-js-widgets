@@ -312,17 +312,23 @@ this.actions = {
                                             conversations__bubble--voice 
                                             voice-bubble'>
                                     <span class='voice-bubble__play icon-uniA5'></span>
+                                    <span class='voice-bubble__duration'>${content.vmDuration} s</span>
                                 </div>
                             </div>`
             var bubble = div.firstChild.querySelector('.voice-bubble')
-            var ratio = content.vmDuration * 2 > 167? 
-                            content.vmDuration * 2 / 167: 
-                            1
+            var ratio = 1
+            if (content.vmDuration * 2 > 167) {
+                ratio = content.vmDuration * 2 / 167
+            } else if (content.vmDuration * 2 < 65) {
+                ratio = content.vmDuration * 2 / 65
+            } else {
+
+            }
             var length = content.vmDuration * 2 / ratio
+            var playing = false
             bubble.style.width = length + 'px'
             bubble.addEventListener('click', e => {
                 var interval
-                var playing = false
                 if (playing)
                     audio.pause()
                 else
@@ -822,15 +828,12 @@ $gray: #bdc3c7;
     }
 }
 .voice-bubble {
-    min-width: 30px;
+    min-width: 65px;
     cursor: pointer;
     transition: background .1s ease-in-out;
     &__play {}
     &__duration {
-        height: 10px;
-        max-width: 100%;
-        border: 1px solid#878787;
-        display: inline-block;
+        
     }
 }
 </style>

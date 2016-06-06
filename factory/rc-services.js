@@ -246,7 +246,7 @@ services['conversation-advanced'] = {
             if (!this.props.profileImage)
                 return Promise.resolve(`http://www.gravatar.com/avatar/${md5(this.props.contact.id)}?d=retro`)
             return RC.sdk.platform()
-                .get(this.props.profileImage)
+                .get(this.props.profileImage + `?access_token=${rcContactService.accessToken()}`)
                 .then(r => r.response())
                 .then(r => {
                     // Real contact, no avatar
