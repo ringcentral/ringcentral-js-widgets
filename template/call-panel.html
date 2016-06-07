@@ -408,7 +408,6 @@ this.actions = {
         },
         after: function(result) {
             result && (this.props.isHold = result.isOnHold().local)
-            console.log('now holding status:' + this.props.isHold);
             if (this.props.isHold) {
                 var span1 = document.createElement('span')
                 var span2 = document.createElement('span')
@@ -418,6 +417,10 @@ this.actions = {
                     this.dom.hold.removeChild(this.dom.hold.firstChild)
                 this.dom.hold.appendChild(span1)
                 this.dom.hold.appendChild(span2)
+
+                this.disablePark()
+                this.disableFlip()
+                this.disableRecord()
             } else {
                 var span1 = document.createElement('span')
                 var span2 = document.createElement('span')
@@ -427,11 +430,42 @@ this.actions = {
                     this.dom.hold.removeChild(this.dom.hold.firstChild)
                 this.dom.hold.appendChild(span1)
                 this.dom.hold.appendChild(span2)
+
+                this.enablePark()
+                this.enableFlip()
+                this.enableRecord()
             }
         },
         error: function(e) {
             console.error(e)
-            this.props.isHold = e.isOnHold().local
+            result && (this.props.isHold = result.isOnHold().local)
+            if (this.props.isHold) {
+                var span1 = document.createElement('span')
+                var span2 = document.createElement('span')
+                span1.classList.add('icon-uni37')
+                span2.classList.add('icon-uni3C')
+                while (this.dom.hold.firstChild)
+                    this.dom.hold.removeChild(this.dom.hold.firstChild)
+                this.dom.hold.appendChild(span1)
+                this.dom.hold.appendChild(span2)
+
+                this.disablePark()
+                this.disableFlip()
+                this.disableRecord()
+            } else {
+                var span1 = document.createElement('span')
+                var span2 = document.createElement('span')
+                span1.classList.add('icon-uni28')
+                span2.classList.add('icon-uni35')
+                while (this.dom.hold.firstChild)
+                    this.dom.hold.removeChild(this.dom.hold.firstChild)
+                this.dom.hold.appendChild(span1)
+                this.dom.hold.appendChild(span2)
+
+                this.enablePark()
+                this.enableFlip()
+                this.enableRecord()
+            }
         }
     },
     mute: {
@@ -461,7 +495,7 @@ this.actions = {
             this.dom['advance-panel'].classList.remove('display-none')
             _setAdvancedAction.call(this, 'flip')
             return finish()
-        }
+        },
     },
     flip: {
         method: function(finish, number) {
@@ -482,6 +516,34 @@ this.actions = {
             this.dom['advance-panel'].classList.remove('display-none')
             _setAdvancedAction.call(this, 'transfer')
             return finish()
+        }
+    },
+    disableFlip: {
+        after: function() {
+            var span1 = document.createElement('span')
+            var span2 = document.createElement('span')
+            span1.classList.add('control-panel__icon--disabled')
+            span2.classList.add('control-panel__icon--disabled')
+            span1.classList.add('icon-uni34')
+            span2.classList.add('icon-uni34')
+            while (this.dom.readyFlip.firstChild)
+                this.dom.readyFlip.removeChild(this.dom.readyFlip.firstChild)
+            this.dom.readyFlip.appendChild(span1)
+            this.dom.readyFlip.appendChild(span2)
+            this.dom.readyFlip.disabled = true
+        }
+    },
+    enableFlip: {
+        after: function() {
+            var span1 = document.createElement('span')
+            var span2 = document.createElement('span')
+            span1.classList.add('icon-uni27')
+            span2.classList.add('icon-uni34')
+            while (this.dom.readyFlip.firstChild)
+                this.dom.readyFlip.removeChild(this.dom.readyFlip.firstChild)
+            this.dom.readyFlip.appendChild(span1)
+            this.dom.readyFlip.appendChild(span2)
+            this.dom.readyFlip.disabled = false
         }
     },
     transfer: {
@@ -544,6 +606,34 @@ this.actions = {
             // this.props.isRecord = false
         }
     },
+    disableRecord: {
+        after: function() {
+            var span1 = document.createElement('span')
+            var span2 = document.createElement('span')
+            span1.classList.add('control-panel__icon--disabled')
+            span2.classList.add('control-panel__icon--disabled')
+            span1.classList.add('icon-uni30')
+            span2.classList.add('icon-uni30')
+            while (this.dom.record.firstChild)
+                this.dom.record.removeChild(this.dom.record.firstChild)
+            this.dom.record.appendChild(span1)
+            this.dom.record.appendChild(span2)
+            this.dom.record.disabled = true
+        }
+    },
+    enableRecord: {
+        after: function() {
+            var span1 = document.createElement('span')
+            var span2 = document.createElement('span')
+            span1.classList.add('icon-uni24')
+            span2.classList.add('icon-Active_Call-33')
+            while (this.dom.record.firstChild)
+                this.dom.record.removeChild(this.dom.record.firstChild)
+            this.dom.record.appendChild(span1)
+            this.dom.record.appendChild(span2)
+            this.dom.record.disabled = false
+        }
+    },
     park: {
         method: function(finish) {
             return finish()
@@ -562,6 +652,34 @@ this.actions = {
         error: function(e) {
             console.error(e)
             this.props.isPark = false
+        }
+    },
+    disablePark: {
+        after: function() {
+            var span1 = document.createElement('span')
+            var span2 = document.createElement('span')
+            span1.classList.add('control-panel__icon--disabled')
+            span2.classList.add('control-panel__icon--disabled')
+            span1.classList.add('icon-uni2E')
+            span2.classList.add('icon-uni2E')
+            while (this.dom.park.firstChild)
+                this.dom.park.removeChild(this.dom.park.firstChild)
+            this.dom.park.appendChild(span1)
+            this.dom.park.appendChild(span2)
+            this.dom.park.disabled = true
+        }
+    },
+    enablePark: {
+        after: function() {
+            var span1 = document.createElement('span')
+            var span2 = document.createElement('span')
+            span1.classList.add('icon-uni22')
+            span2.classList.add('icon-uni2E')
+            while (this.dom.record.firstChild)
+                this.dom.record.removeChild(this.dom.record.firstChild)
+            this.dom.record.appendChild(span1)
+            this.dom.record.appendChild(span2)
+            this.dom.record.disabled = false
         }
     },
     dtmf: {
@@ -620,8 +738,19 @@ this.on('click', function(e) {
         'keypad', 
         'park'
     ].forEach(action => {
-        if (e.target === this.dom[action] || e.target.parentNode === this.dom[action])
+        if (e.target === this.dom[action] || e.target.parentNode === this.dom[action]) {
+            if (
+                this.props.isHold && (
+                action === 'record' ||
+                action === 'park' ||
+                action === 'readyFlip')
+                ) {
+                return
+            }
+            console.log(this.props.isHold);
+            console.log(action);
             this[action]()
+        }
     })
     ;[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
     .forEach(number => {
@@ -681,7 +810,7 @@ $dial-pad-call-button-color: #2ecc71;
             &:first-child {
                 margin-right: 10px;
             }
-            > [class^="icon-"] {
+            > [class*="icon-"] {
                 font-size: $call-panel-icon-size-sm;
             }
         }
@@ -702,8 +831,13 @@ $dial-pad-call-button-color: #2ecc71;
         }
         &__button {
             margin-bottom: 3px;
-            > [class^="icon-"] {
+            > [class*="icon-"] {
                 font-size: $call-panel-icon-size;
+            }
+        }
+        &__icon {
+            &--disabled {
+                color: #ddd;
             }
         }
     }
