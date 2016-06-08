@@ -224,7 +224,11 @@ var _setAdvancedAction = function(action) {
         </button>`
 
     div.firstChild.addEventListener('click', e => {
-        var number = this.refs['contact-picker'].getInput()
+        var number = action === 'flip'?
+            this.refs['dropdown'].getSelected():
+            this.refs['contact-picker'].getInput()
+                        
+        console.log(this.refs['dropdown'].getSelected());
         this[action](number)
     })
     this.dom['advance-panel'].appendChild(div.firstChild)
@@ -272,6 +276,9 @@ this.actions = {
                 }
             })
             w.customize(this, 'dropdown', {
+                data: {
+                    height: 35
+                },
                 actions: {
                     getData: {
                         method: function() {
@@ -508,6 +515,7 @@ this.actions = {
     readyFlip: {
         method: function(finish, number) {
             this.dom['advance-panel'].classList.remove('display-none')
+            this.dom['contact-picker'].classList.add('display-none')
             this.dom['dropdown'].classList.remove('display-none')
             _setAdvancedAction.call(this, 'flip')
             return finish()
@@ -530,6 +538,8 @@ this.actions = {
     readyTransfer: {
         method: function(finish, number) {
             this.dom['advance-panel'].classList.remove('display-none')
+            this.dom['contact-picker'].classList.remove('display-none')
+            this.dom['dropdown'].classList.add('display-none')
             _setAdvancedAction.call(this, 'transfer')
             return finish()
         }
