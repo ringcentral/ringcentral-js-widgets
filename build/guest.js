@@ -128,9 +128,6 @@
 	var queueIndex = -1;
 	
 	function cleanUpNextTick() {
-	    if (!draining || !currentQueue) {
-	        return;
-	    }
 	    draining = false;
 	    if (currentQueue.length) {
 	        queue = currentQueue.concat(queue);
@@ -248,6 +245,7 @@
 	var height = (0, _utils.getURLParameter)('height');
 	var key = (0, _utils.getURLParameter)('key');
 	var secret = (0, _utils.getURLParameter)('secret');
+	var sandbox = (0, _utils.getURLParameter)('sandbox');
 	
 	var phone = w('rc-phone', {
 	    data: {
@@ -255,7 +253,8 @@
 	        width: width,
 	        originalHeight: height,
 	        key: key,
-	        secret: secret
+	        secret: secret,
+	        sandbox: sandbox
 	    }
 	});
 	

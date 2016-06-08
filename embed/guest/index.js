@@ -6,7 +6,6 @@ const origin = getURLParameter('origin')
 const width = getURLParameter('width')
 const height = getURLParameter('height')
 
-
 document.body.style.overflow = 'hidden'
 
 window.addEventListener('message', function(e) {

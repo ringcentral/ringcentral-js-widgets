@@ -53,7 +53,6 @@ var PhoneService = function() {
                     }]
                 })
                 .then(res => {
-                    console.log(res.json());
                     return new WebPhone(res.json(), { // optional
                         appKey: config.key,
                         logLevel: 1,
@@ -91,14 +90,20 @@ var PhoneService = function() {
             listen(session)
         },
         accept: function(options) {
-            return session.accept({
-                media: {
-                    render: {
-                        remote: options.remoteVideo,
-                        local: options.localVideo
+            console.log(session)
+            if (session.accept && !session.startTime)
+                return session.accept({
+                    media: {
+                        render: {
+                            remote: options.remoteVideo,
+                            local: options.localVideo
+                        }
                     }
-                }
-            })
+                })
+            return null
+        },
+        reject: function() {
+            return session.reject()
         },
         hangup: function() {
             return session.bye()
@@ -142,6 +147,9 @@ var PhoneService = function() {
                 return session
             })
         },
+        dtmf: function(number) {
+            return session.dtmf(number)
+        },
         record: function(flag) {
             if (flag) {
                 return session.startRecord().then(() => {
@@ -152,7 +160,6 @@ var PhoneService = function() {
                     return session
                 })
             }
-            
         }
     }
 }()

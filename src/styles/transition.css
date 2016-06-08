@@ -8,7 +8,7 @@
 }
 .fade {
     opacity: 1;
-    transition: opacity .6s ease;
+    transition: all .150s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 .fade-in,
 .fade-out {
@@ -32,4 +32,13 @@
 .circle-out {
     border-radius: 50%;
     transform: scale(0.1, 0.1);
+}
+.enter {
+    transition: all .150s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transform-origin: top left;
+    transform: scale(1);
+}
+.enter-in,
+.enter-out {
+    transform: scale(0);
 }

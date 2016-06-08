@@ -4,6 +4,7 @@ const width = getURLParameter('width')
 const height = getURLParameter('height')
 const key = getURLParameter('key')
 const secret = getURLParameter('secret')
+const sandbox = getURLParameter('sandbox')
 
 var phone = w('rc-phone', {
     data: {
@@ -11,7 +12,8 @@ var phone = w('rc-phone', {
         width,
         originalHeight: height,
         key,
-        secret
+        secret,
+        sandbox
     }
 })
 

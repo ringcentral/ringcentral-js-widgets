@@ -13,6 +13,9 @@
 <script>
 w.register(function() {
     var slideDown = w.transition('slide-down')
+    this.props = {
+        itemCount: 0
+    }
     this.actions = {
         init: {
             method: function() {
@@ -50,7 +53,7 @@ w.register(function() {
                 // use innerHTML here, because content could be image or something else.
                 var div = document.createElement('div')
                 var item
-                if (this.itemCount > 3) {
+                if (this.itemCount >= 4) {
                     var template = `<div class='rc-toolbar__more-item text-center'>
                                         <button class='rc-button rc-button--circle'>
                                             ${icon}
@@ -71,6 +74,7 @@ w.register(function() {
                 }
                 this.adjustMenuButton()
                 ++ this.itemCount
+                this.props.itemCount = this.itemCount
                 return item
             }
         },
@@ -105,11 +109,71 @@ w.register(function() {
             after: function() {
                 slideDown.out(this.dom.menu)
             }
-        }
+        },
+        disableMenu: {
+            after: function() {
+                this.dom['menu-button'].classList.add('display-none')
+            }
+        },
     }
     this.on('click', 'menu-button', function(e) {
-        this.toggleMenu()
+        if (this.props.itemCount > 4)
+            this.toggleMenu()
     })
 })
 //# sourceURL=toolbar.html
 </script>
+<style>
+@import "src/styles/variables.css";
+@import "src/styles/mixins.css";
+$toolbar-height: 25px;
+$toolbar-more-button-raduis: 45px;
+.rc-toolbar {
+    @mixin block;
+    @mixin shadow-1;
+    z-index: 1;
+    height: 100%;
+    &__bar {
+        @mixin block;
+        @mixin shadow-1;
+        height: 100%;
+        z-index: 1;
+        background-color: #fff;
+    }
+    &__menu-button {
+        @mixin shadow-1;
+        position: relative;
+        z-index: 1;
+        border: 0;
+        border-left: 1px solid $gray;
+        border-right: 1px solid $gray;
+        border-bottom: 1px solid $gray;
+        height: calc($toolbar-height + 20px);
+        margin-bottom: -20px;
+    }
+    &__panel {
+        @mixin shadow-1;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        position: absolute;
+        width: 100%;
+        min-height: 100px;
+        background-color: #fff;
+    }
+    &__item {}
+    &__more-item {
+        font-size: .6em;
+        margin: 5px;
+        > .rc-button {
+            font-size: 1.8em;
+            width: $toolbar-more-button-raduis;
+            height: $toolbar-more-button-raduis;
+        }
+        &:hover {
+            color: #333;
+        }
+    }
+}
+
+</style>
