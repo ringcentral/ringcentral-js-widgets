@@ -140,7 +140,7 @@ w.register(function() {
                 this.props.width = this.data.width
                 this.props.key = this.data.key
                 this.props.secret = this.data.secret
-                this.props.sandbox = this.data.sandbox === 'true'
+                this.props.sandbox = (this.data.sandbox === 'true')
                 this.setSize(this.props.width, this.props.originalHeight)
                 this.dom['toolbar'].style.height = this.props.toolbarHeight + 'px'
                 this.dom['auth-panel'].style.width = this.props.width + 'px'

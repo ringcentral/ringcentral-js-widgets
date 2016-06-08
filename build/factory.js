@@ -169,7 +169,7 @@
 	var services = {};
 	services['rcPhone'] = {
 	    init: {
-	        before: function before() {
+	        after: function after() {
 	            /// critical, inject app key & secret into service
 	            (0, _rcSdk.injectSDK)({
 	                key: this.props.key,
@@ -517,6 +517,13 @@
 	                return provider.search(_this9.props.inputValue);
 	            });
 	            return _contactSearchService2.default.query(dialPadSearchFunctions);
+	        }
+	    },
+	    getOutboundCallerID: {
+	        method: function method() {
+	            return _accountService2.default.getPhoneNumber().then(function () {
+	                return _accountService2.default.listNumber('VoiceFax', 'CallerId');
+	            });
 	        }
 	    }
 	};

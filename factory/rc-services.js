@@ -19,7 +19,7 @@ var dialPadSearchProviders = [rcContactSearchProvider]
 var services = {}
 services['rcPhone'] = {
     init: {
-        before: function() {
+        after: function() {
             /// critical, inject app key & secret into service
             injectSDK({
                 key: this.props.key,
@@ -370,6 +370,13 @@ services['call-panel'] = {
             return contactSearchService.query(dialPadSearchFunctions)
         }
     },
+    getOutboundCallerID: {
+        method: function() {
+            return accountService.getPhoneNumber().then(() => {
+                return accountService.listNumber('VoiceFax', 'CallerId')
+            })
+        }
+    }
 }
 services['call-panel-incoming'] = {
     init: {
