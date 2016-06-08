@@ -183,6 +183,7 @@
             </div>
             <div class='advance-panel display-none' data-info='advance-panel'>
                 <contact-picker data-info='contact-picker'></contact-picker>
+                <dropdown class='display-none' data-info='dropdown'></dropdown>
             </div>
             <div class='rc-call-panel__footer'>
                 <div class='action-panel'>
@@ -223,7 +224,11 @@ var _setAdvancedAction = function(action) {
         </button>`
 
     div.firstChild.addEventListener('click', e => {
-        var number = this.refs['contact-picker'].getInput()
+        var number = action === 'flip'?
+            this.refs['dropdown'].getSelected():
+            this.refs['contact-picker'].getInput()
+                        
+        console.log(this.refs['dropdown'].getSelected());
         this[action](number)
     })
     this.dom['advance-panel'].appendChild(div.firstChild)
@@ -270,6 +275,23 @@ this.actions = {
                     }
                 }
             })
+            w.customize(this, 'dropdown', {
+                data: {
+                    height: 35
+                },
+                actions: {
+                    getData: {
+                        method: function() {
+                            return callPanel.getOutboundCallerID()
+                        }
+                    },
+                    switchTitle: {
+                        method: function(text) {
+                            callPanel.props.actionNumber = text
+                        }
+                    }
+                }
+            })
         }
     },
     mount: {
@@ -277,7 +299,7 @@ this.actions = {
             fade.init(this.root)
             fade.in(this.root)
             this.props.name && this.setName(this.props.name)
-            console.log('mount');
+            this.refs['dropdown'].getData()
             this.getContact().then(result => {
                 if (result && result[0]) {
                     this.setName(result[0].name)
@@ -493,6 +515,8 @@ this.actions = {
     readyFlip: {
         method: function(finish, number) {
             this.dom['advance-panel'].classList.remove('display-none')
+            this.dom['contact-picker'].classList.add('display-none')
+            this.dom['dropdown'].classList.remove('display-none')
             _setAdvancedAction.call(this, 'flip')
             return finish()
         },
@@ -514,6 +538,8 @@ this.actions = {
     readyTransfer: {
         method: function(finish, number) {
             this.dom['advance-panel'].classList.remove('display-none')
+            this.dom['contact-picker'].classList.remove('display-none')
+            this.dom['dropdown'].classList.add('display-none')
             _setAdvancedAction.call(this, 'transfer')
             return finish()
         }
@@ -725,6 +751,11 @@ this.actions = {
             return finish()
         }
     },
+    getOutboundCallerID: {
+        method: function(finish) {
+            return finish()
+        }
+    }
     
 }
 this.on('click', function(e) {

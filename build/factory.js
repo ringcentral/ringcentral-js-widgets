@@ -518,6 +518,13 @@
 	            });
 	            return _contactSearchService2.default.query(dialPadSearchFunctions);
 	        }
+	    },
+	    getOutboundCallerID: {
+	        method: function method() {
+	            return _accountService2.default.getPhoneNumber().then(function () {
+	                return _accountService2.default.listNumber('VoiceFax', 'CallerId');
+	            });
+	        }
 	    }
 	};
 	services['call-panel-incoming'] = {
@@ -11246,43 +11253,36 @@
 	    };
 	    function listen(session) {
 	        session.on('accepted', function () {
-	            console.log('accepted');
 	            handlers['accepted'].forEach(function (handler) {
 	                return handler(session);
 	            });
 	        });
 	        session.on('progress', function () {
-	            console.log('progress');
 	            handlers['progress'].forEach(function (handler) {
 	                return handler(session);
 	            });
 	        });
 	        session.on('rejected', function () {
-	            console.log('rejected');
 	            handlers['rejected'].forEach(function (handler) {
 	                return handler(session);
 	            });
 	        });
 	        session.on('terminated', function () {
-	            console.log('terminated');
 	            handlers['terminated'].forEach(function (handler) {
 	                return handler(session);
 	            });
 	        });
 	        session.on('failed', function () {
-	            console.log('failed');
 	            handlers['failed'].forEach(function (handler) {
 	                return handler(session);
 	            });
 	        });
 	        session.on('bye', function () {
-	            console.log('bye');
 	            handlers['bye'].forEach(function (handler) {
 	                return handler(session);
 	            });
 	        });
 	        session.on('refer', function () {
-	            console.log('refer');
 	            handlers['refer'].forEach(function (handler) {
 	                return handler(session);
 	            });
@@ -11352,7 +11352,6 @@
 	            return session.bye();
 	        },
 	        hold: function hold(flag) {
-	            console.log('real hold:' + flag);
 	            if (flag) {
 	                return session.hold().then(function () {
 	                    return session;
@@ -11363,7 +11362,6 @@
 	            });
 	        },
 	        mute: function mute(flag) {
-	            console.log('real mute:' + flag);
 	            if (flag) session.mute();else session.unmute();
 	            return session;
 	        },

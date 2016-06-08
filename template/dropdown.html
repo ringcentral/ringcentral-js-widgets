@@ -19,6 +19,9 @@ w.register(function() {
                 if (this.data.defaultValue)
                     this.switchTitle(this.data.defaultValue)
                 enlarge.init(this.dom['list'])
+                if (this.data.height) {
+                    this.dom.dropdown.style.height = `${this.data.height}px`
+                }
             }
         },
         mount: {

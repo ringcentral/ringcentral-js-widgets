@@ -16,31 +16,24 @@ var PhoneService = function() {
     }
     function listen(session) {
         session.on('accepted', function() {
-            console.log('accepted');
             handlers['accepted'].forEach(handler => handler(session))
         })
         session.on('progress', function() {
-            console.log('progress');
             handlers['progress'].forEach(handler => handler(session))
         })
         session.on('rejected', function() {
-            console.log('rejected');
             handlers['rejected'].forEach(handler => handler(session))
         })
         session.on('terminated', function() {
-            console.log('terminated');
             handlers['terminated'].forEach(handler => handler(session))
         })
         session.on('failed', function() {
-            console.log('failed');
             handlers['failed'].forEach(handler => handler(session))
         })
         session.on('bye', function() {
-            console.log('bye');
             handlers['bye'].forEach(handler => handler(session))
         })
         session.on('refer', function() {
-            console.log('refer');
             handlers['refer'].forEach(handler => handler(session))
         })
     }
@@ -109,7 +102,6 @@ var PhoneService = function() {
             return session.bye()
         },
         hold: function(flag) {
-            console.log('real hold:' + flag)
             if (flag) {
                 return session.hold().then(() => {
                     return session
@@ -120,7 +112,6 @@ var PhoneService = function() {
             })
         },
         mute: function(flag) {
-            console.log('real mute:' + flag)
             if (flag)
                 session.mute()
             else
