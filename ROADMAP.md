@@ -12,6 +12,7 @@ Release a minor version every 2 weeks.
 
 1. Users can forward call when receiving incoming call
 2. Users can send message back when receiving incoming call
+3. Provide user-friendly error messages for failed actions.
 
 #### Messages list
 
@@ -39,7 +40,7 @@ Release a minor version every 2 weeks.
    3. Park
 
 3. Address book
-   1. Use RC address book as one of the source of contacts list
+   1. Use RC address book as one of the source of contacts list (*Not yet*)
 
 
 #### Messages list (Timeline)
