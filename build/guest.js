@@ -246,7 +246,6 @@
 	var key = (0, _utils.getURLParameter)('key');
 	var secret = (0, _utils.getURLParameter)('secret');
 	var sandbox = (0, _utils.getURLParameter)('sandbox');
-	
 	var phone = w('rc-phone', {
 	    data: {
 	        firstLevel: firstLevel,

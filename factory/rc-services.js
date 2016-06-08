@@ -370,6 +370,13 @@ services['call-panel'] = {
             return contactSearchService.query(dialPadSearchFunctions)
         }
     },
+    getOutboundCallerID: {
+        method: function() {
+            return accountService.getPhoneNumber().then(() => {
+                return accountService.listNumber('VoiceFax', 'CallerId')
+            })
+        }
+    }
 }
 services['call-panel-incoming'] = {
     init: {
