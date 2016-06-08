@@ -195,8 +195,9 @@ w.register(function() {
                         })
                         panelHeight = this.props.height - this.props.toolbarHeight
                     } else if (names.length === 1) {
-
+                        this.props.minimizedHeight = this.props.minimizedHeight - this.props.toolbarHeight
                     }
+
                     names.forEach((name, index) => {
                         var widget
                         if (name === 'call-log') {
@@ -498,11 +499,16 @@ w.register(function() {
             after: function() {
                 this.checkLogin().then(loggedin => {
                     if (loggedin) {
-                        this.loadData();
-                        if (this.data.shadowRoot)
-                            this.props.toolbar.mount(phone.data.shadowRoot.querySelector('#toolbar'))
-                        else
-                            this.props.toolbar.mount('#toolbar')
+                        this.loadData()
+                        if (this.props.panels.length === 1) {
+                            this.props.panels[0].mount('#first-level-0')
+                            this.dom['toolbar'].parentNode.removeChild(this.dom['toolbar'])
+                        } else {
+                            if (this.data.shadowRoot)
+                                this.props.toolbar.mount(phone.data.shadowRoot.querySelector('#toolbar'))
+                            else
+                                this.props.toolbar.mount('#toolbar')
+                        }
                         this.dom['auth-panel'].style['z-index'] = '-1'
                     } else {
                         if (this.data.shadowRoot)

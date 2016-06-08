@@ -19,7 +19,7 @@ var dialPadSearchProviders = [rcContactSearchProvider]
 var services = {}
 services['rcPhone'] = {
     init: {
-        after: function() {
+        before: function() {
             /// critical, inject app key & secret into service
             injectSDK({
                 key: this.props.key,

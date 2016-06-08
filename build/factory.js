@@ -169,7 +169,7 @@
 	var services = {};
 	services['rcPhone'] = {
 	    init: {
-	        after: function after() {
+	        before: function before() {
 	            /// critical, inject app key & secret into service
 	            (0, _rcSdk.injectSDK)({
 	                key: this.props.key,
