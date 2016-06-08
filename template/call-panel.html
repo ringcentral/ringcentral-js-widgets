@@ -436,8 +436,8 @@ this.actions = {
                 this.enableRecord()
             }
         },
-        error: function(e) {
-            console.error(e)
+        error: function(result) {
+            console.error(result)
             result && (this.props.isHold = result.isOnHold().local)
             if (this.props.isHold) {
                 var span1 = document.createElement('span')
@@ -675,11 +675,11 @@ this.actions = {
             var span2 = document.createElement('span')
             span1.classList.add('icon-uni22')
             span2.classList.add('icon-uni2E')
-            while (this.dom.record.firstChild)
-                this.dom.record.removeChild(this.dom.record.firstChild)
-            this.dom.record.appendChild(span1)
-            this.dom.record.appendChild(span2)
-            this.dom.record.disabled = false
+            while (this.dom.park.firstChild)
+                this.dom.park.removeChild(this.dom.park.firstChild)
+            this.dom.park.appendChild(span1)
+            this.dom.park.appendChild(span2)
+            this.dom.park.disabled = false
         }
     },
     dtmf: {
