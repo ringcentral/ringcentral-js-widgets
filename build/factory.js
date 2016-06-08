@@ -173,7 +173,8 @@
 	            /// critical, inject app key & secret into service
 	            (0, _rcSdk.injectSDK)({
 	                key: this.props.key,
-	                secret: this.props.secret
+	                secret: this.props.secret,
+	                sandbox: this.props.sandbox
 	            });
 	        }
 	    },
@@ -213,7 +214,7 @@
 	services['dial-pad'] = {
 	    mount: {
 	        after: function after() {
-	            if (!_accountService2.default.hasServiceFeature("VoipCalling")) this.disable();
+	            if (!_accountService2.default.hasServiceFeature('VoipCalling')) this.disable();
 	        }
 	    },
 	    callout: {
@@ -238,7 +239,7 @@
 	    getOutboundCallerID: {
 	        method: function method() {
 	            return _accountService2.default.getPhoneNumber().then(function () {
-	                return _accountService2.default.listNumber("VoiceFax", 'CallerId');
+	                return _accountService2.default.listNumber('VoiceFax', 'CallerId');
 	            });
 	        }
 	    }
@@ -352,17 +353,18 @@
 	
 	services['conversation-advanced'] = {
 	    init: {
-	        after: function after() {
-	            this.props.hourOffset = 3 * 24;
-	        }
+	        after: function after() {}
 	    },
 	    mount: {
 	        after: function after() {
 	            var _this5 = this;
 	
+	            console.log('get account info');
 	            return _accountService2.default.getAccountInfo().then(function (info) {
 	                return _this5.props.fromExtension = info.extensionNumber;
-	            }).then(this.getOutboundCallerID);
+	            }).then(function () {
+	                _this5.setOutboundCallerID();
+	            });
 	        }
 	    },
 	    send: {
@@ -384,7 +386,8 @@
 	    },
 	    reachTop: {
 	        method: function method() {
-	            return _rcConversationService2.default.loadContent(this.props.contact, this.props.hourOffset);
+	            console.log('load content');
+	            return _rcConversationService2.default.loadContent(this.props.contact, this.props.loadingPeriod);
 	        }
 	    },
 	    getAvatar: {
@@ -392,7 +395,7 @@
 	            var _this6 = this;
 	
 	            if (!this.props.profileImage) return Promise.resolve('http://www.gravatar.com/avatar/' + (0, _blueimpMd2.default)(this.props.contact.id) + '?d=retro');
-	            return _rcSdk.RC.sdk.platform().get(this.props.profileImage).then(function (r) {
+	            return _rcSdk.RC.sdk.platform().get(this.props.profileImage + ('?access_token=' + _rcContactService2.default.accessToken())).then(function (r) {
 	                return r.response();
 	            }).then(function (r) {
 	                // Real contact, no avatar
@@ -414,6 +417,13 @@
 	    transformURL: {
 	        method: function method() {
 	            return this.props.transformee + ('?access_token=' + _rcContactService2.default.accessToken());
+	        }
+	    },
+	    setOutboundCallerID: {
+	        method: function method() {
+	            return _accountService2.default.getPhoneNumber().then(function () {
+	                return _accountService2.default.listNumber('VoiceFax', 'CallerId');
+	            });
 	        }
 	    }
 	};
@@ -478,11 +488,6 @@
 	            return _phoneService2.default.flip(this.props.actionNumber);
 	        }
 	    },
-	    forward: {
-	        method: function method() {
-	            return _phoneService2.default.forward(this.props.actionNumber);
-	        }
-	    },
 	    transfer: {
 	        method: function method() {
 	            return _phoneService2.default.transfer(this.props.actionNumber);
@@ -497,6 +502,11 @@
 	    park: {
 	        method: function method() {
 	            return _phoneService2.default.park();
+	        }
+	    },
+	    dtmf: {
+	        method: function method(number) {
+	            return _phoneService2.default.dtmf(this.props.dtmfNumber);
 	        }
 	    },
 	    queryContacts: {
@@ -530,10 +540,30 @@
 	    },
 	    accept: {
 	        method: function method() {
-	            _phoneService2.default.accept({
+	            return _phoneService2.default.accept({
 	                remoteVideo: this.props.remoteVideo,
 	                localVideo: this.props.localVideo
 	            });
+	        }
+	    },
+	    reject: {
+	        method: function method() {
+	            return _phoneService2.default.reject();
+	        }
+	    },
+	    forward: {
+	        method: function method() {
+	            return _phoneService2.default.forward(this.props.actionNumber);
+	        }
+	    },
+	    queryContacts: {
+	        method: function method() {
+	            var _this11 = this;
+	
+	            var dialPadSearchFunctions = dialPadSearchProviders.map(function (provider) {
+	                return provider.search(_this11.props.inputValue);
+	            });
+	            return _contactSearchService2.default.query(dialPadSearchFunctions);
 	        }
 	    }
 	};
@@ -570,11 +600,12 @@
 	var injectSDK = function injectSDK(_ref) {
 	    var key = _ref.key;
 	    var secret = _ref.secret;
+	    var sandbox = _ref.sandbox;
 	
 	    holder.sdk = new _ringcentralBundle2.default({
 	        appKey: key,
 	        appSecret: secret,
-	        server: _ringcentralBundle2.default.server.sandbox
+	        server: sandbox ? _ringcentralBundle2.default.server.sandbox : _ringcentralBundle2.default.server.production
 	    });
 	};
 	exports.injectSDK = injectSDK;
@@ -9290,9 +9321,6 @@
 	var queueIndex = -1;
 	
 	function cleanUpNextTick() {
-	    if (!draining || !currentQueue) {
-	        return;
-	    }
 	    draining = false;
 	    if (currentQueue.length) {
 	        queue = currentQueue.concat(queue);
@@ -11267,7 +11295,6 @@
 	                    transport: 'WSS'
 	                }]
 	            }).then(function (res) {
-	                console.log(res.json());
 	                return new _rcWebphone2.default(res.json(), { // optional
 	                    appKey: _rcConfig2.default.key,
 	                    logLevel: 1,
@@ -11307,7 +11334,8 @@
 	            listen(session);
 	        },
 	        accept: function accept(options) {
-	            return session.accept({
+	            console.log(session);
+	            if (session.accept && !session.startTime) return session.accept({
 	                media: {
 	                    render: {
 	                        remote: options.remoteVideo,
@@ -11315,6 +11343,10 @@
 	                    }
 	                }
 	            });
+	            return null;
+	        },
+	        reject: function reject() {
+	            return session.reject();
 	        },
 	        hangup: function hangup() {
 	            return session.bye();
@@ -11354,6 +11386,9 @@
 	            return session.park().then(function () {
 	                return session;
 	            });
+	        },
+	        dtmf: function dtmf(number) {
+	            return session.dtmf(number);
 	        },
 	        record: function record(flag) {
 	            if (flag) {
@@ -12214,6 +12249,7 @@
 	
 	}));
 
+
 /***/ },
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
@@ -12284,7 +12320,7 @@
 		"_args": [
 			[
 				"sip.js@0.7.3",
-				"d:\\Apache24\\htdocs\\ringcentral\\ringcentral-js-widget\\node_modules\\ringcentral-web-phone"
+				"/Users/howard.zhang/Sites/ringcentral-js-widget/node_modules/ringcentral-web-phone"
 			]
 		],
 		"_from": "sip.js@0.7.3",
@@ -12314,7 +12350,7 @@
 		"_shasum": "fc2ee6227d23a37a91976966f952d82c3da317b5",
 		"_shrinkwrap": null,
 		"_spec": "sip.js@0.7.3",
-		"_where": "d:\\Apache24\\htdocs\\ringcentral\\ringcentral-js-widget\\node_modules\\ringcentral-web-phone",
+		"_where": "/Users/howard.zhang/Sites/ringcentral-js-widget/node_modules/ringcentral-web-phone",
 		"author": {
 			"email": "will@onsip.com",
 			"name": "Will Mitchell"
@@ -24513,7 +24549,6 @@
 	        cacheContacts: function () {
 	            var contact = null;
 	            var data = localStorage.getItem('rc-contacts');
-	            var fetch;
 	            return function () {
 	                if (contact) {
 	                    contact.then(function (value) {
@@ -24521,16 +24556,30 @@
 	                    });
 	                    return contact;
 	                }
-	                var fetch = new Promise(function (resolve, reject) {
-	                    // Hack for delay the refreshing request
-	                    setTimeout(function () {
-	                        rcContactService.completeCompanyContact().then(function (data) {
-	                            if (data) localStorage.setItem('rc-contacts', _lzString2.default.compressToUTF16(JSON.stringify(data)));
-	                            return resolve(data);
-	                        });
-	                    }, 100);
-	                });
-	                contact = data ? Promise.resolve(JSON.parse(_lzString2.default.decompressFromUTF16(data))) : fetch;
+	                // For test
+	                if (window.location.href.indexOf('127.0.0.11') === -1) {
+	                    var fetch = new Promise(function (resolve, reject) {
+	                        // Hack for delay the refreshing request
+	                        setTimeout(function () {
+	                            rcContactService.completeCompanyContact().then(function (data) {
+	                                if (data) {
+	                                    completeCompanyContacts = companyContacts = data;
+	                                    localStorage.setItem('rc-contacts', _lzString2.default.compressToUTF16(JSON.stringify(data)));
+	                                }
+	                                return resolve(data);
+	                            });
+	                        }, 100);
+	                    });
+	                } else {
+	                    var fetch;
+	                }
+	                if (data) {
+	                    var fetchedContact = JSON.parse(_lzString2.default.decompressFromUTF16(data));
+	                    completeCompanyContacts = companyContacts = fetchedContact;
+	                    contact = Promise.resolve(fetchedContact);
+	                } else {
+	                    contact = fetch;
+	                }
 	                return contact;
 	            };
 	        }()
@@ -25119,8 +25168,6 @@
 	var rcContactSearchProvider = function () {
 	    return {
 	        search: function search(text) {
-	            console.log('search');
-	            console.log(text);
 	            var results = [];
 	            if (text) {
 	                text = text.toLowerCase();

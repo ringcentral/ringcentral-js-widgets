@@ -59,6 +59,9 @@
 </template>
 <script src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.3.0/js/md5.min.js'></script>
 <script>
+function _pad(n) {
+    return (n < 10) ? ("0" + n) : n;
+}
 var fade = w.transition('fade')
 var _numberOfRetryLoading = 0
 this.props = {
@@ -71,7 +74,10 @@ this.props = {
     height: 400,
     profileImage: null,
     remoteVideo: null,
-    localVideo: null
+    localVideo: null,
+    originalLoadingPeriod: 3 * 24,
+    loadingPeriod: 3 * 24,
+    limitOfRetry: 3
 }
 this.actions = {
     init: {
@@ -88,7 +94,6 @@ this.actions = {
             this.data.height && (this.props.height = this.data.height)
             this.data.remoteVideo && (this.props.remoteVideo = this.data.remoteVideo)
             this.data.localVideo && (this.props.localVideo = this.data.localVideo)
-            
             
             this.root.firstChild.style.width = this.props.width + 'px'
             this.root.firstChild.style.height = this.props.height + 'px'
@@ -117,51 +122,20 @@ this.actions = {
     mount: {
         method: function(finish) {
             var currentContact = this.props.contact = this.data.contact
-            // set default outbound caller id as first phone number
             this.props.toExtension = currentContact.extension
-            this.data.fromNumber && this.setSender(this.data.fromNumber)
-            this.setReceiver(this.data.toNumber || currentContact.phoneNumber[0])
-            this.setReceiverCandidates(currentContact.phoneNumber)
+            // this.data.fromNumber && this.setSender(this.data.fromNumber)
+            // this.setReceiver(this.data.toNumber || currentContact.phoneNumber[0])
+            // this.setReceiverCandidates(currentContact.phoneNumber)
             currentContact.msg && this.appendMessages(currentContact.msg)
             this.scrollToAnchor()
-                
             this.setTitle(currentContact.displayName)
-
-            // Fake contact
-            // if (!currentContact.profileImage) {
-            //     var hash = md5(currentContact.id)
-            //     this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
-            //     return
-            // }
             this.props.profileImage = currentContact.profileImage
             this.getAvatar().then(url => this.dom['profile-img'].src = url)
-
-                // currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
-
-            // FIXME: API call in here is a anti-pattern, should be in services
-            // sdk.platform()
-            // .get(currentContact.profileImage)
-            // .then(r => r.response())
-            // .then(r => {
-            //     // Real contact, no avatar
-            //     console.log(r)
-            //     if (r.status === 204 || r.status === 404) {
-            //         var hash = md5(currentContact.id)
-            //         this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
-            //     } else {
-            //         // Real contact, has avatar
-            //         this.dom['profile-img'].src = 
-            //             currentContact.profileImage + `?access_token=${sdk.platform().auth().accessToken()}`
-            //     }
-            // })
-            // .catch(e => {
-            //     // Real contact, no avatar
-            //     var hash = md5(currentContact.id)
-            //     this.dom['profile-img'].src = `http://www.gravatar.com/avatar/${hash}?d=retro`
-            // })
+            // this.setOutboundCallerID()
         },
         after: function() {
             this.dom.input.value = this.data.message || ''
+            requestAnimationFrame(() => this.dom.input.focus())
             fade.init(this.root)
             fade.in(this.root)
         }
@@ -208,7 +182,6 @@ this.actions = {
         after: function(id, type, content, direction, time, prepend) {
             var opponent = (direction === 'Inbound')
             var model = this.props.contact.msg && this.props.contact.msg.find(contact => contact.id === id)
-            console.log(type);
             var doc
             if (type === 'SMS' || type === 'Pager')
                 doc = this.createSMSTemplate(id, content, opponent, time)
@@ -255,7 +228,14 @@ this.actions = {
                     contact.to == fromNumber)
                 .filter(msg => msg.dom)
                 .map(msg => msg.dom)
-                .map(dom => dom.classList.add('conversations__conv--marked'))
+                .map(dom => {
+                    dom.classList.add('conversations__conv--marked')
+                    if (dom.previousSibling &&
+                        dom.previousSibling.classList &&
+                        dom.previousSibling.classList.contains('conversations__conv--ts')) {
+                        dom.previousSibling.classList.add('conversations__conv--marked')
+                    }
+                })
             });
             model.dom.addEventListener('mouseout', e => {
                 if (!this.props.fromNumbers)
@@ -274,7 +254,14 @@ this.actions = {
                 this.props.contact.msg
                 .filter(msg => msg.dom)
                 .map(msg => msg.dom)
-                .map(dom => dom.classList.remove('conversations__conv--marked'))
+                .map(dom => {
+                    dom.classList.remove('conversations__conv--marked')
+                    if (dom.previousSibling &&
+                        dom.previousSibling.classList &&
+                        dom.previousSibling.classList.contains('conversations__conv--marked')) {
+                        dom.previousSibling.classList.remove('conversations__conv--marked')
+                    }
+                })
             });
         }
     },
@@ -302,7 +289,10 @@ this.actions = {
                                 <div
                                     data-tooltip='${time}'
                                     class='conversations__bubble ${opponent? "conversations__bubble--opponent": "conversations__bubble--self"} --voice voice-bubble'>
-                                    <a href='${this.transformURL()}'>**File** Don't click me</a>
+
+                                    <a target="_blank" href='${this.transformURL()}'>
+                                        <span class='icon-uniCB'></span>
+                                    </a>
                                 </div>
                             </div>`
             return div.firstChild
@@ -316,14 +306,47 @@ this.actions = {
             div.innerHTML = `<div class='clearfix conversations__conv'>
                                 <div
                                     data-tooltip='${time}'
-                                    class='conversations__bubble ${opponent? "conversations__bubble--opponent": "conversations__bubble--self"} --voice voice-bubble'>
-                                    <span class='voice-bubble__play icon-uni7C'></span>
-                                    <span class='voice-bubble__duration' data-length=${content.vmDuration}></span>
+                                    class=' conversations__bubble 
+                                            ${opponent? 
+                                                "conversations__bubble--opponent": "conversations__bubble--self"} 
+                                            conversations__bubble--voice 
+                                            voice-bubble'>
+                                    <span class='voice-bubble__play icon-uniA5'></span>
+                                    <span class='voice-bubble__duration'>${content.vmDuration} s</span>
                                 </div>
                             </div>`
-            div.firstChild.querySelector('.voice-bubble__duration').style.width = content.vmDuration * 2 + 'px'
-            div.firstChild.addEventListener('click', e => {
-                audio.play()
+            var bubble = div.firstChild.querySelector('.voice-bubble')
+            var ratio = 1
+            if (content.vmDuration * 2 > 167) {
+                ratio = content.vmDuration * 2 / 167
+            } else if (content.vmDuration * 2 < 65) {
+                ratio = content.vmDuration * 2 / 65
+            } else {
+
+            }
+            var length = content.vmDuration * 2 / ratio
+            var playing = false
+            bubble.style.width = length + 'px'
+            bubble.addEventListener('click', e => {
+                var interval
+                if (playing)
+                    audio.pause()
+                else
+                    audio.play()
+                audio.addEventListener('pause', function(e) {
+                    playing = false
+                })
+                audio.addEventListener('playing', function(e) {
+                    playing = true
+                    interval = requestAnimationFrame(function frame() {
+                        if (!playing)
+                            return
+                        var pos = audio.currentTime * 2 / ratio
+                        bubble.style.background = 
+                        `linear-gradient( 90deg, #eee ${pos}px, white ${pos}px, white )`
+                        requestAnimationFrame(frame)
+                    })
+                })
             });
             return div.firstChild
         }
@@ -361,14 +384,16 @@ this.actions = {
         before: function() {},
         method: function(finish) {
             if (this.isLoading)
-                return null
+                return false
             this.isLoading = true
             this.dom.loading.classList.remove('display-none')
             return finish()
         },
         after: function(messages) {
-            this.isLoading = false
-            this.dom.loading.classList.add('display-none')
+            if (messages) {
+                this.isLoading = false
+                this.dom.loading.classList.add('display-none')
+            }
             if (messages && messages.length) {
                 // maintain the scoll position
                 var scrollBottom = 
@@ -379,20 +404,21 @@ this.actions = {
                 this.dom.container.scrollTop = 
                     this.dom.conversations.offsetHeight - scrollBottom
                 _numberOfRetryLoading = 0
+                this.props.loadingPeriod = this.props.originalLoadingPeriod
             } else if (messages && !messages.length){
-                if (_numberOfRetryLoading ++ > 10) {
+                if (_numberOfRetryLoading ++ > this.props.limitOfRetry) {
                     return
                 }
-                console.log('load again');
+                this.props.loadingPeriod *= 10
+                console.log(this.props.loadingPeriod );
                 this.reachTop()
             }
-            
         }
     },
     addTimestamp: {
         method: function(finish, time, prepend) {
             var div = document.createElement('div')
-            div.innerHTML = `<div class='clearfix conversations__conv'>
+            div.innerHTML = `<div class='clearfix conversations__conv conversations__conv--ts'>
                                 <div class='timestamp'>
                                     ${time}
                                 </div>
@@ -411,7 +437,12 @@ this.actions = {
             messages
                 .map(msg => {
                     var time = new Date(msg.time)
-                    msg.displayTime = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`
+                    msg.displayTime = 
+                    `
+                    ${_pad(time.getHours())}:
+                    ${_pad(time.getMinutes())}:
+                    ${_pad(time.getSeconds())}
+                    `.trim()
                     msg.status.sendConfirmed = true
                     msg.status.receiveConfirmed = true
                     return msg
@@ -531,7 +562,7 @@ this.actions = {
             this.dom.container.scrollTop = this.dom.container.scrollHeight
         }
     },
-    getOutboundCallerID: {
+    setOutboundCallerID: {
         method: function(finish) {
             return finish();
         },
@@ -589,7 +620,8 @@ this.on('click', function(e) {
         this.back()
     // if (e.target === this.dom.callout || e.target === this.dom['phone-mask'])
     //     this.togglePhoneModal()
-    if (e.target === this.dom.callout)
+    if (e.target === this.dom.callout || 
+        e.target.parentNode === this.dom.callout)
         this.callout()
 })
 this.on('keydown', function(e) {
@@ -740,7 +772,8 @@ $gray: #bdc3c7;
     &__bubble {
         @mixin padding-normal;
         position: relative;
-        word-break: break-word;
+        max-width: 77%;
+        word-break: break-all;
         border: 1px solid $gray;
         border-radius: 10px;
         margin-bottom: 5px;
@@ -758,20 +791,22 @@ $gray: #bdc3c7;
             }
         }
         &--log {
-            background-color: $conversation-bubble-log-color;
-            border-color: $conversation-bubble-log-color;
+            /*background-color: $conversation-bubble-log-color;*/
+            /*border-color: $conversation-bubble-log-color;*/
         }
         &--voice {
-            background-color: $conversation-bubble-voice-color;
-            border-color: $conversation-bubble-voice-color;
+            /*background-color: $conversation-bubble-voice-color;*/
+            /*border-color: $conversation-bubble-voice-color;*/
         }
         &:hover {
             &:after {
                 box-sizing: border-box;
+                width: 60px;
                 position: absolute;
                 z-index: 2;
                 content: attr(data-tooltip);
-                top: 0;
+                /* centering */
+                top: 3px; 
                 background-color: #000;
                 color: #fff;
                 font-size: .8em;
@@ -793,11 +828,12 @@ $gray: #bdc3c7;
     }
 }
 .voice-bubble {
+    min-width: 65px;
+    cursor: pointer;
+    transition: background .1s ease-in-out;
     &__play {}
     &__duration {
-        height: 10px;
-        border: 1px solid#878787;
-        display: inline-block;
+        
     }
 }
 </style>

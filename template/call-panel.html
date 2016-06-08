@@ -4,7 +4,7 @@
             <div
                 data-info='time-wrapper' 
                 class='text-right time-wrapper'>
-                <span data-info='time'></span>
+                <span data-info='time'>00:00</span>
             </div>
             <div>
                 <h1 data-info='name'>Number</h1>
@@ -203,7 +203,7 @@
             data-info='bar' 
             class='bar display-none'>
             <span data-info='bar-name' class='bar__name'>bar</span>
-            <span data-info='bar-time' class='bar__time'></span>
+            <span data-info='bar-time' class='bar__time'>00:00</span>
         </div>
         <video data-info='local' class='display-none' hidden='hidden' muted></video>
         <video data-info='remote' class='display-none' hidden='hidden'></video>
@@ -244,7 +244,8 @@ this.props = {
     isHold: false,
     isRecord: false,
     isPark: false,
-    actionNumber: ''
+    actionNumber: '',
+    dtmfNumber: ''
 }
 this.actions = {
     init: {
@@ -286,7 +287,7 @@ this.actions = {
     },
     unmount: {
         after: function() {
-            this.dom.time.textContent = '0:0'
+            this.dom.time.textContent = '00:00'
             this.props.duration = 0
             if (_interval) {
                 _interval()
@@ -336,6 +337,9 @@ this.actions = {
                 this.dom.park.removeChild(this.dom.park.firstChild)
             this.dom.park.appendChild(span1)
             this.dom.park.appendChild(span2)
+
+            // advanced panel
+            this.dom['advance-panel'].classList.add('display-none')
         }
     },
     getContact: {
@@ -404,7 +408,6 @@ this.actions = {
         },
         after: function(result) {
             result && (this.props.isHold = result.isOnHold().local)
-            console.log('now holding status:' + this.props.isHold);
             if (this.props.isHold) {
                 var span1 = document.createElement('span')
                 var span2 = document.createElement('span')
@@ -414,6 +417,10 @@ this.actions = {
                     this.dom.hold.removeChild(this.dom.hold.firstChild)
                 this.dom.hold.appendChild(span1)
                 this.dom.hold.appendChild(span2)
+
+                this.disablePark()
+                this.disableFlip()
+                this.disableRecord()
             } else {
                 var span1 = document.createElement('span')
                 var span2 = document.createElement('span')
@@ -423,11 +430,42 @@ this.actions = {
                     this.dom.hold.removeChild(this.dom.hold.firstChild)
                 this.dom.hold.appendChild(span1)
                 this.dom.hold.appendChild(span2)
+
+                this.enablePark()
+                this.enableFlip()
+                this.enableRecord()
             }
         },
-        error: function(e) {
-            console.error(e)
-            this.props.isHold = e.isOnHold().local
+        error: function(result) {
+            console.error(result)
+            result && (this.props.isHold = result.isOnHold().local)
+            if (this.props.isHold) {
+                var span1 = document.createElement('span')
+                var span2 = document.createElement('span')
+                span1.classList.add('icon-uni37')
+                span2.classList.add('icon-uni3C')
+                while (this.dom.hold.firstChild)
+                    this.dom.hold.removeChild(this.dom.hold.firstChild)
+                this.dom.hold.appendChild(span1)
+                this.dom.hold.appendChild(span2)
+
+                this.disablePark()
+                this.disableFlip()
+                this.disableRecord()
+            } else {
+                var span1 = document.createElement('span')
+                var span2 = document.createElement('span')
+                span1.classList.add('icon-uni28')
+                span2.classList.add('icon-uni35')
+                while (this.dom.hold.firstChild)
+                    this.dom.hold.removeChild(this.dom.hold.firstChild)
+                this.dom.hold.appendChild(span1)
+                this.dom.hold.appendChild(span2)
+
+                this.enablePark()
+                this.enableFlip()
+                this.enableRecord()
+            }
         }
     },
     mute: {
@@ -457,7 +495,7 @@ this.actions = {
             this.dom['advance-panel'].classList.remove('display-none')
             _setAdvancedAction.call(this, 'flip')
             return finish()
-        }
+        },
     },
     flip: {
         method: function(finish, number) {
@@ -478,6 +516,34 @@ this.actions = {
             this.dom['advance-panel'].classList.remove('display-none')
             _setAdvancedAction.call(this, 'transfer')
             return finish()
+        }
+    },
+    disableFlip: {
+        after: function() {
+            var span1 = document.createElement('span')
+            var span2 = document.createElement('span')
+            span1.classList.add('control-panel__icon--disabled')
+            span2.classList.add('control-panel__icon--disabled')
+            span1.classList.add('icon-uni34')
+            span2.classList.add('icon-uni34')
+            while (this.dom.readyFlip.firstChild)
+                this.dom.readyFlip.removeChild(this.dom.readyFlip.firstChild)
+            this.dom.readyFlip.appendChild(span1)
+            this.dom.readyFlip.appendChild(span2)
+            this.dom.readyFlip.disabled = true
+        }
+    },
+    enableFlip: {
+        after: function() {
+            var span1 = document.createElement('span')
+            var span2 = document.createElement('span')
+            span1.classList.add('icon-uni27')
+            span2.classList.add('icon-uni34')
+            while (this.dom.readyFlip.firstChild)
+                this.dom.readyFlip.removeChild(this.dom.readyFlip.firstChild)
+            this.dom.readyFlip.appendChild(span1)
+            this.dom.readyFlip.appendChild(span2)
+            this.dom.readyFlip.disabled = false
         }
     },
     transfer: {
@@ -540,6 +606,34 @@ this.actions = {
             // this.props.isRecord = false
         }
     },
+    disableRecord: {
+        after: function() {
+            var span1 = document.createElement('span')
+            var span2 = document.createElement('span')
+            span1.classList.add('control-panel__icon--disabled')
+            span2.classList.add('control-panel__icon--disabled')
+            span1.classList.add('icon-uni30')
+            span2.classList.add('icon-uni30')
+            while (this.dom.record.firstChild)
+                this.dom.record.removeChild(this.dom.record.firstChild)
+            this.dom.record.appendChild(span1)
+            this.dom.record.appendChild(span2)
+            this.dom.record.disabled = true
+        }
+    },
+    enableRecord: {
+        after: function() {
+            var span1 = document.createElement('span')
+            var span2 = document.createElement('span')
+            span1.classList.add('icon-uni24')
+            span2.classList.add('icon-Active_Call-33')
+            while (this.dom.record.firstChild)
+                this.dom.record.removeChild(this.dom.record.firstChild)
+            this.dom.record.appendChild(span1)
+            this.dom.record.appendChild(span2)
+            this.dom.record.disabled = false
+        }
+    },
     park: {
         method: function(finish) {
             return finish()
@@ -558,6 +652,40 @@ this.actions = {
         error: function(e) {
             console.error(e)
             this.props.isPark = false
+        }
+    },
+    disablePark: {
+        after: function() {
+            var span1 = document.createElement('span')
+            var span2 = document.createElement('span')
+            span1.classList.add('control-panel__icon--disabled')
+            span2.classList.add('control-panel__icon--disabled')
+            span1.classList.add('icon-uni2E')
+            span2.classList.add('icon-uni2E')
+            while (this.dom.park.firstChild)
+                this.dom.park.removeChild(this.dom.park.firstChild)
+            this.dom.park.appendChild(span1)
+            this.dom.park.appendChild(span2)
+            this.dom.park.disabled = true
+        }
+    },
+    enablePark: {
+        after: function() {
+            var span1 = document.createElement('span')
+            var span2 = document.createElement('span')
+            span1.classList.add('icon-uni22')
+            span2.classList.add('icon-uni2E')
+            while (this.dom.park.firstChild)
+                this.dom.park.removeChild(this.dom.park.firstChild)
+            this.dom.park.appendChild(span1)
+            this.dom.park.appendChild(span2)
+            this.dom.park.disabled = false
+        }
+    },
+    dtmf: {
+        method: function(finish, number) {
+            this.props.dtmfNumber = number
+            return finish()
         }
     },
     minimize: {
@@ -600,11 +728,39 @@ this.actions = {
     
 }
 this.on('click', function(e) {
-    ['hangup', 'hold', 'mute', 'readyFlip', 'readyTransfer', 'record', 'keypad', 'park'].forEach(action => {
-        if (e.target === this.dom[action] || e.target.parentNode === this.dom[action])
+    ;[
+        'hangup', 
+        'hold', 
+        'mute', 
+        'readyFlip', 
+        'readyTransfer', 
+        'record', 
+        'keypad', 
+        'park'
+    ].forEach(action => {
+        if (e.target === this.dom[action] || e.target.parentNode === this.dom[action]) {
+            if (
+                this.props.isHold && (
+                action === 'record' ||
+                action === 'park' ||
+                action === 'readyFlip')
+                ) {
+                return
+            }
+            console.log(this.props.isHold);
+            console.log(action);
             this[action]()
+        }
     })
-    if (e.target === this.dom.bar)
+    ;[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    .forEach(number => {
+        if (e.target === this.dom[`dial-button-${number}`] ||
+            e.target.parentNode === this.dom[`dial-button-${number}`]) {
+            this.dtmf(number)
+        }
+    })
+    if (e.target === this.dom.bar ||
+        e.target.parentNode === this.dom.bar)
         this.resume()
     if (e.target === this.dom.mask)
         this.hideKeypad()
@@ -654,7 +810,7 @@ $dial-pad-call-button-color: #2ecc71;
             &:first-child {
                 margin-right: 10px;
             }
-            > [class^="icon-"] {
+            > [class*="icon-"] {
                 font-size: $call-panel-icon-size-sm;
             }
         }
@@ -675,8 +831,13 @@ $dial-pad-call-button-color: #2ecc71;
         }
         &__button {
             margin-bottom: 3px;
-            > [class^="icon-"] {
+            > [class*="icon-"] {
                 font-size: $call-panel-icon-size;
+            }
+        }
+        &__icon {
+            &--disabled {
+                color: #ddd;
             }
         }
     }
@@ -738,4 +899,31 @@ $dial-pad-call-button-color: #2ecc71;
     }
 }
 
+/* We need to use some element from dial pad */
+.rc-dial-pad {
+    &__line {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+
+        & > .dial-button {
+            margin: 4px 8px;
+            width:  $dial-pad-button-radius;
+            height: $dial-pad-button-radius;
+            color:          $main-color;
+            border-color:   $main-color;
+
+            & > .dial-button__number {
+                font-weight: bold;
+            }
+            & > .dial-button__symbol {
+                font-size: $dial-pad-symbol-size;
+            }
+            &:hover {
+                background-color:   $main-color;
+                color:              #fff;
+            }
+        }
+    }
+}
 </style>

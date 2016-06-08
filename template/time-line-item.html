@@ -1,5 +1,5 @@
 <template>
-    <div class='rc-panel rc-timeline-item'>
+    <div class='rc-panel rc-timeline-item transition-in'>
         <div class='rc-timeline-item__content'>
         <div class='rc-timeline-item__line'>
             <span class='rc-timeline-item__icon' data-info='icon'></span>
@@ -18,6 +18,9 @@
     </div>
 </template>
 <script>
+function _pad(n) {
+    return (n < 100) ? ("0" + n) : n;
+}
 w.register(function() {
     this.actions= {
         init: {
@@ -29,6 +32,17 @@ w.register(function() {
                 this.props.subject = null
                 this.props.count = 0
                 this.fillData(this.data)
+                this.root.firstChild.style.opacity = 0
+                this.root.firstChild.style.transform = `translateY(20px)`
+                this.root.firstChild.style['transition-delay'] = `.${_pad(this.data.showingDelay || 0)}s`
+            }
+        },
+        mount: {
+            after: function() {
+                setTimeout(() => {
+                    this.root.firstChild.style.opacity = 1
+                    this.root.firstChild.style.transform = `translateY(0px)`
+                }, 17)
             }
         },
         fillData: {
@@ -42,7 +56,11 @@ w.register(function() {
                     this.dom.icon.classList.add('icon-uni2487')
                 else if (data.type === 'Voice') {
                     this.dom.icon.classList.add('icon-uniAE')
-                    if (data.subject && data.subject.type === 'Automatic') {
+                    if (data.subject && 
+                        (
+                            data.subject.type === 'Automatic' || 
+                            data.subject.type === 'OnDemand'
+                        )) {
                         data.subject = 'Call recording'
                     }
                 }
@@ -52,6 +70,7 @@ w.register(function() {
                     this.dom.icon.classList.add('icon-uniCB')
                     data.subject = 'Call recording'
                 } else if (data.type === 'Fax') {
+                    this.dom.icon.classList.add('icon-uniCB')
                     data.subject = 'Fax'
                 }
                 this.dom.subject.textContent = this.props.subject = data.subject
@@ -96,9 +115,6 @@ w.register(function() {
             after: function(data) {
                 setTimeout(() => this.root.style['background-color'] = '#fff', 1000)
             }
-        },
-        mount: {
-            after: function() {}
         },
         collapse: {
             after: function() {
@@ -155,3 +171,8 @@ w.register(function() {
 });
 //# sourceURL=time-line-item.html
 </script>
+<style scope>
+    .transition-in {
+        transition: opacity, transform .350s cubic-bezier(0.0, 0.0, 0.2, 1);
+    }
+</style>

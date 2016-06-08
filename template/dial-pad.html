@@ -84,12 +84,11 @@
             
         </div>
         <div class='rc-dial-pad__mask display-none' data-info='disabled-mask'>
-            <p>Your account doesn't not have Web Phone permission.</p>
+            <p data-info='disabled-mask-text'>Your account doesn't not have Web Phone permission.</p>
         </div>
     </div>
 </template>
 <script>
-var fade = w.transition('fade')
 this.data = {
     autoComplete: true,
     outboundID: true
@@ -168,11 +167,10 @@ this.actions = {
         method: function() {},
         after: function() {
             this.refs['dropdown'].getData()
-            this.refs['contact-picker'].focus()
+            requestAnimationFrame(() => this.refs['contact-picker'].focus())
             if (!this.data.outboundID)
                 this.dom.dropdown.classList.add('display-none')
             this.listenToKeyboard(true)
-            // fade.in(this.root);
         }
     },
     unmount: {
@@ -220,9 +218,12 @@ this.actions = {
         method: function(finish) {
             return finish()
         },
-        after: function() {
+        after: function(message) {
             this.dom['disabled-mask'].classList.remove('display-none')
             this.dom['container'].classList.add('blur')
+            if (message) {
+                this.dom['disabled-mask-text'].textContent = message
+            }
         }
     },
     getOutboundCallerID: {

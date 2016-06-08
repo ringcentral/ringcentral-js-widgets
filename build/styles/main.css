@@ -1194,6 +1194,10 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #fff;
 }
 
+.rc-panel__content--full {
+    height: 100%;
+}
+
 .rc-panel__footer {
     position: relative;
     background-color: #fff;/* height: $panel-footer-height; */
@@ -1233,10 +1237,16 @@ h1, h2, h3, h4, h5, h6 {
     border-color: #2ecc71;
     color: #fff;
 }
+.rc-button--positive:hover, .rc-button--positive:active, .rc-button--positive--active {
+    background-color: #2ecc71;
+}
 .rc-button--negative {
     background-color: #e74c3c;
     border-color: #e74c3c;
     color: #fff;
+}
+.rc-button--negative:hover, .rc-button--negative:active, .rc-button--negative--active {
+    background-color: #e74c3c;
 }
 .rc-input {
     padding: .5em .7em;
@@ -1760,128 +1770,6 @@ h1, h2, h3, h4, h5, h6 {
     color: #fff;
 }
 .rc-notification__icon {}
-.rc-toolbar {/* used as a positioned reference */
-    position: relative;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    z-index: 1;
-}
-.rc-toolbar__bar {/* used as a positioned reference */
-    position: relative;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    z-index: 1;
-    background-color: #fff;
-}
-.rc-toolbar__menu-button {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    position: relative;
-    z-index: 1;
-    border: 0;
-    border-left: 1px solid #bdc3c7;
-    border-right: 1px solid #bdc3c7;
-    border-bottom: 1px solid #bdc3c7;
-    height: calc(25px + 20px);
-    margin-bottom: -20px;
-}
-.rc-toolbar__panel {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    position: absolute;
-    width: 100%;
-    min-height: 100px;
-    background-color: #fff;
-}
-.rc-toolbar__item {}
-.rc-toolbar__more-item {
-    font-size: .6em;
-    margin: 5px;
-}
-.rc-toolbar__more-item > .rc-button {
-    font-size: 1.8em;
-    width: 45px;
-    height: 45px;
-}
-.rc-toolbar__more-item:hover {
-    color: #333;
-}
-.rc-timeline {
-    cursor: pointer;
-}
-.rc-timeline > .rc-panel__content {
-    overflow: auto;
-}
-.rc-timeline__list {
-    padding: .5em .7em;
-}
-.rc-timeline__mask {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-}
-.rc-timeline__loading {
-    padding: .9em 1.1em;
-    color: #878787;
-    text-align: center;
-}
-.rc-timeline-item {
-    padding: .5em .7em;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    margin-bottom: 5px;
-    overflow: hidden;
-    transition: background-color .5s ease-in-out;
-}
-.rc-timeline-item .timeline-extra {}
-.rc-timeline-item .timeline-extra__content {}
-.rc-timeline-item .timeline-extra:hover {
-    background-color: #eee;
-}
-.rc-timeline-item__line {
-    margin-bottom: 10px;
-}
-.rc-timeline-item__icon {}
-.rc-timeline-item__contact {
-    font-size: .9em;
-}
-.rc-timeline-item__time {
-    float: right;
-    font-size: .7em;
-    color: #878787;
-}
-.rc-timeline-item__subject {
-    font-size: .8em;
-}
-.rc-timeline-item__count {
-    padding: .5em .7em;
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: .8em;
-}
-.rc-timeline-item__count > .__number {
-    color: #878787;
-}
-.rc-timeline-item__count:hover > .__number {
-    color: #000;
-}
-.rc-timeline-item__content {
-    padding: .5em .7em;
-    position: relative;
-}
-.rc-timeline-item__collapse {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-    height: 0;
-    overflow: hidden;
-    transition: height .5s ease-in-out;
-}
-.rc-timeline-item__collapse > .timeline-extra {
-    padding: .5em .7em;
-    font-size: .8em;
-}
-.rc-timeline-item:hover {
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);/*background-color: #eee;*/
-}
 
 
 
@@ -1899,7 +1787,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .fade {
     opacity: 1;
-    transition: opacity .6s ease;
+    transition: all .150s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 .fade-in, .fade-out {
     opacity: 0;
@@ -1920,6 +1808,14 @@ h1, h2, h3, h4, h5, h6 {
 .circle-in, .circle-out {
     border-radius: 50%;
     transform: scale(0.1, 0.1);
+}
+.enter {
+    transition: all .150s cubic-bezier(0.4, 0.0, 0.2, 1);
+    transform-origin: top left;
+    transform: scale(1);
+}
+.enter-in, .enter-out {
+    transform: scale(0);
 }
 
 /**

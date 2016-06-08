@@ -151,7 +151,6 @@ var rcContactService = function() {
         cacheContacts: (function() {
             var contact = null
             var data = localStorage.getItem('rc-contacts')
-            var fetch
             return function() {
                 if (contact) {
                     contact.then(value => {
@@ -159,18 +158,31 @@ var rcContactService = function() {
                     })
                     return contact
                 }
-                var fetch = new Promise((resolve, reject) => {
-                    // Hack for delay the refreshing request
-                    setTimeout(() => {
-                        rcContactService.completeCompanyContact()
-                        .then(data => {
-                            if (data)
-                                localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
-                            return resolve(data)
-                        })
-                    }, 100)
-                })
-                contact = data ? Promise.resolve(JSON.parse(LZString.decompressFromUTF16(data))) : fetch
+                // For test
+                if (window.location.href.indexOf('127.0.0.11') === -1) {
+                    var fetch = new Promise((resolve, reject) => {
+                        // Hack for delay the refreshing request
+                        setTimeout(() => {
+                            rcContactService.completeCompanyContact()
+                            .then(data => {
+                                if (data) {
+                                    completeCompanyContacts = companyContacts = data
+                                    localStorage.setItem('rc-contacts', LZString.compressToUTF16(JSON.stringify(data)))
+                                }
+                                return resolve(data)
+                            })
+                        }, 100)
+                    })
+                } else {
+                    var fetch
+                }
+                if (data) {
+                    var fetchedContact = JSON.parse(LZString.decompressFromUTF16(data))
+                    completeCompanyContacts = companyContacts = fetchedContact
+                    contact = Promise.resolve(fetchedContact)
+                } else {
+                    contact = fetch
+                }
                 return contact
             }
         }())

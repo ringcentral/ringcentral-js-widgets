@@ -1,16 +1,6 @@
 <template>
     <div class='rc-panel rc-timeline'>
-        <div class='rc-panel__header rc-panel__header--flat'>
-            <div class='rc-contacts__searchBox'>
-                <input 
-                    class='__input' 
-                    type='text' 
-                    data-info='searchText' 
-                    data-event='input:search|focus:focusSearchBox|blur:blurSearchBox'
-                >
-            </div>
-        </div>
-        <div class='rc-panel__content' data-info='content'>
+        <div class='rc-panel__content rc-panel__content--full' data-info='content'>
             <div class='rc-timeline__loading' data-info='loading'>Loading ...</div>
             <div class='rc-timeline__list' data-info='timeline'>
                 <!-- timeline-item -->
@@ -47,7 +37,7 @@ w.register(function() {
                 if (!contents || !contents[0])
                     return
                 this.props.latestMessage = contents[0]
-                contents.forEach(content => this.addLine(content))
+                contents.forEach((content, index) => this.addLine(content, false, index * 30))
             }
         },
         updateTimeline: {
@@ -74,10 +64,13 @@ w.register(function() {
             }
         },
         addLine: {
-            after: function(content, prepend) {
+            after: function(content, prepend, showingDelay) {
                 var parent = this
                 var item = w('time-line-item', {
-                    data: content,
+                    data: {
+                        ...content,
+                        showingDelay
+                    },
                     actions: {
                         enter: {
                             after: function() {
@@ -120,3 +113,96 @@ w.register(function() {
 })
 //# sourceURL=time-line.html
 </script>
+<style>
+@import "src/styles/variables.css";
+@import "src/styles/mixins.css";
+$timeline-gray: #878787;
+.rc-timeline {
+    > .rc-panel__content {
+        overflow: auto;
+    }
+    &__list {
+        @mixin padding-normal;
+    }
+    &__mask {
+        position: absolute;
+        width:  100%;
+        height: 100%;
+        top: 0;
+    }
+    &__loading {
+        @mixin padding-large;
+        color: #878787;
+        text-align: center;
+    }
+}
+
+
+.rc-timeline-item {
+    @mixin padding-normal;
+    @mixin shadow-1;
+    margin-bottom:  5px;
+    overflow: hidden;
+    transition: background-color .5s ease-in-out;
+    cursor: pointer;
+    &__line {
+        margin-bottom: 10px;
+    }
+    &__icon {
+    }
+    &__contact {
+        font-size: .9em;
+    }
+    &__time {
+        float: right;
+        font-size: .7em;
+        color: $timeline-gray;
+    }
+    &__subject {
+        font-size: .8em;
+        overflow:       hidden;
+        text-overflow:  ellipsis;
+    }
+    &__count {
+        @mixin padding-normal;
+        position: absolute;
+        top:    0;
+        right:  0;
+        font-size: .8em;
+        > .__number {
+            color: $timeline-gray;
+        }
+        &:hover > .__number {
+            color: #000;
+        }
+    }
+    &__content {
+        @mixin padding-normal;
+        position: relative;
+    }
+    &__collapse {
+        @mixin shadow-1;
+        height: 0;
+        overflow: hidden;
+        transition: height .350s cubic-bezier(0.4, 0.0, 0.2, 1);;
+        > .timeline-extra {
+            @mixin padding-normal;
+            font-size: .8em;
+        }
+    }
+    &:hover {
+        @mixin shadow-2;
+        /*background-color: #eee;*/
+    }
+
+    .timeline-extra {
+        &__content {
+            
+        }
+        &:hover {
+            background-color: #eee;
+        }
+    }
+}
+
+</style>

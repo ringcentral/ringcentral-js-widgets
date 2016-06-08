@@ -8,11 +8,12 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     overflow: hidden;
     margin: 0 auto;
+    transition: height .150s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 
 .rc-phone > .phone-container {
     width: 3000px;
-    transition: transform .1s ease-out;
+    transition: transform .1s cubic-bezier(0.4, 0.0, 0.2, 1);
 }
 .rc-phone .panel {
     min-height: 1px;
@@ -24,13 +25,15 @@
 .rc-phone .auth-panel {
     position: absolute;
     /* overlap with container */
-    z-index: 1;
+    z-index: 5;
 }
 .window {
     position: absolute;
     z-index: 5;
     top: 3px;
     left: 3px;
+    /* need some space to fit the icon font */
+    padding-right: 2px; 
     &__button {
         width: 12px;
         height: 12px;
@@ -137,6 +140,7 @@ w.register(function() {
                 this.props.width = this.data.width
                 this.props.key = this.data.key
                 this.props.secret = this.data.secret
+                this.props.sandbox = this.data.sandbox === 'true'
                 this.setSize(this.props.width, this.props.originalHeight)
                 this.dom['toolbar'].style.height = this.props.toolbarHeight + 'px'
                 this.dom['auth-panel'].style.width = this.props.width + 'px'
@@ -235,24 +239,23 @@ w.register(function() {
                                     },
                                     enterItem: {
                                         after: function() {
-                                            // this.unmount()
                                             var contact = this.props.selectedContent.contact
-                                            var fromNumber = contact.msg[0].direction === 'Outbound'? 
-                                                            contact.msg[0].from: 
-                                                            contact.msg[0].to
-                                            var toNumber = contact.msg[0].direction === 'Outbound'? 
-                                                            contact.msg[0].to: 
-                                                            contact.msg[0].from
+                                            var toNumber = contact.phoneNumber[0]
                                             this.props.currentConv = conv(contact, () => {
                                                 this.props.currentConv.unmount()
                                             }, {
                                                 width: phone.props.width,
                                                 height: panelHeight,
-                                                fromNumber,
                                                 toNumber,
                                                 anchorContent: this.props.selectedContent,
                                                 remoteVideo: phone.props.callPanel.props.remoteVideo,
                                                 localVideo: phone.props.callPanel.props.localVideo,
+                                            }, {
+                                                callout: {
+                                                    after: function() {
+                                                        phone.props.callPanel.setName(this.props.toNumber)
+                                                    }
+                                                }
                                             })
                                             this.props.currentConv.mount('#conversation')
                                         }
@@ -319,6 +322,24 @@ w.register(function() {
                                     localVideo: phone.props.callPanel.props.localVideo,
                                 },
                                 actions: factory.create('dial-pad', {
+                                    mount: {
+                                        after: function() {
+                                            var isWebRTCSupported = false;
+                                            [
+                                                'RTCPeerConnection', 
+                                                'webkitRTCPeerConnection', 
+                                                'mozRTCPeerConnection', 
+                                                'RTCIceGatherer'
+                                            ].forEach(function(item) {
+                                                if (isWebRTCSupported) return
+                                                isWebRTCSupported = (item in window)
+                                            })
+
+                                            if (!isWebRTCSupported) {
+                                                this.disable('This browser does not support WebRTC.')
+                                            }
+                                        }
+                                    },
                                     callout: {
                                         after: function() {
                                             phone.props.callPanel.setName(this.props.toNumber)
@@ -355,7 +376,13 @@ w.register(function() {
                                             } else {
                                                 this.simplify(false)
                                             }
-                                            phone.resize(Math.max(200, phone.props.height))
+                                            phone.resize(Math.max(280, phone.props.height))
+                                        }
+                                    },
+                                    unmount: {
+                                        after: function() {
+                                            if (phone.props.height !== phone.props.originalHeight)
+                                                phone.resize(phone.props.minimizedHeight)
                                         }
                                     },
                                     accept: {
@@ -373,7 +400,12 @@ w.register(function() {
                                         after: function() {
                                             phone.resize(phone.props.minimizedHeight)
                                         }
-                                    }
+                                    },
+                                    // message: {
+                                    //     after: function() {
+                                    //         this.unmount()
+                                    //     }
+                                    // }
                                 })
                             })
                             if (names.length > 1) {
@@ -428,7 +460,6 @@ w.register(function() {
                             this.dom.container.appendChild(div)
                         }
                     })
-                    
                 }
             }
         },
@@ -439,11 +470,11 @@ w.register(function() {
                         this.props.conversation.destroy()
                         this.props.conversation = null
                     }
-                    if(this.props.contactDetail){
+                    if (this.props.contactDetail){
                         this.props.contactDetail.destroy();
                         this.props.contactDetail = null;
                     }
-                    if(this.props.callPanel && this.props.callPanel._mounted){
+                    if (this.props.callPanel && this.props.callPanel._mounted){
                         this.props.callPanel.minimize()
                     }
                     if (this.props.currentIndex === index)
@@ -495,6 +526,8 @@ w.register(function() {
                 this.dom['auth-panel'].style['z-index'] = '5'
                 this.props.toolbar.unmount()
                 this.props.panels.forEach(panel => panel.unmount())
+                this.props.currentIndex = 0
+                this.dom.container.style.transform = `translateX(0px)`;
             }
         }
     })
@@ -514,7 +547,7 @@ w.register(function() {
         }
     })
 
-    function conv(contact, afterBack, options = {}) {
+    function conv(contact, afterBack, options = {}, actions = {}) {
         return w('conversation-advanced', {
             data: {
                 ...options,
@@ -522,13 +555,14 @@ w.register(function() {
                 contact: contact,
             },
             actions: factory.create('conversation-advanced', {
+                ...actions,
                 back: {
                     after: function() {
                         this.unmount()
                         if (afterBack && typeof afterBack === 'function')
                             afterBack()
                     }
-                }
+                },
             })
         })
     }

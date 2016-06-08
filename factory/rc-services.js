@@ -23,22 +23,23 @@ services['rcPhone'] = {
             /// critical, inject app key & secret into service
             injectSDK({
                 key: this.props.key,
-                secret: this.props.secret
+                secret: this.props.secret,
+                sandbox: this.props.sandbox
             })
         }
     },
     loadData: {
         method: function() {
-            rcMessageService.subscribeToMessageUpdate();
+            rcMessageService.subscribeToMessageUpdate()
             // rcMessageService.syncMessages(this.props.cachedMessageHours);
-            accountService.getAccountInfo();
-            accountService.getPhoneNumber();
-            rcContactService.cacheContacts();
+            accountService.getAccountInfo()
+            accountService.getPhoneNumber()
+            rcContactService.cacheContacts()
             phoneService.init({
                 incomingAudio: config.incomingAudio,
                 outgoingAudio: config.outgoingAudio
-            });
-            callLogService.getCallLogs();
+            })
+            callLogService.getCallLogs()
         }
     },
     checkLogin: {
@@ -67,15 +68,15 @@ services['auth-panel'] = {
 services['dial-pad'] = {
     mount: {
         after: function() {
-            if (!accountService.hasServiceFeature("VoipCalling"))
-                this.disable();
+            if (!accountService.hasServiceFeature('VoipCalling'))
+                this.disable()
         }
     },
     callout: {
         method: function() {
-            console.log('real call');
+            console.log('real call')
             return phoneService.call(
-                this.props.fromNumber, 
+                this.props.fromNumber,
                 this.props.toNumber, {
                     remoteVideo: this.props.remoteVideo,
                     localVideo: this.props.localVideo
@@ -85,7 +86,7 @@ services['dial-pad'] = {
     queryContacts: {
         method: function() {
             var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                return provider.search(this.props.toNumber);
+                return provider.search(this.props.toNumber)
             })
             return contactSearchService.query(dialPadSearchFunctions)
         }
@@ -93,7 +94,7 @@ services['dial-pad'] = {
     getOutboundCallerID: {
         method: function() {
             return accountService.getPhoneNumber().then(() => {
-                return accountService.listNumber("VoiceFax", 'CallerId')
+                return accountService.listNumber('VoiceFax', 'CallerId')
             })
         }
     }
@@ -102,14 +103,14 @@ services['dial-pad'] = {
 services['conference'] = {
     getConferenceInfo: {
         method: function() {
-            return rcConferenceSerivce.getConferenceInfo();
+            return rcConferenceSerivce.getConferenceInfo()
         }
     }
 }
 services['call-log'] = {
     init: {
         method: function() {
-            return callLogService.getCallLogs();
+            return callLogService.getCallLogs()
         }
     }
 }
@@ -161,7 +162,7 @@ services['contacts'] = {
             }).then(relateContacts => {
                 this.props.relateContacts = relateContacts
                 return relateContacts
-            }).then(relateContacts => 
+            }).then(relateContacts =>
                 Object.keys(relateContacts).map(index => {
                     // adapt to messages template format
                     relateContacts[index].msg[0].contact = relateContacts[index].displayName
@@ -189,7 +190,7 @@ services['contacts'] = {
                         type: 'rc',
                         id: contact.id,
                     }
-                });
+                })
             }).catch(e => console.error(e))
         }
     }
@@ -198,15 +199,16 @@ services['contacts'] = {
 services['conversation-advanced'] = {
     init: {
         after: function() {
-            this.props.hourOffset = 3 * 24
-            
         }
     },
     mount: {
         after: function() {
+            console.log('get account info');
             return accountService.getAccountInfo()
                     .then(info => this.props.fromExtension = info.extensionNumber)
-                    .then(this.getOutboundCallerID)
+                    .then(() => {
+                        this.setOutboundCallerID()
+                    })
         }
     },
     send: {
@@ -216,21 +218,20 @@ services['conversation-advanced'] = {
                     this.props.message,
                     this.props.fromExtension,
                     this.props.toExtension
-                );
-            }
-            else {
+                )
+            } else {
                 return rcMessageService.sendSMSMessage(
                     this.props.message,
                     this.props.fromNumber,
                     this.props.toNumber
-                );
+                )
             }
         }
     },
     callout: {
         method: function() {
             return phoneService.call(
-                this.props.fromNumber, 
+                this.props.fromNumber,
                 this.props.toNumber, {
                     remoteVideo: this.props.remoteVideo,
                     localVideo: this.props.localVideo
@@ -239,7 +240,8 @@ services['conversation-advanced'] = {
     },
     reachTop: {
         method: function() {
-            return conversationService.loadContent(this.props.contact, this.props.hourOffset)
+            console.log('load content')
+            return conversationService.loadContent(this.props.contact, this.props.loadingPeriod)
         }
     },
     getAvatar: {
@@ -247,7 +249,7 @@ services['conversation-advanced'] = {
             if (!this.props.profileImage)
                 return Promise.resolve(`http://www.gravatar.com/avatar/${md5(this.props.contact.id)}?d=retro`)
             return RC.sdk.platform()
-                .get(this.props.profileImage)
+                .get(this.props.profileImage + `?access_token=${rcContactService.accessToken()}`)
                 .then(r => r.response())
                 .then(r => {
                     // Real contact, no avatar
@@ -257,7 +259,7 @@ services['conversation-advanced'] = {
                     } else {
                         // Real contact, has avatar
                         return
-                            this.props.profileImage + `?access_token=${rcContactService.accessToken()}`
+                        this.props.profileImage + `?access_token=${rcContactService.accessToken()}`
                     }
                 })
                 .catch(e => {
@@ -272,6 +274,13 @@ services['conversation-advanced'] = {
             return this.props.transformee + `?access_token=${rcContactService.accessToken()}`
         }
     },
+    setOutboundCallerID: {
+        method: function() {
+            return accountService.getPhoneNumber().then(() => {
+                return accountService.listNumber('VoiceFax', 'CallerId')
+            })
+        }
+    }
 }
 services['call-panel'] = {
     init: {
@@ -294,14 +303,14 @@ services['call-panel'] = {
                 this.unmount()
             })
             phoneService.on('accepted', () => {
-                console.log('accept');
+                console.log('accept')
                 this.start()
             })
         }
     },
     mount: {
         after: function() {
-            
+
         }
     },
     getContact: {
@@ -332,11 +341,6 @@ services['call-panel'] = {
             return phoneService.flip(this.props.actionNumber)
         },
     },
-    forward: {
-        method: function() {
-            return phoneService.forward(this.props.actionNumber)
-        },
-    },
     transfer: {
         method: function() {
             return phoneService.transfer(this.props.actionNumber)
@@ -344,7 +348,7 @@ services['call-panel'] = {
     },
     record: {
         method: function() {
-            console.log(this.props.isRecord);
+            console.log(this.props.isRecord)
             return phoneService.record(!this.props.isRecord)
         },
     },
@@ -353,10 +357,15 @@ services['call-panel'] = {
             return phoneService.park()
         },
     },
+    dtmf: {
+        method: function(number) {
+            return phoneService.dtmf(this.props.dtmfNumber)
+        }
+    },
     queryContacts: {
         method: function() {
             var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
-                return provider.search(this.props.inputValue);
+                return provider.search(this.props.inputValue)
             })
             return contactSearchService.query(dialPadSearchFunctions)
         }
@@ -380,11 +389,29 @@ services['call-panel-incoming'] = {
     },
     accept: {
         method: function() {
-            phoneService.accept({
+            return phoneService.accept({
                 remoteVideo: this.props.remoteVideo,
                 localVideo: this.props.localVideo,
             })
         }
-    }
+    },
+    reject: {
+        method: function() {
+            return phoneService.reject()
+        }
+    },
+    forward: {
+        method: function() {
+            return phoneService.forward(this.props.actionNumber)
+        },
+    },
+    queryContacts: {
+        method: function() {
+            var dialPadSearchFunctions = dialPadSearchProviders.map(provider => {
+                return provider.search(this.props.inputValue)
+            })
+            return contactSearchService.query(dialPadSearchFunctions)
+        }
+    },
 }
 export default services

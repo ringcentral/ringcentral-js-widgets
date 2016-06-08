@@ -429,6 +429,7 @@
 	        var error = function error(e) {
 	            widgetAction.error && widgetAction.error.call(_this2, e);
 	            userAction.error && userAction.error.call(_this2, e);
+	            throw e;
 	        };
 	
 	        return chainActions(before(a, b, c, d, e, f), [before, method, after], error);
