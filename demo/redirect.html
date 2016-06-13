@@ -6,7 +6,7 @@ Closing the page...
     window.opener && window.opener.postMessage({
         type: 'oauth',
         value: document.URL
-    }, window.opener.location.origin)
+    }, '*')
     setTimeout(function() {
         window.close()
     }, 1000)

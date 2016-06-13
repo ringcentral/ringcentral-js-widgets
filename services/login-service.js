@@ -37,8 +37,9 @@ var LoginService = function(sdk) {
                         }, '*')
                     }
                     if (e.data.type === 'oauth-response') {
-                        var qs = RC.sdk.platform().parseAuthRedirectUrl(e.data.value.url);
-                        qs.redirectUri = e.data.value.redirectUri;
+                        var qs = RC.sdk.platform().parseAuthRedirectUrl(e.data.value.url)
+                        console.log(e.data.value.redirectUri)
+                        qs.redirectUri = e.data.value.redirectUri
                         resolve(RC.sdk.platform().login(qs))
                     }
                 }); 
