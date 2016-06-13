@@ -96,7 +96,6 @@
 	    });
 	});
 	_phone2.default.on('dialing', function (number) {
-	    console.log(number);
 	    _store2.default.dispatch({
 	        type: _actions2.default.GUEST_DIALPAD_NUMBER,
 	        value: number

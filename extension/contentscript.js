@@ -2,13 +2,14 @@ console.log('contentscript.js')
 var preloadTarget = document.createElement('div')
 preloadTarget.innerHTML = 
 `
-<rc-phone 
-    first-level=dial-pad,time-line
+<widget
+    tag=rc-phone-incontact
     width=272
     height=400
-    key=8mOtYiilT5OUPwwdeGgvpw
-    secret=cqNn89RmR2SR76Kpp8xJaAdNzNOqR8Qfmjb0B-gDOHTw>
-</rc-phone>
+    key=NQuJZPvQQIuW8gVh22DHtw
+    secret=hbmpbQeSQau8p2HcjN3bXAZA6mIk4YRDKTvKp2gHirJA
+    sandbox>
+</widget>
 <script id='rc-widgets-script' async defer src='https://ringcentral.github.io/ringcentral-js-widget/build/host.js'></script>
 `
 document.body.appendChild(preloadTarget)

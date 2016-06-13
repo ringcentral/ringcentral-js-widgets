@@ -33,7 +33,6 @@ phone.on('resize', function(width, height) {
     })
 })
 phone.on('dialing', function(number) {
-    console.log(number);
     store.dispatch({
         type: actions.GUEST_DIALPAD_NUMBER,
         value: number

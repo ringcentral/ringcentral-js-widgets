@@ -21,12 +21,11 @@ w.register(function() {
             after: function() {
                 this.checkLogin()
                 .then(loggedin => {
-                    console.log(loggedin);
                     if (loggedin) {
                         this.dom['main-panel'].hidden = false
                         webPhone(null, {
-                            width: 250,
-                            height: 200
+                            width: this.data.width,
+                            height: this.data.height
                         })
                     } else {
                         var phone = this
@@ -40,8 +39,8 @@ w.register(function() {
                                         this.unmount()
                                         phone.dom['main-panel'].hidden = false
                                         webPhone(null, {
-                                            width: 250,
-                                            height: 200
+                                            width: this.data.width,
+                                            height: this.data.height
                                         })
                                     }
                                 }
