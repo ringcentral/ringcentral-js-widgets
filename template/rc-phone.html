@@ -478,12 +478,12 @@ w.register(function() {
                                             } else {
                                                 this.simplify(false)
                                             }
-                                            phone.resize(Math.max(280, phone.props.height))
+                                            phone.resize(Math.max(250, phone.props.height))
                                         }
                                     },
                                     unmount: {
                                         after: function() {
-                                            if (phone.props.height !== phone.props.originalHeight)
+                                            if (phone.props.height != phone.props.originalHeight)
                                                 phone.resize(phone.props.minimizedHeight)
                                         }
                                     },
@@ -605,9 +605,9 @@ w.register(function() {
         if (e.target === this.dom.resize) {
             this.resize()
         } else {
-            if (this.props.height === this.props.minimizedHeight) {
-                this.resize()
-            }
+            // if (this.props.height === this.props.minimizedHeight) {
+            //     this.resize()
+            // }
         }
         if (e.target === this.dom.remove) {
             this.props.ee.trigger('unmount')

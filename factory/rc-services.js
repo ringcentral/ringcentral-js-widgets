@@ -247,7 +247,7 @@ services['conversation-advanced'] = {
     getAvatar: {
         method: function() {
             if (!this.props.profileImage)
-                return Promise.resolve(`http://www.gravatar.com/avatar/${md5(this.props.contact.id)}?d=retro`)
+                return Promise.resolve(`https://www.gravatar.com/avatar/${md5(this.props.contact.id)}?d=retro`)
             return RC.sdk.platform()
                 .get(this.props.profileImage + `?access_token=${rcContactService.accessToken()}`)
                 .then(r => r.response())
@@ -255,7 +255,7 @@ services['conversation-advanced'] = {
                     // Real contact, no avatar
                     if (r.status === 204 || r.status === 404) {
                         var hash = md5(this.props.contact.id)
-                        return `http://www.gravatar.com/avatar/${hash}?d=retro`
+                        return `https://www.gravatar.com/avatar/${hash}?d=retro`
                     } else {
                         // Real contact, has avatar
                         return
@@ -265,7 +265,7 @@ services['conversation-advanced'] = {
                 .catch(e => {
                     // Real contact, no avatar
                     var hash = md5(this.props.contact.id)
-                    return `http://www.gravatar.com/avatar/${hash}?d=retro`
+                    return `https://www.gravatar.com/avatar/${hash}?d=retro`
                 })
         }
     },
