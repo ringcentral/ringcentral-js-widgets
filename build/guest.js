@@ -77,7 +77,7 @@
 	    var size = state.size;
 	    var dialPad = state.dialPad;
 	
-	    _phone2.default.props.dialPad.number(dialPad.phoneNumber);
+	    _phone2.default.props.dialPad && _phone2.default.props.dialPad.number(dialPad.phoneNumber);
 	    _phone2.default.setSize(size.width, size.height);
 	
 	    parent.postMessage(state, origin);

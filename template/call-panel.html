@@ -299,9 +299,11 @@ this.actions = {
             fade.init(this.root)
             fade.in(this.root)
             this.props.name && this.setName(this.props.name)
+            console.log(this.props.name);
             this.refs['dropdown'].getData()
             this.getContact().then(result => {
-                if (result && result[0]) {
+                if (result && result[0] && result[0].name) {
+                    console.log(result[0].name);
                     this.setName(result[0].name)
                 }
             })
@@ -322,6 +324,11 @@ this.actions = {
             while (this.dom.mute.firstChild)
                 this.dom.mute.removeChild(this.dom.mute.firstChild)
             this.dom.mute.appendChild(span1)
+
+            // flip, record, park re-enable
+            this.enableFlip()
+            this.enableRecord()
+            this.enablePark()
 
             // hold
             this.props.isHold = false

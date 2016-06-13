@@ -534,7 +534,8 @@
 	
 	            _phoneService2.default.on('invite', function (session) {
 	                _this10.props.session = session;
-	                _this10.setName(session.request.from.displayName);
+	                var name = session.request.from.displayName || session.request.from.friendlyName.split("@")[0];
+	                _this10.setName(name);
 	                _this10.mount(_this10.props.target);
 	                _phoneService2.default.on('terminated', function () {
 	                    _this10.unmount();

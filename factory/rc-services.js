@@ -383,7 +383,9 @@ services['call-panel-incoming'] = {
         method: function() {
             phoneService.on('invite', session => {
                 this.props.session = session
-                this.setName(session.request.from.displayName)
+                var name = session.request.from.displayName ||
+                            session.request.from.friendlyName.split("@")[0]
+                this.setName(name)
                 this.mount(this.props.target)
                 phoneService.on('terminated', () => {
                     this.unmount()
