@@ -24217,8 +24217,26 @@
 	            });
 	        },
 	        oauth: function oauth() {
-	            return parent.Ringcentral.widgets.oauth(_rcSdk.RC.sdk).then(function (qs) {
-	                return _rcSdk.RC.sdk.platform().login(qs);
+	            parent.postMessage({
+	                type: 'oauth-request-info'
+	            }, '*');
+	            return new Promise(function (resolve, reject) {
+	                window.addEventListener('message', function (e) {
+	                    if (e.data.type === 'oauth-info-response') {
+	                        var url = _rcSdk.RC.sdk.platform().authUrl({
+	                            redirectUri: e.data.value
+	                        });
+	                        parent.postMessage({
+	                            type: 'oauth-request',
+	                            value: url
+	                        }, '*');
+	                    }
+	                    if (e.data.type === 'oauth-response') {
+	                        var qs = _rcSdk.RC.sdk.platform().parseAuthRedirectUrl(e.data.value.url);
+	                        qs.redirectUri = e.data.value.redirectUri;
+	                        resolve(_rcSdk.RC.sdk.platform().login(qs));
+	                    }
+	                });
 	            });
 	        }
 	    };
