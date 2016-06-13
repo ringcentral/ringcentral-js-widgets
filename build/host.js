@@ -58,7 +58,7 @@
 	window.addEventListener('message', function (e) {
 	    // not for redux, for child iframe oauth
 	    // from child
-	    var redirectUri = window.location.origin + '/ringcentral-js-widget/demo/redirect.html';
+	    var redirectUri = 'https://ringcentral.github.io/ringcentral-js-widget//demo/redirect.html';
 	    if (e.data.type === 'oauth-request') {
 	        (0, _oauth.oauth)(e.data.value);
 	        // from child
