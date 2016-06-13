@@ -77,12 +77,12 @@ services['rcPhone'] = {
 services['auth-panel'] = {
     login: {
         method: function() {
-            // return loginService.login(
-            //     this.props.username,
-            //     this.props.extension,
-            //     this.props.password
-            // )
-            return loginService.oauth()
+            return loginService.login(
+                this.props.username,
+                this.props.extension,
+                this.props.password
+            )
+            // return loginService.oauth()
         }
     }
 }
