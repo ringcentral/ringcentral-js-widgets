@@ -72,6 +72,8 @@ var drag = false
 
 var createIframe = function() {
     var target = document.querySelector(TARGET_TAG)
+    console.log(target);
+    
     var options = getOptions(target)
     var iframe = document.createElement('iframe')
 
@@ -125,10 +127,6 @@ var clickToDial = function(target, iframe) {
         ele.style['text-decoration'] = 'underline black'
         ele.style['cursor'] = 'pointer'
         ele.addEventListener('click', e => {
-            // target.style.display = 'block'
-            // target.style.position = 'absolute'
-            // target.style.top = `${e.pageY + 3}px`
-            // target.style.left = `${e.pageX + 3}px`
             iframe.contentWindow.postMessage({
                 type: actions.HOST_DIALPAD_NUMBER,
                 value: ele.getAttribute('data-phone')
