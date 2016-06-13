@@ -240,14 +240,14 @@
 	
 	var _utils = __webpack_require__(62);
 	
+	var tag = (0, _utils.getURLParameter)('tag');
 	var firstLevel = (0, _utils.getURLParameter)('first-level');
 	var width = (0, _utils.getURLParameter)('width');
 	var height = (0, _utils.getURLParameter)('height');
 	var key = (0, _utils.getURLParameter)('key');
 	var secret = (0, _utils.getURLParameter)('secret');
 	var sandbox = (0, _utils.getURLParameter)('sandbox');
-	var TARGET_TAG = 'rc-phone-incontact';
-	var phone = w('rc-phone-incontact', {
+	var phone = w(tag, {
 	    data: {
 	        firstLevel: firstLevel,
 	        width: width,
