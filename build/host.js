@@ -117,7 +117,7 @@
 	// const PHONE_URL = DOMAIN + '/ringcentral-js-widget/build/widgets.js'
 	// const LIB_URL = DOMAIN + '/ringcentral-js-widget/build/build.js'
 	// const COMMON_STYLE_URL = [DOMAIN + '/ringcentral-js-widget/build/styles/main.css']
-	var TARGET_TAG = 'rc-phone';
+	var TARGET_TAG = 'rc-phone-incontact';
 	var IFRAME_URL = BASEURL.substr(0, BASEURL.lastIndexOf('/')) + '/embed.html';
 	var useShadowDOM = false; /* Always fallback to iframe for now */
 	var iframeReadyQueue = [];

@@ -17,6 +17,27 @@ import config from '../services/rc-config'
 var dialPadSearchProviders = [rcContactSearchProvider]
 
 var services = {}
+services['incontact'] = {
+    init: {
+        after: function() {
+            /// critical, inject app key & secret into service
+            injectSDK({
+                key: this.props.key,
+                secret: this.props.secret,
+                sandbox: this.props.sandbox
+            })
+            phoneService.init({
+                incomingAudio: config.incomingAudio,
+                outgoingAudio: config.outgoingAudio
+            })
+        }
+    },
+    checkLogin: {
+        method: function() {
+            return loginService.checkLoginStatus()
+        }
+    }
+}
 services['rcPhone'] = {
     init: {
         after: function() {
@@ -56,12 +77,12 @@ services['rcPhone'] = {
 services['auth-panel'] = {
     login: {
         method: function() {
-            return loginService.login(
-                this.props.username,
-                this.props.extension,
-                this.props.password
-            )
-            // return loginService.oauth()
+            // return loginService.login(
+            //     this.props.username,
+            //     this.props.extension,
+            //     this.props.password
+            // )
+            return loginService.oauth()
         }
     }
 }

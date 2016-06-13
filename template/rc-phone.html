@@ -561,7 +561,6 @@ w.register(function() {
                 this.checkLogin().then(loggedin => {
                     if (loggedin) {
                         this.loadData()
-                        console.log(this.props.panels);
                         if (this.props.panels.length === 1) {
                             this.props.panels[0].mount('#first-level-0')
                             this.dom['toolbar'].parentNode.removeChild(this.dom['toolbar'])

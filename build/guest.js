@@ -246,7 +246,8 @@
 	var key = (0, _utils.getURLParameter)('key');
 	var secret = (0, _utils.getURLParameter)('secret');
 	var sandbox = (0, _utils.getURLParameter)('sandbox');
-	var phone = w('rc-phone', {
+	var TARGET_TAG = 'rc-phone-incontact';
+	var phone = w('rc-phone-incontact', {
 	    data: {
 	        firstLevel: firstLevel,
 	        width: width,

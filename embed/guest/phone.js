@@ -5,7 +5,8 @@ const height = getURLParameter('height')
 const key = getURLParameter('key')
 const secret = getURLParameter('secret')
 const sandbox = getURLParameter('sandbox')
-var phone = w('rc-phone', {
+const TARGET_TAG = 'rc-phone-incontact'
+var phone = w('rc-phone-incontact', {
     data: {
         firstLevel,
         width,

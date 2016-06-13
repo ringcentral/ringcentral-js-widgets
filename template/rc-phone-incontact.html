@@ -1,0 +1,95 @@
+<div>
+    <div data-info='auth-panel'></div>
+    <div data-info='main-panel' hidden>Ringcentral</div>
+    <div id='call-panel'></div>
+    <div id='call-panel-incoming'></div>
+</div>
+<script>
+import Factory from './factory/factory'
+import EventEmitter from './template/vendor/eventemitter'
+var factory = new Factory()
+w.register(function() {
+    this.actions = factory.create('incontact', {
+        init: {
+            before: function() {
+                this.props.key = this.data.key
+                this.props.secret = this.data.secret
+                this.props.sandbox = (this.data.sandbox === 'true')
+            }
+        },
+        mount: {
+            after: function() {
+                this.checkLogin()
+                .then(loggedin => {
+                    console.log(loggedin);
+                    if (loggedin) {
+                        this.dom['main-panel'].hidden = false
+                        webPhone(null, {
+                            width: 250,
+                            height: 200
+                        })
+                    } else {
+                        var phone = this
+                        var authPanel = w('auth-panel', {
+                            data: {
+                                oauth: true
+                            },
+                            actions: factory.create('auth-panel', {
+                                login: {
+                                    after: function() {
+                                        this.unmount()
+                                        phone.dom['main-panel'].hidden = false
+                                        webPhone(null, {
+                                            width: 250,
+                                            height: 200
+                                        })
+                                    }
+                                }
+                            })
+                        })
+                        authPanel.mount(this.dom['auth-panel'])
+                    }
+                })
+                .catch(e => console.error(e))
+            }
+        },
+        setSize: {
+            method: function() {}
+        },
+        on: {
+            method: function() {}
+        }
+    })
+})
+
+var webPhone = function(data, {width, height}) {
+    var callPanel = w('call-panel', {
+        data: {
+            target: '#call-panel',
+            width: width,
+            height: height,
+            advance: false
+        },
+        actions: factory.create('call-panel')
+    })
+    var callPanelIncoming = w('call-panel-incoming', {
+        data: {
+            target: '#call-panel-incoming',
+            width: width,
+            height: height,
+            remoteVideo: callPanel.props.remoteVideo,
+            localVideo: callPanel.props.localVideo,
+        },
+        actions: factory.create('call-panel-incoming', {
+            accept: {
+                after: function() {
+                    this.unmount()
+                    callPanel.setName(this.props.name)
+                    callPanel.mount('#call-panel')
+                    callPanel.start()
+                }
+            }
+        })
+    })
+}
+</script>

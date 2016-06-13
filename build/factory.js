@@ -167,6 +167,27 @@
 	var dialPadSearchProviders = [_rcContactSearchProvider2.default];
 	
 	var services = {};
+	services['incontact'] = {
+	    init: {
+	        after: function after() {
+	            /// critical, inject app key & secret into service
+	            (0, _rcSdk.injectSDK)({
+	                key: this.props.key,
+	                secret: this.props.secret,
+	                sandbox: this.props.sandbox
+	            });
+	            _phoneService2.default.init({
+	                incomingAudio: _rcConfig2.default.incomingAudio,
+	                outgoingAudio: _rcConfig2.default.outgoingAudio
+	            });
+	        }
+	    },
+	    checkLogin: {
+	        method: function method() {
+	            return _loginService2.default.checkLoginStatus();
+	        }
+	    }
+	};
 	services['rcPhone'] = {
 	    init: {
 	        after: function after() {
@@ -206,8 +227,12 @@
 	services['auth-panel'] = {
 	    login: {
 	        method: function method() {
-	            return _loginService2.default.login(this.props.username, this.props.extension, this.props.password);
-	            // return loginService.oauth()
+	            // return loginService.login(
+	            //     this.props.username,
+	            //     this.props.extension,
+	            //     this.props.password
+	            // )
+	            return _loginService2.default.oauth();
 	        }
 	    }
 	};
