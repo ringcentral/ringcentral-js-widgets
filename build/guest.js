@@ -77,7 +77,7 @@
 	    var size = state.size;
 	    var dialPad = state.dialPad;
 	
-	    _phone2.default.props.dialPad.number(dialPad.phoneNumber);
+	    _phone2.default.props.dialPad && _phone2.default.props.dialPad.number(dialPad.phoneNumber);
 	    _phone2.default.setSize(size.width, size.height);
 	
 	    parent.postMessage(state, origin);
@@ -96,7 +96,6 @@
 	    });
 	});
 	_phone2.default.on('dialing', function (number) {
-	    console.log(number);
 	    _store2.default.dispatch({
 	        type: _actions2.default.GUEST_DIALPAD_NUMBER,
 	        value: number
@@ -240,13 +239,14 @@
 	
 	var _utils = __webpack_require__(62);
 	
+	var tag = (0, _utils.getURLParameter)('tag');
 	var firstLevel = (0, _utils.getURLParameter)('first-level');
 	var width = (0, _utils.getURLParameter)('width');
 	var height = (0, _utils.getURLParameter)('height');
 	var key = (0, _utils.getURLParameter)('key');
 	var secret = (0, _utils.getURLParameter)('secret');
 	var sandbox = (0, _utils.getURLParameter)('sandbox');
-	var phone = w('rc-phone', {
+	var phone = w(tag, {
 	    data: {
 	        firstLevel: firstLevel,
 	        width: width,

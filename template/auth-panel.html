@@ -57,6 +57,7 @@ this.props = {
 this.actions = {
     init: {
         before: function() {
+            this.data.oauth && (this.props.oauth = this.data.oauth)
         },
         method: function(finish) {
             finish()

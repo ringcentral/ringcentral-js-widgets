@@ -167,6 +167,27 @@
 	var dialPadSearchProviders = [_rcContactSearchProvider2.default];
 	
 	var services = {};
+	services['incontact'] = {
+	    init: {
+	        after: function after() {
+	            /// critical, inject app key & secret into service
+	            (0, _rcSdk.injectSDK)({
+	                key: this.props.key,
+	                secret: this.props.secret,
+	                sandbox: this.props.sandbox
+	            });
+	            _phoneService2.default.init({
+	                incomingAudio: _rcConfig2.default.incomingAudio,
+	                outgoingAudio: _rcConfig2.default.outgoingAudio
+	            });
+	        }
+	    },
+	    checkLogin: {
+	        method: function method() {
+	            return _loginService2.default.checkLoginStatus();
+	        }
+	    }
+	};
 	services['rcPhone'] = {
 	    init: {
 	        after: function after() {
@@ -206,8 +227,12 @@
 	services['auth-panel'] = {
 	    login: {
 	        method: function method() {
-	            return _loginService2.default.login(this.props.username, this.props.extension, this.props.password);
-	            // return loginService.oauth()
+	            // return loginService.login(
+	            //     this.props.username,
+	            //     this.props.extension,
+	            //     this.props.password
+	            // )
+	            return _loginService2.default.oauth();
 	        }
 	    }
 	};
@@ -394,14 +419,14 @@
 	        method: function method() {
 	            var _this6 = this;
 	
-	            if (!this.props.profileImage) return Promise.resolve('http://www.gravatar.com/avatar/' + (0, _blueimpMd2.default)(this.props.contact.id) + '?d=retro');
+	            if (!this.props.profileImage) return Promise.resolve('https://www.gravatar.com/avatar/' + (0, _blueimpMd2.default)(this.props.contact.id) + '?d=retro');
 	            return _rcSdk.RC.sdk.platform().get(this.props.profileImage + ('?access_token=' + _rcContactService2.default.accessToken())).then(function (r) {
 	                return r.response();
 	            }).then(function (r) {
 	                // Real contact, no avatar
 	                if (r.status === 204 || r.status === 404) {
 	                    var hash = (0, _blueimpMd2.default)(_this6.props.contact.id);
-	                    return 'http://www.gravatar.com/avatar/' + hash + '?d=retro';
+	                    return 'https://www.gravatar.com/avatar/' + hash + '?d=retro';
 	                } else {
 	                    // Real contact, has avatar
 	                    return;
@@ -410,7 +435,7 @@
 	            }).catch(function (e) {
 	                // Real contact, no avatar
 	                var hash = (0, _blueimpMd2.default)(_this6.props.contact.id);
-	                return 'http://www.gravatar.com/avatar/' + hash + '?d=retro';
+	                return 'https://www.gravatar.com/avatar/' + hash + '?d=retro';
 	            });
 	        }
 	    },
@@ -534,7 +559,8 @@
 	
 	            _phoneService2.default.on('invite', function (session) {
 	                _this10.props.session = session;
-	                _this10.setName(session.request.from.displayName);
+	                var name = session.request.from.displayName || session.request.from.friendlyName.split("@")[0];
+	                _this10.setName(name);
 	                _this10.mount(_this10.props.target);
 	                _phoneService2.default.on('terminated', function () {
 	                    _this10.unmount();

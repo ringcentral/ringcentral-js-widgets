@@ -143,6 +143,7 @@ this.actions = {
     },
     unmount: {
         after: function() {
+            debugger;
             this.dom['advance-panel'].classList.add('display-none')
         }
     },
@@ -154,6 +155,7 @@ this.actions = {
     },
     ignore: {
         after: function() {
+            console.log('unmount');
             this.unmount()
         }
     },
@@ -168,6 +170,9 @@ this.actions = {
     accept: {
         method: function(finish) {
             return finish()
+        },
+        error: function(e) {
+            console.log(e);
         }
     },
     // message: {

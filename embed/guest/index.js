@@ -14,7 +14,7 @@ window.addEventListener('message', function(e) {
 store.subscribe(() => {
     var state = store.getState()
     var {size, dialPad} = state
-    phone.props.dialPad.number(dialPad.phoneNumber)
+    phone.props.dialPad && phone.props.dialPad.number(dialPad.phoneNumber)
     phone.setSize(size.width, size.height)
 
     parent.postMessage(state, origin)
@@ -33,7 +33,6 @@ phone.on('resize', function(width, height) {
     })
 })
 phone.on('dialing', function(number) {
-    console.log(number);
     store.dispatch({
         type: actions.GUEST_DIALPAD_NUMBER,
         value: number
