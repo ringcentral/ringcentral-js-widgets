@@ -301,7 +301,8 @@ this.actions = {
     createVoiceMailTemplate: {
         method: function(finish, id, content, opponent, time) {
             this.props.transformee = content.uri
-            var audio = new Audio(this.transformURL())
+            var audio = null
+            var audioURL = this.transformURL()
             var div = document.createElement('div')
             div.innerHTML = `<div class='clearfix conversations__conv'>
                                 <div
@@ -328,6 +329,7 @@ this.actions = {
             var playing = false
             bubble.style.width = length + 'px'
             bubble.addEventListener('click', e => {
+                audio || (audio = new Audio(audioURL))
                 var interval
                 if (playing)
                     audio.pause()
@@ -354,30 +356,58 @@ this.actions = {
     createCallLogTemplate: {
         method: function(finish, id, content, opponent, time) {
             var div = document.createElement('div')
-            div.innerHTML = `<div class='clearfix conversations__conv'>
-                                <div
-                                    data-tooltip='${time}'
-                                    class='conversations__bubble ${opponent? "conversations__bubble--opponent": "conversations__bubble--self"} conversations__bubble--log'>
-                                    <span class='bubble--log icon-uniAE'>
-                                    ${typeof content === 'string'?
-                                     `<span>${content}</span>`: 
-                                     "<span class='voice-bubble__play icon-uni7C'></span>"}
-                                </div>
-                            </div>`
-
             if (typeof content === 'string') {
-
+                div.innerHTML = `<div class='clearfix conversations__conv'>
+                                    <div
+                                        data-tooltip='${time}'
+                                        class='conversations__bubble ${
+                                            opponent? 
+                                            "conversations__bubble--opponent": 
+                                            "conversations__bubble--self"} 
+                                            conversations__bubble--log'>
+                                        <span class='bubble--log icon-uniAE'>
+                                        <span>${content}</span>
+                                    </div>
+                                </div>`
+                div = div.firstChild
+                // call log recording
             } else {
                 // TODO:
                 // get ${content.uri}?access_token=${sdk.platform().auth().accessToken()}
                 // to get the duration of record
-                this.props.transformee =`${content.uri}/content`
-                var audio = new Audio(this.transformURL())
-                div.firstChild.addEventListener('click', e => {
+                console.log(content);
+                div.innerHTML = `<div class='clearfix conversations__conv'>
+                                    <div
+                                        data-tooltip='${time}'
+                                        class='conversations__bubble ${
+                                            opponent? 
+                                            "conversations__bubble--opponent": 
+                                            "conversations__bubble--self"} 
+                                            conversations__bubble--log'>
+                                        <span class='bubble--log icon-uniAE'>
+                                        <span>Phone Call</span>
+                                    </div>
+                                </div>`
+                this.props.fileURL = content.uri
+                var info = this.getFileInfo().then(json => {
+                    // adapt to voice mail formet
+                    if (!json.duration || json.duration == 0)
+                        return
+                    json.vmDuration = json.duration
+                    json.uri = json.contentUri
+                    var voiceDiv = this.createVoiceMailTemplate(id, json, opponent, time)
+                    console.log(div);
+                    div.innerHTML = ''
+                    div.appendChild(voiceDiv)
+                }).catch(e => console.error(e))
+                this.props.transformee =`${content.contentUri}`
+                var audioURL = this.transformURL()
+                div.addEventListener('click', e => {
+                    var audio = new Audio(audioURL)
                     audio.play()
                 });
             }
-            return div.firstChild
+            return div
         }
     },
     reachTop: {
@@ -538,6 +568,11 @@ this.actions = {
         }
     },
     transformURL: {
+        method: function(finish) {
+            return finish()
+        }
+    },
+    getFileInfo: {
         method: function(finish) {
             return finish()
         }

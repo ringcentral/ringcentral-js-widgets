@@ -444,6 +444,14 @@
 	            return this.props.transformee + ('?access_token=' + _rcContactService2.default.accessToken());
 	        }
 	    },
+	    getFileInfo: {
+	        method: function method() {
+	            console.log(this.props.fileURL);
+	            return _rcSdk.RC.sdk.platform().get(this.props.fileURL).then(function (r) {
+	                return r.json();
+	            });
+	        }
+	    },
 	    setOutboundCallerID: {
 	        method: function method() {
 	            return _accountService2.default.getPhoneNumber().then(function () {

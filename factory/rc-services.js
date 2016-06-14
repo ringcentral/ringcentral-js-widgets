@@ -293,7 +293,15 @@ services['conversation-advanced'] = {
     transformURL: {
         method: function() {
             return this.props.transformee + `?access_token=${rcContactService.accessToken()}`
-        }
+        } 
+    },
+    getFileInfo: {
+        method: function() {
+            console.log(this.props.fileURL);
+            return RC.sdk.platform()
+                .get(this.props.fileURL)
+                .then(r => r.json())
+        } 
     },
     setOutboundCallerID: {
         method: function() {
