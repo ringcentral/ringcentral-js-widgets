@@ -58,7 +58,7 @@
 	window.addEventListener('message', function (e) {
 	    // not for redux, for child iframe oauth
 	    // from child
-	    var redirectUri = 'https://ringcentral.github.io/ringcentral-js-widget/demo/redirect.html';
+	    var redirectUri = 'https://ringcentral.github.io/ringcentral-js-widget/page/redirect.html';
 	    if (e.data.type === 'oauth-request') {
 	        console.log(e.data.value);
 	        (0, _oauth.oauth)(e.data.value);
@@ -214,6 +214,7 @@
 	    iframe.width = parseInt(options.width) + 2; // border
 	    iframe.height = options.height;
 	    iframe.style.border = 0;
+	    iframe.frameborder = 0;
 	    iframe.src = IFRAME_URL + '?' + ('tag=' + options.tag + '&') + ('first-level=' + options.firstLevel + '&') + ('width=' + options.width + '&') + ('height=' + options.height + '&') + ('key=' + options.key + '&') + ('secret=' + options.secret + '&') + ('sandbox=' + (options.sandbox != null) + '&') + ('origin=' + window.location.origin);
 	    iframe.setAttribute('name', 'rc-iframe');
 	    if (options.dynamic != null) {

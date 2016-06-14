@@ -227,8 +227,12 @@
 	services['auth-panel'] = {
 	    login: {
 	        method: function method() {
-	            return _loginService2.default.login(this.props.username, this.props.extension, this.props.password);
-	            // return loginService.oauth()
+	            // return loginService.login(
+	            //     this.props.username,
+	            //     this.props.extension,
+	            //     this.props.password
+	            // )
+	            return _loginService2.default.oauth();
 	        }
 	    }
 	};

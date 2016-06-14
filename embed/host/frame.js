@@ -80,6 +80,7 @@ var createIframe = function() {
     iframe.width = parseInt(options.width) + 2 // border
     iframe.height = options.height
     iframe.style.border = 0
+    iframe.frameborder = 0
     iframe.src = IFRAME_URL + '?' +
                     `tag=${options.tag}&` +
                     `first-level=${options.firstLevel}&` +

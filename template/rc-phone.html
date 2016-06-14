@@ -163,7 +163,10 @@ w.register(function() {
                     var names = this.data.firstLevel.split(',')
                     this.props.authPanel = w('auth-panel', {
                         shadowRoot: phone.data.shadowRoot,
-                        data : phone.data,
+                        data: {
+                            ...phone.data,
+                            oauth: true
+                        },
                         actions: factory.create('auth-panel', {
                             login: {
                                 after: function() {
