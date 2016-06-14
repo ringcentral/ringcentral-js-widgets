@@ -5,7 +5,7 @@ const BASEURL = new URL(TAG).href
 // const PHONE_URL = DOMAIN + '/ringcentral-js-widget/build/widgets.js'
 // const LIB_URL = DOMAIN + '/ringcentral-js-widget/build/build.js'
 // const COMMON_STYLE_URL = [DOMAIN + '/ringcentral-js-widget/build/styles/main.css']
-const TARGET_TAG = 'rc-phone'
+const TARGET_TAG = 'rc-widget'
 const IFRAME_URL = BASEURL.substr(0, BASEURL.lastIndexOf('/')) + '/embed.html'
 const useShadowDOM = false /* Always fallback to iframe for now */
 const iframeReadyQueue = []
@@ -36,42 +36,44 @@ var drag = false
 // var fetchAndEvalFramework = fetchAndEval(LIB_URL)
 // var fetchAndEvalWidget = fetchAndEval(PHONE_URL)
 
-var createContainer = function() {
-    var target = document.querySelector(TARGET_TAG)
-    if (!target) return
-    var shadow = target.createShadowRoot()
-    var container = document.createElement('div')
-    shadow.appendChild(container)
+// var createContainer = function() {
+//     var target = document.querySelector(TARGET_TAG)
+//     if (!target) return
+//     var shadow = target.createShadowRoot()
+//     var container = document.createElement('div')
+//     shadow.appendChild(container)
 
-    COMMON_STYLE_URL.forEach(src => {
-        fetch(src)
-        .then(res => res.text())
-        .then(style => {
-            var tag = document.createElement('style')
-            tag.innerHTML = style
-            shadow.appendChild(tag)
-        })
-    })
-    appendWidget(container, shadow)
+//     COMMON_STYLE_URL.forEach(src => {
+//         fetch(src)
+//         .then(res => res.text())
+//         .then(style => {
+//             var tag = document.createElement('style')
+//             tag.innerHTML = style
+//             shadow.appendChild(tag)
+//         })
+//     })
+//     appendWidget(container, shadow)
 
-    function appendStyle() {
+//     function appendStyle() {
 
-    }
+//     }
 
-    function appendWidget(container, shadowRoot) {
-        var phone = w(TARGET_TAG, {
-            shadowRoot,
-            data: {
-                shadowRoot
-            }
-        })
-        phone.mount(container)
-    }
-    return container
-}
+//     function appendWidget(container, shadowRoot) {
+//         var phone = w(TARGET_TAG, {
+//             shadowRoot,
+//             data: {
+//                 shadowRoot
+//             }
+//         })
+//         phone.mount(container)
+//     }
+//     return container
+// }
 
 var createIframe = function() {
     var target = document.querySelector(TARGET_TAG)
+    console.log(target);
+    
     var options = getOptions(target)
     var iframe = document.createElement('iframe')
 
@@ -79,6 +81,7 @@ var createIframe = function() {
     iframe.height = options.height
     iframe.style.border = 0
     iframe.src = IFRAME_URL + '?' +
+                    `tag=${options.tag}&` +
                     `first-level=${options.firstLevel}&` +
                     `width=${options.width}&` +
                     `height=${options.height}&` +
@@ -107,6 +110,7 @@ var createIframe = function() {
 
 var getOptions = function(target) {
     return {
+        tag: target.getAttribute('tag'),
         firstLevel: target.getAttribute('first-level'),
         width: target.getAttribute('width'),
         height: target.getAttribute('height'),
@@ -123,10 +127,6 @@ var clickToDial = function(target, iframe) {
         ele.style['text-decoration'] = 'underline black'
         ele.style['cursor'] = 'pointer'
         ele.addEventListener('click', e => {
-            // target.style.display = 'block'
-            // target.style.position = 'absolute'
-            // target.style.top = `${e.pageY + 3}px`
-            // target.style.left = `${e.pageX + 3}px`
             iframe.contentWindow.postMessage({
                 type: actions.HOST_DIALPAD_NUMBER,
                 value: ele.getAttribute('data-phone')

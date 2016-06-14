@@ -185,6 +185,8 @@ w.register(function() {
         }
     }
     this.on('input', 'input', function(e) {
+        console.log('input');
+        this.setInput(this.dom.input.value)
         if (this.dom.input.value === '')
             this.hide()
         else

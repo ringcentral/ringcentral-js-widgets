@@ -17,6 +17,27 @@ import config from '../services/rc-config'
 var dialPadSearchProviders = [rcContactSearchProvider]
 
 var services = {}
+services['incontact'] = {
+    init: {
+        after: function() {
+            /// critical, inject app key & secret into service
+            injectSDK({
+                key: this.props.key,
+                secret: this.props.secret,
+                sandbox: this.props.sandbox
+            })
+            phoneService.init({
+                incomingAudio: config.incomingAudio,
+                outgoingAudio: config.outgoingAudio
+            })
+        }
+    },
+    checkLogin: {
+        method: function() {
+            return loginService.checkLoginStatus()
+        }
+    }
+}
 services['rcPhone'] = {
     init: {
         after: function() {
@@ -247,7 +268,7 @@ services['conversation-advanced'] = {
     getAvatar: {
         method: function() {
             if (!this.props.profileImage)
-                return Promise.resolve(`http://www.gravatar.com/avatar/${md5(this.props.contact.id)}?d=retro`)
+                return Promise.resolve(`https://www.gravatar.com/avatar/${md5(this.props.contact.id)}?d=retro`)
             return RC.sdk.platform()
                 .get(this.props.profileImage + `?access_token=${rcContactService.accessToken()}`)
                 .then(r => r.response())
@@ -255,7 +276,7 @@ services['conversation-advanced'] = {
                     // Real contact, no avatar
                     if (r.status === 204 || r.status === 404) {
                         var hash = md5(this.props.contact.id)
-                        return `http://www.gravatar.com/avatar/${hash}?d=retro`
+                        return `https://www.gravatar.com/avatar/${hash}?d=retro`
                     } else {
                         // Real contact, has avatar
                         return
@@ -265,7 +286,7 @@ services['conversation-advanced'] = {
                 .catch(e => {
                     // Real contact, no avatar
                     var hash = md5(this.props.contact.id)
-                    return `http://www.gravatar.com/avatar/${hash}?d=retro`
+                    return `https://www.gravatar.com/avatar/${hash}?d=retro`
                 })
         }
     },
@@ -383,7 +404,9 @@ services['call-panel-incoming'] = {
         method: function() {
             phoneService.on('invite', session => {
                 this.props.session = session
-                this.setName(session.request.from.displayName)
+                var name = session.request.from.displayName ||
+                            session.request.from.friendlyName.split("@")[0]
+                this.setName(name)
                 this.mount(this.props.target)
                 phoneService.on('terminated', () => {
                     this.unmount()

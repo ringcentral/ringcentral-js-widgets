@@ -178,9 +178,7 @@
                     </button>
                 </div>
             </div>
-            <div class='rc-call-panel__mask display-none' data-info='mask'>
-                
-            </div>
+            <div class='rc-call-panel__mask display-none' data-info='mask'></div>
             <div class='advance-panel display-none' data-info='advance-panel'>
                 <contact-picker data-info='contact-picker'></contact-picker>
                 <dropdown class='display-none' data-info='dropdown'></dropdown>
@@ -238,6 +236,7 @@ function _pad(n) {
 }
 this.props = {
     name: null,
+    advance: true,
     time: 0,
     minimized: false,
     width: 250,
@@ -259,11 +258,16 @@ this.actions = {
             this.props.width = this.data.width
             this.props.height = this.data.height
             this.props.target = this.data.target
+            if (typeof this.data.advance != 'undefined')
+                this.props.advance = this.data.advance
             this.props.remoteVideo = this.dom.remote
             this.props.localVideo = this.dom.local
 
             this.root.firstChild.style.width = this.props.width + 'px'
             this.root.firstChild.style.height = this.props.height + 'px'
+            if (!this.props.advance) {
+                this.dom['contral-panel'].classList.add('display-none')
+            }
             var callPanel = this
             w.customize(this, 'contact-picker', {
                 actions: {
@@ -301,7 +305,8 @@ this.actions = {
             this.props.name && this.setName(this.props.name)
             this.refs['dropdown'].getData()
             this.getContact().then(result => {
-                if (result && result[0]) {
+                if (result && result[0] && result[0].name) {
+                    console.log(result[0].name);
                     this.setName(result[0].name)
                 }
             })
@@ -322,6 +327,11 @@ this.actions = {
             while (this.dom.mute.firstChild)
                 this.dom.mute.removeChild(this.dom.mute.firstChild)
             this.dom.mute.appendChild(span1)
+
+            // flip, record, park re-enable
+            this.enableFlip()
+            this.enableRecord()
+            this.enablePark()
 
             // hold
             this.props.isHold = false

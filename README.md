@@ -2,24 +2,26 @@
 
 ## Roadmap
 
-See [ROADMAP.md](./ROADMAP.md) for detailed explanation.
+See [ROADMAP.md](./ROADMAP.md) for detailed roadmap.
 
-## Getting Start
+## Getting Started
 
 Copy below code into your page:
 ```html
-<rc-phone 
-    first-level=dial-pad,time-line
+<rc-widget
+    tag=rc-phone
+    first-level=dial-pad,time-line 
     width=250
     height=400
     key=YOUR_APP_KEY
     secret=YOUR_APP_SECRET
+    sandbox
     fixed>
-</rc-phone>
+</rc-widget>
 <script id='rc-widgets-script' async defer src='https://ringcentral.github.io/ringcentral-js-widget/build/host.js'></script>
 ```
 
-For now, the widget is running in **sandbox** env, so please use sandbox app key and secret.
+Replace `YOUR_APP_KEY` and `YOUR_APP_SECRET` with your application key and secret.
 
 ## Development
 
@@ -27,11 +29,8 @@ For now, the widget is running in **sandbox** env, so please use sandbox app key
 `npm install`
 `bower install`
 #### Development process
-`gulp`
+`webpack --watch`
+#### Widget development process
+`node compile/index.js`
 #### Test process
 `npm test`
-
-[Demo](http://lingforcc.github.io/ringcentral-js-widget/demo/fancy.html)
-
-
-
