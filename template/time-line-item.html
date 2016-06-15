@@ -51,29 +51,30 @@ w.register(function() {
             },
             method: function(finish, data) {
                 this.props.content = data
+                this.props.subject = data.subject
                 var time = new Date(data.time)
                 if (data.type === 'SMS')
                     this.dom.icon.classList.add('icon-uni2487')
                 else if (data.type === 'Voice') {
                     this.dom.icon.classList.add('icon-uniAE')
-                    if (data.subject && 
+                    if (this.props.subject && 
                         (
-                            data.subject.type === 'Automatic' || 
-                            data.subject.type === 'OnDemand'
+                            this.props.subject.type === 'Automatic' || 
+                            this.props.subject.type === 'OnDemand'
                         )) {
-                        data.subject = 'Call recording'
+                        this.props.subject = 'Call recording'
                     }
                 }
                 else if (data.type === 'Pager')
                     this.dom.icon.classList.add('icon-uniCB')
                 else if (data.type === 'VoiceMail') {
                     this.dom.icon.classList.add('icon-uniCB')
-                    data.subject = 'Call recording'
+                    this.props.subject = 'Call recording'
                 } else if (data.type === 'Fax') {
                     this.dom.icon.classList.add('icon-uniCB')
-                    data.subject = 'Fax'
+                    this.props.subject = 'Fax'
                 }
-                this.dom.subject.textContent = this.props.subject = data.subject
+                this.dom.subject.textContent = this.props.subject
                 data.contact && 
                     (this.dom.contact.textContent = this.props.contact = data.contact.displayName)
                 this.dom.time.textContent = this.props.time =
@@ -94,10 +95,30 @@ w.register(function() {
                         var div = document.createElement('div')
                         var month = time.getMonth() + 1
                         var date = time.getDate()
+                        var subject = ''
                         var calender = date > currentDate? (month + '/' + date + ','): ''
+                        if (content.type === 'SMS') {
+                            subject = content.subject
+                        } else if (content.type === 'Voice') {
+                            if (content.subject && 
+                                (
+                                    content.subject.type === 'Automatic' || 
+                                    content.subject.type === 'OnDemand'
+                                )) {
+                                subject = 'Call recording'
+                            } else {
+                                subject = content.subject
+                            }
+                        } else if (content.type === 'Pager') {
+                            subject = content.subject
+                        } else if (content.type === 'VoiceMail') {
+                            subject = 'Call recording'
+                        } else if (content.type === 'Fax') {
+                            subject = 'Fax'
+                        }
                         div.innerHTML = 
                         `<div class='timeline-extra clearfix'>
-                            <div class='timeline-extra__content'>${content.subject}</div>
+                            <div class='timeline-extra__content'>${subject}</div>
                             <div class='rc-timeline-item__time'>
                                 ${calender} 
                                 ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}
@@ -168,11 +189,79 @@ w.register(function() {
             this.enter()
         }
     })
-});
+})
+
+
 //# sourceURL=time-line-item.html
 </script>
-<style scope>
-    .transition-in {
-        transition: opacity, transform .350s cubic-bezier(0.0, 0.0, 0.2, 1);
+<style>
+
+.rc-timeline-item {
+    @mixin padding-normal;
+    @mixin shadow-1;
+    margin-bottom:  5px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #fff;
+    transition: opacity, transform .350s cubic-bezier(0.0, 0.0, 0.2, 1);
+    &__line {
+        margin-bottom: 10px;
     }
+    &__icon {
+    }
+    &__contact {
+        font-size: .9em;
+    }
+    &__time {
+        float: right;
+        font-size: .7em;
+        color: $timeline-gray;
+    }
+    &__subject {
+        font-size: .8em;
+        overflow:       hidden;
+        text-overflow:  ellipsis;
+    }
+    &__count {
+        @mixin padding-normal;
+        position: absolute;
+        top:    0;
+        right:  0;
+        font-size: .8em;
+        > .__number {
+            color: $timeline-gray;
+        }
+        &:hover > .__number {
+            color: #000;
+        }
+    }
+    &__content {
+        @mixin padding-normal;
+        position: relative;
+    }
+    &__collapse {
+        @mixin shadow-1;
+        height: 0;
+        overflow: hidden;
+        transition: height .350s cubic-bezier(0.4, 0.0, 0.2, 1);;
+        > .timeline-extra {
+            @mixin padding-normal;
+            font-size: .8em;
+        }
+    }
+    &:hover {
+        @mixin shadow-2;
+        /*background-color: #eee;*/
+    }
+
+    .timeline-extra {
+        &__content {
+            
+        }
+        &:hover {
+            background-color: #eee;
+        }
+    }
+}
+    
 </style>

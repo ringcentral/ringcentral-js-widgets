@@ -227,8 +227,12 @@
 	services['auth-panel'] = {
 	    login: {
 	        method: function method() {
-	            return _loginService2.default.login(this.props.username, this.props.extension, this.props.password);
-	            // return loginService.oauth()
+	            // return loginService.login(
+	            //     this.props.username,
+	            //     this.props.extension,
+	            //     this.props.password
+	            // )
+	            return _loginService2.default.oauth();
 	        }
 	    }
 	};
@@ -438,6 +442,14 @@
 	    transformURL: {
 	        method: function method() {
 	            return this.props.transformee + ('?access_token=' + _rcContactService2.default.accessToken());
+	        }
+	    },
+	    getFileInfo: {
+	        method: function method() {
+	            console.log(this.props.fileURL);
+	            return _rcSdk.RC.sdk.platform().get(this.props.fileURL).then(function (r) {
+	                return r.json();
+	            });
 	        }
 	    },
 	    setOutboundCallerID: {
@@ -24213,25 +24225,33 @@
 	            });
 	        },
 	        oauth: function oauth() {
-	            parent.postMessage({
-	                type: 'oauth-request-info'
-	            }, '*');
 	            return new Promise(function (resolve, reject) {
-	                window.addEventListener('message', function (e) {
-	                    if (e.data.type === 'oauth-info-response') {
-	                        var url = _rcSdk.RC.sdk.platform().authUrl({
-	                            redirectUri: e.data.value
-	                        });
-	                        parent.postMessage({
-	                            type: 'oauth-request',
-	                            value: url
-	                        }, '*');
+	                var redirectUri = 'https://ringcentral.github.io/ringcentral-js-widget/page/redirect.html';
+	                var url = _rcSdk.RC.sdk.platform().authUrl({
+	                    redirectUri: redirectUri
+	                });
+	                var oauthWindow = window.open(url, 'rc-iframe-2', 'width=400, height=600');
+	                var interval = setInterval(check, 500);
+	                function check() {
+	                    if (!oauthWindow) {
+	                        return;
 	                    }
-	                    if (e.data.type === 'oauth-response') {
-	                        var qs = _rcSdk.RC.sdk.platform().parseAuthRedirectUrl(e.data.value.url);
-	                        console.log(e.data.value.redirectUri);
-	                        qs.redirectUri = e.data.value.redirectUri;
+	                    if (oauthWindow.closed) {
+	                        reject(new Error('RingCentral Oauth window is closed abnormally.'));
+	                        clearInterval(interval);
+	                    }
+	                }
+	                window.addEventListener('message', function oauthChannel(e) {
+	                    if (e.data.type === 'oauth') {
+	                        var qs = _rcSdk.RC.sdk.platform().parseAuthRedirectUrl(e.data.value);
+	                        qs.redirectUri = redirectUri;
+	                        window.removeEventListener('message', oauthChannel);
+	                        clearInterval(interval);
 	                        resolve(_rcSdk.RC.sdk.platform().login(qs));
+	                    } else if (e.data.type === 'oauth-fail') {
+	                        window.removeEventListener('message', oauthChannel);
+	                        clearInterval(interval);
+	                        reject(new Error('RingCentral Oauth window is closed abnormally.'));
 	                    }
 	                });
 	            });
