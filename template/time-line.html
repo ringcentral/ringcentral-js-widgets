@@ -75,7 +75,20 @@ w.register(function() {
                         enter: {
                             after: function() {
                                 parent.props.selectedContent = this.props.selectedMessage || this.props.content
-                                parent.enterItem()
+                                console.log(this.root.firstChild);
+                                
+                                var srcDOM = this.root.firstChild
+                                enlarge({
+                                    srcDOM: srcDOM,
+                                    targetDOM: parent.dom.content,
+                                    transitionEnd: () => {
+                                        parent.enterItem()
+                                        this.root.appendChild(srcDOM)
+                                        srcDOM.style.width = 'auto'
+                                        srcDOM.style.height = 'auto'
+                                    }
+                                })
+                                // parent.enterItem()
                             }
                         }
                     }
@@ -111,6 +124,122 @@ w.register(function() {
         }
     }
 })
+
+
+function transition({
+    trans,
+    layerHozTrans,
+    layerVerticalTrans,
+    initPosition,
+    transitionStart,
+    transitionTo,
+    createLayer
+}) {
+    return function({ srcScene, targetScene, srcDOM, targetDOM, transitionEnd }) {
+            if (targetScene) targetScene.style.display = 'block'
+            let srcRect     = srcDOM.getBoundingClientRect()
+            let targetRect  = targetDOM.getBoundingClientRect()
+            let src = {
+                width: srcDOM.offsetWidth,
+                height: srcDOM.offsetHeight,
+                left: srcRect.left,
+                top: srcRect.top
+            }
+            let target = {
+                width: targetDOM.offsetWidth,
+                height: targetDOM.offsetHeight,
+                left: targetRect.left,
+                top: targetRect.top
+            }
+            
+            let [$layer, $layer2] = createLayer({ src, target })
+            let layer = div($layer, { overflow: 'hidden' })
+            let layer2 = div($layer2, { position: 'fixed' })
+            let clone = div(src, { position: 'static' })
+            console.log(window.getComputedStyle(srcDOM).marginTop);
+            clone.style.marginBottom =  window.getComputedStyle(srcDOM).marginBottom
+            clone.style.marginTop =  window.getComputedStyle(srcDOM).marginTop
+            let dom = {
+                src: srcDOM,
+                target: targetDOM,
+                layerHoz: layer,
+                layerVertical: layer2
+            }
+            if (targetScene) targetScene.style.display = 'none'
+            document.body.appendChild(layer2)
+            srcDOM.parentNode.insertBefore(clone, srcDOM)
+            layer2.appendChild(layer)
+            layer.appendChild(srcDOM)
+            
+            srcDOM.style.transition = trans
+            layer.style.transition = layerHozTrans
+            layer2.style.transition = layerVerticalTrans
+            transitionStart({ src, target, layerHoz: $layer, layerVertical: $layer2, dom })
+            let callback = function() {
+                if (targetScene) targetScene.style.display = 'block'
+                layer2.parentNode.removeChild(layer2)
+                clone.parentNode.removeChild(clone)
+                transitionEnd()
+            }
+            setTimeout(() => transitionTo(
+                callback , { src, target, layerHoz: $layer, layerVertical: $layer2, dom })
+            , 17)
+        }
+}
+function div(draft, { overflow = 'inherite', position = 'absolute' }) {
+    var div = document.createElement('div')
+    div.style.width = `${draft.width}px`
+    div.style.height = `${draft.height}px`
+    div.style.left = `${draft.left}px`
+    div.style.top = `${draft.top}px`
+    div.style.position = position
+    div.style.overflow = overflow
+    return div
+}
+var enlarge = transition({
+    trans: 'all .3s cubic-bezier(0.4, 0.0, 0.2, 1)',
+    layerHozTrans: 'all .375s ease-in',
+    layerVerticalTrans: 'all .375s ease-out',
+    transitionStart({ src, target, layerHoz, layerVertical, dom }) {
+        var srcDOM = dom.src
+        srcDOM.style.width = `${src.width}px`
+        srcDOM.style.height = `${src.height}px`
+        srcDOM.style.left = `${src.left - layerHoz.left}px`
+        srcDOM.style.top = `${src.top - layerVertical.top}px`
+    },
+    transitionTo(finish, { src, target, layerHoz, layerVertical, dom }) {
+        var srcDOM = dom.src
+        setTimeout(function() {
+            let endedTransitions = 0
+            srcDOM.style.height = layerHoz.height + 'px'
+            srcDOM.style.top = 0 + 'px'
+            srcDOM.addEventListener('transitionend', function end(e) {
+                if (++endedTransitions >= 3) {
+                    finish()
+                    srcDOM.removeEventListener('transitionend', end)
+                }
+            })
+        }, 30)
+        srcDOM.style.width = layerHoz.width + 'px'
+        srcDOM.style.left = 0 + 'px'
+        dom.layerHoz.style.left = target.left + 'px'
+        dom.layerVertical.style.top = target.top + 'px'
+    },
+    createLayer({ src, target }) {
+        return [{
+            width: target.width,
+            height: target.height,
+            left: target.left,
+            top: 0,
+        }, {
+            width: target.width,
+            height: target.height,
+            left: 0,
+            top: src.top,
+        }]
+    }
+})
+
 //# sourceURL=time-line.html
 </script>
 <style>
@@ -136,73 +265,4 @@ $timeline-gray: #878787;
         text-align: center;
     }
 }
-
-
-.rc-timeline-item {
-    @mixin padding-normal;
-    @mixin shadow-1;
-    margin-bottom:  5px;
-    overflow: hidden;
-    transition: background-color .5s ease-in-out;
-    cursor: pointer;
-    &__line {
-        margin-bottom: 10px;
-    }
-    &__icon {
-    }
-    &__contact {
-        font-size: .9em;
-    }
-    &__time {
-        float: right;
-        font-size: .7em;
-        color: $timeline-gray;
-    }
-    &__subject {
-        font-size: .8em;
-        overflow:       hidden;
-        text-overflow:  ellipsis;
-    }
-    &__count {
-        @mixin padding-normal;
-        position: absolute;
-        top:    0;
-        right:  0;
-        font-size: .8em;
-        > .__number {
-            color: $timeline-gray;
-        }
-        &:hover > .__number {
-            color: #000;
-        }
-    }
-    &__content {
-        @mixin padding-normal;
-        position: relative;
-    }
-    &__collapse {
-        @mixin shadow-1;
-        height: 0;
-        overflow: hidden;
-        transition: height .350s cubic-bezier(0.4, 0.0, 0.2, 1);;
-        > .timeline-extra {
-            @mixin padding-normal;
-            font-size: .8em;
-        }
-    }
-    &:hover {
-        @mixin shadow-2;
-        /*background-color: #eee;*/
-    }
-
-    .timeline-extra {
-        &__content {
-            
-        }
-        &:hover {
-            background-color: #eee;
-        }
-    }
-}
-
 </style>
