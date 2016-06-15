@@ -10,12 +10,22 @@ window.addEventListener('message', function(e) {
         interval = setInterval(check, 500)
         function check() {
             console.log(oauthWindow);
-            if (oauthWindow.closed) {
-                frame.contentWindow.postMessage({
-                    type: 'oauth-fail',
-                }, '*')
-                clearInterval(interval)
+            try {
+                if (oauthWindow.closed) {
+                    frame.contentWindow.postMessage({
+                        type: 'oauth-fail',
+                    }, '*')
+                    clearInterval(interval)
+                }
+            } catch(e) {
+                if (oauthWindow.closed) {
+                    frame.contentWindow.postMessage({
+                        type: 'oauth-fail',
+                    }, '*')
+                    clearInterval(interval)
+                }
             }
+            
         }
     // from child
     } else if (e.data.type === 'oauth-request-info') {

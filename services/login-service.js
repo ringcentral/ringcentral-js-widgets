@@ -33,7 +33,7 @@ var LoginService = function(sdk) {
                         })
                         parent.postMessage({
                             type: 'oauth-request',
-                            value:url
+                            value: url
                         }, '*')
                     } else if (e.data.type === 'oauth-response') {
                         var qs = RC.sdk.platform().parseAuthRedirectUrl(e.data.value.url)
