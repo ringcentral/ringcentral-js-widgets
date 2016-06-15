@@ -189,11 +189,79 @@ w.register(function() {
             this.enter()
         }
     })
-});
+})
+
+
 //# sourceURL=time-line-item.html
 </script>
-<style scope>
-    .transition-in {
-        transition: opacity, transform .350s cubic-bezier(0.0, 0.0, 0.2, 1);
+<style>
+
+.rc-timeline-item {
+    @mixin padding-normal;
+    @mixin shadow-1;
+    margin-bottom:  5px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #fff;
+    transition: opacity, transform .350s cubic-bezier(0.0, 0.0, 0.2, 1);
+    &__line {
+        margin-bottom: 10px;
     }
+    &__icon {
+    }
+    &__contact {
+        font-size: .9em;
+    }
+    &__time {
+        float: right;
+        font-size: .7em;
+        color: $timeline-gray;
+    }
+    &__subject {
+        font-size: .8em;
+        overflow:       hidden;
+        text-overflow:  ellipsis;
+    }
+    &__count {
+        @mixin padding-normal;
+        position: absolute;
+        top:    0;
+        right:  0;
+        font-size: .8em;
+        > .__number {
+            color: $timeline-gray;
+        }
+        &:hover > .__number {
+            color: #000;
+        }
+    }
+    &__content {
+        @mixin padding-normal;
+        position: relative;
+    }
+    &__collapse {
+        @mixin shadow-1;
+        height: 0;
+        overflow: hidden;
+        transition: height .350s cubic-bezier(0.4, 0.0, 0.2, 1);;
+        > .timeline-extra {
+            @mixin padding-normal;
+            font-size: .8em;
+        }
+    }
+    &:hover {
+        @mixin shadow-2;
+        /*background-color: #eee;*/
+    }
+
+    .timeline-extra {
+        &__content {
+            
+        }
+        &:hover {
+            background-color: #eee;
+        }
+    }
+}
+    
 </style>
