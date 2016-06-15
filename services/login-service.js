@@ -22,26 +22,36 @@ var LoginService = function(sdk) {
             })
         },
         oauth: function() {
-            parent.postMessage({
-                type: 'oauth-request-info',
-            }, '*')
             return new Promise((resolve, reject) => {
+                var redirectUri = 'https://ringcentral.github.io/ringcentral-js-widget/page/redirect.html'
+                var url = RC.sdk.platform().authUrl({
+                    redirectUri
+                })
+                var oauthWindow = window.open(
+                    url,
+                    'rc-iframe-2',
+                    'width=400, height=600'
+                )
+                var interval = setInterval(check, 500)
+                function check() {
+                    if (!oauthWindow) {
+                        return
+                    }
+                    if (oauthWindow.closed) {
+                        reject(new Error('RingCentral Oauth window is closed abnormally.'))
+                        clearInterval(interval)
+                    }
+                }
                 window.addEventListener('message', function oauthChannel(e) {
-                    if (e.data.type === 'oauth-info-response') {
-                        var url = RC.sdk.platform().authUrl({
-                            redirectUri: e.data.value
-                        })
-                        parent.postMessage({
-                            type: 'oauth-request',
-                            value: url
-                        }, '*')
-                    } else if (e.data.type === 'oauth-response') {
-                        var qs = RC.sdk.platform().parseAuthRedirectUrl(e.data.value.url)
-                        qs.redirectUri = e.data.value.redirectUri
+                    if (e.data.type === 'oauth') {
+                        var qs = RC.sdk.platform().parseAuthRedirectUrl(e.data.value)
+                        qs.redirectUri = redirectUri
                         window.removeEventListener('message', oauthChannel)
+                        clearInterval(interval)
                         resolve(RC.sdk.platform().login(qs))
                     } else if (e.data.type === 'oauth-fail') {
                         window.removeEventListener('message', oauthChannel)
+                        clearInterval(interval)
                         reject(new Error('RingCentral Oauth window is closed abnormally.'))
                     }
                 }); 
