@@ -9,6 +9,7 @@ window.addEventListener('message', function(e) {
         var oauthWindow = openOauthWindow(e.data.value)
         interval = setInterval(check, 500)
         function check() {
+            console.log(oauthWindow);
             if (oauthWindow.closed) {
                 frame.contentWindow.postMessage({
                     type: 'oauth-fail',

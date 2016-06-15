@@ -21,13 +21,13 @@ w.register(function() {
             after: function() {
                 this.checkLogin()
                 .then(loggedin => {
-                    if (loggedin) {
-                        this.dom['main-panel'].hidden = false
-                        webPhone(null, {
-                            width: this.data.width,
-                            height: this.data.height
-                        })
-                    } else {
+                    // if (loggedin) {
+                    //     this.dom['main-panel'].hidden = false
+                    //     webPhone(null, {
+                    //         width: this.data.width,
+                    //         height: this.data.height
+                    //     })
+                    // } else {
                         var phone = this
                         var authPanel = w('auth-panel', {
                             data: {
@@ -47,7 +47,7 @@ w.register(function() {
                             })
                         })
                         authPanel.mount(this.dom['auth-panel'])
-                    }
+                    // }
                 })
                 .catch(e => console.error(e))
             }
