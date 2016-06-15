@@ -227,8 +227,12 @@
 	services['auth-panel'] = {
 	    login: {
 	        method: function method() {
-	            return _loginService2.default.login(this.props.username, this.props.extension, this.props.password);
-	            // return loginService.oauth()
+	            // return loginService.login(
+	            //     this.props.username,
+	            //     this.props.extension,
+	            //     this.props.password
+	            // )
+	            return _loginService2.default.oauth();
 	        }
 	    }
 	};
@@ -438,6 +442,14 @@
 	    transformURL: {
 	        method: function method() {
 	            return this.props.transformee + ('?access_token=' + _rcContactService2.default.accessToken());
+	        }
+	    },
+	    getFileInfo: {
+	        method: function method() {
+	            console.log(this.props.fileURL);
+	            return _rcSdk.RC.sdk.platform().get(this.props.fileURL).then(function (r) {
+	                return r.json();
+	            });
 	        }
 	    },
 	    setOutboundCallerID: {
@@ -24217,7 +24229,7 @@
 	                type: 'oauth-request-info'
 	            }, '*');
 	            return new Promise(function (resolve, reject) {
-	                window.addEventListener('message', function (e) {
+	                window.addEventListener('message', function oauthChannel(e) {
 	                    if (e.data.type === 'oauth-info-response') {
 	                        var url = _rcSdk.RC.sdk.platform().authUrl({
 	                            redirectUri: e.data.value
@@ -24226,12 +24238,14 @@
 	                            type: 'oauth-request',
 	                            value: url
 	                        }, '*');
-	                    }
-	                    if (e.data.type === 'oauth-response') {
+	                    } else if (e.data.type === 'oauth-response') {
 	                        var qs = _rcSdk.RC.sdk.platform().parseAuthRedirectUrl(e.data.value.url);
-	                        console.log(e.data.value.redirectUri);
 	                        qs.redirectUri = e.data.value.redirectUri;
+	                        window.removeEventListener('message', oauthChannel);
 	                        resolve(_rcSdk.RC.sdk.platform().login(qs));
+	                    } else if (e.data.type === 'oauth-fail') {
+	                        window.removeEventListener('message', oauthChannel);
+	                        reject(new Error('RingCentral Oauth window is closed abnormally.'));
 	                    }
 	                });
 	            });

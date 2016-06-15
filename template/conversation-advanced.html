@@ -60,7 +60,7 @@
 <script src='https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.3.0/js/md5.min.js'></script>
 <script>
 function _pad(n) {
-    return (n < 10) ? ("0" + n) : n;
+    return (n < 10) ? ("0" + n) : n
 }
 var fade = w.transition('fade')
 var _numberOfRetryLoading = 0
@@ -112,7 +112,7 @@ this.actions = {
                             return conversation.getOutboundCallerID()
                         },
                         after: function(ids) {
-                            ids.forEach(id => this.addItem(id));
+                            ids.forEach(id => this.addItem(id))
                         }
                     }
                 }
@@ -202,7 +202,7 @@ this.actions = {
             } else {
                 this.dom.conversations.appendChild(doc)
             }
-            return this.dom.conversations.lastChild;
+            return this.dom.conversations.lastChild
         }
     },
     markBubble: {
@@ -236,7 +236,7 @@ this.actions = {
                         dom.previousSibling.classList.add('conversations__conv--marked')
                     }
                 })
-            });
+            })
             model.dom.addEventListener('mouseout', e => {
                 if (!this.props.fromNumbers)
                     return // not yet loaded
@@ -262,7 +262,7 @@ this.actions = {
                         dom.previousSibling.classList.remove('conversations__conv--marked')
                     }
                 })
-            });
+            })
         }
     },
     createSMSTemplate: {
@@ -300,8 +300,8 @@ this.actions = {
     },
     createVoiceMailTemplate: {
         method: function(finish, id, content, opponent, time) {
-            this.props.transformee = content.uri
-            var audio = new Audio(this.transformURL())
+            var audio = null
+            var audioURL = this.transformURL()
             var div = document.createElement('div')
             div.innerHTML = `<div class='clearfix conversations__conv'>
                                 <div
@@ -328,6 +328,10 @@ this.actions = {
             var playing = false
             bubble.style.width = length + 'px'
             bubble.addEventListener('click', e => {
+                if (!audio) {
+                    this.props.transformee = content.uri
+                    audio = new Audio(this.transformURL())
+                }
                 var interval
                 if (playing)
                     audio.pause()
@@ -347,37 +351,62 @@ this.actions = {
                         requestAnimationFrame(frame)
                     })
                 })
-            });
+            })
             return div.firstChild
         }
     },
     createCallLogTemplate: {
         method: function(finish, id, content, opponent, time) {
             var div = document.createElement('div')
-            div.innerHTML = `<div class='clearfix conversations__conv'>
-                                <div
-                                    data-tooltip='${time}'
-                                    class='conversations__bubble ${opponent? "conversations__bubble--opponent": "conversations__bubble--self"} conversations__bubble--log'>
-                                    <span class='bubble--log icon-uniAE'>
-                                    ${typeof content === 'string'?
-                                     `<span>${content}</span>`: 
-                                     "<span class='voice-bubble__play icon-uni7C'></span>"}
-                                </div>
-                            </div>`
-
             if (typeof content === 'string') {
-
+                div.innerHTML = `<div class='clearfix conversations__conv'>
+                                    <div
+                                        data-tooltip='${time}'
+                                        class='conversations__bubble ${
+                                            opponent? 
+                                            "conversations__bubble--opponent": 
+                                            "conversations__bubble--self"} 
+                                            conversations__bubble--log'>
+                                        <span class='bubble--log icon-uniAE'>
+                                        <span>${content}</span>
+                                    </div>
+                                </div>`
+                div = div.firstChild
+                // call log recording
             } else {
                 // TODO:
                 // get ${content.uri}?access_token=${sdk.platform().auth().accessToken()}
                 // to get the duration of record
-                this.props.transformee =`${content.uri}/content`
-                var audio = new Audio(this.transformURL())
-                div.firstChild.addEventListener('click', e => {
+                div.innerHTML = `<div class='clearfix conversations__conv'>
+                                    <div
+                                        data-tooltip='${time}'
+                                        class='conversations__bubble ${
+                                            opponent? 
+                                            "conversations__bubble--opponent": 
+                                            "conversations__bubble--self"} 
+                                            conversations__bubble--log'>
+                                        <span class='bubble--log icon-uniAE'>
+                                        <span>Phone Call</span>
+                                    </div>
+                                </div>`
+                this.props.fileURL = content.uri
+                var info = this.getFileInfo().then(json => {
+                    // adapt to voice mail formet
+                    if (!json.duration || json.duration == 0)
+                        return
+                    json.vmDuration = json.duration
+                    json.uri = json.contentUri
+                    var voiceDiv = this.createVoiceMailTemplate(id, json, opponent, time)
+                    div.innerHTML = ''
+                    div.appendChild(voiceDiv)
+                }).catch(e => console.error(e))
+                div.addEventListener('click', e => {
+                    this.props.transformee = content.contentUri
+                    var audio = new Audio(this.transformURL())
                     audio.play()
-                });
+                })
             }
-            return div.firstChild
+            return div
         }
     },
     reachTop: {
@@ -410,7 +439,7 @@ this.actions = {
                     return
                 }
                 this.props.loadingPeriod *= 10
-                console.log(this.props.loadingPeriod );
+                console.log(this.props.loadingPeriod)
                 this.reachTop()
             }
         }
@@ -494,7 +523,7 @@ this.actions = {
     addIncomingMessages: {
         method: function(finish) {
             this.props.contact.msg = this.props.contact.msg || []
-            console.log('incoming');
+            console.log('incoming')
             this.parseMessages(
                 this.props.contact.msg
                     .filter(msg => !msg.status.receiveConfirmed)
@@ -542,6 +571,11 @@ this.actions = {
             return finish()
         }
     },
+    getFileInfo: {
+        method: function(finish) {
+            return finish()
+        }
+    },
     scrollToAnchor: {
         after: function() {
             var anchor
@@ -564,7 +598,7 @@ this.actions = {
     },
     setOutboundCallerID: {
         method: function(finish) {
-            return finish();
+            return finish()
         },
         after: function(numbers) {
             // If we didn't get the default number, set to the first one of candidates
@@ -575,8 +609,8 @@ this.actions = {
     },
     queryContacts: {
         method: function(finish, queryText) {
-            this.props.to = queryText;
-            return finish();
+            this.props.to = queryText
+            return finish()
         }
     },
     setSender: {
