@@ -63,11 +63,20 @@
 	    if (e.data.type === 'oauth-request') {
 	        var check = function check() {
 	            console.log(oauthWindow);
-	            if (oauthWindow.closed) {
-	                _frame2.default.contentWindow.postMessage({
-	                    type: 'oauth-fail'
-	                }, '*');
-	                clearInterval(interval);
+	            try {
+	                if (oauthWindow.closed) {
+	                    _frame2.default.contentWindow.postMessage({
+	                        type: 'oauth-fail'
+	                    }, '*');
+	                    clearInterval(interval);
+	                }
+	            } catch (e) {
+	                if (oauthWindow.closed) {
+	                    _frame2.default.contentWindow.postMessage({
+	                        type: 'oauth-fail'
+	                    }, '*');
+	                    clearInterval(interval);
+	                }
 	            }
 	        };
 	        // from child
