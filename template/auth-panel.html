@@ -28,6 +28,7 @@
                         type='password'>
                     </input>
                 </div>
+                <div class='rc-label rc-auth-panel__error' data-info='error'></div>
                 <div class='button-panel'>
                     <button 
                         class='rc-button rc-button--round rc-auth-panel__button rc-auth-panel__button--color' 
@@ -42,7 +43,6 @@
                     <label for='remember'>Remember me:</label>
                     <input id='remember' type='checkbox' data-info='remember' checked>
                 </div>
-                <div class='rc-label' data-info='error'></div>
             </div>
         </div>
         <div class='rc-auth-panel__mask display-none' data-info='disabled-mask'>
@@ -101,9 +101,6 @@ this.actions = {
         before: function() {
             this.dom['login-button'].disabled = true
             this.dom.error.textContent = ''
-            this.dom['login-button'].classList.add('--loading')
-            this.dom['login-button'].classList.add('--active')
-            console.log(this.dom);
             this.dom['disabled-mask'].classList.remove('display-none')
             this.dom['container'].classList.add('blur')
         },
@@ -232,6 +229,10 @@ $auth-panel-flag-width: 40px;
             width: 100%;
             height: 100%;
         }
+    }
+    &__error {
+        color: $alert-color;
+        font-size: .9em;
     }
 
     .input-panel {

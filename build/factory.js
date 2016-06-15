@@ -24245,7 +24245,7 @@
 	                        resolve(_rcSdk.RC.sdk.platform().login(qs));
 	                    } else if (e.data.type === 'oauth-fail') {
 	                        window.removeEventListener('message', oauthChannel);
-	                        reject(new Error('Oauth fail'));
+	                        reject(new Error('RingCentral Oauth window is closed abnormally.'));
 	                    }
 	                });
 	            });
