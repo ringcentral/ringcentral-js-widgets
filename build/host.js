@@ -56,64 +56,16 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	window.addEventListener('message', function (e) {
-	    // not for redux, for child iframe oauth
-	    // from child
-	    var redirectUri = 'https://ringcentral.github.io/ringcentral-js-widget/page/redirect.html';
-	    var interval = null;
-	    if (e.data.type === 'oauth-request') {
-	        var check = function check() {
-	            console.log(oauthWindow);
-	            try {
-	                if (oauthWindow.closed) {
-	                    _frame2.default.contentWindow.postMessage({
-	                        type: 'oauth-fail'
-	                    }, '*');
-	                    clearInterval(interval);
-	                }
-	            } catch (e) {
-	                if (oauthWindow.closed) {
-	                    _frame2.default.contentWindow.postMessage({
-	                        type: 'oauth-fail'
-	                    }, '*');
-	                    clearInterval(interval);
-	                }
-	            }
-	        };
-	        // from child
-	
-	
-	        var oauthWindow = (0, _oauth.oauth)(e.data.value);
-	        interval = setInterval(check, 500);
-	    } else if (e.data.type === 'oauth-request-info') {
-	
-	            _frame2.default.contentWindow.postMessage({
-	                type: 'oauth-info-response',
-	                value: redirectUri
-	            }, '*');
-	
-	            // from oauth window
-	        } else if (e.data.type === 'oauth') {
-	                interval && clearInterval(interval);
-	                _frame2.default.contentWindow.postMessage({
-	                    type: 'oauth-response',
-	                    value: {
-	                        url: e.data.value,
-	                        redirectUri: redirectUri
-	                    }
-	                }, '*');
-	            } else {
-	                // redux
-	                var state = e.data;
-	                _frame2.default.width = state.size.width;
-	                _frame2.default.height = state.size.height;
-	                if (state.status.unmount) {
-	                    _frame2.default.parentNode.removeChild(_frame2.default);
-	                }
-	                if (state.status.ready) {
-	                    _frame2.default.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)';
-	                    _frame2.default.style['transition'] = 'height .150s cubic-bezier(0.4, 0.0, 0.2, 1)';
-	                }
-	            }
+	    var state = e.data;
+	    _frame2.default.width = state.size.width;
+	    _frame2.default.height = state.size.height;
+	    if (state.status.unmount) {
+	        _frame2.default.parentNode.removeChild(_frame2.default);
+	    }
+	    if (state.status.ready) {
+	        _frame2.default.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)';
+	        _frame2.default.style['transition'] = 'height .150s cubic-bezier(0.4, 0.0, 0.2, 1)';
+	    }
 	});
 	// Ringcentral.on()
 	// Ringcentral.oauth()
