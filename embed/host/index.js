@@ -4,9 +4,18 @@ window.addEventListener('message', function(e) {
     // not for redux, for child iframe oauth
     // from child
     var redirectUri = 'https://ringcentral.github.io/ringcentral-js-widget/page/redirect.html'
+    var interval = null
     if (e.data.type === 'oauth-request') {
-        console.log(e.data.value);
-        openOauthWindow(e.data.value)
+        var oauthWindow = openOauthWindow(e.data.value)
+        interval = setInterval(check, 500)
+        function check() {
+            if (oauthWindow.closed) {
+                frame.contentWindow.postMessage({
+                    type: 'oauth-fail',
+                }, '*')
+                clearInterval(interval)
+            }
+        }
     // from child
     } else if (e.data.type === 'oauth-request-info') {
         
@@ -17,6 +26,7 @@ window.addEventListener('message', function(e) {
 
     // from oauth window
     } else if (e.data.type === 'oauth') {
+        interval && clearInterval(interval)
         frame.contentWindow.postMessage({
             type: 'oauth-response',
             value: {

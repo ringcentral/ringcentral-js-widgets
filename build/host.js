@@ -59,10 +59,21 @@
 	    // not for redux, for child iframe oauth
 	    // from child
 	    var redirectUri = 'https://ringcentral.github.io/ringcentral-js-widget/page/redirect.html';
+	    var interval = null;
 	    if (e.data.type === 'oauth-request') {
-	        console.log(e.data.value);
-	        (0, _oauth.oauth)(e.data.value);
+	        var check = function check() {
+	            if (oauthWindow.closed) {
+	                _frame2.default.contentWindow.postMessage({
+	                    type: 'oauth-fail'
+	                }, '*');
+	                clearInterval(interval);
+	            }
+	        };
 	        // from child
+	
+	
+	        var oauthWindow = (0, _oauth.oauth)(e.data.value);
+	        interval = setInterval(check, 500);
 	    } else if (e.data.type === 'oauth-request-info') {
 	
 	            _frame2.default.contentWindow.postMessage({
@@ -72,6 +83,7 @@
 	
 	            // from oauth window
 	        } else if (e.data.type === 'oauth') {
+	                interval && clearInterval(interval);
 	                _frame2.default.contentWindow.postMessage({
 	                    type: 'oauth-response',
 	                    value: {
@@ -297,7 +309,7 @@
 	});
 	exports.oauth = oauth;
 	function oauth(authUrl) {
-	    window.open(authUrl, 'rc-iframe-2', 'width=400, height=600');
+	    return window.open(authUrl, 'rc-iframe-2', 'width=400, height=600');
 	}
 
 /***/ }

@@ -1,46 +1,52 @@
 <template>
     <div class='rc-panel rc-auth-panel'>
-        <div class='rc-panel__header rc-auth-panel__header rc-auth-panel__header--color'>
-            <img    class='rc-img rc-auth-panel__img'
-                    src='./ringcentral_logo.png'
-                    data-info='logo'>
+        <div class='rc-auth-panel__container' data-info='container'>
+            <div class='rc-panel__header rc-auth-panel__header rc-auth-panel__header--color'>
+                <img    class='rc-img rc-auth-panel__img'
+                        src='./ringcentral_logo.png'
+                        data-info='logo'>
+            </div>
+            <div class='
+                rc-panel__content 
+                rc-auth-panel__content 
+                rc-auth-panel__content--color'>
+                <div data-info='user-info'>
+                    <input 
+                        class='rc-input rc-input--round' 
+                        data-info='username' 
+                        placeholder='username'>
+                    </input>
+                    <input 
+                        class='rc-input rc-input--round' 
+                        data-info='extension'
+                        placeholder="extension"
+                        ></input>
+                    <input 
+                        class='rc-input rc-input--round' 
+                        data-info='password'
+                        placeholder="password"
+                        type='password'>
+                    </input>
+                </div>
+                <div class='button-panel'>
+                    <button 
+                        class='rc-button rc-button--round rc-auth-panel__button rc-auth-panel__button--color' 
+                        data-info='external-login-button'>Third party
+                    </button>
+                    <button 
+                        class='rc-button rc-button--round rc-auth-panel__button rc-auth-panel__button--color' 
+                        data-info='login-button'>Login
+                    </button>
+                </div>
+                <div class='rc-label' data-info='remember-wrapper'>
+                    <label for='remember'>Remember me:</label>
+                    <input id='remember' type='checkbox' data-info='remember' checked>
+                </div>
+                <div class='rc-label' data-info='error'></div>
+            </div>
         </div>
-        <div class='rc-panel__content rc-auth-panel__content rc-auth-panel__content--color'>
-            <div data-info='user-info'>
-                <input 
-                    class='rc-input rc-input--round' 
-                    data-info='username' 
-                    placeholder='username'>
-                </input>
-                <input 
-                    class='rc-input rc-input--round' 
-                    data-info='extension'
-                    placeholder="extension"
-                    ></input>
-                <input 
-                    class='rc-input rc-input--round' 
-                    data-info='password'
-                    placeholder="password"
-                    type='password'>
-                </input>
-            </div>
-            <div class='button-panel'>
-                <button 
-                    class='rc-button rc-button--round rc-auth-panel__button rc-auth-panel__button--color' 
-                    data-info='external-login-button'>Third party
-                </button>
-                <button 
-                    class='rc-button rc-button--round rc-auth-panel__button rc-auth-panel__button--color' 
-                    data-info='login-button'>Login
-                </button>
-            </div>
-            <div class='rc-label' data-info='remember-wrapper'>
-                <label for='remember'>Remember me:</label>
-                <input id='remember' type='checkbox' data-info='remember' checked>
-            </div>
-            <div class='rc-label' data-info='error'></div>
-        </div>
-        <!-- <div class='rc-panel__footer' data-info='footer'></div> -->
+        <div class='rc-auth-panel__mask display-none' data-info='disabled-mask'>
+            <p data-info='disabled-mask-text'>Log in...</p>
         </div>
     </div>
 </template>
@@ -97,6 +103,9 @@ this.actions = {
             this.dom.error.textContent = ''
             this.dom['login-button'].classList.add('--loading')
             this.dom['login-button'].classList.add('--active')
+            console.log(this.dom);
+            this.dom['disabled-mask'].classList.remove('display-none')
+            this.dom['container'].classList.add('blur')
         },
         method: function(finish) {
             this.props.username = this.dom.username.value
@@ -106,6 +115,8 @@ this.actions = {
         },
         after: function() {
             this.dom['login-button'].disabled = false
+            this.dom['disabled-mask'].classList.add('display-none')
+            this.dom['container'].classList.remove('blur')
             if (this.dom.remember.checked) {
                 localStorage.setItem('username', this.dom.username.value || '')
                 localStorage.setItem('extension', this.dom.extension.value || '')
@@ -113,8 +124,9 @@ this.actions = {
             }
         },
         error: function(err) {
-            console.error(err)
-            this.dom.error.textContent = err.message
+            this.dom.error.textContent = err.message || err
+            this.dom['disabled-mask'].classList.add('display-none')
+            this.dom['container'].classList.remove('blur')
             this.dom['login-button'].disabled = false
         }
     },
@@ -186,6 +198,7 @@ $auth-panel-flag-width: 40px;
     }
     &__container {
         @mixin block;
+        height: 100%;
     }
     &__header {
         text-align: center;
@@ -196,6 +209,28 @@ $auth-panel-flag-width: 40px;
     &__button {
         &--color {
 
+        }
+    }
+    &__mask {
+        position: absolute;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        > p {
+            font-weight: bold;
+            text-align: center;
+        }
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
         }
     }
 
@@ -225,6 +260,11 @@ $auth-panel-flag-width: 40px;
             margin-top: 10px;
             width: 100%;
         }
+    }
+
+    .blur {
+        filter: blur(2px);
+        -webkit-filter: blur(2px);
     }
 }
 

@@ -24229,7 +24229,7 @@
 	                type: 'oauth-request-info'
 	            }, '*');
 	            return new Promise(function (resolve, reject) {
-	                window.addEventListener('message', function (e) {
+	                window.addEventListener('message', function oauthChannel(e) {
 	                    if (e.data.type === 'oauth-info-response') {
 	                        var url = _rcSdk.RC.sdk.platform().authUrl({
 	                            redirectUri: e.data.value
@@ -24238,12 +24238,14 @@
 	                            type: 'oauth-request',
 	                            value: url
 	                        }, '*');
-	                    }
-	                    if (e.data.type === 'oauth-response') {
+	                    } else if (e.data.type === 'oauth-response') {
 	                        var qs = _rcSdk.RC.sdk.platform().parseAuthRedirectUrl(e.data.value.url);
-	                        console.log(e.data.value.redirectUri);
 	                        qs.redirectUri = e.data.value.redirectUri;
+	                        window.removeEventListener('message', oauthChannel);
 	                        resolve(_rcSdk.RC.sdk.platform().login(qs));
+	                    } else if (e.data.type === 'oauth-fail') {
+	                        window.removeEventListener('message', oauthChannel);
+	                        reject(new Error('Oauth fail'));
 	                    }
 	                });
 	            });

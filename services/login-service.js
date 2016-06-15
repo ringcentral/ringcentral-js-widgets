@@ -26,7 +26,7 @@ var LoginService = function(sdk) {
                 type: 'oauth-request-info',
             }, '*')
             return new Promise((resolve, reject) => {
-                window.addEventListener('message', function(e) {
+                window.addEventListener('message', function oauthChannel(e) {
                     if (e.data.type === 'oauth-info-response') {
                         var url = RC.sdk.platform().authUrl({
                             redirectUri: e.data.value
@@ -35,12 +35,14 @@ var LoginService = function(sdk) {
                             type: 'oauth-request',
                             value:url
                         }, '*')
-                    }
-                    if (e.data.type === 'oauth-response') {
+                    } else if (e.data.type === 'oauth-response') {
                         var qs = RC.sdk.platform().parseAuthRedirectUrl(e.data.value.url)
-                        console.log(e.data.value.redirectUri)
                         qs.redirectUri = e.data.value.redirectUri
+                        window.removeEventListener('message', oauthChannel)
                         resolve(RC.sdk.platform().login(qs))
+                    } else if (e.data.type === 'oauth-fail') {
+                        window.removeEventListener('message', oauthChannel)
+                        reject(new Error('Oauth fail'))
                     }
                 }); 
             })
