@@ -1,8 +1,18 @@
 <div>
     <div data-info='auth-panel'></div>
-    <div data-info='main-panel' hidden>Ringcentral</div>
-    <div id='call-panel'></div>
-    <div id='call-panel-incoming'></div>
+    <div class='rc-panel main' data-info='main-panel' hidden>
+        <div class='rc-panel__header'>
+            <img class='logo' src="./ringcentral_logo.png">
+            
+        </div>
+    </div>
+    <div class='rc-panel__content rc-panel__content--full'>
+        <p data-info='waiting'>
+            Waiting for incoming call.
+        </p>
+        <div id='call-panel'></div>
+        <div id='call-panel-incoming'></div>
+    </div>
 </div>
 <script>
 import Factory from './factory/factory'
@@ -21,13 +31,13 @@ w.register(function() {
             after: function() {
                 this.checkLogin()
                 .then(loggedin => {
-                    // if (loggedin) {
-                    //     this.dom['main-panel'].hidden = false
-                    //     webPhone(null, {
-                    //         width: this.data.width,
-                    //         height: this.data.height
-                    //     })
-                    // } else {
+                    if (loggedin) {
+                        this.dom['main-panel'].hidden = false
+                        webPhone(null, {
+                            width: this.data.width,
+                            height: this.data.height
+                        })
+                    } else {
                         var phone = this
                         var authPanel = w('auth-panel', {
                             data: {
@@ -47,7 +57,7 @@ w.register(function() {
                             })
                         })
                         authPanel.mount(this.dom['auth-panel'])
-                    // }
+                    }
                 })
                 .catch(e => console.error(e))
             }
@@ -78,6 +88,7 @@ var webPhone = function(data, {width, height}) {
             height: height,
             remoteVideo: callPanel.props.remoteVideo,
             localVideo: callPanel.props.localVideo,
+            simple: true
         },
         actions: factory.create('call-panel-incoming', {
             accept: {
@@ -92,3 +103,11 @@ var webPhone = function(data, {width, height}) {
     })
 }
 </script>
+<style scoped>
+    .main {
+        text-align: center;
+    }
+    .logo {
+        width: 80%;
+    }
+</style>

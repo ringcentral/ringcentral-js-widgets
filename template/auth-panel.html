@@ -35,8 +35,12 @@
                         data-info='external-login-button'>Third party
                     </button>
                     <button 
-                        class='rc-button rc-button--round rc-auth-panel__button rc-auth-panel__button--color' 
-                        data-info='login-button'>Login
+                        class='rc-button 
+                            rc-button--round 
+                            rc-button--material
+                            rc-auth-panel__button 
+                            rc-auth-panel__button--color' 
+                        data-info='login-button'>LOG IN
                     </button>
                 </div>
                 <div class='rc-label' data-info='remember-wrapper'>
@@ -72,7 +76,6 @@ this.actions = {
             var t = w.t(this.data.lang)
             var {color, lang, logo} = this.data
             this.dom.logo.src = logo || './ringcentral_logo.png'
-            this.dom['login-button'].textContent = t('login') || 'login'
             if (this.props.oauth) {
                 this.dom['user-info'].classList.add('display-none')
                 this.dom['remember-wrapper'].classList.add('display-none')

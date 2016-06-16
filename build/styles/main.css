@@ -1174,7 +1174,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .rc-panel__header--colored {
-    background-color: #1e89ed;
+    background-color: #2196F3;
     color: #fff;/* the white text need to be light */
     font-weight: lighter;
 }
@@ -1206,7 +1206,6 @@ h1, h2, h3, h4, h5, h6 {
     padding: .5em .7em;
     border: 1px solid #000;
     background-color: #fff
-
 }
 .rc-button:hover, .rc-button:active, .rc-button--active {
     background-color: #eee;
@@ -1215,13 +1214,13 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 50%;
 }
 .rc-button--round {
-    border-radius: 3px;
+    border-radius: 2px;
 }
 .rc-button--clean {
     background: transparent;
 }
 .rc-button--clean:hover, .rc-button--clean:active {
-    border-color: #1e89ed;
+    border-color: #2196F3;
 }
 .rc-button--ghost {
     border: 0;
@@ -1248,6 +1247,14 @@ h1, h2, h3, h4, h5, h6 {
 .rc-button--negative:hover, .rc-button--negative:active, .rc-button--negative--active {
     background-color: #e74c3c;
 }
+.rc-button--material {
+    border: 0;
+    color: #fff;
+    background-color: #2196F3;
+}
+.rc-button--material:hover, .rc-button--material:active, .rc-button--material--active {
+    background-color: #42A5F5;
+}
 .rc-input {
     padding: .5em .7em;
     width: 100%;
@@ -1258,13 +1265,13 @@ h1, h2, h3, h4, h5, h6 {
     border: 0;
 }
 .rc-input--round {
-    border-radius: 3px;
+    border-radius: 2px;
 }
 .rc-input:focus {
     border-color: #7f8c8d;
 }
 .rc-tag {
-    border: 1px solid #1e89ed;
+    border: 1px solid #2196F3;
     padding: .1em .3em;
 }
 .rc-label {
@@ -1303,20 +1310,20 @@ h1, h2, h3, h4, h5, h6 {
 .rc-tabs__tab:last-child {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
-    border-right: 1px solid #1e89ed;
+    border-right: 1px solid #2196F3;
 }
 .rc-tabs__tab--color {
     background-color: #fff;
-    border-color: #1e89ed;
-    color: #1e89ed;
+    border-color: #2196F3;
+    color: #2196F3;
 }
 .rc-tabs__tab--active {
-    background-color: #1e89ed;
-    border-color: #1e89ed;
+    background-color: #2196F3;
+    border-color: #2196F3;
     color: #fff;
 }
 .rc-tabs__tab--active:last-child {
-    border-right-color: #1e89ed;
+    border-right-color: #2196F3;
 }
 .rc-tabs__tab--width2 {
     width: 50%;

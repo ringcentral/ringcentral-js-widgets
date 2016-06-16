@@ -265,9 +265,7 @@ this.actions = {
 
             this.root.firstChild.style.width = this.props.width + 'px'
             this.root.firstChild.style.height = this.props.height + 'px'
-            if (!this.props.advance) {
-                this.dom['contral-panel'].classList.add('display-none')
-            }
+            if (!this.props.advance) this.dom['contral-panel'].classList.add('display-none')
             var callPanel = this
             w.customize(this, 'contact-picker', {
                 actions: {
@@ -300,6 +298,7 @@ this.actions = {
     },
     mount: {
         after: function () {
+            if (!this.props.advance) this.dom['contral-panel'].classList.add('display-none')
             fade.init(this.root)
             fade.in(this.root)
             this.props.name && this.setName(this.props.name)
