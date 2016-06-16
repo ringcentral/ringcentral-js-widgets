@@ -1,10 +1,10 @@
 <template>
-    <div class='rc-panel rc-dial-pad'>
+    <div data-info='panel' class='rc-panel rc-dial-pad'>
         <div class='rc-panel__header rc-panel__header--colored' data-info='header'>
             <contact-picker data-info='contact-picker'></contact-picker>
         </div>
         <button 
-            class='rc-button rc-button--circle call-button call-button--color' 
+            class='rc-button rc-button--circle rc-dial-pad__call-button rc-dial-pad__call-button--color' 
             data-info='callout'>
             <span class='icon-ActionButtons_Filters'></span>
         </button>
@@ -96,6 +96,7 @@
         <div class='rc-dial-pad__mask display-none' data-info='disabled-mask'>
             <p data-info='disabled-mask-text'>Your account doesn't not have Web Phone permission.</p>
         </div>
+        <div class='call-waiting' data-info='callWaiting'></div>
     </div>
 </template>
 <script>
@@ -202,22 +203,39 @@ this.actions = {
     },
     callout: {
         before: function() {
-            this.dom.callout.classList.add('rc-button--active')
-        },
-        method: function(finish, event) {
-            // TODO: Do some basic validation.
-            console.log('callout dialpad');
+            // this.dom.callout.classList.add('rc-button--active')
             if (!this.props.toNumber || !this.props.fromNumber) {
                 console.error('from- or to-Number is missing.')
                 throw Error('from- or to-Number is missing.')
+                return
             }
+            var srcDOM = this.dom.callout
+            return new Promise((resolve, reject) => {
+                circle({
+                    targetScene: this.dom.callWaiting,
+                    srcDOM: this.dom.callout,
+                    targetDOM: this.dom.callWaiting,
+                    transitionEnd: () => {
+                        srcDOM.style.top = '5px'
+                        srcDOM.style.left = 'auto'
+                        srcDOM.style.right = '5px'
+                        srcDOM.style.width = '3em'
+                        srcDOM.style.height = '3em'
+                        srcDOM.style.background = '#2ecc71'
+                        // this.dom.callWaiting.style['z-index'] = 0
+                        this.dom.header.parentNode.insertBefore(srcDOM, this.dom.header.nextSibling)
+                        resolve()
+                    }
+                })
+            })
+        },
+        method: function(finish, event) {
             var cp = this.refs['contact-picker']
             this.props.toNumber = cp.dom.input.value
             return finish()
         },
         after: function() {
-            console.log('callout dialpad after');
-            setTimeout(() => this.dom.callout.classList.remove('rc-button--active'), 1000)
+            
         },
         // error: function(err) {
         //     console.error(err);
@@ -283,6 +301,120 @@ this.on('click', function(e) {
 //     }
 // })
 
+
+function transition({
+    trans,
+    layerHozTrans,
+    layerVerticalTrans,
+    initPosition,
+    transitionStart,
+    transitionTo,
+    createLayer
+}) {
+    return function({ srcScene, targetScene, srcDOM, targetDOM, transitionEnd }) {
+            if (targetScene) targetScene.style.display = 'block'
+            let srcRect     = srcDOM.getBoundingClientRect()
+            let targetRect  = targetDOM.getBoundingClientRect()
+            let src = {
+                width: srcDOM.offsetWidth,
+                height: srcDOM.offsetHeight,
+                left: srcRect.left,
+                top: srcRect.top
+            }
+            console.log(src);
+            let target = {
+                width: targetDOM.offsetWidth,
+                height: targetDOM.offsetHeight,
+                left: targetRect.left,
+                top: targetRect.top
+            }
+            
+            let [$layer, $layer2] = createLayer({ src, target })
+            let layer = div($layer, { overflow: 'hidden' })
+            let layer2 = div($layer2, { position: 'fixed' })
+            let clone = div(src, { position: 'absolute' })
+            clone.style.marginBottom =  window.getComputedStyle(srcDOM).marginBottom
+            clone.style.marginTop =  window.getComputedStyle(srcDOM).marginTop
+            let dom = {
+                src: srcDOM,
+                target: targetDOM,
+                layerHoz: layer,
+                layerVertical: layer2
+            }
+            if (targetScene) targetScene.style.display = 'none'
+            document.body.appendChild(layer2)
+            srcDOM.parentNode.insertBefore(clone, srcDOM)
+            layer2.appendChild(layer)
+            layer.appendChild(srcDOM)
+            srcDOM.style.position = 'absolute'
+            srcDOM.style.transition = trans
+            layer.style.transition = layerHozTrans
+            layer2.style.transition = layerVerticalTrans
+            transitionStart({ src, target, layerHoz: $layer, layerVertical: $layer2, dom })
+            let callback = function() {
+                if (targetScene) targetScene.style.display = 'block'
+                layer2.parentNode.removeChild(layer2)
+                clone.parentNode.removeChild(clone)
+                transitionEnd()
+            }
+            setTimeout(() => transitionTo(
+                callback , { src, target, layerHoz: $layer, layerVertical: $layer2, dom })
+            , 17)
+        }
+}
+function div(draft, { overflow = 'inherite', position = 'absolute' }) {
+    var div = document.createElement('div')
+    div.style.width = `${draft.width}px`
+    div.style.height = `${draft.height}px`
+    div.style.left = `${draft.left}px`
+    div.style.top = `${draft.top}px`
+    div.style.position = position
+    div.style.overflow = overflow
+    return div
+}
+var circle = transition({
+    trans: 'all .375s cubic-bezier(0.4, 0.0, 0.2, 1)',
+    layerHozTrans: 'all .1s ease-in',
+    layerVerticalTrans: 'all .1s ease-out',
+    transitionStart({ src, target, layerHoz, layerVertical, dom }) {
+        var srcDOM = dom.src
+        srcDOM.style.left = `${(layerHoz.width - src.width) / 2}px`
+        srcDOM.style.top = `${(layerVertical.height - src.width) / 2}px`
+    },
+    transitionTo(finish, { src, target, layerHoz, layerVertical, dom }) {
+        let srcDOM = dom.src
+        let endedTransitions = 0
+        let sl = Math.sqrt(
+            (target.width / 2 * target.width / 2) +
+            (target.height / 2 * target.height / 2)
+        )
+        srcDOM.style.position = 'absolute'
+        srcDOM.style.width = sl * 2 + 'px'
+        srcDOM.style.height = sl * 2 + 'px'
+        srcDOM.style.left = target.width / 2 - sl + 'px'
+        srcDOM.style.top = target.height / 2 - sl + 'px'
+        srcDOM.style.background = '#fff'
+        dom.layerHoz.style.left = target.left + 'px'
+        dom.layerVertical.style.top = target.top + 'px'
+        srcDOM.addEventListener('transitionend', function(e) {
+            if (++ endedTransitions === 3) finish()
+        })
+    },
+    createLayer({ src, target }) {
+        return [{
+            width: target.width,
+            height: target.height,
+            left: src.left - (target.width - src.width) / 2,
+            top: 0,
+        }, {
+            width: target.width,
+            height: target.height,
+            left: 0,
+            top: src.top - (target.height - src.height) / 2,
+        }]
+    }
+})
+
 //# sourceURL=dial-pad.html
 </script>
 <style>
@@ -339,22 +471,32 @@ $dial-pad-call-button-color: #2ecc71;
             height: 100%;
         }
     }
+    .call-waiting {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        z-index: -1;
+    }
     .blur {
         filter: blur(2px);
         -webkit-filter: blur(2px);
     }
-    .call-button {
+    &__call-button {
         @mixin shadow-1;
         position: absolute;
-        top: 5px;
-        right: 5px;
+        top:    5px;
+        right:  5px;
         width:  3em;
         height: 3em;
-        /* 1: 0.6, same as the panel width: panel height*/
         background-color:   $dial-pad-call-button-color;
         border-color:       $dial-pad-call-button-color;
         &:hover {
             @mixin shadow-hover;
+            background-color:   $dial-pad-call-button-color;
+            border-color:       $dial-pad-call-button-color;
         }
         > span {
             color: #fff;

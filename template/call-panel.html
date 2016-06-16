@@ -4,7 +4,7 @@
             <div
                 data-info='time-wrapper' 
                 class='text-right time-wrapper'>
-                <span data-info='time'>00:00</span>
+                <span class='blink' data-info='time'>Dialing</span>
             </div>
             <div>
                 <h1 data-info='name'>Number</h1>
@@ -313,7 +313,8 @@ this.actions = {
     },
     unmount: {
         after: function() {
-            this.dom.time.textContent = '00:00'
+            this.dom.time.textContent = 'Dialing'
+            this.dom.time.classList.add('blink')
             this.props.duration = 0
             if (_interval) {
                 _interval()
@@ -357,6 +358,7 @@ this.actions = {
             // keypad
             this.dom['contral-panel'].classList.remove('display-none')
             this.dom['dialing-panel'].classList.add('display-none')
+            this.dom['mask'].classList.add('display-none')
 
             // park
             this.props.isPark = false
@@ -391,6 +393,7 @@ this.actions = {
             this.props.duration = 0
             var minutes = Math.floor(this.props.duration / 60)
             var seconds = this.props.duration % 60
+            this.dom['time'].classList.remove('blink')
             this.dom['time'].textContent = `${_pad(minutes)}:${_pad(seconds)}`
             // FIXME: NOT accurate
             // TODO: check for real startTime from SIP
@@ -940,6 +943,10 @@ $dial-pad-call-button-color: #2ecc71;
             
         }
     }
+
+    .blink {
+        animation: blink-animation 1.2s linear infinite;
+    }
     
     /* We need to use some element from dial pad */
     .rc-dial-pad {
@@ -967,5 +974,9 @@ $dial-pad-call-button-color: #2ecc71;
         }
     }
 }
-
+@keyframes blink-animation {
+    0% { opacity: 1; }
+    50% { opacity: .3; }
+    100% { opacity: 1; }
+}
 </style>
