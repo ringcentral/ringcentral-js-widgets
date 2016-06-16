@@ -4,7 +4,7 @@
             <div
                 data-info='time-wrapper' 
                 class='text-right time-wrapper'>
-                <span data-info='time'>00:00</span>
+                <span class='blink' data-info='time'>Dialing</span>
             </div>
             <div>
                 <h1 data-info='name'>Number</h1>
@@ -265,9 +265,9 @@ this.actions = {
 
             this.root.firstChild.style.width = this.props.width + 'px'
             this.root.firstChild.style.height = this.props.height + 'px'
-            if (!this.props.advance) {
-                this.dom['contral-panel'].classList.add('display-none')
-            }
+            this.dom.content.style.transition = 'opacity .1s ease-in-out'
+            this.dom.content.style.opacity = 0
+            if (!this.props.advance) this.dom['contral-panel'].classList.add('display-none')
             var callPanel = this
             w.customize(this, 'contact-picker', {
                 actions: {
@@ -300,10 +300,12 @@ this.actions = {
     },
     mount: {
         after: function () {
+            if (!this.props.advance) this.dom['contral-panel'].classList.add('display-none')
             fade.init(this.root)
             fade.in(this.root)
             this.props.name && this.setName(this.props.name)
             this.refs['dropdown'].getData()
+            setTimeout(() => this.dom.content.style.opacity = 1, 17)
             this.getContact().then(result => {
                 if (result && result[0] && result[0].name) {
                     console.log(result[0].name);
@@ -314,7 +316,9 @@ this.actions = {
     },
     unmount: {
         after: function() {
-            this.dom.time.textContent = '00:00'
+            this.dom.time.textContent = 'Dialing'
+            this.dom.time.classList.add('blink')
+            this.dom.content.style.opacity = 0
             this.props.duration = 0
             if (_interval) {
                 _interval()
@@ -358,6 +362,7 @@ this.actions = {
             // keypad
             this.dom['contral-panel'].classList.remove('display-none')
             this.dom['dialing-panel'].classList.add('display-none')
+            this.dom['mask'].classList.add('display-none')
 
             // park
             this.props.isPark = false
@@ -392,6 +397,7 @@ this.actions = {
             this.props.duration = 0
             var minutes = Math.floor(this.props.duration / 60)
             var seconds = this.props.duration % 60
+            this.dom['time'].classList.remove('blink')
             this.dom['time'].textContent = `${_pad(minutes)}:${_pad(seconds)}`
             // FIXME: NOT accurate
             // TODO: check for real startTime from SIP
@@ -819,6 +825,7 @@ $dial-pad-symbol-size: .5em;
 $dial-pad-call-button-color: #2ecc71;
 .rc-call-panel {
     font-size: .8em;
+    background-color: #fff;
     &__reply {
         width: 100%;
     }
@@ -858,6 +865,9 @@ $dial-pad-call-button-color: #2ecc71;
     }
 
     .control-panel {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         &__title {
             @mixin padding-small;
         }
@@ -938,33 +948,40 @@ $dial-pad-call-button-color: #2ecc71;
             
         }
     }
-}
 
-/* We need to use some element from dial pad */
-.rc-dial-pad {
-    &__line {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
+    .blink {
+        animation: blink-animation 1.2s linear infinite;
+    }
+    
+    /* We need to use some element from dial pad */
+    .rc-dial-pad {
+        &__line {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
 
-        & > .dial-button {
-            margin: 4px 8px;
-            width:  $dial-pad-button-radius;
-            height: $dial-pad-button-radius;
-            color:          $main-color;
-            border-color:   $main-color;
+            & > .dial-button {
+                margin: 4px 8px;
+                width:  $dial-pad-button-radius;
+                height: $dial-pad-button-radius;
+                color:          $main-color;
+                border-color:   $main-color;
 
-            & > .dial-button__number {
-                font-weight: bold;
-            }
-            & > .dial-button__symbol {
-                font-size: $dial-pad-symbol-size;
-            }
-            &:hover {
-                background-color:   $main-color;
-                color:              #fff;
+                & > .dial-button__number {}
+                & > .dial-button__symbol {
+                    font-size: $dial-pad-symbol-size;
+                }
+                &:hover {
+                    background-color:   $main-color;
+                    color:              #fff;
+                }
             }
         }
     }
+}
+@keyframes blink-animation {
+    0% { opacity: 1; }
+    50% { opacity: .3; }
+    100% { opacity: 1; }
 }
 </style>

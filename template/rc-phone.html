@@ -21,7 +21,7 @@
 .rc-phone .panel--extra {
     position: absolute;
     /* extra panel should have the highest z-index */
-    z-index: 10;
+    /*z-index: 10;*/
     left: 0;
 }
 .rc-phone .auth-panel {
@@ -236,7 +236,7 @@ w.register(function() {
                                 })
                             }
                             
-                            widget =  this.props.timeline = w('time-line', {
+                            widget = this.props.timeline = w('time-line', {
                                 shadowRoot: phone.data.shadowRoot,
                                 actions: factory.create('time-line', {
                                     search: {
@@ -262,6 +262,7 @@ w.register(function() {
                                                 callout: {
                                                     after: function() {
                                                         phone.props.callPanel.setName(this.props.toNumber)
+                                                        phone.props.callPanel.mount('#call-panel')
                                                     }
                                                 }
                                             })
@@ -351,6 +352,7 @@ w.register(function() {
                                     callout: {
                                         after: function() {
                                             phone.props.callPanel.setName(this.props.toNumber)
+                                            phone.props.callPanel.mount('#call-panel')
                                         },
                                         // error: function(e) {
                                         //     console.error(e);

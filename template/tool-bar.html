@@ -138,7 +138,7 @@ $toolbar-more-button-raduis: 45px;
         @mixin shadow-1;
         height: 100%;
         z-index: 1;
-        background-color: #fff;
+        background-color: #FAFAFA;
     }
     &__menu-button {
         @mixin shadow-1;
@@ -161,7 +161,13 @@ $toolbar-more-button-raduis: 45px;
         min-height: 100px;
         background-color: #fff;
     }
-    &__item {}
+    &__item {
+        background-color: #FAFAFA;
+        &:hover {
+            background-color: #FAFAFA;
+            color: $main-color;
+        }
+    }
     &__more-item {
         font-size: .6em;
         margin: 5px;

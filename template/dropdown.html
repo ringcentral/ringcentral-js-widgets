@@ -1,7 +1,11 @@
 <template>
     <div class='rc-dropdown'>
         <button class='rc-dropdown__trigger rc-button'
-                data-info='dropdown'>From: </button>
+                data-info='dropdown'>
+            <span>From: </span>
+            <span data-info='dropdown-text'></span>
+            <span data-info='dropdown-icon' class='icon-uni2463 rc-dropdown__icon'></span>
+        </button>
         <div    class='rc-dropdown__list rc-list' 
                 data-info='list'>
         </div>
@@ -39,21 +43,31 @@ w.register(function() {
         collapse: {
             after: function() {
                 enlarge.toggle(this.dom['list'])
+                this.dom['dropdown-icon'].classList.toggle('icon-uni2462')
+                this.dom['dropdown-icon'].classList.toggle('icon-uni2463')
             }
         },
         hide: {
             after: function() {
                 enlarge.out(this.dom['list'])
+                this.dom['dropdown-icon'].classList.remove('icon-uni2462')
+                this.dom['dropdown-icon'].classList.add('icon-uni2463')
             }
         },
         getData: {
             method: function(finish) {
-                return finish();
+                return finish()
             },
             after: function(ids) {
                 if (this.props.items && this.props.items.length)
                     return
                 this.props.items = ids
+                ids = ids.map(id => {
+                        if(id.indexOf('+') === 0)
+                            return id.substring(1)
+                        return id
+                    })
+                    
                 ids.forEach(id => this.addItem(id))
                 this.switchTitle(ids[0])
             }
@@ -63,30 +77,30 @@ w.register(function() {
                 var item = document.createElement('div')
                 // FIXME
                 item.classList.add('rc-list__item', 'rc-dropdown__item')
-                item.textContent = text;
+                item.textContent = text
                 item.addEventListener('click', e => {
-                    this.switchTitle(text);
-                });
-                this.dom['list'].appendChild(item);
+                    this.switchTitle(text)
+                })
+                this.dom['list'].appendChild(item)
             }
         },
         getSelected: {
             method: function() {
-                return this.dom['dropdown'].textContent;
+                return this.dom['dropdown-text'].textContent
             }
         },
         disable: {
             method: function() {
-                this.dom.dropdown.disabled = true;
+                this.dom.dropdown.disabled = true
             }
         },
         switchTitle: {
             method: function(finish, text) {
-                finish(text);
+                finish(text)
             },
             after: function(text) {
-                this.dom['dropdown'].textContent = text;
-                this.hide();
+                this.dom['dropdown-text'].textContent = text
+                this.hide()
             }
         }
     }
@@ -96,3 +110,40 @@ w.register(function() {
 })
 //# sourceURL=dropdown.html
 </script>
+<style>
+@import "src/styles/variables.css";
+@import "src/styles/mixins.css";
+$dropdown-hover-color: #ecf0f1;
+.rc-dropdown {
+    @mixin block;
+    &__trigger {
+        @mixin padding-normal;
+        width: 100%;
+        background: inherit;
+        border: 0;
+        border-bottom: 1px solid #bdc3c7;
+        font-size: .8em;
+    }
+    &__list {
+        @mixin shadow-1;
+        position: absolute;
+        width: 100%;
+        max-height: 200px;
+        overflow: auto;
+        background: #fff;
+    }
+    &__item {
+        @mixin padding-large;
+        font-size: .8em;
+        text-align: center;
+        cursor: pointer;
+        &:hover {
+            background: $dropdown-hover-color;
+        }
+    }
+    &__icon {
+        margin-left: 5px;
+    }
+}
+
+</style>

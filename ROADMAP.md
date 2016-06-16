@@ -4,15 +4,16 @@ Release a minor version every 2 weeks.
 
 ## v. 0.3.0
 
-#### Login
+#### General
 
-1. support 3-rd party login
+1. Make options for embedded tag more sturtural
+2. Enhance overall animation and transition
 
 #### WebRTC phone
 
 1. Users can forward call when receiving incoming call
 2. Users can send message back when receiving incoming call
-3. Provide user-friendly error messages for failed actions.
+3. Provide user-friendly error messages for failed actions
 
 #### Messages list
 
@@ -22,7 +23,7 @@ Release a minor version every 2 weeks.
 
 #### General
 
-1. Widgets studio (*worth to do?*)
+1. Widgets studio
    1. Have an Interface to combine different widgets (drag and drop)
 2. Embedded widget
    1. Can be placed at arbitary position
