@@ -265,6 +265,8 @@ this.actions = {
 
             this.root.firstChild.style.width = this.props.width + 'px'
             this.root.firstChild.style.height = this.props.height + 'px'
+            this.dom.content.style.transition = 'opacity .1s ease-in-out'
+            this.dom.content.style.opacity = 0
             if (!this.props.advance) this.dom['contral-panel'].classList.add('display-none')
             var callPanel = this
             w.customize(this, 'contact-picker', {
@@ -303,6 +305,7 @@ this.actions = {
             fade.in(this.root)
             this.props.name && this.setName(this.props.name)
             this.refs['dropdown'].getData()
+            setTimeout(() => this.dom.content.style.opacity = 1, 17)
             this.getContact().then(result => {
                 if (result && result[0] && result[0].name) {
                     console.log(result[0].name);
@@ -315,6 +318,7 @@ this.actions = {
         after: function() {
             this.dom.time.textContent = 'Dialing'
             this.dom.time.classList.add('blink')
+            this.dom.content.style.opacity = 0
             this.props.duration = 0
             if (_interval) {
                 _interval()
@@ -821,6 +825,7 @@ $dial-pad-symbol-size: .5em;
 $dial-pad-call-button-color: #2ecc71;
 .rc-call-panel {
     font-size: .8em;
+    background-color: #fff;
     &__reply {
         width: 100%;
     }
