@@ -11,7 +11,7 @@
         <div class='pad-container' data-info='container'>
             <div class='rc-panel__content'>
                 <dropdown data-info='dropdown'></dropdown>
-                <div data-info='dialing-panel' class='margin-top-2'>
+                <div data-info='dialing-panel' class='margin-top-1'>
                     <div class='rc-dial-pad__line'>
                         <button 
                             class='rc-button rc-button--circle dial-button dial-button--color' 
@@ -74,9 +74,19 @@
                     <div class='rc-dial-pad__line'>
                         <button 
                             class='rc-button rc-button--circle dial-button dial-button--color' 
+                            data-info='dial-button-*'>
+                            <div class='dial-button__number'>*</div>
+                        </button>
+                        <button 
+                            class='rc-button rc-button--circle dial-button dial-button--color' 
                             data-info='dial-button-0'>
                             <div class='dial-button__number'>0</div>
                             <div class='dial-button__symbol'>+</div>
+                        </button>
+                        <button 
+                            class='rc-button rc-button--circle dial-button dial-button--color' 
+                            data-info='dial-button-#'>
+                            <div class='dial-button__number'>#</div>
                         </button>
                     </div>
                 </div>
@@ -259,10 +269,10 @@ this.actions = {
     }
 }
 this.on('click', function(e) {
-    for (let i = 0; i < 10; i ++) {
-        if (e.target === this.dom[`dial-button-${i}`] ||
-            e.target.parentNode === this.dom[`dial-button-${i}`]) this.dialing(i)
-    }
+    [1, 2, 3, 4, 5, 6, 7, 8, 9, 0, '#', '*'].forEach(item => {
+        if (e.target === this.dom[`dial-button-${item}`] ||
+            e.target.parentNode === this.dom[`dial-button-${item}`]) this.dialing(item)
+    })
     if (e.target === this.dom.callout ||
         e.target.parentNode === this.dom.callout) this.callout()
 })
@@ -296,7 +306,7 @@ $dial-pad-call-button-color: #2ecc71;
             border-color:   $main-color;
 
             & > .dial-button__number {
-                font-weight: bold;
+                font-size: 1.3em;
             }
             & > .dial-button__symbol {
                 font-size: $dial-pad-symbol-size;
@@ -336,23 +346,19 @@ $dial-pad-call-button-color: #2ecc71;
     .call-button {
         @mixin shadow-1;
         position: absolute;
-        top: 2px;
+        top: 5px;
         right: 5px;
         width:  3em;
         height: 3em;
         /* 1: 0.6, same as the panel width: panel height*/
         background-color:   $dial-pad-call-button-color;
         border-color:       $dial-pad-call-button-color;
-        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-        &--active {
-
-        }
         &:hover {
             @mixin shadow-hover;
         }
         > span {
             color: #fff;
-            font-size: 1.2em;
+            font-size: 1.3em;
         }
     }
     .pad-container {

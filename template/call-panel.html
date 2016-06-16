@@ -858,6 +858,9 @@ $dial-pad-call-button-color: #2ecc71;
     }
 
     .control-panel {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         &__title {
             @mixin padding-small;
         }
@@ -938,33 +941,32 @@ $dial-pad-call-button-color: #2ecc71;
             
         }
     }
-}
+    
+    /* We need to use some element from dial pad */
+    .rc-dial-pad {
+        &__line {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
 
-/* We need to use some element from dial pad */
-.rc-dial-pad {
-    &__line {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
+            & > .dial-button {
+                margin: 4px 8px;
+                width:  $dial-pad-button-radius;
+                height: $dial-pad-button-radius;
+                color:          $main-color;
+                border-color:   $main-color;
 
-        & > .dial-button {
-            margin: 4px 8px;
-            width:  $dial-pad-button-radius;
-            height: $dial-pad-button-radius;
-            color:          $main-color;
-            border-color:   $main-color;
-
-            & > .dial-button__number {
-                font-weight: bold;
-            }
-            & > .dial-button__symbol {
-                font-size: $dial-pad-symbol-size;
-            }
-            &:hover {
-                background-color:   $main-color;
-                color:              #fff;
+                & > .dial-button__number {}
+                & > .dial-button__symbol {
+                    font-size: $dial-pad-symbol-size;
+                }
+                &:hover {
+                    background-color:   $main-color;
+                    color:              #fff;
+                }
             }
         }
     }
 }
+
 </style>
