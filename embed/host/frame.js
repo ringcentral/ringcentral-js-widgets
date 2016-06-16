@@ -88,7 +88,7 @@ var createIframe = function() {
                     `height=${options.height}&` +
                     `key=${options.key}&` +
                     `secret=${options.secret}&` +
-                    `sandbox=${options.sandbox != null}&` +
+                    `sandbox=${options.env === 'sandbox'}&` +
                     `origin=${window.location.origin}`
     iframe.setAttribute('name', 'rc-iframe')
     if (options.dynamic != null) {
@@ -96,7 +96,7 @@ var createIframe = function() {
         iframe.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
         clickToDial(target, iframe)
     }
-    if (options.fixed != null) {
+    if (options.position === 'fixed') {
         target.style.position = 'fixed'
         target.style.top = 0
         target.style.right = '5px'
@@ -116,10 +116,10 @@ var getOptions = function(target) {
         width: target.getAttribute('width'),
         height: target.getAttribute('height'),
         dynamic: target.getAttribute('dynamic'),
-        fixed: target.getAttribute('fixed'),
+        position: target.getAttribute('position'),
         key: target.getAttribute('key'),
         secret: target.getAttribute('secret'),
-        sandbox: target.getAttribute('sandbox'),
+        env: target.getAttribute('env'),
     }
 }
 
