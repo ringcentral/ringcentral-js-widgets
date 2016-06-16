@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class='rc-panel__content rc-panel__content--full'>
-        <p data-info='waiting'>
+        <p data-info='waiting' hidden>
             Waiting for incoming call.
         </p>
         <div id='call-panel'></div>
@@ -31,7 +31,7 @@ w.register(function() {
             after: function() {
                 this.checkLogin()
                 .then(loggedin => {
-                    if (loggedin) {
+                    if (loggedin === '2') {
                         this.dom['main-panel'].hidden = false
                         webPhone(null, {
                             width: this.data.width,
@@ -47,6 +47,7 @@ w.register(function() {
                                 login: {
                                     after: function() {
                                         this.unmount()
+                                        phone.dom.waiting.hidden = false
                                         phone.dom['main-panel'].hidden = false
                                         webPhone(null, {
                                             width: this.data.width,
