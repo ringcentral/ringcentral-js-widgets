@@ -3,7 +3,7 @@
         <h1 data-info='name'>Incoming call</h1>
     </div>
     <div class='rc-panel__content' data-info='panel'>
-        <div class='control-panel' data-info='contral-panel'>
+        <div class='control-panel' data-info='control-panel'>
             <div class='control-panel__line'>
                 <div class='control-panel__item'>
                     <button 
@@ -119,9 +119,14 @@ this.actions = {
             this.props.localVideo = this.data.localVideo
             this.props.width = this.data.width
             this.props.height = this.data.height
+            if (this.data.simple) this.props.simple = this.data.simple
 
             this.root.firstChild.style.width = this.props.width + 'px'
             this.root.firstChild.style.height = this.props.height + 'px'
+
+            if (this.props.simple) {
+                this.dom['control-panel'].classList.add('display-none')
+            }
             var parent = this
             w.customize(this, 'contact-picker', {
                 actions: {

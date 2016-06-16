@@ -6,9 +6,9 @@ $gray: #bdc3c7;
 $dark-gray: #6C7A89;
 $light-gray: #BDC3C7;
 
-$blue: #1e89ed;
-$dark-blue: #346689;
-$light-blue: #4aa8ba;
+$blue: #2196F3;
+$dark-blue: #1E88E5;
+$light-blue: #42A5F5;
 $white: #fff;
 $red: #e74c3c;
 $light-red: #E57373;
@@ -23,7 +23,7 @@ $bg-color: $white;
 
 
 /* rc-input.--round, rc-button.--round */
-$border-radius: 3px;
+$border-radius: 2px;
 
 /* rc-panel */
 $panel-width: 250px;

@@ -15,8 +15,8 @@ Copy below code into your page:
     height=400
     key=YOUR_APP_KEY
     secret=YOUR_APP_SECRET
-    sandbox
-    fixed>
+    env=sandbox
+    position=fixed>
 </rc-widget>
 <script id='rc-widgets-script' async defer src='https://ringcentral.github.io/ringcentral-js-widget/build/host.js'></script>
 ```

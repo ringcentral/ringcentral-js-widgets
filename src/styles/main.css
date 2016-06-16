@@ -238,7 +238,17 @@ h6 {
             background-color: #e74c3c;
         }
     }
+    &--material {
+        border: 0;
+        color: #fff;
+        background-color: $main-color;
 
+        &:hover,
+        &:active,
+        &--active {
+            background-color: $light-blue;
+        }
+    }
 }
 .rc-input {
     @mixin padding-normal;
