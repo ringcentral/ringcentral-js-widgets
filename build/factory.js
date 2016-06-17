@@ -24238,22 +24238,20 @@
 	                    }
 	                    if (oauthWindow.closed) {
 	                        reject(new Error('RingCentral Oauth window is closed abnormally.'));
+	                        window.removeEventListener('message', oauthChannel);
 	                        clearInterval(interval);
 	                    }
 	                }
-	                window.addEventListener('message', function oauthChannel(e) {
+	                window.addEventListener('message', oauthChannel);
+	                function oauthChannel(e) {
 	                    if (e.data.type === 'oauth') {
 	                        var qs = _rcSdk.RC.sdk.platform().parseAuthRedirectUrl(e.data.value);
 	                        qs.redirectUri = redirectUri;
 	                        window.removeEventListener('message', oauthChannel);
 	                        clearInterval(interval);
 	                        resolve(_rcSdk.RC.sdk.platform().login(qs));
-	                    } else if (e.data.type === 'oauth-fail') {
-	                        window.removeEventListener('message', oauthChannel);
-	                        clearInterval(interval);
-	                        reject(new Error('RingCentral Oauth window is closed abnormally.'));
 	                    }
-	                });
+	                }
 	            });
 	        }
 	    };
@@ -25729,7 +25727,7 @@
 	            //     result.push(content)
 	            //     continue
 	            // }
-	            if (savedContent && savedContent.type === content.type && savedContent.contact.id === content.contact.id) {
+	            if (savedContent && content.type === 'SMS' && savedContent.type === content.type && savedContent.contact.id === content.contact.id) {
 	                savedContent.others.push(content);
 	            } else {
 	                savedContent && result.push(savedContent);

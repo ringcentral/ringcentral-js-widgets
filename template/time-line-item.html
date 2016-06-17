@@ -1,18 +1,19 @@
 <template>
     <div class='rc-panel rc-timeline-item transition-in'>
         <div class='rc-timeline-item__content'>
-        <div class='rc-timeline-item__line'>
-            <span class='rc-timeline-item__icon' data-info='icon'></span>
-            <span class='rc-timeline-item__contact' data-info='contact'></span>
-        </div>
+            <div class='rc-timeline-item__count display-none' 
+                data-info='count-wrapper'>
+                <span class='__number' data-info='count'></span>
+                <span class='icon-uni2466'></span>
+            </div>
+            <div class='rc-timeline-item__line'>
+                <span class='rc-timeline-item__icon' data-info='icon'></span>
+                <span class='rc-timeline-item__contact' data-info='contact'></span>
+            </div>
             <div class='rc-timeline-item__time' data-info='time'></div>
             <div class='rc-timeline-item__subject' data-info='subject'></div>
         </div>
-        <div    class='rc-timeline-item__count display-none' 
-                data-info='count-wrapper'>
-            <span class='__number' data-info='count'></span>
-            <span class='icon-uni2466'></span>
-        </div>
+        
         <div data-info='collapse' class='rc-timeline-item__collapse'>
         </div>
     </div>
@@ -57,6 +58,7 @@ w.register(function() {
                     this.dom.icon.classList.add('icon-uni2487')
                 else if (data.type === 'Voice') {
                     this.dom.icon.classList.add('icon-uniAE')
+                    this.dom.subject.classList.add('display-none')
                     if (this.props.subject && 
                         (
                             this.props.subject.type === 'Automatic' || 
@@ -64,15 +66,18 @@ w.register(function() {
                         )) {
                         this.props.subject = 'Call recording'
                     }
+
                 }
                 else if (data.type === 'Pager')
                     this.dom.icon.classList.add('icon-uniCB')
                 else if (data.type === 'VoiceMail') {
                     this.dom.icon.classList.add('icon-uniCB')
                     this.props.subject = 'Call recording'
+                    this.dom.subject.classList.add('display-none')
                 } else if (data.type === 'Fax') {
                     this.dom.icon.classList.add('icon-uniCB')
                     this.props.subject = 'Fax'
+                    this.dom.subject.classList.add('display-none')
                 }
                 this.dom.subject.textContent = this.props.subject
                 data.contact && 
@@ -198,11 +203,10 @@ w.register(function() {
 
 .rc-timeline-item {
     @mixin padding-normal;
-    @mixin shadow-1;
-    margin-bottom:  5px;
     overflow: hidden;
     cursor: pointer;
     background: #fff;
+    border-bottom: 1px solid #eee;
     transition: opacity, transform .350s cubic-bezier(0.0, 0.0, 0.2, 1);
     &__line {
         margin-bottom: 10px;
@@ -210,17 +214,18 @@ w.register(function() {
     &__icon {
     }
     &__contact {
+        font-weight: bold;
         font-size: .9em;
     }
     &__time {
-        float: right;
         font-size: .7em;
-        color: $timeline-gray;
+        color: #999;
     }
     &__subject {
         font-size: .8em;
         overflow:       hidden;
         text-overflow:  ellipsis;
+        margin-top: 10px;
     }
     &__count {
         @mixin padding-normal;
@@ -251,7 +256,7 @@ w.register(function() {
     }
     &:hover {
         @mixin shadow-2;
-        /*background-color: #eee;*/
+        background-color: #eee;
     }
 
     .timeline-extra {

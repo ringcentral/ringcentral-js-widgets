@@ -70,6 +70,7 @@ var conversationService = (function() {
             //     continue
             // }
             if (savedContent &&
+                content.type === 'SMS' &&
                 savedContent.type === content.type &&
                 savedContent.contact.id === content.contact.id) {
                 savedContent.others.push(content)

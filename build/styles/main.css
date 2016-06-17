@@ -1170,12 +1170,12 @@ h1, h2, h3, h4, h5, h6 {
     padding: .5em .7em;
     position: relative;
     height: 60px;
-    background-color: #fff;
+    background-color: #fafafa;
 }
 
 .rc-panel__header--colored {
     background-color: #2196F3;
-    color: #fff;/* the white text need to be light */
+    color: #fafafa;/* the white text need to be light */
     font-weight: lighter;
 }
 
@@ -1191,7 +1191,7 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     position: relative;
     height: calc(100% - 61px);
-    background-color: #fff;
+    background-color: #fafafa;
 }
 
 .rc-panel__content--full {
@@ -1200,12 +1200,12 @@ h1, h2, h3, h4, h5, h6 {
 
 .rc-panel__footer {
     position: relative;
-    background-color: #fff;/* height: $panel-footer-height; */
+    background-color: #fafafa;/* height: $panel-footer-height; */
 }
 .rc-button {
     padding: .5em .7em;
     border: 1px solid #000;
-    background-color: #fff
+    background-color: #fafafa
 }
 .rc-button:hover, .rc-button:active, .rc-button--active {
     background-color: #eee;
@@ -1226,7 +1226,7 @@ h1, h2, h3, h4, h5, h6 {
     border: 0;
 }
 .rc-button--ghost:hover, .rc-button--ghost:active, .rc-button--ghost--active {
-    background-color: #fff;
+    background-color: #fafafa;
 }
 .rc-button--dense {
     padding: .1em .3em;
@@ -1234,7 +1234,7 @@ h1, h2, h3, h4, h5, h6 {
 .rc-button--positive {
     background-color: #2ecc71;
     border-color: #2ecc71;
-    color: #fff;
+    color: #fafafa;
 }
 .rc-button--positive:hover, .rc-button--positive:active, .rc-button--positive--active {
     background-color: #2ecc71;
@@ -1242,14 +1242,14 @@ h1, h2, h3, h4, h5, h6 {
 .rc-button--negative {
     background-color: #e74c3c;
     border-color: #e74c3c;
-    color: #fff;
+    color: #fafafa;
 }
 .rc-button--negative:hover, .rc-button--negative:active, .rc-button--negative--active {
     background-color: #e74c3c;
 }
 .rc-button--material {
     border: 0;
-    color: #fff;
+    color: #fafafa;
     background-color: #2196F3;
 }
 .rc-button--material:hover, .rc-button--material:active, .rc-button--material--active {
@@ -1313,14 +1313,14 @@ h1, h2, h3, h4, h5, h6 {
     border-right: 1px solid #2196F3;
 }
 .rc-tabs__tab--color {
-    background-color: #fff;
+    background-color: #fafafa;
     border-color: #2196F3;
     color: #2196F3;
 }
 .rc-tabs__tab--active {
     background-color: #2196F3;
     border-color: #2196F3;
-    color: #fff;
+    color: #fafafa;
 }
 .rc-tabs__tab--active:last-child {
     border-right-color: #2196F3;
@@ -1746,7 +1746,7 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #e74c3c;
 }
 .rc-notification__text {
-    color: #fff;
+    color: #fafafa;
 }
 .rc-notification__icon {}
 

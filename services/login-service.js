@@ -39,22 +39,20 @@ var LoginService = function(sdk) {
                     }
                     if (oauthWindow.closed) {
                         reject(new Error('RingCentral Oauth window is closed abnormally.'))
+                        window.removeEventListener('message', oauthChannel)
                         clearInterval(interval)
                     }
                 }
-                window.addEventListener('message', function oauthChannel(e) {
+                window.addEventListener('message', oauthChannel)
+                function oauthChannel(e) {
                     if (e.data.type === 'oauth') {
                         var qs = RC.sdk.platform().parseAuthRedirectUrl(e.data.value)
                         qs.redirectUri = redirectUri
                         window.removeEventListener('message', oauthChannel)
                         clearInterval(interval)
                         resolve(RC.sdk.platform().login(qs))
-                    } else if (e.data.type === 'oauth-fail') {
-                        window.removeEventListener('message', oauthChannel)
-                        clearInterval(interval)
-                        reject(new Error('RingCentral Oauth window is closed abnormally.'))
                     }
-                }); 
+                }
             })
         }
     }
