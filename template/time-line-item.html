@@ -19,6 +19,8 @@
     </div>
 </template>
 <script>
+import moment from 'moment'
+console.log(moment);
 function _pad(n) {
     return (n < 100) ? ("0" + n) : n;
 }
@@ -53,11 +55,16 @@ w.register(function() {
             method: function(finish, data) {
                 this.props.content = data
                 this.props.subject = data.subject
+                console.log(data);
                 var time = new Date(data.time)
                 if (data.type === 'SMS')
                     this.dom.icon.classList.add('icon-uni2487')
                 else if (data.type === 'Voice') {
-                    this.dom.icon.classList.add('icon-uniAE')
+                    if (data.direction === 'Outbound') {
+                        this.dom.icon.classList.add('icon-uniC5')
+                    } else {
+                        this.dom.icon.classList.add('icon-uniC4')
+                    }
                     this.dom.subject.classList.add('display-none')
                     if (this.props.subject && 
                         (
@@ -71,7 +78,7 @@ w.register(function() {
                 else if (data.type === 'Pager')
                     this.dom.icon.classList.add('icon-uniCB')
                 else if (data.type === 'VoiceMail') {
-                    this.dom.icon.classList.add('icon-uniCB')
+                    this.dom.icon.classList.add('icon-uniA7')
                     this.props.subject = 'Call recording'
                     this.dom.subject.classList.add('display-none')
                 } else if (data.type === 'Fax') {
@@ -82,11 +89,15 @@ w.register(function() {
                 this.dom.subject.textContent = this.props.subject
                 data.contact && 
                     (this.dom.contact.textContent = this.props.contact = data.contact.displayName)
-                this.dom.time.textContent = this.props.time =
-                `
-                ${time.getMonth() + 1}/${time.getDate()}, 
-                ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}
-                `
+                if (moment().diff(moment(data.time), 'days') < 2) {
+                    this.dom.time.textContent = this.props.time = moment(data.time).calendar()
+                } else {
+                    this.dom.time.textContent = this.props.time = moment(data.time).format('LLL')
+                }
+                // `
+                // ${time.getMonth() + 1}/${time.getDate()}, 
+                // ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}
+                // `
 
                 if (data.others && data.others.length > 0) {
                     this.dom['count-wrapper'].classList.remove('display-none')
