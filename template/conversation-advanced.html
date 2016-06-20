@@ -12,10 +12,10 @@
             </div>
         </div>
         <div class='rc-panel__content container' data-info='panel'>
-            <div class='bar clearfix'>
+            <!-- <div class='bar clearfix'>
                 <div class='hint' data-info='to-number'>to</div>
                 <div class='hint hint--right' data-info='from-number'>from</div>
-            </div>
+            </div> -->
             <div    class='content'
                     data-info='container'>
                 <div    class='conversations__loading display-none'
@@ -89,6 +89,8 @@ this.actions = {
             this.data.toNumber && (this.props.toNumber = this.data.toNumber)
             this.data.fromNumber && (this.props.fromNumber = this.data.fromNumber)
             this.data.fromNumbers && (this.props.fromNumbers = this.data.fromNumbers)
+            console.log(this.data.fromNumbers);
+            console.log(this.data.fromNumber);
             this.data.width && (this.props.width = this.data.width)
             this.data.height && (this.props.height = this.data.height)
             this.data.remoteVideo && (this.props.remoteVideo = this.data.remoteVideo)
@@ -193,7 +195,7 @@ this.actions = {
             }
             if (model) {
                 model.dom = doc
-                this.markBubble(model)
+                // this.markBubble(model)
             }
             
             if (prepend) {
@@ -554,7 +556,7 @@ this.actions = {
                     msg.dom = dom
                     msg.status.sendConfirmed = true
                     this.unconfirm.splice(index, 1)
-                    this.markBubble(msg)
+                    // this.markBubble(msg)
                 }
                 return dom
             })
@@ -614,11 +616,13 @@ this.actions = {
     },
     setSender: {
         method: function(finish, fromNumber) {
+            console.log(fromNumber);
             this.props.fromNumber = fromNumber
         }
     },
     setSenderCandidates: {
         method: function(finish, fromNumbers) {
+            console.log(fromNumbers);
             this.props.fromNumbers = fromNumbers
         }
     },
@@ -730,11 +734,12 @@ $gray: #bdc3c7;
     }
     .callout {
         @mixin shadow-2;
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-        width: 40px;
-        height: 40px;
+          position: absolute;
+          bottom: 24px;
+          right: 10px;
+          width: 3em;
+          height: 3em;
+          font-size: 1.2em;
         transition: all 0.3s cubic-bezier(.25,.8,.25,1);
         &:hover {
             @mixin shadow-hover;

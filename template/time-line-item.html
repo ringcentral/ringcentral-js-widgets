@@ -1,16 +1,22 @@
 <template>
     <div class='rc-panel rc-timeline-item transition-in'>
         <div class='rc-timeline-item__content'>
-            <div class='rc-timeline-item__count display-none' 
-                data-info='count-wrapper'>
-                <span class='__number' data-info='count'></span>
-                <span class='icon-uni2466'></span>
+            <div class='rc-timeline-item__info'>
+                <div class='left'>
+                    <span class='rc-timeline-item__icon' data-info='icon'></span>
+                </div>
+                <div class='right'>
+                    <div class='rc-timeline-item__count display-none' 
+                        data-info='count-wrapper'>
+                        <span class='__number' data-info='count'></span>
+                        <span class='icon-uni2466'></span>
+                    </div>
+                    <div class='rc-timeline-item__line'>
+                        <span class='rc-timeline-item__contact' data-info='contact'></span>
+                    </div>
+                    <div class='rc-timeline-item__time' data-info='time'></div>
+                </div>
             </div>
-            <div class='rc-timeline-item__line'>
-                <span class='rc-timeline-item__icon' data-info='icon'></span>
-                <span class='rc-timeline-item__contact' data-info='contact'></span>
-            </div>
-            <div class='rc-timeline-item__time' data-info='time'></div>
             <div class='rc-timeline-item__subject' data-info='subject'></div>
         </div>
         
@@ -20,9 +26,11 @@
 </template>
 <script>
 import moment from 'moment'
-console.log(moment);
 function _pad(n) {
     return (n < 100) ? ("0" + n) : n;
+}
+function _ignoreLeadingPlus(number) {
+    return (number.indexOf('+') === 0)? number.substring(1): number
 }
 w.register(function() {
     this.actions= {
@@ -88,8 +96,10 @@ w.register(function() {
                 }
                 this.dom.subject.textContent = this.props.subject
                 data.contact && 
-                    (this.dom.contact.textContent = this.props.contact = data.contact.displayName)
-                if (moment().diff(moment(data.time), 'days') < 2) {
+                    (this.dom.contact.textContent = this.props.contact = _ignoreLeadingPlus(data.contact.displayName))
+                if (moment().diff(moment(data.time), 'days') < 1) {
+                    this.dom.time.textContent = this.props.time = moment(data.time).fromNow()
+                } else if (moment().diff(moment(data.time), 'days') < 2) {
                     this.dom.time.textContent = this.props.time = moment(data.time).calendar()
                 } else {
                     this.dom.time.textContent = this.props.time = moment(data.time).format('LLL')
@@ -101,7 +111,7 @@ w.register(function() {
 
                 if (data.others && data.others.length > 0) {
                     this.dom['count-wrapper'].classList.remove('display-none')
-                    this.dom.count.textContent = this.props.count = data.others.length
+                    // this.dom.count.textContent = this.props.count = data.others.length
                     var currentDate
 
                     while(this.dom.collapse.firstChild)
@@ -198,12 +208,7 @@ w.register(function() {
         }
     }
     this.on('click', function(e) {
-        if (e.target === this.dom['count-wrapper'] || e.target.parentNode === this.dom['count-wrapper']) {
-            this.collapse()
-            e.stopPropagation()
-        } else {
-            this.enter()
-        }
+        this.enter()
     })
 })
 
@@ -211,21 +216,28 @@ w.register(function() {
 //# sourceURL=time-line-item.html
 </script>
 <style>
-
+@import "src/styles/variables.css";
+@import "src/styles/mixins.css";
 .rc-timeline-item {
-    @mixin padding-normal;
     overflow: hidden;
     cursor: pointer;
     background: #fff;
     border-bottom: 1px solid #eee;
     transition: opacity, transform .350s cubic-bezier(0.0, 0.0, 0.2, 1);
+    &__info {
+        display: flex;
+        .left {}
+        .right {
+            margin-left: 10px;
+        }
+    }
     &__line {
-        margin-bottom: 10px;
     }
     &__icon {
+        line-height: 2;
     }
     &__contact {
-        font-weight: bold;
+        color: $dark-blue;
         font-size: .9em;
     }
     &__time {
