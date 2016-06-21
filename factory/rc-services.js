@@ -224,9 +224,9 @@ services['conversation-advanced'] = {
     },
     mount: {
         after: function() {
-            console.log('get account info');
             return accountService.getAccountInfo()
-                    .then(info => this.props.fromExtension = info.extensionNumber)
+                    // FIXME: set props from outside is a anti-pattern
+                    .then(info => this.props.fromExt = info.extensionNumber)
                     .then(() => {
                         this.setOutboundCallerID()
                     })
@@ -234,11 +234,11 @@ services['conversation-advanced'] = {
     },
     send: {
         method: function() {
-            if (this.props.toNumber === this.props.toExtension) {
+            if (!this.props.toNumber || this.props.toNumber === this.props.toExt) {
                 return rcMessageService.sendPagerMessage(
                     this.props.message,
-                    this.props.fromExtension,
-                    this.props.toExtension
+                    this.props.fromExt,
+                    this.props.toExt
                 )
             } else {
                 return rcMessageService.sendSMSMessage(
@@ -252,8 +252,8 @@ services['conversation-advanced'] = {
     callout: {
         method: function() {
             return phoneService.call(
-                this.props.fromNumber,
-                this.props.toNumber, {
+                this.props.fromNumber || this.props.fromExt,
+                this.props.toNumber || this.props.toExt, {
                     remoteVideo: this.props.remoteVideo,
                     localVideo: this.props.localVideo
                 })

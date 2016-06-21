@@ -67,8 +67,10 @@ this.props = {
     syncedMessages: [],
     toNumbers: [],
     toNumber: null,
+    toExt: null,
     fromNumbers: [],
     fromNumber: null,
+    fromExt: null,
     width: 250,
     height: 400,
     profileImage: null,
@@ -87,10 +89,10 @@ this.actions = {
             this.props.syncedMessages = []
             this.props.toNumbers = []
             this.data.toNumber && (this.props.toNumber = this.data.toNumber)
+            this.data.toExt && (this.props.toExt = this.data.toExt)
+            this.data.fromExt && (this.props.fromExt = this.data.fromExt)
             this.data.fromNumber && (this.props.fromNumber = this.data.fromNumber)
             this.data.fromNumbers && (this.props.fromNumbers = this.data.fromNumbers)
-            console.log(this.data.fromNumbers);
-            console.log(this.data.fromNumber);
             this.data.width && (this.props.width = this.data.width)
             this.data.height && (this.props.height = this.data.height)
             this.data.remoteVideo && (this.props.remoteVideo = this.data.remoteVideo)
@@ -124,7 +126,7 @@ this.actions = {
     mount: {
         method: function(finish) {
             var currentContact = this.props.contact = this.data.contact
-            this.props.toExtension = currentContact.extension
+            // this.props.toExtension = currentContact.extension
             // this.data.fromNumber && this.setSender(this.data.fromNumber)
             // this.setReceiver(this.data.toNumber || currentContact.phoneNumber[0])
             // this.setReceiverCandidates(currentContact.phoneNumber)
@@ -154,6 +156,8 @@ this.actions = {
     send: {
         before: function() {
             // send messages on UI
+            console.log(this.props.fromExt);
+            console.log(this.props.toExt);
             this.props.message = this.dom.input.value
             this.dom.input.value = ''
             var date = new Date()
@@ -440,7 +444,6 @@ this.actions = {
                     return
                 }
                 this.props.loadingPeriod *= 10
-                console.log(this.props.loadingPeriod)
                 this.reachTop()
             }
         }
@@ -524,7 +527,6 @@ this.actions = {
     addIncomingMessages: {
         method: function(finish) {
             this.props.contact.msg = this.props.contact.msg || []
-            console.log('incoming')
             this.parseMessages(
                 this.props.contact.msg
                     .filter(msg => !msg.status.receiveConfirmed)
@@ -616,23 +618,23 @@ this.actions = {
     },
     setSender: {
         method: function(finish, fromNumber) {
-            console.log(fromNumber);
             this.props.fromNumber = fromNumber
         }
     },
     setSenderCandidates: {
         method: function(finish, fromNumbers) {
-            console.log(fromNumbers);
             this.props.fromNumbers = fromNumbers
         }
     },
     setReceiver: {
         method: function(finish, toNumber) {
+            console.log(toNumber);
             this.props.toNumber = toNumber
         }
     },
     setReceiverCandidates: {
         method: function(finish, toNumbers) {
+            console.log(toNumbers);
             this.props.toNumbers = toNumbers
         }
     },

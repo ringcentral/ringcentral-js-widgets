@@ -63,7 +63,6 @@ w.register(function() {
             method: function(finish, data) {
                 this.props.content = data
                 this.props.subject = data.subject
-                console.log(data);
                 var time = new Date(data.time)
                 if (data.type === 'SMS')
                     this.dom.icon.classList.add('icon-uni2487')

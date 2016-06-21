@@ -384,9 +384,10 @@
 	        after: function after() {
 	            var _this5 = this;
 	
-	            console.log('get account info');
-	            return _accountService2.default.getAccountInfo().then(function (info) {
-	                return _this5.props.fromExtension = info.extensionNumber;
+	            return _accountService2.default.getAccountInfo()
+	            // FIXME: set props from outside is a anti-pattern
+	            .then(function (info) {
+	                return _this5.props.fromExt = info.extensionNumber;
 	            }).then(function () {
 	                _this5.setOutboundCallerID();
 	            });
@@ -394,8 +395,8 @@
 	    },
 	    send: {
 	        method: function method() {
-	            if (this.props.toNumber === this.props.toExtension) {
-	                return _rcMessageService2.default.sendPagerMessage(this.props.message, this.props.fromExtension, this.props.toExtension);
+	            if (!this.props.toNumber || this.props.toNumber === this.props.toExt) {
+	                return _rcMessageService2.default.sendPagerMessage(this.props.message, this.props.fromExt, this.props.toExt);
 	            } else {
 	                return _rcMessageService2.default.sendSMSMessage(this.props.message, this.props.fromNumber, this.props.toNumber);
 	            }
@@ -403,7 +404,7 @@
 	    },
 	    callout: {
 	        method: function method() {
-	            return _phoneService2.default.call(this.props.fromNumber, this.props.toNumber, {
+	            return _phoneService2.default.call(this.props.fromNumber || this.props.fromExt, this.props.toNumber || this.props.toExt, {
 	                remoteVideo: this.props.remoteVideo,
 	                localVideo: this.props.localVideo
 	            });
