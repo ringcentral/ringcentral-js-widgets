@@ -29,13 +29,17 @@
             <div class='textarea-wrapper'>
                 <textarea 
                 data-info='input'
-                placeholder='messages...'
+                placeholder='Type a messages...'
                 ></textarea>
-                <button 
-                    class='rc-button rc-button--circle rc-button--positive callout'
-                    data-info='callout'>
-                    <span class='icon-ActionButtons_Filters'></span>
-                </button>
+                <div class='conversations__actions actions'>
+                    <div class='actions__action'>
+                        <input data-info='files' type='file' multiple>
+                        <span class='icon-uniA6'></span>
+                    </div>
+                    <div class='actions__action'>
+                        <span class='icon-ActionButtons_Filters callout' data-info='callout'></span>
+                    </div>
+                </div>
             </div>
         </div>
         <div    class='mask display-none'
@@ -97,6 +101,11 @@ this.actions = {
             this.data.height && (this.props.height = this.data.height)
             this.data.remoteVideo && (this.props.remoteVideo = this.data.remoteVideo)
             this.data.localVideo && (this.props.localVideo = this.data.localVideo)
+            this.props.files = this.dom.files
+            this.props.files.addEventListener('change', e => {
+                this.props.files = this.dom.files.files
+                this.sendFax()
+            })
             
             this.root.firstChild.style.width = this.props.width + 'px'
             this.root.firstChild.style.height = this.props.height + 'px'
@@ -182,6 +191,12 @@ this.actions = {
             // user actually send to message to server (SDK)
         },
         after: function(response) {}
+    },
+    sendFax: {
+        method: function(finish) {
+            console.log(this.props.files);
+            return finish()
+        }
     },
     addBubble: {
         after: function(id, type, content, direction, time, prepend) {
@@ -286,8 +301,9 @@ this.actions = {
     },
     createFaxTemplate: {
         method: function(finish, id, content, opponent, time) {
-            if (content === 'Outgoing Fax') // For outgoing FAX, you cannot get the fax connet :(
-                return this.createSMSTemplate(id, content, opponent, time)
+            console.log(content);
+            if (content === 'Outgoing Fax') // For outgoing FAX, you cannot get the fax content :(
+                return
             this.props.transformee = content.uri
             var div = document.createElement('div')
             div.innerHTML = `<div class='clearfix conversations__conv'>
@@ -480,6 +496,8 @@ this.actions = {
                     msg.status.receiveConfirmed = true
                     return msg
                 })
+                // The notification of outgoing fax is not need to display
+                .filter(msg => msg.subject !== 'Outgoing Fax')
                 .forEach(msg => {
                         this.addBubble(
                             msg.id, 
@@ -583,8 +601,8 @@ this.actions = {
         after: function() {
             var anchor
             if (this.data.anchorContent &&
-                (anchor = 
-                    this.props.contact.msg.find(content => content.id == this.data.anchorContent.id))) {
+                (anchor = this.props.contact.msg.find(content => content.id == this.data.anchorContent.id)) &&
+                anchor.dom) {
                 this.dom.container.scrollTop = anchor.dom.offsetTop - anchor.dom.offsetHeight
             }
         }
@@ -683,11 +701,10 @@ this.on('scroll', function(e) {
 @import "src/styles/variables.css";
 @import "src/styles/mixins.css";
 
-$conversation-bubble-color: #ecf0f1;
+$conversation-bubble-color: #fefefe;
 $conversation-bubble-log-color: #B7C1A9;
 $conversation-bubble-voice-color: #CAC3A9;
 $conversation-bubble-marked-color: #eee;
-$gray: #bdc3c7;
 
 /* TODO */
 .rc-conversation {
@@ -699,6 +716,7 @@ $gray: #bdc3c7;
     .container {
         display: flex;
         flex-direction: column;
+        background-color: #ecf0f1;
         /* Adjust all conversation related font size */
         font-size: .8em;
         transition: transform .2s ease-in;
@@ -711,10 +729,10 @@ $gray: #bdc3c7;
         position: relative;
         width: 100%;
         > textarea {
-            @mixin padding-normal;
+            @mixin padding-large;
             width: 100%;
             border: 0;
-            border-top: 1px solid $gray;
+            border-top: 1px solid $light-gray;
             resize: none;
         }
     }
@@ -735,17 +753,7 @@ $gray: #bdc3c7;
         }
     }
     .callout {
-        @mixin shadow-2;
-          position: absolute;
-          bottom: 24px;
-          right: 10px;
-          width: 3em;
-          height: 3em;
-          font-size: 1.2em;
-        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-        &:hover {
-            @mixin shadow-hover;
-        }
+        
     }
     .mask {
         position: absolute;
@@ -820,6 +828,7 @@ $gray: #bdc3c7;
             margin-bottom: 5px;
             &--opponent {
                 float: left;
+                background-color: $conversation-bubble-color;
                 &:after {
                     left: 100%;
                 }
@@ -866,6 +875,43 @@ $gray: #bdc3c7;
         &__loading {
             @mixin padding-normal;
             text-align: center;
+        }
+        &__actions {
+            position: absolute;
+            /* as same as the normal-padding */
+            bottom: .5em;
+            right: 10px;
+        }
+    }
+    .actions {
+        cursor: pointer;
+        font-size: 1.2em;
+        color: #878787;
+        &__action {
+            position: relative;
+            overflow: hidden;
+            float: left;
+            padding-left: 5px;
+            > input {
+                /* file input hack in Facebook's conversation window */
+                bottom: 0;
+                cursor: inherit;
+                font-size: 1000px !important;
+                height: 300px;
+                margin: 0;
+                opacity: 0;
+                padding: 0;
+                position: absolute;
+                right: 0;
+            }
+            > input:hover + span {
+                color: $gray;
+            }
+            > span {
+                &:hover {
+                    color: $gray;
+                }
+            }
         }
     }
     .voice-bubble {

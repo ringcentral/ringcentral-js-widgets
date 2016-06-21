@@ -18,6 +18,12 @@ Release a minor version every 2 weeks.
 #### Messages list
 
 1. Display different media type
+2. Display different call log type (missed call, incoming call, outgoing call)
+
+#### Conversation
+
+1. Send fax
+2. Send SMS or pager based on the number
 
 ## v. 0.2.0
 

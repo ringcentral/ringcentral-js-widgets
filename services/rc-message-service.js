@@ -129,7 +129,6 @@ var rcMessageService = function() {
                 .then(response => response.json())
         },
         sendPagerMessage: function(text, fromNumber, toNumber) {
-            console.log(fromNumber);
             return RC.sdk.platform()
                 .post('/account/~/extension/~/company-pager/', {
                     from: {extensionNumber: fromNumber},
@@ -139,6 +138,33 @@ var rcMessageService = function() {
                     text: text
                 })
                 .then(response => response.json())
+        },
+        sendFax: function(files, toNumber) {
+            var body = {
+                to: [{ phoneNumber: toNumber }],
+                faxResolution: 'High'
+            }
+            var formData = new FormData();
+            formData.append(
+                'json', 
+                new File(
+                    [JSON.stringify(body)],
+                    'request.json',
+                    { type: 'application/json' }
+                ))
+            Array.from(files).forEach(file => {
+                formData.append('attachment', file)
+            })
+            // fax need have text thus can be sent
+            // formData.append(
+            //     'attachment', 
+            //     new File(
+            //         [''], 
+            //         'text.txt', 
+            //         { type: 'application/octet-stream' })
+            // )
+            // Send the fax
+            return RC.sdk.platform().post('/account/~/extension/~/fax', formData);
         },
         getConversation: function(conversationId, hourFrom, hourTo) {
             return RC.sdk.platform()

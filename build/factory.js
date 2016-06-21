@@ -402,6 +402,11 @@
 	            }
 	        }
 	    },
+	    sendFax: {
+	        method: function method() {
+	            _rcMessageService2.default.sendFax(this.props.files, this.props.toNumber || this.props.toExt);
+	        }
+	    },
 	    callout: {
 	        method: function method() {
 	            return _phoneService2.default.call(this.props.fromNumber || this.props.fromExt, this.props.toNumber || this.props.toExt, {
@@ -25431,7 +25436,6 @@
 	            });
 	        },
 	        sendPagerMessage: function sendPagerMessage(text, fromNumber, toNumber) {
-	            console.log(fromNumber);
 	            return _rcSdk.RC.sdk.platform().post('/account/~/extension/~/company-pager/', {
 	                from: { extensionNumber: fromNumber },
 	                to: [{ extensionNumber: toNumber }],
@@ -25439,6 +25443,27 @@
 	            }).then(function (response) {
 	                return response.json();
 	            });
+	        },
+	        sendFax: function sendFax(files, toNumber) {
+	            var body = {
+	                to: [{ phoneNumber: toNumber }],
+	                faxResolution: 'High'
+	            };
+	            var formData = new FormData();
+	            formData.append('json', new File([JSON.stringify(body)], 'request.json', { type: 'application/json' }));
+	            Array.from(files).forEach(function (file) {
+	                formData.append('attachment', file);
+	            });
+	            // fax need have text thus can be sent
+	            // formData.append(
+	            //     'attachment',
+	            //     new File(
+	            //         [''],
+	            //         'text.txt',
+	            //         { type: 'application/octet-stream' })
+	            // )
+	            // Send the fax
+	            return _rcSdk.RC.sdk.platform().post('/account/~/extension/~/fax', formData);
 	        },
 	        getConversation: function getConversation(conversationId, hourFrom, hourTo) {
 	            return _rcSdk.RC.sdk.platform().get('/account/~/extension/~/message-store', {
@@ -25728,7 +25753,7 @@
 	            //     result.push(content)
 	            //     continue
 	            // }
-	            if (savedContent && content.type === 'SMS' && savedContent.type === content.type && savedContent.contact.id === content.contact.id) {
+	            if (savedContent && (content.type === 'SMS' || content.type === 'Pager') && savedContent.type === content.type && savedContent.contact.id === content.contact.id) {
 	                savedContent.others.push(content);
 	            } else {
 	                savedContent && result.push(savedContent);
@@ -25783,7 +25808,8 @@
 	            id: msg.id,
 	            from: !msg.from && 'anonymous' || // For fax
 	            msg.from.extensionNumber || msg.from.phoneNumber,
-	            to: msg.to.phoneNumber || msg.to.extensionNumber || msg.to[0].extensionNumber || msg.to[0].phoneNumber,
+	            to: !msg.to && 'anonymous' || // For fax
+	            msg.to.phoneNumber || msg.to.extensionNumber || msg.to[0].extensionNumber || msg.to[0].phoneNumber,
 	            direction: msg.direction,
 	            type: msg.type,
 	            time: msg.creationTime || msg.startTime,

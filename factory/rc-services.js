@@ -249,6 +249,14 @@ services['conversation-advanced'] = {
             }
         }
     },
+    sendFax: {
+        method: function() {
+            rcMessageService.sendFax(
+                this.props.files,
+                this.props.toNumber || this.props.toExt
+            )
+        }
+    },
     callout: {
         method: function() {
             return phoneService.call(
