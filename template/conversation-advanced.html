@@ -320,7 +320,6 @@ this.actions = {
     },
     createFaxTemplate: {
         method: function(finish, id, content, opponent, time) {
-            console.log(content);
             if (content === 'Outgoing Fax') // For outgoing FAX, you cannot get the fax content :(
                 return
             this.props.transformee = content.uri

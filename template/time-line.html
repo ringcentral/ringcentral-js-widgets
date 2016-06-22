@@ -37,30 +37,12 @@ w.register(function() {
                 if (!contents || !contents[0])
                     return
                 this.props.latestMessage = contents[0]
-                contents.forEach((content, index) => this.addLine(content, false, index * 30))
-            }
-        },
-        updateTimeline: {
-            after: function(contents) {
-                // FIXME: The action of combining messages should be in service
+                console.log(contents);
                 contents
-                // Avoid duplicated notifications
-                .filter(content => syncedMessages.indexOf(content.id) === -1)
-                .forEach(content => {
-                    if (this.props.latestMessage &&
-                        this.props.latestMessage.type === content.type &&
-                        this.props.latestMessage.contact.id === content.contact.id) {
-
-                        this.props.latestMessage.others = this.props.latestMessage.others || []
-                        content.others = content.others || []
-                        content.others.push(this.props.latestMessage)
-                        content.others = content.others.concat(this.props.latestMessage.others)
-                        this.props.latestMessage.widget.unmount()
-                    }
-                    this.addLine(content, true)
-                    this.props.latestMessage = content
-                    syncedMessages.push(content.id)
-                })
+                    .filter(content => {
+                        return content.subject !== 'Outgoing Fax'
+                    })
+                    .forEach((content, index) => this.addLine(content, false, index * 30))
             }
         },
         addLine: {
