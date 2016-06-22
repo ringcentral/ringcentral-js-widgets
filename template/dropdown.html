@@ -71,7 +71,7 @@ w.register(function() {
                     })
                     
                 ids.forEach(id => this.addItem(id))
-                this.dom['dropdown-text'].textContent = ids[0]
+                this.switchTitle(ids[0])
             }
         },
         addItem: {
@@ -82,6 +82,7 @@ w.register(function() {
                 item.textContent = text
                 item.addEventListener('click', e => {
                     this.switchTitle(text)
+                    this.hide()
                 })
                 this.dom['list'].appendChild(item)
             }
@@ -98,11 +99,8 @@ w.register(function() {
         },
         switchTitle: {
             method: function(finish, text) {
-                finish(text)
-            },
-            after: function(text) {
                 this.dom['dropdown-text'].textContent = text
-                this.hide()
+                return finish(text)
             }
         }
     }
