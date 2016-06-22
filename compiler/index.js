@@ -41,7 +41,7 @@ function start() {
             data += (prefix + JSON.stringify(output) + postfix)
         }).catch(e => console.error(e))
     }, function() {
-        file.writeFile(minify(data))
+        file.writeFile((data))
         console.log('finish');
     })
     file.writeFile(GLOBAL_POSTFIX, false)

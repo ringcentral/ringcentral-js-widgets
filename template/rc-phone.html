@@ -261,7 +261,9 @@ w.register(function() {
                                             }, {
                                                 callout: {
                                                     after: function() {
-                                                        phone.props.callPanel.setName(this.props.toNumber)
+                                                        phone.props.callPanel.setName(
+                                                            this.props.toNumber || this.props.toExt
+                                                        )
                                                         phone.props.callPanel.mount('#call-panel')
                                                     }
                                                 }

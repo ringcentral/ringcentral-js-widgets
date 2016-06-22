@@ -14,7 +14,6 @@ function readFiles(counter, cb, finishCb) {
     }, function(err, content, filename, next) {
         if (err) throw err
         if (currentCounter && currentCounter > counter) {
-            console.log('break');
             currentCounter = counter
             return
         }

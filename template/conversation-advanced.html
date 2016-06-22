@@ -730,7 +730,7 @@ $conversation-bubble-marked-color: #eee;
     .container {
         display: flex;
         flex-direction: column;
-        background-color: #ecf0f1;
+        background-color: #fafafa;
         /* Adjust all conversation related font size */
         font-size: .8em;
         transition: transform .2s ease-in;
@@ -842,6 +842,7 @@ $conversation-bubble-marked-color: #eee;
             &--opponent {
                 float: left;
                 background-color: $conversation-bubble-color;
+                border-bottom-left-radius: 0;
                 &:after {
                     left: 100%;
                 }
@@ -849,6 +850,7 @@ $conversation-bubble-marked-color: #eee;
             &--self {
                 float: right;
                 background-color: $conversation-bubble-color;
+                border-bottom-right-radius: 0;
                 &:after {
                     right: 100%;
                 }
