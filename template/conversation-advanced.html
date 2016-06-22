@@ -16,20 +16,28 @@
                 <div class='hint' data-info='to-number'>to</div>
                 <div class='hint hint--right' data-info='from-number'>from</div>
             </div> -->
-            <div    class='content'
-                    data-info='container'>
+            <div class='content'
+                data-info='container'>
                 <div    class='conversations__loading display-none'
                         data-info='loading'>
                     loading...
                 </div>
-                <div    class='conversations' 
-                        data-info='conversations'>
-                </div>
+                <table cellspacing='0' cellpadding='0' class='table'>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div    class='conversations' 
+                                        data-info='conversations'>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <div class='textarea-wrapper'>
                 <textarea 
                 data-info='input'
-                placeholder='Type a messages...'
+                placeholder='Type a message...'
                 ></textarea>
                 <div class='conversations__actions actions'>
                     <div class='actions__action'>
@@ -42,20 +50,8 @@
                 </div>
             </div>
         </div>
-        <div    class='mask display-none'
-                data-info='phone-mask'>
-            <div 
-                class='modal'
-                data-info='phone-modal'>
-                <h2>
-                    <span class='voice-bubble__play icon-uniAE'></span>
-                    <span>Phone call</span>
-                </h2>
-                <div>
-                    <dropdown data-info='from-number-dropdown'></dropdown>
-                    <dropdown data-info='to-number-dropdown'></dropdown>
-                </div>
-                <button class='rc-button rc-button--round rc-button--positive'>Call out</button>
+        <div class='mask display-none' data-info='error-mask'>
+            <div class='modal' data-info='error-message'>
             </div>
         </div>
     </div>
@@ -193,9 +189,32 @@ this.actions = {
         after: function(response) {}
     },
     sendFax: {
+        before: function() {
+            // loading effects
+        },
         method: function(finish) {
-            console.log(this.props.files);
+            var toLarge = false
+            Array.from(this.props.files).forEach(file => {
+                console.log(file)
+                if (file.size > 10 * 1024 * 1024) // 10 MB
+                    toLarge = true
+            })
+            if (toLarge) {
+                return this.showErrorMessage('The file you have selected is too large. The maximum size is 10MB.')
+            }
             return finish()
+        }
+    },
+    showErrorMessage: {
+        before: function(message) {
+            this.dom['error-mask'].classList.remove('display-none')
+            this.dom['error-message'].textContent = message
+        }
+    },
+    hideErrorMessage: {
+        before: function() {
+            this.dom['error-mask'].classList.add('display-none')
+            this.dom['error-message'].textContent = ''
         }
     },
     addBubble: {
@@ -656,11 +675,6 @@ this.actions = {
             this.props.toNumbers = toNumbers
         }
     },
-    togglePhoneModal: {
-        before: function() {
-            this.dom['phone-mask'].classList.toggle('display-none')
-        }
-    },
     callout: {
         method: function(finish) {
             return finish()
@@ -675,8 +689,8 @@ this.actions = {
 this.on('click', function(e) {
     if (e.target === this.dom.back)
         this.back()
-    // if (e.target === this.dom.callout || e.target === this.dom['phone-mask'])
-    //     this.togglePhoneModal()
+    if (e.target === this.dom['error-mask'])
+        this.hideErrorMessage()
     if (e.target === this.dom.callout || 
         e.target.parentNode === this.dom.callout)
         this.callout()
@@ -761,7 +775,7 @@ $conversation-bubble-marked-color: #eee;
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(10,10,10,.6);
+        background: rgba(10,10,10,.2);
     }
     .modal {
         @mixin shadow-3;
@@ -770,11 +784,10 @@ $conversation-bubble-marked-color: #eee;
         flex-direction: column;
         position: absolute;
         z-index: 2;
-        top: 5%;
+        top: 20%;
         left: 5%;
         width: 90%;
-        height: 50%;
-        border: 1px solid $gray;
+        font-size: .9em;
         border-radius: 4px;
         background-color: #fff;
         text-align: center;
@@ -921,6 +934,15 @@ $conversation-bubble-marked-color: #eee;
         &__play {}
         &__duration {
             
+        }
+    }
+    .table {
+        table-layout: fixed;
+        width: 100%;
+        height: 100%;
+        td {
+            vertical-align: bottom;
+            padding: 0;
         }
     }
 }
