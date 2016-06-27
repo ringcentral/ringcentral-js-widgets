@@ -1,7 +1,7 @@
 {
   preset: 'google',
   esnext: true,
-  "validateIndentation": 4,
+  "validateIndentation": 2,
   "requireSemicolons": false,
   "disallowSemicolons": true
 }
