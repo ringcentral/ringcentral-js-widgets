@@ -1,5 +1,5 @@
 import React from 'react'
-import PanelHeader from './panelheader.react'
+import PanelHeader from './PanelHeader.react'
 
 const ActiveCall = (props) => (
   <div>

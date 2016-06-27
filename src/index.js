@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import RcPhone from 'ringcentral-js-integration-commons'
 import config from '../config'
 
-import App from './components/app.react'
+import App from './components/App.react'
 
 var phone = new RcPhone({
   sdkSettings: {

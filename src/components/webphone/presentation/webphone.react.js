@@ -1,8 +1,8 @@
 import React from 'react'
 
-import DialPad from './dialpad.react'
-import ActiveCall from './activecall.react'
-import IncomingCall from './incomingcall.react'
+import DialPad from './DialPad.react'
+import ActiveCall from './ActiveCall.react'
+import IncomingCall from './IncomingCall.react'
 
 
 const WebPhone = (props) => (
