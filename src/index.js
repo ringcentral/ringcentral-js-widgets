@@ -5,8 +5,8 @@ import { Provider } from 'react-redux'
 import RcPhone from 'ringcentral-js-integration-commons'
 import config from '../config'
 
-import Auth from './components/auth.react'
-import WebPhone from './components/webphone.react'
+import App from './components/app.react'
+
 var phone = new RcPhone({
   sdkSettings: {
     ...config.app,
@@ -16,7 +16,7 @@ var phone = new RcPhone({
 
 ReactDOM.render(
   <Provider store={phone.store}>
-    <Auth phone={phone}/>
+    <App phone={phone}/>
   </Provider>, 
   document.getElementById('container')
 )

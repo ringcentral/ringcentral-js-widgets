@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import config from '../../config'
+import config from '../../../config'
+
 class Auth extends React.Component {
   constructor(props) {
     super(props);
@@ -11,7 +12,6 @@ class Auth extends React.Component {
     })
   }
   render() {
-    console.log(this.props);
     return (
       <div>
         <button onClick={this.login.bind(this)}>Login</button>
