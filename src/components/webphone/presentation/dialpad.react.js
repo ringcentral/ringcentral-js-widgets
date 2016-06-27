@@ -31,7 +31,9 @@ export default class DialPad extends React.Component {
         return (
           <button 
             key={symbol} 
-            onClick={this.handleClick.bind(this, symbol)}>
+            onClick={this.handleClick.bind(this, symbol)}
+            className={'button-' + symbol}
+            >
             {symbol}
           </button>
         )
@@ -43,7 +45,7 @@ export default class DialPad extends React.Component {
         <input 
           onChange={this.handleInput.bind(this)}
           value={this.state.dialingNumber}
-          />
+        />
         <div>
           {dialpadButtons()}
         </div>

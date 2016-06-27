@@ -7,8 +7,10 @@ const ActiveCall = (props) => (
     <div>{props.phoneNumber}</div>
   </div>
 )
+
 ActiveCall.propTypes = {
   displayName: React.PropTypes.string,
   phoneNumber: React.PropTypes.string.isRequired,
-};
+}
+
 export default ActiveCall
