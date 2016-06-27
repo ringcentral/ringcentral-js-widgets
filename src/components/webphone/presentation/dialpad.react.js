@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from '../index.css';
-console.log(styles);
+
 export default class DialPad extends React.Component {
   state = {
     dialingNumber: ''

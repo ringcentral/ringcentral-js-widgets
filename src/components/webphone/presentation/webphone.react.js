@@ -2,6 +2,7 @@ import React from 'react'
 
 import DialPad from './dialpad.react'
 import ActiveCall from './activecall.react'
+import IncomingCall from './incomingcall.react'
 
 
 const WebPhone = (props) => (
@@ -10,7 +11,7 @@ const WebPhone = (props) => (
       if (props.status === 'OnCall')
         return <ActiveCall phoneNumber={props.phoneNumber}/>
       else if (props.status === 'OnCallIncoming')
-        return <ActiveCall phoneNumber={props.phoneNumber}/>
+        return <IncomingCall phoneNumber={props.phoneNumber}/>
       else
         return <DialPad />
     })()}

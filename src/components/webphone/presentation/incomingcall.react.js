@@ -1,9 +1,9 @@
 import React from 'react'
 import PanelHeader from './panelheader.react'
 
-const ActiveCall = (props) => (
+const IncomingCall = (props) => (
   <div>
-    <h2>Active Call</h2>
+    <h2>Incoming Call</h2>
     <PanelHeader 
       displayName={props.displayName}
       phoneNumber={props.phoneNumber}
@@ -11,4 +11,4 @@ const ActiveCall = (props) => (
   </div>
 )
 
-export default ActiveCall
+export default IncomingCall
