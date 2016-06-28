@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import Auth from './auth/index.react'
-import WebPhone from './webphone/index.react'
+import Auth from './widgets/auth/index.react'
+import WebPhone from './widgets/webphone/index.react'
 
 class App extends React.Component {
   static propTypes = {
@@ -14,15 +14,14 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.props.loggedIn);
     function component() {
       return <WebPhone phone={this.props.phone}/>
     }
     return (
       <div>
-        {component.call(this)}
+        { component.call(this) }
       </div>
-    );
+    )
   }
 }
 

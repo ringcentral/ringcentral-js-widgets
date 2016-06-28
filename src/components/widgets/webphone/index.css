@@ -4,8 +4,14 @@
 .dialButton {
   width: 3.2em;
   height: 3.2em;
+  padding: 1em;
   border: 1px solid #000;
   border-radius: 50%;
   background: #fff;
   cursor: pointer;
+  margin: 5px;
+}
+.dialLine {
+  display: flex;
+  justify-content: space-around;
 }

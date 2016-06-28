@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import config from '../../../config'
+import config from '../../../../config'
 
 class Auth extends React.Component {
   constructor(props) {
