@@ -20,13 +20,18 @@ export default class Input extends React.Component {
 
   handleOnChange(event) {
     this.props.onChange(event)
-    this.autocomplete()
   }
 
-  autocomplete() {
+  componentWillReceiveProps(nextProps) {
+    // Because setState is async, we need to wait for the parent component update the 'value' prop
+    if (nextProps.value !== this.props.value)
+      this.autocomplete(nextProps.value)
+  }
+
+  autocomplete(value) {
     let items = this.props.items
-    let candidates = items.filter(item => item.indexOf(this.props.value) === 0)
-    if (items.length > 0)
+    let candidates = items.filter(item => item.indexOf(value) === 0)
+    if (value !== '' && items.length > 0)
       this.setState({
         isOpen: true,
         candidates,
@@ -34,12 +39,13 @@ export default class Input extends React.Component {
     else
       this.setState({
         isOpen: false,
-        candidates: [] 
-      });
+        candidates: [],
+      })
     return candidates
   }
 
   render() {
+    console.log(this.state.isOpen);
     return (
       <div>
         <input 

@@ -26,6 +26,7 @@ export default class DialPad extends React.Component {
 
   dial(dialingNumber) {
     this.setState({ dialingNumber })
+    console.log(dialingNumber);
   }
   
   render() {

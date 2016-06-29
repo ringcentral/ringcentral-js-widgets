@@ -1,9 +1,14 @@
 import React from 'react'
 
 const Menu = (props) => {
-  console.log(props.candidates);
   return (
-    <div></div>
+    <div>
+      { props.candidates.map((val, index) => (
+        <div key={index}>
+          {val}
+        </div>
+      )) }
+    </div>
   )
 }
 Menu.propTypes = {
