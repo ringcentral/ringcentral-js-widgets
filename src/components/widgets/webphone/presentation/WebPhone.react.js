@@ -8,11 +8,11 @@ import IncomingCall from './IncomingCall.react'
 const WebPhone = (props) => {
   const panel = () => {
     if (props.status === 'OnCall')
-      return <ActiveCall phoneNumber={props.phoneNumber}/>
+      return <ActiveCall phoneNumber={ props.phoneNumber }/>
     else if (props.status === 'OnCallIncoming')
-      return <IncomingCall phoneNumber={props.phoneNumber}/>
+      return <IncomingCall phoneNumber={ props.phoneNumber }/>
     else
-      return <DialPad />
+      return <DialPad contacts={ props.contacts } />
   }
   return (
     <div>

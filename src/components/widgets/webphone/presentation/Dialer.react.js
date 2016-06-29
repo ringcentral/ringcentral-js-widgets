@@ -12,14 +12,16 @@ const Dialer = (props) => (
       <div 
         key={`line-${index}`} 
         className={ styles.dialLine }>
-        {line.map(symbol => (
-          <button 
-            key={symbol}
-            onClick={ props.handleClick.bind(null, symbol) }
-            className={ styles.dialButton }>
-            {symbol}
-          </button>
-        ))}
+        {
+          line.map(symbol => (
+            <button 
+              key={symbol}
+              onClick={ props.handleClick.bind(null, symbol) }
+              className={ styles.dialButton }>
+              {symbol}
+            </button>
+          ))
+        }
       </div>
     ))}
   </div>

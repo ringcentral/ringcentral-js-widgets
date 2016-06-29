@@ -1,16 +1,42 @@
 import React from 'react'
+import styles from '../index.css'
+
 
 const CallConsole = (props) => (
   <div>
     <div>
-      <button onClick={ props.handleHoldClick }>Hold</button>
-      <button onClick={ props.handleKeypadClick }>Keypad</button>
-      <button onClick={ props.handleRecordClick }>Record</button>
+      <button 
+        className={ styles.settingButton } 
+        onClick={ props.handleHoldClick }>
+        Hold
+      </button>
+      <button 
+        className={ styles.settingButton } 
+        onClick={ props.handleKeypadClick }>
+        Keypad
+      </button>
+      <button 
+        className={ styles.settingButton } 
+        onClick={ props.handleRecordClick }>
+        Record
+      </button>
     </div>
     <div>
-      <button onClick={ props.handleFlipClick }>Flip</button>
-      <button onClick={ props.handleTransferClick }>Transfer</button>
-      <button onClick={ props.handleParkClick }>Park</button>
+      <button 
+        className={ styles.settingButton } 
+        onClick={ props.handleFlipClick }>
+        Flip
+      </button>
+      <button 
+        className={ styles.settingButton } 
+        onClick={ props.handleTransferClick }>
+        Transfer
+      </button>
+      <button 
+        className={ styles.settingButton } 
+        onClick={ props.handleParkClick }>
+        Park
+      </button>
     </div>
   </div>
 )

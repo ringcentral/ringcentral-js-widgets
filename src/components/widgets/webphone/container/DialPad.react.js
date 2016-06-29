@@ -26,7 +26,6 @@ export default class DialPad extends React.Component {
 
   dial(dialingNumber) {
     this.setState({ dialingNumber })
-    console.log(dialingNumber);
   }
   
   render() {
@@ -38,7 +37,7 @@ export default class DialPad extends React.Component {
             <Input 
               onChange={ this.handleInput.bind(this) }
               value={ this.state.dialingNumber }
-              items={['aa', 'ab', 'ac']}
+              items={ this.props.contacts }
             />
             <div>
               <Dialer handleClick={ this.handleClick.bind(this) }/>
