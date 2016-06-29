@@ -11,7 +11,7 @@ const Dialer = (props) => (
     ].map((line, index) => (
       <div 
         key={`line-${index}`} 
-        className={ styles.dialLine }>
+        className={ styles.line }>
         {
           line.map(symbol => (
             <button 
@@ -27,7 +27,7 @@ const Dialer = (props) => (
   </div>
 )
 
-Dialer.propType = {
+Dialer.propTypes = {
   handleClick: React.PropTypes.func.isRequired,
 }
 

@@ -3,8 +3,8 @@
 }
 
 .dialButton {
-  composes: button from '../../commons/button.css';
-  composes: buttonCircle from '../../commons/button.css';
+  composes: button from '../../commons/button/button.css';
+  composes: buttonCircle from '../../commons/button/button.css';
   width: 3.2em;
   height: 3.2em;
   padding: 1em;
@@ -14,14 +14,14 @@
   margin: 5px;
 }
 
-.dialLine {
+.line {
   display: flex;
   justify-content: space-around;
 }
 
 .settingButton {
-  composes: button from '../../commons/button.css';
-  composes: buttonCircle from '../../commons/button.css';
+  composes: button from '../../commons/button/button.css';
+  composes: buttonCircle from '../../commons/button/button.css';
   width: 4em;
   height: 4em;
   padding: 1em;

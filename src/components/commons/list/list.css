@@ -1,0 +1,15 @@
+.list {
+
+}
+
+.listItem {
+  border-bottom: 1px solid #eee;
+}
+
+.listItem.clickable {
+  cursor: pointer;
+}
+
+.listItem.clickable:hover {
+  background-color: #fafafa;
+}

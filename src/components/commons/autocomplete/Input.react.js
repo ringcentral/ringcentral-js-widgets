@@ -5,7 +5,8 @@ export default class Input extends React.Component {
 
   state = {
     isOpen: false,
-    candidates: []
+    value: '',
+    candidates: [],
   }
 
   static propTypes = {
@@ -14,12 +15,19 @@ export default class Input extends React.Component {
     items: React.PropTypes.array,
   }
 
+  static defaultProps = {
+    onChange: function() {},
+  };
+
   constructor(props) {
     super(props);
   }
 
   handleOnChange(event) {
-    this.props.onChange(event)
+    this.setState({
+      value: event.target.value
+    })
+    this.props.onChange(event, event.target.value)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -49,9 +57,9 @@ export default class Input extends React.Component {
       <div>
         <input 
           onChange={ this.handleOnChange.bind(this) }
-          value={ this.props.value }
+          value={ this.state.value }
         />
-        { this.state.isOpen? <Menu candidates={ this.state.candidates } />: null}
+        { this.state.isOpen? <Menu candidates={ this.state.candidates } />: null }
       </div>
     )
   }

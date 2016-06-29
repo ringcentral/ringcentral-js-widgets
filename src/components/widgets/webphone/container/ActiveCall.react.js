@@ -2,8 +2,9 @@ import React from 'react'
 import { PanelHeader, PanelContent, PanelFooter } from '../../../commons/panel/'
 import CallConsole from '../presentation/CallConsole.react'
 import Dialer from '../presentation/Dialer.react'
-import Flip from '../presentation/Flip.react'
-import Transfer from '../presentation/Transfer.react'
+import UserFlip from './UserFlip.react'
+import UserTransfer from './UserTransfer.react'
+import Closeable from '../presentation/Closable.react'
 
 export default class ActiveCall extends React.Component {
 
@@ -22,13 +23,25 @@ export default class ActiveCall extends React.Component {
   render() {
 
     let content = () => {
-      if (this.state.openedPanel === 'keypad')
-        return <Dialer handleClick={() => {}}/>
-      else if (this.state.openedPanel === 'flip')
-        return <Flip handleClick={() => {}}/>
-      else if (this.state.openedPanel === 'transfer')
-        return <Transfer handleClick={() => {}}/>
-      else
+      if (this.state.openedPanel === 'keypad') {
+        return (
+          <Closeable close={() => { this.setState({ openedPanel: null }) }}>
+            <Dialer />
+          </Closeable>
+        )
+      } else if (this.state.openedPanel === 'flip') {
+        return (
+          <Closeable close={() => { this.setState({ openedPanel: null }) }}>
+            <UserFlip />
+          </Closeable>
+        )
+      } else if (this.state.openedPanel === 'transfer') {
+        return (
+          <Closeable close={() => { this.setState({ openedPanel: null }) }}>
+            <UserTransfer />
+          </Closeable>
+        )
+      } else {
         return (
           <CallConsole
             handleHoldClick={() => {}}
@@ -39,6 +52,7 @@ export default class ActiveCall extends React.Component {
             handleParkClick={() => {}}
           />
         )
+      }
     }
 
     return (

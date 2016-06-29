@@ -1,28 +1,29 @@
 import React from 'react'
 import styles from '../index.css'
+import { StatedButton } from '../../../commons/button/'
 
 
 const CallConsole = (props) => (
   <div>
-    <div>
-      <button 
+    <div className={ styles.line }>
+      <StatedButton 
         className={ styles.settingButton } 
         onClick={ props.handleHoldClick }>
         Hold
-      </button>
+      </StatedButton>
       <button 
         className={ styles.settingButton } 
         onClick={ props.handleKeypadClick }>
         Keypad
       </button>
-      <button 
+      <StatedButton 
         className={ styles.settingButton } 
         onClick={ props.handleRecordClick }>
         Record
-      </button>
+      </StatedButton>
     </div>
-    <div>
-      <button 
+    <div className={ styles.line }>
+      <button
         className={ styles.settingButton } 
         onClick={ props.handleFlipClick }>
         Flip
@@ -32,16 +33,16 @@ const CallConsole = (props) => (
         onClick={ props.handleTransferClick }>
         Transfer
       </button>
-      <button 
+      <StatedButton 
         className={ styles.settingButton } 
         onClick={ props.handleParkClick }>
         Park
-      </button>
+      </StatedButton>
     </div>
   </div>
 )
 
-CallConsole.propType = {
+CallConsole.propTypes = {
   handleHoldClick: React.PropTypes.func.isRequired,
   handleRecordClick: React.PropTypes.func.isRequired,
   handleKeypadClick: React.PropTypes.func.isRequired,

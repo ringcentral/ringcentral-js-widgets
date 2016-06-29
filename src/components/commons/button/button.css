@@ -1,0 +1,17 @@
+.button {
+  outline: 0;
+}
+
+.button:hover {
+  background-color: #eee;
+  color:            #000;
+}
+
+.buttonCircle {
+  border-radius: 50%;
+}
+
+.button.buttonStated {
+  background-color: #000;
+  color:            #fff;
+}
