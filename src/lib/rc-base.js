@@ -1,15 +1,14 @@
+const STORE = Symbol();
 export default class RcBase {
-  addModule(name, module) {
-    if (this::Object.prototype.hasOwnProperty(name)) {
-      throw new Error(`module '${name}' already exists...`);
-    }
-
-    Object.defineProperty(this, name, {
-      get() {
-        return module;
-      },
-      enumerable: true,
-    });
+  constructor(init) {
+    this[STORE] = null;
+    init();
+  }
+  get state() {
+    return this[STORE].getState();
+  }
+  subscribe(...args) {
+    return this[STORE].subscribe(...args);
   }
 }
 

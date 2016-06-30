@@ -13,7 +13,7 @@ import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
 import distConfig from './webpack.config';
 
-const TIMEOUT = 10000;
+const TIMEOUT = 30000;
 const argv = yargs.argv;
 
 function getTestSources() {
@@ -153,3 +153,18 @@ gulp.task('dist', async () => {
     });
   });
 });
+
+gulp.task('watch', async () => {
+  await new Promise((resolve, reject) => {
+    distConfig.watch = true
+    let compiler = webpack(distConfig);
+
+    compiler.watch({}, err => {
+      if (err) reject(err);
+      compiler.run(err => {
+        if (err) reject(err);
+      });
+    })
+  });
+});
+

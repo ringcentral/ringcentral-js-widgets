@@ -10,6 +10,7 @@
     "eslint": "node ./node_modules/eslint/bin/eslint.js src test gulpfile.js config.js",
     "dist": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js dist",
     "build": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js build",
+    "watch": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js watch",
     "gulp": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js"
   },
   "repository": {
@@ -45,8 +46,8 @@
     "gulp-mocha": "^2.2.0",
     "gulp-sourcemaps": "^2.0.0-alpha",
     "json-loader": "^0.5.4",
-    "ringcentral": "^2.0.6",
-    "ringcentral-client": "https://github.com/LingForCC/ringcentral-js-client.git#working",
+    "ringcentral": "https://github.com/u9520107/ringcentral-js.git#bug-refresh",
+    "ringcentral-client": "https://github.com/u9520107/ringcentral-js-client.git#internal-build",
     "ringcentral-web-phone": "^0.2.0",
     "source-map-support": "^0.4.0",
     "through2": "^2.0.1",
@@ -55,11 +56,13 @@
   },
   "peerDependencies": {
     "babel-runtime": "^6.6.1",
-    "ringcentral": "^2.0.6",
-    "ringcentral-client": "https://github.com/LingForCC/ringcentral-js-client.git#working",
+    "ringcentral": "https://github.com/u9520107/ringcentral-js.git#bug-refresh",
+    "ringcentral-client": "https://github.com/u9520107/ringcentral-js-client.git#internal-build",
     "ringcentral-web-phone": "^0.2.0"
   },
   "dependencies": {
+    "component-emitter": "^1.2.1",
+    "redux": "^3.5.2",
     "yargs": "^4.6.0"
   }
 }

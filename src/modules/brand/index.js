@@ -1,0 +1,39 @@
+import RcModule from '../../lib/rc-module';
+import brandActions from './brand-actions';
+import getReducer from './brand-reducer';
+import SymbolMap from '../../lib/symbol-map';
+
+const symbols = new SymbolMap([
+  'initialState',
+]);
+
+export default class Brand extends RcModule {
+  constructor({
+    registerStoreHandler,
+    stateMapper = (state) => state.brand,
+    prefix,
+    id,
+    name,
+  }) {
+    super({
+      registerStoreHandler,
+      stateMapper,
+      prefix,
+      actions: brandActions,
+    });
+    this[symbols.initialState] = {
+      id,
+      name,
+    };
+  }
+  get reducer() {
+    return getReducer(this[symbols.initialState], this.prefix);
+  }
+  get id() {
+    return this.state.id;
+  }
+  get name() {
+    return this.state.name;
+  }
+}
+

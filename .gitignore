@@ -38,3 +38,5 @@ test-server/build
 test-server/auto-loader.js
 
 dist
+
+index.html

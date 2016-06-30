@@ -1,15 +1,12 @@
 import Enum from '../lib/enum';
 
 const definition = {
-  notLoggedIn: 0,
-  hasPublicToken: 1,
-  userLoggedIn: 2,
+  pending: 0, // after init, before status from platform is determined
+  notLoggedIn: 1,
+  clientAccessPending: 2,
+  clientAccess: 3,
+  userAccessPending: 4,
+  userAccess: 5,
 };
 
-class LoginStatus extends Enum {
-  constructor() {
-    super(definition);
-  }
-}
-
-export default new LoginStatus();
+export default new Enum(definition);
