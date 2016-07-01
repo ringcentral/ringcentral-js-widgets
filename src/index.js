@@ -6,6 +6,8 @@ import RcPhone from 'ringcentral-js-integration-commons'
 import config from '../config'
 
 import App from './components/App.react'
+import main from './styles/main.css'
+import normalize from './styles/normalize.css'
 
 var phone = new RcPhone({
   sdkSettings: {

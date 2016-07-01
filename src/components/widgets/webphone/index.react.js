@@ -6,7 +6,7 @@ export default connect(state => {
   return {
     ...state,
     status: 'OnCall',
-    phoneNumber: '17272727272',
+    phoneNumber: '(650) 397-6085',
     contacts: ['aa', 'bb', 'cc'],
   }
 })(WebPhone)

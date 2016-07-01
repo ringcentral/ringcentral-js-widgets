@@ -4,7 +4,6 @@ const Closable = (props) => {
   let content = props.children
   return (
     <div>
-      <button onClick={ props.close }>close</button>
       { content }
     </div>
   )

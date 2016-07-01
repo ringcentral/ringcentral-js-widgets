@@ -1,8 +1,10 @@
 import React from 'react'
 
-import DialPad from '../container/DialPad.react'
-import ActiveCall from '../container/ActiveCall.react'
+import DialPad from './DialPad.react'
+import ActiveCall from './ActiveCall.react'
 import IncomingCall from './IncomingCall.react'
+
+import styles from '../index.css'
 
 
 const WebPhone = (props) => {
@@ -15,7 +17,7 @@ const WebPhone = (props) => {
       return <DialPad contacts={ props.contacts } />
   }
   return (
-    <div>
+    <div className={ styles.container }>
       { panel() }
     </div>
   )

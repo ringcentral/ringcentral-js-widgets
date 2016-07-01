@@ -4,7 +4,7 @@ const PanelFooter = (props) => {
   let ContentElement = props.children
   return (
     <div>
-      {ContentElement}
+      { ContentElement }
     </div>
   )
 }

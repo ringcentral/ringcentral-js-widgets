@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import Auth from './widgets/auth/index.react'
 import WebPhone from './widgets/webphone/index.react'
 
+import styles from './app.css'
+
 class App extends React.Component {
   static propTypes = {
     loggedIn: React.PropTypes.bool.isRequired,
@@ -18,7 +20,7 @@ class App extends React.Component {
       return <WebPhone phone={this.props.phone}/>
     }
     return (
-      <div>
+      <div className={ styles.app }>
         { component.call(this) }
       </div>
     )

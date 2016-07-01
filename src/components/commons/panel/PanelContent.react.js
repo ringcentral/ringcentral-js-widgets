@@ -4,7 +4,7 @@ const PanelContent = (props) => {
   let ContentElement = props.children
   return (
     <div>
-      {ContentElement}
+      { ContentElement }
     </div>
   )
 }

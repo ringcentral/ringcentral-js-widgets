@@ -1,6 +1,8 @@
 import React from 'react'
 import { Input } from '../../../commons/autocomplete/'
 
+import styles from '../index.css'
+
 const Transfer = (props) => {
   let number = ''
   let handleClick = function(event) {
@@ -11,8 +13,8 @@ const Transfer = (props) => {
     number = value
   }
   return (
-    <div>
-      <div>transfer</div>
+    <div className={ styles.flip }>
+      <div className={ styles.flipTitle }>Transfer to</div>
       <Input onChange={ updateNumber } />
       <button onClick={ handleClick }>Transfer</button>
     </div>

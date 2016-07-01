@@ -1,10 +1,16 @@
 import React from 'react'
 import { PanelHeader, PanelContent, PanelFooter } from '../../../commons/panel/'
-import CallConsole from '../presentation/CallConsole.react'
-import Dialer from '../presentation/Dialer.react'
-import UserFlip from './UserFlip.react'
-import UserTransfer from './UserTransfer.react'
-import Closeable from '../presentation/Closable.react'
+
+import UserFlip from '../container/UserFlip.react'
+import UserTransfer from '../container/UserTransfer.react'
+
+import CallConsole from './CallConsole.react'
+import Dialer from './Dialer.react'
+import CallFooter from './CallFooter.react'
+import Closeable from './Closable.react'
+
+import iconsStyles from '../../../../styles/icon.css'
+import styles from '../index.css'
 
 export default class ActiveCall extends React.Component {
 
@@ -26,7 +32,7 @@ export default class ActiveCall extends React.Component {
       if (this.state.openedPanel === 'keypad') {
         return (
           <Closeable close={() => { this.setState({ openedPanel: null }) }}>
-            <Dialer />
+            <Dialer handleClick={() => {}} scale={ .9 } />
           </Closeable>
         )
       } else if (this.state.openedPanel === 'flip') {
@@ -56,21 +62,22 @@ export default class ActiveCall extends React.Component {
     }
 
     return (
-      <div>
-        <h2>Active Call</h2>
-        <PanelHeader
-          title={this.props.displayName}
-          subtitle={this.props.phoneNumber}
-        />
-        <PanelContent>
-          { content() }
-        </PanelContent>
-        <PanelFooter>
-          <div>
-            <button>Mute</button>
-            <button>Hang up</button>
+      <div className={ styles.main }>
+        <div>
+          <div className={ styles.title }>
+            { this.props.phoneNumber }
           </div>
-        </PanelFooter>
+          <div className={ styles.time }>
+            00:30
+          </div>
+          <div className={ styles.subtitle }>
+            You are on a WebPhone call.
+          </div>
+        </div>
+        <div>
+          { content() }
+        </div>
+        <CallFooter />
       </div>
     )
   }

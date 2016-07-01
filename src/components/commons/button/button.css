@@ -1,10 +1,11 @@
 .button {
+  cursor: pointer;
   outline: 0;
 }
 
 .button:hover {
-  background-color: #eee;
-  color:            #000;
+  /*background-color: #eee;*/
+  /*color:            #000;*/
 }
 
 .buttonCircle {

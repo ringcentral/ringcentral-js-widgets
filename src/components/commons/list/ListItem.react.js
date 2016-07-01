@@ -4,7 +4,7 @@ import styles from './list.css'
 
 const ListItem = (props) => (
   <div 
-    className={ `${styles.listItem} ${props.clickable? styles.clickable: ''}` }
+    className={ `${ styles.listItem } ${ props.className } ${ props.clickable? styles.clickable: '' }` }
     onClick={ props.onClick }>
     { props.children }
   </div>
@@ -13,6 +13,7 @@ const ListItem = (props) => (
 ListItem.propTypes = {
   onClick: React.PropTypes.func,
   clickable: React.PropTypes.bool,
+  className: React.PropTypes.string,
 }
 
 export default ListItem

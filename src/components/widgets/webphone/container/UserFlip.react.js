@@ -7,12 +7,12 @@ export default connect(state => {
     ...state,
     numbers: [
       {
-        value: '1234567',
-        type: 'main'
+        value: '+1 650-397-6085',
+        type: 'Howard Zhang Existing Phone'
       },
       {
-        value: '7655431',
-        type: 'personal'
+        value: '+1 650-397-6085',
+        type: 'Personal'
       }
     ],
     handleClick: function(event) { console.log(event) }

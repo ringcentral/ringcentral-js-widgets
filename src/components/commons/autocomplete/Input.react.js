@@ -13,6 +13,7 @@ export default class Input extends React.Component {
     onChange: React.PropTypes.func,
     value: React.PropTypes.string,
     items: React.PropTypes.array,
+    className: React.PropTypes.string,
   }
 
   static defaultProps = {
@@ -56,6 +57,7 @@ export default class Input extends React.Component {
     return (
       <div>
         <input 
+          className={ this.props.className }
           onChange={ this.handleOnChange.bind(this) }
           value={ this.state.value }
         />
