@@ -1,5 +1,5 @@
 {
-  "name": "ringcentral-js-unity",
+  "name": "ringcentral-js-integration-commons",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ringcentral/ringcentral-js-unity.git"
+    "url": "git+https://github.com/ringcentral/ringcentral-js-integration-commons.git"
   },
   "author": "RingCentral Integration",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ringcentral/ringcentral-js-unity/issues"
+    "url": "https://github.com/ringcentral/ringcentral-js-integration-commons/issues"
   },
-  "homepage": "https://github.com/ringcentral/ringcentral-js-unity#readme",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-integration-commons#readme",
   "devDependencies": {
     "babel-cli": "^6.6.5",
     "babel-core": "^6.7.4",
@@ -46,7 +46,7 @@
     "gulp-mocha": "^2.2.0",
     "gulp-sourcemaps": "^2.0.0-alpha",
     "json-loader": "^0.5.4",
-    "ringcentral": "https://github.com/u9520107/ringcentral-js.git#bug-refresh",
+    "ringcentral": "^2.0.6",
     "ringcentral-client": "https://github.com/u9520107/ringcentral-js-client.git#internal-build",
     "ringcentral-web-phone": "^0.2.0",
     "source-map-support": "^0.4.0",
@@ -56,7 +56,7 @@
   },
   "peerDependencies": {
     "babel-runtime": "^6.6.1",
-    "ringcentral": "https://github.com/u9520107/ringcentral-js.git#bug-refresh",
+    "ringcentral": "^2.0.6",
     "ringcentral-client": "https://github.com/u9520107/ringcentral-js-client.git#internal-build",
     "ringcentral-web-phone": "^0.2.0"
   },
