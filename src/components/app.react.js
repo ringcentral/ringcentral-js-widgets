@@ -17,7 +17,7 @@ class App extends React.Component {
 
   render() {
     function component() {
-      return <WebPhone phone={this.props.phone}/>
+      return <WebPhone phone={this.props.phone} />
     }
     return (
       <div className={ styles.app }>

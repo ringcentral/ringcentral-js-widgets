@@ -7,11 +7,11 @@ const CallFooter = (props) => {
   let content = props.children
   return (
     <div className={ styles.footer }>
-      <button className={ styles.footerButton }>
-        <span className={ `${iconsStyles['icon-uniCE']} ${iconsStyles['icon']} ${styles['icon']}` }></span>
+      <button className={ styles.footerButton } onClick={ props.onLeftClick }>
+        <span className={ `${iconsStyles[props.leftIcon]} ${iconsStyles['icon']} ${styles['icon']}` }></span>
       </button>
-      <button className={ styles.footerButton }>
-        <span className={ `${iconsStyles['icon-uni44']} ${iconsStyles['icon']} ${styles['icon']}` }></span>
+      <button className={ styles.footerButton } onClick={ props.onRightClick }>
+        <span className={ `${iconsStyles[props.rightIcon]} ${iconsStyles['icon']} ${styles['icon']}` }></span>
       </button>
     </div>
   )

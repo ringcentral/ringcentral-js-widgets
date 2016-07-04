@@ -4,7 +4,7 @@ import iconsStyles from '../../../../styles/icon.css'
 import styles from '../index.css'
 
 const IncomingCall = (props) => (
-  <div className={ styles.main }>
+  <div className={ styles.main + ' ' + styles.container }>
     <div>
       <div className={ styles.title }>
         Colin Liu
@@ -16,7 +16,11 @@ const IncomingCall = (props) => (
         <img src='http://placehold.it/150x150' />
       </div>
     </div>
-    <CallFooter />
+    <CallFooter 
+      leftIcon={ 'icon-uniCE' }
+      rightIcon={ 'icon-uni44' }
+      onLeftClick={ ()=>{} }
+      onRightClick={ ()=>{} }/>
   </div>
 )
 

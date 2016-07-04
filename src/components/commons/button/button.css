@@ -12,7 +12,7 @@
   border-radius: 50%;
 }
 
-.button.buttonStated {
+.button.buttonStated span {
   background-color: #000;
   color:            #fff;
 }

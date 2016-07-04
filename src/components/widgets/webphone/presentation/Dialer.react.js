@@ -15,8 +15,8 @@ const Dialer = (props) => (
         {
           line.map(symbol => (
             <button 
-              key={Object.keys(symbol)[0]}
-              onClick={ props.handleClick.bind(null, symbol) }
+              key={ Object.keys(symbol)[0] }
+              onClick={ props.handleClick.bind(null, Object.keys(symbol)[0]) }
               className={ styles.dialerButton }>
               <div className={ styles.dialerNumber }>{ Object.keys(symbol)[0] }</div>
               <div className={ styles.dialerSymbol }>{ symbol[Object.keys(symbol)[0]] }</div>

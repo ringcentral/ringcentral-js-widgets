@@ -4,7 +4,7 @@ import { PanelHeader, PanelContent, PanelFooter } from '../../../commons/panel/'
 import { Input } from '../../../commons/autocomplete/'
 
 import Dialer from './Dialer.react'
-import CallerBar from './CallerBar.react'
+import UserCallerBar from '../container/UserCallerBar.react'
 
 import styles from '../index.css'
 import iconsStyles from '../../../../styles/icon.css'
@@ -35,9 +35,9 @@ export default class DialPad extends React.Component {
   
   render() {
     return (
-      <div>
+      <div className={ styles.main + ' ' + styles.container }>
         <PanelHeader>
-          <CallerBar caller={ '+1 650-837-0092' }/>
+          <UserCallerBar />
         </PanelHeader>
         <PanelContent>
           <div>
@@ -45,10 +45,9 @@ export default class DialPad extends React.Component {
               className={ styles.phoneInput }
               onChange={ this.handleInput.bind(this) }
               value={ this.state.dialingNumber }
-              items={ this.props.contacts }
-            />
+              items={ this.props.contacts } />
             <div>
-              <Dialer handleClick={ this.handleClick.bind(this) }/>
+              <Dialer handleClick={ this.handleClick.bind(this) } />
             </div>
           </div>
         </PanelContent>

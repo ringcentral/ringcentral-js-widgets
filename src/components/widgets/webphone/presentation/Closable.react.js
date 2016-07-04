@@ -1,16 +1,18 @@
 import React from 'react'
+import styles from '../index.css'
 
 const Closable = (props) => {
   let content = props.children
   return (
-    <div>
+    <div className={ props.className }>
+      <button className={ styles.cancelButton } onClick={ props.onClose }>Cancel</button>
       { content }
     </div>
   )
 }
 
 Closable.propTypes = {
-  close: React.PropTypes.func.isRequired,
+  onClose: React.PropTypes.func,
 }
 
 export default Closable

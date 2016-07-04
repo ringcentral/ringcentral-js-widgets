@@ -15,8 +15,10 @@ const Transfer = (props) => {
   return (
     <div className={ styles.flip }>
       <div className={ styles.flipTitle }>Transfer to</div>
-      <Input onChange={ updateNumber } />
-      <button onClick={ handleClick }>Transfer</button>
+      <Input 
+        onChange={ updateNumber }
+        className={ styles.transferInput }
+        placeholder={ 'Enter Name or Number' }/>
     </div>
   )
 }

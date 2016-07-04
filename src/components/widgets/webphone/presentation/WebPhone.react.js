@@ -16,11 +16,7 @@ const WebPhone = (props) => {
     else
       return <DialPad contacts={ props.contacts } />
   }
-  return (
-    <div className={ styles.container }>
-      { panel() }
-    </div>
-  )
+  return panel()
 }
 
 WebPhone.propTypes = {

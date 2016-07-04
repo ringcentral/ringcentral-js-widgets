@@ -44,11 +44,13 @@ export default class Input extends React.Component {
       this.setState({
         isOpen: true,
         candidates,
+        value,
       })
     else
       this.setState({
         isOpen: false,
         candidates: [],
+        value,
       })
     return candidates
   }
@@ -60,6 +62,7 @@ export default class Input extends React.Component {
           className={ this.props.className }
           onChange={ this.handleOnChange.bind(this) }
           value={ this.state.value }
+          placeholder={ this.props.placeholder }
         />
         { this.state.isOpen? <Menu candidates={ this.state.candidates } />: null }
       </div>

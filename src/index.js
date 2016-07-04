@@ -19,6 +19,6 @@ var phone = new RcPhone({
 ReactDOM.render(
   <Provider store={phone.store}>
     <App />
-  </Provider>, 
+  </Provider>,
   document.getElementById('container')
 )

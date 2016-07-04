@@ -4,6 +4,7 @@
 
 .listItem {
   border-bottom: 1px solid #eee;
+  background-color: #fff;
 }
 
 .listItem.clickable {
