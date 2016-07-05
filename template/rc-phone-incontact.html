@@ -1,17 +1,17 @@
-<div>
+<div class='incontact'>
     <div data-info='auth-panel'></div>
     <div class='rc-panel main' data-info='main-panel' hidden>
         <div class='rc-panel__header'>
             <img class='logo' src="./ringcentral_logo.png">
             
         </div>
-    </div>
-    <div class='rc-panel__content rc-panel__content--full'>
-        <p data-info='waiting' hidden>
-            Waiting for incoming call.
-        </p>
-        <div id='call-panel'></div>
-        <div id='call-panel-incoming'></div>
+        <div class='rc-panel__content rc-panel__content--full'>
+            <p data-info='waiting' class='waiting' hidden>
+                Waiting for incoming call.
+            </p>
+            <div id='call-panel'></div>
+            <div id='call-panel-incoming'></div>
+        </div>
     </div>
 </div>
 <script>
@@ -31,7 +31,7 @@ w.register(function() {
             after: function() {
                 this.checkLogin()
                 .then(loggedin => {
-                    if (loggedin === '2') {
+                    if (loggedin) {
                         this.dom['main-panel'].hidden = false
                         webPhone(null, {
                             width: this.data.width,
@@ -104,11 +104,20 @@ var webPhone = function(data, {width, height}) {
     })
 }
 </script>
-<style scoped>
-    .main {
+<style>
+    html, body {
+      height: 100%;
+    }
+    .incontact {
+      height: 100%;
+    }
+    .incontact .main {
         text-align: center;
     }
-    .logo {
+    .incontact .logo {
         width: 80%;
+    }
+    .incontact .waiting {
+        text-align: center;
     }
 </style>

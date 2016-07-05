@@ -79,7 +79,7 @@ var createIframe = function() {
 
     iframe.width = parseInt(options.width) + 2 // border
     iframe.height = options.height
-    iframe.style.border = 0
+    iframe.style.border = '1px solid #ccc'
     iframe.frameborder = 0
     iframe.src = IFRAME_URL + '?' +
                     `tag=${options.tag}&` +
@@ -93,7 +93,6 @@ var createIframe = function() {
     iframe.setAttribute('name', 'rc-iframe')
     if (options.dynamic != null) {
         target.style.display = 'none'
-        iframe.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)'
         clickToDial(target, iframe)
     }
     if (options.position === 'fixed') {

@@ -102,6 +102,10 @@
     #BASE
 \*------------------------------------*/
 
+body {
+  font-size: .8em;
+}
+
 h1,
 h2,
 h3,
@@ -170,7 +174,6 @@ h6 {
         }
     }
     &__content {
-        @mixin shadow-1;
         position: relative;
         height: $panel-content-height;
         background-color: $white;
@@ -186,8 +189,9 @@ h6 {
 }
 .rc-button {
     @mixin padding-normal;
-    border: 1px solid #000;
+    border: 1px solid #ccc;
     background-color: $white;
+    color: $main-color;
 
     &:hover,
     &:active,
@@ -246,7 +250,7 @@ h6 {
         &:hover,
         &:active,
         &--active {
-            background-color: $light-blue;
+            background-color: $dark-blue;
         }
     }
 }

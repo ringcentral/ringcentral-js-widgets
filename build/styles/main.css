@@ -1118,6 +1118,10 @@ td, th {
     #BASE
 \*------------------------------------*/
 
+body {
+  font-size: .8em;
+}
+
 h1, h2, h3, h4, h5, h6 {
     /* avoid some margin top collision */
     margin-top: 0;
@@ -1174,7 +1178,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .rc-panel__header--colored {
-    background-color: #2196F3;
+    background-color: #337ab7;
     color: #fafafa;/* the white text need to be light */
     font-weight: lighter;
 }
@@ -1188,7 +1192,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .rc-panel__content {
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     position: relative;
     height: calc(100% - 61px);
     background-color: #fafafa;
@@ -1204,8 +1207,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 .rc-button {
     padding: .5em .7em;
-    border: 1px solid #000;
-    background-color: #fafafa
+    border: 1px solid #ccc;
+    background-color: #fafafa;
+    color: #337ab7
 }
 .rc-button:hover, .rc-button:active, .rc-button--active {
     background-color: #eee;
@@ -1220,7 +1224,7 @@ h1, h2, h3, h4, h5, h6 {
     background: transparent;
 }
 .rc-button--clean:hover, .rc-button--clean:active {
-    border-color: #2196F3;
+    border-color: #337ab7;
 }
 .rc-button--ghost {
     border: 0;
@@ -1250,10 +1254,10 @@ h1, h2, h3, h4, h5, h6 {
 .rc-button--material {
     border: 0;
     color: #fafafa;
-    background-color: #2196F3;
+    background-color: #337ab7;
 }
 .rc-button--material:hover, .rc-button--material:active, .rc-button--material--active {
-    background-color: #42A5F5;
+    background-color: #286090;
 }
 .rc-input {
     padding: .5em .7em;
@@ -1271,7 +1275,7 @@ h1, h2, h3, h4, h5, h6 {
     border-color: #7f8c8d;
 }
 .rc-tag {
-    border: 1px solid #2196F3;
+    border: 1px solid #337ab7;
     padding: .1em .3em;
 }
 .rc-label {
@@ -1310,20 +1314,20 @@ h1, h2, h3, h4, h5, h6 {
 .rc-tabs__tab:last-child {
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
-    border-right: 1px solid #2196F3;
+    border-right: 1px solid #337ab7;
 }
 .rc-tabs__tab--color {
     background-color: #fafafa;
-    border-color: #2196F3;
-    color: #2196F3;
+    border-color: #337ab7;
+    color: #337ab7;
 }
 .rc-tabs__tab--active {
-    background-color: #2196F3;
-    border-color: #2196F3;
+    background-color: #337ab7;
+    border-color: #337ab7;
     color: #fafafa;
 }
 .rc-tabs__tab--active:last-child {
-    border-right-color: #2196F3;
+    border-right-color: #337ab7;
 }
 .rc-tabs__tab--width2 {
     width: 50%;
