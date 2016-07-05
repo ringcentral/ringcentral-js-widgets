@@ -46,6 +46,7 @@ w.register(function() {
                             actions: factory.create('auth-panel', {
                                 login: {
                                     after: function() {
+                                        phone.dom['auth-panel'].parentNode.removeChild(phone.dom['auth-panel'])
                                         this.unmount()
                                         phone.dom.waiting.hidden = false
                                         phone.dom['main-panel'].hidden = false
