@@ -1,5 +1,5 @@
 <div class='incontact'>
-    <div data-info='auth-panel'></div>
+    <div data-info='auth-panel' class='auth-panel'></div>
     <div class='rc-panel main' data-info='main-panel' hidden>
         <div class='rc-panel__header'>
             <img class='logo' src="./ringcentral_logo.png">
@@ -31,7 +31,7 @@ w.register(function() {
             after: function() {
                 this.checkLogin()
                 .then(loggedin => {
-                    if (loggedin) {
+                    if (loggedin == 2) {
                         this.dom['main-panel'].hidden = false
                         webPhone(null, {
                             width: this.data.width,
@@ -108,11 +108,13 @@ var webPhone = function(data, {width, height}) {
     html, body {
       height: 100%;
     }
-    .incontact {
+    .incontact,
+    .incontact .auth-panel {
       height: 100%;
     }
     .incontact .main {
         text-align: center;
+        background-color: #fafafa;
     }
     .incontact .logo {
         width: 80%;
@@ -120,4 +122,5 @@ var webPhone = function(data, {width, height}) {
     .incontact .waiting {
         text-align: center;
     }
+    .auth-panel {}
 </style>
