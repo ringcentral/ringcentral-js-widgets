@@ -1,25 +1,36 @@
 <template>
     <div class='rc-panel rc-timeline-item transition-in'>
         <div class='rc-timeline-item__content'>
-        <div class='rc-timeline-item__line'>
-            <span class='rc-timeline-item__icon' data-info='icon'></span>
-            <span class='rc-timeline-item__contact' data-info='contact'></span>
-        </div>
-            <div class='rc-timeline-item__time' data-info='time'></div>
+            <div class='rc-timeline-item__info'>
+                <div class='left'>
+                    <span class='rc-timeline-item__icon' data-info='icon'></span>
+                </div>
+                <div class='right'>
+                    <div class='rc-timeline-item__count display-none' 
+                        data-info='count-wrapper'>
+                        <span class='__number' data-info='count'></span>
+                        <span class='icon-uni2466'></span>
+                    </div>
+                    <div class='rc-timeline-item__line'>
+                        <span class='rc-timeline-item__contact' data-info='contact'></span>
+                    </div>
+                    <div class='rc-timeline-item__time' data-info='time'></div>
+                </div>
+            </div>
             <div class='rc-timeline-item__subject' data-info='subject'></div>
         </div>
-        <div    class='rc-timeline-item__count display-none' 
-                data-info='count-wrapper'>
-            <span class='__number' data-info='count'></span>
-            <span class='icon-uni2466'></span>
-        </div>
+        
         <div data-info='collapse' class='rc-timeline-item__collapse'>
         </div>
     </div>
 </template>
 <script>
+import moment from 'moment'
 function _pad(n) {
     return (n < 100) ? ("0" + n) : n;
+}
+function _ignoreLeadingPlus(number) {
+    return (number.indexOf('+') === 0)? number.substring(1): number
 }
 w.register(function() {
     this.actions= {
@@ -56,7 +67,12 @@ w.register(function() {
                 if (data.type === 'SMS')
                     this.dom.icon.classList.add('icon-uni2487')
                 else if (data.type === 'Voice') {
-                    this.dom.icon.classList.add('icon-uniAE')
+                    if (data.direction === 'Outbound') {
+                        this.dom.icon.classList.add('icon-uniC5')
+                    } else {
+                        this.dom.icon.classList.add('icon-uniC4')
+                    }
+                    this.dom.subject.classList.add('display-none')
                     if (this.props.subject && 
                         (
                             this.props.subject.type === 'Automatic' || 
@@ -64,28 +80,37 @@ w.register(function() {
                         )) {
                         this.props.subject = 'Call recording'
                     }
+
                 }
                 else if (data.type === 'Pager')
                     this.dom.icon.classList.add('icon-uniCB')
                 else if (data.type === 'VoiceMail') {
-                    this.dom.icon.classList.add('icon-uniCB')
+                    this.dom.icon.classList.add('icon-uniA7')
                     this.props.subject = 'Call recording'
+                    this.dom.subject.classList.add('display-none')
                 } else if (data.type === 'Fax') {
                     this.dom.icon.classList.add('icon-uniCB')
                     this.props.subject = 'Fax'
+                    this.dom.subject.classList.add('display-none')
                 }
                 this.dom.subject.textContent = this.props.subject
                 data.contact && 
-                    (this.dom.contact.textContent = this.props.contact = data.contact.displayName)
-                this.dom.time.textContent = this.props.time =
-                `
-                ${time.getMonth() + 1}/${time.getDate()}, 
-                ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}
-                `
+                    (this.dom.contact.textContent = this.props.contact = _ignoreLeadingPlus(data.contact.displayName))
+                if (moment().diff(moment(data.time), 'days') < 1) {
+                    this.dom.time.textContent = this.props.time = moment(data.time).fromNow()
+                } else if (moment().diff(moment(data.time), 'days') < 2) {
+                    this.dom.time.textContent = this.props.time = moment(data.time).calendar()
+                } else {
+                    this.dom.time.textContent = this.props.time = moment(data.time).format('LLL')
+                }
+                // `
+                // ${time.getMonth() + 1}/${time.getDate()}, 
+                // ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}
+                // `
 
                 if (data.others && data.others.length > 0) {
                     this.dom['count-wrapper'].classList.remove('display-none')
-                    this.dom.count.textContent = this.props.count = data.others.length
+                    // this.dom.count.textContent = this.props.count = data.others.length
                     var currentDate
 
                     while(this.dom.collapse.firstChild)
@@ -182,12 +207,7 @@ w.register(function() {
         }
     }
     this.on('click', function(e) {
-        if (e.target === this.dom['count-wrapper'] || e.target.parentNode === this.dom['count-wrapper']) {
-            this.collapse()
-            e.stopPropagation()
-        } else {
-            this.enter()
-        }
+        this.enter()
     })
 })
 
@@ -195,32 +215,39 @@ w.register(function() {
 //# sourceURL=time-line-item.html
 </script>
 <style>
-
+@import "src/styles/variables.css";
+@import "src/styles/mixins.css";
 .rc-timeline-item {
-    @mixin padding-normal;
-    @mixin shadow-1;
-    margin-bottom:  5px;
     overflow: hidden;
     cursor: pointer;
     background: #fff;
+    border-bottom: 1px solid #eee;
     transition: opacity, transform .350s cubic-bezier(0.0, 0.0, 0.2, 1);
+    &__info {
+        display: flex;
+        .left {}
+        .right {
+            margin-left: 10px;
+        }
+    }
     &__line {
-        margin-bottom: 10px;
     }
     &__icon {
+        line-height: 2;
     }
     &__contact {
+        color: $dark-blue;
         font-size: .9em;
     }
     &__time {
-        float: right;
         font-size: .7em;
-        color: $timeline-gray;
+        color: #999;
     }
     &__subject {
         font-size: .8em;
         overflow:       hidden;
         text-overflow:  ellipsis;
+        margin-top: 10px;
     }
     &__count {
         @mixin padding-normal;
@@ -251,7 +278,7 @@ w.register(function() {
     }
     &:hover {
         @mixin shadow-2;
-        /*background-color: #eee;*/
+        background-color: #fafafa;
     }
 
     .timeline-extra {

@@ -102,6 +102,10 @@
     #BASE
 \*------------------------------------*/
 
+body {
+  font-size: .8em;
+}
+
 h1,
 h2,
 h3,
@@ -155,10 +159,10 @@ h6 {
         @mixin padding-normal;
         position: relative;
         height: $panel-header-height;
-        background-color: #fff;
+        background-color: $white;
         &--colored {
             background-color: $main-color;
-            color: #fff;
+            color: $white;
             /* the white text need to be light */
             font-weight: lighter;
         }
@@ -170,24 +174,24 @@ h6 {
         }
     }
     &__content {
-        @mixin shadow-1;
         position: relative;
         height: $panel-content-height;
-        background-color: #fff;
+        background-color: $white;
         &--full {
             height: 100%;
         }
     }
     &__footer {
         position: relative;
-        background-color: #fff;
+        background-color: $white;
         /* height: $panel-footer-height; */
     }
 }
 .rc-button {
     @mixin padding-normal;
-    border: 1px solid #000;
-    background-color: #fff;
+    border: 1px solid #ccc;
+    background-color: $white;
+    color: $main-color;
 
     &:hover,
     &:active,
@@ -212,7 +216,7 @@ h6 {
         &:hover,
         &:active,
         &--active {
-            background-color: #fff;
+            background-color: $white;
         }
     }
     &--dense {
@@ -221,7 +225,7 @@ h6 {
     &--positive {
         background-color:   $rc-green;
         border-color:       $rc-green;
-        color:              #fff;
+        color:              $white;
         &:hover,
         &:active,
         &--active {
@@ -231,7 +235,7 @@ h6 {
     &--negative {
         background-color:   #e74c3c;
         border-color:       #e74c3c;
-        color:              #fff;
+        color:              $white;
         &:hover,
         &:active,
         &--active {
@@ -240,13 +244,13 @@ h6 {
     }
     &--material {
         border: 0;
-        color: #fff;
+        color: $white;
         background-color: $main-color;
 
         &:hover,
         &:active,
         &--active {
-            background-color: $light-blue;
+            background-color: $dark-blue;
         }
     }
 }

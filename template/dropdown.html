@@ -42,6 +42,7 @@ w.register(function() {
         },
         collapse: {
             after: function() {
+                console.log('collapse');
                 enlarge.toggle(this.dom['list'])
                 this.dom['dropdown-icon'].classList.toggle('icon-uni2462')
                 this.dom['dropdown-icon'].classList.toggle('icon-uni2463')
@@ -49,6 +50,7 @@ w.register(function() {
         },
         hide: {
             after: function() {
+                console.log('hide');
                 enlarge.out(this.dom['list'])
                 this.dom['dropdown-icon'].classList.remove('icon-uni2462')
                 this.dom['dropdown-icon'].classList.add('icon-uni2463')
@@ -80,6 +82,7 @@ w.register(function() {
                 item.textContent = text
                 item.addEventListener('click', e => {
                     this.switchTitle(text)
+                    this.hide()
                 })
                 this.dom['list'].appendChild(item)
             }
@@ -96,11 +99,8 @@ w.register(function() {
         },
         switchTitle: {
             method: function(finish, text) {
-                finish(text)
-            },
-            after: function(text) {
                 this.dom['dropdown-text'].textContent = text
-                this.hide()
+                return finish(text)
             }
         }
     }

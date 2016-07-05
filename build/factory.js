@@ -384,9 +384,10 @@
 	        after: function after() {
 	            var _this5 = this;
 	
-	            console.log('get account info');
-	            return _accountService2.default.getAccountInfo().then(function (info) {
-	                return _this5.props.fromExtension = info.extensionNumber;
+	            return _accountService2.default.getAccountInfo()
+	            // FIXME: set props from outside is a anti-pattern
+	            .then(function (info) {
+	                return _this5.props.fromExt = info.extensionNumber;
 	            }).then(function () {
 	                _this5.setOutboundCallerID();
 	            });
@@ -394,16 +395,21 @@
 	    },
 	    send: {
 	        method: function method() {
-	            if (this.props.toNumber === this.props.toExtension) {
-	                return _rcMessageService2.default.sendPagerMessage(this.props.message, this.props.fromExtension, this.props.toExtension);
+	            if (!this.props.toNumber || this.props.toNumber === this.props.toExt) {
+	                return _rcMessageService2.default.sendPagerMessage(this.props.message, this.props.fromExt, this.props.toExt);
 	            } else {
 	                return _rcMessageService2.default.sendSMSMessage(this.props.message, this.props.fromNumber, this.props.toNumber);
 	            }
 	        }
 	    },
+	    sendFax: {
+	        method: function method() {
+	            _rcMessageService2.default.sendFax(this.props.files, this.props.toNumber || this.props.toExt);
+	        }
+	    },
 	    callout: {
 	        method: function method() {
-	            return _phoneService2.default.call(this.props.fromNumber, this.props.toNumber, {
+	            return _phoneService2.default.call(this.props.fromNumber || this.props.fromExt, this.props.toNumber || this.props.toExt, {
 	                remoteVideo: this.props.remoteVideo,
 	                localVideo: this.props.localVideo
 	            });
@@ -9356,12 +9362,40 @@
 	// shim for using process in browser
 	
 	var process = module.exports = {};
+	
+	// cached from whatever global is present so that test runners that stub it
+	// don't break things.  But we need to wrap it in a try catch in case it is
+	// wrapped in strict mode code which doesn't define any globals.  It's inside a
+	// function because try/catches deoptimize in certain engines.
+	
+	var cachedSetTimeout;
+	var cachedClearTimeout;
+	
+	(function () {
+	  try {
+	    cachedSetTimeout = setTimeout;
+	  } catch (e) {
+	    cachedSetTimeout = function () {
+	      throw new Error('setTimeout is not defined');
+	    }
+	  }
+	  try {
+	    cachedClearTimeout = clearTimeout;
+	  } catch (e) {
+	    cachedClearTimeout = function () {
+	      throw new Error('clearTimeout is not defined');
+	    }
+	  }
+	} ())
 	var queue = [];
 	var draining = false;
 	var currentQueue;
 	var queueIndex = -1;
 	
 	function cleanUpNextTick() {
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
 	    draining = false;
 	    if (currentQueue.length) {
 	        queue = currentQueue.concat(queue);
@@ -9377,7 +9411,7 @@
 	    if (draining) {
 	        return;
 	    }
-	    var timeout = setTimeout(cleanUpNextTick);
+	    var timeout = cachedSetTimeout(cleanUpNextTick);
 	    draining = true;
 	
 	    var len = queue.length;
@@ -9394,7 +9428,7 @@
 	    }
 	    currentQueue = null;
 	    draining = false;
-	    clearTimeout(timeout);
+	    cachedClearTimeout(timeout);
 	}
 	
 	process.nextTick = function (fun) {
@@ -9406,7 +9440,7 @@
 	    }
 	    queue.push(new Item(fun, args));
 	    if (queue.length === 1 && !draining) {
-	        setTimeout(drainQueue, 0);
+	        cachedSetTimeout(drainQueue, 0);
 	    }
 	};
 	
@@ -11340,6 +11374,7 @@
 	                });
 	            }).then(function (p) {
 	                webPhone = p;
+	                console.log(webPhone);
 	                webPhone.userAgent.on('invite', function (s) {
 	                    session = s;
 	                    handlers['invite'].forEach(function (handler) {
@@ -11658,7 +11693,6 @@
 	        session.__receiveRequest = session.receiveRequest;
 	        session.__receiveInviteResponse = session.receiveInviteResponse;
 	        session.__receiveResponse = session.receiveResponse;
-	        session.__sendReinvite = session.sendReinvite;
 	        session.__accept = session.accept;
 	        session.__hold = session.hold;
 	        session.__unhold = session.unhold;
@@ -11668,7 +11702,6 @@
 	        session.receiveRequest = receiveRequest;
 	        session.receiveInviteResponse = receiveInviteResponse;
 	        session.receiveResponse = receiveResponse;
-	        session.sendReinvite = sendReinvite;
 	        session.accept = accept;
 	        session.hold = hold;
 	        session.unhold = unhold;
@@ -11880,23 +11913,17 @@
 	    function setHold(session, flag) {
 	        return new Promise(function(resolve, reject) {
 	
-	            function onSucceeded() {
-	                resolve();
-	                session.removeListener('RC_CALL_REINVITE_FAILED', onFailed);
-	            }
-	
-	            function onFailed(e) {
-	                reject(e);
-	                session.removeListener('RC_CALL_REINVITE_SUCCEEDED', onSucceeded);
-	            }
-	
-	            session.once('RC_CALL_REINVITE_SUCCEEDED', onSucceeded);
-	            session.once('RC_CALL_REINVITE_FAILED', onFailed);
+	            var options = {
+	                eventHandlers: {
+	                    succeeded: resolve,
+	                    failed: reject
+	                }
+	            };
 	
 	            if (flag) {
-	                session.__hold();
+	                session.__hold(options);
 	            } else {
-	                session.__unhold();
+	                session.__unhold(options);
 	            }
 	
 	        });
@@ -11935,29 +11962,6 @@
 	
 	        return patchSession(ua.__invite(number, options));
 	
-	    }
-	
-	    /*--------------------------------------------------------------------------------------------------------------------*/
-	
-	    /**
-	     * Monkey patching sendReinvite for better Hold handling
-	     * @this {SIP.Session}
-	     * @return {*}
-	     */
-	    function sendReinvite() {
-	        var session = this;
-	        var res = session.__sendReinvite.apply(session, arguments);
-	        var __reinviteSucceeded = session.reinviteSucceeded,
-	            __reinviteFailed = session.reinviteFailed;
-	        session.reinviteSucceeded = function() {
-	            session.emit('RC_CALL_REINVITE_SUCCEEDED', session);
-	            return __reinviteSucceeded.apply(session, arguments);
-	        };
-	        session.reinviteFailed = function() {
-	            session.emit('RC_CALL_REINVITE_FAILED', session);
-	            return __reinviteFailed.apply(session, arguments);
-	        };
-	        return res;
 	    }
 	
 	    /*--------------------------------------------------------------------------------------------------------------------*/
@@ -12281,7 +12285,6 @@
 	
 	}));
 
-
 /***/ },
 /* 13 */
 /***/ function(module, exports, __webpack_require__) {
@@ -12351,41 +12354,46 @@
 	module.exports = {
 		"_args": [
 			[
-				"sip.js@0.7.3",
-				"/Users/howard.zhang/Sites/ringcentral-js-widget/node_modules/ringcentral-web-phone"
+				"sip.js",
+				"/Users/howard.zhang/Sites/ringcentral-js-widget"
 			]
 		],
-		"_from": "sip.js@0.7.3",
-		"_id": "sip.js@0.7.3",
+		"_from": "sip.js@latest",
+		"_id": "sip.js@0.7.5",
 		"_inCache": true,
 		"_installable": true,
 		"_location": "/sip.js",
-		"_nodeVersion": "4.2.6",
+		"_nodeVersion": "4.4.3",
+		"_npmOperationalInternal": {
+			"host": "packages-12-west.internal.npmjs.com",
+			"tmp": "tmp/sip.js-0.7.5.tgz_1461594418690_0.5839933124370873"
+		},
 		"_npmUser": {
 			"email": "1212jtraceur@gmail.com",
 			"name": "josephfrazier"
 		},
-		"_npmVersion": "2.4.1",
+		"_npmVersion": "2.15.1",
 		"_phantomChildren": {},
 		"_requested": {
 			"name": "sip.js",
-			"raw": "sip.js@0.7.3",
-			"rawSpec": "0.7.3",
+			"raw": "sip.js",
+			"rawSpec": "",
 			"scope": null,
-			"spec": "0.7.3",
-			"type": "version"
+			"spec": "latest",
+			"type": "tag"
 		},
 		"_requiredBy": [
-			"/ringcentral-web-phone"
+			"#USER"
 		],
-		"_resolved": "https://registry.npmjs.org/sip.js/-/sip.js-0.7.3.tgz",
-		"_shasum": "fc2ee6227d23a37a91976966f952d82c3da317b5",
+		"_resolved": "https://registry.npmjs.org/sip.js/-/sip.js-0.7.5.tgz",
+		"_shasum": "86ace7051594f91b4551bdb8120a16c44962d3a2",
 		"_shrinkwrap": null,
-		"_spec": "sip.js@0.7.3",
-		"_where": "/Users/howard.zhang/Sites/ringcentral-js-widget/node_modules/ringcentral-web-phone",
+		"_spec": "sip.js",
+		"_where": "/Users/howard.zhang/Sites/ringcentral-js-widget",
 		"author": {
-			"email": "will@onsip.com",
-			"name": "Will Mitchell"
+			"email": "developer@onsip.com",
+			"name": "OnSIP",
+			"url": "http://sipjs.com/authors/"
 		},
 		"browser": {
 			"./src/environment.js": "./src/environment_browser.js"
@@ -12395,7 +12403,7 @@
 		},
 		"contributors": [
 			{
-				"url": "http://sipjs.com/authors/"
+				"url": "https://github.com/onsip/SIP.js/blob/master/THANKS.md"
 			}
 		],
 		"dependencies": {
@@ -12410,7 +12418,7 @@
 			"grunt-browserify": "^4.0.1",
 			"grunt-cli": "~0.1.6",
 			"grunt-contrib-copy": "^0.5.0",
-			"grunt-contrib-jasmine": "~0.8.0",
+			"grunt-contrib-jasmine": "^0.9.2",
 			"grunt-contrib-jshint": ">0.5.0",
 			"grunt-contrib-uglify": "~0.2.0",
 			"grunt-peg": "~1.3.1",
@@ -12419,13 +12427,13 @@
 		},
 		"directories": {},
 		"dist": {
-			"shasum": "fc2ee6227d23a37a91976966f952d82c3da317b5",
-			"tarball": "https://registry.npmjs.org/sip.js/-/sip.js-0.7.3.tgz"
+			"shasum": "86ace7051594f91b4551bdb8120a16c44962d3a2",
+			"tarball": "https://registry.npmjs.org/sip.js/-/sip.js-0.7.5.tgz"
 		},
 		"engines": {
 			"node": ">=0.8"
 		},
-		"gitHead": "d9ae93c04d6aad5df37fc999cbdbc7d9060a2f06",
+		"gitHead": "bae44bd0359f4d70ded309a32361f04a04e78d6e",
 		"homepage": "http://sipjs.com",
 		"keywords": [
 			"sip",
@@ -12440,6 +12448,10 @@
 			{
 				"email": "eric.green@onsip.com",
 				"name": "egreen_onsip"
+			},
+			{
+				"email": "james@onsip.com",
+				"name": "james-criscuolo"
 			},
 			{
 				"email": "1212jtraceur@gmail.com",
@@ -12462,7 +12474,7 @@
 			"test": "grunt travis --verbose"
 		},
 		"title": "SIP.js",
-		"version": "0.7.3"
+		"version": "0.7.5"
 	};
 
 /***/ },
@@ -13193,8 +13205,12 @@
 	      er = arguments[1];
 	      if (er instanceof Error) {
 	        throw er; // Unhandled 'error' event
+	      } else {
+	        // At least give some kind of context to the user
+	        var err = new Error('Uncaught, unspecified "error" event. (' + er + ')');
+	        err.context = er;
+	        throw err;
 	      }
-	      throw TypeError('Uncaught, unspecified "error" event.');
 	    }
 	  }
 	
@@ -17155,7 +17171,7 @@
 	  /**
 	   * Hold
 	   */
-	  hold: function() {
+	  hold: function(options) {
 	
 	    if (this.status !== C.STATUS_WAITING_FOR_ACK && this.status !== C.STATUS_CONFIRMED) {
 	      throw new SIP.Exceptions.InvalidStateError(this.status);
@@ -17181,27 +17197,28 @@
 	
 	    this.onhold('local');
 	
-	    this.sendReinvite({
-	      mangle: function(body){
+	    options = options || {};
+	    options.mangle = function(body){
 	
-	        // Don't receive media
-	        // TODO - This will break for media streams with different directions.
-	        if (!(/a=(sendrecv|sendonly|recvonly|inactive)/).test(body)) {
-	          body = body.replace(/(m=[^\r]*\r\n)/g, '$1a=sendonly\r\n');
-	        } else {
-	          body = body.replace(/a=sendrecv\r\n/g, 'a=sendonly\r\n');
-	          body = body.replace(/a=recvonly\r\n/g, 'a=inactive\r\n');
-	        }
-	
-	        return body;
+	      // Don't receive media
+	      // TODO - This will break for media streams with different directions.
+	      if (!(/a=(sendrecv|sendonly|recvonly|inactive)/).test(body)) {
+	        body = body.replace(/(m=[^\r]*\r\n)/g, '$1a=sendonly\r\n');
+	      } else {
+	        body = body.replace(/a=sendrecv\r\n/g, 'a=sendonly\r\n');
+	        body = body.replace(/a=recvonly\r\n/g, 'a=inactive\r\n');
 	      }
-	    });
+	
+	      return body;
+	    };
+	
+	    this.sendReinvite(options);
 	  },
 	
 	  /**
 	   * Unhold
 	   */
-	  unhold: function() {
+	  unhold: function(options) {
 	
 	    if (this.status !== C.STATUS_WAITING_FOR_ACK && this.status !== C.STATUS_CONFIRMED) {
 	      throw new SIP.Exceptions.InvalidStateError(this.status);
@@ -17226,7 +17243,7 @@
 	
 	    this.onunhold('local');
 	
-	    this.sendReinvite();
+	    this.sendReinvite(options);
 	  },
 	
 	  /**
@@ -17292,19 +17309,20 @@
 	
 	    var
 	      self = this,
-	       extraHeaders = (options.extraHeaders || []).slice(),
-	       eventHandlers = options.eventHandlers || {},
-	       mangle = options.mangle || null;
+	      extraHeaders = (options.extraHeaders || []).slice(),
+	      eventHandlers = options.eventHandlers || {},
+	      mangle = options.mangle || null,
+	      succeeded;
 	
 	    if (eventHandlers.succeeded) {
-	      this.reinviteSucceeded = eventHandlers.succeeded;
-	    } else {
-	      this.reinviteSucceeded = function(){
-	        SIP.Timers.clearTimeout(self.timers.ackTimer);
-	        SIP.Timers.clearTimeout(self.timers.invite2xxTimer);
-	        self.status = C.STATUS_CONFIRMED;
-	      };
+	      succeeded = eventHandlers.succeeded;
 	    }
+	    this.reinviteSucceeded = function(){
+	      SIP.Timers.clearTimeout(self.timers.ackTimer);
+	      SIP.Timers.clearTimeout(self.timers.invite2xxTimer);
+	      self.status = C.STATUS_CONFIRMED;
+	      succeeded && succeeded.apply(this, arguments);
+	    };
 	    if (eventHandlers.failed) {
 	      this.reinviteFailed = eventHandlers.failed;
 	    } else {
@@ -17381,27 +17399,27 @@
 	      case SIP.C.REFER:
 	        if(this.status ===  C.STATUS_CONFIRMED) {
 	          this.logger.log('REFER received');
-	          request.reply(202, 'Accepted');
-	          var
-	            hasReferListener = this.listeners('refer').length,
-	            notifyBody = hasReferListener ?
-	              'SIP/2.0 100 Trying' :
-	              // RFC 3515.2.4.2: 'the UA MAY decline the request.'
-	              'SIP/2.0 603 Declined'
-	          ;
-	
-	          this.sendRequest(SIP.C.NOTIFY, {
-	            extraHeaders:[
-	              'Event: refer',
-	              'Subscription-State: terminated',
-	              'Content-Type: message/sipfrag'
-	            ],
-	            body: notifyBody,
-	            receiveResponse: function() {}
-	          });
+	          var hasReferListener = this.listeners('refer').length,
+	              notifyBody;
 	
 	          if (hasReferListener) {
+	            request.reply(202, 'Accepted');
+	            notifyBody = 'SIP/2.0 100 Trying';
+	
+	            this.sendRequest(SIP.C.NOTIFY, {
+	              extraHeaders:[
+	                'Event: refer',
+	                'Subscription-State: terminated',
+	                'Content-Type: message/sipfrag'
+	              ],
+	              body: notifyBody,
+	              receiveResponse: function() {}
+	            });
+	
 	            this.emit('refer', request);
+	          } else {
+	            // RFC 3515.2.4.2: 'the UA MAY decline the request.'
+	            request.reply(603, 'Declined');
 	          }
 	        }
 	        break;
@@ -18332,7 +18350,8 @@
 	    extraHeaders = (options.extraHeaders || []).slice(),
 	    stunServers = options.stunServers || null,
 	    turnServers = options.turnServers || null,
-	    isMediaSupported = ua.configuration.mediaHandlerFactory.isSupported;
+	    mediaHandlerFactory = options.mediaHandlerFactory || ua.configuration.mediaHandlerFactory,
+	    isMediaSupported = mediaHandlerFactory.isSupported;
 	
 	  // Check WebRTC support
 	  if (isMediaSupported && !isMediaSupported()) {
@@ -18385,7 +18404,7 @@
 	  options.extraHeaders = extraHeaders;
 	
 	  SIP.Utils.augment(this, SIP.ClientContext, [ua, SIP.C.INVITE, target, options]);
-	  SIP.Utils.augment(this, SIP.Session, [ua.configuration.mediaHandlerFactory]);
+	  SIP.Utils.augment(this, SIP.Session, [mediaHandlerFactory]);
 	
 	  // Check Session Status
 	  if (this.status !== C.STATUS_NULL) {
@@ -19842,39 +19861,23 @@
 	  }},
 	
 	  prepareIceServers: {writable: true, value: function prepareIceServers (stunServers, turnServers) {
-	    var idx, jdx, length, server,
-	      servers = [],
+	    var servers = [],
 	      config = this.session.ua.configuration;
 	
-	    stunServers = stunServers || null;
-	    turnServers = turnServers || null;
+	    stunServers = stunServers || config.stunServers;
+	    turnServers = turnServers || config.turnServers;
 	
-	    if (!stunServers) {
-	      stunServers = config.stunServers;
-	    }
-	
-	    if(!turnServers) {
-	      turnServers = config.turnServers;
-	    }
-	
-	    /* Change 'url' to 'urls' whenever this issue is solved:
-	     * https://code.google.com/p/webrtc/issues/detail?id=2096
-	     */
 	    [].concat(stunServers).forEach(function (server) {
-	      servers.push({'url': server});
+	      servers.push({'urls': server});
 	    });
 	
-	    length = turnServers.length;
-	    for (idx = 0; idx < length; idx++) {
-	      server = turnServers[idx];
-	      for (jdx = 0; jdx < server.urls.length; jdx++) {
-	        servers.push({
-	          'url': server.urls[jdx],
-	          'username': server.username,
-	          'credential': server.password
-	        });
-	      }
-	    }
+	    [].concat(turnServers).forEach(function (server) {
+	      servers.push({
+	        'urls': server.urls,
+	        'username': server.username,
+	        'credential': server.password
+	      });
+	    });
 	
 	    return servers;
 	  }},
@@ -20284,7 +20287,8 @@
 	      'BYE',
 	      'OPTIONS',
 	      'INFO',
-	      'NOTIFY'
+	      'NOTIFY',
+	      'REFER'
 	    ],
 	
 	    ACCEPTED_BODY_TYPES: [
@@ -24238,22 +24242,20 @@
 	                    }
 	                    if (oauthWindow.closed) {
 	                        reject(new Error('RingCentral Oauth window is closed abnormally.'));
+	                        window.removeEventListener('message', oauthChannel);
 	                        clearInterval(interval);
 	                    }
 	                }
-	                window.addEventListener('message', function oauthChannel(e) {
+	                window.addEventListener('message', oauthChannel);
+	                function oauthChannel(e) {
 	                    if (e.data.type === 'oauth') {
 	                        var qs = _rcSdk.RC.sdk.platform().parseAuthRedirectUrl(e.data.value);
 	                        qs.redirectUri = redirectUri;
 	                        window.removeEventListener('message', oauthChannel);
 	                        clearInterval(interval);
 	                        resolve(_rcSdk.RC.sdk.platform().login(qs));
-	                    } else if (e.data.type === 'oauth-fail') {
-	                        window.removeEventListener('message', oauthChannel);
-	                        clearInterval(interval);
-	                        reject(new Error('RingCentral Oauth window is closed abnormally.'));
 	                    }
-	                });
+	                }
 	            });
 	        }
 	    };
@@ -25432,7 +25434,6 @@
 	            });
 	        },
 	        sendPagerMessage: function sendPagerMessage(text, fromNumber, toNumber) {
-	            console.log(fromNumber);
 	            return _rcSdk.RC.sdk.platform().post('/account/~/extension/~/company-pager/', {
 	                from: { extensionNumber: fromNumber },
 	                to: [{ extensionNumber: toNumber }],
@@ -25440,6 +25441,27 @@
 	            }).then(function (response) {
 	                return response.json();
 	            });
+	        },
+	        sendFax: function sendFax(files, toNumber) {
+	            var body = {
+	                to: [{ phoneNumber: toNumber }],
+	                faxResolution: 'High'
+	            };
+	            var formData = new FormData();
+	            formData.append('json', new File([JSON.stringify(body)], 'request.json', { type: 'application/json' }));
+	            Array.from(files).forEach(function (file) {
+	                formData.append('attachment', file);
+	            });
+	            // fax need have text thus can be sent
+	            // formData.append(
+	            //     'attachment',
+	            //     new File(
+	            //         [''],
+	            //         'text.txt',
+	            //         { type: 'application/octet-stream' })
+	            // )
+	            // Send the fax
+	            return _rcSdk.RC.sdk.platform().post('/account/~/extension/~/fax', formData);
 	        },
 	        getConversation: function getConversation(conversationId, hourFrom, hourTo) {
 	            return _rcSdk.RC.sdk.platform().get('/account/~/extension/~/message-store', {
@@ -25729,7 +25751,7 @@
 	            //     result.push(content)
 	            //     continue
 	            // }
-	            if (savedContent && savedContent.type === content.type && savedContent.contact.id === content.contact.id) {
+	            if (savedContent && (content.type === 'SMS' || content.type === 'Pager') && savedContent.type === content.type && savedContent.contact.id === content.contact.id) {
 	                savedContent.others.push(content);
 	            } else {
 	                savedContent && result.push(savedContent);
@@ -25784,7 +25806,8 @@
 	            id: msg.id,
 	            from: !msg.from && 'anonymous' || // For fax
 	            msg.from.extensionNumber || msg.from.phoneNumber,
-	            to: msg.to.phoneNumber || msg.to.extensionNumber || msg.to[0].extensionNumber || msg.to[0].phoneNumber,
+	            to: !msg.to && 'anonymous' || // For fax
+	            msg.to.phoneNumber || msg.to.extensionNumber || msg.to[0].extensionNumber || msg.to[0].phoneNumber,
 	            direction: msg.direction,
 	            type: msg.type,
 	            time: msg.creationTime || msg.startTime,

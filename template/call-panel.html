@@ -1,13 +1,13 @@
 <template>
     <div class='rc-panel rc-call-panel'>
-        <section data-info='header' class='rc-panel__header rc-panel__header--colored rc-panel__header--center'>
+        <section data-info='header' class='rc-panel__header rc-panel__header--center'>
             <div
                 data-info='time-wrapper' 
                 class='text-right time-wrapper'>
                 <span class='blink' data-info='time'>Dialing</span>
             </div>
             <div>
-                <h1 data-info='name'>Number</h1>
+                <h2 data-info='name'>Number</h2>
             </div>
         </section>
         <section data-info='content' class='rc-panel__content'>
@@ -825,7 +825,7 @@ $dial-pad-symbol-size: .5em;
 $dial-pad-call-button-color: #2ecc71;
 .rc-call-panel {
     font-size: .8em;
-    background-color: #fff;
+    background-color: $white;
     &__reply {
         width: 100%;
     }
@@ -837,7 +837,7 @@ $dial-pad-call-button-color: #2ecc71;
     &__footer {}
 
     .rc-panel__content {
-        @mixin padding-normal;
+        @mixin padding-large;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
@@ -898,7 +898,7 @@ $dial-pad-call-button-color: #2ecc71;
         background-color: $red;
         text-align: center;
         line-height: 2;
-        color: #fff;
+        color: $white;
         cursor: pointer;
         &__name {
             margin-right: 10px;
@@ -909,7 +909,7 @@ $dial-pad-call-button-color: #2ecc71;
         @mixin shadow-2;
         position: relative;
         z-index: 2;
-        background: #fff;
+        background: $white;
     }
     .dialing-panel {
         @mixin padding-normal;
@@ -973,7 +973,7 @@ $dial-pad-call-button-color: #2ecc71;
                 }
                 &:hover {
                     background-color:   $main-color;
-                    color:              #fff;
+                    color:              $white;
                 }
             }
         }

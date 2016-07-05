@@ -58,6 +58,7 @@ var PhoneService = function() {
                 })
                 .then(p => {
                     webPhone = p
+                    console.log(webPhone);
                     webPhone.userAgent.on('invite', function (s) {
                         session = s
                         handlers['invite'].forEach(handler => handler(session))

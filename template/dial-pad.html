@@ -3,11 +3,7 @@
         <div class='rc-panel__header rc-panel__header--colored' data-info='header'>
             <contact-picker data-info='contact-picker'></contact-picker>
         </div>
-        <button 
-            class='rc-button rc-button--circle rc-dial-pad__call-button rc-dial-pad__call-button--color' 
-            data-info='callout'>
-            <span class='icon-ActionButtons_Filters'></span>
-        </button>
+        
         <div class='pad-container' data-info='container'>
             <div class='rc-panel__content'>
                 <dropdown data-info='dropdown'></dropdown>
@@ -87,6 +83,16 @@
                             class='rc-button rc-button--circle dial-button dial-button--color' 
                             data-info='dial-button-#'>
                             <div class='dial-button__number'>#</div>
+                        </button>
+                    </div>
+                    <div data-info='callout-line' class='rc-dial-pad__line'>
+                        <button 
+                            class='rc-button 
+                            rc-button--circle 
+                            rc-dial-pad__call-button 
+                            rc-dial-pad__call-button--color' 
+                            data-info='callout'>
+                            <span class='icon-ActionButtons_Filters'></span>
                         </button>
                     </div>
                 </div>
@@ -216,14 +222,15 @@ this.actions = {
                     srcDOM: this.dom.callout,
                     targetDOM: this.dom.callWaiting,
                     transitionEnd: () => {
-                        srcDOM.style.top = '5px'
+                        srcDOM.style.top = 'auto'
                         srcDOM.style.left = 'auto'
-                        srcDOM.style.right = '5px'
-                        srcDOM.style.width = '3em'
-                        srcDOM.style.height = '3em'
+                        // srcDOM.style.right = '5px'
+                        srcDOM.style.width = '3.2em'
+                        srcDOM.style.height = '3.2em'
                         srcDOM.style.background = '#2ecc71'
+                        srcDOM.style.position = 'static'
                         // this.dom.callWaiting.style['z-index'] = 0
-                        this.dom.header.parentNode.insertBefore(srcDOM, this.dom.header.nextSibling)
+                        this.dom['callout-line'].appendChild(srcDOM)
                         resolve()
                     }
                 })
@@ -431,7 +438,7 @@ $dial-pad-call-button-color: #2ecc71;
         justify-content: center;
 
         & > .dial-button {
-            margin: 4px 8px;
+            margin: 3px 6px;
             width:  $dial-pad-button-radius;
             height: $dial-pad-button-radius;
             color:          $main-color;
@@ -445,7 +452,7 @@ $dial-pad-call-button-color: #2ecc71;
             }
             &:hover {
                 background-color:   $main-color;
-                color:              #fff;
+                color:              $white;
             }
         }
     }
@@ -477,7 +484,7 @@ $dial-pad-call-button-color: #2ecc71;
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: #fff;
+        background-color: $white;
         z-index: -1;
     }
     .blur {
@@ -486,20 +493,21 @@ $dial-pad-call-button-color: #2ecc71;
     }
     &__call-button {
         @mixin shadow-1;
-        position: absolute;
-        top:    5px;
-        right:  5px;
-        width:  3em;
-        height: 3em;
+        /*position: absolute;*/
+        /*top:    5px;*/
+        /*right:  5px;*/
+        width:  3.2em;
+        height: 3.2em;
         background-color:   $dial-pad-call-button-color;
         border-color:       $dial-pad-call-button-color;
+        transition: all .08s cubic-bezier(0.4, 0.0, 0.2, 1);
         &:hover {
-            @mixin shadow-hover;
+            @mixin shadow-2;
             background-color:   $dial-pad-call-button-color;
             border-color:       $dial-pad-call-button-color;
         }
         > span {
-            color: #fff;
+            color: $white;
             font-size: 1.3em;
         }
     }

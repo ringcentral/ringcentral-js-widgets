@@ -22,12 +22,13 @@ var transform = require('./transform').transform
 var minify = require('./minify').minify
 const GLOBAL_PREFIX = '__w_widgets = {};'
 const GLOBAL_POSTFIX = ''
-
+var counter = 0
 function start() {
-    console.log('compile')
+    ++ counter
     var data = ''
     file.writeFile(GLOBAL_PREFIX, true)
-    file.readFiles(function(content, id) {
+    console.log(counter);
+    file.readFiles(counter, function(content, id) {
         var content = compile(content)
         return transform(content, {
             widgetId: id,
@@ -36,11 +37,11 @@ function start() {
             var prefix = `__w_widgets['${id}'] = `
             var postfix = ';\n'
             // file.writeFile()
-            console.log(id);
+            console.log(id)
             data += (prefix + JSON.stringify(output) + postfix)
         }).catch(e => console.error(e))
     }, function() {
-        file.writeFile(minify(data))
+        file.writeFile((data))
         console.log('finish');
     })
     file.writeFile(GLOBAL_POSTFIX, false)

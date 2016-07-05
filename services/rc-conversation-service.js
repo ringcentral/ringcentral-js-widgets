@@ -70,6 +70,7 @@ var conversationService = (function() {
             //     continue
             // }
             if (savedContent &&
+                (content.type === 'SMS' || content.type === 'Pager') &&
                 savedContent.type === content.type &&
                 savedContent.contact.id === content.contact.id) {
                 savedContent.others.push(content)
@@ -122,7 +123,8 @@ var conversationService = (function() {
             from:               (!msg.from && 'anonymous') || // For fax
                                 msg.from.extensionNumber ||
                                 msg.from.phoneNumber,
-            to:                 msg.to.phoneNumber ||
+            to:                 (!msg.to && 'anonymous') || // For fax
+                                msg.to.phoneNumber ||
                                 msg.to.extensionNumber ||
                                 msg.to[0].extensionNumber ||
                                 msg.to[0].phoneNumber,

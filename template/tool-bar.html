@@ -135,19 +135,19 @@ $toolbar-more-button-raduis: 45px;
     height: 100%;
     &__bar {
         @mixin block;
-        @mixin shadow-1;
         height: 100%;
         z-index: 1;
-        background-color: #FAFAFA;
+        background-color: #fafafa;
     }
     &__menu-button {
         @mixin shadow-1;
         position: relative;
         z-index: 1;
+        background-color: #fafafa;
         border: 0;
-        border-left: 1px solid $gray;
-        border-right: 1px solid $gray;
-        border-bottom: 1px solid $gray;
+        border-left:    1px solid $gray;
+        border-right:   1px solid $gray;
+        border-bottom:  1px solid $gray;
         height: calc($toolbar-height + 20px);
         margin-bottom: -20px;
     }
@@ -162,10 +162,10 @@ $toolbar-more-button-raduis: 45px;
         background-color: #fff;
     }
     &__item {
-        background-color: #FAFAFA;
+        background-color: transparent;
         &:hover {
-            background-color: #FAFAFA;
-            color: $main-color;
+            background-color: transparent;
+            color: #333;
         }
     }
     &__more-item {
