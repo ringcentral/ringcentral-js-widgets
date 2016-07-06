@@ -1,4 +1,4 @@
-import Input from './Input.react'
+import Input from './Input.react';
 export {
-  Input
-}
+  Input,
+};

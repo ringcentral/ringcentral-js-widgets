@@ -1,42 +1,39 @@
-import React from 'react'
+import React from 'react';
+import classNames from 'classnames';
 
-import Dropdown from './Dropdown.react'
+import Dropdown from './Dropdown.react';
 
-import styles from '../index.css'
-import iconsStyles from '../../../../styles/icon.css'
+import styles from '../index.css';
+import iconsStyles from '../../../../styles/icon.css';
 
 export default class CallerBar extends React.Component {
   static propTypes = {
     caller: React.PropTypes.string,
+    numbers: React.PropTypes.array,
   }
 
   state = {
-    isDropdownOpen: false
+    isDropdownOpen: false,
   }
 
   triggerDropdown() {
     this.setState({
-      isDropdownOpen: !this.state.isDropdownOpen 
-    })
-  }
-
-  constructor(props) {
-    super(props)
+      isDropdownOpen: !this.state.isDropdownOpen,
+    });
   }
 
   render() {
-    let content = this.props.children
     return (
-      <div className={ styles.caller } onClick={ this.triggerDropdown.bind(this) }>
-        <span className={ styles.callerSpan }>From</span>
-        <button className={ styles.callerButton }>
-          { this.props.numbers[0].value }
+      <div className={styles.caller} onClick={() => this.triggerDropdown}>
+        <span className={styles.callerSpan}>From</span>
+        <button className={styles.callerButton}>
+          {this.props.numbers[0].value}
         </button>
-        <div className={ styles.callerIcon }>
-          <span className={ iconsStyles['icon-uni2463'] + ' ' +iconsStyles['icon'] }></span>
+        <div className={styles.callerIcon}>
+          <span className={classNames(iconsStyles['icon-uni2463'], iconsStyles.icon)}></span>
         </div>
-        { this.state.isDropdownOpen? <Dropdown items={ this.props.numbers } />: null }
+        {this.state.isDropdownOpen ? <Dropdown items={this.props.numbers} /> : null}
       </div>
-    )
+    );
   }
 }

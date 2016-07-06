@@ -1,4 +1,4 @@
-var path = require('path')
+const path = require('path');
 
 
 module.exports = {
@@ -29,7 +29,7 @@ module.exports = {
         test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
         loader: 'file-loader',
       },
-      { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' }
+      { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' },
     ],
   },
 };

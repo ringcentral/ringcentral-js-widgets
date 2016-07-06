@@ -53,6 +53,7 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",

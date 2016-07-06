@@ -1,14 +1,16 @@
-import React from 'react'
+import React from 'react';
 
 const PanelFooter = (props) => {
-  let ContentElement = props.children
+  let ContentElement = props.children;
   return (
     <div>
-      { ContentElement }
+      {ContentElement}
     </div>
-  )
-}
+  );
+};
 
-PanelFooter.propTypes = {}
+PanelFooter.propTypes = {
+  children: React.PropTypes.node,
+};
 
-export default PanelFooter
+export default PanelFooter;

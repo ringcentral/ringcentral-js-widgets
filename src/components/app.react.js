@@ -1,34 +1,20 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from 'react';
+import { connect } from 'react-redux';
 
-import Auth from './widgets/auth/index.react'
-import WebPhone from './widgets/webphone/index.react'
+import WebPhone from './widgets/webphone/index.react';
 
-import styles from './app.css'
+import styles from './app.css';
 
-class App extends React.Component {
-  static propTypes = {
-    loggedIn: React.PropTypes.bool.isRequired,
-  }
+const App = function App(props) {
+  return (
+    <div className={styles.app}>
+      <WebPhone phone={props.phone} />
+    </div>
+  );
+};
 
-  constructor(props) {
-    super(props);
-  }
+App.propTypes = {
+  phone: React.PropTypes.object,
+};
 
-  render() {
-    function component() {
-      return <WebPhone phone={this.props.phone} />
-    }
-    return (
-      <div className={ styles.app }>
-        { component.call(this) }
-      </div>
-    )
-  }
-}
-
-export default connect(state => {
-  return {
-    loggedIn: state.auth.status === 5,
-  }
-})(App)
+export default connect(state => ({ loggedIn: state.auth.status === 5 }))(App);

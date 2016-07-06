@@ -1,27 +1,22 @@
-import React from 'react'
+import React from 'react';
 
-import DialPad from './DialPad.react'
-import ActiveCall from './ActiveCall.react'
-import IncomingCall from './IncomingCall.react'
-
-import styles from '../index.css'
-
+import DialPad from './DialPad.react';
+import ActiveCall from './ActiveCall.react';
+import IncomingCall from './IncomingCall.react';
 
 const WebPhone = (props) => {
-  const panel = () => {
-    if (props.status === 'OnCall')
-      return <ActiveCall phoneNumber={ props.phoneNumber }/>
-    else if (props.status === 'OnCallIncoming')
-      return <IncomingCall phoneNumber={ props.phoneNumber }/>
-    else
-      return <DialPad contacts={ props.contacts } />
+  if (props.status === 'OnCall') {
+    return <ActiveCall phoneNumber={props.phoneNumber} />;
+  } else if (props.status === 'OnCallIncoming') {
+    return <IncomingCall phoneNumber={props.phoneNumber} />;
   }
-  return panel()
-}
+  return <DialPad contacts={props.contacts} />;
+};
 
 WebPhone.propTypes = {
   status: React.PropTypes.oneOf(['OnCall', 'OnCallIncoming', 'Idle']),
-  phoneNumber: React.PropTypes.string
-}
+  contacts: React.PropTypes.array,
+  phoneNumber: React.PropTypes.string,
+};
 
-export default WebPhone
+export default WebPhone;

@@ -1,30 +1,32 @@
-import React from 'react'
-import { Input } from '../../../commons/autocomplete/'
+import React from 'react';
+import { Input } from '../../../commons/autocomplete/';
 
-import styles from '../index.css'
+import styles from '../index.css';
 
 const Transfer = (props) => {
-  let number = ''
-  let handleClick = function(event) {
-    if (props.handleClick) 
-      props.handleClick(number)
+  let number = '';
+  function handleClick(event) {
+    if (props.handleClick) {
+      props.handleClick(number);
+    }
   }
-  let updateNumber = function(event, value) {
-    number = value
+  function updateNumber(event, value) {
+    number = value;
   }
   return (
-    <div className={ styles.flip }>
-      <div className={ styles.flipTitle }>Transfer to</div>
-      <Input 
-        onChange={ updateNumber }
-        className={ styles.transferInput }
-        placeholder={ 'Enter Name or Number' }/>
+    <div className={styles.flip}>
+      <div className={styles.flipTitle}>Transfer to</div>
+      <Input
+        onChange={updateNumber}
+        className={styles.transferInput}
+        placeholder={'Enter Name or Number'}
+      />
     </div>
-  )
-}
+  );
+};
 
 Transfer.propTypes = {
   handleClick: React.PropTypes.func,
-}
+};
 
-export default Transfer
+export default Transfer;

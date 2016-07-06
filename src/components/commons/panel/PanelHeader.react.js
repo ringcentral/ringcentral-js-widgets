@@ -1,14 +1,16 @@
-import React from 'react'
+import React from 'react';
 
 const PanelHeader = (props) => {
-  let ContentElement = props.children
+  let ContentElement = props.children;
   return (
     <div>
-      { ContentElement }
+      {ContentElement}
     </div>
-  )
-}
+  );
+};
 
-PanelHeader.propTypes = {}
+PanelHeader.propTypes = {
+  children: React.PropTypes.node,
+};
 
-export default PanelHeader
+export default PanelHeader;
