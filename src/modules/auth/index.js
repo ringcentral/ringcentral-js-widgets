@@ -107,7 +107,7 @@ export default class Auth extends RcModule {
         remember,
       },
     });
-    await this[symbols.platform].login({
+    return await this[symbols.platform].login({
       username,
       password,
       extension,

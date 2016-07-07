@@ -156,15 +156,15 @@ gulp.task('dist', async () => {
 
 gulp.task('watch', async () => {
   await new Promise((resolve, reject) => {
-    distConfig.watch = true
-    let compiler = webpack(distConfig);
+    distConfig.watch = true;
+    const compiler = webpack(distConfig);
 
     compiler.watch({}, err => {
       if (err) reject(err);
-      compiler.run(err => {
-        if (err) reject(err);
+      compiler.run(compileErr => {
+        if (compileErr) reject(compileErr);
       });
-    })
+    });
   });
 });
 

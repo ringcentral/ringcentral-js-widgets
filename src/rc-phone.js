@@ -8,7 +8,7 @@ import Settings from './modules/settings';
 import Brand from './modules/brand';
 import Auth from './modules/auth';
 import User from './modules/user';
-
+import Webphone from './modules/webphone';
 import { combineReducers, createStore } from 'redux';
 
 const REDUCER = Symbol();
@@ -61,6 +61,7 @@ export default class RcPhone extends RcModule {
       stateMapper: (state) => state.defaultBrand,
       ...defaultBrand,
     }));
+
     this::addModule('auth', new Auth({
       registerStoreHandler: register,
       stateMapper: (state) => state.auth,
@@ -79,11 +80,22 @@ export default class RcPhone extends RcModule {
       settings: this.settings,
     }));
 
+    this::addModule('webphone', new Webphone({
+      registerStoreHandler: register,
+      stateMapper: (state) => state.webphone,
+      prefix,
+      api: this.api,
+      auth: this.auth,
+      platform: this.platform,
+      settings: this.settings,
+    }));
+
     // combine reducers
     this[REDUCER] = combineReducers({
       defaultBrand: this.defaultBrand.reducer,
       auth: this.auth.reducer,
       user: this.user.reducer,
+      webphone: this.webphone.reducer,
       settings: this.settings.reducer,
     });
 
@@ -95,57 +107,3 @@ export default class RcPhone extends RcModule {
     return this[REDUCER];
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/**
- * @class RcPhone
- * Default RingCentral phone class, provide feature complete ringcentral phone without UI.
- * Application builders can directly use RcBase and build their own phone class if they need
- * different sets of modules.
- */
-// export default class RcPhone extends RcBase {
-//   constructor({
-//     sdkSettings: {
-//       appKey,
-//       appSecret,
-//       cachePrefix = 'rc',
-//       server,
-//     },
-//     brandSettings, // TODO: should we default to rcus?
-//   }) {
-//     super();
-
-//     this.addModule('sdk', new RingCentral({
-//       appKey,
-//       appSecret,
-//       cachePrefix: `${cachePrefix}`,
-//       server,
-//     }));
-
-//     const client = new RingCentralClient(this.sdk);
-//     this.addModule('client', client);
-
-//     this.addModule('brand', new Brand(brandSettings));
-//     this.addModule('auth', new Auth({
-//       ...this,
-//       platform: this.sdk.platform(),
-//     }));
-//   }
-// }

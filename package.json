@@ -2,7 +2,7 @@
   "name": "ringcentral-js-integration-commons",
   "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/ringcentral-js-integration-commons.js",
   "scripts": {
     "test": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test",
     "test-browser": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test-browser",
@@ -48,7 +48,7 @@
     "json-loader": "^0.5.4",
     "ringcentral": "^2.0.6",
     "ringcentral-client": "https://github.com/u9520107/ringcentral-js-client.git#internal-build",
-    "ringcentral-web-phone": "^0.2.0",
+    "ringcentral-web-phone": "https://github.com/changbenny/ringcentral-web-phone",
     "source-map-support": "^0.4.0",
     "through2": "^2.0.1",
     "webpack": "^1.12.14",
@@ -58,7 +58,7 @@
     "babel-runtime": "^6.6.1",
     "ringcentral": "^2.0.6",
     "ringcentral-client": "https://github.com/u9520107/ringcentral-js-client.git#internal-build",
-    "ringcentral-web-phone": "^0.2.0"
+    "ringcentral-web-phone": "https://github.com/changbenny/ringcentral-web-phone"
   },
   "dependencies": {
     "component-emitter": "^1.2.1",
