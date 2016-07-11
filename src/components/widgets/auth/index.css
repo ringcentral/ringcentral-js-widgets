@@ -1,0 +1,20 @@
+.auth {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: .5em;
+}
+.loginButton {
+  composes: blue from '../../../styles/color.css';
+  composes: button from '../../commons/button/button.css';
+  /* align to flex end */
+  margin-top: auto;
+  width: 100%;
+  outline: 0;
+  font-size: .8em;
+  padding: .4em .5em;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}

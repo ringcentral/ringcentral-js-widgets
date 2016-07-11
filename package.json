@@ -57,7 +57,7 @@
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
-    "ringcentral-js-integration-commons": "https://github.com/changbenny/ringcentral-js-integration-commons#redux",
+    "ringcentral-js-integration-commons": "https://github.com/changbenny/ringcentral-js-integration-commons.git#add-dist",
     "ringcentral-web-phone": "^0.3.1"
   }
 }

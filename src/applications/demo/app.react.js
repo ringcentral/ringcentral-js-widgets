@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import WebPhone from './widgets/webphone/index.react';
+import WebPhone from '../../components/widgets/webphone/index.react';
 
 import styles from './app.css';
 

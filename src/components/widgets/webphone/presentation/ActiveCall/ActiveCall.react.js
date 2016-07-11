@@ -8,6 +8,7 @@ import UserTransfer from '../container/UserTransfer.react';
 
 import CallConsole from './CallConsole.react';
 import Dialer from './Dialer.react';
+import CallInfo from './CallInfo.react';
 import CallFooter from './CallFooter.react';
 import Closeable from './Closable.react';
 
@@ -30,14 +31,7 @@ export default class ActiveCall extends React.Component {
       if (this.state.openedPanel === 'keypad') {
         return (
           <div className={classNames(styles.main, styles.container)}>
-            <div>
-              <div className={styles.title}>
-                {this.props.phoneNumber}
-              </div>
-              <div className={styles.time}>
-                00:30
-              </div>
-            </div>
+            <CallInfo />
             <Dialer scale={0.9} handleClick={() => {}} />
             <CallFooter
               leftIcon={'icon-uni40'}
@@ -62,17 +56,7 @@ export default class ActiveCall extends React.Component {
       }
       return (
         <div className={classNames(styles.main, styles.container)}>
-          <div>
-            <div className={styles.title}>
-              {this.props.phoneNumber}
-            </div>
-            <div className={styles.time}>
-              00:30
-            </div>
-            <div className={styles.subtitle}>
-              You are on a WebPhone call.
-            </div>
-          </div>
+          <CallInfo />
           <CallConsole
             handleHoldClick={() => {}}
             handleRecordClick={() => {}}

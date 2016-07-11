@@ -1,8 +1,8 @@
 import React from 'react';
 
-import DialPad from './DialPad.react';
-import ActiveCall from './ActiveCall.react';
-import IncomingCall from './IncomingCall.react';
+import DialPad from './DialPad/DialPad.react';
+import ActiveCall from './ActiveCall/ActiveCall.react';
+import IncomingCall from './IncomingCall/IncomingCall.react';
 
 const WebPhone = (props) => {
   if (props.status === 'OnCall') {
