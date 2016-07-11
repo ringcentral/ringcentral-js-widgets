@@ -10,7 +10,6 @@ import callStatus from '../../enums/call-status';
 
 const symbols = new SymbolMap([
   'api',
-  'auth',
   'platform',
   'emitter',
   'settings',
@@ -39,12 +38,10 @@ export default class Webphone extends RcModule {
     });
     const {
       api,
-      auth,
       platform,
       settings,
     } = options;
     this[symbols.api] = api;
-    this[symbols.auth] = auth;
     this[symbols.platform] = platform;
     this[symbols.emitter] = new Emitter();
     this[symbols.settings] = settings;

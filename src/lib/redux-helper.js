@@ -11,10 +11,10 @@ export class ActionMap extends Enum {
    * @param {String[]} actions - list of action strings
    * @extends Enum
    */
-  constructor(actions = []) {
+  constructor(actions = [], prefix = '') {
     const definition = {};
     actions.forEach(action => {
-      definition[action] = action;
+      definition[action] = prefix !== '' ? `${prefix}-${action}` : action;
     });
     super(definition);
   }

@@ -6,7 +6,6 @@ import RcModule from './lib/rc-module';
 
 import Settings from './modules/settings';
 import Brand from './modules/brand';
-import Auth from './modules/auth';
 import User from './modules/user';
 import Webphone from './modules/webphone';
 import { combineReducers, createStore } from 'redux';
@@ -62,20 +61,11 @@ export default class RcPhone extends RcModule {
       ...defaultBrand,
     }));
 
-    this::addModule('auth', new Auth({
-      registerStoreHandler: register,
-      stateMapper: (state) => state.auth,
-      prefix,
-      defaultBrand: this.defaultBrand,
-      platform: this.platform,
-    }));
-
     this::addModule('user', new User({
       registerStoreHandler: register,
       stateMapper: (state) => state.user,
       prefix,
       api: this.api,
-      auth: this.auth,
       platform: this.platform,
       settings: this.settings,
     }));
@@ -85,7 +75,6 @@ export default class RcPhone extends RcModule {
       stateMapper: (state) => state.webphone,
       prefix,
       api: this.api,
-      auth: this.auth,
       platform: this.platform,
       settings: this.settings,
     }));
@@ -93,7 +82,6 @@ export default class RcPhone extends RcModule {
     // combine reducers
     this[REDUCER] = combineReducers({
       defaultBrand: this.defaultBrand.reducer,
-      auth: this.auth.reducer,
       user: this.user.reducer,
       webphone: this.webphone.reducer,
       settings: this.settings.reducer,

@@ -5,77 +5,156 @@ import loginStatus from '../../enums/login-status';
 import userActions from './user-actions';
 import getUserReducer from './user-reducer';
 import Emitter from 'component-emitter';
-import userEvents from '../../enums/user-events';
+import { userEvents, userEventTypes } from './user-events';
 
 const symbols = new SymbolMap([
   'api',
-  'auth',
   'platform',
   'emitter',
   'settings',
 ]);
 
-const initialState = {
-  test: true,
-};
+// const initialState = {
+//   test: true,
+// };
 
-function getUserSettingsReducer(prefix) {
-  return (state, action) => {
-    if (typeof state === 'undefined') return Object.assign({}, initialState);
-    if (!action) return state;
-    switch (action.type) {
-      default:
-        return state;
-    }
-  };
+// function getUserSettingsReducer(prefix) {
+//   return (state, action) => {
+//     if (typeof state === 'undefined') return Object.assign({}, initialState);
+//     if (!action) return state;
+//     switch (action.type) {
+//       default:
+//         return state;
+//     }
+//   };
+// }
+
+/**
+ * @function
+ * @param {String} eventType
+ * @param {String} event
+ * @description Helper function to emit eventTyped events and the event itself
+ */
+function emit(eventType, event, ...payloads) {
+  this[symbols.emitter].emit(event, ...payloads);
+  this[symbols.emitter].emit(eventType, event, ...payloads);
 }
 
-async function loadInfo() {
+/**
+ * @function
+ * @param {String} dataType
+ * @param {function} loadFunction - async loader function returning a promise
+ * @return {Promise}
+ * @description Generic data loading logic with events
+ */
+async function loadData(dataType, loadFunction) {
+  this.store.dispatch({
+    type: this.actions[`load${dataType}`],
+  });
+  this[symbols.emitter].emit(userEvents[`load${dataType}`]);
   try {
-    const [
-      accountInfo,
-      extensionInfo,
-      dialingPlans,
-      phoneNumbers,
-      forwardingNumbers,
-      blockedNumbers,
-    ] = (await Promise.all([
-      this[symbols.api].account().loadAccount(),
-      this[symbols.api].extension().loadExtensionInfo(),
-      this::fetchList(options => (
-        this[symbols.api].account().listDialingPlans(options)
-      )),
-      this::fetchList(options => (
-        this[symbols.api].extension().listExtensionPhoneNumbers(options)
-      )),
-      this::fetchList(options => (
-        this[symbols.api].forwardingNumbers().listExtensionForwardingNumbers(options)
-      )),
-      this::fetchList(options => (
-        this[symbols.api].blockedNumbers().listBlockedNumbers(options)
-      )),
-    ])).map(data => extractData(data));
-
+    const payload = await this::loadFunction();
     this.store.dispatch({
-      type: this.actions.loadUserInfo,
-      payload: {
-        accountInfo,
-        extensionInfo,
-        dialingPlans,
-        phoneNumbers,
-        forwardingNumbers,
-        blockedNumbers,
-      },
+      type: this.actions[`load${dataType}Success`],
+      payload,
     });
-    this[symbols.emitter].emit(userEvents.userInfoLoaded);
-  } catch (e) {
-    // TODO send error out
-    console.log(e);
-    this[symbols.auth].logout();
+    this::emit(userEventTypes.userInfoChanged, userEvents[`load${dataType}Success`]);
+  } catch (error) {
+    this.store.dispatch({
+      type: this.actions[`load${dataType}Failed`],
+    });
+    this[symbols.emitter].emit(userEvents[`load${dataType}Failed`]);
+    throw error;
   }
 }
 
+/**
+ * @function
+ * @return {Promise<Object>}
+ * @description Fetch account info and extract the data
+ */
+async function extractAccountInfo() {
+  return extractData(await this[symbols.api].account().loadAccount());
+}
+async function loadAccountInfo() {
+  return await this::loadData('AccountInfo', extractAccountInfo);
+}
+
+async function extractExtensionInfo() {
+  return extractData(await this[symbols.api].extension().loadExtensionInfo());
+}
+async function loadExtensionInfo() {
+  return await this::loadData('ExtensionInfo', extractExtensionInfo);
+}
+
+async function extractDialingPlans() {
+  return extractData(await this::fetchList(options => (
+    this[symbols.api].account().listDialingPlans(options)
+  )));
+}
+async function loadDialingPlans() {
+  return await this::loadData('DialingPlans', extractDialingPlans);
+}
+
+async function extractPhoneNumbers() {
+  return extractData(await this::fetchList(options => (
+    this[symbols.api].extension().listExtensionPhoneNumbers(options)
+  )));
+}
+async function loadPhoneNumbers() {
+  return await this::loadData('PhoneNumbers', extractPhoneNumbers);
+}
+
+async function extractForwardingNumbers() {
+  return extractData(await this::fetchList(options => (
+    this[symbols.api].forwardingNumbers().listExtensionForwardingNumbers(options)
+  )));
+}
+async function loadForwardingNumbers() {
+  return await this::loadData('ForwardingNumbers', extractForwardingNumbers);
+}
+
+async function extractBlockedNumbers() {
+  return extractData(await this::fetchList(options => (
+    this[symbols.api].blockedNumbers().listBlockedNumbers(options)
+  )));
+}
+async function loadBlockedNumbers() {
+  return await this::loadData('BlockedNumbers', extractBlockedNumbers);
+}
+
+/**
+ * @function
+ * @return {Promise}
+ */
+async function loadInfo() {
+  try {
+    await Promise.all([
+      this::loadAccountInfo(),
+      this::loadExtensionInfo(),
+      this::loadDialingPlans(),
+      this::loadPhoneNumbers(),
+      this::loadForwardingNumbers(),
+      this::loadBlockedNumbers(),
+    ]);
+    // this[symbols.emitter].emit(userEvents.userInfoLoaded);
+  } catch (e) {
+    // TODO send error out
+    console.log(e);
+  }
+}
+
+/**
+ * @class User
+ * @extends RcModule
+ * @default
+ * @export
+ */
 export default class User extends RcModule {
+  /**
+   * @function
+   * @param {Object} options
+   */
   constructor(options) {
     super({
       ...options,
@@ -83,32 +162,63 @@ export default class User extends RcModule {
     });
     const {
       api,
-      auth,
       platform,
       settings,
     } = options;
     this[symbols.api] = api;
-    this[symbols.auth] = auth;
     this[symbols.platform] = platform;
     this[symbols.emitter] = new Emitter();
     this[symbols.settings] = settings;
 
-    settings.registerReducer('user', getUserSettingsReducer());
+    // settings.registerReducer('user', getUserSettingsReducer());
+
 
     // load info on login
     platform.on(platform.events.loginSuccess, () => {
+      this.store.dispatch({
+        type: this.actions.loginSuccess,
+      });
+      this::emit(userEventTypes.loginStatusChanged, this.state.status);
       this::loadInfo();
+    });
+    // loginError
+    platform.on(platform.events.loginError, error => {
+      this.store.dispatch({
+        type: this.actions.loginError,
+        error,
+      });
     });
     // unload info on logout
     platform.on(platform.events.logoutSuccess, () => {
       this.store.dispatch({
-        type: this.actions.clearUserInfo,
+        type: this.actions.logoutSuccess,
       });
-      this[symbols.emitter].emit(userEvents.userInfoCleared);
+      // this[symbols.emitter].emit(userEvents.userInfoCleared);
     });
+
+    platform.on(platform.events.logoutError, error => {
+      this.store.dispatch({
+        type: this.actions.logoutError,
+        error,
+      });
+    });
+
+    platform.on(platform.events.refreshError, error => {
+      this.store.dispatch({
+        type: this.actions.refreshError,
+        error,
+      });
+    });
+
     // load info if already logged in
     (async () => {
-      if (await auth.getStatus() === loginStatus.userAccess) {
+      const loggedIn = await platform.loggedIn();
+      this.store.dispatch({
+        type: this.actions.init,
+        status: loggedIn ? loginStatus.loggedIn : loginStatus.notLoggedIn,
+      });
+      this[symbols.emitter].emit(userEventTypes.userEventTypes, this.state.status);
+      if (loggedIn) {
         await this::loadInfo();
       }
     })();
@@ -130,6 +240,78 @@ export default class User extends RcModule {
   }
   off(event, handler) {
     this[symbols.emitter].off(event, handler);
+  }
+
+  /**
+   * @function
+   * @async
+   * @description Login function using username and password
+   */
+  async login({ username, password, extension, remember }) {
+    this.store.dispatch({
+      type: this.actions.login,
+      payload: {
+        username,
+        password,
+        extension,
+        remember,
+      },
+    });
+    this::emit(userEventTypes.loginStatusChanged, userEvents.loggingIn);
+    return await this[symbols.platform].login({
+      username,
+      password,
+      extension,
+      remember,
+    });
+  }
+
+  /**
+   * @function
+   * @async
+   * @description Authorize using OAauth code
+   */
+  async authorize({ code, redirectUri }) {
+    this.store.dispatch({
+      type: this.actions.login,
+      payload: {
+        code,
+        redirectUri,
+      },
+    });
+    this::emit(userEventTypes.loginStatusChanged, userEvents.loggingIn);
+    return await this[symbols.platform].login({
+      code,
+      redirectUri,
+    });
+  }
+
+  /**
+   * @function
+   * @async
+   * @description Log the user out
+   */
+  async logout() {
+    // deal with removing subscriptions
+
+    this::emit(userEventTypes.loginStatusChanged, userEvents.loggingOut);
+    return await this[symbols.platform].logout();
+  }
+
+  get status() {
+    return this.state.status;
+  }
+
+  get events() {
+    return userEvents;
+  }
+
+  get eventTypes() {
+    return userEventTypes;
+  }
+
+  async isLoggedIn() {
+    return await this[symbols.platform].loggedIn();
   }
 
   get directNumbers() {

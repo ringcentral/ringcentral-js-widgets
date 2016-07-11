@@ -1,12 +1,11 @@
 import Enum from '../lib/enum';
 
 const definition = {
-  pending: 0, // after init, before status from platform is determined
-  notLoggedIn: 1,
-  clientAccessPending: 2,
-  clientAccess: 3,
-  userAccessPending: 4,
-  userAccess: 5,
+  pending: 'PENDING', // after init, before status from platform is determined
+  notLoggedIn: 'NOT_LOGGED_IN',
+  loggingIn: 'LOGGING_IN',
+  loggedIn: 'LOGGED_IN',
+  loggingOut: 'LOGGING_OUT',
 };
 
 export default new Enum(definition);

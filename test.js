@@ -9,8 +9,8 @@ const phone = new RcPhone({
     ...config.brand,
   },
 });
-phone.auth.login({
+phone.user.login({
   ...config.user,
 });
 
-export default phone;
+// export default phone;
