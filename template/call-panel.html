@@ -1,13 +1,9 @@
 <template>
     <div class='rc-panel rc-call-panel'>
         <section data-info='header' class='rc-panel__header rc-panel__header--center'>
-            <div
-                data-info='time-wrapper' 
-                class='text-right time-wrapper'>
-                <span class='blink' data-info='time'>Dialing</span>
-            </div>
             <div>
-                <h2 data-info='name'>Number</h2>
+                <div data-info='name' class='number'>Number</div>
+                <span class='blink' data-info='time'>Dialing</span>
             </div>
         </section>
         <section data-info='content' class='rc-panel__content'>
@@ -187,7 +183,7 @@
                 <div class='action-panel'>
                     <button
                         data-info='mute'
-                        class='rc-button rc-button--round action-panel__action'>
+                        class='display-none rc-button rc-button--round action-panel__action'>
                         <span class='icon-uniCE'></span>
                     </button>
                     <button 
@@ -824,7 +820,6 @@ $dial-pad-button-radius: 3.2em;
 $dial-pad-symbol-size: .5em;
 $dial-pad-call-button-color: #2ecc71;
 .rc-call-panel {
-    font-size: .8em;
     background-color: $white;
     &__reply {
         width: 100%;
@@ -854,8 +849,8 @@ $dial-pad-call-button-color: #2ecc71;
         justify-content: space-between;
         margin-top: 10px;
         &__action {
-            width: $call-panel-action-btn-width;
-            &:first-child {
+            width: 100%;
+            &--mr {
                 margin-right: 10px;
             }
             > [class*="icon-"] {
@@ -947,6 +942,12 @@ $dial-pad-call-button-color: #2ecc71;
             height: 100%;
             
         }
+    }
+
+    .number {
+        margin-top: 10px;
+        font-size: 1.6em;
+        margin-bottom: 5px;
     }
 
     .blink {

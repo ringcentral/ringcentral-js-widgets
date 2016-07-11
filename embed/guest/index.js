@@ -44,8 +44,15 @@ phone.on('unmount', function() {
     })
 })
 phone.on('ready', function() {
+    console.log('ready');
     store.dispatch({
         type: actions.GUEST_PHONE_READY
+    })
+})
+phone.on('incoming', function() {
+    console.log('on phone incoming');
+    store.dispatch({
+        type: actions.GUEST_PHONE_INCOMING
     })
 })
 phone.mount(document.body)

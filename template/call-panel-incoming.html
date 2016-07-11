@@ -1,6 +1,7 @@
 <div class='rc-panel rc-call-panel'>
     <div class='rc-panel__header rc-panel__header--center'>
-        <h1 data-info='name'>Incoming call</h1>
+        <div class='name' data-info='name'></div>
+        <p>Call Incoming</p>
     </div>
     <div class='rc-panel__content' data-info='panel'>
         <div class='control-panel' data-info='control-panel'>
@@ -37,10 +38,10 @@
                     <button 
                         data-info='ignore'
                         class='rc-button 
-                            rc-button--circle 
-                            rc-button--ghost 
-                            rc-button--dense 
-                            rc-icon-switch 
+                            rc-button--circle
+                            rc-button--ghost
+                            rc-button--dense
+                            rc-icon-switch
                             control-panel__button'>
                         <span class="icon-uni43"></span>
                         <span class="icon-uni43"></span>
@@ -61,14 +62,16 @@
                     class='
                     rc-button 
                     rc-button--round 
-                    action-panel__action'>
+                    action-panel__action
+                    action-panel__action--mr'>
                         <span class='icon-uniAE'></span>
                     </button>
                 <button
                     data-info='reject' 
                     class='
                     rc-button 
-                    rc-button--round 
+                    rc-button--round
+                    rc-button--negative 
                     action-panel__action'>
                         <span class='icon-uni44'></span>
                     </button>
@@ -218,3 +221,12 @@ this.on('click', function(e) {
     })
 })
 </script>
+<style scoped>
+    .name {
+        font-size: 1.6em;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+    .rc-call-panel {
+    }
+</style>

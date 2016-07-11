@@ -15,6 +15,9 @@ var initialState = {
     dialPad: {
         phoneNumber: ''
     },
+    call: {
+        incoming: false,
+    },
 }
 function resize({width, height}) {
     return {
@@ -78,10 +81,22 @@ function dialPad(state = initialState.dialPad, action) {
     }
 }
 
+function call(state = initialState.call, action) {
+    switch (action.type) {
+        case actions.GUEST_PHONE_INCOMING:
+            return Object.assign({}, state, {
+                incoming: true,
+            })
+        default:
+            return state
+    }
+}
+
 var reducer = combineReducers({
     status,
     size,
-    dialPad
+    dialPad,
+    call,
 })
 var store = createStore(reducer)
 export default store

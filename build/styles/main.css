@@ -1173,7 +1173,7 @@ h1, h2, h3, h4, h5, h6 {
 .rc-panel__header {
     padding: .5em .7em;
     position: relative;
-    height: 60px;
+    height: 80px;
     background-color: #fafafa;
 }
 
@@ -1193,7 +1193,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .rc-panel__content {
     position: relative;
-    height: calc(100% - 61px);
+    height: calc(100% - 81px);
     background-color: #fafafa;
 }
 
@@ -1206,7 +1206,6 @@ h1, h2, h3, h4, h5, h6 {
     background-color: #fafafa;/* height: $panel-footer-height; */
 }
 .rc-button {
-    padding: .5em .7em;
     border: 1px solid #ccc;
     background-color: #fafafa;
     color: #337ab7

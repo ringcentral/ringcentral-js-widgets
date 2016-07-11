@@ -107,8 +107,15 @@
 	    });
 	});
 	_phone2.default.on('ready', function () {
+	    console.log('ready');
 	    _store2.default.dispatch({
 	        type: _actions2.default.GUEST_PHONE_READY
+	    });
+	});
+	_phone2.default.on('incoming', function () {
+	    console.log('on phone incoming');
+	    _store2.default.dispatch({
+	        type: _actions2.default.GUEST_PHONE_INCOMING
 	    });
 	});
 	_phone2.default.mount(document.body);
@@ -320,6 +327,9 @@
 	    },
 	    dialPad: {
 	        phoneNumber: ''
+	    },
+	    call: {
+	        incoming: false
 	    }
 	};
 	function resize(_ref) {
@@ -396,10 +406,25 @@
 	    }
 	}
 	
+	function call() {
+	    var state = arguments.length <= 0 || arguments[0] === undefined ? initialState.call : arguments[0];
+	    var action = arguments[1];
+	
+	    switch (action.type) {
+	        case _actions2.default.GUEST_PHONE_INCOMING:
+	            return Object.assign({}, state, {
+	                incoming: true
+	            });
+	        default:
+	            return state;
+	    }
+	}
+	
 	var reducer = (0, _redux.combineReducers)({
 	    status: status,
 	    size: size,
-	    dialPad: dialPad
+	    dialPad: dialPad,
+	    call: call
 	});
 	var store = (0, _redux.createStore)(reducer);
 	exports.default = store;
@@ -1273,7 +1298,8 @@
 	    GUEST_PHONE_RESIZE: 201,
 	    GUEST_DIALPAD_NUMBER: 202,
 	    GUEST_PHONE_UNMOUNT: 203,
-	    GUEST_PHONE_READY: 204
+	    GUEST_PHONE_READY: 204,
+	    GUEST_PHONE_INCOMING: 205
 	};
 
 /***/ }

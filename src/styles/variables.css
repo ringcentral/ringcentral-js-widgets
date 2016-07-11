@@ -27,7 +27,7 @@ $border-radius: 2px;
 
 /* rc-panel */
 $panel-width: 250px;
-$panel-header-height: 60px;
-$panel-content-height: calc(100% - 61px);
+$panel-header-height: 80px;
+$panel-content-height: calc(100% - 81px);
 $panel-footer-height: 100px;
 $panel-height: $panel-header-height + $panel-content-height;

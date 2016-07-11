@@ -3,15 +3,14 @@
     <div class='rc-panel main' data-info='main-panel' hidden>
         <div class='rc-panel__header'>
             <img class='logo' src="./ringcentral_logo.png">
-            
         </div>
-        <div class='rc-panel__content rc-panel__content--full'>
+        <div class='rc-panel__content'>
             <p data-info='waiting' class='waiting' hidden>
-                Waiting for incoming call.
+                Ready to receive calls
             </p>
-            <div id='call-panel'></div>
-            <div id='call-panel-incoming'></div>
         </div>
+        <div id='call-panel' class='overlap'></div>
+        <div id='call-panel-incoming' class='overlap'></div>
     </div>
 </div>
 <script>
@@ -19,6 +18,9 @@ import Factory from './factory/factory'
 import EventEmitter from './template/vendor/eventemitter'
 var factory = new Factory()
 w.register(function() {
+    this.props = {
+        ee: new EventEmitter(),
+    },
     this.actions = factory.create('incontact', {
         init: {
             before: function() {
@@ -29,51 +31,76 @@ w.register(function() {
         },
         mount: {
             after: function() {
-                this.checkLogin()
-                .then(loggedin => {
-                    if (loggedin == 2) {
-                        this.dom['main-panel'].hidden = false
-                        webPhone(null, {
-                            width: this.data.width,
-                            height: this.data.height
-                        })
-                    } else {
-                        var phone = this
-                        var authPanel = w('auth-panel', {
-                            data: {
-                                oauth: true
-                            },
-                            actions: factory.create('auth-panel', {
-                                login: {
-                                    after: function() {
-                                        phone.dom['auth-panel'].parentNode.removeChild(phone.dom['auth-panel'])
-                                        this.unmount()
-                                        phone.dom.waiting.hidden = false
-                                        phone.dom['main-panel'].hidden = false
-                                        webPhone(null, {
-                                            width: this.data.width,
-                                            height: this.data.height
-                                        })
-                                    }
-                                }
-                            })
-                        })
-                        authPanel.mount(this.dom['auth-panel'])
-                    }
+                var phone = this
+                var authPanel = w('auth-panel', {
+                    data: {
+                        oauth: true
+                    },
+                    actions: factory.create('auth-panel', {
+                        login: {
+                            after: function() {
+                                phone.dom['auth-panel'].parentNode.removeChild(phone.dom['auth-panel'])
+                                this.unmount()
+                                phone.dom.waiting.hidden = false
+                                phone.dom['main-panel'].hidden = false
+                                webPhone(null, {
+                                    width: phone.data.width,
+                                    height: phone.data.height
+                                }, phone)
+                            }
+                        }
+                    })
                 })
-                .catch(e => console.error(e))
+                authPanel.mount(this.dom['auth-panel'])
+                // this.checkLogin()
+                // .then(loggedin => {
+                //     if (loggedin) {
+                //         this.dom['main-panel'].hidden = false
+                //         this.dom.waiting.hidden = false
+                //         this.dom['auth-panel'].parentNode.removeChild(this.dom['auth-panel'])
+                //         webPhone(null, {
+                //             width: this.data.width,
+                //             height: this.data.height
+                //         }, phone)
+                //         this.props.ee.trigger('ready')
+                //     } else {
+                //         var authPanel = w('auth-panel', {
+                //             data: {
+                //                 oauth: true
+                //             },
+                //             actions: factory.create('auth-panel', {
+                //                 login: {
+                //                     after: function() {
+                //                         phone.dom['auth-panel'].parentNode.removeChild(phone.dom['auth-panel'])
+                //                         this.unmount()
+                //                         phone.dom.waiting.hidden = false
+                //                         phone.dom['main-panel'].hidden = false
+                //                         webPhone(null, {
+                //                             width: phone.data.width,
+                //                             height: phone.data.height
+                //                         }, phone)
+                //                     }
+                //                 }
+                //             })
+                //         })
+                //         authPanel.mount(this.dom['auth-panel'])
+                //     }
+                // })
+                // .catch(e => console.error(e))
             }
         },
         setSize: {
             method: function() {}
         },
         on: {
-            method: function() {}
+            method: function(finish, event, callback) {
+                this.props.ee.on(event, callback)
+            }
         }
     })
 })
 
-var webPhone = function(data, {width, height}) {
+var webPhone = function(data, {width, height}, phone) {
     var callPanel = w('call-panel', {
         data: {
             target: '#call-panel',
@@ -100,6 +127,11 @@ var webPhone = function(data, {width, height}) {
                     callPanel.mount('#call-panel')
                     callPanel.start()
                 }
+            },
+            mount: {
+                after: function() {
+                    phone.props.ee.trigger('incoming')
+                }
             }
         })
     })
@@ -108,6 +140,7 @@ var webPhone = function(data, {width, height}) {
 <style>
     html, body {
       height: 100%;
+      color: #333;
     }
     .incontact,
     .incontact .auth-panel {
@@ -121,7 +154,14 @@ var webPhone = function(data, {width, height}) {
         width: 80%;
     }
     .incontact .waiting {
+        margin-top: 30px;
         text-align: center;
+        font-size: 1.2em;
+    }
+    .incontact .overlap {
+        position: absolute;
+        top: 0;
+        height: 100%;
     }
     .auth-panel {}
 </style>

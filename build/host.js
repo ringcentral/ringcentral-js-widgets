@@ -57,6 +57,8 @@
 	
 	window.addEventListener('message', function (e) {
 	    var state = e.data;
+	    console.log('receive');
+	    console.log(state);
 	    _frame2.default.width = state.size.width;
 	    _frame2.default.height = state.size.height;
 	    if (state.status.unmount) {
@@ -66,7 +68,21 @@
 	        _frame2.default.style['box-shadow'] = '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)';
 	        _frame2.default.style['transition'] = 'height .150s cubic-bezier(0.4, 0.0, 0.2, 1)';
 	    }
+	    if (state.call.incoming) {
+	        if (Ringcentral.widget.events.incoming) Ringcentral.widget.events.incoming.forEach(function (event) {
+	            return event();
+	        });
+	    }
 	});
+	if (!window.Ringcentral) window.Ringcentral = {};
+	console.log('poll window');
+	window.Ringcentral.widget = {
+	    events: {},
+	    on: function on(name, fn) {
+	        if (!Ringcentral.widget.events[name]) Ringcentral.widget.events[name] = [];
+	        Ringcentral.widget.events[name].push(fn);
+	    }
+	};
 	// Ringcentral.on()
 	// Ringcentral.oauth()
 
@@ -86,7 +102,8 @@
 	    GUEST_PHONE_RESIZE: 201,
 	    GUEST_DIALPAD_NUMBER: 202,
 	    GUEST_PHONE_UNMOUNT: 203,
-	    GUEST_PHONE_READY: 204
+	    GUEST_PHONE_READY: 204,
+	    GUEST_PHONE_INCOMING: 205
 	};
 
 /***/ },

@@ -188,7 +188,6 @@ h6 {
     }
 }
 .rc-button {
-    @mixin padding-normal;
     border: 1px solid #ccc;
     background-color: $white;
     color: $main-color;

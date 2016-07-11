@@ -12354,11 +12354,11 @@
 	module.exports = {
 		"_args": [
 			[
-				"sip.js",
-				"/Users/howard.zhang/Sites/ringcentral-js-widget"
+				"sip.js@0.7.5",
+				"/Users/howard.zhang/Sites/ringcentral-js-widget/node_modules/ringcentral-web-phone"
 			]
 		],
-		"_from": "sip.js@latest",
+		"_from": "sip.js@0.7.5",
 		"_id": "sip.js@0.7.5",
 		"_inCache": true,
 		"_installable": true,
@@ -12376,20 +12376,20 @@
 		"_phantomChildren": {},
 		"_requested": {
 			"name": "sip.js",
-			"raw": "sip.js",
-			"rawSpec": "",
+			"raw": "sip.js@0.7.5",
+			"rawSpec": "0.7.5",
 			"scope": null,
-			"spec": "latest",
-			"type": "tag"
+			"spec": "0.7.5",
+			"type": "version"
 		},
 		"_requiredBy": [
-			"#USER"
+			"/ringcentral-web-phone"
 		],
 		"_resolved": "https://registry.npmjs.org/sip.js/-/sip.js-0.7.5.tgz",
 		"_shasum": "86ace7051594f91b4551bdb8120a16c44962d3a2",
 		"_shrinkwrap": null,
-		"_spec": "sip.js",
-		"_where": "/Users/howard.zhang/Sites/ringcentral-js-widget",
+		"_spec": "sip.js@0.7.5",
+		"_where": "/Users/howard.zhang/Sites/ringcentral-js-widget/node_modules/ringcentral-web-phone",
 		"author": {
 			"email": "developer@onsip.com",
 			"name": "OnSIP",
