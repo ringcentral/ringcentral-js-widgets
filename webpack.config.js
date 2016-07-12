@@ -23,7 +23,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+        loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[folder]__[local]',
       },
       {
         test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,

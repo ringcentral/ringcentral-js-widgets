@@ -5,8 +5,6 @@
   padding: .5em;
 }
 .loginButton {
-  composes: blue from '../../../styles/color.css';
-  composes: button from '../../commons/button/button.css';
   /* align to flex end */
   margin-top: auto;
   width: 100%;
