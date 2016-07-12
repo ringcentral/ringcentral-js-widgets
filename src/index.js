@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
 import { Provider } from 'react-redux';
-import { PhoneProvider } from './utils/PhoneProvider';
+import { PhoneProvider } from './utils/integration/';
 
 import RcPhone from 'ringcentral-js-integration-commons';
 import config from '../config';

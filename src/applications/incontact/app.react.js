@@ -8,11 +8,10 @@ import styles from './app.css';
 
 // Some hack
 let isManual = false;
-const App = function (props, context) {
+const App = function (props) {
   function manuallyLogin() {
     isManual = true;
   }
-  console.log(context);
   return (
     <div className={styles.app}>
       {
@@ -26,10 +25,6 @@ const App = function (props, context) {
 
 App.propTypes = {
   loggedIn: React.PropTypes.bool,
-};
-
-App.contextTypes = {
-  phone: React.PropTypes.object,
 };
 
 export default connect(state => ({ loggedIn: state.auth.status === 5 }))(App);

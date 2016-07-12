@@ -23,7 +23,3 @@ PhoneProvider.propTypes = {
 PhoneProvider.childContextTypes = {
   phone: React.PropTypes.object,
 };
-
-export {
-  PhoneProvider,
-};
