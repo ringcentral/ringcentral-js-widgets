@@ -1,12 +1,11 @@
 import React from 'react';
-import styles from '../index.css';
 
 const AuthPanel = (props) => {
   console.log(props);
   return (
-    <div className={styles.auth}>
+    <div className={'components_widgets_presentation_AuthPanel_auth'}>
       <button
-        className={styles.loginButton}
+        className={'loginButton'}
         onClick={() => {
           props.auth.login({
             username: '16508370092',
