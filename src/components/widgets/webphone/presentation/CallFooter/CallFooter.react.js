@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import styles from '../index.css';
-import iconsStyles from '../../../../styles/icon.css';
+import styles from '../../index.css';
+import iconsStyles from '../../../../../styles/icon.css';
 
 const CallFooter = (props) => (
   <div className={styles.footer}>

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import styles from '../index.css';
-import DropdownItem from './DropdownItem.react';
+import styles from '../../index.css';
+import DropdownItem from '../DropdownItem/DropdownItem.react';
 
 const Dropdown = (props) => (
   <ul className={styles.dropdown}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../index.css';
+import styles from '../../index.css';
 
 const Dialer = (props) => (
   <div className={styles.dialer} style={{ fontSize: `${(props.scale || 1)} em` }}>

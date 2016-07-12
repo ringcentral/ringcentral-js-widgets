@@ -1,14 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { PanelHeader, PanelContent, PanelFooter } from '../../../commons/panel/';
-import { Input } from '../../../commons/autocomplete/';
+import { PanelHeader, PanelContent, PanelFooter } from '../../../../commons/panel/';
+import { Input } from '../../../../commons/autocomplete/';
 
-import Dialer from './Dialer.react';
-import UserCallerBar from '../container/UserCallerBar.react';
+import Dialer from '../Dialer/Dialer.react';
+import UserCallerBar from '../../container/UserCallerBar.react';
 
-import styles from '../index.css';
-import iconsStyles from '../../../../styles/icon.css';
+import styles from '../../index.css';
+import iconsStyles from '../../../../../styles/icon.css';
 
 export default class DialPad extends React.Component {
   static propTypes = {

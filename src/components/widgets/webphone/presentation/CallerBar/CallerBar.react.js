@@ -1,10 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import Dropdown from './Dropdown.react';
+import Dropdown from '../Dropdown/Dropdown.react';
 
-import styles from '../index.css';
-import iconsStyles from '../../../../styles/icon.css';
+import styles from '../../index.css';
+import iconsStyles from '../../../../../styles/icon.css';
 
 export default class CallerBar extends React.Component {
   static propTypes = {

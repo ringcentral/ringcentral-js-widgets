@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from '../index.css';
-import iconsStyles from '../../../../styles/icon.css';
-import { StatedButton } from '../../../commons/button/';
+import styles from '../../index.css';
+import iconsStyles from '../../../../../styles/icon.css';
+import { StatedButton } from '../../../../commons/button/';
 
 import classNames from 'classnames';
 

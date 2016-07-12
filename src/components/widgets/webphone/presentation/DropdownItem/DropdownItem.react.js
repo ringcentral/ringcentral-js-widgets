@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from '../index.css';
+import styles from '../../index.css';
 
 const DropdownItem = (props) => (
   <li className={styles.dropdownItem}>

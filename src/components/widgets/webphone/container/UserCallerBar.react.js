@@ -1,4 +1,4 @@
-import CallerBar from '../presentation/CallerBar.react';
+import CallerBar from '../presentation/CallerBar/CallerBar.react';
 import { connect } from 'react-redux';
 
 export default connect(state => ({

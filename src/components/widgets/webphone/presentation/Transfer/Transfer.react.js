@@ -1,7 +1,7 @@
 import React from 'react';
-import { Input } from '../../../commons/autocomplete/';
+import { Input } from '../../../../commons/autocomplete/';
 
-import styles from '../index.css';
+import styles from '../../index.css';
 
 const Transfer = (props) => {
   let number = '';

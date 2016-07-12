@@ -1,7 +1,7 @@
 import React from 'react';
-import { List, ListItem } from '../../../commons/list/';
+import { List, ListItem } from '../../../../commons/list/';
 
-import styles from '../index.css';
+import styles from '../../index.css';
 
 const Flip = (props) => (
   <div className={styles.flip}>

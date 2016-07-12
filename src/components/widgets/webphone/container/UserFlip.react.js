@@ -1,4 +1,4 @@
-import Flip from '../presentation/Flip.react';
+import Flip from '../presentation/Flip/Flip.react';
 import { connect } from 'react-redux';
 
 export default connect(state => ({

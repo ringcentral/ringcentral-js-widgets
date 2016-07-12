@@ -1,9 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import CallFooter from '../presentation/CallFooter.react';
+import CallFooter from '../CallFooter/CallFooter.react';
 
-import styles from '../index.css';
+import styles from '../../index.css';
 
 const IncomingCall = (props) => (
   <div className={classNames(styles.main, styles.container)}>

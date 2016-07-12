@@ -1,19 +1,19 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { PanelHeader, PanelContent, PanelFooter } from '../../../commons/panel/';
+import { PanelHeader, PanelContent, PanelFooter } from '../../../../commons/panel/';
 
-import UserFlip from '../container/UserFlip.react';
-import UserTransfer from '../container/UserTransfer.react';
+import UserFlip from '../../container/UserFlip.react';
+import UserTransfer from '../../container/UserTransfer.react';
 
-import CallConsole from './CallConsole.react';
-import Dialer from './Dialer.react';
-import CallInfo from './CallInfo.react';
-import CallFooter from './CallFooter.react';
-import Closeable from './Closable.react';
+import CallConsole from '../CallConsole/CallConsole.react';
+import Dialer from '../Dialer/Dialer.react';
+import CallInfo from '../CallInfo/CallInfo.react';
+import CallFooter from '../CallFooter/CallFooter.react';
+import Closeable from '../Closable/Closable.react';
 
-import iconsStyles from '../../../../styles/icon.css';
-import styles from '../index.css';
+import iconsStyles from '../../../../../styles/icon.css';
+import styles from '../../index.css';
 
 export default class ActiveCall extends React.Component {
 
