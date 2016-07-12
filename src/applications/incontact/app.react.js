@@ -8,24 +8,28 @@ import styles from './app.css';
 
 // Some hack
 let isManual = false;
-const App = function App(props) {
+const App = function (props, context) {
   function manuallyLogin() {
     isManual = true;
   }
+  console.log(context);
   return (
     <div className={styles.app}>
       {
         props.loggedIn && isManual ?
           <WebPhone /> :
-          <Auth phone={props.phone} manuallyLogin={manuallyLogin} />
+          <Auth manuallyLogin={manuallyLogin} />
       }
     </div>
   );
 };
 
 App.propTypes = {
-  phone: React.PropTypes.object,
   loggedIn: React.PropTypes.bool,
+};
+
+App.contextTypes = {
+  phone: React.PropTypes.object,
 };
 
 export default connect(state => ({ loggedIn: state.auth.status === 5 }))(App);
