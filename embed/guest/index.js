@@ -55,4 +55,10 @@ phone.on('incoming', function() {
         type: actions.GUEST_PHONE_INCOMING
     })
 })
+phone.on('loggedin', function() {
+    console.log('on phone loggedin');
+    store.dispatch({
+        type: actions.GUEST_PHONE_LOGGEDIN
+    })
+})
 phone.mount(document.body)

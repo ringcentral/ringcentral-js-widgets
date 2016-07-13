@@ -17,6 +17,10 @@ window.addEventListener('message', function(e) {
         if (Ringcentral.widget.events.incoming)
             Ringcentral.widget.events.incoming.forEach(event => event())
     }
+    if (state.call.loggedin) {
+        if (Ringcentral.widget.events.loggedin)
+            Ringcentral.widget.events.loggedin.forEach(event => event())
+    }
 })
 if (!window.Ringcentral) window.Ringcentral = {}
 console.log('poll window');

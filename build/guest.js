@@ -118,6 +118,12 @@
 	        type: _actions2.default.GUEST_PHONE_INCOMING
 	    });
 	});
+	_phone2.default.on('loggedin', function () {
+	    console.log('on phone loggedin');
+	    _store2.default.dispatch({
+	        type: _actions2.default.GUEST_PHONE_LOGGEDIN
+	    });
+	});
 	_phone2.default.mount(document.body);
 
 /***/ },
@@ -329,7 +335,8 @@
 	        phoneNumber: ''
 	    },
 	    call: {
-	        incoming: false
+	        incoming: false,
+	        loggedin: false
 	    }
 	};
 	function resize(_ref) {
@@ -414,6 +421,10 @@
 	        case _actions2.default.GUEST_PHONE_INCOMING:
 	            return Object.assign({}, state, {
 	                incoming: true
+	            });
+	        case _actions2.default.GUEST_PHONE_LOGGEDIN:
+	            return Object.assign({}, state, {
+	                loggedin: true
 	            });
 	        default:
 	            return state;
@@ -1299,7 +1310,8 @@
 	    GUEST_DIALPAD_NUMBER: 202,
 	    GUEST_PHONE_UNMOUNT: 203,
 	    GUEST_PHONE_READY: 204,
-	    GUEST_PHONE_INCOMING: 205
+	    GUEST_PHONE_INCOMING: 205,
+	    GUEST_PHONE_LOGGEDIN: 205
 	};
 
 /***/ }

@@ -17,6 +17,7 @@ var initialState = {
     },
     call: {
         incoming: false,
+        loggedin: false,
     },
 }
 function resize({width, height}) {
@@ -86,6 +87,10 @@ function call(state = initialState.call, action) {
         case actions.GUEST_PHONE_INCOMING:
             return Object.assign({}, state, {
                 incoming: true,
+            })
+        case actions.GUEST_PHONE_LOGGEDIN:
+            return Object.assign({}, state, {
+                loggedin: true,
             })
         default:
             return state

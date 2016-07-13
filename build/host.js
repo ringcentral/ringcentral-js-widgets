@@ -73,6 +73,11 @@
 	            return event();
 	        });
 	    }
+	    if (state.call.loggedin) {
+	        if (Ringcentral.widget.events.loggedin) Ringcentral.widget.events.loggedin.forEach(function (event) {
+	            return event();
+	        });
+	    }
 	});
 	if (!window.Ringcentral) window.Ringcentral = {};
 	console.log('poll window');
@@ -103,7 +108,8 @@
 	    GUEST_DIALPAD_NUMBER: 202,
 	    GUEST_PHONE_UNMOUNT: 203,
 	    GUEST_PHONE_READY: 204,
-	    GUEST_PHONE_INCOMING: 205
+	    GUEST_PHONE_INCOMING: 205,
+	    GUEST_PHONE_LOGGEDIN: 205
 	};
 
 /***/ },
