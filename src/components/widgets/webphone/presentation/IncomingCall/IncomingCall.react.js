@@ -9,7 +9,7 @@ const IncomingCall = (props) => (
   <div className={classNames(styles.main, styles.container)}>
     <div>
       <div className={styles.title}>
-        Colin Liu
+        {props.phoneNumber}
       </div>
       <div className={styles.subtitle}>
         Call Incoming
@@ -26,5 +26,9 @@ const IncomingCall = (props) => (
     />
   </div>
 );
+
+IncomingCall.defaultProps = {
+  phoneNumber: 'Unknown',
+};
 
 export default IncomingCall;
