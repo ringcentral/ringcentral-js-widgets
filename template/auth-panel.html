@@ -75,7 +75,7 @@ this.actions = {
         after: function() {
             var t = w.t(this.data.lang)
             var {color, lang, logo} = this.data
-            this.dom.logo.src = logo || './ringcentral_logo.png'
+            this.dom.logo.src = logo || './ringcentral-logo.svg'
             if (this.props.oauth) {
                 this.dom['user-info'].classList.add('display-none')
                 this.dom['remember-wrapper'].classList.add('display-none')
@@ -203,6 +203,7 @@ $auth-panel-flag-width: 40px;
         text-align: center;
     }
     &__img {
+        margin-top: 10px;
         width: 60%;
     }
     &__button {

@@ -26,10 +26,6 @@ services['incontact'] = {
                 secret: this.props.secret,
                 sandbox: this.props.sandbox
             })
-            phoneService.init({
-                incomingAudio: config.incomingAudio,
-                outgoingAudio: config.outgoingAudio
-            })
         }
     },
     checkLogin: {
@@ -322,6 +318,10 @@ services['conversation-advanced'] = {
 services['call-panel'] = {
     init: {
         after: function() {
+            phoneService.init({
+                incomingAudio: config.incomingAudio,
+                outgoingAudio: config.outgoingAudio
+            })
             phoneService.on('progress', () => {
                 if (!this._mounted) {
                     this.mount(this.props.target)

@@ -176,10 +176,6 @@
 	                secret: this.props.secret,
 	                sandbox: this.props.sandbox
 	            });
-	            _phoneService2.default.init({
-	                incomingAudio: _rcConfig2.default.incomingAudio,
-	                outgoingAudio: _rcConfig2.default.outgoingAudio
-	            });
 	        }
 	    },
 	    checkLogin: {
@@ -471,6 +467,10 @@
 	        after: function after() {
 	            var _this7 = this;
 	
+	            _phoneService2.default.init({
+	                incomingAudio: _rcConfig2.default.incomingAudio,
+	                outgoingAudio: _rcConfig2.default.outgoingAudio
+	            });
 	            _phoneService2.default.on('progress', function () {
 	                if (!_this7._mounted) {
 	                    _this7.mount(_this7.props.target);
