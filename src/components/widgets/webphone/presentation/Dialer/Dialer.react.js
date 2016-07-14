@@ -31,7 +31,7 @@ const Dialer = (props) => (
 );
 
 Dialer.propTypes = {
-  handleClick: React.PropTypes.func.isRequired,
+  handleClick: React.PropTypes.func,
   scale: React.PropTypes.number,
 };
 

@@ -1,6 +1,5 @@
 .app {
   position: relative;
-  float: left;
   width: 250px;
   height: 350px;
   margin: 10px;
@@ -10,4 +9,7 @@
 .line {
   overflow: auto;
   zoom: 1;
+}
+.container {
+  float: left;
 }

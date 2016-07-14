@@ -65,12 +65,12 @@ const CallConsole = (props) => (
 );
 
 CallConsole.propTypes = {
-  handleHoldClick: React.PropTypes.func.isRequired,
-  handleRecordClick: React.PropTypes.func.isRequired,
-  handleKeypadClick: React.PropTypes.func.isRequired,
-  handleFlipClick: React.PropTypes.func.isRequired,
-  handleTransferClick: React.PropTypes.func.isRequired,
-  handleParkClick: React.PropTypes.func.isRequired,
+  handleHoldClick: React.PropTypes.func,
+  handleRecordClick: React.PropTypes.func,
+  handleKeypadClick: React.PropTypes.func,
+  handleFlipClick: React.PropTypes.func,
+  handleTransferClick: React.PropTypes.func,
+  handleParkClick: React.PropTypes.func,
 };
 
 export default CallConsole;

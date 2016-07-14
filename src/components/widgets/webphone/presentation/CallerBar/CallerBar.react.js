@@ -12,6 +12,10 @@ export default class CallerBar extends React.Component {
     numbers: React.PropTypes.array,
   }
 
+  static defaultProps = {
+    numbers: ['unknown'],
+  }
+
   state = {
     isDropdownOpen: false,
   }

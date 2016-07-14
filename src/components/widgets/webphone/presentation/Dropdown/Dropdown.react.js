@@ -20,4 +20,8 @@ Dropdown.propTypes = {
   items: React.PropTypes.array,
 };
 
+Dropdown.defaultProps = {
+  items: [],
+};
+
 export default Dropdown;

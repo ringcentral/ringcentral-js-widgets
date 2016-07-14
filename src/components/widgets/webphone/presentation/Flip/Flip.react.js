@@ -32,4 +32,9 @@ Flip.propTypes = {
   handleClick: React.PropTypes.func,
 };
 
+Flip.defaultProps = {
+  numbers: [],
+};
+
+
 export default Flip;
