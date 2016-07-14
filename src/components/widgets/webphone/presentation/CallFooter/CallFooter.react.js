@@ -36,4 +36,9 @@ CallFooter.propTypes = {
   rightIcon: React.PropTypes.string,
 };
 
+CallFooter.defaultProps = {
+  leftIcon: 'icon-uniCE',
+  rightIcon: 'icon-uni44',
+};
+
 export default CallFooter;

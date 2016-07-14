@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import Dropdown from '../Dropdown/Dropdown.react';
 
-import styles from '../../index.css';
+import styles from './CallerBar.css';
 import iconsStyles from '../../../../../styles/icon.css';
 
 export default class CallerBar extends React.Component {
