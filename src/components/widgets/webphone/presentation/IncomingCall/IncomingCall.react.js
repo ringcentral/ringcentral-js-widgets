@@ -31,4 +31,8 @@ IncomingCall.defaultProps = {
   phoneNumber: 'Unknown',
 };
 
+IncomingCall.propTypes = {
+  phoneNumber: React.PropTypes.string,
+};
+
 export default IncomingCall;
