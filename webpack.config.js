@@ -1,5 +1,9 @@
 const path = require('path');
-
+const autoprefixer = require('autoprefixer');
+const pcssImport = require('postcss-import');
+const pcssNested = require('postcss-nested');
+const pcssVar = require('postcss-simple-vars');
+const pcssMixins = require('postcss-mixins');
 
 module.exports = {
   entry: [
@@ -23,7 +27,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[folder]__[local]',
+        loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[folder]__[local]!postcss-loader',
       },
       {
         test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
@@ -31,5 +35,17 @@ module.exports = {
       },
       { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' },
     ],
+  },
+  postcss(webpack) {
+    return [
+      pcssImport({
+        addDependencyTo: webpack,
+        path: ['src/styles'],
+      }),
+      pcssMixins,
+      pcssVar,
+      pcssNested,
+      autoprefixer,
+    ];
   },
 };

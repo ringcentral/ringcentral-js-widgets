@@ -1,3 +1,6 @@
+@import 'mixins.css';
+@import 'variables.css';
+
 .flip {
 }
 
@@ -14,7 +17,7 @@
 }
 
 .flipItemTitle {
-  composes: blue from '../../../../../styles/color.css';
+  color: $main;
   font-size: .8em;
 }
 

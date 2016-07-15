@@ -12,6 +12,7 @@
     "gulp": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js"
   },
   "devDependencies": {
+    "autoprefixer": "^6.3.7",
     "babel-cli": "^6.6.5",
     "babel-core": "^6.7.4",
     "babel-eslint": "^6.0.4",
@@ -46,6 +47,11 @@
     "mocha": "^2.4.5",
     "node-dir": "^0.1.15",
     "postcss": "^5.1.0",
+    "postcss-import": "^8.1.2",
+    "postcss-loader": "^0.9.1",
+    "postcss-mixins": "^5.0.0",
+    "postcss-nested": "^1.0.0",
+    "postcss-simple-vars": "^3.0.0",
     "react-addons-test-utils": "^0.14.7",
     "source-map-support": "^0.4.0",
     "style-loader": "^0.13.1",

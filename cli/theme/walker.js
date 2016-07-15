@@ -6,7 +6,7 @@ function walk(src, callback) {
     (err, content, filename, next) => {
       if (err) throw err;
       const dirs = path.dirname(filename).split('/');
-      callback(content, dirs[dirs.length - 1]);
+      callback(content, dirs[dirs.length - 1], path.dirname(filename));
       next();
     }, (err, files) => {
       if (err) throw err;

@@ -1,11 +1,13 @@
+@import 'mixins.css';
+@import 'variables.css';
+
 .footer {
   margin-top: auto;
   display: flex;
 }
 
 .footerButton {
-  composes: blue from '../../../../../styles/color.css';
-  composes: button from '../../../../commons/button/button.css';
+  @mixin button;
   width: 100%;
   outline: 0;
   font-size: .4em;

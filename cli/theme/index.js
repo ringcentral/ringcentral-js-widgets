@@ -6,7 +6,8 @@ const output = 'bundle.css';
 
 const p = path.resolve(`${path.resolve(__dirname)}/../../src/components`);
 fs.openSync(output, 'w');
-walk(p, (input, src) => {
-  const css = transform(input, src);
-  fs.appendFileSync(output, css);
+walk(p, (input, src, path) => {
+  transform(input, src, path).then(css => {
+    fs.appendFileSync(output, css);
+  });
 });

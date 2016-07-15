@@ -1,7 +1,9 @@
+@import 'mixins.css';
+@import 'variables.css';
+
 .button {
-  composes: blue from '../../../../../styles/color.css';
-  composes: button from '../../../../commons/button/button.css';
-  composes: buttonCircle from '../../../../commons/button/button.css';
+  @mixin button;
+  @mixin circle;
   border: 0;
   background: transparent;
   cursor: pointer;

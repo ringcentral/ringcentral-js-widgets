@@ -1,12 +1,14 @@
+@import 'mixins.css';
+@import 'variables.css';
+
 .dialer {
   padding: 1em;
   padding-bottom: .4em;
 }
 
 .dialerButton {
-  composes: blue from '../../../../../styles/color.css';
-  composes: button from '../../../../commons/button/button.css';
-  composes: buttonCircle from '../../../../commons/button/button.css';
+  @mixin button;
+  @mixin circle;
   font-size: 1.1em;
   width: 2.5em;
   height: 2.5em;

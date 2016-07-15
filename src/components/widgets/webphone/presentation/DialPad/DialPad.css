@@ -1,3 +1,6 @@
+@import 'mixins.css';
+@import 'variables.css';
+
 .bar {
   position: absolute;
   width: 100%;
@@ -6,8 +9,8 @@
 }
 
 .callButton {
-  composes: button from '../../../../commons/button/button.css';
-  composes: buttonCircle from '../../../../commons/button/button.css';
+  @mixin button;
+  @mixin circle;
   font-size: 1.1em;
   width: 2.6em;
   height: 2.6em;
