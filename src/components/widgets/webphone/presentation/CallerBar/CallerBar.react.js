@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import Dropdown from '../Dropdown/Dropdown.react';
 
-import styles from './CallerBar.css';
+import { caller, callerSpan, callerButton, callerIcon } from './CallerBar.css';
 import iconsStyles from '../../../../../styles/icon.css';
 
 export default class CallerBar extends React.Component {
@@ -28,12 +28,12 @@ export default class CallerBar extends React.Component {
 
   render() {
     return (
-      <div className={styles.caller} onClick={() => this.triggerDropdown}>
-        <span className={styles.callerSpan}>From</span>
-        <button className={styles.callerButton}>
+      <div className={caller} onClick={() => this.triggerDropdown}>
+        <span className={callerSpan}>From</span>
+        <button className={callerButton}>
           {this.props.numbers[0].value}
         </button>
-        <div className={styles.callerIcon}>
+        <div className={callerIcon}>
           <span className={classNames(iconsStyles['icon-uni2463'], iconsStyles.icon)}></span>
         </div>
         {this.state.isDropdownOpen ? <Dropdown items={this.props.numbers} /> : null}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input } from '../../../../commons/autocomplete/';
 
-import styles from '../../index.css';
+import { transfer, transferTitle, transferInput } from './Transfer.css';
 
 const Transfer = (props) => {
   let number = '';
@@ -14,11 +14,11 @@ const Transfer = (props) => {
     number = value;
   }
   return (
-    <div className={styles.flip}>
-      <div className={styles.flipTitle}>Transfer to</div>
+    <div className={transfer}>
+      <div className={transferTitle}>Transfer to</div>
       <Input
         onChange={updateNumber}
-        className={styles.transferInput}
+        className={transferInput}
         placeholder={'Enter Name or Number'}
       />
     </div>

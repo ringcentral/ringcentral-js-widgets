@@ -1,64 +1,65 @@
 import React from 'react';
-import styles from '../../index.css';
+import { icon, panel, line } from '../../index.css';
+import { button, word } from './CallConsole.css';
 import iconsStyles from '../../../../../styles/icon.css';
 import { StatedButton } from '../../../../commons/button/';
 
 import classNames from 'classnames';
 
-function iconClass(icon) {
+function iconClass(iconId) {
   return classNames(
-          iconsStyles[icon],
+          iconsStyles[iconId],
           iconsStyles.icon,
-          styles.icon
+          icon
         );
 }
 
 const CallConsole = (props) => (
-  <div className={styles.panel}>
-    <div className={styles.line}>
+  <div className={panel}>
+    <div className={line}>
       <button
-        className={styles.settingButton}
+        className={button}
         onClick={props.handleHoldClick}
       >
         <span className={iconClass('icon-uni28')}></span>
-        <div className={styles.settingWord}>Hold</div>
+        <div className={word}>Hold</div>
       </button>
       <button
-        className={styles.settingButton}
+        className={button}
         onClick={props.handleKeypadClick}
       >
         <span className={iconClass('icon-uni21')}></span>
-        <div className={styles.settingWord}>Keypad</div>
+        <div className={word}>Keypad</div>
       </button>
       <button
-        className={styles.settingButton}
+        className={button}
         onClick={props.handleRecordClick}
       >
         <span className={iconClass('icon-uni24')}></span>
-        <div className={styles.settingWord}>Record</div>
+        <div className={word}>Record</div>
       </button>
     </div>
-    <div className={styles.line}>
+    <div className={line}>
       <button
-        className={styles.settingButton}
+        className={button}
         onClick={props.handleFlipClick}
       >
         <span className={iconClass('icon-uni27')}></span>
-        <div className={styles.settingWord}>Flip</div>
+        <div className={word}>Flip</div>
       </button>
       <button
-        className={styles.settingButton}
+        className={button}
         onClick={props.handleTransferClick}
       >
         <span className={iconClass('icon-uni23')}></span>
-        <div className={styles.settingWord}>Transfer</div>
+        <div className={word}>Transfer</div>
       </button>
       <button
-        className={styles.settingButton}
+        className={button}
         onClick={props.handleParkClick}
       >
         <span className={iconClass('icon-uni22')}></span>
-        <div className={styles.settingWord}>Park</div>
+        <div className={word}>Park</div>
       </button>
     </div>
   </div>

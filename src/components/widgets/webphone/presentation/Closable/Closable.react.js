@@ -1,9 +1,9 @@
 import React from 'react';
-import styles from '../../index.css';
+import { cancelButton } from './Closable.css';
 
 const Closable = (props) => (
   <div className={props.className}>
-    <button className={styles.cancelButton} onClick={props.onClose}>Cancel</button>
+    <button className={cancelButton} onClick={props.onClose}>Cancel</button>
     {props.children}
   </div>
 );

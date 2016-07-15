@@ -1,10 +1,10 @@
 import React from 'react';
 
-import styles from '../../index.css';
+import { dropdown } from './Dropdown.css';
 import DropdownItem from '../DropdownItem/DropdownItem.react';
 
 const Dropdown = (props) => (
-  <ul className={styles.dropdown}>
+  <ul className={dropdown}>
     {props.items.map((item, index) => (
       <DropdownItem
         key={index}

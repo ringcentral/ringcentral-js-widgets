@@ -1,28 +1,29 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import styles from '../../index.css';
+import webphoneStyles from '../../index.css';
+import { footer, footerButton } from './CallFooter.css';
 import iconsStyles from '../../../../../styles/icon.css';
 
 const CallFooter = (props) => (
-  <div className={styles.footer}>
-    <button className={styles.footerButton} onClick={props.onLeftClick}>
+  <div className={footer}>
+    <button className={footerButton} onClick={props.onLeftClick}>
       <span
         className={
           classNames(
             iconsStyles[props.leftIcon],
             iconsStyles.icon,
-            styles.icon
+            webphoneStyles.icon
           )}
       ></span>
     </button>
-    <button className={styles.footerButton} onClick={props.onRightClick}>
+    <button className={footerButton} onClick={props.onRightClick}>
       <span
         className={
           classNames(
             iconsStyles[props.rightIcon],
             iconsStyles.icon,
-            styles.icon
+            webphoneStyles.icon
           )}
       ></span>
     </button>

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import styles from '../../index.css';
+import { dropdownItem } from '../../index.css';
 
 const DropdownItem = (props) => (
-  <li className={styles.dropdownItem}>
+  <li className={dropdownItem}>
     <div>{props.country}</div>
     <div>{props.value}</div>
     <div>{props.type}</div>

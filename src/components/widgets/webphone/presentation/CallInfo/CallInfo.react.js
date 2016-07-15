@@ -1,15 +1,15 @@
 import React from 'react';
-import styles from '../../index.css';
+import { title, time, subtitle } from './CallInfo.css';
 
 const CallInfo = (props) => (
   <div>
-    <div className={styles.title}>
+    <div className={title}>
       {props.phoneNumber}
     </div>
-    <div className={styles.time}>
+    <div className={time}>
       00:00
     </div>
-    <div className={styles.subtitle}>
+    <div className={subtitle}>
       You are on a WebPhone call.
     </div>
   </div>

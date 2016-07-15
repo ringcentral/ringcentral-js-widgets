@@ -3,18 +3,19 @@ import classNames from 'classnames';
 
 import CallFooter from '../CallFooter/CallFooter.react';
 
-import styles from '../../index.css';
+import { main, container } from '../../index.css';
+import { title, subtitle, avatar } from './IncomingCall.css';
 
 const IncomingCall = (props) => (
-  <div className={classNames(styles.main, styles.container)}>
+  <div className={classNames(main, container)}>
     <div>
-      <div className={styles.title}>
+      <div className={title}>
         {props.phoneNumber}
       </div>
-      <div className={styles.subtitle}>
+      <div className={subtitle}>
         Call Incoming
       </div>
-      <div className={styles.avatar}>
+      <div className={avatar}>
         <img alt="avatar" src="http://placehold.it/150x150" />
       </div>
     </div>

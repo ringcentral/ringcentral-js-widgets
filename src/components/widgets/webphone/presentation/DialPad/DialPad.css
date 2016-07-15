@@ -4,3 +4,28 @@
   top: 0;
   left: 0;
 }
+
+.callButton {
+  composes: button from '../../../../commons/button/button.css';
+  composes: buttonCircle from '../../../../commons/button/button.css';
+  font-size: 1.1em;
+  width: 2.6em;
+  height: 2.6em;
+  padding: .2em;
+  border: 0;
+  background-color: #4CD964;
+  color: #fff;
+}
+
+.phoneInput {
+  outline: 0;
+  border: 0;
+  width: 100%;
+  font-size: 1.6em;
+  color: #555;
+  margin-top: 10px;
+  font-weight: 300;
+  text-align: center;
+  letter-spacing: 1px;
+  background-color: transparent;
+}

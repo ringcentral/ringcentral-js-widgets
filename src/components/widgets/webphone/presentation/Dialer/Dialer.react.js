@@ -1,8 +1,9 @@
 import React from 'react';
-import styles from '../../index.css';
+import { line as lineStyle } from '../../index.css';
+import { dialer, dialerButton, dialerNumber, dialerSymbol } from './Dialer.css';
 
 const Dialer = (props) => (
-  <div className={styles.dialer} style={{ fontSize: `${(props.scale || 1)} em` }}>
+  <div className={dialer} style={{ fontSize: `${(props.scale || 1)} em` }}>
     {[
       [{ 1: '' }, { 2: 'ABC' }, { 3: 'DEF' }],
       [{ 4: 'GHI' }, { 5: 'JKL' }, { 6: 'MNO' }],
@@ -11,17 +12,17 @@ const Dialer = (props) => (
     ].map((line, index) => (
       <div
         key={`line-${index}`}
-        className={styles.line}
+        className={lineStyle}
       >
         {
           line.map(symbol => (
             <button
               key={Object.keys(symbol)[0]}
               onClick={() => props.handleClick(Object.keys(symbol)[0])}
-              className={styles.dialerButton}
+              className={dialerButton}
             >
-              <div className={styles.dialerNumber}>{Object.keys(symbol)[0]}</div>
-              <div className={styles.dialerSymbol}>{symbol[Object.keys(symbol)[0]]}</div>
+              <div className={dialerNumber}>{Object.keys(symbol)[0]}</div>
+              <div className={dialerSymbol}>{symbol[Object.keys(symbol)[0]]}</div>
             </button>
           ))
         }

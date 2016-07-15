@@ -7,8 +7,8 @@ import { Input } from '../../../../commons/autocomplete/';
 import Dialer from '../Dialer/Dialer.react';
 import UserCallerBar from '../../container/UserCallerBar.react';
 
-import webphoneStyles from '../../index.css';
-import styles from './DialPad.css';
+import { main, container, line } from '../../index.css';
+import { bar, callButton, phoneInput } from './DialPad.css';
 import iconsStyles from '../../../../../styles/icon.css';
 
 export default class DialPad extends React.Component {
@@ -34,14 +34,14 @@ export default class DialPad extends React.Component {
 
   render() {
     return (
-      <div className={classNames(webphoneStyles.main, webphoneStyles.container)}>
-        <div className={styles.bar}>
+      <div className={classNames(main, container)}>
+        <div className={bar}>
           <UserCallerBar />
         </div>
         <PanelContent>
           <div>
             <Input
-              className={webphoneStyles.phoneInput}
+              className={phoneInput}
               onChange={() => this.handleInput}
               value={this.state.dialingNumber}
               items={this.props.contacts}
@@ -52,8 +52,8 @@ export default class DialPad extends React.Component {
           </div>
         </PanelContent>
         <PanelFooter>
-          <div className={webphoneStyles.line}>
-            <button className={webphoneStyles.callButton}>
+          <div className={line}>
+            <button className={callButton}>
               <span className={`${iconsStyles['icon-uniAE']} ${iconsStyles.icon}`}></span>
             </button>
           </div>

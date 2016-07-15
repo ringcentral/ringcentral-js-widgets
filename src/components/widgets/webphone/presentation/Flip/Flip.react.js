@@ -1,22 +1,22 @@
 import React from 'react';
 import { List, ListItem } from '../../../../commons/list/';
 
-import styles from '../../index.css';
+import { flip, flipTitle, flipItem, flipItemTitle, flipItemSubtitle } from './Flip.css';
 
 const Flip = (props) => (
-  <div className={styles.flip}>
-    <div className={styles.flipTitle}>Flip to</div>
+  <div className={flip}>
+    <div className={flipTitle}>Flip to</div>
     <List>
       {
         props.numbers.map((number, index) => (
           <ListItem
-            className={styles.flipItem}
+            className={flipItem}
             key={index}
             onClick={props.handleClick}
             clickable
           >
-            <div className={styles.flipItemTitle}>{number.type}</div>
-            <div className={styles.flipItemSubtitle}>{number.value}</div>
+            <div className={flipItemTitle}>{number.type}</div>
+            <div className={flipItemSubtitle}>{number.value}</div>
           </ListItem>
         ))
       }

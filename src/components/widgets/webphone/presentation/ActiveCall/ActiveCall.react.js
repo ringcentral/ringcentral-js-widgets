@@ -1,8 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { PanelHeader, PanelContent, PanelFooter } from '../../../../commons/panel/';
-
 import UserFlip from '../../container/UserFlip.react';
 import UserTransfer from '../../container/UserTransfer.react';
 
@@ -12,8 +10,7 @@ import CallInfo from '../CallInfo/CallInfo.react';
 import CallFooter from '../CallFooter/CallFooter.react';
 import Closeable from '../Closable/Closable.react';
 
-import iconsStyles from '../../../../../styles/icon.css';
-import styles from '../../index.css';
+import { main, container } from '../../index.css';
 
 export default class ActiveCall extends React.Component {
 
@@ -30,7 +27,7 @@ export default class ActiveCall extends React.Component {
     const content = () => {
       if (this.state.openedPanel === 'keypad') {
         return (
-          <div className={classNames(styles.main, styles.container)}>
+          <div className={classNames(main, container)}>
             <CallInfo />
             <Dialer scale={0.9} handleClick={() => {}} />
             <CallFooter
@@ -43,19 +40,19 @@ export default class ActiveCall extends React.Component {
         );
       } else if (this.state.openedPanel === 'flip') {
         return (
-          <Closeable onClose={() => this.setState({ openedPanel: null })} className={styles.main}>
+          <Closeable onClose={() => this.setState({ openedPanel: null })} className={main}>
             <UserFlip />
           </Closeable>
         );
       } else if (this.state.openedPanel === 'transfer') {
         return (
-          <Closeable onClose={() => this.setState({ openedPanel: null })} className={styles.main}>
+          <Closeable onClose={() => this.setState({ openedPanel: null })} className={main}>
             <UserTransfer />
           </Closeable>
         );
       }
       return (
-        <div className={classNames(styles.main, styles.container)}>
+        <div className={classNames(main, container)}>
           <CallInfo />
           <CallConsole
             handleHoldClick={() => {}}
@@ -76,7 +73,7 @@ export default class ActiveCall extends React.Component {
     };
 
     return (
-      <div className={styles.main}>
+      <div className={main}>
         {content()}
       </div>
     );

@@ -1,0 +1,13 @@
+.button {
+  composes: blue from '../../../../../styles/color.css';
+  composes: button from '../../../../commons/button/button.css';
+  composes: buttonCircle from '../../../../commons/button/button.css';
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.word {
+  font-size: .6em;
+  margin-top: 4px;
+}
