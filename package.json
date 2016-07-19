@@ -2,14 +2,11 @@
   "name": "ringcentral-js-widget",
   "version": "0.1.0",
   "scripts": {
-    "test": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test",
-    "test-browser": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test-browser",
-    "coverage": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js coverage",
-    "eslint": "node ./node_modules/eslint/bin/eslint.js src test gulpfile.js config.js",
-    "dist": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js dist",
-    "build": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js build",
-    "watch": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js watch",
-    "gulp": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js"
+    "test": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register --require ignore-styles",
+    "coverage": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --require ignore-styles --colors --reporter dot test/",
+    "eslint": "./node_modules/eslint/bin/eslint.js src/*",
+    "dist": "./node_modules/webpack/bin/webpack.js",
+    "watch": "./node_modules/webpack/bin/webpack.js --watch"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.7",
@@ -26,6 +23,7 @@
     "babel-runtime": "^6.6.1",
     "chai": "^3.5.0",
     "css-loader": "^0.23.1",
+    "css-modules-require-hook": "^4.0.1",
     "css-selector-tokenizer": "^0.5.4",
     "detective-es6": "^1.1.5",
     "enzyme": "^2.0.0",
@@ -42,6 +40,8 @@
     "gulp-mocha": "^2.2.0",
     "gulp-sourcemaps": "^2.0.0-alpha",
     "handlebars": "^4.0.5",
+    "ignore-styles": "^4.0.0",
+    "istanbul": "^1.0.0-alpha.2",
     "jsdom": "^8.0.1",
     "json-loader": "^0.5.4",
     "mocha": "^2.4.5",
@@ -64,6 +64,7 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
+    "babel-register": "^6.9.0",
     "classnames": "^2.2.5",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
