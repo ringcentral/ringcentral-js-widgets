@@ -1,0 +1,15 @@
+.app {
+  position: relative;
+  width: 250px;
+  height: 350px;
+  margin: 10px;
+  border: 1px solid #ccc;
+  background-color: #fcfcfc;
+}
+.line {
+  overflow: auto;
+  zoom: 1;
+}
+.container {
+  float: left;
+}

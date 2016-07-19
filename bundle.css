@@ -1,0 +1,354 @@
+.button-button {
+  cursor: pointer;
+  outline: 0;
+}
+
+.button-button:hover {
+  /*background-color: #eee;*/
+  /*color:            #000;*/
+}
+
+.button-buttonCircle {
+  border-radius: 50%;
+}
+
+.button-button.button-buttonStated span {
+  background-color: #000;
+  color:            #fff;
+}
+.list-list {
+
+}
+
+.list-listItem {
+  border-bottom: 1px solid #eee;
+  background-color: #fff;
+}
+
+.list-listItem.list-clickable {
+  cursor: pointer;
+}
+
+.list-listItem.list-clickable:hover {
+  background-color: #fafafa;
+}
+.AuthPanel-auth {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100%;
+  padding: .5em;
+}
+.AuthPanel-loginButton {
+  /* align to flex end */
+  margin-top: auto;
+  width: 100%;
+  outline: 0;
+  font-size: .8em;
+  padding: .4em .5em;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+.webphone-container {
+  width: 100%;
+  height: 100%;
+  padding: 1.1em;
+}
+
+.webphone-main {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.webphone-panel {
+  padding: 1.2em;
+}
+
+.webphone-line {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.webphone-icon {
+  background: transparent;
+  font-size: 2.8em;
+}
+.CallInfo-title {
+  text-align: center;
+  font-size: 1.6em;
+}
+
+.CallInfo-time {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.CallInfo-subtitle {
+  text-align: center;
+  font-size: .7em;
+  color: #555;
+}
+.CallerBar-caller {
+  
+}
+
+.CallerBar-callerSpan {
+  position: absolute;
+  cursor: pointer;
+  top: 7px;
+  left: 7px;
+  font-size: .6em;
+  color: #777;
+}
+
+.CallerBar-callerButton {
+  width: 100%;
+  font-weight: 300;
+  border: 0;
+  padding: 0;
+  outline: 0;
+  padding: .3em .7em;
+  cursor: pointer;
+  font-size: .8em;
+  text-align: center;
+  background-color: transparent;
+}
+
+.CallerBar-callerIcon {
+  position: absolute;
+  cursor: pointer;
+  right: 7px;
+  top: 7px;
+  font-size: .7em;
+  color: #555;
+}
+.Closable-cancelButton {
+  outline: 0;
+  position: absolute;
+  top: 3px;
+  left: 0;
+  border: 0;
+  background: transparent;
+  font-size: .8em;
+  cursor: pointer;
+}
+.Dropdown-dropdown {
+  padding: 0;
+  margin: 0;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.DropdownItem-dropdownItem {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  cursor: pointer;
+  padding: .7em .9em;
+  font-size: .7em;
+}
+
+.DropdownItem-dropdownItem:hover {
+  background: #f9f9f9;
+}
+.IncomingCall-title {
+  text-align: center;
+  font-size: 1.6em;
+}
+
+.IncomingCall-avatar {
+  width: 150px;
+  height: 150px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin: 20px auto;
+}
+
+.IncomingCall-subtitle {
+  text-align: center;
+  font-size: .7em;
+  color: #555;
+}
+.Transfer-transfer {
+}
+
+.Transfer-transferTitle {
+  padding: .3em .5em;
+  font-size: .9em;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+}
+
+.Transfer-transferInput {
+  margin-top: 20px;
+  width: 100%;
+  height: 30px;
+  outline: 0;
+  border: 0;
+  box-shadow: none;
+  text-align: center;
+  font-size: .8em;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+
+.CallConsole-button {
+  color: #0684BD;
+  border-color: #0684BD;
+  cursor: pointer;
+  outline: 0;
+  border-radius: 50%;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.CallConsole-word {
+  font-size: .6em;
+  margin-top: 4px;
+}
+
+
+.CallFooter-footer {
+  margin-top: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.CallFooter-footerButton {
+  color: #0684BD;
+  border-color: #0684BD;
+  cursor: pointer;
+  outline: 0;
+  width: 100%;
+  outline: 0;
+  font-size: .4em;
+  padding: .4em .5em;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  margin: 0 3px;
+  border-radius: 2px;
+}
+
+
+.DialPad-bar {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.DialPad-callButton {
+  color: #0684BD;
+  border-color: #0684BD;
+  cursor: pointer;
+  outline: 0;
+  border-radius: 50%;
+  font-size: 1.1em;
+  width: 2.6em;
+  height: 2.6em;
+  padding: .2em;
+  border: 0;
+  background-color: #4CD964;
+  color: #fff;
+}
+
+.DialPad-phoneInput {
+  outline: 0;
+  border: 0;
+  width: 100%;
+  font-size: 1.6em;
+  color: #555;
+  margin-top: 10px;
+  font-weight: 300;
+  text-align: center;
+  letter-spacing: 1px;
+  background-color: transparent;
+}
+
+
+.Dialer-dialer {
+  padding: 1em;
+  padding-bottom: .4em;
+}
+
+.Dialer-dialerButton {
+  color: #0684BD;
+  border-color: #0684BD;
+  cursor: pointer;
+  outline: 0;
+  border-radius: 50%;
+  font-size: 1.1em;
+  width: 2.5em;
+  height: 2.5em;
+  margin: .2em;
+  border-width: 1px;
+  border-style: solid;
+  background: #fff;
+  cursor: pointer;
+}
+
+.Dialer-dialerNumber {
+  font-size: 1.1em;
+  font-weight: 300;
+}
+
+.Dialer-dialerSymbol {
+  margin-top: -1px;
+  font-size: 7px;
+  letter-spacing: 1px;
+  font-weight: 300;
+  min-height: 1em;
+  min-width: 1px;
+}
+
+
+.Flip-flip {
+}
+
+.Flip-flipTitle {
+  padding: .3em .5em;
+  font-size: .9em;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+}
+
+.Flip-flipItem {
+  padding: .5em .7em;
+}
+
+.Flip-flipItemTitle {
+  color: #0684BD;
+  font-size: .8em;
+}
+
+.Flip-flipItemSubtitle {
+  font-size: .8em;
+}
