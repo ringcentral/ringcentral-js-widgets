@@ -1,0 +1,18 @@
+.button {
+  cursor: pointer;
+  outline: 0;
+}
+
+.button:hover {
+  /*background-color: #eee;*/
+  /*color:            #000;*/
+}
+
+.buttonCircle {
+  border-radius: 50%;
+}
+
+.button.buttonStated span {
+  background-color: #000;
+  color:            #fff;
+}

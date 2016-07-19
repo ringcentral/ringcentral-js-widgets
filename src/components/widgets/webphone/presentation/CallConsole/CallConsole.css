@@ -1,0 +1,15 @@
+@import 'mixins.css';
+@import 'variables.css';
+
+.button {
+  @mixin button;
+  @mixin circle;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.word {
+  font-size: .6em;
+  margin-top: 4px;
+}

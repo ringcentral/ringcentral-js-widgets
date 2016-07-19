@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'RCFont';
-    src: url('fonts/RCFont.eot');
+    src: url('./fonts/RCFont.eot');
 }
 @font-face {
     font-family: 'RCFont';
@@ -8,8 +8,7 @@
     font-weight: normal;
     font-style: normal;
 }
-
-[class^="icon-"], [class*=" icon-"] {
+.icon {
     /* use !important to prevent issues with browser extensions that change fonts */
     font-family: 'RCFont' !important;
     speak: none;

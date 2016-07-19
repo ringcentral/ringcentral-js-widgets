@@ -1,0 +1,7 @@
+.app {
+  position: relative;
+  width: 250px;
+  height: 350px;
+  border: 1px solid #ccc;
+  background-color: #fcfcfc;
+}

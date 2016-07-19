@@ -1,36 +1,8 @@
 # ringcentral-js-widget
 
-## Roadmap
+### Current status:
 
-See [ROADMAP.md](./ROADMAP.md) for detailed roadmap.
+1. Framework: React
+2. Styles: CSS-modules
+3. Test: Mocha, Enzyme, Chai
 
-## Getting Started
-
-Copy below code into your page:
-```html
-<rc-widget
-    tag=rc-phone
-    first-level=dial-pad,time-line 
-    width=250
-    height=400
-    key=YOUR_APP_KEY
-    secret=YOUR_APP_SECRET
-    env=sandbox
-    position=fixed>
-</rc-widget>
-<script id='rc-widgets-script' async defer src='https://ringcentral.github.io/ringcentral-js-widget/build/host.js'></script>
-```
-
-Replace `YOUR_APP_KEY` and `YOUR_APP_SECRET` with your application key and secret.
-
-## Development
-
-#### Installation process
-`npm install`
-`bower install`
-#### Development process
-`webpack --watch`
-#### Widget development process
-`node compile/index.js`
-#### Test process
-`npm test`
