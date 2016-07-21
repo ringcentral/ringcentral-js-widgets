@@ -3,15 +3,15 @@
 <body>
 Closing the page...
 <script>
-    console.log(window.opener)
-    window.localStorage.setItem('rc-auth', document.URL)
+    // console.log(window.opener)
+    // window.localStorage.setItem('rc-auth', document.URL)
     window.opener && window.opener.postMessage({
       type: 'oauth',
       value: document.URL
     }, '*')
-    // setTimeout(function() {
-    //     window.close()
-    // }, 1000)
+    setTimeout(function() {
+        window.close()
+    }, 1000)
 </script>
 </body>
 </html>

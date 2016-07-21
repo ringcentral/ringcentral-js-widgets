@@ -12,7 +12,6 @@
     window.parent.postMessage(e, '*');
   });
   window.addEventListener('storage', function(e) {
-    console.log('get some storage message!')
     console.log(e);
     window.parent.postMessage({
       payload: e.newValue,
