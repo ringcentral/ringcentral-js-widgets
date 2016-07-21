@@ -124,7 +124,7 @@ this.actions = {
             }
         },
         error: function(err) {
-            this.dom.error.textContent = err.message || err
+            // this.dom.error.textContent = err.message || err
             this.dom['disabled-mask'].classList.add('display-none')
             this.dom['container'].classList.remove('blur')
             this.dom['login-button'].disabled = false
