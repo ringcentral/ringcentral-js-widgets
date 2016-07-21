@@ -24241,7 +24241,7 @@
 	                        return;
 	                    }
 	                    if (oauthWindow.closed) {
-	                        reject(new Error('RingCentral Oauth window is closed abnormally.'));
+	                        reject(new Error(''));
 	                        window.removeEventListener('message', oauthChannel);
 	                        clearInterval(interval);
 	                    }
