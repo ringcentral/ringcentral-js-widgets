@@ -6,7 +6,7 @@ import { PhoneProvider } from './utils/integration/';
 import RcPhone from 'ringcentral-js-integration-commons';
 import config from '../config';
 
-import App from './applications/demo/app.react';
+import App from './applications/standalone/app.react';
 import main from './styles/main.css';
 import normalize from './styles/normalize.css';
 
@@ -15,6 +15,10 @@ const phone = new RcPhone({
     ...config,
     server: 'https://platform.ringcentral.com',
   },
+});
+
+phone.store.subscribe(() => {
+  console.log(phone.store.getState());
 });
 
 ReactDOM.render(
