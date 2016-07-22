@@ -19,6 +19,7 @@ export default class DialPad extends React.Component {
 
   state = {
     dialingNumber: '',
+    caller: '',
   }
 
   handleInput(event) {
@@ -32,18 +33,24 @@ export default class DialPad extends React.Component {
   handleCallClick(event) {
     // TODO: validate dialingNumber
     console.log(this.state.dialingNumber);
-    this.props.call(this.state.dialingNumber);
+    this.props.call({
+      toNumber: this.state.dialingNumber,
+    });
   }
 
   dial(dialingNumber) {
     this.setState({ dialingNumber });
   }
 
+  caller(caller) {
+    this.setState({ caller });
+  }
+
   render() {
     return (
       <div className={classNames(main, container)}>
         <div className={bar}>
-          <UserCallerBar />
+          <UserCallerBar setCaller={(number) => this.caller(number)} />
         </div>
         <PanelContent>
           <div>

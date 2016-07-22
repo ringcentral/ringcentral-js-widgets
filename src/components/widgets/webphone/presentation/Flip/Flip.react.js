@@ -15,8 +15,8 @@ const Flip = (props) => (
             onClick={props.handleClick}
             clickable
           >
-            <div className={flipItemTitle}>{number.type}</div>
-            <div className={flipItemSubtitle}>{number.value}</div>
+            <div className={flipItemTitle}>{number.phoneNumber}</div>
+            <div className={flipItemSubtitle}>{number.label}</div>
           </ListItem>
         ))
       }

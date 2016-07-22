@@ -7,7 +7,7 @@ const CallInfo = (props) => (
       {props.phoneNumber}
     </div>
     <div className={time}>
-      00:00
+      {props.duration > 0 ? props.duration : 'Connecting'}
     </div>
     <div className={subtitle}>
       You are on a WebPhone call.
@@ -17,6 +17,7 @@ const CallInfo = (props) => (
 
 CallInfo.propTypes = {
   phoneNumber: React.PropTypes.string,
+  duration: React.PropTypes.number,
 };
 CallInfo.defaultProps = {
   phoneNumber: 'Unknown',

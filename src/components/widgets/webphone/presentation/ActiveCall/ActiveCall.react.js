@@ -12,10 +12,21 @@ import Closeable from '../Closable/Closable.react';
 
 import { main, container } from '../../index.css';
 
+let durationInterval;
+
 export default class ActiveCall extends React.Component {
 
   static propTypes = {
     phoneNumber: React.PropTypes.string,
+    bye: React.PropTypes.func,
+    flip: React.PropTypes.func,
+    transfer: React.PropTypes.func,
+    park: React.PropTypes.func,
+    record: React.PropTypes.func,
+    hold: React.PropTypes.func,
+    mute: React.PropTypes.func,
+    operationStatus: React.PropTypes.array,
+    webphoneStatus: React.PropTypes.string,
   }
 
   state = {
@@ -23,12 +34,33 @@ export default class ActiveCall extends React.Component {
     duration: 0,
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.webphoneStatus === 'CALL_CONNECTED' &&
+        this.props.webphoneStatus === 'CALL_CONNECTING') {
+      this.startToCountDuration();
+    }
+  }
+
+  componentWillUnmount() {
+    if (durationInterval) {
+      window.clearInterval(durationInterval);
+      durationInterval = null;
+    }
+  }
+
+  startToCountDuration() {
+    durationInterval = window.setInterval(
+      () => this.setState({ duration: this.state.duration + 1 }),
+      1000
+    );
+  }
+
   render() {
     const content = () => {
       if (this.state.openedPanel === 'keypad') {
         return (
           <div className={classNames(main, container)}>
-            <CallInfo />
+            <CallInfo duration={this.state.duration} />
             <Dialer scale={0.9} handleClick={() => {}} />
             <CallFooter
               leftIcon={'icon-uni40'}
@@ -53,20 +85,24 @@ export default class ActiveCall extends React.Component {
       }
       return (
         <div className={classNames(main, container)}>
-          <CallInfo />
+          <CallInfo duration={this.state.duration} />
           <CallConsole
-            handleHoldClick={() => {}}
-            handleRecordClick={() => {}}
+            status={this.props.operationStatus}
+            handleHoldClick={(flag) => { this.props.hold(flag); }}
+            handleRecordClick={(flag) => { this.props.record(flag); }}
             handleKeypadClick={() => { this.setState({ openedPanel: 'keypad' }); }}
             handleFlipClick={() => { this.setState({ openedPanel: 'flip' }); }}
             handleTransferClick={() => { this.setState({ openedPanel: 'transfer' }); }}
-            handleParkClick={() => {}}
+            handleParkClick={() => { this.props.park(); }}
           />
           <CallFooter
-            leftIcon={'icon-uniCE'}
+            leftIcon={classNames({
+              'icon-uniCE': !this.props.operationStatus.muted,
+              'icon-uni7B': this.props.operationStatus.muted,
+            })}
             rightIcon={'icon-uni44'}
-            onLeftClick={() => {}}
-            onRightClick={() => {}}
+            onLeftClick={() => { this.props.mute(!this.props.operationStatus.muted); }}
+            onRightClick={() => { this.props.bye(); }}
           />
         </div>
       );
