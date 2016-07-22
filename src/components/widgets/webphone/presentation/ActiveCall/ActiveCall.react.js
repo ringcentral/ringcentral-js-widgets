@@ -85,7 +85,7 @@ export default class ActiveCall extends React.Component {
       }
       return (
         <div className={classNames(main, container)}>
-          <CallInfo duration={this.state.duration} />
+          <CallInfo phoneNumber={this.props.phoneNumber} duration={this.state.duration} />
           <CallConsole
             status={this.props.operationStatus}
             handleHoldClick={(flag) => { this.props.hold(flag); }}

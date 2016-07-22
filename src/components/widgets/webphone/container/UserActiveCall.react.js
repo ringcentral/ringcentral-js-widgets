@@ -2,6 +2,10 @@ import ActiveCall from '../presentation/ActiveCall/ActiveCall.react';
 import { connect as phoneConnect } from '../../../../utils/integration/';
 import { connect } from 'react-redux';
 
+function clean(str) {
+  return str.slice(0, str.indexOf('@'));
+}
+
 const withPhone = phoneConnect(phone => ({
   bye: () => phone.webphone.bye(),
   flip: (...args) => phone.webphone.flip(...args),
@@ -15,6 +19,12 @@ const withPhone = phoneConnect(phone => ({
 const withRedux = connect(state => ({
   operationStatus: state.webphone.operation.status,
   webphoneStatus: state.webphone.status,
+
+  // phoneNumber could be (temp) toNumber from dial pad or
+  // actuall info from sip
+  phoneNumber: state.webphone.callLineInfo ?
+                clean(state.webphone.callLineInfo.to.friendlyName) :
+                state.webphone.toNumber,
 }))(withPhone);
 
 export default withRedux;
