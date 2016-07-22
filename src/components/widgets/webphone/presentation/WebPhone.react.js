@@ -1,16 +1,16 @@
 import React from 'react';
 
-import DialPad from './DialPad/DialPad.react';
-import ActiveCall from './ActiveCall/ActiveCall.react';
+import UserDialPad from '../container/UserDialPad.react';
+import UserActiveCall from '../container/UserActiveCall.react';
 import IncomingCall from './IncomingCall/IncomingCall.react';
 
 const WebPhone = (props) => {
   if (props.status === 'OnCall') {
-    return <ActiveCall phoneNumber={props.phoneNumber} />;
+    return <UserActiveCall phoneNumber={props.phoneNumber} />;
   } else if (props.status === 'OnCallIncoming') {
     return <IncomingCall phoneNumber={props.phoneNumber} />;
   }
-  return <DialPad contacts={props.contacts} />;
+  return <UserDialPad contacts={props.contacts} />;
 };
 
 WebPhone.propTypes = {

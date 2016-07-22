@@ -7,16 +7,16 @@ const Dropdown = (props) => (
   <ul className={dropdown}>
     {props.items.map((item, index) => (
       <DropdownItem
+        {...item}
+        onClick={props.onClick}
         key={index}
-        country={item.country}
-        value={item.value}
-        type={item.type}
       />
     ))}
   </ul>
 );
 
 Dropdown.propTypes = {
+  onClick: React.PropTypes.func,
   items: React.PropTypes.array,
 };
 

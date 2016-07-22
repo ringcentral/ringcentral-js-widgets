@@ -14,10 +14,12 @@ import iconsStyles from '../../../../../styles/icon.css';
 export default class DialPad extends React.Component {
   static propTypes = {
     contacts: React.PropTypes.object,
+    call: React.PropTypes.func,
   }
 
   state = {
     dialingNumber: '',
+    caller: '',
   }
 
   handleInput(event) {
@@ -28,33 +30,48 @@ export default class DialPad extends React.Component {
     this.dial(this.state.dialingNumber + number);
   }
 
+  handleCallClick(event) {
+    // TODO: validate dialingNumber
+    console.log(this.state.dialingNumber);
+    this.props.call({
+      toNumber: this.state.dialingNumber,
+    });
+  }
+
   dial(dialingNumber) {
     this.setState({ dialingNumber });
+  }
+
+  caller(caller) {
+    this.setState({ caller });
   }
 
   render() {
     return (
       <div className={classNames(main, container)}>
         <div className={bar}>
-          <UserCallerBar />
+          <UserCallerBar setCaller={(number) => this.caller(number)} />
         </div>
         <PanelContent>
           <div>
             <Input
               className={phoneInput}
-              onChange={() => this.handleInput}
+              onChange={(event) => this.handleInput(event)}
               value={this.state.dialingNumber}
               items={this.props.contacts}
             />
             <div>
-              <Dialer handleClick={() => this.handleClick} />
+              <Dialer handleClick={(number) => this.handleClick(number)} />
             </div>
           </div>
         </PanelContent>
         <PanelFooter>
           <div className={line}>
-            <button className={callButton}>
-              <span className={`${iconsStyles['icon-uniAE']} ${iconsStyles.icon}`}></span>
+            <button
+              className={callButton}
+              onClick={(event) => this.handleCallClick(event)}
+            >
+              <span className={classNames(iconsStyles['icon-uniAE'], iconsStyles.icon)}></span>
             </button>
           </div>
         </PanelFooter>

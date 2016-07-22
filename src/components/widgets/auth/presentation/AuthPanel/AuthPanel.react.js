@@ -8,7 +8,7 @@ const AuthPanel = (props) => {
       <button
         className={styles.loginButton}
         onClick={() => {
-          props.auth.login({
+          props.login({
             username: '16508370092',
             extension: '',
             password: 'Test!123',

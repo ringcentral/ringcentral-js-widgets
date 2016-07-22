@@ -12,6 +12,7 @@ export default class Input extends React.Component {
 
   static defaultProps = {
     onChange() {},
+    items: [],
   };
 
   state = {
@@ -27,11 +28,18 @@ export default class Input extends React.Component {
     }
   }
 
-  handleOnChange(event) {
+  handleChange(event) {
     this.setState({
       value: event.target.value,
     });
     this.props.onChange(event, event.target.value);
+  }
+
+  handleInput(event) {
+    this.setState({
+      value: event.target.value,
+    });
+    this.autocomplete(event.target.value);
   }
 
   autocomplete(value) {
@@ -58,7 +66,8 @@ export default class Input extends React.Component {
       <div>
         <input
           className={this.props.className}
-          onChange={() => this.handleOnChange}
+          onChange={(event) => this.handleChange(event)}
+          onInput={(event) => this.handleInput(event)}
           value={this.state.value}
           placeholder={this.props.placeholder}
         />
