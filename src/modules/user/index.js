@@ -1,16 +1,13 @@
 import RcModule from '../../lib/rc-module';
 import SymbolMap from '../../lib/symbol-map';
-import { extractData, fetchList } from '../../lib/utils';
-import loginStatus from '../../enums/login-status';
+import { extractData, fetchList, emit } from '../../lib/utils';
 import userActions from './user-actions';
 import getUserReducer from './user-reducer';
-import Emitter from 'component-emitter';
 import { userEvents, userEventTypes } from './user-events';
 
 const symbols = new SymbolMap([
   'api',
   'platform',
-  'emitter',
   'settings',
 ]);
 
@@ -31,17 +28,6 @@ const symbols = new SymbolMap([
 
 /**
  * @function
- * @param {String} eventType
- * @param {String} event
- * @description Helper function to emit eventTyped events and the event itself
- */
-function emit(eventType, event, ...payloads) {
-  this[symbols.emitter].emit(event, ...payloads);
-  this[symbols.emitter].emit(eventType, event, ...payloads);
-}
-
-/**
- * @function
  * @param {String} dataType
  * @param {function} loadFunction - async loader function returning a promise
  * @return {Promise}
@@ -51,7 +37,7 @@ async function loadData(dataType, loadFunction) {
   this.store.dispatch({
     type: this.actions[`load${dataType}`],
   });
-  this[symbols.emitter].emit(userEvents[`load${dataType}`]);
+  this.emit(userEvents[`load${dataType}`]);
   try {
     const payload = await this::loadFunction();
     this.store.dispatch({
@@ -63,7 +49,7 @@ async function loadData(dataType, loadFunction) {
     this.store.dispatch({
       type: this.actions[`load${dataType}Failed`],
     });
-    this[symbols.emitter].emit(userEvents[`load${dataType}Failed`]);
+    this.emit(userEvents[`load${dataType}Failed`]);
     throw error;
   }
 }
@@ -137,7 +123,7 @@ async function loadInfo() {
       this::loadForwardingNumbers(),
       this::loadBlockedNumbers(),
     ]);
-    // this[symbols.emitter].emit(userEvents.userInfoLoaded);
+    // this.emit(userEvents.userInfoLoaded);
   } catch (e) {
     // TODO send error out
     console.log(e);
@@ -167,58 +153,26 @@ export default class User extends RcModule {
     } = options;
     this[symbols.api] = api;
     this[symbols.platform] = platform;
-    this[symbols.emitter] = new Emitter();
     this[symbols.settings] = settings;
 
     // settings.registerReducer('user', getUserSettingsReducer());
 
-
     // load info on login
     platform.on(platform.events.loginSuccess, () => {
-      this.store.dispatch({
-        type: this.actions.loginSuccess,
-      });
-      this::emit(userEventTypes.loginStatusChanged, this.state.status);
       this::loadInfo();
-    });
-    // loginError
-    platform.on(platform.events.loginError, error => {
-      this.store.dispatch({
-        type: this.actions.loginError,
-        error,
-      });
     });
     // unload info on logout
     platform.on(platform.events.logoutSuccess, () => {
       this.store.dispatch({
-        type: this.actions.logoutSuccess,
+        type: this.actions.clearUserInfo,
       });
-      // this[symbols.emitter].emit(userEvents.userInfoCleared);
+      // this.emit(userEvents.userInfoCleared);
     });
 
-    platform.on(platform.events.logoutError, error => {
-      this.store.dispatch({
-        type: this.actions.logoutError,
-        error,
-      });
-    });
-
-    platform.on(platform.events.refreshError, error => {
-      this.store.dispatch({
-        type: this.actions.refreshError,
-        error,
-      });
-    });
 
     // load info if already logged in
     (async () => {
-      const loggedIn = await platform.loggedIn();
-      this.store.dispatch({
-        type: this.actions.init,
-        status: loggedIn ? loginStatus.loggedIn : loginStatus.notLoggedIn,
-      });
-      this[symbols.emitter].emit(userEventTypes.userEventTypes, this.state.status);
-      if (loggedIn) {
+      if (await platform.loggedIn()) {
         await this::loadInfo();
       }
     })();
@@ -232,86 +186,12 @@ export default class User extends RcModule {
     return getUserReducer(this.prefix);
   }
 
-  on(event, handler) {
-    this[symbols.emitter].on(event, handler);
-    return () => {
-      this.off(event, handler);
-    };
-  }
-  off(event, handler) {
-    this[symbols.emitter].off(event, handler);
-  }
-
-  /**
-   * @function
-   * @async
-   * @description Login function using username and password
-   */
-  async login({ username, password, extension, remember }) {
-    this.store.dispatch({
-      type: this.actions.login,
-      payload: {
-        username,
-        password,
-        extension,
-        remember,
-      },
-    });
-    this::emit(userEventTypes.loginStatusChanged, userEvents.loggingIn);
-    return await this[symbols.platform].login({
-      username,
-      password,
-      extension,
-      remember,
-    });
-  }
-
-  /**
-   * @function
-   * @async
-   * @description Authorize using OAauth code
-   */
-  async authorize({ code, redirectUri }) {
-    this.store.dispatch({
-      type: this.actions.login,
-      payload: {
-        code,
-        redirectUri,
-      },
-    });
-    this::emit(userEventTypes.loginStatusChanged, userEvents.loggingIn);
-    return await this[symbols.platform].login({
-      code,
-      redirectUri,
-    });
-  }
-
-  /**
-   * @function
-   * @async
-   * @description Log the user out
-   */
-  async logout() {
-    // deal with removing subscriptions
-
-    this::emit(userEventTypes.loginStatusChanged, userEvents.loggingOut);
-    return await this[symbols.platform].logout();
-  }
-
-  get status() {
-    return this.state.status;
-  }
-
   get events() {
     return userEvents;
   }
 
   get eventTypes() {
     return userEventTypes;
-  }
-
-  async isLoggedIn() {
-    return await this[symbols.platform].loggedIn();
   }
 
   get directNumbers() {

@@ -6,14 +6,20 @@ export default {
   entry: [
     'webpack-dev-server/client?http://localhost:8190',
     'webpack/hot/only-dev-server',
-    path.resolve(__dirname, 'auto-loader'),
+    // path.resolve(__dirname, 'auto-loader'),
+    path.resolve(__dirname, 'test-app'),
   ],
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
     publicPath: '/build/',
   },
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
+  resolve: {
+    alias: {
+      'node-fetch': 'whatwg-fetch',
+    },
+  },
   module: {
     loaders: [
       {

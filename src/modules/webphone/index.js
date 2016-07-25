@@ -3,7 +3,7 @@ import SymbolMap from '../../lib/symbol-map';
 import webphoneActions from './webphone-actions';
 import callActions from './call-actions';
 import getReducer from './webphone-reducer';
-import Emitter from 'component-emitter';
+import Emitter from 'event-emitter';
 import RingCentralWebphone from 'ringcentral-web-phone';
 import webphoneStatus from '../../enums/webphone-status';
 import callStatus from '../../enums/call-status';

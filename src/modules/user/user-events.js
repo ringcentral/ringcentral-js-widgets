@@ -1,5 +1,4 @@
 import Enum from '../../lib/enum';
-import loginStatus from '../../enums/login-status';
 
 const eventDefinitions = {
   userInfoLoaded: 'USER_INFO_LOADED',
@@ -28,14 +27,11 @@ const eventDefinitions = {
   loadBlockedNumbers: 'LOAD_BLOCKED_NUMBERS',
   loadBlockedNumbersSuccess: 'LOAD_BLOCKED_NUMBERS_SUCCESS',
   loadBlockedNumbersFailed: 'LOAD_BLOCKED_NUMBERS_FAILED',
-
-  ...loginStatus,
 };
 
 export const userEvents = new Enum(eventDefinitions);
 
 const eventTypeDefinitions = {
-  loginStatusChanged: 'LOGIN_STATUS_CHANGED',
   userInfoChanged: 'USER_INFO_CHANGED',
 };
 

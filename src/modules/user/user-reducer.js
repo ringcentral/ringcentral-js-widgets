@@ -1,8 +1,7 @@
 import { prefixActions } from '../../lib/redux-helper';
 import userActions from './user-actions';
-import loginStatus from '../../enums/login-status';
 
-const initialUserInfo = {
+const initialState = {
   accountInfo: null,
   accountInfoLoading: false,
   accountInfoError: null,
@@ -26,14 +25,6 @@ const initialUserInfo = {
   blockedNumbers: [],
   blockedNumbersLoading: false,
   blockedNumbersError: null,
-
-};
-
-const initialState = {
-  ...initialUserInfo,
-
-  status: loginStatus.pending,
-  authError: null,
 };
 
 export default function getUserReducer(prefix) {
@@ -214,42 +205,12 @@ export default function getUserReducer(prefix) {
           },
         );
 
-      case actions.init:
-        return Object.assign({}, state, { status: action.status });
-
-      case actions.login:
+      case action.clearUserInfo:
         return Object.assign(
           {},
-          state,
-          initialUserInfo,
-          {
-            status: loginStatus.loggingIn,
-            authError: null,
-          }
+          initialState,
         );
 
-      case actions.loginSuccess:
-        return Object.assign({}, state, {
-          status: loginStatus.loggedIn,
-          authError: null,
-        });
-
-      case actions.logoutSuccess:
-        return Object.assign({}, state, initialState, {
-          status: loginStatus.notLoggedIn,
-        });
-
-      case actions.loginError:
-        return Object.assign({}, state, {
-          state: loginStatus.notLoggedIn,
-          authError: action.error,
-        });
-
-      case actions.logoutError:
-        return Object.assign({}, state, initialState, {
-          status: loginStatus.loggedIn,
-          authError: action.error,
-        });
       default:
         return state;
     }

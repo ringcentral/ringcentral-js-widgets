@@ -6,6 +6,8 @@ import RcModule from './lib/rc-module';
 
 import Settings from './modules/settings';
 import Brand from './modules/brand';
+import Auth from './modules/auth';
+import Subscription from './modules/subscription';
 import User from './modules/user';
 import Webphone from './modules/webphone';
 import { combineReducers, createStore } from 'redux';
@@ -49,21 +51,38 @@ export default class RcPhone extends RcModule {
 
     this::addModule('api', new RingCentralClient(this.sdk));
 
+    this::addModule('auth', new Auth({
+      registerStoreHandler: register,
+      stateMapper: state => state.auth,
+      prefix,
+      platform: this.platform,
+    }));
+
     this::addModule('settings', new Settings({
       registerStoreHandler: register,
-      stateMapper: (state) => state.settings,
+      stateMapper: state => state.settings,
     }));
 
     this::addModule('defaultBrand', new Brand({
       registerStoreHandler: register,
       prefix: `${prefix}-default`,
-      stateMapper: (state) => state.defaultBrand,
+      stateMapper: state => state.defaultBrand,
       ...defaultBrand,
+    }));
+
+    this::addModule('subscription', new Subscription({
+      registerStoreHandler: register,
+      stateMapper: state => state.subscription,
+      prefix,
+      api: this.api,
+      platform: this.platform,
+      sdk: this.sdk,
+      auth: this.auth,
     }));
 
     this::addModule('user', new User({
       registerStoreHandler: register,
-      stateMapper: (state) => state.user,
+      stateMapper: state => state.user,
       prefix,
       api: this.api,
       platform: this.platform,
@@ -81,7 +100,9 @@ export default class RcPhone extends RcModule {
 
     // combine reducers
     this[REDUCER] = combineReducers({
+      auth: this.auth.reducer,
       defaultBrand: this.defaultBrand.reducer,
+      subscription: this.subscription.reducer,
       user: this.user.reducer,
       webphone: this.webphone.reducer,
       settings: this.settings.reducer,

@@ -27,3 +27,24 @@ export async function fetchList(fn) {
   }
   return list;
 }
+
+/**
+ * @function
+ * @param {String} eventType
+ * @param {String} event
+ * @description Helper function to emit eventTyped events and the event itself
+ */
+export function emit(eventType, event, ...payloads) {
+  this.emit(event, ...payloads);
+  this.emit(eventType, event, ...payloads);
+}
+
+/**
+ * @function
+ * @param {Number} t
+ */
+export async function sleep(t) {
+  return new Promise(resolve => {
+    setTimeout(resolve, t);
+  });
+}

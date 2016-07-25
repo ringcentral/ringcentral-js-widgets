@@ -1,5 +1,5 @@
 // import path from 'path';
-var path = require('path')
+var path = require('path');
 
 module.exports = {
   entry: [
@@ -8,8 +8,13 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'ringcentral-js-integration-commons.js',
-    libraryTarget: "umd",
+    libraryTarget: 'umd',
     library: 'RcPhone',
+  },
+  resolve: {
+    alias: {
+      'node-fetch': 'whatwg-fetch',
+    },
   },
   devtool: 'inline-source-map',
   module: {

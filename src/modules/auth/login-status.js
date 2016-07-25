@@ -1,4 +1,4 @@
-import Enum from '../lib/enum';
+import Enum from '../../lib/enum';
 
 const definition = {
   pending: 'PENDING', // after init, before status from platform is determined

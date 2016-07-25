@@ -27,15 +27,4 @@ export default new ActionMap([
   'loadBlockedNumbersSuccess',
   'loadBlockedNumbersFailed',
 
-
-  'login',
-  'loginSuccess',
-  'loginError',
-  'logout',
-  'logoutSuccess',
-  'logoutError',
-  'refresh',
-  'refreshSuccess',
-  'refreshError',
-  'init',
 ], 'user');

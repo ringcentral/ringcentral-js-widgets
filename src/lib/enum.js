@@ -1,21 +1,26 @@
-import Wrapper from './wrapper';
-
 const hasOwnProperty = {}.hasOwnProperty;
+const DEFINITION = Symbol();
+const VALUES = Symbol();
 
-export default class Enum extends Wrapper {
+export default class Enum {
   constructor(definition) {
-    super(Object.assign({}, definition));
+    this[DEFINITION] = Object.assign({}, definition);
+    this[VALUES] = new Set();
+
     for (const key in definition) {
       if (hasOwnProperty.call(definition, key)) {
-        // defineProperty can be a performance hit
         Object.defineProperty(this, key, {
           get() {
-            return this.base[key];
+            return this[DEFINITION][key];
           },
           enumerable: true,
         });
+        this[VALUES].add(this[DEFINITION][key]);
       }
     }
+  }
+  static hasValue(value) {
+    return this[VALUES].has(value);
   }
 }
 
