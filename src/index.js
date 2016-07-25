@@ -8,7 +8,7 @@ import config from '../config';
 
 import App from './applications/standalone/app.react';
 import main from './styles/main.css';
-import normalize from './styles/normalize.css';
+import './styles/normalize.css';
 
 const phone = new RcPhone({
   sdkSettings: {
