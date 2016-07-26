@@ -73,7 +73,7 @@ const CallConsole = (props) => {
         <button
           className={classNames({
             [button]: true,
-            [disabled]: props.disabled,
+            [disabled]: props.disabled || contain(props.disabledOperation, 'flip'),
           })}
           onClick={props.handleFlipClick}
         >
@@ -83,7 +83,7 @@ const CallConsole = (props) => {
         <button
           className={classNames({
             [button]: true,
-            [disabled]: props.disabled,
+            [disabled]: props.disabled || contain(props.disabledOperation, 'transfer'),
           })}
           onClick={props.handleTransferClick}
         >

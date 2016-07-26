@@ -19,6 +19,11 @@
   cursor: pointer;
 }
 
+.dialerButton:active {
+  background: $main;
+  color: #fff;
+}
+
 .dialerNumber {
   font-size: 1.1em;
   font-weight: 300;
