@@ -1,6 +1,6 @@
 import React from 'react';
 import { icon, panel, line } from '../../index.css';
-import { button, word } from './CallConsole.css';
+import { button, disabled, word } from './CallConsole.css';
 import iconsStyles from '../../../../../styles/icon.css';
 import { StatedButton } from '../../../../commons/button/';
 
@@ -16,14 +16,17 @@ function iconClass(iconId) {
 
 const CallConsole = (props) => {
   function contain(arr, target) {
-    return arr.indexOf(target) > -1;
+    return arr.indexOf(target) !== -1;
   }
   // TODO: replace constant with enums
   return (
     <div className={panel}>
       <div className={line}>
         <button
-          className={button}
+          className={classNames({
+            [button]: true,
+            [disabled]: props.disabled,
+          })}
           onClick={(event) => props.handleHoldClick(!contain(props.status, 'HOLDING'))}
         >
           <span
@@ -38,14 +41,20 @@ const CallConsole = (props) => {
           <div className={word}>Hold</div>
         </button>
         <button
-          className={button}
+          className={classNames({
+            [button]: true,
+            [disabled]: props.disabled,
+          })}
           onClick={props.handleKeypadClick}
         >
           <span className={iconClass('icon-uni21')}></span>
           <div className={word}>Keypad</div>
         </button>
         <button
-          className={button}
+          className={classNames({
+            [button]: true,
+            [disabled]: props.disabled || contain(props.disabledOperation, 'record'),
+          })}
           onClick={(event) => props.handleRecordClick(!contain(props.status, 'RECORDING'))}
         >
           <span
@@ -62,21 +71,30 @@ const CallConsole = (props) => {
       </div>
       <div className={line}>
         <button
-          className={button}
+          className={classNames({
+            [button]: true,
+            [disabled]: props.disabled,
+          })}
           onClick={props.handleFlipClick}
         >
           <span className={iconClass('icon-uni27')}></span>
           <div className={word}>Flip</div>
         </button>
         <button
-          className={button}
+          className={classNames({
+            [button]: true,
+            [disabled]: props.disabled,
+          })}
           onClick={props.handleTransferClick}
         >
           <span className={iconClass('icon-uni23')}></span>
           <div className={word}>Transfer</div>
         </button>
         <button
-          className={button}
+          className={classNames({
+            [button]: true,
+            [disabled]: props.disabled || contain(props.disabledOperation, 'park'),
+          })}
           onClick={props.handleParkClick}
         >
           <span className={iconClass('icon-uni22')}></span>
@@ -89,6 +107,8 @@ const CallConsole = (props) => {
 
 CallConsole.propTypes = {
   status: React.PropTypes.array,
+  disabledOperation: React.PropTypes.array,
+  disabled: React.PropTypes.bool,
   handleHoldClick: React.PropTypes.func,
   handleRecordClick: React.PropTypes.func,
   handleKeypadClick: React.PropTypes.func,

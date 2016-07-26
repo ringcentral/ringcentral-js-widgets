@@ -12,7 +12,7 @@ const Flip = (props) => (
           <ListItem
             className={flipItem}
             key={index}
-            onClick={props.handleClick}
+            onClick={() => props.handleClick(number.flipNumber)}
             clickable
           >
             <div className={flipItemTitle}>{number.phoneNumber}</div>

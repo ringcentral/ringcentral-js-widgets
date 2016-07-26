@@ -1,6 +1,9 @@
 import React from 'react';
 import Menu from './Menu.react';
 
+import Cleave from 'cleave.js/src/Cleave.react';
+import 'cleave.js/dist/addons/cleave-phone.us';
+
 export default class Input extends React.Component {
   static propTypes = {
     onChange: React.PropTypes.func,
@@ -64,11 +67,12 @@ export default class Input extends React.Component {
   render() {
     return (
       <div>
-        <input
+        <Cleave
           className={this.props.className}
           onChange={(event) => this.handleChange(event)}
           onInput={(event) => this.handleInput(event)}
           value={this.state.value}
+          options={{ phone: true, phoneRegionCode: 'US' }}
           placeholder={this.props.placeholder}
         />
         {this.state.isOpen ? <Menu candidates={this.state.candidates} /> : null}

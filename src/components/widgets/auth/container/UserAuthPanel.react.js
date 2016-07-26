@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { connect as phoneConnect } from '../../../../utils/integration/';
 
 const withPhone = phoneConnect(phone => ({
-  login: (...args) => phone.user.login(...args),
+  login: (...args) => phone.auth.login(...args),
 }))(AuthPanel);
 
 export default withPhone;

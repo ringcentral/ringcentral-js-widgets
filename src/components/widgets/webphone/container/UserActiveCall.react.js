@@ -14,10 +14,12 @@ const withPhone = phoneConnect(phone => ({
   record: (...args) => phone.webphone.record(...args),
   hold: (...args) => phone.webphone.hold(...args),
   mute: (...args) => phone.webphone.mute(...args),
+  dtmf: (...args) => phone.webphone.dtmf(...args),
 }))(ActiveCall);
 
 const withRedux = connect(state => ({
   operationStatus: state.webphone.operation.status,
+  disabledOperation: state.webphone.operation.disabled,
   webphoneStatus: state.webphone.status,
 
   // phoneNumber could be (temp) toNumber from dial pad or

@@ -15,6 +15,8 @@ export default class DialPad extends React.Component {
   static propTypes = {
     contacts: React.PropTypes.object,
     call: React.PropTypes.func,
+    remoteMedia: React.PropTypes.element,
+    localMedia: React.PropTypes.element,
   }
 
   state = {
@@ -32,9 +34,13 @@ export default class DialPad extends React.Component {
 
   handleCallClick(event) {
     // TODO: validate dialingNumber
-    console.log(this.state.dialingNumber);
+    console.log(this.props.remoteMedia);
     this.props.call({
       toNumber: this.state.dialingNumber,
+      media: {
+        remote: this.props.remoteMedia,
+        local: this.props.localMedia,
+      },
     });
   }
 

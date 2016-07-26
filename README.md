@@ -8,3 +8,6 @@
 2. Styles: CSS-modules
 3. Test: Mocha, Enzyme, Chai
 
+### Getting started
+
+#### Project structure

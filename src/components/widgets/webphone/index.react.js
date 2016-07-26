@@ -25,10 +25,7 @@ const phoneNumberSelector = createSelector(
   info => info ? info.mainNumber : '',
 );
 
-export default connect(state => {
-  console.log(state);
-  return {
-    status: statusSelector(state),
-    phoneNumber: phoneNumberSelector(state),
-  };
-})(WebPhone);
+export default connect(state => ({
+  status: statusSelector(state),
+  phoneNumber: phoneNumberSelector(state),
+}))(WebPhone);
