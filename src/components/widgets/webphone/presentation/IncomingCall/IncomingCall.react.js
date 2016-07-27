@@ -20,10 +20,10 @@ const IncomingCall = (props) => (
       </div>
     </div>
     <CallFooter
-      leftIcon={'icon-uniCE'}
+      leftIcon={'icon-uniAE'}
       rightIcon={'icon-uni44'}
-      onLeftClick={() => {}}
-      onRightClick={() => {}}
+      onLeftClick={() => props.accept()}
+      onRightClick={() => props.bye()}
     />
   </div>
 );
@@ -34,6 +34,8 @@ IncomingCall.defaultProps = {
 
 IncomingCall.propTypes = {
   phoneNumber: React.PropTypes.string,
+  accept: React.PropTypes.func,
+  bye: React.PropTypes.func,
 };
 
 export default IncomingCall;

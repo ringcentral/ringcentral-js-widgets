@@ -1,19 +1,32 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-import { Provider } from 'react-redux';
-import { PhoneProvider } from './utils/integration/';
+
+import { createStore, combineReducers } from 'redux';
+import { Provider, PhoneProvider } from './utils/integration/';
 
 import RcPhone from 'ringcentral-js-integration-commons';
 import config from '../config';
 
-import App from './applications/standalone/app.react';
-import main from './styles/main.css';
-import normalize from './styles/normalize.css';
+import { reducer as localeReducer } from './utils/locale/';
 
+import App from './applications/standalone/app.react';
+import './styles/normalize.css';
+import './styles/main.css';
+let store;
 const phone = new RcPhone({
   sdkSettings: {
     ...config,
     server: 'https://platform.ringcentral.com',
+  },
+  getStore(reducer) {
+    store = createStore(combineReducers({
+      common: reducer,
+      locale: localeReducer,
+    }));
+    return store;
+  },
+  stateMapper(state) {
+    return state.common;
   },
 });
 

@@ -4,9 +4,6 @@ import DialPad from '../../components/widgets/webphone/presentation/DialPad/Dial
 import ActiveCall from '../../components/widgets/webphone/presentation/ActiveCall/ActiveCall.react.js';
 import IncomingCall from '../../components/widgets/webphone/presentation/IncomingCall/IncomingCall.react.js';
 import Dialer from '../../components/widgets/webphone/presentation/Dialer/Dialer.react.js';
-import UserCallerBar from '../../components/widgets/webphone/container/UserCallerBar.react.js';
-import UserFlip from '../../components/widgets/webphone/container/UserFlip.react.js';
-import UserTransfer from '../../components/widgets/webphone/container/UserTransfer.react.js';
 import CallConsole from '../../components/widgets/webphone/presentation/CallConsole/CallConsole.react.js';
 import CallInfo from '../../components/widgets/webphone/presentation/CallInfo/CallInfo.react.js';
 import CallFooter from '../../components/widgets/webphone/presentation/CallFooter/CallFooter.react.js';
@@ -55,24 +52,6 @@ const App = function App(props) {
           <h1>Dialer</h1>
           <div className={styles.app}>
             <Dialer />
-          </div>
-        </div>
-        <div className={styles.container}>
-          <h1>UserCallerBar</h1>
-          <div className={styles.app}>
-            <UserCallerBar />
-          </div>
-        </div>
-        <div className={styles.container}>
-          <h1>UserFlip</h1>
-          <div className={styles.app}>
-            <UserFlip />
-          </div>
-        </div>
-        <div className={styles.container}>
-          <h1>UserTransfer</h1>
-          <div className={styles.app}>
-            <UserTransfer />
           </div>
         </div>
         <div className={styles.container}>

@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import UserFlip from '../../container/UserFlip.react';
-import UserTransfer from '../../container/UserTransfer.react';
+import Flip from '../Flip/Flip.react';
+import Transfer from '../Transfer/Transfer.react';
 
 import CallConsole from '../CallConsole/CallConsole.react';
 import Dialer from '../Dialer/Dialer.react';
@@ -18,6 +18,7 @@ export default class ActiveCall extends React.Component {
 
   static propTypes = {
     phoneNumber: React.PropTypes.string,
+    flipNumbers: React.PropTypes.array,
     bye: React.PropTypes.func,
     flip: React.PropTypes.func,
     transfer: React.PropTypes.func,
@@ -25,6 +26,8 @@ export default class ActiveCall extends React.Component {
     record: React.PropTypes.func,
     hold: React.PropTypes.func,
     mute: React.PropTypes.func,
+    dtmf: React.PropTypes.func,
+    disabledOperation: React.PropTypes.array,
     operationStatus: React.PropTypes.array,
     webphoneStatus: React.PropTypes.string,
   }
@@ -32,6 +35,12 @@ export default class ActiveCall extends React.Component {
   state = {
     openedPanel: null,
     duration: 0,
+  }
+
+  componentDidMount() {
+    if (this.props.webphoneStatus === 'CALL_CONNECTED') {
+      this.startToCountDuration();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -56,12 +65,15 @@ export default class ActiveCall extends React.Component {
   }
 
   render() {
+    function contain(arr, target) {
+      return arr && target && arr.indexOf(target) !== -1;
+    }
     const content = () => {
       if (this.state.openedPanel === 'keypad') {
         return (
           <div className={classNames(main, container)}>
             <CallInfo duration={this.state.duration} />
-            <Dialer scale={0.9} handleClick={() => {}} />
+            <Dialer scale={0.9} handleClick={(number) => this.props.dtmf(number)} />
             <CallFooter
               leftIcon={'icon-uni40'}
               rightIcon={'icon-uni44'}
@@ -73,36 +85,41 @@ export default class ActiveCall extends React.Component {
       } else if (this.state.openedPanel === 'flip') {
         return (
           <Closeable onClose={() => this.setState({ openedPanel: null })} className={main}>
-            <UserFlip />
+            <Flip
+              handleClick={(number) => this.props.flip(number)}
+              numbers={this.props.flipNumbers}
+            />
           </Closeable>
         );
       } else if (this.state.openedPanel === 'transfer') {
         return (
           <Closeable onClose={() => this.setState({ openedPanel: null })} className={main}>
-            <UserTransfer />
+            <Transfer handleClick={(number) => this.props.transfer(number)} />
           </Closeable>
         );
       }
       return (
         <div className={classNames(main, container)}>
-          <CallInfo duration={this.state.duration} />
+          <CallInfo phoneNumber={this.props.phoneNumber} duration={this.state.duration} />
           <CallConsole
             status={this.props.operationStatus}
-            handleHoldClick={(flag) => { this.props.hold(flag); }}
-            handleRecordClick={(flag) => { this.props.record(flag); }}
-            handleKeypadClick={() => { this.setState({ openedPanel: 'keypad' }); }}
-            handleFlipClick={() => { this.setState({ openedPanel: 'flip' }); }}
-            handleTransferClick={() => { this.setState({ openedPanel: 'transfer' }); }}
-            handleParkClick={() => { this.props.park(); }}
+            disabledOperation={this.props.disabledOperation}
+            disabled={this.props.webphoneStatus !== 'CALL_CONNECTED'}
+            handleHoldClick={(flag) => this.props.hold(flag)}
+            handleRecordClick={(flag) => this.props.record(flag)}
+            handleKeypadClick={() => this.setState({ openedPanel: 'keypad' })}
+            handleFlipClick={() => this.setState({ openedPanel: 'flip' })}
+            handleTransferClick={() => this.setState({ openedPanel: 'transfer' })}
+            handleParkClick={() => this.props.park()}
           />
           <CallFooter
             leftIcon={classNames({
-              'icon-uniCE': !this.props.operationStatus.muted,
-              'icon-uni7B': this.props.operationStatus.muted,
+              'icon-uniCE': !contain(this.props.operationStatus, 'MUTED'),
+              'icon-uni7B': contain(this.props.operationStatus, 'MUTED'),
             })}
             rightIcon={'icon-uni44'}
-            onLeftClick={() => { this.props.mute(!this.props.operationStatus.muted); }}
-            onRightClick={() => { this.props.bye(); }}
+            onLeftClick={() => this.props.mute(!contain(this.props.operationStatus, 'MUTED'))}
+            onRightClick={() => this.props.bye()}
           />
         </div>
       );

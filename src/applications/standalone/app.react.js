@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import WebPhone from '../../components/widgets/webphone/index.react';
+import WebPhone from '../../components/widgets/webphone/container';
 import Auth from '../../components/widgets/auth/index.react';
 
 import styles from './app.css';
@@ -27,4 +27,4 @@ App.propTypes = {
   loggedIn: React.PropTypes.bool,
 };
 
-export default connect(state => ({ loggedIn: state.user.status === 'LOGGED_IN' }))(App);
+export default connect(state => ({ loggedIn: state.common.auth.status === 'LOGGED_IN' }))(App);

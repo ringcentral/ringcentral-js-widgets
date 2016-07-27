@@ -13,3 +13,8 @@
   font-size: .6em;
   margin-top: 4px;
 }
+
+.disabled {
+  color: #999;
+  cursor: default;
+}

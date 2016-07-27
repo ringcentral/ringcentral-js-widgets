@@ -1,22 +1,100 @@
 import React from 'react';
 
-import UserDialPad from '../container/UserDialPad.react';
-import UserActiveCall from '../container/UserActiveCall.react';
+import DialPad from '../presentation/DialPad/DialPad.react';
+import ActiveCall from '../presentation/ActiveCall/ActiveCall.react';
 import IncomingCall from './IncomingCall/IncomingCall.react';
 
+import { main } from '../index.css';
+
+let remoteMedia;
+let localMedia;
+
 const WebPhone = (props) => {
-  if (props.status === 'OnCall') {
-    return <UserActiveCall phoneNumber={props.phoneNumber} />;
-  } else if (props.status === 'OnCallIncoming') {
-    return <IncomingCall phoneNumber={props.phoneNumber} />;
+  function content() {
+    if (props.status === 'ON_CALL') {
+      return (
+        <ActiveCall
+          phoneNumber={props.callingNumber}
+          flipNumbers={props.flipNumbers}
+          bye={props.bye}
+          flip={props.flip}
+          transfer={props.transfer}
+          park={props.park}
+          record={props.record}
+          hold={props.hold}
+          mute={props.mute}
+          dtmf={props.dtmf}
+          disabledOperation={props.disabledOperation}
+          operationStatus={props.operationStatus}
+          webphoneStatus={props.webphoneStatus}
+        />
+      );
+    } else if (props.status === 'ON_INCOMING_CALL') {
+      return (
+        <IncomingCall
+          phoneNumber={props.callingNumber}
+          accept={props.accept}
+          bye={props.bye}
+        />
+      );
+    }
+    return (
+      <DialPad
+        contacts={props.contacts}
+        remoteMedia={remoteMedia}
+        localMedia={localMedia}
+        call={props.call}
+        userNumbers={props.userNumbers}
+        getString={props.getString}
+      />
+    );
   }
-  return <UserDialPad contacts={props.contacts} />;
+
+  return (
+    <div className={main}>
+      <div>
+        <video
+          ref={(ref) => { remoteMedia = ref; }}
+          id="remoteVideo"
+          hidden="hidden"
+        ></video>
+        <video
+          ref={(ref) => { localMedia = ref; }}
+          id="localVideo"
+          hidden="hidden"
+          muted="muted"
+        ></video>
+      </div>
+      {content()}
+    </div>
+  );
 };
 
 WebPhone.propTypes = {
-  status: React.PropTypes.oneOf(['OnCall', 'OnCallIncoming', 'Idle']),
+  status: React.PropTypes.oneOf(['ON_CALL', 'ON_INCOMING_CALL', 'IDLE']),
   contacts: React.PropTypes.array,
-  phoneNumber: React.PropTypes.string,
+  callingNumber: React.PropTypes.string,
+
+  accept: React.PropTypes.func,
+
+  call: React.PropTypes.func,
+  bye: React.PropTypes.func,
+  flip: React.PropTypes.func,
+  transfer: React.PropTypes.func,
+  park: React.PropTypes.func,
+  record: React.PropTypes.func,
+  hold: React.PropTypes.func,
+  mute: React.PropTypes.func,
+  dtmf: React.PropTypes.func,
+  disabledOperation: React.PropTypes.array,
+  operationStatus: React.PropTypes.array,
+  webphoneStatus: React.PropTypes.string,
+
+  userNumbers: React.PropTypes.array,
+
+  flipNumbers: React.PropTypes.array,
+
+  getString: React.PropTypes.func,
 };
 
 export default WebPhone;

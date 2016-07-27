@@ -5,7 +5,7 @@ import { PanelHeader, PanelContent, PanelFooter } from '../../../../commons/pane
 import { Input } from '../../../../commons/autocomplete/';
 
 import Dialer from '../Dialer/Dialer.react';
-import UserCallerBar from '../../container/UserCallerBar.react';
+import CallerBar from '../CallerBar/CallerBar.react';
 
 import { main, container, line } from '../../index.css';
 import { bar, callButton, phoneInput } from './DialPad.css';
@@ -14,7 +14,11 @@ import iconsStyles from '../../../../../styles/icon.css';
 export default class DialPad extends React.Component {
   static propTypes = {
     contacts: React.PropTypes.object,
+    userNumbers: React.PropTypes.array,
     call: React.PropTypes.func,
+    remoteMedia: React.PropTypes.element,
+    localMedia: React.PropTypes.element,
+    getString: React.PropTypes.func,
   }
 
   state = {
@@ -32,9 +36,13 @@ export default class DialPad extends React.Component {
 
   handleCallClick(event) {
     // TODO: validate dialingNumber
-    console.log(this.state.dialingNumber);
+    console.log(this.props.remoteMedia);
     this.props.call({
       toNumber: this.state.dialingNumber,
+      media: {
+        remote: this.props.remoteMedia,
+        local: this.props.localMedia,
+      },
     });
   }
 
@@ -50,7 +58,11 @@ export default class DialPad extends React.Component {
     return (
       <div className={classNames(main, container)}>
         <div className={bar}>
-          <UserCallerBar setCaller={(number) => this.caller(number)} />
+          <CallerBar
+            setCaller={(number) => this.caller(number)}
+            numbers={this.props.userNumbers}
+            getString={this.props.getString}
+          />
         </div>
         <PanelContent>
           <div>

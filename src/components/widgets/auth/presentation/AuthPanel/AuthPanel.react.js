@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './AuthPanel.css';
 console.log(styles);
 const AuthPanel = (props) => {
-  console.log(props);
   return (
     <div className={styles.auth}>
       <button
