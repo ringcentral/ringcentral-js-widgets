@@ -10,7 +10,7 @@ import config from '../config';
 
 import { reducer as localeReducer } from './utils/locale/';
 
-import App from './applications/standalone/app.react';
+import App from './applications/demo/app.react';
 import main from './styles/main.css';
 import './styles/normalize.css';
 let store;

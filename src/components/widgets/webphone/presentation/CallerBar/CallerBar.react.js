@@ -15,6 +15,7 @@ export default class CallerBar extends React.Component {
   }
 
   static defaultProps = {
+    getString: (key) => key,
     numbers: [],
   }
 

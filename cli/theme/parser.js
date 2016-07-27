@@ -6,14 +6,6 @@ const pcssNested = require('postcss-nested');
 const pcssVar = require('postcss-simple-vars');
 const pcssMixins = require('postcss-mixins');
 
-function transform(input, src, path) {
-  return transformSyntax(input, src, path).then(css => {
-    const token = tokenizer.parse(css);
-    transformSelector(token, src, path);
-    return tokenizer.stringify(token);
-  });
-}
-
 function transformSyntax(input, src, path) {
   const processors = [
     pcssImport({ path: ['src/styles'] }),
@@ -24,9 +16,7 @@ function transformSyntax(input, src, path) {
   ];
   return postcss(processors).process(input, {
     from: `${path}/${src}.css`,
-  }).then(result => {
-    return result.css;
-  }).catch(err => console.log(err));
+  }).then(result => result.css).catch(err => console.log(err));
 }
 
 function transformSelector(token, src) {
@@ -37,5 +27,14 @@ function transformSelector(token, src) {
     token.nodes.forEach(node => transformSelector(node, src));
   }
 }
+
+function transform(input, src, path) {
+  return transformSyntax(input, src, path).then(css => {
+    const token = tokenizer.parse(css);
+    transformSelector(token, src, path);
+    return tokenizer.stringify(token);
+  });
+}
+
 
 module.exports.transform = transform;

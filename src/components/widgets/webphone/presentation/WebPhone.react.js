@@ -15,6 +15,7 @@ const WebPhone = (props) => {
       return (
         <ActiveCall
           phoneNumber={props.callingNumber}
+          flipNumbers={props.flipNumbers}
           bye={props.bye}
           flip={props.flip}
           transfer={props.transfer}
@@ -29,7 +30,13 @@ const WebPhone = (props) => {
         />
       );
     } else if (props.status === 'ON_INCOMING_CALL') {
-      return <IncomingCall phoneNumber={props.callingNumber} />;
+      return (
+        <IncomingCall
+          phoneNumber={props.callingNumber}
+          accept={props.accept}
+          bye={props.bye}
+        />
+      );
     }
     return (
       <DialPad
@@ -67,6 +74,8 @@ WebPhone.propTypes = {
   status: React.PropTypes.oneOf(['ON_CALL', 'ON_INCOMING_CALL', 'IDLE']),
   contacts: React.PropTypes.array,
   callingNumber: React.PropTypes.string,
+
+  accept: React.PropTypes.func,
 
   call: React.PropTypes.func,
   bye: React.PropTypes.func,

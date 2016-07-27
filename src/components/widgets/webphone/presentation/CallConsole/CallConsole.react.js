@@ -16,7 +16,7 @@ function iconClass(iconId) {
 
 const CallConsole = (props) => {
   function contain(arr, target) {
-    return arr.indexOf(target) !== -1;
+    return arr && target && arr.indexOf(target) !== -1;
   }
   // TODO: replace constant with enums
   return (

@@ -18,6 +18,7 @@ export default class ActiveCall extends React.Component {
 
   static propTypes = {
     phoneNumber: React.PropTypes.string,
+    flipNumbers: React.PropTypes.array,
     bye: React.PropTypes.func,
     flip: React.PropTypes.func,
     transfer: React.PropTypes.func,
@@ -34,6 +35,12 @@ export default class ActiveCall extends React.Component {
   state = {
     openedPanel: null,
     duration: 0,
+  }
+
+  componentDidMount() {
+    if (this.props.webphoneStatus === 'CALL_CONNECTED') {
+      this.startToCountDuration();
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -59,7 +66,7 @@ export default class ActiveCall extends React.Component {
 
   render() {
     function contain(arr, target) {
-      return arr.indexOf(target) !== -1;
+      return arr && target && arr.indexOf(target) !== -1;
     }
     const content = () => {
       if (this.state.openedPanel === 'keypad') {
@@ -78,7 +85,10 @@ export default class ActiveCall extends React.Component {
       } else if (this.state.openedPanel === 'flip') {
         return (
           <Closeable onClose={() => this.setState({ openedPanel: null })} className={main}>
-            <Flip handleClick={(number) => this.props.flip(number)} />
+            <Flip
+              handleClick={(number) => this.props.flip(number)}
+              numbers={this.props.flipNumbers}
+            />
           </Closeable>
         );
       } else if (this.state.openedPanel === 'transfer') {
@@ -108,8 +118,8 @@ export default class ActiveCall extends React.Component {
               'icon-uni7B': contain(this.props.operationStatus, 'MUTED'),
             })}
             rightIcon={'icon-uni44'}
-            onLeftClick={() => { this.props.mute(!contain(this.props.operationStatus, 'MUTED')); }}
-            onRightClick={() => { this.props.bye(); }}
+            onLeftClick={() => this.props.mute(!contain(this.props.operationStatus, 'MUTED'))}
+            onRightClick={() => this.props.bye()}
           />
         </div>
       );

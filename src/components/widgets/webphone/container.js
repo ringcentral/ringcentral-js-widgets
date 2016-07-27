@@ -17,6 +17,7 @@ const statusMapping = {
 };
 
 const withPhone = phoneConnect(phone => ({
+  accept: () => phone.webphone.accept(),
   call: (...args) => phone.webphone.call(...args),
   bye: () => phone.webphone.bye(),
   flip: (...args) => phone.webphone.flip(...args),
@@ -38,8 +39,8 @@ const withRedux = connect(state => ({
   webphoneStatus: state.common.webphone.status,
   // phoneNumber could be (temp) toNumber from dial pad or
   // actuall info from sip
-  callingNumber: state.common.webphone.callLineInfo ?
-                clean(state.webphone.callLineInfo.to.friendlyName) :
+  callingNumber: state.common.webphone.remoteIdentity ?
+                clean(state.common.webphone.remoteIdentity.friendlyName) :
                 state.common.webphone.toNumber,
 
   // <Flip />
