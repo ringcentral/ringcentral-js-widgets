@@ -27,4 +27,4 @@ App.propTypes = {
   loggedIn: React.PropTypes.bool,
 };
 
-export default connect(state => ({ loggedIn: state.auth.status === 'LOGGED_IN' }))(App);
+export default connect(state => ({ loggedIn: state.common.auth.status === 'LOGGED_IN' }))(App);

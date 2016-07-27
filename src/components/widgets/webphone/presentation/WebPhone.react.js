@@ -11,7 +11,7 @@ let localMedia;
 
 const WebPhone = (props) => {
   function content() {
-    if (props.status === 'OnCall') {
+    if (props.status === 'ON_CALL') {
       return (
         <ActiveCall
           phoneNumber={props.callingNumber}
@@ -28,7 +28,7 @@ const WebPhone = (props) => {
           webphoneStatus={props.webphoneStatus}
         />
       );
-    } else if (props.status === 'OnCallIncoming') {
+    } else if (props.status === 'ON_INCOMING_CALL') {
       return <IncomingCall phoneNumber={props.callingNumber} />;
     }
     return (
@@ -63,7 +63,7 @@ const WebPhone = (props) => {
 };
 
 WebPhone.propTypes = {
-  status: React.PropTypes.oneOf(['OnCall', 'OnCallIncoming', 'Idle']),
+  status: React.PropTypes.oneOf(['ON_CALL', 'ON_INCOMING_CALL', 'IDLE']),
   contacts: React.PropTypes.array,
   callingNumber: React.PropTypes.string,
 
@@ -82,7 +82,7 @@ WebPhone.propTypes = {
 
   userNumbers: React.PropTypes.array,
 
-  flipNumbers: React.PropTypes.string,
+  flipNumbers: React.PropTypes.array,
 };
 
 export default WebPhone;

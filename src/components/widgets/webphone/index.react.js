@@ -8,11 +8,11 @@ function clean(str) {
 }
 
 const statusMapping = {
-  REGISTER_SUCCESSED: 'Idle',
-  PRE_REGISTER: 'Idle',
-  CALL_INCOMING: 'OnCallIncoming',
-  CALL_CONNECTING: 'OnCall',
-  CALL_CONNECTED: 'OnCall',
+  REGISTER_SUCCESSED: 'IDLE',
+  PRE_REGISTER: 'IDLE',
+  CALL_INCOMING: 'ON_INCOMING_CALL',
+  CALL_CONNECTING: 'ON_CALL',
+  CALL_CONNECTED: 'ON_CALL',
 };
 
 const withPhone = phoneConnect(phone => ({
