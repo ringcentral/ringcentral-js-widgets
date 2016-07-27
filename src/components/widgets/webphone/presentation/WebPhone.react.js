@@ -38,6 +38,7 @@ const WebPhone = (props) => {
         localMedia={localMedia}
         call={props.call}
         userNumbers={props.userNumbers}
+        getString={props.getString}
       />
     );
   }
@@ -83,6 +84,8 @@ WebPhone.propTypes = {
   userNumbers: React.PropTypes.array,
 
   flipNumbers: React.PropTypes.array,
+
+  getString: React.PropTypes.func,
 };
 
 export default WebPhone;

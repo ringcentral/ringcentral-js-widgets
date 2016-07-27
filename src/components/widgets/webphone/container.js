@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { connect as phoneConnect } from '../../../utils/integration/';
 
 import WebPhone from './presentation/WebPhone.react';
+import { getString } from '../../../utils/locale/';
 
 function clean(str) {
   return str.slice(0, str.indexOf('@'));
@@ -29,20 +30,20 @@ const withPhone = phoneConnect(phone => ({
 
 const withRedux = connect(state => ({
   // <WebPhone />
-  status: statusMapping[state.webphone.status],
+  status: statusMapping[state.common.webphone.status],
 
   // <ActiveCall />
-  operationStatus: state.webphone.operation.status,
-  disabledOperation: state.webphone.operation.disabled,
-  webphoneStatus: state.webphone.status,
+  operationStatus: state.common.webphone.operation.status,
+  disabledOperation: state.common.webphone.operation.disabled,
+  webphoneStatus: state.common.webphone.status,
   // phoneNumber could be (temp) toNumber from dial pad or
   // actuall info from sip
-  callingNumber: state.webphone.callLineInfo ?
+  callingNumber: state.common.webphone.callLineInfo ?
                 clean(state.webphone.callLineInfo.to.friendlyName) :
-                state.webphone.toNumber,
+                state.common.webphone.toNumber,
 
   // <Flip />
-  flipNumbers: state.user.forwardingNumbers
+  flipNumbers: state.common.user.forwardingNumbers
                 .filter(number => number.features.indexOf('CallFlip') > -1),
 
   // <DialPad />
@@ -50,7 +51,10 @@ const withRedux = connect(state => ({
   // <Transfer />
 
   // <CallerBar />
-  userNumbers: state.user.phoneNumbers,
+  userNumbers: state.common.user.phoneNumbers,
+
+  // locale
+  getString: getString.bind(null, state.locale.lang),
 }))(withPhone);
 
 export default withRedux;

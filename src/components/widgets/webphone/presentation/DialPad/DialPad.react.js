@@ -18,6 +18,7 @@ export default class DialPad extends React.Component {
     call: React.PropTypes.func,
     remoteMedia: React.PropTypes.element,
     localMedia: React.PropTypes.element,
+    getString: React.PropTypes.func,
   }
 
   state = {
@@ -57,7 +58,11 @@ export default class DialPad extends React.Component {
     return (
       <div className={classNames(main, container)}>
         <div className={bar}>
-          <CallerBar setCaller={(number) => this.caller(number)} numbers={this.props.userNumbers} />
+          <CallerBar
+            setCaller={(number) => this.caller(number)}
+            numbers={this.props.userNumbers}
+            getString={this.props.getString}
+          />
         </div>
         <PanelContent>
           <div>

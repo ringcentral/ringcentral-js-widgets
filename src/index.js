@@ -8,6 +8,8 @@ import { PhoneProvider } from './utils/integration/';
 import RcPhone from 'ringcentral-js-integration-commons';
 import config from '../config';
 
+import { reducer as localeReducer } from './utils/locale/';
+
 import App from './applications/standalone/app.react';
 import main from './styles/main.css';
 import './styles/normalize.css';
@@ -20,6 +22,7 @@ const phone = new RcPhone({
   getStore(reducer) {
     store = createStore(combineReducers({
       common: reducer,
+      locale: localeReducer,
     }));
     return store;
   },
