@@ -14,7 +14,7 @@ const WebPhone = (props) => {
     if (props.status === 'OnCall') {
       return (
         <ActiveCall
-          phoneNumber={props.phoneNumber}
+          phoneNumber={props.callingNumber}
           bye={props.bye}
           flip={props.flip}
           transfer={props.transfer}
@@ -29,7 +29,7 @@ const WebPhone = (props) => {
         />
       );
     } else if (props.status === 'OnCallIncoming') {
-      return <IncomingCall phoneNumber={props.phoneNumber} />;
+      return <IncomingCall phoneNumber={props.callingNumber} />;
     }
     return (
       <DialPad
@@ -37,7 +37,7 @@ const WebPhone = (props) => {
         remoteMedia={remoteMedia}
         localMedia={localMedia}
         call={props.call}
-        numbers={props.numbers}
+        userNumbers={props.userNumbers}
       />
     );
   }
@@ -65,7 +65,7 @@ const WebPhone = (props) => {
 WebPhone.propTypes = {
   status: React.PropTypes.oneOf(['OnCall', 'OnCallIncoming', 'Idle']),
   contacts: React.PropTypes.array,
-  phoneNumber: React.PropTypes.string,
+  callingNumber: React.PropTypes.string,
 
   call: React.PropTypes.func,
   bye: React.PropTypes.func,
@@ -80,7 +80,9 @@ WebPhone.propTypes = {
   operationStatus: React.PropTypes.array,
   webphoneStatus: React.PropTypes.string,
 
-  numbers: React.PropTypes.string,
+  userNumbers: React.PropTypes.array,
+
+  flipNumbers: React.PropTypes.string,
 };
 
 export default WebPhone;

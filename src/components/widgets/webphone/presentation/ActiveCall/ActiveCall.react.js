@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import UserFlip from '../../container/UserFlip.react';
-import UserTransfer from '../../container/UserTransfer.react';
+import Flip from '../Flip/Flip.react';
+import Transfer from '../Transfer/Transfer.react';
 
 import CallConsole from '../CallConsole/CallConsole.react';
 import Dialer from '../Dialer/Dialer.react';
@@ -78,13 +78,13 @@ export default class ActiveCall extends React.Component {
       } else if (this.state.openedPanel === 'flip') {
         return (
           <Closeable onClose={() => this.setState({ openedPanel: null })} className={main}>
-            <UserFlip handleClick={(number) => this.props.flip(number)} />
+            <Flip handleClick={(number) => this.props.flip(number)} />
           </Closeable>
         );
       } else if (this.state.openedPanel === 'transfer') {
         return (
           <Closeable onClose={() => this.setState({ openedPanel: null })} className={main}>
-            <UserTransfer handleClick={(number) => this.props.transfer(number)} />
+            <Transfer handleClick={(number) => this.props.transfer(number)} />
           </Closeable>
         );
       }

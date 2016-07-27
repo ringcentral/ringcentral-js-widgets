@@ -37,18 +37,20 @@ const withRedux = connect(state => ({
   webphoneStatus: state.webphone.status,
   // phoneNumber could be (temp) toNumber from dial pad or
   // actuall info from sip
-  phoneNumber: state.webphone.callLineInfo ?
+  callingNumber: state.webphone.callLineInfo ?
                 clean(state.webphone.callLineInfo.to.friendlyName) :
                 state.webphone.toNumber,
 
   // <Flip />
+  flipNumbers: state.user.forwardingNumbers
+                .filter(number => number.features.indexOf('CallFlip') > -1),
 
   // <DialPad />
 
   // <Transfer />
 
   // <CallerBar />
-  numbers: state.user.phoneNumbers,
+  userNumbers: state.user.phoneNumbers,
 }))(withPhone);
 
 export default withRedux;

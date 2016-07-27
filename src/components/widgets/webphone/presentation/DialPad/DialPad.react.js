@@ -14,7 +14,7 @@ import iconsStyles from '../../../../../styles/icon.css';
 export default class DialPad extends React.Component {
   static propTypes = {
     contacts: React.PropTypes.object,
-    numbers: React.PropTypes.string,
+    userNumbers: React.PropTypes.array,
     call: React.PropTypes.func,
     remoteMedia: React.PropTypes.element,
     localMedia: React.PropTypes.element,
@@ -57,7 +57,7 @@ export default class DialPad extends React.Component {
     return (
       <div className={classNames(main, container)}>
         <div className={bar}>
-          <CallerBar setCaller={(number) => this.caller(number)} numbers={this.props.numbers} />
+          <CallerBar setCaller={(number) => this.caller(number)} numbers={this.props.userNumbers} />
         </div>
         <PanelContent>
           <div>
