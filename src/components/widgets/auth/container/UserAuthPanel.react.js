@@ -1,8 +1,7 @@
 import AuthPanel from '../presentation/AuthPanel/AuthPanel.react';
-import { connect } from 'react-redux';
-import { connect as phoneConnect } from '../../../../utils/integration/';
+import { connect } from '../../../../utils/integration/';
 
-const withPhone = phoneConnect(phone => ({
+const withPhone = connect((state, props, phone) => ({
   login: (...args) => phone.auth.login(...args),
 }))(AuthPanel);
 

@@ -1,4 +1,5 @@
 import PhoneProvider from './PhoneProvider';
-import connect from './connect';
+import connect from './react-redux/src/components/connect';
+import Provider from './react-redux/src/components/Provider';
 
-export { PhoneProvider, connect };
+export { Provider, PhoneProvider, connect };
