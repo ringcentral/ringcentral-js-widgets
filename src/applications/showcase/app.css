@@ -1,3 +1,8 @@
+.showcase {
+  width: 100000px;
+  transform: scale(.8);
+  transform-origin: top left;
+}
 .app {
   position: relative;
   width: 250px;
@@ -6,10 +11,19 @@
   border: 1px solid #ccc;
   background-color: #fcfcfc;
 }
+.tree {
+  float: left;
+  overflow: auto;
+  zoom: 1;
+}
 .line {
   overflow: auto;
   zoom: 1;
 }
 .container {
   float: left;
+}
+.children {
+  overflow: auto;
+  zoom: 1;
 }

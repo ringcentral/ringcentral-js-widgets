@@ -1,0 +1,15 @@
+{{#each children}}
+  <div className={styles.container}>
+    <h1>{{name}}</h1>
+    <div className={styles.app}>
+      <{{name}} />
+    </div>
+    {{#if children}}
+    <div className={styles.line}>
+      <div className={styles.children}>
+      {{> children}}
+      </div>
+    </div>
+    {{/if}}
+  </div>
+{{/each}}
