@@ -2,12 +2,32 @@
 
 [![Build Status](https://travis-ci.org/ringcentral/ringcentral-js-widget.svg?branch=master)](https://travis-ci.org/ringcentral/ringcentral-js-widget)
 
-### Current status:
 
-1. Framework: React
-2. Styles: CSS-modules
-3. Test: Mocha, Enzyme, Chai
 
-### Getting started
+#### Install
 
-#### Project structure
+```shell
+npm install
+```
+
+#### Build
+
+```shell
+npm run dist
+```
+
+#### Test
+
+```shell
+npm run test
+```
+
+#### Lint
+
+```shell
+npm run eslint
+```
+
+
+
+### Project structure

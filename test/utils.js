@@ -3,7 +3,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount, render } from 'enzyme';
-import { PhoneProvider, connect } from '../src/utils/integration';
+import { Provider, PhoneProvider, connect } from '../src/utils/integration';
 
 describe('connect', () => {
   class Passthrough extends React.Component {
@@ -18,9 +18,11 @@ describe('connect', () => {
     };
     const Wrapper = connect(p => ({ attr: p.attr }))(Container);
     const tree = mount(
+    <Provider>
       <PhoneProvider phone={phone}>
         <Wrapper />
       </PhoneProvider>);
+    <Provider>
     expect(Wrapper.displayName).to.equal('PhoneConnect(Container)');
     expect(Wrapper.contextTypes.phone).to.equal(React.PropTypes.object);
     expect(tree.find('PhoneConnect(Container)')).to.have.length(1);

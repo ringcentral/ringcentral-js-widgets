@@ -1,7 +1,7 @@
 import React from 'react';
 import Menu from './Menu.react';
 
-import Cleave from 'cleave.js/src/Cleave.react';
+import Cleave from 'cleave.js/dist/cleave-react';
 import 'cleave.js/dist/addons/cleave-phone.us';
 
 export default class Input extends React.Component {

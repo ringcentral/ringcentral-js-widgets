@@ -1,7 +1,9 @@
 import React from 'react';
+import classNames from 'classnames';
 import { Input } from '../../../../commons/autocomplete/';
 
-import { transfer, transferTitle, transferInput } from './Transfer.css';
+import { main } from '../../index.css';
+import { transfer, transferTitle, transferInput, transferButton, wrapper } from './Transfer.css';
 
 class Transfer extends React.Component {
 
@@ -15,14 +17,20 @@ class Transfer extends React.Component {
 
   render() {
     return (
-      <div className={transfer}>
+      <div className={classNames(main, transfer)}>
         <div className={transferTitle}>Transfer to</div>
         <Input
           onChange={(event) => this.updateNumber(event)}
           className={transferInput}
           placeholder={'Enter Name or Number'}
         />
-        <button onClick={() => this.props.handleClick(this.state.number)}>Transfer</button>
+        <div className={wrapper}>
+          <button
+            onClick={() => this.props.handleClick(this.state.number)}
+            className={transferButton}
+          >Transfer
+          </button>
+        </div>
       </div>
     );
   }
