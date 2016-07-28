@@ -16,51 +16,90 @@ import IncomingCall from '../../components/widgets/webphone/presentation/Incomin
 
 import styles from './app.css';
 
-const App = function App(props) {
-  return (
-    <div className={styles.showcase}>
-      <div className={styles.tree}>
-        <div className={styles.line}>
-          <div className={styles.container}>
-            <h1>WebPhone</h1>
-            <div className={styles.app}>
-              <WebPhone />
-            </div>
-          </div>
-        </div>
-        <div className={styles.line}>
-          <div className={styles.children}>
-            <div className={styles.container}>
-              <h1>DialPad</h1>
-              <div className={styles.app}>
-                <DialPad />
+class App extends React.Component {
+  componentDidMount() {
+    var svg = d3.selectAll("svg")
+                .style("width", 10000)
+                .style("height", 10000);
+    const dom = d3.selectAll(`.${styles.container}`);
+    const circleCoords = []
+    console.log(dom)
+    dom.each((d) => {
+      for ( var i = 0; i < dom.size(); i++ ) {
+        const x = dom.nodes()[i].offsetLeft * .8;
+        const y = dom.nodes()[i].offsetTop * .8;
+        circleCoords.push({x, y});
+      }
+    });
+
+    var line = d3.line()
+                  .x(function(d) {
+                    return d.x;
+                  })
+                  .y(function(d) {
+                    return d.y;
+                  })
+                  .curve(d3.curveCatmullRom.alpha(0.5))
+    console.log(circleCoords)
+    svg.append('path')
+            .attr("d", line(circleCoords))
+            .attr("stroke", "blue")
+            .attr("stroke-width", '5px')
+            .attr("y", '0')
+            .attr("fill", "none");
+  }
+
+  render() {
+    return (
+      <div>
+        <svg className={styles.svg}>
+        </svg>
+        
+        <div className={styles.showcase}>
+          <div className={styles.tree}>
+            <div className={styles.line}>
+              <div className={styles.container}>
+                <h1>WebPhone</h1>
+                <div className={styles.app}>
+                  <WebPhone />
+                </div>
               </div>
-              <div className={styles.line}>
-                <div className={styles.children}>
-                  <div className={styles.container}>
-                    <h1>Dialer</h1>
-                    <div className={styles.app}>
-                      <Dialer />
-                    </div>
+            </div>
+            <div className={styles.line}>
+              <div className={styles.children}>
+                <div className={styles.container}>
+                  <h1>DialPad</h1>
+                  <div className={styles.app}>
+                    <DialPad />
                   </div>
-                  <div className={styles.container}>
-                    <h1>CallerBar</h1>
-                    <div className={styles.app}>
-                      <CallerBar />
-                    </div>
-                    <div className={styles.line}>
-                      <div className={styles.children}>
-                        <div className={styles.container}>
-                          <h1>Dropdown</h1>
-                          <div className={styles.app}>
-                            <Dropdown />
-                          </div>
-                          <div className={styles.line}>
-                            <div className={styles.children}>
-                              <div className={styles.container}>
-                                <h1>DropdownItem</h1>
-                                <div className={styles.app}>
-                                  <DropdownItem />
+                  <div className={styles.line}>
+                    <div className={styles.children}>
+                      <div className={styles.container}>
+                        <h1>Dialer</h1>
+                        <div className={styles.app}>
+                          <Dialer />
+                        </div>
+                      </div>
+                      <div className={styles.container}>
+                        <h1>CallerBar</h1>
+                        <div className={styles.app}>
+                          <CallerBar />
+                        </div>
+                        <div className={styles.line}>
+                          <div className={styles.children}>
+                            <div className={styles.container}>
+                              <h1>Dropdown</h1>
+                              <div className={styles.app}>
+                                <Dropdown />
+                              </div>
+                              <div className={styles.line}>
+                                <div className={styles.children}>
+                                  <div className={styles.container}>
+                                    <h1>DropdownItem</h1>
+                                    <div className={styles.app}>
+                                      <DropdownItem />
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -70,71 +109,71 @@ const App = function App(props) {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className={styles.container}>
-              <h1>ActiveCall</h1>
-              <div className={styles.app}>
-                <ActiveCall />
-              </div>
-              <div className={styles.line}>
-                <div className={styles.children}>
-                  <div className={styles.container}>
-                    <h1>Flip</h1>
-                    <div className={styles.app}>
-                      <Flip />
-                    </div>
+                <div className={styles.container}>
+                  <h1>ActiveCall</h1>
+                  <div className={styles.app}>
+                    <ActiveCall />
                   </div>
-                  <div className={styles.container}>
-                    <h1>Transfer</h1>
-                    <div className={styles.app}>
-                      <Transfer />
-                    </div>
-                  </div>
-                  <div className={styles.container}>
-                    <h1>CallConsole</h1>
-                    <div className={styles.app}>
-                      <CallConsole />
-                    </div>
-                  </div>
-                  <div className={styles.container}>
-                    <h1>Dialer</h1>
-                    <div className={styles.app}>
-                      <Dialer />
-                    </div>
-                  </div>
-                  <div className={styles.container}>
-                    <h1>CallInfo</h1>
-                    <div className={styles.app}>
-                      <CallInfo />
-                    </div>
-                  </div>
-                  <div className={styles.container}>
-                    <h1>CallFooter</h1>
-                    <div className={styles.app}>
-                      <CallFooter />
-                    </div>
-                  </div>
-                  <div className={styles.container}>
-                    <h1>Closable</h1>
-                    <div className={styles.app}>
-                      <Closable />
+                  <div className={styles.line}>
+                    <div className={styles.children}>
+                      <div className={styles.container}>
+                        <h1>Flip</h1>
+                        <div className={styles.app}>
+                          <Flip />
+                        </div>
+                      </div>
+                      <div className={styles.container}>
+                        <h1>Transfer</h1>
+                        <div className={styles.app}>
+                          <Transfer />
+                        </div>
+                      </div>
+                      <div className={styles.container}>
+                        <h1>CallConsole</h1>
+                        <div className={styles.app}>
+                          <CallConsole />
+                        </div>
+                      </div>
+                      <div className={styles.container}>
+                        <h1>Dialer</h1>
+                        <div className={styles.app}>
+                          <Dialer />
+                        </div>
+                      </div>
+                      <div className={styles.container}>
+                        <h1>CallInfo</h1>
+                        <div className={styles.app}>
+                          <CallInfo />
+                        </div>
+                      </div>
+                      <div className={styles.container}>
+                        <h1>CallFooter</h1>
+                        <div className={styles.app}>
+                          <CallFooter />
+                        </div>
+                      </div>
+                      <div className={styles.container}>
+                        <h1>Closable</h1>
+                        <div className={styles.app}>
+                          <Closable />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className={styles.container}>
-              <h1>IncomingCall</h1>
-              <div className={styles.app}>
-                <IncomingCall />
-              </div>
-              <div className={styles.line}>
-                <div className={styles.children}>
-                  <div className={styles.container}>
-                    <h1>CallFooter</h1>
-                    <div className={styles.app}>
-                      <CallFooter />
+                <div className={styles.container}>
+                  <h1>IncomingCall</h1>
+                  <div className={styles.app}>
+                    <IncomingCall />
+                  </div>
+                  <div className={styles.line}>
+                    <div className={styles.children}>
+                      <div className={styles.container}>
+                        <h1>CallFooter</h1>
+                        <div className={styles.app}>
+                          <CallFooter />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -143,8 +182,8 @@ const App = function App(props) {
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default App;

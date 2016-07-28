@@ -27,3 +27,6 @@
   overflow: auto;
   zoom: 1;
 }
+.svg {
+  position: absolute;
+}
