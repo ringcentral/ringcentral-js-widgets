@@ -6,12 +6,13 @@ const pcssVar = require('postcss-simple-vars');
 const pcssMixins = require('postcss-mixins');
 
 module.exports = {
-  entry: [
-    path.resolve(__dirname, 'src/index.js'),
-  ],
+  entry: {
+    'standalone/standalone.js': path.resolve(__dirname, 'src/applications/standalone/index.js'),
+    'showcase/showcase.js': path.resolve(__dirname, 'src/applications/showcase/index.js'),
+  },
   output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: 'ringcentral-js-widget.js',
+    path: path.resolve(__dirname, 'dist/applications'),
+    filename: '[name]',
   },
   devtool: 'inline-source-map',
   module: {

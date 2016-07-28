@@ -1,9 +1,8 @@
 import { connect } from '../../../utils/integration/';
-// import { connect as phoneConnect } from '../../../utils/integration/';
-
 
 import WebPhone from './presentation/WebPhone.react';
 import { getString } from '../../../utils/locale/';
+import { formatPhone } from '../../../utils/format/phone';
 
 function clean(str) {
   return str.slice(0, str.indexOf('@'));
@@ -15,6 +14,13 @@ const statusMapping = {
   CALL_INCOMING: 'ON_INCOMING_CALL',
   CALL_CONNECTING: 'ON_CALL',
   CALL_CONNECTED: 'ON_CALL',
+};
+
+const numberTypeMapping = {
+  CompanyFaxNumber: 0,
+  CompanyNumber: 1,
+  MainCompanyNumber: 2,
+  DirectNumber: 3,
 };
 
 const withRedux = connect((state, props, phone) => {
@@ -51,7 +57,12 @@ const withRedux = connect((state, props, phone) => {
     // <Transfer />
 
     // <CallerBar />
-    userNumbers: state.common.user.phoneNumbers,
+    userNumbers: state.common.user.phoneNumbers
+      .sort((a, b) => numberTypeMapping[b.usageType] - numberTypeMapping[a.usageType])
+      .map(number => Object.assign({}, number, {
+        phoneNumber: formatPhone(number.phoneNumber),
+        usageType: number.usageType.slice(0, number.usageType.indexOf('Number')),
+      })),
 
     // locale
     getString: getString.bind(null, state.locale.lang),

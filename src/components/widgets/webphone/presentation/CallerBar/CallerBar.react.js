@@ -55,7 +55,7 @@ export default class CallerBar extends React.Component {
     const items = this.props.numbers.map(number => ({
       left: number.country.name,
       mid: number.phoneNumber,
-      right: number.usageType.slice(0, number.usageType.indexOf('Number')),
+      right: number.usageType,
     }));
     return (
       <div className={caller} onClick={() => this.triggerDropdown()}>
