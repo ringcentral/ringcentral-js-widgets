@@ -4,6 +4,8 @@ import WebPhone from './presentation/WebPhone.react';
 import { getString } from '../../../utils/locale/';
 import { formatPhone } from '../../../utils/format/phone';
 
+import countryData from 'country-data';
+
 function clean(str) {
   return str.slice(0, str.indexOf('@'));
 }
@@ -22,6 +24,10 @@ const numberTypeMapping = {
   MainCompanyNumber: 2,
   DirectNumber: 3,
 };
+
+function countryMapping(name) {
+  return countryData.lookup.countries({ name })[0].alpha2;
+}
 
 const withRedux = connect((state, props, phone) => {
   return {
@@ -60,8 +66,9 @@ const withRedux = connect((state, props, phone) => {
     userNumbers: state.common.user.phoneNumbers
       .sort((a, b) => numberTypeMapping[b.usageType] - numberTypeMapping[a.usageType])
       .map(number => Object.assign({}, number, {
-        phoneNumber: formatPhone(number.phoneNumber),
-        usageType: number.usageType.slice(0, number.usageType.indexOf('Number')),
+        left: countryMapping(number.country.name),
+        mid: formatPhone(number.phoneNumber),
+        right: number.usageType.slice(0, number.usageType.indexOf('Number')),
       })),
 
     // locale

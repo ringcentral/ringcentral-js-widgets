@@ -52,11 +52,6 @@ export default class CallerBar extends React.Component {
   }
 
   render() {
-    const items = this.props.numbers.map(number => ({
-      left: number.country.name,
-      mid: number.phoneNumber,
-      right: number.usageType,
-    }));
     return (
       <div className={caller} onClick={() => this.triggerDropdown()}>
         <span className={callerSpan}>{this.props.getString('From')}</span>
@@ -66,7 +61,12 @@ export default class CallerBar extends React.Component {
         </div>
         {
           this.state.isDropdownOpen ?
-            <Dropdown items={items} onClick={(left, mid, right) => this.handleClick(mid)} /> :
+            <Dropdown
+              items={this.props.numbers}
+              onClick={
+                (left, mid, right) => this.handleClick(mid)
+              }
+            /> :
             null
         }
       </div>

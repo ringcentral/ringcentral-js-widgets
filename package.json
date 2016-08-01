@@ -69,6 +69,7 @@
     "babel-register": "^6.9.0",
     "classnames": "^2.2.5",
     "cleave.js": "^0.5.2",
+    "country-data": "0.0.25",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
