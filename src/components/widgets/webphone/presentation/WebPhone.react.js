@@ -10,10 +10,12 @@ let remoteMedia;
 let localMedia;
 
 const WebPhone = (props) => {
+  console.log(props.enums);
   function content() {
     if (props.status === 'ON_CALL') {
       return (
         <ActiveCall
+          enums={props.enums}
           phoneNumber={props.callingNumber}
           flipNumbers={props.flipNumbers}
           bye={props.bye}
@@ -71,6 +73,8 @@ const WebPhone = (props) => {
 };
 
 WebPhone.propTypes = {
+  enums: React.PropTypes.object,
+
   status: React.PropTypes.oneOf(['ON_CALL', 'ON_INCOMING_CALL', 'IDLE']),
   contacts: React.PropTypes.array,
   callingNumber: React.PropTypes.string,

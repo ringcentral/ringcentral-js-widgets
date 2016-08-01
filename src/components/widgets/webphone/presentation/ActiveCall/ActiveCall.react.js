@@ -18,6 +18,7 @@ let durationInterval;
 export default class ActiveCall extends React.Component {
 
   static propTypes = {
+    enums: React.PropTypes.object,
     phoneNumber: React.PropTypes.string,
     flipNumbers: React.PropTypes.array,
     bye: React.PropTypes.func,
@@ -38,8 +39,12 @@ export default class ActiveCall extends React.Component {
     duration: 0,
   }
 
+  componentWillMount() {
+    this.enums = this.props.enums;
+  }
+
   componentDidMount() {
-    if (this.props.webphoneStatus === 'CALL_CONNECTED') {
+    if (this.props.webphoneStatus === this.enums.webphoneStatus.callConnected) {
       this.startToCountDuration();
     }
   }

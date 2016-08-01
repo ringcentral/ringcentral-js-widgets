@@ -43,12 +43,12 @@ function countryMapping(name) {
   return countryData.lookup.countries({ name })[0].alpha2;
 }
 
-function getInternationalPhone(raw) {
+function getInternationalPhone(raw, country = 'US') {
   if (!raw) return '';
   return phoneUtil.format(
     phoneUtil.parse(
       raw,
-      'US'
+      country
     ),
     LPN.PhoneNumberFormat.INTERNATIONAL
   );
@@ -66,6 +66,10 @@ const withRedux = connect((state, props, phone) => {
     hold: (...args) => phone.webphone.hold(...args),
     mute: (...args) => phone.webphone.mute(...args),
     dtmf: (...args) => phone.webphone.dtmf(...args),
+
+    // enums
+    enums: phone.webphone.enums,
+
     // <WebPhone />
     status: statusMapping[state.common.webphone.status],
 
@@ -95,7 +99,7 @@ const withRedux = connect((state, props, phone) => {
         numberTypeMapping[b.usageType].priority - numberTypeMapping[a.usageType].priority)
       .map(number => Object.assign({}, number, {
         left: countryMapping(number.country.name),
-        mid: getInternationalPhone(number.phoneNumber),
+        mid: getInternationalPhone(number.phoneNumber, countryMapping(number.country.name)),
         right: numberTypeMapping[number.usageType].abbr,
       })),
 
