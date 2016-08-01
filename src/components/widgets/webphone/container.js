@@ -6,7 +6,6 @@ import LPN from 'google-libphonenumber';
 
 import countryData from 'country-data';
 
-const PNF = LPN.PhoneNumberFormat;
 const phoneUtil = LPN.PhoneNumberUtil.getInstance();
 
 function clean(str) {
@@ -51,7 +50,7 @@ function getInternationalPhone(raw) {
       raw,
       'US'
     ),
-    PNF.INTERNATIONAL
+    LPN.PhoneNumberFormat.INTERNATIONAL
   );
 }
 
