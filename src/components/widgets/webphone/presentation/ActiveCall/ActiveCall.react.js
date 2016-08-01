@@ -1,9 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import { Ratio } from '../../../../commons/ratio/';
+
 import Flip from '../Flip/Flip.react';
 import Transfer from '../Transfer/Transfer.react';
-
 import CallConsole from '../CallConsole/CallConsole.react';
 import Dialer from '../Dialer/Dialer.react';
 import CallInfo from '../CallInfo/CallInfo.react';
@@ -72,8 +73,10 @@ export default class ActiveCall extends React.Component {
       if (this.state.openedPanel === 'keypad') {
         return (
           <div className={classNames(main, container)}>
-            <CallInfo duration={this.state.duration} />
-            <Dialer scale={0.9} handleClick={(number) => this.props.dtmf(number)} />
+            <CallInfo phoneNumber={this.props.phoneNumber} duration={this.state.duration} />
+            <Ratio size={0.9}>
+              <Dialer handleClick={(number) => this.props.dtmf(number)} />
+            </Ratio>
             <CallFooter
               leftIcon={'icon-uni40'}
               rightIcon={'icon-uni44'}

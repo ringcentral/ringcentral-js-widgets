@@ -36,12 +36,6 @@ export default class Input extends React.Component {
       value: event.target.value,
     });
     this.props.onChange(event, event.target.value);
-  }
-
-  handleInput(event) {
-    this.setState({
-      value: event.target.value,
-    });
     this.autocomplete(event.target.value);
   }
 
@@ -70,7 +64,6 @@ export default class Input extends React.Component {
         <Cleave
           className={this.props.className}
           onChange={(event) => this.handleChange(event)}
-          onInput={(event) => this.handleInput(event)}
           value={this.state.value}
           options={{ phone: true, phoneRegionCode: 'US' }}
           placeholder={this.props.placeholder}

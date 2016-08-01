@@ -16,8 +16,8 @@ export default class DialPad extends React.Component {
     contacts: React.PropTypes.object,
     userNumbers: React.PropTypes.array,
     call: React.PropTypes.func,
-    remoteMedia: React.PropTypes.element,
-    localMedia: React.PropTypes.element,
+    remoteMedia: React.PropTypes.any,
+    localMedia: React.PropTypes.any,
     getString: React.PropTypes.func,
   }
 
@@ -26,12 +26,14 @@ export default class DialPad extends React.Component {
     caller: '',
   }
 
-  handleInput(event) {
+  handleChange(event) {
     this.dial(event.target.value);
   }
 
   handleClick(number) {
-    this.dial(this.state.dialingNumber + number);
+    if (['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'].indexOf(number) > -1) {
+      this.dial(this.state.dialingNumber + number);
+    }
   }
 
   handleCallClick(event) {
@@ -68,7 +70,7 @@ export default class DialPad extends React.Component {
           <div>
             <Input
               className={phoneInput}
-              onChange={(event) => this.handleInput(event)}
+              onChange={(event) => this.handleChange(event)}
               value={this.state.dialingNumber}
               items={this.props.contacts}
             />
