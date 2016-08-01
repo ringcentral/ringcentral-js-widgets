@@ -8,6 +8,7 @@ const Dropdown = (props) => (
     {props.items.map((item, index) => (
       <DropdownItem
         {...item}
+        item={item}
         onClick={props.onClick}
         key={index}
       />

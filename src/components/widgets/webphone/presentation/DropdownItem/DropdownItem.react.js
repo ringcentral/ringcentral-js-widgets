@@ -5,7 +5,7 @@ import { dropdownItem, left, mid, right } from './DropdownItem.css';
 const DropdownItem = (props) => (
   <li
     className={dropdownItem}
-    onClick={() => props.onClick(props.left, props.mid, props.right)}
+    onClick={() => props.onClick(props.item)}
   >
     <div className={left}>{props.left}</div>
     <div className={mid}>{props.mid}</div>
@@ -15,6 +15,7 @@ const DropdownItem = (props) => (
 
 DropdownItem.propTypes = {
   onClick: React.PropTypes.func,
+  item: React.PropTypes.object,
   left: React.PropTypes.string,
   mid: React.PropTypes.string,
   right: React.PropTypes.string,

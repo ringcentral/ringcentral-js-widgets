@@ -8,7 +8,7 @@ import iconsStyles from '../../../../../styles/icon.css';
 
 export default class CallerBar extends React.Component {
   static propTypes = {
-    caller: React.PropTypes.string,
+    caller: React.PropTypes.object,
     numbers: React.PropTypes.array,
     setCaller: React.PropTypes.func,
     getString: React.PropTypes.func,
@@ -21,24 +21,8 @@ export default class CallerBar extends React.Component {
 
   state = {
     isDropdownOpen: false,
-    caller: null,
   }
 
-  componentWillMount() {
-    if (this.props.numbers[0]) {
-      this.setDefaultCaller(this.props.numbers);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!this.state.caller && nextProps.numbers[0]) {
-      this.setDefaultCaller(nextProps.numbers);
-    }
-  }
-
-  setDefaultCaller(numbers) {
-    this.setState({ caller: numbers[0].phoneNumber });
-  }
 
   triggerDropdown() {
     this.setState({
@@ -48,14 +32,13 @@ export default class CallerBar extends React.Component {
 
   handleClick(number) {
     this.props.setCaller(number);
-    this.setState({ caller: number });
   }
 
   render() {
     return (
       <div className={caller} onClick={() => this.triggerDropdown()}>
         <span className={callerSpan}>{this.props.getString('From')}</span>
-        <button className={callerButton}>{this.state.caller}</button>
+        <button className={callerButton}>{this.props.caller.mid}</button>
         <div className={callerIcon}>
           <span className={classNames(iconsStyles['icon-uni2463'], iconsStyles.icon)}></span>
         </div>
@@ -64,7 +47,7 @@ export default class CallerBar extends React.Component {
             <Dropdown
               items={this.props.numbers}
               onClick={
-                (left, mid, right) => this.handleClick(mid)
+                (selectedCaller) => this.handleClick(selectedCaller)
               }
             /> :
             null

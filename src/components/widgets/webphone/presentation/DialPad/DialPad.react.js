@@ -23,7 +23,23 @@ export default class DialPad extends React.Component {
 
   state = {
     dialingNumber: '',
-    caller: '',
+    caller: this.props.userNumbers[0],
+  }
+
+  componentWillMount() {
+    if (this.props.userNumbers[0]) {
+      this.setDefaultCaller(this.props.userNumbers);
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.state.caller && nextProps.userNumbers[0]) {
+      this.setDefaultCaller(nextProps.userNumbers);
+    }
+  }
+
+  setDefaultCaller(numbers) {
+    this.setState({ caller: numbers[0] });
   }
 
   handleChange(event) {
@@ -37,10 +53,11 @@ export default class DialPad extends React.Component {
   }
 
   handleCallClick(event) {
+    console.log(this.state.caller.phoneNumber)
     // TODO: validate dialingNumber
-    console.log(this.props.remoteMedia);
     this.props.call({
       toNumber: this.state.dialingNumber,
+      fromNumber: this.state.caller.phoneNumber,
       media: {
         remote: this.props.remoteMedia,
         local: this.props.localMedia,
@@ -62,6 +79,7 @@ export default class DialPad extends React.Component {
         <div className={bar}>
           <CallerBar
             setCaller={(number) => this.caller(number)}
+            caller={this.state.caller}
             numbers={this.props.userNumbers}
             getString={this.props.getString}
           />
