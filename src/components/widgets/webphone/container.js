@@ -19,10 +19,22 @@ const statusMapping = {
 };
 
 const numberTypeMapping = {
-  CompanyFaxNumber: 0,
-  CompanyNumber: 1,
-  MainCompanyNumber: 2,
-  DirectNumber: 3,
+  CompanyFaxNumber: {
+    priority: 0,
+    abbr: 'Company',
+  },
+  CompanyNumber: {
+    priority: 1,
+    abbr: 'Company',
+  },
+  MainCompanyNumber: {
+    priority: 2,
+    abbr: 'Main',
+  },
+  DirectNumber: {
+    priority: 3,
+    abbr: 'Direct',
+  },
 };
 
 function countryMapping(name) {
@@ -64,11 +76,12 @@ const withRedux = connect((state, props, phone) => {
 
     // <CallerBar />
     userNumbers: state.common.user.phoneNumbers
-      .sort((a, b) => numberTypeMapping[b.usageType] - numberTypeMapping[a.usageType])
+      .sort((a, b) =>
+        numberTypeMapping[b.usageType].priority - numberTypeMapping[a.usageType].priority)
       .map(number => Object.assign({}, number, {
         left: countryMapping(number.country.name),
         mid: formatPhone(number.phoneNumber),
-        right: number.usageType.slice(0, number.usageType.indexOf('Number')),
+        right: numberTypeMapping[number.usageType].abbr,
       })),
 
     // locale

@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { dropdownItem } from './DropdownItem.css';
+import { dropdownItem, left, mid, right } from './DropdownItem.css';
 
 const DropdownItem = (props) => (
   <li
     className={dropdownItem}
     onClick={() => props.onClick(props.left, props.mid, props.right)}
   >
-    <div>{props.left}</div>
-    <div>{props.mid}</div>
-    <div>{props.right}</div>
+    <div className={left}>{props.left}</div>
+    <div className={mid}>{props.mid}</div>
+    <div className={right}>{props.right}</div>
   </li>
 );
 
