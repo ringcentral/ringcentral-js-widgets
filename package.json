@@ -70,6 +70,7 @@
     "classnames": "^2.2.5",
     "cleave.js": "^0.5.2",
     "country-data": "0.0.25",
+    "google-libphonenumber": "^1.0.27",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",

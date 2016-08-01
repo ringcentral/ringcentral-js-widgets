@@ -23,7 +23,6 @@ export default class CallerBar extends React.Component {
     isDropdownOpen: false,
   }
 
-
   triggerDropdown() {
     this.setState({
       isDropdownOpen: !this.state.isDropdownOpen,
@@ -38,7 +37,9 @@ export default class CallerBar extends React.Component {
     return (
       <div className={caller} onClick={() => this.triggerDropdown()}>
         <span className={callerSpan}>{this.props.getString('From')}</span>
-        <button className={callerButton}>{this.props.caller.mid}</button>
+        <button className={callerButton}>
+          {this.props.caller ? this.props.caller.mid : ''}
+        </button>
         <div className={callerIcon}>
           <span className={classNames(iconsStyles['icon-uni2463'], iconsStyles.icon)}></span>
         </div>

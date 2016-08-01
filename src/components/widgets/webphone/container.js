@@ -2,9 +2,12 @@ import { connect } from '../../../utils/integration/';
 
 import WebPhone from './presentation/WebPhone.react';
 import { getString } from '../../../utils/locale/';
-import { formatPhone } from '../../../utils/format/phone';
+import LPN from 'google-libphonenumber';
 
 import countryData from 'country-data';
+
+const PNF = LPN.PhoneNumberFormat;
+const phoneUtil = LPN.PhoneNumberUtil.getInstance();
 
 function clean(str) {
   return str.slice(0, str.indexOf('@'));
@@ -41,6 +44,17 @@ function countryMapping(name) {
   return countryData.lookup.countries({ name })[0].alpha2;
 }
 
+function getInternationalPhone(raw) {
+  if (!raw) return '';
+  return phoneUtil.format(
+    phoneUtil.parse(
+      raw,
+      'US'
+    ),
+    PNF.INTERNATIONAL
+  );
+}
+
 const withRedux = connect((state, props, phone) => {
   return {
     accept: () => phone.webphone.accept(),
@@ -62,9 +76,11 @@ const withRedux = connect((state, props, phone) => {
     webphoneStatus: state.common.webphone.status,
     // phoneNumber could be (temp) toNumber from dial pad or
     // actuall info from sip
-    callingNumber: state.common.webphone.remoteIdentity ?
-                  clean(state.common.webphone.remoteIdentity.friendlyName) :
-                  state.common.webphone.toNumber,
+    callingNumber: getInternationalPhone(
+                    state.common.webphone.remoteIdentity ?
+                    clean(state.common.webphone.remoteIdentity.friendlyName) :
+                    state.common.webphone.toNumber
+                  ),
 
     // <Flip />
     flipNumbers: state.common.user.forwardingNumbers
@@ -80,7 +96,7 @@ const withRedux = connect((state, props, phone) => {
         numberTypeMapping[b.usageType].priority - numberTypeMapping[a.usageType].priority)
       .map(number => Object.assign({}, number, {
         left: countryMapping(number.country.name),
-        mid: formatPhone(number.phoneNumber),
+        mid: getInternationalPhone(number.phoneNumber),
         right: numberTypeMapping[number.usageType].abbr,
       })),
 

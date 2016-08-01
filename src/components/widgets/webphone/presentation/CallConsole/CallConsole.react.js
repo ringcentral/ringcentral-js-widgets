@@ -50,7 +50,7 @@ const CallConsole = (props) => {
             [button]: true,
             [disabled]: isDisabled(),
           })}
-          onClick={isDisabled('record') ? noop : props.handleKeypadClick}
+          onClick={isDisabled('dtmf') ? noop : props.handleKeypadClick}
         >
           <span className={iconClass('icon-uni21')}></span>
           <div className={word}>Keypad</div>

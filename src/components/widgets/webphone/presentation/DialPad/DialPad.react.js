@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import LPN from 'google-libphonenumber';
+
 import { PanelHeader, PanelContent, PanelFooter } from '../../../../commons/panel/';
 import { Input } from '../../../../commons/autocomplete/';
 
@@ -53,7 +55,6 @@ export default class DialPad extends React.Component {
   }
 
   handleCallClick(event) {
-    console.log(this.state.caller.phoneNumber)
     // TODO: validate dialingNumber
     this.props.call({
       toNumber: this.state.dialingNumber,
