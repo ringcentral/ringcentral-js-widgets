@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import LPN from 'google-libphonenumber';
+
 import { PanelHeader, PanelContent, PanelFooter } from '../../../../commons/panel/';
 import { Input } from '../../../../commons/autocomplete/';
 
@@ -16,34 +18,61 @@ export default class DialPad extends React.Component {
     contacts: React.PropTypes.object,
     userNumbers: React.PropTypes.array,
     call: React.PropTypes.func,
-    remoteMedia: React.PropTypes.element,
-    localMedia: React.PropTypes.element,
+    remoteMedia: React.PropTypes.any,
+    localMedia: React.PropTypes.any,
     getString: React.PropTypes.func,
   }
 
   state = {
     dialingNumber: '',
-    caller: '',
+    caller: this.props.userNumbers[0],
   }
 
-  handleInput(event) {
+  componentWillMount() {
+    if (this.props.userNumbers[0]) {
+      this.setDefaultCaller(this.props.userNumbers);
+    }
+    this.phoneUtil = LPN.PhoneNumberUtil.getInstance();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.state.caller && nextProps.userNumbers[0]) {
+      this.setDefaultCaller(nextProps.userNumbers);
+    }
+  }
+
+  setDefaultCaller(numbers) {
+    this.setState({ caller: numbers[0] });
+  }
+
+  handleChange(event) {
     this.dial(event.target.value);
   }
 
   handleClick(number) {
-    this.dial(this.state.dialingNumber + number);
+    if (['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'].indexOf(number) > -1) {
+      this.dial(this.state.dialingNumber + number);
+    }
   }
 
   handleCallClick(event) {
-    // TODO: validate dialingNumber
-    console.log(this.props.remoteMedia);
-    this.props.call({
-      toNumber: this.state.dialingNumber,
-      media: {
-        remote: this.props.remoteMedia,
-        local: this.props.localMedia,
-      },
-    });
+    const toNumberInstance = this.phoneUtil.parse(this.state.dialingNumber, 'US');
+    const fromNumberInstance = this.phoneUtil.parse(this.state.caller.phoneNumber, 'US');
+    if (this.phoneUtil.isValidNumber(toNumberInstance)) {
+      this.props.call({
+        toNumber:
+          this.phoneUtil.format(toNumberInstance, LPN.PhoneNumberFormat.E164),
+        fromNumber:
+          this.phoneUtil.format(fromNumberInstance, LPN.PhoneNumberFormat.E164),
+        media: {
+          remote: this.props.remoteMedia,
+          local: this.props.localMedia,
+        },
+      });
+    } else {
+      console.error(`${this.state.dialingNumber} not a valid phone number`);
+      // TODO: SHOW ERROR
+    }
   }
 
   dial(dialingNumber) {
@@ -60,6 +89,7 @@ export default class DialPad extends React.Component {
         <div className={bar}>
           <CallerBar
             setCaller={(number) => this.caller(number)}
+            caller={this.state.caller}
             numbers={this.props.userNumbers}
             getString={this.props.getString}
           />
@@ -68,7 +98,7 @@ export default class DialPad extends React.Component {
           <div>
             <Input
               className={phoneInput}
-              onChange={(event) => this.handleInput(event)}
+              onChange={(event) => this.handleChange(event)}
               value={this.state.dialingNumber}
               items={this.props.contacts}
             />

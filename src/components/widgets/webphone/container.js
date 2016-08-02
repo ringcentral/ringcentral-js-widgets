@@ -1,9 +1,12 @@
 import { connect } from '../../../utils/integration/';
-// import { connect as phoneConnect } from '../../../utils/integration/';
-
 
 import WebPhone from './presentation/WebPhone.react';
 import { getString } from '../../../utils/locale/';
+import LPN from 'google-libphonenumber';
+
+import countryData from 'country-data';
+
+const phoneUtil = LPN.PhoneNumberUtil.getInstance();
 
 function clean(str) {
   return str.slice(0, str.indexOf('@'));
@@ -17,6 +20,40 @@ const statusMapping = {
   CALL_CONNECTED: 'ON_CALL',
 };
 
+const numberTypeMapping = {
+  CompanyFaxNumber: {
+    priority: 0,
+    abbr: 'Company',
+  },
+  CompanyNumber: {
+    priority: 1,
+    abbr: 'Company',
+  },
+  MainCompanyNumber: {
+    priority: 2,
+    abbr: 'Main',
+  },
+  DirectNumber: {
+    priority: 3,
+    abbr: 'Direct',
+  },
+};
+
+function countryMapping(name) {
+  return countryData.lookup.countries({ name })[0].alpha2;
+}
+
+function getInternationalPhone(raw, country = 'US') {
+  if (!raw) return '';
+  return phoneUtil.format(
+    phoneUtil.parse(
+      raw,
+      country
+    ),
+    LPN.PhoneNumberFormat.INTERNATIONAL
+  );
+}
+
 const withRedux = connect((state, props, phone) => {
   return {
     accept: () => phone.webphone.accept(),
@@ -29,6 +66,10 @@ const withRedux = connect((state, props, phone) => {
     hold: (...args) => phone.webphone.hold(...args),
     mute: (...args) => phone.webphone.mute(...args),
     dtmf: (...args) => phone.webphone.dtmf(...args),
+
+    // enums
+    enums: phone.webphone.enums,
+
     // <WebPhone />
     status: statusMapping[state.common.webphone.status],
 
@@ -38,9 +79,11 @@ const withRedux = connect((state, props, phone) => {
     webphoneStatus: state.common.webphone.status,
     // phoneNumber could be (temp) toNumber from dial pad or
     // actuall info from sip
-    callingNumber: state.common.webphone.remoteIdentity ?
-                  clean(state.common.webphone.remoteIdentity.friendlyName) :
-                  state.common.webphone.toNumber,
+    callingNumber: getInternationalPhone(
+                    state.common.webphone.remoteIdentity ?
+                    clean(state.common.webphone.remoteIdentity.friendlyName) :
+                    state.common.webphone.toNumber
+                  ),
 
     // <Flip />
     flipNumbers: state.common.user.forwardingNumbers
@@ -51,7 +94,14 @@ const withRedux = connect((state, props, phone) => {
     // <Transfer />
 
     // <CallerBar />
-    userNumbers: state.common.user.phoneNumbers,
+    userNumbers: state.common.user.phoneNumbers
+      .sort((a, b) =>
+        numberTypeMapping[b.usageType].priority - numberTypeMapping[a.usageType].priority)
+      .map(number => Object.assign({}, number, {
+        left: countryMapping(number.country.name),
+        mid: getInternationalPhone(number.phoneNumber, countryMapping(number.country.name)),
+        right: numberTypeMapping[number.usageType].abbr,
+      })),
 
     // locale
     getString: getString.bind(null, state.locale.lang),

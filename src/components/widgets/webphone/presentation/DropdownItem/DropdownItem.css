@@ -10,3 +10,12 @@
 .dropdownItem:hover {
   background: #f9f9f9;
 }
+
+.left {
+  width: 25%;
+}
+.mid {}
+.right {
+  width: 25%;
+  text-align: right;
+}

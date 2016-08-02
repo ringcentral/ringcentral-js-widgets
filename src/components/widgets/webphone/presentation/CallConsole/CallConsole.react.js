@@ -2,7 +2,6 @@ import React from 'react';
 import { icon, panel, line } from '../../index.css';
 import { button, disabled, word } from './CallConsole.css';
 import iconsStyles from '../../../../../styles/icon.css';
-import { StatedButton } from '../../../../commons/button/';
 
 import classNames from 'classnames';
 
@@ -18,6 +17,10 @@ const CallConsole = (props) => {
   function contain(arr, target) {
     return arr && target && arr.indexOf(target) !== -1;
   }
+  function isDisabled(action) {
+    return props.disabled || (action && contain(props.disabledOperation, action));
+  }
+  function noop() {}
   // TODO: replace constant with enums
   return (
     <div className={panel}>
@@ -25,9 +28,11 @@ const CallConsole = (props) => {
         <button
           className={classNames({
             [button]: true,
-            [disabled]: props.disabled,
+            [disabled]: isDisabled(),
           })}
-          onClick={(event) => props.handleHoldClick(!contain(props.status, 'HOLDING'))}
+          onClick={isDisabled() ?
+            noop :
+            (event) => props.handleHoldClick(!contain(props.status, 'HOLDING'))}
         >
           <span
             className={
@@ -43,9 +48,9 @@ const CallConsole = (props) => {
         <button
           className={classNames({
             [button]: true,
-            [disabled]: props.disabled,
+            [disabled]: isDisabled(),
           })}
-          onClick={props.handleKeypadClick}
+          onClick={isDisabled('dtmf') ? noop : props.handleKeypadClick}
         >
           <span className={iconClass('icon-uni21')}></span>
           <div className={word}>Keypad</div>
@@ -53,9 +58,11 @@ const CallConsole = (props) => {
         <button
           className={classNames({
             [button]: true,
-            [disabled]: props.disabled || contain(props.disabledOperation, 'record'),
+            [disabled]: isDisabled('record'),
           })}
-          onClick={(event) => props.handleRecordClick(!contain(props.status, 'RECORDING'))}
+          onClick={isDisabled('record') ?
+            noop :
+            () => props.handleRecordClick(!contain(props.status, 'RECORDING'))}
         >
           <span
             className={
@@ -73,9 +80,9 @@ const CallConsole = (props) => {
         <button
           className={classNames({
             [button]: true,
-            [disabled]: props.disabled || contain(props.disabledOperation, 'flip'),
+            [disabled]: isDisabled('flip'),
           })}
-          onClick={props.handleFlipClick}
+          onClick={isDisabled('flip') ? noop : props.handleFlipClick}
         >
           <span className={iconClass('icon-uni27')}></span>
           <div className={word}>Flip</div>
@@ -83,9 +90,9 @@ const CallConsole = (props) => {
         <button
           className={classNames({
             [button]: true,
-            [disabled]: props.disabled || contain(props.disabledOperation, 'transfer'),
+            [disabled]: isDisabled('transfer'),
           })}
-          onClick={props.handleTransferClick}
+          onClick={isDisabled('transfer') ? noop : props.handleTransferClick}
         >
           <span className={iconClass('icon-uni23')}></span>
           <div className={word}>Transfer</div>
@@ -93,9 +100,9 @@ const CallConsole = (props) => {
         <button
           className={classNames({
             [button]: true,
-            [disabled]: props.disabled || contain(props.disabledOperation, 'park'),
+            [disabled]: isDisabled('park'),
           })}
-          onClick={props.handleParkClick}
+          onClick={isDisabled('park') ? noop : props.handleParkClick}
         >
           <span className={iconClass('icon-uni22')}></span>
           <div className={word}>Park</div>
