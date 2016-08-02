@@ -4,6 +4,7 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register --require ignore-styles --require test/setup.js ./src/**/*.spec.js",
     "coverage": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --require ignore-styles --require test/setup.js --colors --reporter dot ./src/**/*.spec.js",
+    "coverall": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --compilers js:babel-core/register --require ignore-styles --require test/setup.js --colors --reporter dot ./src/**/*.spec.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "eslint": "./node_modules/eslint/bin/eslint.js src/*",
     "dist": "./node_modules/webpack/bin/webpack.js",
     "watch": "./node_modules/webpack/bin/webpack.js --watch"
@@ -23,6 +24,7 @@
     "babel-register": "^6.4.3",
     "babel-runtime": "^6.6.1",
     "chai": "^3.5.0",
+    "coveralls": "^2.11.12",
     "css-loader": "^0.23.1",
     "css-modules-require-hook": "^4.0.1",
     "css-selector-tokenizer": "^0.5.4",
@@ -47,6 +49,7 @@
     "jsdom": "^8.0.1",
     "json-loader": "^0.5.4",
     "mocha": "^2.4.5",
+    "mocha-lcov-reporter": "^1.2.0",
     "node-dir": "^0.1.15",
     "postcss": "^5.1.0",
     "postcss-import": "^8.1.2",

@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/ringcentral/ringcentral-js-widget.svg?branch=master)](https://travis-ci.org/ringcentral/ringcentral-js-widget)
 
+[![Coverage Status](https://coveralls.io/repos/github/ringcentral/ringcentral-js-widget/badge.svg?branch=master)](https://coveralls.io/github/ringcentral/ringcentral-js-widget?branch=master)
+
 
 
 ### Getting Started
@@ -17,7 +19,6 @@ npm install
 Take a look of `package.json` for avaliable npm commands.
 
 We use webpack for bundling tool, see `webpack.config.js` for further configuration.
-
 
 
 ### Project Structure
