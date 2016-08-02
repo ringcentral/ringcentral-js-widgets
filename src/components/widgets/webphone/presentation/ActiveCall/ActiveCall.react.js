@@ -15,7 +15,7 @@ import { main, container } from '../../index.css';
 
 let durationInterval;
 
-export default class ActiveCall extends React.Component {
+export default class ActiveCall extends React.PureComponent {
 
   static propTypes = {
     enums: React.PropTypes.object,

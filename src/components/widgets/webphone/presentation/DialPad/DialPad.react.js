@@ -13,7 +13,7 @@ import { main, container, line } from '../../index.css';
 import { bar, callButton, phoneInput } from './DialPad.css';
 import iconsStyles from '../../../../../styles/icon.css';
 
-export default class DialPad extends React.Component {
+export default class DialPad extends React.PureComponent {
   static propTypes = {
     contacts: React.PropTypes.object,
     userNumbers: React.PropTypes.array,
@@ -33,6 +33,10 @@ export default class DialPad extends React.Component {
       this.setDefaultCaller(this.props.userNumbers);
     }
     this.phoneUtil = LPN.PhoneNumberUtil.getInstance();
+    this.boundHandleChange = (number) => this.handleChange(number);
+    this.boundHandleClick = (number) => this.handleClick(number);
+    this.boundHandleCallClick = (event) => this.handleCallClick(event);
+    this.boundCaller = (number) => this.caller(number);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -45,8 +49,8 @@ export default class DialPad extends React.Component {
     this.setState({ caller: numbers[0] });
   }
 
-  handleChange(event) {
-    this.dial(event.target.value);
+  handleChange(number) {
+    this.dial(number);
   }
 
   handleClick(number) {
@@ -88,7 +92,7 @@ export default class DialPad extends React.Component {
       <div className={classNames(main, container)}>
         <div className={bar}>
           <CallerBar
-            setCaller={(number) => this.caller(number)}
+            setCaller={this.boundCaller}
             caller={this.state.caller}
             numbers={this.props.userNumbers}
             getString={this.props.getString}
@@ -98,12 +102,12 @@ export default class DialPad extends React.Component {
           <div>
             <Input
               className={phoneInput}
-              onChange={(event) => this.handleChange(event)}
+              onChange={this.boundHandleChange}
               value={this.state.dialingNumber}
               items={this.props.contacts}
             />
             <div>
-              <Dialer handleClick={(number) => this.handleClick(number)} />
+              <Dialer handleClick={this.boundHandleClick} />
             </div>
           </div>
         </PanelContent>
@@ -111,7 +115,7 @@ export default class DialPad extends React.Component {
           <div className={line}>
             <button
               className={callButton}
-              onClick={(event) => this.handleCallClick(event)}
+              onClick={this.boundHandleCallClick}
             >
               <span className={classNames(iconsStyles['icon-uniAE'], iconsStyles.icon)}></span>
             </button>

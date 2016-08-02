@@ -10,7 +10,6 @@ let remoteMedia;
 let localMedia;
 
 const WebPhone = (props) => {
-  console.log(props.enums);
   function content() {
     if (props.status === 'ON_CALL') {
       return (
