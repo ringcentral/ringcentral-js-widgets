@@ -4,7 +4,7 @@ import React from 'react';
 import { createStore } from 'redux';
 import { expect } from 'chai';
 import { shallow, mount, render } from 'enzyme';
-import { Provider, PhoneProvider, connect } from '../src/utils/integration';
+import { Provider, PhoneProvider, connect } from './';
 
 describe('connect', () => {
   class Passthrough extends React.Component {

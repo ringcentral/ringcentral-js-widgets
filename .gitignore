@@ -41,3 +41,5 @@ dist
 config.js
 
 index.html
+
+bundle.css

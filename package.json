@@ -2,8 +2,8 @@
   "name": "ringcentral-js-widget",
   "version": "0.1.0",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register --require ignore-styles --require test/setup.js",
-    "coverage": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --require ignore-styles --colors --reporter dot test/",
+    "test": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register --require ignore-styles --require test/setup.js ./src/**/*.spec.js",
+    "coverage": "node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --require ignore-styles --require test/setup.js --colors --reporter dot ./src/**/*.spec.js",
     "eslint": "./node_modules/eslint/bin/eslint.js src/*",
     "dist": "./node_modules/webpack/bin/webpack.js",
     "watch": "./node_modules/webpack/bin/webpack.js --watch"
