@@ -54,6 +54,17 @@ function getInternationalPhone(raw, country = 'US') {
   );
 }
 
+function getNationalPhone(raw, country = 'US') {
+  if (!raw) return '';
+  return phoneUtil.format(
+    phoneUtil.parse(
+      raw,
+      country
+    ),
+    LPN.PhoneNumberFormat.NATIONAL
+  );
+}
+
 const withRedux = connect((state, props, phone) => {
   return {
     accept: () => phone.webphone.accept(),
@@ -79,7 +90,7 @@ const withRedux = connect((state, props, phone) => {
     webphoneStatus: state.common.webphone.status,
     // phoneNumber could be (temp) toNumber from dial pad or
     // actuall info from sip
-    callingNumber: getInternationalPhone(
+    callingNumber: getNationalPhone(
                     state.common.webphone.remoteIdentity ?
                     clean(state.common.webphone.remoteIdentity.friendlyName) :
                     state.common.webphone.toNumber
