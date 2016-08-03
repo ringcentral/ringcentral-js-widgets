@@ -65,8 +65,9 @@ function getNationalPhone(raw, country = 'US') {
   );
 }
 
-const withRedux = connect((state, props, phone) => {
+export default connect((state, props, phone) => {
   return {
+    // TODO: for function, memorized it
     accept: () => phone.webphone.accept(),
     call: (...args) => phone.webphone.call(...args),
     bye: () => phone.webphone.bye(),
@@ -118,5 +119,3 @@ const withRedux = connect((state, props, phone) => {
     getString: getString.bind(null, state.locale.lang),
   };
 })(WebPhone);
-
-export default withRedux;

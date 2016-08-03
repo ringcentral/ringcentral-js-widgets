@@ -3,7 +3,7 @@ import { line as lineStyle } from '../../index.css';
 import { dialer, dialerButton, dialerNumber, dialerSymbol } from './Dialer.css';
 
 const Dialer = (props) => (
-  <div className={dialer} style={{ fontSize: `${(props.scale || 1)} em` }}>
+  <div className={dialer}>
     {[
       [{ 1: '' }, { 2: 'ABC' }, { 3: 'DEF' }],
       [{ 4: 'GHI' }, { 5: 'JKL' }, { 6: 'MNO' }],
