@@ -13,8 +13,8 @@ function clean(str) {
 }
 
 const statusMapping = {
+  PRE_REGISTER: 'DISABLED',
   REGISTER_SUCCESSED: 'IDLE',
-  PRE_REGISTER: 'IDLE',
   CALL_INCOMING: 'ON_INCOMING_CALL',
   CALL_CONNECTING: 'ON_CALL',
   CALL_CONNECTED: 'ON_CALL',
@@ -78,6 +78,8 @@ export default connect((state, props, phone) => {
     hold: (...args) => phone.webphone.hold(...args),
     mute: (...args) => phone.webphone.mute(...args),
     dtmf: (...args) => phone.webphone.dtmf(...args),
+
+    loadRingAudio: (options) => phone.webphone.loadRingAudio(options),
 
     // enums
     enums: phone.webphone.enums,

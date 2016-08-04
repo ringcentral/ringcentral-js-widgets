@@ -44,7 +44,7 @@
       </head>
       <body>
       <div id='container'></div>
-      <script type='text/javascript' src='./dist/applications/standalone/standalone.js'></script>
+      <script type='text/javascript' src='./dist/applications/standalone.js'></script>
 
       </body>
       </html>

@@ -41,12 +41,14 @@ const WebPhone = (props) => {
     }
     return (
       <DialPad
+        disabled={props.status === 'DISABLED'}
         contacts={props.contacts}
         remoteMedia={remoteMedia}
         localMedia={localMedia}
         call={props.call}
         userNumbers={props.userNumbers}
         getString={props.getString}
+        loadRingAudio={props.loadRingAudio}
       />
     );
   }
@@ -74,7 +76,7 @@ const WebPhone = (props) => {
 WebPhone.propTypes = {
   enums: React.PropTypes.object,
 
-  status: React.PropTypes.oneOf(['ON_CALL', 'ON_INCOMING_CALL', 'IDLE']),
+  status: React.PropTypes.oneOf(['ON_CALL', 'ON_INCOMING_CALL', 'IDLE', 'DISABLED']),
   contacts: React.PropTypes.array,
   callingNumber: React.PropTypes.string,
 
