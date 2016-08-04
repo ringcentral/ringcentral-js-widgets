@@ -6,18 +6,13 @@ import Auth from '../../components/widgets/auth/container';
 
 import styles from './app.css';
 
-// Some hack
-let isManual = false;
 const App = function (props) {
-  function manuallyLogin() {
-    isManual = true;
-  }
   return (
     <div className={styles.app}>
       {
-        props.loggedIn && isManual ?
+        props.loggedIn ?
           <WebPhone /> :
-          <Auth manuallyLogin={manuallyLogin} />
+          <Auth />
       }
     </div>
   );

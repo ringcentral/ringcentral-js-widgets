@@ -5,7 +5,6 @@ class AuthPanel extends React.Component {
 
   static propTypes = {
     redirectUri: React.PropTypes.string,
-    manuallyLogin: React.PropTypes.func,
     login: React.PropTypes.func,
     authorize: React.PropTypes.func,
     loginUrl: React.PropTypes.func,
@@ -46,7 +45,6 @@ class AuthPanel extends React.Component {
     );
     window.addEventListener('message', oauthChannel);
     this.removeEventListener = () => window.removeEventListener('message', oauthChannel);
-    this.props.manuallyLogin();
   }
 
   render() {

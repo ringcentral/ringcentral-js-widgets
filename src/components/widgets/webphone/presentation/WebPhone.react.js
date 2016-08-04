@@ -82,6 +82,7 @@ WebPhone.propTypes = {
 
   accept: React.PropTypes.func,
 
+  loadRingAudio: React.PropTypes.func,
   call: React.PropTypes.func,
   bye: React.PropTypes.func,
   flip: React.PropTypes.func,
