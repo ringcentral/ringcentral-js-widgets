@@ -6,7 +6,9 @@
 
 #### Build
 
-1. ```shell
+1. Install dependencies
+
+   ```sh
    npm install
    ```
 
@@ -20,7 +22,9 @@
    };
    ```
 
-3. ```shell
+3. Build
+
+   ```bash
    npm run build
    ```
 
