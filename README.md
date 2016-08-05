@@ -24,7 +24,7 @@
 
 3. Build
 
-   ```bash
+   ```sh
    npm run build
    ```
 
@@ -52,19 +52,13 @@
 
 6. Enjoy your phone widgets!
 
-#### Other commands
-
-Take a look of `package.json` for avaliable npm commands.
-
-We use webpack for bundling tool, see `webpack.config.js` for further configuration.
-
 
 
 ## Contribute
 
 
 
-   ### Project Structure
+### Project Structure
 
 RingCentral-js-widget has 3 levels of archtecture:
 
@@ -103,14 +97,15 @@ RingCentral-js-widget has 3 levels of archtecture:
 1. Normally the application in this repo is for demo purpose. You can download the ringcentral-js-widget via NPM (not yet) and compose several widgets and components into an application.
 
 
-   ### Components Design Guideline
 
-1.    Stateless functional component as possible.
 
-2.    Don't use Redux store without further discussion.
+### Components Design Guideline
 
-      1. Use moduler CSS anytime.
+1. Stateless functional component as possible.
 
-      2. Define strict `propTypes` for each components.
+2. Don't use Redux store without further discussion.
+   1. Use moduler CSS anytime.
 
-         ​
+   2. Define strict `propTypes` for each components.
+
+   ​
