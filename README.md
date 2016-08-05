@@ -14,7 +14,7 @@
 
 2. Create `config.js`
 
-   ```json
+   ```javascript
    export default {
      appKey: 'PUT_YOUR_APP_KEY',
      appSecret: 'PUT_YOUR_APP_SECRET',
@@ -62,7 +62,9 @@ We use webpack for bundling tool, see `webpack.config.js` for further configurat
 
 ## Contribute
 
-   #### Project Structure
+
+
+   ### Project Structure
 
 RingCentral-js-widget has 3 levels of archtecture:
 
@@ -80,28 +82,28 @@ RingCentral-js-widget has 3 levels of archtecture:
    3. Other tools (`cli` and `src/utils`)
 
 
-#### Steps to fellow
+### Steps to fellow
 
 ##### How to add a new widgets?
 
 1. Widgets represent a indenpently functionality module, such as auth, contacts, or webphone.
 2. Discuss first.
 
-##### How to add a new components?
+#### How to add a new components?
 
 1. If you want to add some new components for specific widgets, first check that if there's any similiar widgets can be used or generalized.
 2. If you want to add some new components for common purpose, discuss first.
 
-##### How to add test?
+#### How to add test?
 
 1. We use mocha with enzyme to test widgets. The folder structrue is to be discussed.
 
-##### How to add an application?
+#### How to add an application?
 
 1. Normally the application in this repo is for demo purpose. You can download the ringcentral-js-widget via NPM (not yet) and compose several widgets and components into an application.
 
 
-   #### Components Design Guideline
+   ### Components Design Guideline
 
 1.    Stateless functional component as possible.
 
