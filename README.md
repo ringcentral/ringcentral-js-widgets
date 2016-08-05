@@ -26,8 +26,8 @@
 
 4. This will produce 2 build:
 
-   1. `./dist/applications/standalone/standalone.js`
-   2. `./dist/applications/showcase/showcase.js`(experimental stage)
+   1. `./dist/applications/standalone.js`
+   2. `./dist/applications/showcase.js`(experimental stage)
 
 5. Copy the html snippet
 
