@@ -16,7 +16,7 @@ let store;
 const phone = new RcPhone({
   sdkSettings: {
     ...config,
-    server: 'https://platform.ringcentral.com',
+    server: 'https://platform.devtest.ringcentral.com',
   },
   getStore(reducer) {
     store = createStore(combineReducers({

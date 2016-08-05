@@ -12,45 +12,20 @@ let localMedia;
 const WebPhone = (props) => {
   function content() {
     if (props.status === 'ON_CALL') {
-      return (
-        <ActiveCall
-          enums={props.enums}
-          phoneNumber={props.callingNumber}
-          flipNumbers={props.flipNumbers}
-          bye={props.bye}
-          flip={props.flip}
-          transfer={props.transfer}
-          park={props.park}
-          record={props.record}
-          hold={props.hold}
-          mute={props.mute}
-          dtmf={props.dtmf}
-          disabledOperation={props.disabledOperation}
-          operationStatus={props.operationStatus}
-          webphoneStatus={props.webphoneStatus}
-        />
-      );
+      return <ActiveCall {...props.activeCall} enums={props.enums} />;
     } else if (props.status === 'ON_INCOMING_CALL') {
-      return (
-        <IncomingCall
-          phoneNumber={props.callingNumber}
-          accept={props.accept}
-          bye={props.bye}
-        />
-      );
+      return <IncomingCall {...props.incomingCall} />;
     }
     return (
       <DialPad
-        contacts={props.contacts}
+        {...props.dialPad}
+        disabled={props.status === 'DISABLED'}
         remoteMedia={remoteMedia}
         localMedia={localMedia}
-        call={props.call}
-        userNumbers={props.userNumbers}
         getString={props.getString}
       />
     );
   }
-
   return (
     <div className={main}>
       <div>
@@ -72,31 +47,12 @@ const WebPhone = (props) => {
 };
 
 WebPhone.propTypes = {
+  activeCall: React.PropTypes.object,
+  incomingCall: React.PropTypes.object,
+  dialPad: React.PropTypes.object,
+
   enums: React.PropTypes.object,
-
-  status: React.PropTypes.oneOf(['ON_CALL', 'ON_INCOMING_CALL', 'IDLE']),
-  contacts: React.PropTypes.array,
-  callingNumber: React.PropTypes.string,
-
-  accept: React.PropTypes.func,
-
-  call: React.PropTypes.func,
-  bye: React.PropTypes.func,
-  flip: React.PropTypes.func,
-  transfer: React.PropTypes.func,
-  park: React.PropTypes.func,
-  record: React.PropTypes.func,
-  hold: React.PropTypes.func,
-  mute: React.PropTypes.func,
-  dtmf: React.PropTypes.func,
-  disabledOperation: React.PropTypes.array,
-  operationStatus: React.PropTypes.array,
-  webphoneStatus: React.PropTypes.string,
-
-  userNumbers: React.PropTypes.array,
-
-  flipNumbers: React.PropTypes.array,
-
+  status: React.PropTypes.oneOf(['ON_CALL', 'ON_INCOMING_CALL', 'IDLE', 'DISABLED']),
   getString: React.PropTypes.func,
 };
 

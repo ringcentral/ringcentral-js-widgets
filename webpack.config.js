@@ -7,8 +7,8 @@ const pcssMixins = require('postcss-mixins');
 
 module.exports = {
   entry: {
-    'standalone/standalone.js': path.resolve(__dirname, 'src/applications/standalone/index.js'),
-    'showcase/showcase.js': path.resolve(__dirname, 'src/applications/showcase/index.js'),
+    'standalone.js': path.resolve(__dirname, 'src/applications/standalone/index.js'),
+    'showcase.js': path.resolve(__dirname, 'src/applications/showcase/index.js'),
   },
   output: {
     path: path.resolve(__dirname, 'dist/applications'),
@@ -31,7 +31,7 @@ module.exports = {
         loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[folder]__[local]!postcss-loader',
       },
       {
-        test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+        test: /\.(ogg|ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
         loader: 'file-loader',
       },
       { test: /\.(png|woff|woff2|eot|ttf|svg)$/, loader: 'url-loader?limit=100000' },

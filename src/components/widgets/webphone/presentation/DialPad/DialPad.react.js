@@ -12,15 +12,19 @@ import CallerBar from '../CallerBar/CallerBar.react';
 import { main, container, line } from '../../index.css';
 import { bar, callButton, phoneInput } from './DialPad.css';
 import iconsStyles from '../../../../../styles/icon.css';
+import incoming from '../../../../../assets/audio/incoming.ogg';
+import outgoing from '../../../../../assets/audio/outgoing.ogg';
 
 export default class DialPad extends React.PureComponent {
   static propTypes = {
+    disabled: React.PropTypes.bool,
     contacts: React.PropTypes.object,
     userNumbers: React.PropTypes.array,
     call: React.PropTypes.func,
     remoteMedia: React.PropTypes.any,
     localMedia: React.PropTypes.any,
     getString: React.PropTypes.func,
+    loadRingAudio: React.PropTypes.func,
   }
 
   state = {
@@ -40,8 +44,16 @@ export default class DialPad extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log(nextProps.disabled);
     if (!this.state.caller && nextProps.userNumbers[0]) {
       this.setDefaultCaller(nextProps.userNumbers);
+    }
+    if (this.props.disabled && !nextProps.disabled) {
+      console.log(outgoing);
+      this.props.loadRingAudio({
+        incoming,
+        outgoing,
+      })
     }
   }
 
