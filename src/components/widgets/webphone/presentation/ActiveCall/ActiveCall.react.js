@@ -18,12 +18,12 @@ let durationInterval;
 export default class ActiveCall extends React.PureComponent {
 
   static propTypes = {
+    flip: React.PropTypes.object,
+    transfer: React.PropTypes.object,
+    callInfo: React.PropTypes.object,
+
     enums: React.PropTypes.object,
-    phoneNumber: React.PropTypes.string,
-    flipNumbers: React.PropTypes.array,
     bye: React.PropTypes.func,
-    flip: React.PropTypes.func,
-    transfer: React.PropTypes.func,
     park: React.PropTypes.func,
     record: React.PropTypes.func,
     hold: React.PropTypes.func,
@@ -78,7 +78,7 @@ export default class ActiveCall extends React.PureComponent {
       if (this.state.openedPanel === 'keypad') {
         return (
           <div className={classNames(main, container)}>
-            <CallInfo phoneNumber={this.props.phoneNumber} duration={this.state.duration} />
+            <CallInfo {...this.props.callInfo} duration={this.state.duration} />
             <Ratio size={0.9}>
               <Dialer handleClick={(number) => this.props.dtmf(number)} />
             </Ratio>
@@ -94,21 +94,20 @@ export default class ActiveCall extends React.PureComponent {
         return (
           <Closeable onClose={() => this.setState({ openedPanel: null })} className={main}>
             <Flip
-              handleClick={(number) => this.props.flip(number)}
-              numbers={this.props.flipNumbers}
+              {...this.props.flip}
             />
           </Closeable>
         );
       } else if (this.state.openedPanel === 'transfer') {
         return (
           <Closeable onClose={() => this.setState({ openedPanel: null })} className={main}>
-            <Transfer handleClick={(number) => this.props.transfer(number)} />
+            <Transfer {...this.props.transfer} />
           </Closeable>
         );
       }
       return (
         <div className={classNames(main, container)}>
-          <CallInfo phoneNumber={this.props.phoneNumber} duration={this.state.duration} />
+          <CallInfo {...this.props.callInfo} duration={this.state.duration} />
           <CallConsole
             status={this.props.operationStatus}
             disabledOperation={this.props.disabledOperation}

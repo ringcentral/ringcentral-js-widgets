@@ -12,7 +12,7 @@ const Flip = (props) => (
           <ListItem
             className={flipItem}
             key={index}
-            onClick={() => props.handleClick(number.flipNumber)}
+            onClick={() => props.flip(number.flipNumber)}
             clickable
           >
             <div className={flipItemTitle}>{number.phoneNumber}</div>
@@ -25,11 +25,11 @@ const Flip = (props) => (
 );
 
 Flip.propTypes = {
-  numbers: React.PropTypes.arrayOf(React.PropTypes.shape({
+  flipNumbers: React.PropTypes.arrayOf(React.PropTypes.shape({
     value: React.PropTypes.string.isRequired,
     type: React.PropTypes.string.isRequired,
   })),
-  handleClick: React.PropTypes.func,
+  flip: React.PropTypes.object,
 };
 
 Flip.defaultProps = {
