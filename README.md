@@ -6,11 +6,13 @@
 
 #### Build
 
-1. ```shell
-   npm install
-   ```
+1. Install dependencies
 
-2. Create `config.js`
+    ```shell
+    npm install
+    ```
+
+2. Create `config.js` in project root
 
    ```json
    export default {
@@ -20,16 +22,18 @@
    };
    ```
 
-3. ```shell
-   npm run build
-   ```
+3. Run build
 
-4. This will produce 2 build:
+    ```shell
+    npm run build
+    ```
+
+    This will produce 2 build files:
 
    1. `./dist/applications/standalone.js`
    2. `./dist/applications/showcase.js`(experimental stage)
 
-5. Copy the html snippet
+4. Copy the html snippet
 
    ```html
    <!DOCTYPE html>
@@ -46,7 +50,7 @@
    </html>
    ```
 
-6. Enjoy your phone widgets!
+5. Enjoy your phone widgets!
 
 #### Other commands
 
