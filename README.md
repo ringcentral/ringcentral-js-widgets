@@ -52,6 +52,7 @@
 
 5. Enjoy your phone widgets!
 
+
 #### Other commands
 
 Take a look of `package.json` for avaliable npm commands.
@@ -62,7 +63,7 @@ We use webpack for bundling tool, see `webpack.config.js` for further configurat
 
 ## Contribute
 
-   #### Project Structure
+#### Project Structure
 
 RingCentral-js-widget has 3 levels of archtecture:
 
@@ -80,7 +81,7 @@ RingCentral-js-widget has 3 levels of archtecture:
    3. Other tools (`cli` and `src/utils`)
 
 
-#### Steps to fellow
+#### Steps to follow
 
 ##### How to add a new widgets?
 
