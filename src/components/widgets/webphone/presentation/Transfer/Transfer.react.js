@@ -2,8 +2,14 @@ import React from 'react';
 import classNames from 'classnames';
 import { Input } from '../../../../commons/autocomplete/';
 
-import { main } from '../../index.css';
-import { transfer, transferTitle, transferInput, transferButton, wrapper } from './Transfer.css';
+import {
+  main,
+  transfer,
+  transferTitle,
+  transferInput,
+  transferButton,
+  wrapper,
+} from './Transfer.css';
 
 class Transfer extends React.Component {
 

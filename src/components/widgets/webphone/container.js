@@ -1,6 +1,6 @@
 import { connect } from '../../../utils/integration/';
 
-import WebPhone from './presentation/WebPhone.react';
+import WebPhone from './presentation/WebPhone/WebPhone.react';
 import { getString } from '../../../utils/locale/';
 import LPN from 'google-libphonenumber';
 

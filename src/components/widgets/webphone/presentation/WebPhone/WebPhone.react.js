@@ -1,10 +1,10 @@
 import React from 'react';
 
-import DialPad from '../presentation/DialPad/DialPad.react';
-import ActiveCall from '../presentation/ActiveCall/ActiveCall.react';
-import IncomingCall from './IncomingCall/IncomingCall.react';
+import DialPad from '../DialPad/DialPad.react';
+import ActiveCall from '../ActiveCall/ActiveCall.react';
+import IncomingCall from '../IncomingCall/IncomingCall.react';
 
-import { main } from '../index.css';
+import { main } from './WebPhone.css';
 
 let remoteMedia;
 let localMedia;

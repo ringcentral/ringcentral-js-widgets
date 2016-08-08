@@ -37,3 +37,8 @@
   min-height: 1em;
   min-width: 1px;
 }
+
+.line {
+  display: flex;
+  justify-content: space-around;
+}

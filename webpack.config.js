@@ -13,6 +13,8 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist/applications'),
     filename: '[name]',
+    libraryTarget: 'umd',
+    library: 'widgets',
   },
   devtool: 'inline-source-map',
   module: {
@@ -20,7 +22,7 @@ module.exports = {
       {
         test: /\.js$/,
         loaders: ['babel'],
-        exclude: /node_modules\//,
+        exclude: /node_modules/,
       },
       {
         test: /\.json$/i,

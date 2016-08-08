@@ -2,110 +2,141 @@
 
 [![Build Status](https://travis-ci.org/ringcentral/ringcentral-js-widget.svg?branch=master)](https://travis-ci.org/ringcentral/ringcentral-js-widget)[![Coverage Status](https://coveralls.io/repos/github/ringcentral/ringcentral-js-widget/badge.svg?branch=master)](https://coveralls.io/github/ringcentral/ringcentral-js-widget?branch=master)
 
+
+
+## Table of Contents
+
+- [Getting Started](#getting-started)
+- [Contribute](#contribute)
+  - [Project structure](#project-structure)
+- [Questions](#questions)
+
 ## Getting Started
 
+For now we don't have nam registration, you'll need to clone the repo and build it by yourself.
+
+In the future we will provide several widgets that can be easily embedded into web pages.
+
+#### Install dependencies
+
+```sh
+npm install
+```
+#### Create `config.js`
+
+```javascript
+export default {
+  appKey: 'PUT_YOUR_APP_KEY',
+  appSecret: 'PUT_YOUR_APP_SECRET',
+  redirectUri: 'REDIRECT_URL_FOR_YOUR_APP',
+};
+```
 #### Build
 
-1. Install dependencies
+```sh
+npm run build
+```
+#### Create a html page and copy the snippet
 
-   ```sh
-   npm install
-   ```
+```html
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" type="text/css" href="bundle.css">
+</head>
+<body>
+<div id='container'></div>
+<script type='text/javascript' src='./dist/applications/standalone.js'></script>
 
-2. Create `config.js`
-
-   ```javascript
-   export default {
-     appKey: 'PUT_YOUR_APP_KEY',
-     appSecret: 'PUT_YOUR_APP_SECRET',
-     redirectUri: 'REDIRECT_URL_FOR_YOUR_APP',
-   };
-   ```
-
-3. Build
-
-   ```sh
-   npm run build
-   ```
-
-4. This will produce 2 build:
-
-   1. `./dist/applications/standalone.js`
-   2. `./dist/applications/showcase.js`(experimental stage)
-
-5. Copy the html snippet
-
-   ```html
-   <!DOCTYPE html>
-   <html>
-   <head>
-     <title></title>
-     <link rel="stylesheet" type="text/css" href="bundle.css">
-   </head>
-   <body>
-   <div id='container'></div>
-   <script type='text/javascript' src='./dist/applications/standalone.js'></script>
-
-   </body>
-   </html>
-   ```
-
-6. Enjoy your phone widgets!
+</body>
+</html>
+```
+#### Enjoy your phone widgets!
 
 
 
 ## Contribute
 
-
+The main purpose of this repo is to provide some reusable UI components for other application, normally is  phone system related. Following contents are some guidelines and principles we will keep in mind when contribute.
 
 ### Project Structure
 
 RingCentral-js-widget has 3 levels of archtecture:
 
-**Application > Widgets > (React)Component**
+**1. Application > 2. Widgets > 3. (React) Component**
 
-   1. Applications (`src/applications/`)
-      1. Combine several widget to have a applications. Normally applications are coupled with RingCentral-js-integration-commons.
-      2. Use custom `connect` from Redux to support data passing from Redux store and RingCentral-js-integration-commons.
-   2. Components (`src/components/`)
-      1. The logic-free UI components wrote in React framework.
-      2. We group components based on types. For common widgets we put it `src/components/commons`. For some specific usage, we group them into **widgets** and put into `src/components/widgets`.
-      3. For different type of widgets, we separate into different sub-directory, such as `src/components/widgets/auth` and `src/components/widgets/webphone`. Each widget will contain an components tree with an root component.
-      4. Use Redux to manage some global state, such as locale, application state.
-      5. Use PostCSS with CSS module with folder name as class name prefix. Support theme.
-   3. Other tools (`cli` and `src/utils`)
+```
+src/
+  dist/
+  src/
+    styles/
+  	utils/
+  	assets/
+  	applications/                       ---- level.1
+  	  showcase/
+  	  standalone/
+  	components/
+  	  commons/
+  	  widgets/                          ---- level.2
+  	    auth/
+  	    webphone/
+  	      presentation/
+  	        DialPad/                    ---- level.3
+  	          DialPad.react.js
+  	          DialPad.css
+  	        ActiveCall/                 ---- level.3
+  	          ActivaCall.react.js
+  	          ActiveCall.css
+```
 
+#### Applications (`src/applications/`)
 
-### Steps to fellow
+Combine several widget to have a applications. Normally applications are coupled with RingCentral-js-integration-commons.
 
-##### How to add a new widgets?
+Use custom `connect` from Redux to support data passing from Redux store and RingCentral-js-integration-commons.
 
-1. Widgets represent a indenpently functionality module, such as auth, contacts, or webphone.
-2. Discuss first.
+#### Widgets (`src/components/widgets/`)
+
+Widgets can be seem as a standalone app, such as webphone widgets which can be used independently.
+
+We group widgets based on types. For common widgets we put it `src/components/commons`. For some specific usage, we group them`src/components/widgets`.
+
+Use Redux to manage some global state, such as locale, application state.
+
+#### (React) Component (`src/components/widgets/webphone`)
+
+The logic-free UI components wrote in React framework.
+
+For different type of widgets, we separate into different sub-directory, such as `src/components/widgets/auth` and `src/components/widgets/webphone`. Each widget will contain an components tree with an root component.
+
+## Questions
+
+#### How to add a new widgets?
+
+Widgets represent a independently functionality module, such as `Auth`, `Contacts`, or `Webphone`.
 
 #### How to add a new components?
 
-1. If you want to add some new components for specific widgets, first check that if there's any similiar widgets can be used or generalized.
-2. If you want to add some new components for common purpose, discuss first.
+If you want to add some new components for specific widgets, first check that if there's any similiar widgets can be used or generalized.
+
+If you want to add some new components for common purpose, discuss first.
 
 #### How to add test?
 
-1. We use mocha with enzyme to test widgets. The folder structrue is to be discussed.
+We use mocha with enzyme to test widgets. run `npm test` to check the test status.
 
 #### How to add an application?
 
-1. Normally the application in this repo is for demo purpose. You can download the ringcentral-js-widget via NPM (not yet) and compose several widgets and components into an application.
-
-
-
+Normally applications in this repo is for demo purpose. You can download the `ringcentral-js-widget` via NPM (not yet) and compose several widgets and components into an application.
 
 ### Components Design Guideline
 
-1. Stateless functional component as possible.
+Stateless functional component as much as possible.
 
-2. Don't use Redux store without further discussion.
-   1. Use moduler CSS anytime.
+Don't use Redux store without further discussion.
 
-   2. Define strict `propTypes` for each components.
+Use moduler CSS anytime.
 
-   ​
+Define strict `propTypes` for each components.
+

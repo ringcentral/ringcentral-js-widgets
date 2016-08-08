@@ -1,8 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import webphoneStyles from '../../index.css';
-import { footer, footerButton } from './CallFooter.css';
+import { icon, footer, footerButton } from './CallFooter.css';
 import iconsStyles from '../../../../../styles/icon.css';
 
 const CallFooter = (props) => (
@@ -13,7 +12,7 @@ const CallFooter = (props) => (
           classNames(
             iconsStyles[props.leftIcon],
             iconsStyles.icon,
-            webphoneStyles.icon
+            icon
           )}
       ></span>
     </button>
@@ -23,7 +22,7 @@ const CallFooter = (props) => (
           classNames(
             iconsStyles[props.rightIcon],
             iconsStyles.icon,
-            webphoneStyles.icon
+            icon
           )}
       ></span>
     </button>

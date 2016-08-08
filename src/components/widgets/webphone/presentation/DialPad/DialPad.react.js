@@ -9,8 +9,7 @@ import { Input } from '../../../../commons/autocomplete/';
 import Dialer from '../Dialer/Dialer.react';
 import CallerBar from '../CallerBar/CallerBar.react';
 
-import { main, container, line } from '../../index.css';
-import { bar, callButton, phoneInput } from './DialPad.css';
+import { main, container, line, bar, callButton, phoneInput } from './DialPad.css';
 import iconsStyles from '../../../../../styles/icon.css';
 import incoming from '../../../../../assets/audio/incoming.ogg';
 import outgoing from '../../../../../assets/audio/outgoing.ogg';

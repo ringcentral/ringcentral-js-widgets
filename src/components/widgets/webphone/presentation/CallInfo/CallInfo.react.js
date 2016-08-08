@@ -1,5 +1,6 @@
 import React from 'react';
 import { title, time, subtitle } from './CallInfo.css';
+
 function toHHMMSS(duration) {
   const sec = parseInt(duration, 10);
   let hours = Math.floor(sec / 3600);
@@ -11,6 +12,7 @@ function toHHMMSS(duration) {
   if (seconds < 10) seconds = `0${seconds}`;
   return `${hours}:${minutes}:${seconds}`;
 }
+
 const CallInfo = (props) => (
   <div>
     <div className={title}>

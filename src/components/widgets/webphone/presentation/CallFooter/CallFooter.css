@@ -18,3 +18,8 @@
   margin: 0 3px;
   border-radius: 2px;
 }
+
+.icon {
+  background: transparent;
+  font-size: 2.8em;
+}

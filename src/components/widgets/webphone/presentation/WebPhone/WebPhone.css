@@ -7,17 +7,13 @@
 .main {
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
 }
 
 .panel {
   padding: 1.2em;
-}
-
-.line {
-  display: flex;
-  justify-content: space-around;
 }
 
 .icon {

@@ -11,7 +11,6 @@ import { reducer as localeReducer } from '../../utils/locale/';
 
 import App from './app.react';
 import '../../styles/normalize.css';
-import '../../styles/main.css';
 let store;
 const phone = new RcPhone({
   sdkSettings: {

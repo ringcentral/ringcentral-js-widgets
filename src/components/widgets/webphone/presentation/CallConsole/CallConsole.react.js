@@ -1,6 +1,5 @@
 import React from 'react';
-import { icon, panel, line } from '../../index.css';
-import { button, disabled, word } from './CallConsole.css';
+import { button, disabled, word, icon, panel, line } from './CallConsole.css';
 import iconsStyles from '../../../../../styles/icon.css';
 
 import classNames from 'classnames';

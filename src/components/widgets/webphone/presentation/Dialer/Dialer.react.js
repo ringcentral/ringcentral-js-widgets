@@ -1,6 +1,5 @@
 import React from 'react';
-import { line as lineStyle } from '../../index.css';
-import { dialer, dialerButton, dialerNumber, dialerSymbol } from './Dialer.css';
+import { dialer, dialerButton, dialerNumber, dialerSymbol, line as lineStyle } from './Dialer.css';
 
 const Dialer = (props) => (
   <div className={dialer}>
