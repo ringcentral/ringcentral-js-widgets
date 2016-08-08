@@ -115,6 +115,29 @@ export default class Auth extends RcModule {
 
   /**
    * @function
+   * @description get OAuth page url
+   */
+  loginUrl({ redirectUri, state, brandId, display, prompt }) {
+    return this[symbols.platform].loginUrl({
+      redirectUri,
+      state,
+      brandId,
+      display,
+      prompt,
+    });
+  }
+
+  /**
+   * @function
+   * @param {string} url
+   * @return {Object}
+   */
+  parseLoginUrl(url) {
+    return this[symbols.platform].parseLoginRedirectUrl(url);
+  }
+
+  /**
+   * @function
    * @async
    * @description Authorize using OAauth code
    */
