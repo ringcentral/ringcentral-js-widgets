@@ -4,10 +4,18 @@ export default new ActionMap([
   'register',
   'registerSuccess',
   'registerError',
+  'unregister',
+
+  // outbound call
   'call',
-  'callIncoming',
   'callConnect',
+  // inbound call
+  'callAccept',
+  'callIncoming',
+
   'callEnd',
   'callError',
   'callOperation',
+  // no active session
+  'sessionError',
 ]);

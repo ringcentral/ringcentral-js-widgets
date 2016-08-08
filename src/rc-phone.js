@@ -96,6 +96,7 @@ export default class RcPhone extends RcModule {
       api: this.api,
       platform: this.platform,
       settings: this.settings,
+      auth: this.auth,
     }));
 
     // combine reducers

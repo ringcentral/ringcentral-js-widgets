@@ -82,7 +82,7 @@ export default class Auth extends RcModule {
         type: this.actions.init,
         status: loggedIn ? loginStatus.loggedIn : loginStatus.notLoggedIn,
       });
-      this.emit(authEventTypes.authEventTypes, this.state.status);
+      this.emit(authEventTypes.loginStatusChanged, this.state.status);
     })();
   }
 
@@ -209,7 +209,7 @@ export default class Auth extends RcModule {
   }
 
   get enums() {
-    return this[ENUMS];
+    return ENUMS;
   }
 
   async isLoggedIn() {
