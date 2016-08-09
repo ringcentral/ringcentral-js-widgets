@@ -4,6 +4,8 @@
 
 
 
+Ringcentral-js-widget is a set of reusable widgets written in React library. Widgets' functionality and interface are mostly phone related. You can use some React components in this project to combine to your own application.
+
 ## Table of Contents
 
 - [Getting Started](#getting-started)
@@ -13,22 +15,28 @@
 
 ## Getting Started
 
-For now we don't have nam registration, you'll need to clone the repo and build it by yourself.
+For now we don't have NPM registration, you'll need to clone the repo and build it by yourself.
 
 In the future we will provide several widgets that can be easily embedded into web pages.
+
+#### Clone
+
+```sh
+git clone https://github.com/ringcentral/ringcentral-js-widget.git
+```
 
 #### Install dependencies
 
 ```sh
 npm install
 ```
-#### Create `config.js`
+#### Create `config.js` in the project root
 
 ```javascript
 export default {
-  appKey: 'PUT_YOUR_APP_KEY',
-  appSecret: 'PUT_YOUR_APP_SECRET',
-  redirectUri: 'REDIRECT_URL_FOR_YOUR_APP',
+  appKey: 'YOUR_APP_KEY',
+  appSecret: 'YOUR_APP_SECRET',
+  redirectUri: 'REDIRECTED_URL_FOR_YOUR_APP',
 };
 ```
 #### Build
@@ -52,6 +60,17 @@ npm run build
 </body>
 </html>
 ```
+#### Copy the snippet into your redirected page
+
+```javascript
+window.opener && window.opener.postMessage({
+  type: 'oauth',
+  value: document.URL
+}, '*')
+```
+
+or setting your redirected url to [our redirected page](https://ringcentral.github.io/ringcentral-js-widget/page/redirect.html).
+
 #### Enjoy your phone widgets!
 
 
@@ -64,51 +83,49 @@ The main purpose of this repo is to provide some reusable UI components for othe
 
 RingCentral-js-widget has 3 levels of archtecture:
 
-**1. Application > 2. Widgets > 3. (React) Component**
+#### Applications
 
 ```
-src/
-  dist/
-  src/
-    styles/
-  	utils/
-  	assets/
-  	applications/                       ---- level.1
-  	  showcase/
-  	  standalone/
-  	components/
-  	  commons/
-  	  widgets/                          ---- level.2
-  	    auth/
-  	    webphone/
-  	      presentation/
-  	        DialPad/                    ---- level.3
-  	          DialPad.react.js
-  	          DialPad.css
-  	        ActiveCall/                 ---- level.3
-  	          ActivaCall.react.js
-  	          ActiveCall.css
+src/applications/
+  showcase/
+  standalone/
 ```
-
-#### Applications (`src/applications/`)
 
 Combine several widget to have a applications. Normally applications are coupled with RingCentral-js-integration-commons.
 
 Use custom `connect` from Redux to support data passing from Redux store and RingCentral-js-integration-commons.
 
-#### Widgets (`src/components/widgets/`)
+#### Modules
 
-Widgets can be seem as a standalone app, such as webphone widgets which can be used independently.
+```
+src/widgets/modules/
+  auth/
+  webphone/
+  contact/
+  
+src/widgets/shared/
+  button/
+  list/
+```
 
-We group widgets based on types. For common widgets we put it `src/components/commons`. For some specific usage, we group them`src/components/widgets`.
+Modules can be seem as a standalone app, such as webphone modules which can be used independently.
+
+We group widgets based on types. For common modules we put it `src/widgets/shared`. For some specific usage, we group them`src/widgets/modules`.
 
 Use Redux to manage some global state, such as locale, application state.
 
-#### (React) Component (`src/components/widgets/webphone`)
+#### (React) Component
+
+```
+src/widgets/modules/webphone/presentation
+  DialPad/
+    DialPad.react.js
+    DialPad.css
+```
 
 The logic-free UI components wrote in React framework.
 
-For different type of widgets, we separate into different sub-directory, such as `src/components/widgets/auth` and `src/components/widgets/webphone`. Each widget will contain an components tree with an root component.
+For different type of widgets, we separate into different sub-directory, such as `src/widgets/modules/auth` and `src/widgets/modules/webphone`. Each widget will contain an components tree with an root component.
 
 ## Questions
 
@@ -116,11 +133,11 @@ For different type of widgets, we separate into different sub-directory, such as
 
 Widgets represent a independently functionality module, such as `Auth`, `Contacts`, or `Webphone`.
 
+You can add widgets in the folder `src/widgets/`.
+
 #### How to add a new components?
 
-If you want to add some new components for specific widgets, first check that if there's any similiar widgets can be used or generalized.
-
-If you want to add some new components for common purpose, discuss first.
+If you want to add some new components, first check that if there's any similiar widgets can be used or generalized.
 
 #### How to add test?
 
