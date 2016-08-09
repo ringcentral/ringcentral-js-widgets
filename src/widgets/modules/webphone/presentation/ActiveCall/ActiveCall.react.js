@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Ratio } from '../../../../commons/ratio/';
+import { Ratio } from '../../../../shared/ratio/';
 
 import Flip from '../Flip/Flip.react';
 import Transfer from '../Transfer/Transfer.react';

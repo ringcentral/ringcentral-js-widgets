@@ -3,8 +3,8 @@ import classNames from 'classnames';
 
 import LPN from 'google-libphonenumber';
 
-import { PanelHeader, PanelContent, PanelFooter } from '../../../../commons/panel/';
-import { Input } from '../../../../commons/autocomplete/';
+import { PanelHeader, PanelContent, PanelFooter } from '../../../../shared/panel/';
+import { Input } from '../../../../shared/autocomplete/';
 
 import Dialer from '../Dialer/Dialer.react';
 import CallerBar from '../CallerBar/CallerBar.react';

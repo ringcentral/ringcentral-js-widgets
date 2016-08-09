@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import WebPhone from '../../components/widgets/webphone/container';
-import Auth from '../../components/widgets/auth/container';
+import WebPhone from '../../widgets/modules/webphone/container';
+import Auth from '../../widgets/modules/auth/container';
 
 import styles from './app.css';
 

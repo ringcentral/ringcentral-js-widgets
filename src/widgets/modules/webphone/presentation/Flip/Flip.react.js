@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, ListItem } from '../../../../commons/list/';
+import { List, ListItem } from '../../../../shared/list/';
 
 import { flip, flipTitle, flipItem, flipItemTitle, flipItemSubtitle } from './Flip.css';
 
