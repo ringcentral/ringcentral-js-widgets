@@ -9,16 +9,18 @@ import fs from 'fs-promise';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import testServerConfig from './test-server/webpack.config';
+import demoServerConfig from './demo-server/webpack.config';
 import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
 import distConfig from './webpack.config';
+import Loganberry from 'loganberry';
 
 const TIMEOUT = 30000;
 const argv = yargs.argv;
+const logger = new Loganberry('gulp');
 
 function getTestSources() {
   const src = new Set();
-
 
   // check --folder
   if (argv.folder) {
@@ -118,6 +120,24 @@ gulp.task('test-browser', done => {
       });
       done();
     });
+});
+
+gulp.task('demo-server', done => {
+  const files = new Set();
+  const demoServerPath = path.resolve(__dirname, 'demo-server');
+
+  const compiler = webpack(demoServerConfig, err => {
+    if (err) done(err);
+    new WebpackDevServer(compiler, {
+      contentBase: demoServerPath,
+      publicPath: demoServerConfig.output.publicPath,
+      hot: true,
+    }).listen(8191, () => {
+      setTimeout(() => {
+        logger.info('listening to port 8190...');
+      }, 5000); // not exactly sure when the server is available...
+    });
+  });
 });
 
 gulp.task('build', () => (

@@ -37,6 +37,6 @@ accounts.json
 test-server/build
 test-server/auto-loader.js
 
-dist
+demo-server/build
 
-index.html
+dist

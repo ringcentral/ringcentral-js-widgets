@@ -6,6 +6,7 @@
   "scripts": {
     "test": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test",
     "test-browser": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test-browser",
+    "demo-server": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js demo-server",
     "coverage": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js coverage",
     "eslint": "node ./node_modules/eslint/bin/eslint.js src test gulpfile.js config.js",
     "dist": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js dist",
@@ -61,6 +62,7 @@
     "ringcentral-web-phone": "https://github.com/changbenny/ringcentral-web-phone#audio-helper"
   },
   "dependencies": {
+    "loganberry": "^0.9.1",
     "redux": "^3.5.2",
     "whatwg-fetch": "^1.0.0",
     "yargs": "^4.6.0"

@@ -139,20 +139,6 @@ export default class Subscription extends RcModule {
   constructor(options) {
     super({
       ...options,
-      registerStoreHandler: handler => {
-        options.registerStoreHandler(store => {
-          // set store to self first
-          handler(store);
-
-          // update store with cachedFilters
-          this.store.dispatch({
-            type: this.actions.updateFilters,
-            filters: this.filters,
-          });
-
-          this[symbols.filterCache] = null;
-        });
-      },
       actions: subscriptionActions,
     });
 
@@ -160,6 +146,7 @@ export default class Subscription extends RcModule {
       auth,
       platform,
       sdk,
+      promiseForStore,
     } = options;
     this[symbols.auth] = auth;
     this[symbols.platform] = platform;
@@ -168,6 +155,15 @@ export default class Subscription extends RcModule {
 
     // caches filters before redux store is created
     this[symbols.filterCache] = [];
+
+    promiseForStore.then(() => {
+      // update store with cachedFitlers
+      this.store.dispatch({
+        type: this.actions.updateFilters,
+        filters: this.filters,
+      });
+      this[symbols.filterCache] = null;
+    });
 
     auth.on(auth.events.loggedIn, () => {
       this::init();
@@ -179,25 +175,9 @@ export default class Subscription extends RcModule {
       }
     });
 
-    // platform.on(platform.events.loginSuccess, () => {
-    //   this::init();
-    // });
-    // platform.on(platform.events.logoutSuccess, async () => {
-    //   if (this.base) {
-    //     await this.reset();
-    //   }
-    //   this[symbols.subscription] = null;
-    // });
-
     auth.addBeforeLogoutHandler(async () => {
       await this.reset();
     });
-
-    // (async () => {
-    //   if (await platform.loggedIn()) {
-    //     this::init();
-    //   }
-    // })();
   }
 
   get reducer() {

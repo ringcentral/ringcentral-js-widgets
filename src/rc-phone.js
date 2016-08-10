@@ -14,31 +14,27 @@ import { combineReducers, createStore } from 'redux';
 
 const REDUCER = Symbol();
 
-function getStoreRegisterAndResolver() {
-  const handlers = new Set();
-  return [
-    (fn) => handlers.add(fn),
-    (store) => handlers.forEach(fn => fn(store)),
-  ];
-}
 
 export default class RcPhone extends RcModule {
-  constructor({
-    registerStoreHandler,
-    stateMapper,
-    prefix = 'rc',
-    sdkSettings,
-    defaultBrand,
-  }) {
-    let register = registerStoreHandler;
-    let resolve;
-    if (!register) {
-      [register, resolve] = getStoreRegisterAndResolver();
+  constructor(options) {
+    const {
+      getState,
+      prefix = 'rc',
+      sdkSettings,
+      defaultBrand,
+    } = options;
+    let {
+      promiseForStore,
+    } = options;
+    let resolver;
+    if (!promiseForStore) {
+      promiseForStore = new Promise((resolve) => {
+        resolver = resolve;
+      });
     }
-
     super({
-      registerStoreHandler: register,
-      stateMapper,
+      promiseForStore,
+      getState,
     });
 
     this::addModule('sdk', new RingCentral({
@@ -52,27 +48,27 @@ export default class RcPhone extends RcModule {
     this::addModule('api', new RingCentralClient(this.sdk));
 
     this::addModule('auth', new Auth({
-      registerStoreHandler: register,
-      stateMapper: state => state.auth,
+      promiseForStore,
+      getState: () => this.state.auth,
       prefix,
       platform: this.platform,
     }));
 
     this::addModule('settings', new Settings({
-      registerStoreHandler: register,
-      stateMapper: state => state.settings,
+      promiseForStore,
+      getState: () => this.state.settings,
     }));
 
     this::addModule('defaultBrand', new Brand({
-      registerStoreHandler: register,
+      promiseForStore,
       prefix: `${prefix}-default`,
-      stateMapper: state => state.defaultBrand,
+      getState: () => this.state.defaultBrand,
       ...defaultBrand,
     }));
 
     this::addModule('subscription', new Subscription({
-      registerStoreHandler: register,
-      stateMapper: state => state.subscription,
+      promiseForStore,
+      getState: () => this.state.subscription,
       prefix,
       api: this.api,
       platform: this.platform,
@@ -81,8 +77,8 @@ export default class RcPhone extends RcModule {
     }));
 
     this::addModule('user', new User({
-      registerStoreHandler: register,
-      stateMapper: state => state.user,
+      promiseForStore,
+      getState: () => this.state.user,
       prefix,
       api: this.api,
       platform: this.platform,
@@ -90,8 +86,8 @@ export default class RcPhone extends RcModule {
     }));
 
     this::addModule('webphone', new Webphone({
-      registerStoreHandler: register,
-      stateMapper: (state) => state.webphone,
+      promiseForStore,
+      getState: () => this.state.webphone,
       prefix,
       api: this.api,
       platform: this.platform,
@@ -108,9 +104,8 @@ export default class RcPhone extends RcModule {
       webphone: this.webphone.reducer,
       settings: this.settings.reducer,
     });
-
-    if (resolve) {
-      resolve(createStore(this.reducer));
+    if (resolver) {
+      resolver(createStore(this.reducer));
     }
   }
   get reducer() {

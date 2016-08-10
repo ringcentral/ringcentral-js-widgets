@@ -4,7 +4,7 @@ import EventEmitter from 'event-emitter';
 
 const symbols = new SymbolMap([
   'store',
-  'mapper',
+  'getState',
   'prefix',
   'actions',
   'emitter',
@@ -30,6 +30,10 @@ function defaultMapper(state) {
   return state;
 }
 
+function defaultGetState() {
+  return this.store.getState();
+}
+
 /**
  * @class
  * @default
@@ -40,17 +44,17 @@ export default class RcModule {
    * @constructor
    */
   constructor({
-    registerStoreHandler,
-    stateMapper = defaultMapper,
+    promiseForStore,
+    getState = defaultGetState,
     prefix,
     actions,
   }) {
     // Extending EventEmitter breaks some mechanic, so we wire emitter up like this instead.
     this[symbols.emitter] = new EventEmitter();
-    this[symbols.mapper] = stateMapper;
+    this[symbols.getState] = getState;
     this[symbols.prefix] = prefix;
     this[symbols.actions] = actions && prefixActions(actions, prefix);
-    registerStoreHandler((store) => {
+    promiseForStore.then((store) => {
       this[symbols.store] = store;
     });
   }
@@ -97,7 +101,7 @@ export default class RcModule {
   }
 
   get state() {
-    return this[symbols.mapper](this[symbols.store].getState());
+    return this[symbols.getState]();
   }
   get reducer() {
     return defaultReducer;

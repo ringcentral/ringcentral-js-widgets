@@ -8,19 +8,15 @@ const symbols = new SymbolMap([
 ]);
 
 export default class Brand extends RcModule {
-  constructor({
-    registerStoreHandler,
-    stateMapper = (state) => state.brand,
-    prefix,
-    id,
-    name,
-  }) {
+  constructor(options) {
     super({
-      registerStoreHandler,
-      stateMapper,
-      prefix,
+      ...options,
       actions: brandActions,
     });
+    const {
+      id,
+      name,
+    } = options;
     this[symbols.initialState] = {
       id,
       name,
