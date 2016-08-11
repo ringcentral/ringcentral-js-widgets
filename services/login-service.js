@@ -23,7 +23,7 @@ var LoginService = function(sdk) {
         },
         oauth: function() {
             return new Promise((resolve, reject) => {
-                var redirectUri = 'https://ringcentral.github.io/ringcentral-js-widget/page/redirect.html'
+                var redirectUri = 'https://apps.ringcentral.com/incontactwebphone/redirect.html'
                 var url = RC.sdk.platform().authUrl({
                     redirectUri
                 })

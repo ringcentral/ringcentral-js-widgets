@@ -8,3 +8,9 @@ __w_temp.js
 demo/
 extension/
 manifest.json
+.coveralls.yml
+.vscode/
+build.zip
+config.js
+dist/
+index.html
