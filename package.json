@@ -8,7 +8,7 @@
     "moment": "^2.13.0",
     "redux": "^3.5.2",
     "ringcentral": "^2.0.6",
-    "ringcentral-web-phone": "https://github.com/changbenny/ringcentral-web-phone",
+    "ringcentral-web-phone": "https://github.com/ringcentral/ringcentral-web-phone",
     "whatwg-fetch": "^0.11.0"
   },
   "devDependencies": {
