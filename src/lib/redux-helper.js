@@ -28,8 +28,9 @@ export function prefixActions(actions, prefix) {
   if (!prefix || prefix === '') return actions;
   const definition = {};
   for (const action in actions) {
+    /* istanbul ignore else */
     if (actions::hasOwnProperty(action)) {
-      definition[action] = `${prefix}-${action}`;
+      definition[action] = `${prefix}-${actions[action]}`;
     }
   }
   return new KeyValueMap(definition);
