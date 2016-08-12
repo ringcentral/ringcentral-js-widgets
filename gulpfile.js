@@ -134,7 +134,7 @@ gulp.task('demo-server', done => {
       hot: true,
     }).listen(8191, () => {
       setTimeout(() => {
-        logger.info('listening to port 8190...');
+        logger.info('listening to port 8191...');
       }, 5000); // not exactly sure when the server is available...
     });
   });
