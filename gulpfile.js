@@ -89,7 +89,7 @@ function ensurePosixPath(str) {
   return str.split(path.sep).join('/');
 }
 
-gulp.task('test-browser', done => {
+gulp.task('test-server', done => {
   const files = new Set();
   const testServerPath = path.resolve(__dirname, 'test-server');
   gulp.src(getTestSources())

@@ -1,4 +1,4 @@
-import Enum from '../../lib/enum';
+import KeyValueMap from 'data-types/key-value-map';
 
 const definition = {
   // For registering
@@ -13,4 +13,4 @@ const definition = {
   callIncoming: 'CALL_INCOMING',
 };
 
-export default new Enum(definition);
+export default new KeyValueMap(definition);

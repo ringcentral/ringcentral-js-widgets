@@ -1,5 +1,5 @@
 import RcModule from '../../lib/rc-module';
-import SymbolMap from '../../lib/symbol-map';
+import SymbolMap from 'data-types/symbol-map';
 import { extractData, fetchList, emit } from '../../lib/utils';
 import userActions from './user-actions';
 import getUserReducer from './user-reducer';

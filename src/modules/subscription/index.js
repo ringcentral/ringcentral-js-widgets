@@ -1,10 +1,10 @@
 import RcModule from '../../lib/rc-module';
-import SymbolMap from '../../lib/symbol-map';
+import SymbolMap from 'data-types/symbol-map';
 import subscriptionActions from './subscription-actions';
 import getSubscriptionReducer from './subscription-reducer';
 import { subscriptionEvents, subscriptionEventTypes } from './subscription-events';
 import subscriptionStatus from './subscription-status';
-import Enum from '../../lib/enum';
+import KeyValueMap from 'data-types/key-value-map';
 import { emit } from '../../lib/utils';
 
 const symbols = new SymbolMap([
@@ -206,7 +206,7 @@ export default class Subscription extends RcModule {
 
   subscribe(event) {
     // TODO normalized error
-    if (!subscriptionEvents::Enum.hasValue(event)) {
+    if (!subscriptionEvents::KeyValueMap.hasValue(event)) {
       throw new Error('event is not recognized');
     }
 
@@ -228,7 +228,7 @@ export default class Subscription extends RcModule {
 
   unsubscribe(event) {
     // TODO normalized error
-    if (!subscriptionEvents::Enum.hasValue(event)) {
+    if (!subscriptionEvents::KeyValueMap.hasValue(event)) {
       throw new Error('event is not recognized');
     }
     const idx = this.filters.indexOf(event);

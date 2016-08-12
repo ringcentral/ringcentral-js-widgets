@@ -9,7 +9,7 @@ export class ActionMap extends KeyValueMap {
   /**
    * @constructor
    * @param {String[]} actions - list of action strings
-   * @extends Enum
+   * @extends KeyValueMap
    */
   constructor(actions = [], prefix = '') {
     const definition = {};

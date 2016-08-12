@@ -100,9 +100,9 @@ npm run test
 Run tests in specific test folder or file:
 ```bash
 npm run test -- --folder folder1 --folder folder2,folder3
-npm run test -- --folder test/unit
+npm run test -- --folder test/lib
 
-npm run test -- --file test/unit/enum.js
+npm run test -- --file test/lib/add-module.test.js
 ```
 Both multiple --folder/--file declaration, or comma-delimmated list will work too.
 

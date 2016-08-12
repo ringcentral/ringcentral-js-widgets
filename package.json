@@ -5,7 +5,7 @@
   "main": "dist/ringcentral-js-integration-commons.js",
   "scripts": {
     "test": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test",
-    "test-browser": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test-browser",
+    "test-server": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test-server",
     "demo-server": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js demo-server",
     "coverage": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js coverage",
     "eslint": "node ./node_modules/eslint/bin/eslint.js src test gulpfile.js config.js",

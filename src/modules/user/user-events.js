@@ -1,4 +1,4 @@
-import Enum from '../../lib/enum';
+import KeyValueMap from 'data-types/key-value-map';
 
 const eventDefinitions = {
   userInfoLoaded: 'USER_INFO_LOADED',
@@ -29,10 +29,10 @@ const eventDefinitions = {
   loadBlockedNumbersFailed: 'LOAD_BLOCKED_NUMBERS_FAILED',
 };
 
-export const userEvents = new Enum(eventDefinitions);
+export const userEvents = new KeyValueMap(eventDefinitions);
 
 const eventTypeDefinitions = {
   userInfoChanged: 'USER_INFO_CHANGED',
 };
 
-export const userEventTypes = new Enum(eventTypeDefinitions);
+export const userEventTypes = new KeyValueMap(eventTypeDefinitions);

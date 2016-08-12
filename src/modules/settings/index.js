@@ -2,7 +2,7 @@ import RcModule from '../../lib/rc-module';
 import { ActionMap, prefixActions } from '../../lib/redux-helper';
 import { combineReducers } from 'redux';
 
-import SymbolMap from '../../lib/symbol-map';
+import SymbolMap from 'data-types/symbol-map';
 
 const symbols = new SymbolMap([
   'reducer',
