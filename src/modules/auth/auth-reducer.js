@@ -23,6 +23,12 @@ export default function getAuthReducer(prefix) {
           error: null,
         };
 
+      case actions.logout:
+        return {
+          status: loginStatus.loggingOut,
+          error: null,
+        };
+
       case actions.loginSuccess:
         return {
           status: loginStatus.loggedIn,
