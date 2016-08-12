@@ -1,6 +1,6 @@
 import { prefixActions } from '../../lib/redux-helper';
 import webphoneActions from './webphone-actions';
-import webphoneStatus from '../../enums/webphone-status';
+import webphoneStatus from './webphone-status';
 
 import callReducer from './call-reducer';
 

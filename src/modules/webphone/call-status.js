@@ -1,4 +1,4 @@
-import Enum from '../lib/enum';
+import Enum from '../../lib/enum';
 
 const definition = {
   flip: 'FLIPPED',

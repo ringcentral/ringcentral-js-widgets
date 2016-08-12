@@ -4,12 +4,12 @@ import Enum from '../../lib/enum';
 import webphoneActions from './webphone-actions';
 import callActions from './call-actions';
 import getReducer from './webphone-reducer';
-import Emitter from 'event-emitter';
 import RingCentralWebphone from 'ringcentral-web-phone';
-import webphoneStatus from '../../enums/webphone-status';
-import callStatus from '../../enums/call-status';
+import webphoneStatus from './webphone-status';
+import callStatus from './call-status';
 
-import { authEvents, authEventTypes } from '../auth/auth-events';
+import { authEventTypes } from '../auth/auth-events';
+import { webphoneEvents } from './webphone-events';
 
 const symbols = new SymbolMap([
   'api',
@@ -164,6 +164,7 @@ async function operations(name, ...args) {
         error,
       },
     });
+    this.emit(webphoneEvents[name]);
     // TODO: needed?
     throw error;
   }
@@ -183,7 +184,6 @@ export default class Webphone extends RcModule {
     } = options;
     this[symbols.api] = api;
     this[symbols.platform] = platform;
-    this[symbols.emitter] = new Emitter();
     this[symbols.settings] = settings;
     this[symbols.auth] = auth;
 
@@ -202,6 +202,7 @@ export default class Webphone extends RcModule {
           this.store.dispatch({
             type: this.actions.registerSuccess,
           });
+          this.emit(webphoneEvents.registerSuccessed);
         }
         this.isRegistered = this[symbols.phoneInstance].userAgent.isRegistered();
       });
@@ -219,11 +220,11 @@ export default class Webphone extends RcModule {
           type: this.actions.registerError,
           error,
         });
+        this.emit(webphoneEvents.registerFailed);
       });
       this[symbols.phoneInstance].userAgent.on('invite', (session) => {
         this.currentSession = session;
         this.listenSessionEvents();
-        console.log(session);
         this.store.dispatch({
           type: this.actions.callIncoming,
           payload: {
@@ -231,6 +232,7 @@ export default class Webphone extends RcModule {
             localIdentity: session.localIdentity,
           },
         });
+        this.emit(webphoneEvents.callIncoming);
       });
     });
   }
@@ -261,6 +263,7 @@ export default class Webphone extends RcModule {
         fromNumber,
       },
     });
+    this.emit(webphoneEvents.callConnecting);
     this.currentSession = this[symbols.phoneInstance].userAgent.invite(toNumber, {
       media: {
         render: media,
@@ -275,6 +278,7 @@ export default class Webphone extends RcModule {
         type: this.actions.callError,
         error,
       });
+      this.emit(webphoneEvents.callFailed);
     }
     return this.currentSession;
   }
@@ -362,12 +366,13 @@ export default class Webphone extends RcModule {
             localIdentity: response.from,
           },
         });
-      // accepted event for inbound call will only contain a row sip data
+      // accepted event for inbound call will only contain a raw sip data
       } else {
         this.store.dispatch({
           type: this.actions.callAccept,
         });
       }
+      this.emit(webphoneEvents.callConnected);
     });
     // all situation about call terminated except 'call cancel'
     this.currentSession.on('terminated', (response, cause) => {

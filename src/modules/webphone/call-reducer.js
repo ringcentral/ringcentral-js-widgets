@@ -1,5 +1,5 @@
 import callActions from './call-actions';
-import callStatus from '../../enums/call-status';
+import callStatus from './call-status';
 
 function contain(arr, ele) {
   return arr.indexOf(ele) > -1;
