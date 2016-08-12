@@ -10,6 +10,7 @@ import Auth from './modules/auth';
 import Subscription from './modules/subscription';
 import User from './modules/user';
 import Webphone from './modules/webphone';
+import Contact from './modules/contact';
 import { combineReducers, createStore } from 'redux';
 
 const REDUCER = Symbol();
@@ -36,7 +37,6 @@ export default class RcPhone extends RcModule {
       promiseForStore,
       getState,
     });
-
     this::addModule('sdk', new RingCentral({
 
       cachePrefix: `${prefix}-`,
@@ -93,6 +93,15 @@ export default class RcPhone extends RcModule {
       platform: this.platform,
       settings: this.settings,
       auth: this.auth,
+    }));
+
+    this::addModule('contact', new Contact({
+      promiseForStore,
+      getState: () => this.state.contact,
+      prefix,
+      api: this.api,
+      platform: this.platform,
+      settings: this.settings,
     }));
 
     // combine reducers

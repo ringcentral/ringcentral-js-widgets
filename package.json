@@ -47,9 +47,6 @@
     "gulp-mocha": "^2.2.0",
     "gulp-sourcemaps": "^2.0.0-alpha",
     "json-loader": "^0.5.4",
-    "ringcentral": "^3.0.0-rc1",
-    "ringcentral-client": "https://github.com/u9520107/ringcentral-js-client.git#internal-build",
-    "ringcentral-web-phone": "https://github.com/changbenny/ringcentral-web-phone#audio-helper",
     "source-map-support": "^0.4.0",
     "through2": "^2.0.1",
     "webpack": "^1.12.14",
@@ -58,10 +55,13 @@
   "peerDependencies": {
     "babel-runtime": "^6.6.1",
     "ringcentral": "^3.0.0-rc1",
-    "ringcentral-client": "https://github.com/u9520107/ringcentral-js-client.git#internal-build",
-    "ringcentral-web-phone": "https://github.com/changbenny/ringcentral-web-phone#audio-helper"
+    "ringcentral-client": "https://github.com/zengfenfei/ringcentral-js-client#releases",
+    "ringcentral-web-phone": "https://github.com/ringcentral/ringcentral-web-phone"
   },
   "dependencies": {
+    "ringcentral": "^3.0.0-rc1",
+    "ringcentral-client": "https://github.com/zengfenfei/ringcentral-js-client#releases",
+    "ringcentral-web-phone": "https://github.com/ringcentral/ringcentral-web-phone",
     "loganberry": "^0.9.1",
     "redux": "^3.5.2",
     "whatwg-fetch": "^1.0.0",

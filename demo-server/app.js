@@ -32,4 +32,8 @@ phone.subscription.on(phone.subscription.events.telephony, msg => {
   }
 })();
 
+store.subscribe(() => {
+  console.log(phone.store.getState().user);
+});
+
 window.phone = phone;

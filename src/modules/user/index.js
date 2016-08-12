@@ -60,20 +60,21 @@ async function loadData(dataType, loadFunction) {
  * @description Fetch account info and extract the data
  */
 async function extractAccountInfo() {
-  return extractData(await this[symbols.api].account().loadAccount());
+  return extractData(await this[symbols.api].account().get());
 }
 async function loadAccountInfo() {
   return await this::loadData('AccountInfo', extractAccountInfo);
 }
 
 async function extractExtensionInfo() {
-  return extractData(await this[symbols.api].extension().loadExtensionInfo());
+  return extractData(await this[symbols.api].account().extension().get());
 }
 async function loadExtensionInfo() {
   return await this::loadData('ExtensionInfo', extractExtensionInfo);
 }
 
 async function extractDialingPlans() {
+  // TODO: js-client have dialing-plan?
   return extractData(await this::fetchList(options => (
     this[symbols.api].account().listDialingPlans(options)
   )));
@@ -84,7 +85,7 @@ async function loadDialingPlans() {
 
 async function extractPhoneNumbers() {
   return extractData(await this::fetchList(options => (
-    this[symbols.api].extension().listExtensionPhoneNumbers(options)
+    this[symbols.api].account().extension().phoneNumber().list(options)
   )));
 }
 async function loadPhoneNumbers() {
@@ -93,7 +94,7 @@ async function loadPhoneNumbers() {
 
 async function extractForwardingNumbers() {
   return extractData(await this::fetchList(options => (
-    this[symbols.api].forwardingNumbers().listExtensionForwardingNumbers(options)
+    this[symbols.api].account().extension().forwardingNumber().list()
   )));
 }
 async function loadForwardingNumbers() {
@@ -102,7 +103,7 @@ async function loadForwardingNumbers() {
 
 async function extractBlockedNumbers() {
   return extractData(await this::fetchList(options => (
-    this[symbols.api].blockedNumbers().listBlockedNumbers(options)
+    this[symbols.api].account().extension().blockedNumber().list(options)
   )));
 }
 async function loadBlockedNumbers() {
@@ -118,7 +119,7 @@ async function loadInfo() {
     await Promise.all([
       this::loadAccountInfo(),
       this::loadExtensionInfo(),
-      this::loadDialingPlans(),
+      // this::loadDialingPlans(),
       this::loadPhoneNumbers(),
       this::loadForwardingNumbers(),
       this::loadBlockedNumbers(),
@@ -126,7 +127,7 @@ async function loadInfo() {
     // this.emit(userEvents.userInfoLoaded);
   } catch (e) {
     // TODO send error out
-    console.log(e);
+    console.error(e);
   }
 }
 
