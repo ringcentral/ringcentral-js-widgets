@@ -1,4 +1,4 @@
-import SymbolMap from './symbol-map';
+import SymbolMap from 'data-types/symbol-map';
 import { prefixActions } from './redux-helper';
 import EventEmitter from 'event-emitter';
 
@@ -18,15 +18,6 @@ const symbols = new SymbolMap([
  */
 function defaultReducer(state) {
   if (typeof state === 'undefined') return {};
-  return state;
-}
-/**
- * @function
- * @param {Object} state
- * @return {Object}
- * @description Default parent state to module state mapper.
- */
-function defaultMapper(state) {
   return state;
 }
 

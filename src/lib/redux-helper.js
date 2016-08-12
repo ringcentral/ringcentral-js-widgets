@@ -1,11 +1,11 @@
-import Enum from './enum';
+import KeyValueMap from 'data-types/key-value-map';
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 /**
  * @class
  * @description helper class for creating redux action definition maps
  */
-export class ActionMap extends Enum {
+export class ActionMap extends KeyValueMap {
   /**
    * @constructor
    * @param {String[]} actions - list of action strings
@@ -32,6 +32,6 @@ export function prefixActions(actions, prefix) {
       definition[action] = `${prefix}-${action}`;
     }
   }
-  return new Enum(definition);
+  return new KeyValueMap(definition);
 }
 
