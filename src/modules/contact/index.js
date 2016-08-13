@@ -1,6 +1,6 @@
 import RcModule from '../../lib/rc-module';
-import SymbolMap from '../../lib/symbol-map';
-import Enum from '../../lib/enum';
+import SymbolMap from 'data-types/symbol-map';
+import KeyValueMap from 'data-types/key-value-map';
 import getReducer from './contact-reducer';
 import actions from './contact-actions';
 

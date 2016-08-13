@@ -4,7 +4,7 @@ import loginStatus from './login-status';
 
 const initialState = {
   status: loginStatus.pending,
-  authError: null,
+  error: null,
 };
 
 export default function getAuthReducer(prefix) {
@@ -20,31 +20,37 @@ export default function getAuthReducer(prefix) {
       case actions.login:
         return {
           status: loginStatus.loggingIn,
-          authError: null,
+          error: null,
+        };
+
+      case actions.logout:
+        return {
+          status: loginStatus.loggingOut,
+          error: null,
         };
 
       case actions.loginSuccess:
         return {
           status: loginStatus.loggedIn,
-          authError: null,
+          error: null,
         };
 
       case actions.logoutSuccess:
         return {
           status: loginStatus.notLoggedIn,
-          authError: null,
+          error: null,
         };
 
       case actions.loginError:
         return {
-          state: loginStatus.notLoggedIn,
-          authError: action.error,
+          status: loginStatus.notLoggedIn,
+          error: action.error,
         };
 
       case actions.logoutError:
         return {
           status: loginStatus.loggedIn,
-          authError: action.error,
+          error: action.error,
         };
 
       default:

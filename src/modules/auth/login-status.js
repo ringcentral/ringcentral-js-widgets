@@ -1,4 +1,4 @@
-import Enum from '../../lib/enum';
+import KeyValueMap from 'data-types/key-value-map';
 
 const definition = {
   pending: 'PENDING', // after init, before status from platform is determined
@@ -8,4 +8,4 @@ const definition = {
   loggingOut: 'LOGGING_OUT',
 };
 
-export default new Enum(definition);
+export default new KeyValueMap(definition);

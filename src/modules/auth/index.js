@@ -1,11 +1,16 @@
 import RcModule from '../../lib/rc-module';
-import SymbolMap from '../../lib/symbol-map';
-import Enum from '../../lib/enum';
+import SymbolMap from 'data-types/symbol-map';
+import KeyValueMap from 'data-types/key-value-map';
 import loginStatus from './login-status';
 import authActions from './auth-actions';
 import getAuthReducer from './auth-reducer';
 import { authEvents, authEventTypes } from './auth-events';
 import { emit } from '../../lib/utils';
+import Loganberry from 'loganberry';
+
+const logger = new Loganberry({
+  prefix: 'auth',
+});
 
 
 const symbols = new SymbolMap([
@@ -14,7 +19,7 @@ const symbols = new SymbolMap([
   'beforeLogoutHandlers',
 ]);
 
-const ENUMS = new Enum({
+const CONSTANTS = new KeyValueMap({
   loginStatus,
 });
 
@@ -28,6 +33,7 @@ export default class Auth extends RcModule {
    * @function
    */
   constructor(options) {
+    logger.trace('new Auth()');
     super({
       ...options,
       actions: authActions,
@@ -208,8 +214,8 @@ export default class Auth extends RcModule {
     return authEventTypes;
   }
 
-  get enums() {
-    return ENUMS;
+  get constants() {
+    return CONSTANTS;
   }
 
   async isLoggedIn() {

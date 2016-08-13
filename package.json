@@ -5,7 +5,7 @@
   "main": "dist/ringcentral-js-integration-commons.js",
   "scripts": {
     "test": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test",
-    "test-browser": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test-browser",
+    "test-server": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js test-server",
     "demo-server": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js demo-server",
     "coverage": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js coverage",
     "eslint": "node ./node_modules/eslint/bin/eslint.js src test gulpfile.js config.js",
@@ -62,11 +62,10 @@
     "ringcentral-web-phone": "https://github.com/changbenny/ringcentral-web-phone#audio-helper"
   },
   "dependencies": {
-    "ringcentral": "^3.0.0-rc1",
-    "ringcentral-client": "https://github.com/zengfenfei/ringcentral-js-client#releases",
-    "ringcentral-web-phone": "https://github.com/ringcentral/ringcentral-web-phone",
+    "data-types": "git+https://github.com/u9520107/data-types.git#release",
     "loganberry": "^0.9.1",
     "redux": "^3.5.2",
+    "tabbie": "^0.8.1",
     "whatwg-fetch": "^1.0.0",
     "yargs": "^4.6.0"
   }

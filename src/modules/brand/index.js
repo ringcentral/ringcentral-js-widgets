@@ -1,7 +1,7 @@
 import RcModule from '../../lib/rc-module';
 import brandActions from './brand-actions';
 import getReducer from './brand-reducer';
-import SymbolMap from '../../lib/symbol-map';
+import SymbolMap from 'data-types/symbol-map';
 
 const symbols = new SymbolMap([
   'initialState',

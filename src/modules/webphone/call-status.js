@@ -1,4 +1,4 @@
-import Enum from '../../lib/enum';
+import KeyValueMap from 'data-types/key-value-map';
 
 const definition = {
   flip: 'FLIPPED',
@@ -10,4 +10,4 @@ const definition = {
   forwarded: 'FOWARDED',
 };
 
-export default new Enum(definition);
+export default new KeyValueMap(definition);

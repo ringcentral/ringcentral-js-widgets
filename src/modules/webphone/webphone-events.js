@@ -1,4 +1,4 @@
-import Enum from '../../lib/enum';
+import KeyValueMap from 'data-types/key-value-map';
 import webphoneStatus from './webphone-status';
 import callStatus from './call-status';
 
@@ -7,4 +7,4 @@ const eventDefinitions = {
   ...callStatus,
 };
 
-export const webphoneEvents = new Enum(eventDefinitions);
+export const webphoneEvents = new KeyValueMap(eventDefinitions);

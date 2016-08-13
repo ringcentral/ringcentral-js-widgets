@@ -1,4 +1,4 @@
-import Enum from '../../lib/enum';
+import KeyValueMap from 'data-types/key-value-map';
 
 const definition = {
   pending: 'PENDING',
@@ -6,4 +6,4 @@ const definition = {
   notSubscribed: 'NOT_SUBSCRIBED',
 };
 
-export default new Enum(definition);
+export default new KeyValueMap(definition);

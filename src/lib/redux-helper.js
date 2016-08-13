@@ -1,15 +1,15 @@
-import Enum from './enum';
+import KeyValueMap from 'data-types/key-value-map';
 
 const hasOwnProperty = Object.prototype.hasOwnProperty;
 /**
  * @class
  * @description helper class for creating redux action definition maps
  */
-export class ActionMap extends Enum {
+export class ActionMap extends KeyValueMap {
   /**
    * @constructor
    * @param {String[]} actions - list of action strings
-   * @extends Enum
+   * @extends KeyValueMap
    */
   constructor(actions = [], prefix = '') {
     const definition = {};
@@ -28,10 +28,11 @@ export function prefixActions(actions, prefix) {
   if (!prefix || prefix === '') return actions;
   const definition = {};
   for (const action in actions) {
+    /* istanbul ignore else */
     if (actions::hasOwnProperty(action)) {
-      definition[action] = `${prefix}-${action}`;
+      definition[action] = `${prefix}-${actions[action]}`;
     }
   }
-  return new Enum(definition);
+  return new KeyValueMap(definition);
 }
 
