@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/brand/brand-actions.js"],"names":[],"mappings":";;;;;;AAAA;;kBAEe,2BAAc,CAC3B,UAD2B,CAAd,C","file":"brand-actions.js","sourcesContent":["import { ActionMap } from '../../lib/redux-helper';\n\nexport default new ActionMap([\n  'setBrand',\n]);\n"]}
