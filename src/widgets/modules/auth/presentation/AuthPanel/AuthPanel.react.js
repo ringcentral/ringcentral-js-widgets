@@ -4,12 +4,15 @@ import styles from './AuthPanel.css';
 class AuthPanel extends React.Component {
 
   static propTypes = {
+    /**
+     * type: url
+     */
     redirectUri: React.PropTypes.string,
     login: React.PropTypes.func,
     authorize: React.PropTypes.func,
     loginUrl: React.PropTypes.func,
     parseLoginUrl: React.PropTypes.func,
-  }
+  };
 
   state = {
     isOauthOpened: false,

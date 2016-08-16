@@ -1,9 +1,6 @@
 import React from 'react';
 import Menu from './Menu.react';
 
-import Cleave from 'cleave.js/dist/cleave-react';
-import 'cleave.js/dist/addons/cleave-phone.us';
-
 export default class Input extends React.PureComponent {
   static propTypes = {
     onChange: React.PropTypes.func,
@@ -16,6 +13,7 @@ export default class Input extends React.PureComponent {
   static defaultProps = {
     onChange() {},
     items: [],
+    value: '',
   };
 
   state = {
@@ -24,7 +22,7 @@ export default class Input extends React.PureComponent {
   }
 
   handleChange(event) {
-    this.props.onChange(event.target.rawValue);
+    this.props.onChange(event.target.value);
     // this.autocomplete(event.target.value);
   }
 
@@ -42,11 +40,11 @@ export default class Input extends React.PureComponent {
   render() {
     return (
       <div>
-        <Cleave
+        <input
+          type={"text"}
           className={this.props.className}
           onChange={(event) => this.handleChange(event)}
           value={this.props.value}
-          options={{ phone: true, phoneRegionCode: 'US' }}
           placeholder={this.props.placeholder}
         />
         {this.state.isOpen ? <Menu candidates={this.state.candidates} /> : null}

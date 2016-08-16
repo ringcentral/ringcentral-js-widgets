@@ -9,7 +9,8 @@
     "build": "node node_modules/webpack/bin/webpack.js",
     "watch": "node node_modules/webpack/bin/webpack.js --watch",
     "showcase": "node ./node_modules/babel-cli/bin/babel-node.js  cli/theme/index.js",
-    "theme": "node ./node_modules/babel-cli/bin/babel-node.js  cli/dependency/index.js"
+    "theme": "node ./node_modules/babel-cli/bin/babel-node.js  cli/dependency/index.js",
+    "test-data": "node ./node_modules/babel-cli/bin/babel-node.js  cli/test/index.js"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.7",
@@ -60,6 +61,7 @@
     "postcss-nested": "^1.0.0",
     "postcss-simple-vars": "^3.0.0",
     "react-addons-test-utils": "^0.14.7",
+    "react-docgen": "^2.9.1",
     "source-map-support": "^0.4.0",
     "style-loader": "^0.13.1",
     "through2": "^2.0.1",
