@@ -111,38 +111,34 @@ function genTestData(src) {
       return accu;
     }
     console.log(componentInfo.props[prop].type);
-    return accu.concat(
-      {
-        [prop]: dataGenerator(
-          componentInfo.props[prop].type.name,
-          componentInfo.props[prop].type.value
-        ),
-      }
-    );
-  }, []);
+    return Object.assign({}, accu, {
+      [prop]: dataGenerator(
+                componentInfo.props[prop].type.name,
+                componentInfo.props[prop].type.value
+              ),
+    });
+  }, {});
 
   return result;
 }
 
 function walk(src, callback) {
-  const results = [];
+  const results = {};
   dir.readFiles(src, { match: /.react.js$/ },
     (err, content, filename, next) => {
       if (err) throw err;
       // console.log(filename);
-      results.push({
-        [filename.split('/').pop()]: callback(content),
-      });
+      results[filename.split('/').pop()] = callback(content);
       next();
     }, (err, files) => {
       if (err) throw err;
-      fs.writeFile('test.json', JSON.stringify({ data: results }));
+      fs.writeFile('test.json', JSON.stringify(results));
       // console.log('----finish----');
     }
   );
 }
 
 walk(
-  `${path.resolve(__dirname)}/../../src/widgets/modules/webphone`,
+  `${path.resolve(__dirname)}/../../src/widgets/modules/auth`,
   genTestData
 );
