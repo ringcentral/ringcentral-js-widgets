@@ -4,8 +4,8 @@ import Menu from './Menu.react';
 export default class Input extends React.PureComponent {
   static propTypes = {
     onChange: React.PropTypes.func,
-    value: React.PropTypes.string,
     items: React.PropTypes.array,
+    value: React.PropTypes.string,
     className: React.PropTypes.string,
     placeholder: React.PropTypes.string,
   }

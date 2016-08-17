@@ -1,9 +1,171 @@
 {
   "AuthPanel.react.js": {
     "redirectUri": "randomString",
-    "login": "FUNCTION",
     "authorize": "FUNCTION",
     "loginUrl": "FUNCTION",
     "parseLoginUrl": "FUNCTION"
+  },
+  "ActiveCall.react.js": {
+    "flip": {
+      "key": "val"
+    },
+    "transfer": {
+      "key": "val"
+    },
+    "callInfo": {
+      "key": "val"
+    },
+    "bye": "FUNCTION",
+    "park": "FUNCTION",
+    "record": "FUNCTION",
+    "hold": "FUNCTION",
+    "mute": "FUNCTION",
+    "dtmf": "FUNCTION",
+    "disabledOperation": [],
+    "operationStatus": [],
+    "webphoneStatus": "CALL_CONNECTED"
+  },
+  "CallConsole.react.js": {
+    "status": [
+      "RECORDING"
+    ],
+    "disabledOperation": [
+      "record"
+    ],
+    "disabled": true,
+    "handleHoldClick": "FUNCTION",
+    "handleRecordClick": "FUNCTION",
+    "handleKeypadClick": "FUNCTION",
+    "handleFlipClick": "FUNCTION",
+    "handleTransferClick": "FUNCTION",
+    "handleParkClick": "FUNCTION"
+  },
+  "CallFooter.react.js": {
+    "onLeftClick": "FUNCTION",
+    "onRightClick": "FUNCTION",
+    "leftIcon": "randomString",
+    "rightIcon": "randomString"
+  },
+  "CallInfo.react.js": {
+    "phoneNumber": "randomString",
+    "duration": 1234567
+  },
+  "CallerBar.react.js": {
+    "caller": {
+      "key": "val"
+    },
+    "numbers": [],
+    "setCaller": "FUNCTION",
+    "getString": "FUNCTION"
+  },
+  "Closable.react.js": {
+    "className": "randomString",
+    "children": "ELEMENT",
+    "onClose": "FUNCTION"
+  },
+  "DialPad.react.js": {
+    "disabled": true,
+    "contacts": {
+      "key": "val"
+    },
+    "userNumbers": [],
+    "call": "FUNCTION",
+    "remoteMedia": "ANYTHING",
+    "localMedia": "ANYTHING",
+    "getString": "FUNCTION",
+    "loadRingAudio": "FUNCTION"
+  },
+  "Dialer.react.js": {
+    "handleClick": "FUNCTION",
+    "scale": 1234567
+  },
+  "Dropdown.react.js": {
+    "onClick": "FUNCTION",
+    "items": []
+  },
+  "DropdownItem.react.js": {
+    "onClick": "FUNCTION",
+    "item": {
+      "key": "val"
+    },
+    "left": "randomString",
+    "mid": "randomString",
+    "right": "randomString"
+  },
+  "Flip.react.js": {
+    "flipNumbers": [
+      {
+        "value": "randomString",
+        "type": "randomString"
+      }
+    ],
+    "flip": {
+      "key": "val"
+    }
+  },
+  "IncomingCall.react.js": {
+    "phoneNumber": "randomString",
+    "accept": "FUNCTION",
+    "bye": "FUNCTION"
+  },
+  "Transfer.react.js": {
+    "handleClick": "FUNCTION"
+  },
+  "WebPhone.react.js": {
+    "activeCall": {
+      "key": "val"
+    },
+    "incomingCall": {
+      "key": "val"
+    },
+    "dialPad": {
+      "key": "val"
+    },
+    "enums": {
+      "key": "val"
+    },
+    "status": "ON_CALL",
+    "getString": "FUNCTION"
+  },
+  "Input.react.js": {
+    "onChange": "FUNCTION",
+    "items": [],
+    "value": "randomString",
+    "className": "randomString",
+    "placeholder": "randomString"
+  },
+  "Menu.react.js": {
+    "candidates": []
+  },
+  "StatedButton.react.js": {
+    "children": "ELEMENT",
+    "onClick": "FUNCTION",
+    "onEnterState": "FUNCTION",
+    "onLeaveState": "FUNCTION",
+    "className": "randomString",
+    "initStyles": "randomString",
+    "stateStyles": "randomString",
+    "handleClick": "FUNCTION"
+  },
+  "List.react.js": {
+    "children": "ELEMENT"
+  },
+  "ListItem.react.js": {
+    "children": "ELEMENT",
+    "onClick": "FUNCTION",
+    "clickable": true,
+    "className": "randomString"
+  },
+  "PanelContent.react.js": {
+    "children": "ELEMENT"
+  },
+  "PanelFooter.react.js": {
+    "children": "ELEMENT"
+  },
+  "PanelHeader.react.js": {
+    "children": "ELEMENT"
+  },
+  "Ratio.react.js": {
+    "size": 1234567
   }
 }

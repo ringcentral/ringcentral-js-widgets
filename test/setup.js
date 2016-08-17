@@ -1,4 +1,11 @@
 require('babel-register')();
+const hook = require('css-modules-require-hook');
+
+hook({
+  generateScopedName: '[folder]__[local]',
+});
+
+// require.extensions['.css'] = noop;
 
 const jsdom = require('jsdom').jsdom;
 

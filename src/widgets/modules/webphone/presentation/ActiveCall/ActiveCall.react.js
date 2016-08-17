@@ -22,7 +22,6 @@ export default class ActiveCall extends React.PureComponent {
     transfer: React.PropTypes.object,
     callInfo: React.PropTypes.object,
 
-    enums: React.PropTypes.object,
     bye: React.PropTypes.func,
     park: React.PropTypes.func,
     record: React.PropTypes.func,
@@ -31,7 +30,7 @@ export default class ActiveCall extends React.PureComponent {
     dtmf: React.PropTypes.func,
     disabledOperation: React.PropTypes.array,
     operationStatus: React.PropTypes.array,
-    webphoneStatus: React.PropTypes.string,
+    webphoneStatus: React.PropTypes.oneOf(['CALL_CONNECTED', 'CALL_CONNECTING']),
   }
 
   state = {
@@ -44,7 +43,7 @@ export default class ActiveCall extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.webphoneStatus === this.enums.webphoneStatus.callConnected) {
+    if (this.props.webphoneStatus === 'CALL_CONNECTED') {
       this.startToCountDuration();
     }
   }
@@ -86,7 +85,7 @@ export default class ActiveCall extends React.PureComponent {
               leftIcon={'icon-uni40'}
               rightIcon={'icon-uni44'}
               onLeftClick={() => this.setState({ openedPanel: null })}
-              onRightClick={() => {}}
+              onRightClick={this.props.bye}
             />
           </div>
         );
@@ -126,7 +125,7 @@ export default class ActiveCall extends React.PureComponent {
             })}
             rightIcon={'icon-uni44'}
             onLeftClick={() => this.props.mute(!contain(this.props.operationStatus, 'MUTED'))}
-            onRightClick={() => this.props.bye()}
+            onRightClick={this.props.bye}
           />
         </div>
       );
