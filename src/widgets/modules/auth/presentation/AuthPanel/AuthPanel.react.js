@@ -1,11 +1,13 @@
 import React from 'react';
-import styles from './AuthPanel.css';
+import { auth, loginButton } from './AuthPanel.css';
 
 class AuthPanel extends React.Component {
 
   static propTypes = {
+    /**
+     * type: url
+     */
     redirectUri: React.PropTypes.string,
-    login: React.PropTypes.func,
     authorize: React.PropTypes.func,
     loginUrl: React.PropTypes.func,
     parseLoginUrl: React.PropTypes.func,
@@ -49,9 +51,9 @@ class AuthPanel extends React.Component {
 
   render() {
     return (
-      <div className={styles.auth}>
+      <div className={auth}>
         <button
-          className={styles.loginButton}
+          className={loginButton}
           onClick={() => this.oauth()}
         >
           Login

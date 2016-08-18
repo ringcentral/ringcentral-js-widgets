@@ -1,4 +1,3 @@
-require("babel-register");
 const fs = require('fs');
 const path = require('path');
 const { analysis } = require('./analysis');

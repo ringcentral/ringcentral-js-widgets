@@ -19,7 +19,7 @@ function getNationalPhone(raw, country = 'US') {
 
 export default (state, props, phone) => (
   {
-    callingNumber: getNationalPhone(
+    phoneNumber: getNationalPhone(
                   state.common.webphone.remoteIdentity ?
                   clean(state.common.webphone.remoteIdentity.friendlyName) :
                   state.common.webphone.toNumber

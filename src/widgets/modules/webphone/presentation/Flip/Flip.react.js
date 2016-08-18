@@ -1,7 +1,13 @@
 import React from 'react';
 import { List, ListItem } from '../../../../shared/list/';
 
-import { flip, flipTitle, flipItem, flipItemTitle, flipItemSubtitle } from './Flip.css';
+import {
+  flip,
+  flipTitle,
+  flipItem,
+  flipItemTitle,
+  flipItemSubtitle,
+} from './Flip.css';
 
 const Flip = (props) => (
   <div className={flip}>
