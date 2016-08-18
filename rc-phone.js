@@ -196,6 +196,7 @@ var RcPhone = function (_RcModule) {
       subscription: _this.subscription.reducer,
       user: _this.user.reducer,
       webphone: _this.webphone.reducer,
+      contact: _this.contact.reducer,
       settings: _this.settings.reducer
     });
     if (resolver) {

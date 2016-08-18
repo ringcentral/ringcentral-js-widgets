@@ -93,7 +93,8 @@ var loadData = function () {
             _context.t0 = _context['catch'](2);
 
             this.store.dispatch({
-              type: this.actions['load' + dataType + 'Failed']
+              type: this.actions['load' + dataType + 'Failed'],
+              error: _context.t0
             });
             this.emit(_userEvents.userEvents['load' + dataType + 'Failed']);
             throw _context.t0;

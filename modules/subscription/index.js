@@ -260,7 +260,7 @@ var Subscription = function (_RcModule) {
     key: 'subscribe',
     value: function subscribe(event) {
       // TODO normalized error
-      if (!_keyValueMap2.default.hasValue.call(_subscriptionEvents.subscriptionEvents, event)) {
+      if (!_keyValueMap.hasValue.call(_subscriptionEvents.subscriptionEvents, event)) {
         throw new Error('event is not recognized');
       }
 

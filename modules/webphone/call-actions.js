@@ -12,5 +12,5 @@ exports.default = new _reduxHelper.ActionMap([
 // unregister, clear operational state
 'clear',
 // operation
-'flip', 'record', 'stopRecord', 'hold', 'unhold', 'mute', 'unmute', 'park', 'transfer', 'forward', 'dtmf']);
+'flip', 'record', 'stopRecord', 'hold', 'unhold', 'mute', 'unmute', 'park', 'transfer', 'forward', 'dtmf'], 'webphone');
 //# sourceMappingURL=call-actions.js.map

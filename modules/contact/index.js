@@ -4,14 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _regenerator = require('babel-runtime/regenerator');
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -40,6 +32,10 @@ var _rcModule = require('../../lib/rc-module');
 
 var _rcModule2 = _interopRequireDefault(_rcModule);
 
+var _addModule = require('../../lib/add-module');
+
+var _addModule2 = _interopRequireDefault(_addModule);
+
 var _symbolMap = require('data-types/symbol-map');
 
 var _symbolMap2 = _interopRequireDefault(_symbolMap);
@@ -48,15 +44,15 @@ var _keyValueMap = require('data-types/key-value-map');
 
 var _keyValueMap2 = _interopRequireDefault(_keyValueMap);
 
-var _contactReducer = require('./contact-reducer');
+var _redux = require('redux');
 
-var _contactReducer2 = _interopRequireDefault(_contactReducer);
+var _companyContact = require('./company-contact');
 
-var _contactActions = require('./contact-actions');
+var _companyContact2 = _interopRequireDefault(_companyContact);
 
-var _contactActions2 = _interopRequireDefault(_contactActions);
+var _addressBook = require('./address-book');
 
-var _utils = require('../../lib/utils');
+var _addressBook2 = _interopRequireDefault(_addressBook);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -74,91 +70,53 @@ var Contact = function (_RcModule) {
    * @function
    */
   function Contact(options) {
-    var _this2 = this;
-
     (0, _classCallCheck3.default)(this, Contact);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Contact).call(this, (0, _extends3.default)({}, options, {
-      actions: _contactActions2.default
-    })));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Contact).call(this, (0, _extends3.default)({}, options)));
 
     var api = options.api;
     var platform = options.platform;
     var settings = options.settings;
+    var promiseForStore = options.promiseForStore;
+    var prefix = options.prefix;
+
 
     _this[symbols.api] = api;
     _this[symbols.platform] = platform;
     _this[symbols.settings] = settings;
 
-    platform.on(platform.events.loginSuccess, function () {
-      _this.loadCompanyContact();
-    });
+    _addModule2.default.call(_this, 'companyContact', new _companyContact2.default({
+      promiseForStore: promiseForStore,
+      getState: function getState() {
+        return _this.state.companyContact;
+      },
+      prefix: prefix,
+      api: api,
+      platform: platform,
+      settings: settings
+    }));
 
-    (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-      return _regenerator2.default.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return platform.loggedIn();
-
-            case 2:
-              if (!_context.sent) {
-                _context.next = 5;
-                break;
-              }
-
-              _context.next = 5;
-              return _this.loadCompanyContact();
-
-            case 5:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, _callee, _this2);
-    }))();
+    _addModule2.default.call(_this, 'addressBook', new _addressBook2.default({
+      promiseForStore: promiseForStore,
+      getState: function getState() {
+        return _this.state.addressBook;
+      },
+      prefix: prefix,
+      api: api,
+      platform: platform,
+      settings: settings
+    }));
     return _this;
   }
 
   (0, _createClass3.default)(Contact, [{
-    key: 'loadCompanyContact',
-    value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-        var _this3 = this;
-
-        var contacts;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _context2.next = 2;
-                return _utils.fetchList.call(this, function (options) {
-                  return _this3[symbols.api].account().extension().list(options);
-                });
-
-              case 2:
-                _context2.t0 = _context2.sent;
-                contacts = (0, _utils.extractData)(_context2.t0);
-
-              case 4:
-              case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function loadCompanyContact() {
-        return _ref2.apply(this, arguments);
-      }
-
-      return loadCompanyContact;
-    }()
-  }, {
     key: 'reducer',
     get: function get() {
-      return (0, _contactReducer2.default)(this.prefix);
+      console.log('reducer');
+      return (0, _redux.combineReducers)({
+        companyContact: this.companyContact.reducer,
+        addressBook: this.addressBook.reducer
+      });
     }
   }]);
   return Contact;
