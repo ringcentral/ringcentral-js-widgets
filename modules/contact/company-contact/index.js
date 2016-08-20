@@ -165,7 +165,7 @@ var CompanyContact = function (_RcModule) {
                 _context2.t1 = _context2['catch'](1);
 
                 this.store.dispatch({
-                  type: this.actions.loadAddressBookFailed,
+                  type: this.actions.loadCompanyContactFailed,
                   error: _context2.t1
                 });
 
