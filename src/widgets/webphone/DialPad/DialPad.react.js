@@ -3,16 +3,16 @@ import classNames from 'classnames';
 
 import LPN from 'google-libphonenumber';
 
-import { PanelHeader, PanelContent, PanelFooter } from '../../../../shared/panel/';
-import { Input } from '../../../../shared/autocomplete/';
+import { PanelHeader, PanelContent, PanelFooter } from '../../shared/panel/';
+import { Input } from '../../shared/autocomplete/';
 
 import Dialer from '../Dialer/Dialer.react';
 import CallerBar from '../CallerBar/CallerBar.react';
 
 import { main, container, line, bar, callButton, phoneInput } from './DialPad.css';
-import iconsStyles from '../../../../../styles/icon.css';
-import incoming from '../../../../../assets/audio/incoming.ogg';
-import outgoing from '../../../../../assets/audio/outgoing.ogg';
+import iconsStyles from '../../../styles/icon.css';
+import incoming from '../../../assets/audio/incoming.ogg';
+import outgoing from '../../../assets/audio/outgoing.ogg';
 
 export default class DialPad extends React.PureComponent {
   static propTypes = {

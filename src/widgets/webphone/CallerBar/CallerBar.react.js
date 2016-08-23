@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import Dropdown from '../Dropdown/Dropdown.react';
 
 import { caller, callerSpan, callerButton, callerIcon } from './CallerBar.css';
-import iconsStyles from '../../../../../styles/icon.css';
+import iconsStyles from '../../../styles/icon.css';
 
 export default class CallerBar extends React.Component {
   static propTypes = {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { button, disabled, word, icon, panel, line } from './CallConsole.css';
-import iconsStyles from '../../../../../styles/icon.css';
+import iconsStyles from '../../../styles/icon.css';
 
 import classNames from 'classnames';
 
