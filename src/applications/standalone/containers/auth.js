@@ -1,8 +1,9 @@
-import AuthPanel from './presentation/AuthPanel/AuthPanel.react';
+import AuthPanel from '../../../widgets/auth/AuthPanel/AuthPanel.react';
 import { connect } from './../../../utils/integration/';
 
 // TODO: import the cred info from other places?
 import config from '../../../../config';
+
 export default connect((state, props, phone) => ({
   login: (...args) => phone.auth.login(...args),
   authorize: (...args) => phone.auth.authorize(...args),

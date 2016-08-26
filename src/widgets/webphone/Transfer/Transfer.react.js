@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Input } from '../../../../shared/autocomplete/';
+import { Input } from '../../shared/autocomplete/';
 
 import {
   main,
