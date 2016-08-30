@@ -21,7 +21,7 @@ function transformSyntax(input, src, path) {
 
 function transformSelector(token, src) {
   if (token.type === 'class') {
-    token.name = `${src}-${token.name}`;
+    token.name = `${src}__${token.name}`;
   }
   if (token.nodes) {
     token.nodes.forEach(node => transformSelector(node, src));

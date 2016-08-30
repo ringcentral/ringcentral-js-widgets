@@ -38,11 +38,8 @@ export default class ActiveCall extends React.PureComponent {
     duration: 0,
   }
 
-  componentWillMount() {
-    this.enums = this.props.enums;
-  }
-
   componentDidMount() {
+    this.enums = this.props.enums;
     if (this.props.webphoneStatus === 'CALL_CONNECTED') {
       this.startToCountDuration();
     }

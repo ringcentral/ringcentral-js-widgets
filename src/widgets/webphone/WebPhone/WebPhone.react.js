@@ -2,6 +2,7 @@ import React from 'react';
 
 import DialPad from '../DialPad/DialPad.react';
 import ActiveCall from '../ActiveCall/ActiveCall.react';
+import ActiveCallWithNote from '../ActiveCallWithNote/ActiveCallWithNote.react';
 import IncomingCall from '../IncomingCall/IncomingCall.react';
 
 import { main } from './WebPhone.css';
@@ -10,6 +11,7 @@ let remoteMedia;
 let localMedia;
 
 const WebPhone = (props) => {
+  console.log('update')
   function content() {
     if (props.status === 'ON_CALL') {
       return <ActiveCall {...props.activeCall} enums={props.enums} />;

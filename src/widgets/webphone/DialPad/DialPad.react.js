@@ -9,10 +9,13 @@ import { Input } from '../../shared/autocomplete/';
 import Dialer from '../Dialer/Dialer.react';
 import CallerBar from '../CallerBar/CallerBar.react';
 
-import { main, container, line, bar, callButton, phoneInput } from './DialPad.css';
+import prefix from '../../../utils/style';
 import iconsStyles from '../../../styles/icon.css';
 import incoming from '../../../assets/audio/incoming.ogg';
 import outgoing from '../../../assets/audio/outgoing.ogg';
+
+const { main, container, line, bar, callButton, phoneInput } =
+  prefix(['main', 'container', 'line', 'bar', 'callButton', 'phoneInput'], 'DialPad');
 
 export default class DialPad extends React.PureComponent {
   static propTypes = {
@@ -43,7 +46,6 @@ export default class DialPad extends React.PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.disabled);
     if (!this.state.caller && nextProps.userNumbers[0]) {
       this.setDefaultCaller(nextProps.userNumbers);
     }
@@ -52,7 +54,7 @@ export default class DialPad extends React.PureComponent {
       this.props.loadRingAudio({
         incoming,
         outgoing,
-      })
+      });
     }
   }
 
