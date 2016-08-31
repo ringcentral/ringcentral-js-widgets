@@ -2,14 +2,23 @@ import React from 'react';
 import classNames from 'classnames';
 import { Input } from '../../shared/autocomplete/';
 
-import {
+import prefix from '../../../utils/style';
+
+const {
   main,
   transfer,
   transferTitle,
   transferInput,
   transferButton,
   wrapper,
-} from './Transfer.css';
+} = prefix([
+  'main',
+  'transfer',
+  'transferTitle',
+  'transferInput',
+  'transferButton',
+  'wrapper',
+], 'Transfer');
 
 class Transfer extends React.Component {
 

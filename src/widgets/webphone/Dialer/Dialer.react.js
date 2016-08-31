@@ -1,5 +1,9 @@
 import React from 'react';
-import { dialer, dialerButton, dialerNumber, dialerSymbol, line as lineStyle } from './Dialer.css';
+
+import prefix from '../../../utils/style';
+
+const { dialer, dialerButton, dialerNumber, dialerSymbol, line } =
+  prefix(['dialer', 'dialerButton', 'dialerNumber', 'dialerSymbol', 'line'], 'Dialer');
 
 const Dialer = (props) => (
   <div className={dialer}>
@@ -8,13 +12,13 @@ const Dialer = (props) => (
       [{ 4: 'GHI' }, { 5: 'JKL' }, { 6: 'MNO' }],
       [{ 7: 'PQRS' }, { 8: 'TUV' }, { 9: 'WXYZ' }],
       [{ '*': '' }, { 0: '+' }, { '#': '' }],
-    ].map((line, index) => (
+    ].map((row, index) => (
       <div
         key={`line-${index}`}
-        className={lineStyle}
+        className={line}
       >
         {
-          line.map(symbol => (
+          row.map(symbol => (
             <button
               key={Object.keys(symbol)[0]}
               onClick={() => props.handleClick(Object.keys(symbol)[0])}

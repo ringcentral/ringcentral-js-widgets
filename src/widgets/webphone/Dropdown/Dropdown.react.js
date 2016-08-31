@@ -1,7 +1,10 @@
 import React from 'react';
 
-import { dropdown } from './Dropdown.css';
 import DropdownItem from '../DropdownItem/DropdownItem.react';
+
+import prefix from '../../../utils/style';
+
+const { dropdown } = prefix(['dropdown'], 'Dropdown');
 
 const Dropdown = (props) => (
   <ul className={dropdown}>

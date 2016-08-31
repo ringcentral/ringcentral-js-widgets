@@ -11,7 +11,10 @@ import CallInfo from '../CallInfo/CallInfo.react';
 import CallFooter from '../CallFooter/CallFooter.react';
 import Closeable from '../Closable/Closable.react';
 
-import { main, container } from './ActiveCall.css';
+import prefix from '../../../utils/style';
+
+const { main, container } =
+  prefix(['main', 'container'], 'ActiveCall');
 
 let durationInterval;
 

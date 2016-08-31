@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { dropdownItem, left, mid, right } from './DropdownItem.css';
+import prefix from '../../../utils/style';
+
+const { dropdownItem, left, mid, right } =
+  prefix(['dropdownItem', 'left', 'mid', 'right'], 'DropdownItem');
 
 const DropdownItem = (props) => (
   <li

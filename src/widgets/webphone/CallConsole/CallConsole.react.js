@@ -1,8 +1,11 @@
 import React from 'react';
-import { button, disabled, word, icon, panel, line } from './CallConsole.css';
 import iconsStyles from '../../../styles/icon.css';
-
+console.log(iconsStyles)
 import classNames from 'classnames';
+import prefix from '../../../utils/style';
+
+const { button, disabled, word, icon, panel, line } =
+  prefix(['button', 'disabled', 'word', 'icon', 'panel', 'line'], 'CallConsole');
 
 function iconClass(iconId) {
   return classNames(

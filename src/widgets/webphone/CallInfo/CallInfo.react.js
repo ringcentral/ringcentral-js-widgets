@@ -1,5 +1,8 @@
 import React from 'react';
-import { title, time, subtitle } from './CallInfo.css';
+import prefix from '../../../utils/style';
+
+const { title, time, subtitle } =
+  prefix(['title', 'time', 'subtitle'], 'CallInfo');
 
 function toHHMMSS(duration) {
   const sec = parseInt(duration, 10);

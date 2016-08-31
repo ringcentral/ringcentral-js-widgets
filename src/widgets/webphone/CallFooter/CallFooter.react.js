@@ -1,8 +1,11 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { icon, footer, footerButton } from './CallFooter.css';
 import iconsStyles from '../../../styles/icon.css';
+import prefix from '../../../utils/style';
+
+const { icon, footer, footerButton } =
+  prefix(['icon', 'footer', 'footerButton'], 'CallFooter');
 
 const CallFooter = (props) => (
   <div className={footer}>

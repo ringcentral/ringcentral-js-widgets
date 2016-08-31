@@ -3,7 +3,10 @@ import classNames from 'classnames';
 
 import CallFooter from '../CallFooter/CallFooter.react';
 
-import { main, container, title, subtitle, avatar } from './IncomingCall.css';
+import prefix from '../../../utils/style';
+
+const { main, container, title, subtitle, avatar } =
+  prefix(['main', 'container', 'title', 'subtitle', 'avatar'], 'IncomingCall');
 
 const IncomingCall = (props) => (
   <div className={classNames(main, container)}>

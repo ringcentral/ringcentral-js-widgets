@@ -9,10 +9,11 @@ import { Input } from '../../shared/autocomplete/';
 import Dialer from '../Dialer/Dialer.react';
 import CallerBar from '../CallerBar/CallerBar.react';
 
-import prefix from '../../../utils/style';
 import iconsStyles from '../../../styles/icon.css';
 import incoming from '../../../assets/audio/incoming.ogg';
 import outgoing from '../../../assets/audio/outgoing.ogg';
+
+import prefix from '../../../utils/style';
 
 const { main, container, line, bar, callButton, phoneInput } =
   prefix(['main', 'container', 'line', 'bar', 'callButton', 'phoneInput'], 'DialPad');
