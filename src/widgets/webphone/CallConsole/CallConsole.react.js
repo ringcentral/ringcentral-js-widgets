@@ -1,16 +1,13 @@
 import React from 'react';
-import iconsStyles from '../../../styles/icon.css';
-console.log(iconsStyles)
 import classNames from 'classnames';
 import prefix from '../../../utils/style';
+import Icon from '../../shared/Icon';
 
 const { button, disabled, word, icon, panel, line } =
   prefix(['button', 'disabled', 'word', 'icon', 'panel', 'line'], 'CallConsole');
 
 function iconClass(iconId) {
   return classNames(
-          iconsStyles[iconId],
-          iconsStyles.icon,
           icon
         );
 }
@@ -36,15 +33,7 @@ const CallConsole = (props) => {
             noop :
             (event) => props.handleHoldClick(!contain(props.status, 'HOLDING'))}
         >
-          <span
-            className={
-              classNames({
-                [iconClass('icon-uni28')]: !contain(props.status, 'HOLDING'),
-                [iconClass('icon-uni35')]: contain(props.status, 'HOLDING'),
-              })
-            }
-          >
-          </span>
+          <Icon id={contain(props.status, 'HOLDING') ? 'icon-uni35' : 'icon-uni28'} />
           <div className={word}>Hold</div>
         </button>
         <button

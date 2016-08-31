@@ -3,8 +3,9 @@ import classNames from 'classnames';
 
 import LPN from 'google-libphonenumber';
 
-import { PanelHeader, PanelContent, PanelFooter } from '../../shared/panel/';
-import { Input } from '../../shared/autocomplete/';
+import { PanelHeader, PanelContent, PanelFooter } from '../../shared/Panel/';
+import { Input } from '../../shared/AutoComplete/';
+import { Icon } from '../../shared/Icon';
 
 import Dialer from '../Dialer/Dialer.react';
 import CallerBar from '../CallerBar/CallerBar.react';
@@ -131,7 +132,7 @@ export default class DialPad extends React.PureComponent {
               className={callButton}
               onClick={this.boundHandleCallClick}
             >
-              <span className={classNames(iconsStyles['icon-uniAE'], iconsStyles.icon)}></span>
+              <Icon id={'icon-uniAE'} />
             </button>
           </div>
         </PanelFooter>
