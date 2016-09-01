@@ -1,5 +1,7 @@
 import React from 'react';
-import { cancelButton } from './Closable.css';
+import prefix from '../../../utils/style';
+
+const { cancelButton } = prefix(['cancelButton'], 'Closable');
 
 const Closable = (props) => (
   <div className={props.className}>

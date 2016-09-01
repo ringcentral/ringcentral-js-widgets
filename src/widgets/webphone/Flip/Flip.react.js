@@ -1,13 +1,15 @@
 import React from 'react';
 import { List, ListItem } from '../../shared/List/';
 
-import {
+import prefix from '../../../utils/style';
+
+const {
   flip,
   flipTitle,
   flipItem,
   flipItemTitle,
   flipItemSubtitle,
-} from './Flip.css';
+} = prefix(['flip', 'flipTitle', 'flipItem', 'flipItemTitle', 'flipItemSubtitle'], 'Flip');
 
 const Flip = (props) => (
   <div className={flip}>
