@@ -22,7 +22,6 @@ coverage
 .lock-wscript
 
 # Compiled binary addons (http://nodejs.org/api/addons.html)
-build
 
 # Dependency directory
 node_modules
@@ -36,8 +35,6 @@ node_modules
 .DS_Store
 
 accounts.json
-
-dist
 
 config.js
 
