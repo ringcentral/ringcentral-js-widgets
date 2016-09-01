@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import iconsStyles from '../../../styles/icon.css';
+import { Icon } from '../../shared/Icon';
 import prefix from '../../../utils/style';
 
 const { icon, footer, footerButton } =
@@ -10,24 +10,10 @@ const { icon, footer, footerButton } =
 const CallFooter = (props) => (
   <div className={footer}>
     <button className={footerButton} onClick={props.onLeftClick}>
-      <span
-        className={
-          classNames(
-            iconsStyles[props.leftIcon],
-            iconsStyles.icon,
-            icon
-          )}
-      ></span>
+      <Icon id={props.leftIcon} />
     </button>
     <button className={footerButton} onClick={props.onRightClick}>
-      <span
-        className={
-          classNames(
-            iconsStyles[props.rightIcon],
-            iconsStyles.icon,
-            icon
-          )}
-      ></span>
+      <Icon id={props.rightIcon} />
     </button>
   </div>
 );
