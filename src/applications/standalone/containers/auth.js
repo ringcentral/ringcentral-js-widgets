@@ -1,4 +1,4 @@
-import AuthPanel from '../../../widgets/auth/AuthPanel/AuthPanel.react';
+import AuthPanel from '../../../widgets/auth/AuthPanel';
 import { connect } from './../../../utils/integration/';
 
 // TODO: import the cred info from other places?
