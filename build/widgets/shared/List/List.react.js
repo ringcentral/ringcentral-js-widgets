@@ -8,16 +8,21 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _list = require('./list.css');
+var _style = require('../../../utils/style');
 
-var _list2 = _interopRequireDefault(_list);
+var _style2 = _interopRequireDefault(_style);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _prefix = (0, _style2.default)(['list'], 'List');
+
+var list = _prefix.list;
+
 
 var List = function List(props) {
   return _react2.default.createElement(
     'div',
-    { className: _list2.default.list },
+    { className: list },
     props.children
   );
 };

@@ -8,9 +8,16 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Closable = require('./Closable.css');
+var _style = require('../../../utils/style');
+
+var _style2 = _interopRequireDefault(_style);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _prefix = (0, _style2.default)(['cancelButton'], 'Closable');
+
+var cancelButton = _prefix.cancelButton;
+
 
 var Closable = function Closable(props) {
   return _react2.default.createElement(
@@ -18,7 +25,7 @@ var Closable = function Closable(props) {
     { className: props.className },
     _react2.default.createElement(
       'button',
-      { className: _Closable.cancelButton, onClick: props.onClose },
+      { className: cancelButton, onClick: props.onClose },
       'Cancel'
     ),
     props.children

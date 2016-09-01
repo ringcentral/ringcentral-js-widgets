@@ -10,17 +10,28 @@ var _react2 = _interopRequireDefault(_react);
 
 var _List = require('../../shared/List/');
 
-var _Flip = require('./Flip.css');
+var _style = require('../../../utils/style');
+
+var _style2 = _interopRequireDefault(_style);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _prefix = (0, _style2.default)(['flip', 'flipTitle', 'flipItem', 'flipItemTitle', 'flipItemSubtitle'], 'Flip');
+
+var flip = _prefix.flip;
+var flipTitle = _prefix.flipTitle;
+var flipItem = _prefix.flipItem;
+var flipItemTitle = _prefix.flipItemTitle;
+var flipItemSubtitle = _prefix.flipItemSubtitle;
+
 
 var Flip = function Flip(props) {
   return _react2.default.createElement(
     'div',
-    { className: _Flip.flip },
+    { className: flip },
     _react2.default.createElement(
       'div',
-      { className: _Flip.flipTitle },
+      { className: flipTitle },
       'Flip to'
     ),
     _react2.default.createElement(
@@ -30,7 +41,7 @@ var Flip = function Flip(props) {
         return _react2.default.createElement(
           _List.ListItem,
           {
-            className: _Flip.flipItem,
+            className: flipItem,
             key: index,
             onClick: function onClick() {
               return props.flip(number.flipNumber);
@@ -39,12 +50,12 @@ var Flip = function Flip(props) {
           },
           _react2.default.createElement(
             'div',
-            { className: _Flip.flipItemTitle },
+            { className: flipItemTitle },
             number.phoneNumber
           ),
           _react2.default.createElement(
             'div',
-            { className: _Flip.flipItemSubtitle },
+            { className: flipItemSubtitle },
             number.label
           )
         );

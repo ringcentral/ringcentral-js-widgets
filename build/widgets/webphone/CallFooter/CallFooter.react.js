@@ -12,9 +12,7 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _icon = require('../../../styles/icon.css');
-
-var _icon2 = _interopRequireDefault(_icon);
+var _Icon = require('../../shared/Icon');
 
 var _style = require('../../../utils/style');
 
@@ -36,16 +34,12 @@ var CallFooter = function CallFooter(props) {
     _react2.default.createElement(
       'button',
       { className: footerButton, onClick: props.onLeftClick },
-      _react2.default.createElement('span', {
-        className: (0, _classnames2.default)(_icon2.default[props.leftIcon], _icon2.default.icon, icon)
-      })
+      _react2.default.createElement(_Icon.Icon, { id: props.leftIcon })
     ),
     _react2.default.createElement(
       'button',
       { className: footerButton, onClick: props.onRightClick },
-      _react2.default.createElement('span', {
-        className: (0, _classnames2.default)(_icon2.default[props.rightIcon], _icon2.default.icon, icon)
-      })
+      _react2.default.createElement(_Icon.Icon, { id: props.rightIcon })
     )
   );
 };
