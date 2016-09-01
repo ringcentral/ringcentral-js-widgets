@@ -1,7 +1,6 @@
 import React from 'react';
 
 import prefix from '../../../utils/style';
-
 import classNames from 'classnames';
 
 const { icon } = prefix(['icon'], 'Icon');

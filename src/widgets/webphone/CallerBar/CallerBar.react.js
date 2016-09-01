@@ -2,8 +2,9 @@ import React from 'react';
 import classNames from 'classnames';
 
 import Dropdown from '../Dropdown/Dropdown.react';
-import iconsStyles from '../../../styles/icon.css';
 import prefix from '../../../utils/style';
+
+import { Icon } from '../../shared/Icon';
 
 const { caller, callerSpan, callerButton, callerIcon } =
   prefix(['caller', 'callerSpan', 'callerButton', 'callerIcon'], 'CallerBar');
@@ -43,7 +44,7 @@ export default class CallerBar extends React.Component {
           {this.props.caller ? this.props.caller.mid : ''}
         </button>
         <div className={callerIcon}>
-          <span className={classNames(iconsStyles['icon-uni2463'], iconsStyles.icon)}></span>
+          <Icon id={'icon-uni2463'} />
         </div>
         {
           this.state.isDropdownOpen ?

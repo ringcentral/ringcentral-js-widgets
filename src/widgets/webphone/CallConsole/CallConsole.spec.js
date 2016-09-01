@@ -4,23 +4,15 @@ import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { postProcess } from '../../../../../utils/test';
+import { postProcess } from '../../../utils/test';
 
-import data from '../../../../../../test.json';
+import data from '../../../../test.json';
 
 import CallConsole from './CallConsole.react';
-import iconsStyles from '../../../../../styles/icon.css';
 import { button, disabled, word, icon, panel, line } from './CallConsole.css';
 
 import classNames from 'classnames';
 
-function iconClass(iconId) {
-  return classNames(
-          iconsStyles[iconId],
-          iconsStyles.icon,
-          icon
-        );
-}
 
 describe('<CallConsole />', () => {
   it('can disable all panel', () => {

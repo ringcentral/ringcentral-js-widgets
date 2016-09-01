@@ -1,5 +1,5 @@
 import React from 'react';
-import { List, ListItem } from '../../shared/list/';
+import { List, ListItem } from '../../shared/List/';
 
 import {
   flip,

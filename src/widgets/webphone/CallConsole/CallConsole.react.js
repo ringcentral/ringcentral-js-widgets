@@ -1,7 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import prefix from '../../../utils/style';
-import Icon from '../../shared/Icon';
+import { Icon } from '../../shared/Icon';
+import { Ratio } from '../../shared/Ratio';
 
 const { button, disabled, word, icon, panel, line } =
   prefix(['button', 'disabled', 'word', 'icon', 'panel', 'line'], 'CallConsole');
@@ -19,6 +20,9 @@ const CallConsole = (props) => {
   function isDisabled(action) {
     return props.disabled || (action && contain(props.disabledOperation, action));
   }
+  function ratio(child) {
+    return <Ratio size={2.6}>{child}</Ratio>;
+  }
   function noop() {}
   // TODO: replace constant with enums
   return (
@@ -33,7 +37,7 @@ const CallConsole = (props) => {
             noop :
             (event) => props.handleHoldClick(!contain(props.status, 'HOLDING'))}
         >
-          <Icon id={contain(props.status, 'HOLDING') ? 'icon-uni35' : 'icon-uni28'} />
+          {ratio(<Icon id={contain(props.status, 'HOLDING') ? 'icon-uni35' : 'icon-uni28'} />)}
           <div className={word}>Hold</div>
         </button>
         <button
@@ -43,7 +47,7 @@ const CallConsole = (props) => {
           })}
           onClick={isDisabled('dtmf') ? noop : props.handleKeypadClick}
         >
-          <span className={iconClass('icon-uni21')}></span>
+          {ratio(<Icon id={'icon-uni21'} />)}
           <div className={word}>Keypad</div>
         </button>
         <button
@@ -55,15 +59,7 @@ const CallConsole = (props) => {
             noop :
             () => props.handleRecordClick(!contain(props.status, 'RECORDING'))}
         >
-          <span
-            className={
-              classNames({
-                [iconClass('icon-uni24')]: !contain(props.status, 'RECORDING'),
-                [iconClass('icon-uni30')]: contain(props.status, 'RECORDING'),
-              })
-            }
-          >
-          </span>
+          {ratio(<Icon id={contain(props.status, 'RECORDING') ? 'icon-uni30' : 'icon-uni24'} />)}
           <div className={word}>Record</div>
         </button>
       </div>
@@ -75,7 +71,7 @@ const CallConsole = (props) => {
           })}
           onClick={isDisabled('flip') ? noop : props.handleFlipClick}
         >
-          <span className={iconClass('icon-uni27')}></span>
+          {ratio(<Icon id={'icon-uni27'} />)}
           <div className={word}>Flip</div>
         </button>
         <button
@@ -85,7 +81,7 @@ const CallConsole = (props) => {
           })}
           onClick={isDisabled('transfer') ? noop : props.handleTransferClick}
         >
-          <span className={iconClass('icon-uni23')}></span>
+          {ratio(<Icon id={'icon-uni23'} />)}
           <div className={word}>Transfer</div>
         </button>
         <button
@@ -95,7 +91,7 @@ const CallConsole = (props) => {
           })}
           onClick={isDisabled('park') ? noop : props.handleParkClick}
         >
-          <span className={iconClass('icon-uni22')}></span>
+          {ratio(<Icon id={'icon-uni22'} />)}
           <div className={word}>Park</div>
         </button>
       </div>

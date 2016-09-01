@@ -10,7 +10,6 @@ import { Icon } from '../../shared/Icon';
 import Dialer from '../Dialer/Dialer.react';
 import CallerBar from '../CallerBar/CallerBar.react';
 
-import iconsStyles from '../../../styles/icon.css';
 import incoming from '../../../assets/audio/incoming.ogg';
 import outgoing from '../../../assets/audio/outgoing.ogg';
 
