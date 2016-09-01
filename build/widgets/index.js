@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.AuthPanel = exports.WebPhone = exports.Transfer = exports.Note = exports.IncomingCall = exports.Flip = exports.DropdownItem = exports.Dropdown = exports.DialPad = exports.Dialer = exports.Closable = exports.CallInfo = exports.CallFooter = exports.CallerBar = exports.CallConsole = exports.ActiveCallWithNote = exports.ActiveCall = exports.Tabs = exports.Ratio = exports.Panel = exports.List = exports.Icon = exports.AutoComplete = exports.auth = exports.webphone = exports.shared = undefined;
 
 var _ActiveCall = require('./webphone/ActiveCall');
 
@@ -132,29 +131,34 @@ var auth = {
   AuthPanel: _AuthPanel2.default
 };
 
-exports.shared = shared;
-exports.webphone = webphone;
-exports.auth = auth;
-exports.AutoComplete = _AutoComplete2.default;
-exports.Icon = _Icon2.default;
-exports.List = _List2.default;
-exports.Panel = _Panel2.default;
-exports.Ratio = _Ratio2.default;
-exports.Tabs = _Tabs2.default;
-exports.ActiveCall = _ActiveCall2.default;
-exports.ActiveCallWithNote = _ActiveCallWithNote2.default;
-exports.CallConsole = _CallConsole2.default;
-exports.CallerBar = _CallerBar2.default;
-exports.CallFooter = _CallFooter2.default;
-exports.CallInfo = _CallInfo2.default;
-exports.Closable = _Closable2.default;
-exports.Dialer = _Dialer2.default;
-exports.DialPad = _DialPad2.default;
-exports.Dropdown = _Dropdown2.default;
-exports.DropdownItem = _DropdownItem2.default;
-exports.Flip = _Flip2.default;
-exports.IncomingCall = _IncomingCall2.default;
-exports.Note = _Note2.default;
-exports.Transfer = _Transfer2.default;
-exports.WebPhone = _WebPhone2.default;
-exports.AuthPanel = _AuthPanel2.default;
+exports.default = {
+  shared: shared,
+  webphone: webphone,
+  auth: auth,
+
+  AutoComplete: _AutoComplete2.default,
+  Icon: _Icon2.default,
+  List: _List2.default,
+  Panel: _Panel2.default,
+  Ratio: _Ratio2.default,
+  Tabs: _Tabs2.default,
+
+  ActiveCall: _ActiveCall2.default,
+  ActiveCallWithNote: _ActiveCallWithNote2.default,
+  CallConsole: _CallConsole2.default,
+  CallerBar: _CallerBar2.default,
+  CallFooter: _CallFooter2.default,
+  CallInfo: _CallInfo2.default,
+  Closable: _Closable2.default,
+  Dialer: _Dialer2.default,
+  DialPad: _DialPad2.default,
+  Dropdown: _Dropdown2.default,
+  DropdownItem: _DropdownItem2.default,
+  Flip: _Flip2.default,
+  IncomingCall: _IncomingCall2.default,
+  Note: _Note2.default,
+  Transfer: _Transfer2.default,
+  WebPhone: _WebPhone2.default,
+
+  AuthPanel: _AuthPanel2.default
+};
