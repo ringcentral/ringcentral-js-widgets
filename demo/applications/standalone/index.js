@@ -2,12 +2,12 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import { createStore, combineReducers } from 'redux';
-import { Provider, PhoneProvider } from '../../utils/integration/';
+import { Provider, PhoneProvider } from '../../../src/utils/integration/';
 
 import RcPhone from 'ringcentral-js-integration-commons';
 import config from '../../../config';
 
-import { reducer as localeReducer } from '../../utils/locale/';
+import { reducer as localeReducer } from '../../../src/utils/locale/';
 
 import App from './app.react';
 

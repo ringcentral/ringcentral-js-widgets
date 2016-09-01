@@ -10,8 +10,8 @@ import { Icon } from '../../shared/Icon';
 import Dialer from '../Dialer';
 import CallerBar from '../CallerBar';
 
-import incoming from '../../../assets/audio/incoming.ogg';
-import outgoing from '../../../assets/audio/outgoing.ogg';
+// const incoming = '../../../assets/audio/incoming.ogg';
+// const outgoing = '../../../assets/audio/incoming.ogg';
 
 import prefix from '../../../utils/style';
 
@@ -50,13 +50,12 @@ export default class DialPad extends React.PureComponent {
     if (!this.state.caller && nextProps.userNumbers[0]) {
       this.setDefaultCaller(nextProps.userNumbers);
     }
-    if (this.props.disabled && !nextProps.disabled) {
-      console.log(outgoing);
-      this.props.loadRingAudio({
-        incoming,
-        outgoing,
-      });
-    }
+    // if (this.props.disabled && !nextProps.disabled) {
+    //   this.props.loadRingAudio({
+    //     incoming,
+    //     outgoing,
+    //   });
+    // }
   }
 
   setDefaultCaller(numbers) {

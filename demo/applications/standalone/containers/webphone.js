@@ -1,11 +1,11 @@
-import { connect } from '../../../utils/integration/';
-import { getString } from '../../../utils/locale/';
+import { connect } from '../../../../src/utils/integration/';
+import { getString } from '../../../../src/utils/locale/';
 
-import WebPhone from '../../../widgets/webphone/WebPhone/';
+import WebPhone from '../../../../src/widgets/webphone/WebPhone/';
 
-import activeCallSelector from '../../../widgets/webphone/ActiveCall/selector';
-import dialPadSelector from '../../../widgets/webphone/DialPad/selector';
-import incomingCallSelector from '../../../widgets/webphone/IncomingCall/selector';
+import activeCallSelector from '../../../../src/widgets/webphone/ActiveCall/selector';
+import dialPadSelector from '../../../../src/widgets/webphone/DialPad/selector';
+import incomingCallSelector from '../../../../src/widgets/webphone/IncomingCall/selector';
 
 const statusMapping = {
   PRE_REGISTER: 'DISABLED',
