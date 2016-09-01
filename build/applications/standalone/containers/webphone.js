@@ -8,7 +8,7 @@ var _integration = require('../../../utils/integration/');
 
 var _locale = require('../../../utils/locale/');
 
-var _WebPhone = require('../../../widgets/webphone/WebPhone/WebPhone.react');
+var _WebPhone = require('../../../widgets/webphone/WebPhone/');
 
 var _WebPhone2 = _interopRequireDefault(_WebPhone);
 

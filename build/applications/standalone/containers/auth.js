@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _AuthPanel = require('../../../widgets/auth/AuthPanel/AuthPanel.react');
+var _AuthPanel = require('../../../widgets/auth/AuthPanel');
 
 var _AuthPanel2 = _interopRequireDefault(_AuthPanel);
 
