@@ -59,7 +59,7 @@ const auth = {
   AuthPanel,
 };
 
-export {
+export default {
   shared,
   webphone,
   auth,
