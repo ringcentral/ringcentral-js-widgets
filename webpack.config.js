@@ -7,11 +7,11 @@ const pcssMixins = require('postcss-mixins');
 
 module.exports = {
   entry: {
-    'standalone.js': path.resolve(__dirname, 'src/applications/standalone/index.js'),
-    'showcase.js': path.resolve(__dirname, 'src/applications/showcase/index.js'),
+    'standalone.js': path.resolve(__dirname, 'demo/applications/standalone/index.js'),
+    'showcase.js': path.resolve(__dirname, 'demo/applications/showcase/index.js'),
   },
   output: {
-    path: path.resolve(__dirname, 'dist/applications'),
+    path: path.resolve(__dirname, 'demo/dist/applications'),
     filename: '[name]',
     libraryTarget: 'umd',
     library: 'widgets',
