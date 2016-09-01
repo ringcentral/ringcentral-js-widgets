@@ -3,13 +3,13 @@ import classNames from 'classnames';
 
 import { Ratio } from '../../shared/Ratio/';
 
-import Flip from '../Flip/Flip.react';
-import Transfer from '../Transfer/Transfer.react';
-import CallConsole from '../CallConsole/CallConsole.react';
-import Dialer from '../Dialer/Dialer.react';
-import CallInfo from '../CallInfo/CallInfo.react';
-import CallFooter from '../CallFooter/CallFooter.react';
-import Closeable from '../Closable/Closable.react';
+import Flip from '../Flip';
+import Transfer from '../Transfer';
+import CallConsole from '../CallConsole';
+import Dialer from '../Dialer';
+import CallInfo from '../CallInfo';
+import CallFooter from '../CallFooter';
+import Closeable from '../Closable';
 
 import prefix from '../../../utils/style';
 

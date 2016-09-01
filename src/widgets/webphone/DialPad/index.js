@@ -7,8 +7,8 @@ import { PanelHeader, PanelContent, PanelFooter } from '../../shared/Panel/';
 import { Input } from '../../shared/AutoComplete/';
 import { Icon } from '../../shared/Icon';
 
-import Dialer from '../Dialer/Dialer.react';
-import CallerBar from '../CallerBar/CallerBar.react';
+import Dialer from '../Dialer';
+import CallerBar from '../CallerBar';
 
 import incoming from '../../../assets/audio/incoming.ogg';
 import outgoing from '../../../assets/audio/outgoing.ogg';

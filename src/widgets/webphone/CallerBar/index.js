@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import Dropdown from '../Dropdown/Dropdown.react';
+import Dropdown from '../Dropdown';
 import prefix from '../../../utils/style';
 
 import { Icon } from '../../shared/Icon';
