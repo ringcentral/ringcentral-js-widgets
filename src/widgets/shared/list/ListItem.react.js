@@ -1,15 +1,18 @@
 import React from 'react';
-import styles from './list.css';
+
+import prefix from '../../../utils/style';
 
 import classNames from 'classnames';
+
+const { listItem, clickable } = prefix(['listItem', 'clickable'], 'ListItem');
 
 const ListItem = (props) => (
   <div
     className={
       classNames(
-        styles.listItem,
+        listItem,
         props.className,
-        { [styles.clickable]: props.clickable }
+        { [clickable]: props.clickable }
       )}
     onClick={props.onClick}
   >

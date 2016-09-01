@@ -1,8 +1,10 @@
 import React from 'react';
-import styles from './list.css';
+import prefix from '../../../utils/style';
+
+const { list } = prefix(['list'], 'List');
 
 const List = (props) => (
-  <div className={styles.list}>
+  <div className={list}>
     {props.children}
   </div>
 );
