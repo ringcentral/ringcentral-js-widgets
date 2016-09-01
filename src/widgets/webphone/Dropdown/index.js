@@ -1,6 +1,6 @@
 import React from 'react';
 
-import DropdownItem from '../DropdownItem/DropdownItem.react';
+import DropdownItem from '../DropdownItem';
 
 import prefix from '../../../utils/style';
 

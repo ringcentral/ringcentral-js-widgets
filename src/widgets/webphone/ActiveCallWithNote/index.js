@@ -1,13 +1,13 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import CallInfo from '../CallInfo/CallInfo.react';
-import CallFooter from '../CallFooter/CallFooter.react';
-import Closeable from '../Closable/Closable.react';
+import CallInfo from '../CallInfo';
+import CallFooter from '../CallFooter';
 
-import Note from '../Note/Note.react';
-import { main, container, list } from './ActiveCallWithNote.css';
+import Note from '../Note';
+import prefix from '../../../utils/style';
 
+const { main, container, list } = prefix(['main', 'container', 'list'], 'ActiveCallWithNote');
 let durationInterval;
 
 export default class ActiveCall extends React.PureComponent {

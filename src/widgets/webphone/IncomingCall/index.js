@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import CallFooter from '../CallFooter/CallFooter.react';
+import CallFooter from '../CallFooter';
 
 import prefix from '../../../utils/style';
 

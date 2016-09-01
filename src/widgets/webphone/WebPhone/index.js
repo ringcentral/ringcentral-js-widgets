@@ -1,9 +1,9 @@
 import React from 'react';
 
-import DialPad from '../DialPad/DialPad.react';
-import ActiveCall from '../ActiveCall/ActiveCall.react';
-import ActiveCallWithNote from '../ActiveCallWithNote/ActiveCallWithNote.react';
-import IncomingCall from '../IncomingCall/IncomingCall.react';
+import DialPad from '../DialPad';
+import ActiveCall from '../ActiveCall';
+import ActiveCallWithNote from '../ActiveCallWithNote';
+import IncomingCall from '../IncomingCall';
 
 import prefix from '../../../utils/style';
 

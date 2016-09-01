@@ -8,7 +8,7 @@ import { postProcess } from '../../../../../utils/test';
 
 import data from '../../../../../../test.json';
 
-import ActiveCall from './ActiveCall.react';
+import ActiveCall from './';
 import CallFooter from '../CallFooter/CallFooter.react';
 import CallConsole from '../CallConsole/CallConsole.react';
 

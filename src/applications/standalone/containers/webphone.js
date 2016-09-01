@@ -1,7 +1,7 @@
 import { connect } from '../../../utils/integration/';
 import { getString } from '../../../utils/locale/';
 
-import WebPhone from '../../../widgets/webphone/WebPhone/WebPhone.react';
+import WebPhone from '../../../widgets/webphone/WebPhone/';
 
 import activeCallSelector from '../../../widgets/webphone/ActiveCall/selector';
 import dialPadSelector from '../../../widgets/webphone/DialPad/selector';
