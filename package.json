@@ -13,6 +13,7 @@
     "theme": "node ./node_modules/babel-cli/bin/babel-node.js  cli/dependency/index.js",
     "test-data": "node ./node_modules/babel-cli/bin/babel-node.js  cli/test/index.js"
   },
+  "main": "build/index.js",
   "devDependencies": {
     "autoprefixer": "^6.3.7",
     "babel-cli": "^6.6.5",
