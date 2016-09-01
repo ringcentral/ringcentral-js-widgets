@@ -1,0 +1,25 @@
+@import 'mixins.css';
+@import 'variables.css';
+
+.footer {
+  margin-top: auto;
+  display: flex;
+}
+
+.footerButton {
+  @mixin button;
+  width: 100%;
+  outline: 0;
+  font-size: .4em;
+  padding: .4em .5em;
+  text-align: center;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  margin: 0 3px;
+  border-radius: 2px;
+}
+
+.icon {
+  background: transparent;
+  font-size: 2.8em;
+}

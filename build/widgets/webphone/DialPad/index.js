@@ -32,14 +32,6 @@ var _CallerBar = require('../CallerBar');
 
 var _CallerBar2 = _interopRequireDefault(_CallerBar);
 
-var _incoming = require('../../../assets/audio/incoming.ogg');
-
-var _incoming2 = _interopRequireDefault(_incoming);
-
-var _outgoing = require('../../../assets/audio/outgoing.ogg');
-
-var _outgoing2 = _interopRequireDefault(_outgoing);
-
 var _style = require('../../../utils/style');
 
 var _style2 = _interopRequireDefault(_style);
@@ -51,6 +43,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+// const incoming = '../../../assets/audio/incoming.ogg';
+// const outgoing = '../../../assets/audio/incoming.ogg';
 
 var _prefix = (0, _style2.default)(['main', 'container', 'line', 'bar', 'callButton', 'phoneInput'], 'DialPad');
 
@@ -109,13 +104,12 @@ var DialPad = function (_React$PureComponent) {
       if (!this.state.caller && nextProps.userNumbers[0]) {
         this.setDefaultCaller(nextProps.userNumbers);
       }
-      if (this.props.disabled && !nextProps.disabled) {
-        console.log(_outgoing2.default);
-        this.props.loadRingAudio({
-          incoming: _incoming2.default,
-          outgoing: _outgoing2.default
-        });
-      }
+      // if (this.props.disabled && !nextProps.disabled) {
+      //   this.props.loadRingAudio({
+      //     incoming,
+      //     outgoing,
+      //   });
+      // }
     }
   }, {
     key: 'setDefaultCaller',

@@ -1,0 +1,44 @@
+@import 'mixins.css';
+@import 'variables.css';
+
+.dialer {
+  padding: 1em;
+  padding-bottom: .4em;
+}
+
+.dialerButton {
+  @mixin button;
+  @mixin circle;
+  font-size: 1.1em;
+  width: 2.5em;
+  height: 2.5em;
+  margin: .2em;
+  border-width: 1px;
+  border-style: solid;
+  background: #fff;
+  cursor: pointer;
+}
+
+.dialerButton:active {
+  background: $main;
+  color: #fff;
+}
+
+.dialerNumber {
+  font-size: 1.1em;
+  font-weight: 300;
+}
+
+.dialerSymbol {
+  margin-top: -1px;
+  font-size: 7px;
+  letter-spacing: 1px;
+  font-weight: 300;
+  min-height: 1em;
+  min-width: 1px;
+}
+
+.line {
+  display: flex;
+  justify-content: space-around;
+}

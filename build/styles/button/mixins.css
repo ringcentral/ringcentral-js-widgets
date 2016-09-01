@@ -1,0 +1,12 @@
+@import 'variables.css';
+
+@define-mixin button {
+  color: $main;
+  border-color: $main;
+  cursor: pointer;
+  outline: 0;
+}
+
+@define-mixin circle {
+  border-radius: 50%;
+}

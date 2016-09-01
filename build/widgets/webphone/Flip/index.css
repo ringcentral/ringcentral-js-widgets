@@ -1,0 +1,26 @@
+@import 'mixins.css';
+@import 'variables.css';
+
+.flip {
+}
+
+.flipTitle {
+  padding: .3em .5em;
+  font-size: .9em;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #ddd;
+}
+
+.flipItem {
+  padding: .5em .7em;
+}
+
+.flipItemTitle {
+  color: $main;
+  font-size: .8em;
+}
+
+.flipItemSubtitle {
+  font-size: .8em;
+}

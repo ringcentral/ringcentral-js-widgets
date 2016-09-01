@@ -1,0 +1,21 @@
+.dropdownItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: .7em .9em;
+  font-size: .7em;
+}
+
+.dropdownItem:hover {
+  background: #f9f9f9;
+}
+
+.left {
+  width: 25%;
+}
+.mid {}
+.right {
+  width: 25%;
+  text-align: right;
+}
