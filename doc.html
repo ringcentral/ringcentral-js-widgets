@@ -426,8 +426,10 @@
       *
       */
       body {
-        width: 600px;
+        width: 800px;
         margin: 5em auto;
+        color: #333;
+        background-color: #fafafa;
       }
       .table {
         width: 100%;
@@ -439,6 +441,15 @@
         text-align: left;
         padding-top: .5em;
       }
+      .table td.short {
+        width: 20%;
+      }
+      .table td.long {
+        width: 40%;
+      }
+      .table td.important {
+        color: #000;
+      }
       .table thead {
         border-bottom: 1px solid #ddd;
       }
@@ -447,13 +458,19 @@
         text-align: left;
         padding-top: .5em;
       }
+      .table th.short {
+        width: 20%;
+      }
+      .table th.long {
+        width: 40%;
+      }
       .component {
-        margin-bottom: 3em;
+        margin-bottom: 4em;
       }
     </style>
   </head>
   <body>
-    <div class='component'>
+    <div id=AuthPanel class='component'>
       <h1>AuthPanel</h1>
       <h5></h5>
 
@@ -462,40 +479,40 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>redirectUri</td>
-            <td>string</td>       
-            <td>false</td>    
-            <td>type: url</td>
+            <td class='short important'>redirectUri</td>
+              <td class='short'>string</td>
+            <td class='short'></td>    
+            <td class='long'>type: url</td>
           </tr> 
           <tr>
-            <td>authorize</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>authorize</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>loginUrl</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>loginUrl</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>parseLoginUrl</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>parseLoginUrl</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=AutoComplete class='component'>
       <h1>AutoComplete</h1>
       <h5></h5>
 
@@ -504,46 +521,46 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>onChange</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>onChange</td>
+              <td class='short'>func</td>
+            <td class='short'>function() {}</td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>items</td>
-            <td>array</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>items</td>
+              <td class='short'>array</td>
+            <td class='short'>[]</td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>value</td>
-            <td>string</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>value</td>
+              <td class='short'>string</td>
+            <td class='short'>&#x27;&#x27;</td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>className</td>
-            <td>string</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>className</td>
+              <td class='short'>string</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>placeholder</td>
-            <td>string</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>placeholder</td>
+              <td class='short'>string</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=Icon class='component'>
       <h1>Icon</h1>
       <h5></h5>
 
@@ -552,16 +569,16 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=List class='component'>
       <h1>List</h1>
       <h5></h5>
 
@@ -570,22 +587,22 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>children</td>
-            <td>node</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>children</td>
+              <td class='short'>node</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=ListItem class='component'>
       <h1>ListItem</h1>
       <h5></h5>
 
@@ -594,40 +611,40 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>children</td>
-            <td>node</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>children</td>
+              <td class='short'>node</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>onClick</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>onClick</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>clickable</td>
-            <td>bool</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>clickable</td>
+              <td class='short'>bool</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>className</td>
-            <td>string</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>className</td>
+              <td class='short'>string</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=Ratio class='component'>
       <h1>Ratio</h1>
       <h5></h5>
 
@@ -636,28 +653,28 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>children</td>
-            <td>element</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>children</td>
+              <td class='short'>element</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>size</td>
-            <td>number</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>size</td>
+              <td class='short'>number</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=ActiveCall class='component'>
       <h1>ActiveCall</h1>
       <h5></h5>
 
@@ -666,88 +683,97 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>flip</td>
-            <td>object</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>flip</td>
+              <td class='short'>
+                <a href="#Flip">object</a>
+              </td>
+            <td class='short'></td>    
+            <td class='long'>@link Flip
+Props pass to &lt;Flip /&gt; components.</td>
           </tr> 
           <tr>
-            <td>transfer</td>
-            <td>object</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>transfer</td>
+              <td class='short'>
+                <a href="#Transfer">object</a>
+              </td>
+            <td class='short'></td>    
+            <td class='long'>@link Transfer
+Props pass to &lt;Transfer /&gt; components.</td>
           </tr> 
           <tr>
-            <td>callInfo</td>
-            <td>object</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>callInfo</td>
+              <td class='short'>
+                <a href="#CallInfo">object</a>
+              </td>
+            <td class='short'></td>    
+            <td class='long'>@link CallInfo
+Props pass to &lt;CallInfo /&gt; components.</td>
           </tr> 
           <tr>
-            <td>bye</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>bye</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'>Method bind to the button at right-bottom corner.</td>
           </tr> 
           <tr>
-            <td>park</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>park</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>record</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>record</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>hold</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>hold</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>mute</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>mute</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'>Method bind to the button at left-bottom corner.</td>
           </tr> 
           <tr>
-            <td>dtmf</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>dtmf</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>disabledOperation</td>
-            <td>array</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>disabledOperation</td>
+              <td class='short'>array</td>
+            <td class='short'>[]</td>    
+            <td class='long'>Operation which is disabled will display as grey color.</td>
           </tr> 
           <tr>
-            <td>operationStatus</td>
-            <td>array</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>operationStatus</td>
+              <td class='short'>array</td>
+            <td class='short'>[]</td>    
+            <td class='long'>Current status of each operations.</td>
           </tr> 
           <tr>
-            <td>webphoneStatus</td>
-            <td>enum</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>webphoneStatus</td>
+              <td class='short'>enum</td>
+            <td class='short'>&#x27;CALL_CONNECTING&#x27;</td>    
+            <td class='long'>Current phone call status.</td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=ActiveCallWithNote class='component'>
       <h1>ActiveCallWithNote</h1>
       <h5></h5>
 
@@ -756,40 +782,40 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>callInfo</td>
-            <td>object</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>callInfo</td>
+              <td class='short'>object</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>disabledOperation</td>
-            <td>array</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>disabledOperation</td>
+              <td class='short'>array</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>operationStatus</td>
-            <td>array</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>operationStatus</td>
+              <td class='short'>array</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>webphoneStatus</td>
-            <td>enum</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>webphoneStatus</td>
+              <td class='short'>enum</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=CallConsole class='component'>
       <h1>CallConsole</h1>
       <h5></h5>
 
@@ -798,70 +824,70 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>status</td>
-            <td>arrayOf</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>status</td>
+              <td class='short'>arrayOf</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>disabledOperation</td>
-            <td>arrayOf</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>disabledOperation</td>
+              <td class='short'>arrayOf</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>disabled</td>
-            <td>bool</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>disabled</td>
+              <td class='short'>bool</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>handleHoldClick</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>handleHoldClick</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>handleRecordClick</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>handleRecordClick</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>handleKeypadClick</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>handleKeypadClick</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>handleFlipClick</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>handleFlipClick</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>handleTransferClick</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>handleTransferClick</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>handleParkClick</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>handleParkClick</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=CallFooter class='component'>
       <h1>CallFooter</h1>
       <h5></h5>
 
@@ -870,40 +896,40 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>onLeftClick</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>onLeftClick</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>onRightClick</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>onRightClick</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>leftIcon</td>
-            <td>string</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>leftIcon</td>
+              <td class='short'>string</td>
+            <td class='short'>&#x27;icon-uniCE&#x27;</td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>rightIcon</td>
-            <td>string</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>rightIcon</td>
+              <td class='short'>string</td>
+            <td class='short'>&#x27;icon-uni44&#x27;</td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=CallInfo class='component'>
       <h1>CallInfo</h1>
       <h5></h5>
 
@@ -912,28 +938,28 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>phoneNumber</td>
-            <td>string</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>phoneNumber</td>
+              <td class='short'>string</td>
+            <td class='short'>&#x27;Unknown&#x27;</td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>duration</td>
-            <td>number</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>duration</td>
+              <td class='short'>number</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=CallerBar class='component'>
       <h1>CallerBar</h1>
       <h5></h5>
 
@@ -942,40 +968,40 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>caller</td>
-            <td>object</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>caller</td>
+              <td class='short'>object</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>numbers</td>
-            <td>array</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>numbers</td>
+              <td class='short'>array</td>
+            <td class='short'>[]</td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>setCaller</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>setCaller</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>getString</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>getString</td>
+              <td class='short'>func</td>
+            <td class='short'>(key) &#x3D;&gt; key</td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=Closable class='component'>
       <h1>Closable</h1>
       <h5></h5>
 
@@ -984,34 +1010,34 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>className</td>
-            <td>string</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>className</td>
+              <td class='short'>string</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>children</td>
-            <td>node</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>children</td>
+              <td class='short'>node</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>onClose</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>onClose</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=DialPad class='component'>
       <h1>DialPad</h1>
       <h5></h5>
 
@@ -1020,64 +1046,64 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>disabled</td>
-            <td>bool</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>disabled</td>
+              <td class='short'>bool</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>contacts</td>
-            <td>object</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>contacts</td>
+              <td class='short'>object</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>userNumbers</td>
-            <td>array</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>userNumbers</td>
+              <td class='short'>array</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>call</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>call</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>remoteMedia</td>
-            <td>any</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>remoteMedia</td>
+              <td class='short'>any</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>localMedia</td>
-            <td>any</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>localMedia</td>
+              <td class='short'>any</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>getString</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>getString</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>loadRingAudio</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>loadRingAudio</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=Dialer class='component'>
       <h1>Dialer</h1>
       <h5></h5>
 
@@ -1086,28 +1112,28 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>handleClick</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>handleClick</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>scale</td>
-            <td>number</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>scale</td>
+              <td class='short'>number</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=Dropdown class='component'>
       <h1>Dropdown</h1>
       <h5></h5>
 
@@ -1116,28 +1142,28 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>onClick</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>onClick</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>items</td>
-            <td>array</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>items</td>
+              <td class='short'>array</td>
+            <td class='short'>[]</td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=DropdownItem class='component'>
       <h1>DropdownItem</h1>
       <h5></h5>
 
@@ -1146,46 +1172,46 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>onClick</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>onClick</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>item</td>
-            <td>object</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>item</td>
+              <td class='short'>object</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>left</td>
-            <td>string</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>left</td>
+              <td class='short'>string</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>mid</td>
-            <td>string</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>mid</td>
+              <td class='short'>string</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>right</td>
-            <td>string</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>right</td>
+              <td class='short'>string</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=Flip class='component'>
       <h1>Flip</h1>
       <h5></h5>
 
@@ -1194,34 +1220,34 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>flipNumbers</td>
-            <td>arrayOf</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>flipNumbers</td>
+              <td class='short'>arrayOf</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>flip</td>
-            <td>object</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>flip</td>
+              <td class='short'>object</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>numbers</td>
-            <td></td>       
-            <td></td>    
-            <td></td>
+            <td class='short important'>numbers</td>
+              <td class='short'></td>
+            <td class='short'>[]</td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=IncomingCall class='component'>
       <h1>IncomingCall</h1>
       <h5></h5>
 
@@ -1230,34 +1256,34 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>phoneNumber</td>
-            <td>string</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>phoneNumber</td>
+              <td class='short'>string</td>
+            <td class='short'>&#x27;Unknown&#x27;</td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>accept</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>accept</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>bye</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>bye</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=Note class='component'>
       <h1>Note</h1>
       <h5></h5>
 
@@ -1266,16 +1292,16 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=Transfer class='component'>
       <h1>Transfer</h1>
       <h5></h5>
 
@@ -1284,22 +1310,22 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>handleClick</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>handleClick</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>
     </div>
-    <div class='component'>
+    <div id=WebPhone class='component'>
       <h1>WebPhone</h1>
       <h5></h5>
 
@@ -1308,47 +1334,47 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>activeCall</td>
-            <td>object</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>activeCall</td>
+              <td class='short'>object</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>incomingCall</td>
-            <td>object</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>incomingCall</td>
+              <td class='short'>object</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>dialPad</td>
-            <td>object</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>dialPad</td>
+              <td class='short'>object</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>enums</td>
-            <td>object</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>enums</td>
+              <td class='short'>object</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>status</td>
-            <td>enum</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>status</td>
+              <td class='short'>enum</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
           <tr>
-            <td>getString</td>
-            <td>func</td>       
-            <td>false</td>    
-            <td></td>
+            <td class='short important'>getString</td>
+              <td class='short'>func</td>
+            <td class='short'></td>    
+            <td class='long'></td>
           </tr> 
         </table>
       </div>

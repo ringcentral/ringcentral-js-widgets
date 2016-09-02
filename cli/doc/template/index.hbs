@@ -426,8 +426,10 @@
       *
       */
       body {
-        width: 600px;
+        width: 800px;
         margin: 5em auto;
+        color: #333;
+        background-color: #fafafa;
       }
       .table {
         width: 100%;
@@ -439,6 +441,15 @@
         text-align: left;
         padding-top: .5em;
       }
+      .table td.short {
+        width: 20%;
+      }
+      .table td.long {
+        width: 40%;
+      }
+      .table td.important {
+        color: #000;
+      }
       .table thead {
         border-bottom: 1px solid #ddd;
       }
@@ -447,14 +458,20 @@
         text-align: left;
         padding-top: .5em;
       }
+      .table th.short {
+        width: 20%;
+      }
+      .table th.long {
+        width: 40%;
+      }
       .component {
-        margin-bottom: 3em;
+        margin-bottom: 4em;
       }
     </style>
   </head>
   <body>
     {{#each components}}
-    <div class='component'>
+    <div id={{name}} class='component'>
       <h1>{{name}}</h1>
       <h5>{{description}}</h5>
 
@@ -463,18 +480,24 @@
         <table class='table'>
           <thead>
             <tr>
-              <th class='name'>Name</td>
-              <th class='type'>Type</td>       
-              <th class='require'>Default</td>    
-              <th class='description'>Description</td>
+              <th class='short'>Name</td>
+              <th class='short'>Type</td>       
+              <th class='short'>Default</td>    
+              <th class='long'>Description</td>
             </tr> 
           </thead>
           {{#each props}}
           <tr>
-            <td>{{@key}}</td>
-            <td>{{this.type.name}}</td>       
-            <td>{{this.required}}</td>    
-            <td>{{this.description}}</td>
+            <td class='short important'>{{@key}}</td>
+            {{#if this.type.link}}
+              <td class='short'>
+                <a href="#{{this.type.link.href}}">{{this.type.name}}</a>
+              </td>
+            {{else}}
+              <td class='short'>{{this.type.name}}</td>
+            {{/if}}
+            <td class='short'>{{this.defaultValue.value}}</td>    
+            <td class='long'>{{this.description}}</td>
           </tr> 
           {{/each}}
         </table>

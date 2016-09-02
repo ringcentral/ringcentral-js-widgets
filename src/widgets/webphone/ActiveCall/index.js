@@ -21,24 +21,57 @@ let durationInterval;
 export default class ActiveCall extends React.PureComponent {
 
   static propTypes = {
+    /**
+     * @link Flip
+     * Props pass to <Flip /> components.
+     */
     flip: React.PropTypes.object,
+    /**
+     * @link Transfer
+     * Props pass to <Transfer /> components.
+     */
     transfer: React.PropTypes.object,
+    /**
+     * @link CallInfo
+     * Props pass to <CallInfo /> components.
+     */
     callInfo: React.PropTypes.object,
 
+    /**
+     * Method bind to the button at right-bottom corner.
+     */
     bye: React.PropTypes.func,
     park: React.PropTypes.func,
     record: React.PropTypes.func,
     hold: React.PropTypes.func,
+    /**
+     * Method bind to the button at left-bottom corner.
+     */
     mute: React.PropTypes.func,
     dtmf: React.PropTypes.func,
+    /**
+     * Operation which is disabled will display as grey color.
+     */
     disabledOperation: React.PropTypes.array,
+    /**
+     * Current status of each operations.
+     */
     operationStatus: React.PropTypes.array,
+    /**
+     * Current phone call status.
+     */
     webphoneStatus: React.PropTypes.oneOf(['CALL_CONNECTED', 'CALL_CONNECTING']),
   }
 
   state = {
     openedPanel: null,
     duration: 0,
+  }
+
+  static defaultProps = {
+    disabledOperation: [],
+    operationStatus: [],
+    webphoneStatus: 'CALL_CONNECTING',
   }
 
   componentDidMount() {

@@ -14,7 +14,18 @@ function genDoc(src) {
   } catch (err) {
     console.error(err);
   }
-  // console.log(componentInfo);
+  if (componentInfo) {
+    for (let key in componentInfo.props) {
+      const prop = componentInfo.props[key];
+      if (prop.description && prop.description.indexOf('@link') !== -1) {
+        const tokens = prop.description.split(/[\n\r\s]+/);
+        const href = tokens[tokens.indexOf('@link') + 1];
+        prop.type.link = {
+          href,
+        };
+      }
+    }
+  }
   return componentInfo;
 }
 
@@ -35,7 +46,7 @@ function walk(src, callback) {
       // console.log(html);
     }, (err, files) => {
       if (err) throw err;
-      // console.dir(JSON.stringify(results));
+      console.dir(JSON.stringify(results));
       const html = template(results);
       fs.writeFile('doc.html', html);
       // console.log('----finish----');
