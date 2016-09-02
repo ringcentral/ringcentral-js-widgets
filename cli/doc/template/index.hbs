@@ -1,8 +1,8 @@
 <html>
   <body>
     {{#each components}}
-    <section>
-      <header>{{name}}</header>
+    <div>
+      <h1>{{name}}</h1>
       <h5>{{description}}</h5>
 
       <div class='methods'>
@@ -11,14 +11,27 @@
       </div>
 
       <div class='props'>
+        <h2>Props</h2>
+        <table>
+          <thead>
+            <tr>
+              <td>name              </td>
+              <td>type              </td>       
+              <td>required          </td>    
+              <td>description       </td>
+            </tr> 
+          </thead>
         {{#each props}}
-          <div>{{@key}}</div>
-          <div>type</div>       {{this.type.name}}
-          <div>required<div>    {{this.required}}
-          <div>description<div> {{this.description}}
+          <tr>
+            <td>{{@key}}            </td>
+            <td>{{this.type.name}}  </td>       
+            <td>{{this.required}}   </td>    
+            <td>{{this.description}}</td>
+          </tr> 
         {{/each}}
+        <table>
       </div>
-    </section>
+    </div>
     {{/each}}
   </body>
 </html>

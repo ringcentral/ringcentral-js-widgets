@@ -37,7 +37,7 @@ function walk(src, callback) {
       if (err) throw err;
       // console.dir(JSON.stringify(results));
       const html = template(results);
-      console.log(html)
+      fs.writeFile('doc.html', html);
       // console.log('----finish----');
     }
   );
