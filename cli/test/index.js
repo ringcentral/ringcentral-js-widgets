@@ -50,7 +50,7 @@ function genTestData(src) {
 
 function walk(src, callback) {
   const results = {};
-  dir.readFiles(src, { match: /.react.js$/ },
+  dir.readFiles(src, { match: /index.js$/ },
     (err, content, filename, next) => {
       if (err) throw err;
       console.log(filename);

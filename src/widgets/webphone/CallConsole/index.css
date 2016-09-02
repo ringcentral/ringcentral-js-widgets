@@ -1,0 +1,34 @@
+@import 'mixins.css';
+@import 'variables.css';
+
+.button {
+  @mixin button;
+  @mixin circle;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.word {
+  font-size: .6em;
+}
+
+.disabled {
+  color: #999;
+  cursor: default;
+}
+
+.panel {
+  padding: 1.2em;
+}
+
+.icon {
+  background: transparent;
+  font-size: 2.8em;
+}
+
+.line {
+  display: flex;
+  justify-content: space-around;
+}
