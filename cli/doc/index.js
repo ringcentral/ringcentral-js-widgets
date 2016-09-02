@@ -25,9 +25,9 @@ function walk(src, callback) {
   dir.readFiles(src, { match: /index.js$/ },
     (err, content, filename, next) => {
       if (err) throw err;
-      console.log(filename)
       const tokens = filename.split('/');
       const componentName = tokens[tokens.length - 2];
+      console.log(componentName);
       results.components.push(callback(content));
       results.components[results.components.length - 1].name = componentName;
       next();

@@ -1,969 +1,1356 @@
 <html>
+  <head>
+    <style>
+      /*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
+
+      /**
+      * 1. Change the default font family in all browsers (opinionated).
+      * 2. Prevent adjustments of font size after orientation changes in IE and iOS.
+      */
+
+      html {
+        font-family: sans-serif; /* 1 */
+        -ms-text-size-adjust: 100%; /* 2 */
+        -webkit-text-size-adjust: 100%; /* 2 */
+      }
+
+      /**
+      * Remove the margin in all browsers (opinionated).
+      */
+
+      body {
+        margin: 0;
+      }
+
+      /* HTML5 display definitions
+        ========================================================================== */
+
+      /**
+      * Add the correct display in IE 9-.
+      * 1. Add the correct display in Edge, IE, and Firefox.
+      * 2. Add the correct display in IE.
+      */
+
+      article,
+      aside,
+      details, /* 1 */
+      figcaption,
+      figure,
+      footer,
+      header,
+      main, /* 2 */
+      menu,
+      nav,
+      section,
+      summary { /* 1 */
+        display: block;
+      }
+
+      /**
+      * Add the correct display in IE 9-.
+      */
+
+      audio,
+      canvas,
+      progress,
+      video {
+        display: inline-block;
+      }
+
+      /**
+      * Add the correct display in iOS 4-7.
+      */
+
+      audio:not([controls]) {
+        display: none;
+        height: 0;
+      }
+
+      /**
+      * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+      */
+
+      progress {
+        vertical-align: baseline;
+      }
+
+      /**
+      * Add the correct display in IE 10-.
+      * 1. Add the correct display in IE.
+      */
+
+      template, /* 1 */
+      [hidden] {
+        display: none;
+      }
+
+      /* Links
+        ========================================================================== */
+
+      /**
+      * 1. Remove the gray background on active links in IE 10.
+      * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.
+      */
+
+      a {
+        background-color: transparent; /* 1 */
+        -webkit-text-decoration-skip: objects; /* 2 */
+      }
+
+      /**
+      * Remove the outline on focused links when they are also active or hovered
+      * in all browsers (opinionated).
+      */
+
+      a:active,
+      a:hover {
+        outline-width: 0;
+      }
+
+      /* Text-level semantics
+        ========================================================================== */
+
+      /**
+      * 1. Remove the bottom border in Firefox 39-.
+      * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+      */
+
+      abbr[title] {
+        border-bottom: none; /* 1 */
+        text-decoration: underline; /* 2 */
+        text-decoration: underline dotted; /* 2 */
+      }
+
+      /**
+      * Prevent the duplicate application of `bolder` by the next rule in Safari 6.
+      */
+
+      b,
+      strong {
+        font-weight: inherit;
+      }
+
+      /**
+      * Add the correct font weight in Chrome, Edge, and Safari.
+      */
+
+      b,
+      strong {
+        font-weight: bolder;
+      }
+
+      /**
+      * Add the correct font style in Android 4.3-.
+      */
+
+      dfn {
+        font-style: italic;
+      }
+
+      /**
+      * Correct the font size and margin on `h1` elements within `section` and
+      * `article` contexts in Chrome, Firefox, and Safari.
+      */
+
+      h1 {
+        font-size: 2em;
+        margin: 0.67em 0;
+      }
+
+      /**
+      * Add the correct background and color in IE 9-.
+      */
+
+      mark {
+        background-color: #ff0;
+        color: #000;
+      }
+
+      /**
+      * Add the correct font size in all browsers.
+      */
+
+      small {
+        font-size: 80%;
+      }
+
+      /**
+      * Prevent `sub` and `sup` elements from affecting the line height in
+      * all browsers.
+      */
+
+      sub,
+      sup {
+        font-size: 75%;
+        line-height: 0;
+        position: relative;
+        vertical-align: baseline;
+      }
+
+      sub {
+        bottom: -0.25em;
+      }
+
+      sup {
+        top: -0.5em;
+      }
+
+      /* Embedded content
+        ========================================================================== */
+
+      /**
+      * Remove the border on images inside links in IE 10-.
+      */
+
+      img {
+        border-style: none;
+      }
+
+      /**
+      * Hide the overflow in IE.
+      */
+
+      svg:not(:root) {
+        overflow: hidden;
+      }
+
+      /* Grouping content
+        ========================================================================== */
+
+      /**
+      * 1. Correct the inheritance and scaling of font size in all browsers.
+      * 2. Correct the odd `em` font sizing in all browsers.
+      */
+
+      code,
+      kbd,
+      pre,
+      samp {
+        font-family: monospace, monospace; /* 1 */
+        font-size: 1em; /* 2 */
+      }
+
+      /**
+      * Add the correct margin in IE 8.
+      */
+
+      figure {
+        margin: 1em 40px;
+      }
+
+      /**
+      * 1. Add the correct box sizing in Firefox.
+      * 2. Show the overflow in Edge and IE.
+      */
+
+      hr {
+        box-sizing: content-box; /* 1 */
+        height: 0; /* 1 */
+        overflow: visible; /* 2 */
+      }
+
+      /* Forms
+        ========================================================================== */
+
+      /**
+      * 1. Change font properties to `inherit` in all browsers (opinionated).
+      * 2. Remove the margin in Firefox and Safari.
+      */
+
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit; /* 1 */
+        margin: 0; /* 2 */
+      }
+
+      /**
+      * Restore the font weight unset by the previous rule.
+      */
+
+      optgroup {
+        font-weight: bold;
+      }
+
+      /**
+      * Show the overflow in IE.
+      * 1. Show the overflow in Edge.
+      */
+
+      button,
+      input { /* 1 */
+        overflow: visible;
+      }
+
+      /**
+      * Remove the inheritance of text transform in Edge, Firefox, and IE.
+      * 1. Remove the inheritance of text transform in Firefox.
+      */
+
+      button,
+      select { /* 1 */
+        text-transform: none;
+      }
+
+      /**
+      * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`
+      *    controls in Android 4.
+      * 2. Correct the inability to style clickable types in iOS and Safari.
+      */
+
+      button,
+      html [type="button"], /* 1 */
+      [type="reset"],
+      [type="submit"] {
+        -webkit-appearance: button; /* 2 */
+      }
+
+      /**
+      * Remove the inner border and padding in Firefox.
+      */
+
+      button::-moz-focus-inner,
+      [type="button"]::-moz-focus-inner,
+      [type="reset"]::-moz-focus-inner,
+      [type="submit"]::-moz-focus-inner {
+        border-style: none;
+        padding: 0;
+      }
+
+      /**
+      * Restore the focus styles unset by the previous rule.
+      */
+
+      button:-moz-focusring,
+      [type="button"]:-moz-focusring,
+      [type="reset"]:-moz-focusring,
+      [type="submit"]:-moz-focusring {
+        outline: 1px dotted ButtonText;
+      }
+
+      /**
+      * Change the border, margin, and padding in all browsers (opinionated).
+      */
+
+      fieldset {
+        border: 1px solid #c0c0c0;
+        margin: 0 2px;
+        padding: 0.35em 0.625em 0.75em;
+      }
+
+      /**
+      * 1. Correct the text wrapping in Edge and IE.
+      * 2. Correct the color inheritance from `fieldset` elements in IE.
+      * 3. Remove the padding so developers are not caught out when they zero out
+      *    `fieldset` elements in all browsers.
+      */
+
+      legend {
+        box-sizing: border-box; /* 1 */
+        color: inherit; /* 2 */
+        display: table; /* 1 */
+        max-width: 100%; /* 1 */
+        padding: 0; /* 3 */
+        white-space: normal; /* 1 */
+      }
+
+      /**
+      * Remove the default vertical scrollbar in IE.
+      */
+
+      textarea {
+        overflow: auto;
+      }
+
+      /**
+      * 1. Add the correct box sizing in IE 10-.
+      * 2. Remove the padding in IE 10-.
+      */
+
+      [type="checkbox"],
+      [type="radio"] {
+        box-sizing: border-box; /* 1 */
+        padding: 0; /* 2 */
+      }
+
+      /**
+      * Correct the cursor style of increment and decrement buttons in Chrome.
+      */
+
+      [type="number"]::-webkit-inner-spin-button,
+      [type="number"]::-webkit-outer-spin-button {
+        height: auto;
+      }
+
+      /**
+      * 1. Correct the odd appearance in Chrome and Safari.
+      * 2. Correct the outline style in Safari.
+      */
+
+      [type="search"] {
+        -webkit-appearance: textfield; /* 1 */
+        outline-offset: -2px; /* 2 */
+      }
+
+      /**
+      * Remove the inner padding and cancel buttons in Chrome and Safari on OS X.
+      */
+
+      [type="search"]::-webkit-search-cancel-button,
+      [type="search"]::-webkit-search-decoration {
+        -webkit-appearance: none;
+      }
+
+      /**
+      * Correct the text style of placeholders in Chrome, Edge, and Safari.
+      */
+
+      ::-webkit-input-placeholder {
+        color: inherit;
+        opacity: 0.54;
+      }
+
+      /**
+      * 1. Correct the inability to style clickable types in iOS and Safari.
+      * 2. Change font properties to `inherit` in Safari.
+      */
+
+      ::-webkit-file-upload-button {
+        -webkit-appearance: button; /* 1 */
+        font: inherit; /* 2 */
+      }
+
+      /*
+      * Custom styles
+      *
+      */
+      body {
+        width: 600px;
+        margin: 5em auto;
+      }
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: .9em;
+      }
+      .table td {
+        width: 25%;
+        text-align: left;
+        padding-top: .5em;
+      }
+      .table thead {
+        border-bottom: 1px solid #ddd;
+      }
+      .table th {
+        width: 25%;
+        text-align: left;
+        padding-top: .5em;
+      }
+      .component {
+        margin-bottom: 3em;
+      }
+    </style>
+  </head>
   <body>
-    <div>
+    <div class='component'>
       <h1>AuthPanel</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>redirectUri            </td>
-            <td>string  </td>       
-            <td>false   </td>    
+            <td>redirectUri</td>
+            <td>string</td>       
+            <td>false</td>    
             <td>type: url</td>
           </tr> 
           <tr>
-            <td>authorize            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>authorize</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>loginUrl            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>loginUrl</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>parseLoginUrl            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>parseLoginUrl</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>AutoComplete</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>onChange            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>onChange</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>items            </td>
-            <td>array  </td>       
-            <td>false   </td>    
+            <td>items</td>
+            <td>array</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>value            </td>
-            <td>string  </td>       
-            <td>false   </td>    
+            <td>value</td>
+            <td>string</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>className            </td>
-            <td>string  </td>       
-            <td>false   </td>    
+            <td>className</td>
+            <td>string</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>placeholder            </td>
-            <td>string  </td>       
-            <td>false   </td>    
+            <td>placeholder</td>
+            <td>string</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>Icon</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>List</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>children            </td>
-            <td>node  </td>       
-            <td>false   </td>    
+            <td>children</td>
+            <td>node</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>ListItem</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>children            </td>
-            <td>node  </td>       
-            <td>false   </td>    
+            <td>children</td>
+            <td>node</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>onClick            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>onClick</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>clickable            </td>
-            <td>bool  </td>       
-            <td>false   </td>    
+            <td>clickable</td>
+            <td>bool</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>className            </td>
-            <td>string  </td>       
-            <td>false   </td>    
+            <td>className</td>
+            <td>string</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>Ratio</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>children            </td>
-            <td>element  </td>       
-            <td>false   </td>    
+            <td>children</td>
+            <td>element</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>size            </td>
-            <td>number  </td>       
-            <td>false   </td>    
+            <td>size</td>
+            <td>number</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>ActiveCall</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>flip            </td>
-            <td>object  </td>       
-            <td>false   </td>    
+            <td>flip</td>
+            <td>object</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>transfer            </td>
-            <td>object  </td>       
-            <td>false   </td>    
+            <td>transfer</td>
+            <td>object</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>callInfo            </td>
-            <td>object  </td>       
-            <td>false   </td>    
+            <td>callInfo</td>
+            <td>object</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>bye            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>bye</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>park            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>park</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>record            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>record</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>hold            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>hold</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>mute            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>mute</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>dtmf            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>dtmf</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>disabledOperation            </td>
-            <td>array  </td>       
-            <td>false   </td>    
+            <td>disabledOperation</td>
+            <td>array</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>operationStatus            </td>
-            <td>array  </td>       
-            <td>false   </td>    
+            <td>operationStatus</td>
+            <td>array</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>webphoneStatus            </td>
-            <td>enum  </td>       
-            <td>false   </td>    
+            <td>webphoneStatus</td>
+            <td>enum</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>ActiveCallWithNote</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>callInfo            </td>
-            <td>object  </td>       
-            <td>false   </td>    
+            <td>callInfo</td>
+            <td>object</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>disabledOperation            </td>
-            <td>array  </td>       
-            <td>false   </td>    
+            <td>disabledOperation</td>
+            <td>array</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>operationStatus            </td>
-            <td>array  </td>       
-            <td>false   </td>    
+            <td>operationStatus</td>
+            <td>array</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>webphoneStatus            </td>
-            <td>enum  </td>       
-            <td>false   </td>    
+            <td>webphoneStatus</td>
+            <td>enum</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>CallConsole</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>status            </td>
-            <td>arrayOf  </td>       
-            <td>false   </td>    
+            <td>status</td>
+            <td>arrayOf</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>disabledOperation            </td>
-            <td>arrayOf  </td>       
-            <td>false   </td>    
+            <td>disabledOperation</td>
+            <td>arrayOf</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>disabled            </td>
-            <td>bool  </td>       
-            <td>false   </td>    
+            <td>disabled</td>
+            <td>bool</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>handleHoldClick            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>handleHoldClick</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>handleRecordClick            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>handleRecordClick</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>handleKeypadClick            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>handleKeypadClick</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>handleFlipClick            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>handleFlipClick</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>handleTransferClick            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>handleTransferClick</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>handleParkClick            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>handleParkClick</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>CallFooter</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>onLeftClick            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>onLeftClick</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>onRightClick            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>onRightClick</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>leftIcon            </td>
-            <td>string  </td>       
-            <td>false   </td>    
+            <td>leftIcon</td>
+            <td>string</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>rightIcon            </td>
-            <td>string  </td>       
-            <td>false   </td>    
+            <td>rightIcon</td>
+            <td>string</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>CallInfo</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>phoneNumber            </td>
-            <td>string  </td>       
-            <td>false   </td>    
+            <td>phoneNumber</td>
+            <td>string</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>duration            </td>
-            <td>number  </td>       
-            <td>false   </td>    
+            <td>duration</td>
+            <td>number</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>CallerBar</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>caller            </td>
-            <td>object  </td>       
-            <td>false   </td>    
+            <td>caller</td>
+            <td>object</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>numbers            </td>
-            <td>array  </td>       
-            <td>false   </td>    
+            <td>numbers</td>
+            <td>array</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>setCaller            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>setCaller</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>getString            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>getString</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>Closable</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>className            </td>
-            <td>string  </td>       
-            <td>false   </td>    
+            <td>className</td>
+            <td>string</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>children            </td>
-            <td>node  </td>       
-            <td>false   </td>    
+            <td>children</td>
+            <td>node</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>onClose            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>onClose</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>DialPad</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>disabled            </td>
-            <td>bool  </td>       
-            <td>false   </td>    
+            <td>disabled</td>
+            <td>bool</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>contacts            </td>
-            <td>object  </td>       
-            <td>false   </td>    
+            <td>contacts</td>
+            <td>object</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>userNumbers            </td>
-            <td>array  </td>       
-            <td>false   </td>    
+            <td>userNumbers</td>
+            <td>array</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>call            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>call</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>remoteMedia            </td>
-            <td>any  </td>       
-            <td>false   </td>    
+            <td>remoteMedia</td>
+            <td>any</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>localMedia            </td>
-            <td>any  </td>       
-            <td>false   </td>    
+            <td>localMedia</td>
+            <td>any</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>getString            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>getString</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>loadRingAudio            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>loadRingAudio</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>Dialer</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>handleClick            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>handleClick</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>scale            </td>
-            <td>number  </td>       
-            <td>false   </td>    
+            <td>scale</td>
+            <td>number</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>Dropdown</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>onClick            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>onClick</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>items            </td>
-            <td>array  </td>       
-            <td>false   </td>    
+            <td>items</td>
+            <td>array</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>DropdownItem</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>onClick            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>onClick</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>item            </td>
-            <td>object  </td>       
-            <td>false   </td>    
+            <td>item</td>
+            <td>object</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>left            </td>
-            <td>string  </td>       
-            <td>false   </td>    
+            <td>left</td>
+            <td>string</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>mid            </td>
-            <td>string  </td>       
-            <td>false   </td>    
+            <td>mid</td>
+            <td>string</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>right            </td>
-            <td>string  </td>       
-            <td>false   </td>    
+            <td>right</td>
+            <td>string</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>Flip</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>flipNumbers            </td>
-            <td>arrayOf  </td>       
-            <td>false   </td>    
+            <td>flipNumbers</td>
+            <td>arrayOf</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>flip            </td>
-            <td>object  </td>       
-            <td>false   </td>    
+            <td>flip</td>
+            <td>object</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>numbers            </td>
-            <td>  </td>       
-            <td>   </td>    
+            <td>numbers</td>
+            <td></td>       
+            <td></td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>IncomingCall</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>phoneNumber            </td>
-            <td>string  </td>       
-            <td>false   </td>    
+            <td>phoneNumber</td>
+            <td>string</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>accept            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>accept</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>bye            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>bye</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>Note</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>Transfer</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>handleClick            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>handleClick</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
-    <div>
+    <div class='component'>
       <h1>WebPhone</h1>
       <h5></h5>
 
-      <div class='methods'>
-      </div>
-
       <div class='props'>
-        <h2>Props</h2>
-        <table>
+        <h3>Props</h3>
+        <table class='table'>
           <thead>
             <tr>
-              <td>name              </td>
-              <td>type              </td>       
-              <td>required          </td>    
-              <td>description       </td>
+              <th class='name'>Name</td>
+              <th class='type'>Type</td>       
+              <th class='require'>Default</td>    
+              <th class='description'>Description</td>
             </tr> 
           </thead>
           <tr>
-            <td>activeCall            </td>
-            <td>object  </td>       
-            <td>false   </td>    
+            <td>activeCall</td>
+            <td>object</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>incomingCall            </td>
-            <td>object  </td>       
-            <td>false   </td>    
+            <td>incomingCall</td>
+            <td>object</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>dialPad            </td>
-            <td>object  </td>       
-            <td>false   </td>    
+            <td>dialPad</td>
+            <td>object</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>enums            </td>
-            <td>object  </td>       
-            <td>false   </td>    
+            <td>enums</td>
+            <td>object</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>status            </td>
-            <td>enum  </td>       
-            <td>false   </td>    
+            <td>status</td>
+            <td>enum</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
           <tr>
-            <td>getString            </td>
-            <td>func  </td>       
-            <td>false   </td>    
+            <td>getString</td>
+            <td>func</td>       
+            <td>false</td>    
             <td></td>
           </tr> 
-        <table>
+        </table>
       </div>
     </div>
   </body>
