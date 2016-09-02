@@ -14,7 +14,7 @@
     "test-data": "node ./node_modules/babel-cli/bin/babel-node.js  cli/test/index.js",
     "release": "npm run build && node ./node_modules/babel-cli/bin/babel-node.js  cli/release/index.js"
   },
-  "main": "build/widgets/index.js",
+  "main": "build/widgets/components.js",
   "devDependencies": {
     "autoprefixer": "^6.3.7",
     "babel-cli": "^6.6.5",

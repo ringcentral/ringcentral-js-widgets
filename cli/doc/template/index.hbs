@@ -1,0 +1,24 @@
+<html>
+  <body>
+    {{#each components}}
+    <section>
+      <header>{{name}}</header>
+      <h5>{{description}}</h5>
+
+      <div class='methods'>
+        {{#each methods}}
+        {{/each}}
+      </div>
+
+      <div class='props'>
+        {{#each props}}
+          <div>{{@key}}</div>
+          <div>type</div>       {{this.type.name}}
+          <div>required<div>    {{this.required}}
+          <div>description<div> {{this.description}}
+        {{/each}}
+      </div>
+    </section>
+    {{/each}}
+  </body>
+</html>
