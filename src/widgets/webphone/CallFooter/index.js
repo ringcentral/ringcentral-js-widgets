@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Icon } from '../../shared/Icon';
+import Icon from '../../shared/Icon';
 import prefix from '../../../utils/style';
 
 const { icon, footer, footerButton } =

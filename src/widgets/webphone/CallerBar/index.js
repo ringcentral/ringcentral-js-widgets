@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import Dropdown from '../Dropdown';
 import prefix from '../../../utils/style';
 
-import { Icon } from '../../shared/Icon';
+import Icon from '../../shared/Icon';
 
 const { caller, callerSpan, callerButton, callerIcon } =
   prefix(['caller', 'callerSpan', 'callerButton', 'callerIcon'], 'CallerBar');

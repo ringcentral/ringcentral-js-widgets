@@ -8,7 +8,12 @@ const source = fs.readFileSync(path.resolve(`${__dirname}/template/index.hbs`), 
 const template = Handlebars.compile(source);
 
 function genDoc(src) {
-  const componentInfo = docs.parse(src);
+  let componentInfo;
+  try {
+    componentInfo = docs.parse(src);
+  } catch (err) {
+    console.error(err);
+  }
   // console.log(componentInfo);
   return componentInfo;
 }
@@ -26,7 +31,6 @@ function walk(src, callback) {
       results.components.push(callback(content));
       results.components[results.components.length - 1].name = componentName;
       next();
-      console.dir(JSON.stringify(results));
       const html = template(results);
       // console.log(html);
     }, (err, files) => {

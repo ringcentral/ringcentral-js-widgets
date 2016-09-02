@@ -1,8 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 import prefix from '../../../utils/style';
-import { Icon } from '../../shared/Icon';
-import { Ratio } from '../../shared/Ratio';
+import Icon from '../../shared/Icon';
+import Ratio from '../../shared/Ratio';
 
 const { button, disabled, word, icon, panel, line } =
   prefix(['button', 'disabled', 'word', 'icon', 'panel', 'line'], 'CallConsole');
