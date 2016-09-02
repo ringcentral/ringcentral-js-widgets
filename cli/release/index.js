@@ -17,7 +17,7 @@ function walk(src, root, callback) {
       // console.log('----finish----');
     }
   );
-};
+}
 
 walk(
   `${path.resolve(__dirname)}/../../src/widgets/`,
