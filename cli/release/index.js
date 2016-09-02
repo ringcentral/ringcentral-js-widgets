@@ -20,7 +20,7 @@ function walk(src, root, callback) {
 }
 
 walk(
-  `${path.resolve(__dirname)}/../../src/widgets/`,
+  `${path.resolve(__dirname)}/../../build/widgets/`,
   `${path.resolve(`${path.resolve(__dirname)}/../../`)}`,
   fs.symlink
 );
