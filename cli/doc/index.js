@@ -2,6 +2,7 @@ const docs = require('react-docgen');
 const path = require('path');
 const dir = require('node-dir');
 const fs = require('fs');
+const decamelize = require('decamelize');
 
 const Handlebars = require('handlebars');
 const source = fs.readFileSync(path.resolve(`${__dirname}/template/index.hbs`), 'utf-8');
@@ -15,12 +16,29 @@ function genDoc(src) {
     console.error(err);
   }
   if (componentInfo) {
+    // create new line
     componentInfo.description = componentInfo.description.split(/[\r\n]+/)
+
     for (let key in componentInfo.props) {
       const prop = componentInfo.props[key];
+
+      // flatten propTypes
+      while (prop.type && prop.type.value && prop.type.value.value) {
+        prop.type.name += ` ${prop.type.value.name}`;
+        prop.type.value = prop.type.value.value;
+        prop.type.type = prop.type.value.type;
+      }
+      if (prop.type && prop.type.name) {
+        prop.type.name = decamelize(prop.type.name, ' ');
+      }
+      console.log(prop)
+
       if (prop.description && prop.description.indexOf('@link') !== -1) {
+        
         const tokens = prop.description.split(/[\n\r\s]+/);
+        // detect @link
         const href = tokens[tokens.indexOf('@link') + 1];
+        // remove @link
         prop.description = prop.description.replace(/@link[\s]+.*[\n\r\s]+/g, '')
         prop.type.link = {
           href,
@@ -40,9 +58,7 @@ function walk(src, callback) {
       if (err) throw err;
       const tokens = filename.split('/');
       const componentName = tokens[tokens.length - 2];
-      console.log(componentName);
       results.components.push(callback(content));
-      console.log(results.components)
       results.components[results.components.length - 1].name = componentName;
       results.components[results.components.length - 1].path = path.relative(`{__dirname}/../`, filename);
       next();
