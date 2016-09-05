@@ -20,6 +20,8 @@ function genDoc(src) {
       if (prop.description && prop.description.indexOf('@link') !== -1) {
         const tokens = prop.description.split(/[\n\r\s]+/);
         const href = tokens[tokens.indexOf('@link') + 1];
+        prop.description = prop.description.replace(/@link[\s]+.*[\n\r\s]+/g, '')
+        console.log(prop.description)
         prop.type.link = {
           href,
         };
