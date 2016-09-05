@@ -10,7 +10,7 @@
   @mixin button;
   width: 100%;
   outline: 0;
-  font-size: .4em;
+  font-size: .8em;
   padding: .4em .5em;
   text-align: center;
   background-color: #fff;

@@ -1,7 +1,7 @@
 import React from 'react';
 import prefix from '../../../utils/style';
 
-const { auth, loginButton } = prefix(['auth', 'loginButton', 'AuthPanel']);
+const { auth, loginButton } = prefix(['auth', 'loginButton', 'AuthPanel'], 'AuthPanel');
 
 class AuthPanel extends React.Component {
 

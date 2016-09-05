@@ -1,0 +1,2080 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="build/bundle.css">
+    <style>
+      /*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
+
+      /**
+      * 1. Change the default font family in all browsers (opinionated).
+      * 2. Prevent adjustments of font size after orientation changes in IE and iOS.
+      */
+
+      html {
+        font-family: sans-serif; /* 1 */
+        -ms-text-size-adjust: 100%; /* 2 */
+        -webkit-text-size-adjust: 100%; /* 2 */
+      }
+
+      /**
+      * Remove the margin in all browsers (opinionated).
+      */
+
+      body {
+        margin: 0;
+      }
+
+      /* HTML5 display definitions
+        ========================================================================== */
+
+      /**
+      * Add the correct display in IE 9-.
+      * 1. Add the correct display in Edge, IE, and Firefox.
+      * 2. Add the correct display in IE.
+      */
+
+      article,
+      aside,
+      details, /* 1 */
+      figcaption,
+      figure,
+      footer,
+      header,
+      main, /* 2 */
+      menu,
+      nav,
+      section,
+      summary { /* 1 */
+        display: block;
+      }
+
+      /**
+      * Add the correct display in IE 9-.
+      */
+
+      audio,
+      canvas,
+      progress,
+      video {
+        display: inline-block;
+      }
+
+      /**
+      * Add the correct display in iOS 4-7.
+      */
+
+      audio:not([controls]) {
+        display: none;
+        height: 0;
+      }
+
+      /**
+      * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+      */
+
+      progress {
+        vertical-align: baseline;
+      }
+
+      /**
+      * Add the correct display in IE 10-.
+      * 1. Add the correct display in IE.
+      */
+
+      template, /* 1 */
+      [hidden] {
+        display: none;
+      }
+
+      /* Links
+        ========================================================================== */
+
+      /**
+      * 1. Remove the gray background on active links in IE 10.
+      * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.
+      */
+
+      a {
+        background-color: transparent; /* 1 */
+        -webkit-text-decoration-skip: objects; /* 2 */
+      }
+
+      /**
+      * Remove the outline on focused links when they are also active or hovered
+      * in all browsers (opinionated).
+      */
+
+      a:active,
+      a:hover {
+        outline-width: 0;
+      }
+
+      /* Text-level semantics
+        ========================================================================== */
+
+      /**
+      * 1. Remove the bottom border in Firefox 39-.
+      * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+      */
+
+      abbr[title] {
+        border-bottom: none; /* 1 */
+        text-decoration: underline; /* 2 */
+        text-decoration: underline dotted; /* 2 */
+      }
+
+      /**
+      * Prevent the duplicate application of `bolder` by the next rule in Safari 6.
+      */
+
+      b,
+      strong {
+        font-weight: inherit;
+      }
+
+      /**
+      * Add the correct font weight in Chrome, Edge, and Safari.
+      */
+
+      b,
+      strong {
+        font-weight: bolder;
+      }
+
+      /**
+      * Add the correct font style in Android 4.3-.
+      */
+
+      dfn {
+        font-style: italic;
+      }
+
+      /**
+      * Correct the font size and margin on `h1` elements within `section` and
+      * `article` contexts in Chrome, Firefox, and Safari.
+      */
+
+      h1 {
+        font-size: 2em;
+        margin: 0.67em 0;
+      }
+
+      /**
+      * Add the correct background and color in IE 9-.
+      */
+
+      mark {
+        background-color: #ff0;
+        color: #000;
+      }
+
+      /**
+      * Add the correct font size in all browsers.
+      */
+
+      small {
+        font-size: 80%;
+      }
+
+      /**
+      * Prevent `sub` and `sup` elements from affecting the line height in
+      * all browsers.
+      */
+
+      sub,
+      sup {
+        font-size: 75%;
+        line-height: 0;
+        position: relative;
+        vertical-align: baseline;
+      }
+
+      sub {
+        bottom: -0.25em;
+      }
+
+      sup {
+        top: -0.5em;
+      }
+
+      /* Embedded content
+        ========================================================================== */
+
+      /**
+      * Remove the border on images inside links in IE 10-.
+      */
+
+      img {
+        border-style: none;
+      }
+
+      /**
+      * Hide the overflow in IE.
+      */
+
+      svg:not(:root) {
+        overflow: hidden;
+      }
+
+      /* Grouping content
+        ========================================================================== */
+
+      /**
+      * 1. Correct the inheritance and scaling of font size in all browsers.
+      * 2. Correct the odd `em` font sizing in all browsers.
+      */
+
+      code,
+      kbd,
+      pre,
+      samp {
+        font-family: monospace, monospace; /* 1 */
+        font-size: 1em; /* 2 */
+      }
+
+      /**
+      * Add the correct margin in IE 8.
+      */
+
+      figure {
+        margin: 1em 40px;
+      }
+
+      /**
+      * 1. Add the correct box sizing in Firefox.
+      * 2. Show the overflow in Edge and IE.
+      */
+
+      hr {
+        box-sizing: content-box; /* 1 */
+        height: 0; /* 1 */
+        overflow: visible; /* 2 */
+      }
+
+      /* Forms
+        ========================================================================== */
+
+      /**
+      * 1. Change font properties to `inherit` in all browsers (opinionated).
+      * 2. Remove the margin in Firefox and Safari.
+      */
+
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit; /* 1 */
+        margin: 0; /* 2 */
+      }
+
+      /**
+      * Restore the font weight unset by the previous rule.
+      */
+
+      optgroup {
+        font-weight: bold;
+      }
+
+      /**
+      * Show the overflow in IE.
+      * 1. Show the overflow in Edge.
+      */
+
+      button,
+      input { /* 1 */
+        overflow: visible;
+      }
+
+      /**
+      * Remove the inheritance of text transform in Edge, Firefox, and IE.
+      * 1. Remove the inheritance of text transform in Firefox.
+      */
+
+      button,
+      select { /* 1 */
+        text-transform: none;
+      }
+
+      /**
+      * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`
+      *    controls in Android 4.
+      * 2. Correct the inability to style clickable types in iOS and Safari.
+      */
+
+      button,
+      html [type="button"], /* 1 */
+      [type="reset"],
+      [type="submit"] {
+        -webkit-appearance: button; /* 2 */
+      }
+
+      /**
+      * Remove the inner border and padding in Firefox.
+      */
+
+      button::-moz-focus-inner,
+      [type="button"]::-moz-focus-inner,
+      [type="reset"]::-moz-focus-inner,
+      [type="submit"]::-moz-focus-inner {
+        border-style: none;
+        padding: 0;
+      }
+
+      /**
+      * Restore the focus styles unset by the previous rule.
+      */
+
+      button:-moz-focusring,
+      [type="button"]:-moz-focusring,
+      [type="reset"]:-moz-focusring,
+      [type="submit"]:-moz-focusring {
+        outline: 1px dotted ButtonText;
+      }
+
+      /**
+      * Change the border, margin, and padding in all browsers (opinionated).
+      */
+
+      fieldset {
+        border: 1px solid #c0c0c0;
+        margin: 0 2px;
+        padding: 0.35em 0.625em 0.75em;
+      }
+
+      /**
+      * 1. Correct the text wrapping in Edge and IE.
+      * 2. Correct the color inheritance from `fieldset` elements in IE.
+      * 3. Remove the padding so developers are not caught out when they zero out
+      *    `fieldset` elements in all browsers.
+      */
+
+      legend {
+        box-sizing: border-box; /* 1 */
+        color: inherit; /* 2 */
+        display: table; /* 1 */
+        max-width: 100%; /* 1 */
+        padding: 0; /* 3 */
+        white-space: normal; /* 1 */
+      }
+
+      /**
+      * Remove the default vertical scrollbar in IE.
+      */
+
+      textarea {
+        overflow: auto;
+      }
+
+      /**
+      * 1. Add the correct box sizing in IE 10-.
+      * 2. Remove the padding in IE 10-.
+      */
+
+      [type="checkbox"],
+      [type="radio"] {
+        box-sizing: border-box; /* 1 */
+        padding: 0; /* 2 */
+      }
+
+      /**
+      * Correct the cursor style of increment and decrement buttons in Chrome.
+      */
+
+      [type="number"]::-webkit-inner-spin-button,
+      [type="number"]::-webkit-outer-spin-button {
+        height: auto;
+      }
+
+      /**
+      * 1. Correct the odd appearance in Chrome and Safari.
+      * 2. Correct the outline style in Safari.
+      */
+
+      [type="search"] {
+        -webkit-appearance: textfield; /* 1 */
+        outline-offset: -2px; /* 2 */
+      }
+
+      /**
+      * Remove the inner padding and cancel buttons in Chrome and Safari on OS X.
+      */
+
+      [type="search"]::-webkit-search-cancel-button,
+      [type="search"]::-webkit-search-decoration {
+        -webkit-appearance: none;
+      }
+
+      /**
+      * Correct the text style of placeholders in Chrome, Edge, and Safari.
+      */
+
+      ::-webkit-input-placeholder {
+        color: inherit;
+        opacity: 0.54;
+      }
+
+      /**
+      * 1. Correct the inability to style clickable types in iOS and Safari.
+      * 2. Change font properties to `inherit` in Safari.
+      */
+
+      ::-webkit-file-upload-button {
+        -webkit-appearance: button; /* 1 */
+        font: inherit; /* 2 */
+      }
+
+      /*
+      * Custom styles
+      *
+      */
+      body {
+        width: 800px;
+        margin: 5em auto;
+        color: #333;
+        background-color: #fafafa;
+      }
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: .9em;
+      }
+      .table td {
+        width: 25%;
+        text-align: left;
+        padding-top: .5em;
+      }
+      .table td.short {
+        width: 20%;
+      }
+      .table td.long {
+        width: 40%;
+      }
+      .table td.important {
+        font-weight: bold;
+        color: #000;
+      }
+      .table thead {
+        border-bottom: 1px solid #ddd;
+      }
+      .table th {
+        width: 25%;
+        text-align: left;
+        padding-top: .5em;
+      }
+      .table th.short {
+        width: 20%;
+      }
+      .table th.long {
+        width: 40%;
+      }
+      .component {
+        margin-bottom: 4em;
+        overflow: auto;
+        zoom: 1;
+      }
+      .name {
+        margin-bottom: 0;
+      }
+      .description {
+        margin-top: .5em;
+        font-size: .9em;
+      }
+      .path {
+        font-size: .8em;
+        color: #ccc;
+        font-weight: lighter;
+        font-style: italic;
+      }
+      .small {
+        font-size: .7em;
+      }
+      .doc {
+        width: calc(100% - 300px);
+        float: left;
+      }
+      .ex {
+        position: relative;
+        width: 250px;
+        height: 400px;
+        float: right;
+        border: 1px solid #eee;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id=AuthPanel class='component'>
+      <div class='doc'>
+        <h1 class='name'>AuthPanel</h1>
+        <a class='path' href='src/widgets/auth/AuthPanel/index.js'>src/widgets/auth/AuthPanel/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>redirectUri</td>
+                <td class='short'>
+                  string
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                type: url
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>authorize</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>loginUrl</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>parseLoginUrl</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div class="AuthPanel__auth"><button class="AuthPanel__loginButton">Login</button></div>
+      </div>
+    </div>
+    <div id=AutoComplete class='component'>
+      <div class='doc'>
+        <h1 class='name'>AutoComplete</h1>
+        <a class='path' href='src/widgets/shared/AutoComplete/index.js'>src/widgets/shared/AutoComplete/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>onChange</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'>function() {}</td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>items</td>
+                <td class='short'>
+                  array
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'>[]</td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>value</td>
+                <td class='short'>
+                  string
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'>&#x27;&#x27;</td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>className</td>
+                <td class='short'>
+                  string
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>placeholder</td>
+                <td class='short'>
+                  string
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div><input type="text" value=""/></div>
+      </div>
+    </div>
+    <div id=Icon class='component'>
+      <div class='doc'>
+        <h1 class='name'>Icon</h1>
+        <a class='path' href='src/widgets/shared/Icon/index.js'>src/widgets/shared/Icon/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <span class="Icon__undefined Icon__icon"></span>
+      </div>
+    </div>
+    <div id=List class='component'>
+      <div class='doc'>
+        <h1 class='name'>List</h1>
+        <a class='path' href='src/widgets/shared/List/index.js'>src/widgets/shared/List/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>children</td>
+                <td class='short'>
+                  node
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div class="List__list"></div>
+      </div>
+    </div>
+    <div id=ListItem class='component'>
+      <div class='doc'>
+        <h1 class='name'>ListItem</h1>
+        <a class='path' href='src/widgets/shared/ListItem/index.js'>src/widgets/shared/ListItem/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>children</td>
+                <td class='short'>
+                  node
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>onClick</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>clickable</td>
+                <td class='short'>
+                  bool
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>className</td>
+                <td class='short'>
+                  string
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div class="ListItem__listItem"></div>
+      </div>
+    </div>
+    <div id=Ratio class='component'>
+      <div class='doc'>
+        <h1 class='name'>Ratio</h1>
+        <a class='path' href='src/widgets/shared/Ratio/index.js'>src/widgets/shared/Ratio/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>children</td>
+                <td class='short'>
+                  element
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>size</td>
+                <td class='short'>
+                  number
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div style="font-size:undefinedem;"></div>
+      </div>
+    </div>
+    <div id=ActiveCall class='component'>
+      <div class='doc'>
+        <h1 class='name'>ActiveCall</h1>
+        <a class='path' href='src/widgets/webphone/ActiveCall/index.js'>src/widgets/webphone/ActiveCall/index.js</a>
+        <div class='description'>
+          <div>When accept an incoming call or make a outbound call, this component need to be displayed.</div>
+          <div>This component display current status and avaliable operations of active phone call.</div>
+          <div>By default it support 7 operations (Transfer, Flip, Record, Hold, DTMF, Park, and Mute).</div>
+          <div>Some operations are mutual exclusive like Hold and Record,</div>
+          <div>you can use operationStatus to inform the panel which state the phone call is in.</div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>flip</td>
+                <td class='short'>
+                  <a href="#Flip">object</a>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                Props pass to &lt;Flip /&gt; components.
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>transfer</td>
+                <td class='short'>
+                  <a href="#Transfer">object</a>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                Props pass to &lt;Transfer /&gt; components.
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>callInfo</td>
+                <td class='short'>
+                  <a href="#CallInfo">object</a>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                Props pass to &lt;CallInfo /&gt; components.
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>bye</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                Method bind to the button which at right-bottom corner.
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>park</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>record</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>hold</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>mute</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                Method bind to the button which at left-bottom corner.
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>dtmf</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>disabledOperation</td>
+                <td class='short'>
+                  array of enum
+                  <div class='small'>
+                      <div>&#x27;record&#x27;</div>
+                      <div>&#x27;flip&#x27;</div>
+                      <div>&#x27;transfer&#x27;</div>
+                      <div>&#x27;park&#x27;</div>
+                  </div>
+                </td>
+              <td class='short'>[]</td>    
+              <td class='long'>
+                Operation which is disabled will display in grey color.
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>operationStatus</td>
+                <td class='short'>
+                  array of enum
+                  <div class='small'>
+                      <div>&#x27;RECORDING&#x27;</div>
+                      <div>&#x27;HOLDING&#x27;</div>
+                      <div>&#x27;MUTED&#x27;</div>
+                  </div>
+                </td>
+              <td class='short'>[]</td>    
+              <td class='long'>
+                Current status of each operations.
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>webphoneStatus</td>
+                <td class='short'>
+                  enum
+                  <div class='small'>
+                      <div>&#x27;CALL_CONNECTED&#x27;</div>
+                      <div>&#x27;CALL_CONNECTING&#x27;</div>
+                  </div>
+                </td>
+              <td class='short'>&#x27;CALL_CONNECTING&#x27;</td>    
+              <td class='long'>
+                Current phone call status.
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div class="ActiveCall__main"><div class="ActiveCall__main ActiveCall__container"><div><div class="CallInfo__title">Unknown</div><div class="CallInfo__time">Connecting</div><div class="CallInfo__subtitle">You are on a WebPhone call.</div></div><div class="CallConsole__panel"><div class="CallConsole__line"><button class="CallConsole__button CallConsole__disabled"><div style="font-size:2.6em;"><span class="Icon__icon-uni28 Icon__icon"></span></div><div class="CallConsole__word">Hold</div></button><button class="CallConsole__button CallConsole__disabled"><div style="font-size:2.6em;"><span class="Icon__icon-uni21 Icon__icon"></span></div><div class="CallConsole__word">Keypad</div></button><button class="CallConsole__button CallConsole__disabled"><div style="font-size:2.6em;"><span class="Icon__icon-uni24 Icon__icon"></span></div><div class="CallConsole__word">Record</div></button></div><div class="CallConsole__line"><button class="CallConsole__button CallConsole__disabled"><div style="font-size:2.6em;"><span class="Icon__icon-uni27 Icon__icon"></span></div><div class="CallConsole__word">Flip</div></button><button class="CallConsole__button CallConsole__disabled"><div style="font-size:2.6em;"><span class="Icon__icon-uni23 Icon__icon"></span></div><div class="CallConsole__word">Transfer</div></button><button class="CallConsole__button CallConsole__disabled"><div style="font-size:2.6em;"><span class="Icon__icon-uni22 Icon__icon"></span></div><div class="CallConsole__word">Park</div></button></div></div><div class="CallFooter__footer"><button class="CallFooter__footerButton"><span class="Icon__icon-uniCE Icon__icon"></span></button><button class="CallFooter__footerButton"><span class="Icon__icon-uni44 Icon__icon"></span></button></div></div></div>
+      </div>
+    </div>
+    <div id=ActiveCallWithNote class='component'>
+      <div class='doc'>
+        <h1 class='name'>ActiveCallWithNote</h1>
+        <a class='path' href='src/widgets/webphone/ActiveCallWithNote/index.js'>src/widgets/webphone/ActiveCallWithNote/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>callInfo</td>
+                <td class='short'>
+                  object
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>disabledOperation</td>
+                <td class='short'>
+                  array
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>operationStatus</td>
+                <td class='short'>
+                  array
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>webphoneStatus</td>
+                <td class='short'>
+                  enum
+                  <div class='small'>
+                      <div>&#x27;CALL_CONNECTED&#x27;</div>
+                      <div>&#x27;CALL_CONNECTING&#x27;</div>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div class="ActiveCallWithNote__main"><div class="ActiveCallWithNote__main ActiveCallWithNote__container"><div><div class="CallInfo__title">Unknown</div><div class="CallInfo__time">Connecting</div><div class="CallInfo__subtitle">You are on a WebPhone call.</div></div><select class="ActiveCallWithNote__list"><option>Contacts</option><option>Number</option><option>Phone</option></select><textarea placeholder="type something..."></textarea><div class="CallFooter__footer"><button class="CallFooter__footerButton"><span class="Icon__icon-uniCE Icon__icon"></span></button><button class="CallFooter__footerButton"><span class="Icon__icon-uni44 Icon__icon"></span></button></div></div></div>
+      </div>
+    </div>
+    <div id=CallConsole class='component'>
+      <div class='doc'>
+        <h1 class='name'>CallConsole</h1>
+        <a class='path' href='src/widgets/webphone/CallConsole/index.js'>src/widgets/webphone/CallConsole/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>status</td>
+                <td class='short'>
+                  array of enum
+                  <div class='small'>
+                      <div>&#x27;RECORDING&#x27;</div>
+                      <div>&#x27;HOLDING&#x27;</div>
+                      <div>&#x27;MUTED&#x27;</div>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>disabledOperation</td>
+                <td class='short'>
+                  array of enum
+                  <div class='small'>
+                      <div>&#x27;record&#x27;</div>
+                      <div>&#x27;flip&#x27;</div>
+                      <div>&#x27;transfer&#x27;</div>
+                      <div>&#x27;park&#x27;</div>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>disabled</td>
+                <td class='short'>
+                  bool
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>handleHoldClick</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>handleRecordClick</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>handleKeypadClick</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>handleFlipClick</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>handleTransferClick</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>handleParkClick</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div class="CallConsole__panel"><div class="CallConsole__line"><button class="CallConsole__button"><div style="font-size:2.6em;"><span class="Icon__icon-uni28 Icon__icon"></span></div><div class="CallConsole__word">Hold</div></button><button class="CallConsole__button"><div style="font-size:2.6em;"><span class="Icon__icon-uni21 Icon__icon"></span></div><div class="CallConsole__word">Keypad</div></button><button class="CallConsole__button"><div style="font-size:2.6em;"><span class="Icon__icon-uni24 Icon__icon"></span></div><div class="CallConsole__word">Record</div></button></div><div class="CallConsole__line"><button class="CallConsole__button"><div style="font-size:2.6em;"><span class="Icon__icon-uni27 Icon__icon"></span></div><div class="CallConsole__word">Flip</div></button><button class="CallConsole__button"><div style="font-size:2.6em;"><span class="Icon__icon-uni23 Icon__icon"></span></div><div class="CallConsole__word">Transfer</div></button><button class="CallConsole__button"><div style="font-size:2.6em;"><span class="Icon__icon-uni22 Icon__icon"></span></div><div class="CallConsole__word">Park</div></button></div></div>
+      </div>
+    </div>
+    <div id=CallFooter class='component'>
+      <div class='doc'>
+        <h1 class='name'>CallFooter</h1>
+        <a class='path' href='src/widgets/webphone/CallFooter/index.js'>src/widgets/webphone/CallFooter/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>onLeftClick</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>onRightClick</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>leftIcon</td>
+                <td class='short'>
+                  string
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'>&#x27;icon-uniCE&#x27;</td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>rightIcon</td>
+                <td class='short'>
+                  string
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'>&#x27;icon-uni44&#x27;</td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div class="CallFooter__footer"><button class="CallFooter__footerButton"><span class="Icon__icon-uniCE Icon__icon"></span></button><button class="CallFooter__footerButton"><span class="Icon__icon-uni44 Icon__icon"></span></button></div>
+      </div>
+    </div>
+    <div id=CallInfo class='component'>
+      <div class='doc'>
+        <h1 class='name'>CallInfo</h1>
+        <a class='path' href='src/widgets/webphone/CallInfo/index.js'>src/widgets/webphone/CallInfo/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>phoneNumber</td>
+                <td class='short'>
+                  string
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'>&#x27;Unknown&#x27;</td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>duration</td>
+                <td class='short'>
+                  number
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div><div class="CallInfo__title">Unknown</div><div class="CallInfo__time">Connecting</div><div class="CallInfo__subtitle">You are on a WebPhone call.</div></div>
+      </div>
+    </div>
+    <div id=CallerBar class='component'>
+      <div class='doc'>
+        <h1 class='name'>CallerBar</h1>
+        <a class='path' href='src/widgets/webphone/CallerBar/index.js'>src/widgets/webphone/CallerBar/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>caller</td>
+                <td class='short'>
+                  object
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>numbers</td>
+                <td class='short'>
+                  array
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'>[]</td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>setCaller</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>getString</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'>(key) &#x3D;&gt; key</td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div class="CallerBar__caller"><span class="CallerBar__callerSpan">From</span><button class="CallerBar__callerButton"></button><div class="CallerBar__callerIcon"><span class="Icon__icon-uni2463 Icon__icon"></span></div></div>
+      </div>
+    </div>
+    <div id=Closable class='component'>
+      <div class='doc'>
+        <h1 class='name'>Closable</h1>
+        <a class='path' href='src/widgets/webphone/Closable/index.js'>src/widgets/webphone/Closable/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>className</td>
+                <td class='short'>
+                  string
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>children</td>
+                <td class='short'>
+                  node
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>onClose</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div><button class="Closable__cancelButton">Cancel</button></div>
+      </div>
+    </div>
+    <div id=DialPad class='component'>
+      <div class='doc'>
+        <h1 class='name'>DialPad</h1>
+        <a class='path' href='src/widgets/webphone/DialPad/index.js'>src/widgets/webphone/DialPad/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>disabled</td>
+                <td class='short'>
+                  bool
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>contacts</td>
+                <td class='short'>
+                  array
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'>[]</td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>userNumbers</td>
+                <td class='short'>
+                  array
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'>[]</td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>call</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>remoteMedia</td>
+                <td class='short'>
+                  any
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>localMedia</td>
+                <td class='short'>
+                  any
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>getString</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>loadRingAudio</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div class="DialPad__main DialPad__container"><div class="DialPad__bar"><div class="CallerBar__caller"><span class="CallerBar__callerSpan">From</span><button class="CallerBar__callerButton"></button><div class="CallerBar__callerIcon"><span class="Icon__icon-uni2463 Icon__icon"></span></div></div></div><div><div><div><input type="text" class="DialPad__phoneInput" value=""/></div><div><div class="Dialer__dialer"><div class="Dialer__line"><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">1</div><div class="Dialer__dialerSymbol"></div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">2</div><div class="Dialer__dialerSymbol">ABC</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">3</div><div class="Dialer__dialerSymbol">DEF</div></button></div><div class="Dialer__line"><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">4</div><div class="Dialer__dialerSymbol">GHI</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">5</div><div class="Dialer__dialerSymbol">JKL</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">6</div><div class="Dialer__dialerSymbol">MNO</div></button></div><div class="Dialer__line"><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">7</div><div class="Dialer__dialerSymbol">PQRS</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">8</div><div class="Dialer__dialerSymbol">TUV</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">9</div><div class="Dialer__dialerSymbol">WXYZ</div></button></div><div class="Dialer__line"><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">*</div><div class="Dialer__dialerSymbol"></div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">0</div><div class="Dialer__dialerSymbol">+</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">#</div><div class="Dialer__dialerSymbol"></div></button></div></div></div></div></div><div><div class="DialPad__line"><button class="DialPad__callButton"><span class="Icon__icon-uniAE Icon__icon"></span></button></div></div></div>
+      </div>
+    </div>
+    <div id=Dialer class='component'>
+      <div class='doc'>
+        <h1 class='name'>Dialer</h1>
+        <a class='path' href='src/widgets/webphone/Dialer/index.js'>src/widgets/webphone/Dialer/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>handleClick</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>scale</td>
+                <td class='short'>
+                  number
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div class="Dialer__dialer"><div class="Dialer__line"><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">1</div><div class="Dialer__dialerSymbol"></div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">2</div><div class="Dialer__dialerSymbol">ABC</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">3</div><div class="Dialer__dialerSymbol">DEF</div></button></div><div class="Dialer__line"><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">4</div><div class="Dialer__dialerSymbol">GHI</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">5</div><div class="Dialer__dialerSymbol">JKL</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">6</div><div class="Dialer__dialerSymbol">MNO</div></button></div><div class="Dialer__line"><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">7</div><div class="Dialer__dialerSymbol">PQRS</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">8</div><div class="Dialer__dialerSymbol">TUV</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">9</div><div class="Dialer__dialerSymbol">WXYZ</div></button></div><div class="Dialer__line"><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">*</div><div class="Dialer__dialerSymbol"></div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">0</div><div class="Dialer__dialerSymbol">+</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">#</div><div class="Dialer__dialerSymbol"></div></button></div></div>
+      </div>
+    </div>
+    <div id=Dropdown class='component'>
+      <div class='doc'>
+        <h1 class='name'>Dropdown</h1>
+        <a class='path' href='src/widgets/webphone/Dropdown/index.js'>src/widgets/webphone/Dropdown/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>onClick</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>items</td>
+                <td class='short'>
+                  array
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'>[]</td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <ul class="Dropdown__dropdown"></ul>
+      </div>
+    </div>
+    <div id=DropdownItem class='component'>
+      <div class='doc'>
+        <h1 class='name'>DropdownItem</h1>
+        <a class='path' href='src/widgets/webphone/DropdownItem/index.js'>src/widgets/webphone/DropdownItem/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>onClick</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>item</td>
+                <td class='short'>
+                  object
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>left</td>
+                <td class='short'>
+                  string
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>mid</td>
+                <td class='short'>
+                  string
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>right</td>
+                <td class='short'>
+                  string
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <li class="DropdownItem__dropdownItem"><div class="DropdownItem__left"></div><div class="DropdownItem__mid"></div><div class="DropdownItem__right"></div></li>
+      </div>
+    </div>
+    <div id=Flip class='component'>
+      <div class='doc'>
+        <h1 class='name'>Flip</h1>
+        <a class='path' href='src/widgets/webphone/Flip/index.js'>src/widgets/webphone/Flip/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>flipNumbers</td>
+                <td class='short'>
+                  array of shape
+                  <div class='small'>
+                      <div>value : string</div>
+                      <div>type : string</div>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>flip</td>
+                <td class='short'>
+                  object
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>numbers</td>
+                <td class='short'>
+                  
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'>[]</td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div class="Flip__flip"><div class="Flip__flipTitle">Flip to</div><div class="List__list"></div></div>
+      </div>
+    </div>
+    <div id=IncomingCall class='component'>
+      <div class='doc'>
+        <h1 class='name'>IncomingCall</h1>
+        <a class='path' href='src/widgets/webphone/IncomingCall/index.js'>src/widgets/webphone/IncomingCall/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>phoneNumber</td>
+                <td class='short'>
+                  string
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'>&#x27;Unknown&#x27;</td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>accept</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>bye</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div class="IncomingCall__main IncomingCall__container"><div><div class="IncomingCall__title">Unknown</div><div class="IncomingCall__subtitle">Call Incoming</div><div class="IncomingCall__avatar"><img alt="avatar" src="http://placehold.it/150x150"/></div></div><div class="CallFooter__footer"><button class="CallFooter__footerButton"><span class="Icon__icon-uniAE Icon__icon"></span></button><button class="CallFooter__footerButton"><span class="Icon__icon-uni44 Icon__icon"></span></button></div></div>
+      </div>
+    </div>
+    <div id=Note class='component'>
+      <div class='doc'>
+        <h1 class='name'>Note</h1>
+        <a class='path' href='src/widgets/webphone/Note/index.js'>src/widgets/webphone/Note/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <textarea placeholder="type something..."></textarea>
+      </div>
+    </div>
+    <div id=Transfer class='component'>
+      <div class='doc'>
+        <h1 class='name'>Transfer</h1>
+        <a class='path' href='src/widgets/webphone/Transfer/index.js'>src/widgets/webphone/Transfer/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>handleClick</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div class="Transfer__main Transfer__transfer"><div class="Transfer__transferTitle">Transfer to</div><div><input type="text" class="Transfer__transferInput" value="" placeholder="Enter Name or Number"/></div><div class="Transfer__wrapper"><button class="Transfer__transferButton">Transfer</button></div></div>
+      </div>
+    </div>
+    <div id=WebPhone class='component'>
+      <div class='doc'>
+        <h1 class='name'>WebPhone</h1>
+        <a class='path' href='src/widgets/webphone/WebPhone/index.js'>src/widgets/webphone/WebPhone/index.js</a>
+        <div class='description'>
+          <div></div>
+        </div>
+        <div class='props'>
+          <h3>Props</h3>
+          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+            <thead>
+              <tr>
+                <th class='short'>Name</td>
+                <th class='short'>Type</td>       
+                <th class='short'>Default</td>    
+                <th class='long'>Description</td>
+              </tr> 
+            </thead>
+            <tr>
+              <td class='short important'>activeCall</td>
+                <td class='short'>
+                  <a href="#ActiveCall">object</a>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                Props pass to &lt;ActiveCall /&gt; components.
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>incomingCall</td>
+                <td class='short'>
+                  <a href="#IncomingCall">object</a>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                Props pass to &lt;IncomingCall /&gt; components.
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>dialPad</td>
+                <td class='short'>
+                  <a href="#DialPad">object</a>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                Props pass to &lt;DialPad /&gt; components.
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>enums</td>
+                <td class='short'>
+                  object
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>status</td>
+                <td class='short'>
+                  enum
+                  <div class='small'>
+                      <div>&#x27;ON_CALL&#x27;</div>
+                      <div>&#x27;ON_INCOMING_CALL&#x27;</div>
+                      <div>&#x27;IDLE&#x27;</div>
+                      <div>&#x27;DISABLED&#x27;</div>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+            <tr>
+              <td class='short important'>getString</td>
+                <td class='short'>
+                  func
+                  <div class='small'>
+                  </div>
+                </td>
+              <td class='short'></td>    
+              <td class='long'>
+                
+              </td>
+            </tr> 
+          </table>
+        </div>
+      </div>
+      <div class='ex'>
+        <div class="WebPhone__main"><div><video id="remoteVideo" hidden=""></video><video id="localVideo" hidden="" muted=""></video></div><div class="DialPad__main DialPad__container"><div class="DialPad__bar"><div class="CallerBar__caller"><span class="CallerBar__callerSpan">From</span><button class="CallerBar__callerButton"></button><div class="CallerBar__callerIcon"><span class="Icon__icon-uni2463 Icon__icon"></span></div></div></div><div><div><div><input type="text" class="DialPad__phoneInput" value=""/></div><div><div class="Dialer__dialer"><div class="Dialer__line"><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">1</div><div class="Dialer__dialerSymbol"></div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">2</div><div class="Dialer__dialerSymbol">ABC</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">3</div><div class="Dialer__dialerSymbol">DEF</div></button></div><div class="Dialer__line"><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">4</div><div class="Dialer__dialerSymbol">GHI</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">5</div><div class="Dialer__dialerSymbol">JKL</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">6</div><div class="Dialer__dialerSymbol">MNO</div></button></div><div class="Dialer__line"><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">7</div><div class="Dialer__dialerSymbol">PQRS</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">8</div><div class="Dialer__dialerSymbol">TUV</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">9</div><div class="Dialer__dialerSymbol">WXYZ</div></button></div><div class="Dialer__line"><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">*</div><div class="Dialer__dialerSymbol"></div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">0</div><div class="Dialer__dialerSymbol">+</div></button><button class="Dialer__dialerButton"><div class="Dialer__dialerNumber">#</div><div class="Dialer__dialerSymbol"></div></button></div></div></div></div></div><div><div class="DialPad__line"><button class="DialPad__callButton"><span class="Icon__icon-uniAE Icon__icon"></span></button></div></div></div></div>
+      </div>
+    </div>
+  </body>
+</html>
