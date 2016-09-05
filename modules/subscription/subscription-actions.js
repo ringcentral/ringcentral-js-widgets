@@ -6,5 +6,5 @@ Object.defineProperty(exports, "__esModule", {
 
 var _reduxHelper = require('../../lib/redux-helper');
 
-exports.default = new _reduxHelper.ActionMap(['updateFilters', 'notification', 'updateStatus'], 'subscription');
+exports.default = new _reduxHelper.ActionMap(['updateFilters', 'notification', 'updateStatus', 'reset'], 'subscription');
 //# sourceMappingURL=subscription-actions.js.map

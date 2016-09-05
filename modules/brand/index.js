@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _extends2 = require('babel-runtime/helpers/extends');
 
@@ -54,7 +55,7 @@ var Brand = function (_RcModule) {
   function Brand(options) {
     (0, _classCallCheck3.default)(this, Brand);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Brand).call(this, (0, _extends3.default)({}, options, {
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Brand.__proto__ || (0, _getPrototypeOf2.default)(Brand)).call(this, (0, _extends3.default)({}, options, {
       actions: _brandActions2.default
     })));
 

@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _extends2 = require('babel-runtime/helpers/extends');
 
@@ -11,10 +12,6 @@ var _extends3 = _interopRequireDefault(_extends2);
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
 
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
@@ -35,10 +32,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 var _symbol = require('babel-runtime/core-js/symbol');
 
 var _symbol2 = _interopRequireDefault(_symbol);
-
-var _addModule = require('./lib/add-module');
-
-var _addModule2 = _interopRequireDefault(_addModule);
 
 var _ringcentral = require('ringcentral');
 
@@ -96,31 +89,21 @@ var RcPhone = function (_RcModule) {
     var prefix = _options$prefix === undefined ? 'rc' : _options$prefix;
     var sdkSettings = options.sdkSettings;
     var defaultBrand = options.defaultBrand;
-    var promiseForStore = options.promiseForStore;
 
-    var resolver = void 0;
-    if (!promiseForStore) {
-      promiseForStore = new _promise2.default(function (resolve) {
-        resolver = resolve;
-      });
-    }
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(RcPhone).call(this, {
-      promiseForStore: promiseForStore,
+    var _this = (0, _possibleConstructorReturn3.default)(this, (RcPhone.__proto__ || (0, _getPrototypeOf2.default)(RcPhone)).call(this, {
       getState: getState
     }));
 
-    _addModule2.default.call(_this, 'sdk', new _ringcentral2.default((0, _extends3.default)({
+    _rcModule.addModule.call(_this, 'sdk', new _ringcentral2.default((0, _extends3.default)({
 
       cachePrefix: prefix + '-'
     }, sdkSettings)));
 
-    _addModule2.default.call(_this, 'platform', _this.sdk.platform());
+    _rcModule.addModule.call(_this, 'platform', _this.sdk.platform());
 
-    _addModule2.default.call(_this, 'api', new _ringcentralClient2.default(_this.sdk));
+    _rcModule.addModule.call(_this, 'api', new _ringcentralClient2.default(_this.sdk));
 
-    _addModule2.default.call(_this, 'auth', new _auth2.default({
-      promiseForStore: promiseForStore,
+    _rcModule.addModule.call(_this, 'auth', new _auth2.default({
       getState: function getState() {
         return _this.state.auth;
       },
@@ -128,23 +111,20 @@ var RcPhone = function (_RcModule) {
       platform: _this.platform
     }));
 
-    _addModule2.default.call(_this, 'settings', new _settings2.default({
-      promiseForStore: promiseForStore,
+    _rcModule.addModule.call(_this, 'settings', new _settings2.default({
       getState: function getState() {
         return _this.state.settings;
       }
     }));
 
-    _addModule2.default.call(_this, 'defaultBrand', new _brand2.default((0, _extends3.default)({
-      promiseForStore: promiseForStore,
+    _rcModule.addModule.call(_this, 'defaultBrand', new _brand2.default((0, _extends3.default)({
       prefix: prefix + '-default',
       getState: function getState() {
         return _this.state.defaultBrand;
       }
     }, defaultBrand)));
 
-    _addModule2.default.call(_this, 'subscription', new _subscription2.default({
-      promiseForStore: promiseForStore,
+    _rcModule.addModule.call(_this, 'subscription', new _subscription2.default({
       getState: function getState() {
         return _this.state.subscription;
       },
@@ -155,8 +135,7 @@ var RcPhone = function (_RcModule) {
       auth: _this.auth
     }));
 
-    _addModule2.default.call(_this, 'user', new _user2.default({
-      promiseForStore: promiseForStore,
+    _rcModule.addModule.call(_this, 'user', new _user2.default({
       getState: function getState() {
         return _this.state.user;
       },
@@ -166,8 +145,7 @@ var RcPhone = function (_RcModule) {
       settings: _this.settings
     }));
 
-    _addModule2.default.call(_this, 'webphone', new _webphone2.default({
-      promiseForStore: promiseForStore,
+    _rcModule.addModule.call(_this, 'webphone', new _webphone2.default({
       getState: function getState() {
         return _this.state.webphone;
       },
@@ -178,16 +156,13 @@ var RcPhone = function (_RcModule) {
       auth: _this.auth
     }));
 
-    _addModule2.default.call(_this, 'contact', new _contact2.default({
-      promiseForStore: promiseForStore,
-      getState: function getState() {
-        return _this.state.contact;
-      },
-      prefix: prefix,
-      api: _this.api,
-      platform: _this.platform,
-      settings: _this.settings
-    }));
+    // this::addModule('contact', new Contact({
+    //   getState: () => this.state.contact,
+    //   prefix,
+    //   api: this.api,
+    //   platform: this.platform,
+    //   settings: this.settings,
+    // }));
 
     // combine reducers
     _this[REDUCER] = (0, _redux.combineReducers)({
@@ -196,12 +171,9 @@ var RcPhone = function (_RcModule) {
       subscription: _this.subscription.reducer,
       user: _this.user.reducer,
       webphone: _this.webphone.reducer,
-      contact: _this.contact.reducer,
+      // contact: this.contact.reducer,
       settings: _this.settings.reducer
     });
-    if (resolver) {
-      resolver((0, _redux.createStore)(_this.reducer));
-    }
     return _this;
   }
 

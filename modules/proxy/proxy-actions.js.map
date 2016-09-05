@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/proxy/proxy-actions.js"],"names":[],"mappings":";;;;;;AAAA;;kBAEe,2BAAc,CAC3B,QAD2B,EAE3B,SAF2B,EAG3B,MAH2B,CAAd,EAIZ,OAJY,C","file":"proxy-actions.js","sourcesContent":["import { ActionMap } from '../../lib/redux-helper';\n\nexport default new ActionMap([\n  'action',\n  'execute',\n  'sync',\n], 'proxy');\n"]}

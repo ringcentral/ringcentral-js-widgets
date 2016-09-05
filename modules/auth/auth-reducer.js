@@ -4,6 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _assign = require('babel-runtime/core-js/object/assign');
 
 var _assign2 = _interopRequireDefault(_assign);
@@ -24,6 +28,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var initialState = {
   status: _loginStatus2.default.pending,
+  token: null,
   error: null
 };
 
@@ -35,42 +40,59 @@ function getAuthReducer(prefix) {
     switch (action.type) {
 
       case actions.init:
-        return (0, _assign2.default)({}, state, { status: action.status });
+        return (0, _extends3.default)({}, state, {
+          status: action.status,
+          token: action.token
+        });
 
       case actions.login:
-        return {
+        return (0, _extends3.default)({}, state, {
           status: _loginStatus2.default.loggingIn,
           error: null
-        };
+        });
 
       case actions.logout:
-        return {
+        return (0, _extends3.default)({}, state, {
           status: _loginStatus2.default.loggingOut,
           error: null
-        };
+        });
 
       case actions.loginSuccess:
         return {
           status: _loginStatus2.default.loggedIn,
+          token: action.token,
           error: null
         };
 
       case actions.logoutSuccess:
         return {
           status: _loginStatus2.default.notLoggedIn,
+          token: null,
           error: null
         };
 
       case actions.loginError:
-        return {
+        return (0, _extends3.default)({}, state, {
           status: _loginStatus2.default.notLoggedIn,
           error: action.error
-        };
+        });
 
       case actions.logoutError:
-        return {
+        return (0, _extends3.default)({}, state, {
           status: _loginStatus2.default.loggedIn,
           error: action.error
+        });
+
+      case actions.refreshSuccess:
+        return (0, _extends3.default)({}, state, {
+          token: action.token
+        });
+
+      case actions.refreshError:
+        return {
+          status: _loginStatus2.default.notLoggedIn,
+          token: null,
+          error: actions.error
         };
 
       default:

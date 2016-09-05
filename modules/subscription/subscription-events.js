@@ -19,14 +19,7 @@ var _subscriptionStatus2 = _interopRequireDefault(_subscriptionStatus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var eventDefinition = (0, _extends3.default)({
-  message: '/restapi/v1.0/account/~/extension/~/message-store',
-  presence: '/restapi/v1.0/account/~/extension/~/presence',
-  telephony: '/restapi/v1.0/account/~/extension/~/presence?detailedTelephonyState=true',
-  line: '/restapi/v1.0/account/~/extension/~/presence/line',
-  linePresence: '/restapi/v1.0/account/~/extension/~/presence/line/presence',
-  lineTelephony: '/restapi/v1.0/account/~/extension/~/presence/line/presence?detailedTelephonyState=true'
-}, _subscriptionStatus2.default);
+var eventDefinition = (0, _extends3.default)({}, _subscriptionStatus2.default);
 
 var subscriptionEvents = exports.subscriptionEvents = new _keyValueMap2.default(eventDefinition);
 

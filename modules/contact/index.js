@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _extends2 = require('babel-runtime/helpers/extends');
 
@@ -31,10 +32,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 var _rcModule = require('../../lib/rc-module');
 
 var _rcModule2 = _interopRequireDefault(_rcModule);
-
-var _addModule = require('../../lib/add-module');
-
-var _addModule2 = _interopRequireDefault(_addModule);
 
 var _symbolMap = require('data-types/symbol-map');
 
@@ -72,12 +69,11 @@ var Contact = function (_RcModule) {
   function Contact(options) {
     (0, _classCallCheck3.default)(this, Contact);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Contact).call(this, (0, _extends3.default)({}, options)));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Contact.__proto__ || (0, _getPrototypeOf2.default)(Contact)).call(this, (0, _extends3.default)({}, options)));
 
     var api = options.api;
     var platform = options.platform;
     var settings = options.settings;
-    var promiseForStore = options.promiseForStore;
     var prefix = options.prefix;
 
 
@@ -85,8 +81,7 @@ var Contact = function (_RcModule) {
     _this[symbols.platform] = platform;
     _this[symbols.settings] = settings;
 
-    _addModule2.default.call(_this, 'companyContact', new _companyContact2.default({
-      promiseForStore: promiseForStore,
+    _rcModule.addModule.call(_this, 'companyContact', new _companyContact2.default({
       getState: function getState() {
         return _this.state.companyContact;
       },
@@ -96,8 +91,7 @@ var Contact = function (_RcModule) {
       settings: settings
     }));
 
-    _addModule2.default.call(_this, 'addressBook', new _addressBook2.default({
-      promiseForStore: promiseForStore,
+    _rcModule.addModule.call(_this, 'addressBook', new _addressBook2.default({
       getState: function getState() {
         return _this.state.addressBook;
       },

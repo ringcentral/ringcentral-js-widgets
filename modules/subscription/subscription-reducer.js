@@ -23,7 +23,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var initialState = {
   cacheKey: null,
   filters: [],
-  status: _subscriptionEvents.subscriptionEvents.pending
+  status: _subscriptionEvents.subscriptionEvents.pending,
+  lastMessage: null
 };
 
 function getSubscriptionReducer(prefix) {
@@ -41,6 +42,18 @@ function getSubscriptionReducer(prefix) {
       case actions.updateFilters:
         return (0, _assign2.default)({}, state, {
           filters: action.filters.slice()
+        });
+
+      case actions.notification:
+        return (0, _assign2.default)({}, state, {
+          lastMessage: action.message
+        });
+
+      case actions.reset:
+        return (0, _assign2.default)({}, state, {
+          lastMessage: null,
+          notification: null,
+          status: _subscriptionEvents.subscriptionEvents.notSubscribed
         });
 
       default:

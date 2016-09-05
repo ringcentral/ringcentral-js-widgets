@@ -3,6 +3,11 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
+
+var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+
+var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
 var _getIterator2 = require('babel-runtime/core-js/get-iterator');
 
@@ -48,9 +53,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _desc, _value, _class;
+
 var _rcModule = require('../../lib/rc-module');
 
 var _rcModule2 = _interopRequireDefault(_rcModule);
+
+var _proxy = require('../proxy');
 
 var _symbolMap = require('data-types/symbol-map');
 
@@ -82,11 +91,40 @@ var _loganberry2 = _interopRequireDefault(_loganberry);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
 var logger = new _loganberry2.default({
   prefix: 'auth'
 });
 
-var symbols = new _symbolMap2.default(['platform', 'emitter', 'beforeLogoutHandlers']);
+var symbols = new _symbolMap2.default(['platform', 'emitter', 'beforeLogoutHandlers', 'init']);
 
 var CONSTANTS = new _keyValueMap2.default({
   loginStatus: _loginStatus2.default
@@ -96,113 +134,122 @@ var CONSTANTS = new _keyValueMap2.default({
  * @class
  * @description Authentication module
  */
-
-var Auth = function (_RcModule) {
+var Auth = (_class = function (_RcModule) {
   (0, _inherits3.default)(Auth, _RcModule);
 
   /**
    * @function
    */
   function Auth(options) {
-    var _this2 = this;
-
     (0, _classCallCheck3.default)(this, Auth);
 
-    logger.trace('new Auth()');
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (0, _getPrototypeOf2.default)(Auth).call(this, (0, _extends3.default)({}, options, {
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Auth.__proto__ || (0, _getPrototypeOf2.default)(Auth)).call(this, (0, _extends3.default)({}, options, {
       actions: _authActions2.default
     })));
 
     var platform = options.platform;
 
+    _this.on('state-change', function (_ref) {
+      var oldState = _ref.oldState;
+      var newState = _ref.newState;
 
+      // loginStatusChanged
+      if (!oldState || oldState.status !== newState.status) {
+        _utils.emit.call(_this, _authEvents.authEventTypes.loginStatusChanged, newState.status);
+      }
+    });
     _this[symbols.platform] = platform;
-    _this[symbols.beforeLogoutHandlers] = new _set2.default();
-
-    // load info on login
-    platform.on(platform.events.loginSuccess, function () {
-      _this.store.dispatch({
-        type: _this.actions.loginSuccess
-      });
-      _utils.emit.call(_this, _authEvents.authEventTypes.loginStatusChanged, _this.state.status);
-    });
-    // loginError
-    platform.on(platform.events.loginError, function (error) {
-      _this.store.dispatch({
-        type: _this.actions.loginError,
-        error: error
-      });
-    });
-    // unload info on logout
-    platform.on(platform.events.logoutSuccess, function () {
-      _this.store.dispatch({
-        type: _this.actions.logoutSuccess
-      });
-      // this.emit(authEvents.userInfoCleared);
-    });
-
-    platform.on(platform.events.logoutError, function (error) {
-      _this.store.dispatch({
-        type: _this.actions.logoutError,
-        error: error
-      });
-    });
-
-    platform.on(platform.events.refreshError, function (error) {
-      _this.store.dispatch({
-        type: _this.actions.refreshError,
-        error: error
-      });
-    });
-
-    // load info if already logged in
-    (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-      var loggedIn;
-      return _regenerator2.default.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              _context.next = 2;
-              return platform.loggedIn();
-
-            case 2:
-              loggedIn = _context.sent;
-
-              _this.store.dispatch({
-                type: _this.actions.init,
-                status: loggedIn ? _loginStatus2.default.loggedIn : _loginStatus2.default.notLoggedIn
-              });
-              _this.emit(_authEvents.authEventTypes.loginStatusChanged, _this.state.status);
-
-            case 5:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, _callee, _this2);
-    }))();
     return _this;
   }
 
   (0, _createClass3.default)(Auth, [{
-    key: 'login',
+    key: 'init',
+    value: function init() {
+      var _this2 = this;
 
-    /**
-     * @function
-     * @async
-     * @description Login function using username and password
-     */
+      var platform = this[symbols.platform];
+      this[symbols.beforeLogoutHandlers] = new _set2.default();
+
+      // load info on login
+      platform.on(platform.events.loginSuccess, function () {
+        _this2.store.dispatch({
+          type: _this2.actions.loginSuccess,
+          token: platform.auth().data()
+        });
+      });
+      // loginError
+      platform.on(platform.events.loginError, function (error) {
+        _this2.store.dispatch({
+          type: _this2.actions.loginError,
+          error: error
+        });
+      });
+      // unload info on logout
+      platform.on(platform.events.logoutSuccess, function () {
+        _this2.store.dispatch({
+          type: _this2.actions.logoutSuccess
+        });
+      });
+
+      platform.on(platform.events.logoutError, function (error) {
+        _this2.store.dispatch({
+          type: _this2.actions.logoutError,
+          error: error
+        });
+      });
+      platform.on(platform.events.refreshSuccess, function () {
+        _this2.store.dispatch({
+          type: _this2.actions.refreshSuccess,
+          token: platform.auth().data()
+        });
+      });
+      platform.on(platform.events.refreshError, function (error) {
+        _this2.store.dispatch({
+          type: _this2.actions.refreshError,
+          error: error
+        });
+      });
+
+      // load info if already logged in
+      (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        var loggedIn;
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return platform.loggedIn();
+
+              case 2:
+                loggedIn = _context.sent;
+
+                _this2.store.dispatch({
+                  type: _this2.actions.init,
+                  status: loggedIn ? _loginStatus2.default.loggedIn : _loginStatus2.default.notLoggedIn,
+                  token: loggedIn ? platform.auth().data() : null
+                });
+
+              case 4:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, _this2);
+      }))();
+    }
+  }, {
+    key: 'login',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref3) {
-        var username = _ref3.username;
-        var password = _ref3.password;
-        var extension = _ref3.extension;
-        var remember = _ref3.remember;
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref4) {
+        var username = _ref4.username;
+        var password = _ref4.password;
+        var extension = _ref4.extension;
+        var remember = _ref4.remember;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                logger.trace('login()');
                 this.store.dispatch({
                   type: this.actions.login,
                   payload: {
@@ -212,7 +259,6 @@ var Auth = function (_RcModule) {
                     remember: remember
                   }
                 });
-                _utils.emit.call(this, _authEvents.authEventTypes.loginStatusChanged, _authEvents.authEvents.loggingIn);
                 _context2.next = 4;
                 return this[symbols.platform].login({
                   username: username,
@@ -233,7 +279,7 @@ var Auth = function (_RcModule) {
       }));
 
       function login(_x) {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return login;
@@ -246,12 +292,12 @@ var Auth = function (_RcModule) {
 
   }, {
     key: 'loginUrl',
-    value: function loginUrl(_ref4) {
-      var redirectUri = _ref4.redirectUri;
-      var state = _ref4.state;
-      var brandId = _ref4.brandId;
-      var display = _ref4.display;
-      var prompt = _ref4.prompt;
+    value: function loginUrl(_ref5) {
+      var redirectUri = _ref5.redirectUri;
+      var state = _ref5.state;
+      var brandId = _ref5.brandId;
+      var display = _ref5.display;
+      var prompt = _ref5.prompt;
 
       return this[symbols.platform].loginUrl({
         redirectUri: redirectUri,
@@ -283,9 +329,9 @@ var Auth = function (_RcModule) {
   }, {
     key: 'authorize',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref6) {
-        var code = _ref6.code;
-        var redirectUri = _ref6.redirectUri;
+      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref7) {
+        var code = _ref7.code;
+        var redirectUri = _ref7.redirectUri;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -297,17 +343,16 @@ var Auth = function (_RcModule) {
                     redirectUri: redirectUri
                   }
                 });
-                _utils.emit.call(this, _authEvents.authEventTypes.loginStatusChanged, _authEvents.authEvents.loggingIn);
-                _context3.next = 4;
+                _context3.next = 3;
                 return this[symbols.platform].login({
                   code: code,
                   redirectUri: redirectUri
                 });
 
-              case 4:
+              case 3:
                 return _context3.abrupt('return', _context3.sent);
 
-              case 5:
+              case 4:
               case 'end':
                 return _context3.stop();
             }
@@ -316,7 +361,7 @@ var Auth = function (_RcModule) {
       }));
 
       function authorize(_x2) {
-        return _ref5.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return authorize;
@@ -331,7 +376,7 @@ var Auth = function (_RcModule) {
   }, {
     key: 'logout',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
         var _this3 = this;
 
         var handlers, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step;
@@ -341,8 +386,9 @@ var Auth = function (_RcModule) {
             switch (_context6.prev = _context6.next) {
               case 0:
                 // deal with removing subscriptions
-
-                _utils.emit.call(this, _authEvents.authEventTypes.loginStatusChanged, _authEvents.authEvents.loggingOut);
+                this.store.dispatch({
+                  type: this.actions.logout
+                });
                 handlers = [].concat((0, _toConsumableArray3.default)(this[symbols.beforeLogoutHandlers]));
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
@@ -452,7 +498,7 @@ var Auth = function (_RcModule) {
       }));
 
       function logout() {
-        return _ref7.apply(this, arguments);
+        return _ref8.apply(this, arguments);
       }
 
       return logout;
@@ -486,7 +532,7 @@ var Auth = function (_RcModule) {
   }, {
     key: 'isLoggedIn',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
         return _regenerator2.default.wrap(function _callee6$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
@@ -506,7 +552,7 @@ var Auth = function (_RcModule) {
       }));
 
       function isLoggedIn() {
-        return _ref9.apply(this, arguments);
+        return _ref10.apply(this, arguments);
       }
 
       return isLoggedIn;
@@ -516,6 +562,12 @@ var Auth = function (_RcModule) {
     get: function get() {
       return (0, _authReducer2.default)(this.prefix);
     }
+    /**
+     * @function
+     * @async
+     * @description Login function using username and password
+     */
+
   }, {
     key: 'status',
     get: function get() {
@@ -536,9 +588,13 @@ var Auth = function (_RcModule) {
     get: function get() {
       return CONSTANTS;
     }
+  }, {
+    key: 'ownerId',
+    get: function get() {
+      return this.state.token.owner_id;
+    }
   }]);
   return Auth;
-}(_rcModule2.default);
-
+}(_rcModule2.default), (_applyDecoratedDescriptor(_class.prototype, 'init', [_rcModule.initFunction], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'init'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'login', [_proxy.proxify], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'login'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'authorize', [_proxy.proxify], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'authorize'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'logout', [_proxy.proxify], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'logout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'addBeforeLogoutHandler', [_proxy.throwOnProxy], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'addBeforeLogoutHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeBeforeLogoutHandler', [_proxy.throwOnProxy], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'removeBeforeLogoutHandler'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'isLoggedIn', [_proxy.proxify], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'isLoggedIn'), _class.prototype)), _class);
 exports.default = Auth;
 //# sourceMappingURL=index.js.map
