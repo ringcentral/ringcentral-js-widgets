@@ -41,6 +41,7 @@ function walk(src, callback) {
       console.log(componentName);
       results.components.push(callback(content));
       results.components[results.components.length - 1].name = componentName;
+      results.components[results.components.length - 1].path = path.relative(`{__dirname}/../`, filename);
       next();
       const html = template(results);
       // console.log(html);

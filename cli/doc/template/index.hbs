@@ -467,12 +467,22 @@
       .component {
         margin-bottom: 4em;
       }
+      .name {
+        margin-bottom: 0;
+      }
+      .path {
+        font-size: .8em;
+        color: #ccc;
+        font-weight: lighter;
+        font-style: italic;
+      }
     </style>
   </head>
   <body>
     {{#each components}}
     <div id={{name}} class='component'>
-      <h1>{{name}}</h1>
+      <h1 class='name'>{{name}}</h1>
+      <a class='path' href='{{path}}'>{{path}}</a>
       <h5>{{description}}</h5>
 
       <div class='props'>
