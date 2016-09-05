@@ -23,15 +23,31 @@ function genDoc(src) {
       const prop = componentInfo.props[key];
 
       // flatten propTypes
-      while (prop.type && prop.type.value && prop.type.value.value) {
+      while (
+        prop.type &&
+        prop.type.value &&
+        prop.type.value.value &&
+        prop.type.value.name 
+        // because some prop named 'value', so we need to distinguish the reserved word(value)
+        // and word 'value'
+      ) {
+        if (prop.type.value.name === 'shape') {
+          // transform 'shape'
+          for (let key in prop.type.value.value) {
+            prop.type.value.value[key].value = `${key} : ${prop.type.value.value[key].name}`
+          }
+        }
         prop.type.name += ` ${prop.type.value.name}`;
         prop.type.value = prop.type.value.value;
         prop.type.type = prop.type.value.type;
+        
+        console.log(prop)
       }
+
+      // make camel case human-readable
       if (prop.type && prop.type.name) {
         prop.type.name = decamelize(prop.type.name, ' ');
       }
-      console.log(prop)
 
       if (prop.description && prop.description.indexOf('@link') !== -1) {
         
