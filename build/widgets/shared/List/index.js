@@ -3,17 +3,32 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ListItem = exports.List = undefined;
 
-var _List = require('./List.react');
+var _react = require('react');
 
-var _List2 = _interopRequireDefault(_List);
+var _react2 = _interopRequireDefault(_react);
 
-var _ListItem = require('./ListItem.react');
+var _style = require('../../../utils/style');
 
-var _ListItem2 = _interopRequireDefault(_ListItem);
+var _style2 = _interopRequireDefault(_style);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.List = _List2.default;
-exports.ListItem = _ListItem2.default;
+var _prefix = (0, _style2.default)(['list'], 'List');
+
+var list = _prefix.list;
+
+
+var List = function List(props) {
+  return _react2.default.createElement(
+    'div',
+    { className: list },
+    props.children
+  );
+};
+
+List.propTypes = {
+  children: _react2.default.PropTypes.node
+};
+
+exports.default = List;

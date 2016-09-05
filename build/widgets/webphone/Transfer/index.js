@@ -16,6 +16,8 @@ var _classnames2 = _interopRequireDefault(_classnames);
 
 var _AutoComplete = require('../../shared/AutoComplete/');
 
+var _AutoComplete2 = _interopRequireDefault(_AutoComplete);
+
 var _style = require('../../../utils/style');
 
 var _style2 = _interopRequireDefault(_style);
@@ -64,7 +66,7 @@ var Transfer = function (_React$Component) {
           { className: transferTitle },
           'Transfer to'
         ),
-        _react2.default.createElement(_AutoComplete.Input, {
+        _react2.default.createElement(_AutoComplete2.default, {
           onChange: function onChange(event) {
             return _this2.updateNumber(event);
           },

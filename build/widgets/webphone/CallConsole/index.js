@@ -18,7 +18,11 @@ var _style2 = _interopRequireDefault(_style);
 
 var _Icon = require('../../shared/Icon');
 
+var _Icon2 = _interopRequireDefault(_Icon);
+
 var _Ratio = require('../../shared/Ratio');
+
+var _Ratio2 = _interopRequireDefault(_Ratio);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -49,7 +53,7 @@ var CallConsole = function CallConsole(props) {
   }
   function ratio(child) {
     return _react2.default.createElement(
-      _Ratio.Ratio,
+      _Ratio2.default,
       { size: 2.6 },
       child
     );
@@ -70,7 +74,7 @@ var CallConsole = function CallConsole(props) {
             return props.handleHoldClick(!contain(props.status, 'HOLDING'));
           }
         },
-        ratio(_react2.default.createElement(_Icon.Icon, { id: contain(props.status, 'HOLDING') ? 'icon-uni35' : 'icon-uni28' })),
+        ratio(_react2.default.createElement(_Icon2.default, { id: contain(props.status, 'HOLDING') ? 'icon-uni35' : 'icon-uni28' })),
         _react2.default.createElement(
           'div',
           { className: word },
@@ -83,7 +87,7 @@ var CallConsole = function CallConsole(props) {
           className: (0, _classnames2.default)((_classNames2 = {}, _defineProperty(_classNames2, button, true), _defineProperty(_classNames2, disabled, isDisabled()), _classNames2)),
           onClick: isDisabled('dtmf') ? noop : props.handleKeypadClick
         },
-        ratio(_react2.default.createElement(_Icon.Icon, { id: 'icon-uni21' })),
+        ratio(_react2.default.createElement(_Icon2.default, { id: 'icon-uni21' })),
         _react2.default.createElement(
           'div',
           { className: word },
@@ -98,7 +102,7 @@ var CallConsole = function CallConsole(props) {
             return props.handleRecordClick(!contain(props.status, 'RECORDING'));
           }
         },
-        ratio(_react2.default.createElement(_Icon.Icon, { id: contain(props.status, 'RECORDING') ? 'icon-uni30' : 'icon-uni24' })),
+        ratio(_react2.default.createElement(_Icon2.default, { id: contain(props.status, 'RECORDING') ? 'icon-uni30' : 'icon-uni24' })),
         _react2.default.createElement(
           'div',
           { className: word },
@@ -115,7 +119,7 @@ var CallConsole = function CallConsole(props) {
           className: (0, _classnames2.default)((_classNames4 = {}, _defineProperty(_classNames4, button, true), _defineProperty(_classNames4, disabled, isDisabled('flip')), _classNames4)),
           onClick: isDisabled('flip') ? noop : props.handleFlipClick
         },
-        ratio(_react2.default.createElement(_Icon.Icon, { id: 'icon-uni27' })),
+        ratio(_react2.default.createElement(_Icon2.default, { id: 'icon-uni27' })),
         _react2.default.createElement(
           'div',
           { className: word },
@@ -128,7 +132,7 @@ var CallConsole = function CallConsole(props) {
           className: (0, _classnames2.default)((_classNames5 = {}, _defineProperty(_classNames5, button, true), _defineProperty(_classNames5, disabled, isDisabled('transfer')), _classNames5)),
           onClick: isDisabled('transfer') ? noop : props.handleTransferClick
         },
-        ratio(_react2.default.createElement(_Icon.Icon, { id: 'icon-uni23' })),
+        ratio(_react2.default.createElement(_Icon2.default, { id: 'icon-uni23' })),
         _react2.default.createElement(
           'div',
           { className: word },
@@ -141,7 +145,7 @@ var CallConsole = function CallConsole(props) {
           className: (0, _classnames2.default)((_classNames6 = {}, _defineProperty(_classNames6, button, true), _defineProperty(_classNames6, disabled, isDisabled('park')), _classNames6)),
           onClick: isDisabled('park') ? noop : props.handleParkClick
         },
-        ratio(_react2.default.createElement(_Icon.Icon, { id: 'icon-uni22' })),
+        ratio(_react2.default.createElement(_Icon2.default, { id: 'icon-uni22' })),
         _react2.default.createElement(
           'div',
           { className: word },
@@ -153,7 +157,7 @@ var CallConsole = function CallConsole(props) {
 };
 
 CallConsole.propTypes = {
-  status: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.oneOf(['RECORDING', 'HOLDING'])),
+  status: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.oneOf(['RECORDING', 'HOLDING', 'MUTED'])),
   disabledOperation: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.oneOf(['record', 'flip', 'transfer', 'park'])),
   disabled: _react2.default.PropTypes.bool,
   handleHoldClick: _react2.default.PropTypes.func,

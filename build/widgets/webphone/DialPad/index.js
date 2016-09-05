@@ -18,11 +18,13 @@ var _googleLibphonenumber = require('google-libphonenumber');
 
 var _googleLibphonenumber2 = _interopRequireDefault(_googleLibphonenumber);
 
-var _Panel = require('../../shared/Panel/');
-
 var _AutoComplete = require('../../shared/AutoComplete/');
 
+var _AutoComplete2 = _interopRequireDefault(_AutoComplete);
+
 var _Icon = require('../../shared/Icon');
+
+var _Icon2 = _interopRequireDefault(_Icon);
 
 var _Dialer = require('../Dialer');
 
@@ -72,7 +74,7 @@ var DialPad = function (_React$PureComponent) {
 
     return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(DialPad)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {
       dialingNumber: '',
-      caller: _this.props.userNumbers[0]
+      caller: _this.props.userNumbers ? _this.props.userNumbers[0] : null
     }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
@@ -174,12 +176,12 @@ var DialPad = function (_React$PureComponent) {
           })
         ),
         _react2.default.createElement(
-          _Panel.PanelContent,
+          'div',
           null,
           _react2.default.createElement(
             'div',
             null,
-            _react2.default.createElement(_AutoComplete.Input, {
+            _react2.default.createElement(_AutoComplete2.default, {
               className: phoneInput,
               onChange: this.boundHandleChange,
               value: this.state.dialingNumber,
@@ -193,7 +195,7 @@ var DialPad = function (_React$PureComponent) {
           )
         ),
         _react2.default.createElement(
-          _Panel.PanelFooter,
+          'div',
           null,
           _react2.default.createElement(
             'div',
@@ -204,7 +206,7 @@ var DialPad = function (_React$PureComponent) {
                 className: callButton,
                 onClick: this.boundHandleCallClick
               },
-              _react2.default.createElement(_Icon.Icon, { id: 'icon-uniAE' })
+              _react2.default.createElement(_Icon2.default, { id: 'icon-uniAE' })
             )
           )
         )
@@ -217,12 +219,16 @@ var DialPad = function (_React$PureComponent) {
 
 DialPad.propTypes = {
   disabled: _react2.default.PropTypes.bool,
-  contacts: _react2.default.PropTypes.object,
+  contacts: _react2.default.PropTypes.array,
   userNumbers: _react2.default.PropTypes.array,
   call: _react2.default.PropTypes.func,
   remoteMedia: _react2.default.PropTypes.any,
   localMedia: _react2.default.PropTypes.any,
   getString: _react2.default.PropTypes.func,
   loadRingAudio: _react2.default.PropTypes.func
+};
+DialPad.defaultProps = {
+  userNumbers: [],
+  contacts: []
 };
 exports.default = DialPad;

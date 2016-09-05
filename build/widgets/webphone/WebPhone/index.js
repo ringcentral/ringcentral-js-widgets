@@ -81,8 +81,20 @@ var WebPhone = function WebPhone(props) {
 };
 
 WebPhone.propTypes = {
+  /**
+   * @link ActiveCall
+   * Props pass to <ActiveCall /> components.
+   */
   activeCall: _react2.default.PropTypes.object,
+  /**
+   * @link IncomingCall
+   * Props pass to <IncomingCall /> components.
+   */
   incomingCall: _react2.default.PropTypes.object,
+  /**
+   * @link DialPad
+   * Props pass to <DialPad /> components.
+   */
   dialPad: _react2.default.PropTypes.object,
 
   enums: _react2.default.PropTypes.object,

@@ -10,6 +10,12 @@ var _react2 = _interopRequireDefault(_react);
 
 var _List = require('../../shared/List/');
 
+var _List2 = _interopRequireDefault(_List);
+
+var _ListItem = require('../../shared/ListItem/');
+
+var _ListItem2 = _interopRequireDefault(_ListItem);
+
 var _style = require('../../../utils/style');
 
 var _style2 = _interopRequireDefault(_style);
@@ -35,11 +41,11 @@ var Flip = function Flip(props) {
       'Flip to'
     ),
     _react2.default.createElement(
-      _List.List,
+      _List2.default,
       null,
       props.numbers.map(function (number, index) {
         return _react2.default.createElement(
-          _List.ListItem,
+          _ListItem2.default,
           {
             className: flipItem,
             key: index,

@@ -24,6 +24,8 @@ var _style2 = _interopRequireDefault(_style);
 
 var _Icon = require('../../shared/Icon');
 
+var _Icon2 = _interopRequireDefault(_Icon);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -93,7 +95,7 @@ var CallerBar = function (_React$Component) {
         _react2.default.createElement(
           'div',
           { className: callerIcon },
-          _react2.default.createElement(_Icon.Icon, { id: 'icon-uni2463' })
+          _react2.default.createElement(_Icon2.default, { id: 'icon-uni2463' })
         ),
         this.state.isDropdownOpen ? _react2.default.createElement(_Dropdown2.default, {
           items: this.props.numbers,

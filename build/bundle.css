@@ -659,17 +659,16 @@
 .List__list {
 
 }
-
-.List__listItem {
+.ListItem__listItem {
   border-bottom: 1px solid #eee;
   background-color: #fff;
 }
 
-.List__listItem.List__clickable {
+.ListItem__listItem.ListItem__clickable {
   cursor: pointer;
 }
 
-.List__listItem.List__clickable:hover {
+.ListItem__listItem.ListItem__clickable:hover {
   background-color: #fafafa;
 }
 .ActiveCall__container {
@@ -931,7 +930,7 @@
   outline: 0;
   width: 100%;
   outline: 0;
-  font-size: .4em;
+  font-size: .8em;
   padding: .4em .5em;
   text-align: center;
   background-color: #fff;

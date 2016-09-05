@@ -18,6 +18,8 @@ var _classnames2 = _interopRequireDefault(_classnames);
 
 var _Ratio = require('../../shared/Ratio/');
 
+var _Ratio2 = _interopRequireDefault(_Ratio);
+
 var _Flip = require('../Flip');
 
 var _Flip2 = _interopRequireDefault(_Flip);
@@ -65,6 +67,14 @@ var container = _prefix.container;
 
 
 var durationInterval = void 0;
+
+/**
+ * When accept an incoming call or make a outbound call, this component need to be displayed.
+ * This component display current status and avaliable operations of active phone call.
+ * By default it support 7 operations (Transfer, Flip, Record, Hold, DTMF, Park, and Mute).
+ * Some operations are mutual exclusive like Hold and Record,
+ * you can use operationStatus to inform the panel which state the phone call is in. 
+ */
 
 var ActiveCall = function (_React$PureComponent) {
   _inherits(ActiveCall, _React$PureComponent);
@@ -133,7 +143,7 @@ var ActiveCall = function (_React$PureComponent) {
             { className: (0, _classnames2.default)(main, container) },
             _react2.default.createElement(_CallInfo2.default, _extends({}, _this3.props.callInfo, { duration: _this3.state.duration })),
             _react2.default.createElement(
-              _Ratio.Ratio,
+              _Ratio2.default,
               { size: 0.9 },
               _react2.default.createElement(_Dialer2.default, { handleClick: function handleClick(number) {
                   return _this3.props.dtmf(number);
@@ -218,18 +228,50 @@ var ActiveCall = function (_React$PureComponent) {
 }(_react2.default.PureComponent);
 
 ActiveCall.propTypes = {
+  /**
+   * @link Flip
+   * Props pass to <Flip /> components.
+   */
   flip: _react2.default.PropTypes.object,
+  /**
+   * @link Transfer
+   * Props pass to <Transfer /> components.
+   */
   transfer: _react2.default.PropTypes.object,
+  /**
+   * @link CallInfo
+   * Props pass to <CallInfo /> components.
+   */
   callInfo: _react2.default.PropTypes.object,
 
+  /**
+   * Method bind to the button which at right-bottom corner.
+   */
   bye: _react2.default.PropTypes.func,
   park: _react2.default.PropTypes.func,
   record: _react2.default.PropTypes.func,
   hold: _react2.default.PropTypes.func,
+  /**
+   * Method bind to the button which at left-bottom corner.
+   */
   mute: _react2.default.PropTypes.func,
   dtmf: _react2.default.PropTypes.func,
-  disabledOperation: _react2.default.PropTypes.array,
-  operationStatus: _react2.default.PropTypes.array,
+  /**
+   * Operation which is disabled will display in grey color.
+   */
+  disabledOperation: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.oneOf(['record', 'flip', 'transfer', 'park'])),
+  /**
+   * Current status of each operations.
+   */
+  operationStatus: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.oneOf(['RECORDING', 'HOLDING', 'MUTED'])),
+  /**
+   * Current phone call status.
+   */
   webphoneStatus: _react2.default.PropTypes.oneOf(['CALL_CONNECTED', 'CALL_CONNECTING'])
+};
+ActiveCall.defaultProps = {
+  disabledOperation: [],
+  operationStatus: [],
+  webphoneStatus: 'CALL_CONNECTING'
 };
 exports.default = ActiveCall;

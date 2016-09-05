@@ -9,10 +9,10 @@
     "build": "node_modules/.bin/babel src --out-dir build --copy-files",
     "dist": "node node_modules/webpack/bin/webpack.js",
     "watch": "node node_modules/webpack/bin/webpack.js --watch",
-    "showcase": "node ./node_modules/babel-cli/bin/babel-node.js  cli/theme/index.js",
-    "theme": "node ./node_modules/babel-cli/bin/babel-node.js  cli/dependency/index.js",
+    "showcase": "node ./node_modules/babel-cli/bin/babel-node.js  cli/dependency/index.js",
+    "theme": "node ./node_modules/babel-cli/bin/babel-node.js  cli/theme/index.js",
     "test-data": "node ./node_modules/babel-cli/bin/babel-node.js  cli/test/index.js",
-    "release": "npm run build && node ./node_modules/babel-cli/bin/babel-node.js  cli/release/index.js"
+    "release": "npm run build && npm run theme && node ./node_modules/babel-cli/bin/babel-node.js  cli/release/index.js"
   },
   "main": "build/widgets/components.js",
   "devDependencies": {
