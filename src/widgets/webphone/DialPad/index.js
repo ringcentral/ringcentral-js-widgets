@@ -20,7 +20,7 @@ const { main, container, line, bar, callButton, phoneInput } =
 export default class DialPad extends React.PureComponent {
   static propTypes = {
     disabled: React.PropTypes.bool,
-    contacts: React.PropTypes.object,
+    contacts: React.PropTypes.array,
     userNumbers: React.PropTypes.array,
     call: React.PropTypes.func,
     remoteMedia: React.PropTypes.any,
@@ -31,7 +31,12 @@ export default class DialPad extends React.PureComponent {
 
   state = {
     dialingNumber: '',
-    caller: this.props.userNumbers[0],
+    caller: this.props.userNumbers ? this.props.userNumbers[0] : null,
+  }
+
+  static defaultProps = {
+    userNumbers: [],
+    contacts: [],
   }
 
   componentWillMount() {
