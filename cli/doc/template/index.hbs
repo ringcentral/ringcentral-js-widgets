@@ -470,11 +470,18 @@
       .name {
         margin-bottom: 0;
       }
+      .description {
+        margin-top: .5em;
+        font-size: .9em;
+      }
       .path {
         font-size: .8em;
         color: #ccc;
         font-weight: lighter;
         font-style: italic;
+      }
+      .small {
+        font-size: .6em;
       }
     </style>
   </head>
@@ -483,8 +490,11 @@
     <div id={{name}} class='component'>
       <h1 class='name'>{{name}}</h1>
       <a class='path' href='{{path}}'>{{path}}</a>
-      <h5>{{description}}</h5>
-
+      <div class='description'>
+        {{#each description}}
+        <div>{{this}}</div>
+        {{/each}}
+      </div>
       <div class='props'>
         <h3>Props</h3>
         <table class='table'>
@@ -504,10 +514,19 @@
                 <a href="#{{this.type.link.href}}">{{this.type.name}}</a>
               </td>
             {{else}}
-              <td class='short'>{{this.type.name}}</td>
+              <td class='short'>
+                {{this.type.name}}
+                <div class='small'>
+                  {{#each this.type.value}}
+                    <div>{{this.value}}</div>
+                  {{/each}}
+                </div>
+              </td>
             {{/if}}
             <td class='short'>{{this.defaultValue.value}}</td>    
-            <td class='long'>{{this.description}}</td>
+            <td class='long'>
+              {{this.description}}
+            </td>
           </tr> 
           {{/each}}
         </table>

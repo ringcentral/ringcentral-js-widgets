@@ -15,13 +15,13 @@ function genDoc(src) {
     console.error(err);
   }
   if (componentInfo) {
+    componentInfo.description = componentInfo.description.split(/[\r\n]+/)
     for (let key in componentInfo.props) {
       const prop = componentInfo.props[key];
       if (prop.description && prop.description.indexOf('@link') !== -1) {
         const tokens = prop.description.split(/[\n\r\s]+/);
         const href = tokens[tokens.indexOf('@link') + 1];
         prop.description = prop.description.replace(/@link[\s]+.*[\n\r\s]+/g, '')
-        console.log(prop.description)
         prop.type.link = {
           href,
         };
@@ -42,6 +42,7 @@ function walk(src, callback) {
       const componentName = tokens[tokens.length - 2];
       console.log(componentName);
       results.components.push(callback(content));
+      console.log(results.components)
       results.components[results.components.length - 1].name = componentName;
       results.components[results.components.length - 1].path = path.relative(`{__dirname}/../`, filename);
       next();

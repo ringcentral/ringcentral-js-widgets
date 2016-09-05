@@ -18,6 +18,13 @@ const { main, container } =
 
 let durationInterval;
 
+/**
+ * When accept an incoming call or make a outbound call, this component need to be displayed.
+ * This component display current status and avaliable operations of active phone call.
+ * By default it support 7 operations (Transfer, Flip, Record, Hold, DTMF, Park, and Mute).
+ * Some operations are mutual exclusive like Hold and Record,
+ * you can use operationStatus to inform the panel which state the phone call is in. 
+ */
 export default class ActiveCall extends React.PureComponent {
 
   static propTypes = {
@@ -38,25 +45,29 @@ export default class ActiveCall extends React.PureComponent {
     callInfo: React.PropTypes.object,
 
     /**
-     * Method bind to the button at right-bottom corner.
+     * Method bind to the button which at right-bottom corner.
      */
     bye: React.PropTypes.func,
     park: React.PropTypes.func,
     record: React.PropTypes.func,
     hold: React.PropTypes.func,
     /**
-     * Method bind to the button at left-bottom corner.
+     * Method bind to the button which at left-bottom corner.
      */
     mute: React.PropTypes.func,
     dtmf: React.PropTypes.func,
     /**
-     * Operation which is disabled will display as grey color.
+     * Operation which is disabled will display in grey color.
      */
-    disabledOperation: React.PropTypes.array,
+    disabledOperation: React.PropTypes.arrayOf(
+      React.PropTypes.oneOf(['record', 'flip', 'transfer', 'park'])
+    ),
     /**
      * Current status of each operations.
      */
-    operationStatus: React.PropTypes.array,
+    operationStatus: React.PropTypes.arrayOf(
+      React.PropTypes.oneOf(['RECORDING', 'HOLDING', 'MUTED'])
+    ),
     /**
      * Current phone call status.
      */

@@ -101,7 +101,7 @@ const CallConsole = (props) => {
 
 CallConsole.propTypes = {
   status: React.PropTypes.arrayOf(
-    React.PropTypes.oneOf(['RECORDING', 'HOLDING'])
+    React.PropTypes.oneOf(['RECORDING', 'HOLDING', 'MUTED'])
   ),
   disabledOperation: React.PropTypes.arrayOf(
     React.PropTypes.oneOf(['record', 'flip', 'transfer', 'park'])
