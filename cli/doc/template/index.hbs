@@ -428,10 +428,28 @@
       */
       body {
         width: 800px;
-        margin: 5em auto;
+        margin: 4em auto;
         color: #333;
         background-color: #fafafa;
+        font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, serif;
       }
+      h3 {
+        margin-top: 2em;
+        margin-bottom: .3em;
+      }
+      aside {
+        position: fixed;
+        font-size: .8em;
+        top: 5em;
+        left: 2em;
+      }
+      aside > div {
+        margin-bottom: .2em;
+      }
+      aside a:link { color:#333;}
+      aside a:visited { color:#333; }
+      aside a:hover { color:#777; }
+      aside a:active { color:#ddd; }
       .table {
         width: 100%;
         border-collapse: collapse;
@@ -443,7 +461,7 @@
         text-align: left;
         padding-top: .5em;
         padding-right: .5em;
-        font-size: .9em;
+        font-size: .8em;
       }
       .table td.short {
         width: 20%;
@@ -483,7 +501,10 @@
       }
       .description {
         margin-top: .5em;
-        font-size: .9em;
+        font-size: .8em;
+      }
+      .description div {
+        margin-bottom: 3px;
       }
       .path {
         font-size: .8em;
@@ -499,6 +520,7 @@
         float: left;
       }
       .ex {
+        font-family: sans-serif;
         position: relative;
         background: #fff;
         width: 250px;
@@ -516,69 +538,78 @@
     </style>
   </head>
   <body>
-    {{#each components}}
-    <div id={{name}} class='component'>
-      <div class='doc'>
-        <h1 class='name'>{{name}}</h1>
-        <a class='path' href='{{path}}'>{{path}}</a>
-        <div class='description'>
-          {{#each description}}
-          <div>{{this}}</div>
-          {{/each}}
-        </div>
-        <div class='dep'>
-          <h3>Dependencies</h3>
-          <div class='deps'>
-            {{#if dependency}}
-            {{#each dependency}}
-              <a href='#{{this}}'><span>{{this}}</span></a>
+    <main>
+      {{#each components}}
+      <div id={{name}} class='component'>
+        <div class='doc'>
+          <h1 class='name'>{{name}}</h1>
+          <a class='path' href='{{path}}'>{{path}}</a>
+          <div class='description'>
+            {{#each description}}
+            <div>{{this}}</div>
             {{/each}}
-            {{else}}
-              <span>None</span>
-            {{/if}}
+          </div>
+          <div class='dep'>
+            <h3>Dependencies</h3>
+            <div class='deps'>
+              {{#if dependency}}
+              {{#each dependency}}
+                <a href='#{{this}}'><span>{{this}}</span></a>
+              {{/each}}
+              {{else}}
+                <span>None</span>
+              {{/if}}
+            </div>
+          </div>
+          <div class='props'>
+            <h3>Props</h3>
+            <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
+              <thead>
+                <tr>
+                  <th class='short'>Name</td>
+                  <th class='short'>Type</td>       
+                  <th class='short'>Default</td>    
+                  <th class='long'>Description</td>
+                </tr> 
+              </thead>
+              {{#each props}}
+              <tr>
+                <td class='short important'>{{@key}}</td>
+                {{#if this.type.link}}
+                  <td class='short'>
+                    <a href="#{{this.type.link.href}}">{{this.type.name}}</a>
+                  </td>
+                {{else}}
+                  <td class='short'>
+                    {{this.type.name}}
+                    <div class='small'>
+                      {{#each this.type.value}}
+                        <div>{{this.value}}</div>
+                      {{/each}}
+                    </div>
+                  </td>
+                {{/if}}
+                <td class='short'>{{this.defaultValue.value}}</td>    
+                <td class='long'>
+                  {{this.description}}
+                </td>
+              </tr> 
+              {{/each}}
+            </table>
           </div>
         </div>
-        <div class='props'>
-          <h3>Props</h3>
-          <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
-            <thead>
-              <tr>
-                <th class='short'>Name</td>
-                <th class='short'>Type</td>       
-                <th class='short'>Default</td>    
-                <th class='long'>Description</td>
-              </tr> 
-            </thead>
-            {{#each props}}
-            <tr>
-              <td class='short important'>{{@key}}</td>
-              {{#if this.type.link}}
-                <td class='short'>
-                  <a href="#{{this.type.link.href}}">{{this.type.name}}</a>
-                </td>
-              {{else}}
-                <td class='short'>
-                  {{this.type.name}}
-                  <div class='small'>
-                    {{#each this.type.value}}
-                      <div>{{this.value}}</div>
-                    {{/each}}
-                  </div>
-                </td>
-              {{/if}}
-              <td class='short'>{{this.defaultValue.value}}</td>    
-              <td class='long'>
-                {{this.description}}
-              </td>
-            </tr> 
-            {{/each}}
-          </table>
+        <div class='ex'>
+          {{{example}}}
         </div>
       </div>
-      <div class='ex'>
-        {{{example}}}
+      {{/each}}
+    </main>
+    <aside>
+      {{#each components}}
+      <div>
+        <a href='#{{name}}'>{{name}}</a>
       </div>
-    </div>
-    {{/each}}
+      {{/each}}
+    </aside>
   </body>
 </html>

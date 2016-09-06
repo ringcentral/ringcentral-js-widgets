@@ -3,15 +3,27 @@ import prefix from '../../../utils/style';
 
 const { auth, loginButton } = prefix(['auth', 'loginButton', 'AuthPanel'], 'AuthPanel');
 
-class AuthPanel extends React.Component {
+/**
+ * OAuth 2.0 panel
+ */
+export default class AuthPanel extends React.Component {
 
   static propTypes = {
     /**
-     * type: url
+     * redirect uri for OAuth
      */
     redirectUri: React.PropTypes.string,
+    /**
+     * After we get the code, will call the function to authorize the service `authorize({ code, redirectUri })`
+     */
     authorize: React.PropTypes.func,
+    /**
+     * the url of OAuth login page, or a function return a string
+     */
     loginUrl: React.PropTypes.func,
+    /**
+     * Return the OAuth code string or a function return the code
+     */
     parseLoginUrl: React.PropTypes.func,
   }
 
@@ -34,7 +46,6 @@ class AuthPanel extends React.Component {
     const oauthChannel = (e) => {
       if (e.data.type === 'oauth') {
         const { code } = this.props.parseLoginUrl(e.data.value);
-        console.log(code);
         this.setState({ isOauthOpened: false });
         this.props.authorize({ code, redirectUri });
         window.removeEventListener('message', oauthChannel);
@@ -64,5 +75,3 @@ class AuthPanel extends React.Component {
     );
   }
 }
-
-export default AuthPanel;
