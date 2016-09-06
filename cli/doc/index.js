@@ -4,6 +4,8 @@ const dir = require('node-dir');
 const fs = require('fs');
 const decamelize = require('decamelize');
 
+const detective = require('detective-es6');
+
 const SSR = require('./render');
 
 const Handlebars = require('handlebars');
@@ -12,10 +14,21 @@ const template = Handlebars.compile(source);
 
 const DOC_POSITION = 'doc.html';
 
+function hasUpperCase(str) {
+  return (/[A-Z]/.test(str));
+}
+
+
 function genDoc(src) {
   let componentInfo;
+  let dependency;
   try {
     componentInfo = docs.parse(src);
+    dependency = detective(src)
+      .filter(hasUpperCase)
+      .map(dep => dep.split(path.sep).pop())
+      .filter(dep => !!dep); // remove null and empty string
+    componentInfo.dependency = dependency;
   } catch (err) {
     console.error(err);
   }

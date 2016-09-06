@@ -436,11 +436,14 @@
         width: 100%;
         border-collapse: collapse;
         font-size: .9em;
+        margin-bottom: 1em;
       }
       .table td {
         width: 25%;
         text-align: left;
         padding-top: .5em;
+        padding-right: .5em;
+        font-size: .9em;
       }
       .table td.short {
         width: 20%;
@@ -459,6 +462,7 @@
         width: 25%;
         text-align: left;
         padding-top: .5em;
+        padding-right: .5em;
       }
       .table th.short {
         width: 20%;
@@ -467,9 +471,12 @@
         width: 40%;
       }
       .component {
-        margin-bottom: 4em;
+        margin-bottom: 2em;
         overflow: auto;
         zoom: 1;
+        background: #fefefe;
+        border: 1px solid #eee;
+        padding-left: 1em;
       }
       .name {
         margin-bottom: 0;
@@ -493,11 +500,18 @@
       }
       .ex {
         position: relative;
+        background: #fff;
         width: 250px;
         height: 400px;
         float: right;
         border: 1px solid #eee;
         margin: 10px;
+      }
+      .deps {
+        font-size: .8em;
+      }
+      .deps span {
+        padding-right: .1em;
       }
     </style>
   </head>
@@ -508,6 +522,12 @@
         <a class='path' href='src/widgets/auth/AuthPanel/index.js'>src/widgets/auth/AuthPanel/index.js</a>
         <div class='description'>
           <div></div>
+        </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <span>None</span>
+          </div>
         </div>
         <div class='props'>
           <h3>Props</h3>
@@ -581,6 +601,12 @@
         <a class='path' href='src/widgets/shared/AutoComplete/index.js'>src/widgets/shared/AutoComplete/index.js</a>
         <div class='description'>
           <div></div>
+        </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <span>None</span>
+          </div>
         </div>
         <div class='props'>
           <h3>Props</h3>
@@ -667,6 +693,12 @@
         <div class='description'>
           <div></div>
         </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <span>None</span>
+          </div>
+        </div>
         <div class='props'>
           <h3>Props</h3>
           <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
@@ -691,6 +723,12 @@
         <a class='path' href='src/widgets/shared/List/index.js'>src/widgets/shared/List/index.js</a>
         <div class='description'>
           <div></div>
+        </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <span>None</span>
+          </div>
         </div>
         <div class='props'>
           <h3>Props</h3>
@@ -728,6 +766,12 @@
         <a class='path' href='src/widgets/shared/ListItem/index.js'>src/widgets/shared/ListItem/index.js</a>
         <div class='description'>
           <div></div>
+        </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <span>None</span>
+          </div>
         </div>
         <div class='props'>
           <h3>Props</h3>
@@ -802,6 +846,12 @@
         <div class='description'>
           <div></div>
         </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <span>None</span>
+          </div>
+        </div>
         <div class='props'>
           <h3>Props</h3>
           <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
@@ -854,6 +904,18 @@
           <div>By default it support 7 operations (Transfer, Flip, Record, Hold, DTMF, Park, and Mute).</div>
           <div>Some operations are mutual exclusive like Hold and Record,</div>
           <div>you can use operationStatus to inform the panel which state the phone call is in.</div>
+        </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <a href='#Flip'><span>Flip</span></a>
+              <a href='#Transfer'><span>Transfer</span></a>
+              <a href='#CallConsole'><span>CallConsole</span></a>
+              <a href='#Dialer'><span>Dialer</span></a>
+              <a href='#CallInfo'><span>CallInfo</span></a>
+              <a href='#CallFooter'><span>CallFooter</span></a>
+              <a href='#Closable'><span>Closable</span></a>
+          </div>
         </div>
         <div class='props'>
           <h3>Props</h3>
@@ -1027,6 +1089,14 @@
         <div class='description'>
           <div></div>
         </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <a href='#CallInfo'><span>CallInfo</span></a>
+              <a href='#CallFooter'><span>CallFooter</span></a>
+              <a href='#Note'><span>Note</span></a>
+          </div>
+        </div>
         <div class='props'>
           <h3>Props</h3>
           <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
@@ -1101,6 +1171,13 @@
         <a class='path' href='src/widgets/webphone/CallConsole/index.js'>src/widgets/webphone/CallConsole/index.js</a>
         <div class='description'>
           <div></div>
+        </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <a href='#Icon'><span>Icon</span></a>
+              <a href='#Ratio'><span>Ratio</span></a>
+          </div>
         </div>
         <div class='props'>
           <h3>Props</h3>
@@ -1242,6 +1319,12 @@
         <div class='description'>
           <div></div>
         </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <a href='#Icon'><span>Icon</span></a>
+          </div>
+        </div>
         <div class='props'>
           <h3>Props</h3>
           <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
@@ -1315,6 +1398,12 @@
         <div class='description'>
           <div></div>
         </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <span>None</span>
+          </div>
+        </div>
         <div class='props'>
           <h3>Props</h3>
           <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
@@ -1363,6 +1452,13 @@
         <a class='path' href='src/widgets/webphone/CallerBar/index.js'>src/widgets/webphone/CallerBar/index.js</a>
         <div class='description'>
           <div></div>
+        </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <a href='#Dropdown'><span>Dropdown</span></a>
+              <a href='#Icon'><span>Icon</span></a>
+          </div>
         </div>
         <div class='props'>
           <h3>Props</h3>
@@ -1437,6 +1533,12 @@
         <div class='description'>
           <div></div>
         </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <span>None</span>
+          </div>
+        </div>
         <div class='props'>
           <h3>Props</h3>
           <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
@@ -1497,6 +1599,14 @@
         <a class='path' href='src/widgets/webphone/DialPad/index.js'>src/widgets/webphone/DialPad/index.js</a>
         <div class='description'>
           <div></div>
+        </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <a href='#Icon'><span>Icon</span></a>
+              <a href='#Dialer'><span>Dialer</span></a>
+              <a href='#CallerBar'><span>CallerBar</span></a>
+          </div>
         </div>
         <div class='props'>
           <h3>Props</h3>
@@ -1619,6 +1729,12 @@
         <div class='description'>
           <div></div>
         </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <span>None</span>
+          </div>
+        </div>
         <div class='props'>
           <h3>Props</h3>
           <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
@@ -1668,6 +1784,12 @@
         <div class='description'>
           <div></div>
         </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <a href='#DropdownItem'><span>DropdownItem</span></a>
+          </div>
+        </div>
         <div class='props'>
           <h3>Props</h3>
           <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
@@ -1716,6 +1838,12 @@
         <a class='path' href='src/widgets/webphone/DropdownItem/index.js'>src/widgets/webphone/DropdownItem/index.js</a>
         <div class='description'>
           <div></div>
+        </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <span>None</span>
+          </div>
         </div>
         <div class='props'>
           <h3>Props</h3>
@@ -1802,6 +1930,12 @@
         <div class='description'>
           <div></div>
         </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <span>None</span>
+          </div>
+        </div>
         <div class='props'>
           <h3>Props</h3>
           <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
@@ -1865,6 +1999,12 @@
         <div class='description'>
           <div></div>
         </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <a href='#CallFooter'><span>CallFooter</span></a>
+          </div>
+        </div>
         <div class='props'>
           <h3>Props</h3>
           <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
@@ -1926,6 +2066,12 @@
         <div class='description'>
           <div></div>
         </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <span>None</span>
+          </div>
+        </div>
         <div class='props'>
           <h3>Props</h3>
           <table class='table' cellpadding="0" cellspacing="0" width="100%" border="0">
@@ -1950,6 +2096,12 @@
         <a class='path' href='src/widgets/webphone/Transfer/index.js'>src/widgets/webphone/Transfer/index.js</a>
         <div class='description'>
           <div></div>
+        </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <span>None</span>
+          </div>
         </div>
         <div class='props'>
           <h3>Props</h3>
@@ -1987,6 +2139,15 @@
         <a class='path' href='src/widgets/webphone/WebPhone/index.js'>src/widgets/webphone/WebPhone/index.js</a>
         <div class='description'>
           <div></div>
+        </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+              <a href='#DialPad'><span>DialPad</span></a>
+              <a href='#ActiveCall'><span>ActiveCall</span></a>
+              <a href='#ActiveCallWithNote'><span>ActiveCallWithNote</span></a>
+              <a href='#IncomingCall'><span>IncomingCall</span></a>
+          </div>
         </div>
         <div class='props'>
           <h3>Props</h3>

@@ -436,11 +436,14 @@
         width: 100%;
         border-collapse: collapse;
         font-size: .9em;
+        margin-bottom: 1em;
       }
       .table td {
         width: 25%;
         text-align: left;
         padding-top: .5em;
+        padding-right: .5em;
+        font-size: .9em;
       }
       .table td.short {
         width: 20%;
@@ -459,6 +462,7 @@
         width: 25%;
         text-align: left;
         padding-top: .5em;
+        padding-right: .5em;
       }
       .table th.short {
         width: 20%;
@@ -467,9 +471,12 @@
         width: 40%;
       }
       .component {
-        margin-bottom: 4em;
+        margin-bottom: 2em;
         overflow: auto;
         zoom: 1;
+        background: #fefefe;
+        border: 1px solid #eee;
+        padding-left: 1em;
       }
       .name {
         margin-bottom: 0;
@@ -493,11 +500,18 @@
       }
       .ex {
         position: relative;
+        background: #fff;
         width: 250px;
         height: 400px;
         float: right;
         border: 1px solid #eee;
         margin: 10px;
+      }
+      .deps {
+        font-size: .8em;
+      }
+      .deps span {
+        padding-right: .1em;
       }
     </style>
   </head>
@@ -511,6 +525,18 @@
           {{#each description}}
           <div>{{this}}</div>
           {{/each}}
+        </div>
+        <div class='dep'>
+          <h3>Dependencies</h3>
+          <div class='deps'>
+            {{#if dependency}}
+            {{#each dependency}}
+              <a href='#{{this}}'><span>{{this}}</span></a>
+            {{/each}}
+            {{else}}
+              <span>None</span>
+            {{/if}}
+          </div>
         </div>
         <div class='props'>
           <h3>Props</h3>
