@@ -3,9 +3,8 @@ import classNames from 'classnames';
 
 import LPN from 'google-libphonenumber';
 
-import { PanelHeader, PanelContent, PanelFooter } from '../../shared/Panel/';
-import { Input } from '../../shared/AutoComplete/';
-import { Icon } from '../../shared/Icon';
+import Input from '../../shared/AutoComplete/';
+import Icon from '../../shared/Icon';
 
 import Dialer from '../Dialer';
 import CallerBar from '../CallerBar';
@@ -21,7 +20,7 @@ const { main, container, line, bar, callButton, phoneInput } =
 export default class DialPad extends React.PureComponent {
   static propTypes = {
     disabled: React.PropTypes.bool,
-    contacts: React.PropTypes.object,
+    contacts: React.PropTypes.array,
     userNumbers: React.PropTypes.array,
     call: React.PropTypes.func,
     remoteMedia: React.PropTypes.any,
@@ -32,7 +31,12 @@ export default class DialPad extends React.PureComponent {
 
   state = {
     dialingNumber: '',
-    caller: this.props.userNumbers[0],
+    caller: this.props.userNumbers ? this.props.userNumbers[0] : null,
+  }
+
+  static defaultProps = {
+    userNumbers: [],
+    contacts: [],
   }
 
   componentWillMount() {
@@ -111,7 +115,7 @@ export default class DialPad extends React.PureComponent {
             getString={this.props.getString}
           />
         </div>
-        <PanelContent>
+        <div>
           <div>
             <Input
               className={phoneInput}
@@ -123,8 +127,8 @@ export default class DialPad extends React.PureComponent {
               <Dialer handleClick={this.boundHandleClick} />
             </div>
           </div>
-        </PanelContent>
-        <PanelFooter>
+        </div>
+        <div>
           <div className={line}>
             <button
               className={callButton}
@@ -133,7 +137,7 @@ export default class DialPad extends React.PureComponent {
               <Icon id={'icon-uniAE'} />
             </button>
           </div>
-        </PanelFooter>
+        </div>
       </div>
     );
   }

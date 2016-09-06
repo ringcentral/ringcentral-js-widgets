@@ -50,8 +50,20 @@ const WebPhone = (props) => {
 };
 
 WebPhone.propTypes = {
+  /**
+   * @link ActiveCall
+   * Props pass to <ActiveCall /> components.
+   */
   activeCall: React.PropTypes.object,
+  /**
+   * @link IncomingCall
+   * Props pass to <IncomingCall /> components.
+   */
   incomingCall: React.PropTypes.object,
+  /**
+   * @link DialPad
+   * Props pass to <DialPad /> components.
+   */
   dialPad: React.PropTypes.object,
 
   enums: React.PropTypes.object,

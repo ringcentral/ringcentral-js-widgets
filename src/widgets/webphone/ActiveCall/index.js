@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import { Ratio } from '../../shared/Ratio/';
+import Ratio from '../../shared/Ratio/';
 
 import Flip from '../Flip';
 import Transfer from '../Transfer';
@@ -18,27 +18,71 @@ const { main, container } =
 
 let durationInterval;
 
+/**
+ * When accept an incoming call or make a outbound call, this component need to be displayed.
+ * This component display current status and avaliable operations of active phone call.
+ * By default it support 7 operations (Transfer, Flip, Record, Hold, DTMF, Park, and Mute).
+ * Some operations are mutual exclusive like Hold and Record,
+ * you can use operationStatus to inform the panel which state the phone call is in. 
+ */
 export default class ActiveCall extends React.PureComponent {
 
   static propTypes = {
+    /**
+     * @link Flip
+     * Props pass to <Flip /> components.
+     */
     flip: React.PropTypes.object,
+    /**
+     * @link Transfer
+     * Props pass to <Transfer /> components.
+     */
     transfer: React.PropTypes.object,
+    /**
+     * @link CallInfo
+     * Props pass to <CallInfo /> components.
+     */
     callInfo: React.PropTypes.object,
 
+    /**
+     * Method bind to the button which at right-bottom corner.
+     */
     bye: React.PropTypes.func,
     park: React.PropTypes.func,
     record: React.PropTypes.func,
     hold: React.PropTypes.func,
+    /**
+     * Method bind to the button which at left-bottom corner.
+     */
     mute: React.PropTypes.func,
     dtmf: React.PropTypes.func,
-    disabledOperation: React.PropTypes.array,
-    operationStatus: React.PropTypes.array,
+    /**
+     * Operation which is disabled will display in grey color.
+     */
+    disabledOperation: React.PropTypes.arrayOf(
+      React.PropTypes.oneOf(['record', 'flip', 'transfer', 'park'])
+    ),
+    /**
+     * Current status of each operations.
+     */
+    operationStatus: React.PropTypes.arrayOf(
+      React.PropTypes.oneOf(['RECORDING', 'HOLDING', 'MUTED'])
+    ),
+    /**
+     * Current phone call status.
+     */
     webphoneStatus: React.PropTypes.oneOf(['CALL_CONNECTED', 'CALL_CONNECTING']),
   }
 
   state = {
     openedPanel: null,
     duration: 0,
+  }
+
+  static defaultProps = {
+    disabledOperation: [],
+    operationStatus: [],
+    webphoneStatus: 'CALL_CONNECTING',
   }
 
   componentDidMount() {

@@ -9,12 +9,12 @@
     "build": "node_modules/.bin/babel src --out-dir build --copy-files",
     "dist": "node node_modules/webpack/bin/webpack.js",
     "watch": "node node_modules/webpack/bin/webpack.js --watch",
-    "showcase": "node ./node_modules/babel-cli/bin/babel-node.js  cli/theme/index.js",
-    "theme": "node ./node_modules/babel-cli/bin/babel-node.js  cli/dependency/index.js",
+    "showcase": "node ./node_modules/babel-cli/bin/babel-node.js  cli/dependency/index.js",
+    "theme": "node ./node_modules/babel-cli/bin/babel-node.js  cli/theme/index.js",
     "test-data": "node ./node_modules/babel-cli/bin/babel-node.js  cli/test/index.js",
     "release": "npm run build && node ./node_modules/babel-cli/bin/babel-node.js  cli/release/index.js"
   },
-  "main": "build/widgets/index.js",
+  "main": "build/widgets/components.js",
   "devDependencies": {
     "autoprefixer": "^6.3.7",
     "babel-cli": "^6.6.5",
@@ -81,6 +81,7 @@
     "classnames": "^2.2.5",
     "cleave.js": "^0.5.2",
     "country-data": "0.0.25",
+    "decamelize": "^1.2.0",
     "google-libphonenumber": "^1.0.27",
     "react": "^15.3.0",
     "react-dom": "^15.3.0",

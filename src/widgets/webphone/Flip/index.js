@@ -1,5 +1,6 @@
 import React from 'react';
-import { List, ListItem } from '../../shared/List/';
+import List from '../../shared/List/';
+import ListItem from '../../shared/ListItem/';
 
 import prefix from '../../../utils/style';
 
