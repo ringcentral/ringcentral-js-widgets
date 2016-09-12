@@ -3,3 +3,14 @@ test/
 node_modules/
 cli/
 .vscode/
+jsconfig.json
+test.json
+webpack.config.js
+.babelrc
+.editorconfig
+.eslintrc
+.coveralls.yml
+.travis.yml
+config.js
+.gitignore
+CONTRIBUTING.md
