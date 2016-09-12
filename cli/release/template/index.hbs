@@ -1,0 +1,24 @@
+// This file is auto generated
+// DO NOT MODIFY THIS FILE MANUALLY.
+
+{{#each categories}}
+{{#each components}}
+import {{this}} from './{{../name}}/{{this}}';
+{{/each}}
+
+const {{name}} = {
+  {{#each components}}
+  {{this}},
+  {{/each}}
+};
+{{/each}}
+
+
+export default {
+  {{#each categories}}
+  {{name}},
+  {{#each components}}
+  {{this}},
+  {{/each}}
+  {{/each}}
+};
