@@ -1,15 +1,33 @@
-// AUTO-GENERATED
-// DO NOT MANUALLY MODIFY THIS FILE
+// This file is auto generated
+// DO NOT MODIFY THIS FILE MANUALLY.
 
+import AuthPanel from './auth/AuthPanel';
+
+const auth = {
+  AuthPanel,
+};
+import AutoComplete from './shared/AutoComplete';
+import Icon from './shared/Icon';
+import List from './shared/List';
+import ListItem from './shared/ListItem';
+import ratio from './shared/ratio';
+
+const shared = {
+  AutoComplete,
+  Icon,
+  List,
+  ListItem,
+  ratio,
+};
 import ActiveCall from './webphone/ActiveCall';
 import ActiveCallWithNote from './webphone/ActiveCallWithNote';
 import CallConsole from './webphone/CallConsole';
-import CallerBar from './webphone/CallerBar';
 import CallFooter from './webphone/CallFooter';
 import CallInfo from './webphone/CallInfo';
+import CallerBar from './webphone/CallerBar';
 import Closable from './webphone/Closable';
-import Dialer from './webphone/Dialer';
 import DialPad from './webphone/DialPad';
+import Dialer from './webphone/Dialer';
 import Dropdown from './webphone/Dropdown';
 import DropdownItem from './webphone/DropdownItem';
 import Flip from './webphone/Flip';
@@ -18,34 +36,16 @@ import Note from './webphone/Note';
 import Transfer from './webphone/Transfer';
 import WebPhone from './webphone/WebPhone';
 
-import AuthPanel from './auth/AuthPanel';
-
-import AutoComplete from './shared/AutoComplete';
-import Icon from './shared/Icon';
-import List from './shared/List';
-import Panel from './shared/Panel';
-import Ratio from './shared/Ratio';
-import Tabs from './shared/Tabs';
-
-const shared = {
-  AutoComplete,
-  Icon,
-  List,
-  Panel,
-  Ratio,
-  Tabs,
-};
-
 const webphone = {
   ActiveCall,
   ActiveCallWithNote,
   CallConsole,
-  CallerBar,
   CallFooter,
   CallInfo,
+  CallerBar,
   Closable,
-  Dialer,
   DialPad,
+  Dialer,
   Dropdown,
   DropdownItem,
   Flip,
@@ -55,31 +55,26 @@ const webphone = {
   WebPhone,
 };
 
-const auth = {
-  AuthPanel,
-};
 
 export default {
-  shared,
-  webphone,
   auth,
-
+  AuthPanel,
+  shared,
   AutoComplete,
   Icon,
   List,
-  Panel,
-  Ratio,
-  Tabs,
-
+  ListItem,
+  ratio,
+  webphone,
   ActiveCall,
   ActiveCallWithNote,
   CallConsole,
-  CallerBar,
   CallFooter,
   CallInfo,
+  CallerBar,
   Closable,
-  Dialer,
   DialPad,
+  Dialer,
   Dropdown,
   DropdownItem,
   Flip,
@@ -87,6 +82,4 @@ export default {
   Note,
   Transfer,
   WebPhone,
-
-  AuthPanel,
 };

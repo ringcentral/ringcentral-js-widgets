@@ -95,7 +95,6 @@ function walk(src, callback) {
       results.components[results.components.length - 1].example = SSR.render(filename);
       next();
       const html = template(results);
-      // console.log(html);
     }, (err, files) => {
       if (err) throw err;
       const html = template(results);

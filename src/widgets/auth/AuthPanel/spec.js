@@ -3,11 +3,11 @@
 import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 import { expect } from 'chai';
-import { postProcess } from '../../../../../utils/test';
+import { postProcess } from '../../../utils/test';
 
-import data from '../../../../../../test.json';
+import data from '../../../../test.json';
 
-import AuthPanel from './AuthPanel.react';
+import AuthPanel from '.';
 
 describe('<AuthPanel />', () => {
   it('render a Login button', () => {

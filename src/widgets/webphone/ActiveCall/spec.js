@@ -4,13 +4,13 @@ import React from 'react';
 import { shallow, mount, render } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { postProcess } from '../../../../../utils/test';
+import { postProcess } from '../../../utils/test';
 
-import data from '../../../../../../test.json';
+import data from '../../../../test.json';
 
 import ActiveCall from './';
-import CallFooter from '../CallFooter/CallFooter.react';
-import CallConsole from '../CallConsole/CallConsole.react';
+import CallFooter from '../CallFooter';
+import CallConsole from '../CallConsole';
 
 describe('<ActiveCall />', () => {
   it('count the duration', (done) => {
