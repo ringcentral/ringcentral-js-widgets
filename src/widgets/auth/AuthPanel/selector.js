@@ -7,4 +7,3 @@ export default (state, props, auth) => (
     redirectUri: config.redirectUri,
   }
 );
-
