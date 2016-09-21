@@ -9,6 +9,7 @@ const { auth, loginButton } = prefix(['auth', 'loginButton', 'AuthPanel'], 'Auth
 export default class AuthPanel extends React.Component {
 
   static propTypes = {
+    auth: React.PropTypes.object,
     /**
      * redirect uri for OAuth
      */
@@ -44,29 +45,30 @@ export default class AuthPanel extends React.Component {
   }
 
   oauth() {
+    const { authorize, loginUrl, parseLoginUrl } = this.props.auth;
+    const { redirectUri } = this.props;
     if (this.removeEventListener) {
       this.removeEventListener();
       this.removeEventListener = null;
     }
-    const redirectUri = this.props.redirectUri;
     const oauthChannel = (e) => {
       if (e.data.type === 'oauth') {
         let code;
-        if (typeof(this.props.parseLoginUrl) === 'function') {
-          code = this.props.parseLoginUrl(e.data.value).code;
+        if (typeof(parseLoginUrl) === 'function') {
+          code = parseLoginUrl(e.data.value).code;
         } else {
-          code = this.props.parseLoginUrl
+          code = parseLoginUrl;
         }
         this.setState({ isOauthOpened: false });
-        this.props.authorize({ code, redirectUri });
+        authorize({ code, redirectUri });
         window.removeEventListener('message', oauthChannel);
         this.removeEventListener = null;
       }
     };
     this.setState({ isOauthOpened: true });
-    let url = this.props.loginUrl;
-    if (typeof(this.props.loginUrl) === 'function') {
-      url = this.props.loginUrl({ redirectUri })
+    let url = loginUrl;
+    if (typeof(loginUrl) === 'function') {
+      url = loginUrl.call(this.props.auth, { redirectUri });
     }
     window.open(
       url,

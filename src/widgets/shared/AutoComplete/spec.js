@@ -8,7 +8,7 @@ import { postProcess } from '../../../utils/test';
 
 import data from '../../../../test.json';
 
-import Input from '.';
+import Input from './';
 
 describe('<Input />', () => {
   it('display default value', () => {
