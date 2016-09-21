@@ -11,18 +11,16 @@ import Header from '../../../src/widgets/shared/Header';
 
 import styles from './app.css';
 
-const App = function (props) {
+const App = function ({ loggedIn }) {
   return (
-    <div>
+    <div className={styles.app}>
       <Header logo={'ringcentral.png'} />
-      <TabPanels className={styles.app} displayedTab={0}>
-        <TabPanel isDisplay={!props.loggedIn}>
-          <Auth />
-        </TabPanel>
-        <TabPanel isDisplay={props.loggedIn}>
+      {!loggedIn ?
+        <Auth /> :
+        <TabPanels displayedTab={0}>
           <WebPhone />
-        </TabPanel>
-      </TabPanels>
+        </TabPanels>  
+      }
     </div>
   );
 };
@@ -31,5 +29,4 @@ App.propTypes = {
   loggedIn: React.PropTypes.bool,
 };
 
-// todo: enums
 export default connect(state => ({ loggedIn: state.common.auth.status === 'LOGGED_IN' }))(App);
