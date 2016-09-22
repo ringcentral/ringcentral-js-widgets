@@ -278,6 +278,7 @@ var Storage = (_class = function (_RcModule) {
       var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(data) {
         var _this3 = this;
 
+        var version;
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -294,12 +295,13 @@ var Storage = (_class = function (_RcModule) {
                   type: this.actions.update,
                   data: data
                 });
-                _context5.prev = 3;
+                version = this.state.version;
+                _context5.prev = 4;
 
                 this.store.dispatch({
                   type: this.actions.save
                 });
-                _context5.next = 7;
+                _context5.next = 8;
                 return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
                   return _regenerator2.default.wrap(function _callee4$(_context4) {
                     while (1) {
@@ -315,28 +317,30 @@ var Storage = (_class = function (_RcModule) {
                   }, _callee4, _this3);
                 }))();
 
-              case 7:
+              case 8:
                 this.store.dispatch({
-                  type: this.actions.saveSuccess
+                  type: this.actions.saveSuccess,
+                  version: version
                 });
-                _context5.next = 13;
+                _context5.next = 14;
                 break;
 
-              case 10:
-                _context5.prev = 10;
-                _context5.t0 = _context5['catch'](3);
+              case 11:
+                _context5.prev = 11;
+                _context5.t0 = _context5['catch'](4);
 
                 this.store.dispatch({
                   type: this.actions.saveError,
+                  version: version,
                   error: _context5.t0
                 });
 
-              case 13:
+              case 14:
               case 'end':
                 return _context5.stop();
             }
           }
-        }, _callee5, this, [[3, 10]]);
+        }, _callee5, this, [[4, 11]]);
       }));
 
       function setData(_x3) {
@@ -351,6 +355,7 @@ var Storage = (_class = function (_RcModule) {
       var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(key) {
         var _this4 = this;
 
+        var version;
         return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
@@ -367,12 +372,13 @@ var Storage = (_class = function (_RcModule) {
                   type: this.actions.remove,
                   key: key
                 });
-                _context7.prev = 3;
+                version = this.state.version;
+                _context7.prev = 4;
 
                 this.store.dispatch({
                   type: this.actions.save
                 });
-                _context7.next = 7;
+                _context7.next = 8;
                 return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
                   return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
@@ -388,28 +394,30 @@ var Storage = (_class = function (_RcModule) {
                   }, _callee6, _this4);
                 }))();
 
-              case 7:
+              case 8:
                 this.store.dispatch({
-                  type: this.actions.saveSuccess
+                  type: this.actions.saveSuccess,
+                  version: version
                 });
-                _context7.next = 13;
+                _context7.next = 14;
                 break;
 
-              case 10:
-                _context7.prev = 10;
-                _context7.t0 = _context7['catch'](3);
+              case 11:
+                _context7.prev = 11;
+                _context7.t0 = _context7['catch'](4);
 
                 this.store.dispatch({
                   type: this.actions.saveError,
+                  version: version,
                   error: _context7.t0
                 });
 
-              case 13:
+              case 14:
               case 'end':
                 return _context7.stop();
             }
           }
-        }, _callee7, this, [[3, 10]]);
+        }, _callee7, this, [[4, 11]]);
       }));
 
       function removeItem(_x4) {

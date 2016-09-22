@@ -31,6 +31,7 @@ function getStorageReducer(prefix) {
         data: {},
         key: null,
         status: _storageStatus2.default.pending,
+        version: 0,
         error: null
       };
     }
@@ -44,12 +45,14 @@ function getStorageReducer(prefix) {
           data: action.data,
           key: action.key,
           status: action.status,
-          error: action.error
+          error: action.error,
+          version: state.version + 1
         };
 
       case actions.update:
         return (0, _extends3.default)({}, state, {
           data: (0, _extends3.default)({}, state.data, action.data),
+          version: state.version + 1,
           status: _storageStatus2.default.dirty
         });
 
@@ -58,6 +61,7 @@ function getStorageReducer(prefix) {
         delete tmp[action.key];
         return (0, _extends3.default)({}, state, {
           data: tmp,
+          version: state.version + 1,
           status: _storageStatus2.default.dirty
         });
 
@@ -67,30 +71,22 @@ function getStorageReducer(prefix) {
         });
 
       case actions.saveSuccess:
-        return (0, _extends3.default)({}, state, {
+        return action.version === state.version ? (0, _extends3.default)({}, state, {
           status: _storageStatus2.default.saved
-        });
+        }) : state;
 
       case actions.saveError:
-        return (0, _extends3.default)({}, state, {
-          status: _storageStatus2.default.dirty
-        });
+        return action.version === state.version ? (0, _extends3.default)({}, state, {
+          status: _storageStatus2.default.dirty,
+          error: action.error
+        }) : state;
 
-      case actions.reload:
-        return (0, _extends3.default)({}, state, {
-          status: _storageStatus2.default.reloading
-        });
-
-      case actions.reloadSuccess:
+      case actions.load:
         return (0, _extends3.default)({}, state, {
           data: action.data,
-          status: _storageStatus2.default.saved
-        });
-
-      case actions.reloadError:
-        return (0, _extends3.default)({}, state, {
-          error: action.error,
-          status: _storageStatus2.default.dirty
+          status: _storageStatus2.default.saved,
+          version: state.version + 1,
+          error: null
         });
 
       case actions.reset:
@@ -98,6 +94,7 @@ function getStorageReducer(prefix) {
           status: _storageStatus2.default.pending,
           data: {},
           key: null,
+          version: state.version + 1,
           error: null
         };
 

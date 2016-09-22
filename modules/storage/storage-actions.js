@@ -6,5 +6,5 @@ Object.defineProperty(exports, "__esModule", {
 
 var _reduxHelper = require('../../lib/redux-helper');
 
-exports.default = new _reduxHelper.ActionMap(['init', 'update', 'remove', 'save', 'saveSuccess', 'saveError', 'reload', 'reloadSuccess', 'reloadError', 'reset'], 'storage');
+exports.default = new _reduxHelper.ActionMap(['init', 'update', 'remove', 'save', 'saveSuccess', 'saveError', 'load', 'reset'], 'storage');
 //# sourceMappingURL=storage-actions.js.map
