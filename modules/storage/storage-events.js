@@ -20,7 +20,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var eventDefinition = (0, _extends3.default)({}, _storageStatus2.default, {
   statusChanged: 'STATUS_CHANGED',
-  dataChanged: 'DATA_CHANGED'
+  dataChanged: 'DATA_CHANGED',
+  ready: 'READY'
 });
 exports.default = new _keyValueMap2.default(eventDefinition);
 //# sourceMappingURL=storage-events.js.map

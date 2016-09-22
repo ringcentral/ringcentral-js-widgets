@@ -24,6 +24,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function getStorageReducer(prefix) {
   var actions = (0, _reduxHelper.prefixActions)(_storageActions2.default, prefix);
+  var tmp = null;
   return function (state, action) {
     if (!state) {
       return {
@@ -49,6 +50,14 @@ function getStorageReducer(prefix) {
       case actions.update:
         return (0, _extends3.default)({}, state, {
           data: (0, _extends3.default)({}, state.data, action.data),
+          status: _storageStatus2.default.dirty
+        });
+
+      case actions.remove:
+        tmp = (0, _extends3.default)({}, state.data);
+        delete tmp[action.key];
+        return (0, _extends3.default)({}, state, {
+          data: tmp,
           status: _storageStatus2.default.dirty
         });
 
