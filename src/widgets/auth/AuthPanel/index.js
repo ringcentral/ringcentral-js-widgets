@@ -1,7 +1,10 @@
 import React from 'react';
 import prefix from '../../../utils/style';
 
-const { auth, loginButton } = prefix(['auth', 'loginButton', 'AuthPanel'], 'AuthPanel');
+import Redirect from 'react-router/Redirect';
+
+const { auth, loginButton, wrapper } =
+  prefix(['auth', 'loginButton', 'AuthPanel', 'wrapper'], 'AuthPanel');
 
 /**
  * OAuth 2.0 panel
@@ -36,6 +39,7 @@ export default class AuthPanel extends React.Component {
 
   state = {
     isOauthOpened: false,
+    isAuthorised: false,
   }
 
   componentWillUnmount() {
@@ -45,7 +49,6 @@ export default class AuthPanel extends React.Component {
   }
 
   oauth() {
-    const { authorize, loginUrl, parseLoginUrl } = this.props.auth;
     const { redirectUri } = this.props;
     if (this.removeEventListener) {
       this.removeEventListener();
@@ -54,21 +57,24 @@ export default class AuthPanel extends React.Component {
     const oauthChannel = (e) => {
       if (e.data.type === 'oauth') {
         let code;
-        if (typeof(parseLoginUrl) === 'function') {
-          code = parseLoginUrl(e.data.value).code;
+        if (typeof(this.props.auth.parseLoginUrl) === 'function') {
+          code = this.props.auth.parseLoginUrl(e.data.value).code;
         } else {
-          code = parseLoginUrl;
+          code = this.props.auth.parseLoginUrl;
         }
-        this.setState({ isOauthOpened: false });
-        authorize({ code, redirectUri });
+        this.setState({
+          isOauthOpened: false,
+          isAuthorised: true,
+        });
+        this.props.auth.authorize({ code, redirectUri });
         window.removeEventListener('message', oauthChannel);
         this.removeEventListener = null;
       }
     };
     this.setState({ isOauthOpened: true });
-    let url = loginUrl;
-    if (typeof(loginUrl) === 'function') {
-      url = loginUrl.call(this.props.auth, { redirectUri });
+    let url = this.props.auth.loginUrl;
+    if (typeof(this.props.auth.loginUrl) === 'function') {
+      url = this.props.auth.loginUrl({ redirectUri });
     }
     window.open(
       url,
@@ -80,14 +86,18 @@ export default class AuthPanel extends React.Component {
   }
 
   render() {
+    console.log(this.props)
     return (
-      <div className={auth}>
-        <button
-          className={loginButton}
-          onClick={() => this.oauth()}
-        >
-          Login
-        </button>
+      <div className={wrapper}>
+        {this.state.isAuthorised && <Redirect to={this.props.mainPage} />}
+        <div className={auth}>
+          <button
+            className={loginButton}
+            onClick={() => this.oauth()}
+          >
+            Login
+          </button>
+        </div>
       </div>
     );
   }
