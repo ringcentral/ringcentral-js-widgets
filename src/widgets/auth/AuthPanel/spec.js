@@ -7,7 +7,7 @@ import { postProcess } from '../../../utils/test';
 
 import data from '../../../../test.json';
 
-import AuthPanel from './index';
+import AuthPanel from './index.js';
 
 describe('<AuthPanel />', () => {
   it('render a Login button', () => {
