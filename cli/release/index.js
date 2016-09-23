@@ -13,11 +13,11 @@ function walk(src) {
   dir.readFiles(src, { match: /index.js$/ },
     (err, content, filename, next) => {
       if (err) throw err;
-      const dirName = filename.substring(0, filename.lastIndexOf('/'));
+      const dirName = filename.substring(0, filename.lastIndexOf(path.sep));
       const categoryName = dirName
-          .substring(0, dirName.lastIndexOf('/'))
-          .split('/').pop();
-      const name = dirName.slice(dirName.lastIndexOf('/') + 1);
+          .substring(0, dirName.lastIndexOf(path.sep))
+          .split(path.sep).pop();
+      const name = dirName.slice(dirName.lastIndexOf(path.sep) + 1);
       let category = result.categories.find(cate => cate.name === categoryName);
       if (!category) {
         category = {
@@ -36,6 +36,6 @@ function walk(src) {
   );
 }
 
-walk(`${path.resolve(__dirname)}/../../src/widgets/`);
+walk(path.resolve(`${path.resolve(__dirname)}/../../src/widgets/`));
 
 // create symlink
