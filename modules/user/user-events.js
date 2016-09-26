@@ -43,7 +43,7 @@ var eventDefinitions = {
 var userEvents = exports.userEvents = new _keyValueMap2.default(eventDefinitions);
 
 var eventTypeDefinitions = {
-  userInfoChanged: 'USER_INFO_CHANGED'
+  userInfoChange: 'USER_INFO_CHANGE'
 };
 
 var userEventTypes = exports.userEventTypes = new _keyValueMap2.default(eventTypeDefinitions);

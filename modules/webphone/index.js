@@ -450,6 +450,8 @@ var _callStatus2 = _interopRequireDefault(_callStatus);
 
 var _authEvents = require('../auth/auth-events');
 
+var _authEvents2 = _interopRequireDefault(_authEvents);
+
 var _webphoneEvents = require('./webphone-events');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -488,7 +490,7 @@ var Webphone = function (_RcModule) {
 
     // TODO: commented out until setting module completed
     // settings.registerReducer('webphone', getWebphoneReducer())
-    _this[symbols.auth].on(_authEvents.authEventTypes.loginStatusChanged, (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
+    _this[symbols.auth].on(_authEvents2.default.AuthStatusChange, (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
       return _regenerator2.default.wrap(function _callee10$(_context10) {
         while (1) {
           switch (_context10.prev = _context10.next) {

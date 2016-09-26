@@ -16,14 +16,16 @@ var _subscriptionActions = require('./subscription-actions');
 
 var _subscriptionActions2 = _interopRequireDefault(_subscriptionActions);
 
-var _subscriptionEvents = require('./subscription-events');
+var _subscriptionStatus = require('./subscription-status');
+
+var _subscriptionStatus2 = _interopRequireDefault(_subscriptionStatus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var initialState = {
   cacheKey: null,
   filters: [],
-  status: _subscriptionEvents.subscriptionEvents.pending,
+  status: _subscriptionStatus2.default.pending,
   lastMessage: null
 };
 
@@ -53,7 +55,7 @@ function getSubscriptionReducer(prefix) {
         return (0, _assign2.default)({}, state, {
           lastMessage: null,
           notification: null,
-          status: _subscriptionEvents.subscriptionEvents.notSubscribed
+          status: _subscriptionStatus2.default.notSubscribed
         });
 
       default:

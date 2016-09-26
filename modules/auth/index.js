@@ -65,25 +65,21 @@ var _symbolMap = require('data-types/symbol-map');
 
 var _symbolMap2 = _interopRequireDefault(_symbolMap);
 
-var _keyValueMap = require('data-types/key-value-map');
+var _authStatus = require('./auth-status');
 
-var _keyValueMap2 = _interopRequireDefault(_keyValueMap);
-
-var _loginStatus = require('./login-status');
-
-var _loginStatus2 = _interopRequireDefault(_loginStatus);
+var _authStatus2 = _interopRequireDefault(_authStatus);
 
 var _authActions = require('./auth-actions');
 
 var _authActions2 = _interopRequireDefault(_authActions);
 
-var _authReducer = require('./auth-reducer');
+var _getAuthReducer = require('./get-auth-reducer');
 
-var _authReducer2 = _interopRequireDefault(_authReducer);
+var _getAuthReducer2 = _interopRequireDefault(_getAuthReducer);
 
 var _authEvents = require('./auth-events');
 
-var _utils = require('../../lib/utils');
+var _authEvents2 = _interopRequireDefault(_authEvents);
 
 var _loganberry = require('loganberry');
 
@@ -124,11 +120,7 @@ var logger = new _loganberry2.default({
   prefix: 'auth'
 });
 
-var symbols = new _symbolMap2.default(['platform', 'emitter', 'beforeLogoutHandlers', 'init']);
-
-var CONSTANTS = new _keyValueMap2.default({
-  loginStatus: _loginStatus2.default
-});
+var symbols = new _symbolMap2.default(['sdk', 'emitter', 'beforeLogoutHandlers', 'init']);
 
 /**
  * @class
@@ -147,18 +139,21 @@ var Auth = (_class = function (_RcModule) {
       actions: _authActions2.default
     })));
 
-    var platform = options.platform;
+    var sdk = options.sdk;
 
     _this.on('state-change', function (_ref) {
       var oldState = _ref.oldState;
       var newState = _ref.newState;
 
-      // loginStatusChanged
       if (!oldState || oldState.status !== newState.status) {
-        _utils.emit.call(_this, _authEvents.authEventTypes.loginStatusChanged, newState.status);
+        _this.emit(_authEvents2.default.authStatusChange, {
+          oldStatus: oldState && oldState.status,
+          newStatus: newState.status
+        });
+        _this.emit(newState.status);
       }
     });
-    _this[symbols.platform] = platform;
+    _this[symbols.sdk] = sdk;
     return _this;
   }
 
@@ -167,7 +162,7 @@ var Auth = (_class = function (_RcModule) {
     value: function init() {
       var _this2 = this;
 
-      var platform = this[symbols.platform];
+      var platform = this[symbols.sdk].platform();
       this[symbols.beforeLogoutHandlers] = new _set2.default();
 
       // load info on login
@@ -225,7 +220,7 @@ var Auth = (_class = function (_RcModule) {
 
                 _this2.store.dispatch({
                   type: _this2.actions.init,
-                  status: loggedIn ? _loginStatus2.default.loggedIn : _loginStatus2.default.notLoggedIn,
+                  status: loggedIn ? _authStatus2.default.loggedIn : _authStatus2.default.notLoggedIn,
                   token: loggedIn ? platform.auth().data() : null
                 });
 
@@ -260,7 +255,7 @@ var Auth = (_class = function (_RcModule) {
                   }
                 });
                 _context2.next = 4;
-                return this[symbols.platform].login({
+                return this[symbols.sdk].platform().login({
                   username: username,
                   password: password,
                   extension: extension,
@@ -299,7 +294,7 @@ var Auth = (_class = function (_RcModule) {
       var display = _ref5.display;
       var prompt = _ref5.prompt;
 
-      return this[symbols.platform].loginUrl({
+      return this[symbols.sdk].platform().loginUrl({
         redirectUri: redirectUri,
         state: state,
         brandId: brandId,
@@ -317,7 +312,7 @@ var Auth = (_class = function (_RcModule) {
   }, {
     key: 'parseLoginUrl',
     value: function parseLoginUrl(url) {
-      return this[symbols.platform].parseLoginRedirectUrl(url);
+      return this[symbols.sdk].platform().parseLoginRedirectUrl(url);
     }
 
     /**
@@ -344,7 +339,7 @@ var Auth = (_class = function (_RcModule) {
                   }
                 });
                 _context3.next = 3;
-                return this[symbols.platform].login({
+                return this[symbols.sdk].platform().login({
                   code: code,
                   redirectUri: redirectUri
                 });
@@ -484,7 +479,7 @@ var Auth = (_class = function (_RcModule) {
 
               case 27:
                 _context6.next = 29;
-                return this[symbols.platform].logout();
+                return this[symbols.sdk].platform().logout();
 
               case 29:
                 return _context6.abrupt('return', _context6.sent);
@@ -538,7 +533,7 @@ var Auth = (_class = function (_RcModule) {
             switch (_context7.prev = _context7.next) {
               case 0:
                 _context7.next = 2;
-                return this[symbols.platform].loggedIn();
+                return this[symbols.sdk].platform().loggedIn();
 
               case 2:
                 return _context7.abrupt('return', _context7.sent);
@@ -560,7 +555,7 @@ var Auth = (_class = function (_RcModule) {
   }, {
     key: 'reducer',
     get: function get() {
-      return (0, _authReducer2.default)(this.prefix);
+      return (0, _getAuthReducer2.default)(this.prefix);
     }
     /**
      * @function
@@ -574,19 +569,14 @@ var Auth = (_class = function (_RcModule) {
       return this.state.status;
     }
   }, {
-    key: 'events',
+    key: 'authEvents',
     get: function get() {
-      return _authEvents.authEvents;
+      return _authEvents2.default;
     }
   }, {
-    key: 'eventTypes',
+    key: 'authStatus',
     get: function get() {
-      return _authEvents.authEventTypes;
-    }
-  }, {
-    key: 'constants',
-    get: function get() {
-      return CONSTANTS;
+      return _authStatus2.default;
     }
   }, {
     key: 'ownerId',

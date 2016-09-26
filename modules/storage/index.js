@@ -124,11 +124,6 @@ var logger = new _loganberry2.default({
 
 var symbols = new _symbolMap2.default(['storage', 'storageProvider', 'unsubscribeStorage']);
 
-var CONSTANTS = new _keyValueMap2.default({
-  status: _storageStatus2.default,
-  events: _storageEvents2.default
-});
-
 var Storage = (_class = function (_RcModule) {
   (0, _inherits3.default)(Storage, _RcModule);
 
@@ -151,14 +146,23 @@ var Storage = (_class = function (_RcModule) {
       var oldState = _ref.oldState;
       var newState = _ref.newState;
 
-      if (!oldState || oldState.status !== newState.status) {
-        _utils.emit.call(_this, _storageEvents2.default.statusChanged, newState.status);
-      }
-      if (!oldState || oldState.data !== newState.data) {
-        _this.emit(_storageEvents2.default.dataChanged, newState.data);
-      }
-      if (newState.key && (!oldState || !oldState.key)) {
-        _this.emit(_storageEvents2.default.ready);
+      if (oldState) {
+        if (oldState.status !== newState.status) {
+          _this.emit(_storageEvents2.default.statusChange, {
+            oldStatus: oldState.status,
+            newStatus: newState.status
+          });
+          _this.emit(newState.status);
+        }
+        if (oldState.data !== newState.data) {
+          _this.emit(_storageEvents2.default.dataChange, {
+            oldData: oldState.data,
+            newData: newState.data
+          });
+        }
+        if (newState.key && !oldState.key) {
+          _this.emit(_storageEvents2.default.ready);
+        }
       }
     });
     return _this;
@@ -169,12 +173,13 @@ var Storage = (_class = function (_RcModule) {
     value: function init() {
       var _this2 = this;
 
-      this[symbols.auth].on(this[symbols.auth].events.loggedIn, (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      this[symbols.auth].on(this[symbols.auth].authEvents.loggedIn, (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
         var key, data, error, status;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                console.log('storage init');
                 key = (_this2.prefix ? _this2.prefix + '-' : '') + 'storage-' + _this2[symbols.auth].ownerId;
 
                 _this2[symbols.storage] = new _this2[symbols.storageProvider]({ key: key });
@@ -182,8 +187,8 @@ var Storage = (_class = function (_RcModule) {
                 data = null;
                 error = null;
                 status = _storageStatus2.default.saved;
-                _context2.prev = 5;
-                _context2.next = 8;
+                _context2.prev = 6;
+                _context2.next = 9;
                 return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
                   return _regenerator2.default.wrap(function _callee$(_context) {
                     while (1) {
@@ -199,19 +204,19 @@ var Storage = (_class = function (_RcModule) {
                   }, _callee, _this2);
                 }))();
 
-              case 8:
+              case 9:
                 data = _context2.sent;
-                _context2.next = 15;
+                _context2.next = 16;
                 break;
 
-              case 11:
-                _context2.prev = 11;
-                _context2.t0 = _context2['catch'](5);
+              case 12:
+                _context2.prev = 12;
+                _context2.t0 = _context2['catch'](6);
 
                 status = _storageStatus2.default.dirty;
                 error = _context2.t0;
 
-              case 15:
+              case 16:
 
                 if (!data) data = {};
 
@@ -230,15 +235,15 @@ var Storage = (_class = function (_RcModule) {
                   });
                 });
 
-              case 18:
+              case 19:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, _this2, [[5, 11]]);
+        }, _callee2, _this2, [[6, 12]]);
       })));
 
-      this[symbols.auth].on(this[symbols.auth].events.notLoggedIn, function () {
+      this[symbols.auth].on(this[symbols.auth].authEvents.notLoggedIn, function () {
         _this2.store.dispatch({
           type: _this2.actions.reset
         });
@@ -452,9 +457,14 @@ var Storage = (_class = function (_RcModule) {
       return this.state.status;
     }
   }, {
-    key: 'constants',
+    key: 'storageStatus',
     get: function get() {
-      return CONSTANTS;
+      return _storageStatus2.default;
+    }
+  }, {
+    key: 'storageEvents',
+    get: function get() {
+      return _storageEvents2.default;
     }
   }]);
   return Storage;

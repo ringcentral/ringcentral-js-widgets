@@ -43,6 +43,10 @@ var _symbolMap2 = _interopRequireDefault(_symbolMap);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @deprecated
+ */
+
 var symbols = new _symbolMap2.default(['reducer']);
 
 function getSettingsReducer(prefix) {

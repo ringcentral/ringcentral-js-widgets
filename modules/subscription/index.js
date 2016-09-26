@@ -93,7 +93,6 @@ var _init = function () {
                 status: _subscriptionStatus2.default.notSubscribed,
                 subscription: null
               });
-              // this::emit(subscriptionEventTypes.statusChanged, this.status);
             });
             this.base.on(this.base.events.removeError, function () {
               // TODO
@@ -187,8 +186,6 @@ var _subscriptionStatus = require('./subscription-status');
 
 var _subscriptionStatus2 = _interopRequireDefault(_subscriptionStatus);
 
-var _utils = require('../../lib/utils');
-
 var _proxy = require('../proxy');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -260,11 +257,17 @@ var Subscription = (_class = function (_RcModule) {
       var oldState = _ref2.oldState;
       var newState = _ref2.newState;
 
-      if (!oldState || oldState.status !== newState.status) {
-        _utils.emit.call(_this2, _this2.eventTypes.statusChanged, newState.status);
-      }
-      if (newState.lastMessage && (!oldState || newState.lastMessage !== oldState.lastMessage)) {
-        _this2.emit(_this2.eventTypes.notification, newState.lastMessage);
+      if (oldState) {
+        if (oldState.status !== newState.status) {
+          _this2.emit(_subscriptionEvents.subscriptionEvents.statusChange, {
+            oldStatus: oldState.status,
+            newStatus: newState.status
+          });
+          _this2.emit(newState.status);
+        }
+        if (newState.lastMessage && oldState.lastMessage !== newState.lastMessage) {
+          _this2.emit(_subscriptionEvents.subscriptionEvents.notification, newState.lastMessage);
+        }
       }
     });
     return _this2;

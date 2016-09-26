@@ -12,15 +12,14 @@ var _keyValueMap = require('data-types/key-value-map');
 
 var _keyValueMap2 = _interopRequireDefault(_keyValueMap);
 
-var _authStatus = require('./auth-status');
+var _dialingPlanStatus = require('./dialing-plan-status');
 
-var _authStatus2 = _interopRequireDefault(_authStatus);
+var _dialingPlanStatus2 = _interopRequireDefault(_dialingPlanStatus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var eventDefinitions = (0, _extends3.default)({}, _authStatus2.default, {
-  authStatusChange: 'AUTH_STATUS_CHANGE'
-});
-
-exports.default = new _keyValueMap2.default(eventDefinitions);
-//# sourceMappingURL=auth-events.js.map
+exports.default = new _keyValueMap2.default((0, _extends3.default)({}, _dialingPlanStatus2.default, {
+  statusChange: 'STATUS_CHANGE',
+  dialingPlanChange: 'DIALING_PLAN_CHANGE'
+}));
+//# sourceMappingURL=dialing-plan-events.js.map

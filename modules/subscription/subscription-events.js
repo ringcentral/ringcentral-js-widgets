@@ -3,7 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.subscriptionEventTypes = exports.subscriptionEvents = undefined;
 
 var _extends2 = require('babel-runtime/helpers/extends');
 
@@ -19,14 +18,10 @@ var _subscriptionStatus2 = _interopRequireDefault(_subscriptionStatus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var eventDefinition = (0, _extends3.default)({}, _subscriptionStatus2.default);
-
-var subscriptionEvents = exports.subscriptionEvents = new _keyValueMap2.default(eventDefinition);
-
-var eventTypeDefinition = {
+var eventDefinition = (0, _extends3.default)({}, _subscriptionStatus2.default, {
   notification: 'NOTIFICATION',
-  statusChanged: 'STATUS_CHANGED'
-};
+  statusChange: 'STATUS_CHANGE'
+});
 
-var subscriptionEventTypes = exports.subscriptionEventTypes = new _keyValueMap2.default(eventTypeDefinition);
+exports.default = new _keyValueMap2.default(eventDefinition);
 //# sourceMappingURL=subscription-events.js.map

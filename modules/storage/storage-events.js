@@ -19,8 +19,8 @@ var _storageStatus2 = _interopRequireDefault(_storageStatus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var eventDefinition = (0, _extends3.default)({}, _storageStatus2.default, {
-  statusChanged: 'STATUS_CHANGED',
-  dataChanged: 'DATA_CHANGED',
+  statusChange: 'STATUS_CHANGE',
+  dataChange: 'DATA_CHANGE',
   ready: 'READY'
 });
 exports.default = new _keyValueMap2.default(eventDefinition);

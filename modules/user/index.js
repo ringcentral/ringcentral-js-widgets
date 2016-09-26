@@ -85,7 +85,7 @@ var loadData = function () {
               type: this.actions['load' + dataType + 'Success'],
               payload: payload
             });
-            _utils.emit.call(this, _userEvents.userEventTypes.userInfoChanged, _userEvents.userEvents['load' + dataType + 'Success']);
+            _utils.emit.call(this, _userEvents.userEventTypes.userInfoChange, _userEvents.userEvents['load' + dataType + 'Success']);
             _context.next = 15;
             break;
 

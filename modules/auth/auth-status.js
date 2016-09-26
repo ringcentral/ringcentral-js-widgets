@@ -19,4 +19,4 @@ var definition = {
 };
 
 exports.default = new _keyValueMap2.default(definition);
-//# sourceMappingURL=login-status.js.map
+//# sourceMappingURL=auth-status.js.map
