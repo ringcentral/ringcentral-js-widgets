@@ -244,7 +244,6 @@ var Auth = (_class = function (_RcModule) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                logger.trace('login()');
                 this.store.dispatch({
                   type: this.actions.login,
                   payload: {
@@ -254,7 +253,7 @@ var Auth = (_class = function (_RcModule) {
                     remember: remember
                   }
                 });
-                _context2.next = 4;
+                _context2.next = 3;
                 return this[symbols.sdk].platform().login({
                   username: username,
                   password: password,
@@ -262,10 +261,10 @@ var Auth = (_class = function (_RcModule) {
                   remember: remember
                 });
 
-              case 4:
+              case 3:
                 return _context2.abrupt('return', _context2.sent);
 
-              case 5:
+              case 4:
               case 'end':
                 return _context2.stop();
             }

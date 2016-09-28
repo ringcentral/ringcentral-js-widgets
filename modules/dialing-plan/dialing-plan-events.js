@@ -20,6 +20,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = new _keyValueMap2.default((0, _extends3.default)({}, _dialingPlanStatus2.default, {
   statusChange: 'STATUS_CHANGE',
-  dialingPlanChange: 'DIALING_PLAN_CHANGE'
+  dialingPlanChange: 'DIALING_PLAN_CHANGE',
+  error: 'ERROR'
 }));
 //# sourceMappingURL=dialing-plan-events.js.map

@@ -149,21 +149,22 @@ var DialingPlan = (_class = function (_RcModule) {
             newStatus: newState.status
           });
         }
+        if (newState.error && newState.error !== oldState.error) {
+          _this.emit(_dialingPlanEvents2.default.error, newState.error);
+        }
       }
     });
     _this[symbols.storage].on(_this[symbols.storage].storageEvents.dataChange, function (_ref2) {
       var oldData = _ref2.oldData;
       var newData = _ref2.newData;
 
-      var oldPlanData = oldData[keys.storage];
-      var newPlanData = newData[keys.storage];
-      if (!oldPlanData && !newPlanData) return;
-      if (oldPlanData && !newPlanData || !oldPlanData && newPlanData || oldPlanData.dialingPlans.map(function (plan) {
+      if (!oldData[keys.storage] && !newData[keys.storage]) return;
+      if (oldData[keys.storage] && !newData[keys.storage] || !oldData[keys.storage] && newData[keys.storage] || oldData[keys.storage] !== newData[keys.storage] && oldData[keys.storage].dialingPlans.map(function (plan) {
         return plan.id;
-      }).sort().join(',') !== newPlanData.dialingPlans.map(function (plan) {
+      }).sort().join(',') !== newData[keys.storage].dialingPlans.map(function (plan) {
         return plan.id;
       }).sort().join(',')) {
-        _this.emit(_dialingPlanEvents2.default.dialingPlanChange, newPlanData.dialingPlans);
+        _this.emit(_dialingPlanEvents2.default.dialingPlanChange, newData[keys.storage].dialingPlans);
       }
     });
     return _this;
@@ -194,6 +195,11 @@ var DialingPlan = (_class = function (_RcModule) {
           }
         }, _callee, _this2);
       })));
+      this[symbols.storage].on(this[symbols.storage].storageEvents.pending, function () {
+        _this2.store.dispatch({
+          type: _this2.actions.reset
+        });
+      });
     }
   }, {
     key: 'loadDialingPlans',
@@ -271,7 +277,7 @@ var DialingPlan = (_class = function (_RcModule) {
       return loadDialingPlans;
     }()
   }, {
-    key: 'dialingPlans',
+    key: 'data',
     get: function get() {
       return this[symbols.storage].getItem(keys.storage);
     }
@@ -294,6 +300,16 @@ var DialingPlan = (_class = function (_RcModule) {
     key: 'status',
     get: function get() {
       return this.state.status;
+    }
+  }], [{
+    key: 'dialingPlanStatus',
+    get: function get() {
+      return _dialingPlanStatus2.default;
+    }
+  }, {
+    key: 'dialingPlanEvents',
+    get: function get() {
+      return _dialingPlanEvents2.default;
     }
   }]);
   return DialingPlan;
