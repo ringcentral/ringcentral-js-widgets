@@ -120,7 +120,7 @@ var DialingPlan = (_class = function (_RcModule) {
   (0, _inherits3.default)(DialingPlan, _RcModule);
 
   function DialingPlan() {
-    var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+    var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     (0, _classCallCheck3.default)(this, DialingPlan);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (DialingPlan.__proto__ || (0, _getPrototypeOf2.default)(DialingPlan)).call(this, (0, _extends3.default)({}, options, {
@@ -207,7 +207,7 @@ var DialingPlan = (_class = function (_RcModule) {
       var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
         var _this3 = this;
 
-        var options = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+        var options = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
         var _options$force, force, data;
 

@@ -1,5 +1,5 @@
 {
-  "name": "ringcentral-js-integration-commons",
+  "name": "ringcentral-integration",
   "version": "0.1.0",
   "description": "",
   "main": "rc-phone.js",

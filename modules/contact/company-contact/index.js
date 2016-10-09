@@ -128,7 +128,7 @@ var CompanyContact = function (_RcModule) {
       var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
         var _this3 = this;
 
-        var _ref3 = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+        var _ref3 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
         var _ref3$userOptions = _ref3.userOptions;
         var userOptions = _ref3$userOptions === undefined ? {} : _ref3$userOptions;
