@@ -156,8 +156,11 @@ var ExtensionInfo = (_class = function (_RcModule) {
       var newData = _ref2.newData;
 
       if (!oldData[keys.storage] && !newData[keys.storage]) return;
-      if (oldData[keys.storage] && !newData[keys.storage] || !oldData[keys.storage] && newData[keys.storage] || oldData[keys.storage] !== newData[keys.storage] && (0, _stringify2.default)(oldData[keys.storage]) !== (0, _stringify2.default)(newData[keys.storage])) {
-        _this.emit(_extensionInfoEvents2.default.extensionInfoChange, newData[keys.storage].extensionInfo);
+      if (oldData[keys.storage] && !newData[keys.storage] || !oldData[keys.storage] && newData[keys.storage] || oldData[keys.storage] !== newData[keys.storage] && (0, _stringify2.default)(oldData[keys.storage].extensionInfo) !== (0, _stringify2.default)(newData[keys.storage].extensionInfo)) {
+        _this.emit(_extensionInfoEvents2.default.extensionInfoChange, {
+          oldData: oldData[keys.storage] && oldData[keys.storage].extensionInfo,
+          newData: newData[keys.storage] && newData[keys.storage].extensionInfo
+        });
       }
     });
     return _this;

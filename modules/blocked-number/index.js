@@ -17,6 +17,10 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -159,12 +163,11 @@ var BlockedNumber = (_class = function (_RcModule) {
       var newData = _ref2.newData;
 
       if (!oldData[keys.storage] && !newData[keys.storage]) return;
-      if (oldData[keys.storage] && !newData[keys.storage] || !oldData[keys.storage] && newData[keys.storage] || oldData[keys.storage] !== newData[keys.storage] && oldData[keys.storage].blockedNumbers.map(function (p) {
-        return p.id;
-      }).sort().join(',') !== newData[keys.storage].blockedNumbers.map(function (p) {
-        return p.id;
-      }).sort().join(',')) {
-        _this.emit(_blockedNumberEvents2.default.blockedNumberChange, newData[keys.storage].blockedNumbers);
+      if (oldData[keys.storage] && !newData[keys.storage] || !oldData[keys.storage] && newData[keys.storage] || oldData[keys.storage] !== newData[keys.storage] && (0, _stringify2.default)(oldData[keys.storage].blockedNumbers) !== (0, _stringify2.default)(newData[keys.storage].blockedNumbers)) {
+        _this.emit(_blockedNumberEvents2.default.blockedNumberChange, {
+          oldData: oldData[keys.storage] && oldData[keys.storage].blockedNumbers,
+          newData: newData[keys.storage] && newData[keys.storage].blockedNumbers
+        });
       }
     });
     return _this;

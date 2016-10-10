@@ -20,7 +20,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var eventDefinition = (0, _extends3.default)({}, _subscriptionStatus2.default, {
   notification: 'NOTIFICATION',
-  statusChange: 'STATUS_CHANGE'
+  statusChange: 'STATUS_CHANGE',
+  error: 'ERROR',
+  ready: 'READY'
 });
 
 exports.default = new _keyValueMap2.default(eventDefinition);

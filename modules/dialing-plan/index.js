@@ -17,6 +17,10 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -159,12 +163,11 @@ var DialingPlan = (_class = function (_RcModule) {
       var newData = _ref2.newData;
 
       if (!oldData[keys.storage] && !newData[keys.storage]) return;
-      if (oldData[keys.storage] && !newData[keys.storage] || !oldData[keys.storage] && newData[keys.storage] || oldData[keys.storage] !== newData[keys.storage] && oldData[keys.storage].dialingPlans.map(function (plan) {
-        return plan.id;
-      }).sort().join(',') !== newData[keys.storage].dialingPlans.map(function (plan) {
-        return plan.id;
-      }).sort().join(',')) {
-        _this.emit(_dialingPlanEvents2.default.dialingPlanChange, newData[keys.storage].dialingPlans);
+      if (oldData[keys.storage] && !newData[keys.storage] || !oldData[keys.storage] && newData[keys.storage] || oldData[keys.storage] !== newData[keys.storage] && (0, _stringify2.default)(oldData[keys.storage].dialingPlans) !== (0, _stringify2.default)(newData[keys.storage].dialingPlans)) {
+        _this.emit(_dialingPlanEvents2.default.dialingPlanChange, {
+          oldData: oldData[keys.storage] && oldData[keys.storage].dialingPlans,
+          newData: newData[keys.storage] && newData[keys.storage].dialingPlans
+        });
       }
     });
     return _this;

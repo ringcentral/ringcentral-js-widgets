@@ -120,7 +120,7 @@ var logger = new _loganberry2.default({
   prefix: 'auth'
 });
 
-var symbols = new _symbolMap2.default(['sdk', 'emitter', 'beforeLogoutHandlers', 'init']);
+var symbols = new _symbolMap2.default(['api', 'emitter', 'beforeLogoutHandlers', 'init']);
 
 /**
  * @class
@@ -139,7 +139,7 @@ var Auth = (_class = function (_RcModule) {
       actions: _authActions2.default
     })));
 
-    var sdk = options.sdk;
+    var api = options.api;
 
     _this.on('state-change', function (_ref) {
       var oldState = _ref.oldState;
@@ -150,10 +150,15 @@ var Auth = (_class = function (_RcModule) {
           oldStatus: oldState && oldState.status,
           newStatus: newState.status
         });
-        _this.emit(newState.status);
+        if (!newState.error) {
+          _this.emit(newState.status);
+        }
+      }
+      if (newState.error && (!oldState || oldState.error !== newState.error)) {
+        _this.emit(_authEvents2.default.error, newState.error);
       }
     });
-    _this[symbols.sdk] = sdk;
+    _this[symbols.api] = api;
     return _this;
   }
 
@@ -162,7 +167,7 @@ var Auth = (_class = function (_RcModule) {
     value: function init() {
       var _this2 = this;
 
-      var platform = this[symbols.sdk].platform();
+      var platform = this[symbols.api].service.platform();
       this[symbols.beforeLogoutHandlers] = new _set2.default();
 
       // load info on login
@@ -254,7 +259,7 @@ var Auth = (_class = function (_RcModule) {
                   }
                 });
                 _context2.next = 3;
-                return this[symbols.sdk].platform().login({
+                return this[symbols.api].login({
                   username: username,
                   password: password,
                   extension: extension,
@@ -293,7 +298,7 @@ var Auth = (_class = function (_RcModule) {
       var display = _ref5.display;
       var prompt = _ref5.prompt;
 
-      return this[symbols.sdk].platform().loginUrl({
+      return this[symbols.api].loginUrl({
         redirectUri: redirectUri,
         state: state,
         brandId: brandId,
@@ -311,7 +316,7 @@ var Auth = (_class = function (_RcModule) {
   }, {
     key: 'parseLoginUrl',
     value: function parseLoginUrl(url) {
-      return this[symbols.sdk].platform().parseLoginRedirectUrl(url);
+      return this[symbols.api].parseLoginRedirectUrl(url);
     }
 
     /**
@@ -338,7 +343,7 @@ var Auth = (_class = function (_RcModule) {
                   }
                 });
                 _context3.next = 3;
-                return this[symbols.sdk].platform().login({
+                return this[symbols.api].login({
                   code: code,
                   redirectUri: redirectUri
                 });
@@ -478,7 +483,7 @@ var Auth = (_class = function (_RcModule) {
 
               case 27:
                 _context6.next = 29;
-                return this[symbols.sdk].platform().logout();
+                return this[symbols.api].logout();
 
               case 29:
                 return _context6.abrupt('return', _context6.sent);
@@ -532,7 +537,7 @@ var Auth = (_class = function (_RcModule) {
             switch (_context7.prev = _context7.next) {
               case 0:
                 _context7.next = 2;
-                return this[symbols.sdk].platform().loggedIn();
+                return this[symbols.api].service.platform().loggedIn();
 
               case 2:
                 return _context7.abrupt('return', _context7.sent);

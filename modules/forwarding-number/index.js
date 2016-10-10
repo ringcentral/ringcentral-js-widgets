@@ -17,6 +17,10 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -159,12 +163,11 @@ var ForwardingNumber = (_class = function (_RcModule) {
       var newData = _ref2.newData;
 
       if (!oldData[keys.storage] && !newData[keys.storage]) return;
-      if (oldData[keys.storage] && !newData[keys.storage] || !oldData[keys.storage] && newData[keys.storage] || oldData[keys.storage] !== newData[keys.storage] && oldData[keys.storage].forwardingNumbers.map(function (p) {
-        return p.id;
-      }).sort().join(',') !== newData[keys.storage].forwardingNumbers.map(function (p) {
-        return p.id;
-      }).sort().join(',')) {
-        _this.emit(_forwardingNumberEvents2.default.forwardingNumberChange, newData[keys.storage].forwardingNumbers);
+      if (oldData[keys.storage] && !newData[keys.storage] || !oldData[keys.storage] && newData[keys.storage] || oldData[keys.storage] !== newData[keys.storage] && (0, _stringify2.default)(oldData[keys.storage].forwardingNumbers) !== (0, _stringify2.default)(newData[keys.storage].forwardingNumbers)) {
+        _this.emit(_forwardingNumberEvents2.default.forwardingNumberChange, {
+          oldData: oldData[keys.storage] && oldData[keys.storage].forwardingNumbers,
+          newData: newData[keys.storage] && newData[keys.storage].forwardingNumbers
+        });
       }
     });
     return _this;

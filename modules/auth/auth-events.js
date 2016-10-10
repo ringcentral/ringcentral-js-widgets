@@ -19,7 +19,8 @@ var _authStatus2 = _interopRequireDefault(_authStatus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var eventDefinitions = (0, _extends3.default)({}, _authStatus2.default, {
-  authStatusChange: 'AUTH_STATUS_CHANGE'
+  authStatusChange: 'AUTH_STATUS_CHANGE',
+  error: 'ERROR'
 });
 
 exports.default = new _keyValueMap2.default(eventDefinitions);

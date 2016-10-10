@@ -159,8 +159,11 @@ var AccountInfo = (_class = function (_RcModule) {
       var newData = _ref2.newData;
 
       if (!oldData[keys.storage] && !newData[keys.storage]) return;
-      if (oldData[keys.storage] && !newData[keys.storage] || !oldData[keys.storage] && newData[keys.storage] || oldData[keys.storage] !== newData[keys.storage] && (0, _stringify2.default)(oldData[keys.storage]) !== (0, _stringify2.default)(newData[keys.storage])) {
-        _this.emit(_accountInfoEvents2.default.accountInfoChange, newData[keys.storage].accountInfo);
+      if (oldData[keys.storage] && !newData[keys.storage] || !oldData[keys.storage] && newData[keys.storage] || oldData[keys.storage] !== newData[keys.storage] && (0, _stringify2.default)(oldData[keys.storage].accountInfo) !== (0, _stringify2.default)(newData[keys.storage].accountInfo)) {
+        _this.emit(_accountInfoEvents2.default.accountInfoChange, {
+          oldData: oldData[keys.storage] && oldData[keys.storage].accountInfo,
+          newData: newData[keys.storage] && newData[keys.storage].accountInfo
+        });
       }
     });
     return _this;

@@ -165,7 +165,7 @@ var Storage = (_class = function (_RcModule) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                console.log('check');
+                console.log('storage init');
                 key = (_this2.prefix ? _this2.prefix + '-' : '') + 'storage-' + _this2[symbols.auth].ownerId;
 
                 _this2[symbols.storage] = new _this2[symbols.storageProvider]({ key: key });
@@ -228,28 +228,6 @@ var Storage = (_class = function (_RcModule) {
           }
         }, _callee2, _this2, [[6, 12]]);
       })));
-
-      this[symbols.auth].addBeforeLogoutHandler((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                if (_this2.status !== _storageStatus2.default.pending) {
-                  _this2.store.dispatch({
-                    type: _this2.actions.reset
-                  });
-                  _this2[symbols.unsubscribeStorage]();
-                  _this2[symbols.storage].destroy();
-                  _this2[symbols.storage] = null;
-                }
-
-              case 1:
-              case 'end':
-                return _context3.stop();
-            }
-          }
-        }, _callee3, _this2);
-      })));
       this[symbols.auth].on(this[symbols.auth].authEvents.notLoggedIn, function () {
         if (_this2.status !== _storageStatus2.default.pending) {
           _this2.store.dispatch({
@@ -264,24 +242,24 @@ var Storage = (_class = function (_RcModule) {
   }, {
     key: 'setItem',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(key, value) {
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(key, value) {
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context4.next = 2;
+                _context3.next = 2;
                 return this.setData((0, _defineProperty3.default)({}, key, value));
 
               case 2:
               case 'end':
-                return _context4.stop();
+                return _context3.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee3, this);
       }));
 
       function setItem(_x, _x2) {
-        return _ref5.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       }
 
       return setItem;
@@ -289,16 +267,16 @@ var Storage = (_class = function (_RcModule) {
   }, {
     key: 'setData',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(data) {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(data) {
         var _this3 = this;
 
         var version;
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
+        return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (!(!this.state || this.state.status === _storageStatus2.default.pending)) {
-                  _context6.next = 2;
+                  _context5.next = 2;
                   break;
                 }
 
@@ -310,25 +288,25 @@ var Storage = (_class = function (_RcModule) {
                   data: data
                 });
                 version = this.state.version;
-                _context6.prev = 4;
+                _context5.prev = 4;
 
                 this.store.dispatch({
                   type: this.actions.save
                 });
-                _context6.next = 8;
-                return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
-                  return _regenerator2.default.wrap(function _callee5$(_context5) {
+                _context5.next = 8;
+                return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+                  return _regenerator2.default.wrap(function _callee4$(_context4) {
                     while (1) {
-                      switch (_context5.prev = _context5.next) {
+                      switch (_context4.prev = _context4.next) {
                         case 0:
-                          return _context5.abrupt('return', _this3[symbols.storage].setData(_this3.getData()));
+                          return _context4.abrupt('return', _this3[symbols.storage].setData(_this3.getData()));
 
                         case 1:
                         case 'end':
-                          return _context5.stop();
+                          return _context4.stop();
                       }
                     }
-                  }, _callee5, _this3);
+                  }, _callee4, _this3);
                 }))();
 
               case 8:
@@ -336,29 +314,29 @@ var Storage = (_class = function (_RcModule) {
                   type: this.actions.saveSuccess,
                   version: version
                 });
-                _context6.next = 14;
+                _context5.next = 14;
                 break;
 
               case 11:
-                _context6.prev = 11;
-                _context6.t0 = _context6['catch'](4);
+                _context5.prev = 11;
+                _context5.t0 = _context5['catch'](4);
 
                 this.store.dispatch({
                   type: this.actions.saveError,
                   version: version,
-                  error: _context6.t0
+                  error: _context5.t0
                 });
 
               case 14:
               case 'end':
-                return _context6.stop();
+                return _context5.stop();
             }
           }
-        }, _callee6, this, [[4, 11]]);
+        }, _callee5, this, [[4, 11]]);
       }));
 
       function setData(_x3) {
-        return _ref6.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return setData;
@@ -366,16 +344,16 @@ var Storage = (_class = function (_RcModule) {
   }, {
     key: 'removeItem',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(key) {
+      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(key) {
         var _this4 = this;
 
         var version;
-        return _regenerator2.default.wrap(function _callee8$(_context8) {
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 if (!(!this.state || this.state.status === _storageStatus2.default.pending)) {
-                  _context8.next = 2;
+                  _context7.next = 2;
                   break;
                 }
 
@@ -387,25 +365,25 @@ var Storage = (_class = function (_RcModule) {
                   key: key
                 });
                 version = this.state.version;
-                _context8.prev = 4;
+                _context7.prev = 4;
 
                 this.store.dispatch({
                   type: this.actions.save
                 });
-                _context8.next = 8;
-                return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
-                  return _regenerator2.default.wrap(function _callee7$(_context7) {
+                _context7.next = 8;
+                return (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+                  return _regenerator2.default.wrap(function _callee6$(_context6) {
                     while (1) {
-                      switch (_context7.prev = _context7.next) {
+                      switch (_context6.prev = _context6.next) {
                         case 0:
-                          return _context7.abrupt('return', _this4[symbols.storage].setData(_this4.getData()));
+                          return _context6.abrupt('return', _this4[symbols.storage].setData(_this4.getData()));
 
                         case 1:
                         case 'end':
-                          return _context7.stop();
+                          return _context6.stop();
                       }
                     }
-                  }, _callee7, _this4);
+                  }, _callee6, _this4);
                 }))();
 
               case 8:
@@ -413,29 +391,29 @@ var Storage = (_class = function (_RcModule) {
                   type: this.actions.saveSuccess,
                   version: version
                 });
-                _context8.next = 14;
+                _context7.next = 14;
                 break;
 
               case 11:
-                _context8.prev = 11;
-                _context8.t0 = _context8['catch'](4);
+                _context7.prev = 11;
+                _context7.t0 = _context7['catch'](4);
 
                 this.store.dispatch({
                   type: this.actions.saveError,
                   version: version,
-                  error: _context8.t0
+                  error: _context7.t0
                 });
 
               case 14:
               case 'end':
-                return _context8.stop();
+                return _context7.stop();
             }
           }
-        }, _callee8, this, [[4, 11]]);
+        }, _callee7, this, [[4, 11]]);
       }));
 
       function removeItem(_x4) {
-        return _ref8.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       }
 
       return removeItem;
