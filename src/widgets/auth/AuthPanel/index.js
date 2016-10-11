@@ -69,6 +69,7 @@ export default class AuthPanel extends React.Component {
         this.props.auth.authorize({ code, redirectUri });
         window.removeEventListener('message', oauthChannel);
         this.removeEventListener = null;
+        win.close();
       }
     };
     this.setState({ isOauthOpened: true });
@@ -76,7 +77,7 @@ export default class AuthPanel extends React.Component {
     if (typeof(this.props.auth.loginUrl) === 'function') {
       url = this.props.auth.loginUrl({ redirectUri });
     }
-    window.open(
+    let win = window.open(
       url,
       'oauth-iframe',
       'width=400, height=600'
