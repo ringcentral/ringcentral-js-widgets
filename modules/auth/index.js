@@ -314,9 +314,11 @@ var Auth = (_class = function (_RcModule) {
      */
 
   }, {
-    key: 'parseLoginUrl',
-    value: function parseLoginUrl(url) {
-      return this[symbols.api].parseLoginRedirectUrl(url);
+    key: 'parseCallBackUrl',
+    value: function parseCallBackUrl(_ref6) {
+      var callbackUri = _ref6.callbackUri;
+
+      return this[symbols.api].getAuthCode(callbackUri);
     }
 
     /**
@@ -328,9 +330,9 @@ var Auth = (_class = function (_RcModule) {
   }, {
     key: 'authorize',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref7) {
-        var code = _ref7.code;
-        var redirectUri = _ref7.redirectUri;
+      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref8) {
+        var code = _ref8.code;
+        var redirectUri = _ref8.redirectUri;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
@@ -360,7 +362,7 @@ var Auth = (_class = function (_RcModule) {
       }));
 
       function authorize(_x2) {
-        return _ref6.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       }
 
       return authorize;
@@ -375,7 +377,7 @@ var Auth = (_class = function (_RcModule) {
   }, {
     key: 'logout',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
         var _this3 = this;
 
         var handlers, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step;
@@ -497,7 +499,7 @@ var Auth = (_class = function (_RcModule) {
       }));
 
       function logout() {
-        return _ref8.apply(this, arguments);
+        return _ref9.apply(this, arguments);
       }
 
       return logout;
@@ -531,7 +533,7 @@ var Auth = (_class = function (_RcModule) {
   }, {
     key: 'isLoggedIn',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+      var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
         return _regenerator2.default.wrap(function _callee6$(_context7) {
           while (1) {
             switch (_context7.prev = _context7.next) {
@@ -551,7 +553,7 @@ var Auth = (_class = function (_RcModule) {
       }));
 
       function isLoggedIn() {
-        return _ref10.apply(this, arguments);
+        return _ref11.apply(this, arguments);
       }
 
       return isLoggedIn;
