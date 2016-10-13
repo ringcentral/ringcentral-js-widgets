@@ -52,7 +52,7 @@ var Brand = function (_RcModule) {
       id: id,
       name: name
     };
-    _this[symbols.initialState] = function () {
+    _this[symbols.reducer] = function () {
       return _this[symbols.data];
     };
     return _this;
