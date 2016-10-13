@@ -314,8 +314,8 @@ var Auth = (_class = function (_RcModule) {
      */
 
   }, {
-    key: 'parseCallBackUrl',
-    value: function parseCallBackUrl(_ref6) {
+    key: 'parseCallbackUri',
+    value: function parseCallbackUri(_ref6) {
       var callbackUri = _ref6.callbackUri;
 
       return this[symbols.api].getAuthCode(callbackUri);
