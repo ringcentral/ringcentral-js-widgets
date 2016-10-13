@@ -18,7 +18,7 @@ var _accountInfoStatus2 = _interopRequireDefault(_accountInfoStatus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getAccountInfoReducer(prefix) {
-  var actions = (0, _reduxHelper.prefixActions)(_accountInfoActions2.default, prefix);
+  var actions = (0, _reduxHelper.prefixActions)({ actions: _accountInfoActions2.default, prefix: prefix });
   return function (state, action) {
     if (!state) {
       return {

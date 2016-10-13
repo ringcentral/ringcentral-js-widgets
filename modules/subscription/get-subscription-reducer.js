@@ -27,7 +27,7 @@ var _subscriptionStatus2 = _interopRequireDefault(_subscriptionStatus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getSubscriptionReducer(prefix) {
-  var actions = (0, _reduxHelper.prefixActions)(_subscriptionActions2.default, prefix);
+  var actions = (0, _reduxHelper.prefixActions)({ actions: _subscriptionActions2.default, prefix: prefix });
   return function (state, action) {
     if (typeof state === 'undefined') {
       return {

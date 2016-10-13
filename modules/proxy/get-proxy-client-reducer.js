@@ -19,7 +19,7 @@ var _proxyActions2 = _interopRequireDefault(_proxyActions);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getProxyClientReducer(prefix, moduleReducer) {
-  var actions = (0, _reduxHelper.prefixActions)(_proxyActions2.default, prefix);
+  var actions = (0, _reduxHelper.prefixActions)({ actions: _proxyActions2.default, prefix: prefix });
   return function (state, action) {
     if (!state) {
       return {

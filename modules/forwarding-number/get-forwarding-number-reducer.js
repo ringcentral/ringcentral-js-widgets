@@ -18,7 +18,7 @@ var _forwardingNumberStatus2 = _interopRequireDefault(_forwardingNumberStatus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getForwardingNumberReducer(prefix) {
-  var actions = (0, _reduxHelper.prefixActions)(_forwardingNumberActions2.default, prefix);
+  var actions = (0, _reduxHelper.prefixActions)({ actions: _forwardingNumberActions2.default, prefix: prefix });
   return function (state, action) {
     if (!state) {
       return {

@@ -20,7 +20,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @param {Function} moduleReducer
  */
 function getProxyServerReducer(prefix, transport, moduleReducer) {
-  var actions = (0, _reduxHelper.prefixActions)(_proxyActions2.default, prefix);
+  var actions = (0, _reduxHelper.prefixActions)({ actions: _proxyActions2.default, prefix: prefix });
   return function (state, action) {
     if (!state) {
       return {

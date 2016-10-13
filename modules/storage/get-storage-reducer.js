@@ -23,7 +23,7 @@ var _storageStatus2 = _interopRequireDefault(_storageStatus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getStorageReducer(prefix) {
-  var actions = (0, _reduxHelper.prefixActions)(_storageActions2.default, prefix);
+  var actions = (0, _reduxHelper.prefixActions)({ actions: _storageActions2.default, prefix: prefix });
   var tmp = null;
   return function (state, action) {
     if (!state) {

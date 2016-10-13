@@ -23,7 +23,7 @@ var _authStatus2 = _interopRequireDefault(_authStatus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getAuthReducer(prefix) {
-  var actions = (0, _reduxHelper.prefixActions)(_authActions2.default, prefix);
+  var actions = (0, _reduxHelper.prefixActions)({ actions: _authActions2.default, prefix: prefix });
   return function (state, action) {
     if (typeof state === 'undefined') {
       return {

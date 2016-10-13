@@ -18,7 +18,7 @@ var _blockedNumberStatus2 = _interopRequireDefault(_blockedNumberStatus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getBlockedNumberReducer(prefix) {
-  var actions = (0, _reduxHelper.prefixActions)(_blockedNumberActions2.default, prefix);
+  var actions = (0, _reduxHelper.prefixActions)({ actions: _blockedNumberActions2.default, prefix: prefix });
   return function (state, action) {
     if (!state) {
       return {

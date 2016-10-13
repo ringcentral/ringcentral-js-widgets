@@ -18,7 +18,7 @@ var _extensionInfoStatus2 = _interopRequireDefault(_extensionInfoStatus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getExtensionInfoReducer(prefix) {
-  var actions = (0, _reduxHelper.prefixActions)(_extensionInfoActions2.default, prefix);
+  var actions = (0, _reduxHelper.prefixActions)({ actions: _extensionInfoActions2.default, prefix: prefix });
   return function (state, action) {
     if (!state) {
       return {

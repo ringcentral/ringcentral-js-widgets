@@ -25,7 +25,7 @@ var initialState = {
 };
 
 function getReducer(prefix) {
-  var actions = (0, _reduxHelper.prefixActions)(_companyContactActions2.default, prefix);
+  var actions = (0, _reduxHelper.prefixActions)({ actions: _companyContactActions2.default, prefix: prefix });
 
   return function (state, action) {
     if (typeof state === 'undefined') return (0, _assign2.default)({}, initialState);

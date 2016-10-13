@@ -18,7 +18,7 @@ var _extensionPhoneNumberStatus2 = _interopRequireDefault(_extensionPhoneNumberS
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getExtensionPhoneNumberReducer(prefix) {
-  var actions = (0, _reduxHelper.prefixActions)(_extensionPhoneNumberActions2.default, prefix);
+  var actions = (0, _reduxHelper.prefixActions)({ actions: _extensionPhoneNumberActions2.default, prefix: prefix });
   return function (state, action) {
     if (!state) {
       return {

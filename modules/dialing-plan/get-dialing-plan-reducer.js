@@ -18,7 +18,7 @@ var _dialingPlanStatus2 = _interopRequireDefault(_dialingPlanStatus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getDialingPlanReducer(prefix) {
-  var actions = (0, _reduxHelper.prefixActions)(_dialingPlanActions2.default, prefix);
+  var actions = (0, _reduxHelper.prefixActions)({ actions: _dialingPlanActions2.default, prefix: prefix });
   return function (state, action) {
     if (!state) {
       return {
