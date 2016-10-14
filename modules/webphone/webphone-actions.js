@@ -4,9 +4,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _reduxHelper = require('../../lib/redux-helper');
+var _ActionMap = require('../../lib/ActionMap');
 
-exports.default = new _reduxHelper.ActionMap(['register', 'registerSuccess', 'registerError', 'unregister',
+var _ActionMap2 = _interopRequireDefault(_ActionMap);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = new _ActionMap2.default(['register', 'registerSuccess', 'registerError', 'unregister',
 
 // outbound call
 'call', 'callConnect',

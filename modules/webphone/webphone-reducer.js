@@ -10,7 +10,7 @@ var _assign2 = _interopRequireDefault(_assign);
 
 exports.default = getReducer;
 
-var _reduxHelper = require('../../lib/redux-helper');
+var _ActionMap = require('../../lib/ActionMap');
 
 var _webphoneActions = require('./webphone-actions');
 
@@ -39,7 +39,7 @@ var initialState = {
 };
 
 function getReducer(prefix) {
-  var actions = (0, _reduxHelper.prefixActions)({ actions: _webphoneActions2.default, prefix: prefix });
+  var actions = (0, _ActionMap.prefixActions)({ actions: _webphoneActions2.default, prefix: prefix });
 
   return function (state, action) {
     if (typeof state === 'undefined') return (0, _assign2.default)({}, initialState);

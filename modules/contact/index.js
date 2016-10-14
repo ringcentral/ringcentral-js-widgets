@@ -29,9 +29,9 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _rcModule = require('../../lib/rc-module');
+var _RcModule2 = require('../../lib/RcModule');
 
-var _rcModule2 = _interopRequireDefault(_rcModule);
+var _RcModule3 = _interopRequireDefault(_RcModule2);
 
 var _symbolMap = require('data-types/symbol-map');
 
@@ -52,6 +52,8 @@ var _addressBook = require('./address-book');
 var _addressBook2 = _interopRequireDefault(_addressBook);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// TODO refactor
 
 var symbols = new _symbolMap2.default(['api', 'platform', 'settings']);
 
@@ -81,7 +83,7 @@ var Contact = function (_RcModule) {
     _this[symbols.platform] = platform;
     _this[symbols.settings] = settings;
 
-    _rcModule.addModule.call(_this, 'companyContact', new _companyContact2.default({
+    _RcModule2.addModule.call(_this, 'companyContact', new _companyContact2.default({
       getState: function getState() {
         return _this.state.companyContact;
       },
@@ -91,7 +93,7 @@ var Contact = function (_RcModule) {
       settings: settings
     }));
 
-    _rcModule.addModule.call(_this, 'addressBook', new _addressBook2.default({
+    _RcModule2.addModule.call(_this, 'addressBook', new _addressBook2.default({
       getState: function getState() {
         return _this.state.addressBook;
       },
@@ -114,7 +116,7 @@ var Contact = function (_RcModule) {
     }
   }]);
   return Contact;
-}(_rcModule2.default);
+}(_RcModule3.default);
 
 exports.default = Contact;
 //# sourceMappingURL=index.js.map

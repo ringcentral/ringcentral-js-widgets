@@ -412,9 +412,9 @@ var operations = function () {
   };
 }();
 
-var _rcModule = require('../../lib/rc-module');
+var _RcModule2 = require('../../lib/RcModule');
 
-var _rcModule2 = _interopRequireDefault(_rcModule);
+var _RcModule3 = _interopRequireDefault(_RcModule2);
 
 var _symbolMap = require('data-types/symbol-map');
 
@@ -448,13 +448,15 @@ var _callStatus = require('./call-status');
 
 var _callStatus2 = _interopRequireDefault(_callStatus);
 
-var _authEvents = require('../auth/auth-events');
+var _authEvents = require('../Auth/authEvents');
 
 var _authEvents2 = _interopRequireDefault(_authEvents);
 
 var _webphoneEvents = require('./webphone-events');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// TODO refactor
 
 var symbols = new _symbolMap2.default(['api', 'auth', 'platform', 'emitter', 'settings', 'phoneInstance']);
 
@@ -966,7 +968,7 @@ var Webphone = function (_RcModule) {
     }
   }]);
   return Webphone;
-}(_rcModule2.default);
+}(_RcModule3.default);
 
 exports.default = Webphone;
 //# sourceMappingURL=index.js.map

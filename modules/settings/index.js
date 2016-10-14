@@ -29,11 +29,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _rcModule = require('../../lib/rc-module');
+var _RcModule2 = require('../../lib/RcModule');
 
-var _rcModule2 = _interopRequireDefault(_rcModule);
+var _RcModule3 = _interopRequireDefault(_RcModule2);
 
-var _reduxHelper = require('../../lib/redux-helper');
+var _ActionMap = require('../../lib/ActionMap');
+
+var _ActionMap2 = _interopRequireDefault(_ActionMap);
 
 var _redux = require('redux');
 
@@ -83,7 +85,7 @@ var Settings = function (_RcModule) {
     }
   }]);
   return Settings;
-}(_rcModule2.default);
+}(_RcModule3.default);
 
 exports.default = Settings;
 //# sourceMappingURL=index.js.map
