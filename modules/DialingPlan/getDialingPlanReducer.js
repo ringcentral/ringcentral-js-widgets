@@ -3,13 +3,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = getDialingPlanReducer;
+exports.getStatusReducer = getStatusReducer;
+exports.getErrorReducer = getErrorReducer;
+exports.default = getAccountInfoReducer;
 
-var _ActionMap = require('../../lib/ActionMap');
+var _redux = require('redux');
 
-var _dialingPlanActions = require('./dialingPlanActions');
+var _Enum = require('../../lib/Enum');
 
-var _dialingPlanActions2 = _interopRequireDefault(_dialingPlanActions);
+var _dialingPlanActionTypes = require('./dialingPlanActionTypes');
+
+var _dialingPlanActionTypes2 = _interopRequireDefault(_dialingPlanActionTypes);
 
 var _dialingPlanStatus = require('./dialingPlanStatus');
 
@@ -17,47 +21,58 @@ var _dialingPlanStatus2 = _interopRequireDefault(_dialingPlanStatus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function getDialingPlanReducer(prefix) {
-  var actions = (0, _ActionMap.prefixActions)({ actions: _dialingPlanActions2.default, prefix: prefix });
-  return function (state, action) {
-    if (!state) {
-      return {
-        status: _dialingPlanStatus2.default.pending,
-        error: null
-      };
-    }
-    if (!action) {
-      return state;
-    }
-    switch (action.type) {
-      case actions.ready:
-        return {
-          status: _dialingPlanStatus2.default.ready,
-          error: null
-        };
-      case actions.fetch:
-        return {
-          status: _dialingPlanStatus2.default.fetching,
-          error: null
-        };
-      case actions.fetchSuccess:
-        return {
-          status: _dialingPlanStatus2.default.ready,
-          error: null
-        };
-      case actions.fetchError:
-        return {
-          status: _dialingPlanStatus2.default.ready,
-          error: action.error
-        };
-      case actions.reset:
-        return {
-          status: _dialingPlanStatus2.default.pending,
-          error: null
-        };
+function getStatusReducer(prefix) {
+  var prefixedTypes = (0, _Enum.prefixEnum)({ enumMap: _dialingPlanActionTypes2.default, prefix: prefix });
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _dialingPlanStatus2.default.pending;
+    var _ref = arguments[1];
+    var type = _ref.type;
+
+    switch (type) {
+      case prefixedTypes.fetch:
+        return _dialingPlanStatus2.default.fetching;
+
+      case prefixedTypes.init:
+      case prefixedTypes.fetchSuccess:
+      case prefixedTypes.fetchError:
+        return _dialingPlanStatus2.default.ready;
+
+      case prefixedTypes.reset:
+        return _dialingPlanStatus2.default.pending;
       default:
         return state;
     }
   };
+}
+
+function getErrorReducer(prefix) {
+  var prefixedTypes = (0, _Enum.prefixEnum)({ enumMap: _dialingPlanActionTypes2.default, prefix: prefix });
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var _ref2 = arguments[1];
+    var type = _ref2.type,
+        error = _ref2.error;
+
+    switch (type) {
+      case prefixedTypes.init:
+      case prefixedTypes.fetch:
+      case prefixedTypes.fetchSuccess:
+      case prefixedTypes.reset:
+        return null;
+
+      case prefixedTypes.fetchError:
+        return error;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getAccountInfoReducer(prefix) {
+  return (0, _redux.combineReducers)({
+    status: getStatusReducer(prefix),
+    error: getErrorReducer(prefix)
+  });
 }
 //# sourceMappingURL=getDialingPlanReducer.js.map

@@ -4,17 +4,26 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
+var _extends3 = require('babel-runtime/helpers/extends');
+
+var _extends4 = _interopRequireDefault(_extends3);
+
+exports.getDataReducer = getDataReducer;
+exports.getStorageKeyReducer = getStorageKeyReducer;
+exports.getStatusReducer = getStatusReducer;
 exports.default = getStorageReducer;
 
-var _ActionMap = require('../../lib/ActionMap');
+var _redux = require('redux');
 
-var _storageActions = require('./storageActions');
+var _Enum = require('../../lib/Enum');
 
-var _storageActions2 = _interopRequireDefault(_storageActions);
+var _storageActionTypes = require('./storageActionTypes');
+
+var _storageActionTypes2 = _interopRequireDefault(_storageActionTypes);
 
 var _storageStatus = require('./storageStatus');
 
@@ -22,85 +31,90 @@ var _storageStatus2 = _interopRequireDefault(_storageStatus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function getStorageReducer(prefix) {
-  var actions = (0, _ActionMap.prefixActions)({ actions: _storageActions2.default, prefix: prefix });
-  var tmp = null;
-  return function (state, action) {
-    if (!state) {
-      return {
-        data: {},
-        key: null,
-        status: _storageStatus2.default.pending,
-        version: 0,
-        error: null
-      };
-    }
-    if (!action) {
-      return state;
-    }
-    switch (action.type) {
+function getDataReducer(prefix) {
+  var types = (0, _Enum.prefixEnum)({ enumMap: _storageActionTypes2.default, prefix: prefix });
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var _ref = arguments[1];
+    var type = _ref.type,
+        data = _ref.data,
+        key = _ref.key,
+        value = _ref.value;
 
-      case actions.init:
-        return {
-          data: action.data,
-          key: action.key,
-          status: action.status,
-          error: action.error,
-          version: state.version + 1
-        };
+    var result = void 0;
+    switch (type) {
 
-      case actions.update:
-        return (0, _extends3.default)({}, state, {
-          data: (0, _extends3.default)({}, state.data, action.data),
-          version: state.version + 1,
-          status: _storageStatus2.default.dirty
-        });
+      case types.init:
+        return data;
 
-      case actions.remove:
-        tmp = (0, _extends3.default)({}, state.data);
-        delete tmp[action.key];
-        return (0, _extends3.default)({}, state, {
-          data: tmp,
-          version: state.version + 1,
-          status: _storageStatus2.default.dirty
-        });
+      case types.set:
+        return (0, _extends4.default)({}, state, (0, _defineProperty3.default)({}, key, value));
 
-      case actions.save:
-        return (0, _extends3.default)({}, state, {
-          status: _storageStatus2.default.saving
-        });
+      case types.remove:
+        result = (0, _extends4.default)({}, state);
+        delete result[key];
+        return result;
 
-      case actions.saveSuccess:
-        return action.version === state.version ? (0, _extends3.default)({}, state, {
-          status: _storageStatus2.default.saved
-        }) : state;
+      case types.load:
+        return data;
 
-      case actions.saveError:
-        return action.version === state.version ? (0, _extends3.default)({}, state, {
-          status: _storageStatus2.default.dirty,
-          error: action.error
-        }) : state;
-
-      case actions.load:
-        return (0, _extends3.default)({}, state, {
-          data: action.data,
-          status: _storageStatus2.default.saved,
-          version: state.version + 1,
-          error: null
-        });
-
-      case actions.reset:
-        return {
-          status: _storageStatus2.default.pending,
-          data: {},
-          key: null,
-          version: state.version + 1,
-          error: null
-        };
+      case types.reset:
+        return {};
 
       default:
         return state;
     }
   };
+}
+
+function getStorageKeyReducer(prefix) {
+  var types = (0, _Enum.prefixEnum)({ enumMap: _storageActionTypes2.default, prefix: prefix });
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var _ref2 = arguments[1];
+    var type = _ref2.type,
+        storageKey = _ref2.storageKey;
+
+    switch (type) {
+
+      case types.init:
+        return storageKey;
+
+      case types.reset:
+        return null;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getStatusReducer(prefix) {
+  var types = (0, _Enum.prefixEnum)({ enumMap: _storageActionTypes2.default, prefix: prefix });
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _storageStatus2.default.pending;
+    var _ref3 = arguments[1];
+    var type = _ref3.type;
+
+    switch (type) {
+
+      case types.init:
+        return _storageStatus2.default.ready;
+
+      case types.reset:
+        return _storageStatus2.default.pending;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getStorageReducer(prefix) {
+  return (0, _redux.combineReducers)({
+    data: getDataReducer(prefix),
+    storageKey: getStorageKeyReducer(prefix),
+    status: getStatusReducer(prefix)
+  });
 }
 //# sourceMappingURL=getStorageReducer.js.map

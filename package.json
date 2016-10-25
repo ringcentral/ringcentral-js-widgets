@@ -57,6 +57,7 @@
     "data-types": "git+https://github.com/u9520107/data-types.git#release",
     "loganberry": "^0.9.1",
     "redux": "^3.5.2",
+    "reselect": "^2.5.4",
     "tabbie": "^0.8.1",
     "uuid": "^2.0.2",
     "whatwg-fetch": "^1.0.0",

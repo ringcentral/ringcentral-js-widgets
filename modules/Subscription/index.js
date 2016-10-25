@@ -5,14 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
-
-var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
-
-var _set = require('babel-runtime/core-js/set');
-
-var _set2 = _interopRequireDefault(_set);
-
 var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
@@ -53,357 +45,236 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
-
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
 
-var _symbolMap = require('data-types/symbol-map');
+var _subscriptionActionTypes = require('./subscriptionActionTypes');
 
-var _symbolMap2 = _interopRequireDefault(_symbolMap);
-
-var _keyValueMap = require('data-types/key-value-map');
-
-var _keyValueMap2 = _interopRequireDefault(_keyValueMap);
-
-var _subscriptionActions = require('./subscriptionActions');
-
-var _subscriptionActions2 = _interopRequireDefault(_subscriptionActions);
-
-var _getSubscriptionReducer = require('./getSubscriptionReducer');
-
-var _getSubscriptionReducer2 = _interopRequireDefault(_getSubscriptionReducer);
-
-var _subscriptionEvents = require('./subscriptionEvents');
-
-var _subscriptionEvents2 = _interopRequireDefault(_subscriptionEvents);
+var _subscriptionActionTypes2 = _interopRequireDefault(_subscriptionActionTypes);
 
 var _subscriptionStatus = require('./subscriptionStatus');
 
 var _subscriptionStatus2 = _interopRequireDefault(_subscriptionStatus);
 
-var _proxy = require('../../lib/proxy');
+var _getSubscriptionReducer = require('./getSubscriptionReducer');
+
+var _getSubscriptionReducer2 = _interopRequireDefault(_getSubscriptionReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-  var desc = {};
-  Object['ke' + 'ys'](descriptor).forEach(function (key) {
-    desc[key] = descriptor[key];
-  });
-  desc.enumerable = !!desc.enumerable;
-  desc.configurable = !!desc.configurable;
-
-  if ('value' in desc || desc.initializer) {
-    desc.writable = true;
-  }
-
-  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
-    return decorator(target, property, desc) || desc;
-  }, desc);
-
-  if (context && desc.initializer !== void 0) {
-    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-    desc.initializer = undefined;
-  }
-
-  if (desc.initializer === void 0) {
-    Object['define' + 'Property'](target, property, desc);
-    desc = null;
-  }
-
-  return desc;
-}
-
-var symbols = new _symbolMap2.default(['auth', 'api', 'storage', 'subscription']);
-
-var keys = new _keyValueMap2.default({
-  storage: 'subscription-cache'
-});
-
-var Subscription = (_class = function (_RcModule) {
+var Subscription = function (_RcModule) {
   (0, _inherits3.default)(Subscription, _RcModule);
 
   function Subscription(_ref) {
-    var auth = _ref.auth;
-    var api = _ref.api;
-    var storage = _ref.storage;
-    var options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'api', 'storage']);
+    var auth = _ref.auth,
+        client = _ref.client,
+        storage = _ref.storage,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'storage']);
     (0, _classCallCheck3.default)(this, Subscription);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Subscription.__proto__ || (0, _getPrototypeOf2.default)(Subscription)).call(this, (0, _extends3.default)({}, options, {
-      actions: _subscriptionActions2.default
+      actionTypes: _subscriptionActionTypes2.default
     })));
 
-    _this[symbols.auth] = auth;
-    _this[symbols.api] = api;
-    _this[symbols.storage] = storage;
-    _this[symbols.subscription] = null;
-
-    // send events based on state change
-    _this.on('state-change', function (_ref2) {
-      var oldState = _ref2.oldState;
-      var newState = _ref2.newState;
-
-      if (oldState) {
-        if (oldState.status !== newState.status) {
-          _this.emit(_subscriptionEvents2.default.statusChange, {
-            oldStatus: oldState.status,
-            newStatus: newState.status
-          });
-          _this.emit(newState.status);
-        }
-        if (newState.lastMessage && oldState.lastMessage !== newState.lastMessage) {
-          _this.emit(_subscriptionEvents2.default.notification, newState.lastMessage);
-        }
-        if (oldState.status === _subscriptionStatus2.default.pending && oldState.status !== newState.status) {
-          _this.emit(_subscriptionEvents2.default.ready);
-        }
-      }
-    });
+    _this._auth = auth;
+    _this._client = client;
+    _this._storage = storage;
+    _this._subscription = null;
+    _this._storageKey = 'subscription-cache';
+    _this._reducer = (0, _getSubscriptionReducer2.default)(_this.prefix);
     return _this;
   }
 
   (0, _createClass3.default)(Subscription, [{
-    key: 'init',
-    value: function init() {
+    key: 'initialize',
+    value: function initialize() {
       var _this2 = this;
 
-      var storage = this[symbols.storage];
-      storage.on(storage.storageEvents.ready, (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
-        var cachedSubscription;
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
+      this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context.prev = _context.next) {
               case 0:
-                if (!_this2.base) {
-                  _context6.next = 3;
+                if (!(_this2._auth.status === _this2._auth.authStatus.loggedIn && _this2._storage.status === _this2._storage.storageStatus.ready && _this2.status === _subscriptionStatus2.default.pending)) {
+                  _context.next = 16;
                   break;
                 }
 
-                _context6.next = 3;
+                if (!_this2._subscription) {
+                  _context.next = 4;
+                  break;
+                }
+
+                _context.next = 4;
                 return _this2.reset();
 
-              case 3:
-                _this2[symbols.subscription] = _this2[symbols.api].createSubscription();
-                // cached subscription
-                cachedSubscription = storage.getItem(keys.storage);
+              case 4:
+                _this2._subscription = _this2._client.createSubscription();
 
-                if (cachedSubscription) {
-                  _this2.base.setSubscription(cachedSubscription);
+                // reuse cached subscription id
+                // we're not reusing the filters however
+                if (_this2._storage.hasItem(_this2._storageKey)) {
+                  try {
+                    _this2._subscription.setSubscription(_this2._storage.getItem(_this2._storageKey));
+                  } catch (error) {
+                    // cached subscription already expired
+                  }
                 }
-                _this2.base.on(_this2.base.events.notification, function (message) {
+
+                _this2._subscription.on(_this2._subscription.events.notification, function (message) {
                   _this2.store.dispatch({
-                    type: _this2.actions.notification,
+                    type: _this2.actionTypes.notification,
                     message: message
                   });
                 });
-                _this2.base.on(_this2.base.events.removeSuccess, (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-                  return _regenerator2.default.wrap(function _callee$(_context) {
-                    while (1) {
-                      switch (_context.prev = _context.next) {
-                        case 0:
-                          _this2.base.reset();
-                          _context.next = 3;
-                          return storage.removeItem(keys.storage);
-
-                        case 3:
-                          _this2.store.dispatch({
-                            type: _this2.actions.removeSuccess
-                          });
-
-                        case 4:
-                        case 'end':
-                          return _context.stop();
-                      }
-                    }
-                  }, _callee, _this2);
-                })));
-                _this2.base.on(_this2.base.events.removeError, function (error) {
-                  _this2.store.disptach({
-                    type: _this2.actions.removeError,
+                _this2._subscription.on(_this2._subscription.events.removeSuccess, function () {
+                  _this2._subscription.reset();
+                  _this2._storage.removeItem(_this2._storageKey);
+                  _this2.store.dispatch({
+                    type: _this2.actionTypes.removeSuccess
+                  });
+                });
+                _this2._subscription.on(_this2._subscription.events.removeError, function (error) {
+                  _this2.store.dispatch({
+                    type: _this2.actionTypes.removeError,
                     error: error
                   });
                 });
-                _this2.base.on(_this2.base.events.renewSuccess, (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-                  return _regenerator2.default.wrap(function _callee2$(_context2) {
-                    while (1) {
-                      switch (_context2.prev = _context2.next) {
-                        case 0:
-                          _context2.next = 2;
-                          return storage.setItem(keys.storage, _this2.base.subscription());
-
-                        case 2:
-                          _this2.store.dispatch({
-                            type: _this2.actions.renewSuccess
-                          });
-
-                        case 3:
-                        case 'end':
-                          return _context2.stop();
-                      }
-                    }
-                  }, _callee2, _this2);
-                })));
-                _this2.base.on(_this2.base.events.renewError, function () {
-                  var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(error) {
-                    return _regenerator2.default.wrap(function _callee3$(_context3) {
-                      while (1) {
-                        switch (_context3.prev = _context3.next) {
-                          case 0:
-                            storage.removeItem(keys.storage);
-                            _this2.store.dispatch({
-                              type: _this2.actions.renewError,
-                              error: error
-                            });
-                            _this2.base.reset().setEventFilters(_this2.filters).register().catch(function (e) {});
-
-                          case 3:
-                          case 'end':
-                            return _context3.stop();
-                        }
-                      }
-                    }, _callee3, _this2);
-                  }));
-
-                  return function (_x) {
-                    return _ref6.apply(this, arguments);
-                  };
-                }());
-                _this2.base.on(_this2.base.events.subscribeSuccess, (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
-                  return _regenerator2.default.wrap(function _callee4$(_context4) {
-                    while (1) {
-                      switch (_context4.prev = _context4.next) {
-                        case 0:
-                          _context4.next = 2;
-                          return storage.setItem(keys.storage, _this2.base.subscription());
-
-                        case 2:
-                          _this2.store.dispatch({
-                            type: _this2.actions.subscribeSuccess
-                          });
-
-                        case 3:
-                        case 'end':
-                          return _context4.stop();
-                      }
-                    }
-                  }, _callee4, _this2);
-                })));
-                _this2.base.on(_this2.base.events.subscribeError, function () {
-                  var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(error) {
-                    return _regenerator2.default.wrap(function _callee5$(_context5) {
-                      while (1) {
-                        switch (_context5.prev = _context5.next) {
-                          case 0:
-                            _context5.next = 2;
-                            return storage.removeItem(keys.storage);
-
-                          case 2:
-                            _this2.store.dispatch({
-                              type: _this2.actions.subscribeError,
-                              error: error
-                            });
-
-                          case 3:
-                          case 'end':
-                            return _context5.stop();
-                        }
-                      }
-                    }, _callee5, _this2);
-                  }));
-
-                  return function (_x2) {
-                    return _ref8.apply(this, arguments);
-                  };
-                }());
-                _this2.store.dispatch({
-                  type: _this2.actions.ready
+                _this2._subscription.on(_this2._subscription.events.renewSuccess, function () {
+                  _this2._storage.setItem(_this2._storageKey, _this2._subscription.subscription());
+                  _this2.store.dispatch({
+                    type: _this2.actionTypes.renewSuccess
+                  });
                 });
+                _this2._subscription.on(_this2._subscription.events.renewError, function (error) {
+                  _this2._storage.removeItem(_this2._storageKey);
+                  _this2.store.dispatch({
+                    type: _this2.actionTypes.renewError,
+                    error: error
+                  });
+                  // TODO handle 429 error
+                  // try to re-subscribe
+                  _this2._subscription.reset().setEventFilters(_this2.filters).register().catch(function (e) {});
+                });
+                _this2._subscription.on(_this2._subscription.events.subscribeSuccess, function () {
+                  _this2._storage.setItem(_this2._storageKey, _this2._subscription.subscription());
+                  _this2.store.dispatch({
+                    type: _this2.actionTypes.subscribeSuccess
+                  });
+                });
+                _this2._subscription.on(_this2._subscription.events.subscribeError, function (error) {
+                  _this2._storage.removeItem(_this2._storageKey);
+                  _this2.store.dispatch({
+                    type: _this2.actionTypes.subscribeError,
+                    error: error
+                  });
+                });
+                _this2.store.dispatch({
+                  type: _this2.actionTypes.init
+                });
+                _context.next = 17;
+                break;
 
-              case 14:
+              case 16:
+                if (_this2._storage.status === _this2._storage.storageStatus.pending && _this2.status !== _subscriptionStatus2.default.pending && _this2.status !== _subscriptionStatus2.default.resetting) {
+                  // reset
+                  _this2.reset();
+                }
+
+              case 17:
               case 'end':
-                return _context6.stop();
+                return _context.stop();
             }
           }
-        }, _callee6, _this2);
+        }, _callee, _this2);
       })));
-
-      this[symbols.auth].on(this[symbols.auth].authEvents.loggedOut, (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
+      this._auth.addBeforeLogoutHandler((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context7.next = 2;
+                if (!_this2._resetPromise) {
+                  _context2.next = 5;
+                  break;
+                }
+
+                _context2.next = 3;
+                return _this2._resetPromise;
+
+              case 3:
+                _context2.next = 8;
+                break;
+
+              case 5:
+                if (!(_this2.status !== _subscriptionStatus2.default.pending && _this2.status !== _subscriptionStatus2.default.resetting)) {
+                  _context2.next = 8;
+                  break;
+                }
+
+                _context2.next = 8;
                 return _this2.reset();
 
-              case 2:
+              case 8:
               case 'end':
-                return _context7.stop();
+                return _context2.stop();
             }
           }
-        }, _callee7, _this2);
-      })));
-
-      this[symbols.auth].addBeforeLogoutHandler((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
-        return _regenerator2.default.wrap(function _callee8$(_context8) {
-          while (1) {
-            switch (_context8.prev = _context8.next) {
-              case 0:
-                _context8.next = 2;
-                return _this2.reset();
-
-              case 2:
-              case 'end':
-                return _context8.stop();
-            }
-          }
-        }, _callee8, _this2);
+        }, _callee2, _this2);
       })));
     }
   }, {
     key: 'subscribe',
     value: function () {
-      var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9(events) {
-        var newFilters;
-        return _regenerator2.default.wrap(function _callee9$(_context9) {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(events) {
+        var oldFilters;
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 if (!(this.status === _subscriptionStatus2.default.pending)) {
-                  _context9.next = 2;
+                  _context3.next = 2;
                   break;
                 }
 
-                throw new Error('Called before module is ready');
+                throw new Error('Subscription module is not ready');
 
               case 2:
-                newFilters = [].concat((0, _toConsumableArray3.default)(new _set2.default([].concat((0, _toConsumableArray3.default)(this.filters)).concat(events))));
+                oldFilters = this.filters;
 
-                if (!(newFilters.length !== this.filters.length)) {
-                  _context9.next = 8;
+                this.store.dispatch({
+                  type: this.actionTypes.addFilters,
+                  filters: events
+                });
+
+                if (!(this.filters.length !== oldFilters.length)) {
+                  _context3.next = 13;
                   break;
                 }
 
-                this.store.dispatch({
-                  type: this.actions.setFilters,
-                  filters: newFilters
-                });
-                this.base.setEventFilters(newFilters);
-                _context9.next = 8;
-                return this.base.register();
+                this._subscription.setEventFilters([].concat((0, _toConsumableArray3.default)(this.filters)));
+                _context3.prev = 6;
+                _context3.next = 9;
+                return this._subscription.register();
 
-              case 8:
+              case 9:
+                _context3.next = 13;
+                break;
+
+              case 11:
+                _context3.prev = 11;
+                _context3.t0 = _context3['catch'](6);
+
+              case 13:
               case 'end':
-                return _context9.stop();
+                return _context3.stop();
             }
           }
-        }, _callee9, this);
+        }, _callee3, this, [[6, 11]]);
       }));
 
-      function subscribe(_x3) {
-        return _ref11.apply(this, arguments);
+      function subscribe(_x) {
+        return _ref4.apply(this, arguments);
       }
 
       return subscribe;
@@ -411,59 +282,60 @@ var Subscription = (_class = function (_RcModule) {
   }, {
     key: 'unsubscribe',
     value: function () {
-      var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(events) {
-        var newFilters;
-        return _regenerator2.default.wrap(function _callee10$(_context10) {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(events) {
+        var oldFilters;
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 if (!(this.status === _subscriptionStatus2.default.pending)) {
-                  _context10.next = 2;
+                  _context4.next = 2;
                   break;
                 }
 
-                throw new Error('Called before module is ready');
+                throw new Error('Subscription module is not ready');
 
               case 2:
-                newFilters = [].concat((0, _toConsumableArray3.default)(new _set2.default([].concat((0, _toConsumableArray3.default)(this.filters))).remove([].concat(events))));
-
-                if (!(newFilters.length !== this.filters.length)) {
-                  _context10.next = 13;
-                  break;
-                }
+                oldFilters = this.filters;
 
                 this.store.dispatch({
-                  type: this.actions.setFilters,
-                  filters: newFilters
+                  type: this.actionTypes.removeFilters,
+                  filters: events
                 });
-                this.base.setEventFilters(newFilters);
 
-                if (!(newFilters.length > 0)) {
-                  _context10.next = 11;
+                if (!(this.filters.length !== oldFilters)) {
+                  _context4.next = 13;
                   break;
                 }
 
-                _context10.next = 9;
-                return this.base.register();
+                this._subscription.setEventFilters([].concat((0, _toConsumableArray3.default)(this.filters)));
+
+                if (!(this.filters.length > 0)) {
+                  _context4.next = 11;
+                  break;
+                }
+
+                _context4.next = 9;
+                return this._subscription.register();
 
               case 9:
-                _context10.next = 13;
+                _context4.next = 13;
                 break;
 
               case 11:
-                _context10.next = 13;
-                return this.base.remove();
+                _context4.next = 13;
+                return this._subscription.remove();
 
               case 13:
               case 'end':
-                return _context10.stop();
+                return _context4.stop();
             }
           }
-        }, _callee10, this);
+        }, _callee4, this);
       }));
 
-      function unsubscribe(_x4) {
-        return _ref12.apply(this, arguments);
+      function unsubscribe(_x2) {
+        return _ref5.apply(this, arguments);
       }
 
       return unsubscribe;
@@ -471,67 +343,87 @@ var Subscription = (_class = function (_RcModule) {
   }, {
     key: 'reset',
     value: function () {
-      var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11() {
-        return _regenerator2.default.wrap(function _callee11$(_context11) {
+      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+        var _this3 = this;
+
+        return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                if (!this.base) {
-                  _context11.next = 15;
-                  break;
+                if (!this._resetPromise) {
+                  this._resetPromise = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+                    return _regenerator2.default.wrap(function _callee5$(_context5) {
+                      while (1) {
+                        switch (_context5.prev = _context5.next) {
+                          case 0:
+                            _this3.store.dispatch({
+                              type: _this3.actionTypes.reset
+                            });
+
+                            if (!_this3._subscription) {
+                              _context5.next = 14;
+                              break;
+                            }
+
+                            _context5.prev = 2;
+
+                            if (!(_this3.status === _subscriptionStatus2.default.subscribed)) {
+                              _context5.next = 8;
+                              break;
+                            }
+
+                            _context5.next = 6;
+                            return _this3._subscription.remove();
+
+                          case 6:
+                            _context5.next = 9;
+                            break;
+
+                          case 8:
+                            _this3._subscription.reset();
+
+                          case 9:
+                            _context5.next = 13;
+                            break;
+
+                          case 11:
+                            _context5.prev = 11;
+                            _context5.t0 = _context5['catch'](2);
+
+                          case 13:
+                            _this3._subscription = null;
+
+                          case 14:
+                            _this3.store.dispatch({
+                              type: _this3.actionTypes.resetSuccess
+                            });
+                            _this3._resetPromise = null;
+
+                          case 16:
+                          case 'end':
+                            return _context5.stop();
+                        }
+                      }
+                    }, _callee5, _this3, [[2, 11]]);
+                  }))();
                 }
+                _context6.next = 3;
+                return this._resetPromise;
 
-                _context11.prev = 1;
-
-                if (!(this.status === _subscriptionStatus2.default.subscribed)) {
-                  _context11.next = 7;
-                  break;
-                }
-
-                _context11.next = 5;
-                return this.base.remove();
-
-              case 5:
-                _context11.next = 9;
-                break;
-
-              case 7:
-                _context11.next = 9;
-                return this.base.reset();
-
-              case 9:
-                _context11.next = 13;
-                break;
-
-              case 11:
-                _context11.prev = 11;
-                _context11.t0 = _context11['catch'](1);
-
-              case 13:
-                this[symbols.subscription] = null;
-                this.store.dispatch({
-                  type: this.actions.reset
-                });
-
-              case 15:
+              case 3:
               case 'end':
-                return _context11.stop();
+                return _context6.stop();
             }
           }
-        }, _callee11, this, [[1, 11]]);
+        }, _callee6, this);
       }));
 
       function reset() {
-        return _ref13.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return reset;
     }()
-  }, {
-    key: 'reducer',
-    get: function get() {
-      return (0, _getSubscriptionReducer2.default)(this.prefix);
-    }
   }, {
     key: 'status',
     get: function get() {
@@ -543,24 +435,14 @@ var Subscription = (_class = function (_RcModule) {
       return this.state.filters;
     }
   }, {
-    key: 'base',
+    key: 'message',
     get: function get() {
-      return this[symbols.subscription];
+      return this.state.message;
     }
   }, {
-    key: 'subscriptionEvents',
+    key: 'error',
     get: function get() {
-      return _subscriptionEvents2.default;
-    }
-  }, {
-    key: 'subscriptionStatus',
-    get: function get() {
-      return _subscriptionStatus2.default;
-    }
-  }], [{
-    key: 'subscriptionEvents',
-    get: function get() {
-      return _subscriptionEvents2.default;
+      return this.state.error;
     }
   }, {
     key: 'subscriptionStatus',
@@ -569,6 +451,7 @@ var Subscription = (_class = function (_RcModule) {
     }
   }]);
   return Subscription;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'init', [_RcModule2.initFunction], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'init'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'subscribe', [_proxy.proxify], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'subscribe'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'unsubscribe', [_proxy.proxify], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'unsubscribe'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'reset', [_proxy.proxify], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'reset'), _class.prototype)), _class);
+}(_RcModule3.default);
+
 exports.default = Subscription;
 //# sourceMappingURL=index.js.map
