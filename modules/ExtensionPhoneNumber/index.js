@@ -88,7 +88,7 @@ var ExtensionPhoneNumber = function (_RcModule) {
     _this._promise = null;
 
     _this.addSelector('companyNumbers', function () {
-      return _this.data.phoneNumber;
+      return _this.data.extensionPhoneNumbers;
     }, function (phoneNumbers) {
       return phoneNumbers.filter(function (p) {
         return p.usageType === 'CompanyNumber';
@@ -148,7 +148,7 @@ var ExtensionPhoneNumber = function (_RcModule) {
                             _context.t2 = _context.sent;
                             _context.t3 = Date.now();
                             _context.t4 = {
-                              extensionPhoneNumber: _context.t2,
+                              extensionPhoneNumbers: _context.t2,
                               timestamp: _context.t3
                             };
 
