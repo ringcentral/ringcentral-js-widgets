@@ -215,7 +215,7 @@ var ExtensionPhoneNumber = function (_RcModule) {
   }, {
     key: 'phoneNumbers',
     get: function get() {
-      return this.data.phoneNumbers;
+      return this.data.extensionPhoneNumbers;
     }
   }, {
     key: 'companyNumbers',
