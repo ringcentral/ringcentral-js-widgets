@@ -140,7 +140,7 @@ var ForwardingNumber = function (_RcModule) {
                             _context.t2 = _context.sent;
                             _context.t3 = Date.now();
                             _context.t4 = {
-                              forwardingNumber: _context.t2,
+                              forwardingNumbers: _context.t2,
                               timestamp: _context.t3
                             };
 
@@ -193,6 +193,11 @@ var ForwardingNumber = function (_RcModule) {
     key: 'data',
     get: function get() {
       return this._storage.getItem(this._storageKey);
+    }
+  }, {
+    key: 'numbers',
+    get: function get() {
+      return this.data.forwardingNumbers;
     }
   }, {
     key: 'status',

@@ -194,6 +194,11 @@ var AccountInfo = function (_RcModule) {
       return this.state.status;
     }
   }, {
+    key: 'country',
+    get: function get() {
+      return this.data.serviceInfo.brand.homeCountry;
+    }
+  }, {
     key: 'error',
     get: function get() {
       return this.state.error;

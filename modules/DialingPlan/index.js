@@ -140,7 +140,7 @@ var DialingPlan = function (_RcModule) {
                             _context.t2 = _context.sent;
                             _context.t3 = Date.now();
                             _context.t4 = {
-                              dialingPlan: _context.t2,
+                              dialingPlans: _context.t2,
                               timestamp: _context.t3
                             };
 
@@ -193,6 +193,11 @@ var DialingPlan = function (_RcModule) {
     key: 'data',
     get: function get() {
       return this._storage.getItem(this._storageKey);
+    }
+  }, {
+    key: 'plans',
+    get: function get() {
+      return this.data.dialingPlans;
     }
   }, {
     key: 'status',
