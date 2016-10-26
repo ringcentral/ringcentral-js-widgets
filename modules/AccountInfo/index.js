@@ -196,7 +196,7 @@ var AccountInfo = function (_RcModule) {
   }, {
     key: 'country',
     get: function get() {
-      return this.data.serviceInfo.brand.homeCountry;
+      return this.data.accountInfo.serviceInfo.brand.homeCountry;
     }
   }, {
     key: 'error',
