@@ -10,5 +10,5 @@ var _Enum2 = _interopRequireDefault(_Enum);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default(['pending', 'fetching', 'ready'], 'extensionPhoneNumber');
+exports.default = new _Enum2.default(['pending', 'fetching', 'error', 'ready'], 'extensionPhoneNumber');
 //# sourceMappingURL=extensionPhoneNumberStatus.js.map

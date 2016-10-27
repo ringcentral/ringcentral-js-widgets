@@ -10,5 +10,5 @@ var _Enum2 = _interopRequireDefault(_Enum);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default(['pending', 'fetching', 'ready'], 'blockedNumber');
+exports.default = new _Enum2.default(['pending', 'fetching', 'error', 'ready'], 'blockedNumber');
 //# sourceMappingURL=blockedNumberStatus.js.map

@@ -22,22 +22,24 @@ var _blockedNumberStatus2 = _interopRequireDefault(_blockedNumberStatus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getStatusReducer(prefix) {
-  var prefixedTypes = (0, _Enum.prefixEnum)({ enumMap: _blockedNumberActionTypes2.default, prefix: prefix });
+  var types = (0, _Enum.prefixEnum)({ enumMap: _blockedNumberActionTypes2.default, prefix: prefix });
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _blockedNumberStatus2.default.pending;
     var _ref = arguments[1];
     var type = _ref.type;
 
     switch (type) {
-      case prefixedTypes.fetch:
+      case types.fetch:
         return _blockedNumberStatus2.default.fetching;
 
-      case prefixedTypes.init:
-      case prefixedTypes.fetchSuccess:
-      case prefixedTypes.fetchError:
+      case types.init:
+      case types.fetchSuccess:
         return _blockedNumberStatus2.default.ready;
 
-      case prefixedTypes.reset:
+      case types.fetchError:
+        return _blockedNumberStatus2.default.error;
+
+      case types.reset:
         return _blockedNumberStatus2.default.pending;
       default:
         return state;
@@ -46,7 +48,7 @@ function getStatusReducer(prefix) {
 }
 
 function getErrorReducer(prefix) {
-  var prefixedTypes = (0, _Enum.prefixEnum)({ enumMap: _blockedNumberActionTypes2.default, prefix: prefix });
+  var types = (0, _Enum.prefixEnum)({ enumMap: _blockedNumberActionTypes2.default, prefix: prefix });
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref2 = arguments[1];
@@ -54,13 +56,13 @@ function getErrorReducer(prefix) {
         error = _ref2.error;
 
     switch (type) {
-      case prefixedTypes.init:
-      case prefixedTypes.fetch:
-      case prefixedTypes.fetchSuccess:
-      case prefixedTypes.reset:
+      case types.init:
+      case types.fetch:
+      case types.fetchSuccess:
+      case types.reset:
         return null;
 
-      case prefixedTypes.fetchError:
+      case types.fetchError:
         return error;
 
       default:

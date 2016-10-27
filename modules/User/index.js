@@ -157,6 +157,8 @@ var User = function (_RcModule) {
         return _userStatus2.default.pending;
       } else if (this.accountInfo.status === this.accountInfo.accountInfoStatus.fetching || this.extensionInfo.status === this.extensionInfo.extensionInfoStatus.fetching || this.dialingPlan.status === this.dialingPlan.dialingPlanStatus.fetching || this.phoneNumber.status === this.phoneNumber.extensionPhoneNumberStatus.fetching || this.forwardingNumber.status === this.forwardingNumber.forwardingNumberStatus.fetching || this.blockedNumber.status === this.blockedNumber.blockedNumberStatus.fetching) {
         return _userStatus2.default.fetching;
+      } else if (this.accountInfo.status === this.accountInfo.accountInfoStatus.error || this.extensionInfo.status === this.extensionInfo.extensionInfoStatus.error || this.dialingPlan.status === this.dialingPlan.dialingPlanStatus.error || this.phoneNumber.status === this.phoneNumber.extensionPhoneNumberStatus.error || this.forwardingNumber.status === this.forwardingNumber.forwardingNumberStatus.error || this.blockedNumber.status === this.blockedNumber.blockedNumberStatus.error) {
+        return _userStatus2.default.error;
       }
       return _userStatus2.default.ready;
     }

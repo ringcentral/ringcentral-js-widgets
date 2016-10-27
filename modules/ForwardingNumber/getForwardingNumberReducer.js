@@ -34,8 +34,10 @@ function getStatusReducer(prefix) {
 
       case prefixedTypes.init:
       case prefixedTypes.fetchSuccess:
-      case prefixedTypes.fetchError:
         return _forwardingNumberStatus2.default.ready;
+
+      case prefixedTypes.fetchError:
+        return _forwardingNumberStatus2.default.error;
 
       case prefixedTypes.reset:
         return _forwardingNumberStatus2.default.pending;

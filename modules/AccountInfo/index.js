@@ -92,11 +92,12 @@ var AccountInfo = function (_RcModule) {
 
       this.store.subscribe(function () {
         if (_this2._storage.status !== _this2._storage.storageStatus.pending && _this2.status === _accountInfoStatus2.default.pending) {
-          _this2.store.dispatch({
-            type: _this2.actionTypes.init
-          });
           if (_this2._auth.isFreshLogin || !_this2._storage.hasItem(_this2._storageKey) || Date.now() - _this2.data > _this2._ttl) {
             _this2.loadAccountInfo();
+          } else {
+            _this2.store.dispatch({
+              type: _this2.actionTypes.init
+            });
           }
         } else if (_this2._storage.status === _this2._storage.storageStatus.pending && _this2.status !== _accountInfoStatus2.default.pending) {
           _this2.store.dispatch({
