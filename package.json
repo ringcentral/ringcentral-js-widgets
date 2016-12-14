@@ -55,6 +55,8 @@
   },
   "dependencies": {
     "data-types": "git+https://github.com/u9520107/data-types.git#release",
+    "format-message": "^5.0.0",
+    "intl": "^1.2.5",
     "loganberry": "^0.9.1",
     "redux": "^3.5.2",
     "reselect": "^2.5.4",

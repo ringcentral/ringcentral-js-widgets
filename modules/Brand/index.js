@@ -41,7 +41,8 @@ var Brand = function (_RcModule) {
   function Brand(_ref) {
     var id = _ref.id,
         name = _ref.name,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['id', 'name']);
+        fullName = _ref.fullName,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['id', 'name', 'fullName']);
     (0, _classCallCheck3.default)(this, Brand);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Brand.__proto__ || (0, _getPrototypeOf2.default)(Brand)).call(this, options));
@@ -49,7 +50,8 @@ var Brand = function (_RcModule) {
     _this._reducer = function () {
       var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
         id: id,
-        name: name
+        name: name,
+        fullName: fullName
       };
       return state;
     };
@@ -65,6 +67,11 @@ var Brand = function (_RcModule) {
     key: 'name',
     get: function get() {
       return this.state.name;
+    }
+  }, {
+    key: 'fullName',
+    get: function get() {
+      return this.state.fullName;
     }
   }]);
   return Brand;

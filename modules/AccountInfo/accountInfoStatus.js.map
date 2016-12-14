@@ -1,1 +1,0 @@
-{"version":3,"sources":["modules/AccountInfo/accountInfoStatus.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,SADsB,EAEtB,UAFsB,EAGtB,OAHsB,EAItB,OAJsB,CAAT,EAKZ,aALY,C","file":"accountInfoStatus.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'pending',\n  'fetching',\n  'error',\n  'ready',\n], 'accountInfo');\n"]}

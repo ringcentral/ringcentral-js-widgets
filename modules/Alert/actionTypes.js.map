@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/Alert/actionTypes.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,OADsB,EAEtB,SAFsB,EAGtB,YAHsB,CAAT,EAIZ,OAJY,C","file":"actionTypes.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'alert',\n  'dismiss',\n  'dismissAll',\n], 'alert');\n"]}

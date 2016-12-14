@@ -1,1 +1,0 @@
-{"version":3,"sources":["modules/Storage/storageStatus.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,SADsB,EAEtB,OAFsB,CAAT,EAGZ,SAHY,C","file":"storageStatus.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'pending',\n  'ready',\n], 'storage');\n"]}

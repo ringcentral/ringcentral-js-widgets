@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/Alert/alertLevels.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,SADsB,EAEtB,QAFsB,EAGtB,SAHsB,EAItB,MAJsB,CAAT,C","file":"alertLevels.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'success',\n  'danger',\n  'warning',\n  'info',\n]);\n"]}

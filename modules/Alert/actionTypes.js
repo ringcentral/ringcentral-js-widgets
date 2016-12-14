@@ -10,5 +10,5 @@ var _Enum2 = _interopRequireDefault(_Enum);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default(['loggingIn', 'loggedIn', 'beforeLogout', 'loggingOut', 'notLoggedIn'], 'authStatus');
-//# sourceMappingURL=authStatus.js.map
+exports.default = new _Enum2.default(['alert', 'dismiss', 'dismissAll'], 'alert');
+//# sourceMappingURL=actionTypes.js.map

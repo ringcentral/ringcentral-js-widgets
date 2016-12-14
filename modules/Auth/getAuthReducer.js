@@ -4,96 +4,81 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getStatusReducer = getStatusReducer;
-exports.getErrorReducer = getErrorReducer;
+exports.getAuthStatusReducer = getAuthStatusReducer;
 exports.getOwnerIdReducer = getOwnerIdReducer;
 exports.getFreshLoginReducer = getFreshLoginReducer;
 exports.default = getAuthReducer;
 
 var _redux = require('redux');
 
-var _Enum = require('../../lib/Enum');
-
-var _authActionTypes = require('./authActionTypes');
-
-var _authActionTypes2 = _interopRequireDefault(_authActionTypes);
-
 var _authStatus = require('./authStatus');
 
 var _authStatus2 = _interopRequireDefault(_authStatus);
 
+var _moduleStatus = require('../../enums/moduleStatus');
+
+var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function getStatusReducer(prefix) {
-  var prefixedTypes = (0, _Enum.prefixEnum)({ enumMap: _authActionTypes2.default, prefix: prefix });
+function getStatusReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _authStatus2.default.pending;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _moduleStatus2.default.pending;
     var _ref = arguments[1];
-    var type = _ref.type,
-        loggedIn = _ref.loggedIn;
+    var type = _ref.type;
 
     switch (type) {
-      case prefixedTypes.login:
-        return _authStatus2.default.loggingIn;
-
-      case prefixedTypes.loginSuccess:
-      case prefixedTypes.refreshSuccess:
-      case prefixedTypes.cancelLogout:
-        return _authStatus2.default.loggedIn;
-
-      case prefixedTypes.loginError:
-      case prefixedTypes.logoutSuccess:
-      case prefixedTypes.logoutError:
-      case prefixedTypes.refreshError:
-        return _authStatus2.default.notLoggedIn;
-
-      case prefixedTypes.logout:
-        return _authStatus2.default.loggingOut;
-
-      case prefixedTypes.beforeLogout:
-        return _authStatus2.default.beforeLogout;
-
-      case prefixedTypes.init:
-        return loggedIn ? _authStatus2.default.loggedIn : _authStatus2.default.notLoggedIn;
-
-      case prefixedTypes.refresh:
+      case types.init:
+        return _moduleStatus2.default.initializing;
+      case types.initSuccess:
+        return _moduleStatus2.default.ready;
       default:
         return state;
     }
   };
 }
 
-function getErrorReducer(prefix) {
-  var prefixedTypes = (0, _Enum.prefixEnum)({ enumMap: _authActionTypes2.default, prefix: prefix });
+function getAuthStatusReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref2 = arguments[1];
     var type = _ref2.type,
-        _ref2$error = _ref2.error,
-        error = _ref2$error === undefined ? null : _ref2$error;
+        loggedIn = _ref2.loggedIn,
+        refreshTokenValid = _ref2.refreshTokenValid;
 
     switch (type) {
-      case prefixedTypes.loginError:
-      case prefixedTypes.logoutError:
-      case prefixedTypes.refreshError:
-      case prefixedTypes.cancelLogout:
-        return error;
-      case prefixedTypes.login:
-      case prefixedTypes.loginSuccess:
-      case prefixedTypes.logout:
-      case prefixedTypes.logoutSuccess:
-      case prefixedTypes.refresh:
-      case prefixedTypes.refreshSuccess:
-      case prefixedTypes.beforeLogout:
-      case prefixedTypes.init:
-        return null;
+      case types.login:
+        return _authStatus2.default.loggingIn;
+
+      case types.loginSuccess:
+      case types.refreshSuccess:
+      case types.cancelLogout:
+        return _authStatus2.default.loggedIn;
+
+      case types.loginError:
+      case types.logoutSuccess:
+      case types.logoutError:
+        return _authStatus2.default.notLoggedIn;
+
+      case types.refreshError:
+        return refreshTokenValid ? state : _authStatus2.default.notLoggedIn;
+
+      case types.logout:
+        return _authStatus2.default.loggingOut;
+
+      case types.beforeLogout:
+        return _authStatus2.default.beforeLogout;
+
+      case types.initSuccess:
+        return loggedIn ? _authStatus2.default.loggedIn : _authStatus2.default.notLoggedIn;
+
       default:
         return state;
     }
   };
 }
 
-function getOwnerIdReducer(prefix) {
-  var prefixedTypes = (0, _Enum.prefixEnum)({ enumMap: _authActionTypes2.default, prefix: prefix });
+function getOwnerIdReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref3 = arguments[1];
@@ -102,17 +87,17 @@ function getOwnerIdReducer(prefix) {
 
     switch (type) {
 
-      case prefixedTypes.loginSuccess:
-      case prefixedTypes.refreshSuccess:
+      case types.loginSuccess:
+      case types.refreshSuccess:
         return token.owner_id;
 
-      case _authActionTypes2.default.loginError:
-      case _authActionTypes2.default.logoutSuccess:
-      case _authActionTypes2.default.logoutError:
-      case _authActionTypes2.default.refreshError:
+      case types.loginError:
+      case types.logoutSuccess:
+      case types.logoutError:
+      case types.refreshError:
         return null;
 
-      case prefixedTypes.init:
+      case types.initSuccess:
         return token && token.owner_id || null;
 
       default:
@@ -121,8 +106,7 @@ function getOwnerIdReducer(prefix) {
   };
 }
 
-function getFreshLoginReducer(prefix) {
-  var prefixedTypes = (0, _Enum.prefixEnum)({ enumMap: _authActionTypes2.default, prefix: prefix });
+function getFreshLoginReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref4 = arguments[1];
@@ -131,36 +115,30 @@ function getFreshLoginReducer(prefix) {
 
     switch (type) {
 
-      case prefixedTypes.init:
+      case types.initSuccess:
         return loggedIn ? false : null;
 
-      case prefixedTypes.login:
+      case types.login:
         return true;
 
-      case prefixedTypes.loginError:
-      case prefixedTypes.refreshError:
-      case prefixedTypes.logoutSuccess:
-      case prefixedTypes.logoutError:
+      case types.loginError:
+      case types.refreshError:
+      case types.logoutSuccess:
+      case types.logoutError:
         return null;
 
-      case prefixedTypes.cancelLogout:
-      case prefixedTypes.loginSuccess:
-      case prefixedTypes.logout:
-      case prefixedTypes.refresh:
-      case prefixedTypes.refreshSuccess:
-      case prefixedTypes.beforeLogout:
       default:
         return state;
     }
   };
 }
 
-function getAuthReducer(prefix) {
+function getAuthReducer(types) {
   return (0, _redux.combineReducers)({
-    status: getStatusReducer(prefix),
-    freshLogin: getFreshLoginReducer(prefix),
-    error: getErrorReducer(prefix),
-    ownerId: getOwnerIdReducer(prefix)
+    status: getStatusReducer(types),
+    authStatus: getAuthStatusReducer(types),
+    freshLogin: getFreshLoginReducer(types),
+    ownerId: getOwnerIdReducer(types)
   });
 }
 //# sourceMappingURL=getAuthReducer.js.map
