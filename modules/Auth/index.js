@@ -560,7 +560,7 @@ var Auth = function (_RcModule) {
       this._beforeLogoutHandlers.remove(handler);
     }
   }, {
-    key: 'checkIsLoginStatus',
+    key: 'checkIsLoggedIn',
     value: function () {
       var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
         return _regenerator2.default.wrap(function _callee5$(_context6) {
@@ -581,11 +581,11 @@ var Auth = function (_RcModule) {
         }, _callee5, this);
       }));
 
-      function checkIsLoginStatus() {
+      function checkIsLoggedIn() {
         return _ref8.apply(this, arguments);
       }
 
-      return checkIsLoginStatus;
+      return checkIsLoggedIn;
     }()
 
     /**
