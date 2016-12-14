@@ -33,6 +33,10 @@ var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
 
+var _moduleStatus = require('../../enums/moduleStatus');
+
+var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Brand = function (_RcModule) {
@@ -72,6 +76,16 @@ var Brand = function (_RcModule) {
     key: 'fullName',
     get: function get() {
       return this.state.fullName;
+    }
+  }, {
+    key: 'status',
+    get: function get() {
+      return _moduleStatus2.default.ready;
+    }
+  }, {
+    key: 'ready',
+    get: function get() {
+      return true;
     }
   }]);
   return Brand;

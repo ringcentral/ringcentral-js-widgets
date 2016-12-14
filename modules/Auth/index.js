@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = exports.loginStatus = undefined;
 
 var _promise = require('babel-runtime/core-js/promise');
 
@@ -77,9 +77,9 @@ var _actionTypes = require('./actionTypes');
 
 var _actionTypes2 = _interopRequireDefault(_actionTypes);
 
-var _authStatus = require('./authStatus');
+var _loginStatus = require('./loginStatus');
 
-var _authStatus2 = _interopRequireDefault(_authStatus);
+var _loginStatus2 = _interopRequireDefault(_loginStatus);
 
 var _authMessages = require('./authMessages');
 
@@ -90,6 +90,9 @@ var _moduleStatus = require('../../enums/moduleStatus');
 var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.loginStatus = _loginStatus2.default;
+
 
 function getDefaultRedirectUri() {
   if (typeof window !== 'undefined') {
@@ -557,7 +560,7 @@ var Auth = function (_RcModule) {
       this._beforeLogoutHandlers.remove(handler);
     }
   }, {
-    key: 'isLoggedIn',
+    key: 'checkIsLoginStatus',
     value: function () {
       var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
         return _regenerator2.default.wrap(function _callee5$(_context6) {
@@ -568,7 +571,7 @@ var Auth = function (_RcModule) {
                 return this._client.service.platform().loggedIn();
 
               case 2:
-                return _context6.abrupt('return', this.status === _authStatus2.default.loggedIn);
+                return _context6.abrupt('return', this.status === _loginStatus2.default.loggedIn);
 
               case 3:
               case 'end':
@@ -578,11 +581,11 @@ var Auth = function (_RcModule) {
         }, _callee5, this);
       }));
 
-      function isLoggedIn() {
+      function checkIsLoginStatus() {
         return _ref8.apply(this, arguments);
       }
 
-      return isLoggedIn;
+      return checkIsLoginStatus;
     }()
 
     /**
@@ -732,19 +735,9 @@ var Auth = function (_RcModule) {
       return this.state.status === _moduleStatus2.default.ready;
     }
   }, {
-    key: 'initializing',
+    key: 'loginStatus',
     get: function get() {
-      return this.state.status === _moduleStatus2.default.initializing;
-    }
-  }, {
-    key: 'pending',
-    get: function get() {
-      return this.state.status === _moduleStatus2.default.pending;
-    }
-  }, {
-    key: 'authStatus',
-    get: function get() {
-      return this.state.authStatus;
+      return this.state.loginStatus;
     }
   }, {
     key: 'isFreshLogin',

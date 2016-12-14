@@ -219,11 +219,6 @@ var Locale = function (_RcModule) {
     get: function get() {
       return this.state.status === _moduleStatus2.default.ready;
     }
-  }, {
-    key: 'pending',
-    get: function get() {
-      return this.state.status === _moduleStatus2.default.pending;
-    }
   }]);
   return Locale;
 }(_RcModule3.default);
