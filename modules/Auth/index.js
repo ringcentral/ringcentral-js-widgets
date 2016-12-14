@@ -600,7 +600,7 @@ var Auth = function (_RcModule) {
     value: function setupProxyFrame(onLogin) {
       var _this6 = this;
 
-      if (typeof window !== 'undefined' && typeof document !== 'undefined' && this._proxyUrl && this._proxyUrl !== '' && !this._proxyFrame) {
+      if (typeof window !== 'undefined' && typeof document !== 'undefined' && this._proxyUri && this._proxyUri !== '' && !this._proxyFrame) {
         this._proxyFrame = document.createElement('iframe');
         this._proxyFrame.src = this.proxyUri;
         this._proxyFrame.style.display = 'none';
