@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/GlobalStorage/actionTypes.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,MADsB,EAEtB,OAFsB,EAGtB,cAHsB,EAItB,MAJsB,CAAT,EAKZ,eALY,C","file":"actionTypes.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'init',\n  'reset',\n  'resetSuccess',\n  'sync',\n], 'globalStorage');\n"]}
