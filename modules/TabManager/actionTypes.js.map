@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/TabManager/actionTypes.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,MADsB,EAEtB,kBAFsB,EAGtB,OAHsB,CAAT,EAIZ,YAJY,C","file":"actionTypes.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'init',\n  'mainTabIdChanged',\n  'event',\n], 'tabManager');\n"]}

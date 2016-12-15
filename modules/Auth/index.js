@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.loginStatus = undefined;
+exports.default = undefined;
 
 var _promise = require('babel-runtime/core-js/promise');
 
@@ -91,9 +91,6 @@ var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.loginStatus = _loginStatus2.default;
-
-
 function getDefaultRedirectUri() {
   if (typeof window !== 'undefined') {
     return _url2.default.resolve(window.location.href, './redirect.html');
@@ -129,7 +126,8 @@ var Auth = function (_RcModule) {
         proxyUri = _ref$proxyUri === undefined ? getDefaultProxyUri() : _ref$proxyUri,
         brand = _ref.brand,
         locale = _ref.locale,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'alert', 'redirectUri', 'proxyUri', 'brand', 'locale']);
+        tabManager = _ref.tabManager,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'alert', 'redirectUri', 'proxyUri', 'brand', 'locale', 'tabManager']);
 
     (0, _classCallCheck3.default)(this, Auth);
 
@@ -143,6 +141,7 @@ var Auth = function (_RcModule) {
     _this._locale = locale;
     _this._redirectUri = redirectUri;
     _this._proxyUri = proxyUri;
+    _this._tabManager = tabManager;
     _this._reducer = (0, _getAuthReducer2.default)(_this.actionTypes);
     _this._beforeLogoutHandlers = new _set2.default();
     return _this;
@@ -219,15 +218,16 @@ var Auth = function (_RcModule) {
     value: function initialize() {
       var _this3 = this;
 
+      var loggedIn = void 0;
       this._bindEvents();
       this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var platform, loggedIn;
+        var platform;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this3.status === _moduleStatus2.default.pending && _this3._locale.ready)) {
-                  _context.next = 7;
+                if (!(_this3.status === _moduleStatus2.default.pending && _this3._locale.ready && _this3._tabManager.ready)) {
+                  _context.next = 9;
                   break;
                 }
 
@@ -246,8 +246,23 @@ var Auth = function (_RcModule) {
                   loggedIn: loggedIn,
                   token: loggedIn ? platform.auth().data() : null
                 });
+                _context.next = 10;
+                break;
 
-              case 7:
+              case 9:
+                if (_this3._tabManager.ready && _this3.ready && (loggedIn && _this3.loginStatus === _loginStatus2.default.notLoggedIn || !loggedIn && _this3.loginStatus === _loginStatus2.default.loggedIn)) {
+                  loggedIn = !loggedIn;
+                  _this3._tabManager.send('loginStatusChange', loggedIn);
+                } else if (_this3._tabManager.event && _this3._tabManager.event.name === 'loginStatusChange' && _this3._tabManager.event.args[0] !== loggedIn) {
+                  loggedIn = _this3._tabManager.event.args[0];
+                  _this3.store.dispatch({
+                    type: _this3.actionTypes.tabSync,
+                    loggedIn: loggedIn,
+                    token: loggedIn ? _this3._client.service.platform().auth().data() : null
+                  });
+                }
+
+              case 10:
               case 'end':
                 return _context.stop();
             }

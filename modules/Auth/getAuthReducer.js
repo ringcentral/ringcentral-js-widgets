@@ -70,6 +70,7 @@ function getLoginStatusReducer(types) {
         return _loginStatus2.default.beforeLogout;
 
       case types.initSuccess:
+      case types.tabSync:
         return loggedIn ? _loginStatus2.default.loggedIn : _loginStatus2.default.notLoggedIn;
 
       default:
@@ -98,6 +99,7 @@ function getOwnerIdReducer(types) {
         return null;
 
       case types.initSuccess:
+      case types.tabSync:
         return token && token.owner_id || null;
 
       default:
@@ -116,6 +118,7 @@ function getFreshLoginReducer(types) {
     switch (type) {
 
       case types.initSuccess:
+      case types.tabSync:
         return loggedIn ? false : null;
 
       case types.login:

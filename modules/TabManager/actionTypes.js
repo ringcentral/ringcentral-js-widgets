@@ -10,5 +10,5 @@ var _Enum2 = _interopRequireDefault(_Enum);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default(['login', 'loginSuccess', 'loginError', 'logout', 'logoutSuccess', 'logoutError', 'refresh', 'refreshSuccess', 'refreshError', 'beforeLogout', 'cancelLogout', 'init', 'initSuccess', 'tabSync'], 'authActionTypes');
+exports.default = new _Enum2.default(['init', 'mainTabIdChanged', 'event'], 'tabManager');
 //# sourceMappingURL=actionTypes.js.map
