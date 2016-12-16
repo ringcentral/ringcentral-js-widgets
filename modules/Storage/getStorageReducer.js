@@ -58,18 +58,26 @@ function getDataReducer(_ref2) {
       case types.sync:
         return (0, _extends4.default)({}, state, (0, _defineProperty3.default)({}, action.key, action.value));
       case types.resetSuccess:
-        return {};
-      default:
         {
           var newState = {};
+          // reset the data to initial states
+          /* eslint-disable guard-for-in */
+          for (var key in reducers) {
+            newState[key] = reducers[key](undefined, action);
+          }
+          return newState;
+        }
+      default:
+        {
+          var _newState = {};
           var hasChange = false;
           // compute new substates and check for changes
           /* eslint-disable guard-for-in */
-          for (var key in reducers) {
-            newState[key] = reducers[key](state[key], action);
-            if (newState[key] !== state[key]) hasChange = true;
+          for (var _key in reducers) {
+            _newState[_key] = reducers[_key](state[_key], action);
+            if (_newState[_key] !== state[_key]) hasChange = true;
           }
-          return hasChange ? newState : state;
+          return hasChange ? _newState : state;
         }
     }
   };
