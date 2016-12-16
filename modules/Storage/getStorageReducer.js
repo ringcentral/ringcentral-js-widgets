@@ -44,12 +44,21 @@ function getStatusReducer(types) {
   };
 }
 
+function calculateInitialState(reducers) {
+  var initialState = {};
+  /* eslint-disable guard-for-in */
+  for (var key in reducers) {
+    initialState[key] = reducers[key](undefined, {});
+  }
+  return initialState;
+}
+
 function getDataReducer(_ref2) {
   var types = _ref2.types,
       reducers = _ref2.reducers;
 
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : calculateInitialState(reducers);
     var action = arguments[1];
 
     switch (action.type) {
