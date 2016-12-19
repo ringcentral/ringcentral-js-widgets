@@ -101,7 +101,7 @@ var Environment = function (_RcModule) {
       this.store.subscribe(function () {
         if (_this2._globalStorage.ready && !_this2.ready) {
           if (_this2.enabled) {
-            _this2._client.server = new _ringcentral2.default((0, _extends3.default)({}, _this2._sdkConfig, {
+            _this2._client.service = new _ringcentral2.default((0, _extends3.default)({}, _this2._sdkConfig, {
               server: _this2.server
             }));
           }
