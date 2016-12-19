@@ -127,7 +127,8 @@ var Auth = function (_RcModule) {
         brand = _ref.brand,
         locale = _ref.locale,
         tabManager = _ref.tabManager,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'alert', 'redirectUri', 'proxyUri', 'brand', 'locale', 'tabManager']);
+        environment = _ref.environment,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'alert', 'redirectUri', 'proxyUri', 'brand', 'locale', 'tabManager', 'environment']);
 
     (0, _classCallCheck3.default)(this, Auth);
 
@@ -142,6 +143,7 @@ var Auth = function (_RcModule) {
     _this._redirectUri = redirectUri;
     _this._proxyUri = proxyUri;
     _this._tabManager = tabManager;
+    _this._environment = environment;
     _this._reducer = (0, _getAuthReducer2.default)(_this.actionTypes);
     _this._beforeLogoutHandlers = new _set2.default();
     return _this;
@@ -226,8 +228,8 @@ var Auth = function (_RcModule) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this3.status === _moduleStatus2.default.pending && _this3._locale.ready && _this3._tabManager.ready)) {
-                  _context.next = 9;
+                if (!(_this3.status === _moduleStatus2.default.pending && _this3._locale.ready && (!_this3._tabManager || _this3._tabManager.ready) && (!_this3._environment || _this3._environment.ready))) {
+                  _context.next = 7;
                   break;
                 }
 
@@ -246,23 +248,26 @@ var Auth = function (_RcModule) {
                   loggedIn: loggedIn,
                   token: loggedIn ? platform.auth().data() : null
                 });
-                _context.next = 10;
-                break;
 
-              case 9:
-                if (_this3._tabManager.ready && _this3.ready && (loggedIn && _this3.loginStatus === _loginStatus2.default.notLoggedIn || !loggedIn && _this3.loginStatus === _loginStatus2.default.loggedIn)) {
-                  loggedIn = !loggedIn;
-                  _this3._tabManager.send('loginStatusChange', loggedIn);
-                } else if (_this3._tabManager.event && _this3._tabManager.event.name === 'loginStatusChange' && _this3._tabManager.event.args[0] !== loggedIn) {
-                  loggedIn = _this3._tabManager.event.args[0];
-                  _this3.store.dispatch({
-                    type: _this3.actionTypes.tabSync,
-                    loggedIn: loggedIn,
-                    token: loggedIn ? _this3._client.service.platform().auth().data() : null
-                  });
+              case 7:
+                if (_this3._tabManager && _this3._tabManager.ready && _this3.ready) {
+                  if (loggedIn && _this3.loginStatus === _loginStatus2.default.notLoggedIn || !loggedIn && _this3.loginStatus === _loginStatus2.default.loggedIn) {
+                    loggedIn = !loggedIn;
+                    _this3._tabManager.send('loginStatusChange', loggedIn);
+                  } else if (_this3._tabManager.event && _this3._tabManager.event.name === 'loginStatusChange' && _this3._tabManager.event.args[0] !== loggedIn) {
+                    loggedIn = _this3._tabManager.event.args[0];
+                    _this3.store.dispatch({
+                      type: _this3.actionTypes.tabSync,
+                      loggedIn: loggedIn,
+                      token: loggedIn ? _this3._client.service.platform().auth().data() : null
+                    });
+                  }
+                }
+                if (_this3.ready && _this3._environment && _this3._environment.changed) {
+                  _this3._bindEvents();
                 }
 
-              case 10:
+              case 9:
               case 'end':
                 return _context.stop();
             }
