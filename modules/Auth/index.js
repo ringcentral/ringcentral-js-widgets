@@ -591,7 +591,7 @@ var Auth = function (_RcModule) {
                 return this._client.service.platform().loggedIn();
 
               case 2:
-                return _context6.abrupt('return', this.loginStatus === _loginStatus2.default.loggedIn);
+                return _context6.abrupt('return', this.state.loginStatus === _loginStatus2.default.loggedIn);
 
               case 3:
               case 'end':
@@ -607,6 +607,11 @@ var Auth = function (_RcModule) {
 
       return checkIsLoggedIn;
     }()
+  }, {
+    key: 'loggedIn',
+    value: function loggedIn() {
+      return this.state.loginStatus === _loginStatus2.default.loggedIn || this.state.loginStatus === _loginStatus2.default.beforeLogout;
+    }
 
     /**
      * @function
