@@ -120,8 +120,8 @@ var Environment = function (_RcModule) {
       var environmentChanged = this.enabled !== enabled || enabled && this.server !== server;
       if (environmentChanged) {
         var newConfig = (0, _extends3.default)({}, this._sdkConfig);
-        if (this.enabled) {
-          newConfig.server = this.server;
+        if (enabled) {
+          newConfig.server = server;
         }
         this._client.service = new _ringcentral2.default(newConfig);
       }
