@@ -10,5 +10,7 @@ var _Enum2 = _interopRequireDefault(_Enum);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default(['init', 'reset', 'resetSuccess', 'sync'], 'storage');
-//# sourceMappingURL=actionTypes.js.map
+exports.default = new _Enum2.default(['softphone', // desktop
+'ringout', // branding rc..
+'webphone'], 'callingModes');
+//# sourceMappingURL=callingModes.js.map

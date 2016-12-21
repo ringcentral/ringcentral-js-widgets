@@ -60,11 +60,11 @@ var RegionSettings = function (_RcModule) {
 
   function RegionSettings(_ref) {
     var storage = _ref.storage,
-        accountInfo = _ref.accountInfo,
+        extensionInfo = _ref.extensionInfo,
         dialingPlan = _ref.dialingPlan,
         alert = _ref.alert,
         tabManager = _ref.tabManager,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['storage', 'accountInfo', 'dialingPlan', 'alert', 'tabManager']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['storage', 'extensionInfo', 'dialingPlan', 'alert', 'tabManager']);
     (0, _classCallCheck3.default)(this, RegionSettings);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (RegionSettings.__proto__ || (0, _getPrototypeOf2.default)(RegionSettings)).call(this, (0, _extends3.default)({}, options, {
@@ -74,7 +74,7 @@ var RegionSettings = function (_RcModule) {
     _this._storage = storage;
     _this._alert = alert;
     _this._dialingPlan = dialingPlan;
-    _this._accountInfo = accountInfo;
+    _this._extensionInfo = extensionInfo;
     _this._tabManager = tabManager;
 
     _this._countryCodeKey = 'regionSettingsCountryCode';
@@ -99,7 +99,7 @@ var RegionSettings = function (_RcModule) {
 
       var plans = void 0;
       this.store.subscribe(function () {
-        if (_this2._storage.ready && _this2._dialingPlan.ready && _this2._accountInfo.ready && _this2.status === _moduleStatus2.default.pending) {
+        if (_this2._storage.ready && _this2._dialingPlan.ready && _this2._extensionInfo.ready && _this2.status === _moduleStatus2.default.pending) {
           _this2.store.dispatch({
             type: _this2.actionTypes.init
           });
@@ -112,7 +112,7 @@ var RegionSettings = function (_RcModule) {
           });
         } else if (!_this2._storage.ready && _this2.ready) {
           _this2.store.dispatch({
-            type: _this2.actionTypes.reset
+            type: _this2.actionTypes.resetSuccess
           });
         } else if (_this2.ready && plans !== _this2._dialingPlan.plans) {
           plans = _this2._dialingPlan.plans;
@@ -146,7 +146,7 @@ var RegionSettings = function (_RcModule) {
       }
       if (!countryCode) {
         countryCode = this._dialingPlan.plans.find(function (plan) {
-          return plan.isoCode === _this3._accountInfo.country.isoCode;
+          return plan.isoCode === _this3._extensionInfo.country.isoCode;
         }).isoCode;
         this.store.dispatch({
           type: this.actionTypes.setData,

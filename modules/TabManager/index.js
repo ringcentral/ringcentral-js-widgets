@@ -92,7 +92,7 @@ var TabManager = function (_RcModule) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.t0 = this.store;
-                _context2.t1 = this.actionTypes.init;
+                _context2.t1 = this.actionTypes.initSuccess;
                 _context2.next = 4;
                 return this._tabbie.checkIsMain();
 

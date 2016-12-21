@@ -33,25 +33,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _RcModule2 = require('../../lib/RcModule');
+var _StorageBase2 = require('../../lib/StorageBase');
 
-var _RcModule3 = _interopRequireDefault(_RcModule2);
-
-var _SynchronizedStorage = require('../../lib/SynchronizedStorage');
-
-var _SynchronizedStorage2 = _interopRequireDefault(_SynchronizedStorage);
-
-var _actionTypes = require('./actionTypes');
-
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
+var _StorageBase3 = _interopRequireDefault(_StorageBase2);
 
 var _moduleStatus = require('../../enums/moduleStatus');
 
 var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
-
-var _getStorageReducer = require('../Storage/getStorageReducer');
-
-var _getStorageReducer2 = _interopRequireDefault(_getStorageReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -60,23 +48,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @description Alternative implementation of the Storage class.
  *  Allows registeration of reducers so that persisted states can be computed with reducers.
  */
-var GlobalStorage = function (_RcModule) {
-  (0, _inherits3.default)(GlobalStorage, _RcModule);
+var GlobalStorage = function (_StorageBase) {
+  (0, _inherits3.default)(GlobalStorage, _StorageBase);
 
   function GlobalStorage(_ref) {
-    var _ref$StorageProvider = _ref.StorageProvider,
-        StorageProvider = _ref$StorageProvider === undefined ? _SynchronizedStorage2.default : _ref$StorageProvider,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['StorageProvider']);
+    var options = (0, _objectWithoutProperties3.default)(_ref, []);
     (0, _classCallCheck3.default)(this, GlobalStorage);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (GlobalStorage.__proto__ || (0, _getPrototypeOf2.default)(GlobalStorage)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _actionTypes2.default
-    })));
-
-    _this._StorageProvider = StorageProvider;
-    _this._reducers = {};
-    _this._reducer = (0, _getStorageReducer2.default)({ types: _this.actionTypes, reducers: _this._reducers });
-    return _this;
+    return (0, _possibleConstructorReturn3.default)(this, (GlobalStorage.__proto__ || (0, _getPrototypeOf2.default)(GlobalStorage)).call(this, (0, _extends3.default)({
+      name: 'globalStorage'
+    }, options)));
   }
 
   (0, _createClass3.default)(GlobalStorage, [{
@@ -97,7 +77,7 @@ var GlobalStorage = function (_RcModule) {
         }
       }
       this.store.dispatch({
-        type: this.actionTypes.init,
+        type: this.actionTypes.initSuccess,
         storageKey: storageKey,
         data: storedData
       });
@@ -128,48 +108,9 @@ var GlobalStorage = function (_RcModule) {
         }
       });
     }
-  }, {
-    key: 'registerReducer',
-    value: function registerReducer(_ref3) {
-      var key = _ref3.key,
-          reducer = _ref3.reducer;
-
-      if (this._initialized) {
-        throw new Error('Reducers must be registered before initialize');
-      }
-      if (this._reducers[key]) {
-        throw new Error('Reducer of key: \'' + key + '\' already exists');
-      }
-      this._reducers[key] = reducer;
-    }
-  }, {
-    key: 'getItem',
-    value: function getItem(key) {
-      return this.state.data[key];
-    }
-  }, {
-    key: 'data',
-    get: function get() {
-      return this.state.data;
-    }
-  }, {
-    key: 'status',
-    get: function get() {
-      return this.state.status;
-    }
-  }, {
-    key: 'storageKey',
-    get: function get() {
-      return this.state.storageKey;
-    }
-  }, {
-    key: 'ready',
-    get: function get() {
-      return this.status === _moduleStatus2.default.ready;
-    }
   }]);
   return GlobalStorage;
-}(_RcModule3.default);
+}(_StorageBase3.default);
 
 exports.default = GlobalStorage;
 //# sourceMappingURL=index.js.map

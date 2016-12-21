@@ -1,0 +1,196 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+
+var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _DataFetcher2 = require('../../lib/DataFetcher');
+
+var _DataFetcher3 = _interopRequireDefault(_DataFetcher2);
+
+var _moduleStatus = require('../../enums/moduleStatus');
+
+var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var DEFAULT_TTL = 24 * 60 * 60 * 1000;
+
+function extractData(permissions) {
+  var output = {};
+  permissions.permissions.forEach(function (item) {
+    output[item.permission.id] = true;
+  });
+  return output;
+}
+
+var RolesAndPermissions = function (_DataFetcher) {
+  (0, _inherits3.default)(RolesAndPermissions, _DataFetcher);
+
+  function RolesAndPermissions(_ref) {
+    var _this2 = this;
+
+    var client = _ref.client,
+        extensionInfo = _ref.extensionInfo,
+        _ref$ttl = _ref.ttl,
+        ttl = _ref$ttl === undefined ? DEFAULT_TTL : _ref$ttl,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'extensionInfo', 'ttl']);
+    (0, _classCallCheck3.default)(this, RolesAndPermissions);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (RolesAndPermissions.__proto__ || (0, _getPrototypeOf2.default)(RolesAndPermissions)).call(this, (0, _extends3.default)({
+      name: 'rolesAndPermissions',
+      client: client,
+      ttl: ttl,
+      fetchFunction: function () {
+        var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+          return _regenerator2.default.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.t0 = extractData;
+                  _context.next = 3;
+                  return _this._client.account().extension().authzProfile().get();
+
+                case 3:
+                  _context.t1 = _context.sent;
+                  return _context.abrupt('return', (0, _context.t0)(_context.t1));
+
+                case 5:
+                case 'end':
+                  return _context.stop();
+              }
+            }
+          }, _callee, _this2);
+        }));
+
+        return function fetchFunction() {
+          return _ref2.apply(this, arguments);
+        };
+      }()
+    }, options)));
+
+    _this._extensionInfo = extensionInfo;
+    _this.addSelector('permissions', function () {
+      return _this.data;
+    }, function (data) {
+      return data || {};
+    });
+    return _this;
+  }
+
+  (0, _createClass3.default)(RolesAndPermissions, [{
+    key: 'initialize',
+    value: function initialize() {
+      var _this3 = this;
+
+      this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!(_this3._auth.loggedIn && _this3._storage.ready && _this3._extensionInfo.ready && _this3.status === _moduleStatus2.default.pending)) {
+                  _context2.next = 11;
+                  break;
+                }
+
+                _this3.store.dispatch({
+                  type: _this3.actionTypes.init
+                });
+
+                if (!((!_this3._tabManager || _this3._tabManager.active) && (_this3._auth.isFreshLogin || !_this3.timestamp || Date.now() - _this3.timestamp > _this3._ttl))) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                _context2.next = 5;
+                return _this3.fetchData();
+
+              case 5:
+                _context2.next = 8;
+                break;
+
+              case 7:
+                _this3._retry();
+
+              case 8:
+                _this3.store.dispatch({
+                  type: _this3.actionTypes.initSuccess
+                });
+                _context2.next = 12;
+                break;
+
+              case 11:
+                if ((!_this3._auth.loggedIn || !_this3._storage.ready || !_this3._extensionInfo.ready) && _this3.ready) {
+                  _this3._clearTimeout();
+                  _this3._promise = null;
+                  _this3.store.dispatch({
+                    type: _this3.actionTypes.resetSuccess
+                  });
+                }
+
+              case 12:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, _this3);
+      })));
+    }
+  }, {
+    key: 'serviceFeatures',
+    get: function get() {
+      return this._extensionInfo.serviceFeatures;
+    }
+  }, {
+    key: 'permissions',
+    get: function get() {
+      return this._selectors.permissions();
+    }
+  }, {
+    key: 'ringoutEnabled',
+    get: function get() {
+      return this._extensionInfo.serviceFeatures && this._extensionInfo.serviceFeatures.RingOut && this._extensionInfo.serviceFeatures.RingOut.enabled;
+    }
+  }]);
+  return RolesAndPermissions;
+}(_DataFetcher3.default);
+
+exports.default = RolesAndPermissions;
+//# sourceMappingURL=index.js.map

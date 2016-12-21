@@ -3,15 +3,14 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getStatusReducer = getStatusReducer;
 exports.getCurrentLocaleReducer = getCurrentLocaleReducer;
 exports.default = getLocaleReducer;
 
 var _redux = require('redux');
 
-var _moduleStatus = require('../../enums/moduleStatus');
+var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
 
-var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
 
 var _detectDefaultLocale = require('../../lib/detectDefaultLocale');
 
@@ -23,39 +22,28 @@ var _localeRegExp2 = _interopRequireDefault(_localeRegExp);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function getStatusReducer(types) {
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _moduleStatus2.default.pending;
-    var _ref = arguments[1];
-    var type = _ref.type;
-
-    if (type === types.init) return _moduleStatus2.default.ready;
-    return state;
-  };
-}
-
-function getCurrentLocaleReducer(_ref2) {
-  var defaultLocale = _ref2.defaultLocale,
-      types = _ref2.types;
+function getCurrentLocaleReducer(_ref) {
+  var defaultLocale = _ref.defaultLocale,
+      types = _ref.types;
 
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (0, _detectDefaultLocale2.default)(defaultLocale);
-    var _ref3 = arguments[1];
-    var type = _ref3.type,
-        locale = _ref3.locale;
+    var _ref2 = arguments[1];
+    var type = _ref2.type,
+        locale = _ref2.locale;
 
     if (type === types.setLocale && _localeRegExp2.default.test(locale)) return locale;
     return state;
   };
 }
 
-function getLocaleReducer(_ref4) {
-  var defaultLocale = _ref4.defaultLocale,
-      types = _ref4.types;
+function getLocaleReducer(_ref3) {
+  var defaultLocale = _ref3.defaultLocale,
+      types = _ref3.types;
 
   return (0, _redux.combineReducers)({
     currentLocale: getCurrentLocaleReducer({ defaultLocale: defaultLocale, types: types }),
-    status: getStatusReducer(types)
+    status: (0, _getModuleStatusReducer2.default)(types)
   });
 }
 //# sourceMappingURL=getLocaleReducer.js.map

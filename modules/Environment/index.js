@@ -106,7 +106,7 @@ var Environment = function (_RcModule) {
             }));
           }
           _this2.store.dispatch({
-            type: _this2.actionTypes.init
+            type: _this2.actionTypes.initSuccess
           });
         }
       });

@@ -10,5 +10,5 @@ var _Enum2 = _interopRequireDefault(_Enum);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default(['init', 'mainTabIdChanged', 'event'], 'tabManager');
+exports.default = new _Enum2.default(['initSuccess', 'mainTabIdChanged', 'event'], 'tabManager');
 //# sourceMappingURL=actionTypes.js.map
