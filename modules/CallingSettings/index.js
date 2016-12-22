@@ -262,6 +262,18 @@ var CallingSettings = function (_RcModule) {
       }
     }
   }, {
+    key: 'getAvailableNumbers',
+    value: function getAvailableNumbers(callWith) {
+      switch (callWith) {
+        case _callingOptions2.default.myphone:
+          return this.myPhoneNumbers;
+        case _callingOptions2.default.otherphone:
+          return this.otherPhoneNumbers;
+        default:
+          return [];
+      }
+    }
+  }, {
     key: 'setData',
     value: function setData(_ref3, withPrompt) {
       var callWith = _ref3.callWith,
