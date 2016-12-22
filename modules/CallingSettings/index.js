@@ -13,6 +13,10 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
+
+var _defineProperty3 = _interopRequireDefault(_defineProperty2);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -179,6 +183,15 @@ var CallingSettings = function (_RcModule) {
       }
       return callWithOptions;
     });
+    _this.addSelector('availableNumbers', function () {
+      return _this.myPhoneNumbers;
+    }, function () {
+      return _this.otherPhoneNumbers;
+    }, function (myPhoneNumbers, otherPhoneNumbers) {
+      var _ref2;
+
+      return _ref2 = {}, (0, _defineProperty3.default)(_ref2, _callingOptions2.default.myphone, myPhoneNumbers), (0, _defineProperty3.default)(_ref2, _callingOptions2.default.otherphone, otherPhoneNumbers), _ref2;
+    });
     return _this;
   }
 
@@ -262,23 +275,11 @@ var CallingSettings = function (_RcModule) {
       }
     }
   }, {
-    key: 'getAvailableNumbers',
-    value: function getAvailableNumbers(callWith) {
-      switch (callWith) {
-        case _callingOptions2.default.myphone:
-          return this.myPhoneNumbers;
-        case _callingOptions2.default.otherphone:
-          return this.otherPhoneNumbers;
-        default:
-          return [];
-      }
-    }
-  }, {
     key: 'setData',
-    value: function setData(_ref3, withPrompt) {
-      var callWith = _ref3.callWith,
-          myLocation = _ref3.myLocation,
-          ringoutPrompt = _ref3.ringoutPrompt;
+    value: function setData(_ref4, withPrompt) {
+      var callWith = _ref4.callWith,
+          myLocation = _ref4.myLocation,
+          ringoutPrompt = _ref4.ringoutPrompt;
 
       // TODO validate myLocation
       this.store.dispatch({
@@ -349,6 +350,11 @@ var CallingSettings = function (_RcModule) {
     key: 'otherPhoneNumbers',
     get: function get() {
       return this._selectors.otherPhoneNumbers();
+    }
+  }, {
+    key: 'availableNumbers',
+    get: function get() {
+      return this._selectors.availableNumbers();
     }
   }]);
   return CallingSettings;
