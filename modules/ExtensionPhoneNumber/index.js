@@ -33,6 +33,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+require('core-js/fn/array/find');
+
 var _fetchList = require('../../lib/fetchList');
 
 var _fetchList2 = _interopRequireDefault(_fetchList);
