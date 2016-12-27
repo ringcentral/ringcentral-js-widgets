@@ -306,7 +306,7 @@ var Auth = function (_RcModule) {
                   type: this.actionTypes.login
                 });
                 _context2.next = 3;
-                return this._client.login({
+                return this._client.service.platform().login({
                   username: username,
                   password: password,
                   extension: extension,
@@ -351,7 +351,7 @@ var Auth = function (_RcModule) {
           prompt = _ref5.prompt,
           force = _ref5.force;
 
-      return '' + this._client.loginUrl({
+      return '' + this._client.service.platform().loginUrl({
         redirectUri: redirectUri,
         state: state,
         brandId: brandId,
@@ -532,7 +532,7 @@ var Auth = function (_RcModule) {
                   type: this.actionTypes.logout
                 });
                 _context5.next = 39;
-                return this._client.logout();
+                return this._client.service.platform().logout();
 
               case 39:
                 return _context5.abrupt('return', _context5.sent);
