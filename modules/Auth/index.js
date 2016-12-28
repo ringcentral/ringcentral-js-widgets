@@ -608,10 +608,8 @@ var Auth = function (_RcModule) {
       return checkIsLoggedIn;
     }()
   }, {
-    key: 'loggedIn',
-    value: function loggedIn() {
-      return this.state.loginStatus === _loginStatus2.default.loggedIn || this.state.loginStatus === _loginStatus2.default.beforeLogout;
-    }
+    key: 'setupProxyFrame',
+
 
     /**
      * @function
@@ -619,9 +617,6 @@ var Auth = function (_RcModule) {
      * @param {Function} onLogin - Function to be called when user successfully logged in
      *  through oAuth.
      */
-
-  }, {
-    key: 'setupProxyFrame',
     value: function setupProxyFrame(onLogin) {
       var _this6 = this;
 
@@ -768,6 +763,11 @@ var Auth = function (_RcModule) {
     key: 'isFreshLogin',
     get: function get() {
       return this.state.freshLogin;
+    }
+  }, {
+    key: 'loggedIn',
+    get: function get() {
+      return this.state.loginStatus === _loginStatus2.default.loggedIn || this.state.loginStatus === _loginStatus2.default.beforeLogout;
     }
   }]);
   return Auth;
