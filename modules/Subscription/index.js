@@ -164,15 +164,11 @@ var Subscription = function (_RcModule) {
         });
       });
       this._subscription.on(this._subscription.events.removeSuccess, function () {
-        _this3._subscription.reset();
-        _this3._subscription = null;
         _this3.store.dispatch({
           type: _this3.actionTypes.removeSuccess
         });
       });
       this._subscription.on(this._subscription.events.removeError, function (error) {
-        _this3._subscription.reset();
-        _this3._subscription = null;
         _this3.store.dispatch({
           type: _this3.actionTypes.removeError,
           error: error
@@ -185,8 +181,10 @@ var Subscription = function (_RcModule) {
         });
       });
       this._subscription.on(this._subscription.events.renewError, function (error) {
-        _this3._subscription.reset();
-        _this3._subscription = null;
+        if (_this3._subscription) {
+          _this3._subscription.reset();
+          _this3._subscription = null;
+        }
         _this3.store.dispatch({
           type: _this3.actionTypes.renewError,
           error: error
@@ -314,7 +312,7 @@ var Subscription = function (_RcModule) {
             switch (_context4.prev = _context4.next) {
               case 0:
                 if (!this._subscription) {
-                  _context4.next = 12;
+                  _context4.next = 11;
                   break;
                 }
 
@@ -335,11 +333,14 @@ var Subscription = function (_RcModule) {
                 _context4.t0 = _context4['catch'](1);
 
               case 9:
+                if (this._subscription) {
+                  // check again in case subscription object was removed while waiting
+                  this._subscription.reset();
+                  this._subscription = null;
+                }
                 this._removePromise = null;
-                this._subscription.reset();
-                this._subscription = null;
 
-              case 12:
+              case 11:
               case 'end':
                 return _context4.stop();
             }
