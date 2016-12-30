@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.getLoginStatusReducer = getLoginStatusReducer;
 exports.getOwnerIdReducer = getOwnerIdReducer;
 exports.getFreshLoginReducer = getFreshLoginReducer;
+exports.getProxyLoadedReducer = getProxyLoadedReducer;
 exports.default = getAuthReducer;
 
 var _redux = require('redux');
@@ -121,12 +122,30 @@ function getFreshLoginReducer(types) {
   };
 }
 
+function getProxyLoadedReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var _ref4 = arguments[1];
+    var type = _ref4.type;
+
+    switch (type) {
+      case types.proxyLoaded:
+        return true;
+      case types.proxyCleared:
+        return false;
+      default:
+        return state;
+    }
+  };
+}
+
 function getAuthReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer2.default)(types),
     loginStatus: getLoginStatusReducer(types),
     freshLogin: getFreshLoginReducer(types),
-    ownerId: getOwnerIdReducer(types)
+    ownerId: getOwnerIdReducer(types),
+    proxyLoaded: getProxyLoadedReducer(types)
   });
 }
 //# sourceMappingURL=getAuthReducer.js.map
