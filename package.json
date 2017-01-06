@@ -46,7 +46,6 @@
     "react-dom": "^15.4.1",
     "react-json-tree": "^0.10.0",
     "react-redux": "^5.0.1",
-    "ringcentral": "https://github.com/ringcentral/ringcentral-js#master",
     "ringcentral-client": "https://github.com/zengfenfei/ringcentral-js-client#releases",
     "source-map-loader": "^0.1.5",
     "source-map-support": "^0.4.0",
@@ -61,7 +60,7 @@
     "core-js": "^2.4.1",
     "format-message": "^5.0.0",
     "intl": "^1.2.5",
-    "ringcentral": "https://github.com/ringcentral/ringcentral-js.git#master",
+    "ringcentral": "^3.0.0",
     "ringcentral-client": "https://github.com/zengfenfei/ringcentral-js-client#releases",
     "whatwg-fetch": "^1.0.0"
   },
