@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/ConnectivityMonitor/actionTypes.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,aADsB,EAEtB,gBAFsB,EAGtB,aAHsB,CAAT,EAIZ,qBAJY,C","file":"actionTypes.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'initSuccess',\n  'connectSuccess',\n  'connectFail',\n], 'connectivityMonitor');\n"]}

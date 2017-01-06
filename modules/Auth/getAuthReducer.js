@@ -7,6 +7,7 @@ exports.getLoginStatusReducer = getLoginStatusReducer;
 exports.getOwnerIdReducer = getOwnerIdReducer;
 exports.getFreshLoginReducer = getFreshLoginReducer;
 exports.getProxyLoadedReducer = getProxyLoadedReducer;
+exports.getProxyRetryCountReducer = getProxyRetryCountReducer;
 exports.default = getAuthReducer;
 
 var _redux = require('redux');
@@ -139,13 +140,33 @@ function getProxyLoadedReducer(types) {
   };
 }
 
+function getProxyRetryCountReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    var _ref5 = arguments[1];
+    var type = _ref5.type;
+
+    switch (type) {
+      case types.proxySetup:
+      case types.proxyCleared:
+      case types.proxyLoaded:
+        return 0;
+      case types.proxyRetry:
+        return state + 1;
+      default:
+        return state;
+    }
+  };
+}
+
 function getAuthReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer2.default)(types),
     loginStatus: getLoginStatusReducer(types),
     freshLogin: getFreshLoginReducer(types),
     ownerId: getOwnerIdReducer(types),
-    proxyLoaded: getProxyLoadedReducer(types)
+    proxyLoaded: getProxyLoadedReducer(types),
+    proxyRetryCount: getProxyRetryCountReducer(types)
   });
 }
 //# sourceMappingURL=getAuthReducer.js.map

@@ -142,25 +142,109 @@ var Auth = function (_RcModule) {
       actionTypes: _actionTypes2.default
     })));
 
-    _this._callbackHandler = function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref3) {
-        var origin = _ref3.origin,
-            data = _ref3.data;
-        return _regenerator2.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, _this2);
-      }));
+    _this._createProxyFrame = function (onLogin) {
+      _this._proxyFrame = document.createElement('iframe');
+      _this._proxyFrame.src = _this.proxyUri;
+      _this._proxyFrame.style.display = 'none';
 
-      return function (_x2) {
-        return _ref2.apply(this, arguments);
-      };
-    }();
+      document.body.appendChild(_this._proxyFrame);
+      _this._callbackHandler = function () {
+        var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref3) {
+          var origin = _ref3.origin,
+              data = _ref3.data;
+          var callbackUri, proxyLoaded, code, message;
+          return _regenerator2.default.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  if (!data) {
+                    _context.next = 25;
+                    break;
+                  }
+
+                  callbackUri = data.callbackUri, proxyLoaded = data.proxyLoaded;
+
+                  if (!callbackUri) {
+                    _context.next = 24;
+                    break;
+                  }
+
+                  _context.prev = 3;
+                  code = _this.parseCallbackUri(callbackUri);
+
+                  if (!code) {
+                    _context.next = 9;
+                    break;
+                  }
+
+                  _context.next = 8;
+                  return _this.login({
+                    code: code,
+                    redirectUri: _this.redirectUri
+                  });
+
+                case 8:
+                  if (typeof onLogin === 'function') {
+                    onLogin();
+                  }
+
+                case 9:
+                  _context.next = 22;
+                  break;
+
+                case 11:
+                  _context.prev = 11;
+                  _context.t0 = _context['catch'](3);
+                  message = void 0;
+                  _context.t1 = _context.t0.message;
+                  _context.next = _context.t1 === 'invalid_request' ? 17 : _context.t1 === 'unauthorized_client' ? 17 : _context.t1 === 'access_denied' ? 17 : _context.t1 === 'unsupported_response_type' ? 17 : _context.t1 === 'invalid_scope' ? 17 : _context.t1 === 'server_error' ? 19 : _context.t1 === 'temporarily_unavailable' ? 19 : 19;
+                  break;
+
+                case 17:
+                  message = _authMessages2.default.accessDenied;
+                  return _context.abrupt('break', 21);
+
+                case 19:
+                  message = _authMessages2.default.internalError;
+                  return _context.abrupt('break', 21);
+
+                case 21:
+
+                  _this._alert.danger({
+                    message: message,
+                    payload: _context.t0
+                  });
+
+                case 22:
+                  _context.next = 25;
+                  break;
+
+                case 24:
+                  if (proxyLoaded) {
+                    clearTimeout(_this._retryTimeoutId);
+                    _this._retryTimeoutId = null;
+                    _this.store.dispatch({
+                      type: _this.actionTypes.proxyLoaded
+                    });
+                  }
+
+                case 25:
+                case 'end':
+                  return _context.stop();
+              }
+            }
+          }, _callee, _this2, [[3, 11]]);
+        }));
+
+        return function (_x2) {
+          return _ref2.apply(this, arguments);
+        };
+      }();
+      window.addEventListener('message', _this._callbackHandler);
+      _this._retryTimeoutId = setTimeout(function () {
+        _this._retrySetupProxyFrame(onLogin);
+      }, _this._defaultProxyRetry);
+    };
 
     _this._client = client;
     _this._alert = alert;
@@ -639,7 +723,6 @@ var Auth = function (_RcModule) {
   }, {
     key: 'setupProxyFrame',
 
-
     /**
      * @function
      * @description Create the proxy frame and append to document if available.
@@ -647,109 +730,11 @@ var Auth = function (_RcModule) {
      *  through oAuth.
      */
     value: function setupProxyFrame(onLogin) {
-      var _this7 = this;
-
       if (typeof window !== 'undefined' && typeof document !== 'undefined' && this._proxyUri && this._proxyUri !== '' && !this._proxyFrame) {
-        this._proxyFrame = document.createElement('iframe');
-        this._proxyFrame.src = this.proxyUri;
-        this._proxyFrame.style.display = 'none';
-        document.body.appendChild(this._proxyFrame);
-        this._callbackHandler = function () {
-          var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(_ref12) {
-            var origin = _ref12.origin,
-                data = _ref12.data;
-            var callbackUri, proxyLoaded, code, message;
-            return _regenerator2.default.wrap(function _callee7$(_context8) {
-              while (1) {
-                switch (_context8.prev = _context8.next) {
-                  case 0:
-                    if (!data) {
-                      _context8.next = 25;
-                      break;
-                    }
-
-                    callbackUri = data.callbackUri, proxyLoaded = data.proxyLoaded;
-
-                    if (!callbackUri) {
-                      _context8.next = 24;
-                      break;
-                    }
-
-                    _context8.prev = 3;
-                    code = _this7.parseCallbackUri(callbackUri);
-
-                    if (!code) {
-                      _context8.next = 9;
-                      break;
-                    }
-
-                    _context8.next = 8;
-                    return _this7.login({
-                      code: code,
-                      redirectUri: _this7.redirectUri
-                    });
-
-                  case 8:
-                    if (typeof onLogin === 'function') {
-                      onLogin();
-                    }
-
-                  case 9:
-                    _context8.next = 22;
-                    break;
-
-                  case 11:
-                    _context8.prev = 11;
-                    _context8.t0 = _context8['catch'](3);
-                    message = void 0;
-                    _context8.t1 = _context8.t0.message;
-                    _context8.next = _context8.t1 === 'invalid_request' ? 17 : _context8.t1 === 'unauthorized_client' ? 17 : _context8.t1 === 'access_denied' ? 17 : _context8.t1 === 'unsupported_response_type' ? 17 : _context8.t1 === 'invalid_scope' ? 17 : _context8.t1 === 'server_error' ? 19 : _context8.t1 === 'temporarily_unavailable' ? 19 : 19;
-                    break;
-
-                  case 17:
-                    message = _authMessages2.default.accessDenied;
-                    return _context8.abrupt('break', 21);
-
-                  case 19:
-                    message = _authMessages2.default.internalError;
-                    return _context8.abrupt('break', 21);
-
-                  case 21:
-
-                    _this7._alert.danger({
-                      message: message,
-                      payload: _context8.t0
-                    });
-
-                  case 22:
-                    _context8.next = 25;
-                    break;
-
-                  case 24:
-                    if (proxyLoaded) {
-                      clearTimeout(_this7._retryTimeoutId);
-                      _this7._retryTimeoutId = null;
-                      _this7.store.dispatch({
-                        type: _this7.actionTypes.proxyLoaded
-                      });
-                    }
-
-                  case 25:
-                  case 'end':
-                    return _context8.stop();
-                }
-              }
-            }, _callee7, _this7, [[3, 11]]);
-          }));
-
-          return function (_x4) {
-            return _ref11.apply(this, arguments);
-          };
-        }();
-        window.addEventListener('message', this._callbackHandler);
-        this._retryTimeoutId = setTimeout(function () {
-          _this7._retrySetupProxyFrame(onLogin);
-        }, this._defaultProxyRetry);
+        this.store.dispatch({
+          type: this.actionTypes.proxySetup
+        });
+        this._createProxyFrame(onLogin);
       }
     }
   }, {
@@ -757,9 +742,20 @@ var Auth = function (_RcModule) {
     value: function _retrySetupProxyFrame(onLogin) {
       this._retryTimeoutId = null;
       if (!this.proxyLoaded) {
-        this.clearProxyFrame();
-        this.setupProxyFrame(onLogin);
+        this.store.dispatch({
+          type: this.actionTypes.proxyRetry
+        });
+        this._destroyProxyFrame();
+        this._createProxyFrame(onLogin);
       }
+    }
+  }, {
+    key: '_destroyProxyFrame',
+    value: function _destroyProxyFrame() {
+      document.body.removeChild(this._proxyFrame);
+      this._proxyFrame = null;
+      window.removeEventListener('message', this._callbackHandler);
+      this._callbackHandler = null;
     }
   }, {
     key: 'clearProxyFrame',
@@ -769,10 +765,7 @@ var Auth = function (_RcModule) {
           clearTimeout(this._retryTimeoutId);
           this._retryTimeoutId = null;
         }
-        document.body.removeChild(this._proxyFrame);
-        this._proxyFrame = null;
-        window.removeEventListener('message', this._callbackHandler);
-        this._callbackHandler = null;
+        this._destroyProxyFrame();
         this.store.dispatch({
           type: this.actionTypes.proxyCleared
         });
@@ -829,6 +822,11 @@ var Auth = function (_RcModule) {
     key: 'proxyLoaded',
     get: function get() {
       return this.state.proxyLoaded;
+    }
+  }, {
+    key: 'proxyRetryCount',
+    get: function get() {
+      return this.state.proxyRetryCount;
     }
   }, {
     key: 'loggedIn',
