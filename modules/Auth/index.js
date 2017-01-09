@@ -292,6 +292,7 @@ var Auth = function (_RcModule) {
         });
       });
       platform.on(platform.events.logoutError, function (error) {
+        platform._cache.clean();
         _this3.store.dispatch({
           type: _this3.actionTypes.logoutError,
           error: error
