@@ -59,13 +59,17 @@ var _getConnectivityMonitorReducer2 = _interopRequireDefault(_getConnectivityMon
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var DEFAULT_TIME_TO_RETRY = 5000;
+
 var ConnectivityMonitor = function (_RcModule) {
   (0, _inherits3.default)(ConnectivityMonitor, _RcModule);
 
   function ConnectivityMonitor(_ref) {
     var client = _ref.client,
         environment = _ref.environment,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'environment']);
+        _ref$timeToRetry = _ref.timeToRetry,
+        timeToRetry = _ref$timeToRetry === undefined ? DEFAULT_TIME_TO_RETRY : _ref$timeToRetry,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'environment', 'timeToRetry']);
     (0, _classCallCheck3.default)(this, ConnectivityMonitor);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ConnectivityMonitor.__proto__ || (0, _getPrototypeOf2.default)(ConnectivityMonitor)).call(this, (0, _extends3.default)({}, options, {
@@ -78,6 +82,7 @@ var ConnectivityMonitor = function (_RcModule) {
           type: _this.actionTypes.connectSuccess
         });
       }
+      _this._clearTimeout();
     };
 
     _this._requestErrorHandler = function (apiResponse) {
@@ -86,11 +91,14 @@ var ConnectivityMonitor = function (_RcModule) {
           type: _this.actionTypes.connectFail
         });
       }
+      _this._retry();
     };
 
     _this._client = client;
     _this._environment = environment;
+    _this._timeToRetry = timeToRetry;
     _this._reducer = (0, _getConnectivityMonitorReducer2.default)(_this.actionTypes);
+    _this._timeoutId = null;
     return _this;
   }
 
@@ -124,9 +132,71 @@ var ConnectivityMonitor = function (_RcModule) {
   }, {
     key: '_bindHandlers',
     value: function _bindHandlers() {
+      var _this3 = this;
+
+      if (this._unbindHandlers) {
+        this._unbindHandlers();
+      }
       var client = this._client.service.platform().client();
       client.on(client.events.requestSuccess, this._requestSuccessHandler);
       client.on(client.events.requestError, this._requestErrorHandler);
+      this._unbindHandlers = function () {
+        client.off(client.events.requestSuccess, _this3._requestSuccessHandler);
+        client.off(client.events.requestError, _this3._requestErrorHandler);
+        _this3._unbindHandlers = null;
+      };
+    }
+  }, {
+    key: '_checkConnection',
+    value: function () {
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.prev = 0;
+                _context2.next = 3;
+                return this._client.service.platform().get('', null, { skipAuthCheck: true });
+
+              case 3:
+                _context2.next = 7;
+                break;
+
+              case 5:
+                _context2.prev = 5;
+                _context2.t0 = _context2['catch'](0);
+
+              case 7:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[0, 5]]);
+      }));
+
+      function _checkConnection() {
+        return _ref3.apply(this, arguments);
+      }
+
+      return _checkConnection;
+    }()
+  }, {
+    key: '_clearTimeout',
+    value: function _clearTimeout() {
+      if (this._timeoutId) clearTimeout(this._timeoutId);
+    }
+  }, {
+    key: '_retry',
+    value: function _retry() {
+      var _this4 = this;
+
+      var t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this._timeToRetry;
+
+      this._clearTimeout();
+      this._timeoutId = setTimeout(function () {
+        _this4._timeoutId = null;
+        _this4._checkConnection();
+      }, t);
     }
   }, {
     key: 'status',
