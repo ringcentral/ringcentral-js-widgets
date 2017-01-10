@@ -1,0 +1,1 @@
+{"version":3,"sources":["/src/modules/RateLimiter/actionTypes.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,aADsB,EAEtB,eAFsB,EAGtB,cAHsB,CAAT,EAIZ,aAJY,C","file":"actionTypes.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'initSuccess',\n  'startThrottle',\n  'stopThrottle',\n], 'rateLimiter');\n"]}
