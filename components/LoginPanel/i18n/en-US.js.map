@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/LoginPanel/i18n/en-US.js"],"names":["loginButton"],"mappings":";;;;;kBAAe;AACbA,eAAa;AADA,C","file":"en-US.js","sourcesContent":["export default {\n  loginButton: 'Sign In',\n};\n"]}

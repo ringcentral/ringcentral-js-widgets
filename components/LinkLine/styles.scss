@@ -1,0 +1,19 @@
+@import '../../lib/commonStyles/vertical-align';
+@import '../../lib/commonStyles/no-select';
+@import '../../lib/commonStyles/colors';
+
+.link {
+  outline: 0;
+  cursor: pointer;
+  text-decoration: none;
+  color: $primary-color;
+}
+
+.link:hover {
+  text-decoration: underline;
+  color: $primary-color-highlight;
+}
+
+.icon {
+  font-size: 1.1em;
+}

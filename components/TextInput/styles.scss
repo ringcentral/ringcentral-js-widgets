@@ -1,0 +1,20 @@
+@import '../../lib/commonStyles/colors';
+
+.root {
+  position: relative;
+  width: 100%;
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-style: solid;
+  border-color: $border-color;
+}
+.input {
+  border: none;
+  outline: 0;
+  height: 98%;
+  width: 100%;
+  background-color: transparent;
+}
+.invalid {
+  border-color: red;
+}

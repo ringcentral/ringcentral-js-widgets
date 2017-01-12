@@ -1,0 +1,24 @@
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/colors';
+
+.root {
+  @include full-size;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+}
+
+.content {
+  height: 94%;
+  max-height: calc(100% - 32px);
+}
+
+.saveBtn {
+  font-size: 1.3em;
+  color: $gray;
+}
+.saveBtnEnabled {
+  color: $primary-color;
+  cursor: pointer;
+}

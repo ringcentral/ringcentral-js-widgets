@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/Eula/i18n/en-US.js"],"names":["eula","serviceTerms"],"mappings":";;;;;kBAAe;AACbA,QAAM,4BADO;AAEbC,gBAAc;AAFD,C","file":"en-US.js","sourcesContent":["export default {\n  eula: 'End User License Agreement',\n  serviceTerms: 'Service Terms',\n};\n"]}
