@@ -72,7 +72,10 @@ export default function App({
                   phone={phone}
                   locale={phone.locale}
                   brand={phone.brand}
-                  router={phone.router} />
+                  router={phone.router}
+                  regionSettingsUrl="/settings/region"
+                  callingSettingsUrl="/settings/calling"
+                  />
               )} />
             <Route
               path="/settings/region"
