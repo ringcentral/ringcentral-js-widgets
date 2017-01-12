@@ -68,6 +68,7 @@
     "data-types": "git+https://github.com/u9520107/data-types.git#release",
     "json-mask": "^0.3.8",
     "loganberry": "^0.9.1",
+    "phoneformat.js": "^1.0.3",
     "redux": "^3.5.2",
     "reselect": "^2.5.4",
     "uuid": "^2.0.2"
