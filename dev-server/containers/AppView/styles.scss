@@ -1,0 +1,13 @@
+@import 'normalize-css/normalize.css';
+@import '../../../src/lib/commonStyles/full-size.scss';
+@import '../../../src/lib/commonStyles/colors.scss';
+
+:global div#viewport {
+  @include full-size;
+  position: absolute;
+}
+
+.root {
+  @include full-size;
+  background-color: $app-background-color;
+}

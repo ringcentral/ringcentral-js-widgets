@@ -1,0 +1,71 @@
+@import '../../lib/commonStyles/vertical-align';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/no-select';
+@import '../../lib/commonStyles/colors';
+
+.root {
+  @include full-size;
+  min-height: 48px;
+  height: 10%;
+  box-sizing: border-box;
+  background-color: $primary-color;
+}
+
+.tab {
+  display: inline-block;
+  box-sizing: border-box;
+  height: 100%;
+  border-style: solid;
+  border-color: $border-color;
+  vertical-align: top;
+  z-index: 10;
+}
+
+.navigationButton {
+  @include full-size;
+  @include no-select;
+  outline: 0;
+  display: inline-block;
+  text-align: center;
+  vertical-align: top;
+  height: 100%;
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: all 0.1s ease;
+  color: #fff !important;
+  text-decoration: none !important;
+}
+/*.navigationButton:hover {
+  background-color: $lightergray;
+}*/
+.navigationButton:hover,
+.navigationButton:focus {
+  outline: 0;
+  opacity: 0.9;
+}
+.navigationButton.active {
+  opacity: 1;
+}
+.iconHolder {
+  @include full-size;
+  height: 65%;
+}
+.icon {
+  @include full-size;
+  @include vertical-align(bottom);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1.3em;
+}
+.labelHolder {
+  @include full-size;
+  height: 35%;
+}
+.label {
+  @include full-size;
+  @include vertical-align(top);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 0.7em;
+}

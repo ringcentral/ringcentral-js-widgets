@@ -1,0 +1,35 @@
+@import 'theme';
+
+$rc-blue: #0684bd !default;
+
+$rc-blue-highlight: rgba(6, 132, 189, 0.4) !default;
+
+$rc-orange: #e07800 !default;
+
+$darkgray: #808080 !default;
+
+$gray: #eeeeee !default;
+
+$lightergray: #efefef !default;
+
+$lightgray: #fcfcfc !default;
+
+
+
+$primary-color: $rc-blue !default;
+$primary-color-highlight: $rc-blue-highlight !default;
+
+$secondary-color: $rc-orange !default;
+
+$border-color: $gray !default;
+
+$app-background-color: $lightgray !default;
+
+$line-background-color: white !default;
+
+$panel-background-color: #f6f6f6 !default;
+
+// $dialer-btn-border-color: #8cc6e1;
+$dialer-btn-border-color: $primary-color-highlight;
+
+$call-btn-color: #00d960;
