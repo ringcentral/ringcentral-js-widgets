@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/Ringout/ringoutStatus.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,MADsB,EAEtB,YAFsB,CAAT,EAGZ,eAHY,C","file":"ringoutStatus.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'idle',\n  'connecting',\n], 'ringoutStatus');\n"]}

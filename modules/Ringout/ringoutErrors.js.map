@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/Ringout/ringoutErrors.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,eADsB,EAEtB,kBAFsB,EAGtB,uBAHsB,CAAT,EAIZ,eAJY,C","file":"ringoutErrors.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'pollingFailed',\n  'pollingCancelled',\n  'firstLegConnectFailed',\n], 'ringoutErrors');\n"]}
