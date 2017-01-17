@@ -158,7 +158,6 @@ var RateLimiter = function (_RcModule) {
       client.on(client.events.requestError, this._requestErrorHandler);
       client.on(client.events.beforeRequest, this._beforeRequestHandler);
       this._unbindHandlers = function () {
-        client.removeListener(client.events.requestSuccess, _this3._requestSuccessHandler);
         client.removeListener(client.events.requestError, _this3._requestErrorHandler);
         client.removeListener(client.events.beforeRequest, _this3._beforeRequestHandler);
         _this3._unbindHandlers = null;
