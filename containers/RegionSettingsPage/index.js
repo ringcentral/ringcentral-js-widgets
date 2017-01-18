@@ -70,12 +70,7 @@ var RegionSettingsPage = (0, _reactRedux.connect)(function (_, props) {
 RegionSettingsPage.propTypes = {
   locale: _react.PropTypes.object.isRequired,
   regionSettings: _react.PropTypes.object.isRequired,
-  router: _react.PropTypes.object.isRequired,
-  welcomePageUrl: _react.PropTypes.string
-};
-
-RegionSettingsPage.defaultProps = {
-  welcomePageUrl: '/welcome'
+  router: _react.PropTypes.object.isRequired
 };
 
 exports.default = RegionSettingsPage;
