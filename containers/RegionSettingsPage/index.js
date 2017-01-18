@@ -41,9 +41,6 @@ var RegionSettingsPage = (0, _reactRedux.connect)(function (_, props) {
                 return props.auth.logout();
 
               case 2:
-                props.router.history.replace('/welcome');
-
-              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -72,7 +69,13 @@ var RegionSettingsPage = (0, _reactRedux.connect)(function (_, props) {
 
 RegionSettingsPage.propTypes = {
   locale: _react.PropTypes.object.isRequired,
-  regionSettings: _react.PropTypes.object.isRequired
+  regionSettings: _react.PropTypes.object.isRequired,
+  router: _react.PropTypes.object.isRequired,
+  welcomePageUrl: _react.PropTypes.string
+};
+
+RegionSettingsPage.defaultProps = {
+  welcomePageUrl: '/welcome'
 };
 
 exports.default = RegionSettingsPage;

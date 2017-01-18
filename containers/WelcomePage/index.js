@@ -35,6 +35,7 @@ var WelcomePage = (0, _reactRedux.connect)(function (_, props) {
 WelcomePage.propTypes = {
   auth: _react.PropTypes.object.isRequired,
   locale: _react.PropTypes.object.isRequired,
+  mainUrl: _react.PropTypes.string,
   onLogin: _react.PropTypes.func
 };
 
