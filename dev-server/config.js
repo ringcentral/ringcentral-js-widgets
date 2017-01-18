@@ -49,7 +49,7 @@ const base = {
       },
     ],
   },
-  devtool: 'eval-source-map',
+  devtool: 'inline-source-map',
   postcss: () => [autoprefixer],
   plugins: [
     new webpack.DefinePlugin({

@@ -19,6 +19,7 @@ const WelcomePage = connect((_, props) => ({
 WelcomePage.propTypes = {
   auth: PropTypes.object.isRequired,
   locale: PropTypes.object.isRequired,
+  mainUrl: PropTypes.string,
   onLogin: PropTypes.func,
 };
 

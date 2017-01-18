@@ -10,7 +10,6 @@ const RegionSettingsPage = connect((_, props) => ({
 }), (_, props) => ({
   onLogoutButtonClick: async () => {
     await props.auth.logout();
-    props.router.history.replace('/welcome');
   },
   onBackButtonClick: () => {
     props.router.history.goBack();
@@ -26,6 +25,12 @@ const RegionSettingsPage = connect((_, props) => ({
 RegionSettingsPage.propTypes = {
   locale: PropTypes.object.isRequired,
   regionSettings: PropTypes.object.isRequired,
+  router: PropTypes.object.isRequired,
+  welcomePageUrl: PropTypes.string,
+};
+
+RegionSettingsPage.defaultProps = {
+  welcomePageUrl: '/welcome',
 };
 
 export default RegionSettingsPage;

@@ -111,10 +111,7 @@ export default function App({
             component={() => (
               <WelcomePage
                 auth={phone.auth}
-                locale={phone.locale}
-                onLogin={() => {
-                  phone.router.history.replace('/');
-                }} />
+                locale={phone.locale} />
             )}
           />
         </Route>
