@@ -61,13 +61,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _RcModule2 = require('../../lib/RcModule');
-
-var _RcModule3 = _interopRequireDefault(_RcModule2);
-
 var _url = require('url');
 
 var _url2 = _interopRequireDefault(_url);
+
+var _RcModule2 = require('../../lib/RcModule');
+
+var _RcModule3 = _interopRequireDefault(_RcModule2);
 
 var _getAuthReducer = require('./getAuthReducer');
 
@@ -88,6 +88,10 @@ var _authMessages2 = _interopRequireDefault(_authMessages);
 var _moduleStatus = require('../../enums/moduleStatus');
 
 var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+
+var _parseCallbackUri = require('../../lib/parseCallbackUri');
+
+var _parseCallbackUri2 = _interopRequireDefault(_parseCallbackUri);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -170,7 +174,7 @@ var Auth = function (_RcModule) {
                   }
 
                   _context.prev = 3;
-                  code = _this.parseCallbackUri(callbackUri);
+                  code = (0, _parseCallbackUri2.default)(callbackUri);
 
                   if (!code) {
                     _context.next = 9;
@@ -259,6 +263,7 @@ var Auth = function (_RcModule) {
     _this._beforeLogoutHandlers = new _set2.default();
     _this._proxyFrame = null;
     _this._proxyFrameLoaded = false;
+    _this._unbindEvents = null;
     return _this;
   }
 
@@ -267,14 +272,16 @@ var Auth = function (_RcModule) {
     value: function _bindEvents() {
       var _this3 = this;
 
+      if (this._unbindEvents) this._unbindEvents();
+
       var platform = this._client.service.platform();
-      platform.on(platform.events.loginSuccess, function () {
+      var onLoginSuccess = function onLoginSuccess() {
         _this3.store.dispatch({
           type: _this3.actionTypes.loginSuccess,
           token: platform.auth().data()
         });
-      });
-      platform.on(platform.events.loginError, function (error) {
+      };
+      var onLoginError = function onLoginError(error) {
         _this3.store.dispatch({
           type: _this3.actionTypes.loginError,
           error: error
@@ -285,13 +292,13 @@ var Auth = function (_RcModule) {
             payload: error
           });
         }
-      });
-      platform.on(platform.events.logoutSuccess, function () {
+      };
+      var onLogoutSuccess = function onLogoutSuccess() {
         _this3.store.dispatch({
           type: _this3.actionTypes.logoutSuccess
         });
-      });
-      platform.on(platform.events.logoutError, function (error) {
+      };
+      var onLogoutError = function onLogoutError(error) {
         platform._cache.clean();
         _this3.store.dispatch({
           type: _this3.actionTypes.logoutError,
@@ -303,14 +310,14 @@ var Auth = function (_RcModule) {
             payload: error
           });
         }
-      });
-      platform.on(platform.events.refreshSuccess, function () {
+      };
+      var onRefreshSuccess = function onRefreshSuccess() {
         _this3.store.dispatch({
           type: _this3.actionTypes.refreshSuccess,
           token: platform.auth().data()
         });
-      });
-      platform.on(platform.events.refreshError, function (error) {
+      };
+      var onRefreshError = function onRefreshError(error) {
         // user is still considered logged in if the refreshToken is still valid
         var refreshTokenValid = platform.auth().refreshTokenValid();
         _this3.store.dispatch({
@@ -327,7 +334,21 @@ var Auth = function (_RcModule) {
           // clean the cache so the error doesn't show again
           platform._cache.clean();
         }
-      });
+      };
+      platform.addListener(platform.events.loginSuccess, onLoginSuccess);
+      platform.addListener(platform.events.loginError, onLoginError);
+      platform.addListener(platform.events.logoutSuccess, onLogoutSuccess);
+      platform.addListener(platform.events.logoutError, onLogoutError);
+      platform.addListener(platform.events.refreshSuccess, onRefreshSuccess);
+      platform.addListener(platform.events.refreshError, onRefreshError);
+      this._unbindEvents = function () {
+        platform.removeListener(platform.events.loginSuccess, onLoginSuccess);
+        platform.removeListener(platform.events.loginError, onLoginError);
+        platform.removeListener(platform.events.logoutSuccess, onLogoutSuccess);
+        platform.removeListener(platform.events.logoutError, onLogoutError);
+        platform.removeListener(platform.events.refreshSuccess, onRefreshSuccess);
+        platform.removeListener(platform.events.refreshError, onRefreshError);
+      };
     }
   }, {
     key: 'initialize',
@@ -419,20 +440,16 @@ var Auth = function (_RcModule) {
                 this.store.dispatch({
                   type: this.actionTypes.login
                 });
-                _context3.next = 3;
-                return this._client.service.platform().login({
+                return _context3.abrupt('return', this._client.service.platform().login({
                   username: username,
                   password: password,
                   extension: extension,
                   remember: remember,
                   code: code,
                   redirectUri: redirectUri
-                });
+                }));
 
-              case 3:
-                return _context3.abrupt('return', _context3.sent);
-
-              case 4:
+              case 2:
               case 'end':
                 return _context3.stop();
             }
@@ -472,29 +489,6 @@ var Auth = function (_RcModule) {
         display: display,
         prompt: prompt
       }) + (force ? '&force' : '');
-    }
-    /**
-     * @function
-     * @param {String} callbackUri
-     * @return {String} code
-     */
-
-  }, {
-    key: 'parseCallbackUri',
-    value: function parseCallbackUri(callbackUri) {
-      var _url$parse = _url2.default.parse(callbackUri, true),
-          query = _url$parse.query;
-
-      if (query.error) {
-        var error = new Error(query.error);
-        for (var key in query) {
-          if (Object.prototype.hasOwnProperty.call(query, key)) {
-            error[key] = query[key];
-          }
-        }
-        throw error;
-      }
-      return query.code;
     }
 
     /**
@@ -645,13 +639,9 @@ var Auth = function (_RcModule) {
                 this.store.dispatch({
                   type: this.actionTypes.logout
                 });
-                _context6.next = 39;
-                return this._client.service.platform().logout();
+                return _context6.abrupt('return', this._client.service.platform().logout());
 
-              case 39:
-                return _context6.abrupt('return', _context6.sent);
-
-              case 40:
+              case 38:
               case 'end':
                 return _context6.stop();
             }
