@@ -82,7 +82,6 @@ export default function App({
               onEnter={ensureLogin}
               component={() => (
                 <RegionSettingsPage
-                  auth={phone.auth}
                   regionSettings={phone.regionSettings}
                   locale={phone.locale}
                   router={phone.router}

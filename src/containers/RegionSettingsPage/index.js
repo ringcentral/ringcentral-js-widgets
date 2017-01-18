@@ -26,11 +26,6 @@ RegionSettingsPage.propTypes = {
   locale: PropTypes.object.isRequired,
   regionSettings: PropTypes.object.isRequired,
   router: PropTypes.object.isRequired,
-  welcomePageUrl: PropTypes.string,
-};
-
-RegionSettingsPage.defaultProps = {
-  welcomePageUrl: '/welcome',
 };
 
 export default RegionSettingsPage;
