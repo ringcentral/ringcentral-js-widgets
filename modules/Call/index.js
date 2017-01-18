@@ -265,7 +265,7 @@ var Call = function (_RcModule) {
                 break;
 
               case 9:
-                if (!(!isServiceNumber && !hasPlus && number === 7 && (countryCode === 'CA' || countryCode === 'US') && areaCode === '')) {
+                if (!(!isServiceNumber && !hasPlus && number.length === 7 && (countryCode === 'CA' || countryCode === 'US') && areaCode === '')) {
                   _context2.next = 13;
                   break;
                 }
