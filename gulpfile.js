@@ -14,6 +14,7 @@ import Loganberry from 'loganberry';
 import cp from 'child_process';
 import semver from 'semver';
 import devServerConfig from './dev-server/config';
+import transformLocaleLoader from 'locale-loader/transformLocaleLoader';
 
 gulp.task('dev-server', async () => {
   const compiler = webpack(devServerConfig);
@@ -53,6 +54,7 @@ gulp.task('clean', async () => (
 
 gulp.task('build', ['clean', 'copy'], () => (
   gulp.src(['src/**/*.js', '!src/**/*.test.js'])
+    .pipe(transformLocaleLoader())
     .pipe(sourcemaps.init())
     .pipe(babel())
     .pipe(sourcemaps.write('.'))
