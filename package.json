@@ -62,7 +62,7 @@
     "intl": "^1.2.5",
     "ringcentral": "^3.0.0",
     "ringcentral-client": "^1.0.0-rc1",
-    "whatwg-fetch": "^1.0.0"
+    "whatwg-fetch": "^2.0.1"
   },
   "dependencies": {
     "data-types": "git+https://github.com/u9520107/data-types.git#release",
