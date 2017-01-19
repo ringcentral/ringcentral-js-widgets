@@ -164,6 +164,11 @@ var RateLimiter = function (_RcModule) {
       };
     }
   }, {
+    key: 'ttl',
+    get: function get() {
+      return this.throttling ? this._throttleDuration - (Date.now() - this.timestamp) : 0;
+    }
+  }, {
     key: 'status',
     get: function get() {
       return this.state.status;
