@@ -55,6 +55,10 @@ var _actionTypes = require('./actionTypes');
 
 var _actionTypes2 = _interopRequireDefault(_actionTypes);
 
+var _validateAreaCode = require('../../lib/validateAreaCode');
+
+var _validateAreaCode2 = _interopRequireDefault(_validateAreaCode);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RegionSettings = function (_RcModule) {
@@ -125,13 +129,6 @@ var RegionSettings = function (_RcModule) {
       });
     }
   }, {
-    key: 'validateAreaCode',
-    value: function validateAreaCode(code) {
-      return !(code.length > 0 && (code.length !== 3 || code[0] === '0'
-      // /^(0|1|8)/.test(code)
-      ));
-    }
-  }, {
     key: 'checkRegionSettings',
     value: function checkRegionSettings() {
       var _this3 = this;
@@ -163,7 +160,7 @@ var RegionSettings = function (_RcModule) {
       var areaCode = _ref2.areaCode,
           countryCode = _ref2.countryCode;
 
-      if (typeof areaCode !== 'undefined' && !this.validateAreaCode(areaCode)) {
+      if (typeof areaCode !== 'undefined' && !(0, _validateAreaCode2.default)(areaCode)) {
         this._alert.danger({
           message: _regionSettingsMessages2.default.areaCodeInvalid
         });

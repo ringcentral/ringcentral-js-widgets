@@ -70,15 +70,11 @@ var ForwardingNumber = function (_DataFetcher) {
             while (1) {
               switch (_context.prev = _context.next) {
                 case 0:
-                  _context.next = 2;
-                  return (0, _fetchList2.default)(function (params) {
+                  return _context.abrupt('return', (0, _fetchList2.default)(function (params) {
                     return _this._client.account().extension().forwardingNumber().list(params);
-                  });
+                  }));
 
-                case 2:
-                  return _context.abrupt('return', _context.sent);
-
-                case 3:
+                case 1:
                 case 'end':
                   return _context.stop();
               }

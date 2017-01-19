@@ -111,6 +111,9 @@ var Softphone = function (_RcModule) {
 
       return makeCall;
     }()
+
+    // eslint-disable-next-line class-methods-use-this
+
   }, {
     key: 'protocol',
     get: function get() {
@@ -133,6 +136,9 @@ var Softphone = function (_RcModule) {
     get: function get() {
       return _moduleStatus2.default.ready;
     }
+
+    // eslint-disable-next-line class-methods-use-this
+
   }, {
     key: 'ready',
     get: function get() {

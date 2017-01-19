@@ -77,11 +77,17 @@ var Brand = function (_RcModule) {
     get: function get() {
       return this.state.fullName;
     }
+
+    // eslint-disable-next-line class-methods-use-this
+
   }, {
     key: 'status',
     get: function get() {
       return _moduleStatus2.default.ready;
     }
+
+    // eslint-disable-next-line class-methods-use-this
+
   }, {
     key: 'ready',
     get: function get() {

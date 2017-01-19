@@ -74,7 +74,7 @@ var RolesAndPermissions = function (_DataFetcher) {
         options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'extensionInfo', 'ttl']);
     (0, _classCallCheck3.default)(this, RolesAndPermissions);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (RolesAndPermissions.__proto__ || (0, _getPrototypeOf2.default)(RolesAndPermissions)).call(this, (0, _extends3.default)({
+    var _this = (0, _possibleConstructorReturn3.default)(this, (RolesAndPermissions.__proto__ || (0, _getPrototypeOf2.default)(RolesAndPermissions)).call(this, (0, _extends3.default)({}, options, {
       name: 'rolesAndPermissions',
       client: client,
       ttl: ttl,
@@ -103,8 +103,11 @@ var RolesAndPermissions = function (_DataFetcher) {
         return function fetchFunction() {
           return _ref2.apply(this, arguments);
         };
-      }()
-    }, options)));
+      }(),
+      readyCheckFn: function readyCheckFn() {
+        return _this._extensionInfo.ready;
+      }
+    })));
 
     _this._extensionInfo = extensionInfo;
     _this.addSelector('permissions', function () {
@@ -116,64 +119,6 @@ var RolesAndPermissions = function (_DataFetcher) {
   }
 
   (0, _createClass3.default)(RolesAndPermissions, [{
-    key: 'initialize',
-    value: function initialize() {
-      var _this3 = this;
-
-      this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                if (!(_this3._auth.loggedIn && _this3._storage.ready && _this3._extensionInfo.ready && _this3.status === _moduleStatus2.default.pending)) {
-                  _context2.next = 11;
-                  break;
-                }
-
-                _this3.store.dispatch({
-                  type: _this3.actionTypes.init
-                });
-
-                if (!((!_this3._tabManager || _this3._tabManager.active) && (_this3._auth.isFreshLogin || !_this3.timestamp || Date.now() - _this3.timestamp > _this3._ttl))) {
-                  _context2.next = 7;
-                  break;
-                }
-
-                _context2.next = 5;
-                return _this3.fetchData();
-
-              case 5:
-                _context2.next = 8;
-                break;
-
-              case 7:
-                _this3._retry();
-
-              case 8:
-                _this3.store.dispatch({
-                  type: _this3.actionTypes.initSuccess
-                });
-                _context2.next = 12;
-                break;
-
-              case 11:
-                if ((!_this3._auth.loggedIn || !_this3._storage.ready || !_this3._extensionInfo.ready) && _this3.ready) {
-                  _this3._clearTimeout();
-                  _this3._promise = null;
-                  _this3.store.dispatch({
-                    type: _this3.actionTypes.resetSuccess
-                  });
-                }
-
-              case 12:
-              case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, _this3);
-      })));
-    }
-  }, {
     key: 'serviceFeatures',
     get: function get() {
       return this._extensionInfo.serviceFeatures;

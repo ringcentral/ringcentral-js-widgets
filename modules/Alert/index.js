@@ -98,6 +98,7 @@ var Alert = function (_RcModule) {
   }
 
   // this module has no dependency, and is always ready
+  // eslint-disable-next-line class-methods-use-this
 
 
   (0, _createClass3.default)(Alert, [{
@@ -224,6 +225,8 @@ var Alert = function (_RcModule) {
     get: function get() {
       return _moduleStatus2.default.ready;
     }
+    // eslint-disable-next-line class-methods-use-this
+
   }, {
     key: 'ready',
     get: function get() {

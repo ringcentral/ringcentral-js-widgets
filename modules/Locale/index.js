@@ -5,10 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -45,13 +41,17 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _RcModule2 = require('../../lib/RcModule');
+var _promise = require('babel-runtime/core-js/promise');
 
-var _RcModule3 = _interopRequireDefault(_RcModule2);
+var _promise2 = _interopRequireDefault(_promise);
 
 var _formatMessage = require('format-message');
 
 var _formatMessage2 = _interopRequireDefault(_formatMessage);
+
+var _RcModule2 = require('../../lib/RcModule');
+
+var _RcModule3 = _interopRequireDefault(_RcModule2);
 
 var _I18n = require('../../lib/I18n');
 
@@ -72,6 +72,33 @@ var _getLocaleReducer2 = _interopRequireDefault(_getLocaleReducer);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /* eslint-disable global-require */
+
+/**
+ *  @function
+ *  @description Check if the current environement requires the Intl polyfill.
+ *  @return {Promise}
+ */
+function checkIntl() {
+  return new _promise2.default(function (resolve) {
+    if (!global.Intl) {
+      if (process.browser) {
+        require.ensure(['intl', 'intl/locale-data/jsonp/en', 'intl/locale-data/jsonp/de', 'intl/locale-data/jsonp/fr'], function (require) {
+          require('intl');
+          require('intl/locale-data/jsonp/en');
+          require('intl/locale-data/jsonp/de');
+          require('intl/locale-data/jsonp/fr');
+
+          resolve();
+        }, 'intl');
+      } else {
+        require('intl');
+        resolve();
+      }
+    } else {
+      resolve();
+    }
+  });
+}
 
 var Locale = function (_RcModule) {
   (0, _inherits3.default)(Locale, _RcModule);
@@ -102,7 +129,7 @@ var Locale = function (_RcModule) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this2._checkIntl();
+                return checkIntl();
 
               case 2:
                 _context.next = 4;
@@ -123,37 +150,6 @@ var Locale = function (_RcModule) {
           }
         }, _callee, _this2);
       }))();
-    }
-
-    /**
-     *  @function
-     *  @description Check if the current environement requires the Intl polyfill.
-     *  @return {Promise}
-     */
-
-  }, {
-    key: '_checkIntl',
-    value: function _checkIntl() {
-      return new _promise2.default(function (resolve) {
-        if (!global.Intl) {
-          if (process.browser) {
-            require.ensure(['intl', 'intl/locale-data/jsonp/en', 'intl/locale-data/jsonp/de', 'intl/locale-data/jsonp/fr'], function (require) {
-              require('intl');
-              require('intl/locale-data/jsonp/en');
-              require('intl/locale-data/jsonp/de');
-              require('intl/locale-data/jsonp/fr');
-
-              resolve();
-            }, 'intl');
-          } else {
-            require('intl');
-
-            resolve();
-          }
-        } else {
-          resolve();
-        }
-      });
     }
 
     /**

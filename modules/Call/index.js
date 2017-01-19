@@ -361,51 +361,33 @@ var Call = function (_RcModule) {
               case 0:
                 callingMode = this._callingSettings.callingMode;
                 _context3.t0 = callingMode;
-                _context3.next = _context3.t0 === _callingModes2.default.softphone ? 4 : _context3.t0 === _callingModes2.default.ringout ? 6 : 15;
+                _context3.next = _context3.t0 === _callingModes2.default.softphone ? 4 : _context3.t0 === _callingModes2.default.ringout ? 6 : 9;
                 break;
 
               case 4:
                 this._softphone.makeCall(toNumber);
-                return _context3.abrupt('break', 16);
+                return _context3.abrupt('break', 10);
 
               case 6:
-                _context3.prev = 6;
-                _context3.next = 9;
+                _context3.next = 8;
                 return this._ringout.makeCall({
                   fromNumber: fromNumber,
                   toNumber: toNumber,
                   prompt: this._callingSettings.ringoutPrompt
                 });
 
+              case 8:
+                return _context3.abrupt('break', 10);
+
               case 9:
-                _context3.next = 14;
-                break;
+                return _context3.abrupt('break', 10);
 
-              case 11:
-                _context3.prev = 11;
-                _context3.t1 = _context3['catch'](6);
-
-                if (_context3.t1.message === _ringoutErrors2.default.pollingFailed) {
-                  this._alertGenericError(_context3.t1.error);
-                } else if (_context3.t1.message === _ringoutErrors2.default.firstLegConnectFailed) {
-                  this._alert.warning({
-                    message: _callErrors2.default.connectFailed,
-                    payroll: _context3.t1.error
-                  });
-                }
-
-              case 14:
-                return _context3.abrupt('break', 16);
-
-              case 15:
-                return _context3.abrupt('break', 16);
-
-              case 16:
+              case 10:
               case 'end':
                 return _context3.stop();
             }
           }
-        }, _callee3, this, [[6, 11]]);
+        }, _callee3, this);
       }));
 
       function _makeCall(_x) {
@@ -414,22 +396,6 @@ var Call = function (_RcModule) {
 
       return _makeCall;
     }()
-  }, {
-    key: '_alertGenericError',
-    value: function _alertGenericError(e) {
-      var networkErr = /Network/.test(e);
-      if (networkErr) {
-        this._alert.danger({
-          message: _callErrors2.default.networkError,
-          payroll: e
-        });
-      } else {
-        this._alert.danger({
-          message: _callErrors2.default.internalError,
-          payroll: e
-        });
-      }
-    }
   }, {
     key: 'status',
     get: function get() {
