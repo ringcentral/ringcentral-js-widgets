@@ -24,6 +24,12 @@
   margin-top: -15px;
   margin-left: -40%;
 }
+
 .loginButton:active {
   background-color: $primary-color-highlight;
+}
+
+.loginButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
 }

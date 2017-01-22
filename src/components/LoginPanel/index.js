@@ -14,13 +14,15 @@ export default class LoginPanel extends Component {
     const {
       className,
       onLoginButtonClick,
-      currentLocale
+      currentLocale,
+      disabled,
     } = this.props;
     return (
       <div className={classnames(styles.root, className)}>
         <button
           className={styles.loginButton}
-          onClick={onLoginButtonClick} >
+          onClick={onLoginButtonClick}
+          disabled={disabled} >
           {i18n.getString('loginButton', currentLocale)}
         </button>
       </div>
@@ -34,4 +36,10 @@ LoginPanel.propTypes = {
   clearProxyFrame: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
   onLoginButtonClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+};
+
+LoginPanel.defaultProps = {
+  className: null,
+  disabled: false,
 };
