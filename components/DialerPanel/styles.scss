@@ -1,0 +1,87 @@
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/no-select';
+@import '../../lib/commonStyles/vertical-align';
+@import '../../lib/commonStyles/colors';
+
+$row_margin:50px;
+$dial_pad_width: calc(100% - #{$row_margin*2});
+$dial_input_height: 10%;
+
+.root {
+  @include full-size;
+  padding-left: 10%;
+  padding-right: 10%;
+  box-sizing: border-box;
+}
+.dial_input {
+  width: 100%;
+  height: $dial_input_height;
+}
+.select {
+  width: 100%;
+  height: 50%;
+  margin-top: 5px;
+}
+.dialInput {
+  height: 100%;
+  text-align: center;
+  box-sizing: border-box;
+  border: 0px;
+  margin-bottom: 5px;
+  font-size: 1.2em;
+  color: dimgrey;
+}
+.dialButtons {
+  @include full-size;
+  height: calc(90% - 5px);
+}
+.dialPad {
+  height: 80%;
+}
+
+.callBtnRow {
+  height: 20%;
+  text-align: center;
+}
+
+
+.callBtn {
+  @include full-size;
+  display: inline-block;
+  width: calc(100% / 3);
+  height: 100%;
+}
+
+.btnSvg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.btnSvgGroup {
+  @include no-select;
+  cursor: pointer;
+}
+.disabled {
+  cursor: not-allowed,
+}
+
+.circle {
+  fill: $call-btn-color;
+  stroke-width: 0;
+}
+.disabled .circle {
+  fill: rgba(229, 229, 229, 1);
+}
+.callBtnIcon {
+  fill: #fff;
+  transform-origin: 500px 500px;
+  transform: translate(15px, 22px) scale(0.42) rotateZ(-78deg);
+}
+.btnValue {
+  text-anchor: middle;
+  font-size: 165px;
+  fill: #fff;
+  font-family: 'RCFont' !important;
+}

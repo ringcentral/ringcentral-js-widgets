@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = RegionSettingsAlert;
 
 var _react = require('react');
 
@@ -64,6 +65,4 @@ RegionSettingsAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
   return message === _regionSettingsMessages2.default.saveSuccess || message === _regionSettingsMessages2.default.dialingPlansChanged || message === _regionSettingsMessages2.default.areaCodeInvalid;
 };
-
-exports.default = RegionSettingsAlert;
 //# sourceMappingURL=index.js.map

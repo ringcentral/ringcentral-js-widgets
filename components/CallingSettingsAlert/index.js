@@ -64,18 +64,7 @@ CallingSettingsAlert.propTypes = {
 };
 CallingSettingsAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-
-  switch (message) {
-    case _callingSettingsMessages2.default.saveSuccess:
-    case _callingSettingsMessages2.default.saveSuccessWithSoftphone:
-    case _callingSettingsMessages2.default.firstLogin:
-    case _callingSettingsMessages2.default.firstLoginOther:
-    case _callingSettingsMessages2.default.permissionChanged:
-    case _callingSettingsMessages2.default.phoneNumberChanged:
-      return true;
-    default:
-      return false;
-  }
+  return message === _callingSettingsMessages2.default.saveSuccess || message === _callingSettingsMessages2.default.saveSuccessWithSoftphone || message === _callingSettingsMessages2.default.firstLogin || message === _callingSettingsMessages2.default.firstLoginOther || message === _callingSettingsMessages2.default.permissionChanged || message === _callingSettingsMessages2.default.phoneNumberChanged;
 };
 
 exports.default = CallingSettingsAlert;

@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = AuthAlert;
 
 var _react = require('react');
 
@@ -26,16 +27,16 @@ function AuthAlert(props) {
     msg
   );
 }
+
 AuthAlert.propTypes = {
   currentLocale: _react.PropTypes.string.isRequired,
   message: _react.PropTypes.shape({
     message: _react.PropTypes.string.isRequired
   }).isRequired
 };
+
 AuthAlert.handleMessage = function (_ref) {
   var message = _ref.message;
   return message === _authMessages2.default.accessDenied || message === _authMessages2.default.internalError || message === _authMessages2.default.sessionExpired;
 };
-
-exports.default = AuthAlert;
 //# sourceMappingURL=index.js.map
