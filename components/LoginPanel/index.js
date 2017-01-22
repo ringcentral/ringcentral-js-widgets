@@ -66,7 +66,8 @@ var LoginPanel = function (_Component) {
       var _props = this.props,
           className = _props.className,
           onLoginButtonClick = _props.onLoginButtonClick,
-          currentLocale = _props.currentLocale;
+          currentLocale = _props.currentLocale,
+          disabled = _props.disabled;
 
       return _react2.default.createElement(
         'div',
@@ -75,7 +76,8 @@ var LoginPanel = function (_Component) {
           'button',
           {
             className: _styles2.default.loginButton,
-            onClick: onLoginButtonClick },
+            onClick: onLoginButtonClick,
+            disabled: disabled },
           _i18n2.default.getString('loginButton', currentLocale)
         )
       );
@@ -92,6 +94,12 @@ LoginPanel.propTypes = {
   setupProxyFrame: _react.PropTypes.func.isRequired,
   clearProxyFrame: _react.PropTypes.func.isRequired,
   currentLocale: _react.PropTypes.string.isRequired,
-  onLoginButtonClick: _react.PropTypes.func.isRequired
+  onLoginButtonClick: _react.PropTypes.func.isRequired,
+  disabled: _react.PropTypes.bool
+};
+
+LoginPanel.defaultProps = {
+  className: null,
+  disabled: false
 };
 //# sourceMappingURL=index.js.map
