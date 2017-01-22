@@ -2,14 +2,11 @@ import React, { PropTypes } from 'react';
 import styles from './styles.scss';
 import Line from '../Line';
 
-
-
-function IconLine(props) {
+export default function IconLine(props) {
   return (
     <Line
       className={props.className}
-      onClick={props.onClick}
-    >
+      onClick={props.onClick} >
       <div className={styles.content}>
         {props.children}
       </div>
@@ -28,5 +25,3 @@ IconLine.propTypes = {
   className: PropTypes.string,
   onClick: PropTypes.func,
 };
-
-export default IconLine;

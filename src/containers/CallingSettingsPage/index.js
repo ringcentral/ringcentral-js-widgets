@@ -1,5 +1,9 @@
 import { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import Brand from 'ringcentral-integration/modules/Brand';
+import CallingSettings from 'ringcentral-integration/modules/CallingSettings';
+import Locale from 'ringcentral-integration/modules/Locale';
+import RouterIntegration from '../../modules/RouterInteraction';
 import CallingSettingsPanel from '../../components/CallingSettingsPanel';
 
 const CallingSettingsPage = connect((_, props) => ({
@@ -22,10 +26,10 @@ const CallingSettingsPage = connect((_, props) => ({
 }))(CallingSettingsPanel);
 
 CallingSettingsPage.propTypes = {
-  brand: PropTypes.object.isRequired,
-  callingSettings: PropTypes.object.isRequired,
-  locale: PropTypes.object.isRequired,
-  router: PropTypes.object.isRequired,
+  brand: PropTypes.instanceOf(Brand).isRequired,
+  callingSettings: PropTypes.instanceOf(CallingSettings).isRequired,
+  locale: PropTypes.instanceOf(Locale).isRequired,
+  router: PropTypes.instanceOf(RouterIntegration).isRequired,
 };
 
 

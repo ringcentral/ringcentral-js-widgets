@@ -13,8 +13,7 @@ function RegionSettingsAlert({ message: { message }, currentLocale, regionSettin
       msg = (
         <FormattedMessage
           message={i18n.getString(message, currentLocale)}
-          values={{ regionSettingsLink: <Link to={regionSettingsUrl}>{regionSettings}</Link> }}
-        />
+          values={{ regionSettingsLink: <Link to={regionSettingsUrl}>{regionSettings}</Link> }} />
       );
     }
       break;

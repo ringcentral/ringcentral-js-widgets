@@ -1,5 +1,8 @@
 import { connect } from 'react-redux';
 import { PropTypes } from 'react';
+import Locale from 'ringcentral-integration/modules/Locale';
+import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
+import RouterInteraction from '../../modules/RouterInteraction';
 import RegionSettingsPanel from '../../components/RegionSettingsPanel';
 
 const RegionSettingsPage = connect((_, props) => ({
@@ -23,9 +26,9 @@ const RegionSettingsPage = connect((_, props) => ({
 }))(RegionSettingsPanel);
 
 RegionSettingsPage.propTypes = {
-  locale: PropTypes.object.isRequired,
-  regionSettings: PropTypes.object.isRequired,
-  router: PropTypes.object.isRequired,
+  locale: PropTypes.instanceOf(Locale).isRequired,
+  regionSettings: PropTypes.instanceOf(RegionSettings).isRequired,
+  router: PropTypes.instanceOf(RouterInteraction).isRequired,
 };
 
 export default RegionSettingsPage;

@@ -25,9 +25,10 @@
     "import/no-extraneous-dependencies": 1,
     "import/prefer-default-export": 0,
     "import/no-unresolved": 1,
-    "react/jsx-closing-bracket-location": 0,
     "no-param-reassign": 0, // [].reduce are easier with this turned off,
     "jsx-a11y/label-has-for": 0, // allow implicit label for input implementation
-    "react/forbid-prop-types": 1
+    "react/jsx-closing-bracket-location": 0,
+    "react/forbid-prop-types": 1,
+    "react/require-default-props": 1,
   }
 }
