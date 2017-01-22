@@ -4,11 +4,14 @@ import { combineReducers } from 'redux';
 
 import RcModule from 'ringcentral-integration/lib/RcModule';
 
+import AccountExtension from 'ringcentral-integration/modules/AccountExtension';
 import AccountInfo from 'ringcentral-integration/modules/AccountInfo';
 import Alert from 'ringcentral-integration/modules/Alert';
 import Auth from 'ringcentral-integration/modules/Auth';
 import Brand from 'ringcentral-integration/modules/Brand';
+import Call from 'ringcentral-integration/modules/Call';
 import CallingSettings from 'ringcentral-integration/modules/CallingSettings';
+import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
 import DialingPlan from 'ringcentral-integration/modules/DialingPlan';
 import Environment from 'ringcentral-integration/modules/Environment';
 import ExtensionInfo from 'ringcentral-integration/modules/ExtensionInfo';
@@ -17,8 +20,11 @@ import ForwardingNumber from 'ringcentral-integration/modules/ForwardingNumber';
 import GlobalStorage from 'ringcentral-integration/modules/GlobalStorage';
 import Locale from 'ringcentral-integration/modules/Locale';
 import Presence from 'ringcentral-integration/modules/Presence';
+import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
+import Ringout from 'ringcentral-integration/modules/Ringout';
 import RolesAndPermissions from 'ringcentral-integration/modules/RolesAndPermissions';
+import Softphone from 'ringcentral-integration/modules/Softphone';
 import Storage from 'ringcentral-integration/modules/Storage';
 import Subscription from 'ringcentral-integration/modules/Subscription';
 import TabManager from 'ringcentral-integration/modules/TabManager';
@@ -44,6 +50,10 @@ export default class Phone extends RcModule {
       ...options,
       ...brandConfig,
       getState: () => this.state.brand,
+    }));
+    this.addModule('softphone', new Softphone({
+      ...options,
+      brand: this.brand,
     }));
     this.addModule('locale', new Locale({
       ...options,
@@ -76,10 +86,37 @@ export default class Phone extends RcModule {
       tabManager: this.tabManager,
       getState: () => this.state.auth,
     }));
+    this.addModule('ringout', new Ringout({
+      ...options,
+      auth: this.auth,
+      client: this.client,
+      getState: () => this.state.ringout,
+    }));
+    this.addModule('connectivityMonitor', new ConnectivityMonitor({
+      ...options,
+      client: this.client,
+      environment: this.environment,
+      getState: () => this.state.connectivityMonitor,
+    }));
+    this.addModule('rateLimiter', new RateLimiter({
+      ...options,
+      client: this.client,
+      environment: this.environment,
+      globalStorage: this.globalStorage,
+      getState: () => this.state.rateLimiter,
+    }));
     this.addModule('storage', new Storage({
       ...options,
       auth: this.auth,
       getState: () => this.state.storage,
+    }));
+    this.addModule('accountExtension', new AccountExtension({
+      ...options,
+      auth: this.auth,
+      client: this.client,
+      storage: this.storage,
+      tabManager: this.tabManager,
+      getState: () => this.state.accountExtension,
     }));
     this.addModule('accountInfo', new AccountInfo({
       ...options,
@@ -148,8 +185,20 @@ export default class Phone extends RcModule {
       forwardingNumber: this.forwardingNumber,
       storage: this.storage,
       rolesAndPermissions: this.rolesAndPermissions,
-      tabManager: this._tabManager,
+      tabManager: this.tabManager,
       getState: () => this.state.callingSettings,
+    }));
+    this.addModule('call', new Call({
+      ...options,
+      alert: this.alert,
+      client: this.client,
+      storage: this.storage,
+      regionSettings: this.regionSettings,
+      callingSettings: this.callingSettings,
+      softphone: this.softphone,
+      ringout: this.ringout,
+      accountExtension: this.accountExtension,
+      getState: () => this.state.call,
     }));
     this.addModule('subscription', new Subscription({
       ...options,
@@ -171,6 +220,7 @@ export default class Phone extends RcModule {
       getState: () => this.state.router,
     }));
     this._reducer = combineReducers({
+      accountExtension: this.accountExtension.reducer,
       accountInfo: this.accountInfo.reducer,
       alert: this.alert.reducer,
       auth: this.auth.reducer,
@@ -178,7 +228,9 @@ export default class Phone extends RcModule {
         name: brandConfig.appName,
         version: appVersion,
       }) => state,
+      call: this.call.reducer,
       callingSettings: this.callingSettings.reducer,
+      connectivityMonitor: this.connectivityMonitor.reducer,
       environment: this.environment.reducer,
       extensionInfo: this.extensionInfo.reducer,
       extensionPhoneNumber: this.extensionPhoneNumber.reducer,
@@ -189,8 +241,10 @@ export default class Phone extends RcModule {
       storage: this.storage.reducer,
       globalStorage: this.globalStorage.reducer,
       presence: this.presence.reducer,
+      rateLimiter: this.rateLimiter.reducer,
       rolesAndPermissions: this.rolesAndPermissions.reducer,
       regionSettings: this.regionSettings.reducer,
+      ringout: this.ringout.reducer,
       router: this.router.reducer,
       subscription: this.subscription.reducer,
       tabManager: this.tabManager.reducer,

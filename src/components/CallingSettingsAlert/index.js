@@ -38,18 +38,13 @@ CallingSettingsAlert.propTypes = {
   brand: PropTypes.string.isRequired,
   callingSettingsUrl: PropTypes.string.isRequired,
 };
-CallingSettingsAlert.handleMessage = ({ message }) => {
-  switch (message) {
-    case callingSettingsMessages.saveSuccess:
-    case callingSettingsMessages.saveSuccessWithSoftphone:
-    case callingSettingsMessages.firstLogin:
-    case callingSettingsMessages.firstLoginOther:
-    case callingSettingsMessages.permissionChanged:
-    case callingSettingsMessages.phoneNumberChanged:
-      return true;
-    default:
-      return false;
-  }
-};
+CallingSettingsAlert.handleMessage = ({ message }) => (
+    message === callingSettingsMessages.saveSuccess ||
+    message === callingSettingsMessages.saveSuccessWithSoftphone ||
+    message === callingSettingsMessages.firstLogin ||
+    message === callingSettingsMessages.firstLoginOther ||
+    message === callingSettingsMessages.permissionChanged ||
+    message === callingSettingsMessages.phoneNumberChanged
+);
 
 export default CallingSettingsAlert;

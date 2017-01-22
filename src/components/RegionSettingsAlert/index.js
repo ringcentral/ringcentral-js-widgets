@@ -5,7 +5,13 @@ import regionSettingsMessages from
 import FormattedMessage from '../FormattedMessage';
 import i18n from './i18n';
 
-function RegionSettingsAlert({ message: { message }, currentLocale, regionSettingsUrl }) {
+export default function RegionSettingsAlert({
+  message: {
+    message
+  },
+  currentLocale,
+  regionSettingsUrl,
+}) {
   let msg;
   switch (message) {
     case regionSettingsMessages.dialingPlansChanged: {
@@ -35,9 +41,7 @@ RegionSettingsAlert.propTypes = {
   currentLocale: PropTypes.string.isRequired,
 };
 RegionSettingsAlert.handleMessage = ({ message }) => (
-  (message === regionSettingsMessages.saveSuccess) ||
-  (message === regionSettingsMessages.dialingPlansChanged) ||
-  (message === regionSettingsMessages.areaCodeInvalid)
+  message === regionSettingsMessages.saveSuccess ||
+  message === regionSettingsMessages.dialingPlansChanged ||
+  message === regionSettingsMessages.areaCodeInvalid
 );
-
-export default RegionSettingsAlert;
