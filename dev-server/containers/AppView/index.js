@@ -5,6 +5,7 @@ import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
 import SpinnerOverlay from '../../../src/components/SpinnerOverlay';
 import AlertDisplay from '../../../src/components/AlertDisplay';
 import AuthAlert from '../../../src/components/AuthAlert';
+import CallAlert from '../../../src/components/CallAlert';
 import CallingSettingsAlert from '../../../src/components/CallingSettingsAlert';
 import RegionSettingsAlert from '../../../src/components/RegionSettingsAlert';
 import Environment from '../../../src/components/Environment';
@@ -73,19 +74,27 @@ export default connect((state, {
     if (AuthAlert.handleMessage(message)) {
       return AuthAlert;
     }
+    if (CallAlert.handleMessage(message)) {
+      return props => (
+        <CallAlert
+          {...props}
+          regionSettingsUrl="/settings/region" />
+      );
+    }
     if (CallingSettingsAlert.handleMessage(message)) {
       return props => (
         <CallingSettingsAlert
           {...props}
           brand={brand.fullName}
-          callingSettingsUrl="/settings/calling"
-        />
+          callingSettingsUrl="/settings/calling" />
       );
     }
 
     if (RegionSettingsAlert.handleMessage(message)) {
       return props => (
-        <RegionSettingsAlert {...props} regionSettingsUrl="/settings/region" />
+        <RegionSettingsAlert
+          {...props}
+          regionSettingsUrl="/settings/region" />
       );
     }
     return undefined;

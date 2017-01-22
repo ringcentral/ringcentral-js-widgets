@@ -1,0 +1,57 @@
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/no-select';
+@import '../../lib/commonStyles/vertical-align';
+@import '../../lib/commonStyles/colors.scss';
+
+$btn_scale: 75%;
+$btn_value_height: 55%;
+
+.root {
+  @include full-size;
+}
+
+.row {
+  @include full-size;
+  @include no-select;
+  height: 25%;
+  text-align: center;
+  white-space: nowrap;
+}
+.btnPlaceholder {
+  @include full-size;
+  display: inline-block;
+  width: calc(100% / 3);
+  height: 100%;
+}
+.btnSvg {
+  width: 100%;
+  height: 100%;
+}
+.btnSvgGroup {
+  @include no-select;
+  cursor: pointer;
+}
+.circle {
+  fill: transparent;
+  stroke-width: 10;
+  stroke: transparent;
+  /*stroke: $dialer-btn-border-color;*/
+}
+.btnSvgGroup:hover .circle {
+  stroke: $dialer-btn-border-color;
+  /*fill: rgba(6, 132, 189, 0.1);*/
+}
+/*.pressed .circle,
+.pressed:hover .circle {
+  fill: rgba(6, 132, 189, 0.3);
+}*/
+.btnValue {
+  text-anchor: middle;
+  font-size: 200px;
+  fill: $primary-color;
+}
+.btnText {
+  text-anchor: middle;
+  font-size: 70px;
+  fill: $dialer-btn-border-color;
+}

@@ -8,9 +8,9 @@ const tabs = [
   {
     icon: <span className={rcFont.uni2467} />,
     label: 'Settings',
-    path: '/',
+    path: '/settings',
     isActive: currentPath => (
-      currentPath.substr(0, 9) === '/'
+      currentPath.substr(0, 9) === '/settings'
     ),
   },
   // {
@@ -23,11 +23,11 @@ const tabs = [
   //   label: 'History',
   //   path: '/history',
   // },
-  // {
-  //   icon: <span className={rcFont.uniA4} />,
-  //   label: 'Dial Pad',
-  //   path: '/',
-  // },
+  {
+    icon: <span className={rcFont.uniA4} />,
+    label: 'Dial Pad',
+    path: '/',
+  },
 ];
 
 const MainView = connect((state, props) => ({

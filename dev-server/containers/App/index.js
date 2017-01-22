@@ -6,6 +6,7 @@ import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
 import WelcomePage from '../../../src/containers/WelcomePage';
 import CallingSettingsPage from '../../../src/containers/CallingSettingsPage';
 import RegionSettingsPage from '../../../src/containers/RegionSettingsPage';
+import DialerPage from '../../../src/containers/DialerPage';
 
 import MainView from '../MainView';
 import SettingsPage from '../SettingsPage';
@@ -64,6 +65,18 @@ export default function App({
             <IndexRoute
               onEnter={ensureLogin}
               component={() => (
+                <DialerPage
+                  call={phone.call}
+                  callingSettings={phone.callingSettings}
+                  connectivityMonitor={phone.connectivityMonitor}
+                  locale={phone.locale}
+                  rateLimiter={phone.rateLimiter}
+                />
+              )} />
+            <Route
+              path="/settings"
+              onEnter={ensureLogin}
+              component={() => (
                 <SettingsPage
                   auth={phone.auth}
                   extensionInfo={phone.extensionInfo}
@@ -110,7 +123,8 @@ export default function App({
             component={() => (
               <WelcomePage
                 auth={phone.auth}
-                locale={phone.locale} />
+                locale={phone.locale}
+                rateLimiter={phone.rateLimiter} />
             )}
           />
         </Route>
