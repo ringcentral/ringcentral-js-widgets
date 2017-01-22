@@ -40,8 +40,7 @@ function RegionSettingsAlert(_ref) {
               _reactRouter.Link,
               { to: regionSettingsUrl },
               regionSettings
-            ) }
-        });
+            ) } });
       }
       break;
     default:

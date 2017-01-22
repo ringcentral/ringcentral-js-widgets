@@ -8,6 +8,22 @@ var _react = require('react');
 
 var _reactRedux = require('react-redux');
 
+var _Brand = require('ringcentral-integration/modules/Brand');
+
+var _Brand2 = _interopRequireDefault(_Brand);
+
+var _CallingSettings = require('ringcentral-integration/modules/CallingSettings');
+
+var _CallingSettings2 = _interopRequireDefault(_CallingSettings);
+
+var _Locale = require('ringcentral-integration/modules/Locale');
+
+var _Locale2 = _interopRequireDefault(_Locale);
+
+var _RouterInteraction = require('../../modules/RouterInteraction');
+
+var _RouterInteraction2 = _interopRequireDefault(_RouterInteraction);
+
 var _CallingSettingsPanel = require('../../components/CallingSettingsPanel');
 
 var _CallingSettingsPanel2 = _interopRequireDefault(_CallingSettingsPanel);
@@ -42,10 +58,10 @@ var CallingSettingsPage = (0, _reactRedux.connect)(function (_, props) {
 })(_CallingSettingsPanel2.default);
 
 CallingSettingsPage.propTypes = {
-  brand: _react.PropTypes.object.isRequired,
-  callingSettings: _react.PropTypes.object.isRequired,
-  locale: _react.PropTypes.object.isRequired,
-  router: _react.PropTypes.object.isRequired
+  brand: _react.PropTypes.instanceOf(_Brand2.default).isRequired,
+  callingSettings: _react.PropTypes.instanceOf(_CallingSettings2.default).isRequired,
+  locale: _react.PropTypes.instanceOf(_Locale2.default).isRequired,
+  router: _react.PropTypes.instanceOf(_RouterInteraction2.default).isRequired
 };
 
 exports.default = CallingSettingsPage;

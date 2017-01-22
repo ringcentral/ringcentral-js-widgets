@@ -16,6 +16,18 @@ var _reactRedux = require('react-redux');
 
 var _react = require('react');
 
+var _Locale = require('ringcentral-integration/modules/Locale');
+
+var _Locale2 = _interopRequireDefault(_Locale);
+
+var _RegionSettings = require('ringcentral-integration/modules/RegionSettings');
+
+var _RegionSettings2 = _interopRequireDefault(_RegionSettings);
+
+var _RouterInteraction = require('../../modules/RouterInteraction');
+
+var _RouterInteraction2 = _interopRequireDefault(_RouterInteraction);
+
 var _RegionSettingsPanel = require('../../components/RegionSettingsPanel');
 
 var _RegionSettingsPanel2 = _interopRequireDefault(_RegionSettingsPanel);
@@ -68,9 +80,9 @@ var RegionSettingsPage = (0, _reactRedux.connect)(function (_, props) {
 })(_RegionSettingsPanel2.default);
 
 RegionSettingsPage.propTypes = {
-  locale: _react.PropTypes.object.isRequired,
-  regionSettings: _react.PropTypes.object.isRequired,
-  router: _react.PropTypes.object.isRequired
+  locale: _react.PropTypes.instanceOf(_Locale2.default).isRequired,
+  regionSettings: _react.PropTypes.instanceOf(_RegionSettings2.default).isRequired,
+  router: _react.PropTypes.instanceOf(_RouterInteraction2.default).isRequired
 };
 
 exports.default = RegionSettingsPage;

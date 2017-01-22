@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = IconLine;
 
 var _react = require('react');
 
@@ -23,8 +24,7 @@ function IconLine(props) {
     _Line2.default,
     {
       className: props.className,
-      onClick: props.onClick
-    },
+      onClick: props.onClick },
     _react2.default.createElement(
       'div',
       { className: _styles2.default.content },
@@ -48,6 +48,4 @@ IconLine.propTypes = {
   className: _react.PropTypes.string,
   onClick: _react.PropTypes.func
 };
-
-exports.default = IconLine;
 //# sourceMappingURL=index.js.map
