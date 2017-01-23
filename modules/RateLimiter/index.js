@@ -103,12 +103,8 @@ var RateLimiter = function (_RcModule) {
           type: _this.actionTypes.startThrottle,
           timestamp: Date.now()
         });
-        if (!wasThrottling && _this._alert) {
-          _this._alert.danger({
-            message: _errorMessages2.default.rateLimitReached,
-            ttl: _this.ttl,
-            allowDuplicates: false
-          });
+        if (!wasThrottling) {
+          _this.showAlert();
         }
         setTimeout(_this._checkTimestamp, _this._throttleDuration);
       }
@@ -155,6 +151,17 @@ var RateLimiter = function (_RcModule) {
           }
         }, _callee, _this2);
       })));
+    }
+  }, {
+    key: 'showAlert',
+    value: function showAlert() {
+      if (this.throttling && this._alert) {
+        this._alert.danger({
+          message: _errorMessages2.default.rateLimitReached,
+          ttl: this.ttl,
+          allowDuplicates: false
+        });
+      }
     }
   }, {
     key: '_bindHandlers',

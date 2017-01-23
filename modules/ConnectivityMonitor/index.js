@@ -96,13 +96,7 @@ var ConnectivityMonitor = function (_RcModule) {
           _this.store.dispatch({
             type: _this.actionTypes.connectFail
           });
-          if (_this._alert) {
-            _this._alert.danger({
-              message: _connectivityMonitorMessages2.default.disconnected,
-              ttl: 0,
-              allowDuplicates: false
-            });
-          }
+          _this.showAlert();
         }
         _this._retry();
       }
@@ -143,6 +137,17 @@ var ConnectivityMonitor = function (_RcModule) {
           }
         }, _callee, _this2);
       })));
+    }
+  }, {
+    key: 'showAlert',
+    value: function showAlert() {
+      if (!this.connectivity && this._alert) {
+        this._alert.danger({
+          message: _connectivityMonitorMessages2.default.disconnected,
+          ttl: 0,
+          allowDuplicates: false
+        });
+      }
     }
   }, {
     key: '_bindHandlers',
