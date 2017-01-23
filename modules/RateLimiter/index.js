@@ -104,9 +104,9 @@ var RateLimiter = function (_RcModule) {
           timestamp: Date.now()
         });
         if (!wasThrottling && _this._alert) {
-          _this._alert({
+          _this._alert.danger({
             message: _errorMessages2.default.rateLimitReached,
-            ttl: 0,
+            ttl: _this.ttl,
             allowDuplicates: false
           });
         }
