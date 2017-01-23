@@ -125,8 +125,9 @@ var Auth = function (_RcModule) {
   function Auth() {
     var _this2 = this;
 
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        client = _ref.client,
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
+    var client = _ref.client,
         alert = _ref.alert,
         _ref$redirectUri = _ref.redirectUri,
         redirectUri = _ref$redirectUri === undefined ? getDefaultRedirectUri() : _ref$redirectUri,
@@ -139,7 +140,6 @@ var Auth = function (_RcModule) {
         _ref$defaultProxyRetr = _ref.defaultProxyRetry,
         defaultProxyRetry = _ref$defaultProxyRetr === undefined ? DEFAULT_PROXY_RETRY : _ref$defaultProxyRetr,
         options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'alert', 'redirectUri', 'proxyUri', 'brand', 'locale', 'tabManager', 'environment', 'defaultProxyRetry']);
-
     (0, _classCallCheck3.default)(this, Auth);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Auth.__proto__ || (0, _getPrototypeOf2.default)(Auth)).call(this, (0, _extends3.default)({}, options, {

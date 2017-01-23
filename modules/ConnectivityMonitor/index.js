@@ -57,6 +57,10 @@ var _getConnectivityMonitorReducer = require('./getConnectivityMonitorReducer');
 
 var _getConnectivityMonitorReducer2 = _interopRequireDefault(_getConnectivityMonitorReducer);
 
+var _connectivityMonitorMessages = require('./connectivityMonitorMessages');
+
+var _connectivityMonitorMessages2 = _interopRequireDefault(_connectivityMonitorMessages);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DEFAULT_TIME_TO_RETRY = 5000;
@@ -65,11 +69,12 @@ var ConnectivityMonitor = function (_RcModule) {
   (0, _inherits3.default)(ConnectivityMonitor, _RcModule);
 
   function ConnectivityMonitor(_ref) {
-    var client = _ref.client,
+    var alert = _ref.alert,
+        client = _ref.client,
         environment = _ref.environment,
         _ref$timeToRetry = _ref.timeToRetry,
         timeToRetry = _ref$timeToRetry === undefined ? DEFAULT_TIME_TO_RETRY : _ref$timeToRetry,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'environment', 'timeToRetry']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'client', 'environment', 'timeToRetry']);
     (0, _classCallCheck3.default)(this, ConnectivityMonitor);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ConnectivityMonitor.__proto__ || (0, _getPrototypeOf2.default)(ConnectivityMonitor)).call(this, (0, _extends3.default)({}, options, {
@@ -91,11 +96,19 @@ var ConnectivityMonitor = function (_RcModule) {
           _this.store.dispatch({
             type: _this.actionTypes.connectFail
           });
+          if (_this._alert) {
+            _this._alert.danger({
+              message: _connectivityMonitorMessages2.default.disconnected,
+              ttl: 0,
+              allowDuplicates: false
+            });
+          }
         }
         _this._retry();
       }
     };
 
+    _this._alert = alert;
     _this._client = client;
     _this._environment = environment;
     _this._timeToRetry = timeToRetry;

@@ -104,10 +104,10 @@ var Locale = function (_RcModule) {
   (0, _inherits3.default)(Locale, _RcModule);
 
   function Locale() {
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        defaultLocale = _ref.defaultLocale,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['defaultLocale']);
+    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
+    var defaultLocale = _ref.defaultLocale,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['defaultLocale']);
     (0, _classCallCheck3.default)(this, Locale);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Locale.__proto__ || (0, _getPrototypeOf2.default)(Locale)).call(this, (0, _extends3.default)({}, options, {

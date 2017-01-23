@@ -69,12 +69,13 @@ var RateLimiter = function (_RcModule) {
   (0, _inherits3.default)(RateLimiter, _RcModule);
 
   function RateLimiter(_ref) {
-    var client = _ref.client,
+    var alert = _ref.alert,
+        client = _ref.client,
         environment = _ref.environment,
         globalStorage = _ref.globalStorage,
         _ref$throttleDuration = _ref.throttleDuration,
         throttleDuration = _ref$throttleDuration === undefined ? DEFAULT_THROTTLE_DURATION : _ref$throttleDuration,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'environment', 'globalStorage', 'throttleDuration']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'client', 'environment', 'globalStorage', 'throttleDuration']);
     (0, _classCallCheck3.default)(this, RateLimiter);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (RateLimiter.__proto__ || (0, _getPrototypeOf2.default)(RateLimiter)).call(this, (0, _extends3.default)({}, options, {
@@ -97,14 +98,23 @@ var RateLimiter = function (_RcModule) {
 
     _this._requestErrorHandler = function (apiResponse) {
       if (apiResponse instanceof Error && apiResponse.message === 'Request rate exceeded') {
+        var wasThrottling = _this.throttling;
         _this.store.dispatch({
           type: _this.actionTypes.startThrottle,
           timestamp: Date.now()
         });
+        if (!wasThrottling && _this._alert) {
+          _this._alert({
+            message: _errorMessages2.default.rateLimitReached,
+            ttl: 0,
+            allowDuplicates: false
+          });
+        }
         setTimeout(_this._checkTimestamp, _this._throttleDuration);
       }
     };
 
+    _this._alert = alert;
     _this._client = client;
     _this._environment = environment;
     _this._storage = globalStorage;

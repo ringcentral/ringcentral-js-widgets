@@ -26,10 +26,16 @@ function getMessagesReducer(types) {
         level = _ref.level,
         ids = _ref.ids,
         timestamp = _ref.timestamp,
-        id = _ref.id;
+        id = _ref.id,
+        allowDuplicates = _ref.allowDuplicates;
 
     switch (type) {
       case types.alert:
+        if (!allowDuplicates && state.find(function (item) {
+          return item.message === message;
+        })) {
+          return state;
+        }
         return [].concat((0, _toConsumableArray3.default)(state), [{
           id: id,
           message: message,

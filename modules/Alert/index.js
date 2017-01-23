@@ -119,7 +119,9 @@ var Alert = function (_RcModule) {
           _ref2$level = _ref2.level,
           level = _ref2$level === undefined ? _alertLevels2.default.info : _ref2$level,
           _ref2$ttl = _ref2.ttl,
-          ttl = _ref2$ttl === undefined ? this._ttl : _ref2$ttl;
+          ttl = _ref2$ttl === undefined ? this._ttl : _ref2$ttl,
+          _ref2$allowDuplicates = _ref2.allowDuplicates,
+          allowDuplicates = _ref2$allowDuplicates === undefined ? true : _ref2$allowDuplicates;
 
       this.store.dispatch({
         type: this.actionTypes.alert,
@@ -127,6 +129,7 @@ var Alert = function (_RcModule) {
         payload: payload,
         level: level,
         ttl: ttl,
+        allowDuplicates: allowDuplicates,
         id: _uuid2.default.v4(),
         timestamp: Date.now()
       });
