@@ -86,6 +86,17 @@ var ConnectivityMonitor = function (_RcModule) {
         _this.store.dispatch({
           type: _this.actionTypes.connectSuccess
         });
+        if (_this._alert) {
+          // dismiss disconnected alerts if found
+          var alertIds = _this._alert.messages.filter(function (m) {
+            return m.message === _connectivityMonitorMessages2.default.disconnected;
+          }).map(function (m) {
+            return m.id;
+          });
+          if (alertIds.length) {
+            _this._alert.dismiss(alertIds);
+          }
+        }
       }
       _this._clearTimeout();
     };
