@@ -189,6 +189,11 @@ var RateLimiter = function (_RcModule) {
       return this._storage.getItem(this._storageKey);
     }
   }, {
+    key: 'throttleDuration',
+    get: function get() {
+      return this._throttleDuration;
+    }
+  }, {
     key: 'throttling',
     get: function get() {
       return Date.now() - this._storage.getItem(this._storageKey) <= this._throttleDuration;
