@@ -7,7 +7,7 @@ export default function FormattedMessage({ message, values, tagName = 'span' }) 
   const elements = {};
   const tokenDelimeter = `@__${uid}__@`;
 
-  Object.keys(values).forEach(key => {
+  Object.keys(values).forEach((key) => {
     if (isValidElement(values[key])) {
       hashedParams[key] = `${tokenDelimeter}${key}${tokenDelimeter}`;
       elements[key] = values[key];
