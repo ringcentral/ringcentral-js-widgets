@@ -5,22 +5,40 @@ import Locale from 'ringcentral-integration/modules/Locale';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 import LoginPanel from '../../components/LoginPanel';
 
-const WelcomePage = connect((_, props) => ({
-  currentLocale: props.locale.currentLocale,
-  disabled: !props.auth.proxyLoaded || props.rateLimiter.throttling,
-}), (_, props) => ({
-  setupProxyFrame() {
-    props.auth.setupProxyFrame(props.onLogin);
-  },
-  clearProxyFrame() {
-    props.auth.clearProxyFrame();
-  },
-  onLoginButtonClick() {
-    props.auth.openOAuthPage();
-  },
-}))(LoginPanel);
+function mapToProps(_, {
+  auth,
+  locale,
+  rateLimiter,
+}) {
+  return {
+    currentLocale: locale.currentLocale,
+    disabled: !auth.proxyLoaded || rateLimiter.throttling,
+  };
+}
 
-WelcomePage.propTypes = {
+function mapToFunctions(_, {
+  auth,
+  onLogin,
+}) {
+  return {
+    setupProxyFrame() {
+      auth.setupProxyFrame(onLogin);
+    },
+    clearProxyFrame() {
+      auth.clearProxyFrame();
+    },
+    onLoginButtonClick() {
+      auth.openOAuthPage();
+    },
+  };
+}
+
+const WelcomePage = connect(
+  mapToProps,
+  mapToFunctions,
+)(LoginPanel);
+
+const propTypes = {
   auth: PropTypes.instanceOf(Auth).isRequired,
   locale: PropTypes.instanceOf(Locale).isRequired,
   rateLimiter: PropTypes.instanceOf(RateLimiter).isRequired,
@@ -28,4 +46,11 @@ WelcomePage.propTypes = {
   onLogin: PropTypes.func,
 };
 
-export default WelcomePage;
+WelcomePage.propTypes = propTypes;
+
+export {
+  mapToFunctions,
+  mapToProps,
+  propTypes,
+  WelcomePage as default,
+};
