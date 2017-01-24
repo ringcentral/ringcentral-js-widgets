@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = exports.propTypes = exports.mapToProps = exports.mapToFunctions = undefined;
 
 var _reactRedux = require('react-redux');
 
@@ -34,25 +35,37 @@ var _DialerPanel2 = _interopRequireDefault(_DialerPanel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var DialerPage = (0, _reactRedux.connect)(function (state, props) {
+function mapToProps(_, _ref) {
+  var call = _ref.call,
+      callingSettings = _ref.callingSettings,
+      connectivityMonitor = _ref.connectivityMonitor,
+      locale = _ref.locale,
+      rateLimiter = _ref.rateLimiter;
+
   return {
-    currentLocale: props.locale.currentLocale,
-    callingMode: props.callingSettings.callingMode,
-    callButtonDisabled: !props.call.isIdle || !props.connectivityMonitor.connectivity || props.rateLimiter.throttling,
-    toNumber: props.call.toNumber
+    currentLocale: locale.currentLocale,
+    callingMode: callingSettings.callingMode,
+    callButtonDisabled: !call.isIdle || !connectivityMonitor.connectivity || rateLimiter.throttling,
+    toNumber: call.toNumber
   };
-}, function (dispatch, props) {
+}
+
+function mapToFunctions(_, _ref2) {
+  var call = _ref2.call;
+
   return {
     keepToNumber: function keepToNumber(value) {
-      props.call.onToNumberChange(value);
+      call.onToNumberChange(value);
     },
     onCall: function onCall() {
-      return props.call.onCall();
+      call.onCall();
     }
   };
-})(_DialerPanel2.default);
+}
 
-DialerPage.propTypes = {
+var DialerPage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_DialerPanel2.default);
+
+var propTypes = {
   call: _react.PropTypes.instanceOf(_Call2.default).isRequired,
   callingSettings: _react.PropTypes.instanceOf(_CallingSettings2.default).isRequired,
   connectivityMonitor: _react.PropTypes.instanceOf(_ConnectivityMonitor2.default).isRequired,
@@ -60,5 +73,10 @@ DialerPage.propTypes = {
   rateLimiter: _react.PropTypes.instanceOf(_RateLimiter2.default).isRequired
 };
 
+DialerPage.propTypes = propTypes;
+
+exports.mapToFunctions = mapToFunctions;
+exports.mapToProps = mapToProps;
+exports.propTypes = propTypes;
 exports.default = DialerPage;
 //# sourceMappingURL=index.js.map

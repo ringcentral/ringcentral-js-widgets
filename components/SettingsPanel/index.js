@@ -61,21 +61,48 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function SettingsPanel(_ref) {
   var children = _ref.children,
-      showRegion = _ref.showRegion,
       className = _ref.className,
       onLogoutButtonClick = _ref.onLogoutButtonClick,
       loginNumber = _ref.loginNumber,
       version = _ref.version,
       currentLocale = _ref.currentLocale,
       brandId = _ref.brandId,
-      EulaRenderer = _ref.EulaRenderer;
+      EulaRenderer = _ref.EulaRenderer,
+      callingSettingsUrl = _ref.callingSettingsUrl,
+      regionSettingsUrl = _ref.regionSettingsUrl,
+      showAutoLog = _ref.showAutoLog,
+      autoLogEnabled = _ref.autoLogEnabled,
+      onAutoLogChange = _ref.onAutoLogChange,
+      showClickToDial = _ref.showClickToDial,
+      clickToDialEnabled = _ref.clickToDialEnabled,
+      onClickToDialChange = _ref.onClickToDialChange,
+      showRegion = _ref.showRegion;
 
   var region = showRegion ? _react2.default.createElement(
     _LinkLine2.default,
     {
-      to: '/settings/region'
-    },
+      to: regionSettingsUrl },
     _i18n2.default.getString('region')
+  ) : null;
+  var clickToDial = showClickToDial ? _react2.default.createElement(
+    _IconLine2.default,
+    {
+      icon: _react2.default.createElement(_Switch2.default, {
+        checked: clickToDialEnabled,
+        onChange: onClickToDialChange
+      })
+    },
+    _i18n2.default.getString('clickToDial')
+  ) : null;
+  var autoLog = showAutoLog ? _react2.default.createElement(
+    _IconLine2.default,
+    {
+      icon: _react2.default.createElement(_Switch2.default, {
+        checked: autoLogEnabled,
+        onChange: onAutoLogChange
+      })
+    },
+    _i18n2.default.getString('autoCreateLog')
   ) : null;
   return _react2.default.createElement(
     'div',
@@ -91,12 +118,14 @@ function SettingsPanel(_ref) {
       _react2.default.createElement(
         _LinkLine2.default,
         {
-          to: '/settings/calling'
+          to: callingSettingsUrl
         },
         _i18n2.default.getString('calling')
       ),
       region,
       children,
+      autoLog,
+      clickToDial,
       _react2.default.createElement(
         _IconLine2.default,
         {
@@ -128,17 +157,33 @@ function SettingsPanel(_ref) {
 }
 
 SettingsPanel.propTypes = {
-  showRegion: _react.PropTypes.bool.isRequired,
-  className: _react.PropTypes.string,
-  loginNumber: _react.PropTypes.string.isRequired,
-  onLogoutButtonClick: _react.PropTypes.func.isRequired,
-  version: _react.PropTypes.string.isRequired,
   brandId: _react.PropTypes.string.isRequired,
+  callingSettingsUrl: _react.PropTypes.string.isRequired,
+  children: _react.PropTypes.node,
+  className: _react.PropTypes.string,
   currentLocale: _react.PropTypes.string.isRequired,
   EulaRenderer: _react.PropTypes.func,
-  callingSettingsUrl: _react.PropTypes.string.isRequired
+  loginNumber: _react.PropTypes.string.isRequired,
+  onLogoutButtonClick: _react.PropTypes.func.isRequired,
+  regionSettingsUrl: _react.PropTypes.string.isRequired,
+  showAutoLog: _react.PropTypes.bool,
+  autoLogEnabled: _react.PropTypes.bool,
+  onAutoLogChange: _react.PropTypes.func,
+  showRegion: _react.PropTypes.bool.isRequired,
+  showClickToDial: _react.PropTypes.bool,
+  clickToDialEnabled: _react.PropTypes.bool,
+  onClickToDialChange: _react.PropTypes.func,
+  version: _react.PropTypes.string.isRequired
 };
 SettingsPanel.defaultProps = {
-  EulaRenderer: _Eula2.default
+  className: null,
+  EulaRenderer: _Eula2.default,
+  children: null,
+  showClickToDial: false,
+  clickToDialEnabled: false,
+  onClickToDialChange: function onClickToDialChange() {},
+  showAutoLog: false,
+  autoLogEnabled: false,
+  onAutoLogChange: function onAutoLogChange() {}
 };
 //# sourceMappingURL=index.js.map

@@ -8,6 +8,8 @@ exports.default = {
   calling: 'Calling',
   logout: 'Logout',
   version: 'Version',
-  settings: 'Settings'
+  settings: 'Settings',
+  clickToDial: 'Click to Dial',
+  autoCreateLog: 'Auto-create Call Log'
 };
 //# sourceMappingURL=en-US.js.map
