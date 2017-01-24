@@ -15,24 +15,58 @@ import Switch from '../../../src/components/Switch';
 import i18n from './i18n';
 
 export default function SettingsPanel({
-    children,
-    showRegion,
-    className,
-    onLogoutButtonClick,
-    loginNumber,
-    version,
-    currentLocale,
-    brandId,
-    EulaRenderer,
-  }) {
+  children,
+  className,
+  onLogoutButtonClick,
+  loginNumber,
+  version,
+  currentLocale,
+  brandId,
+  EulaRenderer,
+  callingSettingsUrl,
+  regionSettingsUrl,
+  showAutoLog,
+  autoLogEnabled,
+  onAutoLogChange,
+  showClickToDial,
+  clickToDialEnabled,
+  onClickToDialChange,
+  showRegion,
+}) {
   const region = showRegion ?
     (
       <LinkLine
-        to="/settings/region"
-        >
+        to={regionSettingsUrl} >
         {i18n.getString('region')}
       </LinkLine>
     ) :
+    null;
+  const clickToDial = showClickToDial ?
+    (
+      <IconLine
+        icon={
+          <Switch
+            checked={clickToDialEnabled}
+            onChange={onClickToDialChange}
+            />
+        }
+        >
+        {i18n.getString('clickToDial')}
+      </IconLine>
+    ) :
+    null;
+  const autoLog = showAutoLog ? (
+    <IconLine
+      icon={
+        <Switch
+          checked={autoLogEnabled}
+          onChange={onAutoLogChange}
+          />
+      }
+      >
+      {i18n.getString('autoCreateLog')}
+    </IconLine>
+  ) :
     null;
   return (
     <div className={classnames(styles.root, className)}>
@@ -41,12 +75,14 @@ export default function SettingsPanel({
       </Header>
       <Panel className={styles.content}>
         <LinkLine
-          to="/settings/calling"
+          to={callingSettingsUrl}
           >
           {i18n.getString('calling')}
         </LinkLine>
         {region}
         {children}
+        {autoLog}
+        {clickToDial}
         <IconLine
           onClick={onLogoutButtonClick}
           icon={<span className={rcFont.RC_Logout} />}
@@ -69,16 +105,32 @@ export default function SettingsPanel({
 }
 
 SettingsPanel.propTypes = {
-  showRegion: PropTypes.bool.isRequired,
-  className: PropTypes.string,
-  loginNumber: PropTypes.string.isRequired,
-  onLogoutButtonClick: PropTypes.func.isRequired,
-  version: PropTypes.string.isRequired,
   brandId: PropTypes.string.isRequired,
+  callingSettingsUrl: PropTypes.string.isRequired,
+  children: PropTypes.node,
+  className: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
   EulaRenderer: PropTypes.func,
-  callingSettingsUrl: PropTypes.string.isRequired,
+  loginNumber: PropTypes.string.isRequired,
+  onLogoutButtonClick: PropTypes.func.isRequired,
+  regionSettingsUrl: PropTypes.string.isRequired,
+  showAutoLog: PropTypes.bool,
+  autoLogEnabled: PropTypes.bool,
+  onAutoLogChange: PropTypes.func,
+  showRegion: PropTypes.bool.isRequired,
+  showClickToDial: PropTypes.bool,
+  clickToDialEnabled: PropTypes.bool,
+  onClickToDialChange: PropTypes.func,
+  version: PropTypes.string.isRequired,
 };
 SettingsPanel.defaultProps = {
+  className: null,
   EulaRenderer: Eula,
+  children: null,
+  showClickToDial: false,
+  clickToDialEnabled: false,
+  onClickToDialChange: () => {},
+  showAutoLog: false,
+  autoLogEnabled: false,
+  onAutoLogChange: () => {},
 };

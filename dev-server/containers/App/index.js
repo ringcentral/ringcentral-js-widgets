@@ -9,7 +9,7 @@ import RegionSettingsPage from '../../../src/containers/RegionSettingsPage';
 import DialerPage from '../../../src/containers/DialerPage';
 
 import MainView from '../MainView';
-import SettingsPage from '../SettingsPage';
+import SettingsPage from '../../../src/containers/SettingsPage';
 import AppView from '../AppView';
 
 export default function App({
@@ -82,7 +82,7 @@ export default function App({
                   extensionInfo={phone.extensionInfo}
                   accountInfo={phone.accountInfo}
                   regionSettings={phone.regionSettings}
-                  phone={phone}
+                  version={phone.version}
                   locale={phone.locale}
                   brand={phone.brand}
                   router={phone.router}

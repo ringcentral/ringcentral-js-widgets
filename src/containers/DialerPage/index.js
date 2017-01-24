@@ -7,25 +7,44 @@ import Call from 'ringcentral-integration/modules/Call';
 import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 
-
 import DialerPanel from '../../components/DialerPanel';
 
-const DialerPage = connect((state, props) => ({
-  currentLocale: props.locale.currentLocale,
-  callingMode: props.callingSettings.callingMode,
-  callButtonDisabled: !props.call.isIdle
-    || !props.connectivityMonitor.connectivity
-    || props.rateLimiter.throttling,
-  toNumber: props.call.toNumber,
-}), (dispatch, props) => ({
-  keepToNumber: (value) => {
-    props.call.onToNumberChange(value);
-  },
-  onCall: () =>
-    props.call.onCall(),
-}))(DialerPanel);
+function mapToProps(_, {
+  call,
+  callingSettings,
+  connectivityMonitor,
+  locale,
+  rateLimiter,
+}) {
+  return {
+    currentLocale: locale.currentLocale,
+    callingMode: callingSettings.callingMode,
+    callButtonDisabled: !call.isIdle
+    || !connectivityMonitor.connectivity
+    || rateLimiter.throttling,
+    toNumber: call.toNumber,
+  };
+}
 
-DialerPage.propTypes = {
+function mapToFunctions(_, {
+  call,
+}) {
+  return {
+    keepToNumber: (value) => {
+      call.onToNumberChange(value);
+    },
+    onCall: () => {
+      call.onCall();
+    },
+  };
+}
+
+const DialerPage = connect(
+  mapToProps,
+  mapToFunctions,
+)(DialerPanel);
+
+const propTypes = {
   call: PropTypes.instanceOf(Call).isRequired,
   callingSettings: PropTypes.instanceOf(CallingSettings).isRequired,
   connectivityMonitor: PropTypes.instanceOf(ConnectivityMonitor).isRequired,
@@ -33,4 +52,11 @@ DialerPage.propTypes = {
   rateLimiter: PropTypes.instanceOf(RateLimiter).isRequired,
 };
 
-export default DialerPage;
+DialerPage.propTypes = propTypes;
+
+export {
+  mapToFunctions,
+  mapToProps,
+  propTypes,
+  DialerPage as default,
+};
