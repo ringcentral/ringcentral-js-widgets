@@ -1,15 +1,15 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 
-import rcFont from '../../../src/assets/RcFont/RcFont.scss';
-import Header from '../../../src/components/Header';
-import Panel from '../../../src/components/Panel';
-import Line from '../../../src/components/Line';
-import LinkLine from '../../../src/components/LinkLine';
-import IconLine from '../../../src/components/IconLine';
-import Eula from '../../../src/components/Eula';
+import rcFont from '../../assets/RcFont/RcFont.scss';
+import Header from '../Header';
+import Panel from '../Panel';
+import Line from '../Line';
+import LinkLine from '../LinkLine';
+import IconLine from '../IconLine';
+import Eula from '../Eula';
 import styles from './styles.scss';
-import Switch from '../../../src/components/Switch';
+import Switch from '../Switch';
 import i18n from './i18n';
 
 export default function SettingsPanel({
