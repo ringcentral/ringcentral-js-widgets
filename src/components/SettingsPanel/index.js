@@ -1,6 +1,4 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { OverlayTrigger, Popover } from 'react-bootstrap';
 import classnames from 'classnames';
 
 import rcFont from '../../../src/assets/RcFont/RcFont.scss';
