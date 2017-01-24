@@ -13,31 +13,31 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _RcFont = require('../../../src/assets/RcFont/RcFont.scss');
+var _RcFont = require('../../assets/RcFont/RcFont.scss');
 
 var _RcFont2 = _interopRequireDefault(_RcFont);
 
-var _Header = require('../../../src/components/Header');
+var _Header = require('../Header');
 
 var _Header2 = _interopRequireDefault(_Header);
 
-var _Panel = require('../../../src/components/Panel');
+var _Panel = require('../Panel');
 
 var _Panel2 = _interopRequireDefault(_Panel);
 
-var _Line = require('../../../src/components/Line');
+var _Line = require('../Line');
 
 var _Line2 = _interopRequireDefault(_Line);
 
-var _LinkLine = require('../../../src/components/LinkLine');
+var _LinkLine = require('../LinkLine');
 
 var _LinkLine2 = _interopRequireDefault(_LinkLine);
 
-var _IconLine = require('../../../src/components/IconLine');
+var _IconLine = require('../IconLine');
 
 var _IconLine2 = _interopRequireDefault(_IconLine);
 
-var _Eula = require('../../../src/components/Eula');
+var _Eula = require('../Eula');
 
 var _Eula2 = _interopRequireDefault(_Eula);
 
@@ -45,7 +45,7 @@ var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
 
-var _Switch = require('../../../src/components/Switch');
+var _Switch = require('../Switch');
 
 var _Switch2 = _interopRequireDefault(_Switch);
 
