@@ -5,6 +5,10 @@ import styles from './styles.scss';
 
 
 function NavigationButton(props) {
+  let notice = null;
+  if (props.noticeCounts && props.noticeCounts > 0) {
+    notice = <div className={styles.notice}>{props.noticeCounts}</div>;
+  }
   return (
     <Link
       to={props.path}
@@ -20,11 +24,7 @@ function NavigationButton(props) {
         <div className={styles.icon}>
           {props.icon}
         </div>
-        {
-          props.noticeCounts &&
-          props.noticeCounts > 0 &&
-          <div className={styles.notice}>{props.noticeCounts}</div>
-        }
+        {notice}
       </div>
       <div className={styles.labelHolder}>
         <div className={styles.label}>
