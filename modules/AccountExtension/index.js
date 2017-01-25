@@ -166,7 +166,7 @@ var AccountExtension = function (_DataFetcher) {
                   if (isEssential(extensionData)) {
                     if (_this.isAvailableExtension(extensionData.extensionNumber)) {
                       _this.store.dispatch({
-                        type: _this.actionTypes.update,
+                        type: _this.actionTypes.add,
                         data: simplifyExtensionData(extensionData),
                         timestamp: Date.now()
                       });
