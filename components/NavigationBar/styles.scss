@@ -61,11 +61,28 @@
 .labelHolder {
   @include full-size;
   height: 35%;
+  position: relative;
 }
+
 .label {
   @include full-size;
   @include vertical-align(top);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 0.7em;
+}
+
+.notice {
+  position: absolute;
+  bottom: 1.2em;
+  right: calc(50% - 2em);;
+  width: 1.4em;
+  height: 1.4em;
+  border-radius: 100%;
+  line-height: 1.4em;
+  font-family: Lato;
+  text-align: center;
+  font-size: 0.7em;
+  background-color: $rc-orange;
+  overflow: hidden;
 }
