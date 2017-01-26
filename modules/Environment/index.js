@@ -96,20 +96,40 @@ var Environment = function (_RcModule) {
   (0, _createClass3.default)(Environment, [{
     key: 'initialize',
     value: function initialize() {
-      var _this2 = this;
-
-      this.store.subscribe(function () {
-        if (_this2._globalStorage.ready && !_this2.ready) {
-          if (_this2.enabled) {
-            _this2._client.service = new _ringcentral2.default((0, _extends3.default)({}, _this2._sdkConfig, {
-              server: _this2.server
-            }));
-          }
-          _this2.store.dispatch({
-            type: _this2.actionTypes.initSuccess
-          });
-        }
-      });
+      this.store.subscribe(this._onStateChange);
+    }
+  }, {
+    key: '_onStateChange',
+    value: function _onStateChange() {
+      if (this._shouldInit()) {
+        this._initClientService();
+        this.store.dispatch({
+          type: this.actionTypes.initSuccess
+        });
+      }
+    }
+  }, {
+    key: '_shouldInit',
+    value: function _shouldInit() {
+      return this._globalStorage.ready && !this.ready;
+    }
+  }, {
+    key: '_initClientService',
+    value: function _initClientService() {
+      if (this.enabled) {
+        this._client.service = new _ringcentral2.default((0, _extends3.default)({}, this._sdkConfig, {
+          server: this.server
+        }));
+      }
+    }
+  }, {
+    key: '_changeEnvironment',
+    value: function _changeEnvironment(enabled, server) {
+      var newConfig = (0, _extends3.default)({}, this._sdkConfig);
+      if (enabled) {
+        newConfig.server = server;
+      }
+      this._client.service = new _ringcentral2.default(newConfig);
     }
   }, {
     key: 'setData',
@@ -119,11 +139,7 @@ var Environment = function (_RcModule) {
 
       var environmentChanged = this.enabled !== enabled || enabled && this.server !== server;
       if (environmentChanged) {
-        var newConfig = (0, _extends3.default)({}, this._sdkConfig);
-        if (enabled) {
-          newConfig.server = server;
-        }
-        this._client.service = new _ringcentral2.default(newConfig);
+        this._changeEnvironment(enabled, server);
       }
       this.store.dispatch({
         type: this.actionTypes.setData,
