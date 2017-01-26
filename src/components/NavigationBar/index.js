@@ -5,6 +5,10 @@ import styles from './styles.scss';
 
 
 function NavigationButton(props) {
+  let notice = null;
+  if (props.noticeCounts && props.noticeCounts > 0) {
+    notice = <div className={styles.notice}>{props.noticeCounts}</div>;
+  }
   return (
     <Link
       to={props.path}
@@ -20,6 +24,7 @@ function NavigationButton(props) {
         <div className={styles.icon}>
           {props.icon}
         </div>
+        {notice}
       </div>
       <div className={styles.labelHolder}>
         <div className={styles.label}>
@@ -34,6 +39,7 @@ NavigationButton.propTypes = {
   path: PropTypes.string,
   active: PropTypes.bool,
   label: PropTypes.string,
+  noticeCounts: PropTypes.number,
   width: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string,
@@ -69,6 +75,7 @@ NavigationBar.propTypes = {
     label: PropTypes.string,
     path: PropTypes.string.isRequired,
     isActive: PropTypes.func,
+    noticeCounts: PropTypes.number,
   })),
   currentPath: PropTypes.string.isRequired,
 };

@@ -27,6 +27,7 @@ const tabs = [
     icon: <span className={rcFont.uniA4} />,
     label: 'Dial Pad',
     path: '/',
+    noticeCounts: 2,
   },
 ];
 
