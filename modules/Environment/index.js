@@ -96,7 +96,11 @@ var Environment = function (_RcModule) {
   (0, _createClass3.default)(Environment, [{
     key: 'initialize',
     value: function initialize() {
-      this.store.subscribe(this._onStateChange);
+      var _this2 = this;
+
+      this.store.subscribe(function () {
+        return _this2._onStateChange();
+      });
     }
   }, {
     key: '_onStateChange',
