@@ -160,20 +160,20 @@ var RegionSettings = function (_RcModule) {
       var areaCode = _ref2.areaCode,
           countryCode = _ref2.countryCode;
 
-      if (typeof areaCode !== 'undefined' && !(0, _validateAreaCode2.default)(areaCode)) {
+      if (!(0, _validateAreaCode2.default)(areaCode)) {
         this._alert.danger({
           message: _regionSettingsMessages2.default.areaCodeInvalid
         });
-      } else {
-        this.store.dispatch({
-          type: this.actionTypes.setData,
-          countryCode: countryCode,
-          areaCode: areaCode
-        });
-        this._alert.info({
-          message: _regionSettingsMessages2.default.saveSuccess
-        });
+        return;
       }
+      this.store.dispatch({
+        type: this.actionTypes.setData,
+        countryCode: countryCode,
+        areaCode: areaCode && areaCode.trim()
+      });
+      this._alert.info({
+        message: _regionSettingsMessages2.default.saveSuccess
+      });
     }
   }, {
     key: 'setCountryCode',
