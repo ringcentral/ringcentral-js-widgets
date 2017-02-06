@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/ComposeText/composeTextStatus.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,MADsB,EAEtB,SAFsB,CAAT,EAGZ,aAHY,C","file":"composeTextStatus.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'idle',\n  'sending',\n], 'composeText');\n"]}

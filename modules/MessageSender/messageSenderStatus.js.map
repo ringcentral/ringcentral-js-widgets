@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/MessageSender/messageSenderStatus.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,MADsB,EAEtB,SAFsB,EAGtB,YAHsB,CAAT,EAIZ,eAJY,C","file":"messageSenderStatus.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'idle',\n  'sending',\n  'validating',\n], 'messageSender');\n"]}

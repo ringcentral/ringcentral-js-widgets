@@ -45,6 +45,10 @@ var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
 
+var _isBlank = require('../../lib/isBlank');
+
+var _isBlank2 = _interopRequireDefault(_isBlank);
+
 var _moduleStatus = require('../../enums/moduleStatus');
 
 var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
@@ -110,17 +114,9 @@ var NumberValidate = function (_RcModule) {
       });
     }
   }, {
-    key: '_isBlank',
-    value: function _isBlank(phoneNumber) {
-      if (!phoneNumber) {
-        return true;
-      }
-      return !/\S/.test(phoneNumber);
-    }
-  }, {
     key: 'isNoToNumber',
     value: function isNoToNumber(phoneNumber) {
-      if (this._isBlank(phoneNumber)) {
+      if ((0, _isBlank2.default)(phoneNumber)) {
         return true;
       }
       var cleaned = (0, _cleanNumber2.default)(phoneNumber);
