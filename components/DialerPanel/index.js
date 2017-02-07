@@ -33,6 +33,9 @@ function DialerPanel(_ref) {
       onCall = _ref.onCall,
       toNumber = _ref.toNumber;
 
+  var onCallFunc = function onCallFunc() {
+    !callButtonDisabled && onCall();
+  };
   return _react2.default.createElement(
     'div',
     { className: (0, _classnames2.default)(_styles2.default.root, className) },
@@ -69,7 +72,7 @@ function DialerPanel(_ref) {
               'g',
               {
                 className: (0, _classnames2.default)(_styles2.default.btnSvgGroup, callButtonDisabled && _styles2.default.disabled),
-                onClick: onCall
+                onClick: onCallFunc
               },
               _react2.default.createElement('circle', {
                 className: _styles2.default.circle,
