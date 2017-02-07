@@ -12,6 +12,9 @@ function DialerPanel({
   onCall,
   toNumber,
 }) {
+  const onCallFunc = () => {
+    !callButtonDisabled && onCall();
+  };
   return (
     <div className={classnames(styles.root, className)}>
       <div className={styles.dial_input}>
@@ -38,7 +41,7 @@ function DialerPanel({
                   styles.btnSvgGroup,
                   callButtonDisabled && styles.disabled,
                 )}
-                onClick={onCall}
+                onClick={onCallFunc}
                 >
                 <circle
                   className={styles.circle}
