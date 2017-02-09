@@ -1,0 +1,1 @@
+{"version":3,"sources":["integration-test/commons/config/apiConfig.js"],"names":["appKey","appSecret","server"],"mappings":";;;;;kBAAe;AACbA,UAAQ,aADK;AAEbC,aAAW,gBAFE;AAGbC,UAAQ;AAHK,C","file":"apiConfig.js","sourcesContent":["export default {\n  appKey: 'Your appKey',\n  appSecret: 'Your appSecret',\n  server: 'API Server(sandbox/PROD)',\n};\n"]}
