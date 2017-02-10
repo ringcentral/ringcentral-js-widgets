@@ -156,7 +156,7 @@ var Auth = function (_RcModule) {
         var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref3) {
           var origin = _ref3.origin,
               data = _ref3.data;
-          var callbackUri, proxyLoaded, code, message;
+          var callbackUri, proxyLoaded, fromLocalStorage, code, message;
           return _regenerator2.default.wrap(function _callee$(_context) {
             while (1) {
               switch (_context.prev = _context.next) {
@@ -166,9 +166,9 @@ var Auth = function (_RcModule) {
                     break;
                   }
 
-                  callbackUri = data.callbackUri, proxyLoaded = data.proxyLoaded;
+                  callbackUri = data.callbackUri, proxyLoaded = data.proxyLoaded, fromLocalStorage = data.fromLocalStorage;
 
-                  if (!callbackUri) {
+                  if (!(callbackUri && (fromLocalStorage !== true || _this._tabManager.active))) {
                     _context.next = 24;
                     break;
                   }
@@ -363,7 +363,7 @@ var Auth = function (_RcModule) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(_this4.status === _moduleStatus2.default.pending && _this4._locale.ready && (!_this4._tabManager || _this4._tabManager.ready) && (!_this4._environment || _this4._environment.ready))) {
+                if (!(_this4.status === _moduleStatus2.default.pending && _this4._locale.ready && _this4._tabManager.ready && (!_this4._environment || _this4._environment.ready))) {
                   _context2.next = 7;
                   break;
                 }
@@ -385,7 +385,7 @@ var Auth = function (_RcModule) {
                 });
 
               case 7:
-                if (_this4._tabManager && _this4._tabManager.ready && _this4.ready) {
+                if (_this4._tabManager.ready && _this4.ready) {
                   if (loggedIn && _this4.loginStatus === _loginStatus2.default.notLoggedIn || !loggedIn && _this4.loginStatus === _loginStatus2.default.loggedIn) {
                     loggedIn = !loggedIn;
                     _this4._tabManager.send('loginStatusChange', loggedIn);
