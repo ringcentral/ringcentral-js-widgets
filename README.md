@@ -11,12 +11,39 @@ In this project we aim to provide common modules for building integration apps t
 Modules
 ---
 
+- [x] AccountExtension
+- [x] AccountInfo
+- [x] Alert
 - [x] Auth
-- [x] Subscription
+- [x] BlockedNumber
+- [x] Brand
+- [x] Call
+- [x] CallingSettings
+- [x] ComposeText
+- [x] ConnectivityMonitor
+- [x] DialingPlan
+- [x] Environment
+- [x] ExtensionInfo
+- [x] ExtensionPhoneNumber
+- [x] GlobalStorage
+- [x] Locale
+- [x] MessageSender
+- [x] MessageStore
+- [x] NumberValidate
+- [x] Presence
+- [x] RateLimiter
+- [x] RagionSettings
+- [x] Ringout
+- [x] Ringout
+- [x] RolesAndPermissions
+- [x] Softphone
 - [x] Storage
+- [x] Subscription
+- [x] TabManager
+- [ ] Messages
+- [ ] Conversation
+- [ ] ContactSearch
 - [ ] DialingPlan
-- [ ] ExtensionInfo
-- [ ] AccountInfo
 - [ ] PhoneNumbers
 - more...
 
