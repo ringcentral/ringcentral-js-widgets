@@ -1,10 +1,10 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _promise = require('babel-runtime/core-js/promise');
+var _promise = require("babel-runtime/core-js/promise");
 
 var _promise2 = _interopRequireDefault(_promise);
 
@@ -26,7 +26,7 @@ function waitUntilNotNull(source, checkItem, timeoutInSeconds) {
       if (isTimeOut(startTime, timeoutInSeconds)) {
         clearInterval(timer);
         resolve(false);
-        console.error('Timeout wait for ' + checkItem + ' to be not null');
+        console.error("Timeout wait for " + checkItem + "  to be not null");
       }
       try {
         var checkValue = source();
@@ -48,7 +48,7 @@ function waitUntilEqual(source, checkItem, expect, timeoutInSeconds) {
       if (isTimeOut(startTime, timeoutInSeconds)) {
         clearInterval(timer);
         resolve(false);
-        console.error('Timeout wait for ' + checkItem + '  to be ' + expect);
+        console.error("Timeout wait for " + checkItem + "  to be " + expect);
       }
       try {
         var checkValue = source();
@@ -70,7 +70,7 @@ function waitUntilObjectSizeGreaterThan(source, checkItem, compareSize, timeoutI
       if (isTimeOut(startTime, timeoutInSeconds)) {
         clearInterval(timer);
         resolve(false);
-        console.log('Timeout wait for ' + checkItem + ' to be not null');
+        console.log("Timeout wait for " + checkItem + " to be not null");
       }
       try {
         var checkValue = source();

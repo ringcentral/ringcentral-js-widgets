@@ -60,13 +60,14 @@ exports.default = function (auth, client, regionSettings, account) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.next = 2;
+              this.retries(2);
+              _context2.next = 3;
               return (0, _WaitUtil.waitInSeconds)(2);
 
-            case 2:
+            case 3:
               expect(regionSettings.availableCountries).to.have.length.above(0);
 
-            case 3:
+            case 4:
             case 'end':
               return _context2.stop();
           }
@@ -74,7 +75,7 @@ exports.default = function (auth, client, regionSettings, account) {
       }, _callee2, this);
     })));
 
-    it("Record fetched from SDK should be the same as RawData", function () {
+    it('Record fetched from SDK should be the same as RawData', function () {
       expect(regionSettings.availableCountries.length).to.equal(clientHistoryRequest.getRawResponse(_ClientHistoryRequest2.default.endPoints.dialingPlan).records.length);
     });
   });
