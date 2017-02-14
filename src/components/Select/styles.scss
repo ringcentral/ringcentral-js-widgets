@@ -1,0 +1,28 @@
+@import '../../lib/commonStyles/fonts';
+.root {
+  color: gray;
+  @include field-value-font;
+  appearance: none;
+  border-radius: 2px;
+  padding: 0px 10px;
+}
+
+select:after {
+  content: '<>';
+  font: 13px "Consolas", monospace;
+  color: #333;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+  right: 11px;
+  /*Adjust for position however you want*/
+
+  top: 18px;
+  padding: 0 0 2px;
+  border-bottom: 1px solid #999;
+  /*left line */
+
+  position: absolute;
+  pointer-events: none;
+}
