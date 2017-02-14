@@ -52,7 +52,7 @@ TextInput.propTypes = {
   invalid: PropTypes.bool,
   onKeyDown: PropTypes.func,
 };
-TextInput.defaultValue = {
+TextInput.defaultProps = {
   className: styles.input
 };
 

@@ -3,7 +3,7 @@
 @import '../../lib/commonStyles/colors';
 
 $icon-width: 10%;
-$icon-min-width: 30px;
+$icon-min-width: 58px;
 
 
 .content {
@@ -21,7 +21,7 @@ $icon-min-width: 30px;
   vertical-align: top;
   width: $icon-width;
   min-width: $icon-min-width;
-  text-align: center;
+  text-align: right;
 }
 .icon {
   @include vertical-align(middle);

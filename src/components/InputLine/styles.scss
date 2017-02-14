@@ -1,15 +1,16 @@
 @import '../../lib/commonStyles/vertical-align';
 @import '../../lib/commonStyles/no-select';
 @import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/fonts';
 
 .label {
   width: 100%;
   display: inline-block;
-  color: gray;
   position: relative;
   vertical-align: top;
-  padding-bottom: 6px;
+  padding-bottom: 10px;
   padding-left: 1px;
+  @include field-label-font;
 }
 
 .inputHolder {

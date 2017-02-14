@@ -14,6 +14,7 @@ import Switch from '../../components/Switch';
 import IconLine from '../../components/IconLine';
 import InputLine from '../../components/InputLine';
 import TextInput from '../../components/TextInput';
+import Select from '../../components/Select';
 
 export default class CallingSettingsPanel extends Component {
   constructor(props) {
@@ -129,21 +130,12 @@ export default class CallingSettingsPanel extends Component {
           label={i18n.getString('myLocationLabel', currentLocale)}>
           {
             availableNumbers[this.state.callWith] ? (
-              <select
+              <Select
                 className={styles.select}
                 value={this.state.myLocation}
-                onChange={this.onMyLocationChange}>
-                {
-                  availableNumbers[this.state.callWith]
-                    .map((phoneNumber, idx) => (
-                      <option
-                        key={idx}
-                        value={phoneNumber}>
-                        {phoneNumber}
-                      </option>
-                    ))
-                }
-              </select>
+                onChange={this.onMyLocationChange}
+                options={availableNumbers[this.state.callWith]}
+              />
             ) : (
               <TextInput
                 value={this.state.myLocation}
@@ -172,19 +164,15 @@ export default class CallingSettingsPanel extends Component {
         <Panel className={styles.content}>
           <InputLine
             label={i18n.getString('makeCallsWith', currentLocale)}>
-            <select
-              title={this.state.callWith}
+            <Select
               className={styles.select}
               value={this.state.callWith}
-              onChange={this.onCallWithChange} >
-              {
-                callWithOptions.map((option, idx) => (
-                  <option key={idx} value={option}>
-                    {formatMessage(i18n.getString(option, currentLocale), { brand })}
-                  </option>
-                ))
+              onChange={this.onCallWithChange}
+              options={callWithOptions}
+              displayFunction={
+                option => formatMessage(i18n.getString(option, currentLocale), { brand })
               }
-            </select>
+            />
           </InputLine>
           {ringout}
         </Panel>

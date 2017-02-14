@@ -6,7 +6,9 @@ $rc-blue-highlight: rgba(6, 132, 189, 0.4) !default;
 
 $rc-orange: #e07800 !default;
 
-$darkgray: #808080 !default;
+$darkergray: #797979 !default;
+
+$darkgray: #808080 !default; //TODO: replace by darkergray? use in header buttom
 
 $gray: #eeeeee !default;
 
@@ -14,12 +16,17 @@ $lightergray: #efefef !default;
 
 $lightgray: #fcfcfc !default;
 
+$lightblack: #303030 !default;
 
 
 $primary-color: $rc-blue !default;
 $primary-color-highlight: $rc-blue-highlight !default;
 
 $secondary-color: $rc-orange !default;
+
+$primary-neutral-color: $lightblack !default;
+
+$secondary-neutral-color: $darkergray !default;
 
 $border-color: $gray !default;
 
