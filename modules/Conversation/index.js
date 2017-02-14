@@ -1,0 +1,395 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = undefined;
+
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+
+var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _RcModule2 = require('../../lib/RcModule');
+
+var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _moduleStatus = require('../../enums/moduleStatus');
+
+var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+
+var _messageHelper = require('../../lib/messageHelper');
+
+var _conversationActionTypes = require('./conversationActionTypes');
+
+var _conversationActionTypes2 = _interopRequireDefault(_conversationActionTypes);
+
+var _getConversationReducer = require('./getConversationReducer');
+
+var _getConversationReducer2 = _interopRequireDefault(_getConversationReducer);
+
+var _conversationStatus = require('./conversationStatus');
+
+var _conversationStatus2 = _interopRequireDefault(_conversationStatus);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Conversation = function (_RcModule) {
+  (0, _inherits3.default)(Conversation, _RcModule);
+
+  function Conversation(_ref) {
+    var messageSender = _ref.messageSender,
+        extensionInfo = _ref.extensionInfo,
+        messageStore = _ref.messageStore,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['messageSender', 'extensionInfo', 'messageStore']);
+    (0, _classCallCheck3.default)(this, Conversation);
+
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Conversation.__proto__ || (0, _getPrototypeOf2.default)(Conversation)).call(this, (0, _extends3.default)({}, options, {
+      actionTypes: _conversationActionTypes2.default
+    })));
+
+    _this._reducer = (0, _getConversationReducer2.default)(_this.actionTypes);
+    _this._messageSender = messageSender;
+    _this._extensionInfo = extensionInfo;
+    _this._messageStore = messageStore;
+    _this._promise = null;
+    _this.replyToReceivers = _this.replyToReceivers.bind(_this);
+    _this.changeDefaultRecipient = _this.changeDefaultRecipient.bind(_this);
+    return _this;
+  }
+
+  (0, _createClass3.default)(Conversation, [{
+    key: 'initialize',
+    value: function initialize() {
+      var _this2 = this;
+
+      this.store.subscribe(function () {
+        return _this2._onStateChange();
+      });
+    }
+  }, {
+    key: '_onStateChange',
+    value: function _onStateChange() {
+      if (this._shouldInit()) {
+        this._initModuleStatus();
+      } else if (this._shouldReset()) {
+        this._resetModuleStatus();
+      } else if (this._shouldReloadConversation()) {
+        var newConversation = this._messageStore.findConversationById(this.conversation.id);
+        if (newConversation) {
+          this._loadConversation(newConversation);
+          this._messageStore.readMessages(newConversation);
+        }
+      }
+    }
+  }, {
+    key: '_shouldInit',
+    value: function _shouldInit() {
+      return this._extensionInfo.ready && this._messageSender.ready && this._messageStore.ready && !this.ready;
+    }
+  }, {
+    key: '_shouldReset',
+    value: function _shouldReset() {
+      return (!this._extensionInfo.ready || !this._messageSender.ready || !this._messageStore.ready) && this.ready;
+    }
+  }, {
+    key: '_shouldReloadConversation',
+    value: function _shouldReloadConversation() {
+      return this.ready && !!this.conversation && this.messageStoreUpdatedAt !== this._messageStore.conversationsTimestamp;
+    }
+  }, {
+    key: '_initModuleStatus',
+    value: function _initModuleStatus() {
+      this.store.dispatch({
+        type: this.actionTypes.initSuccess
+      });
+    }
+  }, {
+    key: '_resetModuleStatus',
+    value: function _resetModuleStatus() {
+      this.store.dispatch({
+        type: this.actionTypes.resetSuccess
+      });
+    }
+  }, {
+    key: 'loadConversationById',
+    value: function loadConversationById(id) {
+      var conversation = this._messageStore.findConversationById(id);
+      if (!conversation) {
+        return;
+      }
+      this._loadConversation(conversation);
+      this._messageStore.readMessages(conversation);
+    }
+  }, {
+    key: 'unloadConversation',
+    value: function unloadConversation() {
+      this.store.dispatch({
+        type: this.actionTypes.cleanUp
+      });
+    }
+  }, {
+    key: 'changeDefaultRecipient',
+    value: function changeDefaultRecipient(phoneNumber) {
+      if (this.recipients.length < 2) {
+        return;
+      }
+      var recipients = this.recipients.slice();
+      var defaultNumberIndex = recipients.findIndex(function (number) {
+        return number.extensionNumber === phoneNumber || number.phoneNumber === phoneNumber;
+      });
+      if (defaultNumberIndex < 0) {
+        return;
+      }
+      if (this.conversation) {
+        var defaultNumber = recipients[defaultNumberIndex];
+        recipients.splice(defaultNumberIndex, 1);
+        var newRecipients = [defaultNumber].concat(recipients);
+        this._updateConversationRecipients(newRecipients);
+      }
+    }
+  }, {
+    key: '_updateConversationRecipients',
+    value: function _updateConversationRecipients(newRecipients) {
+      var currentConversationId = this.conversation && this.conversation.id;
+      if (!currentConversationId) {
+        return;
+      }
+      this._messageStore.updateConversationRecipientList(currentConversationId, newRecipients);
+      this._updateRecipients(newRecipients);
+    }
+  }, {
+    key: '_updateRecipients',
+    value: function _updateRecipients(recipients) {
+      this.store.dispatch({
+        type: this.actionTypes.updateRecipients,
+        recipients: recipients
+      });
+    }
+  }, {
+    key: '_updateSenderNumber',
+    value: function _updateSenderNumber(senderNumber) {
+      this.store.dispatch({
+        type: this.actionTypes.updateSenderNumber,
+        senderNumber: senderNumber
+      });
+    }
+  }, {
+    key: '_loadConversation',
+    value: function _loadConversation(conversation) {
+      this.store.dispatch({
+        type: this.actionTypes.updateMessageStoreUpdatedAt,
+        updatedAt: this._messageStore.conversationsTimestamp
+      });
+      this.store.dispatch({
+        type: this.actionTypes.load,
+        conversation: (0, _extends3.default)({}, conversation)
+      });
+      var senderNumber = this._getCurrentSenderNumber(conversation);
+      this._updateSenderNumber(senderNumber);
+      var recipients = conversation.recipients;
+      if (!recipients || recipients.length === 0) {
+        recipients = this._getRecipients(conversation, senderNumber);
+      }
+      this._updateRecipients(recipients);
+    }
+  }, {
+    key: '_getCurrentSenderNumber',
+    value: function _getCurrentSenderNumber(conversation) {
+      if (!conversation || !conversation.messages) {
+        return null;
+      }
+      var messageLength = conversation.messages.length;
+      if (messageLength < 1) {
+        return null;
+      }
+      var lastMessage = conversation.messages[messageLength - 1];
+      return (0, _messageHelper.getMyNumberFromMessage)({
+        message: lastMessage,
+        myExtensionNumber: this._extensionInfo.extensionNumber
+      });
+    }
+  }, {
+    key: '_getRecipients',
+    value: function _getRecipients(conversation, senderNumber) {
+      if (!conversation || !senderNumber || !conversation.messages) {
+        return [];
+      }
+      var messageLength = conversation.messages.length;
+      if (messageLength < 1) {
+        return [];
+      }
+      var lastMessage = conversation.messages[messageLength - 1];
+      return (0, _messageHelper.getRecipientNumbersFromMessage)({
+        message: lastMessage,
+        myNumber: senderNumber
+      });
+    }
+  }, {
+    key: '_getReplyOnMessageId',
+    value: function _getReplyOnMessageId() {
+      var lastMessage = this.conversation && this.conversation.messages && this.conversation.messages.length > 0 && this.conversation.messages[this.conversation.messages.length - 1];
+      if (lastMessage && lastMessage.id) {
+        return lastMessage.id;
+      }
+      return null;
+    }
+  }, {
+    key: '_getFromNumber',
+    value: function _getFromNumber() {
+      if (!this.senderNumber) {
+        return null;
+      }
+      return this.senderNumber.extensionNumber || this.senderNumber.phoneNumber;
+    }
+  }, {
+    key: '_getToNumbers',
+    value: function _getToNumbers() {
+      return this.recipients.map(function (recipient) {
+        return recipient.extensionNumber || recipient.phoneNumber;
+      });
+    }
+  }, {
+    key: 'replyToReceivers',
+    value: function () {
+      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(text) {
+        var response;
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this.store.dispatch({
+                  type: this.actionTypes.reply
+                });
+                _context.prev = 1;
+                _context.next = 4;
+                return this._messageSender.send({
+                  fromNumber: this._getFromNumber(),
+                  toNumbers: this._getToNumbers(),
+                  text: text,
+                  replyOnMessageId: this._getReplyOnMessageId()
+                });
+
+              case 4:
+                response = _context.sent;
+
+                if (!response) {
+                  _context.next = 9;
+                  break;
+                }
+
+                this._messageStore.pushMessage(response.conversation.id, response);
+                this.store.dispatch({
+                  type: this.actionTypes.replySuccess
+                });
+                return _context.abrupt('return', response);
+
+              case 9:
+                this._onReplyError();
+                return _context.abrupt('return', null);
+
+              case 13:
+                _context.prev = 13;
+                _context.t0 = _context['catch'](1);
+
+                this._onReplyError();
+                throw _context.t0;
+
+              case 17:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this, [[1, 13]]);
+      }));
+
+      function replyToReceivers(_x) {
+        return _ref2.apply(this, arguments);
+      }
+
+      return replyToReceivers;
+    }()
+  }, {
+    key: '_onReplyError',
+    value: function _onReplyError() {
+      this.store.dispatch({
+        type: this.actionTypes.replyError
+      });
+    }
+  }, {
+    key: 'status',
+    get: function get() {
+      return this.state.status;
+    }
+  }, {
+    key: 'conversationStatus',
+    get: function get() {
+      return this.state.conversationStatus;
+    }
+  }, {
+    key: 'ready',
+    get: function get() {
+      return this.status === _moduleStatus2.default.ready;
+    }
+  }, {
+    key: 'pushing',
+    get: function get() {
+      return this.conversationStatus === _conversationStatus2.default.pushing;
+    }
+  }, {
+    key: 'conversation',
+    get: function get() {
+      return this.state.conversation;
+    }
+  }, {
+    key: 'senderNumber',
+    get: function get() {
+      return this.state.senderNumber;
+    }
+  }, {
+    key: 'recipients',
+    get: function get() {
+      return this.state.recipients;
+    }
+  }, {
+    key: 'messageStoreUpdatedAt',
+    get: function get() {
+      return this.state.messageStoreUpdatedAt;
+    }
+  }]);
+  return Conversation;
+}(_RcModule3.default);
+
+exports.default = Conversation;
+//# sourceMappingURL=index.js.map

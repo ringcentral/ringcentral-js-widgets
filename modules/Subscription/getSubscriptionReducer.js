@@ -3,11 +3,6 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _typeof2 = require('babel-runtime/helpers/typeof');
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
 exports.getCachedSubscriptionReducer = getCachedSubscriptionReducer;
 exports.getSubscriptionStatusReducer = getSubscriptionStatusReducer;
 exports.getMessageReducer = getMessageReducer;
@@ -105,36 +100,24 @@ function getFiltersReducer(types) {
 
       case types.addFilters:
         {
-          var _ret = function () {
-            var filterMap = {};
-            return {
-              v: state.concat(filters).filter(function (f) {
-                if (!filterMap[f]) {
-                  filterMap[f] = true;
-                  return true;
-                }
-                return false;
-              })
-            };
-          }();
-
-          if ((typeof _ret === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret)) === "object") return _ret.v;
+          var filterMap = {};
+          return state.concat(filters).filter(function (f) {
+            if (!filterMap[f]) {
+              filterMap[f] = true;
+              return true;
+            }
+            return false;
+          });
         }
       case types.removeFilters:
         {
-          var _ret2 = function () {
-            var filterMap = {};
-            filters.forEach(function (f) {
-              filterMap[f] = true;
-            });
-            return {
-              v: state.filter(function (f) {
-                return !filterMap[f];
-              })
-            };
-          }();
-
-          if ((typeof _ret2 === 'undefined' ? 'undefined' : (0, _typeof3.default)(_ret2)) === "object") return _ret2.v;
+          var _filterMap = {};
+          filters.forEach(function (f) {
+            _filterMap[f] = true;
+          });
+          return state.filter(function (f) {
+            return !_filterMap[f];
+          });
         }
       case types.resetSuccess:
         return [];
