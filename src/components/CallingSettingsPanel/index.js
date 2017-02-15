@@ -123,7 +123,7 @@ export default class CallingSettingsPanel extends Component {
 
     const ringout = this.state.callWith !== callingOptions.softphone ? (
       <div>
-        <Line className={styles.hint} noBorder>
+        <Line noBorder>
           {i18n.getString('ringoutHint', currentLocale)}
         </Line>
         <InputLine
