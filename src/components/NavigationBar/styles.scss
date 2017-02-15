@@ -5,8 +5,7 @@
 
 .root {
   @include full-size;
-  min-height: 48px;
-  height: 10%;
+  height: 46px;
   box-sizing: border-box;
   background-color: $primary-color;
 }
@@ -49,14 +48,13 @@
 }
 .iconHolder {
   @include full-size;
-  height: 65%;
 }
 .icon {
   @include full-size;
-  @include vertical-align(bottom);
-  -webkit-font-smoothing: antialiased;
+ -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 1.3em;
+  line-height: 46px;
 }
 .labelHolder {
   @include full-size;
@@ -74,7 +72,7 @@
 
 .notice {
   position: absolute;
-  bottom: 1.2em;
+  bottom: 2em;
   right: calc(50% - 2em);;
   width: 1.4em;
   height: 1.4em;
