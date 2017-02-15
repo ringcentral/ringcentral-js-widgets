@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/ContactSearch/contactSearchStatus.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,WADsB,EAEtB,MAFsB,CAAT,EAGZ,qBAHY,C","file":"contactSearchStatus.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'searching',\n  'idle',\n], 'contactSearchStatus');\n"]}
