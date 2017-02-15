@@ -300,20 +300,21 @@ var MessageSender = function (_RcModule) {
                 return _context2.abrupt('return', null);
 
               case 2:
-                _context2.next = 4;
+                _context2.prev = 2;
+                _context2.next = 5;
                 return this._validateToNumbers(toNumbers);
 
-              case 4:
+              case 5:
                 validateToNumberResult = _context2.sent;
 
                 if (validateToNumberResult.result) {
-                  _context2.next = 7;
+                  _context2.next = 8;
                   break;
                 }
 
                 return _context2.abrupt('return', null);
 
-              case 7:
+              case 8:
                 recipientNumbers = validateToNumberResult.numbers;
                 extensionNumbers = recipientNumbers.filter(function (number) {
                   return number.length <= 5;
@@ -323,19 +324,18 @@ var MessageSender = function (_RcModule) {
                 });
 
                 if (!(phoneNumbers.length > 0)) {
-                  _context2.next = 13;
+                  _context2.next = 14;
                   break;
                 }
 
                 if (this._validateSenderNumber(fromNumber)) {
-                  _context2.next = 13;
+                  _context2.next = 14;
                   break;
                 }
 
                 return _context2.abrupt('return', null);
 
-              case 13:
-                _context2.prev = 13;
+              case 14:
 
                 this.store.dispatch({
                   type: this.actionTypes.send
@@ -431,7 +431,7 @@ var MessageSender = function (_RcModule) {
 
               case 53:
                 _context2.prev = 53;
-                _context2.t1 = _context2['catch'](13);
+                _context2.t1 = _context2['catch'](2);
 
                 this.store.dispatch({
                   type: this.actionTypes.sendError,
@@ -446,7 +446,7 @@ var MessageSender = function (_RcModule) {
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[13, 53], [25, 37, 41, 49], [42,, 44, 48]]);
+        }, _callee2, this, [[2, 53], [25, 37, 41, 49], [42,, 44, 48]]);
       }));
 
       function send(_x2) {

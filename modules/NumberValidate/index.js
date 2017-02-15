@@ -102,15 +102,40 @@ var NumberValidate = function (_RcModule) {
       var _this2 = this;
 
       this.store.subscribe(function () {
-        if (_this2._regionSettings.ready && _this2._accountExtension.ready && _this2.status === _moduleStatus2.default.pending) {
-          _this2.store.dispatch({
-            type: _this2.actionTypes.initSuccess
-          });
-        } else if ((!_this2._regionSettings.ready || !_this2._accountExtension.ready) && _this2.status === _moduleStatus2.default.ready) {
-          _this2.store.dispatch({
-            type: _this2.actionTypes.resetSuccess
-          });
-        }
+        return _this2._onStateChange();
+      });
+    }
+  }, {
+    key: '_onStateChange',
+    value: function _onStateChange() {
+      if (this._shouldInit()) {
+        this._initModuleStatus();
+      } else if (this._shouldReset()) {
+        this._resetModuleStatus();
+      }
+    }
+  }, {
+    key: '_shouldInit',
+    value: function _shouldInit() {
+      return this._regionSettings.ready && this._accountExtension.ready && !this.ready;
+    }
+  }, {
+    key: '_initModuleStatus',
+    value: function _initModuleStatus() {
+      this.store.dispatch({
+        type: this.actionTypes.initSuccess
+      });
+    }
+  }, {
+    key: '_shouldReset',
+    value: function _shouldReset() {
+      return (!this._regionSettings.ready || !this._accountExtension.ready) && this.ready;
+    }
+  }, {
+    key: '_resetModuleStatus',
+    value: function _resetModuleStatus() {
+      this.store.dispatch({
+        type: this.actionTypes.resetSuccess
       });
     }
   }, {
@@ -141,12 +166,18 @@ var NumberValidate = function (_RcModule) {
   }, {
     key: '_isSpecial',
     value: function _isSpecial(phoneNumber) {
-      return phoneNumber && phoneNumber.special;
+      if (phoneNumber && phoneNumber.special) {
+        return true;
+      }
+      return false;
     }
   }, {
     key: '_isNotAnExtension',
     value: function _isNotAnExtension(extensionNumber) {
-      return extensionNumber && extensionNumber.length <= 5 && !this._accountExtension.isAvailableExtension(extensionNumber);
+      if (extensionNumber && extensionNumber.length <= 5 && !this._accountExtension.isAvailableExtension(extensionNumber)) {
+        return true;
+      }
+      return false;
     }
   }, {
     key: 'validateNumbers',
@@ -157,26 +188,24 @@ var NumberValidate = function (_RcModule) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                validateResult = null;
-
                 validateResult = this.validateFormat(phoneNumbers);
 
                 if (validateResult.result) {
-                  _context.next = 4;
+                  _context.next = 3;
                   break;
                 }
 
                 return _context.abrupt('return', validateResult);
 
-              case 4:
-                _context.next = 6;
+              case 3:
+                _context.next = 5;
                 return this.validateWithNumberParser(phoneNumbers);
 
-              case 6:
+              case 5:
                 validatedNumbers = _context.sent;
                 return _context.abrupt('return', validatedNumbers);
 
-              case 8:
+              case 7:
               case 'end':
                 return _context.stop();
             }
@@ -278,9 +307,7 @@ var NumberValidate = function (_RcModule) {
                   return (0, _normalizeNumber2.default)({ phoneNumber: phoneNumber, countryCode: countryCode, areaCode: areaCode });
                 });
                 _context3.next = 6;
-                return this._client.numberParser().parse().post({
-                  originalStrings: normalizedNumbers
-                }, homeCountry);
+                return this._numberParserApi(normalizedNumbers, homeCountry);
 
               case 6:
                 response = _context3.sent;
@@ -299,6 +326,38 @@ var NumberValidate = function (_RcModule) {
       }
 
       return _numberParser;
+    }()
+  }, {
+    key: '_numberParserApi',
+    value: function () {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(originalStrings, homeCountry) {
+        var response;
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return this._client.numberParser().parse().post({
+                  originalStrings: originalStrings
+                }, homeCountry);
+
+              case 2:
+                response = _context4.sent;
+                return _context4.abrupt('return', response);
+
+              case 4:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function _numberParserApi(_x4, _x5) {
+        return _ref5.apply(this, arguments);
+      }
+
+      return _numberParserApi;
     }()
   }, {
     key: 'status',
