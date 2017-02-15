@@ -8,6 +8,7 @@ function InputLine(props) {
     <Line
       className={props.className}
       onClick={props.onClick}
+      noBorder={props.noBorder}
     >
       <div className={styles.label}>
         {props.label}
@@ -25,6 +26,7 @@ InputLine.propTypes = {
   input: PropTypes.node,
   className: PropTypes.string,
   onClick: PropTypes.func,
+  noBorder: PropTypes.bool,
 };
 
 export default InputLine;

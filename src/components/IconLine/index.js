@@ -6,7 +6,8 @@ export default function IconLine(props) {
   return (
     <Line
       className={props.className}
-      onClick={props.onClick} >
+      onClick={props.onClick}
+      noBorder={props.noBorder}>
       <div className={styles.content}>
         {props.children}
       </div>
@@ -24,4 +25,5 @@ IconLine.propTypes = {
   icon: PropTypes.node,
   className: PropTypes.string,
   onClick: PropTypes.func,
+  noBorder: PropTypes.bool,
 };

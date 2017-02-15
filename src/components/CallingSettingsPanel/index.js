@@ -123,10 +123,11 @@ export default class CallingSettingsPanel extends Component {
 
     const ringout = this.state.callWith !== callingOptions.softphone ? (
       <div>
-        <Line>
+        <Line className={styles.hint} noBorder>
           {i18n.getString('ringoutHint', currentLocale)}
         </Line>
         <InputLine
+          noBorder
           label={i18n.getString('myLocationLabel', currentLocale)}>
           {
             availableNumbers[this.state.callWith] ? (
@@ -145,6 +146,7 @@ export default class CallingSettingsPanel extends Component {
           }
         </InputLine>
         <IconLine
+          noBorder
           icon={
             <Switch
               checked={this.state.ringoutPrompt}
@@ -163,7 +165,7 @@ export default class CallingSettingsPanel extends Component {
         </Header>
         <Panel className={styles.content}>
           <InputLine
-            label={i18n.getString('makeCallsWith', currentLocale)}>
+            label={i18n.getString('makeCallsWith', currentLocale)} noBorder>
             <Select
               className={styles.select}
               value={this.state.callWith}

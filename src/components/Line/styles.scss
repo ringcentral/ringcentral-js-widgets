@@ -1,4 +1,5 @@
 @import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/fonts';
 
 .root {
   position: relative;
@@ -12,7 +13,7 @@
   border-top-width: 1px;
   border-bottom-width: 0px;
   border-color: $border-color;
-  font-size: 0.9em;
+  @include primary-font
 }
 
 .horizontal {
@@ -21,4 +22,8 @@
 
 .clickable {
   cursor: pointer;
+}
+
+.noborder {
+  border: none;
 }

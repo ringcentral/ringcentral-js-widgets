@@ -11,20 +11,22 @@ class Select extends Component {
   }
   render() {
     return (
-      <select
+      <div
         className={classnames(
-          styles.root,
-          this.props.className)}
-        value={this.props.value}
-        onChange={this.props.onChange} >
-        {
-            this.props.options.map((option, idx) => (
-              <option key={idx} value={this.props.valueFunction(option)}>
-                { this.props.displayFunction(option) }
-              </option>
-            ))
-          }
-      </select>);
+            styles.root,
+            this.props.className)}>
+        <select
+          value={this.props.value}
+          onChange={this.props.onChange} >
+          {
+              this.props.options.map((option, idx) => (
+                <option key={idx} value={this.props.valueFunction(option)}>
+                  { this.props.displayFunction(option) }
+                </option>
+              ))
+            }
+        </select>
+      </div>);
   }
 }
 

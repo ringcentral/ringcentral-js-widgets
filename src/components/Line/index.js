@@ -10,6 +10,7 @@ function Line(props) {
         props.className,
         props.onClick && styles.clickable,
         props.horizontal && styles.horizontal,
+        props.noBorder && styles.noborder,
       )}
       onClick={props.onClick}
     >
@@ -23,6 +24,11 @@ Line.propTypes = {
   children: PropTypes.node,
   onClick: PropTypes.func,
   horizontal: PropTypes.bool,
+  noBorder: PropTypes.bool,
+};
+
+Line.defaultProps = {
+  noBorder: false
 };
 
 export default Line;

@@ -3,6 +3,7 @@
 
 .root {
   @include full-size;
+  background-color: white;
 }
 .content {
   @include full-size;
