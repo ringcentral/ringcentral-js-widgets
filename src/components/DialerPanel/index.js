@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import DialPad from '../DialPad';
-import TextInput from '../TextInput';
+import DialTextInput from '../DialTextInput';
 import styles from './styles.scss';
 
 
@@ -17,21 +17,21 @@ function DialerPanel({
   };
   return (
     <div className={classnames(styles.root, className)}>
-      <div className={styles.dial_input}>
-        <TextInput
-          className={styles.dialInput}
-          value={toNumber}
-          onChange={(event) => {
-            keepToNumber(event.currentTarget.value);
-          } }
-          />
-      </div>
+      <DialTextInput
+        value={toNumber}
+        onChangeEvent={(event) => {
+          keepToNumber(event.currentTarget.value);
+        }}
+        onDelete={() => {
+          keepToNumber('');
+        }}
+        />
       <div className={styles.dialButtons}>
         <DialPad
           className={styles.dialPad}
           onButtonOutput={(key) => {
             keepToNumber(toNumber + key);
-          } }
+          }}
           />
         <div className={classnames(styles.callBtnRow)}>
           <div className={styles.callBtn}>
