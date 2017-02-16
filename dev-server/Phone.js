@@ -28,6 +28,14 @@ import Softphone from 'ringcentral-integration/modules/Softphone';
 import Storage from 'ringcentral-integration/modules/Storage';
 import Subscription from 'ringcentral-integration/modules/Subscription';
 import TabManager from 'ringcentral-integration/modules/TabManager';
+import NumberValidate from 'ringcentral-integration/modules/NumberValidate';
+import MessageSender from 'ringcentral-integration/modules/MessageSender';
+import ComposeText from 'ringcentral-integration/modules/ComposeText';
+import MessageStore from 'ringcentral-integration/modules/MessageStore';
+import Messages from 'ringcentral-integration/modules/Messages';
+import Conversation from 'ringcentral-integration/modules/Conversation';
+import ContactSearch from 'ringcentral-integration/modules/ContactSearch';
+
 import RouterInteraction from '../src/modules/RouterInteraction';
 
 export default class Phone extends RcModule {
@@ -215,6 +223,79 @@ export default class Phone extends RcModule {
       subscription: this.subscription,
       getState: () => this.state.presence,
     }));
+    this.addModule('contactSearch', new ContactSearch({
+      ...options,
+      auth: this.auth,
+      storage: this.storage,
+      getState: () => this.state.contactSearch,
+    }));
+    this.contactSearch.addSearchSource({
+      sourceName: 'dynamics',
+      searchFn: (...args) => this.adapter.searchEntities(...args),
+      formatFn: (entities) => {
+        const contactList = [];
+        for (const entity of entities) {
+          for (const phoneNumber of entity.phoneNumbers) {
+            contactList.push({
+              entityType: entity.entityType,
+              id: entity.id,
+              name: entity.name,
+              ...phoneNumber
+            });
+          }
+        }
+        return contactList;
+      },
+      readyCheckFn: () => true,
+    });
+    this.addModule('numberValidate', new NumberValidate({
+      ...options,
+      client: this.client,
+      accountExtension: this.accountExtension,
+      regionSettings: this.regionSettings,
+      getState: () => this.state.numberValidate,
+    }));
+    this.addModule('messageSender', new MessageSender({
+      ...options,
+      alert: this.alert,
+      client: this.client,
+      getState: () => this.state.messageSender,
+      extensionPhoneNumber: this.extensionPhoneNumber,
+      extensionInfo: this.extensionInfo,
+      numberValidate: this.numberValidate,
+    }));
+    this.addModule('composeText', new ComposeText({
+      ...options,
+      alert: this.alert,
+      storage: this.storage,
+      getState: () => this.state.composeText,
+      messageSender: this.messageSender,
+      numberValidate: this.numberValidate,
+    }));
+    this.addModule('messageStore', new MessageStore({
+      ...options,
+      auth: this.auth,
+      storage: this.storage,
+      alert: this.alert,
+      client: this.client,
+      subscription: this.subscription,
+      getState: () => this.state.messageStore,
+    }));
+    this.addModule('conversation', new Conversation({
+      ...options,
+      auth: this.auth,
+      alert: this.alert,
+      messageSender: this.messageSender,
+      extensionInfo: this.extensionInfo,
+      messageStore: this.messageStore,
+      getState: () => this.state.conversation,
+    }));
+    this.addModule('messages', new Messages({
+      ...options,
+      alert: this.alert,
+      messageStore: this.messageStore,
+      getState: () => this.state.messages,
+    }));
     this.addModule('router', new RouterInteraction({
       ...options,
       getState: () => this.state.router,
@@ -248,6 +329,13 @@ export default class Phone extends RcModule {
       router: this.router.reducer,
       subscription: this.subscription.reducer,
       tabManager: this.tabManager.reducer,
+      contactSearch: this.contactSearch.reducer,
+      numberValidate: this.numberValidate.reducer,
+      messageSender: this.messageSender.reducer,
+      composeText: this.composeText.reducer,
+      messageStore: this.messageStore.reducer,
+      conversation: this.conversation.reducer,
+      messages: this.messages.reducer,
       lastAction: (state = null, action) => {
         console.log(action);
         return action;
