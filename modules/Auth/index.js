@@ -356,7 +356,6 @@ var Auth = function (_RcModule) {
       var _this4 = this;
 
       var loggedIn = void 0;
-      this._bindEvents();
       this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
         var platform;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
@@ -364,7 +363,7 @@ var Auth = function (_RcModule) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (!(_this4.status === _moduleStatus2.default.pending && _this4._locale.ready && _this4._tabManager.ready && (!_this4._environment || _this4._environment.ready))) {
-                  _context2.next = 7;
+                  _context2.next = 8;
                   break;
                 }
 
@@ -378,13 +377,14 @@ var Auth = function (_RcModule) {
               case 5:
                 loggedIn = _context2.sent;
 
+                _this4._bindEvents();
                 _this4.store.dispatch({
                   type: _this4.actionTypes.initSuccess,
                   loggedIn: loggedIn,
                   token: loggedIn ? platform.auth().data() : null
                 });
 
-              case 7:
+              case 8:
                 if (_this4._tabManager.ready && _this4.ready) {
                   if (loggedIn && _this4.loginStatus === _loginStatus2.default.notLoggedIn || !loggedIn && _this4.loginStatus === _loginStatus2.default.loggedIn) {
                     loggedIn = !loggedIn;
@@ -402,7 +402,7 @@ var Auth = function (_RcModule) {
                   _this4._bindEvents();
                 }
 
-              case 9:
+              case 10:
               case 'end':
                 return _context2.stop();
             }
