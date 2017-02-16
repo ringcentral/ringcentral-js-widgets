@@ -22,6 +22,8 @@ Modules
 - [x] CallingSettings
 - [x] ComposeText
 - [x] ConnectivityMonitor
+- [x] Conversation
+- [x] ContactSearch
 - [x] DialingPlan
 - [x] Environment
 - [x] ExtensionInfo
@@ -30,6 +32,7 @@ Modules
 - [x] Locale
 - [x] MessageSender
 - [x] MessageStore
+- [x] Messages
 - [x] NumberValidate
 - [x] Presence
 - [x] RateLimiter
@@ -41,9 +44,6 @@ Modules
 - [x] Storage
 - [x] Subscription
 - [x] TabManager
-- [x] Messages
-- [ ] Conversation
-- [ ] ContactSearch
 - [ ] DialingPlan
 - [ ] PhoneNumbers
 - more...

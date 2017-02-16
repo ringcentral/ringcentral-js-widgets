@@ -159,16 +159,28 @@ var _ComposeText = require('../../../modules/ComposeText');
 
 var _ComposeText2 = _interopRequireDefault(_ComposeText);
 
+var _ContactSearch = require('../../../modules/ContactSearch');
+
+var _ContactSearch2 = _interopRequireDefault(_ContactSearch);
+
+var _Messages = require('../../../modules/Messages');
+
+var _Messages2 = _interopRequireDefault(_Messages);
+
+var _MessageStore = require('../../../modules/MessageStore');
+
+var _MessageStore2 = _interopRequireDefault(_MessageStore);
+
+var _Conversation = require('../../../modules/Conversation');
+
+var _Conversation2 = _interopRequireDefault(_Conversation);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // import DynamicsAdapter from '../../../modules/DynamicsInteraction';
 
 // import { callMonitorReducer } from '../CallMonitor/reducers';
-// import ContactSearch from '../ContactSearch';
 
-// import Messages from '../Messages';
-// import MessageStore from '../MessageStore';
-// import Conversation from '../Conversation';
 
 // import CallLog from '../CallLog';
 // import AutoLogger from '../AutoLogger';
@@ -505,17 +517,31 @@ var Phone = function (_RcModule) {
     //   formatDateTimeFn: args => this.adapter.dateTimeIntlProvider().formatDateTime(args),
     // });
 
-    // this.addModule('contactSearch', new ContactSearch({
-    //   ...options,
-    //   auth: this.auth,
-    //   storage: this.storage,
-    //   getState: () => this.state.contactSearch,
-    // }));
-    // this.contactSearch.addSearchSource({
-    //   sourceName: 'dynamics',
-    //   searchFn: (...args) => this.adapter.searchEntities(...args),
-    //   readyCheckFn: () => this.adapter.ready,
-    // });
+    _this.addModule('contactSearch', new _ContactSearch2.default((0, _extends3.default)({}, options, {
+      auth: _this.auth,
+      storage: _this.storage,
+      getState: function getState() {
+        return _this.state.contactSearch;
+      }
+    })));
+    _this.contactSearch.addSearchSource({
+      sourceName: 'test',
+      searchFn: function searchFn(_ref2) {
+        var searchString = _ref2.searchString;
+        return [{
+          entityType: 'account',
+          name: searchString,
+          phoneNumber: '+1234567890',
+          phoneType: 'phone'
+        }];
+      },
+      formatFn: function formatFn(entities) {
+        return entities;
+      },
+      readyCheckFn: function readyCheckFn() {
+        return true;
+      }
+    });
 
     _this.addModule('numberValidate', new _NumberValidate2.default((0, _extends3.default)({}, options, {
       client: _this.client,
@@ -547,32 +573,33 @@ var Phone = function (_RcModule) {
       numberValidate: _this.numberValidate
     })));
 
-    // this.addModule('messageStore', new MessageStore({
-    //   ...options,
-    //   auth: this.auth,
-    //   storage: this.storage,
-    //   alert: this.alert,
-    //   client: this.client,
-    //   subscription: this.subscription,
-    //   getState: () => this.state.messageStore,
-    // }));
+    _this.addModule('messageStore', new _MessageStore2.default((0, _extends3.default)({}, options, {
+      alert: _this.alert,
+      auth: _this.auth,
+      client: _this.client,
+      storage: _this.storage,
+      subscription: _this.subscription,
+      getState: function getState() {
+        return _this.state.messageStore;
+      }
+    })));
 
-    // this.addModule('conversation', new Conversation({
-    //   ...options,
-    //   auth: this.auth,
-    //   alert: this.alert,
-    //   messageSender: this.messageSender,
-    //   extensionInfo: this.extensionInfo,
-    //   messageStore: this.messageStore,
-    //   getState: () => this.state.conversation,
-    // }));
+    _this.addModule('conversation', new _Conversation2.default((0, _extends3.default)({}, options, {
+      auth: _this.auth,
+      messageSender: _this.messageSender,
+      extensionInfo: _this.extensionInfo,
+      messageStore: _this.messageStore,
+      getState: function getState() {
+        return _this.state.conversation;
+      }
+    })));
 
-    // this.addModule('messages', new Messages({
-    //   ...options,
-    //   alert: this.alert,
-    //   messageStore: this.messageStore,
-    //   getState: () => this.state.messages,
-    // }));
+    _this.addModule('messages', new _Messages2.default((0, _extends3.default)({}, options, {
+      messageStore: _this.messageStore,
+      getState: function getState() {
+        return _this.state.messages;
+      }
+    })));
 
     // this.addModule('adapter', new DynamicsAdapter({
     //   ...options,
@@ -629,10 +656,13 @@ var Phone = function (_RcModule) {
       // autoLogger: this.autoLogger.reducer,
       globalStorage: _this.globalStorage.reducer,
       // dateTimeIntl: this.dateTimeIntl.reducer,
-      // contactSearch: this.contactSearch.reducer,
+      contactSearch: _this.contactSearch.reducer,
       numberValidate: _this.numberValidate.reducer,
       messageSender: _this.messageSender.reducer,
-      composeText: _this.composeText.reducer
+      composeText: _this.composeText.reducer,
+      messageStore: _this.messageStore.reducer,
+      conversation: _this.conversation.reducer,
+      messages: _this.messages.reducer
     });
     return _this;
   }

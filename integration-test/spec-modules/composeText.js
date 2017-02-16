@@ -337,7 +337,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
 
                         if (!isAlertClear) {
                           console.error('Alert is not cleared after dismissAll');
-                          _this.skip();
+                          this.skip();
                         }
 
                       case 5:
@@ -345,7 +345,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                         return _context7.stop();
                     }
                   }
-                }, _callee7, _this);
+                }, _callee7, this);
               })));
 
               it('Should Alert of recipientNumberInvalids When Typing Number Length more than 30', function () {
