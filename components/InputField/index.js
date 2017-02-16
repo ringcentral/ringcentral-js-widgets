@@ -18,14 +18,10 @@ var _Line2 = _interopRequireDefault(_Line);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function InputLine(props) {
+function InputField(props) {
   return _react2.default.createElement(
-    _Line2.default,
-    {
-      className: props.className,
-      onClick: props.onClick,
-      noBorder: props.noBorder
-    },
+    'div',
+    { className: props.className },
     _react2.default.createElement(
       'div',
       { className: _styles2.default.label },
@@ -39,14 +35,11 @@ function InputLine(props) {
   );
 }
 
-InputLine.propTypes = {
+InputField.propTypes = {
   children: _react.PropTypes.node,
   label: _react.PropTypes.node,
-  input: _react.PropTypes.node,
-  className: _react.PropTypes.string,
-  onClick: _react.PropTypes.func,
-  noBorder: _react.PropTypes.bool
+  className: _react.PropTypes.string
 };
 
-exports.default = InputLine;
+exports.default = InputField;
 //# sourceMappingURL=index.js.map

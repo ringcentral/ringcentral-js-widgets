@@ -13,9 +13,9 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _RcFont = require('../../assets/RcFont/RcFont.scss');
+var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
-var _RcFont2 = _interopRequireDefault(_RcFont);
+var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
 var _Header = require('../Header');
 
@@ -72,7 +72,8 @@ function SettingsPanel(_ref) {
       showClickToDial = _ref.showClickToDial,
       clickToDialEnabled = _ref.clickToDialEnabled,
       onClickToDialChange = _ref.onClickToDialChange,
-      showRegion = _ref.showRegion;
+      showRegion = _ref.showRegion,
+      showHeader = _ref.showHeader;
 
   var region = showRegion ? _react2.default.createElement(
     _LinkLine2.default,
@@ -100,14 +101,15 @@ function SettingsPanel(_ref) {
     },
     _i18n2.default.getString('autoCreateLog')
   ) : null;
+  var header = showHeader ? _react2.default.createElement(
+    _Header2.default,
+    null,
+    _i18n2.default.getString('settings')
+  ) : null;
   return _react2.default.createElement(
     'div',
     { className: (0, _classnames2.default)(_styles2.default.root, className) },
-    _react2.default.createElement(
-      _Header2.default,
-      null,
-      _i18n2.default.getString('settings')
-    ),
+    header,
     _react2.default.createElement(
       _Panel2.default,
       { className: _styles2.default.content },
@@ -123,30 +125,41 @@ function SettingsPanel(_ref) {
       autoLog,
       clickToDial,
       _react2.default.createElement(
-        _IconLine2.default,
-        {
-          onClick: onLogoutButtonClick,
-          icon: _react2.default.createElement('span', { className: _RcFont2.default.RC_Logout })
-        },
-        _i18n2.default.getString('logout'),
-        ' ',
-        loginNumber
+        'section',
+        { className: _styles2.default.section },
+        _react2.default.createElement(
+          _Line2.default,
+          null,
+          _react2.default.createElement(EulaRenderer, {
+            className: _styles2.default.eula,
+            currentLocale: currentLocale,
+            brandId: brandId
+          })
+        )
       ),
       _react2.default.createElement(
-        _Line2.default,
-        null,
-        _i18n2.default.getString('version'),
-        ' ',
-        version
+        'section',
+        { className: _styles2.default.section },
+        _react2.default.createElement(
+          _IconLine2.default,
+          {
+            onClick: onLogoutButtonClick,
+            icon: _react2.default.createElement('span', { className: _DynamicsFont2.default.icon_Logout })
+          },
+          _i18n2.default.getString('logout'),
+          _react2.default.createElement(
+            'span',
+            { className: _styles2.default.loginNumber },
+            ' ' + loginNumber
+          )
+        )
       ),
       _react2.default.createElement(
         'div',
-        { className: _styles2.default.eulaContainer },
-        _react2.default.createElement(EulaRenderer, {
-          className: _styles2.default.eula,
-          currentLocale: currentLocale,
-          brandId: brandId
-        })
+        { className: _styles2.default.versionContainer },
+        _i18n2.default.getString('version'),
+        ' ',
+        version
       )
     )
   );
@@ -169,7 +182,8 @@ SettingsPanel.propTypes = {
   showClickToDial: _react.PropTypes.bool,
   clickToDialEnabled: _react.PropTypes.bool,
   onClickToDialChange: _react.PropTypes.func,
-  version: _react.PropTypes.string.isRequired
+  version: _react.PropTypes.string.isRequired,
+  showHeader: _react.PropTypes.bool
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -180,6 +194,7 @@ SettingsPanel.defaultProps = {
   onClickToDialChange: function onClickToDialChange() {},
   showAutoLog: false,
   autoLogEnabled: false,
-  onAutoLogChange: function onAutoLogChange() {}
+  onAutoLogChange: function onAutoLogChange() {},
+  showHeader: false
 };
 //# sourceMappingURL=index.js.map

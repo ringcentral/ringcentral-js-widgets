@@ -58,25 +58,25 @@ var _Panel = require('../../components/Panel');
 
 var _Panel2 = _interopRequireDefault(_Panel);
 
-var _Line = require('../../components/Line');
-
-var _Line2 = _interopRequireDefault(_Line);
-
 var _Switch = require('../../components/Switch');
 
 var _Switch2 = _interopRequireDefault(_Switch);
 
-var _IconLine = require('../../components/IconLine');
+var _IconField = require('../../components/IconField');
 
-var _IconLine2 = _interopRequireDefault(_IconLine);
+var _IconField2 = _interopRequireDefault(_IconField);
 
-var _InputLine = require('../../components/InputLine');
+var _InputField = require('../../components/InputField');
 
-var _InputLine2 = _interopRequireDefault(_InputLine);
+var _InputField2 = _interopRequireDefault(_InputField);
 
 var _TextInput = require('../../components/TextInput');
 
 var _TextInput2 = _interopRequireDefault(_TextInput);
+
+var _Select = require('../../components/Select');
+
+var _Select2 = _interopRequireDefault(_Select);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -201,37 +201,29 @@ var CallingSettingsPanel = function (_Component) {
         'div',
         null,
         _react2.default.createElement(
-          _Line2.default,
-          null,
+          'div',
+          { className: _styles2.default.ringoutHint },
           _i18n2.default.getString('ringoutHint', currentLocale)
         ),
         _react2.default.createElement(
-          _InputLine2.default,
+          _InputField2.default,
           {
+            className: _styles2.default.inputField,
             label: _i18n2.default.getString('myLocationLabel', currentLocale) },
-          availableNumbers[this.state.callWith] ? _react2.default.createElement(
-            'select',
-            {
-              className: _styles2.default.select,
-              value: this.state.myLocation,
-              onChange: this.onMyLocationChange },
-            availableNumbers[this.state.callWith].map(function (phoneNumber, idx) {
-              return _react2.default.createElement(
-                'option',
-                {
-                  key: idx,
-                  value: phoneNumber },
-                phoneNumber
-              );
-            })
-          ) : _react2.default.createElement(_TextInput2.default, {
+          availableNumbers[this.state.callWith] ? _react2.default.createElement(_Select2.default, {
+            className: _styles2.default.select,
+            value: this.state.myLocation,
+            onChange: this.onMyLocationChange,
+            options: availableNumbers[this.state.callWith]
+          }) : _react2.default.createElement(_TextInput2.default, {
             value: this.state.myLocation,
             maxLength: 30,
             onChange: this.onMyLocationChange })
         ),
         _react2.default.createElement(
-          _IconLine2.default,
+          _IconField2.default,
           {
+            className: _styles2.default.iconField,
             icon: _react2.default.createElement(_Switch2.default, {
               checked: this.state.ringoutPrompt,
               onChange: this.onRingoutPromptChange
@@ -252,24 +244,19 @@ var CallingSettingsPanel = function (_Component) {
           _Panel2.default,
           { className: _styles2.default.content },
           _react2.default.createElement(
-            _InputLine2.default,
+            _InputField2.default,
             {
-              label: _i18n2.default.getString('makeCallsWith', currentLocale) },
-            _react2.default.createElement(
-              'select',
-              {
-                title: this.state.callWith,
-                className: _styles2.default.select,
-                value: this.state.callWith,
-                onChange: this.onCallWithChange },
-              callWithOptions.map(function (option, idx) {
-                return _react2.default.createElement(
-                  'option',
-                  { key: idx, value: option },
-                  (0, _formatMessage2.default)(_i18n2.default.getString(option, currentLocale), { brand: brand })
-                );
-              })
-            )
+              className: _styles2.default.inputField,
+              label: _i18n2.default.getString('makeCallsWith', currentLocale), noBorder: true },
+            _react2.default.createElement(_Select2.default, {
+              className: _styles2.default.select,
+              value: this.state.callWith,
+              onChange: this.onCallWithChange,
+              options: callWithOptions,
+              displayFunction: function displayFunction(option) {
+                return (0, _formatMessage2.default)(_i18n2.default.getString(option, currentLocale), { brand: brand });
+              }
+            })
           ),
           ringout
         )

@@ -94,7 +94,7 @@ TextInput.propTypes = {
   invalid: _react.PropTypes.bool,
   onKeyDown: _react.PropTypes.func
 };
-TextInput.defaultValue = {
+TextInput.defaultProps = {
   className: _styles2.default.input
 };
 

@@ -1,0 +1,612 @@
+@font-face {
+  font-family: 'dynamics_icon';
+  src:  url('./fonts/dynamics_icon.eot?64zb9q');
+  src:  url('./fonts/dynamics_icon.eot?64zb9q#iefix') format('embedded-opentype'),
+    url('./fonts/dynamics_icon.woff2?64zb9q') format('woff2'),
+    url('./fonts/dynamics_icon.ttf?64zb9q') format('truetype'),
+    url('./fonts/dynamics_icon.woff?64zb9q') format('woff'),
+    url('./fonts/dynamics_icon.svg?64zb9q#dynamics_icon') format('svg');
+  font_weight: normal;
+  font_style: normal;
+}
+
+.icon {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'dynamics_icon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon_clear {
+  composes: icon;
+}
+.icon-clear:before {
+  content: "\e901";
+}
+.icon_Expand {
+  composes: icon;
+}
+.icon-Expand:before {
+  content: "\e902";
+}
+.icon_Information {
+  composes: icon;
+}
+.icon-Information:before {
+  content: "\e903";
+}
+
+.icon_Collapse {
+  composes: icon;
+}
+.icon_Collapse:before {
+  content: "\e949";
+}
+.icon_Close {
+  composes: icon;
+}
+.icon_Close:before {
+  content: "\e94a";
+}
+.icon_Inbound {
+  composes: icon;
+}
+.icon_Inbound:before {
+  content: "\e94b";
+}
+.icon_Missed {
+  composes: icon;
+}
+.icon_Missed:before {
+  content: "\e94c";
+}
+.icon_Outbound {
+  composes: icon;
+}
+.icon_Outbound:before {
+  content: "\e94d";
+}
+.icon_Record {
+  composes: icon;
+}
+.icon_Record:before {
+  content: "\e94e";
+}
+.icon_Active {
+  composes: icon;
+}
+.icon_Active:before {
+  content: "\e94f";
+}
+.icon_Add {
+  composes: icon;
+}
+.icon_Add:before {
+  content: "\e950";
+}
+.icon_Arrow {
+  composes: icon;
+}
+.icon_Arrow:before {
+  content: "\e951";
+}
+.icon_Call_Log {
+  composes: icon;
+}
+.icon_Call_Log:before {
+  content: "\e952";
+}
+.icon_Call_Hove {
+  composes: icon;
+}
+.icon_Call_Hover:before {
+  content: "\e953";
+}
+.icon_Dial_Hover {
+  composes: icon;
+}
+.icon_Dial_Hover:before {
+  content: "\e954";
+}
+.icon_Dial {
+  composes: icon;
+}
+.icon_Dial:before {
+  content: "\e955";
+}
+.icon_Edit {
+  composes: icon;
+}
+.icon_Edit:before {
+  content: "\e956";
+}
+.icon_File {
+  composes: icon;
+}
+.icon_File:before {
+  content: "\e957";
+}
+.icon_History_Hover {
+  composes: icon;
+}
+.icon_History_Hover:before {
+  content: "\e958";
+}
+.icon_History {
+  composes: icon;
+}
+.icon_History:before {
+  content: "\e959";
+}
+.icon_Logout {
+  composes: icon;
+}
+.icon_Logout:before {
+  content: "\e95a";
+}
+.icon_Setting_Hover {
+  composes: icon;
+}
+.icon_Setting_Hover:before {
+  content: "\e95b";
+}
+.icon_Setting {
+  composes: icon;
+}
+.icon_Setting:before {
+  content: "\e95c";
+}
+.icon_Trash {
+  composes: icon;
+}
+.icon_Trash:before {
+  content: "\e95d";
+}
+.icon_Delete {
+  composes: icon;
+}
+.icon_Delete:before {
+  content: "\e909";
+}
+.icon_Plus {
+  composes: icon;
+}
+.icon_Plus:before {
+  content: "\e90a";
+}
+.icon_Caret_down_circle {
+  composes: icon;
+}
+.icon_Caret_down_circle:before {
+  content: "\e90b";
+}
+.icon_Caret_down {
+  composes: icon;
+}
+.icon_Caret_down:before {
+  content: "\e90c";
+}
+.icon_Caret_right {
+  composes: icon;
+}
+.icon_Caret_right:before {
+  content: "\e90d";
+}
+.icon_Add2 {
+  composes: icon;
+}
+.icon_Add2:before {
+  content: "\e90e";
+}
+.icon_Arrow {
+  composes: icon;
+}
+.icon_Arrow_left:before {
+  content: "\e900";
+}
+.icon_Calls {
+  composes: icon;
+}
+.icon_Calls:before {
+  content: "\e901";
+}
+.icon_Close2 {
+  composes: icon;
+}
+.icon_Close2:before {
+  content: "\e902";
+}
+.icon_Collapse2 {
+  composes: icon;
+}
+.icon_Collapse2:before {
+  content: "\e903";
+}
+.icon_Dial_pad {
+  composes: icon;
+}
+.icon_Dial_pad:before {
+  content: "\e904";
+}
+.icon_History2 {
+  composes: icon;
+}
+.icon_History2:before {
+  content: "\e905";
+}
+.icon_Refresh {
+  composes: icon;
+}
+.icon_Refresh:before {
+  content: "\e906";
+}
+.icon_Save {
+  composes: icon;
+}
+.icon_Save:before {
+  content: "\e907";
+}
+.icon_Settings {
+  composes: icon;
+}
+.icon_Settings:before {
+  content: "\e908";
+}
+.icon_con_call_mute {
+  composes: icon;
+}
+.icon_icon_call_mute:before {
+  content: "\e924";
+}
+.icon_icon_call_unmute {
+  composes: icon;
+}
+.icon_icon_call_unmute:before {
+  content: "\e925";
+}
+.icon_icon_call_dial {
+  composes: icon;
+}
+.icon_icon_call_dial:before {
+  content: "\e92a";
+}
+.icon_icon_call_flip {
+  composes: icon;
+}
+.icon_icon_call_flip:before {
+  content: "\e92b";
+}
+.icon_icon_call_hangup {
+  composes: icon;
+}
+.icon_icon_call_hangup:before {
+  content: "\e92c";
+}
+.icon_icon_call_hold {
+  composes: icon;
+}
+.icon_icon_call_hold:before {
+  content: "\e92d";
+}
+
+.icon_icon_call_no_dial{
+  composes: icon;
+}
+.icon_icon_call_no_hold{
+  composes: icon;
+}
+.icon_icon_call_record{
+  composes: icon;
+}
+.icon_icon_call_stop_record{
+  composes: icon;
+}
+.icon_icon_call_transfer{
+  composes: icon;
+}
+.icon_icon_office_365{
+  composes: icon;
+}
+.icon_icon_play{
+  composes: icon;
+}
+.icon_icon_status_busy{
+  composes: icon;
+}
+.icon_icon_status_calling{
+  composes: icon;
+}
+.icon_icon_status_hold{
+  composes: icon;
+}
+.icon_icon_status_mute{
+  composes: icon;
+}
+.icon_icon_status_record{
+  composes: icon;
+}
+.icon_icon_calling{
+  composes: icon;
+}
+.icon_icon_call_incoming{
+  composes: icon;
+}
+.icon_icon_call_miss{
+  composes: icon;
+}
+.icon_icon_call_outgoing{
+  composes: icon;
+}
+.icon_icon_collapse{
+  composes: icon;
+}
+.icon_checkbox_selected{
+  composes: icon;
+}
+.icon_checkbox_unselected{
+  composes: icon;
+}
+.icon_icon_add{
+  composes: icon;
+}
+.icon_icon_arrow_right{
+  composes: icon;
+}
+.icon_icon_back{
+  composes: icon;
+}
+.icon_icon_call_log{
+  composes: icon;
+}
+.icon_icon_call{
+  composes: icon;
+}
+.icon_icon_check{
+  composes: icon;
+}
+.icon_icon_composetext{
+  composes: icon;
+}
+.icon_icon_conference{
+  composes: icon;
+}
+.icon_icon_contact{
+  composes: icon;
+}
+.icon_icon_dial{
+  composes: icon;
+}
+.icon_icon_display{
+  composes: icon;
+}
+.icon_icon_fax{
+  composes: icon;
+}
+.icon_icon_google{
+  composes: icon;
+}
+.icon_icon_hangout{
+  composes: icon;
+}
+.icon_icon_i_info{
+  composes: icon;
+}
+.icon_icon_meeting{
+  composes: icon;
+}
+.icon_icon_message_all{
+  composes: icon;
+}
+.icon_icon_message{
+  composes: icon;
+}
+.icon_icon_return{
+  composes: icon;
+}
+.icon_icon_search{
+  composes: icon;
+}
+.icon_icon_setting{
+  composes: icon;
+}
+.icon_icon_time{
+  composes: icon;
+}
+.icon_icon_voice{
+  composes: icon;
+}
+.icon_icon_radio_off{
+  composes: icon;
+}
+.icon_icon_radio_on{
+  composes: icon;
+}
+.icon_icon_arrow{
+  composes: icon;
+}
+.icon_icon_calendar{
+  composes: icon;
+}
+.icon_icon_dropbox{
+  composes: icon;
+}
+.icon_icon_dropdown_arrow{
+  composes: icon;
+}
+.icon_icon_i_btn{
+  composes: icon;
+}
+.icon_icon_logout{
+  composes: icon;
+}
+.icon_icon_switch_on{
+  composes: icon;
+}
+.icon_icon_swtich_off{
+  composes: icon;
+}
+.icon_icon_call_no_dial:before {
+  content: "\e92e";
+}
+.icon_icon_call_no_hold:before {
+  content: "\e92f";
+}
+.icon_icon_call_record:before {
+  content: "\e930";
+}
+.icon_icon_call_stop_record:before {
+  content: "\e931";
+}
+.icon_icon_call_transfer:before {
+  content: "\e932";
+}
+.icon_icon_office_365:before {
+  content: "\e933";
+}
+.icon_icon_play:before {
+  content: "\e934";
+}
+.icon_icon_status_busy:before {
+  content: "\e935";
+}
+.icon_icon_status_calling:before {
+  content: "\e936";
+}
+.icon_icon_status_hold:before {
+  content: "\e937";
+}
+.icon_icon_status_mute:before {
+  content: "\e938";
+}
+.icon_icon_status_record:before {
+  content: "\e939";
+}
+.icon_icon_calling:before {
+  content: "\e926";
+}
+.icon_icon_call_incoming:before {
+  content: "\e927";
+}
+.icon_icon_call_miss:before {
+  content: "\e928";
+}
+.icon_icon_call_outgoing:before {
+  content: "\e929";
+}
+.icon_icon_collapse:before {
+  content: "\e90f";
+}
+.icon_checkbox_selected:before {
+  content: "\e910";
+}
+.icon_checkbox_unselected:before {
+  content: "\e911";
+}
+.icon_icon_add:before {
+  content: "\e912";
+}
+.icon_icon_arrow_right:before {
+  content: "\e913";
+}
+.icon_icon_back:before {
+  content: "\e914";
+}
+.icon_icon_call_log:before {
+  content: "\e915";
+}
+.icon_icon_call:before {
+  content: "\e916";
+}
+.icon_icon_check:before {
+  content: "\e917";
+}
+.icon_icon_composetext:before {
+  content: "\e918";
+}
+.icon_icon_conference:before {
+  content: "\e919";
+}
+.icon_icon_contact:before {
+  content: "\e91a";
+}
+.icon_icon_dial:before {
+  content: "\e91b";
+}
+.icon_icon_display:before {
+  content: "\e91c";
+}
+.icon_icon_fax:before {
+  content: "\e91d";
+}
+.icon_icon_google:before {
+  content: "\e91e";
+}
+.icon_icon_hangout:before {
+  content: "\e91f";
+}
+.icon_icon_i_info:before {
+  content: "\e920";
+}
+.icon_icon_meeting:before {
+  content: "\e921";
+}
+.icon_icon_message_all:before {
+  content: "\e922";
+}
+.icon_icon_message:before {
+  content: "\e923";
+}
+.icon_icon_return:before {
+  content: "\e93a";
+}
+.icon_icon_search:before {
+  content: "\e93b";
+}
+.icon_icon_setting:before {
+  content: "\e93c";
+}
+.icon_icon_time:before {
+  content: "\e93d";
+}
+.icon_icon_voice:before {
+  content: "\e93e";
+}
+.icon_icon_radio_off:before {
+  content: "\e93f";
+}
+.icon_icon_radio_on:before {
+  content: "\e940";
+}
+.icon_icon_arrow:before {
+  content: "\e941";
+}
+.icon_icon_calendar:before {
+  content: "\e942";
+}
+.icon_icon_dropbox:before {
+  content: "\e943";
+}
+.icon_icon_dropdown_arrow:before {
+  content: "\e944";
+}
+.icon_icon_i_btn:before {
+  content: "\e945";
+}
+.icon_icon_logout:before {
+  content: "\e946";
+}
+.icon_icon_switch_on:before {
+  content: "\e947";
+}
+.icon_icon_swtich_off:before {
+  content: "\e948";
+}
+

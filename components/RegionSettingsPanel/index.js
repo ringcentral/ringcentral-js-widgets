@@ -46,9 +46,9 @@ var _Line = require('../Line');
 
 var _Line2 = _interopRequireDefault(_Line);
 
-var _InputLine = require('../InputLine');
+var _InputField = require('../InputField');
 
-var _InputLine2 = _interopRequireDefault(_InputLine);
+var _InputField2 = _interopRequireDefault(_InputField);
 
 var _TextInput = require('../TextInput');
 
@@ -195,13 +195,14 @@ var RegionSettings = function (_Component) {
           _Panel2.default,
           { className: _styles2.default.content },
           _react2.default.createElement(
-            _Line2.default,
-            null,
+            'div',
+            { className: _styles2.default.hint },
             _i18n2.default.getString(messageId, this.props.currentLocale)
           ),
           showCountryList && _react2.default.createElement(
-            _InputLine2.default,
+            _InputField2.default,
             {
+              className: _styles2.default.inputField,
               label: _i18n2.default.getString('country', this.props.currentLocale) },
             _react2.default.createElement(
               'select',
@@ -219,8 +220,9 @@ var RegionSettings = function (_Component) {
             )
           ),
           showAreaCode && _react2.default.createElement(
-            _InputLine2.default,
+            _InputField2.default,
             {
+              className: _styles2.default.inputField,
               label: _i18n2.default.getString('areaCode', this.props.currentLocale) },
             _react2.default.createElement(_TextInput2.default, {
               placeholder: _i18n2.default.getString('areaCodePlaceholder', this.props.currentLocale),

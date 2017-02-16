@@ -1,5 +1,6 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/full-size.scss';
+@import '../../lib/commonStyles/fonts.scss';
 
 :global {
   .popover-content {
@@ -17,22 +18,27 @@
   height: 94%;
   max-height: calc(100% - 32px);
   box-sizing: border-box;
+  background-color: $line-panel-background-color;
 }
-
-.eulaContainer {
-  margin-top: 14px;
-  width: 100%;
-  text-align: center;
+.section {
+  padding-top: 8px;
 }
-
 .eula {
   color: $primary-color;
   text-decoration: none;
-  font-size: 0.9em;
+  font-size: $primary-font-size;
   outline: 0;
 }
 .eula:focus {
   outline: 0;
+}
+
+.loginNumber{
+  @include secondary-font;
+}
+.versionContainer{
+  @include secondary-font;
+  padding: 10px 20px;
 }
 
 .iconInfo {

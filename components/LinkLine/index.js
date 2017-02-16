@@ -22,9 +22,9 @@ var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
 
-var _RcFont = require('../../assets/RcFont/RcFont.scss');
+var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
-var _RcFont2 = _interopRequireDefault(_RcFont);
+var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -39,7 +39,7 @@ function LinkLine(props) {
       _IconLine2.default,
       {
         className: props.className,
-        icon: _react2.default.createElement('span', { className: (0, _classnames2.default)(_RcFont2.default.uniC9, _styles2.default.icon) })
+        icon: _react2.default.createElement('span', { className: (0, _classnames2.default)(_DynamicsFont2.default.icon_icon_arrow_right, _styles2.default.icon) })
       },
       props.children
     )

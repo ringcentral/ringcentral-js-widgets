@@ -9,13 +9,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
 var _Line = require('../Line');
 
 var _Line2 = _interopRequireDefault(_Line);
+
+var _IconField = require('../IconField');
+
+var _IconField2 = _interopRequireDefault(_IconField);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24,20 +24,14 @@ function IconLine(props) {
     _Line2.default,
     {
       className: props.className,
-      onClick: props.onClick },
+      onClick: props.onClick,
+      noBorder: props.noBorder },
     _react2.default.createElement(
-      'div',
-      { className: _styles2.default.content },
+      _IconField2.default,
+      {
+        className: props.className,
+        icon: props.icon },
       props.children
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.iconHolder },
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.icon },
-        props.icon
-      )
     )
   );
 }
@@ -46,6 +40,7 @@ IconLine.propTypes = {
   children: _react.PropTypes.node,
   icon: _react.PropTypes.node,
   className: _react.PropTypes.string,
-  onClick: _react.PropTypes.func
+  onClick: _react.PropTypes.func,
+  noBorder: _react.PropTypes.bool
 };
 //# sourceMappingURL=index.js.map

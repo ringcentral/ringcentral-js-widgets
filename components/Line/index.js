@@ -22,7 +22,7 @@ function Line(props) {
   return _react2.default.createElement(
     'div',
     {
-      className: (0, _classnames2.default)(_styles2.default.root, props.className, props.onClick && _styles2.default.clickable, props.horizontal && _styles2.default.horizontal),
+      className: (0, _classnames2.default)(_styles2.default.root, props.className, props.onClick && _styles2.default.clickable, props.horizontal && _styles2.default.horizontal, props.noBorder && _styles2.default.noborder),
       onClick: props.onClick
     },
     props.children
@@ -33,7 +33,12 @@ Line.propTypes = {
   className: _react.PropTypes.string,
   children: _react.PropTypes.node,
   onClick: _react.PropTypes.func,
-  horizontal: _react.PropTypes.bool
+  horizontal: _react.PropTypes.bool,
+  noBorder: _react.PropTypes.bool
+};
+
+Line.defaultProps = {
+  noBorder: false
 };
 
 exports.default = Line;

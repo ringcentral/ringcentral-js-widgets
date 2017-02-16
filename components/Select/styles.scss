@@ -1,0 +1,24 @@
+@import '../../lib/commonStyles/fonts';
+@import '../../lib/commonStyles/colors';
+
+.root select{
+  @include field-value-font;
+  appearance: none;
+  border-radius: 2px;
+  padding: 0px 10px;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.root:after {
+  content: '\e951';
+  @include field-value-font;
+  font-family: 'dynamics_icon';
+  right: 0px;
+  top: 9px;
+  padding: 0px 10px;
+  /*left line */
+  position: absolute;
+  pointer-events: none;
+}
