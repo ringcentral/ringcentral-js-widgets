@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import styles from './styles.scss';
 
 class TextInput extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       value: (props.value) ? props.value : ''

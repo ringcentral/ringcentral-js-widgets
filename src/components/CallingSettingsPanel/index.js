@@ -9,10 +9,9 @@ import i18n from './i18n';
 
 import Header from '../../components/Header';
 import Panel from '../../components/Panel';
-import Line from '../../components/Line';
 import Switch from '../../components/Switch';
-import IconLine from '../../components/IconLine';
-import InputLine from '../../components/InputLine';
+import IconField from '../../components/IconField';
+import InputField from '../../components/InputField';
 import TextInput from '../../components/TextInput';
 import Select from '../../components/Select';
 
@@ -123,11 +122,11 @@ export default class CallingSettingsPanel extends Component {
 
     const ringout = this.state.callWith !== callingOptions.softphone ? (
       <div>
-        <Line noBorder>
+        <div className={styles.ringoutHint}>
           {i18n.getString('ringoutHint', currentLocale)}
-        </Line>
-        <InputLine
-          noBorder
+        </div>
+        <InputField
+          className={styles.inputField}
           label={i18n.getString('myLocationLabel', currentLocale)}>
           {
             availableNumbers[this.state.callWith] ? (
@@ -144,9 +143,9 @@ export default class CallingSettingsPanel extends Component {
                 onChange={this.onMyLocationChange} />
             )
           }
-        </InputLine>
-        <IconLine
-          noBorder
+        </InputField>
+        <IconField
+          className={styles.iconField}
           icon={
             <Switch
               checked={this.state.ringoutPrompt}
@@ -155,7 +154,7 @@ export default class CallingSettingsPanel extends Component {
           }
           >
           {i18n.getString('press1ToStartCallLabel', currentLocale)}
-        </IconLine>
+        </IconField>
       </div>
     ) : null;
     return (
@@ -164,7 +163,8 @@ export default class CallingSettingsPanel extends Component {
           {i18n.getString('title', currentLocale)}
         </Header>
         <Panel className={styles.content}>
-          <InputLine
+          <InputField
+            className={styles.inputField}
             label={i18n.getString('makeCallsWith', currentLocale)} noBorder>
             <Select
               className={styles.select}
@@ -175,7 +175,7 @@ export default class CallingSettingsPanel extends Component {
                 option => formatMessage(i18n.getString(option, currentLocale), { brand })
               }
             />
-          </InputLine>
+          </InputField>
           {ringout}
         </Panel>
       </div>

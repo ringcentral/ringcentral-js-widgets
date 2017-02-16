@@ -5,7 +5,7 @@ import 'font-awesome/css/font-awesome.css';
 import Header from '../Header';
 import Panel from '../Panel';
 import Line from '../Line';
-import InputLine from '../InputLine';
+import InputField from '../InputField';
 import TextInput from '../TextInput';
 
 import styles from './styles.scss';
@@ -116,11 +116,12 @@ export default class RegionSettings extends Component {
           {i18n.getString('title', this.props.currentLocale)}
         </Header>
         <Panel className={styles.content}>
-          <Line>
+          <div className={styles.hint}>
             {i18n.getString(messageId, this.props.currentLocale)}
-          </Line>
+          </div>
           {showCountryList && (
-            <InputLine
+            <InputField
+              className={styles.inputField}
               label={i18n.getString('country', this.props.currentLocale)}>
               <select
                 className={styles.countrySelect}
@@ -134,17 +135,18 @@ export default class RegionSettings extends Component {
                   ))
                 }
               </select>
-            </InputLine>
+            </InputField>
           )}
           {showAreaCode && (
-            <InputLine
+            <InputField
+              className={styles.inputField}
               label={i18n.getString('areaCode', this.props.currentLocale)}>
               <TextInput
                 placeholder={i18n.getString('areaCodePlaceholder', this.props.currentLocale)}
                 maxLength={3}
                 value={this.state.areaCodeValue}
                 onChange={this.onAreaCodeChange} />
-            </InputLine>
+            </InputField>
           )}
           {this.props.children}
         </Panel>

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 
-import rcFont from '../../assets/RcFont/RcFont.scss';
+import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import Header from '../Header';
 import Panel from '../Panel';
 import Line from '../Line';
@@ -97,7 +97,7 @@ export default function SettingsPanel({
         <section className={styles.section}>
           <IconLine
             onClick={onLogoutButtonClick}
-            icon={<span className={rcFont.RC_Logout} />}
+            icon={<span className={dynamicsFont.icon_Logout} />}
             >
             {i18n.getString('logout')}
             <span className={styles.loginNumber}>

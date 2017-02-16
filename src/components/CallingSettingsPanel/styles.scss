@@ -1,9 +1,10 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/full-size.scss';
+@import '../../lib/commonStyles/layout.scss';
+@import '../../lib/commonStyles/fonts.scss';
 
 .root {
   @include full-size;
-  background-color: white;
 }
 .content {
   @include full-size;
@@ -11,8 +12,22 @@
   height: 94%;
   max-height: calc(100% - 32px);
   box-sizing: border-box;
+  background-color: white;
+  padding: 10px $container-padding-right 10px $container-padding-left;
+}
+.inputField {
+  padding: 5px 0px;
 }
 
+.iconField {
+  padding: 15px 0px;
+  @include primary-font;
+}
+
+.ringoutHint {
+  padding: 15px 0px;
+  @include primary-font;
+}
 .select {
   width: 100%;
   height: 100%;
