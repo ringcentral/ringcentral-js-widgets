@@ -1,0 +1,30 @@
+@import 'colors';
+$font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+$primary-font-size: 14px;
+$secondary-font-size: 13px;
+$tertiary-font-size: 12px;
+
+@mixin primary-font {
+  font-family: $font-family;
+  font-size: $primary-font-size;
+  color: $primary-neutral-color;
+}
+
+@mixin secondary-font {
+  font-family: $font-family;
+  font-size: $secondary-font-size;
+  color: $secondary-neutral-color;
+}
+
+@mixin field-label-font {
+  font-family: $font-family;
+  font-size: $secondary-font-size;
+  color: $primary-neutral-color;
+  font-weight: bold;
+}
+
+@mixin field-value-font {
+  font-family: $font-family;
+  font-size: $tertiary-font-size;
+  color: $secondary-neutral-color;
+}
