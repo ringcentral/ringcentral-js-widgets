@@ -48,6 +48,31 @@ async function rm(filepath) {
   }
 }
 
+async function exec(command) {
+  return new Promise((resolve, reject) => {
+    cp.exec(command, (error, stdout, stderr) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+      resolve(stdout);
+    });
+  });
+}
+
+async function getVersionFromTag() {
+  try {
+    let tag = await exec('git describe --exact-match --tags $(git rev-parse HEAD)');
+    tag = tag.replace(/\r?\n|\r/g, '');
+    if (/^\d+.\d+.\d+/.test(tag)) {
+      return tag;
+    }
+    return null;
+  } catch (e) {
+    return null;
+  }
+}
+
 gulp.task('clean', async () => (
   rm(path.resolve(__dirname, 'build'))
 ));
@@ -84,5 +109,10 @@ gulp.task('release-copy', ['build', 'release-clean'], () => (
 gulp.task('release', ['release-copy'], async () => {
   const packageInfo = JSON.parse(await fs.readFile('package.json'));
   delete packageInfo.scripts;
+  const version = await getVersionFromTag();
+  if (version) {
+    packageInfo.version = version;
+    packageInfo.name = 'ringcentral-widget';
+  }
   await fs.writeFile('release/package.json', JSON.stringify(packageInfo, null, 2));
 });

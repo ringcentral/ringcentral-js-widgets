@@ -9,8 +9,8 @@ $dial_input_height: 10%;
 
 .root {
   @include full-size;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-left: 10%;
+  padding-right: 10%;
   box-sizing: border-box;
 }
 .dial_input {
@@ -82,7 +82,8 @@ $dial_input_height: 10%;
 }
 .btnValue {
   text-anchor: middle;
+  alignment-baseline: text-after-edge;
   font-size: 165px;
   fill: #fff;
-  font-family: 'RCFont' !important;
+  font-family: 'dynamics_icon' !important;
 }

@@ -22,7 +22,7 @@ function NavigationButton(props) {
     >
       <div className={styles.iconHolder} title={props.label}>
         <div className={styles.icon}>
-          {props.active ? props._icon : props.icon }
+          {props.active ? props.activityIcon : props.icon }
         </div>
         {notice}
       </div>
@@ -31,7 +31,7 @@ function NavigationButton(props) {
 }
 NavigationButton.propTypes = {
   icon: PropTypes.node,
-  _icon: PropTypes.node,
+  activityIcon: PropTypes.node,
   path: PropTypes.string,
   active: PropTypes.bool,
   label: PropTypes.string,
@@ -68,7 +68,7 @@ NavigationBar.propTypes = {
   className: PropTypes.string,
   tabs: PropTypes.arrayOf(PropTypes.shape({
     icon: PropTypes.node.isRequired,
-    _icon: PropTypes.node.isRequired,
+    activityIcon: PropTypes.node.isRequired,
     label: PropTypes.string,
     path: PropTypes.string.isRequired,
     isActive: PropTypes.func,

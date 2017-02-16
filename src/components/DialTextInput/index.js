@@ -4,39 +4,39 @@ import styles from './styles.scss';
 import i18n from './i18n';
 import TextInput from '../TextInput';
 import rcFont from '../../assets/RcFont/RcFont.scss';
+import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
-class DialTextInput extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: (props.value) ? props.value : ''
-    };
-  }
-  render() {
-    const props = this.props;
-    return (
-      <div
-        className={classnames(
-          styles.dialInput,
-          props.className,
-          props.invalid && styles.invalid,
-          )}>
-        <span className={classnames(styles.to)}>
-          {i18n.getString('to')}
-        </span>
-        <TextInput
-          className={styles.dial_Input}
-          value={props.value}
-          onChange={props.onChangeEvent}
-        />
-        <span className={classnames(rcFont.RC_close, styles.delete)} onClick={props.onDelete}>
-        </span>
-      </div>
-    );
-  }
+function DialTextInput({
+  className,
+  invalid,
+  value,
+  onChangeEvent,
+  onDelete,
+}) {
+  return (
+    <div
+      className={classnames(
+        styles.dialInput,
+        className,
+        invalid && styles.invalid,
+        )}>
+      <span className={classnames(styles.to)}>
+        {i18n.getString('to')}
+      </span>
+      <TextInput
+        className={styles.dial_Input}
+        value={value}
+        onChange={onChangeEvent}
+      />
+      <span className={classnames(styles.delete, dynamicsFont.icon_clear)} onClick={onDelete}>
+      </span>
+    </div>
+  );
 }
 
 DialTextInput.propTypes = {
+  className: PropTypes.string,
+  invalid: PropTypes.bool,
   value: PropTypes.string,
   onChangeEvent: PropTypes.func,
   onDelete: PropTypes.func,

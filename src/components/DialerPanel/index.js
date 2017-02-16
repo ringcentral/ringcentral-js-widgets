@@ -54,7 +54,7 @@ function DialerPanel({
                   x="250"
                   y="330"
                   dangerouslySetInnerHTML={{
-                    __html: '&#xae;',
+                    __html: '&#xe953;',
                   }}
                   />
               </g>

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 
-import rcFont from '../../assets/RcFont/RcFont.scss';
+import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import Header from '../Header';
 import Panel from '../Panel';
 import Line from '../Line';
@@ -30,6 +30,7 @@ export default function SettingsPanel({
   clickToDialEnabled,
   onClickToDialChange,
   showRegion,
+  showHeader,
 }) {
   const region = showRegion ?
     (
@@ -66,11 +67,14 @@ export default function SettingsPanel({
     </IconLine>
   ) :
     null;
+  const header = showHeader ? (
+    <Header>
+      {i18n.getString('settings')}
+    </Header>
+  ) : null;
   return (
     <div className={classnames(styles.root, className)}>
-      <Header>
-        {i18n.getString('settings')}
-      </Header>
+      {header}
       <Panel className={styles.content}>
         <LinkLine
           to={callingSettingsUrl}
@@ -81,21 +85,28 @@ export default function SettingsPanel({
         {children}
         {autoLog}
         {clickToDial}
-        <IconLine
-          onClick={onLogoutButtonClick}
-          icon={<span className={rcFont.RC_Logout} />}
-          >
-          {i18n.getString('logout')} {loginNumber}
-        </IconLine>
-        <Line>
+        <section className={styles.section}>
+          <Line>
+            <EulaRenderer
+              className={styles.eula}
+              currentLocale={currentLocale}
+              brandId={brandId}
+              />
+          </Line>
+        </section>
+        <section className={styles.section}>
+          <IconLine
+            onClick={onLogoutButtonClick}
+            icon={<span className={dynamicsFont.icon_Logout} />}
+            >
+            {i18n.getString('logout')}
+            <span className={styles.loginNumber}>
+              { ` ${loginNumber}` }
+            </span>
+          </IconLine>
+        </section>
+        <div className={styles.versionContainer} >
           {i18n.getString('version')} {version}
-        </Line>
-        <div className={styles.eulaContainer} >
-          <EulaRenderer
-            className={styles.eula}
-            currentLocale={currentLocale}
-            brandId={brandId}
-            />
         </div>
       </Panel>
     </div>
@@ -120,6 +131,7 @@ SettingsPanel.propTypes = {
   clickToDialEnabled: PropTypes.bool,
   onClickToDialChange: PropTypes.func,
   version: PropTypes.string.isRequired,
+  showHeader: PropTypes.bool,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -131,4 +143,5 @@ SettingsPanel.defaultProps = {
   showAutoLog: false,
   autoLogEnabled: false,
   onAutoLogChange: () => {},
+  showHeader: false
 };

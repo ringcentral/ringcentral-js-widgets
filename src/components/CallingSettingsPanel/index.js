@@ -9,11 +9,11 @@ import i18n from './i18n';
 
 import Header from '../../components/Header';
 import Panel from '../../components/Panel';
-import Line from '../../components/Line';
 import Switch from '../../components/Switch';
-import IconLine from '../../components/IconLine';
-import InputLine from '../../components/InputLine';
+import IconField from '../../components/IconField';
+import InputField from '../../components/InputField';
 import TextInput from '../../components/TextInput';
+import Select from '../../components/Select';
 
 export default class CallingSettingsPanel extends Component {
   constructor(props) {
@@ -122,28 +122,20 @@ export default class CallingSettingsPanel extends Component {
 
     const ringout = this.state.callWith !== callingOptions.softphone ? (
       <div>
-        <Line>
+        <div className={styles.ringoutHint}>
           {i18n.getString('ringoutHint', currentLocale)}
-        </Line>
-        <InputLine
+        </div>
+        <InputField
+          className={styles.inputField}
           label={i18n.getString('myLocationLabel', currentLocale)}>
           {
             availableNumbers[this.state.callWith] ? (
-              <select
+              <Select
                 className={styles.select}
                 value={this.state.myLocation}
-                onChange={this.onMyLocationChange}>
-                {
-                  availableNumbers[this.state.callWith]
-                    .map((phoneNumber, idx) => (
-                      <option
-                        key={idx}
-                        value={phoneNumber}>
-                        {phoneNumber}
-                      </option>
-                    ))
-                }
-              </select>
+                onChange={this.onMyLocationChange}
+                options={availableNumbers[this.state.callWith]}
+              />
             ) : (
               <TextInput
                 value={this.state.myLocation}
@@ -151,8 +143,9 @@ export default class CallingSettingsPanel extends Component {
                 onChange={this.onMyLocationChange} />
             )
           }
-        </InputLine>
-        <IconLine
+        </InputField>
+        <IconField
+          className={styles.iconField}
           icon={
             <Switch
               checked={this.state.ringoutPrompt}
@@ -161,7 +154,7 @@ export default class CallingSettingsPanel extends Component {
           }
           >
           {i18n.getString('press1ToStartCallLabel', currentLocale)}
-        </IconLine>
+        </IconField>
       </div>
     ) : null;
     return (
@@ -170,22 +163,19 @@ export default class CallingSettingsPanel extends Component {
           {i18n.getString('title', currentLocale)}
         </Header>
         <Panel className={styles.content}>
-          <InputLine
-            label={i18n.getString('makeCallsWith', currentLocale)}>
-            <select
-              title={this.state.callWith}
+          <InputField
+            className={styles.inputField}
+            label={i18n.getString('makeCallsWith', currentLocale)} noBorder>
+            <Select
               className={styles.select}
               value={this.state.callWith}
-              onChange={this.onCallWithChange} >
-              {
-                callWithOptions.map((option, idx) => (
-                  <option key={idx} value={option}>
-                    {formatMessage(i18n.getString(option, currentLocale), { brand })}
-                  </option>
-                ))
+              onChange={this.onCallWithChange}
+              options={callWithOptions}
+              displayFunction={
+                option => formatMessage(i18n.getString(option, currentLocale), { brand })
               }
-            </select>
-          </InputLine>
+            />
+          </InputField>
           {ringout}
         </Panel>
       </div>

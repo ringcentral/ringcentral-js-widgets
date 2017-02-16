@@ -1,20 +1,18 @@
 import React, { PropTypes } from 'react';
-import styles from './styles.scss';
 import Line from '../Line';
+import IconField from '../IconField';
 
 export default function IconLine(props) {
   return (
     <Line
       className={props.className}
-      onClick={props.onClick} >
-      <div className={styles.content}>
+      onClick={props.onClick}
+      noBorder={props.noBorder}>
+      <IconField
+        className={props.className}
+        icon={props.icon}>
         {props.children}
-      </div>
-      <div className={styles.iconHolder}>
-        <div className={styles.icon}>
-          { props.icon }
-        </div>
-      </div>
+      </IconField>
     </Line>
   );
 }
@@ -24,4 +22,5 @@ IconLine.propTypes = {
   icon: PropTypes.node,
   className: PropTypes.string,
   onClick: PropTypes.func,
+  noBorder: PropTypes.bool,
 };

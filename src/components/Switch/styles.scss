@@ -1,8 +1,8 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/full-size.scss';
 
-$switch-height: 17px;
-$switch-padding: 2px;
+$switch-height: 20px;
+$switch-padding: 1px;
 $switch-width: #{2 * ($switch-height - $switch-padding)};
 $slider-size: #{$switch-height - 2 * $switch-padding};
 

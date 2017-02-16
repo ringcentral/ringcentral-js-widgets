@@ -13,6 +13,11 @@
   left: 30px;
   display: inline-block;
   border: none;
+  input {
+    font-size: 13px;
+    padding: 0;
+    max-width: 80%;
+  }
 }
 .to {
   position: absolute;
@@ -20,18 +25,21 @@
   left: 0;
   display: inline-block;
   width: 30px; 
-  color: $rc-dark-light;
+  color: $grey-light;
+  font-size: 13px;
 }
 .delete {
+  font-size: 13px;
   position: absolute;
-  top: 10px;
+  top: 13px;
   right: 0;
-  color: $rc-dark-light;
+  color: $grey-light;
   &:hover {
     color: $rc-blue;
   }
 }
 .input {
+  font-size: 13px;
   border: none;
   outline: 0;
   height: 98%;
