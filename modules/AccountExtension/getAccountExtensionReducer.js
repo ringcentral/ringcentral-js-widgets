@@ -9,7 +9,7 @@ var _toConsumableArray2 = require("babel-runtime/helpers/toConsumableArray");
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 exports.getDataReducer = getDataReducer;
-exports.getTimetampReducer = getTimetampReducer;
+exports.getTimestampReducer = getTimestampReducer;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -40,7 +40,7 @@ function getDataReducer(types) {
   };
 }
 
-function getTimetampReducer(types) {
+function getTimestampReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref2 = arguments[1];

@@ -107,7 +107,7 @@ var AccountExtension = function (_DataFetcher) {
       ttl: ttl,
       actionTypes: _actionTypes2.default,
       getDataReducer: _getAccountExtensionReducer.getDataReducer,
-      getTimetampReducer: _getAccountExtensionReducer.getTimetampReducer,
+      getTimestampReducer: _getAccountExtensionReducer.getTimestampReducer,
       subscriptionFilters: ['/account/~/extension'],
       subscriptionHandler: function () {
         var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(message) {

@@ -9,6 +9,8 @@ exports.getToNumbers = getToNumbers;
 exports.getMessageText = getMessageText;
 exports.default = getComposeTextReducer;
 
+require('core-js/fn/array/find');
+
 var _redux = require('redux');
 
 var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');

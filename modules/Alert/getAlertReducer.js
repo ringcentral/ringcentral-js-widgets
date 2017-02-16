@@ -13,6 +13,8 @@ exports.default = getAlertReducer;
 
 var _redux = require('redux');
 
+require('core-js/fn/array/find');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getMessagesReducer(types) {

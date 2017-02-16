@@ -72,18 +72,32 @@ var Presence = function (_RcModule) {
     var auth = _ref.auth,
         client = _ref.client,
         subscription = _ref.subscription,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'subscription']);
+        _ref$actionTypes = _ref.actionTypes,
+        actionTypes = _ref$actionTypes === undefined ? _actionTypes2.default : _ref$actionTypes,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'subscription', 'actionTypes']);
     (0, _classCallCheck3.default)(this, Presence);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Presence.__proto__ || (0, _getPrototypeOf2.default)(Presence)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _actionTypes2.default
+      actionTypes: actionTypes
     })));
+
+    _this._subscriptionHandler = function (message) {
+      if (message && presenceEndPoint.test(message.event) && message.body) {
+        var dndStatus = message.body.dndStatus;
+
+        _this.store.dispatch({
+          type: _this.actionTypes.notification,
+          dndStatus: dndStatus
+        });
+      }
+    };
 
     _this._auth = auth;
     _this._client = client;
     _this._subscription = subscription;
 
     _this._reducer = (0, _getPresenceReducer2.default)(_this.actionTypes);
+    _this._lastMessage = null;
     return _this;
   }
 
@@ -121,11 +135,9 @@ var Presence = function (_RcModule) {
                   _this2.store.dispatch({
                     type: _this2.actionTypes.resetSuccess
                   });
-                } else if (_this2.ready && _this2._subscription.message && presenceEndPoint.test(_this2._subscription.message.event)) {
-                  _this2.store.dispatch({
-                    type: _this2.actionTypes.notification,
-                    dndStatus: _this2._subscription.message.body && _this2._subscription.message.body.dndStatus
-                  });
+                } else if (_this2.ready && _this2._subscription.ready && _this2._subscription.message && _this2._subscription.message !== _this2._lastMessage) {
+                  _this2._lastMessage = _this2._subscription.message;
+                  _this2._subscriptionHandler(_this2._lastMessage);
                 }
 
               case 9:

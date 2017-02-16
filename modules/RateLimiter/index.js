@@ -64,6 +64,7 @@ var _errorMessages2 = _interopRequireDefault(_errorMessages);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DEFAULT_THROTTLE_DURATION = 61 * 1000;
+var DEFAULT_ALERT_TTL = 5 * 1000;
 
 var RateLimiter = function (_RcModule) {
   (0, _inherits3.default)(RateLimiter, _RcModule);
@@ -158,7 +159,7 @@ var RateLimiter = function (_RcModule) {
       if (this.throttling && this._alert) {
         this._alert.danger({
           message: _errorMessages2.default.rateLimitReached,
-          ttl: this.ttl,
+          ttl: DEFAULT_ALERT_TTL,
           allowDuplicates: false
         });
       }

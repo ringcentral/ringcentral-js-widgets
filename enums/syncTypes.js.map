@@ -1,0 +1,1 @@
+{"version":3,"sources":["enums/syncTypes.js"],"names":["fSync","iSync"],"mappings":";;;;;;AAAA;;;;;;kBAEe,0BAAgB;AAC7BA,SAAO,OADsB;AAE7BC,SAAO;AAFsB,CAAhB,C","file":"syncTypes.js","sourcesContent":["import KeyValueMap from 'data-types/key-value-map';\n\nexport default new KeyValueMap({\n  fSync: 'FSync',\n  iSync: 'ISync',\n});\n"]}

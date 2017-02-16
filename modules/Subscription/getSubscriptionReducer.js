@@ -80,10 +80,10 @@ function getMessageReducer(types) {
     var _ref3 = arguments[1];
     var type = _ref3.type,
         _ref3$message = _ref3.message,
-        message = _ref3$message === undefined ? null : _ref3$message;
+        message = _ref3$message === undefined ? state : _ref3$message;
 
     if (type === types.notification) return message;
-    return null;
+    return state;
   };
 }
 

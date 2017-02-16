@@ -1,0 +1,1 @@
+{"version":3,"sources":["lib/removeUri.js"],"names":["removeUri","uri","data"],"mappings":";;;;;;;;;;kBAAwBA,S;;;;AAAT,SAASA,SAAT,GAA0C;AAAA,iFAAJ,EAAI;;AAAA,MAArBC,GAAqB,QAArBA,GAAqB;AAAA,MAAbC,IAAa;;AACvD,SAAOA,IAAP;AACD","file":"removeUri.js","sourcesContent":["export default function removeUri({ uri, ...data } = {}) {\n  return data;\n}\n"]}
