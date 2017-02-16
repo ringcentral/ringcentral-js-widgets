@@ -36,7 +36,7 @@ function SelectedRecipients(props) {
             key={item.phoneNumber}
             name={item.name}
             phoneNumber={item.phoneNumber}
-            onRemove={() => props.removeFromReceivers(item.phoneNumber)}
+            onRemove={() => props.removeFromRecipients(item.phoneNumber)}
           />
         ))
       }
@@ -45,7 +45,7 @@ function SelectedRecipients(props) {
 }
 
 SelectedRecipients.propTypes = {
-  removeFromReceivers: PropTypes.func.isRequired,
+  removeFromRecipients: PropTypes.func.isRequired,
   items: React.PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
@@ -76,13 +76,13 @@ class RecipientsInput extends Component {
     const props = this.props;
     let relatedContactList = [];
     if (props.value.length >= 3) {
-      relatedContactList = this.props.searchContacts;
+      relatedContactList = this.props.searchContactList;
     }
     return (
       <div className={styles.container}>
         <SelectedRecipients
-          items={props.receivers}
-          removeFromReceivers={props.removeFromReceivers}
+          items={props.recipients}
+          removeFromRecipients={props.removeFromRecipients}
         />
         <input
           name="receiver"
@@ -105,7 +105,7 @@ class RecipientsInput extends Component {
           }
         />
         <ContactDropdownList
-          addToReceivers={props.addToReceivers}
+          addToRecipients={props.addToRecipients}
           items={relatedContactList}
           formatPhone={props.formatPhone}
           className={styles.contactsDropdown}
@@ -118,16 +118,27 @@ class RecipientsInput extends Component {
 
 RecipientsInput.propTypes = {
   placeholder: PropTypes.string,
-  searchContacts: PropTypes.arrayOf(PropTypes.shape({
+  searchContactList: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     entityType: PropTypes.string.isRequired,
     phoneType: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
   })).isRequired,
+  recipients: React.PropTypes.arrayOf(PropTypes.shape({
+    phoneNumber: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  })).isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onClean: PropTypes.func.isRequired,
   onKeyUp: PropTypes.func,
+  addToRecipients: PropTypes.func,
+  removeFromRecipients: PropTypes.func,
+};
+
+RecipientsInput.defaultProps = {
+  placeholder: '',
+  onKeyUp: () => null,
 };
 
 export default RecipientsInput;

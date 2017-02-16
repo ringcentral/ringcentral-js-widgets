@@ -27,7 +27,7 @@ SenderSelectInput.propTypes = {
   className: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
-  options: PropTypes.array.isRequired,
+  options: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };
 
 class ComposeTextPanel extends Component {
@@ -55,12 +55,12 @@ class ComposeTextPanel extends Component {
       this.props.searchContact(e.currentTarget.value);
     };
 
-    this.addToReceivers = (receiver) => {
+    this.addToRecipients = (receiver) => {
       this.props.addToNumber(receiver);
       this.props.cleanTypingToNumber();
     };
 
-    this.removeFromReceivers = (phoneNumber) => {
+    this.removeFromRecipients = (phoneNumber) => {
       this.props.removeToNumber({ phoneNumber });
     };
 
@@ -97,7 +97,7 @@ class ComposeTextPanel extends Component {
         </div>
         <form onSubmit={this.handleSubmit}>
           <div className={senderFieldClasses}>
-            <label>{i18n.getString('sendMessageFrom')}</label>
+            <label>{i18n.getString('sendMessageFrom', this.props.currentLocale)}</label>
             <div className={styles.valueInput}>
               <SenderSelectInput
                 className={styles.select}
@@ -109,17 +109,17 @@ class ComposeTextPanel extends Component {
             </div>
           </div>
           <div className={styles.messageReceiverField}>
-            <label>{i18n.getString('to')}:</label>
+            <label>{i18n.getString('to', this.props.currentLocale)}:</label>
             <div className={styles.rightPanel}>
               <RecipientsInput
                 value={this.props.typingToNumber}
                 onChange={this.onReceiverChange}
                 onClean={this.cleanReceiverValue}
-                placeholder={i18n.getString('enterNameOrNumber')}
-                receivers={this.props.toNumbers}
-                addToReceivers={this.addToReceivers}
-                removeFromReceivers={this.removeFromReceivers}
-                searchContacts={this.props.searchContacts}
+                placeholder={i18n.getString('enterNameOrNumber', this.props.currentLocale)}
+                recipients={this.props.toNumbers}
+                addToRecipients={this.addToRecipients}
+                removeFromRecipients={this.removeFromRecipients}
+                searchContactList={this.props.searchContactList}
                 onKeyUp={this.onReceiverInputKeyDown}
                 formatPhone={this.props.formatPhone}
               />
@@ -127,7 +127,7 @@ class ComposeTextPanel extends Component {
           </div>
           <div className={styles.messageTextField}>
             <textarea
-              placeholder={i18n.getString('typeAnyToSend')}
+              placeholder={i18n.getString('typeAnyToSend', this.props.currentLocale)}
               value={this.props.messageText}
               maxLength="1000"
               required
@@ -136,7 +136,7 @@ class ComposeTextPanel extends Component {
           </div>
           <input
             type="submit"
-            value={i18n.getString('send')}
+            value={i18n.getString('send', this.props.currentLocale)}
             className={styles.submitButton}
             disabled={this.props.sendButtonDisabled}
           />
@@ -148,11 +148,16 @@ class ComposeTextPanel extends Component {
 
 ComposeTextPanel.propTypes = {
   send: PropTypes.func.isRequired,
-  senderNumbers: PropTypes.array.isRequired,
+  senderNumbers: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   sendButtonDisabled: PropTypes.bool.isRequired,
   formatPhone: PropTypes.func.isRequired,
   searchContact: PropTypes.func.isRequired,
-  searchContacts: PropTypes.array.isRequired,
+  searchContactList: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    entityType: PropTypes.string.isRequired,
+    phoneType: PropTypes.string.isRequired,
+    phoneNumber: PropTypes.string.isRequired,
+  })).isRequired,
   currentLocale: PropTypes.string.isRequired,
   updateSenderNumber: PropTypes.func.isRequired,
   updateTypingToNumber: PropTypes.func.isRequired,
@@ -163,7 +168,16 @@ ComposeTextPanel.propTypes = {
   messageText: PropTypes.string,
   typingToNumber: PropTypes.string,
   senderNumber: PropTypes.string,
-  toNumbers: PropTypes.array,
+  toNumbers: React.PropTypes.arrayOf(PropTypes.shape({
+    phoneNumber: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  })).isRequired,
+};
+
+ComposeTextPanel.defaultProps = {
+  messageText: '',
+  typingToNumber: '',
+  senderNumber: '',
 };
 
 export default ComposeTextPanel;

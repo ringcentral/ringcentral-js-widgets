@@ -56,11 +56,11 @@ function ContactDropdownList(props) {
             phoneType={item.phoneType}
             phoneNumber={item.phoneNumber}
             formatPhone={props.formatPhone}
-            onClick={() => props.addToReceivers({
+            onClick={() => props.addToRecipients({
               name: item.name,
               phoneNumber: item.phoneNumber,
             })}
-            key={`${item.name}${item.entityType}${item.phoneType}${item.phoneNumber}`}
+            key={JSON.stringify(item)}
           />
         ))
       }
@@ -78,7 +78,11 @@ ContactDropdownList.propTypes = {
     phoneNumber: PropTypes.string.isRequired,
   })).isRequired,
   formatPhone: PropTypes.func.isRequired,
-  addToReceivers: PropTypes.func.isRequired,
+  addToRecipients: PropTypes.func.isRequired,
+};
+
+ContactDropdownList.defaultProps = {
+  className: null,
 };
 
 export default ContactDropdownList;

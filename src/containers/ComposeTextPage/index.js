@@ -19,7 +19,7 @@ const ComposeTextPage = connect((state, props) => ({
   typingToNumber: props.composeText.typingToNumber,
   toNumbers: props.composeText.toNumbers,
   messageText: props.composeText.messageText,
-  searchContacts: props.contactSearch.searching.result,
+  searchContactList: props.contactSearch.searching.result,
 }), (dispatch, props) => ({
   send: () =>
     props.composeText.send().then((resp) => {
