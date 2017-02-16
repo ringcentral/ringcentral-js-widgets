@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import classnames from 'classnames';
 import IconLine from '../IconLine';
 import styles from './styles.scss';
-import rcFont from '../../assets/RcFont/RcFont.scss';
+import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 function LinkLine(props) {
   return (
@@ -13,7 +13,7 @@ function LinkLine(props) {
     >
       <IconLine
         className={props.className}
-        icon={<span className={classnames(rcFont.uniC9, styles.icon)} />}
+        icon={<span className={classnames(dynamicsFont.icon_icon_arrow_right, styles.icon)} />}
       >
         {props.children}
       </IconLine>

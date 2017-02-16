@@ -1,19 +1,21 @@
 @import '../../lib/commonStyles/colors';
-
+@import '../../lib/commonStyles/fonts';
 .root {
   position: relative;
   width: 100%;
-  border-width: 0;
-  border-bottom-width: 1px;
-  border-style: solid;
-  border-color: $border-color;
+  height: 100%;
+  padding: 0px;
+  border: 1px solid rgb(166, 166, 166);
+  border-radius: 2px;
 }
-.input {
-  border: none;
+.root input {
   outline: 0;
-  height: 98%;
+  height: 100%;
   width: 100%;
   background-color: transparent;
+  border: none;
+  padding: 0px 10px;
+  @include field-value-font;
 }
 .invalid {
   border-color: red;
