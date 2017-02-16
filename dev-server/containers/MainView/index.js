@@ -29,7 +29,12 @@ const tabs = [
     activityIcon: <span className={rcFont.RC_shapes_1_40_pressed} />,
     label: 'Dial Pad',
     path: '/',
-    noticeCounts: 2,
+  },
+  {
+    icon: <span className={rcFont.icon_message} />,
+    label: 'SMS',
+    path: '/composeText',
+    // noticeCounts: 2,
   },
 ];
 
