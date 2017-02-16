@@ -1,0 +1,64 @@
+@import '../../lib/commonStyles/colors';
+
+.container {
+  position: relative;
+  display: block;
+  padding-right: 20px;
+}
+
+.removeButton {
+  position: absolute;
+  right: 10px;
+  bottom: 2px;
+  width: 10px;
+}
+
+.numberInput {
+  color: #2f2f2f;
+  font-size: 12px;
+  line-height: 17px;
+  width: 100%;
+  height: 27px;
+  border-radius: 3px;
+  border: 0;
+  outline: 0;
+}
+
+.contactsDropdown {
+  width: 100%;
+}
+
+.selectReceivers {
+  padding: 0;
+
+  li {
+    position: relative;
+    color: #fff;
+    background-color: #66d17b;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 1;
+    margin-bottom: 2px;
+    max-width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 5px 23px 5px 10px;
+
+    span {
+      margin-left: 5px;
+    }
+  }
+
+  .blue {
+    background-color: $rc-blue;
+  }
+}
+
+.removeReceiver {
+  position: absolute;
+  bottom: 4px;
+  right: 7px;
+  width: 10px;
+  color: #ffffff!important;
+}
