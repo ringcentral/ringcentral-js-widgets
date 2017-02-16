@@ -16,9 +16,9 @@ var _DialPad = require('../DialPad');
 
 var _DialPad2 = _interopRequireDefault(_DialPad);
 
-var _TextInput = require('../TextInput');
+var _DialTextInput = require('../DialTextInput');
 
-var _TextInput2 = _interopRequireDefault(_TextInput);
+var _DialTextInput2 = _interopRequireDefault(_DialTextInput);
 
 var _styles = require('./styles.scss');
 
@@ -39,17 +39,15 @@ function DialerPanel(_ref) {
   return _react2.default.createElement(
     'div',
     { className: (0, _classnames2.default)(_styles2.default.root, className) },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.dial_input },
-      _react2.default.createElement(_TextInput2.default, {
-        className: _styles2.default.dialInput,
-        value: toNumber,
-        onChange: function onChange(event) {
-          keepToNumber(event.currentTarget.value);
-        }
-      })
-    ),
+    _react2.default.createElement(_DialTextInput2.default, {
+      value: toNumber,
+      onChangeEvent: function onChangeEvent(event) {
+        keepToNumber(event.currentTarget.value);
+      },
+      onDelete: function onDelete() {
+        keepToNumber('');
+      }
+    }),
     _react2.default.createElement(
       'div',
       { className: _styles2.default.dialButtons },
@@ -85,7 +83,7 @@ function DialerPanel(_ref) {
                 x: '250',
                 y: '330',
                 dangerouslySetInnerHTML: {
-                  __html: '&#xae;'
+                  __html: '&#xe953;'
                 }
               })
             )

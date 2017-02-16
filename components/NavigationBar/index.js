@@ -44,27 +44,19 @@ function NavigationButton(props) {
     },
     _react2.default.createElement(
       'div',
-      { className: _styles2.default.iconHolder },
+      { className: _styles2.default.iconHolder, title: props.label },
       _react2.default.createElement(
         'div',
         { className: _styles2.default.icon },
-        props.icon
+        props.active ? props.activityIcon : props.icon
       ),
       notice
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.labelHolder },
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.label },
-        props.label
-      )
     )
   );
 }
 NavigationButton.propTypes = {
   icon: _react.PropTypes.node,
+  activityIcon: _react.PropTypes.node,
   path: _react.PropTypes.string,
   active: _react.PropTypes.bool,
   label: _react.PropTypes.string,
@@ -90,6 +82,7 @@ NavigationBar.propTypes = {
   className: _react.PropTypes.string,
   tabs: _react.PropTypes.arrayOf(_react.PropTypes.shape({
     icon: _react.PropTypes.node.isRequired,
+    activityIcon: _react.PropTypes.node.isRequired,
     label: _react.PropTypes.string,
     path: _react.PropTypes.string.isRequired,
     isActive: _react.PropTypes.func,
