@@ -6,8 +6,8 @@
     url('./fonts/dynamics_icon.ttf?64zb9q') format('truetype'),
     url('./fonts/dynamics_icon.woff?64zb9q') format('woff'),
     url('./fonts/dynamics_icon.svg?64zb9q#dynamics_icon') format('svg');
-  font_weight: normal;
-  font_style: normal;
+  font-weight: normal;
+  font-style: normal;
 }
 
 .icon {
@@ -28,19 +28,19 @@
 .icon_clear {
   composes: icon;
 }
-.icon-clear:before {
+.icon_clear:before {
   content: "\e901";
 }
 .icon_Expand {
   composes: icon;
 }
-.icon-Expand:before {
+.icon_Expand:before {
   content: "\e902";
 }
 .icon_Information {
   composes: icon;
 }
-.icon-Information:before {
+.icon_Information:before {
   content: "\e903";
 }
 

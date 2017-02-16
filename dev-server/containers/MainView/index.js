@@ -7,6 +7,7 @@ import RouterInteraction from '../../../src/modules/RouterInteraction';
 const tabs = [
   {
     icon: <span className={rcFont.uni2467} />,
+    activityIcon: <span className={rcFont.icon_setting} />,
     label: 'Settings',
     path: '/settings',
     isActive: currentPath => (
@@ -25,6 +26,7 @@ const tabs = [
   // },
   {
     icon: <span className={rcFont.uniA4} />,
+    activityIcon: <span className={rcFont.RC_shapes_1_40_pressed} />,
     label: 'Dial Pad',
     path: '/',
     noticeCounts: 2,
