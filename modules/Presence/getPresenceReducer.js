@@ -27,7 +27,7 @@ function getDndStatusReducer(types) {
         return dndStatus;
       case types.fetchSuccess:
         return dndStatus;
-      case types.resetSuccess:
+      case types.reset:
         return null;
       default:
         return state;
