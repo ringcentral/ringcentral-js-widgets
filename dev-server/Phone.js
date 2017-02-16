@@ -230,22 +230,14 @@ export default class Phone extends RcModule {
       getState: () => this.state.contactSearch,
     }));
     this.contactSearch.addSearchSource({
-      sourceName: 'dynamics',
-      searchFn: (...args) => this.adapter.searchEntities(...args),
-      formatFn: (entities) => {
-        const contactList = [];
-        for (const entity of entities) {
-          for (const phoneNumber of entity.phoneNumbers) {
-            contactList.push({
-              entityType: entity.entityType,
-              id: entity.id,
-              name: entity.name,
-              ...phoneNumber
-            });
-          }
-        }
-        return contactList;
-      },
+      sourceName: 'test',
+      searchFn: ({ searchString }) => [{
+        entityType: 'account',
+        name: searchString,
+        phoneNumber: searchString,
+        phoneType: 'phone',
+      }],
+      formatFn: entities => entities,
       readyCheckFn: () => true,
     });
     this.addModule('numberValidate', new NumberValidate({

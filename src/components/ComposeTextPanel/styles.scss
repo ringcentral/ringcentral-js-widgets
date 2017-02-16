@@ -1,0 +1,111 @@
+@import '../../lib/commonStyles/colors';
+
+.composeTextPanelHeader {
+  text-align: center;
+  position: relative;
+  h1 {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 20px;
+  }
+}
+
+.messageSenderField {
+  margin: 10px 5px 0 5px;
+  height: 50px;
+	transition: height 0.5s ease-in;
+  overflow: hidden;
+
+  label {
+    color: #555;
+    font-size: 13px;
+    line-height: 20px;
+    display: block;
+  }
+
+  .valueInput {
+    border-bottom: 1px solid #e3e3e5;
+    padding-bottom: 3px;
+  }
+}
+
+.hiddenField {
+  height: 0px;
+}
+
+.sendNumberSetting {
+  position: absolute;
+  right: 10px;
+  top: 3px;
+  cursor: pointer;
+  color: #333;
+  text-decoration: none;
+}
+
+.messageReceiverField {
+  margin: 10px 5px 0 5px;
+  border-bottom: 1px solid #e3e3e5;
+  padding-bottom: 3px;
+  position: relative;
+
+  label {
+    color: #b3b3b3;
+    font-size: 14px;
+    line-height: 18px;
+    margin-right: 5px;
+    float: left;
+  }
+
+  .rightPanel {
+    font-size: 13px;
+    display: block;
+    margin-left: 30px;
+  }
+}
+
+.messageTextField {
+  margin: 10px 5px 0 5px;
+  textarea {
+    font-size: 14px;
+    line-height: 18px;
+    width: 100%;
+    margin-bottom: 5px;
+    resize: none;
+    border-bottom: 1px solid #e3e3e5;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    background: #fff;
+    height: 200px;
+    outline: medium none!important;
+    box-sizing: border-box!important;
+  }
+}
+
+.submitButton {
+  display: block;
+  margin: 0 auto 5px;
+  width: 115px;
+  box-sizing: border-box;
+  font-size: 14px;
+  padding: 7px;
+  border: 0;
+  border-radius: 3px;
+  outline: medium none!important;
+  color: #fff;
+  background-color: $rc-blue;
+}
+
+.submitButton:hover {
+  background-color: $rc-blue-highlight;
+  color: #fff;
+}
+
+.submitButton:disabled {
+  background-color: #888888!important;
+}
+
+select {
+  width: 100%;
+  height: 100%;
+}

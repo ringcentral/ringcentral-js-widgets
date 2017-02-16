@@ -27,7 +27,12 @@ const tabs = [
     icon: <span className={rcFont.uniA4} />,
     label: 'Dial Pad',
     path: '/',
-    noticeCounts: 2,
+  },
+  {
+    icon: <span className={rcFont.icon_message} />,
+    label: 'SMS',
+    path: '/composeText',
+    // noticeCounts: 2,
   },
 ];
 

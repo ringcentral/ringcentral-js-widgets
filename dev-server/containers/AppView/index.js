@@ -8,6 +8,7 @@ import AuthAlert from '../../../src/components/AuthAlert';
 import CallAlert from '../../../src/components/CallAlert';
 import CallingSettingsAlert from '../../../src/components/CallingSettingsAlert';
 import RegionSettingsAlert from '../../../src/components/RegionSettingsAlert';
+import MessageSenderAlert from '../../../src/components/MessageSenderAlert';
 import Environment from '../../../src/components/Environment';
 
 import styles from './styles.scss';
@@ -97,6 +98,11 @@ export default connect((state, {
           regionSettingsUrl="/settings/region" />
       );
     }
+
+    if (MessageSenderAlert.handleMessage(message)) {
+      return MessageSenderAlert;
+    }
+
     return undefined;
   },
   dismiss: (id) => {
