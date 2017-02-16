@@ -40,6 +40,9 @@
   cursor: pointer;
   color: #333;
   text-decoration: none;
+  &:focus {
+    outline: none;
+  }
 }
 
 .messageReceiverField {
@@ -51,7 +54,7 @@
   label {
     color: #b3b3b3;
     font-size: 14px;
-    line-height: 18px;
+    line-height: 27px;
     margin-right: 5px;
     float: left;
   }
