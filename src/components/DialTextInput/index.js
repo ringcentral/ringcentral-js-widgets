@@ -13,6 +13,7 @@ function DialTextInput({
   onChangeEvent,
   onDelete,
 }) {
+  const deleteDisplay = value === '' ? { display: 'none' } : { display: 'block' };
   return (
     <div
       className={classnames(
@@ -28,7 +29,7 @@ function DialTextInput({
         value={value}
         onChange={onChangeEvent}
       />
-      <span className={classnames(styles.delete, dynamicsFont.icon_clear)} onClick={onDelete}>
+      <span style={deleteDisplay} className={classnames(styles.delete, dynamicsFont.icon_clear)} onClick={onDelete}>
       </span>
     </div>
   );
