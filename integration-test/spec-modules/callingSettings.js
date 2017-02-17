@@ -345,26 +345,26 @@ exports.default = function (auth, client, alert, account, callingSettings, exten
                   while (1) {
                     switch (_context16.prev = _context16.next) {
                       case 0:
+                        this.timeout(20000);
                         callingSettings.setData({
                           callWith: _callingOptions2.default.customphone,
                           myLocation: '456',
                           ringoutPrompt: '456'
                         });
                         auth.logout();
-                        _context16.next = 4;
+                        _context16.next = 5;
                         return (0, _WaitUtil.waitUntilEqual)(function () {
                           return auth.loginStatus;
                         }, 'LoginStatus', _loginStatus2.default.notLoggedIn, 3);
 
-                      case 4:
+                      case 5:
                         auth.login((0, _extends3.default)({}, account));
-                        _context16.next = 7;
+                        _context16.next = 8;
                         return (0, _WaitUtil.waitUntilEqual)(function () {
                           return auth.loginStatus;
                         }, 'LoginStatus', _loginStatus2.default.loggedIn, 3);
 
-                      case 7:
-                        (0, _WaitUtil.waitInSeconds)(2);
+                      case 8:
                         expect(callingSettings.ringoutPrompt).to.equals('456');
                         expect(callingSettings.myLocation).to.equals('456');
                         expect(callingSettings.callWith).to.equals(_callingOptions2.default.customphone);
