@@ -244,7 +244,7 @@ var DetailedPresence = function (_Presence) {
                     dndStatus: dndStatus,
                     timestamp: Date.now()
                   });
-                  this._presenceCallPromise = null;
+                  this._promise = null;
                 }
                 _context2.next = 14;
                 break;
@@ -258,7 +258,7 @@ var DetailedPresence = function (_Presence) {
                     type: this.actionTypes.fetchError,
                     error: _context2.t0
                   });
-                  this._presenceCallPromise = null;
+                  this._promise = null;
                 }
 
               case 14:
