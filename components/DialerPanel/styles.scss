@@ -33,7 +33,7 @@ $dial_input_height: 10%;
 }
 .dialButtons {
   @include full-size;
-  height: calc(90% - 5px);
+  height: calc(100% - 60px);
 }
 .dialPad {
   height: 80%;
