@@ -41,6 +41,7 @@ function DialTextInput(_ref) {
       onChangeEvent = _ref.onChangeEvent,
       onDelete = _ref.onDelete;
 
+  var deleteDisplay = value === '' ? { display: 'none' } : { display: 'block' };
   return _react2.default.createElement(
     'div',
     {
@@ -55,7 +56,7 @@ function DialTextInput(_ref) {
       value: value,
       onChange: onChangeEvent
     }),
-    _react2.default.createElement('span', { className: (0, _classnames2.default)(_styles2.default.delete, _DynamicsFont2.default.icon_clear), onClick: onDelete })
+    _react2.default.createElement('span', { style: deleteDisplay, className: (0, _classnames2.default)(_styles2.default.delete, _DynamicsFont2.default.icon_clear), onClick: onDelete })
   );
 }
 
