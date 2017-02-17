@@ -29,6 +29,7 @@
   font-size: 13px;
 }
 .delete {
+  cursor: pointer;
   font-size: 13px;
   position: absolute;
   top: 13px;
@@ -48,5 +49,8 @@
 }
 .invalid {
   border-color: red;
+}
+.disappear {
+  display: none;
 }
 
