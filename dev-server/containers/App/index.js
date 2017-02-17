@@ -7,6 +7,7 @@ import WelcomePage from '../../../src/containers/WelcomePage';
 import CallingSettingsPage from '../../../src/containers/CallingSettingsPage';
 import RegionSettingsPage from '../../../src/containers/RegionSettingsPage';
 import DialerPage from '../../../src/containers/DialerPage';
+import ComposeTextPage from '../../../src/containers/ComposeTextPage';
 
 import MainView from '../MainView';
 import SettingsPage from '../../../src/containers/SettingsPage';
@@ -109,6 +110,21 @@ export default function App({
                   callingSettings={phone.callingSettings}
                   locale={phone.locale}
                   router={phone.router}
+                />
+              )} />
+            <Route
+              path="/composeText"
+              onEnter={ensureLogin}
+              component={() => (
+                <ComposeTextPage
+                  locale={phone.locale}
+                  auth={phone.auth}
+                  composeText={phone.composeText}
+                  messageStore={phone.messageStore}
+                  router={phone.router}
+                  regionSettings={phone.regionSettings}
+                  contactSearch={phone.contactSearch}
+                  messageSender={phone.messageSender}
                 />
               )} />
           </Route>
