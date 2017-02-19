@@ -155,7 +155,6 @@ var ConnectivityMonitor = function (_RcModule) {
       if (!this.connectivity && this._alert) {
         this._alert.danger({
           message: _connectivityMonitorMessages2.default.disconnected,
-          ttl: 0,
           allowDuplicates: false
         });
       }
