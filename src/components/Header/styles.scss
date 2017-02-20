@@ -2,11 +2,11 @@
 @import '../../lib/commonStyles/vertical-align';
 @import '../../lib/commonStyles/no-select';
 @import '../../lib/commonStyles/colors';
-
+@import '../../lib/commonStyles/layout';
 
 .root {
   @include full-size;
-  height: 40px;
+  height: $header-height;
   min-height: 32px;
   box-sizing: border-box;
   border-width: 0;

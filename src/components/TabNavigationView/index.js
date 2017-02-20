@@ -38,6 +38,9 @@ TabNavigationView.propTypes = {
 };
 
 TabNavigationView.defaultProps = {
+  className: null,
+  children: null,
+  tabs: null,
   navigationPosition: 'top',
 };
 

@@ -32,6 +32,7 @@ const tabs = [
   },
   {
     icon: <span className={rcFont.icon_message} />,
+    activityIcon: <span className={rcFont.icon_message} />,
     label: 'SMS',
     path: '/composeText',
     // noticeCounts: 2,
