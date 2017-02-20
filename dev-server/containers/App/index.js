@@ -8,6 +8,7 @@ import CallingSettingsPage from '../../../src/containers/CallingSettingsPage';
 import RegionSettingsPage from '../../../src/containers/RegionSettingsPage';
 import DialerPage from '../../../src/containers/DialerPage';
 import ComposeTextPage from '../../../src/containers/ComposeTextPage';
+import ConversationPage from '../../../src/containers/ConversationPage';
 
 import MainView from '../MainView';
 import SettingsPage from '../../../src/containers/SettingsPage';
@@ -127,6 +128,21 @@ export default function App({
                   messageSender={phone.messageSender}
                 />
               )} />
+            <Route
+              path="/conversations/:conversationId"
+              onEnter={ensureLogin}
+              component={props => (
+                <ConversationPage
+                  locale={phone.locale}
+                  auth={phone.auth}
+                  params={props.params}
+                  regionSettings={phone.regionSettings}
+                  conversation={phone.conversation}
+                  messageStore={phone.messageStore}
+                  // dateTimeIntl={phone.dateTimeIntl}
+                  // contactMatcher={phone.contactMatcher}
+                />
+            )} />
           </Route>
           <Route
             path="/welcome"

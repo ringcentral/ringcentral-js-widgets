@@ -1,0 +1,70 @@
+@import '../../lib/commonStyles/colors';
+
+.header {
+  position: relative;
+  display: block;
+  padding: 0 20px;
+  height: 36px;
+  text-align: center;
+  border-bottom: 1px solid #e3e3e5;
+}
+
+.backButton {
+  position: absolute;
+  top: 8px;
+  left: 3px;
+  color: #666;
+  &:hover {
+    color: #666;
+  }
+}
+
+.messageForm {
+  margin: 0 auto;
+  padding: 0 2px 2px 2px;
+  textarea {
+    font-size: 14px;
+    line-height: 18px;
+    width: 100%;
+    margin-bottom: 5px;
+    resize: none;
+    border-bottom: 1px solid #e3e3e5;
+    border-left: 0;
+    border-right: 0;
+    height: 60px;
+    border-top: 1px solid #e3e3e5;
+    padding-top: 5px;
+    background: #fff;
+    outline: medium none!important;
+    box-sizing: border-box!important;
+  }
+}
+
+.submitButton {
+  display: block;
+  margin: 0 auto 5px;
+  width: 115px;
+  box-sizing: border-box;
+  font-size: 14px;
+  padding: 7px;
+  border: 0;
+  border-radius: 3px;
+  outline: medium none!important;
+  color: #fff;
+  background-color: $rc-blue;
+}
+
+.submitButton:hover {
+  background-color: $rc-blue-highlight;
+  color: #fff;
+}
+
+.submitButton:disabled {
+  background-color: #888888!important;
+}
+
+.spinerContainer {
+  height: 120px;
+  width: 40px;
+  margin: 80px auto;
+}
