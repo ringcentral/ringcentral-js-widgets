@@ -6,7 +6,7 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import Conversation from 'ringcentral-integration/modules/Conversation';
 import MessageStore from 'ringcentral-integration/modules/MessageStore';
-// import DateTimeIntl from 'ringcentral-integration/modules/DateTimeIntl';
+import DateTimeIntl from 'ringcentral-integration/modules/DateTimeIntl';
 
 import ConversationPanel from '../../components/ConversationPanel';
 
@@ -52,7 +52,7 @@ class ConversationPage extends Component {
     //     return matcherNames[0].name;
     //   }
     // }
-    if (!name && recipient.name) {
+    if (recipient.name) {
       return recipient.name;
     }
     return this.formatNumber(phoneNumber);
@@ -72,10 +72,9 @@ class ConversationPage extends Component {
   }
 
   formatDateTime(utcString) {
-    return utcString;
-    // return this.props.dateTimeIntl.formatDateTime({
-    //   utcString,
-    // });
+    return this.props.dateTimeIntl.formatDateTime({
+      utcString,
+    });
   }
 
   render() {
@@ -103,13 +102,13 @@ ConversationPage.propTypes = {
   regionSettings: PropTypes.instanceOf(RegionSettings).isRequired,
   conversation: PropTypes.instanceOf(Conversation).isRequired,
   messageStore: PropTypes.instanceOf(MessageStore).isRequired,
+  dateTimeIntl: PropTypes.instanceOf(DateTimeIntl).isRequired,
   currentLocale: PropTypes.string.isRequired,
   freshToken: PropTypes.number,
   sendButtonDisabled: PropTypes.bool.isRequired,
   showSpinner: PropTypes.bool.isRequired,
   messages: ConversationPanel.propTypes.messages,
   recipients: ConversationPanel.propTypes.recipients,
-  // dateTimeIntl: PropTypes.instanceOf(DateTimeIntl).isRequired
 };
 
 ConversationPage.childContextTypes = {
@@ -131,7 +130,7 @@ function mapStateToProps(state, props) {
     freshToken: props.conversation.messageStoreUpdatedAt,
     sendButtonDisabled: props.conversation.pushing,
     showSpinner: (
-      // !props.dateTimeIntl.ready ||
+      !props.dateTimeIntl.ready ||
       // !props.contactMatcher.ready ||
       !props.conversation.ready ||
       !props.regionSettings.ready

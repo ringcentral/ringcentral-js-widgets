@@ -139,7 +139,7 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   conversation={phone.conversation}
                   messageStore={phone.messageStore}
-                  // dateTimeIntl={phone.dateTimeIntl}
+                  dateTimeIntl={phone.dateTimeIntl}
                   // contactMatcher={phone.contactMatcher}
                 />
             )} />

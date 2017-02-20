@@ -35,6 +35,7 @@ import MessageStore from 'ringcentral-integration/modules/MessageStore';
 import Messages from 'ringcentral-integration/modules/Messages';
 import Conversation from 'ringcentral-integration/modules/Conversation';
 import ContactSearch from 'ringcentral-integration/modules/ContactSearch';
+import DateTimeIntl from 'ringcentral-integration/modules/DateTimeIntl';
 
 import RouterInteraction from '../src/modules/RouterInteraction';
 
@@ -223,6 +224,12 @@ export default class Phone extends RcModule {
       subscription: this.subscription,
       getState: () => this.state.presence,
     }));
+    this.addModule('dateTimeIntl', new DateTimeIntl({
+      auth: this.auth,
+      locale: this.locale,
+      storage: this.storage,
+      getState: () => this.state.dateTimeIntl,
+    }));
     this.addModule('contactSearch', new ContactSearch({
       ...options,
       auth: this.auth,
@@ -321,6 +328,7 @@ export default class Phone extends RcModule {
       router: this.router.reducer,
       subscription: this.subscription.reducer,
       tabManager: this.tabManager.reducer,
+      dateTimeIntl: this.dateTimeIntl.reducer,
       contactSearch: this.contactSearch.reducer,
       numberValidate: this.numberValidate.reducer,
       messageSender: this.messageSender.reducer,
