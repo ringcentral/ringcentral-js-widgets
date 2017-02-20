@@ -36,7 +36,7 @@ export default function SettingsPanel({
     (
       <LinkLine
         to={regionSettingsUrl} >
-        {i18n.getString('region')}
+        {i18n.getString('region', currentLocale)}
       </LinkLine>
     ) :
     null;
@@ -47,10 +47,10 @@ export default function SettingsPanel({
           <Switch
             checked={clickToDialEnabled}
             onChange={onClickToDialChange}
-            />
+          />
         }
-        >
-        {i18n.getString('clickToDial')}
+      >
+        {i18n.getString('clickToDial', currentLocale)}
       </IconLine>
     ) :
     null;
@@ -60,26 +60,29 @@ export default function SettingsPanel({
         <Switch
           checked={autoLogEnabled}
           onChange={onAutoLogChange}
-          />
+        />
       }
-      >
-      {i18n.getString('autoCreateLog')}
+    >
+      {i18n.getString('autoCreateLog', currentLocale)}
     </IconLine>
   ) :
     null;
   const header = showHeader ? (
     <Header>
-      {i18n.getString('settings')}
+      {i18n.getString('settings', currentLocale)}
     </Header>
   ) : null;
   return (
     <div className={classnames(styles.root, className)}>
       {header}
-      <Panel className={styles.content}>
+      <Panel
+        className={classnames(
+          styles.content,
+          showHeader && styles.contentWithHeader,
+        )}>
         <LinkLine
-          to={callingSettingsUrl}
-          >
-          {i18n.getString('calling')}
+          to={callingSettingsUrl} >
+          {i18n.getString('calling', currentLocale)}
         </LinkLine>
         {region}
         {children}
@@ -90,23 +93,23 @@ export default function SettingsPanel({
             <EulaRenderer
               className={styles.eula}
               currentLocale={currentLocale}
-              brandId={brandId}
-              />
+              brandId={brandId} />
           </Line>
         </section>
         <section className={styles.section}>
           <IconLine
             onClick={onLogoutButtonClick}
-            icon={<span className={dynamicsFont.icon_Logout} />}
-            >
-            {i18n.getString('logout')}
+            icon={
+              <span className={dynamicsFont.icon_Logout} />
+            } >
+            {i18n.getString('logout', currentLocale)}
             <span className={styles.loginNumber}>
-              { ` ${loginNumber}` }
+              {` ${loginNumber}`}
             </span>
           </IconLine>
         </section>
         <div className={styles.versionContainer} >
-          {i18n.getString('version')} {version}
+          {i18n.getString('version', currentLocale)} {version}
         </div>
       </Panel>
     </div>
@@ -139,9 +142,9 @@ SettingsPanel.defaultProps = {
   children: null,
   showClickToDial: false,
   clickToDialEnabled: false,
-  onClickToDialChange: () => {},
+  onClickToDialChange: () => { },
   showAutoLog: false,
   autoLogEnabled: false,
-  onAutoLogChange: () => {},
+  onAutoLogChange: () => { },
   showHeader: false
 };

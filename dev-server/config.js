@@ -42,7 +42,7 @@ const base = {
         test: /\.sass|\.scss/,
         loaders: [
           'style',
-          'css?modules&localIdentName=[name]_[local]_[hash:base64:5]',
+          'css?modules&localIdentName=[path]_[name]_[local]_[hash:base64:5]',
           'postcss-loader',
           'sass?outputStyle=expanded',
         ],

@@ -1,10 +1,10 @@
-@import '../../lib/commonStyles/full-size.scss';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/layout';
 
 .root {
   @include full-size;
 }
 .main {
   @include full-size;
-  height: 90%;
-  max-height: calc(100% - 48px);
+  max-height: calc(100% - #{$navigation-bar-height});
 }
