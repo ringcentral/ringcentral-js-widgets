@@ -79,7 +79,7 @@ function SettingsPanel(_ref) {
     _LinkLine2.default,
     {
       to: regionSettingsUrl },
-    _i18n2.default.getString('region')
+    _i18n2.default.getString('region', currentLocale)
   ) : null;
   var clickToDial = showClickToDial ? _react2.default.createElement(
     _IconLine2.default,
@@ -89,7 +89,7 @@ function SettingsPanel(_ref) {
         onChange: onClickToDialChange
       })
     },
-    _i18n2.default.getString('clickToDial')
+    _i18n2.default.getString('clickToDial', currentLocale)
   ) : null;
   var autoLog = showAutoLog ? _react2.default.createElement(
     _IconLine2.default,
@@ -99,12 +99,12 @@ function SettingsPanel(_ref) {
         onChange: onAutoLogChange
       })
     },
-    _i18n2.default.getString('autoCreateLog')
+    _i18n2.default.getString('autoCreateLog', currentLocale)
   ) : null;
   var header = showHeader ? _react2.default.createElement(
     _Header2.default,
     null,
-    _i18n2.default.getString('settings')
+    _i18n2.default.getString('settings', currentLocale)
   ) : null;
   return _react2.default.createElement(
     'div',
@@ -112,13 +112,13 @@ function SettingsPanel(_ref) {
     header,
     _react2.default.createElement(
       _Panel2.default,
-      { className: _styles2.default.content },
+      {
+        className: (0, _classnames2.default)(_styles2.default.content, showHeader && _styles2.default.contentWithHeader) },
       _react2.default.createElement(
         _LinkLine2.default,
         {
-          to: callingSettingsUrl
-        },
-        _i18n2.default.getString('calling')
+          to: callingSettingsUrl },
+        _i18n2.default.getString('calling', currentLocale)
       ),
       region,
       children,
@@ -133,8 +133,7 @@ function SettingsPanel(_ref) {
           _react2.default.createElement(EulaRenderer, {
             className: _styles2.default.eula,
             currentLocale: currentLocale,
-            brandId: brandId
-          })
+            brandId: brandId })
         )
       ),
       _react2.default.createElement(
@@ -144,9 +143,8 @@ function SettingsPanel(_ref) {
           _IconLine2.default,
           {
             onClick: onLogoutButtonClick,
-            icon: _react2.default.createElement('span', { className: _DynamicsFont2.default.icon_Logout })
-          },
-          _i18n2.default.getString('logout'),
+            icon: _react2.default.createElement('span', { className: _DynamicsFont2.default.icon_Logout }) },
+          _i18n2.default.getString('logout', currentLocale),
           _react2.default.createElement(
             'span',
             { className: _styles2.default.loginNumber },
@@ -157,7 +155,7 @@ function SettingsPanel(_ref) {
       _react2.default.createElement(
         'div',
         { className: _styles2.default.versionContainer },
-        _i18n2.default.getString('version'),
+        _i18n2.default.getString('version', currentLocale),
         ' ',
         version
       )

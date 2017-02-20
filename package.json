@@ -21,9 +21,9 @@
     "react-dom": "^15.4.1",
     "react-redux": "^5.0.1",
     "react-router": "^3.0.0",
-    "ringcentral": "^3.0.0",
+    "ringcentral": "3.0.0",
     "ringcentral-client": "^1.0.0-rc1",
-    "ringcentral-integration": "https://github.com/ringcentral/ringcentral-js-integration-commons#latest",
+    "ringcentral-integration": "^0.2.4",
     "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {
@@ -65,9 +65,9 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.7.4",
     "redux-thunk": "^2.1.0",
-    "ringcentral": "^3.0.0",
+    "ringcentral": "3.0.0",
     "ringcentral-client": "^1.0.0-rc1",
-    "ringcentral-integration": "https://github.com/ringcentral/ringcentral-js-integration-commons#latest",
+    "ringcentral-integration": "^0.2.4",
     "sass-loader": "^4.1.1",
     "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.1",

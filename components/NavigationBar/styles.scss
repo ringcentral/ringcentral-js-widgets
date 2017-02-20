@@ -2,10 +2,11 @@
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/no-select';
 @import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/layout';
 
 .root {
   @include full-size;
-  height: 46px;
+  height: $navigation-bar-height;
   box-sizing: border-box;
   background-color: $primary-color;
 }
@@ -54,7 +55,7 @@
  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 1.3em;
-  line-height: 46px;
+  line-height: $navigation-bar-height;
 }
 .labelHolder {
   @include full-size;
