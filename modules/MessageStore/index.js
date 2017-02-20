@@ -103,6 +103,7 @@ var MessageStore = function (_RcModule) {
     _this._ttl = ttl;
     _this._auth = auth;
     _this._promise = null;
+    _this._lastSubscriptionMessage = null;
     _this.syncConversation = _this.syncConversation.bind(_this);
     storage.registerReducer({ key: _this._storageKey, reducer: _this._cacheReducer });
     return _this;
@@ -199,7 +200,8 @@ var MessageStore = function (_RcModule) {
     value: function _subscriptionHandler() {
       var accountExtesionEndPoint = /\/message-store$/;
       var message = this._subscription.message;
-      if (message !== null && accountExtesionEndPoint.test(message.event) && message.body && message.body.changes) {
+      if (message && message !== this._lastSubscriptionMessage && accountExtesionEndPoint.test(message.event) && message.body && message.body.changes) {
+        this._lastSubscriptionMessage = this._subscription.message;
         this._syncMessages();
       }
     }

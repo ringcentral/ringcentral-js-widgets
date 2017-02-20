@@ -175,6 +175,10 @@ var _Conversation = require('../../../modules/Conversation');
 
 var _Conversation2 = _interopRequireDefault(_Conversation);
 
+var _DateTimeIntl = require('../../../modules/DateTimeIntl');
+
+var _DateTimeIntl2 = _interopRequireDefault(_DateTimeIntl);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // import DynamicsAdapter from '../../../modules/DynamicsInteraction';
@@ -185,7 +189,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 // import CallLog from '../CallLog';
 // import AutoLogger from '../AutoLogger';
 // import DataMatcher from '../DataMatcher';
-// import DateTimeIntl from '../DateTimeIntl';
+
+
+// import RouterInteraction from 'ringcentral-js-widget/modules/RouterInteraction';
 
 var Phone = function (_RcModule) {
   (0, _inherits3.default)(Phone, _RcModule);
@@ -502,20 +508,14 @@ var Phone = function (_RcModule) {
     //   readyCheckFn: () => this.adapter.ready,
     // });
 
-    // this.addModule('dateTimeIntl', new DateTimeIntl({
-    //   ...options,
-    //   auth: this.auth,
-    //   locale: this.locale,
-    //   storage: this.storage,
-    //   getState: () => this.state.dateTimeIntl,
-    // }));
-    // this.dateTimeIntl.addProvider({
-    //   providerName: 'dynamics',
-    //   priorityNumber: 1,
-    //   readyCheckFn: () => this.adapter.dateTimeIntlProvider().ready,
-    //   getSettingsFn: async args => this.adapter.dateTimeIntlProvider().getSettings(args),
-    //   formatDateTimeFn: args => this.adapter.dateTimeIntlProvider().formatDateTime(args),
-    // });
+    _this.addModule('dateTimeIntl', new _DateTimeIntl2.default((0, _extends3.default)({}, options, {
+      auth: _this.auth,
+      locale: _this.locale,
+      storage: _this.storage,
+      getState: function getState() {
+        return _this.state.dateTimeIntl;
+      }
+    })));
 
     _this.addModule('contactSearch', new _ContactSearch2.default((0, _extends3.default)({}, options, {
       auth: _this.auth,
@@ -655,7 +655,7 @@ var Phone = function (_RcModule) {
       storage: _this.storage.reducer,
       // autoLogger: this.autoLogger.reducer,
       globalStorage: _this.globalStorage.reducer,
-      // dateTimeIntl: this.dateTimeIntl.reducer,
+      dateTimeIntl: _this.dateTimeIntl.reducer,
       contactSearch: _this.contactSearch.reducer,
       numberValidate: _this.numberValidate.reducer,
       messageSender: _this.messageSender.reducer,
@@ -680,7 +680,6 @@ var Phone = function (_RcModule) {
   }]);
   return Phone;
 }(_RcModule3.default);
-// import RouterInteraction from 'ringcentral-js-widget/modules/RouterInteraction';
 
 exports.default = Phone;
 //# sourceMappingURL=index.js.map
