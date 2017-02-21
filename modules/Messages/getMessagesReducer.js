@@ -58,14 +58,12 @@ function getLastUpdatedAtReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref3 = arguments[1];
-    var type = _ref3.type,
-        updatedAt = _ref3.updatedAt;
+    var type = _ref3.type;
 
     switch (type) {
-      case types.updateLastUpdatedAt:
-        {
-          return updatedAt;
-        }
+      case types.pushMessages:
+      case types.updateMessages:
+        return Date.now();
       default:
         return state;
     }
@@ -77,13 +75,12 @@ function getMessageStoreUpdatedAt(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref4 = arguments[1];
     var type = _ref4.type,
-        updatedAt = _ref4.updatedAt;
+        messagesTimestamp = _ref4.messagesTimestamp;
 
     switch (type) {
-      case types.updateMessageStoreUpdateAt:
-        {
-          return updatedAt;
-        }
+      case types.pushMessages:
+      case types.updateMessages:
+        return messagesTimestamp;
       default:
         return state;
     }

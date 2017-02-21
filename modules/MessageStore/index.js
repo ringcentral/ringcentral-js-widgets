@@ -59,9 +59,9 @@ var _messageStoreHelper = require('./messageStoreHelper');
 
 var messageStoreHelper = _interopRequireWildcard(_messageStoreHelper);
 
-var _messageStoreActionTypes = require('./messageStoreActionTypes');
+var _actionTypes = require('./actionTypes');
 
-var _messageStoreActionTypes2 = _interopRequireDefault(_messageStoreActionTypes);
+var _actionTypes2 = _interopRequireDefault(_actionTypes);
 
 var _getMessageStoreReducer = require('./getMessageStoreReducer');
 
@@ -90,7 +90,7 @@ var MessageStore = function (_RcModule) {
     (0, _classCallCheck3.default)(this, MessageStore);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (MessageStore.__proto__ || (0, _getPrototypeOf2.default)(MessageStore)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _messageStoreActionTypes2.default
+      actionTypes: _actionTypes2.default
     })));
 
     _this._alert = alert;
@@ -767,18 +767,13 @@ var MessageStore = function (_RcModule) {
     key: '_saveConversationAndMessages',
     value: function _saveConversationAndMessages(conversation, messages) {
       this._saveConversation(conversation);
-
-      var unReadMessagesRusult = messageStoreHelper.updateMessagesUnreadCounts(messages, this.conversations);
-      this._saveUnreadCounts(unReadMessagesRusult.unreadCounts);
-      this._saveMessages(unReadMessagesRusult.messages);
+      this._saveMessages(messages);
     }
   }, {
     key: '_saveConversationsAndMessages',
     value: function _saveConversationsAndMessages(conversations, messages, syncToken) {
       this._saveConversations(conversations);
-      var unReadMessagesRusult = messageStoreHelper.updateMessagesUnreadCounts(messages, this.conversations);
-      this._saveMessages(unReadMessagesRusult.messages);
-      this._saveUnreadCounts(unReadMessagesRusult.unreadCounts);
+      this._saveMessages(messages);
       if (syncToken) {
         this._saveSyncToken(syncToken);
       }
@@ -801,10 +796,15 @@ var MessageStore = function (_RcModule) {
     }
   }, {
     key: '_saveMessages',
-    value: function _saveMessages(messages) {
+    value: function _saveMessages(newMessages) {
+      var _messageStoreHelper$u = messageStoreHelper.updateMessagesUnreadCounts(newMessages, this.conversations),
+          messages = _messageStoreHelper$u.messages,
+          unreadCounts = _messageStoreHelper$u.unreadCounts;
+
       this.store.dispatch({
         type: this.actionTypes.saveMessages,
-        data: messages
+        messages: messages,
+        unreadCounts: unreadCounts
       });
     }
   }, {
@@ -813,14 +813,6 @@ var MessageStore = function (_RcModule) {
       this.store.dispatch({
         type: this.actionTypes.saveSyncToken,
         syncToken: syncToken
-      });
-    }
-  }, {
-    key: '_saveUnreadCounts',
-    value: function _saveUnreadCounts(unreadCounts) {
-      this.store.dispatch({
-        type: this.actionTypes.updateUnreadCounts,
-        unreadCounts: unreadCounts
       });
     }
   }, {

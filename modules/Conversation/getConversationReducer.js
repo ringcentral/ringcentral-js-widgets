@@ -4,9 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getConversationStatusReducer = getConversationStatusReducer;
-exports.getCurrentConversationReducer = getCurrentConversationReducer;
-exports.getCurrentSenderNumberReducer = getCurrentSenderNumberReducer;
-exports.getCurrentRecipientsReducer = getCurrentRecipientsReducer;
+exports.getConversationIdReducer = getConversationIdReducer;
+exports.getMessagesReducer = getMessagesReducer;
+exports.getSenderNumberReducer = getSenderNumberReducer;
+exports.getRecipientsReducer = getRecipientsReducer;
 exports.getMessageStoreUpdatedAtReducer = getMessageStoreUpdatedAtReducer;
 exports.default = getConversationReducer;
 
@@ -40,18 +41,17 @@ function getConversationStatusReducer(types) {
   };
 }
 
-function getCurrentConversationReducer(types) {
+function getConversationIdReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref2 = arguments[1];
     var type = _ref2.type,
-        conversation = _ref2.conversation;
+        conversationId = _ref2.conversationId;
 
     switch (type) {
       case types.load:
-      case types.update:
-        return conversation;
-      case types.cleanUp:
+        return conversationId;
+      case types.unload:
         return null;
       default:
         return state;
@@ -59,35 +59,54 @@ function getCurrentConversationReducer(types) {
   };
 }
 
-function getCurrentSenderNumberReducer(types) {
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref3 = arguments[1];
-    var type = _ref3.type,
-        senderNumber = _ref3.senderNumber;
-
-    switch (type) {
-      case types.updateSenderNumber:
-        return senderNumber;
-      case types.cleanUp:
-        return null;
-      default:
-        return state;
-    }
-  };
-}
-
-function getCurrentRecipientsReducer(types) {
+function getMessagesReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var _ref4 = arguments[1];
-    var type = _ref4.type,
-        recipients = _ref4.recipients;
+    var _ref3 = arguments[1];
+    var type = _ref3.type,
+        messages = _ref3.messages;
 
     switch (type) {
+      case types.load:
+        return messages;
+      case types.unload:
+        return [];
+      default:
+        return state;
+    }
+  };
+}
+
+function getSenderNumberReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var _ref4 = arguments[1];
+    var type = _ref4.type,
+        senderNumber = _ref4.senderNumber;
+
+    switch (type) {
+      case types.load:
+        return senderNumber;
+      case types.unload:
+        return null;
+      default:
+        return state;
+    }
+  };
+}
+
+function getRecipientsReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var _ref5 = arguments[1];
+    var type = _ref5.type,
+        recipients = _ref5.recipients;
+
+    switch (type) {
+      case types.load:
       case types.updateRecipients:
         return recipients;
-      case types.cleanUp:
+      case types.unload:
         return [];
       default:
         return state;
@@ -98,14 +117,14 @@ function getCurrentRecipientsReducer(types) {
 function getMessageStoreUpdatedAtReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-    var _ref5 = arguments[1];
-    var type = _ref5.type,
-        updatedAt = _ref5.updatedAt;
+    var _ref6 = arguments[1];
+    var type = _ref6.type,
+        conversationsTimestamp = _ref6.conversationsTimestamp;
 
     switch (type) {
-      case types.updateMessageStoreUpdatedAt:
+      case types.load:
         {
-          return updatedAt;
+          return conversationsTimestamp;
         }
       default:
         return state;
@@ -117,9 +136,10 @@ function getConversationReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer2.default)(types),
     conversationStatus: getConversationStatusReducer(types),
-    conversation: getCurrentConversationReducer(types),
-    senderNumber: getCurrentSenderNumberReducer(types),
-    recipients: getCurrentRecipientsReducer(types),
+    id: getConversationIdReducer(types),
+    messages: getMessagesReducer(types),
+    senderNumber: getSenderNumberReducer(types),
+    recipients: getRecipientsReducer(types),
     messageStoreUpdatedAt: getMessageStoreUpdatedAtReducer(types)
   });
 }

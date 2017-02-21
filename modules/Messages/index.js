@@ -41,9 +41,9 @@ var _moduleStatus = require('../../enums/moduleStatus');
 
 var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
 
-var _messagesActionTypes = require('./messagesActionTypes');
+var _actionTypes = require('./actionTypes');
 
-var _messagesActionTypes2 = _interopRequireDefault(_messagesActionTypes);
+var _actionTypes2 = _interopRequireDefault(_actionTypes);
 
 var _getMessagesReducer = require('./getMessagesReducer');
 
@@ -62,7 +62,7 @@ var Messages = function (_RcModule) {
     (0, _classCallCheck3.default)(this, Messages);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Messages.__proto__ || (0, _getPrototypeOf2.default)(Messages)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _messagesActionTypes2.default
+      actionTypes: _actionTypes2.default
     })));
 
     _this._messageStore = messageStore;
@@ -120,10 +120,6 @@ var Messages = function (_RcModule) {
     value: function _initMessages() {
       var messages = this._getCurrnetPageMessages(1);
       this.store.dispatch({
-        type: this.actionTypes.updateMessageStoreUpdateAt,
-        updatedAt: this._messageStore.messagesTimestamp
-      });
-      this.store.dispatch({
         type: this.actionTypes.resetPage
       });
       this._updateMessages(messages);
@@ -138,10 +134,6 @@ var Messages = function (_RcModule) {
   }, {
     key: '_reloadMessages',
     value: function _reloadMessages() {
-      this.store.dispatch({
-        type: this.actionTypes.updateMessageStoreUpdateAt,
-        updatedAt: this._messageStore.messagesTimestamp
-      });
       var page = this.currentPage;
       var allMessages = this._messageStore.messages;
       var bottomIndex = allMessages.length - this._perPage * page;
@@ -156,11 +148,8 @@ var Messages = function (_RcModule) {
     value: function _updateMessages(messages) {
       this.store.dispatch({
         type: this.actionTypes.updateMessages,
+        messagesTimestamp: this._messageStore.messagesTimestamp,
         messages: messages
-      });
-      this.store.dispatch({
-        type: this.actionTypes.updateLastUpdatedAt,
-        updatedAt: Date.now()
       });
     }
   }, {
@@ -194,14 +183,11 @@ var Messages = function (_RcModule) {
       }
       this.store.dispatch({
         type: this.actionTypes.pushMessages,
+        messagesTimestamp: this._messageStore.messagesTimestamp,
         messages: messages
       });
       this.store.dispatch({
         type: this.actionTypes.nextPage
-      });
-      this.store.dispatch({
-        type: this.actionTypes.updateLastUpdatedAt,
-        updatedAt: Date.now()
       });
     }
   }, {

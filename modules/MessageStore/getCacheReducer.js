@@ -39,13 +39,13 @@ function getMessagesReducer(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var _ref2 = arguments[1];
     var type = _ref2.type,
-        data = _ref2.data;
+        messages = _ref2.messages;
 
     switch (type) {
       case types.saveMessages:
         {
           return {
-            data: data,
+            data: messages,
             timestamp: Date.now()
           };
         }
@@ -85,7 +85,7 @@ function getUnreadCountsReducer(types) {
         unreadCounts = _ref4.unreadCounts;
 
     switch (type) {
-      case types.updateUnreadCounts:
+      case types.saveMessages:
         return unreadCounts;
       default:
         return state;

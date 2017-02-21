@@ -51,9 +51,9 @@ var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
 
 var _messageHelper = require('../../lib/messageHelper');
 
-var _conversationActionTypes = require('./conversationActionTypes');
+var _actionTypes = require('./actionTypes');
 
-var _conversationActionTypes2 = _interopRequireDefault(_conversationActionTypes);
+var _actionTypes2 = _interopRequireDefault(_actionTypes);
 
 var _getConversationReducer = require('./getConversationReducer');
 
@@ -76,7 +76,7 @@ var Conversation = function (_RcModule) {
     (0, _classCallCheck3.default)(this, Conversation);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Conversation.__proto__ || (0, _getPrototypeOf2.default)(Conversation)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _conversationActionTypes2.default
+      actionTypes: _actionTypes2.default
     })));
 
     _this._reducer = (0, _getConversationReducer2.default)(_this.actionTypes);
@@ -106,7 +106,7 @@ var Conversation = function (_RcModule) {
       } else if (this._shouldReset()) {
         this._resetModuleStatus();
       } else if (this._shouldReloadConversation()) {
-        var newConversation = this._messageStore.findConversationById(this.conversation.id);
+        var newConversation = this._messageStore.findConversationById(this.id);
         if (newConversation) {
           this._loadConversation(newConversation);
           this._messageStore.readMessages(newConversation);
@@ -126,7 +126,7 @@ var Conversation = function (_RcModule) {
   }, {
     key: '_shouldReloadConversation',
     value: function _shouldReloadConversation() {
-      return this.ready && !!this.conversation && this.messageStoreUpdatedAt !== this._messageStore.conversationsTimestamp;
+      return this.ready && !!this.id && this.messageStoreUpdatedAt !== this._messageStore.conversationsTimestamp;
     }
   }, {
     key: '_initModuleStatus',
@@ -156,7 +156,7 @@ var Conversation = function (_RcModule) {
     key: 'unloadConversation',
     value: function unloadConversation() {
       this.store.dispatch({
-        type: this.actionTypes.cleanUp
+        type: this.actionTypes.unload
       });
     }
   }, {
@@ -172,7 +172,7 @@ var Conversation = function (_RcModule) {
       if (defaultNumberIndex < 0) {
         return;
       }
-      if (this.conversation) {
+      if (this.id) {
         var defaultNumber = recipients[defaultNumberIndex];
         recipients.splice(defaultNumberIndex, 1);
         var newRecipients = [defaultNumber].concat(recipients);
@@ -182,11 +182,10 @@ var Conversation = function (_RcModule) {
   }, {
     key: '_updateConversationRecipients',
     value: function _updateConversationRecipients(newRecipients) {
-      var currentConversationId = this.conversation && this.conversation.id;
-      if (!currentConversationId) {
+      if (!this.id) {
         return;
       }
-      this._messageStore.updateConversationRecipientList(currentConversationId, newRecipients);
+      this._messageStore.updateConversationRecipientList(this.id, newRecipients);
       this._updateRecipients(newRecipients);
     }
   }, {
@@ -198,31 +197,21 @@ var Conversation = function (_RcModule) {
       });
     }
   }, {
-    key: '_updateSenderNumber',
-    value: function _updateSenderNumber(senderNumber) {
-      this.store.dispatch({
-        type: this.actionTypes.updateSenderNumber,
-        senderNumber: senderNumber
-      });
-    }
-  }, {
     key: '_loadConversation',
     value: function _loadConversation(conversation) {
-      this.store.dispatch({
-        type: this.actionTypes.updateMessageStoreUpdatedAt,
-        updatedAt: this._messageStore.conversationsTimestamp
-      });
-      this.store.dispatch({
-        type: this.actionTypes.load,
-        conversation: (0, _extends3.default)({}, conversation)
-      });
       var senderNumber = this._getCurrentSenderNumber(conversation);
-      this._updateSenderNumber(senderNumber);
       var recipients = conversation.recipients;
       if (!recipients || recipients.length === 0) {
         recipients = this._getRecipients(conversation, senderNumber);
       }
-      this._updateRecipients(recipients);
+      this.store.dispatch({
+        type: this.actionTypes.load,
+        conversationId: conversation.id,
+        messages: conversation.messages.slice(),
+        conversationsTimestamp: this._messageStore.conversationsTimestamp,
+        senderNumber: senderNumber,
+        recipients: recipients
+      });
     }
   }, {
     key: '_getCurrentSenderNumber',
@@ -259,7 +248,7 @@ var Conversation = function (_RcModule) {
   }, {
     key: '_getReplyOnMessageId',
     value: function _getReplyOnMessageId() {
-      var lastMessage = this.conversation && this.conversation.messages && this.conversation.messages.length > 0 && this.conversation.messages[this.conversation.messages.length - 1];
+      var lastMessage = this.messages && this.messages.length > 0 && this.messages[this.messages.length - 1];
       if (lastMessage && lastMessage.id) {
         return lastMessage.id;
       }
@@ -368,9 +357,14 @@ var Conversation = function (_RcModule) {
       return this.conversationStatus === _conversationStatus2.default.pushing;
     }
   }, {
-    key: 'conversation',
+    key: 'id',
     get: function get() {
-      return this.state.conversation;
+      return this.state.id;
+    }
+  }, {
+    key: 'messages',
+    get: function get() {
+      return this.state.messages;
     }
   }, {
     key: 'senderNumber',
