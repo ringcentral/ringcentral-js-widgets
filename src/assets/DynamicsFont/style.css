@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'dynamics_icon';
-  src:  url('fonts/dynamics_icon.eot?3rc4ym');
-  src:  url('fonts/dynamics_icon.eot?3rc4ym#iefix') format('embedded-opentype'),
-    url('fonts/dynamics_icon.woff2?3rc4ym') format('woff2'),
-    url('fonts/dynamics_icon.ttf?3rc4ym') format('truetype'),
-    url('fonts/dynamics_icon.woff?3rc4ym') format('woff'),
-    url('fonts/dynamics_icon.svg?3rc4ym#dynamics_icon') format('svg');
+  src:  url('fonts/dynamics_icon.eot?ehx4d3');
+  src:  url('fonts/dynamics_icon.eot?ehx4d3#iefix') format('embedded-opentype'),
+    url('fonts/dynamics_icon.woff2?ehx4d3') format('woff2'),
+    url('fonts/dynamics_icon.ttf?ehx4d3') format('truetype'),
+    url('fonts/dynamics_icon.woff?ehx4d3') format('woff'),
+    url('fonts/dynamics_icon.svg?ehx4d3#dynamics_icon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -40,13 +40,13 @@
 .icon-Close:before {
   content: "\e94a";
 }
-.icon-Inbound:before {
+.icon-Outbound:before {
   content: "\e94b";
 }
 .icon-Missed:before {
   content: "\e94c";
 }
-.icon-Outbound:before {
+.icon-Inbound:before {
   content: "\e94d";
 }
 .icon-Record:before {
