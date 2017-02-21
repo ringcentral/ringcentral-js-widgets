@@ -13,8 +13,9 @@ import sourcemaps from 'gulp-sourcemaps';
 import Loganberry from 'loganberry';
 import cp from 'child_process';
 import semver from 'semver';
-import devServerConfig from './dev-server/config';
 import transformLocaleLoader from 'locale-loader/transformLocaleLoader';
+import dedent from 'dedent';
+import devServerConfig from './dev-server/config';
 
 gulp.task('dev-server', async () => {
   const compiler = webpack(devServerConfig);
@@ -115,4 +116,40 @@ gulp.task('release', ['release-copy'], async () => {
     packageInfo.name = 'ringcentral-widget';
   }
   await fs.writeFile('release/package.json', JSON.stringify(packageInfo, null, 2));
+});
+
+function normalizeName(str) {
+  return str.split(/[-_]/g)
+    .map((token, idx) => (
+      `${idx > 0 ? token[0].toUpperCase() : token[0].toLowerCase()}${token.toLowerCase().substr(1)}`
+    ))
+    .join('');
+}
+
+gulp.task('generate-font', async () => {
+  try {
+    const cssLocation = path.resolve('src/assets/DynamicsFont/style.css');
+    const content = await fs.readFile(cssLocation, 'utf8');
+    let output = content
+      .replace(/url\('fonts\/dynamics_icon/g, "url('./fonts/dynamics_icon")
+      .replace('[class^="icon-"], [class*=" icon-"]', '.icon');
+    const regExp = /\.icon-(.*):before/;
+    let match;
+    do {
+      match = regExp.exec(output);
+      if (match) {
+        const [target, name] = match;
+        const normalizedName = normalizeName(name);
+        const newContent = dedent`
+      .${normalizedName} {
+        composes: icon;
+      }
+      .${normalizedName}:before `;
+        output = output.replace(target, newContent);
+      }
+    } while (match);
+    await fs.writeFile(path.resolve('src/assets/DynamicsFont/DynamicsFont.scss'), output, 'utf8');
+  } catch (error) {
+    console.log(error);
+  }
 });

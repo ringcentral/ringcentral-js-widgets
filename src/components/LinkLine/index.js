@@ -13,7 +13,7 @@ function LinkLine(props) {
     >
       <IconLine
         className={props.className}
-        icon={<span className={classnames(dynamicsFont.icon_icon_arrow_right, styles.icon)} />}
+        icon={<span className={classnames(dynamicsFont.iconArrowRight, styles.icon)} />}
       >
         {props.children}
       </IconLine>
