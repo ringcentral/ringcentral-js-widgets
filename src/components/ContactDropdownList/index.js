@@ -7,24 +7,25 @@ import i18n from './i18n';
 function ContactItem(props) {
   return (
     <li
-      onClick={props.onClick}
     >
-      <div>
-        <span>
-          {props.name}
-        </span>
-        <span className={styles.label}>
-          {i18n.getString(`phoneSource.${props.entityType}`)}
-        </span>
-      </div>
-      <div className={styles.phoneNumberSection}>
-        <span>
-          {props.formatPhone(props.phoneNumber)}
-        </span>
-        <span className={styles.label}>
-          {i18n.getString(`phoneType.${props.phoneType}`)}
-        </span>
-      </div>
+      <a href="#select-contact-item" onClick={props.onClick}>
+        <div>
+          <span>
+            {props.name}
+          </span>
+          <span className={styles.label}>
+            {i18n.getString(`phoneSource.${props.entityType}`)}
+          </span>
+        </div>
+        <div className={styles.phoneNumberSection}>
+          <span>
+            {props.formatPhone(props.phoneNumber)}
+          </span>
+          <span className={styles.label}>
+            {i18n.getString(`phoneType.${props.phoneType}`)}
+          </span>
+        </div>
+      </a>
     </li>
   );
 }

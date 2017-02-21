@@ -11,8 +11,8 @@ function RemoveButton(props) {
     className = classnames(styles.containner, props.className, styles.hiddenRemoveButton);
   }
   return (
-    <a href="#" className={className} onClick={props.onClick}>
-      <i className={rcFont.uni2471}></i>
+    <a href="#remove" className={className} onClick={props.onClick}>
+      <i className={rcFont.uni2471} />
     </a>
   );
 }
@@ -21,6 +21,11 @@ RemoveButton.propTypes = {
   className: PropTypes.string,
   onClick: PropTypes.func.isRequired,
   visibility: PropTypes.bool,
+};
+
+RemoveButton.defaultProps = {
+  className: null,
+  visibility: true,
 };
 
 export default RemoveButton;

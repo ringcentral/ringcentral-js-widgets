@@ -7,9 +7,9 @@ import styles from './styles.scss';
 
 function Recipient(props) {
   return (
-    <span className={styles.recipient} onClick={props.onClick}>
+    <a href="#recipient" className={styles.recipient} onClick={props.onClick}>
       {props.name}
-    </span>
+    </a>
   );
 }
 
@@ -45,8 +45,8 @@ RecipientList.contextTypes = {
 
 RecipientList.propTypes = {
   setDefaultRecipient: PropTypes.func.isRequired,
-  className: PropTypes.string,
-  recipients: React.PropTypes.arrayOf(PropTypes.shape({
+  className: PropTypes.string.isRequired,
+  recipients: PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string,
     extensionNumber: PropTypes.string,
     name: PropTypes.string,
@@ -108,11 +108,12 @@ class RecipientsHeader extends Component {
         }
         {
           hasDropdown &&
-          <span
-            href="#"
-            className={classnames(rcFont.icon_dropdown_arrow, styles.dropdownIcon)}
+          <a
+            href="#recipients-dropdown"
             onClick={this.toggleDropdown}
-          />
+          >
+            <i className={classnames(rcFont.icon_dropdown_arrow, styles.dropdownIcon)} />
+          </a>
         }
         {dropdownList}
       </h1>

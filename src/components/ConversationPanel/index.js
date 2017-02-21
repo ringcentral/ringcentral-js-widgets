@@ -26,7 +26,6 @@ class ConversationPanel extends Component {
       this.setState({
         textValue: '',
       });
-      console.debug('send message ...');
       e.preventDefault();
     };
   }
@@ -43,7 +42,6 @@ class ConversationPanel extends Component {
     } else {
       conversationBody = (
         <ConversationMessageList
-          freshToken={this.props.freshToken}
           messages={this.props.messages}
         />
       );
@@ -91,7 +89,6 @@ ConversationPanel.propTypes = {
   sendButtonDisabled: PropTypes.bool.isRequired,
   currentLocale: PropTypes.string.isRequired,
   showSpinner: PropTypes.bool.isRequired,
-  freshToken: PropTypes.number,
 };
 
 export default ConversationPanel;

@@ -87,7 +87,6 @@ class ConversationPage extends Component {
         conversationId={this.props.conversationId}
         currentLocale={this.props.currentLocale}
         messages={this.props.messages}
-        freshToken={this.props.freshToken}
         recipients={this.props.recipients}
         showSpinner={showSpinner}
         replyToReceivers={this.replyToReceivers}
@@ -104,7 +103,6 @@ ConversationPage.propTypes = {
   messageStore: PropTypes.instanceOf(MessageStore).isRequired,
   dateTimeIntl: PropTypes.instanceOf(DateTimeIntl).isRequired,
   currentLocale: PropTypes.string.isRequired,
-  freshToken: PropTypes.number,
   sendButtonDisabled: PropTypes.bool.isRequired,
   showSpinner: PropTypes.bool.isRequired,
   messages: ConversationPanel.propTypes.messages,
@@ -119,15 +117,12 @@ ConversationPage.childContextTypes = {
 };
 
 function mapStateToProps(state, props) {
-  const conversation = props.conversation.conversation;
-  const messages = (conversation && conversation.messages) || [];
   return ({
     currentLocale: props.locale.currentLocale,
     conversationId: props.params.conversationId,
     conversation: props.conversation,
     regionSettings: props.regionSettings,
     messageStore: props.messageStore,
-    freshToken: props.conversation.messageStoreUpdatedAt,
     sendButtonDisabled: props.conversation.pushing,
     showSpinner: (
       !props.dateTimeIntl.ready ||
@@ -136,7 +131,7 @@ function mapStateToProps(state, props) {
       !props.regionSettings.ready
     ),
     recipients: props.conversation.recipients,
-    messages,
+    messages: props.conversation.messages,
   });
 }
 
