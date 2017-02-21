@@ -100,7 +100,7 @@ export default function SettingsPanel({
           <IconLine
             onClick={onLogoutButtonClick}
             icon={
-              <span className={dynamicsFont.icon_Logout} />
+              <span className={dynamicsFont.logout} />
             } >
             {i18n.getString('logout', currentLocale)}
             <span className={styles.loginNumber}>

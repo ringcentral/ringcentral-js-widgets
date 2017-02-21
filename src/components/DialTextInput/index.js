@@ -3,7 +3,6 @@ import classnames from 'classnames';
 import styles from './styles.scss';
 import i18n from './i18n';
 import TextInput from '../TextInput';
-import rcFont from '../../assets/RcFont/RcFont.scss';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 function DialTextInput({
@@ -29,7 +28,7 @@ function DialTextInput({
         value={value}
         onChange={onChangeEvent}
       />
-      <span style={deleteDisplay} className={classnames(styles.delete, dynamicsFont.icon_clear)} onClick={onDelete}>
+      <span style={deleteDisplay} className={classnames(styles.delete, dynamicsFont.clear)} onClick={onDelete}>
       </span>
     </div>
   );
