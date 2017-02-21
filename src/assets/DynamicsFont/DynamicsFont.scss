@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'dynamics_icon';
-  src:  url('./fonts/dynamics_icon.eot?3rc4ym');
-  src:  url('./fonts/dynamics_icon.eot?3rc4ym#iefix') format('embedded-opentype'),
-    url('./fonts/dynamics_icon.woff2?3rc4ym') format('woff2'),
-    url('./fonts/dynamics_icon.ttf?3rc4ym') format('truetype'),
-    url('./fonts/dynamics_icon.woff?3rc4ym') format('woff'),
-    url('./fonts/dynamics_icon.svg?3rc4ym#dynamics_icon') format('svg');
+  src:  url('./fonts/dynamics_icon.eot?ehx4d3');
+  src:  url('./fonts/dynamics_icon.eot?ehx4d3#iefix') format('embedded-opentype'),
+    url('./fonts/dynamics_icon.woff2?ehx4d3') format('woff2'),
+    url('./fonts/dynamics_icon.ttf?ehx4d3') format('truetype'),
+    url('./fonts/dynamics_icon.woff?ehx4d3') format('woff'),
+    url('./fonts/dynamics_icon.svg?ehx4d3#dynamics_icon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -55,10 +55,10 @@
 .close:before {
   content: "\e94a";
 }
-.inbound {
+.outbound {
   composes: icon;
 }
-.inbound:before {
+.outbound:before {
   content: "\e94b";
 }
 .missed {
@@ -67,10 +67,10 @@
 .missed:before {
   content: "\e94c";
 }
-.outbound {
+.inbound {
   composes: icon;
 }
-.outbound:before {
+.inbound:before {
   content: "\e94d";
 }
 .record {
