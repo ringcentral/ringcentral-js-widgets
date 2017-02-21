@@ -143,7 +143,7 @@ function SettingsPanel(_ref) {
           _IconLine2.default,
           {
             onClick: onLogoutButtonClick,
-            icon: _react2.default.createElement('span', { className: _DynamicsFont2.default.icon_Logout }) },
+            icon: _react2.default.createElement('span', { className: _DynamicsFont2.default.logout }) },
           _i18n2.default.getString('logout', currentLocale),
           _react2.default.createElement(
             'span',

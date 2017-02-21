@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'dynamics_icon';
-  src:  url('./fonts/dynamics_icon.eot?64zb9q');
-  src:  url('./fonts/dynamics_icon.eot?64zb9q#iefix') format('embedded-opentype'),
-    url('./fonts/dynamics_icon.woff2?64zb9q') format('woff2'),
-    url('./fonts/dynamics_icon.ttf?64zb9q') format('truetype'),
-    url('./fonts/dynamics_icon.woff?64zb9q') format('woff'),
-    url('./fonts/dynamics_icon.svg?64zb9q#dynamics_icon') format('svg');
+  src:  url('./fonts/dynamics_icon.eot?3rc4ym');
+  src:  url('./fonts/dynamics_icon.eot?3rc4ym#iefix') format('embedded-opentype'),
+    url('./fonts/dynamics_icon.woff2?3rc4ym') format('woff2'),
+    url('./fonts/dynamics_icon.ttf?3rc4ym') format('truetype'),
+    url('./fonts/dynamics_icon.woff?3rc4ym') format('woff'),
+    url('./fonts/dynamics_icon.svg?3rc4ym#dynamics_icon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -25,588 +25,532 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon_clear {
+.clear {
   composes: icon;
 }
-.icon_clear:before {
+.clear:before {
   content: "\e901";
 }
-.icon_Expand {
+.expand {
   composes: icon;
 }
-.icon_Expand:before {
+.expand:before {
   content: "\e902";
 }
-.icon_Information {
+.information {
   composes: icon;
 }
-.icon_Information:before {
+.information:before {
   content: "\e903";
 }
-
-.icon_Collapse {
+.collapse {
   composes: icon;
 }
-.icon_Collapse:before {
+.collapse:before {
   content: "\e949";
 }
-.icon_Close {
+.close {
   composes: icon;
 }
-.icon_Close:before {
+.close:before {
   content: "\e94a";
 }
-.icon_Inbound {
+.inbound {
   composes: icon;
 }
-.icon_Inbound:before {
+.inbound:before {
   content: "\e94b";
 }
-.icon_Missed {
+.missed {
   composes: icon;
 }
-.icon_Missed:before {
+.missed:before {
   content: "\e94c";
 }
-.icon_Outbound {
+.outbound {
   composes: icon;
 }
-.icon_Outbound:before {
+.outbound:before {
   content: "\e94d";
 }
-.icon_Record {
+.record {
   composes: icon;
 }
-.icon_Record:before {
+.record:before {
   content: "\e94e";
 }
-.icon_Active {
+.call {
   composes: icon;
 }
-.icon_Active:before {
+.call:before {
   content: "\e94f";
 }
-.icon_Add {
+.add {
   composes: icon;
 }
-.icon_Add:before {
+.add:before {
   content: "\e950";
 }
-.icon_Arrow {
+.arrow {
   composes: icon;
 }
-.icon_Arrow:before {
+.arrow:before {
   content: "\e951";
 }
-.icon_Call_Log {
+.callLog {
   composes: icon;
 }
-.icon_Call_Log:before {
+.callLog:before {
   content: "\e952";
 }
-.icon_Call_Hover {
+.callHover {
   composes: icon;
 }
-.icon_Call_Hover:before {
+.callHover:before {
   content: "\e953";
 }
-.icon_Dial_Hover {
+.dialHover {
   composes: icon;
 }
-.icon_Dial_Hover:before {
+.dialHover:before {
   content: "\e954";
 }
-.icon_Dial {
+.dial {
   composes: icon;
 }
-.icon_Dial:before {
+.dial:before {
   content: "\e955";
 }
-.icon_Edit {
+.edit {
   composes: icon;
 }
-.icon_Edit:before {
+.edit:before {
   content: "\e956";
 }
-.icon_File {
+.file {
   composes: icon;
 }
-.icon_File:before {
+.file:before {
   content: "\e957";
 }
-.icon_History_Hover {
+.historyHover {
   composes: icon;
 }
-.icon_History_Hover:before {
+.historyHover:before {
   content: "\e958";
 }
-.icon_History {
+.history {
   composes: icon;
 }
-.icon_History:before {
+.history:before {
   content: "\e959";
 }
-.icon_Logout {
+.logout {
   composes: icon;
 }
-.icon_Logout:before {
+.logout:before {
   content: "\e95a";
 }
-.icon_Setting_Hover {
+.settingHover {
   composes: icon;
 }
-.icon_Setting_Hover:before {
+.settingHover:before {
   content: "\e95b";
 }
-.icon_Setting {
+.setting {
   composes: icon;
 }
-.icon_Setting:before {
+.setting:before {
   content: "\e95c";
 }
-.icon_Trash {
+.trash {
   composes: icon;
 }
-.icon_Trash:before {
+.trash:before {
   content: "\e95d";
 }
-.icon_Delete {
+.delete {
   composes: icon;
 }
-.icon_Delete:before {
+.delete:before {
   content: "\e909";
 }
-.icon_Plus {
+.plus {
   composes: icon;
 }
-.icon_Plus:before {
+.plus:before {
   content: "\e90a";
 }
-.icon_Caret_down_circle {
+.caretDownCircle {
   composes: icon;
 }
-.icon_Caret_down_circle:before {
+.caretDownCircle:before {
   content: "\e90b";
 }
-.icon_Caret_down {
+.add2 {
   composes: icon;
 }
-.icon_Caret_down:before {
-  content: "\e90c";
-}
-.icon_Caret_right {
-  composes: icon;
-}
-.icon_Caret_right:before {
-  content: "\e90d";
-}
-.icon_Add2 {
-  composes: icon;
-}
-.icon_Add2:before {
+.add2:before {
   content: "\e90e";
 }
-.icon_Arrow {
+.arrowLeft {
   composes: icon;
 }
-.icon_Arrow_left:before {
+.arrowLeft:before {
   content: "\e900";
 }
-.icon_Calls {
+.refresh {
   composes: icon;
 }
-.icon_Calls:before {
-  content: "\e901";
-}
-.icon_Close2 {
-  composes: icon;
-}
-.icon_Close2:before {
-  content: "\e902";
-}
-.icon_Collapse2 {
-  composes: icon;
-}
-.icon_Collapse2:before {
-  content: "\e903";
-}
-.icon_Dial_pad {
-  composes: icon;
-}
-.icon_Dial_pad:before {
-  content: "\e904";
-}
-.icon_History2 {
-  composes: icon;
-}
-.icon_History2:before {
-  content: "\e905";
-}
-.icon_Refresh {
-  composes: icon;
-}
-.icon_Refresh:before {
+.refresh:before {
   content: "\e906";
 }
-.icon_Save {
+.save {
   composes: icon;
 }
-.icon_Save:before {
+.save:before {
   content: "\e907";
 }
-.icon_Settings {
+.iconCallMute {
   composes: icon;
 }
-.icon_Settings:before {
-  content: "\e95c";
-}
-.icon_con_call_mute {
-  composes: icon;
-}
-.icon_icon_call_mute:before {
+.iconCallMute:before {
   content: "\e924";
 }
-.icon_icon_call_unmute {
+.iconCallUnmute {
   composes: icon;
 }
-.icon_icon_call_unmute:before {
+.iconCallUnmute:before {
   content: "\e925";
 }
-.icon_icon_call_dial {
+.iconCallDial {
   composes: icon;
 }
-.icon_icon_call_dial:before {
+.iconCallDial:before {
   content: "\e92a";
 }
-.icon_icon_call_flip {
+.iconCallFlip {
   composes: icon;
 }
-.icon_icon_call_flip:before {
+.iconCallFlip:before {
   content: "\e92b";
 }
-.icon_icon_call_hangup {
+.iconCallHangup {
   composes: icon;
 }
-.icon_icon_call_hangup:before {
+.iconCallHangup:before {
   content: "\e92c";
 }
-.icon_icon_call_hold {
+.iconCallHold {
   composes: icon;
 }
-.icon_icon_call_hold:before {
+.iconCallHold:before {
   content: "\e92d";
 }
-
-.icon_icon_call_no_dial{
+.iconCallNoDial {
   composes: icon;
 }
-.icon_icon_call_no_hold{
-  composes: icon;
-}
-.icon_icon_call_record{
-  composes: icon;
-}
-.icon_icon_call_stop_record{
-  composes: icon;
-}
-.icon_icon_call_transfer{
-  composes: icon;
-}
-.icon_icon_office_365{
-  composes: icon;
-}
-.icon_icon_play{
-  composes: icon;
-}
-.icon_icon_status_busy{
-  composes: icon;
-}
-.icon_icon_status_calling{
-  composes: icon;
-}
-.icon_icon_status_hold{
-  composes: icon;
-}
-.icon_icon_status_mute{
-  composes: icon;
-}
-.icon_icon_status_record{
-  composes: icon;
-}
-.icon_icon_calling{
-  composes: icon;
-}
-.icon_icon_call_incoming{
-  composes: icon;
-}
-.icon_icon_call_miss{
-  composes: icon;
-}
-.icon_icon_call_outgoing{
-  composes: icon;
-}
-.icon_icon_collapse{
-  composes: icon;
-}
-.icon_checkbox_selected{
-  composes: icon;
-}
-.icon_checkbox_unselected{
-  composes: icon;
-}
-.icon_icon_add{
-  composes: icon;
-}
-.icon_icon_arrow_right{
-  composes: icon;
-}
-.icon_icon_back{
-  composes: icon;
-}
-.icon_icon_call_log{
-  composes: icon;
-}
-.icon_icon_call{
-  composes: icon;
-}
-.icon_icon_check{
-  composes: icon;
-}
-.icon_icon_composetext{
-  composes: icon;
-}
-.icon_icon_conference{
-  composes: icon;
-}
-.icon_icon_contact{
-  composes: icon;
-}
-.icon_icon_dial{
-  composes: icon;
-}
-.icon_icon_display{
-  composes: icon;
-}
-.icon_icon_fax{
-  composes: icon;
-}
-.icon_icon_google{
-  composes: icon;
-}
-.icon_icon_hangout{
-  composes: icon;
-}
-.icon_icon_i_info{
-  composes: icon;
-}
-.icon_icon_meeting{
-  composes: icon;
-}
-.icon_icon_message_all{
-  composes: icon;
-}
-.icon_icon_message{
-  composes: icon;
-}
-.icon_icon_return{
-  composes: icon;
-}
-.icon_icon_search{
-  composes: icon;
-}
-.icon_icon_setting{
-  composes: icon;
-}
-.icon_icon_time{
-  composes: icon;
-}
-.icon_icon_voice{
-  composes: icon;
-}
-.icon_icon_radio_off{
-  composes: icon;
-}
-.icon_icon_radio_on{
-  composes: icon;
-}
-.icon_icon_arrow{
-  composes: icon;
-}
-.icon_icon_calendar{
-  composes: icon;
-}
-.icon_icon_dropbox{
-  composes: icon;
-}
-.icon_icon_dropdown_arrow{
-  composes: icon;
-}
-.icon_icon_i_btn{
-  composes: icon;
-}
-.icon_icon_logout{
-  composes: icon;
-}
-.icon_icon_switch_on{
-  composes: icon;
-}
-.icon_icon_swtich_off{
-  composes: icon;
-}
-.icon_icon_call_no_dial:before {
+.iconCallNoDial:before {
   content: "\e92e";
 }
-.icon_icon_call_no_hold:before {
+.iconCallNoHold {
+  composes: icon;
+}
+.iconCallNoHold:before {
   content: "\e92f";
 }
-.icon_icon_call_record:before {
+.iconCallRecord {
+  composes: icon;
+}
+.iconCallRecord:before {
   content: "\e930";
 }
-.icon_icon_call_stop_record:before {
+.iconCallStopRecord {
+  composes: icon;
+}
+.iconCallStopRecord:before {
   content: "\e931";
 }
-.icon_icon_call_transfer:before {
+.iconCallTransfer {
+  composes: icon;
+}
+.iconCallTransfer:before {
   content: "\e932";
 }
-.icon_icon_office_365:before {
+.iconOffice365 {
+  composes: icon;
+}
+.iconOffice365:before {
   content: "\e933";
 }
-.icon_icon_play:before {
+.iconPlay {
+  composes: icon;
+}
+.iconPlay:before {
   content: "\e934";
 }
-.icon_icon_status_busy:before {
+.iconStatusBusy {
+  composes: icon;
+}
+.iconStatusBusy:before {
   content: "\e935";
 }
-.icon_icon_status_calling:before {
+.iconStatusCalling {
+  composes: icon;
+}
+.iconStatusCalling:before {
   content: "\e936";
 }
-.icon_icon_status_hold:before {
+.iconStatusHold {
+  composes: icon;
+}
+.iconStatusHold:before {
   content: "\e937";
 }
-.icon_icon_status_mute:before {
+.iconStatusMute {
+  composes: icon;
+}
+.iconStatusMute:before {
   content: "\e938";
 }
-.icon_icon_status_record:before {
+.iconStatusRecord {
+  composes: icon;
+}
+.iconStatusRecord:before {
   content: "\e939";
 }
-.icon_icon_calling:before {
+.iconCalling {
+  composes: icon;
+}
+.iconCalling:before {
   content: "\e926";
 }
-.icon_icon_call_incoming:before {
+.iconCallIncoming {
+  composes: icon;
+}
+.iconCallIncoming:before {
   content: "\e927";
 }
-.icon_icon_call_miss:before {
+.iconCallMiss {
+  composes: icon;
+}
+.iconCallMiss:before {
   content: "\e928";
 }
-.icon_icon_call_outgoing:before {
+.iconCallOutgoing {
+  composes: icon;
+}
+.iconCallOutgoing:before {
   content: "\e929";
 }
-.icon_icon_collapse:before {
+.iconCollapse {
+  composes: icon;
+}
+.iconCollapse:before {
   content: "\e90f";
 }
-.icon_checkbox_selected:before {
+.checkboxSelected {
+  composes: icon;
+}
+.checkboxSelected:before {
   content: "\e910";
 }
-.icon_checkbox_unselected:before {
+.checkboxUnselected {
+  composes: icon;
+}
+.checkboxUnselected:before {
   content: "\e911";
 }
-.icon_icon_add:before {
+.iconAdd {
+  composes: icon;
+}
+.iconAdd:before {
   content: "\e912";
 }
-.icon_icon_arrow_right:before {
+.iconArrowRight {
+  composes: icon;
+}
+.iconArrowRight:before {
   content: "\e913";
 }
-.icon_icon_back:before {
+.iconBack {
+  composes: icon;
+}
+.iconBack:before {
   content: "\e914";
 }
-.icon_icon_call_log:before {
+.iconCallLog {
+  composes: icon;
+}
+.iconCallLog:before {
   content: "\e915";
 }
-.icon_icon_call:before {
+.iconCall {
+  composes: icon;
+}
+.iconCall:before {
   content: "\e916";
 }
-.icon_icon_check:before {
+.iconCheck {
+  composes: icon;
+}
+.iconCheck:before {
   content: "\e917";
 }
-.icon_icon_composetext:before {
+.iconComposetext {
+  composes: icon;
+}
+.iconComposetext:before {
   content: "\e918";
 }
-.icon_icon_conference:before {
+.iconConference {
+  composes: icon;
+}
+.iconConference:before {
   content: "\e919";
 }
-.icon_icon_contact:before {
+.iconContact {
+  composes: icon;
+}
+.iconContact:before {
   content: "\e91a";
 }
-.icon_icon_dial:before {
+.iconDial {
+  composes: icon;
+}
+.iconDial:before {
   content: "\e91b";
 }
-.icon_icon_display:before {
+.iconDisplay {
+  composes: icon;
+}
+.iconDisplay:before {
   content: "\e91c";
 }
-.icon_icon_fax:before {
+.iconFax {
+  composes: icon;
+}
+.iconFax:before {
   content: "\e91d";
 }
-.icon_icon_google:before {
+.iconGoogle {
+  composes: icon;
+}
+.iconGoogle:before {
   content: "\e91e";
 }
-.icon_icon_hangout:before {
+.iconHangout {
+  composes: icon;
+}
+.iconHangout:before {
   content: "\e91f";
 }
-.icon_icon_i_info:before {
+.iconIInfo {
+  composes: icon;
+}
+.iconIInfo:before {
   content: "\e920";
 }
-.icon_icon_meeting:before {
+.iconMeeting {
+  composes: icon;
+}
+.iconMeeting:before {
   content: "\e921";
 }
-.icon_icon_message_all:before {
+.iconMessageAll {
+  composes: icon;
+}
+.iconMessageAll:before {
   content: "\e922";
 }
-.icon_icon_message:before {
+.iconMessage {
+  composes: icon;
+}
+.iconMessage:before {
   content: "\e923";
 }
-.icon_icon_return:before {
+.iconReturn {
+  composes: icon;
+}
+.iconReturn:before {
   content: "\e93a";
 }
-.icon_icon_search:before {
+.iconSearch {
+  composes: icon;
+}
+.iconSearch:before {
   content: "\e93b";
 }
-.icon_icon_setting:before {
+.iconSetting {
+  composes: icon;
+}
+.iconSetting:before {
   content: "\e93c";
 }
-.icon_icon_time:before {
+.iconTime {
+  composes: icon;
+}
+.iconTime:before {
   content: "\e93d";
 }
-.icon_icon_voice:before {
+.iconVoice {
+  composes: icon;
+}
+.iconVoice:before {
   content: "\e93e";
 }
-.icon_icon_radio_off:before {
+.iconRadioOff {
+  composes: icon;
+}
+.iconRadioOff:before {
   content: "\e93f";
 }
-.icon_icon_radio_on:before {
+.iconRadioOn {
+  composes: icon;
+}
+.iconRadioOn:before {
   content: "\e940";
 }
-.icon_icon_arrow:before {
-  content: "\e941";
+.iconCalendar {
+  composes: icon;
 }
-.icon_icon_calendar:before {
+.iconCalendar:before {
   content: "\e942";
 }
-.icon_icon_dropbox:before {
+.iconDropbox {
+  composes: icon;
+}
+.iconDropbox:before {
   content: "\e943";
 }
-.icon_icon_dropdown_arrow:before {
+.iconDropdownArrow {
+  composes: icon;
+}
+.iconDropdownArrow:before {
   content: "\e944";
 }
-.icon_icon_i_btn:before {
+.iconIBtn {
+  composes: icon;
+}
+.iconIBtn:before {
   content: "\e945";
 }
-.icon_icon_logout:before {
+.iconLogout {
+  composes: icon;
+}
+.iconLogout:before {
   content: "\e946";
 }
-.icon_icon_switch_on:before {
+.iconSwitchOn {
+  composes: icon;
+}
+.iconSwitchOn:before {
   content: "\e947";
 }
-.icon_icon_swtich_off:before {
+.iconSwtichOff {
+  composes: icon;
+}
+.iconSwtichOff:before {
   content: "\e948";
 }
 

@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'dynamics_icon';
-  src:  url('fonts/dynamics_icon.eot?64zb9q');
-  src:  url('fonts/dynamics_icon.eot?64zb9q#iefix') format('embedded-opentype'),
-    url('fonts/dynamics_icon.woff2?64zb9q') format('woff2'),
-    url('fonts/dynamics_icon.ttf?64zb9q') format('truetype'),
-    url('fonts/dynamics_icon.woff?64zb9q') format('woff'),
-    url('fonts/dynamics_icon.svg?64zb9q#dynamics_icon') format('svg');
+  src:  url('fonts/dynamics_icon.eot?3rc4ym');
+  src:  url('fonts/dynamics_icon.eot?3rc4ym#iefix') format('embedded-opentype'),
+    url('fonts/dynamics_icon.woff2?3rc4ym') format('woff2'),
+    url('fonts/dynamics_icon.ttf?3rc4ym') format('truetype'),
+    url('fonts/dynamics_icon.woff?3rc4ym') format('woff'),
+    url('fonts/dynamics_icon.svg?3rc4ym#dynamics_icon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -25,6 +25,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-clear:before {
+  content: "\e901";
+}
+.icon-Expand:before {
+  content: "\e902";
+}
+.icon-Information:before {
+  content: "\e903";
+}
 .icon-Collapse:before {
   content: "\e949";
 }
@@ -43,7 +52,7 @@
 .icon-Record:before {
   content: "\e94e";
 }
-.icon-Active:before {
+.icon-Call:before {
   content: "\e94f";
 }
 .icon-Add:before {
@@ -97,41 +106,17 @@
 .icon-Caret-down-circle:before {
   content: "\e90b";
 }
-.icon-Caret-down:before {
-  content: "\e90c";
-}
-.icon-Caret-right:before {
-  content: "\e90d";
-}
 .icon-Add2:before {
   content: "\e90e";
 }
 .icon-Arrow-left:before {
   content: "\e900";
 }
-.icon-Calls:before {
-  content: "\e901";
-}
-.icon-Close2:before {
-  content: "\e902";
-}
-.icon-Collapse2:before {
-  content: "\e903";
-}
-.icon-Dial-pad:before {
-  content: "\e904";
-}
-.icon-History2:before {
-  content: "\e905";
-}
 .icon-Refresh:before {
   content: "\e906";
 }
 .icon-Save:before {
   content: "\e907";
-}
-.icon-Settings:before {
-  content: "\e908";
 }
 .icon-icon_call_mute:before {
   content: "\e924";
@@ -282,9 +267,6 @@
 }
 .icon-icon_radio_on:before {
   content: "\e940";
-}
-.icon-icon_arrow:before {
-  content: "\e941";
 }
 .icon-icon_calendar:before {
   content: "\e942";

@@ -24,10 +24,6 @@ var _TextInput = require('../TextInput');
 
 var _TextInput2 = _interopRequireDefault(_TextInput);
 
-var _RcFont = require('../../assets/RcFont/RcFont.scss');
-
-var _RcFont2 = _interopRequireDefault(_RcFont);
-
 var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
 var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
@@ -56,7 +52,7 @@ function DialTextInput(_ref) {
       value: value,
       onChange: onChangeEvent
     }),
-    _react2.default.createElement('span', { style: deleteDisplay, className: (0, _classnames2.default)(_styles2.default.delete, _DynamicsFont2.default.icon_clear), onClick: onDelete })
+    _react2.default.createElement('span', { style: deleteDisplay, className: (0, _classnames2.default)(_styles2.default.delete, _DynamicsFont2.default.clear), onClick: onDelete })
   );
 }
 
