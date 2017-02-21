@@ -55,10 +55,10 @@
 .close:before {
   content: "\e94a";
 }
-.outbound {
+.outbound {
   composes: icon;
 }
-.outbound:before {
+.outbound:before {
   content: "\e94b";
 }
 .missed {
@@ -67,10 +67,10 @@
 .missed:before {
   content: "\e94c";
 }
-.inbound {
+.inbound {
   composes: icon;
 }
-.inbound:before {
+.inbound:before {
   content: "\e94d";
 }
 .record {

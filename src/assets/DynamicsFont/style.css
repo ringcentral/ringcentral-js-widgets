@@ -40,13 +40,13 @@
 .icon-Close:before {
   content: "\e94a";
 }
-.icon-Outbound:before {
+.icon-Outbound:before {
   content: "\e94b";
 }
 .icon-Missed:before {
   content: "\e94c";
 }
-.icon-Inbound:before {
+.icon-Inbound:before {
   content: "\e94d";
 }
 .icon-Record:before {
