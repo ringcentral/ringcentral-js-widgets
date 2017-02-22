@@ -91,7 +91,7 @@ class ComposeTextPanel extends Component {
       <div>
         <div className={styles.composeTextPanelHeader}>
           <h1>{i18n.getString('composeMessage')}</h1>
-          <a href="#" className={styles.sendNumberSetting} onClick={this.toggleShowSenderSetting}>
+          <a href="#sender-number-setting" className={styles.sendNumberSetting} onClick={this.toggleShowSenderSetting}>
             <span className={rcFont.icon_setting} />
           </a>
         </div>
