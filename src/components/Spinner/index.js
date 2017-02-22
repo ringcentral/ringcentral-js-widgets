@@ -1,14 +1,27 @@
 import React, { PropTypes } from 'react';
+import classnames from 'classnames';
 import styles from './styles.scss';
 
-export default function Spinner(props) {
+export default function Spinner({
+  className,
+  ringWidth,
+}) {
   return (
-    <div className={[styles.root, props.className].join(' ')}>
-      <div className={styles.padding} />
-      <div className={styles.spinner} />
+    <div className={classnames(styles.root, className)}>
+      <div className={classnames(styles.padding)} />
+      <div
+        className={styles.spinner}
+        style={{
+          borderWidth: ringWidth,
+        }} />
     </div>
   );
 }
 Spinner.propTypes = {
   className: PropTypes.string,
+  ringWidth: PropTypes.number,
+};
+Spinner.defaultProps = {
+  className: null,
+  ringWidth: 8,
 };
