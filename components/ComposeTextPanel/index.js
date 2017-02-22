@@ -153,7 +153,7 @@ var ComposeTextPanel = function (_Component) {
           ),
           _react2.default.createElement(
             'a',
-            { href: '#', className: _styles2.default.sendNumberSetting, onClick: this.toggleShowSenderSetting },
+            { href: '#sender-number-setting', className: _styles2.default.sendNumberSetting, onClick: this.toggleShowSenderSetting },
             _react2.default.createElement('span', { className: _RcFont2.default.icon_setting })
           )
         ),

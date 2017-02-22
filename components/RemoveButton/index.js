@@ -31,7 +31,7 @@ function RemoveButton(props) {
   }
   return _react2.default.createElement(
     'a',
-    { href: '#', className: className, onClick: props.onClick },
+    { href: '#remove', className: className, onClick: props.onClick },
     _react2.default.createElement('i', { className: _RcFont2.default.uni2471 })
   );
 }
@@ -40,6 +40,11 @@ RemoveButton.propTypes = {
   className: _react.PropTypes.string,
   onClick: _react.PropTypes.func.isRequired,
   visibility: _react.PropTypes.bool
+};
+
+RemoveButton.defaultProps = {
+  className: null,
+  visibility: true
 };
 
 exports.default = RemoveButton;

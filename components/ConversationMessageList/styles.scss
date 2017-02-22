@@ -1,0 +1,46 @@
+.root {
+  display: block;
+  padding-top: 13px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-bottom: 30px;
+  height: 310px;
+}
+
+.messageItem {
+  display: block;
+  width: 100%;
+  font-size: 12px;
+  color: #333333;
+}
+
+.messsageTime {
+  text-align: center;
+  font-size: 12px;
+  padding-top: 1em;
+  color: #a2a2a2;
+  clear: both;
+}
+
+.messageBody {
+  display: inline-block;
+  background-color: #d3eaf3;
+  border-radius: 3px;
+  padding: 7px 6px;
+  margin: 5px 0;
+  max-width: 50%;
+}
+
+.messageBody.outbound  {
+  float: right;
+  clear: both;
+}
+
+.clear {
+  clear: both;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  vertical-align: baseline;
+}

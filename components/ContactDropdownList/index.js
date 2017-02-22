@@ -29,35 +29,37 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function ContactItem(props) {
   return _react2.default.createElement(
     'li',
-    {
-      onClick: props.onClick
-    },
+    null,
     _react2.default.createElement(
-      'div',
-      null,
+      'a',
+      { href: '#select-contact-item', onClick: props.onClick },
       _react2.default.createElement(
-        'span',
+        'div',
         null,
-        props.name
+        _react2.default.createElement(
+          'span',
+          null,
+          props.name
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: _styles2.default.label },
+          _i18n2.default.getString('phoneSource.' + props.entityType)
+        )
       ),
       _react2.default.createElement(
-        'span',
-        { className: _styles2.default.label },
-        _i18n2.default.getString('phoneSource.' + props.entityType)
-      )
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.phoneNumberSection },
-      _react2.default.createElement(
-        'span',
-        null,
-        props.formatPhone(props.phoneNumber)
-      ),
-      _react2.default.createElement(
-        'span',
-        { className: _styles2.default.label },
-        _i18n2.default.getString('phoneType.' + props.phoneType)
+        'div',
+        { className: _styles2.default.phoneNumberSection },
+        _react2.default.createElement(
+          'span',
+          null,
+          props.formatPhone(props.phoneNumber)
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: _styles2.default.label },
+          _i18n2.default.getString('phoneType.' + props.phoneType)
+        )
       )
     )
   );
