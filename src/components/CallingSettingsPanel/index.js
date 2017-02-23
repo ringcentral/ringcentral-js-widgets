@@ -171,7 +171,7 @@ export default class CallingSettingsPanel extends Component {
               value={this.state.callWith}
               onChange={this.onCallWithChange}
               options={callWithOptions}
-              displayFunction={
+              renderFunction={
                 option => formatMessage(i18n.getString(option, currentLocale), { brand })
               }
             />
