@@ -61,7 +61,13 @@ var _getDetailedPresenceReducer = require('./getDetailedPresenceReducer');
 
 var _getDetailedPresenceReducer2 = _interopRequireDefault(_getDetailedPresenceReducer);
 
-var _callLogHelpers = require('../../lib/callLogHelpers');
+var _telephonyStatuses = require('../../enums/telephonyStatuses');
+
+var _telephonyStatuses2 = _interopRequireDefault(_telephonyStatuses);
+
+var _subscriptionFilters = require('../../enums/subscriptionFilters');
+
+var _subscriptionFilters2 = _interopRequireDefault(_subscriptionFilters);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -92,12 +98,14 @@ var DetailedPresence = function (_Presence) {
       if (presenceRegExp.test(message.event) && message.body) {
         var _message$body = message.body,
             activeCalls = _message$body.activeCalls,
-            dndStatus = _message$body.dndStatus;
+            dndStatus = _message$body.dndStatus,
+            telephonyStatus = _message$body.telephonyStatus;
 
         _this.store.dispatch({
           type: _this.actionTypes.notification,
           activeCalls: activeCalls,
           dndStatus: dndStatus,
+          telephonyStatus: telephonyStatus,
           timestamp: Date.now()
         });
       }
@@ -124,7 +132,7 @@ var DetailedPresence = function (_Presence) {
               return _this.fetch();
 
             case 5:
-              _this._subscription.subscribe('/account/~/extension/~/presence?detailedTelephonyState=true');
+              _this._subscription.subscribe(_subscriptionFilters2.default.detailedPresence);
               _this.store.dispatch({
                 type: _this.actionTypes.initSuccess
               });
@@ -146,7 +154,10 @@ var DetailedPresence = function (_Presence) {
                 if (_this._connectivity) {
                   _this._fetch();
                 }
-              } else if (_this.ready && _this._lastProcessedCalls !== _this.calls) {
+              }
+
+            case 10:
+              if (_this.ready && _this._lastProcessedCalls !== _this.calls) {
                 oldCalls = [].concat((0, _toConsumableArray3.default)(_this._lastProcessedCalls));
 
                 _this._lastProcessedCalls = _this.calls;
@@ -155,14 +166,9 @@ var DetailedPresence = function (_Presence) {
                   var oldCallIndex = oldCalls.findIndex(function (item) {
                     return item.sessionId === call.sessionId;
                   });
-                  var onRingingCalled = false;
                   if (oldCallIndex === -1) {
                     if (typeof _this._onNewCall === 'function') {
                       _this._onNewCall(call);
-                    }
-                    if (typeof _this._onRinging === 'function' && !onRingingCalled && (0, _callLogHelpers.isRinging)(call)) {
-                      _this._onRinging();
-                      onRingingCalled = true;
                     }
                   } else {
                     var oldCall = oldCalls[oldCallIndex];
@@ -178,8 +184,14 @@ var DetailedPresence = function (_Presence) {
                   }
                 });
               }
+              if (_this.ready && _this._lastTelephonyStatus !== _this.telephonyStatus) {
+                _this._lastTelephonyStatus = _this.telephonyStatus;
+                if (_this._lastTelephonyStatus === _telephonyStatuses2.default.ringing && typeof _this._onRinging === 'function') {
+                  _this._onRinging();
+                }
+              }
 
-            case 10:
+            case 12:
             case 'end':
               return _context.stop();
           }
@@ -206,6 +218,7 @@ var DetailedPresence = function (_Presence) {
       });
     });
     _this._lastProcessedCalls = [];
+    _this._lastTelephonyStatus = null;
     return _this;
   }
 
@@ -218,7 +231,7 @@ var DetailedPresence = function (_Presence) {
     key: '_fetch',
     value: function () {
       var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-        var ownerId, _json, activeCalls, dndStatus;
+        var ownerId, _json, activeCalls, dndStatus, telephonyStatus;
 
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
@@ -230,27 +243,29 @@ var DetailedPresence = function (_Presence) {
                 ownerId = this._auth.ownerId;
                 _context2.prev = 2;
                 _context2.next = 5;
-                return this._client.service.platform().get('/account/~/extension/~/presence?detailedTelephonyState=true');
+                return this._client.service.platform().get(_subscriptionFilters2.default.detailedPresence);
 
               case 5:
                 _json = _context2.sent.json();
                 activeCalls = _json.activeCalls;
                 dndStatus = _json.dndStatus;
+                telephonyStatus = _json.telephonyStatus;
 
                 if (this._auth.ownerId === ownerId) {
                   this.store.dispatch({
                     type: this.actionTypes.fetchSuccess,
                     activeCalls: activeCalls,
                     dndStatus: dndStatus,
+                    telephonyStatus: telephonyStatus,
                     timestamp: Date.now()
                   });
                   this._promise = null;
                 }
-                _context2.next = 14;
+                _context2.next = 15;
                 break;
 
-              case 11:
-                _context2.prev = 11;
+              case 12:
+                _context2.prev = 12;
                 _context2.t0 = _context2['catch'](2);
 
                 if (this._auth.ownerId === ownerId) {
@@ -261,12 +276,12 @@ var DetailedPresence = function (_Presence) {
                   this._promise = null;
                 }
 
-              case 14:
+              case 15:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[2, 11]]);
+        }, _callee2, this, [[2, 12]]);
       }));
 
       function _fetch() {
@@ -279,6 +294,11 @@ var DetailedPresence = function (_Presence) {
     key: 'calls',
     get: function get() {
       return this.state.calls;
+    }
+  }, {
+    key: 'telephonyStatus',
+    get: function get() {
+      return this.state.telephonyStatus;
     }
   }, {
     key: 'sessionIdList',

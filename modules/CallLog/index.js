@@ -73,17 +73,13 @@ var _sleep = require('../../lib/sleep');
 
 var _sleep2 = _interopRequireDefault(_sleep);
 
-var _filters = require('../Subscription/filters');
+var _subscriptionFilters = require('../../enums/subscriptionFilters');
 
-var _filters2 = _interopRequireDefault(_filters);
+var _subscriptionFilters2 = _interopRequireDefault(_subscriptionFilters);
 
 var _syncTypes = require('../../enums/syncTypes');
 
 var _syncTypes2 = _interopRequireDefault(_syncTypes);
-
-var _processCall = require('../../lib/processCall');
-
-var _processCall2 = _interopRequireDefault(_processCall);
 
 var _callLogHelpers = require('../../lib/callLogHelpers');
 
@@ -98,7 +94,7 @@ var SYNC_DELAY = 20 * 1000;
 
 function processData(data) {
   return {
-    records: data.records.map(_processCall2.default),
+    records: data.records,
     timestamp: new Date(data.syncInfo.syncTime).getTime(),
     syncToken: data.syncInfo.syncToken
   };
@@ -129,6 +125,7 @@ var CallLog = function (_Pollable) {
         client = _ref.client,
         storage = _ref.storage,
         subscription = _ref.subscription,
+        rolesAndPermissions = _ref.rolesAndPermissions,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === undefined ? DEFAULT_TTL : _ref$ttl,
         _ref$tokenExpiresIn = _ref.tokenExpiresIn,
@@ -139,7 +136,7 @@ var CallLog = function (_Pollable) {
         daySpan = _ref$daySpan === undefined ? DEFAULT_DAY_SPAN : _ref$daySpan,
         _ref$polling = _ref.polling,
         polling = _ref$polling === undefined ? true : _ref$polling,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'storage', 'subscription', 'ttl', 'tokenExpiresIn', 'timeToRetry', 'daySpan', 'polling']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'storage', 'subscription', 'rolesAndPermissions', 'ttl', 'tokenExpiresIn', 'timeToRetry', 'daySpan', 'polling']);
     (0, _classCallCheck3.default)(this, CallLog);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallLog.__proto__ || (0, _getPrototypeOf2.default)(CallLog)).call(this, (0, _extends3.default)({}, options, {
@@ -185,7 +182,7 @@ var CallLog = function (_Pollable) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              if (!(_this._auth.loggedIn && _this._storage.ready && (!_this._subscription || _this._subscription.ready) && _this.status === _moduleStatus2.default.pending)) {
+              if (!(_this._auth.loggedIn && _this._storage.ready && (!_this._subscription || _this._subscription.ready) && _this._rolesAndPermissions.ready && _this.status === _moduleStatus2.default.pending)) {
                 _context2.next = 9;
                 break;
               }
@@ -204,7 +201,7 @@ var CallLog = function (_Pollable) {
 
             case 5:
               if (_this._subscription) {
-                _this._subscription.subscribe(_filters2.default.detailedPresence);
+                _this._subscription.subscribe(_subscriptionFilters2.default.detailedPresence);
               }
               _this.store.dispatch({
                 type: _this.actionTypes.initSuccess
@@ -213,7 +210,7 @@ var CallLog = function (_Pollable) {
               break;
 
             case 9:
-              if ((!_this._auth.loggedIn || !_this._storage.ready || _this._subscription && !_this._subscription.ready) && _this.ready) {
+              if ((!_this._auth.loggedIn || !_this._storage.ready || _this._subscription && !_this._subscription.ready || !_this._rolesAndPermissions.ready) && _this.ready) {
                 _this.store.dispatch({
                   type: _this.actionTypes.reset
                 });
@@ -239,6 +236,7 @@ var CallLog = function (_Pollable) {
     _this._client = client;
     _this._storage = storage;
     _this._subscription = subscription;
+    _this._rolesAndPermissions = rolesAndPermissions;
     _this._dataStorageKey = 'callLogData';
     _this._tokenStorageKey = 'callLogToken';
     _this._timestampStorageKey = 'callLogTimestamp';
@@ -413,8 +411,8 @@ var CallLog = function (_Pollable) {
                 supplementRecords = void 0;
                 _processData = processData(data), records = _processData.records, timestamp = _processData.timestamp, syncToken = _processData.syncToken;
 
-                if (!(records.length === RECORD_COUNT || records.length > 0)) {
-                  _context5.next = 16;
+                if (!(records.length >= RECORD_COUNT)) {
+                  _context5.next = 15;
                   break;
                 }
 
@@ -425,18 +423,17 @@ var CallLog = function (_Pollable) {
                 });
 
               case 14:
-                _context5.t0 = _processCall2.default;
-                supplementRecords = _context5.sent.map(_context5.t0);
+                supplementRecords = _context5.sent;
 
-              case 16:
+              case 15:
                 if (!(ownerId !== this._auth.ownerId)) {
-                  _context5.next = 18;
+                  _context5.next = 17;
                   break;
                 }
 
                 throw Error('request aborted');
 
-              case 18:
+              case 17:
                 this.store.dispatch({
                   type: this.actionTypes.fSyncSuccess,
                   records: records,
@@ -445,30 +442,30 @@ var CallLog = function (_Pollable) {
                   syncToken: syncToken,
                   daySpan: this._daySpan
                 });
-                _context5.next = 26;
+                _context5.next = 25;
                 break;
 
-              case 21:
-                _context5.prev = 21;
-                _context5.t1 = _context5['catch'](1);
+              case 20:
+                _context5.prev = 20;
+                _context5.t0 = _context5['catch'](1);
 
                 if (!(ownerId === this._auth.ownerId)) {
-                  _context5.next = 26;
+                  _context5.next = 25;
                   break;
                 }
 
                 this.store.dispatch({
                   type: this.actionTypes.fSyncError,
-                  error: _context5.t1
+                  error: _context5.t0
                 });
-                throw _context5.t1;
+                throw _context5.t0;
 
-              case 26:
+              case 25:
               case 'end':
                 return _context5.stop();
             }
           }
-        }, _callee5, this, [[1, 21]]);
+        }, _callee5, this, [[1, 20]]);
       }));
 
       function _fSync() {
@@ -603,6 +600,16 @@ var CallLog = function (_Pollable) {
     key: 'timeToRetry',
     get: function get() {
       return this._timeToRetry;
+    }
+  }, {
+    key: 'canReadCallLog',
+    get: function get() {
+      return !!this._rolesAndPermissions.permissions.ReadCallLog;
+    }
+  }, {
+    key: 'canReadPresence',
+    get: function get() {
+      return !!this._rolesAndPermissions.permissions.ReadPresenceStatus;
     }
   }]);
   return CallLog;

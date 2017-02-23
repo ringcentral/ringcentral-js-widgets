@@ -53,13 +53,11 @@ var _fetchList = require('../../lib/fetchList');
 
 var _fetchList2 = _interopRequireDefault(_fetchList);
 
-var _filters = require('../Subscription/filters');
+var _subscriptionFilters = require('../../enums/subscriptionFilters');
 
-var _filters2 = _interopRequireDefault(_filters);
+var _subscriptionFilters2 = _interopRequireDefault(_subscriptionFilters);
 
-var _processCall = require('../../lib/processCall');
-
-var _processCall2 = _interopRequireDefault(_processCall);
+var _getActiveCallsReducer = require('./getActiveCallsReducer');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -84,7 +82,8 @@ var ActiveCalls = function (_DataFetcher) {
       name: 'activeCalls',
       client: client,
       ttl: ttl,
-      subscriptionFilters: [_filters2.default.detailedPresence],
+      getDataReducer: _getActiveCallsReducer.getDataReducer,
+      subscriptionFilters: [_subscriptionFilters2.default.detailedPresence],
       subscriptionHandler: function () {
         var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(message) {
           var ownerId;
@@ -128,16 +127,11 @@ var ActiveCalls = function (_DataFetcher) {
             while (1) {
               switch (_context2.prev = _context2.next) {
                 case 0:
-                  _context2.next = 2;
-                  return (0, _fetchList2.default)(function (params) {
+                  return _context2.abrupt('return', (0, _fetchList2.default)(function (params) {
                     return _this._client.account().extension().activeCalls().list(params);
-                  });
+                  }));
 
-                case 2:
-                  _context2.t0 = _processCall2.default;
-                  return _context2.abrupt('return', _context2.sent.map(_context2.t0));
-
-                case 4:
+                case 1:
                 case 'end':
                   return _context2.stop();
               }

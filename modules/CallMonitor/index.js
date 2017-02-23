@@ -84,7 +84,7 @@ var CallMonitor = function (_RcModule) {
     })));
 
     _this._onStateChange = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-      var uniqueNumbers;
+      var uniqueNumbers, sessionIds;
       return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -111,6 +111,11 @@ var CallMonitor = function (_RcModule) {
                   if (_this._contactMatcher && _this._contactMatcher.ready) {
                     _this._contactMatcher.triggerMatch();
                   }
+                }
+                sessionIds = _this._selectors.sessionIds();
+
+                if (_this._lastProcessedIds !== sessionIds) {
+                  _this._lastProcessedIds = sessionIds;
                   if (_this._activityMatcher && _this._activityMatcher.ready) {
                     _this._activityMatcher.triggerMatch();
                   }
@@ -131,97 +136,73 @@ var CallMonitor = function (_RcModule) {
     _this._activityMatcher = activityMatcher;
     _this._regionSettings = regionSettings;
     _this._reducer = (0, _getCallMonitorReducer2.default)(_this.actionTypes);
-    _this.addSelector('calls', function () {
+    _this.addSelector('normalizedCalls', function () {
       return _this._detailedPresence.calls;
     }, function () {
       return _this._activeCalls.calls;
     }, function () {
-      return _this._contactMatcher && _this._contactMatcher.ready ? _this._contactMatcher.cache : null;
+      return _this._regionSettings.countryCode;
     }, function () {
-      return _this._activityMatcher && _this._activityMatcher.ready ? _this._activityMatcher.cache : null;
-    }, function (callsFromPresence, callsFromActiveCalls, contactCache, activityCache) {
+      return _this._regionSettings.areaCode;
+    }, function (callsFromPresence, callsFromActiveCalls, countryCode, areaCode) {
       return callsFromPresence.map(function (call) {
         var activeCall = callsFromActiveCalls.find(function (item) {
           return item.sessionId === call.sessionId;
         });
         var fromNumber = (0, _normalizeNumber2.default)({
-          phoneNumber: call.from,
-          countryCode: _this._regionSettings.countryCode,
-          areaCode: _this._regionSettings.areaCode
+          phoneNumber: call.from && call.from.phoneNumber,
+          countryCode: countryCode,
+          areaCode: areaCode
         });
         var toNumber = (0, _normalizeNumber2.default)({
-          phoneNumber: call.to,
-          countryCode: _this._regionSettings.countryCode,
-          areaCode: _this._regionSettings.areaCode
+          phoneNumber: call.to && call.to.phoneNumber,
+          countryCode: countryCode,
+          areaCode: areaCode
         });
         return (0, _extends3.default)({}, call, {
           from: {
-            phoneNumber: fromNumber
+            phoneNumber: fromNumber,
+            name: activeCall && activeCall.from && activeCall.from.name
           },
           to: {
-            phoneNumber: toNumber
+            phoneNumber: toNumber,
+            name: activeCall && activeCall.to && activeCall.to.name
           },
-          startTime: activeCall && activeCall.startTime || call.startTime,
-          fromMatches: contactCache && contactCache.dataMap[fromNumber] || [],
-          toMatches: contactCache && contactCache.dataMap[toNumber] || [],
+          startTime: activeCall && activeCall.startTime || call.startTime
+        });
+      });
+    });
+    _this.addSelector('calls', _this._selectors.normalizedCalls, function () {
+      return _this._contactMatcher && _this._contactMatcher.ready ? _this._contactMatcher.cache : null;
+    }, function () {
+      return _this._activityMatcher && _this._activityMatcher.ready ? _this._activityMatcher.cache : null;
+    }, function (normalizedCalls, contactCache, activityCache) {
+      return normalizedCalls.map(function (call) {
+        var fromNumber = call.from && call.from.phoneNumber;
+        var toNumber = call.to && call.to.phoneNumber;
+        return (0, _extends3.default)({}, call, {
+          fromMatches: fromNumber && contactCache && contactCache.dataMap[fromNumber] || [],
+          toMatches: toNumber && contactCache && contactCache.dataMap[toNumber] || [],
           activityMatches: activityCache && activityCache.dataMap[call.sessionId] || []
         });
       });
     });
 
-    _this.addSelector('uniqueNumbers', function () {
-      return _this._detailedPresence.calls;
-    }, function () {
-      return _this._activeCalls.calls;
-    }, function (callsFromPresence, callsFromActiveCalls) {
+    _this.addSelector('uniqueNumbers', _this._selectors.normalizedCalls, function (normalizedCalls) {
       var output = [];
       var numberMap = {};
-      callsFromPresence.forEach(function (call) {
-        if (call.from) {
-          var number = (0, _normalizeNumber2.default)({
-            phoneNumber: call.from,
-            countryCode: _this._regionSettings.countryCode,
-            areaCode: _this._regionSettings.areCode
-          });
-          if (!numberMap[number]) {
-            output.push(number);
-            numberMap[number] = true;
-          }
+      function addIfNotExist(number) {
+        if (!numberMap[number]) {
+          output.push(number);
+          numberMap[number] = true;
         }
-        if (call.to) {
-          var _number = (0, _normalizeNumber2.default)({
-            phoneNumber: call.to,
-            countryCode: _this._regionSettings.countryCode,
-            areaCode: _this._regionSettings.areCode
-          });
-          if (!numberMap[_number]) {
-            output.push(_number);
-            numberMap[_number] = true;
-          }
+      }
+      normalizedCalls.forEach(function (call) {
+        if (call.from && call.from.phoneNumber) {
+          addIfNotExist(call.from.phoneNumber);
         }
-      });
-      callsFromActiveCalls.forEach(function (call) {
-        if (call.from) {
-          var number = (0, _normalizeNumber2.default)({
-            phoneNumber: call.from.phoneNumber || call.from.extensionNumber,
-            countryCode: _this._regionSettings.countryCode,
-            areaCode: _this._regionSettings.areaCode
-          });
-          if (number && !numberMap[number]) {
-            output.push(number);
-            numberMap[number] = true;
-          }
-        }
-        if (call.to) {
-          var _number2 = (0, _normalizeNumber2.default)({
-            phoneNumber: call.to.phoneNumber || call.to.extensionNumber,
-            countryCode: _this._regionSettings.countryCode,
-            areaCode: _this._regionSettings.areaCode
-          });
-          if (_number2 && !numberMap[_number2]) {
-            output.push(_number2);
-            numberMap[_number2] = true;
-          }
+        if (call.to && call.to.phoneNumber) {
+          addIfNotExist(call.to.phoneNumber);
         }
       });
       return output;
@@ -235,7 +216,7 @@ var CallMonitor = function (_RcModule) {
         }
       });
     }
-    _this.addSelector('sessionIdList', function () {
+    _this.addSelector('sessionIds', function () {
       return _this._detailedPresence.calls;
     }, function (calls) {
       return calls.map(function (call) {
@@ -244,7 +225,7 @@ var CallMonitor = function (_RcModule) {
     });
     if (_this._activityMatcher) {
       _this._activityMatcher.addQuerySource({
-        getQueriesFn: _this._selectors.sessionIdList,
+        getQueriesFn: _this._selectors.sessionIds,
         readyCheckFn: function readyCheckFn() {
           return _this._detailedPresence.ready;
         }

@@ -61,6 +61,10 @@ var _actionTypes2 = _interopRequireDefault(_actionTypes);
 
 var _getAccountExtensionReducer = require('./getAccountExtensionReducer');
 
+var _subscriptionFilters = require('../../enums/subscriptionFilters');
+
+var _subscriptionFilters2 = _interopRequireDefault(_subscriptionFilters);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var extensionRegExp = /.*\/extension$/;
@@ -108,7 +112,7 @@ var AccountExtension = function (_DataFetcher) {
       actionTypes: _actionTypes2.default,
       getDataReducer: _getAccountExtensionReducer.getDataReducer,
       getTimestampReducer: _getAccountExtensionReducer.getTimestampReducer,
-      subscriptionFilters: ['/account/~/extension'],
+      subscriptionFilters: [_subscriptionFilters2.default.accountExtension],
       subscriptionHandler: function () {
         var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(message) {
           var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, item, id, eventType, extensionData;
