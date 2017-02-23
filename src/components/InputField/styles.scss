@@ -15,6 +15,7 @@
 
 .inputHolder {
   @include no-select;
+  @include field-value-font;
   display: inline-block;
   position: relative;
   vertical-align: top;
@@ -22,4 +23,3 @@
   height: 30px;
   text-align: center;
 }
-
