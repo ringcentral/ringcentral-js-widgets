@@ -10,5 +10,5 @@ var _Enum2 = _interopRequireDefault(_Enum);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default(['initSuccess', 'resetSuccess', 'startToConnect', 'completeConnect'], 'ringoutActionTypes');
+exports.default = new _Enum2.default(['initSuccess', 'resetSuccess', 'startToConnect', 'connectSuccess', 'connectError'], 'ringoutActionTypes');
 //# sourceMappingURL=actionTypes.js.map

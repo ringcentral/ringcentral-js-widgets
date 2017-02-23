@@ -148,7 +148,7 @@ var Ringout = function (_RcModule) {
 
               case 9:
                 this.store.dispatch({
-                  type: this.actionTypes.completeConnect
+                  type: this.actionTypes.connectSuccess
                 });
                 _context.next = 17;
                 break;
@@ -158,7 +158,7 @@ var Ringout = function (_RcModule) {
                 _context.t0 = _context['catch'](2);
 
                 this.store.dispatch({
-                  type: this.actionTypes.completeConnect
+                  type: this.actionTypes.connectError
                 });
 
                 if (!(_context.t0.message !== _ringoutErrors2.default.pollingCancelled)) {

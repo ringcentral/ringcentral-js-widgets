@@ -28,7 +28,8 @@ function getRingoutStatusReducer(types) {
       case types.startToConnect:
         return _ringoutStatus2.default.connecting;
 
-      case types.completeConnect:
+      case types.connectSuccess:
+      case types.connectError:
         return _ringoutStatus2.default.idle;
 
       default:

@@ -115,7 +115,7 @@ var Call = function (_RcModule) {
           switch (_context.prev = _context.next) {
             case 0:
               if (!(_this.callStatus === _callStatus2.default.idle)) {
-                _context.next = 19;
+                _context.next = 23;
                 break;
               }
 
@@ -131,7 +131,7 @@ var Call = function (_RcModule) {
                   message: _callErrors2.default.noToNumber
                 });
               }
-              _context.next = 19;
+              _context.next = 23;
               break;
 
             case 5:
@@ -147,7 +147,7 @@ var Call = function (_RcModule) {
               validatedNumbers = _context.sent;
 
               if (!validatedNumbers) {
-                _context.next = 13;
+                _context.next = 16;
                 break;
               }
 
@@ -155,11 +155,23 @@ var Call = function (_RcModule) {
               return _this._makeCall(validatedNumbers);
 
             case 13:
-              _context.next = 18;
+              _this.store.dispatch({
+                type: _this.actionTypes.connectSuccess
+              });
+              _context.next = 17;
               break;
 
-            case 15:
-              _context.prev = 15;
+            case 16:
+              _this.store.dispatch({
+                type: _this.actionTypes.connectError
+              });
+
+            case 17:
+              _context.next = 23;
+              break;
+
+            case 19:
+              _context.prev = 19;
               _context.t0 = _context['catch'](6);
 
               if (_context.t0.message === _ringoutErrors2.default.firstLegConnectFailed) {
@@ -178,18 +190,16 @@ var Call = function (_RcModule) {
                   payroll: _context.t0
                 });
               }
-
-            case 18:
               _this.store.dispatch({
-                type: _this.actionTypes.completeConnect
+                type: _this.actionTypes.connectError
               });
 
-            case 19:
+            case 23:
             case 'end':
               return _context.stop();
           }
         }
-      }, _callee, _this2, [[6, 15]]);
+      }, _callee, _this2, [[6, 19]]);
     }));
 
 
@@ -251,9 +261,9 @@ var Call = function (_RcModule) {
                 areaCode = this._regionSettings.areaCode;
                 _parseNumber = (0, _parseNumber3.default)(this.toNumber), hasPlus = _parseNumber.hasPlus, number = _parseNumber.number, isServiceNumber = _parseNumber.isServiceNumber;
                 cleaned = (0, _cleanNumber2.default)(this.toNumber);
-                // non digital number
+                // include special char or cleaned has no digit (only #*+)
 
-                if (!(cleaned.length === 0)) {
+                if (!((0, _cleanNumber.hasInvalidChar)(this.toNumber) || !(0, _cleanNumber.hasNumber)(cleaned))) {
                   _context2.next = 9;
                   break;
                 }
