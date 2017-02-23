@@ -44,8 +44,8 @@ function Select(_ref) {
           // eslint-disable-next-line react/no-array-index-key
           _react2.default.createElement(
             'option',
-            { key: idx, value: valueFunction(option) },
-            renderFunction(option)
+            { key: idx, value: valueFunction(option, idx) },
+            renderFunction(option, idx)
           )
         );
       })
