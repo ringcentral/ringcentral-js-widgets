@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import styles from './styles.scss';
+import '../../assets/DynamicsFont/DynamicsFont.scss'; // import font face
 
 export default function Select({
   className,
