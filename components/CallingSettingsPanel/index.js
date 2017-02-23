@@ -253,7 +253,7 @@ var CallingSettingsPanel = function (_Component) {
               value: this.state.callWith,
               onChange: this.onCallWithChange,
               options: callWithOptions,
-              displayFunction: function displayFunction(option) {
+              renderFunction: function renderFunction(option) {
                 return (0, _formatMessage2.default)(_i18n2.default.getString(option, currentLocale), { brand: brand });
               }
             })
