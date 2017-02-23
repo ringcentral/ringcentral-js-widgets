@@ -7,6 +7,7 @@ import Panel from '../Panel';
 import Line from '../Line';
 import InputField from '../InputField';
 import TextInput from '../TextInput';
+import Select from '../Select';
 
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -106,7 +107,6 @@ export default class RegionSettings extends Component {
     }
     const showAreaCode = this.state.countryCodeValue === 'US' ||
       this.state.countryCodeValue === 'CA';
-    const showCountryList = this.props.availableCountries.length > 1;
 
     return (
       <div className={classnames(styles.root, this.props.className)}>
@@ -119,24 +119,20 @@ export default class RegionSettings extends Component {
           <div className={styles.hint}>
             {i18n.getString(messageId, this.props.currentLocale)}
           </div>
-          {showCountryList && (
             <InputField
               className={styles.inputField}
               label={i18n.getString('country', this.props.currentLocale)}>
-              <select
-                className={styles.countrySelect}
+              <Select
+                className={styles.select}
                 value={this.state.countryCodeValue}
-                onChange={this.onCountryCodeChange} >
-                {
-                  this.props.availableCountries.map((c, idx) => (
-                    <option key={idx} value={c.isoCode}>
-                      {`(+${c.callingCode}) ${countryNames.getString(c.isoCode, this.props.currentLocale)}`}
-                    </option>
-                  ))
+                onChange={this.onCountryCodeChange}
+                options={this.props.availableCountries}
+                valueFunction={option => option.isoCode}
+                renderFunction={
+                  option => `(+${option.callingCode}) ${countryNames.getString(option.isoCode, this.props.currentLocale)}`
                 }
-              </select>
+              />
             </InputField>
-          )}
           {showAreaCode && (
             <InputField
               className={styles.inputField}

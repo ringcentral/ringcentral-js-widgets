@@ -7,13 +7,13 @@ import 'font-awesome/css/font-awesome.css';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-import Header from '../../components/Header';
-import Panel from '../../components/Panel';
-import Switch from '../../components/Switch';
-import IconField from '../../components/IconField';
-import InputField from '../../components/InputField';
-import TextInput from '../../components/TextInput';
-import Select from '../../components/Select';
+import Header from '../Header';
+import Panel from '../Panel';
+import Switch from '../Switch';
+import IconField from '../IconField';
+import InputField from '../InputField';
+import TextInput from '../TextInput';
+import Select from '../Select';
 
 export default class CallingSettingsPanel extends Component {
   constructor(props) {
