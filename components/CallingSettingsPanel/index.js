@@ -50,31 +50,31 @@ var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
-var _Header = require('../../components/Header');
+var _Header = require('../Header');
 
 var _Header2 = _interopRequireDefault(_Header);
 
-var _Panel = require('../../components/Panel');
+var _Panel = require('../Panel');
 
 var _Panel2 = _interopRequireDefault(_Panel);
 
-var _Switch = require('../../components/Switch');
+var _Switch = require('../Switch');
 
 var _Switch2 = _interopRequireDefault(_Switch);
 
-var _IconField = require('../../components/IconField');
+var _IconField = require('../IconField');
 
 var _IconField2 = _interopRequireDefault(_IconField);
 
-var _InputField = require('../../components/InputField');
+var _InputField = require('../InputField');
 
 var _InputField2 = _interopRequireDefault(_InputField);
 
-var _TextInput = require('../../components/TextInput');
+var _TextInput = require('../TextInput');
 
 var _TextInput2 = _interopRequireDefault(_TextInput);
 
-var _Select = require('../../components/Select');
+var _Select = require('../Select');
 
 var _Select2 = _interopRequireDefault(_Select);
 

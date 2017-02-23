@@ -54,6 +54,10 @@ var _TextInput = require('../TextInput');
 
 var _TextInput2 = _interopRequireDefault(_TextInput);
 
+var _Select = require('../Select');
+
+var _Select2 = _interopRequireDefault(_Select);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -179,7 +183,6 @@ var RegionSettings = function (_Component) {
         messageId = 'NAOnlyMessage';
       }
       var showAreaCode = this.state.countryCodeValue === 'US' || this.state.countryCodeValue === 'CA';
-      var showCountryList = this.props.availableCountries.length > 1;
 
       return _react2.default.createElement(
         'div',
@@ -199,25 +202,23 @@ var RegionSettings = function (_Component) {
             { className: _styles2.default.hint },
             _i18n2.default.getString(messageId, this.props.currentLocale)
           ),
-          showCountryList && _react2.default.createElement(
+          _react2.default.createElement(
             _InputField2.default,
             {
               className: _styles2.default.inputField,
               label: _i18n2.default.getString('country', this.props.currentLocale) },
-            _react2.default.createElement(
-              'select',
-              {
-                className: _styles2.default.countrySelect,
-                value: this.state.countryCodeValue,
-                onChange: this.onCountryCodeChange },
-              this.props.availableCountries.map(function (c, idx) {
-                return _react2.default.createElement(
-                  'option',
-                  { key: idx, value: c.isoCode },
-                  '(+' + c.callingCode + ') ' + _countryNames2.default.getString(c.isoCode, _this2.props.currentLocale)
-                );
-              })
-            )
+            _react2.default.createElement(_Select2.default, {
+              className: _styles2.default.select,
+              value: this.state.countryCodeValue,
+              onChange: this.onCountryCodeChange,
+              options: this.props.availableCountries,
+              valueFunction: function valueFunction(option) {
+                return option.isoCode;
+              },
+              renderFunction: function renderFunction(option) {
+                return '(+' + option.callingCode + ') ' + _countryNames2.default.getString(option.isoCode, _this2.props.currentLocale);
+              }
+            })
           ),
           showAreaCode && _react2.default.createElement(
             _InputField2.default,
