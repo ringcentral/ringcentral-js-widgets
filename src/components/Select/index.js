@@ -24,8 +24,8 @@ export default function Select({
         {
           options.map((option, idx) => (
             // eslint-disable-next-line react/no-array-index-key
-            <option key={idx} value={valueFunction(option)}>
-              {renderFunction(option)}
+            <option key={idx} value={valueFunction(option, idx)}>
+              {renderFunction(option, idx)}
             </option>
           ))
         }
