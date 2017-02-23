@@ -4,11 +4,11 @@
 .root {
   padding-left: 10px;
   box-sizing: border-box;
+  background-color: #fff;
 }
 
 .root:after {
   content: '\e951';
-  @include field-value-font;
   font-family: 'dynamics_icon';
   right: 0px;
   line-height: 30px;
@@ -19,10 +19,10 @@
 }
 
 .select {
-  @include field-value-font;
   appearance: none;
   border: none;
   padding: 0px 32px 0px 0px;
   height: 100%;
-  background-color: white;
+  color: inherit;
+  background-color: transparent;
 }

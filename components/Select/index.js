@@ -17,7 +17,11 @@ var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
 
+require('../../assets/DynamicsFont/DynamicsFont.scss');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import font face
 
 function Select(_ref) {
   var className = _ref.className,
