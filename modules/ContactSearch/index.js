@@ -65,9 +65,9 @@ var _moduleStatus = require('../../enums/moduleStatus');
 
 var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
 
-var _contactSearchActionTypes = require('./contactSearchActionTypes');
+var _actionTypes = require('./actionTypes');
 
-var _contactSearchActionTypes2 = _interopRequireDefault(_contactSearchActionTypes);
+var _actionTypes2 = _interopRequireDefault(_actionTypes);
 
 var _getContactSearchReducer = require('./getContactSearchReducer');
 
@@ -91,7 +91,7 @@ var ContactSearch = function (_RcModule) {
     (0, _classCallCheck3.default)(this, ContactSearch);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ContactSearch.__proto__ || (0, _getPrototypeOf2.default)(ContactSearch)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _contactSearchActionTypes2.default
+      actionTypes: _actionTypes2.default
     })));
 
     _this._auth = auth;
@@ -101,9 +101,17 @@ var ContactSearch = function (_RcModule) {
     _this._searchSources = new _map2.default();
     _this._searchSourcesFormat = new _map2.default();
     _this._searchSourcesCheck = new _map2.default();
-    _this._reducer = (0, _getContactSearchReducer2.default)(_this.actionTypes);
-    _this._cacheReducer = (0, _getCacheReducer2.default)(_this.actionTypes);
-    storage.registerReducer({ key: _this._storageKey, reducer: _this._cacheReducer });
+    if (_this._storage) {
+      _this._reducer = (0, _getContactSearchReducer2.default)(_this.actionTypes);
+      storage.registerReducer({
+        key: _this._storageKey,
+        reducer: (0, _getCacheReducer2.default)(_this.actionTypes)
+      });
+    } else {
+      _this._reducer = (0, _getContactSearchReducer2.default)(_this.actionTypes, {
+        cache: (0, _getCacheReducer2.default)(_this.actionTypes)
+      });
+    }
     return _this;
   }
 
@@ -128,12 +136,12 @@ var ContactSearch = function (_RcModule) {
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return this._auth.loginStatus === _loginStatus2.default.loggedIn && this._storage.ready && this._readyCheck() && !this.ready;
+      return this._auth.loginStatus === _loginStatus2.default.loggedIn && (!this._storage || this._storage.ready) && this._readyCheck() && !this.ready;
     }
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return (this._auth.loginStatus !== _loginStatus2.default.loggedIn || !this._storage.ready) && this.ready;
+      return (this._auth.loginStatus !== _loginStatus2.default.loggedIn || this._storage && !this._storage.ready) && this.ready;
     }
   }, {
     key: '_initModuleStatus',
@@ -435,7 +443,7 @@ var ContactSearch = function (_RcModule) {
   }, {
     key: 'cache',
     get: function get() {
-      return this._storage.getItem(this._storageKey);
+      return this._storage ? this._storage.getItem(this._storageKey) : this.state.cache;
     }
   }, {
     key: 'status',

@@ -77,10 +77,12 @@ function getSearchingReducer(types) {
 }
 
 function getContactSearchReducer(types) {
-  return (0, _redux.combineReducers)({
+  var reducers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+  return (0, _redux.combineReducers)((0, _extends3.default)({}, reducers, {
     status: (0, _getModuleStatusReducer2.default)(types),
     searchStatus: getContactSearchStatusReducer(types),
     searching: getSearchingReducer(types)
-  });
+  }));
 }
 //# sourceMappingURL=getContactSearchReducer.js.map
