@@ -11,6 +11,7 @@ export default function Select({
   options,
   valueFunction,
   renderFunction,
+  paddingLeft,
 }) {
   return (
     <div
@@ -21,6 +22,9 @@ export default function Select({
         className={styles.select}
         disabled={disabled}
         value={value}
+        style={{
+          paddingLeft,
+        }}
         onChange={onChange} >
         {
           options.map((option, idx) => (
@@ -40,7 +44,8 @@ Select.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
-  options: PropTypes.array.isRequired,
+  options: PropTypes.arrayOf(PropTypes.any).isRequired,
+  paddingLeft: PropTypes.number,
   valueFunction: PropTypes.func,
   renderFunction: PropTypes.func,
 };
@@ -50,6 +55,7 @@ Select.defaultProps = {
   value: undefined,
   onChange: undefined,
   disabled: false,
+  paddingLeft: 10,
   valueFunction: option => option,
   renderFunction: option => option,
 };
