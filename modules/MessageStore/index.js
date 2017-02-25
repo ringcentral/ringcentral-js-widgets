@@ -676,7 +676,7 @@ var MessageStore = function (_RcModule) {
   }, {
     key: 'matchMessageText',
     value: function matchMessageText(message, searchText) {
-      if (message.subject.toLowerCase().indexOf(searchText) >= 0) {
+      if (message.subject && message.subject.toLowerCase().indexOf(searchText) >= 0) {
         return message;
       }
       var conversation = this.conversations[message.conversation.id];
@@ -691,7 +691,7 @@ var MessageStore = function (_RcModule) {
         for (var _iterator = (0, _getIterator3.default)(conversation.messages), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var subMessage = _step.value;
 
-          if (subMessage.subject.toLowerCase().indexOf(searchText) >= 0) {
+          if (subMessage.subject && subMessage.subject.toLowerCase().indexOf(searchText) >= 0) {
             return message;
           }
         }
