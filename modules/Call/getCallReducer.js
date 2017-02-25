@@ -52,6 +52,7 @@ function getToNumberReducer(types) {
         return data;
       case types.connectError:
         return state;
+      case types.resetSuccess:
       case types.connectSuccess:
         return '';
       default:

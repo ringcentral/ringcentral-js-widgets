@@ -90,12 +90,14 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
             })));
 
             conditionalDescribe('Should Init Successfully with Deafult Setting', function () {
+              _this.timeout(20000);
               it('Should Set Sender Number with First SmsSender Phone Number by Default', function () {
                 expect(composeText.senderNumber).to.equals(messageSender.senderNumbersList[0]);
               });
             });
 
             conditionalDescribe('Should Save Sender Number', function () {
+              _this.timeout(20000);
               it('Should Update Sender Number After User Change Sender Number', function () {
                 composeText.updateSenderNumber(messageSender.senderNumbersList[1]);
                 expect(composeText.senderNumber).to.equals(messageSender.senderNumbersList[1]);
@@ -134,6 +136,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
             });
 
             conditionalDescribe('Should Update Typing Number', function () {
+              _this.timeout(20000);
               it('Should Update Typing Number When User Typing Number', function () {
                 composeText.updateTypingToNumber('123');
                 expect(composeText.typingToNumber).to.equals('123');
@@ -147,6 +150,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
             });
 
             conditionalDescribe('Should Update Message Text', function () {
+              _this.timeout(20000);
               it('Should Update Message Text When User Type', function () {
                 composeText.updateMessageText('1234');
                 expect(composeText.messageText).to.equals('1234');
@@ -154,6 +158,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
             });
 
             conditionalDescribe('Should Update ToNumbers', function () {
+              _this.timeout(20000);
               beforeEach(function () {
                 composeText.clean();
               });
@@ -177,6 +182,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
             });
 
             conditionalDescribe('Should Clean All Inputs After User Submit', function () {
+              _this.timeout(20000);
               it('Should Clean All Inputs', function () {
                 composeText.updateTypingToNumber('123');
                 composeText.addToNumber({ phoneNumber: '+18558990011' });
@@ -189,6 +195,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
             });
 
             conditionalDescribe('Should Send Message', function () {
+              _this.timeout(20000);
               var clientHistoryRequest = new _ClientHistoryRequest2.default(new _map2.default(), client);
               beforeEach(function () {
                 composeText.clean();
@@ -319,6 +326,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
             });
 
             conditionalDescribe('Should Allow Alert', function () {
+              _this.timeout(20000);
               beforeEach((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
                 var isAlertClear;
                 return _regenerator2.default.wrap(function _callee7$(_context7) {

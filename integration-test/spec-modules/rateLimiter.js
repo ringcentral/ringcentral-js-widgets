@@ -42,6 +42,7 @@ exports.default = function (auth, alert, account, client, rateLimiter) {
               console.error('Skip test case as failed to login with credential ', account);
             }
             conditionalDescribe('Should Allow Alert', function () {
+              this.timeout(20000);
               beforeEach((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
                 var isAlertClear;
                 return _regenerator2.default.wrap(function _callee$(_context) {

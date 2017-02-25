@@ -58,6 +58,7 @@ exports.default = function (auth, client, alert, account, callingSettings, exten
               console.error('Skip test case as failed to login with credential ', account);
             }
             conditionalDescribe('Should Be Make Call with Softphone by Default', function () {
+              this.timeout(20000);
               it('Should Be Make Call with Softphone by Default', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
                 return _regenerator2.default.wrap(function _callee$(_context) {
                   while (1) {
@@ -75,6 +76,7 @@ exports.default = function (auth, client, alert, account, callingSettings, exten
               })));
             });
             conditionalDescribe('Should Save Calling Mode', function () {
+              this.timeout(20000);
               it('Should Save My RingCentral Phone', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
                 return _regenerator2.default.wrap(function _callee2$(_context2) {
                   while (1) {
@@ -131,6 +133,7 @@ exports.default = function (auth, client, alert, account, callingSettings, exten
               })));
             });
             conditionalDescribe('Should Save Options in RingOut Mode', function () {
+              this.timeout(20000);
               it('Should Save From Number', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                   while (1) {
@@ -167,6 +170,7 @@ exports.default = function (auth, client, alert, account, callingSettings, exten
               })));
             });
             conditionalDescribe('Should Allow Alert', function () {
+              this.timeout(20000);
               beforeEach((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
                 var isAlertClear;
                 return _regenerator2.default.wrap(function _callee7$(_context7) {
@@ -340,6 +344,7 @@ exports.default = function (auth, client, alert, account, callingSettings, exten
               });
             });
             conditionalDescribe('Should Remember after Logout', function () {
+              this.timeout(20000);
               it('Should Remember Calling Settings after Re-login', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee16() {
                 return _regenerator2.default.wrap(function _callee16$(_context16) {
                   while (1) {
@@ -379,6 +384,7 @@ exports.default = function (auth, client, alert, account, callingSettings, exten
               })));
             });
             conditionalDescribe('Should Have Required Phone Numbers', function () {
+              this.timeout(20000);
               it('Should Have My Phone Numbers', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee17() {
                 var myPhoneNumbers, mainCompanyNumber, extensionNumber;
                 return _regenerator2.default.wrap(function _callee17$(_context17) {

@@ -44,6 +44,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
             conditionalDescribe('Basic Validation', function () {
               var _this = this;
 
+              this.timeout(10000);
               beforeEach((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
                 var isAlertClear;
                 return _regenerator2.default.wrap(function _callee$(_context) {
@@ -141,6 +142,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
             conditionalDescribe('Validation with Last Called Number', function () {
               var _this2 = this;
 
+              this.timeout(10000);
               beforeEach((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
                 var isAlertClear;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
@@ -274,6 +276,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
             conditionalDescribe('Validation with Region Setting', function () {
               var _this3 = this;
 
+              this.timeout(10000);
               beforeEach((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
                 var isAlertClear;
                 return _regenerator2.default.wrap(function _callee10$(_context10) {
