@@ -30,7 +30,8 @@ function Select(_ref) {
       disabled = _ref.disabled,
       options = _ref.options,
       valueFunction = _ref.valueFunction,
-      renderFunction = _ref.renderFunction;
+      renderFunction = _ref.renderFunction,
+      paddingLeft = _ref.paddingLeft;
 
   return _react2.default.createElement(
     'div',
@@ -42,6 +43,9 @@ function Select(_ref) {
         className: _styles2.default.select,
         disabled: disabled,
         value: value,
+        style: {
+          paddingLeft: paddingLeft
+        },
         onChange: onChange },
       options.map(function (option, idx) {
         return (
@@ -62,7 +66,8 @@ Select.propTypes = {
   value: _react.PropTypes.string,
   onChange: _react.PropTypes.func,
   disabled: _react.PropTypes.bool,
-  options: _react.PropTypes.array.isRequired,
+  options: _react.PropTypes.arrayOf(_react.PropTypes.any).isRequired,
+  paddingLeft: _react.PropTypes.number,
   valueFunction: _react.PropTypes.func,
   renderFunction: _react.PropTypes.func
 };
@@ -72,6 +77,7 @@ Select.defaultProps = {
   value: undefined,
   onChange: undefined,
   disabled: false,
+  paddingLeft: 10,
   valueFunction: function valueFunction(option) {
     return option;
   },

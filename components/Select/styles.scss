@@ -2,7 +2,6 @@
 @import '../../lib/commonStyles/colors';
 
 .root {
-  padding-left: 10px;
   box-sizing: border-box;
   background-color: #fff;
 }
@@ -21,9 +20,13 @@
 .select {
   appearance: none;
   border: none;
-  padding: 0px 32px 0px 0px;
+  padding: 0;
+  padding-right: 32px;
   width: 100%;
   height: 100%;
   color: inherit;
   background-color: transparent;
+}
+.select::-ms-expand {
+  display: none;
 }

@@ -44,7 +44,7 @@ var _audios2 = _interopRequireDefault(_audios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var keyConfig = [[{ value: '1', text: '' }, { value: '2', text: 'ABC' }, { value: '3', text: 'DEF' }], [{ value: '4', text: 'GHI' }, { value: '5', text: 'JKL' }, { value: '6', text: 'MON' }], [{ value: '7', text: 'PQRS' }, { value: '8', text: 'TUV' }, { value: '9', text: 'WXYZ' }], [{ value: '*', text: '' }, { value: '0', text: '+', alternativeValue: '+' }, { value: '#', text: '' }]];
+var keyConfig = [[{ value: '1', text: '' }, { value: '2', text: 'ABC', dx: '183.211' }, { value: '3', text: 'DEF', dx: '188.633' }], [{ value: '4', text: 'GHI', dx: '192.242' }, { value: '5', text: 'JKL', dx: '194.0235' }, { value: '6', text: 'MON', dx: '174.211' }], [{ value: '7', text: 'PQRS', dx: '163.3595' }, { value: '8', text: 'TUV', dx: '188.633' }, { value: '9', text: 'WXYZ', dx: '161.5705' }], [{ value: '*', text: '' }, { value: '0', text: '+', alternativeValue: '+', dx: '228.5625' }, { value: '#', text: '' }]];
 
 var ALTERNATIVE_TIMEOUT = 1000;
 
@@ -152,16 +152,20 @@ var DialButton = function (_Component) {
               'text',
               {
                 className: _styles2.default.btnValue,
-                x: '250',
-                y: '280' },
+                x: '0',
+                dx: '200',
+                y: '0',
+                dy: '280' },
               this.props.btn.value
             ),
             _react2.default.createElement(
               'text',
               {
                 className: _styles2.default.btnText,
-                x: '250',
-                y: '380' },
+                x: '0',
+                dx: this.props.btn.dx,
+                y: '0',
+                dy: '380' },
               this.props.btn.text
             )
           )
@@ -176,7 +180,8 @@ DialButton.propTypes = {
   btn: _react.PropTypes.shape({
     value: _react.PropTypes.string.isRequired,
     text: _react.PropTypes.string,
-    alternativeValue: _react.PropTypes.string
+    alternativeValue: _react.PropTypes.string,
+    dx: _react.PropTypes.string
   }).isRequired,
   audio: _react.PropTypes.string,
   onPress: _react.PropTypes.func,
