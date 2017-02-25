@@ -1,43 +1,45 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
-class TextInput extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: (props.value) ? props.value : ''
-    };
-  }
 
-  render() {
-    const props = this.props;
-    // console.debug('class',props.className);
-    return (
-      <div
-        className={classnames(
-          styles.root,
-          props.className,
-          props.invalid && styles.invalid,
-          )}>
-        <input
-          onChange={props.onChange}
-          placeholder={props.placeholder}
-          disabled={props.disabled}
-          readOnly={props.readOnly}
-          pattern={props.pattern}
-          maxLength={props.maxLength}
-          name={props.name}
-          value={props.value}
-          defaultValue={props.defaultValue}
-          className={classnames(styles.input)}
-          onKeyDown={props.onKeyDown}
-        />
-      </div>
-    );
-  }
+function TextInput({
+  className,
+  invalid,
+  onChange,
+  placeholder,
+  disabled,
+  readOnly,
+  pattern,
+  name,
+  maxLength,
+  value,
+  defaultValue,
+  onKeyDown,
+}) {
+  return (
+    <div
+      className={classnames(
+        styles.root,
+        className,
+        invalid && styles.invalid,
+      )}>
+      <input
+        onChange={onChange}
+        placeholder={placeholder}
+        disabled={disabled}
+        readOnly={readOnly}
+        pattern={pattern}
+        maxLength={maxLength}
+        name={name}
+        value={value || ''}
+        defaultValue={defaultValue}
+        className={styles.input}
+        onKeyDown={onKeyDown}
+      />
+    </div>
+  );
 }
-
 TextInput.propTypes = {
   className: PropTypes.string,
   onChange: PropTypes.func,
@@ -53,8 +55,18 @@ TextInput.propTypes = {
   onKeyDown: PropTypes.func,
 };
 TextInput.defaultProps = {
-  className: styles.input
+  className: undefined,
+  onChange: undefined,
+  placeholder: undefined,
+  disabled: false,
+  readOnly: false,
+  pattern: undefined,
+  maxLength: undefined,
+  name: undefined,
+  value: undefined,
+  defaultValue: undefined,
+  invalid: false,
+  onKeyDown: undefined,
 };
-
 
 export default TextInput;

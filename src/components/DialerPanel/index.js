@@ -51,12 +51,13 @@ function DialerPanel({
                   />
                 <text
                   className={styles.btnValue}
-                  x="250"
-                  y="330"
+                  x="0"
+                  dx="167.5155"
+                  y="0"
+                  dy="300"
                   dangerouslySetInnerHTML={{
                     __html: '&#xe953;',
-                  }}
-                  />
+                  }} />
               </g>
             </svg>
           </div>

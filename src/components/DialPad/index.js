@@ -4,12 +4,12 @@ import styles from './styles.scss';
 import audios from './audios';
 
 const keyConfig = [
-  [{ value: '1', text: '' }, { value: '2', text: 'ABC' }, { value: '3', text: 'DEF' }],
-  [{ value: '4', text: 'GHI' }, { value: '5', text: 'JKL' }, { value: '6', text: 'MON' }],
-  [{ value: '7', text: 'PQRS' }, { value: '8', text: 'TUV' }, { value: '9', text: 'WXYZ' }],
+  [{ value: '1', text: '' }, { value: '2', text: 'ABC', dx: '183.211' }, { value: '3', text: 'DEF', dx: '188.633' }],
+  [{ value: '4', text: 'GHI', dx: '192.242' }, { value: '5', text: 'JKL', dx: '194.0235' }, { value: '6', text: 'MON', dx: '174.211' }],
+  [{ value: '7', text: 'PQRS', dx: '163.3595' }, { value: '8', text: 'TUV', dx: '188.633' }, { value: '9', text: 'WXYZ', dx: '161.5705' }],
   [
     { value: '*', text: '' },
-    { value: '0', text: '+', alternativeValue: '+' },
+    { value: '0', text: '+', alternativeValue: '+', dx: '228.5625' },
     { value: '#', text: '' },
   ],
 ];
@@ -101,14 +101,18 @@ class DialButton extends Component {
             />
             <text
               className={styles.btnValue}
-              x="250"
-              y="280">
+              x="0"
+              dx="200"
+              y="0"
+              dy="280" >
               {this.props.btn.value}
             </text>
             <text
               className={styles.btnText}
-              x="250"
-              y="380">
+              x="0"
+              dx={this.props.btn.dx}
+              y="0"
+              dy="380">
               {this.props.btn.text}
             </text>
           </g>
@@ -123,6 +127,7 @@ DialButton.propTypes = {
     value: PropTypes.string.isRequired,
     text: PropTypes.string,
     alternativeValue: PropTypes.string,
+    dx: PropTypes.string,
   }).isRequired,
   audio: PropTypes.string,
   onPress: PropTypes.func,

@@ -36,7 +36,7 @@ $btn_value_height: 55%;
   stroke-width: 10;
   stroke: transparent;
   font-weight: 100;
-  /*stroke: $dialer-btn-border-color;*/
+  // stroke: $dialer-btn-border-color;
 }
 .btnSvgGroup:hover .circle, {
   stroke: $rc-blue;
@@ -51,13 +51,13 @@ $btn_value_height: 55%;
   fill: rgba(6, 132, 189, 0.3);
 }*/
 .btnValue {
-  text-anchor: middle;
+  // text-anchor: middle;
   font-size: 180px;
   fill: $lightblack;
   font-weight: 200;
 }
 .btnText {
-  text-anchor: middle;
+  // text-anchor: middle;
   font-size: 65px;
   fill: $grey-light;
   font-weight: 100;

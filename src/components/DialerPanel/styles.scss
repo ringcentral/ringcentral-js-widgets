@@ -81,8 +81,7 @@ $dial_input_height: 10%;
   transform: translate(15px, 22px) scale(0.42) rotateZ(-78deg);
 }
 .btnValue {
-  text-anchor: middle;
-  alignment-baseline: text-after-edge;
+  // text-anchor: middle;
   font-size: 165px;
   fill: #fff;
   font-family: 'dynamics_icon' !important;
