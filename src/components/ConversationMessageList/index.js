@@ -35,9 +35,13 @@ function MessageItem(props) {
 
 MessageItem.propTypes = {
   direction: PropTypes.string.isRequired,
-  subject: PropTypes.string.isRequired,
+  subject: PropTypes.string,
   creationTime: PropTypes.string.isRequired,
   showDate: PropTypes.bool.isRequired,
+};
+
+MessageItem.defaultProps = {
+  subject: '',
 };
 
 class ConversationMessageList extends Component {
