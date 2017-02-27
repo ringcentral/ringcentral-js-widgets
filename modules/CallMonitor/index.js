@@ -148,8 +148,8 @@ var CallMonitor = function (_RcModule) {
       return _this._regionSettings.areaCode;
     }, function (callsFromPresence, callsFromActiveCalls, countryCode, areaCode) {
       return callsFromPresence.map(function (call) {
-        var activeCall = callsFromActiveCalls.find(function (item) {
-          return item.sessionId === call.sessionId;
+        var activeCall = call.inboundLeg && callsFromActiveCalls.find(function (item) {
+          return item.sessionId === call.inboundLeg.sessionId;
         });
         var fromNumber = (0, _normalizeNumber2.default)({
           phoneNumber: call.from && call.from.phoneNumber,
@@ -162,14 +162,12 @@ var CallMonitor = function (_RcModule) {
           areaCode: areaCode
         });
         return (0, _extends3.default)({}, call, {
-          from: {
-            phoneNumber: fromNumber,
-            name: activeCall && activeCall.from && activeCall.from.name
-          },
-          to: {
-            phoneNumber: toNumber,
-            name: activeCall && activeCall.to && activeCall.to.name
-          },
+          from: (0, _extends3.default)({}, activeCall && activeCall.to || {}, {
+            phoneNumber: fromNumber
+          }),
+          to: (0, _extends3.default)({}, activeCall && activeCall.from || {}, {
+            phoneNumber: toNumber
+          }),
           startTime: activeCall && activeCall.startTime || call.startTime
         });
       });
