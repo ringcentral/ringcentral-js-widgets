@@ -90,7 +90,7 @@ var DEFAULT_TOKEN_EXPIRES_IN = 60 * 60 * 1000;
 var DEFAULT_DAY_SPAN = 7;
 var RECORD_COUNT = 250;
 var DEFAULT_TIME_TO_RETRY = 62 * 1000;
-var SYNC_DELAY = 20 * 1000;
+var SYNC_DELAY = 30 * 1000;
 
 function processData(data) {
   return {
@@ -260,6 +260,13 @@ var CallLog = function (_Pollable) {
     });
 
     _this._reducer = (0, _getCallLogReducer2.default)(_this.actionTypes);
+
+    _this.addSelector('calls', function () {
+      return _this.data;
+    }, function (data) {
+      return (0, _callLogHelpers.removeInboundRingOutLegs)((0, _callLogHelpers.removeDuplicateIntermediateCalls)(data));
+    });
+
     _this._promise = null;
     _this._lastMessage = null;
     return _this;
@@ -577,9 +584,14 @@ var CallLog = function (_Pollable) {
       return this.state.status === _moduleStatus2.default.ready;
     }
   }, {
-    key: 'calls',
+    key: 'data',
     get: function get() {
       return this._storage.getItem(this._dataStorageKey);
+    }
+  }, {
+    key: 'calls',
+    get: function get() {
+      return this._selectors.calls();
     }
   }, {
     key: 'token',

@@ -63,6 +63,8 @@ var _normalizeNumber = require('../../lib/normalizeNumber');
 
 var _normalizeNumber2 = _interopRequireDefault(_normalizeNumber);
 
+var _callLogHelpers = require('../../lib/callLogHelpers');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CallMonitor = function (_RcModule) {
@@ -185,7 +187,7 @@ var CallMonitor = function (_RcModule) {
           toMatches: toNumber && contactCache && contactCache.dataMap[toNumber] || [],
           activityMatches: activityCache && activityCache.dataMap[call.sessionId] || []
         });
-      });
+      }).sort(_callLogHelpers.sortByStartTime);
     });
 
     _this.addSelector('uniqueNumbers', _this._selectors.normalizedCalls, function (normalizedCalls) {

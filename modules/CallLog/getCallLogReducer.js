@@ -79,7 +79,7 @@ function getDataReducer(types) {
               newState.push(call);
             }
           });
-          (0, _callLogHelpers.removeInboundRingOutLegs)(processRecords(records, supplementRecords)).forEach(function (call) {
+          processRecords(records, supplementRecords).forEach(function (call) {
             if (call.startTime > _cutOffTime) {
               if (indexMap[call.id] > -1) {
                 // replace the current data with new data

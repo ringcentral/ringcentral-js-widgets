@@ -22,7 +22,7 @@ function getDataReducer(types) {
 
     switch (type) {
       case types.fetchSuccess:
-        return (0, _callLogHelpers.removeInboundRingOutLegs)(data).map(function (call) {
+        return data.map(function (call) {
           return (0, _callLogHelpers.normalizeStartTime)((0, _removeUri2.default)(call));
         }).sort(_callLogHelpers.sortByStartTime);
       case types.resetSuccess:

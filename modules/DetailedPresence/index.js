@@ -69,6 +69,8 @@ var _subscriptionFilters = require('../../enums/subscriptionFilters');
 
 var _subscriptionFilters2 = _interopRequireDefault(_subscriptionFilters);
 
+var _callLogHelpers = require('../../lib/callLogHelpers');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var presenceRegExp = /\/presence(\?.*)?/;
@@ -170,6 +172,9 @@ var DetailedPresence = function (_Presence) {
                     if (typeof _this._onNewCall === 'function') {
                       _this._onNewCall(call);
                     }
+                    if (typeof _this._onRinging === 'function' && (0, _callLogHelpers.isRinging)(call)) {
+                      _this._onRinging(call);
+                    }
                   } else {
                     var oldCall = oldCalls[oldCallIndex];
                     oldCalls.splice(oldCallIndex, 1);
@@ -184,14 +189,8 @@ var DetailedPresence = function (_Presence) {
                   }
                 });
               }
-              if (_this.ready && _this._lastTelephonyStatus !== _this.telephonyStatus) {
-                _this._lastTelephonyStatus = _this.telephonyStatus;
-                if (_this._lastTelephonyStatus === _telephonyStatuses2.default.ringing && typeof _this._onRinging === 'function') {
-                  _this._onRinging();
-                }
-              }
 
-            case 12:
+            case 11:
             case 'end':
               return _context.stop();
           }
@@ -217,6 +216,15 @@ var DetailedPresence = function (_Presence) {
         return call.sessionId;
       });
     });
+
+    _this.addSelector('calls', function () {
+      return _this.state.data;
+    }, function (data) {
+      return (0, _callLogHelpers.removeInboundRingOutLegs)((0, _callLogHelpers.removeDuplicateIntermediateCalls)(data)).filter(function (call) {
+        return !(0, _callLogHelpers.isEnded)(call);
+      });
+    });
+
     _this._lastProcessedCalls = [];
     _this._lastTelephonyStatus = null;
     return _this;
@@ -291,9 +299,14 @@ var DetailedPresence = function (_Presence) {
       return _fetch;
     }()
   }, {
+    key: 'data',
+    get: function get() {
+      return this.state.data;
+    }
+  }, {
     key: 'calls',
     get: function get() {
-      return this.state.calls;
+      return this._selectors.calls();
     }
   }, {
     key: 'telephonyStatus',
