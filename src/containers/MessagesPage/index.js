@@ -54,10 +54,7 @@ class MessagesPage extends Component {
     });
   }
 
-  isMatchMessage(message, searchText, searchNumber) {
-    if (message.subject.toLowerCase().indexOf(searchText) >= 0) {
-      return true;
-    }
+  isMatchContact(message, searchText, searchNumber) {
     const recipients = this.props.getRecipientsList(message);
     for (const number of recipients) {
       const phoneNumber = number.phoneNumber || number.extensionNumber;
@@ -77,7 +74,7 @@ class MessagesPage extends Component {
         return true;
       }
     }
-    return !!this.props.matchMessageText(message, searchText);
+    return false;
   }
 
   searchMessage() {
@@ -91,9 +88,21 @@ class MessagesPage extends Component {
     if (searchString.length !== searchNumber.length && searchNumber.length < 2) {
       searchNumber = null;
     }
-    const results = this.props.allMessages.filter(message =>
-      this.isMatchMessage(message, searchText, searchNumber)
+    const searchTextResults = this.props.searchMessagesText(searchText).reverse();
+    const searchContactresults = this.props.allMessages.filter(message =>
+      this.isMatchContact(message, searchText, searchNumber)
     ).reverse();
+    const results = [];
+    const searchMap = {};
+    const addSearchResultToResult = (message) => {
+      if (searchMap[message.conversationId]) {
+        return;
+      }
+      searchMap[message.conversationId] = 1;
+      results.push(message);
+    };
+    searchContactresults.forEach(addSearchResultToResult);
+    searchTextResults.forEach(addSearchResultToResult);
     this.props.updateSearchResults(results);
   }
 
@@ -166,7 +175,7 @@ MessagesPage.propTypes = {
   formatDateTime: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
   getRecipientsList: PropTypes.func.isRequired,
-  matchMessageText: PropTypes.func.isRequired,
+  searchMessagesText: PropTypes.func.isRequired,
   updateSearchResults: PropTypes.func.isRequired,
 };
 
@@ -174,7 +183,7 @@ function mapStateToProps(state, props) {
   return ({
     currentLocale: props.locale.currentLocale,
     messages: props.messages.messages,
-    allMessages: props.messageStore.messages,
+    allMessages: props.messageStore.conversations,
     showSpinner: (
       !props.messages.ready ||
       !props.extensionInfo.ready ||
@@ -205,8 +214,8 @@ function mapDispatchToProps(dispatch, props) {
       message,
       myExtensionNumber: props.extensionInfo.extensionNumber,
     }),
-    matchMessageText: (message, searchText) =>
-      props.messageStore.matchMessageText(message, searchText),
+    searchMessagesText: searchText =>
+      props.messageStore.searchMessagesText(searchText),
   };
 }
 

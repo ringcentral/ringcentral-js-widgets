@@ -48,7 +48,7 @@ export default class MessageList extends Component {
               message =>
                 <MessageItem
                   type={message.type}
-                  isRead={message.isRead}
+                  unreadCounts={message.unreadCounts}
                   conversation={message.conversation}
                   subject={message.subject}
                   contactList={this.props.getMessageRecipientNames(message)}
@@ -68,7 +68,7 @@ MessageList.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     type: PropTypes.string,
-    isRead: PropTypes.bool,
+    unreadCounts: PropTypes.number,
     conversation: PropTypes.object.isRequired,
     subject: PropTypes.string,
     creationTime: PropTypes.string,

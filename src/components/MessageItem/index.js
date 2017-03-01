@@ -10,10 +10,10 @@ export default function MessageItem(props) {
     ? <span className={rcFont.uniA5} />
     : <span className={rcFont.uni41} />;
   let className = null;
-  if (props.isRead) {
-    className = styles.messageItem;
-  } else {
+  if (props.unreadCounts > 0) {
     className = classnames(styles.messageItem, styles.unRead);
+  } else {
+    className = styles.messageItem;
   }
   return (
     <div className={className}>
@@ -48,7 +48,7 @@ export default function MessageItem(props) {
 
 MessageItem.propTypes = {
   type: PropTypes.string.isRequired,
-  isRead: PropTypes.bool,
+  unreadCounts: PropTypes.number,
   conversation: PropTypes.shape({
     id: PropTypes.string,
   }).isRequired,
@@ -59,6 +59,6 @@ MessageItem.propTypes = {
 };
 
 MessageItem.defaultProps = {
-  isRead: false,
+  unreadCounts: 0,
   subject: '',
 };

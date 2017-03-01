@@ -24,7 +24,7 @@ const ComposeTextPage = connect((state, props) => ({
   send: () =>
     props.composeText.send().then((resp) => {
       if (resp && resp.conversation) {
-        props.messageStore.pushMessage(resp.conversation.id, resp);
+        props.messageStore.pushMessage(resp);
         props.composeText.clean();
         props.router.history.push(`/conversations/${resp.conversation.id}`);
       }
