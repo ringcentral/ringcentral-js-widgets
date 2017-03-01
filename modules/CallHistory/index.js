@@ -104,6 +104,10 @@ var CallHistory = function (_RcModule) {
                 _this.store.dispatch({
                   type: _this.actionTypes.reset
                 });
+                _this._lastProcessedCalls = null;
+                _this._lastProcessedIds = null;
+                _this._lastProcessedMonitorCalls = null;
+                _this._lastProcessedNumbers = null;
                 _this.store.dispatch({
                   type: _this.actionTypes.resetSuccess
                 });

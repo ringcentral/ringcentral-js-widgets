@@ -82,7 +82,11 @@ var CallMonitor = function (_RcModule) {
         activeCalls = _ref.activeCalls,
         activityMatcher = _ref.activityMatcher,
         contactMatcher = _ref.contactMatcher,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['accountInfo', 'detailedPresence', 'activeCalls', 'activityMatcher', 'contactMatcher']);
+        onRinging = _ref.onRinging,
+        onNewCall = _ref.onNewCall,
+        onCallUpdated = _ref.onCallUpdated,
+        onCallEnded = _ref.onCallEnded,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['accountInfo', 'detailedPresence', 'activeCalls', 'activityMatcher', 'contactMatcher', 'onRinging', 'onNewCall', 'onCallUpdated', 'onCallEnded']);
     (0, _classCallCheck3.default)(this, CallMonitor);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallMonitor.__proto__ || (0, _getPrototypeOf2.default)(CallMonitor)).call(this, (0, _extends3.default)({}, options, {
@@ -90,7 +94,7 @@ var CallMonitor = function (_RcModule) {
     })));
 
     _this._onStateChange = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-      var uniqueNumbers, sessionIds;
+      var uniqueNumbers, sessionIds, oldCalls;
       return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -106,6 +110,9 @@ var CallMonitor = function (_RcModule) {
                 _this.store.dispatch({
                   type: _this.actionTypes.reset
                 });
+                _this._lastProcessedCalls = null;
+                _this._lastProcessedIds = null;
+                _this._lastProcessedNumbers = null;
                 _this.store.dispatch({
                   type: _this.actionTypes.resetSuccess
                 });
@@ -126,6 +133,37 @@ var CallMonitor = function (_RcModule) {
                     _this._activityMatcher.triggerMatch();
                   }
                 }
+
+                if (_this._lastProcessedCalls !== _this.calls) {
+                  oldCalls = _this._lastProcessedCalls && _this._lastProcessedCalls.slice() || [];
+
+                  _this._lastProcessedCalls = _this.calls;
+
+                  _this.calls.forEach(function (call) {
+                    var oldCallIndex = oldCalls.findIndex(function (item) {
+                      return item.sessionId === call.sessionId;
+                    });
+                    if (oldCallIndex === -1) {
+                      if (typeof _this._onNewCall === 'function') {
+                        _this._onNewCall(call);
+                      }
+                      if (typeof _this._onRinging === 'function' && (0, _callLogHelpers.isRinging)(call)) {
+                        _this._onRinging(call);
+                      }
+                    } else {
+                      var oldCall = oldCalls[oldCallIndex];
+                      oldCalls.splice(oldCallIndex, 1);
+                      if (call.telephonyStatus !== oldCall.telephonyStatus && typeof _this._onCallUpdated === 'function') {
+                        _this._onCallUpdated(call);
+                      }
+                    }
+                  });
+                  oldCalls.forEach(function (call) {
+                    if (typeof _this._onCallEnded === 'function') {
+                      _this._onCallEnded(call);
+                    }
+                  });
+                }
               }
 
             case 1:
@@ -141,6 +179,11 @@ var CallMonitor = function (_RcModule) {
     _this._activeCalls = _ensureExist2.default.call(_this, activeCalls, 'activeCalls');
     _this._contactMatcher = contactMatcher;
     _this._activityMatcher = activityMatcher;
+    _this._onRinging = onRinging;
+    _this._onNewCall = onNewCall;
+    _this._onCallUpdated = onCallUpdated;
+    _this._onCallEnded = onCallEnded;
+
     _this._reducer = (0, _getCallMonitorReducer2.default)(_this.actionTypes);
     _this.addSelector('normalizedCalls', function () {
       return _this._detailedPresence.calls;
@@ -236,6 +279,8 @@ var CallMonitor = function (_RcModule) {
     }
 
     _this._lastProcessedNumbers = null;
+    _this._lastProcessedCalls = null;
+    _this._lastProcessedIds = null;
     return _this;
   }
 
