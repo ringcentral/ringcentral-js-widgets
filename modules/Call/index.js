@@ -57,10 +57,6 @@ var _normalizeNumber = require('../../lib/normalizeNumber');
 
 var _normalizeNumber2 = _interopRequireDefault(_normalizeNumber);
 
-var _cleanNumber = require('../../lib/cleanNumber');
-
-var _cleanNumber2 = _interopRequireDefault(_cleanNumber);
-
 var _parseNumber2 = require('../../lib/parseNumber');
 
 var _parseNumber3 = _interopRequireDefault(_parseNumber2);
@@ -250,7 +246,7 @@ var Call = function (_RcModule) {
     key: '_getValidatedNumbers',
     value: function () {
       var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-        var fromNumber, countryCode, areaCode, _parseNumber, hasPlus, number, isServiceNumber, cleaned, normalized, homeCountry, resp, parsedFromNumber;
+        var fromNumber, countryCode, areaCode, _parseNumber, hasPlus, number, isServiceNumber, hasInvalidChars, normalized, homeCountry, resp, parsedFromNumber;
 
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
@@ -259,34 +255,33 @@ var Call = function (_RcModule) {
                 fromNumber = this._callingSettings.myLocation;
                 countryCode = this._regionSettings.countryCode;
                 areaCode = this._regionSettings.areaCode;
-                _parseNumber = (0, _parseNumber3.default)(this.toNumber), hasPlus = _parseNumber.hasPlus, number = _parseNumber.number, isServiceNumber = _parseNumber.isServiceNumber;
-                cleaned = (0, _cleanNumber2.default)(this.toNumber);
+                _parseNumber = (0, _parseNumber3.default)(this.toNumber), hasPlus = _parseNumber.hasPlus, number = _parseNumber.number, isServiceNumber = _parseNumber.isServiceNumber, hasInvalidChars = _parseNumber.hasInvalidChars;
                 // include special char or cleaned has no digit (only #*+)
 
-                if (!((0, _cleanNumber.hasInvalidChar)(this.toNumber) || !(0, _cleanNumber.hasNumber)(cleaned))) {
-                  _context2.next = 9;
+                if (!(hasInvalidChars || number === '')) {
+                  _context2.next = 8;
                   break;
                 }
 
                 this._alert.warning({
                   message: _callErrors2.default.noToNumber
                 });
-                _context2.next = 29;
+                _context2.next = 28;
                 break;
 
-              case 9:
+              case 8:
                 if (!(!isServiceNumber && !hasPlus && number.length === 7 && (countryCode === 'CA' || countryCode === 'US') && areaCode === '')) {
-                  _context2.next = 13;
+                  _context2.next = 12;
                   break;
                 }
 
                 this._alert.warning({
                   message: _callErrors2.default.noAreaCode
                 });
-                _context2.next = 29;
+                _context2.next = 28;
                 break;
 
-              case 13:
+              case 12:
                 // to e164 normalize
                 normalized = (0, _normalizeNumber2.default)({
                   phoneNumber: this.toNumber,
@@ -296,28 +291,28 @@ var Call = function (_RcModule) {
                 // phoneParser
 
                 homeCountry = countryCode ? { homeCountry: countryCode } : {};
-                _context2.next = 17;
+                _context2.next = 16;
                 return this._client.numberParser().parse().post({
                   originalStrings: [normalized, fromNumber]
                 }, homeCountry);
 
-              case 17:
+              case 16:
                 resp = _context2.sent;
 
                 if (!(resp.phoneNumbers[0] && resp.phoneNumbers[0].special)) {
-                  _context2.next = 22;
+                  _context2.next = 21;
                   break;
                 }
 
                 this._alert.warning({
                   message: _callErrors2.default.specialNumber
                 });
-                _context2.next = 29;
+                _context2.next = 28;
                 break;
 
-              case 22:
+              case 21:
                 if (!(resp.phoneNumbers[0] && resp.phoneNumbers[0].originalString.length <= 5 && !this._accountExtension.isAvailableExtension(resp.phoneNumbers[0].originalString))) {
-                  _context2.next = 26;
+                  _context2.next = 25;
                   break;
                 }
 
@@ -325,10 +320,10 @@ var Call = function (_RcModule) {
                 this._alert.warning({
                   message: _callErrors2.default.notAnExtension
                 });
-                _context2.next = 29;
+                _context2.next = 28;
                 break;
 
-              case 26:
+              case 25:
                 // using e164 in response to call
                 parsedFromNumber = resp.phoneNumbers[1] ? resp.phoneNumbers[1].e164 : '';
                 // add ext back if any
@@ -341,10 +336,10 @@ var Call = function (_RcModule) {
                   fromNumber: parsedFromNumber
                 });
 
-              case 29:
+              case 28:
                 return _context2.abrupt('return', null);
 
-              case 30:
+              case 29:
               case 'end':
                 return _context2.stop();
             }
@@ -433,8 +428,7 @@ var Call = function (_RcModule) {
     }
   }]);
   return Call;
-}(_RcModule3.default); // TODO : move to ringcentral-integration
-
+}(_RcModule3.default);
 
 exports.default = Call;
 //# sourceMappingURL=index.js.map
