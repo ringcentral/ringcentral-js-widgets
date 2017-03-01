@@ -75,12 +75,12 @@ var CallHistory = function (_RcModule) {
   function CallHistory(_ref) {
     var _this2 = this;
 
-    var callLog = _ref.callLog,
+    var accountInfo = _ref.accountInfo,
+        callLog = _ref.callLog,
         callMonitor = _ref.callMonitor,
         activityMatcher = _ref.activityMatcher,
         contactMatcher = _ref.contactMatcher,
-        regionSettings = _ref.regionSettings,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['callLog', 'callMonitor', 'activityMatcher', 'contactMatcher', 'regionSettings']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['accountInfo', 'callLog', 'callMonitor', 'activityMatcher', 'contactMatcher']);
     (0, _classCallCheck3.default)(this, CallHistory);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallHistory.__proto__ || (0, _getPrototypeOf2.default)(CallHistory)).call(this, (0, _extends3.default)({}, options, {
@@ -93,14 +93,14 @@ var CallHistory = function (_RcModule) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              if (_this._callLog.ready && (!_this._callMonitor || _this._callMonitor.ready) && _this._regionSettings.ready && (!_this._contactMatcher || _this._contactMatcher.ready) && (!_this._activityMatcher || _this._activityMatcher.ready) && _this.pending) {
+              if (_this._callLog.ready && (!_this._callMonitor || _this._callMonitor.ready) && _this._accountInfo.ready && (!_this._contactMatcher || _this._contactMatcher.ready) && (!_this._activityMatcher || _this._activityMatcher.ready) && _this.pending) {
                 _this.store.dispatch({
                   type: _this.actionTypes.init
                 });
                 _this.store.dispatch({
                   type: _this.actionTypes.initSuccess
                 });
-              } else if ((!_this._callLog.ready || _this._callMonitor && !_this._callMonitor.ready || !_this._regionSettings.ready || _this._contactMatcher && !_this._contactMatcher.ready || _this._activityMatcher && !_this._activityMatcher.ready) && _this.ready) {
+              } else if ((!_this._callLog.ready || _this._callMonitor && !_this._callMonitor.ready || !_this._accountInfo.ready || _this._contactMatcher && !_this._contactMatcher.ready || _this._activityMatcher && !_this._activityMatcher.ready) && _this.ready) {
                 _this.store.dispatch({
                   type: _this.actionTypes.reset
                 });
@@ -174,10 +174,8 @@ var CallHistory = function (_RcModule) {
       }, _callee, _this2);
     }));
 
+    _this._accountInfo = _ensureExist2.default.call(_this, accountInfo, 'accountInfo');
     _this._callLog = _ensureExist2.default.call(_this, callLog, 'callLog');
-    // this._activityMatcher = this::ensureExist(activityMatcher, 'activityMatcher');
-    // this._contactMatcher = this::ensureExist(contactMatcher, 'contactMatcher');
-    _this._regionSettings = _ensureExist2.default.call(_this, regionSettings, 'regionSettings');
     _this._activityMatcher = activityMatcher;
     _this._contactMatcher = contactMatcher;
     _this._callMonitor = callMonitor;
@@ -186,25 +184,21 @@ var CallHistory = function (_RcModule) {
     _this.addSelector('normalizedCalls', function () {
       return _this._callLog.calls;
     }, function () {
-      return _this._regionSettings.countryCode;
-    }, function () {
-      return _this._regionSettings.areaCode;
-    }, function (calls, countryCode, areaCode) {
+      return _this._accountInfo.country.isoCode;
+    }, function (calls, countryCode) {
       return calls.map(function (call) {
         var callFrom = (0, _extends3.default)({}, call.from);
         if (callFrom.phoneNumber) {
           callFrom.phoneNumber = (0, _normalizeNumber2.default)({
             phoneNumber: callFrom.phoneNumber,
-            countryCode: countryCode,
-            areaCode: areaCode
+            countryCode: countryCode
           });
         }
         var callTo = (0, _extends3.default)({}, call.to);
         if (callTo.phoneNumber) {
           callTo.phoneNumber = (0, _normalizeNumber2.default)({
             phoneNumber: callTo.phoneNumber,
-            countryCode: countryCode,
-            areaCode: areaCode
+            countryCode: countryCode
           });
         }
         return (0, _extends3.default)({}, call, {
@@ -268,7 +262,7 @@ var CallHistory = function (_RcModule) {
       _this._contactMatcher.addQuerySource({
         getQueriesFn: _this._selectors.uniqueNumbers,
         readyCheckFn: function readyCheckFn() {
-          return (!_this._callMonitor || _this._callMonitor.ready) && _this._callLog.ready && _this._regionSettings.ready;
+          return (!_this._callMonitor || _this._callMonitor.ready) && _this._callLog.ready && _this._accountInfo.ready;
         }
       });
     }

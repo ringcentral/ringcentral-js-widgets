@@ -65,6 +65,10 @@ var _normalizeNumber2 = _interopRequireDefault(_normalizeNumber);
 
 var _callLogHelpers = require('../../lib/callLogHelpers');
 
+var _ensureExist = require('../../lib/ensureExist');
+
+var _ensureExist2 = _interopRequireDefault(_ensureExist);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var CallMonitor = function (_RcModule) {
@@ -73,12 +77,12 @@ var CallMonitor = function (_RcModule) {
   function CallMonitor(_ref) {
     var _this2 = this;
 
-    var detailedPresence = _ref.detailedPresence,
+    var accountInfo = _ref.accountInfo,
+        detailedPresence = _ref.detailedPresence,
         activeCalls = _ref.activeCalls,
         activityMatcher = _ref.activityMatcher,
         contactMatcher = _ref.contactMatcher,
-        regionSettings = _ref.regionSettings,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['detailedPresence', 'activeCalls', 'activityMatcher', 'contactMatcher', 'regionSettings']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['accountInfo', 'detailedPresence', 'activeCalls', 'activityMatcher', 'contactMatcher']);
     (0, _classCallCheck3.default)(this, CallMonitor);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallMonitor.__proto__ || (0, _getPrototypeOf2.default)(CallMonitor)).call(this, (0, _extends3.default)({}, options, {
@@ -91,14 +95,14 @@ var CallMonitor = function (_RcModule) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              if (_this._detailedPresence.ready && _this._activeCalls.ready && _this._regionSettings.ready && (!_this._contactMatcher || _this._contactMatcher.ready) && (!_this._activityMatcher || _this._activityMatcher.ready) && _this.pending) {
+              if (_this._accountInfo.ready && _this._detailedPresence.ready && _this._activeCalls.ready && (!_this._contactMatcher || _this._contactMatcher.ready) && (!_this._activityMatcher || _this._activityMatcher.ready) && _this.pending) {
                 _this.store.dispatch({
                   type: _this.actionTypes.init
                 });
                 _this.store.dispatch({
                   type: _this.actionTypes.initSuccess
                 });
-              } else if ((!_this._detailedPresence.ready || !_this._activeCalls.ready || !_this._regionSettings.ready || _this._contactMatcher && !_this._contactMatcher.ready || _this._activityMatcher && !_this._activityMatcher.ready) && _this.ready) {
+              } else if ((!_this._accountInfo.ready || !_this._detailedPresence.ready || !_this._activeCalls.ready || _this._contactMatcher && !_this._contactMatcher.ready || _this._activityMatcher && !_this._activityMatcher.ready) && _this.ready) {
                 _this.store.dispatch({
                   type: _this.actionTypes.reset
                 });
@@ -132,35 +136,34 @@ var CallMonitor = function (_RcModule) {
       }, _callee, _this2);
     }));
 
-    _this._detailedPresence = detailedPresence;
-    _this._activeCalls = activeCalls;
+    _this._accountInfo = _ensureExist2.default.call(_this, accountInfo, 'accountInfo');
+    _this._detailedPresence = _ensureExist2.default.call(_this, detailedPresence, 'detailedPresence');
+    _this._activeCalls = _ensureExist2.default.call(_this, activeCalls, 'activeCalls');
     _this._contactMatcher = contactMatcher;
     _this._activityMatcher = activityMatcher;
-    _this._regionSettings = regionSettings;
     _this._reducer = (0, _getCallMonitorReducer2.default)(_this.actionTypes);
     _this.addSelector('normalizedCalls', function () {
       return _this._detailedPresence.calls;
     }, function () {
       return _this._activeCalls.calls;
     }, function () {
-      return _this._regionSettings.countryCode;
-    }, function () {
-      return _this._regionSettings.areaCode;
-    }, function (callsFromPresence, callsFromActiveCalls, countryCode, areaCode) {
+      return _this._accountInfo.country.isoCode;
+    }, function (callsFromPresence, callsFromActiveCalls, countryCode) {
       return callsFromPresence.map(function (call) {
         var activeCall = call.inboundLeg && callsFromActiveCalls.find(function (item) {
           return item.sessionId === call.inboundLeg.sessionId;
         });
+
+        // use account countryCode to normalize number due to API issues [RCINT-3419]
         var fromNumber = (0, _normalizeNumber2.default)({
           phoneNumber: call.from && call.from.phoneNumber,
-          countryCode: countryCode,
-          areaCode: areaCode
+          countryCode: countryCode
         });
         var toNumber = (0, _normalizeNumber2.default)({
           phoneNumber: call.to && call.to.phoneNumber,
-          countryCode: countryCode,
-          areaCode: areaCode
+          countryCode: countryCode
         });
+
         return (0, _extends3.default)({}, call, {
           from: (0, _extends3.default)({}, activeCall && activeCall.to || {}, {
             phoneNumber: fromNumber
@@ -212,7 +215,7 @@ var CallMonitor = function (_RcModule) {
       _this._contactMatcher.addQuerySource({
         getQueriesFn: _this._selectors.uniqueNumbers,
         readyCheckFn: function readyCheckFn() {
-          return _this._activeCalls.ready && _this._detailedPresence.ready && _this._regionSettings.ready;
+          return _this._accountInfo.ready && _this._activeCalls.ready && _this._detailedPresence.ready;
         }
       });
     }
