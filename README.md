@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/ringcentral/ringcentral-js-integration-commons.svg?branch=master)](https://travis-ci.org/ringcentral/ringcentral-js-integration-commons)
 [![Coverage Status](https://coveralls.io/repos/github/ringcentral/ringcentral-js-integration-commons/badge.svg?branch=master)](https://coveralls.io/github/ringcentral/ringcentral-js-integration-commons?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/39f7f85c990b4eeab98702c89cdd31d3)](https://www.codacy.com/app/RingCentral/ringcentral-js-integration-commons?utm_source=github.com&utm_medium=referral&utm_content=ringcentral/ringcentral-js-integration-commons&utm_campaign=badger)
 [![NPM Version](https://img.shields.io/npm/v/ringcentral-integration.svg?style=flat-square)](https://www.npmjs.com/package/ringcentral-integration)
 
 
