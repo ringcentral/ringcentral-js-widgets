@@ -264,7 +264,10 @@ var CallLog = function (_Pollable) {
     _this.addSelector('calls', function () {
       return _this.data;
     }, function (data) {
-      return (0, _callLogHelpers.removeInboundRingOutLegs)((0, _callLogHelpers.removeDuplicateIntermediateCalls)(data));
+      return (
+        // TODO make sure removeDuplicateIntermediateCalls is necessary here
+        (0, _callLogHelpers.removeInboundRingOutLegs)((0, _callLogHelpers.removeDuplicateIntermediateCalls)(data))
+      );
     });
 
     _this._promise = null;

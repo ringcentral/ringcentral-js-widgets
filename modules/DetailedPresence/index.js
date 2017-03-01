@@ -61,10 +61,6 @@ var _getDetailedPresenceReducer = require('./getDetailedPresenceReducer');
 
 var _getDetailedPresenceReducer2 = _interopRequireDefault(_getDetailedPresenceReducer);
 
-var _telephonyStatuses = require('../../enums/telephonyStatuses');
-
-var _telephonyStatuses2 = _interopRequireDefault(_telephonyStatuses);
-
 var _subscriptionFilters = require('../../enums/subscriptionFilters');
 
 var _subscriptionFilters2 = _interopRequireDefault(_subscriptionFilters);
@@ -220,7 +216,7 @@ var DetailedPresence = function (_Presence) {
     _this.addSelector('calls', function () {
       return _this.state.data;
     }, function (data) {
-      return (0, _callLogHelpers.removeInboundRingOutLegs)((0, _callLogHelpers.removeDuplicateIntermediateCalls)(data)).filter(function (call) {
+      return (0, _callLogHelpers.removeInboundRingOutLegs)(data).filter(function (call) {
         return !(0, _callLogHelpers.isEnded)(call);
       });
     });
