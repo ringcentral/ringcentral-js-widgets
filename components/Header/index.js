@@ -27,7 +27,7 @@ function HeaderButton(props) {
     'div',
     {
       className: (0, _classnames2.default)(_styles2.default.button, props.disabled && _styles2.default.disabled),
-      onClick: props.onClick
+      onClick: props.disabled ? undefined : props.onClick
     },
     props.label
   );
