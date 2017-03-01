@@ -83,6 +83,10 @@ var _syncTypes2 = _interopRequireDefault(_syncTypes);
 
 var _callLogHelpers = require('../../lib/callLogHelpers');
 
+var _callResults = require('../../enums/callResults');
+
+var _callResults2 = _interopRequireDefault(_callResults);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var DEFAULT_TTL = 5 * 60 * 1000;
@@ -266,7 +270,12 @@ var CallLog = function (_Pollable) {
     }, function (data) {
       return (
         // TODO make sure removeDuplicateIntermediateCalls is necessary here
-        (0, _callLogHelpers.removeInboundRingOutLegs)((0, _callLogHelpers.removeDuplicateIntermediateCalls)(data))
+        (0, _callLogHelpers.removeInboundRingOutLegs)((0, _callLogHelpers.removeDuplicateIntermediateCalls)(data.filter(function (call) {
+          return (
+            // [RCINT-3472] calls with result === 'stopped' seems to be useless
+            call.result !== _callResults2.default.stopped
+          );
+        })))
       );
     });
 
