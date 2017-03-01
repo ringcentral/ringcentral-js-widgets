@@ -10,7 +10,7 @@ function HeaderButton(props) {
         styles.button,
         props.disabled && styles.disabled,
       )}
-      onClick={props.onClick}
+      onClick={props.disabled ? undefined : props.onClick}
     >
       {props.label}
     </div>
