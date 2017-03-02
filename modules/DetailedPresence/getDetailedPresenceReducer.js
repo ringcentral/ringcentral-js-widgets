@@ -42,7 +42,7 @@ function getDataReducer(types) {
         {
           return activeCalls.map(function (activeCall) {
             var existingCall = state.find(function (call) {
-              return call.id === activeCall.id;
+              return call.sessionId === activeCall.sessionId;
             });
             if (!existingCall) return (0, _extends3.default)({}, (0, _callLogHelpers.normalizeFromTo)(activeCall), { startTime: timestamp });
             if ((0, _callLogHelpers.isIntermediateCall)(activeCall)) return existingCall;
