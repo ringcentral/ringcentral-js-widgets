@@ -40,16 +40,17 @@ function getDataReducer(types) {
       case types.fetchSuccess:
       case types.notification:
         {
-          return activeCalls
-          // [RCINT-3558] should ignore intermediate call states
-          .filter(function (activeCall) {
-            return !(0, _callLogHelpers.isIntermediateCall)(activeCall);
-          }).map(function (activeCall) {
+          return activeCalls.map(function (activeCall) {
             var existingCall = state.find(function (call) {
               return call.id === activeCall.id;
             });
             if (!existingCall) return (0, _extends3.default)({}, (0, _callLogHelpers.normalizeFromTo)(activeCall), { startTime: timestamp });
+            if ((0, _callLogHelpers.isIntermediateCall)(activeCall)) return existingCall;
             return (0, _extends3.default)({}, existingCall, (0, _callLogHelpers.normalizeFromTo)(activeCall));
+          })
+          // [RCINT-3558] should ignore intermediate call states
+          .filter(function (activeCall) {
+            return !(0, _callLogHelpers.isIntermediateCall)(activeCall);
           });
         }
       case types.resetSuccess:
