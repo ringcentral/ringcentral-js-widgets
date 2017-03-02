@@ -279,7 +279,7 @@ var CallHistory = function (_RcModule) {
       var sessionIds = {};
       return calls.map(function (call) {
         sessionIds[call.sessionId] = true;
-        return call.sessionIds;
+        return call.sessionId;
       }).concat(endedCalls.filter(function (call) {
         return !sessionIds[call.sessionId];
       }).map(function (call) {
