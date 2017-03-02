@@ -188,7 +188,7 @@ var CallHistory = function (_RcModule) {
     _this.addSelector('normalizedCalls', function () {
       return _this._callLog.calls;
     }, function () {
-      return _this._accountInfo.country.isoCode;
+      return _this._accountInfo.countryCode;
     }, function (calls, countryCode) {
       return calls.map(function (call) {
         var callFrom = (0, _extends3.default)({}, call.from);

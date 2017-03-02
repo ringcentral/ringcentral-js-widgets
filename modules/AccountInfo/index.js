@@ -119,6 +119,11 @@ var AccountInfo = function (_DataFetcher) {
       return this.info.serviceInfo && this.info.serviceInfo.brand.homeCountry;
     }
   }, {
+    key: 'countryCode',
+    get: function get() {
+      return this.country && this.country.isoCode || 'US';
+    }
+  }, {
     key: 'mainCompanyNumber',
     get: function get() {
       return this.info.mainNumber;

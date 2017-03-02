@@ -190,7 +190,7 @@ var CallMonitor = function (_RcModule) {
     }, function () {
       return _this._activeCalls.calls;
     }, function () {
-      return _this._accountInfo.country.isoCode;
+      return _this._accountInfo.countryCode;
     }, function (callsFromPresence, callsFromActiveCalls, countryCode) {
       return callsFromPresence.map(function (call) {
         var activeCall = call.inboundLeg && callsFromActiveCalls.find(function (item) {
