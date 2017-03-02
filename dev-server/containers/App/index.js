@@ -148,7 +148,7 @@ export default function App({
             <Route
               path="/messages"
               onEnter={ensureLogin}
-              component={props => (
+              component={() => (
                 <MessagesPage
                   locale={phone.locale}
                   auth={phone.auth}

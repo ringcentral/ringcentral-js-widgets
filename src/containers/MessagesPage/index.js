@@ -164,9 +164,9 @@ class MessagesPage extends Component {
 }
 
 MessagesPage.propTypes = {
-  messages: PropTypes.array.isRequired,
-  allMessages: PropTypes.array.isRequired,
-  searchingResults: PropTypes.array.isRequired,
+  messages: MessageList.propTypes.messages,
+  allMessages: MessageList.propTypes.messages,
+  searchingResults: MessageList.propTypes.messages,
   loadNextPageMessages: PropTypes.func.isRequired,
   updateSearchingString: PropTypes.func.isRequired,
   isLoadingNextPage: PropTypes.bool,

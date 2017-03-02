@@ -35,4 +35,8 @@ SearchInput.propTypes = {
   placeholder: PropTypes.string.isRequired,
 };
 
+SearchInput.defaultProps = {
+  className: null,
+};
+
 export default SearchInput;
