@@ -23,19 +23,19 @@ var _WaitUtil = require('../utils/WaitUtil');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWithMultiDP) {
-  describe('Number Validation when Making Phone Call', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee25() {
+  describe('Number Validation when Making Phone Call', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee32() {
     var conditionalDescribe, isLoginSuccess;
-    return _regenerator2.default.wrap(function _callee25$(_context25) {
+    return _regenerator2.default.wrap(function _callee32$(_context32) {
       while (1) {
-        switch (_context25.prev = _context25.next) {
+        switch (_context32.prev = _context32.next) {
           case 0:
             this.timeout(10000);
             conditionalDescribe = describe;
-            _context25.next = 4;
+            _context32.next = 4;
             return (0, _HelpUtil.ensureLogin)(Auth, accountWithMultiDP);
 
           case 4:
-            isLoginSuccess = _context25.sent;
+            isLoginSuccess = _context32.sent;
 
             if (!isLoginSuccess) {
               conditionalDescribe = describe.skip;
@@ -273,7 +273,7 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
               })));
             });
 
-            conditionalDescribe('Validation with Region Setting', function () {
+            conditionalDescribe('Validation with US/CA Local Number Format', function () {
               var _this3 = this;
 
               this.timeout(10000);
@@ -304,18 +304,18 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee10, this);
               })));
-              it('Should Alert No AreaCode - Call 7 Digital Number with US Dialing Plan without Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11() {
+              it('Should Not Alert Anything - Call Number in (xxx)xxx-xxxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11() {
                 return _regenerator2.default.wrap(function _callee11$(_context11) {
                   while (1) {
                     switch (_context11.prev = _context11.next) {
                       case 0:
                         RegionSettings.setData({ countryCode: 'US', areaCode: '' });
-                        Call.onToNumberChange('6545672');
+                        Call.onToNumberChange('(650)827-5672');
                         _context11.next = 4;
                         return Call.onCall();
 
                       case 4:
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.not.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
@@ -327,18 +327,18 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee11, _this3);
               })));
-              it('Should Alert No AreaCode - Call 7 Digital Number with CA Dialing Plan without Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12() {
+              it('Should Not Alert Anything - Call Number in (xxx) xxx-xxxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12() {
                 return _regenerator2.default.wrap(function _callee12$(_context12) {
                   while (1) {
                     switch (_context12.prev = _context12.next) {
                       case 0:
-                        RegionSettings.setData({ countryCode: 'CA', areaCode: '' });
-                        Call.onToNumberChange('6545672');
+                        RegionSettings.setData({ countryCode: 'US', areaCode: '' });
+                        Call.onToNumberChange('(650) 827-5672');
                         _context12.next = 4;
                         return Call.onCall();
 
                       case 4:
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.not.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
@@ -350,168 +350,184 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee12, _this3);
               })));
-              it("Should Not Alert Anything - Call 7 Digital Number with US Dialing Plan and Area Code", (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13() {
+              it('Should Not Alert Anything - Call Number in (xxx)xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13() {
                 return _regenerator2.default.wrap(function _callee13$(_context13) {
                   while (1) {
                     switch (_context13.prev = _context13.next) {
                       case 0:
-                        RegionSettings.setData({ countryCode: 'US', areaCode: '650' });
-                        Call.onToNumberChange('6545672');
+                        RegionSettings.setData({ countryCode: 'US', areaCode: '' });
+                        Call.onToNumberChange('(650)827-5672*101');
                         _context13.next = 4;
                         return Call.onCall();
 
                       case 4:
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
 
                       case 8:
                       case 'end':
                         return _context13.stop();
                     }
                   }
-                }, _callee13, this);
+                }, _callee13, _this3);
               })));
-              it("Should Not Alert Anything - Call 7 Digital Number with CA Dialing Plan and Area Code", (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14() {
+              it('Should Not Alert Anything - Call Number in (xxx) xxx-xxxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14() {
                 return _regenerator2.default.wrap(function _callee14$(_context14) {
                   while (1) {
                     switch (_context14.prev = _context14.next) {
                       case 0:
-                        RegionSettings.setData({ countryCode: 'CA', areaCode: '650' });
-                        Call.onToNumberChange('6545672');
+                        RegionSettings.setData({ countryCode: 'US', areaCode: '' });
+                        Call.onToNumberChange('(650) 827-5672*101');
                         _context14.next = 4;
                         return Call.onCall();
 
                       case 4:
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
 
                       case 8:
                       case 'end':
                         return _context14.stop();
                     }
                   }
-                }, _callee14, this);
+                }, _callee14, _this3);
               })));
-              it("Should Not Alert Anything - Call 7 Digital Number with non US/CA Dialing Plan", (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee15() {
+              it('Should Not Alert Anything - Call Number in xxx-xxx-xxxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee15() {
                 return _regenerator2.default.wrap(function _callee15$(_context15) {
                   while (1) {
                     switch (_context15.prev = _context15.next) {
                       case 0:
-                        RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
-                        Call.onToNumberChange('6545672');
+                        RegionSettings.setData({ countryCode: 'US', areaCode: '' });
+                        Call.onToNumberChange('650-827-5672');
                         _context15.next = 4;
                         return Call.onCall();
 
                       case 4:
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
 
                       case 8:
                       case 'end':
                         return _context15.stop();
                     }
                   }
-                }, _callee15, this);
+                }, _callee15, _this3);
               })));
-              it("Should Alert Special Number - Call 911 with US Dialing Plan", (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee16() {
+              it('Should Not Alert Anything - Call Number in xxx-xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee16() {
                 return _regenerator2.default.wrap(function _callee16$(_context16) {
                   while (1) {
                     switch (_context16.prev = _context16.next) {
                       case 0:
                         RegionSettings.setData({ countryCode: 'US', areaCode: '' });
-                        Call.onToNumberChange('911');
+                        Call.onToNumberChange('650-827-5672*101');
                         _context16.next = 4;
                         return Call.onCall();
 
                       case 4:
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.not.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
 
                       case 8:
                       case 'end':
                         return _context16.stop();
                     }
                   }
-                }, _callee16, this);
+                }, _callee16, _this3);
               })));
-              it("Should Alert Special Number - Call 999 with GB Dialing Plan", (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee17() {
+            });
+
+            conditionalDescribe('Validation with Region Setting', function () {
+              var _this4 = this;
+
+              this.timeout(10000);
+              beforeEach((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee17() {
+                var isAlertClear;
                 return _regenerator2.default.wrap(function _callee17$(_context17) {
                   while (1) {
                     switch (_context17.prev = _context17.next) {
                       case 0:
-                        RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
-                        Call.onToNumberChange('999');
-                        _context17.next = 4;
-                        return Call.onCall();
+                        _context17.next = 2;
+                        return (0, _WaitUtil.waitUntilEqual)(function () {
+                          Alert.dismissAll();
+                          return Alert.state.messages.length;
+                        }, 'Alert', 0, 5);
+
+                      case 2:
+                        isAlertClear = _context17.sent;
+
+                        if (!isAlertClear) {
+                          console.error('Alert is not cleared after dismissAll');
+                          this.skip();
+                        }
 
                       case 4:
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.not.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.equal(undefined);
-
-                      case 8:
                       case 'end':
                         return _context17.stop();
                     }
                   }
                 }, _callee17, this);
               })));
-              it("Should Not Alert Special Number - Call 999 with US Dialing Plan", (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee18() {
+              it('Should Alert No AreaCode - Call 7 Digital Number with US Dialing Plan without Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee18() {
                 return _regenerator2.default.wrap(function _callee18$(_context18) {
                   while (1) {
                     switch (_context18.prev = _context18.next) {
                       case 0:
                         RegionSettings.setData({ countryCode: 'US', areaCode: '' });
-                        Call.onToNumberChange('999');
+                        Call.onToNumberChange('6545672');
                         _context18.next = 4;
                         return Call.onCall();
 
                       case 4:
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.not.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
 
-                      case 5:
+                      case 8:
                       case 'end':
                         return _context18.stop();
                     }
                   }
-                }, _callee18, this);
+                }, _callee18, _this4);
               })));
-              it("Should Not Alert Special Number - Call 911 with GB Dialing Plan", (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee19() {
+              it('Should Alert No AreaCode - Call 7 Digital Number with CA Dialing Plan without Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee19() {
                 return _regenerator2.default.wrap(function _callee19$(_context19) {
                   while (1) {
                     switch (_context19.prev = _context19.next) {
                       case 0:
-                        RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
-                        Call.onToNumberChange('911');
+                        RegionSettings.setData({ countryCode: 'CA', areaCode: '' });
+                        Call.onToNumberChange('6545672');
                         _context19.next = 4;
                         return Call.onCall();
 
                       case 4:
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.not.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
 
-                      case 5:
+                      case 8:
                       case 'end':
                         return _context19.stop();
                     }
                   }
-                }, _callee19, this);
+                }, _callee19, _this4);
               })));
-              it("Should Not Alert Anything - Call 101(Existed Extension/Not Special Number) with US Dialing Plan", (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee20() {
+              it('Should Not Alert Anything - Call 7 Digital Number with US Dialing Plan and Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee20() {
                 return _regenerator2.default.wrap(function _callee20$(_context20) {
                   while (1) {
                     switch (_context20.prev = _context20.next) {
                       case 0:
-                        RegionSettings.setData({ countryCode: 'US', areaCode: '' });
-                        Call.onToNumberChange('101');
+                        RegionSettings.setData({ countryCode: 'US', areaCode: '650' });
+                        Call.onToNumberChange('6545672');
                         _context20.next = 4;
                         return Call.onCall();
 
@@ -528,20 +544,20 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee20, this);
               })));
-              it("Should Alert Special Number - Call 101(Existed Extension/Speical Number) with GB Dialing Plan", (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee21() {
+              it('Should Not Alert Anything - Call 7 Digital Number with CA Dialing Plan and Area Code', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee21() {
                 return _regenerator2.default.wrap(function _callee21$(_context21) {
                   while (1) {
                     switch (_context21.prev = _context21.next) {
                       case 0:
-                        RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
-                        Call.onToNumberChange('101');
+                        RegionSettings.setData({ countryCode: 'CA', areaCode: '650' });
+                        Call.onToNumberChange('6545672');
                         _context21.next = 4;
                         return Call.onCall();
 
                       case 4:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.not.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.equal(undefined);
 
                       case 8:
@@ -551,13 +567,13 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee21, this);
               })));
-              it("Should Not Alert Anything - Call 102(Existed Extension) with GB Dialing Plan", (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee22() {
+              it('Should Not Alert Anything - Call 7 Digital Number with non US/CA Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee22() {
                 return _regenerator2.default.wrap(function _callee22$(_context22) {
                   while (1) {
                     switch (_context22.prev = _context22.next) {
                       case 0:
                         RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
-                        Call.onToNumberChange('102');
+                        Call.onToNumberChange('6545672');
                         _context22.next = 4;
                         return Call.onCall();
 
@@ -574,21 +590,21 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee22, this);
               })));
-              it("Should Alert Not An Extension - Call 998(Non Extension) with US Dialing Plan", (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee23() {
+              it('Should Alert Special Number - Call 911 with US Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee23() {
                 return _regenerator2.default.wrap(function _callee23$(_context23) {
                   while (1) {
                     switch (_context23.prev = _context23.next) {
                       case 0:
                         RegionSettings.setData({ countryCode: 'US', areaCode: '' });
-                        Call.onToNumberChange('998');
+                        Call.onToNumberChange('911');
                         _context23.next = 4;
                         return Call.onCall();
 
                       case 4:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.not.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.not.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.equal(undefined);
 
                       case 8:
                       case 'end':
@@ -597,14 +613,146 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
                   }
                 }, _callee23, this);
               })));
-              it("Should Alert Not An Extension - Call 998(Non Extension) with GB Dialing Plan", (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee24() {
+              it('Should Alert Special Number - Call 999 with GB Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee24() {
                 return _regenerator2.default.wrap(function _callee24$(_context24) {
                   while (1) {
                     switch (_context24.prev = _context24.next) {
                       case 0:
                         RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
-                        Call.onToNumberChange('998');
+                        Call.onToNumberChange('999');
                         _context24.next = 4;
+                        return Call.onCall();
+
+                      case 4:
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.not.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.equal(undefined);
+
+                      case 8:
+                      case 'end':
+                        return _context24.stop();
+                    }
+                  }
+                }, _callee24, this);
+              })));
+              it('Should Not Alert Special Number - Call 999 with US Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee25() {
+                return _regenerator2.default.wrap(function _callee25$(_context25) {
+                  while (1) {
+                    switch (_context25.prev = _context25.next) {
+                      case 0:
+                        RegionSettings.setData({ countryCode: 'US', areaCode: '' });
+                        Call.onToNumberChange('999');
+                        _context25.next = 4;
+                        return Call.onCall();
+
+                      case 4:
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.equal(undefined);
+
+                      case 5:
+                      case 'end':
+                        return _context25.stop();
+                    }
+                  }
+                }, _callee25, this);
+              })));
+              it('Should Not Alert Special Number - Call 911 with GB Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee26() {
+                return _regenerator2.default.wrap(function _callee26$(_context26) {
+                  while (1) {
+                    switch (_context26.prev = _context26.next) {
+                      case 0:
+                        RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
+                        Call.onToNumberChange('911');
+                        _context26.next = 4;
+                        return Call.onCall();
+
+                      case 4:
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.equal(undefined);
+
+                      case 5:
+                      case 'end':
+                        return _context26.stop();
+                    }
+                  }
+                }, _callee26, this);
+              })));
+              it('Should Not Alert Anything - Call 101(Existed Extension/Not Special Number) with US Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee27() {
+                return _regenerator2.default.wrap(function _callee27$(_context27) {
+                  while (1) {
+                    switch (_context27.prev = _context27.next) {
+                      case 0:
+                        RegionSettings.setData({ countryCode: 'US', areaCode: '' });
+                        Call.onToNumberChange('101');
+                        _context27.next = 4;
+                        return Call.onCall();
+
+                      case 4:
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.equal(undefined);
+
+                      case 8:
+                      case 'end':
+                        return _context27.stop();
+                    }
+                  }
+                }, _callee27, this);
+              })));
+              it('Should Alert Special Number - Call 101(Existed Extension/Speical Number) with GB Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee28() {
+                return _regenerator2.default.wrap(function _callee28$(_context28) {
+                  while (1) {
+                    switch (_context28.prev = _context28.next) {
+                      case 0:
+                        RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
+                        Call.onToNumberChange('101');
+                        _context28.next = 4;
+                        return Call.onCall();
+
+                      case 4:
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.not.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.equal(undefined);
+
+                      case 8:
+                      case 'end':
+                        return _context28.stop();
+                    }
+                  }
+                }, _callee28, this);
+              })));
+              it('Should Not Alert Anything - Call 102(Existed Extension) with GB Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee29() {
+                return _regenerator2.default.wrap(function _callee29$(_context29) {
+                  while (1) {
+                    switch (_context29.prev = _context29.next) {
+                      case 0:
+                        RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
+                        Call.onToNumberChange('102');
+                        _context29.next = 4;
+                        return Call.onCall();
+
+                      case 4:
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.equal(undefined);
+
+                      case 8:
+                      case 'end':
+                        return _context29.stop();
+                    }
+                  }
+                }, _callee29, this);
+              })));
+              it('Should Alert Not An Extension - Call 998(Non Extension) with US Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee30() {
+                return _regenerator2.default.wrap(function _callee30$(_context30) {
+                  while (1) {
+                    switch (_context30.prev = _context30.next) {
+                      case 0:
+                        RegionSettings.setData({ countryCode: 'US', areaCode: '' });
+                        Call.onToNumberChange('998');
+                        _context30.next = 4;
                         return Call.onCall();
 
                       case 4:
@@ -615,19 +763,42 @@ exports.default = function (Auth, Alert, Client, RegionSettings, Call, accountWi
 
                       case 8:
                       case 'end':
-                        return _context24.stop();
+                        return _context30.stop();
                     }
                   }
-                }, _callee24, this);
+                }, _callee30, this);
+              })));
+              it('Should Alert Not An Extension - Call 998(Non Extension) with GB Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee31() {
+                return _regenerator2.default.wrap(function _callee31$(_context31) {
+                  while (1) {
+                    switch (_context31.prev = _context31.next) {
+                      case 0:
+                        RegionSettings.setData({ countryCode: 'GB', areaCode: '' });
+                        Call.onToNumberChange('998');
+                        _context31.next = 4;
+                        return Call.onCall();
+
+                      case 4:
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noToNumber)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.noAreaCode)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.specialNumber)).to.equal(undefined);
+                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors2.default.notAnExtension)).to.not.equal(undefined);
+
+                      case 8:
+                      case 'end':
+                        return _context31.stop();
+                    }
+                  }
+                }, _callee31, this);
               })));
             });
 
-          case 9:
+          case 10:
           case 'end':
-            return _context25.stop();
+            return _context32.stop();
         }
       }
-    }, _callee25, this);
+    }, _callee32, this);
   })));
 };
 //# sourceMappingURL=numValidInCall.js.map
