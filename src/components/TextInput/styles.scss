@@ -17,6 +17,9 @@
   padding: 0px 10px;
   @include field-value-font;
 }
+.input::-ms-clear {
+  display: none;
+}
 .invalid {
   border-color: red;
 }
