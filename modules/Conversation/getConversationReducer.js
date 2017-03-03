@@ -49,6 +49,7 @@ function getConversationIdReducer(types) {
         conversationId = _ref2.conversationId;
 
     switch (type) {
+      case types.loadId:
       case types.load:
         return conversationId;
       case types.unload:

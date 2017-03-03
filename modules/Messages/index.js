@@ -113,7 +113,7 @@ var Messages = function (_RcModule) {
   }, {
     key: '_shouldReload',
     value: function _shouldReload() {
-      return this.ready && this.messageStoreUpdatedAt !== this._messageStore.messagesTimestamp;
+      return this.ready && this.messageStoreUpdatedAt !== this._messageStore.updatedTimestamp;
     }
   }, {
     key: '_initMessages',
@@ -135,7 +135,7 @@ var Messages = function (_RcModule) {
     key: '_reloadMessages',
     value: function _reloadMessages() {
       var page = this.currentPage;
-      var allMessages = this._messageStore.messages;
+      var allMessages = this._messageStore.conversations;
       var bottomIndex = allMessages.length - this._perPage * page;
       if (bottomIndex < 0) {
         bottomIndex = 0;
@@ -148,14 +148,14 @@ var Messages = function (_RcModule) {
     value: function _updateMessages(messages) {
       this.store.dispatch({
         type: this.actionTypes.updateMessages,
-        messagesTimestamp: this._messageStore.messagesTimestamp,
+        messagesTimestamp: this._messageStore.updatedTimestamp,
         messages: messages
       });
     }
   }, {
     key: '_getCurrnetPageMessages',
     value: function _getCurrnetPageMessages(page) {
-      var allMessages = this._messageStore.messages;
+      var allMessages = this._messageStore.conversations;
       var maxIndex = allMessages.length - 1;
       if (maxIndex < 0) {
         return [];
@@ -183,7 +183,7 @@ var Messages = function (_RcModule) {
       }
       this.store.dispatch({
         type: this.actionTypes.pushMessages,
-        messagesTimestamp: this._messageStore.messagesTimestamp,
+        messagesTimestamp: this._messageStore.updatedTimestamp,
         messages: messages
       });
       this.store.dispatch({
@@ -234,7 +234,7 @@ var Messages = function (_RcModule) {
   }, {
     key: 'loading',
     get: function get() {
-      var allMessages = this._messageStore.messages;
+      var allMessages = this._messageStore.conversations;
       return this.messages.length < allMessages.length;
     }
   }, {

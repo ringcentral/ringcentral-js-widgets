@@ -10,5 +10,5 @@ var _Enum2 = _interopRequireDefault(_Enum);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default(['init', 'initSuccess', 'reset', 'resetSuccess', 'sync', 'syncError', 'syncOver', 'saveConversations', 'saveMessages', 'saveSyncToken', 'cleanUp'], 'messageStore');
+exports.default = new _Enum2.default(['init', 'initSuccess', 'reset', 'resetSuccess', 'sync', 'syncError', 'syncSuccess', 'syncConversationSuccess', 'updateMessages', 'updateConversationRecipients', 'cleanUp'], 'messageStore');
 //# sourceMappingURL=actionTypes.js.map

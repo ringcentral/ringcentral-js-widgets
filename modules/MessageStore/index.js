@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+var _keys = require('babel-runtime/core-js/object/keys');
 
-var _getIterator3 = _interopRequireDefault(_getIterator2);
+var _keys2 = _interopRequireDefault(_keys);
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -45,6 +45,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+exports.processResponseData = processResponseData;
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -67,13 +69,22 @@ var _getMessageStoreReducer = require('./getMessageStoreReducer');
 
 var _getMessageStoreReducer2 = _interopRequireDefault(_getMessageStoreReducer);
 
-var _getCacheReducer = require('./getCacheReducer');
+var _getDataReducer = require('./getDataReducer');
 
-var _getCacheReducer2 = _interopRequireDefault(_getCacheReducer);
+var _getDataReducer2 = _interopRequireDefault(_getDataReducer);
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function processResponseData(data) {
+  var records = data.records.slice();
+  return {
+    records: records.reverse(),
+    syncTimestamp: new Date(data.syncInfo.syncTime).getTime(),
+    syncToken: data.syncInfo.syncToken
+  };
+}
 
 var MessageStore = function (_RcModule) {
   (0, _inherits3.default)(MessageStore, _RcModule);
@@ -96,16 +107,28 @@ var MessageStore = function (_RcModule) {
     _this._alert = alert;
     _this._client = client;
     _this._storage = storage;
-    _this._storageKey = 'messageStore';
     _this._subscription = subscription;
     _this._reducer = (0, _getMessageStoreReducer2.default)(_this.actionTypes);
-    _this._cacheReducer = (0, _getCacheReducer2.default)(_this.actionTypes);
     _this._ttl = ttl;
     _this._auth = auth;
     _this._promise = null;
     _this._lastSubscriptionMessage = null;
+    _this._storageKey = 'messageStore';
+
+    _this._storage.registerReducer({
+      key: _this._storageKey,
+      reducer: (0, _getDataReducer2.default)(_this.actionTypes)
+    });
+
+    _this.addSelector('unreadCounts', function () {
+      return _this.conversations;
+    }, function (conversations) {
+      return conversations.reduce(function (pre, cur) {
+        return pre + cur.unreadCounts;
+      }, 0);
+    });
+
     _this.syncConversation = _this.syncConversation.bind(_this);
-    storage.registerReducer({ key: _this._storageKey, reducer: _this._cacheReducer });
     return _this;
   }
 
@@ -148,7 +171,7 @@ var MessageStore = function (_RcModule) {
   }, {
     key: '_shouleCleanCache',
     value: function _shouleCleanCache() {
-      return this._auth.isFreshLogin || Date.now() - this.conversationsTimestamp > this._ttl || Date.now() - this.messagesTimestamp > this._ttl;
+      return this._auth.isFreshLogin || Date.now() - this.updatedTimestamp > this._ttl;
     }
   }, {
     key: '_resetModuleStatus',
@@ -163,6 +186,11 @@ var MessageStore = function (_RcModule) {
       this.store.dispatch({
         type: this.actionTypes.cleanUp
       });
+    }
+  }, {
+    key: 'findConversationById',
+    value: function findConversationById(id) {
+      return this.conversationMap[id.toString()];
     }
   }, {
     key: '_initMessageStore',
@@ -206,11 +234,6 @@ var MessageStore = function (_RcModule) {
       }
     }
   }, {
-    key: 'findConversationById',
-    value: function findConversationById(id) {
-      return this.conversations[id.toString()];
-    }
-  }, {
     key: '_messageSyncApi',
     value: function () {
       var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(params) {
@@ -241,29 +264,33 @@ var MessageStore = function (_RcModule) {
       return _messageSyncApi;
     }()
   }, {
-    key: '_updateConversationFromSync',
+    key: '_updateMessagesFromSync',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(id) {
-        var oldConversation, syncToken, params, newConversationRequest, _getConversationsAndM, conversations, messages;
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+        var oldSyncToken, params, response, _processResponseData, records, syncTimestamp, syncToken;
 
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                oldConversation = this.findConversationById(id);
-                syncToken = oldConversation && oldConversation.syncToken;
-                params = messageStoreHelper.getMessageSyncParams({
-                  syncToken: syncToken,
-                  conversationId: id
+                this.store.dispatch({
+                  type: this.actionTypes.sync
                 });
+                oldSyncToken = this.syncToken;
+                params = messageStoreHelper.getMessageSyncParams({ syncToken: oldSyncToken });
                 _context3.next = 5;
                 return this._messageSyncApi(params);
 
               case 5:
-                newConversationRequest = _context3.sent;
-                _getConversationsAndM = this._getConversationsAndMessagesFromSyncResponse(newConversationRequest), conversations = _getConversationsAndM.conversations, messages = _getConversationsAndM.messages;
+                response = _context3.sent;
+                _processResponseData = processResponseData(response), records = _processResponseData.records, syncTimestamp = _processResponseData.syncTimestamp, syncToken = _processResponseData.syncToken;
 
-                this._saveConversationsAndMessages(conversations, messages, null);
+                this.store.dispatch({
+                  type: this.actionTypes.syncSuccess,
+                  records: records,
+                  syncTimestamp: syncTimestamp,
+                  syncToken: syncToken
+                });
 
               case 8:
               case 'end':
@@ -273,34 +300,56 @@ var MessageStore = function (_RcModule) {
         }, _callee3, this);
       }));
 
-      function _updateConversationFromSync(_x2) {
+      function _updateMessagesFromSync() {
         return _ref4.apply(this, arguments);
       }
 
-      return _updateConversationFromSync;
+      return _updateMessagesFromSync;
     }()
   }, {
-    key: '_updateMessagesFromSync',
+    key: '_updateConversationFromSync',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
-        var syncToken, params, newConversationRequest, _getConversationsAndM2, conversations, messages;
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(conversationId) {
+        var conversation, oldSyncToken, params, response, _processResponseData2, records, syncTimestamp, syncToken;
 
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                syncToken = this.syncToken;
-                params = messageStoreHelper.getMessageSyncParams({ syncToken: syncToken });
-                _context4.next = 4;
+                conversation = this.conversationMap[conversationId.toString()];
+
+                if (conversation) {
+                  _context4.next = 3;
+                  break;
+                }
+
+                return _context4.abrupt('return');
+
+              case 3:
+                this.store.dispatch({
+                  type: this.actionTypes.sync
+                });
+                oldSyncToken = conversation.syncToken;
+                params = messageStoreHelper.getMessageSyncParams({
+                  syncToken: oldSyncToken,
+                  conversationId: conversation.id
+                });
+                _context4.next = 8;
                 return this._messageSyncApi(params);
 
-              case 4:
-                newConversationRequest = _context4.sent;
-                _getConversationsAndM2 = this._getConversationsAndMessagesFromSyncResponse(newConversationRequest), conversations = _getConversationsAndM2.conversations, messages = _getConversationsAndM2.messages;
+              case 8:
+                response = _context4.sent;
+                _processResponseData2 = processResponseData(response), records = _processResponseData2.records, syncTimestamp = _processResponseData2.syncTimestamp, syncToken = _processResponseData2.syncToken;
 
-                this._saveConversationsAndMessages(conversations, messages, newConversationRequest.syncInfo.syncToken);
+                this.store.dispatch({
+                  type: this.actionTypes.syncConversationSuccess,
+                  records: records,
+                  syncTimestamp: syncTimestamp,
+                  syncToken: syncToken,
+                  syncConversationId: conversation.id
+                });
 
-              case 7:
+              case 11:
               case 'end':
                 return _context4.stop();
             }
@@ -308,78 +357,40 @@ var MessageStore = function (_RcModule) {
         }, _callee4, this);
       }));
 
-      function _updateMessagesFromSync() {
+      function _updateConversationFromSync(_x2) {
         return _ref5.apply(this, arguments);
       }
 
-      return _updateMessagesFromSync;
+      return _updateConversationFromSync;
     }()
   }, {
-    key: '_getConversationsAndMessagesFromSyncResponse',
-    value: function _getConversationsAndMessagesFromSyncResponse(conversationResponse) {
-      var records = conversationResponse.records.reverse();
-      var syncToken = conversationResponse.syncInfo.syncToken;
-      return messageStoreHelper.getNewConversationsAndMessagesFromRecords({
-        records: records,
-        syncToken: syncToken,
-        conversations: this.conversations,
-        messages: this.messages
-      });
-    }
-  }, {
-    key: '_sync',
+    key: '_syncMessages',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(syncFunction) {
+      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
         var _this3 = this;
 
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
-                if (!this._promise) {
-                  this._promise = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
-                    return _regenerator2.default.wrap(function _callee5$(_context5) {
-                      while (1) {
-                        switch (_context5.prev = _context5.next) {
-                          case 0:
-                            _context5.prev = 0;
+                _context6.next = 2;
+                return this._sync((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
+                  return _regenerator2.default.wrap(function _callee5$(_context5) {
+                    while (1) {
+                      switch (_context5.prev = _context5.next) {
+                        case 0:
+                          _context5.next = 2;
+                          return _this3._updateMessagesFromSync();
 
-                            _this3.store.dispatch({
-                              type: _this3.actionTypes.sync
-                            });
-                            _context5.next = 4;
-                            return syncFunction();
-
-                          case 4:
-                            _this3.store.dispatch({
-                              type: _this3.actionTypes.syncOver
-                            });
-                            _this3._promise = null;
-                            _context5.next = 13;
-                            break;
-
-                          case 8:
-                            _context5.prev = 8;
-                            _context5.t0 = _context5['catch'](0);
-
-                            _this3.store.dispatch({
-                              type: _this3.actionTypes.syncError
-                            });
-                            _this3._promise = null;
-                            throw _context5.t0;
-
-                          case 13:
-                          case 'end':
-                            return _context5.stop();
-                        }
+                        case 2:
+                        case 'end':
+                          return _context5.stop();
                       }
-                    }, _callee5, _this3, [[0, 8]]);
-                  }))();
-                }
-                _context6.next = 3;
-                return this._promise;
+                    }
+                  }, _callee5, _this3);
+                })));
 
-              case 3:
+              case 2:
               case 'end':
                 return _context6.stop();
             }
@@ -387,16 +398,16 @@ var MessageStore = function (_RcModule) {
         }, _callee6, this);
       }));
 
-      function _sync(_x3) {
+      function _syncMessages() {
         return _ref6.apply(this, arguments);
       }
 
-      return _sync;
+      return _syncMessages;
     }()
   }, {
-    key: '_syncMessages',
+    key: 'syncConversation',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(id) {
         var _this4 = this;
 
         return _regenerator2.default.wrap(function _callee8$(_context8) {
@@ -410,7 +421,7 @@ var MessageStore = function (_RcModule) {
                       switch (_context7.prev = _context7.next) {
                         case 0:
                           _context7.next = 2;
-                          return _this4._updateMessagesFromSync();
+                          return _this4._updateConversationFromSync(id);
 
                         case 2:
                         case 'end':
@@ -428,40 +439,57 @@ var MessageStore = function (_RcModule) {
         }, _callee8, this);
       }));
 
-      function _syncMessages() {
+      function syncConversation(_x3) {
         return _ref8.apply(this, arguments);
       }
 
-      return _syncMessages;
+      return syncConversation;
     }()
   }, {
-    key: 'syncConversation',
+    key: '_sync',
     value: function () {
-      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(id) {
+      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10(syncFunction) {
         var _this5 = this;
 
         return _regenerator2.default.wrap(function _callee10$(_context10) {
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
-                _context10.next = 2;
-                return this._sync((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
-                  return _regenerator2.default.wrap(function _callee9$(_context9) {
-                    while (1) {
-                      switch (_context9.prev = _context9.next) {
-                        case 0:
-                          _context9.next = 2;
-                          return _this5._updateConversationFromSync(id);
+                if (!this._promise) {
+                  this._promise = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
+                    return _regenerator2.default.wrap(function _callee9$(_context9) {
+                      while (1) {
+                        switch (_context9.prev = _context9.next) {
+                          case 0:
+                            _context9.prev = 0;
+                            _context9.next = 3;
+                            return syncFunction();
 
-                        case 2:
-                        case 'end':
-                          return _context9.stop();
+                          case 3:
+                            _this5._promise = null;
+                            _context9.next = 11;
+                            break;
+
+                          case 6:
+                            _context9.prev = 6;
+                            _context9.t0 = _context9['catch'](0);
+
+                            _this5._onSyncError();
+                            _this5._promise = null;
+                            throw _context9.t0;
+
+                          case 11:
+                          case 'end':
+                            return _context9.stop();
+                        }
                       }
-                    }
-                  }, _callee9, _this5);
-                })));
+                    }, _callee9, _this5, [[0, 6]]);
+                  }))();
+                }
+                _context10.next = 3;
+                return this._promise;
 
-              case 2:
+              case 3:
               case 'end':
                 return _context10.stop();
             }
@@ -469,12 +497,19 @@ var MessageStore = function (_RcModule) {
         }, _callee10, this);
       }));
 
-      function syncConversation(_x4) {
+      function _sync(_x4) {
         return _ref10.apply(this, arguments);
       }
 
-      return syncConversation;
+      return _sync;
     }()
+  }, {
+    key: '_onSyncError',
+    value: function _onSyncError() {
+      this.store.dispatch({
+        type: this.actionTypes.syncError
+      });
+    }
   }, {
     key: '_updateMessageApi',
     value: function () {
@@ -620,15 +655,15 @@ var MessageStore = function (_RcModule) {
   }, {
     key: 'readMessages',
     value: function () {
-      var _ref15 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14(conversation) {
-        var unReadMessages, unreadMessageIds, updatedMessages;
+      var _ref15 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14(conversationId) {
+        var conversation, unreadMessageIds, updatedMessages;
         return _regenerator2.default.wrap(function _callee14$(_context14) {
           while (1) {
             switch (_context14.prev = _context14.next) {
               case 0:
-                unReadMessages = messageStoreHelper.filterConversationUnreadMessages(conversation);
+                conversation = this.conversationMap[conversationId];
 
-                if (!(unReadMessages.length === 0)) {
+                if (conversation) {
                   _context14.next = 3;
                   break;
                 }
@@ -636,35 +671,45 @@ var MessageStore = function (_RcModule) {
                 return _context14.abrupt('return', null);
 
               case 3:
-                unreadMessageIds = unReadMessages.map(function (message) {
-                  return message.id;
-                });
-                _context14.prev = 4;
-                _context14.next = 7;
+                unreadMessageIds = (0, _keys2.default)(conversation.unreadMessages);
+
+                if (!(unreadMessageIds.length === 0)) {
+                  _context14.next = 6;
+                  break;
+                }
+
+                return _context14.abrupt('return', null);
+
+              case 6:
+                _context14.prev = 6;
+                _context14.next = 9;
                 return this._updateMessagesApi(unreadMessageIds, 'Read');
 
-              case 7:
+              case 9:
                 updatedMessages = _context14.sent;
 
-                this._updateConversationsMessagesFromRecords(updatedMessages);
-                _context14.next = 14;
+                this.store.dispatch({
+                  type: this.actionTypes.updateMessages,
+                  records: updatedMessages
+                });
+                _context14.next = 16;
                 break;
 
-              case 11:
-                _context14.prev = 11;
-                _context14.t0 = _context14['catch'](4);
+              case 13:
+                _context14.prev = 13;
+                _context14.t0 = _context14['catch'](6);
 
                 console.error(_context14.t0);
 
-              case 14:
+              case 16:
                 return _context14.abrupt('return', null);
 
-              case 15:
+              case 17:
               case 'end':
                 return _context14.stop();
             }
           }
-        }, _callee14, this, [[4, 11]]);
+        }, _callee14, this, [[6, 13]]);
       }));
 
       function readMessages(_x11) {
@@ -674,145 +719,30 @@ var MessageStore = function (_RcModule) {
       return readMessages;
     }()
   }, {
-    key: 'matchMessageText',
-    value: function matchMessageText(message, searchText) {
-      if (message.subject && message.subject.toLowerCase().indexOf(searchText) >= 0) {
-        return message;
-      }
-      var conversation = this.conversations[message.conversation.id];
-      if (!conversation) {
-        return null;
-      }
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
-
-      try {
-        for (var _iterator = (0, _getIterator3.default)(conversation.messages), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var subMessage = _step.value;
-
-          if (subMessage.subject && subMessage.subject.toLowerCase().indexOf(searchText) >= 0) {
-            return message;
-          }
+    key: 'searchMessagesText',
+    value: function searchMessagesText(searchText) {
+      return this.messages.filter(function (message) {
+        if (message.subject && message.subject.toLowerCase().indexOf(searchText) >= 0) {
+          return true;
         }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
-
-      return null;
+        return false;
+      });
     }
   }, {
     key: 'updateConversationRecipientList',
     value: function updateConversationRecipientList(conversationId, recipients) {
-      var conversation = this.findConversationById(conversationId);
-      if (!conversation) {
-        return;
-      }
-      conversation.recipients = recipients;
-      this._saveConversation(conversation);
-      var messages = this.messages;
-      var messageIndex = messages.findIndex(function (message) {
-        return message.conversation && message.conversation.id === conversationId;
+      this.store.dispatch({
+        type: this.actionTypes.updateConversationRecipients,
+        conversationId: conversationId,
+        recipients: recipients
       });
-      if (messageIndex > -1) {
-        var message = messages[messageIndex];
-        message.recipients = recipients;
-        this._saveMessages(messages);
-      }
     }
   }, {
     key: 'pushMessage',
-    value: function pushMessage(conversationId, message) {
-      var oldConversation = this.findConversationById(conversationId);
-      var newConversation = { messages: [] };
-      if (oldConversation) {
-        newConversation = oldConversation;
-      }
-      newConversation.id = conversationId;
-      newConversation.messages = messageStoreHelper.pushMessageToConversationMessages({
-        messages: newConversation.messages,
-        message: message
-      });
-      var messages = messageStoreHelper.pushMessageToMesages({
-        messages: this.messages,
-        message: message
-      });
-      this._saveConversationAndMessages(newConversation, messages);
-    }
-  }, {
-    key: '_updateConversationsMessagesFromRecords',
-    value: function _updateConversationsMessagesFromRecords(records) {
-      var _messageStoreHelper$g = messageStoreHelper.getNewConversationsAndMessagesFromRecords({
-        records: records,
-        conversations: this.conversations,
-        messages: this.messages
-      }),
-          conversations = _messageStoreHelper$g.conversations,
-          messages = _messageStoreHelper$g.messages;
-
-      this._saveConversationsAndMessages(conversations, messages, null);
-    }
-  }, {
-    key: '_saveConversationAndMessages',
-    value: function _saveConversationAndMessages(conversation, messages) {
-      this._saveConversation(conversation);
-      this._saveMessages(messages);
-    }
-  }, {
-    key: '_saveConversationsAndMessages',
-    value: function _saveConversationsAndMessages(conversations, messages, syncToken) {
-      this._saveConversations(conversations);
-      this._saveMessages(messages);
-      if (syncToken) {
-        this._saveSyncToken(syncToken);
-      }
-    }
-  }, {
-    key: '_saveConversation',
-    value: function _saveConversation(conversation) {
-      var conversations = this.conversations;
-      var id = conversation.id;
-      conversations[id] = conversation;
-      this._saveConversations(conversations);
-    }
-  }, {
-    key: '_saveConversations',
-    value: function _saveConversations(conversations) {
+    value: function pushMessage(record) {
       this.store.dispatch({
-        type: this.actionTypes.saveConversations,
-        data: conversations
-      });
-    }
-  }, {
-    key: '_saveMessages',
-    value: function _saveMessages(newMessages) {
-      var _messageStoreHelper$u = messageStoreHelper.updateMessagesUnreadCounts(newMessages, this.conversations),
-          messages = _messageStoreHelper$u.messages,
-          unreadCounts = _messageStoreHelper$u.unreadCounts;
-
-      this.store.dispatch({
-        type: this.actionTypes.saveMessages,
-        messages: messages,
-        unreadCounts: unreadCounts
-      });
-    }
-  }, {
-    key: '_saveSyncToken',
-    value: function _saveSyncToken(syncToken) {
-      this.store.dispatch({
-        type: this.actionTypes.saveSyncToken,
-        syncToken: syncToken
+        type: this.actionTypes.updateMessages,
+        records: [record]
       });
     }
   }, {
@@ -821,32 +751,29 @@ var MessageStore = function (_RcModule) {
       return this._storage.getItem(this._storageKey);
     }
   }, {
-    key: 'conversations',
-    get: function get() {
-      var conversations = this.cache.conversations.data;
-      if (!conversations) {
-        return {};
-      }
-      return conversations;
-    }
-  }, {
-    key: 'conversationsTimestamp',
-    get: function get() {
-      return this.cache.conversations.timestamp;
-    }
-  }, {
     key: 'messages',
     get: function get() {
-      var messages = this.cache.messages.data;
-      if (!messages) {
-        return [];
-      }
-      return messages;
+      return this.cache.data.messages;
     }
   }, {
-    key: 'messagesTimestamp',
+    key: 'conversations',
     get: function get() {
-      return this.cache.messages.timestamp;
+      return this.cache.data.conversations;
+    }
+  }, {
+    key: 'conversationMap',
+    get: function get() {
+      return this.cache.data.conversationMap;
+    }
+  }, {
+    key: 'updatedTimestamp',
+    get: function get() {
+      return this.cache.updatedTimestamp;
+    }
+  }, {
+    key: 'syncTimestamp',
+    get: function get() {
+      return this.cache.data.syncTimestamp;
     }
   }, {
     key: 'syncToken',
@@ -854,14 +781,14 @@ var MessageStore = function (_RcModule) {
       return this.cache.syncToken;
     }
   }, {
-    key: 'unreadCounts',
-    get: function get() {
-      return this.cache.unreadCounts;
-    }
-  }, {
     key: 'status',
     get: function get() {
       return this.state.status;
+    }
+  }, {
+    key: 'unreadCounts',
+    get: function get() {
+      return this._selectors.unreadCounts();
     }
   }, {
     key: 'messageStoreStatus',

@@ -28,7 +28,7 @@ function getMessageStoreStatusReducer(types) {
       case types.sync:
         return _messageStoreStatus2.default.syncing;
       case types.syncError:
-      case types.syncOver:
+      case types.syncSuccess:
         return _messageStoreStatus2.default.idle;
       default:
         return state;

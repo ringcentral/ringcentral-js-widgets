@@ -10,5 +10,5 @@ var _Enum2 = _interopRequireDefault(_Enum);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default(['syncing', 'pushing', 'idle'], 'messageStore');
+exports.default = new _Enum2.default(['syncing', 'idle'], 'messageStore');
 //# sourceMappingURL=messageStoreStatus.js.map

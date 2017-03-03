@@ -106,11 +106,8 @@ var Conversation = function (_RcModule) {
       } else if (this._shouldReset()) {
         this._resetModuleStatus();
       } else if (this._shouldReloadConversation()) {
-        var newConversation = this._messageStore.findConversationById(this.id);
-        if (newConversation) {
-          this._loadConversation(newConversation);
-          this._messageStore.readMessages(newConversation);
-        }
+        this._loadConversation(this.id);
+        this._messageStore.readMessages(this.id);
       }
     }
   }, {
@@ -126,7 +123,7 @@ var Conversation = function (_RcModule) {
   }, {
     key: '_shouldReloadConversation',
     value: function _shouldReloadConversation() {
-      return this.ready && !!this.id && this.messageStoreUpdatedAt !== this._messageStore.conversationsTimestamp;
+      return this.ready && !!this.id && this.messageStoreUpdatedAt !== this._messageStore.updatedTimestamp;
     }
   }, {
     key: '_initModuleStatus',
@@ -145,12 +142,8 @@ var Conversation = function (_RcModule) {
   }, {
     key: 'loadConversationById',
     value: function loadConversationById(id) {
-      var conversation = this._messageStore.findConversationById(id);
-      if (!conversation) {
-        return;
-      }
-      this._loadConversation(conversation);
-      this._messageStore.readMessages(conversation);
+      this._loadConversation(id);
+      this._messageStore.readMessages(id);
     }
   }, {
     key: 'unloadConversation',
@@ -198,32 +191,35 @@ var Conversation = function (_RcModule) {
     }
   }, {
     key: '_loadConversation',
-    value: function _loadConversation(conversation) {
-      var senderNumber = this._getCurrentSenderNumber(conversation);
-      var recipients = conversation.recipients;
+    value: function _loadConversation(conversationId) {
+      var conversation = this._messageStore.findConversationById(conversationId);
+      if (!conversation) {
+        return;
+      }
+      var messages = this._messageStore.messages.filter(function (message) {
+        return message.conversationId === conversationId;
+      });
+      var lastMessage = this._messageStore.conversations[conversation.index];
+      var senderNumber = this._getCurrentSenderNumber(lastMessage);
+      var recipients = lastMessage && lastMessage.recipients;
       if (!recipients || recipients.length === 0) {
-        recipients = this._getRecipients(conversation, senderNumber);
+        recipients = this._getRecipients(lastMessage, senderNumber);
       }
       this.store.dispatch({
         type: this.actionTypes.load,
-        conversationId: conversation.id,
-        messages: conversation.messages.slice(),
-        conversationsTimestamp: this._messageStore.conversationsTimestamp,
+        conversationId: conversationId,
+        messages: messages,
+        conversationsTimestamp: this._messageStore.updatedTimestamp,
         senderNumber: senderNumber,
         recipients: recipients
       });
     }
   }, {
     key: '_getCurrentSenderNumber',
-    value: function _getCurrentSenderNumber(conversation) {
-      if (!conversation || !conversation.messages) {
+    value: function _getCurrentSenderNumber(lastMessage) {
+      if (!lastMessage) {
         return null;
       }
-      var messageLength = conversation.messages.length;
-      if (messageLength < 1) {
-        return null;
-      }
-      var lastMessage = conversation.messages[messageLength - 1];
       return (0, _messageHelper.getMyNumberFromMessage)({
         message: lastMessage,
         myExtensionNumber: this._extensionInfo.extensionNumber
@@ -231,15 +227,10 @@ var Conversation = function (_RcModule) {
     }
   }, {
     key: '_getRecipients',
-    value: function _getRecipients(conversation, senderNumber) {
-      if (!conversation || !senderNumber || !conversation.messages) {
+    value: function _getRecipients(lastMessage, senderNumber) {
+      if (!lastMessage || !senderNumber) {
         return [];
       }
-      var messageLength = conversation.messages.length;
-      if (messageLength < 1) {
-        return [];
-      }
-      var lastMessage = conversation.messages[messageLength - 1];
       return (0, _messageHelper.getRecipientNumbersFromMessage)({
         message: lastMessage,
         myNumber: senderNumber
@@ -298,7 +289,7 @@ var Conversation = function (_RcModule) {
                   break;
                 }
 
-                this._messageStore.pushMessage(response.conversation.id, response);
+                this._messageStore.pushMessage(response);
                 this.store.dispatch({
                   type: this.actionTypes.replySuccess
                 });

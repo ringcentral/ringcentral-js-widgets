@@ -3,199 +3,314 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.pushMessageToConversationMessages = pushMessageToConversationMessages;
-exports.pushMessageToMesages = pushMessageToMesages;
-exports.getNewConversationsAndMessagesFromRecords = getNewConversationsAndMessagesFromRecords;
-exports.filterConversationUnreadMessages = filterConversationUnreadMessages;
-exports.updateMessagesUnreadCounts = updateMessagesUnreadCounts;
+
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+exports.normalizeRecord = normalizeRecord;
+exports.messageIsUnread = messageIsUnread;
 exports.getMessageSyncParams = getMessageSyncParams;
+exports.prepareNewMessagesData = prepareNewMessagesData;
+exports.filterNullFromConversations = filterNullFromConversations;
+exports.findIndexOfConversations = findIndexOfConversations;
+exports.findIndexOfMessages = findIndexOfMessages;
+exports.calcUnreadCount = calcUnreadCount;
+exports.pushRecordsToMessageData = pushRecordsToMessageData;
+exports.updateConversationRecipients = updateConversationRecipients;
 
 var _messageHelper = require('../../lib/messageHelper');
 
 var messageHelper = _interopRequireWildcard(_messageHelper);
 
+var _removeUri = require('../../lib/removeUri');
+
+var _removeUri2 = _interopRequireDefault(_removeUri);
+
+var _syncTypes = require('../../enums/syncTypes');
+
+var _syncTypes2 = _interopRequireDefault(_syncTypes);
+
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
-function pushOrReplaceOrDeleteMessage(_ref) {
-  var messages = _ref.messages,
-      message = _ref.message,
-      isFind = _ref.isFind,
-      replaceMessage = _ref.replaceMessage,
-      pushMessage = _ref.pushMessage,
-      deleteMessage = _ref.deleteMessage;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-  var messageLength = messages.length;
-  var messageExistIndex = null;
-  if (messageLength > 0) {
-    for (var index = messageLength - 1; index >= 0; index -= 1) {
-      if (isFind({
-        oldMessage: messages[index],
-        newMessage: message
-      })) {
-        messageExistIndex = index;
-        break;
-      }
-    }
-  }
-  if (messageExistIndex === null) {
-    if (messageHelper.messageIsAcceptable(message)) {
-      pushMessage(message);
-    }
-    return;
-  }
-  if (messageHelper.messageIsDeleted(message)) {
-    if (messages[messageExistIndex].id === message.id) {
-      deleteMessage(messageExistIndex);
-    }
-    return;
-  }
-  replaceMessage({ index: messageExistIndex, newMessage: message });
-}
-
-function pushMessageToConversationMessages(_ref2) {
-  var messages = _ref2.messages,
-      message = _ref2.message;
-
-  var isFind = function isFind(_ref3) {
-    var oldMessage = _ref3.oldMessage,
-        newMessage = _ref3.newMessage;
-    return oldMessage.id === newMessage.id;
-  };
-  var replaceMessage = function replaceMessage(_ref4) {
-    var index = _ref4.index,
-        newMessage = _ref4.newMessage;
-
-    messages[index] = newMessage;
-  };
-  var pushMessage = function pushMessage(newMessage) {
-    messages.push(newMessage);
-  };
-  var deleteMessage = function deleteMessage(index) {
-    messages.splice(index, 1);
-  };
-  pushOrReplaceOrDeleteMessage({
-    messages: messages,
-    message: message,
-    isFind: isFind,
-    replaceMessage: replaceMessage,
-    pushMessage: pushMessage,
-    deleteMessage: deleteMessage
+function normalizeRecord(record) {
+  return (0, _extends3.default)({}, record, {
+    conversationId: record.conversation.id
   });
-  return messages;
 }
 
-function pushMessageToMesages(_ref5) {
-  var messages = _ref5.messages,
-      message = _ref5.message;
-
-  var isFind = function isFind(_ref6) {
-    var oldMessage = _ref6.oldMessage,
-        newMessage = _ref6.newMessage;
-    return oldMessage.id === newMessage.id || oldMessage.conversation.id === newMessage.conversation.id;
-  };
-  var replaceMessage = function replaceMessage(_ref7) {
-    var index = _ref7.index,
-        newMessage = _ref7.newMessage;
-
-    var oldCreated = new Date(messages[index].creationTime);
-    var newCreated = new Date(message.creationTime);
-    if (newCreated >= oldCreated) {
-      messages.splice(index, 1);
-      messages.push(newMessage);
-    }
-  };
-  var pushMessage = function pushMessage(newMessage) {
-    messages.push(newMessage);
-  };
-  var deleteMessage = function deleteMessage(index) {
-    messages.splice(index, 1);
-  };
-
-  pushOrReplaceOrDeleteMessage({
-    messages: messages,
-    message: message,
-    isFind: isFind,
-    replaceMessage: replaceMessage,
-    pushMessage: pushMessage,
-    deleteMessage: deleteMessage
-  });
-  return messages;
+function messageIsUnread(message) {
+  return message.direction === 'Inbound' && message.readStatus !== 'Read' && !messageHelper.messageIsDeleted(message);
 }
 
-function getNewConversationsAndMessagesFromRecords(_ref8) {
-  var records = _ref8.records,
-      syncToken = _ref8.syncToken,
-      conversations = _ref8.conversations,
-      messages = _ref8.messages;
-
-  records.forEach(function (record) {
-    if (!messageHelper.messaageIsTextMessage(record)) {
-      return;
-    }
-    var conversationId = record.conversation.id;
-    var conversation = conversations[conversationId];
-    if (!conversation) {
-      conversation = { messages: [] };
-    }
-    var oldMessages = conversation.messages;
-    conversation.messages = pushMessageToConversationMessages({
-      messages: oldMessages,
-      message: record
-    });
-    if (syncToken) {
-      conversation.syncToken = syncToken;
-    }
-    conversation.id = conversationId;
-    conversations[conversationId] = conversation;
-    messages = pushMessageToMesages({
-      messages: messages,
-      message: record
-    });
-  });
-  return { conversations: conversations, messages: messages };
-}
-
-function filterConversationUnreadMessages(conversation) {
-  var unReadMessages = conversation.messages.filter(function (record) {
-    return record.direction === 'Inbound' && !messageHelper.messageIsDeleted(record) && record.readStatus !== 'Read';
-  });
-  return unReadMessages;
-}
-
-function updateMessagesUnreadCounts(messages, conversations) {
-  var totalUnreadCounts = 0;
-  for (var index = 0; index < messages.length; index += 1) {
-    var message = messages[index];
-    var conversation = conversations[message.conversation.id];
-    var unReadMessages = filterConversationUnreadMessages(conversation);
-    totalUnreadCounts += unReadMessages.length;
-    message.isRead = unReadMessages.length === 0;
-  }
-  return {
-    messages: messages,
-    unreadCounts: totalUnreadCounts
-  };
-}
-
-function getMessageSyncParams(_ref9) {
-  var syncToken = _ref9.syncToken,
-      conversationId = _ref9.conversationId;
+function getMessageSyncParams(_ref) {
+  var syncToken = _ref.syncToken,
+      conversationId = _ref.conversationId;
 
   if (syncToken) {
     return {
       syncToken: syncToken,
-      syncType: 'ISync'
+      syncType: _syncTypes2.default.iSync
     };
   }
   var lastSevenDate = new Date();
   lastSevenDate.setDate(lastSevenDate.getDate() - 7);
   var params = {
-    syncType: 'FSync',
+    syncType: _syncTypes2.default.fSync,
     dateFrom: lastSevenDate.toISOString()
   };
   if (conversationId) {
     params.conversationId = conversationId;
   }
   return params;
+}
+
+function prepareNewMessagesData(_ref2) {
+  var messages = _ref2.messages,
+      conversations = _ref2.conversations,
+      conversationMap = _ref2.conversationMap,
+      syncToken = _ref2.syncToken,
+      syncConversationId = _ref2.syncConversationId;
+
+  var newConversations = [];
+  var newConversationMap = {};
+  var newMessages = [];
+  var messageMap = {};
+  // copy old conversationMap to new conversationMap hash
+  (0, _keys2.default)(conversationMap).forEach(function (key) {
+    var conversation = (0, _extends3.default)({}, conversationMap[key], {
+      unreadMessages: (0, _extends3.default)({}, conversationMap[key].unreadMessages)
+    });
+    // if converstation is not sync with conversation Id, update all conversation sync token
+    if (syncToken && (!syncConversationId || syncConversationId === key)) {
+      conversation.syncToken = syncToken;
+    }
+    newConversationMap[key] = conversation;
+  });
+  // copy old conversations to new conversations array
+  conversations.forEach(function (conversation) {
+    newConversations.push((0, _extends3.default)({}, conversation));
+  });
+  messages.forEach(function (message) {
+    newMessages.push((0, _extends3.default)({}, message));
+    messageMap[message.id] = newMessages.length - 1;
+  });
+  return {
+    newConversations: newConversations,
+    newConversationMap: newConversationMap,
+    newMessages: newMessages,
+    messageMap: messageMap
+  };
+}
+
+function filterNullFromConversations(_ref3) {
+  var conversations = _ref3.conversations,
+      conversationMap = _ref3.conversationMap;
+
+  var newConversations = [];
+  // copy old conversationMap to new conversationMap hash
+  // copy old conversations to new conversations array
+  conversations.forEach(function (conversation) {
+    if (!conversation) {
+      return;
+    }
+    var conversationId = conversation.conversationId;
+    newConversations.push((0, _extends3.default)({}, conversation));
+    conversationMap[conversationId].index = newConversations.length - 1;
+  });
+  return {
+    conversations: newConversations,
+    conversationMap: conversationMap
+  };
+}
+
+function findIndexOfConversations(newConversationMap, record) {
+  var conversationId = record.conversation && record.conversation.id;
+  var existedIndex = newConversationMap[conversationId] && newConversationMap[conversationId].index;
+  if (existedIndex !== undefined && existedIndex !== null) {
+    return existedIndex;
+  }
+  return -1;
+}
+
+function findIndexOfMessages(messageMap, record) {
+  if (messageMap[record.id] !== undefined) {
+    return messageMap[record.id];
+  }
+  return -1;
+}
+
+function calcUnreadCount(conversation) {
+  return (0, _keys2.default)(conversation.unreadMessages).length;
+}
+
+function pushRecordsToMessageData(_ref4) {
+  var messages = _ref4.messages,
+      conversations = _ref4.conversations,
+      conversationMap = _ref4.conversationMap,
+      records = _ref4.records,
+      syncToken = _ref4.syncToken,
+      syncConversationId = _ref4.syncConversationId;
+
+  var _prepareNewMessagesDa = prepareNewMessagesData({
+    messages: messages,
+    conversations: conversations,
+    conversationMap: conversationMap,
+    syncToken: syncToken,
+    syncConversationId: syncConversationId
+  }),
+      newConversations = _prepareNewMessagesDa.newConversations,
+      newConversationMap = _prepareNewMessagesDa.newConversationMap,
+      newMessages = _prepareNewMessagesDa.newMessages,
+      messageMap = _prepareNewMessagesDa.messageMap;
+
+  var addMessageToMessageMap = function addMessageToMessageMap(message, index) {
+    messageMap[message.id] = index;
+  };
+  var setSyncTokenToConversation = function setSyncTokenToConversation(conversation) {
+    if (syncToken && (!syncConversationId || syncConversationId && syncConversationId === conversation.id)) {
+      conversation.syncToken = syncToken;
+    }
+  };
+  var addMessageToConversationMap = function addMessageToConversationMap(message, index) {
+    var conversationId = message.conversationId;
+    var conversation = newConversationMap[conversationId] || { unreadMessages: {} };
+    conversation.index = index;
+    conversation.id = conversationId;
+    setSyncTokenToConversation(conversation);
+    if (messageIsUnread(message)) {
+      conversation.unreadMessages[message.id] = 1;
+    } else if (conversation.unreadMessages[message.id]) {
+      delete conversation.unreadMessages[message.id];
+    }
+    newConversationMap[conversationId] = conversation;
+  };
+  var pushMessageToConversations = function pushMessageToConversations(record) {
+    var message = normalizeRecord((0, _removeUri2.default)(record));
+    var index = newConversations.length;
+    addMessageToConversationMap(message, index);
+    var conversation = newConversationMap[message.conversationId];
+    if (conversation) {
+      message.unreadCounts = calcUnreadCount(conversation);
+    } else {
+      message.unreadCounts = 0;
+    }
+    newConversations.push(message);
+  };
+  var pushMessageToMessages = function pushMessageToMessages(record) {
+    var message = normalizeRecord((0, _removeUri2.default)(record));
+    newMessages.push(message);
+    addMessageToMessageMap(message, newMessages.length - 1);
+  };
+  // TODO: delete message or conversation?
+  var deleteMessageFromConversations = function deleteMessageFromConversations(index, record) {
+    var message = newConversations[index];
+    if (message.id === record.id) {
+      var conversationMessages = newMessages.filter(function (oldMessage) {
+        return oldMessage.id !== message.id && oldMessage.conversationId === message.conversationId;
+      });
+      if (conversationMessages.length === 0) {
+        newConversations[index] = null;
+        delete newConversationMap[record.conversation.id];
+        return;
+      }
+      newConversations[index] = conversationMessages[conversationMessages.length - 1];
+    }
+    var conversation = newConversationMap[record.conversation.id];
+    setSyncTokenToConversation(conversation);
+    delete conversation.unreadMessages[record.id];
+    message.unreadCounts = calcUnreadCount(conversation);
+  };
+  var deleteMessageFromMessages = function deleteMessageFromMessages(index, record) {
+    newMessages[index] = null;
+    delete messageMap[record.id];
+  };
+  var replaceMessageInConversations = function replaceMessageInConversations(index, record) {
+    var oldConversation = newConversations[index];
+    var newMessage = (0, _extends3.default)({}, oldConversation, normalizeRecord((0, _removeUri2.default)(record)));
+    var oldCreated = new Date(oldConversation.creationTime);
+    var newCreated = new Date(record.creationTime);
+    if (newCreated >= oldCreated) {
+      // move the message to the top of new Messages
+      newConversations[index] = null;
+      newConversations.push(newMessage);
+      addMessageToConversationMap(newMessage, newConversations.length - 1);
+    } else {
+      addMessageToConversationMap(newMessage, index);
+    }
+    var conversation = newConversationMap[newMessage.conversationId];
+    newMessage.unreadCounts = calcUnreadCount(conversation);
+  };
+  var replaceMessageInMessages = function replaceMessageInMessages(index, record) {
+    newMessages[index] = normalizeRecord((0, _removeUri2.default)(record));
+  };
+  records.forEach(function (record) {
+    if (!record.conversation) {
+      return;
+    }
+    var existedIndexofMessages = findIndexOfMessages(messageMap, record);
+    var existedIndexofConversations = findIndexOfConversations(newConversationMap, record);
+    var isDeleted = messageHelper.messageIsDeleted(record);
+    var isAcceptable = messageHelper.messageIsAcceptable(record);
+    if (existedIndexofMessages > -1) {
+      if (isDeleted) {
+        deleteMessageFromMessages(existedIndexofMessages, record);
+      } else {
+        replaceMessageInMessages(existedIndexofMessages, record);
+      }
+    } else if (isAcceptable) {
+      pushMessageToMessages(record);
+    }
+    if (existedIndexofConversations > -1) {
+      if (isDeleted) {
+        deleteMessageFromConversations(existedIndexofConversations, record);
+      } else {
+        replaceMessageInConversations(existedIndexofConversations, record);
+      }
+    } else if (isAcceptable) {
+      pushMessageToConversations(record);
+    }
+  });
+  var filteredConversation = filterNullFromConversations({
+    conversations: newConversations,
+    conversationMap: newConversationMap
+  });
+  return (0, _extends3.default)({}, filteredConversation, {
+    messages: newMessages.filter(function (item) {
+      return item !== null;
+    })
+  });
+}
+
+function updateConversationRecipients(_ref5) {
+  var messages = _ref5.messages,
+      conversations = _ref5.conversations,
+      conversationMap = _ref5.conversationMap,
+      conversationId = _ref5.conversationId,
+      recipients = _ref5.recipients;
+
+  var conversationIndex = conversationMap[conversationId] && conversationMap[conversationId].index;
+  if (conversationIndex === undefined) {
+    return { messages: messages, conversationMap: conversationMap, conversations: conversations };
+  }
+  var newConversations = [];
+  conversations.forEach(function (conversation) {
+    newConversations.push((0, _extends3.default)({}, conversation));
+  });
+  var conversation = newConversations[conversationIndex];
+  conversation.recipients = recipients.map(function (recipient) {
+    return (0, _extends3.default)({}, recipient);
+  });
+  return {
+    messages: messages,
+    conversationMap: conversationMap,
+    conversations: newConversations
+  };
 }
 //# sourceMappingURL=messageStoreHelper.js.map
