@@ -57,13 +57,9 @@ var _normalizeNumber = require('../../lib/normalizeNumber');
 
 var _normalizeNumber2 = _interopRequireDefault(_normalizeNumber);
 
-var _cleanNumber = require('../../lib/cleanNumber');
+var _parseNumber3 = require('../../lib/parseNumber');
 
-var _cleanNumber2 = _interopRequireDefault(_cleanNumber);
-
-var _parseNumber2 = require('../../lib/parseNumber');
-
-var _parseNumber3 = _interopRequireDefault(_parseNumber2);
+var _parseNumber4 = _interopRequireDefault(_parseNumber3);
 
 var _numberValidateActionTypes = require('./numberValidateActionTypes');
 
@@ -144,8 +140,12 @@ var NumberValidate = function (_RcModule) {
       if ((0, _isBlank2.default)(phoneNumber)) {
         return true;
       }
-      var cleaned = (0, _cleanNumber2.default)(phoneNumber);
-      if (cleaned.length === 0) {
+
+      var _parseNumber = (0, _parseNumber4.default)(phoneNumber),
+          number = _parseNumber.number,
+          hasInvalidChars = _parseNumber.hasInvalidChars;
+
+      if (hasInvalidChars || number === '') {
         return true;
       }
       return false;
@@ -153,12 +153,14 @@ var NumberValidate = function (_RcModule) {
   }, {
     key: 'isNoAreaCode',
     value: function isNoAreaCode(phoneNumber) {
-      var _parseNumber = (0, _parseNumber3.default)(phoneNumber),
-          hasPlus = _parseNumber.hasPlus,
-          number = _parseNumber.number,
-          isServiceNumber = _parseNumber.isServiceNumber;
+      var _parseNumber2 = (0, _parseNumber4.default)(phoneNumber),
+          hasPlus = _parseNumber2.hasPlus,
+          number = _parseNumber2.number,
+          isServiceNumber = _parseNumber2.isServiceNumber;
 
-      if (!isServiceNumber && !hasPlus && number.length === 7 && (this._regionSettings.countryCode === 'CA' || this._regionSettings.countryCode === 'US') && this._regionSettings.areaCode === '') {
+      var countryCode = this._regionSettings.countryCode;
+      var areaCode = this._regionSettings.areaCode;
+      if (!isServiceNumber && !hasPlus && number.length === 7 && (countryCode === 'CA' || countryCode === 'US') && areaCode === '') {
         return true;
       }
       return false;
