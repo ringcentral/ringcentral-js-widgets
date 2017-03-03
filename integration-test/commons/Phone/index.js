@@ -175,6 +175,14 @@ var _Conversation = require('../../../modules/Conversation');
 
 var _Conversation2 = _interopRequireDefault(_Conversation);
 
+var _ContactMatcher = require('../../../modules/ContactMatcher');
+
+var _ContactMatcher2 = _interopRequireDefault(_ContactMatcher);
+
+var _ActivityMatcher = require('../../../modules/ActivityMatcher');
+
+var _ActivityMatcher2 = _interopRequireDefault(_ActivityMatcher);
+
 var _DateTimeIntl = require('../../../modules/DateTimeIntl');
 
 var _DateTimeIntl2 = _interopRequireDefault(_DateTimeIntl);
@@ -409,20 +417,20 @@ var Phone = function (_RcModule) {
       }
     })));
 
-    // this.addModule('contactMatcher', new DataMatcher({
-    //   ...options,
-    //   prefix: 'contact',
-    //   auth: this.auth,
-    //   storage: this.storage,
-    //   getState: () => this.state.contactMatcher,
-    // }));
-    // this.addModule('activityMatcher', new DataMatcher({
-    //   ...options,
-    //   prefix: 'activity',
-    //   auth: this.auth,
-    //   storage: this.storage,
-    //   getState: () => this.state.activityMatcher,
-    // }));
+    _this.addModule('contactMatcher', new _ContactMatcher2.default((0, _extends3.default)({}, options, {
+      auth: _this.auth,
+      storage: _this.storage,
+      getState: function getState() {
+        return _this.state.contactMatcher;
+      }
+    })));
+    _this.addModule('activityMatcher', new _ActivityMatcher2.default((0, _extends3.default)({}, options, {
+      auth: _this.auth,
+      storage: _this.storage,
+      getState: function getState() {
+        return _this.state.activityMatcher;
+      }
+    })));
     // this.addModule('callLog', new CallLog({
     //   ...options,
     //   auth: this.auth,
@@ -650,8 +658,8 @@ var Phone = function (_RcModule) {
       // callMonitor: callMonitorReducer,
       environment: _this.environment.reducer,
       presence: _this.presence.reducer,
-      // contactMatcher: this.contactMatcher.reducer,
-      // activityMatcher: this.activityMatcher.reducer,
+      contactMatcher: _this.contactMatcher.reducer,
+      activityMatcher: _this.activityMatcher.reducer,
       storage: _this.storage.reducer,
       // autoLogger: this.autoLogger.reducer,
       globalStorage: _this.globalStorage.reducer,
