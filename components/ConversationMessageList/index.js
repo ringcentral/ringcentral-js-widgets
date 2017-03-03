@@ -76,9 +76,13 @@ function MessageItem(props) {
 
 MessageItem.propTypes = {
   direction: _react.PropTypes.string.isRequired,
-  subject: _react.PropTypes.string.isRequired,
+  subject: _react.PropTypes.string,
   creationTime: _react.PropTypes.string.isRequired,
   showDate: _react.PropTypes.bool.isRequired
+};
+
+MessageItem.defaultProps = {
+  subject: ''
 };
 
 var ConversationMessageList = function (_Component) {

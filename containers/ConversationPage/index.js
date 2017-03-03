@@ -50,6 +50,10 @@ var _DateTimeIntl = require('ringcentral-integration/modules/DateTimeIntl');
 
 var _DateTimeIntl2 = _interopRequireDefault(_DateTimeIntl);
 
+var _ContactMatcher = require('ringcentral-integration/modules/ContactMatcher');
+
+var _ContactMatcher2 = _interopRequireDefault(_ContactMatcher);
+
 var _ConversationPanel = require('../../components/ConversationPanel');
 
 var _ConversationPanel2 = _interopRequireDefault(_ConversationPanel);
@@ -115,12 +119,13 @@ var ConversationPage = function (_Component) {
     key: 'getRecipientName',
     value: function getRecipientName(recipient) {
       var phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
-      // if (phoneNumber) {
-      //   const matcherNames = this.props.contactMatcher.dataMapping[phoneNumber];
-      //   if (matcherNames && matcherNames[0] && matcherNames[0].name) {
-      //     return matcherNames[0].name;
-      //   }
-      // }
+      if (phoneNumber && this.props.contactMatcher && this.props.contactMatcher.ready) {
+        var matcherNames = this.props.contactMatcher.dataMapping[phoneNumber];
+        if (matcherNames && matcherNames[0] && matcherNames[0].name) {
+          return matcherNames[0].name;
+        }
+        return this.formatNumber(phoneNumber);
+      }
       if (recipient.name) {
         return recipient.name;
       }
@@ -176,7 +181,12 @@ ConversationPage.propTypes = {
   sendButtonDisabled: _react.PropTypes.bool.isRequired,
   showSpinner: _react.PropTypes.bool.isRequired,
   messages: _ConversationPanel2.default.propTypes.messages,
-  recipients: _ConversationPanel2.default.propTypes.recipients
+  recipients: _ConversationPanel2.default.propTypes.recipients,
+  contactMatcher: _react.PropTypes.instanceOf(_ContactMatcher2.default)
+};
+
+ConversationPage.defaultProps = {
+  contactMatcher: null
 };
 
 ConversationPage.childContextTypes = {
@@ -194,9 +204,7 @@ function mapStateToProps(state, props) {
     regionSettings: props.regionSettings,
     messageStore: props.messageStore,
     sendButtonDisabled: props.conversation.pushing,
-    showSpinner: !props.dateTimeIntl.ready ||
-    // !props.contactMatcher.ready ||
-    !props.conversation.ready || !props.regionSettings.ready,
+    showSpinner: !props.dateTimeIntl.ready || props.contactMatcher && !props.contactMatcher.ready || !props.conversation.ready || !props.regionSettings.ready,
     recipients: props.conversation.recipients,
     messages: props.conversation.messages
   };

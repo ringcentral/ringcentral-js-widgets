@@ -60,29 +60,24 @@ Recipient.propTypes = {
 };
 
 function RecipientList(props) {
-  var _this = this;
-
-  var recipients = this.props.recipients;
+  var recipients = props.recipients;
   return _react2.default.createElement(
     'div',
     { className: props.className },
     recipients.map(function (receiver) {
       return _react2.default.createElement(Recipient, {
         key: (0, _stringify2.default)(receiver),
-        name: _this.context.getRecipientName(receiver),
+        name: props.getRecipientName(receiver),
         onClick: function onClick() {
-          return _this.props.setDefaultRecipient(receiver.extensionNumber || receiver.phoneNumber);
+          return props.setDefaultRecipient(receiver.extensionNumber || receiver.phoneNumber);
         }
       });
     })
   );
 }
 
-RecipientList.contextTypes = {
-  getRecipientName: _react.PropTypes.func.isRequired
-};
-
 RecipientList.propTypes = {
+  getRecipientName: _react.PropTypes.func.isRequired,
   setDefaultRecipient: _react.PropTypes.func.isRequired,
   className: _react.PropTypes.string.isRequired,
   recipients: _react.PropTypes.arrayOf(_react.PropTypes.shape({
@@ -98,30 +93,30 @@ var RecipientsHeader = function (_Component) {
   function RecipientsHeader(props) {
     (0, _classCallCheck3.default)(this, RecipientsHeader);
 
-    var _this2 = (0, _possibleConstructorReturn3.default)(this, (RecipientsHeader.__proto__ || (0, _getPrototypeOf2.default)(RecipientsHeader)).call(this, props));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (RecipientsHeader.__proto__ || (0, _getPrototypeOf2.default)(RecipientsHeader)).call(this, props));
 
-    _this2.state = {
+    _this.state = {
       showDropdownList: false
     };
-    _this2.toggleDropdown = function () {
-      if (!_this2.hasDropdown()) {
+    _this.toggleDropdown = function () {
+      if (!_this.hasDropdown()) {
         return;
       }
-      _this2.setState(function (preState) {
+      _this.setState(function (preState) {
         return {
           showDropdownList: !preState.showDropdownList
         };
       });
     };
-    _this2.setDefaultRecipient = function (phoneNumber) {
-      _this2.context.changeDefaultRecipient(phoneNumber);
-      _this2.setState(function (preState) {
+    _this.setDefaultRecipient = function (phoneNumber) {
+      _this.context.changeDefaultRecipient(phoneNumber);
+      _this.setState(function (preState) {
         return {
           showDropdownList: !preState.showDropdownList
         };
       });
     };
-    return _this2;
+    return _this;
   }
 
   (0, _createClass3.default)(RecipientsHeader, [{
@@ -144,7 +139,8 @@ var RecipientsHeader = function (_Component) {
         dropdownList = _react2.default.createElement(RecipientList, {
           recipients: recipients,
           className: dropdownClass,
-          setDefaultRecipient: this.setDefaultRecipient
+          setDefaultRecipient: this.setDefaultRecipient,
+          getRecipientName: this.context.getRecipientName
         });
       }
       return _react2.default.createElement(

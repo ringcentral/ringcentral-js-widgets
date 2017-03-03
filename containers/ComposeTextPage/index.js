@@ -46,7 +46,7 @@ var ComposeTextPage = (0, _reactRedux.connect)(function (state, props) {
     send: function send() {
       return props.composeText.send().then(function (resp) {
         if (resp && resp.conversation) {
-          props.messageStore.pushMessage(resp.conversation.id, resp);
+          props.messageStore.pushMessage(resp);
           props.composeText.clean();
           props.router.history.push('/conversations/' + resp.conversation.id);
         }
