@@ -7,6 +7,7 @@ import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import Conversation from 'ringcentral-integration/modules/Conversation';
 import MessageStore from 'ringcentral-integration/modules/MessageStore';
 import DateTimeIntl from 'ringcentral-integration/modules/DateTimeIntl';
+import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
 
 import ConversationPanel from '../../components/ConversationPanel';
 
@@ -46,12 +47,13 @@ class ConversationPage extends Component {
 
   getRecipientName(recipient) {
     const phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
-    // if (phoneNumber) {
-    //   const matcherNames = this.props.contactMatcher.dataMapping[phoneNumber];
-    //   if (matcherNames && matcherNames[0] && matcherNames[0].name) {
-    //     return matcherNames[0].name;
-    //   }
-    // }
+    if (phoneNumber && this.props.contactMatcher && this.props.contactMatcher.ready) {
+      const matcherNames = this.props.contactMatcher.dataMapping[phoneNumber];
+      if (matcherNames && matcherNames[0] && matcherNames[0].name) {
+        return matcherNames[0].name;
+      }
+      return this.formatNumber(phoneNumber);
+    }
     if (recipient.name) {
       return recipient.name;
     }
@@ -107,6 +109,11 @@ ConversationPage.propTypes = {
   showSpinner: PropTypes.bool.isRequired,
   messages: ConversationPanel.propTypes.messages,
   recipients: ConversationPanel.propTypes.recipients,
+  contactMatcher: PropTypes.instanceOf(ContactMatcher),
+};
+
+ConversationPage.defaultProps = {
+  contactMatcher: null,
 };
 
 ConversationPage.childContextTypes = {
@@ -126,7 +133,7 @@ function mapStateToProps(state, props) {
     sendButtonDisabled: props.conversation.pushing,
     showSpinner: (
       !props.dateTimeIntl.ready ||
-      // !props.contactMatcher.ready ||
+      (props.contactMatcher && !props.contactMatcher.ready) ||
       !props.conversation.ready ||
       !props.regionSettings.ready
     ),

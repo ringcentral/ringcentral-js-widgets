@@ -31,6 +31,13 @@ const tabs = [
     path: '/',
   },
   {
+    icon: <span className={rcFont.icon_message_all} />,
+    activityIcon: <span className={rcFont.icon_message_all} />,
+    label: 'Messages',
+    path: '/messages',
+    noticeCounts: 0,
+  },
+  {
     icon: <span className={rcFont.icon_message} />,
     activityIcon: <span className={rcFont.icon_message} />,
     label: 'SMS',
@@ -39,10 +46,19 @@ const tabs = [
   },
 ];
 
-const MainView = connect((state, props) => ({
-  tabs,
-  currentPath: props.router.currentPath,
-}))(TabNavigationView);
+const MainView = connect((state, props) => {
+  const messageTab = tabs.find(tab =>
+    tab.label === 'Messages'
+  );
+  if (messageTab) {
+    messageTab.noticeCounts = props.messageStore.unreadCounts;
+  }
+  return {
+    tabs,
+    unreadCounts: props.messageStore.unreadCounts,
+    currentPath: props.router.currentPath,
+  };
+})(TabNavigationView);
 
 MainView.propTypes = {
   router: PropTypes.instanceOf(RouterInteraction).isRequired,

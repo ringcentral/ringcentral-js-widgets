@@ -9,6 +9,7 @@ import RegionSettingsPage from '../../../src/containers/RegionSettingsPage';
 import DialerPage from '../../../src/containers/DialerPage';
 import ComposeTextPage from '../../../src/containers/ComposeTextPage';
 import ConversationPage from '../../../src/containers/ConversationPage';
+import MessagesPage from '../../../src/containers/MessagesPage';
 
 import MainView from '../MainView';
 import SettingsPage from '../../../src/containers/SettingsPage';
@@ -60,6 +61,7 @@ export default function App({
             component={props => (
               <MainView
                 router={phone.router}
+                messageStore={phone.messageStore}
                 auth={phone.auth} >
                 {props.children}
               </MainView>
@@ -139,6 +141,22 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   conversation={phone.conversation}
                   messageStore={phone.messageStore}
+                  dateTimeIntl={phone.dateTimeIntl}
+                  // contactMatcher={phone.contactMatcher}
+                />
+            )} />
+            <Route
+              path="/messages"
+              onEnter={ensureLogin}
+              component={() => (
+                <MessagesPage
+                  locale={phone.locale}
+                  auth={phone.auth}
+                  messages={phone.messages}
+                  messageStore={phone.messageStore}
+                  extensionInfo={phone.extensionInfo}
+                  regionSettings={phone.regionSettings}
+                  contactMatcher={phone.contactMatcher}
                   dateTimeIntl={phone.dateTimeIntl}
                   // contactMatcher={phone.contactMatcher}
                 />

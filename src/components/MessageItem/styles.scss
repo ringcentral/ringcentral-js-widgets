@@ -1,0 +1,105 @@
+.messageItem {
+  position: relative;
+  width: 100%;
+  padding: 10px 50px 10px 0;
+  clear: both;
+  border-bottom: 1px solid #e3e3e5;
+  cursor: default;
+  background: #fff;
+  overflow: hidden;
+  &:hover {
+    background-color: #f2f2f2;
+  }
+}
+
+.messageLink {
+  text-decoration: none;
+}
+
+.messageLink:hover {
+  text-decoration: none;
+}
+
+.typeIcon {
+  display: inline-block;
+  padding: 0 8px;
+  float: left;
+  font-size: 25px;
+  width: 50px;
+  text-align: center;
+  line-height: 33px;
+  color: #555;
+}
+
+.messageContent {
+  padding-right: 52px;
+  color: #2f2f2f;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.messageFrom {
+  font-size: 13px;
+  line-height: 18px;
+  display: block;
+  min-height: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.messageText {
+  font-size: 12px;
+  line-height: 18px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #555;
+  max-width: 20em;
+}
+
+.unRead {
+  .typeIcon {
+    color: #0073ae;
+  }
+
+  .messageFrom {
+    color: #0073ae;
+  }
+
+  .messageText {
+    color: #0073ae;
+  }
+}
+
+.messageInfo {
+  position: absolute;
+  top: 30px;
+  right: 45px;
+  color: #b3b3b3;
+  max-width: 70px;
+  text-align: center;
+}
+
+.contactInfo {
+  color: #b3b3b3;
+  position: absolute;
+  top: 10px;
+  right: 45px;
+  line-height: 18px;
+  width: 70px;
+  text-align: center;
+  cursor: pointer;
+  &:hover {
+    color: #333;
+  }
+}
+
+.messageTime {
+  font-size: 11px;
+  width: 70px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
