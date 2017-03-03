@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import { getRecipients } from 'ringcentral-integration/lib/messageHelper';
 
+import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
+
 import Spinner from '../../components/Spinner';
 import Panel from '../../components/Panel';
 import Header from '../../components/Header';
@@ -41,12 +43,13 @@ class MessagesPage extends Component {
     }
     return recipients.map((recipient) => {
       const phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
-      // if (phoneNumber) {
-      //   const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
-      //   if (matcherNames && matcherNames[0]) {
-      //     return matcherNames[0].name;
-      //   }
-      // }
+      if (phoneNumber && this.props.contactMatcher && this.props.contactMatcher.ready) {
+        const matcherNames = this.props.contactMatcher.dataMapping[phoneNumber];
+        if (matcherNames && matcherNames[0]) {
+          return matcherNames[0].name;
+        }
+        return this.props.formatPhone(phoneNumber);
+      }
       if (recipient.name) {
         return recipient.name;
       }
@@ -54,23 +57,30 @@ class MessagesPage extends Component {
     });
   }
 
-  isMatchContact(message, searchText, searchNumber) {
+  isMatchRecipients(message, searchText, searchNumber) {
     const recipients = this.props.getRecipientsList(message);
-    for (const number of recipients) {
-      const phoneNumber = number.phoneNumber || number.extensionNumber;
+    for (const recipient of recipients) {
+      const phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
+      let recipientName = null;
       if (phoneNumber) {
-        // const matcherNames = this.props.contactMatcher.dataMapping[phoneNumber];
-        // if (
-        //   matcherNames && matcherNames[0] && matcherNames[0].name &&
-        //   matcherNames[0].name.toLowerCase().indexOf(searchText) >= 0
-        // ) {
-        //   return true;
-        // }
         if (searchNumber && searchNumber.length > 0 && phoneNumber.indexOf(searchNumber) >= 0) {
           return true;
         }
+        if (this.props.contactMatcher && this.props.contactMatcher.ready) {
+          const matcherNames = this.props.contactMatcher.dataMapping[phoneNumber];
+          if (
+            matcherNames && matcherNames[0] && matcherNames[0].name
+          ) {
+            recipientName = matcherNames[0].name;
+          } else {
+            recipientName = phoneNumber;
+          }
+        }
       }
-      if (number.name && number.name.toLowerCase().indexOf(searchText) >= 0) {
+      if (!recipientName && recipient.name) {
+        recipientName = recipient.name;
+      }
+      if (recipientName && recipientName.toLowerCase().indexOf(searchText) >= 0) {
         return true;
       }
     }
@@ -90,7 +100,7 @@ class MessagesPage extends Component {
     }
     const searchTextResults = this.props.searchMessagesText(searchText).reverse();
     const searchContactresults = this.props.allMessages.filter(message =>
-      this.isMatchContact(message, searchText, searchNumber)
+      this.isMatchRecipients(message, searchText, searchNumber)
     ).reverse();
     const results = [];
     const searchMap = {};
@@ -177,6 +187,11 @@ MessagesPage.propTypes = {
   getRecipientsList: PropTypes.func.isRequired,
   searchMessagesText: PropTypes.func.isRequired,
   updateSearchResults: PropTypes.func.isRequired,
+  contactMatcher: PropTypes.instanceOf(ContactMatcher),
+};
+
+MessagesPage.defaultProps = {
+  contactMatcher: null,
 };
 
 function mapStateToProps(state, props) {
@@ -186,8 +201,8 @@ function mapStateToProps(state, props) {
     allMessages: props.messageStore.conversations,
     showSpinner: (
       !props.messages.ready ||
+      (props.contactMatcher && !props.contactMatcher.ready) ||
       !props.extensionInfo.ready ||
-      // !props.contactMatcher.ready ||
       !props.dateTimeIntl.ready
     ),
     isLoadingNextPage: props.messages.loading,
