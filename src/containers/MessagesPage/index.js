@@ -141,7 +141,15 @@ class MessagesPage extends Component {
     );
   }
 
-  renderContent() {
+  render() {
+    const showSpinner = this.props.showSpinner;
+    if (showSpinner) {
+      return (
+        <div className={styles.root}>
+          <MessageSpiner />
+        </div>
+      );
+    }
     return (
       <div className={styles.content}>
         <SearchInput
@@ -154,20 +162,6 @@ class MessagesPage extends Component {
         <Panel>
           {this.renderMessageList()}
         </Panel>
-      </div>
-    );
-  }
-
-  render() {
-    const showSpinner = this.props.showSpinner;
-    return (
-      <div className={styles.root}>
-        <Header>
-          {i18n.getString('title')}
-        </Header>
-        {
-          showSpinner ? <MessageSpiner /> : this.renderContent()
-        }
       </div>
     );
   }
