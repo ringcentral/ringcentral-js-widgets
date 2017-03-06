@@ -8,8 +8,6 @@
 
 .content {
   @include full-size;
-  height: 94%;
-  max-height: calc(100% - 32px);
   box-sizing: border-box;
   border-color: $border-color;
   border-width: 0;
