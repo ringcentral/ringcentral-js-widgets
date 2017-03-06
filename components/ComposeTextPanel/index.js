@@ -32,9 +32,9 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _RcFont = require('../../assets/RcFont/RcFont.scss');
+var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
-var _RcFont2 = _interopRequireDefault(_RcFont);
+var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
 var _i18n = require('./i18n');
 
@@ -147,14 +147,9 @@ var ComposeTextPanel = function (_Component) {
           'div',
           { className: _styles2.default.composeTextPanelHeader },
           _react2.default.createElement(
-            'h1',
-            null,
-            _i18n2.default.getString('composeMessage')
-          ),
-          _react2.default.createElement(
             'a',
             { href: '#sender-number-setting', className: _styles2.default.sendNumberSetting, onClick: this.toggleShowSenderSetting },
-            _react2.default.createElement('span', { className: _RcFont2.default.icon_setting })
+            _react2.default.createElement('span', { className: _DynamicsFont2.default.settingHover })
           )
         ),
         _react2.default.createElement(
@@ -213,7 +208,6 @@ var ComposeTextPanel = function (_Component) {
               placeholder: _i18n2.default.getString('typeAnyToSend', this.props.currentLocale),
               value: this.props.messageText,
               maxLength: '1000',
-              required: true,
               onChange: this.onTextChange
             })
           ),

@@ -232,8 +232,16 @@ var MessagesPage = function (_Component) {
       });
     }
   }, {
-    key: 'renderContent',
-    value: function renderContent() {
+    key: 'render',
+    value: function render() {
+      var showSpinner = this.props.showSpinner;
+      if (showSpinner) {
+        return _react2.default.createElement(
+          'div',
+          { className: _styles2.default.root },
+          _react2.default.createElement(MessageSpiner, null)
+        );
+      }
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.content },
@@ -249,21 +257,6 @@ var MessagesPage = function (_Component) {
           null,
           this.renderMessageList()
         )
-      );
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var showSpinner = this.props.showSpinner;
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.root },
-        _react2.default.createElement(
-          _Header2.default,
-          null,
-          _i18n2.default.getString('title')
-        ),
-        showSpinner ? _react2.default.createElement(MessageSpiner, null) : this.renderContent()
       );
     }
   }]);

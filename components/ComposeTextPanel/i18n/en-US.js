@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  composeMessage: 'Compose Message',
   sendMessageFrom: 'Send Message From',
   to: 'To',
   enterNameOrNumber: 'Enter Number Or Name',

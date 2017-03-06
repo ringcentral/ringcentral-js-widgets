@@ -3,15 +3,11 @@
 .composeTextPanelHeader {
   text-align: center;
   position: relative;
-  h1 {
-    font-size: 13px;
-    font-weight: 700;
-    line-height: 20px;
-  }
+  height: 25px;
 }
 
 .messageSenderField {
-  margin: 10px 5px 0 5px;
+  margin: 0 5px;
   height: 50px;
 	transition: height 0.5s ease-in;
   overflow: hidden;
@@ -36,7 +32,7 @@
 .sendNumberSetting {
   position: absolute;
   right: 10px;
-  top: 3px;
+  top: 10px;
   cursor: pointer;
   color: #333;
   text-decoration: none;
@@ -46,7 +42,7 @@
 }
 
 .messageReceiverField {
-  margin: 10px 5px 0 5px;
+  margin: 0 5px;
   border-bottom: 1px solid #e3e3e5;
   padding-bottom: 3px;
   position: relative;
