@@ -68,9 +68,6 @@ var ConversationPage = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ConversationPage.__proto__ || (0, _getPrototypeOf2.default)(ConversationPage)).call(this, props));
 
-    _this.state = {
-      loading: true
-    };
     _this.replyToReceivers = function (text) {
       _this.props.conversation.replyToReceivers(text);
     };
@@ -100,15 +97,7 @@ var ConversationPage = function (_Component) {
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      var _this3 = this;
-
-      var id = this.props.conversationId;
-      this.props.messageStore.syncConversation(id).then(function () {
-        _this3.props.conversation.loadConversationById(id);
-        _this3.setState({
-          loading: false
-        });
-      });
+      this.loadConversation();
     }
   }, {
     key: 'componentWillUnmount',
@@ -130,6 +119,12 @@ var ConversationPage = function (_Component) {
         return recipient.name;
       }
       return this.formatNumber(phoneNumber);
+    }
+  }, {
+    key: 'loadConversation',
+    value: function loadConversation() {
+      var id = this.props.conversationId;
+      this.props.conversation.loadConversationById(id);
     }
   }, {
     key: 'changeDefaultRecipient',
@@ -156,13 +151,12 @@ var ConversationPage = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var showSpinner = this.props.showSpinner || this.state.loading;
       return _react2.default.createElement(_ConversationPanel2.default, {
         conversationId: this.props.conversationId,
         currentLocale: this.props.currentLocale,
         messages: this.props.messages,
         recipients: this.props.recipients,
-        showSpinner: showSpinner,
+        showSpinner: this.props.showSpinner,
         replyToReceivers: this.replyToReceivers,
         sendButtonDisabled: this.props.sendButtonDisabled
       });
