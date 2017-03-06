@@ -128,7 +128,6 @@ class MessagesPage extends Component {
       <MessageList
         messages={this.props.messages}
         loadNextPageMessages={this.props.loadNextPageMessages}
-        loading={this.props.isLoadingNextPage}
         placeholder={i18n.getString('noMessages')}
         formatDateTime={this.props.formatDateTime}
         getMessageRecipientNames={this.getMessageRecipientNames}
@@ -194,7 +193,6 @@ function mapStateToProps(state, props) {
       !props.extensionInfo.ready ||
       !props.dateTimeIntl.ready
     ),
-    isLoadingNextPage: props.messages.loading,
     lastUpdatedAt: props.messages.lastUpdatedAt,
     searchingString: props.messages.searchingString,
     searchingResults: props.messages.searchingResults,
