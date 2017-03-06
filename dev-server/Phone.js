@@ -237,15 +237,26 @@ export default class Phone extends RcModule {
       getState: () => this.state.contactSearch,
     }));
     this.contactSearch.addSearchSource({
-      sourceName: 'test',
-      searchFn: ({ searchString }) => [{
-        entityType: 'account',
-        name: searchString,
-        phoneNumber: searchString,
-        phoneType: 'phone',
-      }],
-      formatFn: entities => entities,
-      readyCheckFn: () => true,
+      sourceName: 'extensions',
+      searchFn: ({ searchString }) => {
+        const searchText = searchString.toLowerCase();
+        return this.accountExtension.availableExtensions.filter((extension) => {
+          if (extension.ext.indexOf(searchText) >= 0) {
+            return true;
+          }
+          if (extension.name.toLowerCase().indexOf(searchText) >= 0) {
+            return true;
+          }
+          return false;
+        });
+      },
+      formatFn: entities => entities.map(entity => ({
+        entityType: 'contact',
+        name: entity.name,
+        phoneNumber: entity.ext,
+        phoneType: 'extension',
+      })),
+      readyCheckFn: () => this.accountExtension.ready,
     });
     this.addModule('numberValidate', new NumberValidate({
       ...options,
