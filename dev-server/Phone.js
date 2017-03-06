@@ -238,16 +238,18 @@ export default class Phone extends RcModule {
     }));
     this.contactSearch.addSearchSource({
       sourceName: 'extensions',
-      searchFn: ({ searchString }) =>
-        this.accountExtension.availableExtensions.filter((extension) => {
-          if (extension.ext.indexOf(searchString) >= 0) {
+      searchFn: ({ searchString }) => {
+        const searchText = searchString.toLowerCase();
+        return this.accountExtension.availableExtensions.filter((extension) => {
+          if (extension.ext.indexOf(searchText) >= 0) {
             return true;
           }
-          if (extension.name.toLowerCase().indexOf(searchString) >= 0) {
+          if (extension.name.toLowerCase().indexOf(searchText) >= 0) {
             return true;
           }
           return false;
-        }),
+        });
+      },
       formatFn: entities => entities.map(entity => ({
         entityType: 'contact',
         name: entity.name,
