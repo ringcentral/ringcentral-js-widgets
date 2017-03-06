@@ -25,6 +25,7 @@ export default class MessageList extends Component {
       const totalScrollHeight = this.messagesListBody.scrollHeight;
       const clientHeight = this.messagesListBody.clientHeight;
       currentScrollHeight = this.messagesListBody.scrollTop;
+      // loadNextPageMessages if srroll near buttom
       if (
         (totalScrollHeight - lastScrollHeight) > (clientHeight + 10) &&
         (totalScrollHeight - currentScrollHeight) <= (clientHeight + 10)
@@ -49,7 +50,7 @@ export default class MessageList extends Component {
                 <MessageItem
                   type={message.type}
                   unreadCounts={message.unreadCounts}
-                  conversation={message.conversation}
+                  conversationId={message.conversationId}
                   subject={message.subject}
                   contactList={this.props.getMessageRecipientNames(message)}
                   creationTime={message.creationTime}
@@ -58,7 +59,6 @@ export default class MessageList extends Component {
             )
           : <NoMessages placeholder={this.props.placeholder} />
         }
-        <div className={styles.loading}>{this.props.loading && i18n.getString('Loading')}</div>
       </div>
     );
   }
@@ -69,19 +69,14 @@ MessageList.propTypes = {
     id: PropTypes.number,
     type: PropTypes.string,
     unreadCounts: PropTypes.number,
-    conversation: PropTypes.object.isRequired,
+    conversationId: PropTypes.string.isRequired,
     subject: PropTypes.string,
     creationTime: PropTypes.string,
     to: PropTypes.array,
     from: PropTypes.object,
   })).isRequired,
   loadNextPageMessages: PropTypes.func.isRequired,
-  loading: PropTypes.bool,
   placeholder: PropTypes.string.isRequired,
   formatDateTime: PropTypes.func.isRequired,
   getMessageRecipientNames: PropTypes.func.isRequired,
-};
-
-MessageList.defaultProps = {
-  loading: false,
 };

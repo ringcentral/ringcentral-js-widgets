@@ -6,13 +6,8 @@
 }
 
 .messageList {
-  height: 100%;
+  height: calc(100% - 28px);
+  max-height: 800px;
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-.loading {
-  height: 15px;
-  padding: 5px;
-  text-align: center;
 }

@@ -18,7 +18,7 @@ export default function MessageItem(props) {
   return (
     <div className={className}>
       <Link
-        to={`/conversations/${props.conversation.id}`}
+        to={`/conversations/${props.conversationId}`}
         className={styles.messageLink}
       >
         <div className={styles.typeIcon}>
@@ -49,9 +49,7 @@ export default function MessageItem(props) {
 MessageItem.propTypes = {
   type: PropTypes.string.isRequired,
   unreadCounts: PropTypes.number,
-  conversation: PropTypes.shape({
-    id: PropTypes.string,
-  }).isRequired,
+  conversationId: PropTypes.string.isRequired,
   subject: PropTypes.string,
   contactList: PropTypes.arrayOf(PropTypes.string).isRequired,
   creationTime: PropTypes.string.isRequired,

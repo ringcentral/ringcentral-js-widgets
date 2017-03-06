@@ -304,6 +304,7 @@ export default class Phone extends RcModule {
       ...options,
       alert: this.alert,
       messageStore: this.messageStore,
+      perPage: 20,
       getState: () => this.state.messages,
     }));
     this.addModule('router', new RouterInteraction({
