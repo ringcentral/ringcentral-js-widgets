@@ -1,5 +1,4 @@
 export default {
-  composeMessage: 'Compose Message',
   sendMessageFrom: 'Send Message From',
   to: 'To',
   enterNameOrNumber: 'Enter Number Or Name',
