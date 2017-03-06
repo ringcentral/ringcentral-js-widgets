@@ -20,9 +20,9 @@ var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
 
-var _i18n = require('./i18n');
+var _phoneTypes = require('../../lib/phoneTypes');
 
-var _i18n2 = _interopRequireDefault(_i18n);
+var _phoneTypes2 = _interopRequireDefault(_phoneTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -44,7 +44,7 @@ function ContactItem(props) {
         _react2.default.createElement(
           'span',
           { className: _styles2.default.label },
-          _i18n2.default.getString('phoneSource.' + props.entityType)
+          _phoneTypes2.default.getString('phoneSource.' + props.entityType)
         )
       ),
       _react2.default.createElement(
@@ -58,7 +58,7 @@ function ContactItem(props) {
         _react2.default.createElement(
           'span',
           { className: _styles2.default.label },
-          _i18n2.default.getString('phoneType.' + props.phoneType)
+          _phoneTypes2.default.getString('phoneType.' + props.phoneType)
         )
       )
     )
