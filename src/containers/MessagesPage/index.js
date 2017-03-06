@@ -4,11 +4,8 @@ import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import { getRecipients } from 'ringcentral-integration/lib/messageHelper';
 
-import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
-
 import Spinner from '../../components/Spinner';
 import Panel from '../../components/Panel';
-import Header from '../../components/Header';
 
 import MessageList from '../../components/MessageList';
 import SearchInput from '../../components/SearchInput';
@@ -43,10 +40,10 @@ class MessagesPage extends Component {
     }
     return recipients.map((recipient) => {
       const phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
-      if (phoneNumber && this.props.contactMatcher && this.props.contactMatcher.ready) {
-        const matcherNames = this.props.contactMatcher.dataMapping[phoneNumber];
-        if (matcherNames && matcherNames[0]) {
-          return matcherNames[0].name;
+      if (phoneNumber && this.props.matcherContactName) {
+        const matcherName = this.props.matcherContactName(phoneNumber);
+        if (matcherName) {
+          return matcherName;
         }
         return this.props.formatPhone(phoneNumber);
       }
@@ -66,12 +63,10 @@ class MessagesPage extends Component {
         if (searchNumber && searchNumber.length > 0 && phoneNumber.indexOf(searchNumber) >= 0) {
           return true;
         }
-        if (this.props.contactMatcher && this.props.contactMatcher.ready) {
-          const matcherNames = this.props.contactMatcher.dataMapping[phoneNumber];
-          if (
-            matcherNames && matcherNames[0] && matcherNames[0].name
-          ) {
-            recipientName = matcherNames[0].name;
+        if (this.props.matcherContactName) {
+          const matcherName = this.props.matcherContactName(phoneNumber);
+          if (matcherName) {
+            recipientName = matcherName;
           } else {
             recipientName = phoneNumber;
           }
@@ -181,11 +176,11 @@ MessagesPage.propTypes = {
   getRecipientsList: PropTypes.func.isRequired,
   searchMessagesText: PropTypes.func.isRequired,
   updateSearchResults: PropTypes.func.isRequired,
-  contactMatcher: PropTypes.instanceOf(ContactMatcher),
+  matcherContactName: PropTypes.func,
 };
 
 MessagesPage.defaultProps = {
-  contactMatcher: null,
+  matcherContactName: null,
 };
 
 function mapStateToProps(state, props) {
@@ -207,6 +202,16 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch, props) {
+  let matcherContactName = null;
+  if (props.contactMatcher && props.contactMatcher.ready) {
+    matcherContactName = (phoneNumber) => {
+      const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
+      if (matcherNames && matcherNames[0] && matcherNames[0].name) {
+        return matcherNames[0].name;
+      }
+      return null;
+    };
+  }
   return {
     loadNextPageMessages: props.messages.loadNextPageMessages,
     updateSearchingString: props.messages.updateSearchingString,
@@ -225,6 +230,7 @@ function mapDispatchToProps(dispatch, props) {
     }),
     searchMessagesText: searchText =>
       props.messageStore.searchMessagesText(searchText),
+    matcherContactName,
   };
 }
 
