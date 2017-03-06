@@ -37,4 +37,5 @@ node_modules
 
 yarn.lock
 
-dev-server/api-config.js
+/dev-server/api-config.js
+/localization
