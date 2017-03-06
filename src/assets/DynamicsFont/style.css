@@ -211,9 +211,6 @@
 .icon-icon_check:before {
   content: "\e917";
 }
-.icon-icon_composetext:before {
-  content: "\e918";
-}
 .icon-icon_conference:before {
   content: "\e919";
 }
@@ -244,7 +241,10 @@
 .icon-icon_message_all:before {
   content: "\e922";
 }
-.icon-icon_message:before {
+.icon-icon_message_all_hover:before {
+  content: "\e918";
+}
+.icon-icon_compose_text:before {
   content: "\e923";
 }
 .icon-icon_return:before {
