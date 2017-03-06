@@ -1,6 +1,5 @@
 import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
-import rcFont from '../../assets/RcFont/RcFont.scss';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -130,7 +129,6 @@ class ComposeTextPanel extends Component {
               placeholder={i18n.getString('typeAnyToSend', this.props.currentLocale)}
               value={this.props.messageText}
               maxLength="1000"
-              required
               onChange={this.onTextChange}
             />
           </div>

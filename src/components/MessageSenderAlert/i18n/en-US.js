@@ -4,7 +4,7 @@ export default {
   [messageSenderMessages.sendSuccess]: 'Send Success.',
   [messageSenderMessages.sendError]: 'Something wrong happened when send message.',
   [messageSenderMessages.numberValidateError]: 'Phone Number Validate Error.',
-  [messageSenderMessages.textEmpty]: 'Text cannot be empty.',
+  [messageSenderMessages.textEmpty]: 'Please enter the text to be sent.',
   [messageSenderMessages.noPermission]: 'You have no permission to send message.',
   [messageSenderMessages.senderEmpty]: 'You must select a number from your phone numbers to send',
   [messageSenderMessages.noToNumber]: 'Please enter a valid phone number.',
