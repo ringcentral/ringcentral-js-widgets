@@ -34,26 +34,6 @@ var _formatNumber2 = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber3 = _interopRequireDefault(_formatNumber2);
 
-var _RegionSettings = require('ringcentral-integration/modules/RegionSettings');
-
-var _RegionSettings2 = _interopRequireDefault(_RegionSettings);
-
-var _Conversation = require('ringcentral-integration/modules/Conversation');
-
-var _Conversation2 = _interopRequireDefault(_Conversation);
-
-var _MessageStore = require('ringcentral-integration/modules/MessageStore');
-
-var _MessageStore2 = _interopRequireDefault(_MessageStore);
-
-var _DateTimeIntl = require('ringcentral-integration/modules/DateTimeIntl');
-
-var _DateTimeIntl2 = _interopRequireDefault(_DateTimeIntl);
-
-var _ContactMatcher = require('ringcentral-integration/modules/ContactMatcher');
-
-var _ContactMatcher2 = _interopRequireDefault(_ContactMatcher);
-
 var _ConversationPanel = require('../../components/ConversationPanel');
 
 var _ConversationPanel2 = _interopRequireDefault(_ConversationPanel);
@@ -63,15 +43,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ConversationPage = function (_Component) {
   (0, _inherits3.default)(ConversationPage, _Component);
 
-  function ConversationPage(props) {
+  function ConversationPage() {
     (0, _classCallCheck3.default)(this, ConversationPage);
-
-    var _this = (0, _possibleConstructorReturn3.default)(this, (ConversationPage.__proto__ || (0, _getPrototypeOf2.default)(ConversationPage)).call(this, props));
-
-    _this.replyToReceivers = function (text) {
-      _this.props.conversation.replyToReceivers(text);
-    };
-    return _this;
+    return (0, _possibleConstructorReturn3.default)(this, (ConversationPage.__proto__ || (0, _getPrototypeOf2.default)(ConversationPage)).apply(this, arguments));
   }
 
   (0, _createClass3.default)(ConversationPage, [{
@@ -80,17 +54,11 @@ var ConversationPage = function (_Component) {
       var _this2 = this;
 
       return {
-        formatPhone: function formatPhone(phoneNumber) {
-          return _this2.formatNumber(phoneNumber);
-        },
+        formatPhone: this.props.formatNumber,
+        formatDateTime: this.props.formatDateTime,
+        changeDefaultRecipient: this.props.changeDefaultRecipient,
         getRecipientName: function getRecipientName(recipient) {
           return _this2.getRecipientName(recipient);
-        },
-        formatDateTime: function formatDateTime(utcString) {
-          return _this2.formatDateTime(utcString);
-        },
-        changeDefaultRecipient: function changeDefaultRecipient(phoneNumber) {
-          return _this2.changeDefaultRecipient(phoneNumber);
         }
       };
     }
@@ -102,51 +70,29 @@ var ConversationPage = function (_Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      this.props.conversation.unloadConversation();
+      this.props.unloadConversation();
     }
   }, {
     key: 'getRecipientName',
     value: function getRecipientName(recipient) {
       var phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
-      if (phoneNumber && this.props.contactMatcher && this.props.contactMatcher.ready) {
-        var matcherNames = this.props.contactMatcher.dataMapping[phoneNumber];
-        if (matcherNames && matcherNames[0] && matcherNames[0].name) {
-          return matcherNames[0].name;
+      if (phoneNumber && this.props.matcherContactName) {
+        var matcherName = this.props.matcherContactName(phoneNumber);
+        if (matcherName) {
+          return matcherName;
         }
-        return this.formatNumber(phoneNumber);
+        return this.props.formatNumber(phoneNumber);
       }
       if (recipient.name) {
         return recipient.name;
       }
-      return this.formatNumber(phoneNumber);
+      return this.props.formatNumber(phoneNumber);
     }
   }, {
     key: 'loadConversation',
     value: function loadConversation() {
       var id = this.props.conversationId;
-      this.props.conversation.loadConversationById(id);
-    }
-  }, {
-    key: 'changeDefaultRecipient',
-    value: function changeDefaultRecipient(phoneNumber) {
-      this.props.conversation.changeDefaultRecipient(phoneNumber);
-    }
-  }, {
-    key: 'formatNumber',
-    value: function formatNumber(phoneNumber) {
-      var regionSettings = this.props.regionSettings;
-      return (0, _formatNumber3.default)({
-        phoneNumber: phoneNumber,
-        areaCode: regionSettings.areaCode,
-        countryCode: regionSettings.countryCode
-      });
-    }
-  }, {
-    key: 'formatDateTime',
-    value: function formatDateTime(utcString) {
-      return this.props.dateTimeIntl.formatDateTime({
-        utcString: utcString
-      });
+      this.props.loadConversationById(id);
     }
   }, {
     key: 'render',
@@ -157,7 +103,7 @@ var ConversationPage = function (_Component) {
         messages: this.props.messages,
         recipients: this.props.recipients,
         showSpinner: this.props.showSpinner,
-        replyToReceivers: this.replyToReceivers,
+        replyToReceivers: this.props.replyToReceivers,
         sendButtonDisabled: this.props.sendButtonDisabled
       });
     }
@@ -167,20 +113,22 @@ var ConversationPage = function (_Component) {
 
 ConversationPage.propTypes = {
   conversationId: _react.PropTypes.string.isRequired,
-  regionSettings: _react.PropTypes.instanceOf(_RegionSettings2.default).isRequired,
-  conversation: _react.PropTypes.instanceOf(_Conversation2.default).isRequired,
-  messageStore: _react.PropTypes.instanceOf(_MessageStore2.default).isRequired,
-  dateTimeIntl: _react.PropTypes.instanceOf(_DateTimeIntl2.default).isRequired,
   currentLocale: _react.PropTypes.string.isRequired,
   sendButtonDisabled: _react.PropTypes.bool.isRequired,
   showSpinner: _react.PropTypes.bool.isRequired,
   messages: _ConversationPanel2.default.propTypes.messages,
   recipients: _ConversationPanel2.default.propTypes.recipients,
-  contactMatcher: _react.PropTypes.instanceOf(_ContactMatcher2.default)
+  replyToReceivers: _react.PropTypes.func.isRequired,
+  unloadConversation: _react.PropTypes.func.isRequired,
+  loadConversationById: _react.PropTypes.func.isRequired,
+  changeDefaultRecipient: _react.PropTypes.func.isRequired,
+  formatNumber: _react.PropTypes.func.isRequired,
+  formatDateTime: _react.PropTypes.func.isRequired,
+  matcherContactName: _react.PropTypes.func
 };
 
 ConversationPage.defaultProps = {
-  contactMatcher: null
+  matcherContactName: null
 };
 
 ConversationPage.childContextTypes = {
@@ -194,9 +142,6 @@ function mapStateToProps(state, props) {
   return {
     currentLocale: props.locale.currentLocale,
     conversationId: props.params.conversationId,
-    conversation: props.conversation,
-    regionSettings: props.regionSettings,
-    messageStore: props.messageStore,
     sendButtonDisabled: props.conversation.pushing,
     showSpinner: !props.dateTimeIntl.ready || props.contactMatcher && !props.contactMatcher.ready || !props.conversation.ready || !props.regionSettings.ready,
     recipients: props.conversation.recipients,
@@ -204,5 +149,41 @@ function mapStateToProps(state, props) {
   };
 }
 
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(ConversationPage);
+function mapDispatchToProps(dispatch, props) {
+  var matcherContactName = null;
+  if (props.contactMatcher && props.contactMatcher.ready) {
+    matcherContactName = function matcherContactName(phoneNumber) {
+      var matcherNames = props.contactMatcher.dataMapping[phoneNumber];
+      if (matcherNames && matcherNames[0] && matcherNames[0].name) {
+        return matcherNames[0].name;
+      }
+      return null;
+    };
+  }
+  return {
+    replyToReceivers: props.conversation.replyToReceivers,
+    changeDefaultRecipient: props.conversation.changeDefaultRecipient,
+    unloadConversation: function unloadConversation() {
+      return props.conversation.unloadConversation();
+    },
+    loadConversationById: function loadConversationById(id) {
+      return props.conversation.loadConversationById(id);
+    },
+    formatDateTime: function formatDateTime(utcString) {
+      return props.dateTimeIntl.formatDateTime({
+        utcString: utcString
+      });
+    },
+    formatNumber: function formatNumber(phoneNumber) {
+      return (0, _formatNumber3.default)({
+        phoneNumber: phoneNumber,
+        areaCode: props.regionSettings.areaCode,
+        countryCode: props.regionSettings.countryCode
+      });
+    },
+    matcherContactName: matcherContactName
+  };
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(ConversationPage);
 //# sourceMappingURL=index.js.map
