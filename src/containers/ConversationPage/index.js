@@ -14,9 +14,6 @@ import ConversationPanel from '../../components/ConversationPanel';
 class ConversationPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      loading: true,
-    };
     this.replyToReceivers = (text) => {
       this.props.conversation.replyToReceivers(text);
     };
@@ -32,13 +29,7 @@ class ConversationPage extends Component {
   }
 
   componentDidMount() {
-    const id = this.props.conversationId;
-    this.props.messageStore.syncConversation(id).then(() => {
-      this.props.conversation.loadConversationById(id);
-      this.setState({
-        loading: false,
-      });
-    });
+    this.loadConversation();
   }
 
   componentWillUnmount() {
@@ -58,6 +49,11 @@ class ConversationPage extends Component {
       return recipient.name;
     }
     return this.formatNumber(phoneNumber);
+  }
+
+  loadConversation() {
+    const id = this.props.conversationId;
+    this.props.conversation.loadConversationById(id);
   }
 
   changeDefaultRecipient(phoneNumber) {
@@ -80,17 +76,13 @@ class ConversationPage extends Component {
   }
 
   render() {
-    const showSpinner = (
-      this.props.showSpinner ||
-      this.state.loading
-    );
     return (
       <ConversationPanel
         conversationId={this.props.conversationId}
         currentLocale={this.props.currentLocale}
         messages={this.props.messages}
         recipients={this.props.recipients}
-        showSpinner={showSpinner}
+        showSpinner={this.props.showSpinner}
         replyToReceivers={this.replyToReceivers}
         sendButtonDisabled={this.props.sendButtonDisabled}
       />
