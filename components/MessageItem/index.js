@@ -39,7 +39,7 @@ function MessageItem(props) {
     _react2.default.createElement(
       _reactRouter.Link,
       {
-        to: '/conversations/' + props.conversation.id,
+        to: '/conversations/' + props.conversationId,
         className: _styles2.default.messageLink
       },
       _react2.default.createElement(
@@ -89,9 +89,7 @@ function MessageItem(props) {
 MessageItem.propTypes = {
   type: _react.PropTypes.string.isRequired,
   unreadCounts: _react.PropTypes.number,
-  conversation: _react.PropTypes.shape({
-    id: _react.PropTypes.string
-  }).isRequired,
+  conversationId: _react.PropTypes.string.isRequired,
   subject: _react.PropTypes.string,
   contactList: _react.PropTypes.arrayOf(_react.PropTypes.string).isRequired,
   creationTime: _react.PropTypes.string.isRequired,

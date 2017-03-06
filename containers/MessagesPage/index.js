@@ -40,10 +40,6 @@ var _formatNumber2 = _interopRequireDefault(_formatNumber);
 
 var _messageHelper = require('ringcentral-integration/lib/messageHelper');
 
-var _ContactMatcher = require('ringcentral-integration/modules/ContactMatcher');
-
-var _ContactMatcher2 = _interopRequireDefault(_ContactMatcher);
-
 var _Spinner = require('../../components/Spinner');
 
 var _Spinner2 = _interopRequireDefault(_Spinner);
@@ -51,10 +47,6 @@ var _Spinner2 = _interopRequireDefault(_Spinner);
 var _Panel = require('../../components/Panel');
 
 var _Panel2 = _interopRequireDefault(_Panel);
-
-var _Header = require('../../components/Header');
-
-var _Header2 = _interopRequireDefault(_Header);
 
 var _MessageList = require('../../components/MessageList');
 
@@ -111,10 +103,10 @@ var MessagesPage = function (_Component) {
       }
       return recipients.map(function (recipient) {
         var phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
-        if (phoneNumber && _this2.props.contactMatcher && _this2.props.contactMatcher.ready) {
-          var matcherNames = _this2.props.contactMatcher.dataMapping[phoneNumber];
-          if (matcherNames && matcherNames[0]) {
-            return matcherNames[0].name;
+        if (phoneNumber && _this2.props.matcherContactName) {
+          var matcherName = _this2.props.matcherContactName(phoneNumber);
+          if (matcherName) {
+            return matcherName;
           }
           return _this2.props.formatPhone(phoneNumber);
         }
@@ -142,10 +134,10 @@ var MessagesPage = function (_Component) {
             if (searchNumber && searchNumber.length > 0 && phoneNumber.indexOf(searchNumber) >= 0) {
               return true;
             }
-            if (this.props.contactMatcher && this.props.contactMatcher.ready) {
-              var matcherNames = this.props.contactMatcher.dataMapping[phoneNumber];
-              if (matcherNames && matcherNames[0] && matcherNames[0].name) {
-                recipientName = matcherNames[0].name;
+            if (this.props.matcherContactName) {
+              var matcherName = this.props.matcherContactName(phoneNumber);
+              if (matcherName) {
+                recipientName = matcherName;
               } else {
                 recipientName = phoneNumber;
               }
@@ -225,7 +217,6 @@ var MessagesPage = function (_Component) {
       return _react2.default.createElement(_MessageList2.default, {
         messages: this.props.messages,
         loadNextPageMessages: this.props.loadNextPageMessages,
-        loading: this.props.isLoadingNextPage,
         placeholder: _i18n2.default.getString('noMessages'),
         formatDateTime: this.props.formatDateTime,
         getMessageRecipientNames: this.getMessageRecipientNames
@@ -277,11 +268,11 @@ MessagesPage.propTypes = {
   getRecipientsList: _react.PropTypes.func.isRequired,
   searchMessagesText: _react.PropTypes.func.isRequired,
   updateSearchResults: _react.PropTypes.func.isRequired,
-  contactMatcher: _react.PropTypes.instanceOf(_ContactMatcher2.default)
+  matcherContactName: _react.PropTypes.func
 };
 
 MessagesPage.defaultProps = {
-  contactMatcher: null
+  matcherContactName: null
 };
 
 function mapStateToProps(state, props) {
@@ -290,7 +281,6 @@ function mapStateToProps(state, props) {
     messages: props.messages.messages,
     allMessages: props.messageStore.conversations,
     showSpinner: !props.messages.ready || props.contactMatcher && !props.contactMatcher.ready || !props.extensionInfo.ready || !props.dateTimeIntl.ready,
-    isLoadingNextPage: props.messages.loading,
     lastUpdatedAt: props.messages.lastUpdatedAt,
     searchingString: props.messages.searchingString,
     searchingResults: props.messages.searchingResults
@@ -298,6 +288,16 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch, props) {
+  var matcherContactName = null;
+  if (props.contactMatcher && props.contactMatcher.ready) {
+    matcherContactName = function matcherContactName(phoneNumber) {
+      var matcherNames = props.contactMatcher.dataMapping[phoneNumber];
+      if (matcherNames && matcherNames[0] && matcherNames[0].name) {
+        return matcherNames[0].name;
+      }
+      return null;
+    };
+  }
   return {
     loadNextPageMessages: props.messages.loadNextPageMessages,
     updateSearchingString: props.messages.updateSearchingString,
@@ -322,7 +322,8 @@ function mapDispatchToProps(dispatch, props) {
     },
     searchMessagesText: function searchMessagesText(searchText) {
       return props.messageStore.searchMessagesText(searchText);
-    }
+    },
+    matcherContactName: matcherContactName
   };
 }
 

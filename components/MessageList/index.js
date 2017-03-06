@@ -69,6 +69,7 @@ var MessageList = function (_Component) {
       var totalScrollHeight = _this.messagesListBody.scrollHeight;
       var clientHeight = _this.messagesListBody.clientHeight;
       currentScrollHeight = _this.messagesListBody.scrollTop;
+      // loadNextPageMessages if srroll near buttom
       if (totalScrollHeight - lastScrollHeight > clientHeight + 10 && totalScrollHeight - currentScrollHeight <= clientHeight + 10) {
         _this.props.loadNextPageMessages();
       }
@@ -96,18 +97,13 @@ var MessageList = function (_Component) {
           return _react2.default.createElement(_MessageItem2.default, {
             type: message.type,
             unreadCounts: message.unreadCounts,
-            conversation: message.conversation,
+            conversationId: message.conversationId,
             subject: message.subject,
             contactList: _this2.props.getMessageRecipientNames(message),
             creationTime: message.creationTime,
             formatDateTime: _this2.props.formatDateTime,
             key: message.id });
-        }) : _react2.default.createElement(NoMessages, { placeholder: this.props.placeholder }),
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.loading },
-          this.props.loading && _i18n2.default.getString('Loading')
-        )
+        }) : _react2.default.createElement(NoMessages, { placeholder: this.props.placeholder })
       );
     }
   }]);
@@ -122,20 +118,15 @@ MessageList.propTypes = {
     id: _react.PropTypes.number,
     type: _react.PropTypes.string,
     unreadCounts: _react.PropTypes.number,
-    conversation: _react.PropTypes.object.isRequired,
+    conversationId: _react.PropTypes.string.isRequired,
     subject: _react.PropTypes.string,
     creationTime: _react.PropTypes.string,
     to: _react.PropTypes.array,
     from: _react.PropTypes.object
   })).isRequired,
   loadNextPageMessages: _react.PropTypes.func.isRequired,
-  loading: _react.PropTypes.bool,
   placeholder: _react.PropTypes.string.isRequired,
   formatDateTime: _react.PropTypes.func.isRequired,
   getMessageRecipientNames: _react.PropTypes.func.isRequired
-};
-
-MessageList.defaultProps = {
-  loading: false
 };
 //# sourceMappingURL=index.js.map
