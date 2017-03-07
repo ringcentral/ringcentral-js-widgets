@@ -9,6 +9,9 @@ import CallAlert from '../../../src/components/CallAlert';
 import CallingSettingsAlert from '../../../src/components/CallingSettingsAlert';
 import RegionSettingsAlert from '../../../src/components/RegionSettingsAlert';
 import MessageSenderAlert from '../../../src/components/MessageSenderAlert';
+import RateExceededAlert from '../../../src/components/RateExceededAlert';
+import ConnectivityAlert from '../../../src/components/ConnectivityAlert';
+import OfflineModeBadge from '../../../src/components/OfflineModeBadge';
 import Environment from '../../../src/components/Environment';
 
 import styles from './styles.scss';
@@ -26,6 +29,11 @@ function AppView(props) {
         messages={props.messages}
         getRenderer={props.getRenderer}
         dismiss={props.dismiss}
+        currentLocale={props.currentLocale}
+      />
+      <OfflineModeBadge
+        offline={props.offline}
+        showOfflineAlert={props.showOfflineAlert}
         currentLocale={props.currentLocale}
       />
       <Environment
@@ -47,6 +55,8 @@ AppView.propTypes = {
   enabled: PropTypes.bool,
   onSetData: PropTypes.func,
   currentLocale: PropTypes.string.isRequired,
+  offline: PropTypes.bool.isRequired,
+  showOfflineAlert: PropTypes.func.isRequired,
 };
 
 export default connect((state, {
@@ -55,6 +65,8 @@ export default connect((state, {
   auth,
   environment,
   callingSettings,
+  connectivityMonitor,
+  rateLimiter,
 }) => ({
   messages: alert.messages,
   currentLocale: locale.currentLocale,
@@ -66,10 +78,17 @@ export default connect((state, {
   ),
   server: environment.server,
   enabled: environment.enabled,
+  offline: (
+    !connectivityMonitor.connectivity ||
+    auth.proxyRetryCount > 0 ||
+    rateLimiter.throttling
+  ),
 }), (dispatch, {
   alert,
   environment,
   brand,
+  connectivityMonitor,
+  rateLimiter,
 }) => ({
   getRenderer: (message) => {
     if (AuthAlert.handleMessage(message)) {
@@ -103,6 +122,19 @@ export default connect((state, {
       return MessageSenderAlert;
     }
 
+    if (RateExceededAlert.handleMessage(message)) {
+      return props => (
+        <RateExceededAlert
+          {...props}
+          timestamp={rateLimiter.timestamp}
+          duration={rateLimiter._throttleDuration} />
+      );
+    }
+
+    if (ConnectivityAlert.handleMessage(message)) {
+      return ConnectivityAlert;
+    }
+
     return undefined;
   },
   dismiss: (id) => {
@@ -110,5 +142,9 @@ export default connect((state, {
   },
   onSetData: (options) => {
     environment.setData(options);
+  },
+  showOfflineAlert: () => {
+    rateLimiter.showAlert();
+    connectivityMonitor.showAlert();
   },
 }))(AppView);
