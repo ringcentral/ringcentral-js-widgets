@@ -159,8 +159,7 @@ The development server is listening on port 8190 by default. Open up your browse
 - [x] NumberValidate
 - [x] Presence
 - [x] RateLimiter
-- [x] RagionSettings
-- [x] Ringout
+- [x] RegionSettings
 - [x] Ringout
 - [x] RolesAndPermissions
 - [x] Softphone
