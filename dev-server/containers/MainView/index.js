@@ -21,9 +21,16 @@ const tabs = [
   // },
   // {
   //   icon: <span className={rcFont.uniC8} />,
-  //   label: 'History',
-  //   path: '/history',
+  //   label: 'Conference',
+  //   path: '/conference',
   // },
+  // icon_conference
+  {
+    icon: <span className={rcFont.icon_conference} />,
+    activityIcon: <span className={rcFont.RC_Conference_pressed} />,
+    label: 'Conference',
+    path: '/conference',
+  },
   {
     icon: <span className={rcFont.uniA4} />,
     activityIcon: <span className={rcFont.RC_shapes_1_40_pressed} />,
