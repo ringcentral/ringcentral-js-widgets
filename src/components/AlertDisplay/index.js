@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
-import 'font-awesome/css/font-awesome.css';
+import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 
 // TODO animation
@@ -13,11 +13,12 @@ function Message(props) {
           styles[props.level],
         )}>
         { props.message }
-        <div
+        <a
+          href="#close-message"
           className={styles.dismiss}
           onClick={props.onDismiss}>
-          <i className={classnames('fa', 'fa-times')} />
-        </div>
+          <i className={dynamicsFont.close} />
+        </a>
       </div>
     </div>
   );
