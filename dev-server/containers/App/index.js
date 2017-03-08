@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute } from 'react-router';
 import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
 
+import AlertContainer from '../../../src/containers/AlertContainer';
 import WelcomePage from '../../../src/containers/WelcomePage';
 import CallingSettingsPage from '../../../src/containers/CallingSettingsPage';
 import RegionSettingsPage from '../../../src/containers/RegionSettingsPage';
@@ -10,10 +11,11 @@ import DialerPage from '../../../src/containers/DialerPage';
 import ComposeTextPage from '../../../src/containers/ComposeTextPage';
 import ConversationPage from '../../../src/containers/ConversationPage';
 import MessagesPage from '../../../src/containers/MessagesPage';
+import SettingsPage from '../../../src/containers/SettingsPage';
 
 import MainView from '../MainView';
-import SettingsPage from '../../../src/containers/SettingsPage';
 import AppView from '../AppView';
+
 
 export default function App({
   phone,
@@ -66,6 +68,12 @@ export default function App({
                 messageStore={phone.messageStore}
                 auth={phone.auth} >
                 {props.children}
+                <AlertContainer
+                  locale={phone.locale}
+                  alert={phone.alert}
+                  rateLimiter={phone.rateLimiter}
+                  brand={phone.brand}
+                />
               </MainView>
             )} >
             <IndexRoute
@@ -176,7 +184,14 @@ export default function App({
               <WelcomePage
                 auth={phone.auth}
                 locale={phone.locale}
-                rateLimiter={phone.rateLimiter} />
+                rateLimiter={phone.rateLimiter} >
+                <AlertContainer
+                  locale={phone.locale}
+                  alert={phone.alert}
+                  rateLimiter={phone.rateLimiter}
+                  brand={phone.brand}
+                />
+              </WelcomePage>
             )}
           />
         </Route>
