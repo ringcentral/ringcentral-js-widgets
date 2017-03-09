@@ -16,7 +16,7 @@ function DialerPanel({
     !callButtonDisabled && onCall();
   };
   return (
-    <div className={classnames(styles.root)}>
+    <div className={classnames(styles.root, className)}>
       <DialTextInput
         value={toNumber}
         onChangeEvent={(event) => {
