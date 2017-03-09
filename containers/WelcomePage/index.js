@@ -7,6 +7,8 @@ exports.default = exports.propTypes = exports.mapToProps = exports.mapToFunction
 
 var _react = require('react');
 
+var _react2 = _interopRequireDefault(_react);
+
 var _reactRedux = require('react-redux');
 
 var _Auth = require('ringcentral-integration/modules/Auth');
@@ -25,7 +27,40 @@ var _LoginPanel = require('../../components/LoginPanel');
 
 var _LoginPanel2 = _interopRequireDefault(_LoginPanel);
 
+var _styles = require('./styles.scss');
+
+var _styles2 = _interopRequireDefault(_styles);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function WelcomeContainer(props) {
+  return _react2.default.createElement(
+    'div',
+    { className: _styles2.default.root },
+    _react2.default.createElement(_LoginPanel2.default, {
+      currentLocale: props.currentLocale,
+      disabled: props.disabled,
+      setupProxyFrame: props.setupProxyFrame,
+      clearProxyFrame: props.clearProxyFrame,
+      onLoginButtonClick: props.onLoginButtonClick
+    }),
+    props.children
+  );
+}
+
+WelcomeContainer.propTypes = {
+  children: _react.PropTypes.node,
+  currentLocale: _react.PropTypes.string.isRequired,
+  setupProxyFrame: _react.PropTypes.func.isRequired,
+  clearProxyFrame: _react.PropTypes.func.isRequired,
+  onLoginButtonClick: _react.PropTypes.func.isRequired,
+  disabled: _react.PropTypes.bool
+};
+
+WelcomeContainer.defaultProps = {
+  children: null,
+  disabled: false
+};
 
 function mapToProps(_, _ref) {
   var auth = _ref.auth,
@@ -55,7 +90,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var WelcomePage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_LoginPanel2.default);
+var WelcomePage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(WelcomeContainer);
 
 var propTypes = {
   auth: _react.PropTypes.instanceOf(_Auth2.default).isRequired,

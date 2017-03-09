@@ -12,7 +12,9 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-require('font-awesome/css/font-awesome.css');
+var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
+
+var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
 var _styles = require('./styles.scss');
 
@@ -32,11 +34,12 @@ function Message(props) {
         className: (0, _classnames2.default)(_styles2.default[props.level]) },
       props.message,
       _react2.default.createElement(
-        'div',
+        'a',
         {
+          href: '#close-message',
           className: _styles2.default.dismiss,
           onClick: props.onDismiss },
-        _react2.default.createElement('i', { className: (0, _classnames2.default)('fa', 'fa-times') })
+        _react2.default.createElement('i', { className: _DynamicsFont2.default.close })
       )
     )
   );
