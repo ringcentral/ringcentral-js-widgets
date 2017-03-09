@@ -104,12 +104,14 @@ export default class Phone extends RcModule {
     }));
     this.addModule('connectivityMonitor', new ConnectivityMonitor({
       ...options,
+      alert: this.alert,
       client: this.client,
       environment: this.environment,
       getState: () => this.state.connectivityMonitor,
     }));
     this.addModule('rateLimiter', new RateLimiter({
       ...options,
+      alert: this.alert,
       client: this.client,
       environment: this.environment,
       globalStorage: this.globalStorage,

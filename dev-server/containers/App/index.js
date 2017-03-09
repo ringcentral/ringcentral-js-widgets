@@ -53,6 +53,8 @@ export default function App({
               locale={phone.locale}
               environment={phone.environment}
               brand={phone.brand}
+              rateLimiter={phone.rateLimiter}
+              connectivityMonitor={phone.connectivityMonitor}
               callingSettings={phone.callingSettings}>
               {props.children}
             </AppView>
