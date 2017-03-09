@@ -403,12 +403,6 @@
 .iconConference:before {
   content: "\e919";
 }
-.conferenceHover {
-  composes: icon;
-}
-.conferenceHover:before {
-    content: "\fa";
-}
 .iconContact {
   composes: icon;
 }

@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import dynamicsFont from '../../../src/assets/DynamicsFont/DynamicsFont.scss';
 import TabNavigationView from '../../../src/components/TabNavigationView';
 import RouterInteraction from '../../../src/modules/RouterInteraction';
-import RcFont from '../../../src/assets/RcFont/RcFont.scss';
 
 const tabs = [
   {
@@ -22,8 +21,8 @@ const tabs = [
   // },
   // {
   //   icon: <span className={rcFont.uniC8} />,
-  //   label: 'Conference',
-  //   path: '/conference',
+  //   label: 'History',
+  //   path: '/history',
   // },
   // icon_conference
   {
