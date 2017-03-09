@@ -1,9 +1,40 @@
-import { PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Auth from 'ringcentral-integration/modules/Auth';
 import Locale from 'ringcentral-integration/modules/Locale';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 import LoginPanel from '../../components/LoginPanel';
+
+import styles from './styles.scss';
+
+function WelcomeContainer(props) {
+  return (
+    <div className={styles.root}>
+      <LoginPanel
+        currentLocale={props.currentLocale}
+        disabled={props.disabled}
+        setupProxyFrame={props.setupProxyFrame}
+        clearProxyFrame={props.clearProxyFrame}
+        onLoginButtonClick={props.onLoginButtonClick}
+      />
+      {props.children}
+    </div>
+  );
+}
+
+WelcomeContainer.propTypes = {
+  children: PropTypes.node,
+  currentLocale: PropTypes.string.isRequired,
+  setupProxyFrame: PropTypes.func.isRequired,
+  clearProxyFrame: PropTypes.func.isRequired,
+  onLoginButtonClick: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+};
+
+WelcomeContainer.defaultProps = {
+  children: null,
+  disabled: false,
+};
 
 function mapToProps(_, {
   auth,
@@ -36,7 +67,7 @@ function mapToFunctions(_, {
 const WelcomePage = connect(
   mapToProps,
   mapToFunctions,
-)(LoginPanel);
+)(WelcomeContainer);
 
 const propTypes = {
   auth: PropTypes.instanceOf(Auth).isRequired,
