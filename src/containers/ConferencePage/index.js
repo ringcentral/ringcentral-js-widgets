@@ -4,6 +4,7 @@ import { PropTypes } from 'react';
 import Locale from 'ringcentral-integration/modules/Locale';
 import Conference from 'ringcentral-integration/modules/Conference';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
+import ComposeText from 'ringcentral-integration/modules/ComposeText';
 
 import ConferencePanel from '../../components/ConferencePanel';
 
@@ -21,11 +22,11 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-    // conference,
+    composeText
 }) {
   return {
-    inviteWithText: () => {
-
+    inviteWithText: (text) => {
+      composeText.updateMessageText(text);
     },
   };
 }
@@ -39,6 +40,8 @@ const ConferencePage = connect(
 const propTypes = {
   conference: PropTypes.instanceOf(Conference),
   regionSettings: PropTypes.instanceOf(RegionSettings),
+  locale: PropTypes.instanceOf(Locale),
+  composeText: PropTypes.instanceOf(ComposeText),
   conferenceNumbers: PropTypes.object,
 };
 

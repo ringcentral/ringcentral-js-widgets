@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
-import i18n from './i18n';
+import phoneTypes from '../../lib/phoneTypes';
 
 function ContactItem(props) {
   return (
@@ -14,7 +14,7 @@ function ContactItem(props) {
             {props.name}
           </span>
           <span className={styles.label}>
-            {i18n.getString(`phoneSource.${props.entityType}`)}
+            {phoneTypes.getString(`phoneSource.${props.entityType}`)}
           </span>
         </div>
         <div className={styles.phoneNumberSection}>
@@ -22,7 +22,7 @@ function ContactItem(props) {
             {props.formatPhone(props.phoneNumber)}
           </span>
           <span className={styles.label}>
-            {i18n.getString(`phoneType.${props.phoneType}`)}
+            {phoneTypes.getString(`phoneType.${props.phoneType}`)}
           </span>
         </div>
       </a>

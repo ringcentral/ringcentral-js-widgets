@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
-import rcFont from '../../assets/RcFont/RcFont.scss';
+import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import i18n from './i18n';
 import styles from './styles.scss';
 import RecipientsInput from '../RecipientsInput';
@@ -90,9 +90,8 @@ class ComposeTextPanel extends Component {
     return (
       <div>
         <div className={styles.composeTextPanelHeader}>
-          <h1>{i18n.getString('composeMessage')}</h1>
           <a href="#sender-number-setting" className={styles.sendNumberSetting} onClick={this.toggleShowSenderSetting}>
-            <span className={rcFont.icon_setting} />
+            <span className={dynamicsFont.settingHover} />
           </a>
         </div>
         <form onSubmit={this.handleSubmit}>
@@ -130,7 +129,6 @@ class ComposeTextPanel extends Component {
               placeholder={i18n.getString('typeAnyToSend', this.props.currentLocale)}
               value={this.props.messageText}
               maxLength="1000"
-              required
               onChange={this.onTextChange}
             />
           </div>

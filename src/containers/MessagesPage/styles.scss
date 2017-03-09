@@ -1,0 +1,22 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/full-size';
+
+.root {
+  @include full-size;
+  padding-bottom: 0px;
+}
+
+.content {
+  @include full-size;
+  box-sizing: border-box;
+  border-color: $border-color;
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-style: solid;
+}
+
+.spinerContainer {
+  height: 40px;
+  width: 40px;
+  margin: 50px auto;
+}

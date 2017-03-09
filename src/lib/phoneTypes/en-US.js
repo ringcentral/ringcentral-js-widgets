@@ -8,4 +8,5 @@ export default {
   'phoneType.business': '(Business Phone)',
   'phoneType.mobile': '(Mobile Phone)',
   'phoneType.unknown': '(Unknown Phone Type)',
+  'phoneType.extension': '(Extension Phone)',
 };

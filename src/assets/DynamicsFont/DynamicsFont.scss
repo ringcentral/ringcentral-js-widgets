@@ -397,17 +397,17 @@
 .iconCheck:before {
   content: "\e917";
 }
-.iconComposetext {
-  composes: icon;
-}
-.iconComposetext:before {
-  content: "\e918";
-}
 .iconConference {
   composes: icon;
 }
 .iconConference:before {
   content: "\e919";
+}
+.conferenceHover {
+  composes: icon;
+}
+.conferenceHover:before {
+    content: "\fa";
 }
 .iconContact {
   composes: icon;
@@ -463,10 +463,16 @@
 .iconMessageAll:before {
   content: "\e922";
 }
-.iconMessage {
+.iconMessageAllHover {
   composes: icon;
 }
-.iconMessage:before {
+.iconMessageAllHover:before {
+  content: "\e918";
+}
+.iconComposeText {
+  composes: icon;
+}
+.iconComposeText:before {
   content: "\e923";
 }
 .iconReturn {

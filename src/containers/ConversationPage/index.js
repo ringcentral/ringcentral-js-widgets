@@ -3,93 +3,55 @@ import { connect } from 'react-redux';
 
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 
-import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
-import Conversation from 'ringcentral-integration/modules/Conversation';
-import MessageStore from 'ringcentral-integration/modules/MessageStore';
-import DateTimeIntl from 'ringcentral-integration/modules/DateTimeIntl';
-
 import ConversationPanel from '../../components/ConversationPanel';
 
 class ConversationPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-    };
-    this.replyToReceivers = (text) => {
-      this.props.conversation.replyToReceivers(text);
-    };
-  }
-
   getChildContext() {
     return {
-      formatPhone: phoneNumber => (this.formatNumber(phoneNumber)),
+      formatPhone: this.props.formatNumber,
+      formatDateTime: this.props.formatDateTime,
+      changeDefaultRecipient: this.props.changeDefaultRecipient,
       getRecipientName: recipient => (this.getRecipientName(recipient)),
-      formatDateTime: utcString => (this.formatDateTime(utcString)),
-      changeDefaultRecipient: phoneNumber => (this.changeDefaultRecipient(phoneNumber)),
     };
   }
 
   componentDidMount() {
-    const id = this.props.conversationId;
-    this.props.messageStore.syncConversation(id).then(() => {
-      this.props.conversation.loadConversationById(id);
-      this.setState({
-        loading: false,
-      });
-    });
+    this.loadConversation();
   }
 
   componentWillUnmount() {
-    this.props.conversation.unloadConversation();
+    this.props.unloadConversation();
   }
 
   getRecipientName(recipient) {
     const phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
-    // if (phoneNumber) {
-    //   const matcherNames = this.props.contactMatcher.dataMapping[phoneNumber];
-    //   if (matcherNames && matcherNames[0] && matcherNames[0].name) {
-    //     return matcherNames[0].name;
-    //   }
-    // }
+    if (phoneNumber && this.props.matcherContactName) {
+      const matcherName = this.props.matcherContactName(phoneNumber);
+      if (matcherName) {
+        return matcherName;
+      }
+      return this.props.formatNumber(phoneNumber);
+    }
     if (recipient.name) {
       return recipient.name;
     }
-    return this.formatNumber(phoneNumber);
+    return this.props.formatNumber(phoneNumber);
   }
 
-  changeDefaultRecipient(phoneNumber) {
-    this.props.conversation.changeDefaultRecipient(phoneNumber);
-  }
-
-  formatNumber(phoneNumber) {
-    const regionSettings = this.props.regionSettings;
-    return formatNumber({
-      phoneNumber,
-      areaCode: regionSettings.areaCode,
-      countryCode: regionSettings.countryCode,
-    });
-  }
-
-  formatDateTime(utcString) {
-    return this.props.dateTimeIntl.formatDateTime({
-      utcString,
-    });
+  loadConversation() {
+    const id = this.props.conversationId;
+    this.props.loadConversationById(id);
   }
 
   render() {
-    const showSpinner = (
-      this.props.showSpinner ||
-      this.state.loading
-    );
     return (
       <ConversationPanel
         conversationId={this.props.conversationId}
         currentLocale={this.props.currentLocale}
         messages={this.props.messages}
         recipients={this.props.recipients}
-        showSpinner={showSpinner}
-        replyToReceivers={this.replyToReceivers}
+        showSpinner={this.props.showSpinner}
+        replyToReceivers={this.props.replyToReceivers}
         sendButtonDisabled={this.props.sendButtonDisabled}
       />
     );
@@ -98,15 +60,22 @@ class ConversationPage extends Component {
 
 ConversationPage.propTypes = {
   conversationId: PropTypes.string.isRequired,
-  regionSettings: PropTypes.instanceOf(RegionSettings).isRequired,
-  conversation: PropTypes.instanceOf(Conversation).isRequired,
-  messageStore: PropTypes.instanceOf(MessageStore).isRequired,
-  dateTimeIntl: PropTypes.instanceOf(DateTimeIntl).isRequired,
   currentLocale: PropTypes.string.isRequired,
   sendButtonDisabled: PropTypes.bool.isRequired,
   showSpinner: PropTypes.bool.isRequired,
   messages: ConversationPanel.propTypes.messages,
   recipients: ConversationPanel.propTypes.recipients,
+  replyToReceivers: PropTypes.func.isRequired,
+  unloadConversation: PropTypes.func.isRequired,
+  loadConversationById: PropTypes.func.isRequired,
+  changeDefaultRecipient: PropTypes.func.isRequired,
+  formatNumber: PropTypes.func.isRequired,
+  formatDateTime: PropTypes.func.isRequired,
+  matcherContactName: PropTypes.func,
+};
+
+ConversationPage.defaultProps = {
+  matcherContactName: null,
 };
 
 ConversationPage.childContextTypes = {
@@ -120,13 +89,10 @@ function mapStateToProps(state, props) {
   return ({
     currentLocale: props.locale.currentLocale,
     conversationId: props.params.conversationId,
-    conversation: props.conversation,
-    regionSettings: props.regionSettings,
-    messageStore: props.messageStore,
     sendButtonDisabled: props.conversation.pushing,
     showSpinner: (
       !props.dateTimeIntl.ready ||
-      // !props.contactMatcher.ready ||
+      (props.contactMatcher && !props.contactMatcher.ready) ||
       !props.conversation.ready ||
       !props.regionSettings.ready
     ),
@@ -135,4 +101,32 @@ function mapStateToProps(state, props) {
   });
 }
 
-export default connect(mapStateToProps)(ConversationPage);
+function mapDispatchToProps(dispatch, props) {
+  let matcherContactName = null;
+  if (props.contactMatcher && props.contactMatcher.ready) {
+    matcherContactName = (phoneNumber) => {
+      const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
+      if (matcherNames && matcherNames[0] && matcherNames[0].name) {
+        return matcherNames[0].name;
+      }
+      return null;
+    };
+  }
+  return {
+    replyToReceivers: props.conversation.replyToReceivers,
+    changeDefaultRecipient: props.conversation.changeDefaultRecipient,
+    unloadConversation: () => props.conversation.unloadConversation(),
+    loadConversationById: id => props.conversation.loadConversationById(id),
+    formatDateTime: utcString => props.dateTimeIntl.formatDateTime({
+      utcString,
+    }),
+    formatNumber: phoneNumber => formatNumber({
+      phoneNumber,
+      areaCode: props.regionSettings.areaCode,
+      countryCode: props.regionSettings.countryCode,
+    }),
+    matcherContactName,
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ConversationPage);

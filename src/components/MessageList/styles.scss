@@ -1,0 +1,13 @@
+.NoMessages {
+  color: #555;
+  font-size: 14px;
+  text-align: center;
+  line-height: 180px;
+}
+
+.messageList {
+  height: calc(100% - 28px);
+  max-height: 800px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

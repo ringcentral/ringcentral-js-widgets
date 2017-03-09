@@ -1,15 +1,5 @@
 @import '../../lib/commonStyles/colors';
 
-.conferencePanelHeader {
-    text-align: center;
-    position: relative;
-    h1 {
-        font-size: 13px;
-        font-weight: 700;
-        line-height:20px;
-    }
-}
-
 .showConferenceNumbers {
   margin:10px 15px 0 15px;
   height:20px;
@@ -33,14 +23,14 @@
       float:right;
       margin-left:10px;
       line-height:20px;
-      color:#2f2f2f;
-      
+      color:#2f2f2f; 
   }
 }
 .participantsSwitch{
     margin:10px 15px 0 15px;
     height:20px;
     font-size:13px;
+    color: #555;
 }
 .international{
     margin:20px 15px 0 15px;
@@ -51,13 +41,13 @@
     }
     .search{
         span{
-            color:#e3e3e5;
+            color:#2f2f2f;
         }
        .rightPanel{
           display:inline-block;
           margin-left:3px;
           input{
-            color:#e3e3e5;
+            color:$lightblack;
             outline:0;
             border:0;
             width:100%;
@@ -78,23 +68,17 @@
             line-height:25px;
             overflow:hidden;
             input{
-                display:none;
-            }
-            .checkbox_selected{
                 float:left;
-                color:$rc-blue;
-                background:#fff;
+                margin-top:6px;
             }
-            .checkbox_unselected{
-                float:left;
-                color:$rc-blue;
-                background:#fff;
-            }
+      
             .country{
                 float:left;
+                margin-left:5px;
             }
             .phoneNumber{
                 float:right;
+                margin-right:5px;
             }
         }
     }

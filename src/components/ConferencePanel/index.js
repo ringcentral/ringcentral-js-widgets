@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import IconLine from '../IconLine';
 import IconField from '../IconField';
 import Switch from '../Switch';
 import i18n from './i18n';
@@ -9,16 +8,12 @@ import styles from './styles.scss';
 import RcFont from '../../assets/RcFont/RcFont.scss';
 
 class ConferencePanel extends Component {
-//     className,
-//     conferenceNumbers,
-//     countryCode,
-//     areaCode,
-//     inviteWithText
-// }) {
   constructor(props) {
     super(props);
     this.state = {
       showInternational: false,
+      searchInternationals: this.props.conferenceNumbers.phoneNumbers,
+      selectInternationals: [],
     };
     this.formatPin = (number) => {
       if (!number) {
@@ -35,20 +30,64 @@ class ConferencePanel extends Component {
       hostCode: this.formatPin(this.props.conferenceNumbers.hostCode),
       participantCode: this.formatPin(this.props.conferenceNumbers.participantCode)
     };
-    this.onInternationalChange = (checked) => {
+    this.onInternationalSwitch = (checked) => {
       this.setState({
         showInternational: checked,
       });
     };
-    this.onSearchKeyDown = () => {
-
+    this.onSearchKeyUp = (e) => {
+      const searchKey = e.currentTarget.value;
+      this.setState({
+        searchInternationals: this.getMatchList(searchKey)
+      });
+    };
+    this.getMatchList = (searchKey) => {
+      const key = searchKey.toLowerCase().trim();
+      return this.props.conferenceNumbers.phoneNumbers.filter(value =>
+        value.phoneNumber.indexOf(key) >= 0 ||
+        value.country.name.toLowerCase().trim().indexOf(key) >= 0);
+    };
+    this.inviteWithText = () => {
+      let inviteText = 'Please join the RingCentral conference.\n\n';
+      inviteText += `Dial-In Numbers:${this.formatNumbers.dialInNumber}\n\n`;
+      if (this.state.selectInternationals.length !== 0) {
+        inviteText += 'International Dial-in Numbers:\n';
+        this.state.selectInternationals.forEach((value) => {
+          inviteText += `${value.countryName + value.phoneNumber}\n`;
+        });
+        inviteText += '\n';
+      }
+      inviteText += `Participant Access: ${this.formatNumbers.participantCode}\n\n`;
+      inviteText += 'Need an international dial-in phone number? Please visit http://www.ringcentral.com/conferencing\n\n';
+      inviteText += 'This conference call is brought to you by RingCentral Conferencing.';
+      this.props.inviteWithText(i18n.getString(inviteText, this.props.currentLocale));
+      this.context.router.push('/composeText');
+    };
+    this.changeSelect = (e) => {
+      const state = this.state.selectInternationals;
+      if (e.currentTarget.checked === true) {
+        const newState = Array.concat(state, [{
+          id: e.currentTarget.getAttribute('data-id'),
+          phoneNumber: e.currentTarget.getAttribute('data-number'),
+          countryName: e.currentTarget.getAttribute('data-name'),
+        }]);
+        newState.sort((a, b) => a.id - b.id);
+        this.setState({
+          selectInternationals: newState
+        });
+      } else {
+        const newState = state.filter(value =>
+        value.phoneNumber !== e.currentTarget.getAttribute('data-number'));
+        newState.sort((a, b) => a.id - b.id);
+        this.setState({
+          selectInternationals: newState
+        });
+      }
     };
   }
   render() {
     const {
       currentLocale,
-      className,
-      conferenceNumbers
     } = this.props;
     const internationalNumbers = this.state.showInternational ? (
       <div className={styles.international}>
@@ -61,29 +100,31 @@ class ConferencePanel extends Component {
             <input
               type="text"
               placeholder={i18n.getString('search', currentLocale)}
-              onKeyUp={this.onSeachKeyDown}
+              onKeyUp={this.onSearchKeyUp}
             />
           </div>
         </div>
         <div className={styles.numbers}>
-          {conferenceNumbers.phoneNumbers.map((value, key) => (
-            <div className={styles.row}>
+          {this.state.searchInternationals.map((value, key) => (
+            <div className={styles.row} key={key}>
               <label>
-                <input type="checkbox" className={styles.checkCountry} />
-                <span className={classnames(RcFont['checkbox-selected'], styles.checkbox_selected)}></span>
+                <input
+                  type="checkbox"
+                  className={styles.checkCountry}
+                  data-id={value.country.id}
+                  data-number={value.phoneNumber}
+                  data-name={value.country.name}
+                  onChange={this.changeSelect} />
                 <span className={styles.country}>{value.country.name}</span>
                 <span className={styles.phoneNumber}>{value.phoneNumber}</span>
               </label>
             </div>
-            ))};
+            ))}
         </div>
       </div>
     ) : '';
     return (
       <div>
-        <div className={styles.conferencePanelHeader}>
-          <h1>{i18n.getString('newConference', currentLocale)}</h1>
-        </div>
         <div className={styles.showConferenceNumbers}>
           <label>{i18n.getString('dialInNumber', currentLocale)}:</label>
           <div className={styles.dialInNumber}>
@@ -106,7 +147,7 @@ class ConferencePanel extends Component {
           <IconField
             icon={
               <Switch
-                onChange={this.onInternationalChange}
+                onChange={this.onInternationalSwitch}
              />
            }
            >
@@ -118,15 +159,17 @@ class ConferencePanel extends Component {
           type="button"
           value={i18n.getString('inviteWithText', currentLocale)}
           className={styles.textBtn}
+          onClick={this.inviteWithText}
         />
       </div>
     );
   }
 }
-
+ConferencePanel.contextTypes = {
+  router: React.PropTypes.object
+};
 
 ConferencePanel.propTypes = {
-  className: PropTypes.string,
   conferenceNumbers: PropTypes.object.isRequired,
   countryCode: PropTypes.string.isRequired,
   areaCode: PropTypes.string,

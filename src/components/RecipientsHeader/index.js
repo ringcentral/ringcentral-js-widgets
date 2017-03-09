@@ -19,16 +19,16 @@ Recipient.propTypes = {
 };
 
 function RecipientList(props) {
-  const recipients = this.props.recipients;
+  const recipients = props.recipients;
   return (
     <div className={props.className}>
       {
         recipients.map(receiver => (
           <Recipient
             key={JSON.stringify(receiver)}
-            name={this.context.getRecipientName(receiver)}
+            name={props.getRecipientName(receiver)}
             onClick={
-              () => this.props.setDefaultRecipient(
+              () => props.setDefaultRecipient(
                 receiver.extensionNumber || receiver.phoneNumber
               )
             }
@@ -39,11 +39,8 @@ function RecipientList(props) {
   );
 }
 
-RecipientList.contextTypes = {
-  getRecipientName: PropTypes.func.isRequired,
-};
-
 RecipientList.propTypes = {
+  getRecipientName: PropTypes.func.isRequired,
   setDefaultRecipient: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
   recipients: PropTypes.arrayOf(PropTypes.shape({
@@ -94,6 +91,7 @@ class RecipientsHeader extends Component {
           recipients={recipients}
           className={dropdownClass}
           setDefaultRecipient={this.setDefaultRecipient}
+          getRecipientName={this.context.getRecipientName}
         />
       );
     }
