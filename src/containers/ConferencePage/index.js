@@ -6,6 +6,8 @@ import Conference from 'ringcentral-integration/modules/Conference';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import ComposeText from 'ringcentral-integration/modules/ComposeText';
 
+import RouterInteraction from '../../modules/RouterInteraction';
+
 import ConferencePanel from '../../components/ConferencePanel';
 
 function mapToProps(_, {
@@ -22,11 +24,13 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-    composeText
+    composeText,
+    router
 }) {
   return {
     inviteWithText: (text) => {
       composeText.updateMessageText(text);
+      router.history.push('/composeText');
     },
   };
 }
@@ -43,6 +47,7 @@ const propTypes = {
   locale: PropTypes.instanceOf(Locale),
   composeText: PropTypes.instanceOf(ComposeText),
   conferenceNumbers: PropTypes.object,
+  router: PropTypes.instanceOf(RouterInteraction)
 };
 
 ConferencePage.propTypes = propTypes;

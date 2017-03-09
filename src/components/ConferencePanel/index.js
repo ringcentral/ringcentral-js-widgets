@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import classnames from 'classnames';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import IconField from '../IconField';
 import Switch from '../Switch';
@@ -61,7 +60,6 @@ class ConferencePanel extends Component {
       inviteText += 'Need an international dial-in phone number? Please visit http://www.ringcentral.com/conferencing\n\n';
       inviteText += 'This conference call is brought to you by RingCentral Conferencing.';
       this.props.inviteWithText(i18n.getString(inviteText, this.props.currentLocale));
-      this.context.router.push('/composeText');
     };
     this.changeSelect = (e) => {
       const state = this.state.selectInternationals;
@@ -165,14 +163,10 @@ class ConferencePanel extends Component {
     );
   }
 }
-ConferencePanel.contextTypes = {
-  router: React.PropTypes.object
-};
-
 ConferencePanel.propTypes = {
-  conferenceNumbers: PropTypes.object.isRequired,
+  conferenceNumbers: PropTypes.shape.isRequired,
   countryCode: PropTypes.string.isRequired,
-  areaCode: PropTypes.string,
+  areaCode: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   inviteWithText: PropTypes.func.isRequired,
 };
