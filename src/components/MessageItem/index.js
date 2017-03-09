@@ -6,9 +6,6 @@ import rcFont from '../../assets/RcFont/RcFont.scss';
 import styles from './styles.scss';
 
 export default function MessageItem(props) {
-  const messageIcon = props.type === 'SMS'
-    ? <span className={rcFont.uniA5} />
-    : <span className={rcFont.uni41} />;
   let className = null;
   if (props.unreadCounts > 0) {
     className = classnames(styles.messageItem, styles.unRead);
@@ -22,7 +19,7 @@ export default function MessageItem(props) {
         className={styles.messageLink}
       >
         <div className={styles.typeIcon}>
-          {messageIcon}
+          <span className={rcFont.uniA5} />
         </div>
         <div className={styles.messageContent}>
           <div className={styles.messageFrom}>

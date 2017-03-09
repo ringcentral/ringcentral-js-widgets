@@ -30,6 +30,10 @@ SenderSelectInput.propTypes = {
   options: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };
 
+SenderSelectInput.defaultProps = {
+  className: null,
+};
+
 class ComposeTextPanel extends Component {
   constructor(props) {
     super(props);
