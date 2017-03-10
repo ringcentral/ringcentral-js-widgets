@@ -1,6 +1,4 @@
 import React, { PropTypes, Component } from 'react';
-import classnames from 'classnames';
-import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import i18n from './i18n';
 import styles from './styles.scss';
 import RecipientsInput from '../RecipientsInput';
@@ -30,6 +28,10 @@ SenderSelectInput.propTypes = {
   options: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };
 
+SenderSelectInput.defaultProps = {
+  className: null,
+};
+
 class ComposeTextPanel extends Component {
   constructor(props) {
     super(props);
@@ -49,6 +51,17 @@ class ComposeTextPanel extends Component {
     };
 
     this.onReceiverInputKeyDown = (e) => {
+      if (e.key === ',' || e.key === ';' || e.key === 'Enter') {
+        e.preventDefault();
+        this.props.addToNumber({
+          name: this.props.formatPhone(this.props.typingToNumber),
+          phoneNumber: this.props.typingToNumber,
+        });
+        this.props.cleanTypingToNumber();
+      }
+    };
+
+    this.onReceiverInputKeyUp = (e) => {
       this.props.searchContact(e.currentTarget.value);
     };
 
@@ -101,7 +114,8 @@ class ComposeTextPanel extends Component {
                 addToRecipients={this.addToRecipients}
                 removeFromRecipients={this.removeFromRecipients}
                 searchContactList={this.props.searchContactList}
-                onKeyUp={this.onReceiverInputKeyDown}
+                onKeyUp={this.onReceiverInputKeyUp}
+                onKeyDown={this.onReceiverInputKeyDown}
                 formatPhone={this.props.formatPhone}
               />
             </div>
