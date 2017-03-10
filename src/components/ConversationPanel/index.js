@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 
 import rcFont from '../../assets/RcFont/RcFont.scss';
+import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 import Spinner from '../Spinner';
 import RecipientsHeader from '../RecipientsHeader';
@@ -33,6 +34,7 @@ class ConversationPanel extends Component {
   render() {
     let conversationBody = null;
     const loading = this.props.showSpinner;
+    const recipients = this.props.recipients;
     if (loading) {
       conversationBody = (
         <div className={styles.spinerContainer}>
@@ -43,18 +45,19 @@ class ConversationPanel extends Component {
       conversationBody = (
         <ConversationMessageList
           messages={this.props.messages}
+          className={styles.conversationBody}
+          showFrom={recipients && recipients.length > 1}
         />
       );
     }
-    const recipients = this.props.recipients;
     return (
-      <div>
+      <div className={styles.root}>
         <div className={styles.header}>
           <Link
             to={'/messages'}
             className={styles.backButton}
           >
-            <span className={rcFont.icon_back} />
+            <span className={dynamicsFont.iconArrowRight} />
           </Link>
           <RecipientsHeader
             recipients={recipients}
@@ -63,18 +66,22 @@ class ConversationPanel extends Component {
         {conversationBody}
         <div className={styles.messageForm}>
           <form onSubmit={this.handleSubmit}>
-            <textarea
-              placeholder={i18n.getString('typeAnyToSend', this.props.currentLocale)}
-              value={this.state.textValue}
-              maxLength="1000"
-              onChange={this.onTextChange}
-            />
-            <input
-              type="submit"
-              value={i18n.getString('send', this.props.currentLocale)}
-              className={styles.submitButton}
-              disabled={this.props.sendButtonDisabled || loading}
-            />
+            <div className={styles.textField}>
+              <textarea
+                placeholder={i18n.getString('typeAnyToSend', this.props.currentLocale)}
+                value={this.state.textValue}
+                maxLength="1000"
+                onChange={this.onTextChange}
+              />
+            </div>
+            <div className={styles.submitField}>
+              <input
+                type="submit"
+                value={i18n.getString('send', this.props.currentLocale)}
+                className={styles.submitButton}
+                disabled={this.props.sendButtonDisabled || loading}
+              />
+            </div>
           </form>
         </div>
       </div>

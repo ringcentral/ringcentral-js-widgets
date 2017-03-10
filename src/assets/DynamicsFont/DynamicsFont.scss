@@ -463,6 +463,12 @@
 .iconMessageAllHover:before {
   content: "\e918";
 }
+.iconMessage {
+  composes: icon;
+}
+.iconMessage:before {
+  content: "\e941";
+}
 .iconComposeText {
   composes: icon;
 }

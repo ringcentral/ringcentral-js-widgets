@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 import classnames from 'classnames';
-import rcFont from '../../assets/RcFont/RcFont.scss';
+import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 
 export default function MessageItem(props) {
@@ -19,7 +19,7 @@ export default function MessageItem(props) {
         className={styles.messageLink}
       >
         <div className={styles.typeIcon}>
-          <span className={rcFont.uniA5} />
+          <span className={dynamicsFont.iconMessage} />
         </div>
         <div className={styles.messageContent}>
           <div className={styles.messageFrom}>
@@ -36,7 +36,7 @@ export default function MessageItem(props) {
         className={styles.messageLink}
       >
         <div className={styles.contactInfo}>
-          <span className={rcFont.uni2477} />
+          <span className={dynamicsFont.information} />
         </div>
       </Link>
     </div>

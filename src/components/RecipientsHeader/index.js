@@ -106,12 +106,7 @@ class RecipientsHeader extends Component {
         }
         {
           hasDropdown &&
-          <a
-            href="#recipients-dropdown"
-            onClick={this.toggleDropdown}
-          >
-            <i className={classnames(rcFont.icon_dropdown_arrow, styles.dropdownIcon)} />
-          </a>
+          <i className={classnames(rcFont.icon_dropdown_arrow, styles.dropdownIcon)} />
         }
         {dropdownList}
       </h1>
