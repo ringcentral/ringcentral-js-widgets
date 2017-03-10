@@ -49,7 +49,7 @@ class ConferencePanel extends Component {
       });
     };
     this.getMatchList = (searchKey) => {
-      const key = searchKey.toLowerCase().trim().split(" ").join('');
+      const key = searchKey.toLowerCase().trim().split(' ').join('');
       return this.props.conferenceNumbers.phoneNumbers.filter(value =>
         value.phoneNumber.trim().replace(' ', '').indexOf(key) >= 0 ||
         value.country.name.toLowerCase().trim().replace(' ', '').indexOf(key) >= 0);
@@ -72,7 +72,8 @@ class ConferencePanel extends Component {
       inviteText += `Participant Access: ${this.formatNumbers.participantCode}\n\n`;
       inviteText += 'Need an international dial-in phone number? Please visit http://www.ringcentral.com/conferencing\n\n';
       inviteText += 'This conference call is brought to you by RingCentral Conferencing.';
-      this.props.inviteWithText(formatMessage(i18n.getString('inviteText', this.props.currentLocale), { inviteText }));
+      this.props.inviteWithText(
+        formatMessage(i18n.getString('inviteText', this.props.currentLocale), { inviteText }));
     };
     this.changeSelect = (e) => {
       const state = this.state.selectInternationals;
