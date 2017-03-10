@@ -33,9 +33,6 @@ SenderSelectInput.propTypes = {
 class ComposeTextPanel extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      showSenderSetting: true,
-    };
 
     this.onSenderChange = (e) => {
       const value = e.currentTarget.value;
@@ -74,28 +71,13 @@ class ComposeTextPanel extends Component {
       this.props.send();
       console.debug('send message ...');
     };
-
-    this.toggleShowSenderSetting = () => {
-      this.setState(prevState => (
-        { showSenderSetting: !prevState.showSenderSetting }
-      ));
-    };
   }
 
   render() {
-    let senderFieldClasses = styles.messageSenderField;
-    if (!this.state.showSenderSetting) {
-      senderFieldClasses = classnames(styles.messageSenderField, styles.hiddenField);
-    }
     return (
       <div>
-        <div className={styles.composeTextPanelHeader}>
-          <a href="#sender-number-setting" className={styles.sendNumberSetting} onClick={this.toggleShowSenderSetting}>
-            <span className={dynamicsFont.settingHover} />
-          </a>
-        </div>
         <form onSubmit={this.handleSubmit}>
-          <div className={senderFieldClasses}>
+          <div className={styles.messageSenderField}>
             <label>{i18n.getString('sendMessageFrom', this.props.currentLocale)}</label>
             <div className={styles.valueInput}>
               <SenderSelectInput
