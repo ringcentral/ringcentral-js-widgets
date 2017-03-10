@@ -28,8 +28,6 @@ const tabs = [
   {
     icon: <span className={dynamicsFont.iconConference} />,
     activityIcon: <span className={dynamicsFont.iconConference} />,
-    // icon: <span className={RcFont.icon_conference} />,
-    // activityIcon: <span className={RcFont.RC_Conference_pressed} />,
     label: 'Conference',
     path: '/conference',
   },

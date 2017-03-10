@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import formatMessage from 'format-message';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import IconField from '../IconField';
 import Switch from '../Switch';
@@ -14,12 +15,19 @@ class ConferencePanel extends Component {
       searchInternationals: this.props.conferenceNumbers.phoneNumbers,
       selectInternationals: [],
     };
+    this.formatInternational = (phoneNumber, countryCode) => {
+      if (phoneNumber.indexOf(countryCode === 1)) {
+        return `+${countryCode} ${phoneNumber.replace('+', '').replace(countryCode, '')}`;
+      }
+      return phoneNumber;
+    };
     this.formatPin = (number) => {
       if (!number) {
         return '';
       }
       return number.replace(/(\d{3})/g, '$1-').replace(/-$/, '');
     };
+
     this.formatNumbers = {
       dialInNumber: formatNumber({
         phoneNumber: this.props.conferenceNumbers.phoneNumber,
@@ -41,10 +49,10 @@ class ConferencePanel extends Component {
       });
     };
     this.getMatchList = (searchKey) => {
-      const key = searchKey.toLowerCase().trim();
+      const key = searchKey.toLowerCase().trim().split(" ").join('');
       return this.props.conferenceNumbers.phoneNumbers.filter(value =>
-        value.phoneNumber.indexOf(key) >= 0 ||
-        value.country.name.toLowerCase().trim().indexOf(key) >= 0);
+        value.phoneNumber.trim().replace(' ', '').indexOf(key) >= 0 ||
+        value.country.name.toLowerCase().trim().replace(' ', '').indexOf(key) >= 0);
     };
     this.inviteWithText = () => {
       let inviteText = 'Please join the RingCentral conference.\n\n';
@@ -52,14 +60,19 @@ class ConferencePanel extends Component {
       if (this.state.selectInternationals.length !== 0) {
         inviteText += 'International Dial-in Numbers:\n';
         this.state.selectInternationals.forEach((value) => {
-          inviteText += `${value.countryName + value.phoneNumber}\n`;
+          const phoneNumber = formatNumber({
+            phoneNumber: value.phoneNumber,
+            countryCode: value.countryCode,
+            areaCode: value.areaCode || '',
+          });
+          inviteText += `${value.countryName} ${phoneNumber}\n`;
         });
         inviteText += '\n';
       }
       inviteText += `Participant Access: ${this.formatNumbers.participantCode}\n\n`;
       inviteText += 'Need an international dial-in phone number? Please visit http://www.ringcentral.com/conferencing\n\n';
       inviteText += 'This conference call is brought to you by RingCentral Conferencing.';
-      this.props.inviteWithText(i18n.getString(inviteText, this.props.currentLocale));
+      this.props.inviteWithText(formatMessage(i18n.getString('inviteText', this.props.currentLocale), { inviteText }));
     };
     this.changeSelect = (e) => {
       const state = this.state.selectInternationals;
@@ -68,6 +81,8 @@ class ConferencePanel extends Component {
           id: e.currentTarget.getAttribute('data-id'),
           phoneNumber: e.currentTarget.getAttribute('data-number'),
           countryName: e.currentTarget.getAttribute('data-name'),
+          countryCode: e.currentTarget.getAttribute('data-countryCode'),
+          areaCode: e.currentTarget.getAttribute('data-areaCode'),
         }]);
         newState.sort((a, b) => a.id - b.id);
         this.setState({
@@ -112,9 +127,13 @@ class ConferencePanel extends Component {
                   data-id={value.country.id}
                   data-number={value.phoneNumber}
                   data-name={value.country.name}
+                  data-countryCode={value.country.countryCode}
+                  data-areaCode={value.country.areaCode}
                   onChange={this.changeSelect} />
                 <span className={styles.country}>{value.country.name}</span>
-                <span className={styles.phoneNumber}>{value.phoneNumber}</span>
+                <span className={styles.phoneNumber}>
+                  {this.formatInternational(value.phoneNumber, value.country.callingCode)}
+                </span>
               </label>
             </div>
             ))}
@@ -164,7 +183,12 @@ class ConferencePanel extends Component {
   }
 }
 ConferencePanel.propTypes = {
-  conferenceNumbers: PropTypes.shape.isRequired,
+  conferenceNumbers: PropTypes.shape({
+    phoneNumber: PropTypes.string,
+    hostCode: PropTypes.string,
+    participantCode: PropTypes.string,
+    phoneNumbers: PropTypes.array,
+  }).isRequired,
   countryCode: PropTypes.string.isRequired,
   areaCode: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,

@@ -11,9 +11,9 @@ import RouterInteraction from '../../modules/RouterInteraction';
 import ConferencePanel from '../../components/ConferencePanel';
 
 function mapToProps(_, {
-    conference,
-    regionSettings,
-    locale,
+  conference,
+  regionSettings,
+  locale,
 }) {
   return {
     conferenceNumbers: conference.conferenceNumbers,
@@ -24,8 +24,8 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-    composeText,
-    router
+  composeText,
+  router
 }) {
   return {
     inviteWithText: (text) => {
@@ -37,8 +37,8 @@ function mapToFunctions(_, {
 
 
 const ConferencePage = connect(
-    mapToProps,
-    mapToFunctions,
+  mapToProps,
+  mapToFunctions,
 )(ConferencePanel);
 
 const propTypes = {
@@ -46,15 +46,14 @@ const propTypes = {
   regionSettings: PropTypes.instanceOf(RegionSettings),
   locale: PropTypes.instanceOf(Locale),
   composeText: PropTypes.instanceOf(ComposeText),
-  conferenceNumbers: PropTypes.object,
-  router: PropTypes.instanceOf(RouterInteraction)
+  router: PropTypes.instanceOf(RouterInteraction),
 };
 
 ConferencePage.propTypes = propTypes;
 
 export {
-    mapToFunctions,
-    mapToProps,
-    propTypes,
-    ConferencePage as default,
+  mapToFunctions,
+  mapToProps,
+  propTypes,
+  ConferencePage as default,
 };

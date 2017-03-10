@@ -7,4 +7,5 @@ export default {
   internationalNumbersHeader: 'Select International Dial-in Numbers',
   search: 'Search...',
   inviteWithText: 'Invite with Text',
+  inviteText: '{inviteText}'
 };
