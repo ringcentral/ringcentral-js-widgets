@@ -28,14 +28,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
 var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
@@ -75,6 +67,10 @@ SenderSelectInput.propTypes = {
   options: _react.PropTypes.arrayOf(_react.PropTypes.string.isRequired).isRequired
 };
 
+SenderSelectInput.defaultProps = {
+  className: null
+};
+
 var ComposeTextPanel = function (_Component) {
   (0, _inherits3.default)(ComposeTextPanel, _Component);
 
@@ -82,10 +78,6 @@ var ComposeTextPanel = function (_Component) {
     (0, _classCallCheck3.default)(this, ComposeTextPanel);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ComposeTextPanel.__proto__ || (0, _getPrototypeOf2.default)(ComposeTextPanel)).call(this, props));
-
-    _this.state = {
-      showSenderSetting: true
-    };
 
     _this.onSenderChange = function (e) {
       var value = e.currentTarget.value;
@@ -102,6 +94,17 @@ var ComposeTextPanel = function (_Component) {
     };
 
     _this.onReceiverInputKeyDown = function (e) {
+      if (e.key === ',' || e.key === ';' || e.key === 'Enter') {
+        e.preventDefault();
+        _this.props.addToNumber({
+          name: _this.props.formatPhone(_this.props.typingToNumber),
+          phoneNumber: _this.props.typingToNumber
+        });
+        _this.props.cleanTypingToNumber();
+      }
+    };
+
+    _this.onReceiverInputKeyUp = function (e) {
       _this.props.searchContact(e.currentTarget.value);
     };
 
@@ -124,40 +127,21 @@ var ComposeTextPanel = function (_Component) {
       _this.props.send();
       console.debug('send message ...');
     };
-
-    _this.toggleShowSenderSetting = function () {
-      _this.setState(function (prevState) {
-        return { showSenderSetting: !prevState.showSenderSetting };
-      });
-    };
     return _this;
   }
 
   (0, _createClass3.default)(ComposeTextPanel, [{
     key: 'render',
     value: function render() {
-      var senderFieldClasses = _styles2.default.messageSenderField;
-      if (!this.state.showSenderSetting) {
-        senderFieldClasses = (0, _classnames2.default)(_styles2.default.messageSenderField, _styles2.default.hiddenField);
-      }
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(
-          'div',
-          { className: _styles2.default.composeTextPanelHeader },
-          _react2.default.createElement(
-            'a',
-            { href: '#sender-number-setting', className: _styles2.default.sendNumberSetting, onClick: this.toggleShowSenderSetting },
-            _react2.default.createElement('span', { className: _DynamicsFont2.default.settingHover })
-          )
-        ),
         _react2.default.createElement(
           'form',
           { onSubmit: this.handleSubmit },
           _react2.default.createElement(
             'div',
-            { className: senderFieldClasses },
+            { className: _styles2.default.messageSenderField },
             _react2.default.createElement(
               'label',
               null,
@@ -196,7 +180,8 @@ var ComposeTextPanel = function (_Component) {
                 addToRecipients: this.addToRecipients,
                 removeFromRecipients: this.removeFromRecipients,
                 searchContactList: this.props.searchContactList,
-                onKeyUp: this.onReceiverInputKeyDown,
+                onKeyUp: this.onReceiverInputKeyUp,
+                onKeyDown: this.onReceiverInputKeyDown,
                 formatPhone: this.props.formatPhone
               })
             )

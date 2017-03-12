@@ -1,13 +1,7 @@
 @import '../../lib/commonStyles/colors';
 
-.composeTextPanelHeader {
-  text-align: center;
-  position: relative;
-  height: 25px;
-}
-
 .messageSenderField {
-  margin: 0 5px;
+  margin: 25px 5px 0 5px;
   height: 50px;
 	transition: height 0.5s ease-in;
   overflow: hidden;
