@@ -17,6 +17,8 @@ var _createClass2 = require('babel-runtime/helpers/createClass');
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
+var _I18n = require('../../lib/I18n');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var intlOptions = {
@@ -67,7 +69,7 @@ var BrowserDateTimeIntlProvider = function () {
           type = _ref2.type;
 
       var date = new Date(utcString);
-      var locale = settings && settings.currentLocale || 'en-US';
+      var locale = settings && settings.currentLocale !== _I18n.PSEUDO_LOCALE && settings.currentLocale || _I18n.DEFAULT_LOCALE;
 
       switch (type) {
         case 'long':

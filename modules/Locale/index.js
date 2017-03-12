@@ -106,7 +106,8 @@ var Locale = function (_RcModule) {
   function Locale() {
     var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-    var defaultLocale = _ref.defaultLocale,
+    var _ref$defaultLocale = _ref.defaultLocale,
+        defaultLocale = _ref$defaultLocale === undefined ? _I18n.DEFAULT_LOCALE : _ref$defaultLocale,
         options = (0, _objectWithoutProperties3.default)(_ref, ['defaultLocale']);
     (0, _classCallCheck3.default)(this, Locale);
 
@@ -133,17 +134,14 @@ var Locale = function (_RcModule) {
 
               case 2:
                 _context.next = 4;
-                return _I18n2.default.setLocale(_this2.currentLocale);
+                return _this2.setLocale(_this2.currentLocale);
 
               case 4:
-                _formatMessage2.default.setup({
-                  locale: _this2.currentLocale
-                });
                 _this2.store.dispatch({
                   type: _this2.actionTypes.initSuccess
                 });
 
-              case 6:
+              case 5:
               case 'end':
                 return _context.stop();
             }
@@ -179,7 +177,7 @@ var Locale = function (_RcModule) {
 
               case 2:
                 _formatMessage2.default.setup({
-                  locale: this.currentLocale
+                  locale: this.currentLocale === _I18n.PSEUDO_LOCALE ? _I18n.DEFAULT_LOCALE : this.currentLocale
                 });
                 this.store.dispatch({
                   type: this.actionTypes.setLocale,
