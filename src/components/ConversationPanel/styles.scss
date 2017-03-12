@@ -1,4 +1,9 @@
 @import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/full-size';
+
+.root {
+  @include full-size;
+}
 
 .header {
   position: relative;
@@ -15,41 +20,59 @@
   left: 3px;
   color: #666;
   text-decoration: none;
+  transform: rotateY(180deg);
   &:hover {
     color: #666;
   }
 }
 
+.conversationBody {
+  height: calc(100% - 100px);
+}
+
 .messageForm {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
   margin: 0 auto;
   padding: 0 2px 2px 2px;
+  font-family: Helvetica;
+  border-top: 1px solid #e3e3e5;
   textarea {
     font-size: 14px;
     line-height: 18px;
     width: 100%;
-    margin-bottom: 5px;
+    margin: 10px 0 10px 10px;
     resize: none;
-    border-bottom: 1px solid #e3e3e5;
-    border-left: 0;
-    border-right: 0;
-    height: 60px;
-    border-top: 1px solid #e3e3e5;
-    padding-top: 5px;
+    border: none;
     background: #fff;
     outline: medium none!important;
     box-sizing: border-box!important;
   }
 }
 
+.textField {
+  margin-right: 120px
+}
+
+.submitField {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 120px;
+  margin-top: -18px;
+}
+
 .submitButton {
   display: block;
-  margin: 0 auto 5px;
-  width: 115px;
+  margin: 0 auto;
+  width: 80px;
   box-sizing: border-box;
-  font-size: 14px;
+  font-size: 13px;
+  line-height: 18px;
   padding: 7px;
   border: 0;
-  border-radius: 3px;
+  border-radius: 16px;
   outline: medium none!important;
   color: #fff;
   background-color: $rc-blue;
