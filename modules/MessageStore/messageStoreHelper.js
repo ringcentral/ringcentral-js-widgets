@@ -213,7 +213,7 @@ function pushRecordsToMessageData(_ref4) {
     var message = newConversations[index];
     if (message.id === record.id) {
       var conversationMessages = newMessages.filter(function (oldMessage) {
-        return oldMessage.id !== message.id && oldMessage.conversationId === message.conversationId;
+        return oldMessage && oldMessage.id !== message.id && oldMessage.conversationId === message.conversationId;
       });
       if (conversationMessages.length === 0) {
         newConversations[index] = null;
