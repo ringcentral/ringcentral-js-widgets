@@ -34,31 +34,31 @@ var _AlertDisplay = require('../../components/AlertDisplay');
 
 var _AlertDisplay2 = _interopRequireDefault(_AlertDisplay);
 
-var _AuthAlert = require('../../../src/components/AuthAlert');
+var _AuthAlert = require('../../components/AuthAlert');
 
 var _AuthAlert2 = _interopRequireDefault(_AuthAlert);
 
-var _CallAlert = require('../../../src/components/CallAlert');
+var _CallAlert = require('../../components/CallAlert');
 
 var _CallAlert2 = _interopRequireDefault(_CallAlert);
 
-var _CallingSettingsAlert = require('../../../src/components/CallingSettingsAlert');
+var _CallingSettingsAlert = require('../../components/CallingSettingsAlert');
 
 var _CallingSettingsAlert2 = _interopRequireDefault(_CallingSettingsAlert);
 
-var _RegionSettingsAlert = require('../../../src/components/RegionSettingsAlert');
+var _RegionSettingsAlert = require('../../components/RegionSettingsAlert');
 
 var _RegionSettingsAlert2 = _interopRequireDefault(_RegionSettingsAlert);
 
-var _MessageSenderAlert = require('../../../src/components/MessageSenderAlert');
+var _MessageSenderAlert = require('../../components/MessageSenderAlert');
 
 var _MessageSenderAlert2 = _interopRequireDefault(_MessageSenderAlert);
 
-var _RateExceededAlert = require('../../../src/components/RateExceededAlert');
+var _RateExceededAlert = require('../../components/RateExceededAlert');
 
 var _RateExceededAlert2 = _interopRequireDefault(_RateExceededAlert);
 
-var _ConnectivityAlert = require('../../../src/components/ConnectivityAlert');
+var _ConnectivityAlert = require('../../components/ConnectivityAlert');
 
 var _ConnectivityAlert2 = _interopRequireDefault(_ConnectivityAlert);
 
