@@ -34,6 +34,10 @@ var _RcFont = require('../../assets/RcFont/RcFont.scss');
 
 var _RcFont2 = _interopRequireDefault(_RcFont);
 
+var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
+
+var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
+
 var _Spinner = require('../Spinner');
 
 var _Spinner2 = _interopRequireDefault(_Spinner);
@@ -87,6 +91,7 @@ var ConversationPanel = function (_Component) {
     value: function render() {
       var conversationBody = null;
       var loading = this.props.showSpinner;
+      var recipients = this.props.recipients;
       if (loading) {
         conversationBody = _react2.default.createElement(
           'div',
@@ -95,13 +100,14 @@ var ConversationPanel = function (_Component) {
         );
       } else {
         conversationBody = _react2.default.createElement(_ConversationMessageList2.default, {
-          messages: this.props.messages
+          messages: this.props.messages,
+          className: _styles2.default.conversationBody,
+          showFrom: recipients && recipients.length > 1
         });
       }
-      var recipients = this.props.recipients;
       return _react2.default.createElement(
         'div',
-        null,
+        { className: _styles2.default.root },
         _react2.default.createElement(
           'div',
           { className: _styles2.default.header },
@@ -111,7 +117,7 @@ var ConversationPanel = function (_Component) {
               to: '/messages',
               className: _styles2.default.backButton
             },
-            _react2.default.createElement('span', { className: _RcFont2.default.icon_back })
+            _react2.default.createElement('span', { className: _DynamicsFont2.default.iconArrowRight })
           ),
           _react2.default.createElement(_RecipientsHeader2.default, {
             recipients: recipients
@@ -124,18 +130,26 @@ var ConversationPanel = function (_Component) {
           _react2.default.createElement(
             'form',
             { onSubmit: this.handleSubmit },
-            _react2.default.createElement('textarea', {
-              placeholder: _i18n2.default.getString('typeAnyToSend', this.props.currentLocale),
-              value: this.state.textValue,
-              maxLength: '1000',
-              onChange: this.onTextChange
-            }),
-            _react2.default.createElement('input', {
-              type: 'submit',
-              value: _i18n2.default.getString('send', this.props.currentLocale),
-              className: _styles2.default.submitButton,
-              disabled: this.props.sendButtonDisabled || loading
-            })
+            _react2.default.createElement(
+              'div',
+              { className: _styles2.default.textField },
+              _react2.default.createElement('textarea', {
+                placeholder: _i18n2.default.getString('typeAnyToSend', this.props.currentLocale),
+                value: this.state.textValue,
+                maxLength: '1000',
+                onChange: this.onTextChange
+              })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: _styles2.default.submitField },
+              _react2.default.createElement('input', {
+                type: 'submit',
+                value: _i18n2.default.getString('send', this.props.currentLocale),
+                className: _styles2.default.submitButton,
+                disabled: this.props.sendButtonDisabled || loading
+              })
+            )
           )
         )
       );

@@ -15,9 +15,9 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _RcFont = require('../../assets/RcFont/RcFont.scss');
+var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
-var _RcFont2 = _interopRequireDefault(_RcFont);
+var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
 var _styles = require('./styles.scss');
 
@@ -26,7 +26,6 @@ var _styles2 = _interopRequireDefault(_styles);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function MessageItem(props) {
-  var messageIcon = props.type === 'SMS' ? _react2.default.createElement('span', { className: _RcFont2.default.uniA5 }) : _react2.default.createElement('span', { className: _RcFont2.default.uni41 });
   var className = null;
   if (props.unreadCounts > 0) {
     className = (0, _classnames2.default)(_styles2.default.messageItem, _styles2.default.unRead);
@@ -45,7 +44,7 @@ function MessageItem(props) {
       _react2.default.createElement(
         'div',
         { className: _styles2.default.typeIcon },
-        messageIcon
+        _react2.default.createElement('span', { className: _DynamicsFont2.default.iconMessage })
       ),
       _react2.default.createElement(
         'div',
@@ -80,7 +79,7 @@ function MessageItem(props) {
       _react2.default.createElement(
         'div',
         { className: _styles2.default.contactInfo },
-        _react2.default.createElement('span', { className: _RcFont2.default.uni2477 })
+        _react2.default.createElement('span', { className: _DynamicsFont2.default.information })
       )
     )
   );

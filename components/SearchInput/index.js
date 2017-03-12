@@ -16,6 +16,10 @@ var _RcFont = require('../../assets/RcFont/RcFont.scss');
 
 var _RcFont2 = _interopRequireDefault(_RcFont);
 
+var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
+
+var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -28,7 +32,7 @@ function SearchInput(props) {
     {
       className: (0, _classnames2.default)(_styles2.default.root, props.className)
     },
-    _react2.default.createElement('span', { className: (0, _classnames2.default)(_RcFont2.default.icon_search, _styles2.default.icon) }),
+    _react2.default.createElement('span', { className: (0, _classnames2.default)(_DynamicsFont2.default.iconSearch, _styles2.default.icon) }),
     _react2.default.createElement('input', {
       name: 'search',
       value: props.value,

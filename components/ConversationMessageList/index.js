@@ -39,32 +39,22 @@ var _styles2 = _interopRequireDefault(_styles);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function MessageItem(props) {
-  var messageClassName = null;
-  if (props.direction === 'Outbound') {
-    messageClassName = (0, _classnames2.default)(_styles2.default.messageBody, _styles2.default.outbound);
-  } else {
-    messageClassName = _styles2.default.messageBody;
-  }
-  if (!props.showDate) {
-    return _react2.default.createElement(
-      'div',
-      { className: _styles2.default.messageItem },
-      _react2.default.createElement(
-        'div',
-        { className: messageClassName },
-        props.subject
-      ),
-      _react2.default.createElement('div', { className: _styles2.default.clear })
-    );
-  }
+  var messageClassName = (0, _classnames2.default)(_styles2.default.messageBody, props.direction === 'Outbound' ? _styles2.default.outbound : _styles2.default.inbound);
+  var fromName = props.senderName && props.direction === 'Inbound' ? _react2.default.createElement(
+    'div',
+    { className: _styles2.default.messageFrom },
+    props.senderName
+  ) : null;
+  var messageCreationTime = props.showDate ? _react2.default.createElement(
+    'div',
+    { className: _styles2.default.messsageTime },
+    props.creationTime
+  ) : null;
   return _react2.default.createElement(
     'div',
     { className: _styles2.default.messageItem },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.messsageTime },
-      props.creationTime
-    ),
+    messageCreationTime,
+    fromName,
     _react2.default.createElement(
       'div',
       { className: messageClassName },
@@ -78,11 +68,13 @@ MessageItem.propTypes = {
   direction: _react.PropTypes.string.isRequired,
   subject: _react.PropTypes.string,
   creationTime: _react.PropTypes.string.isRequired,
-  showDate: _react.PropTypes.bool.isRequired
+  showDate: _react.PropTypes.bool.isRequired,
+  senderName: _react.PropTypes.string
 };
 
 MessageItem.defaultProps = {
-  subject: ''
+  subject: '',
+  senderName: null
 };
 
 var ConversationMessageList = function (_Component) {
@@ -132,18 +124,28 @@ var ConversationMessageList = function (_Component) {
           showDate = false;
         }
         lastFormatedTime = formatedTime;
+        var senderName = null;
+        if (_this2.props.showSender && message.from) {
+          if (message.from.name) {
+            senderName = message.from.name;
+          } else {
+            var phoneNumber = message.from.extensionNumber || message.from.phoneNumber;
+            senderName = _this2.context.formatPhone(phoneNumber);
+          }
+        }
         return _react2.default.createElement(MessageItem, {
           key: message.id,
           direction: message.direction,
           subject: message.subject,
           creationTime: formatedTime,
-          showDate: showDate
+          showDate: showDate,
+          senderName: senderName
         });
       });
       return _react2.default.createElement(
         'div',
         {
-          className: _styles2.default.root,
+          className: (0, _classnames2.default)(_styles2.default.root, this.props.className),
           ref: function ref(body) {
             _this2.conversationBody = body;
           }
@@ -161,11 +163,19 @@ ConversationMessageList.propTypes = {
     id: _react.PropTypes.number,
     direction: _react.PropTypes.string,
     subject: _react.PropTypes.string
-  })).isRequired
+  })).isRequired,
+  className: _react.PropTypes.string,
+  showSender: _react.PropTypes.bool
+};
+
+ConversationMessageList.defaultProps = {
+  className: null,
+  showSender: false
 };
 
 ConversationMessageList.contextTypes = {
-  formatDateTime: _react.PropTypes.func.isRequired
+  formatDateTime: _react.PropTypes.func.isRequired,
+  formatPhone: _react.PropTypes.func.isRequired
 };
 
 exports.default = ConversationMessageList;

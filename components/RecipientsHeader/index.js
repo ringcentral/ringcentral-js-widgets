@@ -150,14 +150,7 @@ var RecipientsHeader = function (_Component) {
           name: this.context.getRecipientName(defaultRecipient),
           onClick: this.toggleDropdown
         }),
-        hasDropdown && _react2.default.createElement(
-          'a',
-          {
-            href: '#recipients-dropdown',
-            onClick: this.toggleDropdown
-          },
-          _react2.default.createElement('i', { className: (0, _classnames2.default)(_RcFont2.default.icon_dropdown_arrow, _styles2.default.dropdownIcon) })
-        ),
+        hasDropdown && _react2.default.createElement('i', { className: (0, _classnames2.default)(_RcFont2.default.icon_dropdown_arrow, _styles2.default.dropdownIcon) }),
         dropdownList
       );
     }
