@@ -8,13 +8,13 @@ import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 
 import AlertDisplay from '../../components/AlertDisplay';
 
-import AuthAlert from '../../../src/components/AuthAlert';
-import CallAlert from '../../../src/components/CallAlert';
-import CallingSettingsAlert from '../../../src/components/CallingSettingsAlert';
-import RegionSettingsAlert from '../../../src/components/RegionSettingsAlert';
-import MessageSenderAlert from '../../../src/components/MessageSenderAlert';
-import RateExceededAlert from '../../../src/components/RateExceededAlert';
-import ConnectivityAlert from '../../../src/components/ConnectivityAlert';
+import AuthAlert from '../../components/AuthAlert';
+import CallAlert from '../../components/CallAlert';
+import CallingSettingsAlert from '../../components/CallingSettingsAlert';
+import RegionSettingsAlert from '../../components/RegionSettingsAlert';
+import MessageSenderAlert from '../../components/MessageSenderAlert';
+import RateExceededAlert from '../../components/RateExceededAlert';
+import ConnectivityAlert from '../../components/ConnectivityAlert';
 
 const AlertContainer = connect((state, {
   locale,
