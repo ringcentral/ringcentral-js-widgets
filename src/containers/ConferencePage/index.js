@@ -26,7 +26,6 @@ function mapToProps(_, {
 
 function mapToFunctions(_, {
   composeText,
-  regionSettings,
   router
 }) {
   return {
