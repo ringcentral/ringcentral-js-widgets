@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import rcFont from '../../assets/RcFont/RcFont.scss';
+import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 
 function SearchInput(props) {
@@ -11,7 +12,7 @@ function SearchInput(props) {
         props.className,
       )}
       >
-      <span className={classnames(rcFont.icon_search, styles.icon)} />
+      <span className={classnames(dynamicsFont.iconSearch, styles.icon)} />
       <input
         name="search"
         value={props.value}

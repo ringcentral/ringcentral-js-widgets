@@ -4,27 +4,28 @@ import classnames from 'classnames';
 import styles from './styles.scss';
 
 function MessageItem(props) {
-  let messageClassName = null;
-  if (props.direction === 'Outbound') {
-    messageClassName = classnames(styles.messageBody, styles.outbound);
-  } else {
-    messageClassName = styles.messageBody;
-  }
-  if (!props.showDate) {
-    return (
-      <div className={styles.messageItem}>
-        <div className={messageClassName}>
-          {props.subject}
-        </div>
-        <div className={styles.clear} />
+  const messageClassName = classnames(
+    styles.messageBody,
+    props.direction === 'Outbound' ? styles.outbound : styles.inbound,
+  );
+  const fromName = props.senderName && props.direction === 'Inbound' ?
+    (
+      <div className={styles.messageFrom}>
+        {props.senderName}
       </div>
-    );
-  }
-  return (
-    <div className={styles.messageItem}>
+    ) :
+    null;
+  const messageCreationTime = props.showDate ?
+    (
       <div className={styles.messsageTime}>
         {props.creationTime}
       </div>
+    ) :
+    null;
+  return (
+    <div className={styles.messageItem}>
+      {messageCreationTime}
+      {fromName}
       <div className={messageClassName}>
         {props.subject}
       </div>
@@ -38,10 +39,12 @@ MessageItem.propTypes = {
   subject: PropTypes.string,
   creationTime: PropTypes.string.isRequired,
   showDate: PropTypes.bool.isRequired,
+  senderName: PropTypes.string,
 };
 
 MessageItem.defaultProps = {
   subject: '',
+  senderName: null,
 };
 
 class ConversationMessageList extends Component {
@@ -79,6 +82,15 @@ class ConversationMessageList extends Component {
         showDate = false;
       }
       lastFormatedTime = formatedTime;
+      let senderName = null;
+      if (this.props.showSender && message.from) {
+        if (message.from.name) {
+          senderName = message.from.name;
+        } else {
+          const phoneNumber = message.from.extensionNumber || message.from.phoneNumber;
+          senderName = this.context.formatPhone(phoneNumber);
+        }
+      }
       return (
         <MessageItem
           key={message.id}
@@ -86,12 +98,13 @@ class ConversationMessageList extends Component {
           subject={message.subject}
           creationTime={formatedTime}
           showDate={showDate}
+          senderName={senderName}
         />
       );
     });
     return (
       <div
-        className={styles.root}
+        className={classnames(styles.root, this.props.className)}
         ref={(body) => { this.conversationBody = body; }}
       >
         {messageList}
@@ -107,10 +120,18 @@ ConversationMessageList.propTypes = {
     direction: PropTypes.string,
     subject: PropTypes.string,
   })).isRequired,
+  className: PropTypes.string,
+  showSender: PropTypes.bool,
+};
+
+ConversationMessageList.defaultProps = {
+  className: null,
+  showSender: false,
 };
 
 ConversationMessageList.contextTypes = {
   formatDateTime: PropTypes.func.isRequired,
+  formatPhone: PropTypes.func.isRequired,
 };
 
 export default ConversationMessageList;
