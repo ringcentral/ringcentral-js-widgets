@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { PropTypes } from 'react';
 
+import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import Locale from 'ringcentral-integration/modules/Locale';
 import Conference from 'ringcentral-integration/modules/Conference';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
@@ -25,6 +26,7 @@ function mapToProps(_, {
 
 function mapToFunctions(_, {
   composeText,
+  regionSettings,
   router
 }) {
   return {
@@ -32,6 +34,23 @@ function mapToFunctions(_, {
       composeText.updateMessageText(text);
       router.history.push('/composeText');
     },
+    formatInternational: (phoneNumber, callingCode) => {
+      if (phoneNumber.indexOf(callingCode === 1)) {
+        return `+${callingCode} ${phoneNumber.replace('+', '').replace(callingCode, '')}`;
+      }
+      return phoneNumber;
+    },
+    formatPin: (number) => {
+      if (!number) {
+        return '';
+      }
+      return number.replace(/(\d{3})/g, '$1-').replace(/-$/, '');
+    },
+    formatPhone: (phoneNumber, countryCode, areaCode) => formatNumber({
+      phoneNumber,
+      countryCode,
+      areaCode: areaCode || '',
+    })
   };
 }
 

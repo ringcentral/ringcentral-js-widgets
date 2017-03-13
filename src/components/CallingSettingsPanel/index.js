@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import formatMessage from 'format-message';
+import formatNumber from 'ringcentral-integration/lib/formatNumber';
 
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 import 'font-awesome/css/font-awesome.css';
