@@ -22,12 +22,22 @@ const ComposeTextPage = connect((state, props) => ({
   searchContactList: props.contactSearch.searching.result,
 }), (dispatch, props) => ({
   send: () =>
-    props.composeText.send().then((resp) => {
-      if (resp && resp.conversation) {
-        props.messageStore.pushMessage(resp);
-        props.composeText.clean();
-        props.router.history.push(`/conversations/${resp.conversation.id}`);
+    props.composeText.send().then((responses) => {
+      if (!responses || responses.length === 0) {
+        return null;
       }
+      props.messageStore.pushMessages(responses);
+      if (responses.length === 1) {
+        const conversationId =
+          responses[0] && responses[0].conversation && responses[0].conversation.id;
+        if (!conversationId) {
+          return null;
+        }
+        props.router.history.push(`/conversations/${conversationId}`);
+      } else {
+        props.router.history.push('/messages');
+      }
+      props.composeText.clean();
       return null;
     }),
   formatPhone: phoneNumber => (
