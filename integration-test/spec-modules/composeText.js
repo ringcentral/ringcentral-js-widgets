@@ -203,7 +203,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
               });
 
               it('Should SMS Message Successfully', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
-                var response, rawRequest;
+                var responses, rawRequest;
                 return _regenerator2.default.wrap(function _callee3$(_context3) {
                   while (1) {
                     switch (_context3.prev = _context3.next) {
@@ -214,14 +214,14 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                         return composeText.send();
 
                       case 4:
-                        response = _context3.sent;
+                        responses = _context3.sent;
 
-                        expect(response).to.include.keys('id', 'conversation');
-                        expect(response.type).to.equals('SMS');
-                        expect(response.subject).to.equals('test');
+                        expect(responses[0]).to.include.keys('id', 'conversation');
+                        expect(responses[0].type).to.equals('SMS');
+                        expect(responses[0].subject).to.equals('test');
                         rawRequest = clientHistoryRequest.getRawResponse(_ClientHistoryRequest2.default.endPoints.sms);
 
-                        expect((0, _stringify2.default)(response)).to.equal((0, _stringify2.default)(rawRequest));
+                        expect((0, _stringify2.default)(responses[0])).to.equal((0, _stringify2.default)(rawRequest));
 
                       case 10:
                       case 'end':
@@ -232,7 +232,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
               })));
 
               it('Should Send Pager Message Successfully', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
-                var response, rawRequest;
+                var responses, rawRequest;
                 return _regenerator2.default.wrap(function _callee4$(_context4) {
                   while (1) {
                     switch (_context4.prev = _context4.next) {
@@ -243,14 +243,14 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                         return composeText.send();
 
                       case 4:
-                        response = _context4.sent;
+                        responses = _context4.sent;
 
-                        expect(response).to.include.keys('id', 'conversation');
-                        expect(response.type).to.equals('Pager');
-                        expect(response.subject).to.equals('test 2');
+                        expect(responses[0]).to.include.keys('id', 'conversation');
+                        expect(responses[0].type).to.equals('Pager');
+                        expect(responses[0].subject).to.equals('test 2');
                         rawRequest = clientHistoryRequest.getRawResponse(_ClientHistoryRequest2.default.endPoints.companyPager);
 
-                        expect((0, _stringify2.default)(response)).to.equal((0, _stringify2.default)(rawRequest));
+                        expect((0, _stringify2.default)(responses[0])).to.equal((0, _stringify2.default)(rawRequest));
 
                       case 10:
                       case 'end':
@@ -261,7 +261,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
               })));
 
               it('Should Send SMS and Pager Message Together Successfully', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
-                var response, smsRequest, pagerRequest;
+                var responses, smsRequest, pagerRequest;
                 return _regenerator2.default.wrap(function _callee5$(_context5) {
                   while (1) {
                     switch (_context5.prev = _context5.next) {
@@ -273,10 +273,11 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                         return composeText.send();
 
                       case 5:
-                        response = _context5.sent;
+                        responses = _context5.sent;
 
-                        expect(response).to.include.keys('id', 'conversation');
-                        expect(response.subject).to.equals('test 3');
+                        expect(responses[0]).to.include.keys('id', 'conversation');
+                        expect(responses[0].subject).to.equals('test 3');
+                        expect(responses[1].subject).to.equals('test 3');
                         smsRequest = clientHistoryRequest.getRawResponse(_ClientHistoryRequest2.default.endPoints.sms);
                         pagerRequest = clientHistoryRequest.getRawResponse(_ClientHistoryRequest2.default.endPoints.companyPager);
 
@@ -285,7 +286,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                         expect(pagerRequest.type).to.equals('Pager');
                         expect(pagerRequest.subject).to.equals('test 3');
 
-                      case 14:
+                      case 15:
                       case 'end':
                         return _context5.stop();
                     }
@@ -294,7 +295,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
               })));
 
               it('Should Send Pager Message Successfully with Typing Number', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
-                var response, rawRequest;
+                var responses, rawRequest;
                 return _regenerator2.default.wrap(function _callee6$(_context6) {
                   while (1) {
                     switch (_context6.prev = _context6.next) {
@@ -305,14 +306,14 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                         return composeText.send();
 
                       case 4:
-                        response = _context6.sent;
+                        responses = _context6.sent;
 
-                        expect(response).to.include.keys('id', 'conversation');
-                        expect(response.type).to.equals('Pager');
-                        expect(response.subject).to.equals('test 4');
+                        expect(responses[0]).to.include.keys('id', 'conversation');
+                        expect(responses[0].type).to.equals('Pager');
+                        expect(responses[0].subject).to.equals('test 4');
                         rawRequest = clientHistoryRequest.getRawResponse(_ClientHistoryRequest2.default.endPoints.companyPager);
 
-                        expect((0, _stringify2.default)(response)).to.equal((0, _stringify2.default)(rawRequest));
+                        expect((0, _stringify2.default)(responses[0])).to.equal((0, _stringify2.default)(rawRequest));
 
                       case 10:
                       case 'end':

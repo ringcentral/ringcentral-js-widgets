@@ -738,12 +738,17 @@ var MessageStore = function (_RcModule) {
       });
     }
   }, {
-    key: 'pushMessage',
-    value: function pushMessage(record) {
+    key: 'pushMessages',
+    value: function pushMessages(records) {
       this.store.dispatch({
         type: this.actionTypes.updateMessages,
-        records: [record]
+        records: records
       });
+    }
+  }, {
+    key: 'pushMessage',
+    value: function pushMessage(record) {
+      this.pushMessages([record]);
     }
   }, {
     key: 'cache',

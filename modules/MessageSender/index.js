@@ -285,7 +285,7 @@ var MessageSender = function (_RcModule) {
             text = _ref4.text,
             replyOnMessageId = _ref4.replyOnMessageId;
 
-        var validateToNumberResult, recipientNumbers, extensionNumbers, phoneNumbers, pagerResponse, smsResponse, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, phoneNumber;
+        var validateToNumberResult, recipientNumbers, extensionNumbers, phoneNumbers, responses, pagerResponse, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, phoneNumber, smsResponse;
 
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
@@ -322,6 +322,8 @@ var MessageSender = function (_RcModule) {
                   return number.length > 5;
                 });
 
+                // not validate sender number if recipient is only extension number
+
                 if (!(phoneNumbers.length > 0)) {
                   _context2.next = 14;
                   break;
@@ -339,28 +341,28 @@ var MessageSender = function (_RcModule) {
                 this.store.dispatch({
                   type: this.actionTypes.send
                 });
-
-                pagerResponse = null;
-                smsResponse = null;
+                responses = [];
 
                 if (!(extensionNumbers.length > 0)) {
                   _context2.next = 21;
                   break;
                 }
 
-                _context2.next = 20;
+                _context2.next = 19;
                 return this._sendPager({
                   toNumbers: extensionNumbers,
                   text: text,
                   replyOnMessageId: replyOnMessageId
                 });
 
-              case 20:
+              case 19:
                 pagerResponse = _context2.sent;
+
+                responses.push(pagerResponse);
 
               case 21:
                 if (!(phoneNumbers.length > 0)) {
-                  _context2.next = 49;
+                  _context2.next = 50;
                   break;
                 }
 
@@ -372,7 +374,7 @@ var MessageSender = function (_RcModule) {
 
               case 27:
                 if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                  _context2.next = 35;
+                  _context2.next = 36;
                   break;
                 }
 
@@ -383,53 +385,55 @@ var MessageSender = function (_RcModule) {
               case 31:
                 smsResponse = _context2.sent;
 
-              case 32:
+                responses.push(smsResponse);
+
+              case 33:
                 _iteratorNormalCompletion = true;
                 _context2.next = 27;
                 break;
 
-              case 35:
-                _context2.next = 41;
+              case 36:
+                _context2.next = 42;
                 break;
 
-              case 37:
-                _context2.prev = 37;
+              case 38:
+                _context2.prev = 38;
                 _context2.t0 = _context2['catch'](25);
                 _didIteratorError = true;
                 _iteratorError = _context2.t0;
 
-              case 41:
-                _context2.prev = 41;
+              case 42:
                 _context2.prev = 42;
+                _context2.prev = 43;
 
                 if (!_iteratorNormalCompletion && _iterator.return) {
                   _iterator.return();
                 }
 
-              case 44:
-                _context2.prev = 44;
+              case 45:
+                _context2.prev = 45;
 
                 if (!_didIteratorError) {
-                  _context2.next = 47;
+                  _context2.next = 48;
                   break;
                 }
 
                 throw _iteratorError;
 
-              case 47:
-                return _context2.finish(44);
-
               case 48:
-                return _context2.finish(41);
+                return _context2.finish(45);
 
               case 49:
+                return _context2.finish(42);
+
+              case 50:
                 this.store.dispatch({
                   type: this.actionTypes.sendOver
                 });
-                return _context2.abrupt('return', pagerResponse || smsResponse);
+                return _context2.abrupt('return', responses);
 
-              case 53:
-                _context2.prev = 53;
+              case 54:
+                _context2.prev = 54;
                 _context2.t1 = _context2['catch'](2);
 
                 this.store.dispatch({
@@ -440,12 +444,12 @@ var MessageSender = function (_RcModule) {
                 console.debug('sendComposeText e ', _context2.t1);
                 throw _context2.t1;
 
-              case 59:
+              case 60:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[2, 53], [25, 37, 41, 49], [42,, 44, 48]]);
+        }, _callee2, this, [[2, 54], [25, 38, 42, 50], [43,, 45, 49]]);
       }));
 
       function send(_x2) {

@@ -264,7 +264,7 @@ var Conversation = function (_RcModule) {
     key: 'replyToReceivers',
     value: function () {
       var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(text) {
-        var response;
+        var responses;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -282,18 +282,18 @@ var Conversation = function (_RcModule) {
                 });
 
               case 4:
-                response = _context.sent;
+                responses = _context.sent;
 
-                if (!response) {
+                if (!(responses && responses[0])) {
                   _context.next = 9;
                   break;
                 }
 
-                this._messageStore.pushMessage(response);
+                this._messageStore.pushMessage(responses[0]);
                 this.store.dispatch({
                   type: this.actionTypes.replySuccess
                 });
-                return _context.abrupt('return', response);
+                return _context.abrupt('return', responses[0]);
 
               case 9:
                 this._onReplyError();
