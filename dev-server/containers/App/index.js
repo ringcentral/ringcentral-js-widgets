@@ -10,6 +10,7 @@ import RegionSettingsPage from '../../../src/containers/RegionSettingsPage';
 import DialerPage from '../../../src/containers/DialerPage';
 import ComposeTextPage from '../../../src/containers/ComposeTextPage';
 import ConversationPage from '../../../src/containers/ConversationPage';
+import ConferencePage from '../../../src/containers/ConferencePage';
 import MessagesPage from '../../../src/containers/MessagesPage';
 import SettingsPage from '../../../src/containers/SettingsPage';
 
@@ -125,6 +126,18 @@ export default function App({
                   router={phone.router}
                 />
               )} />
+            <Route
+              path="/conference"
+              onEnter={ensureLogin}
+              component={() => (
+                <ConferencePage
+                  conference={phone.conference}
+                  regionSettings={phone.regionSettings}
+                  locale={phone.locale}
+                  composeText={phone.composeText}
+                  router={phone.router}
+                />
+            )} />
             <Route
               path="/composeText"
               onEnter={ensureLogin}

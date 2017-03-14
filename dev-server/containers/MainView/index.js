@@ -24,6 +24,13 @@ const tabs = [
   //   label: 'History',
   //   path: '/history',
   // },
+  // icon_conference
+  {
+    icon: <span className={dynamicsFont.iconConference} />,
+    activityIcon: <span className={dynamicsFont.iconConference} />,
+    label: 'Conference',
+    path: '/conference',
+  },
   {
     icon: <span className={dynamicsFont.iconCallDial} />,
     activityIcon: <span className={dynamicsFont.dialHover} />,
