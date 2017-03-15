@@ -44,12 +44,21 @@ var ComposeTextPage = (0, _reactRedux.connect)(function (state, props) {
 }, function (dispatch, props) {
   return {
     send: function send() {
-      return props.composeText.send().then(function (resp) {
-        if (resp && resp.conversation) {
-          props.messageStore.pushMessage(resp);
-          props.composeText.clean();
-          props.router.history.push('/conversations/' + resp.conversation.id);
+      return props.composeText.send().then(function (responses) {
+        if (!responses || responses.length === 0) {
+          return null;
         }
+        props.messageStore.pushMessages(responses);
+        if (responses.length === 1) {
+          var conversationId = responses[0] && responses[0].conversation && responses[0].conversation.id;
+          if (!conversationId) {
+            return null;
+          }
+          props.router.history.push('/conversations/' + conversationId);
+        } else {
+          props.router.history.push('/messages');
+        }
+        props.composeText.clean();
         return null;
       });
     },

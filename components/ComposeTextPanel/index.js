@@ -40,36 +40,11 @@ var _RecipientsInput = require('../RecipientsInput');
 
 var _RecipientsInput2 = _interopRequireDefault(_RecipientsInput);
 
+var _Select = require('../Select');
+
+var _Select2 = _interopRequireDefault(_Select);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function SenderSelectInput(props) {
-  return _react2.default.createElement(
-    'select',
-    {
-      className: props.className,
-      value: props.value,
-      onChange: props.onChange },
-    props.options.map(function (number) {
-      return _react2.default.createElement(
-        'option',
-        { key: number, value: number },
-        props.formatPhone(number)
-      );
-    })
-  );
-}
-
-SenderSelectInput.propTypes = {
-  value: _react.PropTypes.string.isRequired,
-  className: _react.PropTypes.string,
-  onChange: _react.PropTypes.func.isRequired,
-  formatPhone: _react.PropTypes.func.isRequired,
-  options: _react.PropTypes.arrayOf(_react.PropTypes.string.isRequired).isRequired
-};
-
-SenderSelectInput.defaultProps = {
-  className: null
-};
 
 var ComposeTextPanel = function (_Component) {
   (0, _inherits3.default)(ComposeTextPanel, _Component);
@@ -96,6 +71,9 @@ var ComposeTextPanel = function (_Component) {
     _this.onReceiverInputKeyDown = function (e) {
       if (e.key === ',' || e.key === ';' || e.key === 'Enter') {
         e.preventDefault();
+        if (_this.props.typingToNumber.length === 0) {
+          return;
+        }
         _this.props.addToNumber({
           name: _this.props.formatPhone(_this.props.typingToNumber),
           phoneNumber: _this.props.typingToNumber
@@ -135,33 +113,13 @@ var ComposeTextPanel = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         'div',
-        null,
+        { className: _styles2.default.root },
         _react2.default.createElement(
           'form',
           { onSubmit: this.handleSubmit },
           _react2.default.createElement(
             'div',
-            { className: _styles2.default.messageSenderField },
-            _react2.default.createElement(
-              'label',
-              null,
-              _i18n2.default.getString('sendMessageFrom', this.props.currentLocale)
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: _styles2.default.valueInput },
-              _react2.default.createElement(SenderSelectInput, {
-                className: _styles2.default.select,
-                value: this.props.senderNumber,
-                onChange: this.onSenderChange,
-                options: this.props.senderNumbers,
-                formatPhone: this.props.formatPhone
-              })
-            )
-          ),
-          _react2.default.createElement(
-            'div',
-            { className: _styles2.default.messageReceiverField },
+            { className: _styles2.default.receiverField },
             _react2.default.createElement(
               'label',
               null,
@@ -188,20 +146,53 @@ var ComposeTextPanel = function (_Component) {
           ),
           _react2.default.createElement(
             'div',
-            { className: _styles2.default.messageTextField },
-            _react2.default.createElement('textarea', {
-              placeholder: _i18n2.default.getString('typeAnyToSend', this.props.currentLocale),
-              value: this.props.messageText,
-              maxLength: '1000',
-              onChange: this.onTextChange
-            })
+            { className: _styles2.default.senderField },
+            _react2.default.createElement(
+              'label',
+              null,
+              _i18n2.default.getString('from', this.props.currentLocale),
+              ':'
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: _styles2.default.senderInput },
+              _react2.default.createElement(_Select2.default, {
+                className: _styles2.default.senderSelect,
+                value: this.props.senderNumber,
+                onChange: this.onSenderChange,
+                options: this.props.senderNumbers,
+                paddingLeft: 0,
+                valueFunction: function valueFunction(option) {
+                  return option;
+                },
+                renderFunction: this.props.formatPhone
+              })
+            )
           ),
-          _react2.default.createElement('input', {
-            type: 'submit',
-            value: _i18n2.default.getString('send', this.props.currentLocale),
-            className: _styles2.default.submitButton,
-            disabled: this.props.sendButtonDisabled
-          })
+          _react2.default.createElement(
+            'div',
+            { className: _styles2.default.buttomField },
+            _react2.default.createElement(
+              'div',
+              { className: _styles2.default.textField },
+              _react2.default.createElement('textarea', {
+                placeholder: _i18n2.default.getString('typeMessage', this.props.currentLocale),
+                value: this.props.messageText,
+                maxLength: '1000',
+                onChange: this.onTextChange
+              })
+            ),
+            _react2.default.createElement(
+              'div',
+              { className: _styles2.default.submitField },
+              _react2.default.createElement('input', {
+                type: 'submit',
+                value: _i18n2.default.getString('send', this.props.currentLocale),
+                className: _styles2.default.submitButton,
+                disabled: this.props.sendButtonDisabled
+              })
+            )
+          )
         )
       );
     }
