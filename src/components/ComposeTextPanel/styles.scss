@@ -4,6 +4,15 @@
 .root {
   @include full-size;
   font-family: Helvetica;
+  box-sizing: content-box;
+  * {
+    box-sizing: content-box;
+  }
+
+  label {
+    font-weight: normal;
+    margin-bottom: 0;
+  }
 }
 
 .senderField {
