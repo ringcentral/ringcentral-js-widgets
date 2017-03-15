@@ -12,7 +12,12 @@ import ComposeTextPanel from '../../components/ComposeTextPanel';
 const ComposeTextPage = connect((state, props) => ({
   currentLocale: props.locale.currentLocale,
   sendButtonDisabled: (
-    !(props.composeText.ready && props.messageSender.idle)
+    !(props.composeText.ready && props.messageSender.idle) ||
+    (props.composeText.messageText.length === 0) ||
+    (
+      props.composeText.toNumbers.length === 0 &&
+      props.composeText.typingToNumber.length === 0
+    )
   ),
   senderNumbers: props.messageSender.senderNumbersList,
   senderNumber: props.composeText.senderNumber,
