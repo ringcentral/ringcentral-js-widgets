@@ -1,7 +1,7 @@
 export default {
-  sendMessageFrom: 'Send Message From',
+  from: 'From',
   to: 'To',
-  enterNameOrNumber: 'Enter Number Or Name',
-  typeAnyToSend: 'Type any text to send',
+  enterNameOrNumber: 'Enter Number or Name...',
+  typeMessage: 'Type message...',
   send: 'Send',
 };
