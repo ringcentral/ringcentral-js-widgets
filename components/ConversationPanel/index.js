@@ -147,7 +147,7 @@ var ConversationPanel = function (_Component) {
                 type: 'submit',
                 value: _i18n2.default.getString('send', this.props.currentLocale),
                 className: _styles2.default.submitButton,
-                disabled: this.props.sendButtonDisabled || loading
+                disabled: this.props.sendButtonDisabled || loading || this.state.textValue.length === 0
               })
             )
           )

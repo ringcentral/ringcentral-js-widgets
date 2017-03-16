@@ -33,7 +33,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var ComposeTextPage = (0, _reactRedux.connect)(function (state, props) {
   return {
     currentLocale: props.locale.currentLocale,
-    sendButtonDisabled: !(props.composeText.ready && props.messageSender.idle),
+    sendButtonDisabled: !(props.composeText.ready && props.messageSender.idle) || props.composeText.messageText.length === 0 || props.composeText.toNumbers.length === 0 && props.composeText.typingToNumber.length === 0,
     senderNumbers: props.messageSender.senderNumbersList,
     senderNumber: props.composeText.senderNumber,
     typingToNumber: props.composeText.typingToNumber,

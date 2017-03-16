@@ -4,6 +4,15 @@
 .root {
   @include full-size;
   font-family: Helvetica;
+  box-sizing: content-box;
+  * {
+    box-sizing: content-box;
+  }
+
+  label {
+    font-weight: normal;
+    margin-bottom: 0;
+  }
 }
 
 .senderField {
@@ -32,6 +41,10 @@
   font-size: 12px;
   width: 100%;
   height: 100%;
+
+  select {
+    box-sizing: border-box;
+  }
 
   select:focus {
     outline: none;

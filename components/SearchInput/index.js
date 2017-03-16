@@ -12,10 +12,6 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _RcFont = require('../../assets/RcFont/RcFont.scss');
-
-var _RcFont2 = _interopRequireDefault(_RcFont);
-
 var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
 var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
