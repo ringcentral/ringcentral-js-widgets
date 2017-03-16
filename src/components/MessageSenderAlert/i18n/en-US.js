@@ -20,5 +20,6 @@ export default {
   [messageSenderMessages.notSmsToExtension]: `Cannot send To a extension number with main phone number.
     If you want to sent to a extension Number,
     please just enter extension Number.`,
-  [messageSenderMessages.internationalSMSNotSupported]: 'Sending SMS to international phone number is not supported.',
+  [messageSenderMessages.internationalSMSNotSupported]: `Sending SMS to international phone number 
+  is not supported.`,
 };
