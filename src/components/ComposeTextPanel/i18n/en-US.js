@@ -5,5 +5,5 @@ export default {
   typeMessage: 'Type message...',
   send: 'Send',
   noSMSSenderNumber: `You don\'t have valid phone number to send SMS from. 
-  Please contact your account administrator.`,
+    Please contact your account administrator.`,
 };
