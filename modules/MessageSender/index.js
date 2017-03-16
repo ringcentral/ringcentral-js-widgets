@@ -544,7 +544,7 @@ var MessageSender = function (_RcModule) {
       var _this4 = this;
 
       var errResp = error.apiResponse;
-      if (errResp && errResp.response && !errResp.response.ok && errResp._json.errorCode === 'InvalidParameter') {
+      if (errResp && errResp.response && !errResp.response.ok && (errResp._json.errorCode === 'InvalidParameter' || errResp._json.errorCode === 'InternationalProhibited')) {
         errResp._json.errors.map(function (err) {
           if ((err.errorCode === 'CMN-101' || err.errorCode === 'CMN-102') && err.parameterName.startsWith('to')) {
             // 101 : "Parameter [to.extensionNumber] value is invalid"
@@ -556,6 +556,10 @@ var MessageSender = function (_RcModule) {
           if (err.errorCode === 'MSG-246') {
             // MSG-246 : "Sending SMS from/to extension numbers is not available"
             _this4._alertWarning(_messageSenderMessages2.default.notSmsToExtension);
+          }
+          if (err.errorCode === 'MSG-240') {
+            // MSG-240 : "International SMS is not supported"
+            _this4._alertWarning(_messageSenderMessages2.default.internationalSMSNotSupported);
           }
           return null;
         });
