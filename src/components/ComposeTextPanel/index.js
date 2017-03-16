@@ -72,17 +72,15 @@ class ComposeTextPanel extends Component {
   }
   render() {
     const AlertDiv = this.state.showAlert ? (
-      <div className={styles.root}>
-        <div className={styles.alertHolder}>
-          <div className={styles.alert}>
-            <span>{i18n.getString('noSMSSenderNumber', this.props.currentLocale)}</span>
-            <a
-              href="#close-message"
-              onClick={this.onDismissAlert}
-              className={styles.dismiss} >
-              <i className={dynamicsFont.close} />
-            </a>
-          </div>
+      <div className={styles.alertHolder}>
+        <div className={styles.alert}>
+          <span>{i18n.getString('noSMSSenderNumber', this.props.currentLocale)}</span>
+          <a
+            href="#close-message"
+            onClick={this.onDismissAlert}
+            className={styles.dismiss} >
+            <i className={dynamicsFont.close} />
+          </a>
         </div>
       </div>
     ) : '';

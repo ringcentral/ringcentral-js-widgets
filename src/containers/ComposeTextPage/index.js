@@ -20,7 +20,6 @@ const ComposeTextPage = connect((state, props) => ({
     )
   ),
   senderNumbers: props.messageSender.senderNumbersList,
-  // senderNumbers: [],
   senderNumber: props.composeText.senderNumber,
   typingToNumber: props.composeText.typingToNumber,
   toNumbers: props.composeText.toNumbers,
