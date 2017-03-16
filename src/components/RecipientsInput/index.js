@@ -83,19 +83,21 @@ class RecipientsInput extends Component {
           items={this.props.recipients}
           removeFromRecipients={this.props.removeFromRecipients}
         />
-        <input
-          name="receiver"
-          value={this.props.value}
-          onChange={this.props.onChange}
-          onKeyUp={this.props.onKeyUp}
-          onKeyDown={this.props.onKeyDown}
-          className={styles.numberInput}
-          maxLength={30}
-          onFocus={this.onReceiversInputFocus}
-          onBlur={this.onReceiversInputBlur}
-          placeholder={this.props.placeholder}
-          autoComplete="off"
-        />
+        <div className={styles.inputField}>
+          <input
+            name="receiver"
+            value={this.props.value}
+            onChange={this.props.onChange}
+            onKeyUp={this.props.onKeyUp}
+            onKeyDown={this.props.onKeyDown}
+            className={styles.numberInput}
+            maxLength={30}
+            onFocus={this.onReceiversInputFocus}
+            onBlur={this.onReceiversInputBlur}
+            placeholder={this.props.placeholder}
+            autoComplete="off"
+          />
+        </div>
         <RemoveButton
           className={styles.removeButton}
           onClick={this.props.onClean}
