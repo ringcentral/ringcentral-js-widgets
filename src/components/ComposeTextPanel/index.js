@@ -1,4 +1,5 @@
 import React, { PropTypes, Component } from 'react';
+import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import i18n from './i18n';
 import styles from './styles.scss';
 import RecipientsInput from '../RecipientsInput';
@@ -35,6 +36,10 @@ SenderSelectInput.defaultProps = {
 class ComposeTextPanel extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      showAlert: this.props.senderNumbers.length === 0
+    };
 
     this.onSenderChange = (e) => {
       const value = e.currentTarget.value;
@@ -84,11 +89,31 @@ class ComposeTextPanel extends Component {
       this.props.send();
       console.debug('send message ...');
     };
+    this.onDismissAlert = () => {
+      this.setState({
+        showAlert: false
+      });
+    };
   }
-
   render() {
+    const AlertDiv = this.state.showAlert ? (
+      <div className={styles.root}>
+        <div className={styles.alertHolder}>
+          <div className={styles.alert}>
+            <span>{i18n.getString('noSMSSenderNumber', this.props.currentLocale)}</span>
+            <a
+              href="#close-message"
+              onClick={this.onDismissAlert}
+              className={styles.dismiss} >
+              <i className={dynamicsFont.close} />
+            </a>
+          </div>
+        </div>
+      </div>
+    ) : '';
     return (
       <div>
+        {AlertDiv}
         <form onSubmit={this.handleSubmit}>
           <div className={styles.messageSenderField}>
             <label>{i18n.getString('sendMessageFrom', this.props.currentLocale)}</label>

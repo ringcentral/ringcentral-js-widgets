@@ -15,6 +15,7 @@ const ComposeTextPage = connect((state, props) => ({
     !(props.composeText.ready && props.messageSender.idle)
   ),
   senderNumbers: props.messageSender.senderNumbersList,
+  // senderNumbers: [],
   senderNumber: props.composeText.senderNumber,
   typingToNumber: props.composeText.typingToNumber,
   toNumbers: props.composeText.toNumbers,
