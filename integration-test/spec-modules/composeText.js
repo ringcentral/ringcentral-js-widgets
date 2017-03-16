@@ -572,7 +572,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                   });
 
                   it('Should Not Alert Anything - To Number in (xxx)xxx-xxxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee16() {
-                    var response;
+                    var responses;
                     return _regenerator2.default.wrap(function _callee16$(_context16) {
                       while (1) {
                         switch (_context16.prev = _context16.next) {
@@ -583,9 +583,9 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                             return composeText.send();
 
                           case 4:
-                            response = _context16.sent;
+                            responses = _context16.sent;
 
-                            expect(response).to.include.keys('id', 'conversation');
+                            expect(responses[0]).to.include.keys('id', 'conversation');
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noAreaCode)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.equal(undefined);
@@ -601,7 +601,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                   })));
 
                   it('Should Not Alert Anything - to Number in (xxx) xxx-xxxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee17() {
-                    var response;
+                    var responses;
                     return _regenerator2.default.wrap(function _callee17$(_context17) {
                       while (1) {
                         switch (_context17.prev = _context17.next) {
@@ -612,9 +612,9 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                             return composeText.send();
 
                           case 4:
-                            response = _context17.sent;
+                            responses = _context17.sent;
 
-                            expect(response).to.include.keys('id', 'conversation');
+                            expect(responses[0]).to.include.keys('id', 'conversation');
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noAreaCode)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.equal(undefined);
@@ -630,7 +630,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                   })));
 
                   it('Should Not Alert Anything - to Number in (xxx)xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee18() {
-                    var response;
+                    var responses;
                     return _regenerator2.default.wrap(function _callee18$(_context18) {
                       while (1) {
                         switch (_context18.prev = _context18.next) {
@@ -641,9 +641,9 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                             return composeText.send();
 
                           case 4:
-                            response = _context18.sent;
+                            responses = _context18.sent;
 
-                            expect(response).to.include.keys('id', 'conversation');
+                            expect(responses[0]).to.include.keys('id', 'conversation');
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noAreaCode)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.equal(undefined);
@@ -659,7 +659,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                   })));
 
                   it('Should Not Alert Anything - to Number in (xxx) xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee19() {
-                    var response;
+                    var responses;
                     return _regenerator2.default.wrap(function _callee19$(_context19) {
                       while (1) {
                         switch (_context19.prev = _context19.next) {
@@ -670,9 +670,9 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                             return composeText.send();
 
                           case 4:
-                            response = _context19.sent;
+                            responses = _context19.sent;
 
-                            expect(response).to.include.keys('id', 'conversation');
+                            expect(responses[0]).to.include.keys('id', 'conversation');
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noAreaCode)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.equal(undefined);
@@ -688,7 +688,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                   })));
 
                   it('Should Not Alert Anything - to Number in xxx-xxx-xxxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee20() {
-                    var response;
+                    var responses;
                     return _regenerator2.default.wrap(function _callee20$(_context20) {
                       while (1) {
                         switch (_context20.prev = _context20.next) {
@@ -699,9 +699,9 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                             return composeText.send();
 
                           case 4:
-                            response = _context20.sent;
+                            responses = _context20.sent;
 
-                            expect(response).to.include.keys('id', 'conversation');
+                            expect(responses[0]).to.include.keys('id', 'conversation');
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noAreaCode)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.equal(undefined);
@@ -717,7 +717,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                   })));
 
                   it('Should Not Alert Anything - to Number in xxx-xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee21() {
-                    var response;
+                    var responses;
                     return _regenerator2.default.wrap(function _callee21$(_context21) {
                       while (1) {
                         switch (_context21.prev = _context21.next) {
@@ -728,9 +728,9 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                             return composeText.send();
 
                           case 4:
-                            response = _context21.sent;
+                            responses = _context21.sent;
 
-                            expect(response).to.include.keys('id', 'conversation');
+                            expect(responses[0]).to.include.keys('id', 'conversation');
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noAreaCode)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.equal(undefined);
                             expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.equal(undefined);
