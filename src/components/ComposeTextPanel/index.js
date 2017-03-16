@@ -3,35 +3,7 @@ import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import i18n from './i18n';
 import styles from './styles.scss';
 import RecipientsInput from '../RecipientsInput';
-
-function SenderSelectInput(props) {
-  return (
-    <select
-      className={props.className}
-      value={props.value}
-      onChange={props.onChange}>
-      {
-        props.options.map(number => (
-          <option key={number} value={number}>
-            {props.formatPhone(number)}
-          </option>
-        ))
-      }
-    </select>
-  );
-}
-
-SenderSelectInput.propTypes = {
-  value: PropTypes.string.isRequired,
-  className: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
-  formatPhone: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-};
-
-SenderSelectInput.defaultProps = {
-  className: null,
-};
+import Select from '../Select';
 
 class ComposeTextPanel extends Component {
   constructor(props) {
@@ -58,6 +30,9 @@ class ComposeTextPanel extends Component {
     this.onReceiverInputKeyDown = (e) => {
       if (e.key === ',' || e.key === ';' || e.key === 'Enter') {
         e.preventDefault();
+        if (this.props.typingToNumber.length === 0) {
+          return;
+        }
         this.props.addToNumber({
           name: this.props.formatPhone(this.props.typingToNumber),
           phoneNumber: this.props.typingToNumber,
@@ -112,22 +87,10 @@ class ComposeTextPanel extends Component {
       </div>
     ) : '';
     return (
-      <div>
+      <div className={styles.root}>
         {AlertDiv}
         <form onSubmit={this.handleSubmit}>
-          <div className={styles.messageSenderField}>
-            <label>{i18n.getString('sendMessageFrom', this.props.currentLocale)}</label>
-            <div className={styles.valueInput}>
-              <SenderSelectInput
-                className={styles.select}
-                value={this.props.senderNumber}
-                onChange={this.onSenderChange}
-                options={this.props.senderNumbers}
-                formatPhone={this.props.formatPhone}
-              />
-            </div>
-          </div>
-          <div className={styles.messageReceiverField}>
+          <div className={styles.receiverField}>
             <label>{i18n.getString('to', this.props.currentLocale)}:</label>
             <div className={styles.rightPanel}>
               <RecipientsInput
@@ -145,20 +108,38 @@ class ComposeTextPanel extends Component {
               />
             </div>
           </div>
-          <div className={styles.messageTextField}>
-            <textarea
-              placeholder={i18n.getString('typeAnyToSend', this.props.currentLocale)}
-              value={this.props.messageText}
-              maxLength="1000"
-              onChange={this.onTextChange}
-            />
+          <div className={styles.senderField}>
+            <label>{i18n.getString('from', this.props.currentLocale)}:</label>
+            <div className={styles.senderInput}>
+              <Select
+                className={styles.senderSelect}
+                value={this.props.senderNumber}
+                onChange={this.onSenderChange}
+                options={this.props.senderNumbers}
+                paddingLeft={0}
+                valueFunction={option => option}
+                renderFunction={this.props.formatPhone}
+              />
+            </div>
           </div>
-          <input
-            type="submit"
-            value={i18n.getString('send', this.props.currentLocale)}
-            className={styles.submitButton}
-            disabled={this.props.sendButtonDisabled}
-          />
+          <div className={styles.buttomField}>
+            <div className={styles.textField}>
+              <textarea
+                placeholder={i18n.getString('typeMessage', this.props.currentLocale)}
+                value={this.props.messageText}
+                maxLength="1000"
+                onChange={this.onTextChange}
+              />
+            </div>
+            <div className={styles.submitField}>
+              <input
+                type="submit"
+                value={i18n.getString('send', this.props.currentLocale)}
+                className={styles.submitButton}
+                disabled={this.props.sendButtonDisabled}
+              />
+            </div>
+          </div>
         </form>
       </div>
     );
