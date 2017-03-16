@@ -79,7 +79,11 @@ class ConversationPanel extends Component {
                 type="submit"
                 value={i18n.getString('send', this.props.currentLocale)}
                 className={styles.submitButton}
-                disabled={this.props.sendButtonDisabled || loading}
+                disabled={
+                  this.props.sendButtonDisabled ||
+                  loading ||
+                  this.state.textValue.length === 0
+                }
               />
             </div>
           </form>

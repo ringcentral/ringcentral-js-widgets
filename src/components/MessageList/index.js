@@ -3,7 +3,6 @@ import React, { Component, PropTypes } from 'react';
 import MessageItem from '../MessageItem';
 
 import styles from './styles.scss';
-import i18n from './i18n';
 
 function NoMessages(props) {
   return (
