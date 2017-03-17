@@ -160,7 +160,7 @@ var RecipientsInput = function (_Component) {
         _react2.default.createElement(_ContactDropdownList2.default, {
           addToRecipients: this.props.addToRecipients,
           items: relatedContactList,
-          formatPhone: this.props.formatPhone,
+          formatContactPhone: this.props.formatContactPhone,
           className: _styles2.default.contactsDropdown,
           visibility: this.state.isFocusOnInput
         })
@@ -189,7 +189,7 @@ RecipientsInput.propTypes = {
   onKeyDown: _react.PropTypes.func,
   addToRecipients: _react.PropTypes.func.isRequired,
   removeFromRecipients: _react.PropTypes.func.isRequired,
-  formatPhone: _react.PropTypes.func.isRequired
+  formatContactPhone: _react.PropTypes.func.isRequired
 };
 
 RecipientsInput.defaultProps = {

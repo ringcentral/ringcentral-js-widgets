@@ -30,10 +30,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouter = require('react-router');
 
-var _RcFont = require('../../assets/RcFont/RcFont.scss');
-
-var _RcFont2 = _interopRequireDefault(_RcFont);
-
 var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
 var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);

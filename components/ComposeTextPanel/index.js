@@ -75,7 +75,7 @@ var ComposeTextPanel = function (_Component) {
           return;
         }
         _this.props.addToNumber({
-          name: _this.props.formatPhone(_this.props.typingToNumber),
+          name: _this.props.typingToNumber,
           phoneNumber: _this.props.typingToNumber
         });
         _this.props.cleanTypingToNumber();
@@ -147,7 +147,7 @@ var ComposeTextPanel = function (_Component) {
                 searchContactList: this.props.searchContactList,
                 onKeyUp: this.onReceiverInputKeyUp,
                 onKeyDown: this.onReceiverInputKeyDown,
-                formatPhone: this.props.formatPhone
+                formatContactPhone: this.props.formatContactPhone
               })
             )
           ),
@@ -213,6 +213,7 @@ ComposeTextPanel.propTypes = {
   senderNumbers: _react.PropTypes.arrayOf(_react.PropTypes.string.isRequired).isRequired,
   sendButtonDisabled: _react.PropTypes.bool.isRequired,
   formatPhone: _react.PropTypes.func.isRequired,
+  formatContactPhone: _react.PropTypes.func.isRequired,
   searchContact: _react.PropTypes.func.isRequired,
   searchContactList: _react.PropTypes.arrayOf(_react.PropTypes.shape({
     name: _react.PropTypes.string.isRequired,

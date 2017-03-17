@@ -42,6 +42,14 @@ var ComposeTextPage = (0, _reactRedux.connect)(function (state, props) {
     searchContactList: props.contactSearch.searching.result
   };
 }, function (dispatch, props) {
+  var formatPhone = function formatPhone(phoneNumber) {
+    return (0, _formatNumber2.default)({
+      phoneNumber: phoneNumber,
+      areaCode: props.regionSettings.areaCode,
+      countryCode: props.regionSettings.countryCode
+    });
+  };
+  var formatContactPhone = props.formatContactPhone ? props.formatContactPhone : formatPhone;
   return {
     send: function send() {
       return props.composeText.send().then(function (responses) {
@@ -62,13 +70,8 @@ var ComposeTextPage = (0, _reactRedux.connect)(function (state, props) {
         return null;
       });
     },
-    formatPhone: function formatPhone(phoneNumber) {
-      return (0, _formatNumber2.default)({
-        phoneNumber: phoneNumber,
-        areaCode: props.regionSettings.areaCode,
-        countryCode: props.regionSettings.countryCode
-      });
-    },
+    formatPhone: formatPhone,
+    formatContactPhone: formatContactPhone,
     searchContact: function searchContact(searchString) {
       return props.contactSearch.search({ searchString: searchString });
     },
