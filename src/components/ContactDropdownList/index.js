@@ -1,4 +1,4 @@
-import React, { PropTypes, Component } from 'react';
+import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
@@ -19,7 +19,7 @@ function ContactItem(props) {
         </div>
         <div className={styles.phoneNumberSection}>
           <span>
-            {props.formatPhone(props.phoneNumber)}
+            {props.formatContactPhone(props.phoneNumber)}
           </span>
           <span className={styles.label}>
             {phoneTypes.getString(`phoneType.${props.phoneType}`)}
@@ -32,7 +32,7 @@ function ContactItem(props) {
 
 ContactItem.propTypes = {
   onClick: PropTypes.func.isRequired,
-  formatPhone: PropTypes.func.isRequired,
+  formatContactPhone: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
   entityType: PropTypes.string.isRequired,
   phoneType: PropTypes.string.isRequired,
@@ -56,7 +56,7 @@ function ContactDropdownList(props) {
             entityType={item.entityType}
             phoneType={item.phoneType}
             phoneNumber={item.phoneNumber}
-            formatPhone={props.formatPhone}
+            formatContactPhone={props.formatContactPhone}
             onClick={() => props.addToRecipients({
               name: item.name,
               phoneNumber: item.phoneNumber,
@@ -78,7 +78,7 @@ ContactDropdownList.propTypes = {
     phoneType: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
   })).isRequired,
-  formatPhone: PropTypes.func.isRequired,
+  formatContactPhone: PropTypes.func.isRequired,
   addToRecipients: PropTypes.func.isRequired,
 };
 
