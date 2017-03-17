@@ -1,8 +1,10 @@
 import React, { PropTypes, Component } from 'react';
-import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
+import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
 import i18n from './i18n';
 import styles from './styles.scss';
 import RecipientsInput from '../RecipientsInput';
+import AlertDisplay from '../AlertDisplay';
+import MessageSenderAlert from '../MessageSenderAlert';
 import Select from '../Select';
 
 class ComposeTextPanel extends Component {
@@ -69,20 +71,25 @@ class ComposeTextPanel extends Component {
         showAlert: false
       });
     };
+    this.messages = [
+      {
+        id: '1',
+        level: 'warning',
+        message: messageSenderMessages.senderNumberInvalids,       
+      }
+    ];
+    this.getRenderer = (message) => {
+      return MessageSenderAlert;
+    }
   }
   render() {
     const AlertDiv = this.state.showAlert ? (
-      <div className={styles.alertHolder}>
-        <div className={styles.alert}>
-          <span>{i18n.getString('noSMSSenderNumber', this.props.currentLocale)}</span>
-          <a
-            href="#close-message"
-            onClick={this.onDismissAlert}
-            className={styles.dismiss} >
-            <i className={dynamicsFont.close} />
-          </a>
-        </div>
-      </div>
+      <AlertDisplay
+        currentLocale = {this.props.currentLocale}
+        messages = {this.messages}
+        dismiss = {this.onDismissAlert}
+        getRenderer = {this.getRenderer}
+      />
     ) : '';
     return (
       <div className={styles.root}>
