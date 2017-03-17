@@ -25,43 +25,50 @@ const ComposeTextPage = connect((state, props) => ({
   toNumbers: props.composeText.toNumbers,
   messageText: props.composeText.messageText,
   searchContactList: props.contactSearch.searching.result,
-}), (dispatch, props) => ({
-  send: () =>
-    props.composeText.send().then((responses) => {
-      if (!responses || responses.length === 0) {
-        return null;
-      }
-      props.messageStore.pushMessages(responses);
-      if (responses.length === 1) {
-        const conversationId =
-          responses[0] && responses[0].conversation && responses[0].conversation.id;
-        if (!conversationId) {
-          return null;
-        }
-        props.router.history.push(`/conversations/${conversationId}`);
-      } else {
-        props.router.history.push('/messages');
-      }
-      props.composeText.clean();
-      return null;
-    }),
-  formatPhone: phoneNumber => (
+}), (dispatch, props) => {
+  const formatPhone = phoneNumber => (
     formatNumber({
       phoneNumber,
       areaCode: props.regionSettings.areaCode,
       countryCode: props.regionSettings.countryCode
     })
-  ),
-  searchContact: searchString => (
-    props.contactSearch.search({ searchString })
-  ),
-  updateSenderNumber: props.composeText.updateSenderNumber,
-  updateTypingToNumber: props.composeText.updateTypingToNumber,
-  cleanTypingToNumber: props.composeText.cleanTypingToNumber,
-  addToNumber: props.composeText.addToNumber,
-  removeToNumber: props.composeText.removeToNumber,
-  updateMessageText: props.composeText.updateMessageText,
-}))(ComposeTextPanel);
+  );
+  const formatContactPhone = props.formatContactPhone ?
+    props.formatContactPhone :
+    formatPhone;
+  return {
+    send: () =>
+      props.composeText.send().then((responses) => {
+        if (!responses || responses.length === 0) {
+          return null;
+        }
+        props.messageStore.pushMessages(responses);
+        if (responses.length === 1) {
+          const conversationId =
+            responses[0] && responses[0].conversation && responses[0].conversation.id;
+          if (!conversationId) {
+            return null;
+          }
+          props.router.history.push(`/conversations/${conversationId}`);
+        } else {
+          props.router.history.push('/messages');
+        }
+        props.composeText.clean();
+        return null;
+      }),
+    formatPhone,
+    formatContactPhone,
+    searchContact: searchString => (
+      props.contactSearch.search({ searchString })
+    ),
+    updateSenderNumber: props.composeText.updateSenderNumber,
+    updateTypingToNumber: props.composeText.updateTypingToNumber,
+    cleanTypingToNumber: props.composeText.cleanTypingToNumber,
+    addToNumber: props.composeText.addToNumber,
+    removeToNumber: props.composeText.removeToNumber,
+    updateMessageText: props.composeText.updateMessageText,
+  };
+})(ComposeTextPanel);
 
 ComposeTextPage.propTypes = {
   router: PropTypes.instanceOf(RouterInteraction).isRequired,

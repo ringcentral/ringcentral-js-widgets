@@ -29,7 +29,7 @@ class ComposeTextPanel extends Component {
           return;
         }
         this.props.addToNumber({
-          name: this.props.formatPhone(this.props.typingToNumber),
+          name: this.props.typingToNumber,
           phoneNumber: this.props.typingToNumber,
         });
         this.props.cleanTypingToNumber();
@@ -86,7 +86,7 @@ class ComposeTextPanel extends Component {
                 searchContactList={this.props.searchContactList}
                 onKeyUp={this.onReceiverInputKeyUp}
                 onKeyDown={this.onReceiverInputKeyDown}
-                formatPhone={this.props.formatPhone}
+                formatContactPhone={this.props.formatContactPhone}
               />
             </div>
           </div>
@@ -134,6 +134,7 @@ ComposeTextPanel.propTypes = {
   senderNumbers: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   sendButtonDisabled: PropTypes.bool.isRequired,
   formatPhone: PropTypes.func.isRequired,
+  formatContactPhone: PropTypes.func.isRequired,
   searchContact: PropTypes.func.isRequired,
   searchContactList: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,

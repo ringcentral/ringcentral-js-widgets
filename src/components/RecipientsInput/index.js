@@ -109,7 +109,7 @@ class RecipientsInput extends Component {
         <ContactDropdownList
           addToRecipients={this.props.addToRecipients}
           items={relatedContactList}
-          formatPhone={this.props.formatPhone}
+          formatContactPhone={this.props.formatContactPhone}
           className={styles.contactsDropdown}
           visibility={this.state.isFocusOnInput}
         />
@@ -137,7 +137,7 @@ RecipientsInput.propTypes = {
   onKeyDown: PropTypes.func,
   addToRecipients: PropTypes.func.isRequired,
   removeFromRecipients: PropTypes.func.isRequired,
-  formatPhone: PropTypes.func.isRequired,
+  formatContactPhone: PropTypes.func.isRequired,
 };
 
 RecipientsInput.defaultProps = {

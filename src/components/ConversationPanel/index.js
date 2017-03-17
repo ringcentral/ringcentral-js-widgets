@@ -1,7 +1,6 @@
 import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 
-import rcFont from '../../assets/RcFont/RcFont.scss';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 import Spinner from '../Spinner';

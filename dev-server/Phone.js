@@ -200,6 +200,14 @@ export default class Phone extends RcModule {
       tabManager: this.tabManager,
       getState: () => this.state.callingSettings,
     }));
+    this.addModule('numberValidate', new NumberValidate({
+      ...options,
+      client: this.client,
+      accountExtension: this.accountExtension,
+      regionSettings: this.regionSettings,
+      accountInfo: this.accountInfo,
+      getState: () => this.state.numberValidate,
+    }));
     this.addModule('call', new Call({
       ...options,
       alert: this.alert,
@@ -210,6 +218,7 @@ export default class Phone extends RcModule {
       softphone: this.softphone,
       ringout: this.ringout,
       accountExtension: this.accountExtension,
+      numberValidate: this.numberValidate,
       getState: () => this.state.call,
     }));
     this.addModule('subscription', new Subscription({
@@ -261,13 +270,6 @@ export default class Phone extends RcModule {
       })),
       readyCheckFn: () => this.accountExtension.ready,
     });
-    this.addModule('numberValidate', new NumberValidate({
-      ...options,
-      client: this.client,
-      accountExtension: this.accountExtension,
-      regionSettings: this.regionSettings,
-      getState: () => this.state.numberValidate,
-    }));
     this.addModule('messageSender', new MessageSender({
       ...options,
       alert: this.alert,
