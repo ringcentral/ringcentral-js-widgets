@@ -5,17 +5,18 @@
   min-width: 100px;
   position: relative;
   margin: 0 auto;
-  font-size: 13px;
-  font-weight: 700;
+  font-family: Helvetica;
+  font-size: 14px;
   line-height: 36px;
   vertical-align: baseline;
-  color: #666;
+  color: #797979;
+  font-weight: 500;
 
   a {
     color: inherit;
     text-decoration: none;
     display: block;
-    padding: 0 12px;
+    padding: 0 16px 0 12px;
 
     &:focus {
       outline: none;
@@ -31,20 +32,22 @@
   display: none;
   background: #ffffff;
   border: solid 1px #f3f3f3;
+  border-radius: 1px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
   z-index: 2;
   overflow: hidden;
+  font-size: 13px;
   .recipient {
     display: block;
     width: 100%;
     padding: 0 2px;
-    line-height: 28px;
-    height: 28px;
+    line-height: 25px;
+    height: 25px;
     overflow-y: hidden;
     display: block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    border-bottom: solid 1px #f3f3f3;
     &:hover {
       background: #f3f3f3;
     }
@@ -52,8 +55,9 @@
 }
 
 .dropdownIcon {
+  font-size: 12px;
   position: absolute;
-  top: 10px;
+  top: 12px;
   right: 0;
 }
 

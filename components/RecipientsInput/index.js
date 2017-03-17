@@ -135,19 +135,23 @@ var RecipientsInput = function (_Component) {
           items: this.props.recipients,
           removeFromRecipients: this.props.removeFromRecipients
         }),
-        _react2.default.createElement('input', {
-          name: 'receiver',
-          value: this.props.value,
-          onChange: this.props.onChange,
-          onKeyUp: this.props.onKeyUp,
-          onKeyDown: this.props.onKeyDown,
-          className: _styles2.default.numberInput,
-          maxLength: 30,
-          onFocus: this.onReceiversInputFocus,
-          onBlur: this.onReceiversInputBlur,
-          placeholder: this.props.placeholder,
-          autoComplete: 'off'
-        }),
+        _react2.default.createElement(
+          'div',
+          { className: _styles2.default.inputField },
+          _react2.default.createElement('input', {
+            name: 'receiver',
+            value: this.props.value,
+            onChange: this.props.onChange,
+            onKeyUp: this.props.onKeyUp,
+            onKeyDown: this.props.onKeyDown,
+            className: _styles2.default.numberInput,
+            maxLength: 30,
+            onFocus: this.onReceiversInputFocus,
+            onBlur: this.onReceiversInputBlur,
+            placeholder: this.props.placeholder,
+            autoComplete: 'off'
+          })
+        ),
         _react2.default.createElement(_RemoveButton2.default, {
           className: _styles2.default.removeButton,
           onClick: this.props.onClean,

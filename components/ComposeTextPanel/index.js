@@ -100,6 +100,13 @@ var ComposeTextPanel = function (_Component) {
       _this.props.updateMessageText(value);
     };
 
+    _this.onTextAreaKeyDown = function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        _this.props.send();
+      }
+    };
+
     _this.handleSubmit = function (e) {
       e.preventDefault();
       _this.props.send();
@@ -179,7 +186,8 @@ var ComposeTextPanel = function (_Component) {
                 placeholder: _i18n2.default.getString('typeMessage', this.props.currentLocale),
                 value: this.props.messageText,
                 maxLength: '1000',
-                onChange: this.onTextChange
+                onChange: this.onTextChange,
+                onKeyDown: this.onTextAreaKeyDown
               })
             ),
             _react2.default.createElement(
