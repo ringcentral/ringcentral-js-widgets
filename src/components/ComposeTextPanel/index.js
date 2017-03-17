@@ -82,20 +82,20 @@ class ComposeTextPanel extends Component {
       {
         id: '1',
         level: 'warning',
-        message: messageSenderMessages.senderNumberInvalids,       
+        message: messageSenderMessages.senderNumberInvalids,
       }
     ];
     this.getRenderer = (message) => {
       return MessageSenderAlert;
-    }
+    };
   }
   render() {
     const AlertDiv = this.state.showAlert ? (
       <AlertDisplay
-        currentLocale = {this.props.currentLocale}
-        messages = {this.messages}
-        dismiss = {this.onDismissAlert}
-        getRenderer = {this.getRenderer}
+        currentLocale={this.props.currentLocale}
+        messages={this.messages}
+        dismiss={this.onDismissAlert}
+        getRenderer={this.getRenderer}
       />
     ) : '';
     return (
