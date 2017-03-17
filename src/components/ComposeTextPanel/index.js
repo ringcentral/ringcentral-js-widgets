@@ -1,6 +1,6 @@
 import React, { PropTypes, Component } from 'react';
-import messageSenderMessages from 
-  'ringcentral-integration/modules/MessageSender/messageSenderMessages';
+import messageSenderMessages from
+'ringcentral-integration/modules/MessageSender/messageSenderMessages';
 import i18n from './i18n';
 import styles from './styles.scss';
 import RecipientsInput from '../RecipientsInput';
@@ -79,6 +79,9 @@ class ComposeTextPanel extends Component {
         showAlert: false
       });
     };
+    this.getRenderer = () => {
+      return MessageSenderAlert;
+    };
     this.messages = [
       {
         id: '1',
@@ -86,9 +89,6 @@ class ComposeTextPanel extends Component {
         message: messageSenderMessages.senderNumberInvalids,
       }
     ];
-    this.getRenderer = () => {
-      return MessageSenderAlert;
-    };
   }
   render() {
     const AlertDiv = this.state.showAlert ? (
