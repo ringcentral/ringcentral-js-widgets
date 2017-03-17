@@ -4,6 +4,10 @@
   position: relative;
   display: block;
   padding-right: 10px;
+
+  a {
+    text-decoration: none;
+  }
 }
 
 .removeButton {
