@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 
-import rcFont from '../../assets/RcFont/RcFont.scss';
+import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 import styles from './styles.scss';
 
@@ -106,7 +106,7 @@ class RecipientsHeader extends Component {
         }
         {
           hasDropdown &&
-          <i className={classnames(rcFont.icon_dropdown_arrow, styles.dropdownIcon)} />
+          <i className={classnames(dynamicsFont.arrow, styles.dropdownIcon)} />
         }
         {dropdownList}
       </h1>
