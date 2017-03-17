@@ -36,7 +36,7 @@ class ComposeTextPanel extends Component {
           return;
         }
         this.props.addToNumber({
-          name: this.props.formatPhone(this.props.typingToNumber),
+          name: this.props.typingToNumber,
           phoneNumber: this.props.typingToNumber,
         });
         this.props.cleanTypingToNumber();
@@ -59,6 +59,13 @@ class ComposeTextPanel extends Component {
     this.onTextChange = (e) => {
       const value = e.currentTarget.value;
       this.props.updateMessageText(value);
+    };
+
+    this.onTextAreaKeyDown = (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        this.props.send();
+      }
     };
 
     this.handleSubmit = (e) => {
@@ -109,7 +116,7 @@ class ComposeTextPanel extends Component {
                 searchContactList={this.props.searchContactList}
                 onKeyUp={this.onReceiverInputKeyUp}
                 onKeyDown={this.onReceiverInputKeyDown}
-                formatPhone={this.props.formatPhone}
+                formatContactPhone={this.props.formatContactPhone}
               />
             </div>
           </div>
@@ -134,6 +141,7 @@ class ComposeTextPanel extends Component {
                 value={this.props.messageText}
                 maxLength="1000"
                 onChange={this.onTextChange}
+                onKeyDown={this.onTextAreaKeyDown}
               />
             </div>
             <div className={styles.submitField}>
@@ -156,6 +164,7 @@ ComposeTextPanel.propTypes = {
   senderNumbers: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   sendButtonDisabled: PropTypes.bool.isRequired,
   formatPhone: PropTypes.func.isRequired,
+  formatContactPhone: PropTypes.func.isRequired,
   searchContact: PropTypes.func.isRequired,
   searchContactList: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,

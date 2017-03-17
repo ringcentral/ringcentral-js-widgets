@@ -83,19 +83,21 @@ class RecipientsInput extends Component {
           items={this.props.recipients}
           removeFromRecipients={this.props.removeFromRecipients}
         />
-        <input
-          name="receiver"
-          value={this.props.value}
-          onChange={this.props.onChange}
-          onKeyUp={this.props.onKeyUp}
-          onKeyDown={this.props.onKeyDown}
-          className={styles.numberInput}
-          maxLength={30}
-          onFocus={this.onReceiversInputFocus}
-          onBlur={this.onReceiversInputBlur}
-          placeholder={this.props.placeholder}
-          autoComplete="off"
-        />
+        <div className={styles.inputField}>
+          <input
+            name="receiver"
+            value={this.props.value}
+            onChange={this.props.onChange}
+            onKeyUp={this.props.onKeyUp}
+            onKeyDown={this.props.onKeyDown}
+            className={styles.numberInput}
+            maxLength={30}
+            onFocus={this.onReceiversInputFocus}
+            onBlur={this.onReceiversInputBlur}
+            placeholder={this.props.placeholder}
+            autoComplete="off"
+          />
+        </div>
         <RemoveButton
           className={styles.removeButton}
           onClick={this.props.onClean}
@@ -107,7 +109,7 @@ class RecipientsInput extends Component {
         <ContactDropdownList
           addToRecipients={this.props.addToRecipients}
           items={relatedContactList}
-          formatPhone={this.props.formatPhone}
+          formatContactPhone={this.props.formatContactPhone}
           className={styles.contactsDropdown}
           visibility={this.state.isFocusOnInput}
         />
@@ -135,7 +137,7 @@ RecipientsInput.propTypes = {
   onKeyDown: PropTypes.func,
   addToRecipients: PropTypes.func.isRequired,
   removeFromRecipients: PropTypes.func.isRequired,
-  formatPhone: PropTypes.func.isRequired,
+  formatContactPhone: PropTypes.func.isRequired,
 };
 
 RecipientsInput.defaultProps = {
