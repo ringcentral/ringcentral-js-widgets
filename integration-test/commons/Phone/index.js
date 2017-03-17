@@ -492,15 +492,23 @@ var Phone = function (_RcModule) {
         return _this.state.ringout;
       }
     })));
-    _this.addModule('call', new _Call2.default((0, _extends3.default)({}, options, {
+    _this.addModule('numberValidate', new _NumberValidate2.default((0, _extends3.default)({}, options, {
+      client: _this.client,
       accountExtension: _this.accountExtension,
+      regionSettings: _this.regionSettings,
+      accountInfo: _this.accountInfo,
+      getState: function getState() {
+        return _this.state.numberValidate;
+      }
+    })));
+    _this.addModule('call', new _Call2.default((0, _extends3.default)({}, options, {
       alert: _this.alert,
       client: _this.client,
       callingSettings: _this.callingSettings,
       softphone: _this.softphone,
       storage: _this.storage,
-      regionSettings: _this.regionSettings,
       ringout: _this.ringout,
+      numberValidate: _this.numberValidate,
       getState: function getState() {
         return _this.state.call;
       }
@@ -550,15 +558,6 @@ var Phone = function (_RcModule) {
         return true;
       }
     });
-
-    _this.addModule('numberValidate', new _NumberValidate2.default((0, _extends3.default)({}, options, {
-      client: _this.client,
-      accountExtension: _this.accountExtension,
-      regionSettings: _this.regionSettings,
-      getState: function getState() {
-        return _this.state.numberValidate;
-      }
-    })));
 
     _this.addModule('messageSender', new _MessageSender2.default((0, _extends3.default)({}, options, {
       alert: _this.alert,

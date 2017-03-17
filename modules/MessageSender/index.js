@@ -5,13 +5,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _getIterator2 = require('babel-runtime/core-js/get-iterator');
-
-var _getIterator3 = _interopRequireDefault(_getIterator2);
-
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+
+var _getIterator3 = _interopRequireDefault(_getIterator2);
 
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
@@ -216,7 +216,8 @@ var MessageSender = function (_RcModule) {
     key: '_validateToNumbers',
     value: function () {
       var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(toNumbers) {
-        var result, recipientNumbers, numberValidateResult;
+        var result, recipientNumbers, numberValidateResult, numbers, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, number;
+
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -254,20 +255,93 @@ var MessageSender = function (_RcModule) {
                 return _context.abrupt('return', result);
 
               case 12:
+                numbers = [];
+                _iteratorNormalCompletion = true;
+                _didIteratorError = false;
+                _iteratorError = undefined;
+                _context.prev = 16;
+                _iterator = (0, _getIterator3.default)(numberValidateResult.numbers);
 
-                recipientNumbers = numberValidateResult.numbers.map(function (number) {
-                  return number.e164;
-                });
-                result.result = true;
-                result.numbers = recipientNumbers;
+              case 18:
+                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                  _context.next = 32;
+                  break;
+                }
+
+                number = _step.value;
+
+                if (!(number.subAddress && number.subAddress.length > 0)) {
+                  _context.next = 28;
+                  break;
+                }
+
+                if (this._numberValidate.isCompanyExtension(number.e164, number.subAddress)) {
+                  _context.next = 25;
+                  break;
+                }
+
+                this._alertWarning(_messageSenderMessages2.default.notAnExtension);
+                this.store.dispatch({ type: this.actionTypes.validateError });
                 return _context.abrupt('return', result);
 
-              case 16:
+              case 25:
+                numbers.push(number.subAddress);
+                _context.next = 29;
+                break;
+
+              case 28:
+                numbers.push(number.e164);
+
+              case 29:
+                _iteratorNormalCompletion = true;
+                _context.next = 18;
+                break;
+
+              case 32:
+                _context.next = 38;
+                break;
+
+              case 34:
+                _context.prev = 34;
+                _context.t0 = _context['catch'](16);
+                _didIteratorError = true;
+                _iteratorError = _context.t0;
+
+              case 38:
+                _context.prev = 38;
+                _context.prev = 39;
+
+                if (!_iteratorNormalCompletion && _iterator.return) {
+                  _iterator.return();
+                }
+
+              case 41:
+                _context.prev = 41;
+
+                if (!_didIteratorError) {
+                  _context.next = 44;
+                  break;
+                }
+
+                throw _iteratorError;
+
+              case 44:
+                return _context.finish(41);
+
+              case 45:
+                return _context.finish(38);
+
+              case 46:
+                result.result = true;
+                result.numbers = numbers;
+                return _context.abrupt('return', result);
+
+              case 49:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this);
+        }, _callee, this, [[16, 34, 38, 46], [39,, 41, 45]]);
       }));
 
       function _validateToNumbers(_x) {
@@ -285,7 +359,7 @@ var MessageSender = function (_RcModule) {
             text = _ref4.text,
             replyOnMessageId = _ref4.replyOnMessageId;
 
-        var validateToNumberResult, recipientNumbers, extensionNumbers, phoneNumbers, responses, pagerResponse, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, phoneNumber, smsResponse;
+        var validateToNumberResult, recipientNumbers, extensionNumbers, phoneNumbers, responses, pagerResponse, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, phoneNumber, smsResponse;
 
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
@@ -366,19 +440,19 @@ var MessageSender = function (_RcModule) {
                   break;
                 }
 
-                _iteratorNormalCompletion = true;
-                _didIteratorError = false;
-                _iteratorError = undefined;
+                _iteratorNormalCompletion2 = true;
+                _didIteratorError2 = false;
+                _iteratorError2 = undefined;
                 _context2.prev = 25;
-                _iterator = (0, _getIterator3.default)(phoneNumbers);
+                _iterator2 = (0, _getIterator3.default)(phoneNumbers);
 
               case 27:
-                if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+                if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
                   _context2.next = 36;
                   break;
                 }
 
-                phoneNumber = _step.value;
+                phoneNumber = _step2.value;
                 _context2.next = 31;
                 return this._sendSms({ fromNumber: fromNumber, toNumber: phoneNumber, text: text });
 
@@ -388,7 +462,7 @@ var MessageSender = function (_RcModule) {
                 responses.push(smsResponse);
 
               case 33:
-                _iteratorNormalCompletion = true;
+                _iteratorNormalCompletion2 = true;
                 _context2.next = 27;
                 break;
 
@@ -399,26 +473,26 @@ var MessageSender = function (_RcModule) {
               case 38:
                 _context2.prev = 38;
                 _context2.t0 = _context2['catch'](25);
-                _didIteratorError = true;
-                _iteratorError = _context2.t0;
+                _didIteratorError2 = true;
+                _iteratorError2 = _context2.t0;
 
               case 42:
                 _context2.prev = 42;
                 _context2.prev = 43;
 
-                if (!_iteratorNormalCompletion && _iterator.return) {
-                  _iterator.return();
+                if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                  _iterator2.return();
                 }
 
               case 45:
                 _context2.prev = 45;
 
-                if (!_didIteratorError) {
+                if (!_didIteratorError2) {
                   _context2.next = 48;
                   break;
                 }
 
-                throw _iteratorError;
+                throw _iteratorError2;
 
               case 48:
                 return _context2.finish(45);

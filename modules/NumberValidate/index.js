@@ -78,7 +78,8 @@ var NumberValidate = function (_RcModule) {
     var client = _ref.client,
         accountExtension = _ref.accountExtension,
         regionSettings = _ref.regionSettings,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'accountExtension', 'regionSettings']);
+        accountInfo = _ref.accountInfo,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'accountExtension', 'regionSettings', 'accountInfo']);
     (0, _classCallCheck3.default)(this, NumberValidate);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (NumberValidate.__proto__ || (0, _getPrototypeOf2.default)(NumberValidate)).call(this, (0, _extends3.default)({}, options, {
@@ -88,6 +89,7 @@ var NumberValidate = function (_RcModule) {
     _this._client = client;
     _this._accountExtension = accountExtension;
     _this._regionSettings = regionSettings;
+    _this._accountInfo = accountInfo;
     _this._reducer = (0, _getNumberValidateReducer2.default)(_this.actionTypes);
     return _this;
   }
@@ -113,7 +115,7 @@ var NumberValidate = function (_RcModule) {
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return this._regionSettings.ready && this._accountExtension.ready && !this.ready;
+      return this._regionSettings.ready && this._accountExtension.ready && this._accountInfo.ready && !this.ready;
     }
   }, {
     key: '_initModuleStatus',
@@ -125,7 +127,7 @@ var NumberValidate = function (_RcModule) {
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return (!this._regionSettings.ready || !this._accountExtension.ready) && this.ready;
+      return (!this._accountInfo.ready || !this._regionSettings.ready || !this._accountExtension.ready) && this.ready;
     }
   }, {
     key: '_resetModuleStatus',
@@ -174,12 +176,23 @@ var NumberValidate = function (_RcModule) {
       return false;
     }
   }, {
-    key: '_isNotAnExtension',
-    value: function _isNotAnExtension(extensionNumber) {
+    key: 'isNotAnExtension',
+    value: function isNotAnExtension(extensionNumber) {
       if (extensionNumber && extensionNumber.length <= 5 && !this._accountExtension.isAvailableExtension(extensionNumber)) {
         return true;
       }
       return false;
+    }
+  }, {
+    key: 'isCompanyExtension',
+    value: function isCompanyExtension(companyNumber, extensionNumber) {
+      var countryCode = this._regionSettings.countryCode;
+      var areaCode = this._regionSettings.areaCode;
+      var normalizedCompanyNumber = (0, _normalizeNumber2.default)({ phoneNumber: companyNumber, countryCode: countryCode, areaCode: areaCode });
+      if (normalizedCompanyNumber !== this._accountInfo.mainCompanyNumber) {
+        return false;
+      }
+      return this._accountExtension.isAvailableExtension(extensionNumber);
     }
   }, {
     key: 'validateNumbers',
@@ -266,7 +279,7 @@ var NumberValidate = function (_RcModule) {
                     errors.push({ phoneNumber: phoneNumber.originalString, type: 'specialNumber' });
                     return null;
                   }
-                  if (_this4._isNotAnExtension(phoneNumber.originalString)) {
+                  if (_this4.isNotAnExtension(phoneNumber.originalString)) {
                     errors.push({ phoneNumber: phoneNumber.originalString, type: 'notAnExtension' });
                     return null;
                   }

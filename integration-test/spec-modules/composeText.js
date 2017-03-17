@@ -43,13 +43,13 @@ var _ClientHistoryRequest2 = _interopRequireDefault(_ClientHistoryRequest);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (auth, client, account, alert, regionSettings, composeText, messageSender) {
-  describe('ComposeText', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee40() {
+  describe('ComposeText', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee41() {
     var _this = this;
 
     var conditionalDescribe, clientHistoryRequest;
-    return _regenerator2.default.wrap(function _callee40$(_context40) {
+    return _regenerator2.default.wrap(function _callee41$(_context41) {
       while (1) {
-        switch (_context40.prev = _context40.next) {
+        switch (_context41.prev = _context41.next) {
           case 0:
             this.timeout(20000);
             conditionalDescribe = describe;
@@ -635,7 +635,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       while (1) {
                         switch (_context18.prev = _context18.next) {
                           case 0:
-                            composeText.updateTypingToNumber('(855)899-0011*101');
+                            composeText.updateTypingToNumber('(888)349-5556*101');
                             composeText.updateMessageText('test');
                             _context18.next = 4;
                             return composeText.send();
@@ -664,7 +664,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       while (1) {
                         switch (_context19.prev = _context19.next) {
                           case 0:
-                            composeText.updateTypingToNumber('(855) 899-0011*101');
+                            composeText.updateTypingToNumber('(888) 349-5556*101');
                             composeText.updateMessageText('test');
                             _context19.next = 4;
                             return composeText.send();
@@ -722,7 +722,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       while (1) {
                         switch (_context21.prev = _context21.next) {
                           case 0:
-                            composeText.updateTypingToNumber('855-899-0011*101');
+                            composeText.updateTypingToNumber('888-349-5556*101');
                             composeText.updateMessageText('test');
                             _context21.next = 4;
                             return composeText.send();
@@ -946,27 +946,21 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                         }
                       }, _callee28, _this);
                     })));
-                  });
 
-                  conditionalDescribe('GB Dialing Plan', function () {
-                    beforeEach(function () {
-                      regionSettings.setData({ countryCode: 'GB', areaCode: '' });
-                    });
-
-                    it('Should Alert Special Number - toNumber 101 (Existed Extension/Special Number)', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee29() {
+                    it('Should Alert of notAnExtension - To Number (xxx)xxx-xxxx*xxx Format', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee29() {
                       return _regenerator2.default.wrap(function _callee29$(_context29) {
                         while (1) {
                           switch (_context29.prev = _context29.next) {
                             case 0:
-                              composeText.addToNumber({ phoneNumber: '101' });
+                              composeText.addToNumber({ phoneNumber: '(888) 349-5556*999' });
                               composeText.updateMessageText('test sender');
                               _context29.next = 4;
                               return composeText.send();
 
                             case 4:
+                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.not.equal(undefined);
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noAreaCode)).to.equal(undefined);
-                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.not.equal(undefined);
-                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.equal(undefined);
+                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.equal(undefined);
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noToNumber)).to.equal(undefined);
 
                             case 8:
@@ -976,21 +970,27 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                         }
                       }, _callee29, _this);
                     })));
+                  });
 
-                    it('Should Alert notAnExtension - toNumber 998 (No Extension)', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee30() {
+                  conditionalDescribe('GB Dialing Plan', function () {
+                    beforeEach(function () {
+                      regionSettings.setData({ countryCode: 'GB', areaCode: '' });
+                    });
+
+                    it('Should Alert Special Number - toNumber 101 (Existed Extension/Special Number)', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee30() {
                       return _regenerator2.default.wrap(function _callee30$(_context30) {
                         while (1) {
                           switch (_context30.prev = _context30.next) {
                             case 0:
-                              composeText.addToNumber({ phoneNumber: '998' });
+                              composeText.addToNumber({ phoneNumber: '101' });
                               composeText.updateMessageText('test sender');
                               _context30.next = 4;
                               return composeText.send();
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noAreaCode)).to.equal(undefined);
-                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.equal(undefined);
-                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.not.equal(undefined);
+                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.not.equal(undefined);
+                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.equal(undefined);
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noToNumber)).to.equal(undefined);
 
                             case 8:
@@ -1001,66 +1001,14 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       }, _callee30, _this);
                     })));
 
-                    it('Should Alert Special Number - toNumber 999', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee31() {
+                    it('Should Alert notAnExtension - toNumber 998 (No Extension)', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee31() {
                       return _regenerator2.default.wrap(function _callee31$(_context31) {
                         while (1) {
                           switch (_context31.prev = _context31.next) {
                             case 0:
-                              composeText.addToNumber({ phoneNumber: '999' });
+                              composeText.addToNumber({ phoneNumber: '998' });
                               composeText.updateMessageText('test sender');
                               _context31.next = 4;
-                              return composeText.send();
-
-                            case 4:
-                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noAreaCode)).to.equal(undefined);
-                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.not.equal(undefined);
-                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.equal(undefined);
-                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noToNumber)).to.equal(undefined);
-
-                            case 8:
-                            case 'end':
-                              return _context31.stop();
-                          }
-                        }
-                      }, _callee31, _this);
-                    })));
-
-                    it('Should Not Alert Special Number - toNumber 911', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee32() {
-                      return _regenerator2.default.wrap(function _callee32$(_context32) {
-                        while (1) {
-                          switch (_context32.prev = _context32.next) {
-                            case 0:
-                              regionSettings.setData({ countryCode: 'GB', areaCode: '' });
-                              composeText.addToNumber({ phoneNumber: '911' });
-                              composeText.updateMessageText('test sender');
-                              _context32.next = 5;
-                              return composeText.send();
-
-                            case 5:
-                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.equal(undefined);
-
-                            case 6:
-                            case 'end':
-                              return _context32.stop();
-                          }
-                        }
-                      }, _callee32, _this);
-                    })));
-                  });
-
-                  conditionalDescribe('US Dialing Plan', function () {
-                    beforeEach(function () {
-                      regionSettings.setData({ countryCode: 'US', areaCode: '' });
-                    });
-
-                    it('Should Alert notAnExtension - toNumber 102 (No Extension/Not Special Number) with US Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee33() {
-                      return _regenerator2.default.wrap(function _callee33$(_context33) {
-                        while (1) {
-                          switch (_context33.prev = _context33.next) {
-                            case 0:
-                              composeText.addToNumber({ phoneNumber: '102' });
-                              composeText.updateMessageText('test sender');
-                              _context33.next = 4;
                               return composeText.send();
 
                             case 4:
@@ -1071,18 +1019,70 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
 
                             case 8:
                             case 'end':
+                              return _context31.stop();
+                          }
+                        }
+                      }, _callee31, _this);
+                    })));
+
+                    it('Should Alert Special Number - toNumber 999', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee32() {
+                      return _regenerator2.default.wrap(function _callee32$(_context32) {
+                        while (1) {
+                          switch (_context32.prev = _context32.next) {
+                            case 0:
+                              composeText.addToNumber({ phoneNumber: '999' });
+                              composeText.updateMessageText('test sender');
+                              _context32.next = 4;
+                              return composeText.send();
+
+                            case 4:
+                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noAreaCode)).to.equal(undefined);
+                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.not.equal(undefined);
+                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.equal(undefined);
+                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noToNumber)).to.equal(undefined);
+
+                            case 8:
+                            case 'end':
+                              return _context32.stop();
+                          }
+                        }
+                      }, _callee32, _this);
+                    })));
+
+                    it('Should Not Alert Special Number - toNumber 911', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee33() {
+                      return _regenerator2.default.wrap(function _callee33$(_context33) {
+                        while (1) {
+                          switch (_context33.prev = _context33.next) {
+                            case 0:
+                              regionSettings.setData({ countryCode: 'GB', areaCode: '' });
+                              composeText.addToNumber({ phoneNumber: '911' });
+                              composeText.updateMessageText('test sender');
+                              _context33.next = 5;
+                              return composeText.send();
+
+                            case 5:
+                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.equal(undefined);
+
+                            case 6:
+                            case 'end':
                               return _context33.stop();
                           }
                         }
                       }, _callee33, _this);
                     })));
+                  });
 
-                    it('Should Alert notAnExtension - toNumber 998 (No Extension)', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee34() {
+                  conditionalDescribe('US Dialing Plan', function () {
+                    beforeEach(function () {
+                      regionSettings.setData({ countryCode: 'US', areaCode: '' });
+                    });
+
+                    it('Should Alert notAnExtension - toNumber 102 (No Extension/Not Special Number) with US Dialing Plan', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee34() {
                       return _regenerator2.default.wrap(function _callee34$(_context34) {
                         while (1) {
                           switch (_context34.prev = _context34.next) {
                             case 0:
-                              composeText.addToNumber({ phoneNumber: '998' });
+                              composeText.addToNumber({ phoneNumber: '102' });
                               composeText.updateMessageText('test sender');
                               _context34.next = 4;
                               return composeText.send();
@@ -1101,20 +1101,20 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       }, _callee34, _this);
                     })));
 
-                    it('Should Alert Special Number - toNumber is 911', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee35() {
+                    it('Should Alert notAnExtension - toNumber 998 (No Extension)', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee35() {
                       return _regenerator2.default.wrap(function _callee35$(_context35) {
                         while (1) {
                           switch (_context35.prev = _context35.next) {
                             case 0:
-                              composeText.addToNumber({ phoneNumber: '911' });
+                              composeText.addToNumber({ phoneNumber: '998' });
                               composeText.updateMessageText('test sender');
                               _context35.next = 4;
                               return composeText.send();
 
                             case 4:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noAreaCode)).to.equal(undefined);
-                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.not.equal(undefined);
-                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.equal(undefined);
+                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.equal(undefined);
+                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.not.equal(undefined);
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noToNumber)).to.equal(undefined);
 
                             case 8:
@@ -1125,20 +1125,23 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       }, _callee35, _this);
                     })));
 
-                    it('Should Not Alert Special Number - toNumber 999', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee36() {
+                    it('Should Alert Special Number - toNumber is 911', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee36() {
                       return _regenerator2.default.wrap(function _callee36$(_context36) {
                         while (1) {
                           switch (_context36.prev = _context36.next) {
                             case 0:
-                              composeText.addToNumber({ phoneNumber: '999' });
+                              composeText.addToNumber({ phoneNumber: '911' });
                               composeText.updateMessageText('test sender');
                               _context36.next = 4;
                               return composeText.send();
 
                             case 4:
-                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.equal(undefined);
+                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noAreaCode)).to.equal(undefined);
+                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.not.equal(undefined);
+                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.notAnExtension)).to.equal(undefined);
+                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noToNumber)).to.equal(undefined);
 
-                            case 5:
+                            case 8:
                             case 'end':
                               return _context36.stop();
                           }
@@ -1146,27 +1149,48 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                       }, _callee36, _this);
                     })));
 
-                    it('Should Not Alert Anything - toNumber 101 (Existed Extension/Not Special Number)', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee37() {
+                    it('Should Not Alert Special Number - toNumber 999', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee37() {
                       return _regenerator2.default.wrap(function _callee37$(_context37) {
                         while (1) {
                           switch (_context37.prev = _context37.next) {
                             case 0:
+                              composeText.addToNumber({ phoneNumber: '999' });
+                              composeText.updateMessageText('test sender');
+                              _context37.next = 4;
+                              return composeText.send();
+
+                            case 4:
+                              expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.specialNumber)).to.equal(undefined);
+
+                            case 5:
+                            case 'end':
+                              return _context37.stop();
+                          }
+                        }
+                      }, _callee37, _this);
+                    })));
+
+                    it('Should Not Alert Anything - toNumber 101 (Existed Extension/Not Special Number)', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee38() {
+                      return _regenerator2.default.wrap(function _callee38$(_context38) {
+                        while (1) {
+                          switch (_context38.prev = _context38.next) {
+                            case 0:
                               regionSettings.setData({ countryCode: 'US', areaCode: '' });
                               composeText.addToNumber({ phoneNumber: '101' });
                               composeText.updateMessageText('test sender');
-                              _context37.prev = 3;
-                              _context37.next = 6;
+                              _context38.prev = 3;
+                              _context38.next = 6;
                               return composeText.send();
 
                             case 6:
-                              _context37.next = 11;
+                              _context38.next = 11;
                               break;
 
                             case 8:
-                              _context37.prev = 8;
-                              _context37.t0 = _context37['catch'](3);
+                              _context38.prev = 8;
+                              _context38.t0 = _context38['catch'](3);
 
-                              console.debug('message sender e:', _context37.t0);
+                              console.debug('message sender e:', _context38.t0);
 
                             case 11:
                               expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.noAreaCode)).to.equal(undefined);
@@ -1176,36 +1200,36 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
 
                             case 15:
                             case 'end':
-                              return _context37.stop();
+                              return _context38.stop();
                           }
                         }
-                      }, _callee37, _this, [[3, 8]]);
+                      }, _callee38, _this, [[3, 8]]);
                     })));
                   });
                 });
               });
 
               conditionalDescribe('Validate after Send Api', function () {
-                it('Should Alert of recipientNumberInvalids - toNumber is invalid', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee38() {
-                  return _regenerator2.default.wrap(function _callee38$(_context38) {
+                it('Should Alert of recipientNumberInvalids - toNumber is invalid', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee39() {
+                  return _regenerator2.default.wrap(function _callee39$(_context39) {
                     while (1) {
-                      switch (_context38.prev = _context38.next) {
+                      switch (_context39.prev = _context39.next) {
                         case 0:
                           composeText.addToNumber({ phoneNumber: '199999' });
                           composeText.updateMessageText('test sender');
-                          _context38.prev = 2;
-                          _context38.next = 5;
+                          _context39.prev = 2;
+                          _context39.next = 5;
                           return composeText.send();
 
                         case 5:
-                          _context38.next = 10;
+                          _context39.next = 10;
                           break;
 
                         case 7:
-                          _context38.prev = 7;
-                          _context38.t0 = _context38['catch'](2);
+                          _context39.prev = 7;
+                          _context39.t0 = _context39['catch'](2);
 
-                          console.debug('message sender e:', _context38.t0);
+                          console.debug('message sender e:', _context39.t0);
 
                         case 10:
                           expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.recipientNumberInvalids)).to.not.equal(undefined);
@@ -1216,32 +1240,32 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
 
                         case 15:
                         case 'end':
-                          return _context38.stop();
+                          return _context39.stop();
                       }
                     }
-                  }, _callee38, _this, [[2, 7]]);
+                  }, _callee39, _this, [[2, 7]]);
                 })));
-                it('Should Alert of internationalSMSNotSupported - select international phone number', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee39() {
-                  return _regenerator2.default.wrap(function _callee39$(_context39) {
+                it('Should Alert of internationalSMSNotSupported - select international phone number', (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee40() {
+                  return _regenerator2.default.wrap(function _callee40$(_context40) {
                     while (1) {
-                      switch (_context39.prev = _context39.next) {
+                      switch (_context40.prev = _context40.next) {
                         case 0:
                           regionSettings.setData({ countryCode: 'GB', areaCode: '' });
                           composeText.addToNumber({ phoneNumber: '8558990011' });
                           composeText.updateMessageText("test sender");
-                          _context39.prev = 3;
-                          _context39.next = 6;
+                          _context40.prev = 3;
+                          _context40.next = 6;
                           return composeText.send();
 
                         case 6:
-                          _context39.next = 11;
+                          _context40.next = 11;
                           break;
 
                         case 8:
-                          _context39.prev = 8;
-                          _context39.t0 = _context39['catch'](3);
+                          _context40.prev = 8;
+                          _context40.t0 = _context40['catch'](3);
 
-                          console.debug('message sender e:', _context39.t0);
+                          console.debug('message sender e:', _context40.t0);
 
                         case 11:
                           expect((0, _HelpUtil.containsErrorMessage)(alert.state.messages, _messageSenderMessages2.default.internationalSMSNotSupported)).to.not.equal(undefined);
@@ -1252,20 +1276,20 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
 
                         case 16:
                         case 'end':
-                          return _context39.stop();
+                          return _context40.stop();
                       }
                     }
-                  }, _callee39, _this, [[3, 8]]);
+                  }, _callee40, _this, [[3, 8]]);
                 })));
               });
             });
 
           case 12:
           case 'end':
-            return _context40.stop();
+            return _context41.stop();
         }
       }
-    }, _callee40, this);
+    }, _callee41, this);
   })));
 };
 //# sourceMappingURL=composeText.js.map
