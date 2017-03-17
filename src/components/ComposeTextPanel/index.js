@@ -85,7 +85,7 @@ class ComposeTextPanel extends Component {
         message: messageSenderMessages.senderNumberInvalids,
       }
     ];
-    this.getRenderer = (message) => {
+    this.getRenderer = () => {
       return MessageSenderAlert;
     };
   }
