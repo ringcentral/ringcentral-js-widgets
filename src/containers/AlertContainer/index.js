@@ -71,7 +71,7 @@ const AlertContainer = connect((state, {
     if (ConnectivityAlert.handleMessage(message)) {
       return ConnectivityAlert;
     }
-    
+
     return undefined;
   },
   dismiss: (id) => {
