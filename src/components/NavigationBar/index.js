@@ -9,8 +9,7 @@ function NavigationButton(props) {
   if (props.noticeCounts && props.noticeCounts > 0) {
     if (props.noticeCounts > 99) {
       notice = <div className={styles.notices}>{props.noticeCounts}</div>;
-    }
-    else {
+    } else {
       notice = <div className={styles.notice}>{props.noticeCounts}</div>;
     }
   }

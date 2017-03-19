@@ -79,9 +79,7 @@ class ComposeTextPanel extends Component {
         showAlert: false
       });
     };
-    this.getRenderer = () => {
-      return MessageSenderAlert;
-    };
+    this.getRenderer = () => MessageSenderAlert;
     this.messages = [
       {
         id: '1',
