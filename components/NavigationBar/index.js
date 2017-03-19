@@ -27,11 +27,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function NavigationButton(props) {
   var notice = null;
   if (props.noticeCounts && props.noticeCounts > 0) {
-    notice = _react2.default.createElement(
-      'div',
-      { className: _styles2.default.notice },
-      props.noticeCounts
-    );
+    if (props.noticeCounts > 99) {
+      notice = _react2.default.createElement(
+        'div',
+        { className: _styles2.default.notices },
+        props.noticeCounts
+      );
+    } else {
+      notice = _react2.default.createElement(
+        'div',
+        { className: _styles2.default.notice },
+        props.noticeCounts
+      );
+    }
   }
   return _react2.default.createElement(
     _reactRouter.Link,

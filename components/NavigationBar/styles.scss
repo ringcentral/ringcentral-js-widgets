@@ -85,3 +85,17 @@
   background-color: $rc-orange;
   overflow: hidden;
 }
+.notices {
+  position: absolute;
+  bottom: 2em;
+  right: calc(50% - 2em);;
+  width: 1.8em;
+  height: 1.8em;
+  border-radius: 100%;
+  line-height: 1.8em;
+  font-family: Lato;
+  text-align: center;
+  font-size: 0.7em;
+  background-color: $rc-orange;
+  overflow: hidden;
+}

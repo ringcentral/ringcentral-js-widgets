@@ -28,6 +28,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _messageSenderMessages = require('ringcentral-integration/modules/MessageSender/messageSenderMessages');
+
+var _messageSenderMessages2 = _interopRequireDefault(_messageSenderMessages);
+
 var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
@@ -39,6 +43,14 @@ var _styles2 = _interopRequireDefault(_styles);
 var _RecipientsInput = require('../RecipientsInput');
 
 var _RecipientsInput2 = _interopRequireDefault(_RecipientsInput);
+
+var _AlertDisplay = require('../AlertDisplay');
+
+var _AlertDisplay2 = _interopRequireDefault(_AlertDisplay);
+
+var _MessageSenderAlert = require('../MessageSenderAlert');
+
+var _MessageSenderAlert2 = _interopRequireDefault(_MessageSenderAlert);
 
 var _Select = require('../Select');
 
@@ -53,6 +65,10 @@ var ComposeTextPanel = function (_Component) {
     (0, _classCallCheck3.default)(this, ComposeTextPanel);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ComposeTextPanel.__proto__ || (0, _getPrototypeOf2.default)(ComposeTextPanel)).call(this, props));
+
+    _this.state = {
+      showAlert: _this.props.senderNumbers.length === 0
+    };
 
     _this.onSenderChange = function (e) {
       var value = e.currentTarget.value;
@@ -112,15 +128,35 @@ var ComposeTextPanel = function (_Component) {
       _this.props.send();
       console.debug('send message ...');
     };
+    _this.onDismissAlert = function () {
+      _this.setState({
+        showAlert: false
+      });
+    };
+    _this.getRenderer = function () {
+      return _MessageSenderAlert2.default;
+    };
+    _this.messages = [{
+      id: '1',
+      level: 'warning',
+      message: _messageSenderMessages2.default.senderNumberInvalids
+    }];
     return _this;
   }
 
   (0, _createClass3.default)(ComposeTextPanel, [{
     key: 'render',
     value: function render() {
+      var AlertDiv = this.state.showAlert ? _react2.default.createElement(_AlertDisplay2.default, {
+        currentLocale: this.props.currentLocale,
+        messages: this.messages,
+        dismiss: this.onDismissAlert,
+        getRenderer: this.getRenderer
+      }) : '';
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root },
+        AlertDiv,
         _react2.default.createElement(
           'form',
           { onSubmit: this.handleSubmit },
