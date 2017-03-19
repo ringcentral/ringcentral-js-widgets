@@ -1,12 +1,20 @@
 import React, { PropTypes, Component } from 'react';
+import messageSenderMessages from
+'ringcentral-integration/modules/MessageSender/messageSenderMessages';
 import i18n from './i18n';
 import styles from './styles.scss';
 import RecipientsInput from '../RecipientsInput';
+import AlertDisplay from '../AlertDisplay';
+import MessageSenderAlert from '../MessageSenderAlert';
 import Select from '../Select';
 
 class ComposeTextPanel extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      showAlert: this.props.senderNumbers.length === 0
+    };
 
     this.onSenderChange = (e) => {
       const value = e.currentTarget.value;
@@ -66,11 +74,32 @@ class ComposeTextPanel extends Component {
       this.props.send();
       console.debug('send message ...');
     };
+    this.onDismissAlert = () => {
+      this.setState({
+        showAlert: false
+      });
+    };
+    this.getRenderer = () => MessageSenderAlert;
+    this.messages = [
+      {
+        id: '1',
+        level: 'warning',
+        message: messageSenderMessages.senderNumberInvalids,
+      }
+    ];
   }
-
   render() {
+    const AlertDiv = this.state.showAlert ? (
+      <AlertDisplay
+        currentLocale={this.props.currentLocale}
+        messages={this.messages}
+        dismiss={this.onDismissAlert}
+        getRenderer={this.getRenderer}
+      />
+    ) : '';
     return (
       <div className={styles.root}>
+        {AlertDiv}
         <form onSubmit={this.handleSubmit}>
           <div className={styles.receiverField}>
             <label>{i18n.getString('to', this.props.currentLocale)}:</label>

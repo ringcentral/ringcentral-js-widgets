@@ -7,7 +7,7 @@ export default {
   [messageSenderMessages.textEmpty]: 'Please enter the text to be sent.',
   [messageSenderMessages.noPermission]: 'You have no permission to send message.',
   [messageSenderMessages.senderEmpty]: 'You must select a number from your phone numbers to send',
-  [messageSenderMessages.noToNumber]: 'Please enter a valid phone number.',
+  [messageSenderMessages.noToNumber]: 'Invalid phone number.',
   [messageSenderMessages.recipientsEmpty]: 'Please enter a valid receiver number.',
   [messageSenderMessages.textTooLong]: 'Text is too long, 1000 Limited',
   [messageSenderMessages.recipientNumberInvalids]: 'Recipient number is invalids',
@@ -17,7 +17,11 @@ export default {
   [messageSenderMessages.internalError]: 'Cannot connect due to internal errors. Please try again later.',
   [messageSenderMessages.notAnExtension]: 'The extension number does not exist.',
   [messageSenderMessages.networkError]: 'Cannot connect due to network issues. Please try again later.',
+  [messageSenderMessages.senderNumberInvalids]: `You don't have valid phone number to send SMS 
+    from. Please contact your account administrator.`,
   [messageSenderMessages.notSmsToExtension]: `Cannot send To a extension number with main phone number.
     If you want to sent to a extension Number,
     please just enter extension Number.`,
+  [messageSenderMessages.internationalSMSNotSupported]: `Sending SMS to international phone number 
+    is not supported.`,
 };
