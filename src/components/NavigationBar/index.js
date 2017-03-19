@@ -7,7 +7,12 @@ import styles from './styles.scss';
 function NavigationButton(props) {
   let notice = null;
   if (props.noticeCounts && props.noticeCounts > 0) {
-    notice = <div className={styles.notice}>{props.noticeCounts}</div>;
+    if(props.noticeCounts > 99) {
+      notice = <div className={styles.notices}>{props.noticeCounts}</div>;
+    }
+    else {
+      notice = <div className={styles.notice}>{props.noticeCounts}</div>;
+    }
   }
   return (
     <Link
