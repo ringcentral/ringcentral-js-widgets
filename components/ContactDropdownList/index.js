@@ -29,7 +29,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function ContactItem(props) {
   return _react2.default.createElement(
     'li',
-    null,
+    { className: _styles2.default.contactItem },
     _react2.default.createElement(
       'a',
       { href: '#select-contact-item', onClick: props.onClick },
@@ -38,8 +38,13 @@ function ContactItem(props) {
         null,
         _react2.default.createElement(
           'span',
-          null,
+          { className: _styles2.default.name },
           props.name
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: _styles2.default.spliter },
+          '|'
         ),
         _react2.default.createElement(
           'span',
@@ -54,6 +59,11 @@ function ContactItem(props) {
           'span',
           null,
           props.formatContactPhone(props.phoneNumber)
+        ),
+        _react2.default.createElement(
+          'span',
+          { className: _styles2.default.spliter },
+          '|'
         ),
         _react2.default.createElement(
           'span',

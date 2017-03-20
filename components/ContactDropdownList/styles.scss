@@ -1,3 +1,5 @@
+@import '../../lib/commonStyles/colors.scss';
+
 .hidden {
   display: none;
 }
@@ -12,24 +14,25 @@
   left: 0;
   z-index: 1000;
   float: left;
-  padding: 3px 0;
-  margin: 2px 0 0;
+  padding: 0;
+  margin: 0;
+  margin-top: -2px;
   font-size: 14px;
   font-weight: 400;
-  line-height: 1.42857143;
+  line-height: 1.5;
   color: #333;
   text-align: left;
   list-style: none;
   background: #ffffff;
-  border: 1px solid #ccc;
+  border: 1px solid #efefef;
   border-radius: 4px;
-  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  box-shadow: 0 4px 12px rgba(0,0,0,.175);
   max-height: 200px;
   overflow-y: auto;
   overflow-x: hidden;
 
   li {
-    padding: 3px 10px;
+    padding: 7px 10px 8px 10px;
 
     a {
       color: inherit;
@@ -38,18 +41,32 @@
   }
 
   li:hover {
-    color: #fff;
-    background-color: #337ab7;
+    color: $rc-blue;
+
+    .name {
+      color: $rc-blue;
+    }
   }
 }
 
+.contactItem {
+  color: #797979;
+  font-size: 13px;
+}
+
+.name {
+  color: #303030;
+  font-weight: bold;
+}
+
 .label {
-  float: right;
-  font-size: 12px;
-  max-width: 100px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.spliter {
+  padding: 0 5px;
 }
 
 .phoneNumberSection {

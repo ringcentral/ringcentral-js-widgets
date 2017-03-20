@@ -58,6 +58,42 @@ var _Select2 = _interopRequireDefault(_Select);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function SenderField(props) {
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'label',
+      null,
+      _i18n2.default.getString('from', props.currentLocale),
+      ':'
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: _styles2.default.senderInput },
+      _react2.default.createElement(_Select2.default, {
+        className: _styles2.default.senderSelect,
+        value: props.value,
+        onChange: props.onChange,
+        options: props.options,
+        paddingLeft: 0,
+        valueFunction: function valueFunction(option) {
+          return option;
+        },
+        renderFunction: props.formatPhone
+      })
+    )
+  );
+}
+
+SenderField.propTypes = {
+  currentLocale: _react.PropTypes.string.isRequired,
+  value: _react.PropTypes.string.isRequired,
+  onChange: _react.PropTypes.func.isRequired,
+  formatPhone: _react.PropTypes.func.isRequired,
+  options: _react.PropTypes.arrayOf(_react.PropTypes.string.isRequired).isRequired
+};
+
 var ComposeTextPanel = function (_Component) {
   (0, _inherits3.default)(ComposeTextPanel, _Component);
 
@@ -67,7 +103,7 @@ var ComposeTextPanel = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (ComposeTextPanel.__proto__ || (0, _getPrototypeOf2.default)(ComposeTextPanel)).call(this, props));
 
     _this.state = {
-      showAlert: _this.props.senderNumbers.length === 0
+      showAlert: !_this.hasSenderNumbers()
     };
 
     _this.onSenderChange = function (e) {
@@ -145,72 +181,56 @@ var ComposeTextPanel = function (_Component) {
   }
 
   (0, _createClass3.default)(ComposeTextPanel, [{
+    key: 'hasSenderNumbers',
+    value: function hasSenderNumbers() {
+      return this.props.senderNumbers.length > 0;
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var AlertDiv = this.state.showAlert ? _react2.default.createElement(_AlertDisplay2.default, {
+      var noSenderAlert = this.state.showAlert ? _react2.default.createElement(_AlertDisplay2.default, {
         currentLocale: this.props.currentLocale,
         messages: this.messages,
         dismiss: this.onDismissAlert,
         getRenderer: this.getRenderer
-      }) : '';
+      }) : null;
+      var senderField = this.hasSenderNumbers() ? _react2.default.createElement(SenderField, {
+        currentLocale: this.props.currentLocale,
+        value: this.props.senderNumber,
+        options: this.props.senderNumbers,
+        formatPhone: this.props.formatPhone,
+        onChange: this.onSenderChange
+      }) : null;
+
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root },
-        AlertDiv,
+        noSenderAlert,
         _react2.default.createElement(
           'form',
           { onSubmit: this.handleSubmit },
           _react2.default.createElement(
             'div',
             { className: _styles2.default.receiverField },
-            _react2.default.createElement(
-              'label',
-              null,
-              _i18n2.default.getString('to', this.props.currentLocale),
-              ':'
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: _styles2.default.rightPanel },
-              _react2.default.createElement(_RecipientsInput2.default, {
-                value: this.props.typingToNumber,
-                onChange: this.onReceiverChange,
-                onClean: this.cleanReceiverValue,
-                placeholder: _i18n2.default.getString('enterNameOrNumber', this.props.currentLocale),
-                recipients: this.props.toNumbers,
-                addToRecipients: this.addToRecipients,
-                removeFromRecipients: this.removeFromRecipients,
-                searchContactList: this.props.searchContactList,
-                onKeyUp: this.onReceiverInputKeyUp,
-                onKeyDown: this.onReceiverInputKeyDown,
-                formatContactPhone: this.props.formatContactPhone
-              })
-            )
+            _react2.default.createElement(_RecipientsInput2.default, {
+              value: this.props.typingToNumber,
+              label: _i18n2.default.getString('to', this.props.currentLocale) + ':',
+              onChange: this.onReceiverChange,
+              onClean: this.cleanReceiverValue,
+              placeholder: _i18n2.default.getString('enterNameOrNumber', this.props.currentLocale),
+              recipients: this.props.toNumbers,
+              addToRecipients: this.addToRecipients,
+              removeFromRecipients: this.removeFromRecipients,
+              searchContactList: this.props.searchContactList,
+              onKeyUp: this.onReceiverInputKeyUp,
+              onKeyDown: this.onReceiverInputKeyDown,
+              formatContactPhone: this.props.formatContactPhone
+            })
           ),
           _react2.default.createElement(
             'div',
             { className: _styles2.default.senderField },
-            _react2.default.createElement(
-              'label',
-              null,
-              _i18n2.default.getString('from', this.props.currentLocale),
-              ':'
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: _styles2.default.senderInput },
-              _react2.default.createElement(_Select2.default, {
-                className: _styles2.default.senderSelect,
-                value: this.props.senderNumber,
-                onChange: this.onSenderChange,
-                options: this.props.senderNumbers,
-                paddingLeft: 0,
-                valueFunction: function valueFunction(option) {
-                  return option;
-                },
-                renderFunction: this.props.formatPhone
-              })
-            )
+            senderField
           ),
           _react2.default.createElement(
             'div',

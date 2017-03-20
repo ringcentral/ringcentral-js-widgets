@@ -3,21 +3,40 @@
 .container {
   position: relative;
   display: block;
-  padding-right: 10px;
+  margin-right: 10px;
+
+  * {
+    box-sizing: content-box;
+  }
+
+  label {
+    font-size: 15px;
+    line-height: 29px;
+    margin-right: 5px;
+    font-weight: 200;
+    float: left;
+  }
 
   a {
     text-decoration: none;
   }
 }
 
+.rightPanel {
+  font-size: 15px;
+  display: block;
+  margin-left: 45px;
+}
+
 .removeButton {
   position: absolute;
-  right: 16px;
-  bottom: 2px;
+  right: 5px;
+  bottom: 5px;
   width: 10px;
 }
 
 .inputField {
+  position: relative;
   padding-right: 20px;
 }
 
