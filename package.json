@@ -1,5 +1,5 @@
 {
-  "name": "ringcentral-js-widget",
+  "name": "ringcentral-widget",
   "version": "0.1.0",
   "description": "RingCentral Integration Widget Library",
   "main": "index.js",
