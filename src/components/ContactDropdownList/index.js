@@ -6,13 +6,13 @@ import phoneTypes from '../../lib/phoneTypes';
 
 function ContactItem(props) {
   return (
-    <li
-    >
+    <li className={styles.contactItem}>
       <a href="#select-contact-item" onClick={props.onClick}>
         <div>
-          <span>
+          <span className={styles.name}>
             {props.name}
           </span>
+          <span className={styles.spliter}>|</span>
           <span className={styles.label}>
             {phoneTypes.getString(`phoneSource.${props.entityType}`)}
           </span>
@@ -21,6 +21,7 @@ function ContactItem(props) {
           <span>
             {props.formatContactPhone(props.phoneNumber)}
           </span>
+          <span className={styles.spliter}>|</span>
           <span className={styles.label}>
             {phoneTypes.getString(`phoneType.${props.phoneType}`)}
           </span>
