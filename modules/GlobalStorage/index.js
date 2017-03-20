@@ -37,9 +37,9 @@ var _StorageBase2 = require('../../lib/StorageBase');
 
 var _StorageBase3 = _interopRequireDefault(_StorageBase2);
 
-var _moduleStatus = require('../../enums/moduleStatus');
+var _moduleStatuses = require('../../enums/moduleStatuses');
 
-var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -96,7 +96,7 @@ var GlobalStorage = function (_StorageBase) {
       };
       this._storage.on('storage', this._storageHandler);
       this.store.subscribe(function () {
-        if (_this2.status !== _moduleStatus2.default.pending) {
+        if (_this2.status !== _moduleStatuses2.default.pending) {
           // save new data to storage when changed
           var currentData = _this2.data;
           for (var _key in currentData) {

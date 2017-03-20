@@ -28,6 +28,7 @@
     "babelify": "^7.3.0",
     "browserify": "^13.1.1",
     "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
     "coveralls": "^2.11.12",
     "eslint": "^3.13.1",
     "eslint-config-airbnb": "^14.0.0",

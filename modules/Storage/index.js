@@ -41,9 +41,9 @@ var _loginStatus = require('../Auth/loginStatus');
 
 var _loginStatus2 = _interopRequireDefault(_loginStatus);
 
-var _moduleStatus = require('../../enums/moduleStatus');
+var _moduleStatuses = require('../../enums/moduleStatuses');
 
-var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -122,7 +122,7 @@ var Storage = function (_StorageBase) {
             type: _this2.actionTypes.resetSuccess
           });
         }
-        if (_this2.status !== _moduleStatus2.default.pending) {
+        if (_this2.status !== _moduleStatuses2.default.pending) {
           // save new data to storage when changed
           var currentData = _this2.data;
           for (var _key in currentData) {

@@ -43,9 +43,9 @@ var _getRegionSettingsReducer = require('./getRegionSettingsReducer');
 
 var _getRegionSettingsReducer2 = _interopRequireDefault(_getRegionSettingsReducer);
 
-var _moduleStatus = require('../../enums/moduleStatus');
+var _moduleStatuses = require('../../enums/moduleStatuses');
 
-var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
 var _regionSettingsMessages = require('../RegionSettings/regionSettingsMessages');
 
@@ -105,7 +105,7 @@ var RegionSettings = function (_RcModule) {
 
       var plans = void 0;
       this.store.subscribe(function () {
-        if (_this2._storage.ready && _this2._dialingPlan.ready && _this2._extensionInfo.ready && _this2.status === _moduleStatus2.default.pending) {
+        if (_this2._storage.ready && _this2._dialingPlan.ready && _this2._extensionInfo.ready && _this2.status === _moduleStatuses2.default.pending) {
           _this2.store.dispatch({
             type: _this2.actionTypes.init
           });
@@ -197,7 +197,7 @@ var RegionSettings = function (_RcModule) {
   }, {
     key: 'ready',
     get: function get() {
-      return this.state.status === _moduleStatus2.default.ready;
+      return this.state.status === _moduleStatuses2.default.ready;
     }
   }, {
     key: 'availableCountries',

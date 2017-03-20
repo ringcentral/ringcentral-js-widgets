@@ -61,9 +61,9 @@ var _loginStatus = require('../../modules/Auth/loginStatus');
 
 var _loginStatus2 = _interopRequireDefault(_loginStatus);
 
-var _moduleStatus = require('../../enums/moduleStatus');
+var _moduleStatuses = require('../../enums/moduleStatuses');
 
-var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
 var _actionTypes = require('./actionTypes');
 
@@ -463,7 +463,7 @@ var ContactSearch = function (_RcModule) {
   }, {
     key: 'ready',
     get: function get() {
-      return this.status === _moduleStatus2.default.ready;
+      return this.status === _moduleStatuses2.default.ready;
     }
   }]);
   return ContactSearch;

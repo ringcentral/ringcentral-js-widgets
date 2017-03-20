@@ -45,9 +45,9 @@ var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
 
-var _moduleStatus = require('../../enums/moduleStatus');
+var _moduleStatuses = require('../../enums/moduleStatuses');
 
-var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
 var _messageHelper = require('../../lib/messageHelper');
 
@@ -340,7 +340,7 @@ var Conversation = function (_RcModule) {
   }, {
     key: 'ready',
     get: function get() {
-      return this.status === _moduleStatus2.default.ready;
+      return this.status === _moduleStatuses2.default.ready;
     }
   }, {
     key: 'pushing',

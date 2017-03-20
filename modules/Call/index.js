@@ -49,9 +49,9 @@ var _callingModes = require('../CallingSettings/callingModes');
 
 var _callingModes2 = _interopRequireDefault(_callingModes);
 
-var _moduleStatus = require('../../enums/moduleStatus');
+var _moduleStatuses = require('../../enums/moduleStatuses');
 
-var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
 var _actionTypes = require('./actionTypes');
 
@@ -214,11 +214,11 @@ var Call = function (_RcModule) {
       var _this3 = this;
 
       this.store.subscribe(function () {
-        if (_this3._numberValidate.ready && _this3._callingSettings.ready && _this3._storage.ready && _this3.status === _moduleStatus2.default.pending) {
+        if (_this3._numberValidate.ready && _this3._callingSettings.ready && _this3._storage.ready && _this3.status === _moduleStatuses2.default.pending) {
           _this3.store.dispatch({
             type: _this3.actionTypes.initSuccess
           });
-        } else if ((!_this3._numberValidate.ready || !_this3._callingSettings.ready || !_this3._storage.ready) && _this3.status === _moduleStatus2.default.ready) {
+        } else if ((!_this3._numberValidate.ready || !_this3._callingSettings.ready || !_this3._storage.ready) && _this3.status === _moduleStatuses2.default.ready) {
           _this3.store.dispatch({
             type: _this3.actionTypes.resetSuccess
           });

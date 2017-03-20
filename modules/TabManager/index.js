@@ -49,9 +49,9 @@ var _Tabbie = require('../../lib/Tabbie');
 
 var _Tabbie2 = _interopRequireDefault(_Tabbie);
 
-var _moduleStatus = require('../../enums/moduleStatus');
+var _moduleStatuses = require('../../enums/moduleStatuses');
 
-var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
 var _actionTypes = require('./actionTypes');
 
@@ -186,7 +186,7 @@ var TabManager = function (_RcModule) {
   }, {
     key: 'ready',
     get: function get() {
-      return this.state.status === _moduleStatus2.default.ready;
+      return this.state.status === _moduleStatuses2.default.ready;
     }
   }, {
     key: 'active',

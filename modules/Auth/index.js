@@ -85,9 +85,9 @@ var _authMessages = require('./authMessages');
 
 var _authMessages2 = _interopRequireDefault(_authMessages);
 
-var _moduleStatus = require('../../enums/moduleStatus');
+var _moduleStatuses = require('../../enums/moduleStatuses');
 
-var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
 var _parseCallbackUri = require('../../lib/parseCallbackUri');
 
@@ -362,7 +362,7 @@ var Auth = function (_RcModule) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(_this4.status === _moduleStatus2.default.pending && _this4._locale.ready && _this4._tabManager.ready && (!_this4._environment || _this4._environment.ready))) {
+                if (!(_this4.status === _moduleStatuses2.default.pending && _this4._locale.ready && _this4._tabManager.ready && (!_this4._environment || _this4._environment.ready))) {
                   _context2.next = 8;
                   break;
                 }
@@ -797,7 +797,7 @@ var Auth = function (_RcModule) {
   }, {
     key: 'ready',
     get: function get() {
-      return this.state.status === _moduleStatus2.default.ready;
+      return this.state.status === _moduleStatuses2.default.ready;
     }
   }, {
     key: 'loginStatus',

@@ -45,9 +45,9 @@ var _Presence2 = require('../Presence');
 
 var _Presence3 = _interopRequireDefault(_Presence2);
 
-var _moduleStatus = require('../../enums/moduleStatus');
+var _moduleStatuses = require('../../enums/moduleStatuses');
 
-var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
 var _actionTypes = require('./actionTypes');
 
@@ -106,7 +106,7 @@ var DetailedPresence = function (_Presence) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              if (!(_this._auth.loggedIn && _this._subscription.ready && (!_this._connectivityMonitor || _this._connectivityMonitor.ready) && _this.status === _moduleStatus2.default.pending)) {
+              if (!(_this._auth.loggedIn && _this._subscription.ready && (!_this._connectivityMonitor || _this._connectivityMonitor.ready) && _this.status === _moduleStatuses2.default.pending)) {
                 _context.next = 9;
                 break;
               }

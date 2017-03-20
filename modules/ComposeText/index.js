@@ -49,9 +49,9 @@ var _isBlank = require('../../lib/isBlank');
 
 var _isBlank2 = _interopRequireDefault(_isBlank);
 
-var _moduleStatus = require('../../enums/moduleStatus');
+var _moduleStatuses = require('../../enums/moduleStatuses');
 
-var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
 var _composeTextActionTypes = require('./composeTextActionTypes');
 
@@ -315,7 +315,7 @@ var ComposeText = function (_RcModule) {
   }, {
     key: 'ready',
     get: function get() {
-      return this.status === _moduleStatus2.default.ready;
+      return this.status === _moduleStatuses2.default.ready;
     }
   }, {
     key: 'senderNumber',

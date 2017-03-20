@@ -45,9 +45,9 @@ var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
 
-var _moduleStatus = require('../../enums/moduleStatus');
+var _moduleStatuses = require('../../enums/moduleStatuses');
 
-var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
 var _actionTypes = require('./actionTypes');
 
@@ -124,7 +124,7 @@ var Ringout = function (_RcModule) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(this.status === _moduleStatus2.default.ready)) {
+                if (!(this.status === _moduleStatuses2.default.ready)) {
                   _context.next = 19;
                   break;
                 }
@@ -301,7 +301,7 @@ var Ringout = function (_RcModule) {
   }, {
     key: 'ready',
     get: function get() {
-      return this.state.status === _moduleStatus2.default.ready;
+      return this.state.status === _moduleStatuses2.default.ready;
     }
   }]);
   return Ringout;

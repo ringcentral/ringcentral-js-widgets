@@ -53,9 +53,9 @@ var _fetchList = require('../../lib/fetchList');
 
 var _fetchList2 = _interopRequireDefault(_fetchList);
 
-var _moduleStatus = require('../../enums/moduleStatus');
+var _moduleStatuses = require('../../enums/moduleStatuses');
 
-var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
 var _getDateFrom = require('../../lib/getDateFrom');
 
@@ -186,7 +186,7 @@ var CallLog = function (_Pollable) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              if (!(_this._auth.loggedIn && _this._storage.ready && (!_this._subscription || _this._subscription.ready) && _this._rolesAndPermissions.ready && _this.status === _moduleStatus2.default.pending)) {
+              if (!(_this._auth.loggedIn && _this._storage.ready && (!_this._subscription || _this._subscription.ready) && _this._rolesAndPermissions.ready && _this.status === _moduleStatuses2.default.pending)) {
                 _context2.next = 9;
                 break;
               }
@@ -593,7 +593,7 @@ var CallLog = function (_Pollable) {
   }, {
     key: 'ready',
     get: function get() {
-      return this.state.status === _moduleStatus2.default.ready;
+      return this.state.status === _moduleStatuses2.default.ready;
     }
   }, {
     key: 'data',

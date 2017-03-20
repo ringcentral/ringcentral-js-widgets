@@ -57,9 +57,9 @@ var _loginStatus = require('../Auth/loginStatus');
 
 var _loginStatus2 = _interopRequireDefault(_loginStatus);
 
-var _moduleStatus = require('../../enums/moduleStatus');
+var _moduleStatuses = require('../../enums/moduleStatuses');
 
-var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -111,7 +111,7 @@ var Presence = function (_RcModule) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(_this2._auth.loginStatus === _loginStatus2.default.loggedIn && _this2._subscription.ready && _this2.status === _moduleStatus2.default.pending)) {
+                if (!(_this2._auth.loginStatus === _loginStatus2.default.loggedIn && _this2._subscription.ready && _this2.status === _moduleStatuses2.default.pending)) {
                   _context.next = 8;
                   break;
                 }
@@ -219,7 +219,7 @@ var Presence = function (_RcModule) {
   }, {
     key: 'ready',
     get: function get() {
-      return this.state.status === _moduleStatus2.default.ready;
+      return this.state.status === _moduleStatuses2.default.ready;
     }
   }, {
     key: 'dndStatus',
