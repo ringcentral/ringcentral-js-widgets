@@ -8,12 +8,39 @@ import AlertDisplay from '../AlertDisplay';
 import MessageSenderAlert from '../MessageSenderAlert';
 import Select from '../Select';
 
+function SenderField(props) {
+  return (
+    <div>
+      <label>{i18n.getString('from', props.currentLocale)}:</label>
+      <div className={styles.senderInput}>
+        <Select
+          className={styles.senderSelect}
+          value={props.value}
+          onChange={props.onChange}
+          options={props.options}
+          paddingLeft={0}
+          valueFunction={option => option}
+          renderFunction={props.formatPhone}
+        />
+      </div>
+    </div>
+  );
+}
+
+SenderField.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  formatPhone: PropTypes.func.isRequired,
+  options: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+};
+
 class ComposeTextPanel extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      showAlert: this.props.senderNumbers.length === 0
+      showAlert: !this.hasSenderNumbers(),
     };
 
     this.onSenderChange = (e) => {
@@ -88,18 +115,34 @@ class ComposeTextPanel extends Component {
       }
     ];
   }
+
+  hasSenderNumbers() {
+    return this.props.senderNumbers.length > 0;
+  }
+
   render() {
-    const AlertDiv = this.state.showAlert ? (
+    const noSenderAlert = this.state.showAlert ? (
       <AlertDisplay
         currentLocale={this.props.currentLocale}
         messages={this.messages}
         dismiss={this.onDismissAlert}
         getRenderer={this.getRenderer}
       />
-    ) : '';
+    ) : null;
+    const senderField = this.hasSenderNumbers() ?
+      (
+        <SenderField
+          currentLocale={this.props.currentLocale}
+          value={this.props.senderNumber}
+          options={this.props.senderNumbers}
+          formatPhone={this.props.formatPhone}
+          onChange={this.onSenderChange}
+        />
+      ) : null;
+
     return (
       <div className={styles.root}>
-        {AlertDiv}
+        {noSenderAlert}
         <form onSubmit={this.handleSubmit}>
           <div className={styles.receiverField}>
             <label>{i18n.getString('to', this.props.currentLocale)}:</label>
@@ -120,18 +163,7 @@ class ComposeTextPanel extends Component {
             </div>
           </div>
           <div className={styles.senderField}>
-            <label>{i18n.getString('from', this.props.currentLocale)}:</label>
-            <div className={styles.senderInput}>
-              <Select
-                className={styles.senderSelect}
-                value={this.props.senderNumber}
-                onChange={this.onSenderChange}
-                options={this.props.senderNumbers}
-                paddingLeft={0}
-                valueFunction={option => option}
-                renderFunction={this.props.formatPhone}
-              />
-            </div>
+            {senderField}
           </div>
           <div className={styles.buttomField}>
             <div className={styles.textField}>
