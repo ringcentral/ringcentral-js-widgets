@@ -118,8 +118,8 @@ var DateTimeFormat = function (_RcModule) {
     value: function initialize() {
       var _this2 = this;
 
-      this._store.subscribe(function () {
-        return _this2._onStateChange;
+      this.store.subscribe(function () {
+        return _this2._onStateChange();
       });
     }
   }, {
