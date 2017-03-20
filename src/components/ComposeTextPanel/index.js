@@ -145,22 +145,20 @@ class ComposeTextPanel extends Component {
         {noSenderAlert}
         <form onSubmit={this.handleSubmit}>
           <div className={styles.receiverField}>
-            <label>{i18n.getString('to', this.props.currentLocale)}:</label>
-            <div className={styles.rightPanel}>
-              <RecipientsInput
-                value={this.props.typingToNumber}
-                onChange={this.onReceiverChange}
-                onClean={this.cleanReceiverValue}
-                placeholder={i18n.getString('enterNameOrNumber', this.props.currentLocale)}
-                recipients={this.props.toNumbers}
-                addToRecipients={this.addToRecipients}
-                removeFromRecipients={this.removeFromRecipients}
-                searchContactList={this.props.searchContactList}
-                onKeyUp={this.onReceiverInputKeyUp}
-                onKeyDown={this.onReceiverInputKeyDown}
-                formatContactPhone={this.props.formatContactPhone}
-              />
-            </div>
+            <RecipientsInput
+              value={this.props.typingToNumber}
+              label={`${i18n.getString('to', this.props.currentLocale)}:`}
+              onChange={this.onReceiverChange}
+              onClean={this.cleanReceiverValue}
+              placeholder={i18n.getString('enterNameOrNumber', this.props.currentLocale)}
+              recipients={this.props.toNumbers}
+              addToRecipients={this.addToRecipients}
+              removeFromRecipients={this.removeFromRecipients}
+              searchContactList={this.props.searchContactList}
+              onKeyUp={this.onReceiverInputKeyUp}
+              onKeyDown={this.onReceiverInputKeyDown}
+              formatContactPhone={this.props.formatContactPhone}
+            />
           </div>
           <div className={styles.senderField}>
             {senderField}

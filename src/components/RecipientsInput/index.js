@@ -73,39 +73,44 @@ class RecipientsInput extends Component {
   }
 
   render() {
-    let relatedContactList = [];
-    if (this.props.value.length >= 3) {
-      relatedContactList = this.props.searchContactList;
-    }
+    const relatedContactList = this.props.value.length >= 3 ?
+      this.props.searchContactList : [];
+    const label = this.props.label ?
+      (
+        <label>{this.props.label}</label>
+      ) : null;
     return (
       <div className={styles.container}>
-        <SelectedRecipients
-          items={this.props.recipients}
-          removeFromRecipients={this.props.removeFromRecipients}
-        />
-        <div className={styles.inputField}>
-          <input
-            name="receiver"
-            value={this.props.value}
-            onChange={this.props.onChange}
-            onKeyUp={this.props.onKeyUp}
-            onKeyDown={this.props.onKeyDown}
-            className={styles.numberInput}
-            maxLength={30}
-            onFocus={this.onReceiversInputFocus}
-            onBlur={this.onReceiversInputBlur}
-            placeholder={this.props.placeholder}
-            autoComplete="off"
+        {label}
+        <div className={styles.rightPanel}>
+          <SelectedRecipients
+            items={this.props.recipients}
+            removeFromRecipients={this.props.removeFromRecipients}
+          />
+          <div className={styles.inputField}>
+            <input
+              name="receiver"
+              value={this.props.value}
+              onChange={this.props.onChange}
+              onKeyUp={this.props.onKeyUp}
+              onKeyDown={this.props.onKeyDown}
+              className={styles.numberInput}
+              maxLength={30}
+              onFocus={this.onReceiversInputFocus}
+              onBlur={this.onReceiversInputBlur}
+              placeholder={this.props.placeholder}
+              autoComplete="off"
+            />
+          </div>
+          <RemoveButton
+            className={styles.removeButton}
+            onClick={this.props.onClean}
+            visibility={
+              this.props.value.length > 0 &&
+              this.state.isFocusOnInput
+            }
           />
         </div>
-        <RemoveButton
-          className={styles.removeButton}
-          onClick={this.props.onClean}
-          visibility={
-            this.props.value.length > 0 &&
-            this.state.isFocusOnInput
-          }
-        />
         <ContactDropdownList
           addToRecipients={this.props.addToRecipients}
           items={relatedContactList}
@@ -119,6 +124,7 @@ class RecipientsInput extends Component {
 }
 
 RecipientsInput.propTypes = {
+  label: PropTypes.string,
   placeholder: PropTypes.string,
   searchContactList: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
@@ -141,6 +147,7 @@ RecipientsInput.propTypes = {
 };
 
 RecipientsInput.defaultProps = {
+  label: null,
   placeholder: '',
   onKeyUp: () => null,
   onKeyDown: () => null,
