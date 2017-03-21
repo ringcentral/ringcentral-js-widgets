@@ -57,20 +57,93 @@ var Messages = function (_RcModule) {
   function Messages(_ref) {
     var messageStore = _ref.messageStore,
         _ref$perPage = _ref.perPage,
-        perPage = _ref$perPage === undefined ? 10 : _ref$perPage,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['messageStore', 'perPage']);
+        perPage = _ref$perPage === undefined ? 20 : _ref$perPage,
+        contactMatcher = _ref.contactMatcher,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['messageStore', 'perPage', 'contactMatcher']);
     (0, _classCallCheck3.default)(this, Messages);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Messages.__proto__ || (0, _getPrototypeOf2.default)(Messages)).call(this, (0, _extends3.default)({}, options, {
       actionTypes: _actionTypes2.default
     })));
 
+    _this._contactMatcher = contactMatcher;
     _this._messageStore = messageStore;
     _this._perPage = perPage;
     _this._reducer = (0, _getMessagesReducer2.default)(_this.actionTypes);
     _this.loadNextPageMessages = _this.loadNextPageMessages.bind(_this);
     _this.updateSearchingString = _this.updateSearchingString.bind(_this);
     _this.updateSearchResults = _this.updateSearchResults.bind(_this);
+
+    _this.addSelector('normalizedMessages', function () {
+      return _this.messages;
+    }, function () {
+      return _this._contactMatcher && _this._contactMatcher.ready ? _this._contactMatcher.dataMapping : null;
+    }, function (messages, dataMapping) {
+      return messages.map(function (message) {
+        if (!dataMapping || !message.from || !message.to) {
+          return message;
+        }
+        var recipients = message.recipients;
+        var fromUser = (0, _extends3.default)({}, message.from);
+        var toUsers = message.to;
+        var fromNumber = fromUser.phoneNumber || fromUser.extensionNumber;
+        fromUser.matchedNames = dataMapping[fromNumber];
+        var addMatchedNamesToRecipients = function addMatchedNamesToRecipients(recipient) {
+          var number = recipient.phoneNumber || recipient.extensionNumber;
+          return (0, _extends3.default)({}, recipient, {
+            matchedNames: dataMapping[number]
+          });
+        };
+        toUsers = toUsers.map(addMatchedNamesToRecipients);
+        if (recipients) {
+          recipients = recipients.map(addMatchedNamesToRecipients);
+        }
+        return (0, _extends3.default)({}, message, {
+          from: fromUser,
+          to: toUsers,
+          recipients: recipients
+        });
+      });
+    });
+
+    _this.addSelector('uniqueNumbers', function () {
+      return _this._messageStore.conversations;
+    }, function (messages) {
+      var output = [];
+      var numberMap = {};
+      function addIfNotExist(number) {
+        if (!numberMap[number]) {
+          output.push(number);
+          numberMap[number] = true;
+        }
+      }
+      messages.forEach(function (message) {
+        if (message.from && message.from.phoneNumber) {
+          addIfNotExist(message.from.phoneNumber);
+        } else if (message.from && message.from.extensionNumber) {
+          addIfNotExist(message.from.extensionNumber);
+        }
+        if (message.to && message.to.length > 0) {
+          message.to.forEach(function (toUser) {
+            if (toUser && toUser.phoneNumber) {
+              addIfNotExist(toUser.phoneNumber);
+            } else if (toUser && toUser.extensionNumber) {
+              addIfNotExist(toUser.extensionNumber);
+            }
+          });
+        }
+      });
+      return output;
+    });
+
+    if (_this._contactMatcher) {
+      _this._contactMatcher.addQuerySource({
+        getQueriesFn: _this._selectors.uniqueNumbers,
+        readyCheckFn: function readyCheckFn() {
+          return _this._messageStore.ready;
+        }
+      });
+    }
     return _this;
   }
 
@@ -256,6 +329,11 @@ var Messages = function (_RcModule) {
     key: 'searchingResults',
     get: function get() {
       return this.state.searchingResults;
+    }
+  }, {
+    key: 'normalizedMessages',
+    get: function get() {
+      return this._selectors.normalizedMessages();
     }
   }]);
   return Messages;
