@@ -291,7 +291,7 @@ function mapDispatchToProps(dispatch, props) {
     loadNextPageMessages: props.messages.loadNextPageMessages,
     updateSearchingString: props.messages.updateSearchingString,
     updateSearchResults: props.messages.updateSearchResults,
-    formatDateTime: function formatDateTime(utcTimestamp) {
+    formatDateTime: props.formatDateTime || function (utcTimestamp) {
       return props.dateTimeFormat.formatDateTime({
         utcTimestamp: utcTimestamp
       });

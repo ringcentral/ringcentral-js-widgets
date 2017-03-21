@@ -171,7 +171,7 @@ function mapDispatchToProps(dispatch, props) {
     loadConversationById: function loadConversationById(id) {
       return props.conversation.loadConversationById(id);
     },
-    formatDateTime: function formatDateTime(utcTimestamp) {
+    formatDateTime: props.formatDateTime || function (utcTimestamp) {
       return props.dateTimeFormat.formatDateTime({
         utcTimestamp: utcTimestamp
       });
