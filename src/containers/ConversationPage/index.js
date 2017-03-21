@@ -106,8 +106,8 @@ function mapDispatchToProps(dispatch, props) {
   if (props.contactMatcher && props.contactMatcher.ready) {
     matcherContactName = (phoneNumber) => {
       const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
-      if (matcherNames && matcherNames[0] && matcherNames[0].name) {
-        return matcherNames[0].name;
+      if (matcherNames && matcherNames.length > 0) {
+        return matcherNames.map(matcher => matcher.name).join('&');
       }
       return null;
     };
