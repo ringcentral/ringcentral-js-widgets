@@ -31,7 +31,7 @@ function NavigationButton(props) {
       notice = _react2.default.createElement(
         'div',
         { className: _styles2.default.notices },
-        props.noticeCounts
+        '99+'
       );
     } else {
       notice = _react2.default.createElement(

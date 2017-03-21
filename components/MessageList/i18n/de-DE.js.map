@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/MessageList/i18n/de-DE.js"],"names":["Loading"],"mappings":";;;;;kBAAe;AACbA,WAAS;AADI,C","file":"de-DE.js","sourcesContent":["export default {\n  Loading: 'Laden ...',\n};\n"]}

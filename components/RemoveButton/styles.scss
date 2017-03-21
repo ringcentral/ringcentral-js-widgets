@@ -1,9 +1,16 @@
 .containner {
   text-decoration: none;
   color: #666666;
+  &:hover {
+    text-decoration: none;
+    color: #666666;
+  }
 }
 
 .hiddenRemoveButton {
   color: transparent;
   text-decoration: none;
+  &:hover {
+    color: transparent;
+  }
 }

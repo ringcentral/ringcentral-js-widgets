@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/MessageList/i18n/en-GB.js"],"names":["Loading"],"mappings":";;;;;kBAAe;AACbA,WAAS;AADI,C","file":"en-GB.js","sourcesContent":["export default {\n  Loading: 'Loading...',\n};\n"]}

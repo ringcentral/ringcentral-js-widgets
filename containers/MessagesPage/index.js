@@ -103,9 +103,11 @@ var MessagesPage = function (_Component) {
       }
       return recipients.map(function (recipient) {
         var phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
-        if (phoneNumber && _this2.props.matcherContactName) {
-          var matcherName = _this2.props.matcherContactName(phoneNumber);
-          if (matcherName) {
+        if (recipient.matchedNames) {
+          var matcherName = recipient.matchedNames.map(function (matcher) {
+            return matcher.name;
+          }).join('&');
+          if (matcherName.length > 0) {
             return matcherName;
           }
           return _this2.props.formatPhone(phoneNumber);
@@ -134,9 +136,11 @@ var MessagesPage = function (_Component) {
             if (searchNumber && searchNumber.length > 0 && phoneNumber.indexOf(searchNumber) >= 0) {
               return true;
             }
-            if (this.props.matcherContactName) {
-              var matcherName = this.props.matcherContactName(phoneNumber);
-              if (matcherName) {
+            if (recipient.matchedNames) {
+              var matcherName = recipient.matchedNames.map(function (matcher) {
+                return matcher.name;
+              }).join('&');
+              if (matcherName.length > 0) {
                 recipientName = matcherName;
               } else {
                 recipientName = phoneNumber;
@@ -267,18 +271,13 @@ MessagesPage.propTypes = {
   formatPhone: _react.PropTypes.func.isRequired,
   getRecipientsList: _react.PropTypes.func.isRequired,
   searchMessagesText: _react.PropTypes.func.isRequired,
-  updateSearchResults: _react.PropTypes.func.isRequired,
-  matcherContactName: _react.PropTypes.func
-};
-
-MessagesPage.defaultProps = {
-  matcherContactName: null
+  updateSearchResults: _react.PropTypes.func.isRequired
 };
 
 function mapStateToProps(state, props) {
   return {
     currentLocale: props.locale.currentLocale,
-    messages: props.messages.messages,
+    messages: props.messages.normalizedMessages,
     allMessages: props.messageStore.conversations,
     showSpinner: !props.messages.ready || props.contactMatcher && !props.contactMatcher.ready || !props.extensionInfo.ready || !props.dateTimeIntl.ready,
     lastUpdatedAt: props.messages.lastUpdatedAt,
@@ -288,16 +287,6 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch, props) {
-  var matcherContactName = null;
-  if (props.contactMatcher && props.contactMatcher.ready) {
-    matcherContactName = function matcherContactName(phoneNumber) {
-      var matcherNames = props.contactMatcher.dataMapping[phoneNumber];
-      if (matcherNames && matcherNames[0] && matcherNames[0].name) {
-        return matcherNames[0].name;
-      }
-      return null;
-    };
-  }
   return {
     loadNextPageMessages: props.messages.loadNextPageMessages,
     updateSearchingString: props.messages.updateSearchingString,
@@ -322,8 +311,7 @@ function mapDispatchToProps(dispatch, props) {
     },
     searchMessagesText: function searchMessagesText(searchText) {
       return props.messageStore.searchMessagesText(searchText);
-    },
-    matcherContactName: matcherContactName
+    }
   };
 }
 

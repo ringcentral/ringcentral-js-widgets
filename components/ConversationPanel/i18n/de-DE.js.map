@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ConversationPanel/i18n/de-DE.js"],"names":["typeAnyToSend","send"],"mappings":";;;;;kBAAe;AACbA,iBAAe,2CADF;AAEbC,QAAM;AAFO,C","file":"de-DE.js","sourcesContent":["export default {\n  typeAnyToSend: 'Geben Sie beliebigen Text zum Senden ein.',\n  send: 'Senden',\n};\n"]}

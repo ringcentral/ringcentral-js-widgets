@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ConversationPanel/i18n/fr-FR.js"],"names":["typeAnyToSend","send"],"mappings":";;;;;kBAAe;AACbA,iBAAe,2BADF;AAEbC,QAAM;AAFO,C","file":"fr-FR.js","sourcesContent":["export default {\n  typeAnyToSend: 'Saisir un texte à envoyer',\n  send: 'Envoyer',\n};\n"]}

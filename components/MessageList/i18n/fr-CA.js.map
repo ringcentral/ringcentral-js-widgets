@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/MessageList/i18n/fr-CA.js"],"names":["Loading"],"mappings":";;;;;kBAAe;AACbA,WAAS;AADI,C","file":"fr-CA.js","sourcesContent":["export default {\n  Loading: 'Chargement en cours...',\n};\n"]}
