@@ -117,9 +117,10 @@ function mapDispatchToProps(dispatch, props) {
     changeDefaultRecipient: props.conversation.changeDefaultRecipient,
     unloadConversation: () => props.conversation.unloadConversation(),
     loadConversationById: id => props.conversation.loadConversationById(id),
-    formatDateTime: utcTimestamp => props.dateTimeFormat.formatDateTime({
+    formatDateTime: props.formatDateTime ||
+    (utcTimestamp => props.dateTimeFormat.formatDateTime({
       utcTimestamp,
-    }),
+    })),
     formatNumber: phoneNumber => formatNumber({
       phoneNumber,
       areaCode: props.regionSettings.areaCode,

@@ -199,9 +199,10 @@ function mapDispatchToProps(dispatch, props) {
     loadNextPageMessages: props.messages.loadNextPageMessages,
     updateSearchingString: props.messages.updateSearchingString,
     updateSearchResults: props.messages.updateSearchResults,
-    formatDateTime: utcTimestamp => props.dateTimeFormat.formatDateTime({
+    formatDateTime: props.formatDateTime ||
+    (utcTimestamp => props.dateTimeFormat.formatDateTime({
       utcTimestamp
-    }),
+    })),
     formatPhone: phoneNumber => formatNumber({
       phoneNumber,
       areaCode: props.regionSettings.areaCode,
