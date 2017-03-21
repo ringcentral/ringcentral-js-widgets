@@ -143,7 +143,7 @@ function mapStateToProps(state, props) {
     currentLocale: props.locale.currentLocale,
     conversationId: props.params.conversationId,
     sendButtonDisabled: props.conversation.pushing,
-    showSpinner: !props.dateTimeIntl.ready || props.contactMatcher && !props.contactMatcher.ready || !props.conversation.ready || !props.regionSettings.ready,
+    showSpinner: !props.dateTimeFormat.ready || props.contactMatcher && !props.contactMatcher.ready || !props.conversation.ready || !props.regionSettings.ready,
     recipients: props.conversation.recipients,
     messages: props.conversation.messages
   };
@@ -171,9 +171,9 @@ function mapDispatchToProps(dispatch, props) {
     loadConversationById: function loadConversationById(id) {
       return props.conversation.loadConversationById(id);
     },
-    formatDateTime: function formatDateTime(utcString) {
-      return props.dateTimeIntl.formatDateTime({
-        utcString: utcString
+    formatDateTime: function formatDateTime(utcTimestamp) {
+      return props.dateTimeFormat.formatDateTime({
+        utcTimestamp: utcTimestamp
       });
     },
     formatNumber: function formatNumber(phoneNumber) {

@@ -279,7 +279,7 @@ function mapStateToProps(state, props) {
     currentLocale: props.locale.currentLocale,
     messages: props.messages.normalizedMessages,
     allMessages: props.messageStore.conversations,
-    showSpinner: !props.messages.ready || props.contactMatcher && !props.contactMatcher.ready || !props.extensionInfo.ready || !props.dateTimeIntl.ready,
+    showSpinner: !props.messages.ready || props.contactMatcher && !props.contactMatcher.ready || !props.extensionInfo.ready || !props.dateTimeFormat.ready,
     lastUpdatedAt: props.messages.lastUpdatedAt,
     searchingString: props.messages.searchingString,
     searchingResults: props.messages.searchingResults
@@ -291,9 +291,9 @@ function mapDispatchToProps(dispatch, props) {
     loadNextPageMessages: props.messages.loadNextPageMessages,
     updateSearchingString: props.messages.updateSearchingString,
     updateSearchResults: props.messages.updateSearchResults,
-    formatDateTime: function formatDateTime(utcString) {
-      return props.dateTimeIntl.formatDateTime({
-        utcString: utcString
+    formatDateTime: function formatDateTime(utcTimestamp) {
+      return props.dateTimeFormat.formatDateTime({
+        utcTimestamp: utcTimestamp
       });
     },
     formatPhone: function formatPhone(phoneNumber) {
