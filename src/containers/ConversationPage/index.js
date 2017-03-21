@@ -91,7 +91,7 @@ function mapStateToProps(state, props) {
     conversationId: props.params.conversationId,
     sendButtonDisabled: props.conversation.pushing,
     showSpinner: (
-      !props.dateTimeIntl.ready ||
+      !props.dateTimeFormat.ready ||
       (props.contactMatcher && !props.contactMatcher.ready) ||
       !props.conversation.ready ||
       !props.regionSettings.ready
@@ -117,8 +117,8 @@ function mapDispatchToProps(dispatch, props) {
     changeDefaultRecipient: props.conversation.changeDefaultRecipient,
     unloadConversation: () => props.conversation.unloadConversation(),
     loadConversationById: id => props.conversation.loadConversationById(id),
-    formatDateTime: utcString => props.dateTimeIntl.formatDateTime({
-      utcString,
+    formatDateTime: utcTimestamp => props.dateTimeFormat.formatDateTime({
+      utcTimestamp,
     }),
     formatNumber: phoneNumber => formatNumber({
       phoneNumber,

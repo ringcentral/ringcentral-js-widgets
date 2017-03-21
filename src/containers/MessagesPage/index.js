@@ -186,7 +186,7 @@ function mapStateToProps(state, props) {
       !props.messages.ready ||
       (props.contactMatcher && !props.contactMatcher.ready) ||
       !props.extensionInfo.ready ||
-      !props.dateTimeIntl.ready
+      !props.dateTimeFormat.ready
     ),
     lastUpdatedAt: props.messages.lastUpdatedAt,
     searchingString: props.messages.searchingString,
@@ -199,8 +199,8 @@ function mapDispatchToProps(dispatch, props) {
     loadNextPageMessages: props.messages.loadNextPageMessages,
     updateSearchingString: props.messages.updateSearchingString,
     updateSearchResults: props.messages.updateSearchResults,
-    formatDateTime: utcString => props.dateTimeIntl.formatDateTime({
-      utcString
+    formatDateTime: utcTimestamp => props.dateTimeFormat.formatDateTime({
+      utcTimestamp
     }),
     formatPhone: phoneNumber => formatNumber({
       phoneNumber,

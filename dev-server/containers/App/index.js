@@ -164,7 +164,7 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   conversation={phone.conversation}
                   messageStore={phone.messageStore}
-                  dateTimeIntl={phone.dateTimeIntl}
+                  dateTimeFormat={phone.dateTimeFormat}
                   // contactMatcher={phone.contactMatcher}
                 />
             )} />
@@ -180,7 +180,7 @@ export default function App({
                   extensionInfo={phone.extensionInfo}
                   regionSettings={phone.regionSettings}
                   contactMatcher={phone.contactMatcher}
-                  dateTimeIntl={phone.dateTimeIntl}
+                  dateTimeFormat={phone.dateTimeFormat}
                   // contactMatcher={phone.contactMatcher}
                 />
             )} />
