@@ -215,12 +215,14 @@ ComposeTextPanel.propTypes = {
     phoneNumber: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   })).isRequired,
+  internalSMS: PropTypes.bool,
 };
 
 ComposeTextPanel.defaultProps = {
   messageText: '',
   typingToNumber: '',
   senderNumber: '',
+  internalSMS: '',
 };
 
 export default ComposeTextPanel;
