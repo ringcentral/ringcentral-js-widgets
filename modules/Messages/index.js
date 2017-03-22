@@ -74,38 +74,6 @@ var Messages = function (_RcModule) {
     _this.updateSearchingString = _this.updateSearchingString.bind(_this);
     _this.updateSearchResults = _this.updateSearchResults.bind(_this);
 
-    _this.addSelector('normalizedMessages', function () {
-      return _this.messages;
-    }, function () {
-      return _this._contactMatcher && _this._contactMatcher.ready ? _this._contactMatcher.dataMapping : null;
-    }, function (messages, dataMapping) {
-      return messages.map(function (message) {
-        if (!dataMapping || !message.from || !message.to) {
-          return message;
-        }
-        var recipients = message.recipients;
-        var fromUser = (0, _extends3.default)({}, message.from);
-        var toUsers = message.to;
-        var fromNumber = fromUser.phoneNumber || fromUser.extensionNumber;
-        fromUser.matchedNames = dataMapping[fromNumber];
-        var addMatchedNamesToRecipients = function addMatchedNamesToRecipients(recipient) {
-          var number = recipient.phoneNumber || recipient.extensionNumber;
-          return (0, _extends3.default)({}, recipient, {
-            matchedNames: dataMapping[number]
-          });
-        };
-        toUsers = toUsers.map(addMatchedNamesToRecipients);
-        if (recipients) {
-          recipients = recipients.map(addMatchedNamesToRecipients);
-        }
-        return (0, _extends3.default)({}, message, {
-          from: fromUser,
-          to: toUsers,
-          recipients: recipients
-        });
-      });
-    });
-
     _this.addSelector('uniqueNumbers', function () {
       return _this._messageStore.conversations;
     }, function (messages) {
@@ -144,6 +112,8 @@ var Messages = function (_RcModule) {
         }
       });
     }
+
+    _this._lastProcessedNumbers = null;
     return _this;
   }
 
@@ -171,6 +141,7 @@ var Messages = function (_RcModule) {
         this._resetModuleStatus();
       } else if (this._shouldReload()) {
         this._reloadMessages();
+        this._triggerMatch();
       }
     }
   }, {
@@ -224,6 +195,17 @@ var Messages = function (_RcModule) {
         messagesTimestamp: this._messageStore.updatedTimestamp,
         messages: messages
       });
+    }
+  }, {
+    key: '_triggerMatch',
+    value: function _triggerMatch() {
+      var uniqueNumbers = this._selectors.uniqueNumbers();
+      if (this._lastProcessedNumbers !== uniqueNumbers) {
+        this._lastProcessedNumbers = uniqueNumbers;
+        if (this._contactMatcher && this._contactMatcher.ready) {
+          this._contactMatcher.triggerMatch();
+        }
+      }
     }
   }, {
     key: '_getCurrnetPageMessages',
