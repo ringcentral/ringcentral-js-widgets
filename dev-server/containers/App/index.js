@@ -13,6 +13,8 @@ import ConversationPage from '../../../src/containers/ConversationPage';
 import ConferencePage from '../../../src/containers/ConferencePage';
 import MessagesPage from '../../../src/containers/MessagesPage';
 import SettingsPage from '../../../src/containers/SettingsPage';
+import CallMonitorPage from '../../../src/containers/CallMonitorPage';
+import CallHistoryPage from '../../../src/containers/CallHistoryPage';
 
 import MainView from '../MainView';
 import AppView from '../AppView';
@@ -103,7 +105,7 @@ export default function App({
                   router={phone.router}
                   regionSettingsUrl="/settings/region"
                   callingSettingsUrl="/settings/calling"
-                  />
+                />
               )} />
             <Route
               path="/settings/region"
@@ -127,6 +129,32 @@ export default function App({
                 />
               )} />
             <Route
+              path="/calls"
+              onEnter={ensureLogin}
+              component={() => (
+                <CallMonitorPage
+                  locale={phone.locale}
+                  callMonitor={phone.callMonitor}
+                  contactMatcher={phone.contactMatcher}
+                  regionSettings={phone.regionSettings}
+                  connectivityMonitor={phone.connectivityMonitor}
+                  dateTimeFormat={phone.dateTimeFormat}
+                />
+              )} />
+            <Route
+              path="/history"
+              onEnter={ensureLogin}
+              component={() => (
+                <CallHistoryPage
+                  locale={phone.locale}
+                  callHistory={phone.callHistory}
+                  contactMatcher={phone.contactMatcher}
+                  regionSettings={phone.regionSettings}
+                  connectivityMonitor={phone.connectivityMonitor}
+                  dateTimeFormat={phone.dateTimeFormat}
+                />
+              )} />
+            <Route
               path="/conference"
               onEnter={ensureLogin}
               component={() => (
@@ -137,7 +165,7 @@ export default function App({
                   composeText={phone.composeText}
                   router={phone.router}
                 />
-            )} />
+              )} />
             <Route
               path="/composeText"
               onEnter={ensureLogin}
@@ -165,9 +193,9 @@ export default function App({
                   conversation={phone.conversation}
                   messageStore={phone.messageStore}
                   dateTimeFormat={phone.dateTimeFormat}
-                  // contactMatcher={phone.contactMatcher}
+                // contactMatcher={phone.contactMatcher}
                 />
-            )} />
+              )} />
             <Route
               path="/messages"
               onEnter={ensureLogin}
@@ -181,9 +209,9 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   contactMatcher={phone.contactMatcher}
                   dateTimeFormat={phone.dateTimeFormat}
-                  // contactMatcher={phone.contactMatcher}
+                // contactMatcher={phone.contactMatcher}
                 />
-            )} />
+              )} />
           </Route>
           <Route
             path="/welcome"

@@ -19,7 +19,6 @@ import ExtensionPhoneNumber from 'ringcentral-integration/modules/ExtensionPhone
 import ForwardingNumber from 'ringcentral-integration/modules/ForwardingNumber';
 import GlobalStorage from 'ringcentral-integration/modules/GlobalStorage';
 import Locale from 'ringcentral-integration/modules/Locale';
-import Presence from 'ringcentral-integration/modules/Presence';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import Ringout from 'ringcentral-integration/modules/Ringout';
@@ -37,6 +36,12 @@ import Conversation from 'ringcentral-integration/modules/Conversation';
 import ContactSearch from 'ringcentral-integration/modules/ContactSearch';
 import DateTimeFormat from 'ringcentral-integration/modules/DateTimeFormat';
 import Conference from 'ringcentral-integration/modules/Conference';
+
+import ActiveCalls from 'ringcentral-integration/modules/ActiveCalls';
+import DetailedPresence from 'ringcentral-integration/modules/DetailedPresence';
+import CallLog from 'ringcentral-integration/modules/CallLog';
+import CallMonitor from 'ringcentral-integration/modules/CallMonitor';
+import CallHistory from 'ringcentral-integration/modules/CallHistory';
 
 import RouterInteraction from '../src/modules/RouterInteraction';
 
@@ -234,12 +239,19 @@ export default class Phone extends RcModule {
       tabManager: this.tabManager,
       getState: () => this.state.subscription,
     }));
-    this.addModule('presence', new Presence({
+    this.addModule('activeCalls', new ActiveCalls({
       ...options,
       auth: this.auth,
       client: this.client,
       subscription: this.subscription,
-      getState: () => this.state.presence,
+      getState: () => this.state.activeCalls,
+    }));
+    this.addModule('detailedPresence', new DetailedPresence({
+      ...options,
+      auth: this.auth,
+      client: this.client,
+      subscription: this.subscription,
+      getState: () => this.state.detailedPresence,
     }));
     this.addModule('contactSearch', new ContactSearch({
       ...options,
@@ -323,6 +335,38 @@ export default class Phone extends RcModule {
       ...options,
       getState: () => this.state.router,
     }));
+    this.addModule('callLog', new CallLog({
+      ...options,
+      auth: this.auth,
+      client: this.client,
+      subscription: this.subscription,
+      storage: this.storage,
+      rolesAndPermissions: this.rolesAndPermissions,
+      getState: () => this.state.callLog,
+    }));
+    this.addModule('callMonitor', new CallMonitor({
+      ...options,
+      accountInfo: this.accountInfo,
+      detailedPresence: this.detailedPresence,
+      activeCalls: this.activeCalls,
+      activityMatcher: this.activityMatcher,
+      contactMatcher: this.contactMatcher,
+      onRinging: async () => {
+        // TODO refactor some of these logic into appropriate modules
+        this.router.history.push('/calls');
+      },
+      getState: () => this.state.callMonitor,
+    }));
+    this.addModule('callHistory', new CallHistory({
+      ...options,
+      accountInfo: this.accountInfo,
+      callLog: this.callLog,
+      callMonitor: this.callMonitor,
+      activityMatcher: this.activityMatcher,
+      contactMatcher: this.contactMatcher,
+      getState: () => this.state.callHistory,
+    }));
+
     this._reducer = combineReducers({
       accountExtension: this.accountExtension.reducer,
       accountInfo: this.accountInfo.reducer,
@@ -344,7 +388,7 @@ export default class Phone extends RcModule {
       locale: this.locale.reducer,
       storage: this.storage.reducer,
       globalStorage: this.globalStorage.reducer,
-      presence: this.presence.reducer,
+      detailedPresence: this.detailedPresence.reducer,
       rateLimiter: this.rateLimiter.reducer,
       rolesAndPermissions: this.rolesAndPermissions.reducer,
       regionSettings: this.regionSettings.reducer,
@@ -361,6 +405,10 @@ export default class Phone extends RcModule {
       conversation: this.conversation.reducer,
       messages: this.messages.reducer,
       conference: this.conference.reducer,
+      activeCalls: this.activeCalls.reducer,
+      callLog: this.callLog.reducer,
+      callMonitor: this.callMonitor.reducer,
+      callHistory: this.callHistory.reducer,
       lastAction: (state = null, action) => {
         console.log(action);
         return action;
