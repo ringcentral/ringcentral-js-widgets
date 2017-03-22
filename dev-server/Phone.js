@@ -280,6 +280,7 @@ export default class Phone extends RcModule {
     }));
     this.addModule('composeText', new ComposeText({
       ...options,
+      auth: this.auth,
       alert: this.alert,
       storage: this.storage,
       getState: () => this.state.composeText,
