@@ -30,11 +30,11 @@ class ConversationPanel extends Component {
     };
     this.onTextAreaKeyDown = (e) => {
       if (e.key === 'Enter') {
-        e.preventDefault();
+        this.props.replyToReceivers(this.state.textValue);
         this.setState({
           textValue: '',
         });
-        this.props.replyToReceivers(this.state.textValue);
+        e.preventDefault();
       }
     };
   }
