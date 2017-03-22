@@ -79,6 +79,15 @@ var ConversationPanel = function (_Component) {
       });
       e.preventDefault();
     };
+    _this.onTextAreaKeyDown = function (e) {
+      if (e.key === 'Enter') {
+        _this.props.replyToReceivers(_this.state.textValue);
+        _this.setState({
+          textValue: ''
+        });
+        e.preventDefault();
+      }
+    };
     return _this;
   }
 
@@ -133,7 +142,8 @@ var ConversationPanel = function (_Component) {
                 placeholder: _i18n2.default.getString('typeAnyToSend', this.props.currentLocale),
                 value: this.state.textValue,
                 maxLength: '1000',
-                onChange: this.onTextChange
+                onChange: this.onTextChange,
+                onKeyDown: this.onTextAreaKeyDown
               })
             ),
             _react2.default.createElement(
