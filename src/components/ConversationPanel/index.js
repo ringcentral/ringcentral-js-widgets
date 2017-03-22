@@ -28,6 +28,15 @@ class ConversationPanel extends Component {
       });
       e.preventDefault();
     };
+    this.onTextAreaKeyDown = (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        this.setState({
+          textValue: '',
+        });
+        this.props.replyToReceivers(this.state.textValue);
+      }
+    };
   }
 
   render() {
@@ -71,6 +80,7 @@ class ConversationPanel extends Component {
                 value={this.state.textValue}
                 maxLength="1000"
                 onChange={this.onTextChange}
+                onKeyDown={this.onTextAreaKeyDown}
               />
             </div>
             <div className={styles.submitField}>
