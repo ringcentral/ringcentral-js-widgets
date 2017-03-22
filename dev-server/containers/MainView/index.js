@@ -14,17 +14,18 @@ const tabs = [
       currentPath.substr(0, 9) === '/settings'
     ),
   },
-  // {
-  //   icon: <span className={rcFont.uniAE} />,
-  //   label: 'Calls',
-  //   path: '/calls',
-  // },
-  // {
-  //   icon: <span className={rcFont.uniC8} />,
-  //   label: 'History',
-  //   path: '/history',
-  // },
-  // icon_conference
+  {
+    icon: <span className={dynamicsFont.iconCall} />,
+    activityIcon: <span className={dynamicsFont.callHover} />,
+    label: 'Calls',
+    path: '/calls',
+  },
+  {
+    icon: <span className={dynamicsFont.history} />,
+    activityIcon: <span className={dynamicsFont.historyHover} />,
+    label: 'History',
+    path: '/history',
+  },
   {
     icon: <span className={dynamicsFont.iconConference} />,
     activityIcon: <span className={dynamicsFont.iconConference} />,
