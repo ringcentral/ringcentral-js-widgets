@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import ComposeText from 'ringcentral-integration/modules/ComposeText';
 import MessageStore from 'ringcentral-integration/modules/MessageStore';
+import RolesAndPermissions from 'ringcentral-integration/modules/RolesAndPermissions';
 
 import RouterInteraction from '../../modules/RouterInteraction';
 
@@ -24,6 +25,7 @@ const ComposeTextPage = connect((state, props) => ({
   typingToNumber: props.composeText.typingToNumber,
   toNumbers: props.composeText.toNumbers,
   messageText: props.composeText.messageText,
+  internalSMS: props.rolesAndPermissions.permissions.InternalSMS,
   searchContactList: props.contactSearch.searching.result,
 }), (dispatch, props) => {
   const formatPhone = phoneNumber => (
@@ -74,6 +76,7 @@ ComposeTextPage.propTypes = {
   router: PropTypes.instanceOf(RouterInteraction).isRequired,
   composeText: PropTypes.instanceOf(ComposeText).isRequired,
   messageStore: PropTypes.instanceOf(MessageStore).isRequired,
+  rolesAndPermissions: PropTypes.instanceOf(RolesAndPermissions).isRequired,
 };
 
 export default ComposeTextPage;
