@@ -215,19 +215,19 @@ var CallHistory = function (_RcModule) {
     _this.addSelector('calls', _this._selectors.normalizedCalls, function () {
       return _this.state.endedCalls;
     }, function () {
-      return _this._contactMatcher && _this._contactMatcher.ready ? _this._contactMatcher.cache : null;
+      return _this._contactMatcher && _this._contactMatcher.dataMapping;
     }, function () {
-      return _this._activityMatcher && _this._activityMatcher.ready ? _this._activityMatcher.cache : null;
-    }, function (normalizedCalls, endedCalls, contactCache, activityCache) {
+      return _this._activityMatcher && _this._activityMatcher.dataMapping;
+    }, function (normalizedCalls, endedCalls, contactMapping, activityMapping) {
       var sessionIds = {};
       return normalizedCalls.map(function (call) {
         sessionIds[call.sessionId] = true;
         var fromNumber = call.from && (call.from.phoneNumber || call.from.extensionNumber);
         var toNumber = call.to && (call.to.phoneNumber || call.to.extensionNumber);
         return (0, _extends3.default)({}, call, {
-          fromMatches: fromNumber && contactCache && contactCache.dataMap[fromNumber] || [],
-          toMatches: toNumber && contactCache && contactCache.dataMap[toNumber] || [],
-          activityMatches: activityCache && activityCache.dataMap[call.sessionId] || []
+          fromMatches: fromNumber && contactMapping[fromNumber] || [],
+          toMatches: toNumber && contactMapping[toNumber] || [],
+          activityMatches: activityMapping[call.sessionId] || []
         });
       }).concat(endedCalls.filter(function (call) {
         return !sessionIds[call.sessionId];
