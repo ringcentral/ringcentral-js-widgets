@@ -25,7 +25,7 @@ const ComposeTextPage = connect((state, props) => ({
   typingToNumber: props.composeText.typingToNumber,
   toNumbers: props.composeText.toNumbers,
   messageText: props.composeText.messageText,
-  internalSMS: props.rolesAndPermissions.permissions.InternalSMS,
+  outboundSMS: props.rolesAndPermissions.permissions.OutboundSMS,
   searchContactList: props.contactSearch.searching.result,
 }), (dispatch, props) => {
   const formatPhone = phoneNumber => (

@@ -40,7 +40,7 @@ class ComposeTextPanel extends Component {
     super(props);
 
     this.state = {
-      showAlert: !this.hasSenderNumbers() && !this.props.internalSMS,
+      showAlert: !this.hasSenderNumbers() && this.props.outboundSMS,
     };
 
     this.onSenderChange = (e) => {
@@ -215,14 +215,14 @@ ComposeTextPanel.propTypes = {
     phoneNumber: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   })).isRequired,
-  internalSMS: PropTypes.bool,
+  outboundSMS: PropTypes.bool,
 };
 
 ComposeTextPanel.defaultProps = {
   messageText: '',
   typingToNumber: '',
   senderNumber: '',
-  internalSMS: '',
+  outboundSMS: false,
 };
 
 export default ComposeTextPanel;
