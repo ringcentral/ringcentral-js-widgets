@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CallList/i18n/fr-FR.js"],"names":["noActiveCalls"],"mappings":";;;;;kBAAe;AACbA,iBAAe;AADF,C","file":"fr-FR.js","sourcesContent":["export default {\n  noActiveCalls: 'Aucun appel actif',\n};\n"]}
