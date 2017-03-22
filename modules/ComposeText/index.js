@@ -76,10 +76,11 @@ var ComposeText = function (_RcModule) {
 
   function ComposeText(_ref) {
     var alert = _ref.alert,
+        auth = _ref.auth,
         storage = _ref.storage,
         messageSender = _ref.messageSender,
         numberValidate = _ref.numberValidate,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'storage', 'messageSender', 'numberValidate']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'auth', 'storage', 'messageSender', 'numberValidate']);
     (0, _classCallCheck3.default)(this, ComposeText);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ComposeText.__proto__ || (0, _getPrototypeOf2.default)(ComposeText)).call(this, (0, _extends3.default)({}, options, {
@@ -87,6 +88,7 @@ var ComposeText = function (_RcModule) {
     })));
 
     _this._alert = alert;
+    _this._auth = auth;
     _this._storage = storage;
     _this._storageKey = 'composeText';
     _this._reducer = (0, _getComposeTextReducer2.default)(_this.actionTypes);
@@ -121,6 +123,9 @@ var ComposeText = function (_RcModule) {
         this.store.dispatch({
           type: this.actionTypes.initSuccess
         });
+        if (this._auth.isFreshLogin) {
+          this.clean();
+        }
         this._initSenderNumber();
       } else if (this._shouldReset()) {
         this._resetModuleStatus();
@@ -129,7 +134,7 @@ var ComposeText = function (_RcModule) {
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return this._messageSender.ready && !this.ready;
+      return this._messageSender.ready && this._auth.ready && !this.ready;
     }
   }, {
     key: '_shouldReset',

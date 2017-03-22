@@ -571,6 +571,7 @@ var Phone = function (_RcModule) {
     })));
 
     _this.addModule('composeText', new _ComposeText2.default((0, _extends3.default)({}, options, {
+      auth: _this.auth,
       alert: _this.alert,
       storage: _this.storage,
       getState: function getState() {
