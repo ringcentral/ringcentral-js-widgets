@@ -73,8 +73,8 @@
 
 .notice {
   position: absolute;
-  bottom: 2em;
-  right: calc(50% - 2em);;
+  bottom: 1.9em;
+  right: calc(50% - 1.6em);
   width: 1.4em;
   height: 1.4em;
   border-radius: 100%;
@@ -82,20 +82,20 @@
   font-family: Lato;
   text-align: center;
   font-size: 0.7em;
-  background-color: $rc-orange;
+  background-color: #f65d60;
   overflow: hidden;
 }
 .notices {
   position: absolute;
   bottom: 2em;
-  right: calc(50% - 2em);;
-  width: 1.8em;
-  height: 1.8em;
-  border-radius: 100%;
-  line-height: 1.8em;
+  right: calc(50% - 2em);
+  width: 2.1em;
+  height: 1.5em;
+  border-radius: 3em;
+  line-height: 1.5em;
   font-family: Lato;
   text-align: center;
   font-size: 0.6em;
-  background-color: $rc-orange;
+  background-color: #f65d60;
   overflow: hidden;
 }
