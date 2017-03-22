@@ -218,7 +218,10 @@ var CallHistory = function (_RcModule) {
       return _this._contactMatcher && _this._contactMatcher.dataMapping;
     }, function () {
       return _this._activityMatcher && _this._activityMatcher.dataMapping;
-    }, function (normalizedCalls, endedCalls, contactMapping, activityMapping) {
+    }, function (normalizedCalls, endedCalls) {
+      var contactMapping = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      var activityMapping = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
       var sessionIds = {};
       return normalizedCalls.map(function (call) {
         sessionIds[call.sessionId] = true;

@@ -222,7 +222,9 @@ var CallMonitor = function (_RcModule) {
       return _this._contactMatcher && _this._contactMatcher.dataMapping;
     }, function () {
       return _this._activityMatcher && _this._activityMatcher.dataMapping;
-    }, function (normalizedCalls, contactMapping, activityMapping) {
+    }, function (normalizedCalls) {
+      var contactMapping = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+      var activityMapping = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       return normalizedCalls.map(function (call) {
         var fromNumber = call.from && call.from.phoneNumber;
         var toNumber = call.to && call.to.phoneNumber;
