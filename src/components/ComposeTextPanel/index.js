@@ -40,7 +40,7 @@ class ComposeTextPanel extends Component {
     super(props);
 
     this.state = {
-      showAlert: !this.hasSenderNumbers(),
+      showAlert: !this.hasSenderNumbers() && !this.props.internalSMS,
     };
 
     this.onSenderChange = (e) => {
@@ -117,7 +117,7 @@ class ComposeTextPanel extends Component {
   }
 
   hasSenderNumbers() {
-    return this.props.senderNumbers.length > 0 || this.props.internalSMS;
+    return this.props.senderNumbers.length > 0;
   }
 
   render() {
