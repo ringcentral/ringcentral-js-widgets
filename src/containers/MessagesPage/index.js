@@ -40,9 +40,9 @@ class MessagesPage extends Component {
     }
     return recipients.map((recipient) => {
       const phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
-      if (recipient.matchedNames) {
-        const matcherName = recipient.matchedNames.map(matcher => matcher.name).join('&');
-        if (matcherName.length > 0) {
+      if (phoneNumber && this.props.matcherContactName) {
+        const matcherName = this.props.matcherContactName(phoneNumber);
+        if (matcherName) {
           return matcherName;
         }
         return this.props.formatPhone(phoneNumber);
@@ -63,9 +63,9 @@ class MessagesPage extends Component {
         if (searchNumber && searchNumber.length > 0 && phoneNumber.indexOf(searchNumber) >= 0) {
           return true;
         }
-        if (recipient.matchedNames) {
-          const matcherName = recipient.matchedNames.map(matcher => matcher.name).join('&');
-          if (matcherName.length > 0) {
+        if (this.props.matcherContactName) {
+          const matcherName = this.props.matcherContactName(phoneNumber);
+          if (matcherName) {
             recipientName = matcherName;
           } else {
             recipientName = phoneNumber;
@@ -175,12 +175,17 @@ MessagesPage.propTypes = {
   getRecipientsList: PropTypes.func.isRequired,
   searchMessagesText: PropTypes.func.isRequired,
   updateSearchResults: PropTypes.func.isRequired,
+  matcherContactName: PropTypes.func,
+};
+
+MessagesPage.defaultProps = {
+  matcherContactName: null,
 };
 
 function mapStateToProps(state, props) {
   return ({
     currentLocale: props.locale.currentLocale,
-    messages: props.messages.normalizedMessages,
+    messages: props.messages.messages,
     allMessages: props.messageStore.conversations,
     showSpinner: (
       !props.messages.ready ||
@@ -195,6 +200,16 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch, props) {
+  let matcherContactName = null;
+  if (props.contactMatcher && props.contactMatcher.ready) {
+    matcherContactName = (phoneNumber) => {
+      const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
+      if (matcherNames && matcherNames.length > 0) {
+        return matcherNames.map(matcher => matcher.name).join('&');
+      }
+      return null;
+    };
+  }
   return {
     loadNextPageMessages: props.messages.loadNextPageMessages,
     updateSearchingString: props.messages.updateSearchingString,
@@ -214,6 +229,7 @@ function mapDispatchToProps(dispatch, props) {
     }),
     searchMessagesText: searchText =>
       props.messageStore.searchMessagesText(searchText),
+    matcherContactName,
   };
 }
 
