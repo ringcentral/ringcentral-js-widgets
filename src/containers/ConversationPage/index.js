@@ -91,7 +91,7 @@ function mapStateToProps(state, props) {
     conversationId: props.params.conversationId,
     sendButtonDisabled: props.conversation.pushing,
     showSpinner: (
-      !props.dateTimeIntl.ready ||
+      !props.dateTimeFormat.ready ||
       (props.contactMatcher && !props.contactMatcher.ready) ||
       !props.conversation.ready ||
       !props.regionSettings.ready
@@ -106,8 +106,8 @@ function mapDispatchToProps(dispatch, props) {
   if (props.contactMatcher && props.contactMatcher.ready) {
     matcherContactName = (phoneNumber) => {
       const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
-      if (matcherNames && matcherNames[0] && matcherNames[0].name) {
-        return matcherNames[0].name;
+      if (matcherNames && matcherNames.length > 0) {
+        return matcherNames.map(matcher => matcher.name).join('&');
       }
       return null;
     };
@@ -117,9 +117,10 @@ function mapDispatchToProps(dispatch, props) {
     changeDefaultRecipient: props.conversation.changeDefaultRecipient,
     unloadConversation: () => props.conversation.unloadConversation(),
     loadConversationById: id => props.conversation.loadConversationById(id),
-    formatDateTime: utcString => props.dateTimeIntl.formatDateTime({
-      utcString,
-    }),
+    formatDateTime: props.formatDateTime ||
+    (utcTimestamp => props.dateTimeFormat.formatDateTime({
+      utcTimestamp,
+    })),
     formatNumber: phoneNumber => formatNumber({
       phoneNumber,
       areaCode: props.regionSettings.areaCode,

@@ -16,6 +16,7 @@ import semver from 'semver';
 import transformLocaleLoader from 'locale-loader/transformLocaleLoader';
 import dedent from 'dedent';
 import exportLocale from 'locale-loader/exportLocale';
+import importLocale from 'locale-loader/importLocale';
 import devServerConfig from './dev-server/config';
 
 gulp.task('dev-server', async () => {
@@ -156,3 +157,4 @@ gulp.task('generate-font', async () => {
 });
 
 gulp.task('export-locale', () => exportLocale());
+gulp.task('import-locale', () => importLocale());
