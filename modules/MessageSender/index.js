@@ -187,6 +187,7 @@ var MessageSender = function (_RcModule) {
       if ((0, _isBlank2.default)(senderNumber)) {
         validateResult = false;
       }
+      this.store.dispatch({ type: this.actionTypes.validate });
       if (validateResult) {
         var isMySenderNumber = this.senderNumbersList.find(function (number) {
           return number === senderNumber;
@@ -196,6 +197,7 @@ var MessageSender = function (_RcModule) {
         }
       }
       if (!validateResult) {
+        this.store.dispatch({ type: this.actionTypes.validateError });
         this._alertWarning(_messageSenderMessages2.default.senderNumberInvalids);
       }
       return validateResult;
