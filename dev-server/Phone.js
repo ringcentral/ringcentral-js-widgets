@@ -294,7 +294,6 @@ export default class Phone extends RcModule {
       ...options,
       auth: this.auth,
       alert: this.alert,
-      auth: this.auth,
       storage: this.storage,
       getState: () => this.state.composeText,
       messageSender: this.messageSender,
