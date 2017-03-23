@@ -1,3 +1,5 @@
+@import '../../lib/commonStyles/colors';
+
 .messageItem {
   position: relative;
   width: 100%;
@@ -77,15 +79,15 @@
 
 .unRead {
   .typeIcon {
-    color: #0073ae;
+    color: $primary-color;
   }
 
   .messageFrom {
-    color: #0073ae;
+    color: $primary-color;
   }
 
   .messageText {
-    color: #0073ae;
+    color: $primary-color;
   }
 }
 

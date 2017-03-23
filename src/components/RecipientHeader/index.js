@@ -5,8 +5,9 @@ import styles from './styles.scss';
 import i18n from './i18n';
 
 function RecipientName(props) {
+  const className = classnames(styles.recipient, props.className);
   return (
-    <a href="#recipient" className={styles.recipient} onClick={props.onClick}>
+    <a href="#recipient" className={className} onClick={props.onClick}>
       {props.name}
     </a>
   );
@@ -15,6 +16,11 @@ function RecipientName(props) {
 RecipientName.propTypes = {
   name: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  className: PropTypes.string,
+};
+
+RecipientName.defaultProps = {
+  className: null
 };
 
 function MatchedNameList(props) {
@@ -52,10 +58,17 @@ class RecipientHeader extends Component {
         showDropdownList: !preState.showDropdownList,
       }));
     };
-    this.setDefaultMatchedName = () => {
-      this.setState(preState => ({
-        showDropdownList: !preState.showDropdownList,
-      }));
+    this.setDefaultMatchedName = (matchedName) => {
+      const recipient = this.props.recipient;
+      const phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
+      const matchedNames = this.context.getMatcherContactList(phoneNumber);
+      if (!matchedNames) {
+        return;
+      }
+      let newMatchedNames = matchedNames.filter(name => name !== matchedName);
+      newMatchedNames = [matchedName].concat(newMatchedNames);
+      this.context.changeMatchedNames(newMatchedNames);
+      this.toggleDropdown();
     };
   }
 
@@ -100,6 +113,7 @@ class RecipientHeader extends Component {
         <RecipientName
           name={defaultRecipient}
           onClick={this.toggleDropdown}
+          className={styles.dropdownButton}
         />
         {this.props.dropdownIcon}
         <MatchedNameList
@@ -127,6 +141,7 @@ RecipientHeader.propTypes = {
 RecipientHeader.contextTypes = {
   getRecipientName: PropTypes.func.isRequired,
   getMatcherContactList: PropTypes.func.isRequired,
+  changeMatchedNames: PropTypes.func.isRequired,
 };
 
 export default RecipientHeader;

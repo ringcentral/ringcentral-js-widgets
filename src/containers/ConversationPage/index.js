@@ -11,6 +11,7 @@ class ConversationPage extends Component {
       formatPhone: this.props.formatNumber,
       formatDateTime: this.props.formatDateTime,
       changeDefaultRecipient: this.props.changeDefaultRecipient,
+      changeMatchedNames: this.props.changeMatchedNames,
       getRecipientName: recipient => (this.getRecipientName(recipient)),
       getMatcherContactList: this.props.getMatcherContactList,
     };
@@ -86,6 +87,7 @@ ConversationPage.childContextTypes = {
   formatDateTime: PropTypes.func.isRequired,
   getRecipientName: PropTypes.func.isRequired,
   changeDefaultRecipient: PropTypes.func.isRequired,
+  changeMatchedNames: PropTypes.func.isRequired,
   getMatcherContactList: PropTypes.func.isRequired,
 };
 
@@ -106,8 +108,8 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch, props) {
-  let getMatcherContactName = undefined;
-  let getMatcherContactList = undefined;
+  let getMatcherContactName;
+  let getMatcherContactList;
   if (props.contactMatcher && props.contactMatcher.ready) {
     getMatcherContactList = (phoneNumber) => {
       const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
@@ -129,6 +131,7 @@ function mapDispatchToProps(dispatch, props) {
   return {
     replyToReceivers: props.conversation.replyToReceivers,
     changeDefaultRecipient: props.conversation.changeDefaultRecipient,
+    changeMatchedNames: props.conversation.changeMatchedNames,
     unloadConversation: () => props.conversation.unloadConversation(),
     loadConversationById: id => props.conversation.loadConversationById(id),
     formatDateTime: props.formatDateTime ||

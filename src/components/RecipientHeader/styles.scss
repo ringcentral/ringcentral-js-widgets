@@ -5,6 +5,9 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  &:hover {
+    background: transparent;
+  }
 }
 
 .recipient {
@@ -24,5 +27,13 @@
 }
 
 .active {
-  display: block;
+  display: block!important;
+}
+
+.dropdownButton {
+  line-height: 36px;
+  height: 36px;
+  &:hover {
+    background: transparent;
+  }
 }
