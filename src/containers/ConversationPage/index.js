@@ -75,6 +75,7 @@ ConversationPage.propTypes = {
   formatDateTime: PropTypes.func.isRequired,
   getMatcherContactName: PropTypes.func,
   getMatcherContactList: PropTypes.func,
+  changeMatchedNames: PropTypes.func.isRequired,
 };
 
 ConversationPage.defaultProps = {
