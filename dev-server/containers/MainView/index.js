@@ -63,7 +63,7 @@ const MainView = connect((state, props) => {
   }
   if (props.rolesAndPermissions.permissions &&
       props.rolesAndPermissions.permissions.OutboundSMS !== true &&
-      props.rolesAndPermissions.permissions.internalSMS !== true
+      props.rolesAndPermissions.permissions.InternalSMS !== true
       ) {
     return {
       tabs: tabs.filter(tab =>
