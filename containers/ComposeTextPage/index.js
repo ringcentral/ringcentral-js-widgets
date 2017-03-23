@@ -20,6 +20,10 @@ var _MessageStore = require('ringcentral-integration/modules/MessageStore');
 
 var _MessageStore2 = _interopRequireDefault(_MessageStore);
 
+var _RolesAndPermissions = require('ringcentral-integration/modules/RolesAndPermissions');
+
+var _RolesAndPermissions2 = _interopRequireDefault(_RolesAndPermissions);
+
 var _RouterInteraction = require('../../modules/RouterInteraction');
 
 var _RouterInteraction2 = _interopRequireDefault(_RouterInteraction);
@@ -39,6 +43,7 @@ var ComposeTextPage = (0, _reactRedux.connect)(function (state, props) {
     typingToNumber: props.composeText.typingToNumber,
     toNumbers: props.composeText.toNumbers,
     messageText: props.composeText.messageText,
+    outboundSMS: props.rolesAndPermissions.permissions.OutboundSMS,
     searchContactList: props.contactSearch.searching.result
   };
 }, function (dispatch, props) {
@@ -87,7 +92,8 @@ var ComposeTextPage = (0, _reactRedux.connect)(function (state, props) {
 ComposeTextPage.propTypes = {
   router: _react.PropTypes.instanceOf(_RouterInteraction2.default).isRequired,
   composeText: _react.PropTypes.instanceOf(_ComposeText2.default).isRequired,
-  messageStore: _react.PropTypes.instanceOf(_MessageStore2.default).isRequired
+  messageStore: _react.PropTypes.instanceOf(_MessageStore2.default).isRequired,
+  rolesAndPermissions: _react.PropTypes.instanceOf(_RolesAndPermissions2.default).isRequired
 };
 
 exports.default = ComposeTextPage;

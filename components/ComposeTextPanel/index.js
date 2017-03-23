@@ -103,7 +103,7 @@ var ComposeTextPanel = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (ComposeTextPanel.__proto__ || (0, _getPrototypeOf2.default)(ComposeTextPanel)).call(this, props));
 
     _this.state = {
-      showAlert: !_this.hasSenderNumbers()
+      showAlert: !_this.hasSenderNumbers() && _this.props.outboundSMS
     };
 
     _this.onSenderChange = function (e) {
@@ -290,13 +290,15 @@ ComposeTextPanel.propTypes = {
   toNumbers: _react2.default.PropTypes.arrayOf(_react.PropTypes.shape({
     phoneNumber: _react.PropTypes.string.isRequired,
     name: _react.PropTypes.string.isRequired
-  })).isRequired
+  })).isRequired,
+  outboundSMS: _react.PropTypes.bool
 };
 
 ComposeTextPanel.defaultProps = {
   messageText: '',
   typingToNumber: '',
-  senderNumber: ''
+  senderNumber: '',
+  outboundSMS: false
 };
 
 exports.default = ComposeTextPanel;
