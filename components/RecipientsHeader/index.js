@@ -36,6 +36,10 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _RecipientHeader = require('../RecipientHeader');
+
+var _RecipientHeader2 = _interopRequireDefault(_RecipientHeader);
+
 var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
 var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
@@ -99,9 +103,6 @@ var RecipientsHeader = function (_Component) {
       showDropdownList: false
     };
     _this.toggleDropdown = function () {
-      if (!_this.hasDropdown()) {
-        return;
-      }
       _this.setState(function (preState) {
         return {
           showDropdownList: !preState.showDropdownList
@@ -120,38 +121,44 @@ var RecipientsHeader = function (_Component) {
   }
 
   (0, _createClass3.default)(RecipientsHeader, [{
-    key: 'hasDropdown',
-    value: function hasDropdown() {
-      return this.props.recipients.length > 1;
-    }
-  }, {
     key: 'render',
     value: function render() {
       var recipients = this.props.recipients;
+      if (recipients.length === 0) {
+        return null;
+      }
+      var dropdownIcon = _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.dropdownIcon) });
+      var dropdownClass = _styles2.default.dropdownList;
+      if (recipients.length === 1) {
+        return _react2.default.createElement(
+          'h1',
+          { className: _styles2.default.container },
+          _react2.default.createElement(_RecipientHeader2.default, {
+            recipient: recipients[0],
+            currentLocale: this.props.currentLocale,
+            dropdownIcon: dropdownIcon,
+            dropdownClassName: dropdownClass
+          })
+        );
+      }
       var defaultRecipient = recipients[0];
-      var dropdownList = null;
-      var hasDropdown = this.hasDropdown();
-      if (hasDropdown) {
-        var dropdownClass = _styles2.default.dropdownList;
-        if (this.state.showDropdownList) {
-          dropdownClass = (0, _classnames2.default)(dropdownClass, _styles2.default.active);
-        }
-        dropdownList = _react2.default.createElement(RecipientList, {
-          recipients: recipients,
-          className: dropdownClass,
-          setDefaultRecipient: this.setDefaultRecipient,
-          getRecipientName: this.context.getRecipientName
-        });
+      if (this.state.showDropdownList) {
+        dropdownClass = (0, _classnames2.default)(dropdownClass, _styles2.default.active);
       }
       return _react2.default.createElement(
         'h1',
         { className: _styles2.default.container },
-        defaultRecipient && _react2.default.createElement(Recipient, {
+        _react2.default.createElement(Recipient, {
           name: this.context.getRecipientName(defaultRecipient),
           onClick: this.toggleDropdown
         }),
-        hasDropdown && _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.dropdownIcon) }),
-        dropdownList
+        dropdownIcon,
+        _react2.default.createElement(RecipientList, {
+          recipients: recipients,
+          className: dropdownClass,
+          setDefaultRecipient: this.setDefaultRecipient,
+          getRecipientName: this.context.getRecipientName
+        })
       );
     }
   }]);
@@ -159,7 +166,8 @@ var RecipientsHeader = function (_Component) {
 }(_react.Component);
 
 RecipientsHeader.propTypes = {
-  recipients: RecipientList.propTypes.recipients
+  recipients: RecipientList.propTypes.recipients,
+  currentLocale: _react.PropTypes.string.isRequired
 };
 
 RecipientsHeader.contextTypes = {

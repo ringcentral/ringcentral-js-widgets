@@ -125,7 +125,8 @@ var ConversationPanel = function (_Component) {
             _react2.default.createElement('span', { className: _DynamicsFont2.default.iconArrowRight })
           ),
           _react2.default.createElement(_RecipientsHeader2.default, {
-            recipients: recipients
+            recipients: recipients,
+            currentLocale: this.props.currentLocale
           })
         ),
         conversationBody,
