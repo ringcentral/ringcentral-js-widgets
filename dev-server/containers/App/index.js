@@ -69,7 +69,8 @@ export default function App({
               <MainView
                 router={phone.router}
                 messageStore={phone.messageStore}
-                auth={phone.auth} >
+                auth={phone.auth}
+                rolesAndPermissions={phone.rolesAndPermissions} >
                 {props.children}
                 <AlertContainer
                   locale={phone.locale}
