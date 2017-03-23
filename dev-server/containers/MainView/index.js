@@ -65,6 +65,14 @@ const MainView = connect((state, props) => {
       props.rolesAndPermissions.permissions.OutboundSMS !== true &&
       props.rolesAndPermissions.permissions.InternalSMS !== true
       ) {
+    if (props.rolesAndPermissions.permissions.ReadMessages === true) {
+      return {
+        tabs: tabs.filter(tab =>
+                 tab.label !== 'SMS'),
+        unreadCounts: props.messageStore.unreadCounts,
+        currentPath: props.router.currentPath,
+      };
+    }
     return {
       tabs: tabs.filter(tab =>
                 tab.label !== 'SMS' && tab.label !== 'Messages'),
