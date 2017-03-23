@@ -61,6 +61,17 @@ const MainView = connect((state, props) => {
   if (messageTab) {
     messageTab.noticeCounts = props.messageStore.unreadCounts;
   }
+  if (props.rolesAndPermissions.permissions &&
+      props.rolesAndPermissions.permissions.OutboundSMS !== true &&
+      props.rolesAndPermissions.permissions.internalSMS !== true
+      ) {
+    return {
+      tabs: tabs.filter(tab =>
+                tab.label !== 'SMS' && tab.label !== 'Messages'),
+      unreadCounts: props.messageStore.unreadCounts,
+      currentPath: props.router.currentPath,
+    };
+  }
   return {
     tabs,
     unreadCounts: props.messageStore.unreadCounts,
