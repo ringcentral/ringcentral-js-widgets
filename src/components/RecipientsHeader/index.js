@@ -1,6 +1,7 @@
 import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 
+import RecipientHeader from '../RecipientHeader';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 import styles from './styles.scss';
@@ -57,9 +58,6 @@ class RecipientsHeader extends Component {
       showDropdownList: false,
     };
     this.toggleDropdown = () => {
-      if (!this.hasDropdown()) {
-        return;
-      }
       this.setState(preState => ({
         showDropdownList: !preState.showDropdownList,
       }));
@@ -72,43 +70,44 @@ class RecipientsHeader extends Component {
     };
   }
 
-  hasDropdown() {
-    return this.props.recipients.length > 1;
-  }
-
   render() {
     const recipients = this.props.recipients;
+    if (recipients.length === 0) {
+      return null;
+    }
+    const dropdownIcon = (
+      <i className={classnames(dynamicsFont.arrow, styles.dropdownIcon)} />
+    );
+    let dropdownClass = styles.dropdownList;
+    if (recipients.length === 1) {
+      return (
+        <h1 className={styles.container}>
+          <RecipientHeader
+            recipient={recipients[0]}
+            currentLocale={this.props.currentLocale}
+            dropdownIcon={dropdownIcon}
+            dropdownClassName={dropdownClass}
+          />
+        </h1>
+      );
+    }
     const defaultRecipient = recipients[0];
-    let dropdownList = null;
-    const hasDropdown = this.hasDropdown();
-    if (hasDropdown) {
-      let dropdownClass = styles.dropdownList;
-      if (this.state.showDropdownList) {
-        dropdownClass = classnames(dropdownClass, styles.active);
-      }
-      dropdownList = (
+    if (this.state.showDropdownList) {
+      dropdownClass = classnames(dropdownClass, styles.active);
+    }
+    return (
+      <h1 className={styles.container}>
+        <Recipient
+          name={this.context.getRecipientName(defaultRecipient)}
+          onClick={this.toggleDropdown}
+        />
+        {dropdownIcon}
         <RecipientList
           recipients={recipients}
           className={dropdownClass}
           setDefaultRecipient={this.setDefaultRecipient}
           getRecipientName={this.context.getRecipientName}
         />
-      );
-    }
-    return (
-      <h1 className={styles.container}>
-        {
-          defaultRecipient &&
-          <Recipient
-            name={this.context.getRecipientName(defaultRecipient)}
-            onClick={this.toggleDropdown}
-          />
-        }
-        {
-          hasDropdown &&
-          <i className={classnames(dynamicsFont.arrow, styles.dropdownIcon)} />
-        }
-        {dropdownList}
       </h1>
     );
   }
@@ -116,6 +115,7 @@ class RecipientsHeader extends Component {
 
 RecipientsHeader.propTypes = {
   recipients: RecipientList.propTypes.recipients,
+  currentLocale: PropTypes.string.isRequired,
 };
 
 RecipientsHeader.contextTypes = {

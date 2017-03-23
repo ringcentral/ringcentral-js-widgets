@@ -69,6 +69,7 @@ class ConversationPanel extends Component {
           </Link>
           <RecipientsHeader
             recipients={recipients}
+            currentLocale={this.props.currentLocale}
           />
         </div>
         {conversationBody}
