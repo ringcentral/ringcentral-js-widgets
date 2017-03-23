@@ -622,7 +622,7 @@ var MessageSender = function (_RcModule) {
       var errResp = error.apiResponse;
       if (errResp && errResp.response && !errResp.response.ok && (errResp._json.errorCode === 'InvalidParameter' || errResp._json.errorCode === 'InternationalProhibited')) {
         errResp._json.errors.map(function (err) {
-          if ((err.errorCode === 'CMN-101' || err.errorCode === 'CMN-102') && err.parameterName.startsWith('to')) {
+          if ((err.errorCode === 'CMN-101' || err.errorCode === 'CMN-102' || err.errorCode === 'CMN-414') && err.parameterName.startsWith('to')) {
             // 101 : "Parameter [to.extensionNumber] value is invalid"
             // 101 : "Parameter [to.phoneNumber] value is invalid"
             // 102 : "Resource for parameter [to] is not found"

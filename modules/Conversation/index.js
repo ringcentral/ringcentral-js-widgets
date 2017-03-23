@@ -86,6 +86,7 @@ var Conversation = function (_RcModule) {
     _this._promise = null;
     _this.replyToReceivers = _this.replyToReceivers.bind(_this);
     _this.changeDefaultRecipient = _this.changeDefaultRecipient.bind(_this);
+    _this.changeMatchedNames = _this.changeMatchedNames.bind(_this);
     return _this;
   }
 
@@ -151,6 +152,18 @@ var Conversation = function (_RcModule) {
       this.store.dispatch({
         type: this.actionTypes.unload
       });
+    }
+  }, {
+    key: 'changeMatchedNames',
+    value: function changeMatchedNames(matchedNames) {
+      var recipients = this.recipients.slice();
+      if (recipients.length !== 1) {
+        return;
+      }
+      if (matchedNames) {
+        recipients[0].matchedNames = matchedNames;
+        this._updateConversationRecipients(recipients);
+      }
     }
   }, {
     key: 'changeDefaultRecipient',
