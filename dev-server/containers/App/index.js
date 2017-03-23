@@ -178,6 +178,7 @@ export default function App({
                   router={phone.router}
                   regionSettings={phone.regionSettings}
                   contactSearch={phone.contactSearch}
+                  rolesAndPermissions={phone.rolesAndPermissions}
                   messageSender={phone.messageSender}
                 />
               )} />
