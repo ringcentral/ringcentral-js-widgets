@@ -17,9 +17,7 @@ export default {
   [messageSenderMessages.internalError]: 'Cannot connect due to internal errors. Please try again later.',
   [messageSenderMessages.notAnExtension]: 'The extension number does not exist.',
   [messageSenderMessages.networkError]: 'Cannot connect due to network issues. Please try again later.',
-  [messageSenderMessages.senderNumberInvalids]: `You don't have valid phone number to send SMS 
-    from. Please contact your account administrator.`,
-  [messageSenderMessages.senderNumbersInvalids]: `A valid Phone Number is required to send text
+  [messageSenderMessages.senderNumberInvalid]: `A valid Phone Number is required to send text
     message to recipients outside of your company. Please contact your Administrator to add 
     a direct number to your account.`,
   [messageSenderMessages.notSmsToExtension]: `Cannot send To a extension number with main phone number.
