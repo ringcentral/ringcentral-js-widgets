@@ -111,7 +111,7 @@ class ComposeTextPanel extends Component {
       {
         id: '1',
         level: 'warning',
-        message: messageSenderMessages.senderNumberInvalids,
+        message: messageSenderMessages.senderNumbersInvalids,
       }
     ];
   }
