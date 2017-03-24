@@ -1,6 +1,8 @@
 import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 
+import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
+
 import styles from './styles.scss';
 import i18n from './i18n';
 
@@ -28,6 +30,17 @@ function MatchedNameList(props) {
   return (
     <div className={props.className}>
       {
+        this.props.isSelected ?
+          <RecipientName
+            name={i18n.getString('selectMatchedName', this.props.currentLocale)}
+            className={styles.noClick}
+            onClick={
+              () => null
+            }
+          /> :
+          null
+      }
+      {
         matchedNames.map(matchedName => (
           <RecipientName
             key={matchedName}
@@ -43,6 +56,8 @@ function MatchedNameList(props) {
 }
 
 MatchedNameList.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
+  isSelected: PropTypes.bool.isRequired,
   className: PropTypes.string.isRequired,
   matchedNames: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
@@ -95,12 +110,14 @@ class RecipientHeader extends Component {
     }
     const phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
     let matchedNames = this.context.getMatcherContactList(phoneNumber);
-    let defaultRecipient = i18n.getString('selectMatchedName', this.props.currentLocale);
+    let defaultRecipient = matchedNames.join('&');
     // if it have old data
+    let isSelected = false;
     if (recipient.matchedNames && recipient.matchedNames[0]) {
       const firstMatchedName = recipient.matchedNames[0];
       const isFind = matchedNames.find(name => name === firstMatchedName);
       if (isFind) {
+        isSelected = true;
         defaultRecipient = firstMatchedName;
       }
       const oldMatchedNames = recipient.matchedNames.slice().sort();
@@ -115,11 +132,16 @@ class RecipientHeader extends Component {
           onClick={this.toggleDropdown}
           className={styles.dropdownButton}
         />
-        {this.props.dropdownIcon}
+        <i
+          className={classnames(dynamicsFont.arrow, styles.dropdownIcon)}
+          onClick={this.toggleDropdown}
+        />
         <MatchedNameList
           matchedNames={matchedNames}
           className={dropdownClass}
           setDefaultMatchedName={this.setDefaultMatchedName}
+          isSelected={isSelected}
+          currentLocale={this.props.currentLocale}
         />
       </div>
     );
@@ -134,7 +156,6 @@ RecipientHeader.propTypes = {
     matchedNames: PropTypes.array,
   }).isRequired,
   currentLocale: PropTypes.string.isRequired,
-  dropdownIcon: PropTypes.node.isRequired,
   dropdownClassName: PropTypes.string.isRequired,
 };
 

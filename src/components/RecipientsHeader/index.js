@@ -75,9 +75,6 @@ class RecipientsHeader extends Component {
     if (recipients.length === 0) {
       return null;
     }
-    const dropdownIcon = (
-      <i className={classnames(dynamicsFont.arrow, styles.dropdownIcon)} />
-    );
     let dropdownClass = styles.dropdownList;
     if (recipients.length === 1) {
       return (
@@ -85,7 +82,6 @@ class RecipientsHeader extends Component {
           <RecipientHeader
             recipient={recipients[0]}
             currentLocale={this.props.currentLocale}
-            dropdownIcon={dropdownIcon}
             dropdownClassName={dropdownClass}
           />
         </h1>
@@ -101,7 +97,10 @@ class RecipientsHeader extends Component {
           name={this.context.getRecipientName(defaultRecipient)}
           onClick={this.toggleDropdown}
         />
-        {dropdownIcon}
+        <i
+          className={classnames(dynamicsFont.arrow, styles.dropdownIcon)}
+          onClick={this.toggleDropdown}
+        />
         <RecipientList
           recipients={recipients}
           className={dropdownClass}

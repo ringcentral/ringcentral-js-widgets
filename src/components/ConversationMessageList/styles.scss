@@ -42,7 +42,8 @@
   position: relative;
   display: inline-block;
   margin-bottom: 10px;
-  width: 60%;
+  min-width: 50%;
+  max-width: 60%;
   text-align: left;
   word-break: break-word;
   hyphens: auto;
@@ -113,6 +114,11 @@
     border-bottom-left-radius: 30px;
     transform: rotate(41deg);
   }
+}
+
+.messageBody.big {
+  width: 85%;
+  max-width: 85%;
 }
 
 .clear {
