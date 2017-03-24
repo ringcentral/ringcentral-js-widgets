@@ -198,7 +198,7 @@ var MessageSender = function (_RcModule) {
       }
       if (!validateResult) {
         this.store.dispatch({ type: this.actionTypes.validateError });
-        this._alertWarning(_messageSenderMessages2.default.senderNumberInvalids);
+        this._alertWarning(_messageSenderMessages2.default.senderNumberInvalid);
       }
       return validateResult;
     }
