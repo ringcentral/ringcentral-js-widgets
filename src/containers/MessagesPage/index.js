@@ -41,6 +41,9 @@ class MessagesPage extends Component {
     return recipients.map((recipient) => {
       const phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
       if (phoneNumber && this.props.matcherContactName) {
+        if (recipient.matchedNames && recipient.matchedNames[0]) {
+          return recipient.matchedNames[0];
+        }
         const matcherName = this.props.matcherContactName(phoneNumber);
         if (matcherName) {
           return matcherName;
@@ -167,7 +170,6 @@ MessagesPage.propTypes = {
   searchingResults: MessageList.propTypes.messages,
   loadNextPageMessages: PropTypes.func.isRequired,
   updateSearchingString: PropTypes.func.isRequired,
-  isLoadingNextPage: PropTypes.bool,
   showSpinner: PropTypes.bool.isRequired,
   searchingString: PropTypes.string.isRequired,
   formatDateTime: PropTypes.func.isRequired,
