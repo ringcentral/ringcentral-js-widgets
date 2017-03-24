@@ -35,6 +35,7 @@ MessageSenderAlert.handleMessage = ({ message }) => (
   (message === messageSenderMessages.networkError) ||
   (message === messageSenderMessages.notSmsToExtension) ||
   (message === messageSenderMessages.senderNumberInvalids) ||
+  (message === messageSenderMessages.senderNumbersInvalids) ||
   (message === messageSenderMessages.internationalSMSNotSupported)
 );
 
