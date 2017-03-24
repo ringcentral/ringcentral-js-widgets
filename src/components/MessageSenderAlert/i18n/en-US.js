@@ -19,8 +19,9 @@ export default {
   [messageSenderMessages.networkError]: 'Cannot connect due to network issues. Please try again later.',
   [messageSenderMessages.senderNumberInvalids]: `You don't have valid phone number to send SMS 
     from. Please contact your account administrator.`,
-  [messageSenderMessages.senderNumbersInvalids]: `A valid Phone Number is required to send text message to
-    recipients outside of your company. Please contact your Administrator to add a direct number to your account.`,
+  [messageSenderMessages.senderNumbersInvalids]: `A valid Phone Number is required to send text
+    message to recipients outside of your company. Please contact your Administrator to add 
+    a direct number to your account.`,
   [messageSenderMessages.notSmsToExtension]: `Cannot send To a extension number with main phone number.
     If you want to sent to a extension Number,
     please just enter extension Number.`,
