@@ -175,7 +175,7 @@ var ComposeTextPanel = function (_Component) {
     _this.messages = [{
       id: '1',
       level: 'warning',
-      message: _messageSenderMessages2.default.senderNumberInvalids
+      message: _messageSenderMessages2.default.senderNumberInvalid
     }];
     return _this;
   }
