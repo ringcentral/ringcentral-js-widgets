@@ -27,7 +27,7 @@
   border: 1px solid #efefef;
   border-radius: 4px;
   box-shadow: 0 4px 12px rgba(0,0,0,.175);
-  max-height: 200px;
+  max-height: 265px;
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -40,7 +40,7 @@
     }
   }
 
-  li:hover {
+  li.active {
     color: $rc-blue;
 
     .name {

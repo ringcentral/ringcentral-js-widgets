@@ -5,8 +5,12 @@ import styles from './styles.scss';
 import phoneTypes from '../../lib/phoneTypes';
 
 function ContactItem(props) {
+  const className = classnames(
+    styles.contactItem,
+    props.active ? styles.active : null,
+  );
   return (
-    <li className={styles.contactItem}>
+    <li className={className} onMouseOver={props.onHover}>
       <a href="#select-contact-item" onClick={props.onClick}>
         <div>
           <span className={styles.name}>
@@ -38,10 +42,16 @@ ContactItem.propTypes = {
   entityType: PropTypes.string.isRequired,
   phoneType: PropTypes.string.isRequired,
   phoneNumber: PropTypes.string.isRequired,
+  active: PropTypes.bool.isRequired,
+  onHover: PropTypes.func.isRequired,
 };
 
 function ContactDropdownList(props) {
-  const items = props.items;
+  let items = props.items;
+  // MAX 5
+  if (items.length > 5) {
+    items = items.slice(0, 5);
+  }
   let listClassName = null;
   let hiddenClassName = null;
   if (items.length === 0 || !props.visibility) {
@@ -51,13 +61,15 @@ function ContactDropdownList(props) {
   return (
     <ul className={listClassName}>
       {
-        items.map(item => (
+        items.map((item, index) => (
           <ContactItem
+            active={props.selectedIndex === index}
             name={item.name}
             entityType={item.entityType}
             phoneType={item.phoneType}
             phoneNumber={item.phoneNumber}
             formatContactPhone={props.formatContactPhone}
+            onHover={() => props.setSelectedIndex(index)}
             onClick={() => props.addToRecipients({
               name: item.name,
               phoneNumber: item.phoneNumber,
@@ -81,6 +93,8 @@ ContactDropdownList.propTypes = {
   })).isRequired,
   formatContactPhone: PropTypes.func.isRequired,
   addToRecipients: PropTypes.func.isRequired,
+  active: PropTypes.bool.isRequired,
+  setSelectedIndex: PropTypes.func.isRequired,
 };
 
 ContactDropdownList.defaultProps = {

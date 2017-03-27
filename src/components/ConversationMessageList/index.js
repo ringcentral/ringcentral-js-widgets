@@ -7,6 +7,7 @@ function MessageItem(props) {
   const messageClassName = classnames(
     styles.messageBody,
     props.direction === 'Outbound' ? styles.outbound : styles.inbound,
+    props.subject && props.subject.length > 500 ? styles.big : null,
   );
   const fromName = props.senderName && props.direction === 'Inbound' ?
     (

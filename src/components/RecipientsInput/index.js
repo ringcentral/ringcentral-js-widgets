@@ -57,18 +57,88 @@ class RecipientsInput extends Component {
     super(props);
     this.state = {
       isFocusOnInput: false,
+      selectedContactIndex: 0,
     };
 
     this.onReceiversInputFocus = () => {
       this.setState({
         isFocusOnInput: true,
+        selectedContactIndex: 0,
       });
     };
 
     this.onReceiversInputBlur = () => {
       this.setState({
         isFocusOnInput: false,
+        selectedContactIndex: -1,
       });
+    };
+
+    this.setSelectedIndex = (index) => {
+      this.setState({
+        selectedContactIndex: index,
+      });
+    };
+
+    this.addSelectedContactIndex = () => {
+      if (this.state.selectedContactIndex >= (this.props.searchContactList.length - 1)) {
+        this.setState({
+          selectedContactIndex: 0,
+        });
+      } else {
+        this.setState(preState => ({
+          selectedContactIndex: (preState.selectedContactIndex + 1),
+        }));
+      }
+    };
+
+    this.reduceSelectedContactIndex = () => {
+      if (this.state.selectedContactIndex >= (this.props.searchContactList.length - 1)) {
+        this.setState({
+          selectedContactIndex: (this.props.searchContactList.length - 1),
+        });
+      } else {
+        this.setState(preState => ({
+          selectedContactIndex: (preState.selectedContactIndex - 1),
+        }));
+      }
+    };
+
+    this.handleHotKey = (e) => {
+      if (this.state.isFocusOnInput && this.props.value.length >= 3) {
+        if (e.key === 'ArrowUp') {
+          this.reduceSelectedContactIndex();
+        } else if (e.key === 'ArrowDown') {
+          this.addSelectedContactIndex();
+        }
+      } else {
+        this.setState({
+          selectedContactIndex: 0,
+        });
+      }
+      if (e.key === ',' || e.key === ';' || e.key === 'Enter') {
+        e.preventDefault();
+        if (this.props.value.length === 0) {
+          return;
+        }
+        const relatedContactList = this.props.value.length >= 3 ?
+          this.props.searchContactList : [];
+        const currentSelected
+          = relatedContactList[this.state.selectedContactIndex];
+        if (currentSelected) {
+          this.props.addToRecipients({
+            name: currentSelected.name,
+            phoneNumber: currentSelected.phoneNumber,
+          });
+        } else {
+          this.props.addToRecipients({
+            name: this.props.value,
+            phoneNumber: this.props.value,
+          });
+          this.props.onClean();
+        }
+        this.props.onClean();
+      }
     };
   }
 
@@ -80,7 +150,7 @@ class RecipientsInput extends Component {
         <label>{this.props.label}</label>
       ) : null;
     return (
-      <div className={styles.container}>
+      <div className={styles.container} onKeyDown={this.handleHotKey}>
         {label}
         <div className={styles.rightPanel}>
           <SelectedRecipients
@@ -112,6 +182,8 @@ class RecipientsInput extends Component {
           />
         </div>
         <ContactDropdownList
+          selectedIndex={this.state.selectedContactIndex}
+          setSelectedIndex={this.setSelectedIndex}
           addToRecipients={this.props.addToRecipients}
           items={relatedContactList}
           formatContactPhone={this.props.formatContactPhone}
