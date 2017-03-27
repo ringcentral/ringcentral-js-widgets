@@ -120,20 +120,6 @@ var ComposeTextPanel = function (_Component) {
       _this.props.cleanTypingToNumber();
     };
 
-    _this.onReceiverInputKeyDown = function (e) {
-      if (e.key === ',' || e.key === ';' || e.key === 'Enter') {
-        e.preventDefault();
-        if (_this.props.typingToNumber.length === 0) {
-          return;
-        }
-        _this.props.addToNumber({
-          name: _this.props.typingToNumber,
-          phoneNumber: _this.props.typingToNumber
-        });
-        _this.props.cleanTypingToNumber();
-      }
-    };
-
     _this.onReceiverInputKeyUp = function (e) {
       _this.props.searchContact(e.currentTarget.value);
     };
@@ -223,7 +209,6 @@ var ComposeTextPanel = function (_Component) {
               removeFromRecipients: this.removeFromRecipients,
               searchContactList: this.props.searchContactList,
               onKeyUp: this.onReceiverInputKeyUp,
-              onKeyDown: this.onReceiverInputKeyDown,
               formatContactPhone: this.props.formatContactPhone
             })
           ),

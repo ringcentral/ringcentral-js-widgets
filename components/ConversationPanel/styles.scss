@@ -86,7 +86,9 @@
 }
 
 .submitButton:disabled {
-  background-color: #888888!important;
+  background-color: #fff!important;
+  border: #c9c9c9 1px solid;
+  color: #a9a9a9;
 }
 
 .spinerContainer {

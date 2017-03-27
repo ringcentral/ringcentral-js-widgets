@@ -104,6 +104,9 @@ var MessagesPage = function (_Component) {
       return recipients.map(function (recipient) {
         var phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
         if (phoneNumber && _this2.props.matcherContactName) {
+          if (recipient.matchedNames && recipient.matchedNames[0]) {
+            return recipient.matchedNames[0];
+          }
           var matcherName = _this2.props.matcherContactName(phoneNumber);
           if (matcherName) {
             return matcherName;
@@ -260,7 +263,6 @@ MessagesPage.propTypes = {
   searchingResults: _MessageList2.default.propTypes.messages,
   loadNextPageMessages: _react.PropTypes.func.isRequired,
   updateSearchingString: _react.PropTypes.func.isRequired,
-  isLoadingNextPage: _react.PropTypes.bool,
   showSpinner: _react.PropTypes.bool.isRequired,
   searchingString: _react.PropTypes.string.isRequired,
   formatDateTime: _react.PropTypes.func.isRequired,

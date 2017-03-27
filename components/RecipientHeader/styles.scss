@@ -26,6 +26,13 @@
   }
 }
 
+.noClick {
+  cursor: default;
+  &:hover {
+    background: transparent;
+  }
+}
+
 .active {
   display: block!important;
 }
@@ -36,4 +43,12 @@
   &:hover {
     background: transparent;
   }
+}
+
+.dropdownIcon {
+  font-size: 12px;
+  position: absolute;
+  top: 12px;
+  right: 0;
+  cursor: pointer;
 }

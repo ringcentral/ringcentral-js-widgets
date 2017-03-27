@@ -27,9 +27,10 @@ var _phoneTypes2 = _interopRequireDefault(_phoneTypes);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function ContactItem(props) {
+  var className = (0, _classnames2.default)(_styles2.default.contactItem, props.active ? _styles2.default.active : null);
   return _react2.default.createElement(
     'li',
-    { className: _styles2.default.contactItem },
+    { className: className, onMouseOver: props.onHover },
     _react2.default.createElement(
       'a',
       { href: '#select-contact-item', onClick: props.onClick },
@@ -81,11 +82,17 @@ ContactItem.propTypes = {
   name: _react.PropTypes.string.isRequired,
   entityType: _react.PropTypes.string.isRequired,
   phoneType: _react.PropTypes.string.isRequired,
-  phoneNumber: _react.PropTypes.string.isRequired
+  phoneNumber: _react.PropTypes.string.isRequired,
+  active: _react.PropTypes.bool.isRequired,
+  onHover: _react.PropTypes.func.isRequired
 };
 
 function ContactDropdownList(props) {
   var items = props.items;
+  // MAX 5
+  if (items.length > 5) {
+    items = items.slice(0, 5);
+  }
   var listClassName = null;
   var hiddenClassName = null;
   if (items.length === 0 || !props.visibility) {
@@ -95,13 +102,17 @@ function ContactDropdownList(props) {
   return _react2.default.createElement(
     'ul',
     { className: listClassName },
-    items.map(function (item) {
+    items.map(function (item, index) {
       return _react2.default.createElement(ContactItem, {
+        active: props.selectedIndex === index,
         name: item.name,
         entityType: item.entityType,
         phoneType: item.phoneType,
         phoneNumber: item.phoneNumber,
         formatContactPhone: props.formatContactPhone,
+        onHover: function onHover() {
+          return props.setSelectedIndex(index);
+        },
         onClick: function onClick() {
           return props.addToRecipients({
             name: item.name,
@@ -124,7 +135,9 @@ ContactDropdownList.propTypes = {
     phoneNumber: _react.PropTypes.string.isRequired
   })).isRequired,
   formatContactPhone: _react.PropTypes.func.isRequired,
-  addToRecipients: _react.PropTypes.func.isRequired
+  addToRecipients: _react.PropTypes.func.isRequired,
+  active: _react.PropTypes.bool.isRequired,
+  setSelectedIndex: _react.PropTypes.func.isRequired
 };
 
 ContactDropdownList.defaultProps = {

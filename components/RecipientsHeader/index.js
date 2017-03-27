@@ -127,7 +127,6 @@ var RecipientsHeader = function (_Component) {
       if (recipients.length === 0) {
         return null;
       }
-      var dropdownIcon = _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.dropdownIcon) });
       var dropdownClass = _styles2.default.dropdownList;
       if (recipients.length === 1) {
         return _react2.default.createElement(
@@ -136,7 +135,6 @@ var RecipientsHeader = function (_Component) {
           _react2.default.createElement(_RecipientHeader2.default, {
             recipient: recipients[0],
             currentLocale: this.props.currentLocale,
-            dropdownIcon: dropdownIcon,
             dropdownClassName: dropdownClass
           })
         );
@@ -152,7 +150,10 @@ var RecipientsHeader = function (_Component) {
           name: this.context.getRecipientName(defaultRecipient),
           onClick: this.toggleDropdown
         }),
-        dropdownIcon,
+        _react2.default.createElement('i', {
+          className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.dropdownIcon),
+          onClick: this.toggleDropdown
+        }),
         _react2.default.createElement(RecipientList, {
           recipients: recipients,
           className: dropdownClass,

@@ -39,7 +39,7 @@ var _styles2 = _interopRequireDefault(_styles);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function MessageItem(props) {
-  var messageClassName = (0, _classnames2.default)(_styles2.default.messageBody, props.direction === 'Outbound' ? _styles2.default.outbound : _styles2.default.inbound);
+  var messageClassName = (0, _classnames2.default)(_styles2.default.messageBody, props.direction === 'Outbound' ? _styles2.default.outbound : _styles2.default.inbound, props.subject && props.subject.length > 500 ? _styles2.default.big : null);
   var fromName = props.senderName && props.direction === 'Inbound' ? _react2.default.createElement(
     'div',
     { className: _styles2.default.messageFrom },
