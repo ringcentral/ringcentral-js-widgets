@@ -57,20 +57,6 @@ class ComposeTextPanel extends Component {
       this.props.cleanTypingToNumber();
     };
 
-    this.onReceiverInputKeyDown = (e) => {
-      if (e.key === ',' || e.key === ';' || e.key === 'Enter') {
-        e.preventDefault();
-        if (this.props.typingToNumber.length === 0) {
-          return;
-        }
-        this.props.addToNumber({
-          name: this.props.typingToNumber,
-          phoneNumber: this.props.typingToNumber,
-        });
-        this.props.cleanTypingToNumber();
-      }
-    };
-
     this.onReceiverInputKeyUp = (e) => {
       this.props.searchContact(e.currentTarget.value);
     };
@@ -156,7 +142,6 @@ class ComposeTextPanel extends Component {
               removeFromRecipients={this.removeFromRecipients}
               searchContactList={this.props.searchContactList}
               onKeyUp={this.onReceiverInputKeyUp}
-              onKeyDown={this.onReceiverInputKeyDown}
               formatContactPhone={this.props.formatContactPhone}
             />
           </div>
