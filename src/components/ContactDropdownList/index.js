@@ -93,8 +93,8 @@ ContactDropdownList.propTypes = {
   })).isRequired,
   formatContactPhone: PropTypes.func.isRequired,
   addToRecipients: PropTypes.func.isRequired,
-  active: PropTypes.bool.isRequired,
   setSelectedIndex: PropTypes.func.isRequired,
+  selectedIndex: PropTypes.number.isRequired,
 };
 
 ContactDropdownList.defaultProps = {

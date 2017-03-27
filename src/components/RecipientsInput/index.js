@@ -93,14 +93,14 @@ class RecipientsInput extends Component {
     };
 
     this.reduceSelectedContactIndex = () => {
-      if (this.state.selectedContactIndex >= (this.props.searchContactList.length - 1)) {
-        this.setState({
-          selectedContactIndex: (this.props.searchContactList.length - 1),
-        });
-      } else {
+      if (this.state.selectedContactIndex > 0) {
         this.setState(preState => ({
           selectedContactIndex: (preState.selectedContactIndex - 1),
         }));
+      } else {
+        this.setState({
+          selectedContactIndex: (this.props.searchContactList.length - 1),
+        });
       }
     };
 
