@@ -273,12 +273,30 @@ export default class Phone extends RcModule {
           return false;
         });
       },
-      formatFn: entities => entities.map(entity => ({
+      // formatFn: entities => entities.map(entity => ({
+      //   entityType: 'contact',
+      //   name: entity.name,
+      //   phoneNumber: entity.ext,
+      //   phoneType: 'extension',
+      // })),
+      formatFn: () => [{
         entityType: 'contact',
-        name: entity.name,
-        phoneNumber: entity.ext,
-        phoneType: 'extension',
-      })),
+        name: 'bulk1',
+        phoneNumber: '132',
+        phoneType: 'home',
+      },
+      {
+        entityType: 'contact',
+        name: 'bulk2',
+        phoneNumber: '222',
+        phoneType: 'business',
+      },
+      {
+        entityType: 'contact',
+        name: 'bulk3',
+        phoneNumber: '333',
+        phoneType: 'home',
+      }],
       readyCheckFn: () => this.accountExtension.ready,
     });
     this.addModule('messageSender', new MessageSender({

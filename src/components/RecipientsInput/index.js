@@ -143,12 +143,17 @@ class RecipientsInput extends Component {
   }
 
   render() {
-    const relatedContactList = this.props.value.length >= 3 ?
+    let relatedContactList = this.props.value.length >= 3 ?
       this.props.searchContactList : [];
     const label = this.props.label ?
       (
         <label>{this.props.label}</label>
       ) : null;
+    // MAX 5
+    if (relatedContactList.length > 5) {
+      relatedContactList = relatedContactList.slice(0, 5);
+    }
+
     return (
       <div className={styles.container} onKeyDown={this.handleHotKey}>
         {label}
