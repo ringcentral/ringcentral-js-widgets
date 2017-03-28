@@ -129,7 +129,8 @@ var RecipientsInput = function (_Component) {
     };
 
     _this.addSelectedContactIndex = function () {
-      if (_this.state.selectedContactIndex >= _this.props.searchContactList.length - 1) {
+      var length = _this.props.searchContactList.length < 5 ? _this.props.searchContactList.length : 5;
+      if (_this.state.selectedContactIndex >= length - 1) {
         _this.setState({
           selectedContactIndex: 0
         });
@@ -143,15 +144,16 @@ var RecipientsInput = function (_Component) {
     };
 
     _this.reduceSelectedContactIndex = function () {
-      if (_this.state.selectedContactIndex >= _this.props.searchContactList.length - 1) {
-        _this.setState({
-          selectedContactIndex: _this.props.searchContactList.length - 1
-        });
-      } else {
+      var length = _this.props.searchContactList.length < 5 ? _this.props.searchContactList.length : 5;
+      if (_this.state.selectedContactIndex > 0) {
         _this.setState(function (preState) {
           return {
             selectedContactIndex: preState.selectedContactIndex - 1
           };
+        });
+      } else {
+        _this.setState({
+          selectedContactIndex: length - 1
         });
       }
     };
@@ -174,6 +176,10 @@ var RecipientsInput = function (_Component) {
           return;
         }
         var relatedContactList = _this.props.value.length >= 3 ? _this.props.searchContactList : [];
+        // MAX 5
+        if (relatedContactList.length > 5) {
+          relatedContactList = relatedContactList.slice(0, 5);
+        }
         var currentSelected = relatedContactList[_this.state.selectedContactIndex];
         if (currentSelected) {
           _this.props.addToRecipients({
@@ -202,6 +208,11 @@ var RecipientsInput = function (_Component) {
         null,
         this.props.label
       ) : null;
+      // MAX 5
+      if (relatedContactList.length > 5) {
+        relatedContactList = relatedContactList.slice(0, 5);
+      }
+
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.container, onKeyDown: this.handleHotKey },

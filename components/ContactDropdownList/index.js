@@ -89,10 +89,6 @@ ContactItem.propTypes = {
 
 function ContactDropdownList(props) {
   var items = props.items;
-  // MAX 5
-  if (items.length > 5) {
-    items = items.slice(0, 5);
-  }
   var listClassName = null;
   var hiddenClassName = null;
   if (items.length === 0 || !props.visibility) {
@@ -136,8 +132,8 @@ ContactDropdownList.propTypes = {
   })).isRequired,
   formatContactPhone: _react.PropTypes.func.isRequired,
   addToRecipients: _react.PropTypes.func.isRequired,
-  active: _react.PropTypes.bool.isRequired,
-  setSelectedIndex: _react.PropTypes.func.isRequired
+  setSelectedIndex: _react.PropTypes.func.isRequired,
+  selectedIndex: _react.PropTypes.number.isRequired
 };
 
 ContactDropdownList.defaultProps = {

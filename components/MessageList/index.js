@@ -65,7 +65,7 @@ var MessageList = function (_Component) {
       var totalScrollHeight = _this.messagesListBody.scrollHeight;
       var clientHeight = _this.messagesListBody.clientHeight;
       currentScrollHeight = _this.messagesListBody.scrollTop;
-      // loadNextPageMessages if srroll near buttom
+      // loadNextPageMessages if scroll near buttom
       if (totalScrollHeight - lastScrollHeight > clientHeight + 10 && totalScrollHeight - currentScrollHeight <= clientHeight + 10) {
         _this.props.loadNextPageMessages();
       }
