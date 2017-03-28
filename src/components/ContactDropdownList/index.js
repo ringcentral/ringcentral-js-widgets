@@ -47,11 +47,7 @@ ContactItem.propTypes = {
 };
 
 function ContactDropdownList(props) {
-  let items = props.items;
-  // MAX 5
-  if (items.length > 5) {
-    items = items.slice(0, 5);
-  }
+  const items = props.items;
   let listClassName = null;
   let hiddenClassName = null;
   if (items.length === 0 || !props.visibility) {
@@ -93,8 +89,8 @@ ContactDropdownList.propTypes = {
   })).isRequired,
   formatContactPhone: PropTypes.func.isRequired,
   addToRecipients: PropTypes.func.isRequired,
-  active: PropTypes.bool.isRequired,
   setSelectedIndex: PropTypes.func.isRequired,
+  selectedIndex: PropTypes.number.isRequired,
 };
 
 ContactDropdownList.defaultProps = {

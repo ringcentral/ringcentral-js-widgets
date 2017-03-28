@@ -81,7 +81,9 @@ class RecipientsInput extends Component {
     };
 
     this.addSelectedContactIndex = () => {
-      if (this.state.selectedContactIndex >= (this.props.searchContactList.length - 1)) {
+      const length = this.props.searchContactList.length < 5 ?
+                      this.props.searchContactList.length : 5;
+      if (this.state.selectedContactIndex >= (length - 1)) {
         this.setState({
           selectedContactIndex: 0,
         });
@@ -93,14 +95,16 @@ class RecipientsInput extends Component {
     };
 
     this.reduceSelectedContactIndex = () => {
-      if (this.state.selectedContactIndex >= (this.props.searchContactList.length - 1)) {
-        this.setState({
-          selectedContactIndex: (this.props.searchContactList.length - 1),
-        });
-      } else {
+      const length = this.props.searchContactList.length < 5 ?
+                      this.props.searchContactList.length : 5;
+      if (this.state.selectedContactIndex > 0) {
         this.setState(preState => ({
           selectedContactIndex: (preState.selectedContactIndex - 1),
         }));
+      } else {
+        this.setState({
+          selectedContactIndex: (length - 1),
+        });
       }
     };
 
@@ -121,8 +125,12 @@ class RecipientsInput extends Component {
         if (this.props.value.length === 0) {
           return;
         }
-        const relatedContactList = this.props.value.length >= 3 ?
+        let relatedContactList = this.props.value.length >= 3 ?
           this.props.searchContactList : [];
+        // MAX 5
+        if (relatedContactList.length > 5) {
+          relatedContactList = relatedContactList.slice(0, 5);
+        }
         const currentSelected
           = relatedContactList[this.state.selectedContactIndex];
         if (currentSelected) {
@@ -143,12 +151,17 @@ class RecipientsInput extends Component {
   }
 
   render() {
-    const relatedContactList = this.props.value.length >= 3 ?
+    let relatedContactList = this.props.value.length >= 3 ?
       this.props.searchContactList : [];
     const label = this.props.label ?
       (
         <label>{this.props.label}</label>
       ) : null;
+    // MAX 5
+    if (relatedContactList.length > 5) {
+      relatedContactList = relatedContactList.slice(0, 5);
+    }
+
     return (
       <div className={styles.container} onKeyDown={this.handleHotKey}>
         {label}
