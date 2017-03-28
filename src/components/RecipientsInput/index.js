@@ -81,7 +81,9 @@ class RecipientsInput extends Component {
     };
 
     this.addSelectedContactIndex = () => {
-      if (this.state.selectedContactIndex >= (this.props.searchContactList.length - 1)) {
+      const length = this.props.searchContactList.length < 5 ?
+                      this.props.searchContactList.length : 5;
+      if (this.state.selectedContactIndex >= (length - 1)) {
         this.setState({
           selectedContactIndex: 0,
         });
@@ -93,13 +95,15 @@ class RecipientsInput extends Component {
     };
 
     this.reduceSelectedContactIndex = () => {
+      const length = this.props.searchContactList.length < 5 ?
+                      this.props.searchContactList.length : 5;
       if (this.state.selectedContactIndex > 0) {
         this.setState(preState => ({
           selectedContactIndex: (preState.selectedContactIndex - 1),
         }));
       } else {
         this.setState({
-          selectedContactIndex: (this.props.searchContactList.length - 1),
+          selectedContactIndex: (length - 1),
         });
       }
     };
@@ -121,8 +125,12 @@ class RecipientsInput extends Component {
         if (this.props.value.length === 0) {
           return;
         }
-        const relatedContactList = this.props.value.length >= 3 ?
+        let relatedContactList = this.props.value.length >= 3 ?
           this.props.searchContactList : [];
+        // MAX 5
+        if (relatedContactList.length > 5) {
+          relatedContactList = relatedContactList.slice(0, 5);
+        }
         const currentSelected
           = relatedContactList[this.state.selectedContactIndex];
         if (currentSelected) {
