@@ -113,17 +113,7 @@ function mapDispatchToProps(dispatch, props) {
   let getMatcherContactList;
   if (props.contactMatcher && props.contactMatcher.ready) {
     getMatcherContactList = (phoneNumber) => {
-      // const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
-      const matcherNames = [{
-        entityType: 'contact',
-        name: 'bulk101 contact101',
-        phoneNumbers: [{ phoneNumber: '123', phoneType: 'mobile' }],
-      },
-      {
-        entityType: 'contact',
-        name: 'bulk102 contact102',
-        phoneNumbers: [{ phoneNumber: '456', phoneType: 'home' }],
-      }];
+      const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
 
       if (matcherNames && matcherNames.length > 0) {
         return matcherNames.map(matcher =>
