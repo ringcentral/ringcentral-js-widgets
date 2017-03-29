@@ -100,7 +100,7 @@ class RecipientHeader extends Component {
     if (!hasDropdown) {
       return (
         <span className={styles.title}>
-          {this.context.getRecipientInfo(recipient)}
+          {this.context.getRecipientName(recipient)}
         </span>
       );
     }
@@ -160,7 +160,7 @@ RecipientHeader.propTypes = {
 };
 
 RecipientHeader.contextTypes = {
-  getRecipientInfo: PropTypes.func.isRequired,
+  getRecipientName: PropTypes.func.isRequired,
   getMatcherContactList: PropTypes.func.isRequired,
   changeMatchedNames: PropTypes.func.isRequired,
 };

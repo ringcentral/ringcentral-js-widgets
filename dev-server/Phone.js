@@ -43,7 +43,7 @@ import CallLog from 'ringcentral-integration/modules/CallLog';
 import CallMonitor from 'ringcentral-integration/modules/CallMonitor';
 import CallHistory from 'ringcentral-integration/modules/CallHistory';
 
-import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher'
+import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
 
 import RouterInteraction from '../src/modules/RouterInteraction';
 

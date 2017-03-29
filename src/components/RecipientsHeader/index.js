@@ -9,13 +9,13 @@ import styles from './styles.scss';
 function Recipient(props) {
   return (
     <a href="#recipient" className={styles.recipient} onClick={props.onClick}>
-      {props.info}
+      {props.name}
     </a>
   );
 }
 
 Recipient.propTypes = {
-  info: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
 
@@ -27,7 +27,7 @@ function RecipientList(props) {
         recipients.map(receiver => (
           <Recipient
             key={JSON.stringify(receiver)}
-            info={props.getRecipientInfo(receiver)}
+            name={props.getRecipientName(receiver)}
             onClick={
               () => props.setDefaultRecipient(
                 receiver.extensionNumber || receiver.phoneNumber
@@ -41,7 +41,7 @@ function RecipientList(props) {
 }
 
 RecipientList.propTypes = {
-  getRecipientInfo: PropTypes.func.isRequired,
+  getRecipientName: PropTypes.func.isRequired,
   setDefaultRecipient: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
   recipients: PropTypes.arrayOf(PropTypes.shape({
@@ -94,7 +94,7 @@ class RecipientsHeader extends Component {
     return (
       <h1 className={styles.container}>
         <Recipient
-          info={this.context.getRecipientInfo(defaultRecipient)}
+          name={this.context.getRecipientName(defaultRecipient)}
           onClick={this.toggleDropdown}
         />
         <i
@@ -105,7 +105,7 @@ class RecipientsHeader extends Component {
           recipients={recipients}
           className={dropdownClass}
           setDefaultRecipient={this.setDefaultRecipient}
-          getRecipientInfo={this.context.getRecipientInfo}
+          getRecipientName={this.context.getRecipientName}
         />
       </h1>
     );
@@ -118,7 +118,7 @@ RecipientsHeader.propTypes = {
 };
 
 RecipientsHeader.contextTypes = {
-  getRecipientInfo: PropTypes.func.isRequired,
+  getRecipientName: PropTypes.func.isRequired,
   changeDefaultRecipient: PropTypes.func.isRequired,
 };
 
