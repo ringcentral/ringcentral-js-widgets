@@ -24,7 +24,7 @@ export default class MessageList extends Component {
       const totalScrollHeight = this.messagesListBody.scrollHeight;
       const clientHeight = this.messagesListBody.clientHeight;
       currentScrollHeight = this.messagesListBody.scrollTop;
-      // loadNextPageMessages if srroll near buttom
+      // loadNextPageMessages if scroll near buttom
       if (
         (totalScrollHeight - lastScrollHeight) > (clientHeight + 10) &&
         (totalScrollHeight - currentScrollHeight) <= (clientHeight + 10)
