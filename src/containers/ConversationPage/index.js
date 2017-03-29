@@ -105,6 +105,7 @@ function mapStateToProps(state, props) {
     ),
     recipients: props.conversation.recipients,
     messages: props.conversation.messages,
+    contactMatcher: props.contactMatcher,
   });
 }
 

@@ -30,9 +30,9 @@ function MatchedNameList(props) {
   return (
     <div className={props.className}>
       {
-        this.props.isSelected ?
+        props.isSelected ?
           <RecipientName
-            name={i18n.getString('selectMatchedName', this.props.currentLocale)}
+            name={i18n.getString('selectMatchedName', props.currentLocale)}
             className={styles.noClick}
             onClick={
               () => null
