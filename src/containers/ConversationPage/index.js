@@ -12,7 +12,7 @@ class ConversationPage extends Component {
       formatDateTime: this.props.formatDateTime,
       changeDefaultRecipient: this.props.changeDefaultRecipient,
       changeMatchedNames: this.props.changeMatchedNames,
-      getRecipientName: recipient => (this.getRecipientName(recipient)),
+      getRecipientInfo: recipient => (this.getRecipientInfo(recipient)),
       getMatcherContactList: this.props.getMatcherContactList,
     };
   }
@@ -25,10 +25,10 @@ class ConversationPage extends Component {
     this.props.unloadConversation();
   }
 
-  getRecipientName(recipient) {
+  getRecipientInfo(recipient) {
     const phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
-    if (phoneNumber && this.props.getMatcherContactName) {
-      const matcherName = this.props.getMatcherContactName(phoneNumber);
+    if (phoneNumber && this.props.getMatcherContactInfo) {
+      const matcherName = this.props.getMatcherContactInfo(phoneNumber);
       if (matcherName) {
         return matcherName;
       }
@@ -73,20 +73,20 @@ ConversationPage.propTypes = {
   changeDefaultRecipient: PropTypes.func.isRequired,
   formatNumber: PropTypes.func.isRequired,
   formatDateTime: PropTypes.func.isRequired,
-  getMatcherContactName: PropTypes.func,
+  getMatcherContactInfo: PropTypes.func,
   getMatcherContactList: PropTypes.func,
   changeMatchedNames: PropTypes.func.isRequired,
 };
 
 ConversationPage.defaultProps = {
-  getMatcherContactName: null,
+  getMatcherContactInfo: null,
   getMatcherContactList: () => [],
 };
 
 ConversationPage.childContextTypes = {
   formatPhone: PropTypes.func.isRequired,
   formatDateTime: PropTypes.func.isRequired,
-  getRecipientName: PropTypes.func.isRequired,
+  getRecipientInfo: PropTypes.func.isRequired,
   changeDefaultRecipient: PropTypes.func.isRequired,
   changeMatchedNames: PropTypes.func.isRequired,
   getMatcherContactList: PropTypes.func.isRequired,
@@ -109,21 +109,24 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch, props) {
-  let getMatcherContactName;
+  let getMatcherContactInfo;
   let getMatcherContactList;
   if (props.contactMatcher && props.contactMatcher.ready) {
     getMatcherContactList = (phoneNumber) => {
       const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
+
       if (matcherNames && matcherNames.length > 0) {
-        return matcherNames.map(matcher => matcher.name);
+        return matcherNames.map(matcher =>
+        `${matcher.name}|${matcher.phoneNumbers[0].phoneType}`
+        );
       }
       return [];
     };
 
-    getMatcherContactName = (phoneNumber) => {
-      const matcherNames = getMatcherContactList(phoneNumber);
-      if (matcherNames && matcherNames.length > 0) {
-        return matcherNames.join('&');
+    getMatcherContactInfo = (phoneNumber) => {
+      const matcherInfos = getMatcherContactList(phoneNumber);
+      if (matcherInfos && matcherInfos.length > 0) {
+        return matcherInfos.join('&');
       }
       return null;
     };
@@ -144,7 +147,7 @@ function mapDispatchToProps(dispatch, props) {
       areaCode: props.regionSettings.areaCode,
       countryCode: props.regionSettings.countryCode,
     }),
-    getMatcherContactName,
+    getMatcherContactInfo,
     getMatcherContactList,
   };
 }

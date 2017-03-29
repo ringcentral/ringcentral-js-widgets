@@ -100,7 +100,7 @@ class RecipientHeader extends Component {
     if (!hasDropdown) {
       return (
         <span className={styles.title}>
-          {this.context.getRecipientName(recipient)}
+          {this.context.getRecipientInfo(recipient)}
         </span>
       );
     }
@@ -111,7 +111,7 @@ class RecipientHeader extends Component {
     const phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
     let matchedNames = this.context.getMatcherContactList(phoneNumber);
     let defaultRecipient = matchedNames.join('&');
-    // if it have old data
+    // if it has old data
     let isSelected = false;
     if (recipient.matchedNames && recipient.matchedNames[0]) {
       const firstMatchedName = recipient.matchedNames[0];
@@ -160,7 +160,7 @@ RecipientHeader.propTypes = {
 };
 
 RecipientHeader.contextTypes = {
-  getRecipientName: PropTypes.func.isRequired,
+  getRecipientInfo: PropTypes.func.isRequired,
   getMatcherContactList: PropTypes.func.isRequired,
   changeMatchedNames: PropTypes.func.isRequired,
 };
