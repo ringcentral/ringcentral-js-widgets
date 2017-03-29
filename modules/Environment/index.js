@@ -173,9 +173,9 @@ var Environment = function (_RcModule) {
       return this._globalStorage.getItem(this._enabledStorageKey);
     }
   }, {
-    key: 'changed',
+    key: 'changeCounter',
     get: function get() {
-      return this.state.changed;
+      return this.state.changeCounter;
     }
   }]);
   return Environment;

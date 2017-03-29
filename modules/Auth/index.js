@@ -264,6 +264,7 @@ var Auth = function (_RcModule) {
     _this._proxyFrame = null;
     _this._proxyFrameLoaded = false;
     _this._unbindEvents = null;
+    _this._lastEnvironmentCounter = 0;
     return _this;
   }
 
@@ -398,7 +399,8 @@ var Auth = function (_RcModule) {
                     });
                   }
                 }
-                if (_this4.ready && _this4._environment && _this4._environment.changed) {
+                if (_this4.ready && _this4._environment && _this4._environment.changeCounter !== _this4._lastEnvironmentCounter) {
+                  _this4._lastEnvironmentCounter = _this4._environment.changeCounter;
                   _this4._bindEvents();
                 }
 

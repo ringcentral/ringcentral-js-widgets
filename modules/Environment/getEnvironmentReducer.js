@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getChangedReducer = getChangedReducer;
+exports.getChangeCounterReducer = getChangeCounterReducer;
 exports.getServerReducer = getServerReducer;
 exports.getEnabledReducer = getEnabledReducer;
 exports.default = getEnvironmentReducer;
@@ -16,15 +16,15 @@ var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function getChangedReducer(types) {
+function getChangeCounterReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
     var _ref = arguments[1];
     var type = _ref.type,
         environmentChanged = _ref.environmentChanged;
 
-    if (type === types.setData) return environmentChanged;
-    return false;
+    if (type === types.setData && environmentChanged) return state + 1;
+    return state;
   };
 }
 
@@ -58,7 +58,7 @@ function getEnabledReducer(types) {
 function getEnvironmentReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer2.default)(types),
-    changed: getChangedReducer(types)
+    changeCounter: getChangeCounterReducer(types)
   });
 }
 //# sourceMappingURL=getEnvironmentReducer.js.map

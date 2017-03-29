@@ -123,6 +123,7 @@ var RateLimiter = function (_RcModule) {
       reducer: (0, _getRateLimiterReducer.getTimestampReducer)(_this.actionTypes)
     });
     _this._timeoutId = null;
+    _this._lastEnvironmentCounter = 0;
     return _this;
   }
 
@@ -141,7 +142,8 @@ var RateLimiter = function (_RcModule) {
                   _this2.store.dispatch({
                     type: _this2.actionTypes.initSuccess
                   });
-                } else if (_this2.ready && _this2._environment && _this2._environment.changed) {
+                } else if (_this2.ready && _this2._environment && _this2._environment.changeCounter !== _this2._lastEnvironmentCounter) {
+                  _this2._lastEnvironmentCounter = _this2._environment.changeCounter;
                   _this2._bindHandlers();
                 }
 

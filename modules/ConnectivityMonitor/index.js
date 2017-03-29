@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = undefined;
+exports.default = exports.DEFAULT_HEART_BEAT_INTERVAL = exports.DEFAULT_TIME_TO_RETRY = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -61,9 +61,14 @@ var _connectivityMonitorMessages = require('./connectivityMonitorMessages');
 
 var _connectivityMonitorMessages2 = _interopRequireDefault(_connectivityMonitorMessages);
 
+var _ensureExist = require('../../lib/ensureExist');
+
+var _ensureExist2 = _interopRequireDefault(_ensureExist);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var DEFAULT_TIME_TO_RETRY = 5000;
+var DEFAULT_TIME_TO_RETRY = exports.DEFAULT_TIME_TO_RETRY = 5 * 1000;
+var DEFAULT_HEART_BEAT_INTERVAL = exports.DEFAULT_HEART_BEAT_INTERVAL = 60 * 1000;
 
 var ConnectivityMonitor = function (_RcModule) {
   (0, _inherits3.default)(ConnectivityMonitor, _RcModule);
@@ -74,80 +79,89 @@ var ConnectivityMonitor = function (_RcModule) {
         environment = _ref.environment,
         _ref$timeToRetry = _ref.timeToRetry,
         timeToRetry = _ref$timeToRetry === undefined ? DEFAULT_TIME_TO_RETRY : _ref$timeToRetry,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'client', 'environment', 'timeToRetry']);
+        _ref$heartBeatInterva = _ref.heartBeatInterval,
+        heartBeatInterval = _ref$heartBeatInterva === undefined ? DEFAULT_HEART_BEAT_INTERVAL : _ref$heartBeatInterva,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'client', 'environment', 'timeToRetry', 'heartBeatInterval']);
     (0, _classCallCheck3.default)(this, ConnectivityMonitor);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ConnectivityMonitor.__proto__ || (0, _getPrototypeOf2.default)(ConnectivityMonitor)).call(this, (0, _extends3.default)({}, options, {
       actionTypes: _actionTypes2.default
     })));
 
-    _this._requestSuccessHandler = function () {
-      if (!_this.connectivity) {
-        _this.store.dispatch({
-          type: _this.actionTypes.connectSuccess
+    _this._alert = alert;
+    _this._client = _ensureExist2.default.call(_this, client, 'client');
+    _this._environment = environment;
+    _this._timeToRetry = timeToRetry;
+    _this._heartBeatInterval = heartBeatInterval;
+    _this._reducer = (0, _getConnectivityMonitorReducer2.default)(_this.actionTypes);
+    _this._retryTimeoutId = null;
+    _this._lastEnvironmentCounter = 0;
+
+    // auto bind this
+    _this._beforeRequestHandler = _this._beforeRequestHandler.bind(_this);
+    _this._requestSuccessHandler = _this._requestSuccessHandler.bind(_this);
+    _this._requestErrorHandler = _this._requestErrorHandler.bind(_this);
+    return _this;
+  }
+
+  (0, _createClass3.default)(ConnectivityMonitor, [{
+    key: '_shouldInit',
+    value: function _shouldInit() {
+      return !!(this.pending && (!this._environment || this._environment.ready));
+    }
+  }, {
+    key: '_shouldRebindHandlers',
+    value: function _shouldRebindHandlers() {
+      return !!(this.ready && this._environment && this._environment.ready && this._environment.changeCounter !== this._lastEnvironmentCounter);
+    }
+  }, {
+    key: '_onStateChange',
+    value: function _onStateChange() {
+      if (this._shouldInit()) {
+        this._bindHandlers();
+        this.store.dispatch({
+          type: this.actionTypes.initSuccess
         });
-        if (_this._alert) {
+        this._retry();
+      } else if (this._shouldRebindHandlers()) {
+        this._lastEnvironmentCounter = this._environment.changeCounter;
+        this._bindHandlers();
+      }
+    }
+  }, {
+    key: 'initialize',
+    value: function initialize() {
+      var _this2 = this;
+
+      this.store.subscribe(function () {
+        return _this2._onStateChange();
+      });
+    }
+  }, {
+    key: '_beforeRequestHandler',
+    value: function _beforeRequestHandler() {
+      this._clearTimeout();
+    }
+  }, {
+    key: '_requestSuccessHandler',
+    value: function _requestSuccessHandler() {
+      if (!this.connectivity) {
+        this.store.dispatch({
+          type: this.actionTypes.connectSuccess
+        });
+        if (this._alert) {
           // dismiss disconnected alerts if found
-          var alertIds = _this._alert.messages.filter(function (m) {
+          var alertIds = this._alert.messages.filter(function (m) {
             return m.message === _connectivityMonitorMessages2.default.disconnected;
           }).map(function (m) {
             return m.id;
           });
           if (alertIds.length) {
-            _this._alert.dismiss(alertIds);
+            this._alert.dismiss(alertIds);
           }
         }
       }
-      _this._clearTimeout();
-    };
-
-    _this._requestErrorHandler = function (apiResponse) {
-      if (apiResponse instanceof Error && apiResponse.message === 'Failed to fetch') {
-        if (_this.connectivity) {
-          _this.store.dispatch({
-            type: _this.actionTypes.connectFail
-          });
-          _this.showAlert();
-        }
-        _this._retry();
-      }
-    };
-
-    _this._alert = alert;
-    _this._client = client;
-    _this._environment = environment;
-    _this._timeToRetry = timeToRetry;
-    _this._reducer = (0, _getConnectivityMonitorReducer2.default)(_this.actionTypes);
-    _this._timeoutId = null;
-    return _this;
-  }
-
-  (0, _createClass3.default)(ConnectivityMonitor, [{
-    key: 'initialize',
-    value: function initialize() {
-      var _this2 = this;
-
-      this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        return _regenerator2.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (!_this2.ready && (!_this2._environment || _this2._environment.ready)) {
-                  _this2._bindHandlers();
-                  _this2.store.dispatch({
-                    type: _this2.actionTypes.initSuccess
-                  });
-                } else if (_this2.ready && _this2._environment && _this2._environment.changed) {
-                  _this2._bindHandlers();
-                }
-
-              case 1:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, _this2);
-      })));
+      this._retry();
     }
   }, {
     key: 'showAlert',
@@ -157,6 +171,19 @@ var ConnectivityMonitor = function (_RcModule) {
           message: _connectivityMonitorMessages2.default.disconnected,
           allowDuplicates: false
         });
+      }
+    }
+  }, {
+    key: '_requestErrorHandler',
+    value: function _requestErrorHandler(apiResponse) {
+      if (apiResponse instanceof Error && apiResponse.message === 'Failed to fetch') {
+        if (this.connectivity) {
+          this.store.dispatch({
+            type: this.actionTypes.connectFail
+          });
+          this.showAlert();
+        }
+        this._retry();
       }
     }
   }, {
@@ -179,33 +206,33 @@ var ConnectivityMonitor = function (_RcModule) {
   }, {
     key: '_checkConnection',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
-                _context2.prev = 0;
-                _context2.next = 3;
+                _context.prev = 0;
+                _context.next = 3;
                 return this._client.service.platform().get('', null, { skipAuthCheck: true });
 
               case 3:
-                _context2.next = 7;
+                _context.next = 7;
                 break;
 
               case 5:
-                _context2.prev = 5;
-                _context2.t0 = _context2['catch'](0);
+                _context.prev = 5;
+                _context.t0 = _context['catch'](0);
 
               case 7:
               case 'end':
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee2, this, [[0, 5]]);
+        }, _callee, this, [[0, 5]]);
       }));
 
       function _checkConnection() {
-        return _ref3.apply(this, arguments);
+        return _ref2.apply(this, arguments);
       }
 
       return _checkConnection;
@@ -213,18 +240,21 @@ var ConnectivityMonitor = function (_RcModule) {
   }, {
     key: '_clearTimeout',
     value: function _clearTimeout() {
-      if (this._timeoutId) clearTimeout(this._timeoutId);
+      if (this._retryTimeoutId) {
+        clearTimeout(this._retryTimeoutId);
+        this._retryTimeoutId = null;
+      }
     }
   }, {
     key: '_retry',
     value: function _retry() {
       var _this4 = this;
 
-      var t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this._timeToRetry;
+      var t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.connectivity ? this._heartBeatInterval : this._timeToRetry;
 
       this._clearTimeout();
-      this._timeoutId = setTimeout(function () {
-        _this4._timeoutId = null;
+      this._retryTimeoutId = setTimeout(function () {
+        _this4._retryTimeoutId = null;
         _this4._checkConnection();
       }, t);
     }
@@ -237,6 +267,11 @@ var ConnectivityMonitor = function (_RcModule) {
     key: 'ready',
     get: function get() {
       return this.state.status === _moduleStatuses2.default.ready;
+    }
+  }, {
+    key: 'pending',
+    get: function get() {
+      return this.state.status === _moduleStatuses2.default.pending;
     }
   }, {
     key: 'connectivity',
