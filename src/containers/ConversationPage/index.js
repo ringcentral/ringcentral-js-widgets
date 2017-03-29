@@ -117,7 +117,7 @@ function mapDispatchToProps(dispatch, props) {
 
       if (matcherNames && matcherNames.length > 0) {
         return matcherNames.map(matcher =>
-        `${matcher.name} ${matcher.phoneNumbers[0].phoneType}`
+          `${matcher.name} ${matcher.phoneNumbers[0].phoneType}`
         );
       }
       return [];
