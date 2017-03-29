@@ -42,7 +42,6 @@ import DetailedPresence from 'ringcentral-integration/modules/DetailedPresence';
 import CallLog from 'ringcentral-integration/modules/CallLog';
 import CallMonitor from 'ringcentral-integration/modules/CallMonitor';
 import CallHistory from 'ringcentral-integration/modules/CallHistory';
-import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
 
 import RouterInteraction from '../src/modules/RouterInteraction';
 
@@ -274,61 +273,12 @@ export default class Phone extends RcModule {
           return false;
         });
       },
-      // formatFn: entities => entities.map(entity => ({
-      //   entityType: 'contact',
-      //   name: entity.name,
-      //   phoneNumber: entity.ext,
-      //   phoneType: 'extension',
-      // })),
-      formatFn: () => [{
+      formatFn: entities => entities.map(entity => ({
         entityType: 'contact',
-        name: 'bulk1',
-        phoneNumber: '132',
-        phoneType: 'home',
-      },
-      {
-        entityType: 'contact',
-        name: 'bulk2',
-        phoneNumber: '222',
-        phoneType: 'business',
-      },
-      {
-        entityType: 'contact',
-        name: 'bulk3',
-        phoneNumber: '333',
-        phoneType: 'home',
-      },
-      {
-        entityType: 'contact',
-        name: 'bulk4',
-        phoneNumber: '555',
-        phoneType: 'home',
-      },
-      {
-        entityType: 'contact',
-        name: 'bulk5',
-        phoneNumber: '333',
-        phoneType: 'home',
-      },
-      {
-        entityType: 'contact',
-        name: 'bulk6',
-        phoneNumber: '333',
-        phoneType: 'home',
-      },
-      {
-        entityType: 'contact',
-        name: 'bulk7',
-        phoneNumber: '333',
-        phoneType: 'home',
-      },
-      {
-        entityType: 'contact',
-        name: 'bulk8',
-        phoneNumber: '333',
-        phoneType: 'home',
-      }
-      ],
+        name: entity.name,
+        phoneNumber: entity.ext,
+        phoneType: 'extension',
+      })),
       readyCheckFn: () => this.accountExtension.ready,
     });
     this.addModule('messageSender', new MessageSender({
@@ -416,11 +366,7 @@ export default class Phone extends RcModule {
       contactMatcher: this.contactMatcher,
       getState: () => this.state.callHistory,
     }));
-    this.addModule('contactMatcher', new ContactMatcher({
-      ...options,
-      storage: this.storage,
-      getState: () => this.state.contactMatcher,
-    }));
+
     this._reducer = combineReducers({
       accountExtension: this.accountExtension.reducer,
       accountInfo: this.accountInfo.reducer,
@@ -463,7 +409,6 @@ export default class Phone extends RcModule {
       callLog: this.callLog.reducer,
       callMonitor: this.callMonitor.reducer,
       callHistory: this.callHistory.reducer,
-      contactMatcher: this.contactMatcher.reducer,
       lastAction: (state = null, action) => {
         console.log(action);
         return action;
