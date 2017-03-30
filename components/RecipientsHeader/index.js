@@ -24,10 +24,6 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _stringify = require('babel-runtime/core-js/json/stringify');
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -70,7 +66,7 @@ function RecipientList(props) {
     { className: props.className },
     recipients.map(function (receiver) {
       return _react2.default.createElement(Recipient, {
-        key: (0, _stringify2.default)(receiver),
+        key: '' + receiver.extensionNumber + receiver.phoneNumber + receiver.name,
         name: props.getRecipientName(receiver),
         onClick: function onClick() {
           return props.setDefaultRecipient(receiver.extensionNumber || receiver.phoneNumber);

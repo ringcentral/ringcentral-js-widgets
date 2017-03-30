@@ -4,10 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _stringify = require('babel-runtime/core-js/json/stringify');
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -115,7 +111,7 @@ function ContactDropdownList(props) {
             phoneNumber: item.phoneNumber
           });
         },
-        key: (0, _stringify2.default)(item)
+        key: '' + item.phoneNumber + item.name + item.phoneType
       });
     })
   );
