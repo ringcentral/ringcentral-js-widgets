@@ -26,7 +26,7 @@ function RecipientList(props) {
       {
         recipients.map(receiver => (
           <Recipient
-            key={JSON.stringify(receiver)}
+            key={`${receiver.extensionNumber}${receiver.phoneNumber}${receiver.name}`}
             name={props.getRecipientName(receiver)}
             onClick={
               () => props.setDefaultRecipient(
