@@ -30,9 +30,9 @@ function MatchedNameList(props) {
   return (
     <div className={props.className}>
       {
-        this.props.isSelected ?
+        props.isSelected ?
           <RecipientName
-            name={i18n.getString('selectMatchedName', this.props.currentLocale)}
+            name={i18n.getString('selectMatchedName', props.currentLocale)}
             className={styles.noClick}
             onClick={
               () => null
@@ -111,7 +111,7 @@ class RecipientHeader extends Component {
     const phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
     let matchedNames = this.context.getMatcherContactList(phoneNumber);
     let defaultRecipient = matchedNames.join('&');
-    // if it have old data
+    // if it has old data
     let isSelected = false;
     if (recipient.matchedNames && recipient.matchedNames[0]) {
       const firstMatchedName = recipient.matchedNames[0];

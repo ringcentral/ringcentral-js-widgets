@@ -195,7 +195,7 @@ export default function App({
                   conversation={phone.conversation}
                   messageStore={phone.messageStore}
                   dateTimeFormat={phone.dateTimeFormat}
-                // contactMatcher={phone.contactMatcher}
+                  contactMatcher={phone.contactMatcher}
                 />
               )} />
             <Route
@@ -211,7 +211,6 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   contactMatcher={phone.contactMatcher}
                   dateTimeFormat={phone.dateTimeFormat}
-                // contactMatcher={phone.contactMatcher}
                 />
               )} />
           </Route>
