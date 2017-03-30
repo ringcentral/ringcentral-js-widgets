@@ -23,6 +23,10 @@ var _RateLimiter = require('ringcentral-integration/modules/RateLimiter');
 
 var _RateLimiter2 = _interopRequireDefault(_RateLimiter);
 
+var _ConnectivityMonitor = require('ringcentral-integration/modules/ConnectivityMonitor');
+
+var _ConnectivityMonitor2 = _interopRequireDefault(_ConnectivityMonitor);
+
 var _LoginPanel = require('../../components/LoginPanel');
 
 var _LoginPanel2 = _interopRequireDefault(_LoginPanel);
@@ -65,11 +69,12 @@ WelcomeContainer.defaultProps = {
 function mapToProps(_, _ref) {
   var auth = _ref.auth,
       locale = _ref.locale,
-      rateLimiter = _ref.rateLimiter;
+      rateLimiter = _ref.rateLimiter,
+      connectivityMonitor = _ref.connectivityMonitor;
 
   return {
     currentLocale: locale.currentLocale,
-    disabled: !auth.proxyLoaded || rateLimiter.throttling
+    disabled: !auth.proxyLoaded || rateLimiter.throttling || !connectivityMonitor.connectivity
   };
 }
 
@@ -96,6 +101,7 @@ var propTypes = {
   auth: _react.PropTypes.instanceOf(_Auth2.default).isRequired,
   locale: _react.PropTypes.instanceOf(_Locale2.default).isRequired,
   rateLimiter: _react.PropTypes.instanceOf(_RateLimiter2.default).isRequired,
+  connectivityMonitor: _react.PropTypes.instanceOf(_ConnectivityMonitor2.default).isRequired,
   mainUrl: _react.PropTypes.string,
   onLogin: _react.PropTypes.func
 };

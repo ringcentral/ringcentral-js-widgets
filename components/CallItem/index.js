@@ -225,10 +225,9 @@ ContactLink.defaultProps = {
 function LogLink(_ref4) {
   var onLogCall = _ref4.onLogCall,
       isLogged = _ref4.isLogged,
-      disableLinks = _ref4.disableLinks,
+      disabled = _ref4.disabled,
       isLogging = _ref4.isLogging;
 
-  var disabled = disableLinks || isLogging;
   var spinner = isLogging ? _react2.default.createElement(
     'div',
     { className: _styles2.default.spinnerContainer },
@@ -237,9 +236,9 @@ function LogLink(_ref4) {
   return _react2.default.createElement(
     'a',
     {
-      className: (0, _classnames2.default)(_styles2.default.logLink, disabled && _styles2.default.disabled),
-      onClick: !disabled && onLogCall,
-      disabled: disabled },
+      className: (0, _classnames2.default)(_styles2.default.logLink, (disabled || isLogging) && _styles2.default.disabled),
+      onClick: !(disabled || isLogging) && onLogCall,
+      disabled: disabled || isLogging },
     _react2.default.createElement('span', {
       className: isLogged ? _DynamicsFont2.default.edit : _DynamicsFont2.default.callLog }),
     spinner
@@ -248,7 +247,7 @@ function LogLink(_ref4) {
 LogLink.propTypes = {
   onLogCall: _react.PropTypes.func,
   isLogged: _react.PropTypes.bool.isRequired,
-  disableLinks: _react.PropTypes.bool,
+  disabled: _react.PropTypes.bool,
   isLogging: _react.PropTypes.bool.isRequired
 };
 
