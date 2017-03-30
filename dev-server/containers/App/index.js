@@ -140,6 +140,7 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   connectivityMonitor={phone.connectivityMonitor}
                   dateTimeFormat={phone.dateTimeFormat}
+                  callLogger={phone.callLogger}
                 />
               )} />
             <Route
@@ -153,6 +154,7 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   connectivityMonitor={phone.connectivityMonitor}
                   dateTimeFormat={phone.dateTimeFormat}
+                  callLogger={phone.callLogger}
                 />
               )} />
             <Route
@@ -226,7 +228,8 @@ export default function App({
               <WelcomePage
                 auth={phone.auth}
                 locale={phone.locale}
-                rateLimiter={phone.rateLimiter} >
+                rateLimiter={phone.rateLimiter}
+                connectivityMonitor={phone.connectivityMonitor} >
                 <AlertContainer
                   locale={phone.locale}
                   alert={phone.alert}

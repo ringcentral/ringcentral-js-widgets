@@ -42,8 +42,9 @@ import DetailedPresence from 'ringcentral-integration/modules/DetailedPresence';
 import CallLog from 'ringcentral-integration/modules/CallLog';
 import CallMonitor from 'ringcentral-integration/modules/CallMonitor';
 import CallHistory from 'ringcentral-integration/modules/CallHistory';
-
 import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
+import ActivityMatcher from 'ringcentral-integration/modules/ActivityMatcher';
+import CallLogger from 'ringcentral-integration/modules/CallLogger';
 
 import RouterInteraction from '../src/modules/RouterInteraction';
 
@@ -373,6 +374,19 @@ export default class Phone extends RcModule {
       storage: this.storage,
       getState: () => this.state.contactMatcher,
     }));
+    this.addModule('activityMatcher', new ActivityMatcher({
+      ...options,
+      storage: this.storage,
+      getState: () => this.state.activityMatcher,
+    }));
+    this.addModule('callLogger', new CallLogger({
+      ...options,
+      storage: this.storage,
+      callMonitor: this.callMonitor,
+      contactMatcher: this.contactMatcher,
+      activityMatcher: this.activityMatcher,
+      getState: () => this.state.callLogger,
+    }));
     this._reducer = combineReducers({
       accountExtension: this.accountExtension.reducer,
       accountInfo: this.accountInfo.reducer,
@@ -416,6 +430,8 @@ export default class Phone extends RcModule {
       callMonitor: this.callMonitor.reducer,
       callHistory: this.callHistory.reducer,
       contactMatcher: this.contactMatcher.reducer,
+      activityMatcher: this.activityMatcher.reducer,
+      callLogger: this.callLogger.reducer,
       lastAction: (state = null, action) => {
         console.log(action);
         return action;
