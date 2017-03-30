@@ -167,7 +167,6 @@ var Call = function (_RcModule) {
                   payroll: _context.t0
                 });
               } else if (_context.t0.message === 'Failed to fetch') {
-                console.log(_context.t0);
                 _this._alert.danger({
                   message: _callErrors2.default.networkError,
                   payroll: _context.t0
