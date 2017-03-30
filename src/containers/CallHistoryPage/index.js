@@ -8,6 +8,7 @@ function mapToProps(_, {
   regionSettings,
   connectivityMonitor,
   dateTimeFormat,
+  callLogger,
 }) {
   return {
     title: i18n.getString('title', locale.currentLocale),
@@ -16,6 +17,7 @@ function mapToProps(_, {
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     disableLinks: !connectivityMonitor.connectivity,
+    loggingMap: callLogger.loggingMap,
     showSpinner: !(
       callHistory.ready &&
       locale.ready &&
@@ -31,10 +33,21 @@ function mapToFunctions(_, {
   dateTimeFormatter = utcTimestamp => dateTimeFormat.formatDateTime({
     utcTimestamp,
   }),
+  callLogger,
+  onLogCall,
+  isLoggedContact,
 }) {
   return {
     dateTimeFormatter,
     onViewContact,
+    isLoggedContact,
+    onLogCall: onLogCall || (callLogger && (async ({ call, contact, redirect = true }) => {
+      await callLogger.logCall({
+        call,
+        contact,
+        redirect,
+      });
+    })),
   };
 }
 

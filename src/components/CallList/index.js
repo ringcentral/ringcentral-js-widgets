@@ -20,9 +20,11 @@ function CallList({
   countryCode,
   onViewContact,
   onLogCall,
+  isLoggedContact,
   disableLinks,
   active,
   dateTimeFormatter,
+  loggingMap,
 }) {
   if (calls && calls.length) {
     return (
@@ -36,9 +38,11 @@ function CallList({
             countryCode={countryCode}
             onViewContact={onViewContact}
             onLogCall={onLogCall}
+            isLoggedContact={isLoggedContact}
             disableLinks={disableLinks}
             active={active}
             dateTimeFormatter={dateTimeFormatter}
+            isLogging={!!loggingMap[call.sessionId]}
           />
         ))}
       </div>
@@ -60,6 +64,8 @@ CallList.propTypes = {
   countryCode: PropTypes.string.isRequired,
   onViewContact: PropTypes.func,
   onLogCall: PropTypes.func,
+  isLoggedContact: PropTypes.func,
+  loggingMap: PropTypes.object,
   disableLinks: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
 };
@@ -69,6 +75,7 @@ CallList.defaultProps = {
   disableLinks: false,
   onViewContact: undefined,
   onLogCall: undefined,
+  loggingMap: {},
 };
 
 export default CallList;
