@@ -74,7 +74,7 @@ function ContactDropdownList(props) {
               name: item.name,
               phoneNumber: item.phoneNumber,
             })}
-            key={JSON.stringify(item)}
+            key={`${item.phoneNumber}${item.name}${item.phoneType}`}
           />
         ))
       }
