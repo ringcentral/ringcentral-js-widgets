@@ -166,7 +166,7 @@ function mapDispatchToProps(dispatch, props) {
       var matcherNames = props.contactMatcher.dataMapping[phoneNumber];
       if (matcherNames && matcherNames.length > 0) {
         return matcherNames.map(function (matcher) {
-          return matcher.name;
+          return matcher.name + '|' + matcher.phoneNumbers[0].phoneType;
         });
       }
       return [];

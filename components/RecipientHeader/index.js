@@ -70,8 +70,8 @@ function MatchedNameList(props) {
   return _react2.default.createElement(
     'div',
     { className: props.className },
-    this.props.isSelected ? _react2.default.createElement(RecipientName, {
-      name: _i18n2.default.getString('selectMatchedName', this.props.currentLocale),
+    props.isSelected ? _react2.default.createElement(RecipientName, {
+      name: _i18n2.default.getString('selectMatchedName', props.currentLocale),
       className: _styles2.default.noClick,
       onClick: function onClick() {
         return null;
@@ -158,7 +158,7 @@ var RecipientHeader = function (_Component) {
       var phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
       var matchedNames = this.context.getMatcherContactList(phoneNumber);
       var defaultRecipient = matchedNames.join('&');
-      // if it have old data
+      // if it has old data
       var isSelected = false;
       if (recipient.matchedNames && recipient.matchedNames[0]) {
         var firstMatchedName = recipient.matchedNames[0];
