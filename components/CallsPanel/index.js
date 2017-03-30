@@ -40,11 +40,13 @@ function CallsPanel(_ref) {
       countryCode = _ref.countryCode,
       onViewContact = _ref.onViewContact,
       onLogCall = _ref.onLogCall,
+      isLoggedContact = _ref.isLoggedContact,
       disableLinks = _ref.disableLinks,
       dateTimeFormatter = _ref.dateTimeFormatter,
       showSpinner = _ref.showSpinner,
       title = _ref.title,
-      active = _ref.active;
+      active = _ref.active,
+      loggingMap = _ref.loggingMap;
 
   var content = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(_CallList2.default, {
     currentLocale: currentLocale,
@@ -53,9 +55,11 @@ function CallsPanel(_ref) {
     countryCode: countryCode,
     onViewContact: onViewContact,
     onLogCall: onLogCall,
+    isLoggedContact: isLoggedContact,
     disableLinks: disableLinks,
     dateTimeFormatter: dateTimeFormatter,
-    active: active
+    active: active,
+    loggingMap: loggingMap
   });
   return _react2.default.createElement(
     'div',
@@ -80,11 +84,13 @@ CallsPanel.propTypes = {
   countryCode: _react.PropTypes.string.isRequired,
   onViewContact: _react.PropTypes.func,
   onLogCall: _react.PropTypes.func,
+  isLoggedContact: _react.PropTypes.func,
   disableLinks: _react.PropTypes.bool.isRequired,
   dateTimeFormatter: _react.PropTypes.func.isRequired,
   showSpinner: _react.PropTypes.bool,
   title: _react.PropTypes.string,
-  active: _react.PropTypes.bool
+  active: _react.PropTypes.bool,
+  loggingMap: _react.PropTypes.object
 };
 
 CallsPanel.defaultProps = {
@@ -92,6 +98,7 @@ CallsPanel.defaultProps = {
   onLogCall: undefined,
   showSpinner: false,
   title: '',
-  active: false
+  active: false,
+  loggingMap: {}
 };
 //# sourceMappingURL=index.js.map

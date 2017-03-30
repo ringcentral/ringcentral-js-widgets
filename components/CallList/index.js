@@ -43,9 +43,11 @@ function CallList(_ref2) {
       countryCode = _ref2.countryCode,
       onViewContact = _ref2.onViewContact,
       onLogCall = _ref2.onLogCall,
+      isLoggedContact = _ref2.isLoggedContact,
       disableLinks = _ref2.disableLinks,
       active = _ref2.active,
-      dateTimeFormatter = _ref2.dateTimeFormatter;
+      dateTimeFormatter = _ref2.dateTimeFormatter,
+      loggingMap = _ref2.loggingMap;
 
   if (calls && calls.length) {
     return _react2.default.createElement(
@@ -60,9 +62,11 @@ function CallList(_ref2) {
           countryCode: countryCode,
           onViewContact: onViewContact,
           onLogCall: onLogCall,
+          isLoggedContact: isLoggedContact,
           disableLinks: disableLinks,
           active: active,
-          dateTimeFormatter: dateTimeFormatter
+          dateTimeFormatter: dateTimeFormatter,
+          isLogging: !!loggingMap[call.sessionId]
         });
       })
     );
@@ -83,6 +87,8 @@ CallList.propTypes = {
   countryCode: _react.PropTypes.string.isRequired,
   onViewContact: _react.PropTypes.func,
   onLogCall: _react.PropTypes.func,
+  isLoggedContact: _react.PropTypes.func,
+  loggingMap: _react.PropTypes.object,
   disableLinks: _react.PropTypes.bool,
   dateTimeFormatter: _react.PropTypes.func.isRequired
 };
@@ -91,7 +97,8 @@ CallList.defaultProps = {
   active: false,
   disableLinks: false,
   onViewContact: undefined,
-  onLogCall: undefined
+  onLogCall: undefined,
+  loggingMap: {}
 };
 
 exports.default = CallList;

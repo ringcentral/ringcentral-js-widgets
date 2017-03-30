@@ -363,6 +363,8 @@ var CallItem = function (_Component) {
   }, {
     key: 'getInitialContactIndex',
     value: function getInitialContactIndex() {
+      var _this3 = this;
+
       var nextProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
 
       var contactMatches = this.getContactMatches(nextProps);
@@ -376,7 +378,10 @@ var CallItem = function (_Component) {
           var activity = _step.value;
 
           var index = contactMatches.findIndex(function (contact) {
-            return activity.additionalParams['regarding.id'] === contact.id;
+            return (
+              // TODO find a better name or mechanism...
+              _this3.props.isLoggedContact(nextProps.call, activity, contact)
+            );
           });
           if (index > -1) return {
               v: index
@@ -435,7 +440,8 @@ var CallItem = function (_Component) {
           active = _props.active,
           onViewContact = _props.onViewContact,
           onLogCall = _props.onLogCall,
-          dateTimeFormatter = _props.dateTimeFormatter;
+          dateTimeFormatter = _props.dateTimeFormatter,
+          isLogging = _props.isLogging;
 
       var phoneNumber = this.getPhoneNumber();
       var contactMatches = this.getContactMatches();
@@ -465,7 +471,7 @@ var CallItem = function (_Component) {
           onLogCall: this.logCall,
           isLogged: activityMatches.length > 0,
           disabled: disableLinks,
-          isLogging: this.state.isLogging });
+          isLogging: isLogging || this.state.isLogging });
       }
       var contactLinkEl = void 0;
       if (onViewContact && contactMatches.length) {
@@ -490,7 +496,7 @@ var CallItem = function (_Component) {
           selected: this.state.selected,
           onSelectContact: this.onSelectContact,
           disabled: disableLinks,
-          isLogging: this.state.isLogging,
+          isLogging: isLogging || this.state.isLogging,
           fallBackName: fallbackContactName,
           areaCode: areaCode,
           countryCode: countryCode,
@@ -540,13 +546,19 @@ CallItem.propTypes = {
   currentLocale: _react.PropTypes.string.isRequired,
   onLogCall: _react.PropTypes.func,
   onViewContact: _react.PropTypes.func,
+  isLoggedContact: _react.PropTypes.func,
   disableLinks: _react.PropTypes.bool.isRequired,
   active: _react.PropTypes.bool.isRequired,
-  dateTimeFormatter: _react.PropTypes.func.isRequired
+  dateTimeFormatter: _react.PropTypes.func.isRequired,
+  isLogging: _react.PropTypes.bool
 };
 
 CallItem.defaultProps = {
   onLogCall: undefined,
-  onViewContact: undefined
+  onViewContact: undefined,
+  isLoggedContact: function isLoggedContact() {
+    return false;
+  },
+  isLogging: false
 };
 //# sourceMappingURL=index.js.map
