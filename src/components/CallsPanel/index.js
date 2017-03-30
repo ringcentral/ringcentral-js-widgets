@@ -15,11 +15,13 @@ export default function CallsPanel({
   countryCode,
   onViewContact,
   onLogCall,
+  isLoggedContact,
   disableLinks,
   dateTimeFormatter,
   showSpinner,
   title,
   active,
+  loggingMap,
 }) {
   const content = showSpinner ?
     <SpinnerOverlay /> :
@@ -31,9 +33,11 @@ export default function CallsPanel({
         countryCode={countryCode}
         onViewContact={onViewContact}
         onLogCall={onLogCall}
+        isLoggedContact={isLoggedContact}
         disableLinks={disableLinks}
         dateTimeFormatter={dateTimeFormatter}
         active={active}
+        loggingMap={loggingMap}
       />
     );
   return (
@@ -55,11 +59,13 @@ CallsPanel.propTypes = {
   countryCode: PropTypes.string.isRequired,
   onViewContact: PropTypes.func,
   onLogCall: PropTypes.func,
+  isLoggedContact: PropTypes.func,
   disableLinks: PropTypes.bool.isRequired,
   dateTimeFormatter: PropTypes.func.isRequired,
   showSpinner: PropTypes.bool,
   title: PropTypes.string,
   active: PropTypes.bool,
+  loggingMap: PropTypes.object,
 };
 
 CallsPanel.defaultProps = {
@@ -68,4 +74,5 @@ CallsPanel.defaultProps = {
   showSpinner: false,
   title: '',
   active: false,
+  loggingMap: {},
 };

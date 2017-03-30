@@ -239,7 +239,8 @@ export default class CallItem extends Component {
     const activityMatches = nextProps.call.activityMatches;
     for (const activity of activityMatches) {
       const index = contactMatches.findIndex(contact => (
-        activity.additionalParams['regarding.id'] === contact.id
+        // TODO find a better name or mechanism...
+        this.props.isLoggedContact(nextProps.call, activity, contact)
       ));
       if (index > -1) return index;
     }
@@ -308,6 +309,7 @@ export default class CallItem extends Component {
       onViewContact,
       onLogCall,
       dateTimeFormatter,
+      isLogging,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
@@ -342,7 +344,7 @@ export default class CallItem extends Component {
           onLogCall={this.logCall}
           isLogged={activityMatches.length > 0}
           disabled={disableLinks}
-          isLogging={this.state.isLogging} />
+          isLogging={isLogging || this.state.isLogging} />
       );
     }
     let contactLinkEl;
@@ -369,7 +371,7 @@ export default class CallItem extends Component {
           selected={this.state.selected}
           onSelectContact={this.onSelectContact}
           disabled={disableLinks}
-          isLogging={this.state.isLogging}
+          isLogging={isLogging || this.state.isLogging}
           fallBackName={fallbackContactName}
           areaCode={areaCode}
           countryCode={countryCode}
@@ -410,12 +412,16 @@ CallItem.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   onLogCall: PropTypes.func,
   onViewContact: PropTypes.func,
+  isLoggedContact: PropTypes.func,
   disableLinks: PropTypes.bool.isRequired,
   active: PropTypes.bool.isRequired,
   dateTimeFormatter: PropTypes.func.isRequired,
+  isLogging: PropTypes.bool,
 };
 
 CallItem.defaultProps = {
   onLogCall: undefined,
   onViewContact: undefined,
+  isLoggedContact: () => false,
+  isLogging: false,
 };
