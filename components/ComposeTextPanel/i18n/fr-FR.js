@@ -8,6 +8,9 @@ exports.default = {
   to: 'À',
   enterNameOrNumber: 'Saisir le numéro ou le nom',
   typeAnyToSend: 'Saisir un texte à envoyer',
-  send: 'Envoyer'
+  send: 'Envoyer',
+  from: 'De',
+  typeMessage: 'Saisie du message...',
+  noSMSSenderNumber: 'Vous ne pouvez pas envoyer de SMS depuis votre num\xE9ro de t\xE9l\xE9phone. \n    Veuillez contacter votre administrateur de compte.'
 };
 //# sourceMappingURL=fr-FR.js.map
