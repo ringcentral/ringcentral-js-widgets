@@ -14,6 +14,7 @@ class ConversationPage extends Component {
       changeMatchedNames: this.props.changeMatchedNames,
       getRecipientName: recipient => (this.getRecipientName(recipient)),
       getMatcherContactList: this.props.getMatcherContactList,
+      getMatcherContactNameList: this.props.getMatcherContactNameList,
     };
   }
 
@@ -75,12 +76,14 @@ ConversationPage.propTypes = {
   formatDateTime: PropTypes.func.isRequired,
   getMatcherContactName: PropTypes.func,
   getMatcherContactList: PropTypes.func,
+  getMatcherContactNameList: PropTypes.func,
   changeMatchedNames: PropTypes.func.isRequired,
 };
 
 ConversationPage.defaultProps = {
   getMatcherContactName: null,
   getMatcherContactList: () => [],
+  getMatcherContactNameList: () => [],
 };
 
 ConversationPage.childContextTypes = {
@@ -90,6 +93,7 @@ ConversationPage.childContextTypes = {
   changeDefaultRecipient: PropTypes.func.isRequired,
   changeMatchedNames: PropTypes.func.isRequired,
   getMatcherContactList: PropTypes.func.isRequired,
+  getMatcherContactNameList: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state, props) {
@@ -111,24 +115,76 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch, props) {
   let getMatcherContactName;
   let getMatcherContactList;
+  let getMatcherContactNameList;
   if (props.contactMatcher && props.contactMatcher.ready) {
     getMatcherContactList = (phoneNumber) => {
-      const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
+      // const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
+      const matcherNames = [{
+        entityType: 'contact',
+        name: 'bulk101 contact101',
+        phoneNumbers: [{
+          phoneType: 'business',
+          phoneNumber: '123'
+        }]
+      },{
+        entityType: 'contact',
+        name: 'bulk102 contact102',
+        phoneNumbers: [{
+          phoneType: 'mobile',
+          phoneNumber: '123'
+        }]
+      },{
+        entityType: 'contact',
+        name: 'bulk103 contact103',
+        phoneNumbers: [{
+          phoneType: 'mobile',
+          phoneNumber: '123'
+        }]
+      }];
       if (matcherNames && matcherNames.length > 0) {
         return matcherNames.map(matcher =>
-          `${matcher.name}|${matcher.phoneNumbers[0].phoneType}`
+          `${matcher.name} | ${matcher.phoneNumbers[0].phoneType}`
         );
       }
       return [];
     };
-
+    getMatcherContactNameList = (phoneNumber) => {
+      // const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
+      const matcherNames = [{
+        entityType: 'contact',
+        name: 'bulk101 contact101',
+        phoneNumbers: [{
+          phoneType: 'mobile',
+          phoneNumber: '123'
+        }]
+      },{
+        entityType: 'contact',
+        name: 'bulk102 contact102',
+        phoneNumbers: [{
+          phoneType: 'bussiness',
+          phoneNumber: '123'
+        }]
+      },{
+        entityType: 'contact',
+        name: 'bulk102 contact102',
+        phoneNumbers: [{
+          phoneType: 'mobile',
+          phoneNumber: '123'
+        }]
+      }];
+      if (matcherNames && matcherNames.length > 0) {
+        return matcherNames.map(matcher => matcher.name);
+      }
+      return [];
+    };
     getMatcherContactName = (phoneNumber) => {
-      const matcherNames = getMatcherContactList(phoneNumber);
+      const matcherNames = getMatcherContactNameList(phoneNumber);
       if (matcherNames && matcherNames.length > 0) {
         return matcherNames.join('&');
       }
       return null;
     };
+    
   }
 
   return {
@@ -148,6 +204,7 @@ function mapDispatchToProps(dispatch, props) {
     }),
     getMatcherContactName,
     getMatcherContactList,
+    getMatcherContactNameList,
   };
 }
 

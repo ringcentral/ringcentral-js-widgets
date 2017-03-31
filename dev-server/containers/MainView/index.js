@@ -48,7 +48,7 @@ const tabs = [
   {
     icon: <span className={dynamicsFont.iconComposeText} />,
     activityIcon: <span className={dynamicsFont.iconComposeText} />,
-    label: 'SMS',
+    label: 'Compose Text',
     path: '/composeText',
     // noticeCounts: 2,
   },

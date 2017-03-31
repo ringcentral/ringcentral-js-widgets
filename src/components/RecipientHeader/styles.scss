@@ -21,6 +21,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-align: left;
   &:hover {
     background: #f3f3f3;
   }
@@ -51,4 +52,13 @@
   top: 12px;
   right: 0;
   cursor: pointer;
+}
+
+.dropdownActiveIcon {
+  font-size: 12px;
+  position: absolute;
+  top: 12px;
+  right: 0;
+  cursor: pointer;
+  transform: rotate(180deg);
 }
