@@ -39,7 +39,7 @@ function mapToProps(_, _ref) {
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     disableLinks: !connectivityMonitor.connectivity,
-    loggingMap: callLogger.loggingMap,
+    loggingMap: callLogger && callLogger.loggingMap,
     showSpinner: !(callHistory.ready && locale.ready && regionSettings.ready && dateTimeFormat.ready && connectivityMonitor.ready)
   };
 }
