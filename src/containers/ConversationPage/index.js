@@ -140,7 +140,6 @@ function mapDispatchToProps(dispatch, props) {
       }
       return null;
     };
-    
   }
 
   return {

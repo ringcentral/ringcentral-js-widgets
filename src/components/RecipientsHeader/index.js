@@ -91,7 +91,7 @@ class RecipientsHeader extends Component {
     const defaultRecipient = recipients[0];
     if (this.state.showDropdownList) {
       dropdownClass = classnames(dropdownClass, styles.active);
-      dropdownArrowClass = classnames(dynamicsFont.arrow, styles.dropdownActiveIcon)
+      dropdownArrowClass = classnames(dynamicsFont.arrow, styles.dropdownActiveIcon);
     }
     return (
       <h1 className={styles.container}>

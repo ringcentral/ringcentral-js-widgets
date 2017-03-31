@@ -108,7 +108,7 @@ class RecipientHeader extends Component {
     }
     const phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
     let matchedNames = this.context.getMatcherContactList(phoneNumber);
-    let matchedNamesOnly = this.context.getMatcherContactNameList(phoneNumber);
+    const matchedNamesOnly = this.context.getMatcherContactNameList(phoneNumber);
     let defaultRecipient = matchedNamesOnly.join('&');
     // if it has old data
     let isSelected = false;
