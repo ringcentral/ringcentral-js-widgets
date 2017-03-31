@@ -118,29 +118,7 @@ function mapDispatchToProps(dispatch, props) {
   let getMatcherContactNameList;
   if (props.contactMatcher && props.contactMatcher.ready) {
     getMatcherContactList = (phoneNumber) => {
-      // const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
-      const matcherNames = [{
-        entityType: 'contact',
-        name: 'bulk101 contact101',
-        phoneNumbers: [{
-          phoneType: 'business',
-          phoneNumber: '123'
-        }]
-      },{
-        entityType: 'contact',
-        name: 'bulk102 contact102',
-        phoneNumbers: [{
-          phoneType: 'mobile',
-          phoneNumber: '123'
-        }]
-      },{
-        entityType: 'contact',
-        name: 'bulk103 contact103',
-        phoneNumbers: [{
-          phoneType: 'mobile',
-          phoneNumber: '123'
-        }]
-      }];
+      const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
       if (matcherNames && matcherNames.length > 0) {
         return matcherNames.map(matcher =>
           `${matcher.name} | ${matcher.phoneNumbers[0].phoneType}`
@@ -149,29 +127,7 @@ function mapDispatchToProps(dispatch, props) {
       return [];
     };
     getMatcherContactNameList = (phoneNumber) => {
-      // const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
-      const matcherNames = [{
-        entityType: 'contact',
-        name: 'bulk101 contact101',
-        phoneNumbers: [{
-          phoneType: 'mobile',
-          phoneNumber: '123'
-        }]
-      },{
-        entityType: 'contact',
-        name: 'bulk102 contact102',
-        phoneNumbers: [{
-          phoneType: 'bussiness',
-          phoneNumber: '123'
-        }]
-      },{
-        entityType: 'contact',
-        name: 'bulk102 contact102',
-        phoneNumbers: [{
-          phoneType: 'mobile',
-          phoneNumber: '123'
-        }]
-      }];
+      const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
       if (matcherNames && matcherNames.length > 0) {
         return matcherNames.map(matcher => matcher.name);
       }
