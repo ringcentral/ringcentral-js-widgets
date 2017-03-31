@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute } from 'react-router';
 import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
+import sleep from 'ringcentral-integration/lib/sleep';
 
 import AlertContainer from '../../../src/containers/AlertContainer';
 import WelcomePage from '../../../src/containers/WelcomePage';
@@ -140,7 +141,8 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   connectivityMonitor={phone.connectivityMonitor}
                   dateTimeFormat={phone.dateTimeFormat}
-                  callLogger={phone.callLogger}
+                  onLogCall={async () => { await sleep(1000); }}
+                  onViewContact={() => {}}
                 />
               )} />
             <Route
@@ -154,6 +156,7 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   connectivityMonitor={phone.connectivityMonitor}
                   dateTimeFormat={phone.dateTimeFormat}
+                  onLogCall={async () => { await sleep(1000); }}
                   onViewContact={() => {}}
                 />
               )} />

@@ -23,7 +23,8 @@ function mapToProps(_, {
       locale.ready &&
       regionSettings.ready &&
       dateTimeFormat.ready &&
-      connectivityMonitor.ready
+      connectivityMonitor.ready &&
+      (!callLogger || callLogger.ready)
     ),
   };
 }

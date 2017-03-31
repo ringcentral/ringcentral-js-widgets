@@ -25,7 +25,7 @@ function mapToProps(_, {
       regionSettings.ready &&
       connectivityMonitor.ready &&
       dateTimeFormat.ready &&
-      callLogger.ready
+      (!callLogger || callLogger.ready)
     ),
   };
 }
