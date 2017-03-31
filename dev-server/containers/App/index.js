@@ -154,7 +154,7 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   connectivityMonitor={phone.connectivityMonitor}
                   dateTimeFormat={phone.dateTimeFormat}
-                  callLogger={phone.callLogger}
+                  onViewContact={() => {}}
                 />
               )} />
             <Route
