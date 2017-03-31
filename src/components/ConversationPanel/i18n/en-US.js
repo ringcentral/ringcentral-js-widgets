@@ -1,4 +1,4 @@
 export default {
-  typeAnyToSend: 'Type message...',
+  typeMessage: 'Type message...',
   send: 'Send',
 };

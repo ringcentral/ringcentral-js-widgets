@@ -77,7 +77,7 @@ class ConversationPanel extends Component {
           <form onSubmit={this.handleSubmit}>
             <div className={styles.textField}>
               <textarea
-                placeholder={i18n.getString('typeAnyToSend', this.props.currentLocale)}
+                placeholder={i18n.getString('typeMessage', this.props.currentLocale)}
                 value={this.state.textValue}
                 maxLength="1000"
                 onChange={this.onTextChange}
