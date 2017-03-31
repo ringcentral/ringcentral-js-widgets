@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
@@ -27,7 +27,7 @@ function ContactItem(props) {
           </span>
           <span className={styles.spliter}>|</span>
           <span className={styles.label}>
-            {phoneTypes.getString(`phoneType.${props.phoneType}`)}
+            {props.phoneType === 'unknown' ? phoneTypes.getString(`phoneType.${props.phoneType}`) : props.phoneType}
           </span>
         </div>
       </a>
@@ -46,39 +46,64 @@ ContactItem.propTypes = {
   onHover: PropTypes.func.isRequired,
 };
 
-function ContactDropdownList(props) {
-  const items = props.items;
-  let listClassName = null;
-  let hiddenClassName = null;
-  if (items.length === 0 || !props.visibility) {
-    hiddenClassName = styles.hidden;
-  }
-  listClassName = classnames(styles.dropdownList, props.className, hiddenClassName);
-  return (
-    <ul className={listClassName}>
-      {
-        items.map((item, index) => (
-          <ContactItem
-            active={props.selectedIndex === index}
-            name={item.name}
-            entityType={item.entityType}
-            phoneType={item.phoneType}
-            phoneNumber={item.phoneNumber}
-            formatContactPhone={props.formatContactPhone}
-            onHover={() => props.setSelectedIndex(index)}
-            onClick={() => props.addToRecipients({
-              name: item.name,
-              phoneNumber: item.phoneNumber,
-            })}
-            key={`${item.phoneNumber}${item.name}${item.phoneType}`}
-          />
-        ))
+class ContactDropdownList extends Component {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.visibility) {
+      if (nextProps.scrollDirection === 'ArrowDown') {
+        if (nextProps.selectedIndex < nextProps.items.length) {
+          if (nextProps.selectedIndex > 4) {
+            this.node.scrollTop += 53;
+            this.node.scrollTop = Math.floor(this.node.scrollTop / 53) * 53;
+          }
+        }
       }
-    </ul>
-  );
+      if (nextProps.scrollDirection === 'ArrowUp') {
+        if (nextProps.selectedIndex > -1) {
+          if (nextProps.selectedIndex < nextProps.items.length - 4) {
+            this.node.scrollTop -= 53;
+            this.node.scrollTop = Math.floor(this.node.scrollTop / 53) * 53;
+          }
+        }
+      }
+    }
+  }
+  render() {
+    const props = this.props;
+    const items = props.items;
+    let listClassName = null;
+    let hiddenClassName = null;
+    if (items.length === 0) {
+      hiddenClassName = styles.hidden;
+    }
+    listClassName = classnames(styles.dropdownList, props.className, hiddenClassName);
+
+    return (
+      <ul className={listClassName} ref={(c) => { this.node = c; }}>
+        {
+          items.map((item, index) => (
+            <ContactItem
+              active={props.selectedIndex === index}
+              name={item.name}
+              entityType={item.entityType}
+              phoneType={item.phoneType}
+              phoneNumber={item.phoneNumber}
+              formatContactPhone={props.formatContactPhone}
+              onHover={() => props.setSelectedIndex(index)}
+              onClick={() => props.addToRecipients({
+                name: item.name,
+                phoneNumber: item.phoneNumber,
+              })}
+              key={`${item.phoneNumber}${item.name}${item.phoneType}`}
+            />
+          ))
+        }
+      </ul>
+    );
+  }
 }
 
 ContactDropdownList.propTypes = {
+  scrollDirection: PropTypes.string,
   visibility: PropTypes.bool.isRequired,
   className: PropTypes.string,
   items: PropTypes.arrayOf(PropTypes.shape({
