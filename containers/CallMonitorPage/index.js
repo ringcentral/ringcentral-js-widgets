@@ -41,7 +41,7 @@ function mapToProps(_, _ref) {
     countryCode: regionSettings.countryCode,
     disableLinks: !connectivityMonitor.connectivity,
     loggingMap: callLogger && callLogger.loggingMap,
-    showSpinner: !(locale.ready && callMonitor.ready && regionSettings.ready && connectivityMonitor.ready && dateTimeFormat.ready && callLogger.ready)
+    showSpinner: !(locale.ready && callMonitor.ready && regionSettings.ready && connectivityMonitor.ready && dateTimeFormat.ready && (!callLogger || callLogger.ready))
   };
 }
 function mapToFunctions(_, _ref2) {
