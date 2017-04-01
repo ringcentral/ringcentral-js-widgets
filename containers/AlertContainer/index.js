@@ -102,7 +102,10 @@ var AlertContainer = (0, _reactRedux.connect)(function (state, _ref) {
       }
 
       if (_MessageSenderAlert2.default.handleMessage(message)) {
-        return _MessageSenderAlert2.default;
+        return function (props) {
+          return _react2.default.createElement(_MessageSenderAlert2.default, (0, _extends3.default)({}, props, {
+            regionSettingsUrl: '/settings/region' }));
+        };
       }
 
       if (_RateExceededAlert2.default.handleMessage(message)) {
