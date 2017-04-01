@@ -61,7 +61,8 @@ var ConversationPage = function (_Component) {
         getRecipientName: function getRecipientName(recipient) {
           return _this2.getRecipientName(recipient);
         },
-        getMatcherContactList: this.props.getMatcherContactList
+        getMatcherContactList: this.props.getMatcherContactList,
+        getMatcherContactNameList: this.props.getMatcherContactNameList
       };
     }
   }, {
@@ -128,12 +129,16 @@ ConversationPage.propTypes = {
   formatDateTime: _react.PropTypes.func.isRequired,
   getMatcherContactName: _react.PropTypes.func,
   getMatcherContactList: _react.PropTypes.func,
+  getMatcherContactNameList: _react.PropTypes.func,
   changeMatchedNames: _react.PropTypes.func.isRequired
 };
 
 ConversationPage.defaultProps = {
   getMatcherContactName: null,
   getMatcherContactList: function getMatcherContactList() {
+    return [];
+  },
+  getMatcherContactNameList: function getMatcherContactNameList() {
     return [];
   }
 };
@@ -144,7 +149,8 @@ ConversationPage.childContextTypes = {
   getRecipientName: _react.PropTypes.func.isRequired,
   changeDefaultRecipient: _react.PropTypes.func.isRequired,
   changeMatchedNames: _react.PropTypes.func.isRequired,
-  getMatcherContactList: _react.PropTypes.func.isRequired
+  getMatcherContactList: _react.PropTypes.func.isRequired,
+  getMatcherContactNameList: _react.PropTypes.func.isRequired
 };
 
 function mapStateToProps(state, props) {
@@ -161,19 +167,28 @@ function mapStateToProps(state, props) {
 function mapDispatchToProps(dispatch, props) {
   var getMatcherContactName = void 0;
   var getMatcherContactList = void 0;
+  var getMatcherContactNameList = void 0;
   if (props.contactMatcher && props.contactMatcher.ready) {
     getMatcherContactList = function getMatcherContactList(phoneNumber) {
       var matcherNames = props.contactMatcher.dataMapping[phoneNumber];
       if (matcherNames && matcherNames.length > 0) {
         return matcherNames.map(function (matcher) {
-          return matcher.name + '|' + matcher.phoneNumbers[0].phoneType;
+          return matcher.name + ' | ' + matcher.phoneNumbers[0].phoneType;
         });
       }
       return [];
     };
-
+    getMatcherContactNameList = function getMatcherContactNameList(phoneNumber) {
+      var matcherNames = props.contactMatcher.dataMapping[phoneNumber];
+      if (matcherNames && matcherNames.length > 0) {
+        return matcherNames.map(function (matcher) {
+          return matcher.name;
+        });
+      }
+      return [];
+    };
     getMatcherContactName = function getMatcherContactName(phoneNumber) {
-      var matcherNames = getMatcherContactList(phoneNumber);
+      var matcherNames = getMatcherContactNameList(phoneNumber);
       if (matcherNames && matcherNames.length > 0) {
         return matcherNames.join('&');
       }
@@ -204,7 +219,8 @@ function mapDispatchToProps(dispatch, props) {
       });
     },
     getMatcherContactName: getMatcherContactName,
-    getMatcherContactList: getMatcherContactList
+    getMatcherContactList: getMatcherContactList,
+    getMatcherContactNameList: getMatcherContactNameList
   };
 }
 

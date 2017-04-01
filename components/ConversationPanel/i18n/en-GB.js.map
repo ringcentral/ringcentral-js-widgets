@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/ConversationPanel/i18n/en-GB.js"],"names":["typeAnyToSend","send"],"mappings":";;;;;kBAAe;AACbA,iBAAe,uBADF;AAEbC,QAAM;AAFO,C","file":"en-GB.js","sourcesContent":["export default {\n  typeAnyToSend: 'Type any text to send',\n  send: 'Send',\n};\n"]}
+{"version":3,"sources":["components/ConversationPanel/i18n/en-GB.js"],"names":["send"],"mappings":";;;;;kBAAe;AACbA,QAAM;AADO,C","file":"en-GB.js","sourcesContent":["export default {\n  send: 'Send',\n};\n"]}

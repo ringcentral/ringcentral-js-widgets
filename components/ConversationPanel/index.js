@@ -140,7 +140,7 @@ var ConversationPanel = function (_Component) {
               'div',
               { className: _styles2.default.textField },
               _react2.default.createElement('textarea', {
-                placeholder: _i18n2.default.getString('typeAnyToSend', this.props.currentLocale),
+                placeholder: _i18n2.default.getString('typeMessage', this.props.currentLocale),
                 value: this.state.textValue,
                 maxLength: '1000',
                 onChange: this.onTextChange,

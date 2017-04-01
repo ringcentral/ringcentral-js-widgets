@@ -124,6 +124,7 @@ var RecipientsHeader = function (_Component) {
         return null;
       }
       var dropdownClass = _styles2.default.dropdownList;
+      var dropdownArrowClass = (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.dropdownIcon);
       if (recipients.length === 1) {
         return _react2.default.createElement(
           'h1',
@@ -138,6 +139,7 @@ var RecipientsHeader = function (_Component) {
       var defaultRecipient = recipients[0];
       if (this.state.showDropdownList) {
         dropdownClass = (0, _classnames2.default)(dropdownClass, _styles2.default.active);
+        dropdownArrowClass = (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.dropdownActiveIcon);
       }
       return _react2.default.createElement(
         'h1',
@@ -147,7 +149,7 @@ var RecipientsHeader = function (_Component) {
           onClick: this.toggleDropdown
         }),
         _react2.default.createElement('i', {
-          className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.dropdownIcon),
+          className: dropdownArrowClass,
           onClick: this.toggleDropdown
         }),
         _react2.default.createElement(RecipientList, {

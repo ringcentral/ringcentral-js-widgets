@@ -70,13 +70,13 @@ function MatchedNameList(props) {
   return _react2.default.createElement(
     'div',
     { className: props.className },
-    props.isSelected ? _react2.default.createElement(RecipientName, {
+    _react2.default.createElement(RecipientName, {
       name: _i18n2.default.getString('selectMatchedName', props.currentLocale),
       className: _styles2.default.noClick,
       onClick: function onClick() {
         return null;
       }
-    }) : null,
+    }),
     matchedNames.map(function (matchedName) {
       return _react2.default.createElement(RecipientName, {
         key: matchedName,
@@ -152,12 +152,15 @@ var RecipientHeader = function (_Component) {
         );
       }
       var dropdownClass = this.props.dropdownClassName;
+      var dropdownArrowClass = (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.dropdownIcon);
       if (this.state.showDropdownList) {
         dropdownClass = (0, _classnames2.default)(dropdownClass, _styles2.default.active);
+        dropdownArrowClass = (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.dropdownActiveIcon);
       }
       var phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
       var matchedNames = this.context.getMatcherContactList(phoneNumber);
-      var defaultRecipient = matchedNames.join('&');
+      var matchedNamesOnly = this.context.getMatcherContactNameList(phoneNumber);
+      var defaultRecipient = matchedNamesOnly.join('&');
       // if it has old data
       var isSelected = false;
       if (recipient.matchedNames && recipient.matchedNames[0]) {
@@ -183,7 +186,7 @@ var RecipientHeader = function (_Component) {
           className: _styles2.default.dropdownButton
         }),
         _react2.default.createElement('i', {
-          className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.dropdownIcon),
+          className: dropdownArrowClass,
           onClick: this.toggleDropdown
         }),
         _react2.default.createElement(MatchedNameList, {
@@ -213,6 +216,7 @@ RecipientHeader.propTypes = {
 RecipientHeader.contextTypes = {
   getRecipientName: _react.PropTypes.func.isRequired,
   getMatcherContactList: _react.PropTypes.func.isRequired,
+  getMatcherContactNameList: _react.PropTypes.func.isRequired,
   changeMatchedNames: _react.PropTypes.func.isRequired
 };
 

@@ -4,6 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  selectMatchedName: 'Select a record'
+  selectMatchedName: 'Select a Matching Record'
 };
 //# sourceMappingURL=en-US.js.map
