@@ -1,3 +1,3 @@
 export default {
-  selectMatchedName: 'Select a record'
+  selectMatchedName: 'Select a Matching Record'
 };
