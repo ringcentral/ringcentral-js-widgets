@@ -33,6 +33,9 @@ class DropdownSelect extends Component {
       if (this.wrapper && this.wrapper.contains(e.target)) {
         return;
       }
+      if (this.dropdownMenu && this.dropdownMenu.contains(e.target)) {
+        return;
+      }
       this.setState({
         open: false,
       });
@@ -44,9 +47,45 @@ class DropdownSelect extends Component {
     window.addEventListener('click', this._handleDocumentClick, false);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.open !== this.state.open) {
+      if (this.props.renderDropdownMenu && this.wrapper) {
+        const menu = this.renderDropdownMenu();
+        const buttomPosition = this.wrapper.getBoundingClientRect();
+        this.props.renderDropdownMenu(menu, this.state.open, buttomPosition);
+      }
+    }
+  }
+
   componentWillUnmount() {
     this.mounted = false;
     window.removeEventListener('click', this._handleDocumentClick, false);
+  }
+
+  renderDropdownMenu() {
+    return (
+      <ul className={styles.dropdown} ref={(ref) => { this.dropdownMenu = ref; }}>
+        {
+          this.props.options.map((option, idx) => {
+            const currentValue = this.props.valueFunction(option, idx);
+            const className = classnames(
+              styles.dropdownItem,
+              this.props.value === currentValue ? styles.selected : null,
+            );
+            return (
+              <li
+                key={currentValue}
+                className={className}
+                value={currentValue}
+                onClick={e => this.onChange(e, option)}
+              >
+                {this.props.renderFunction(option, idx)}
+              </li>
+            );
+          })
+        }
+      </ul>
+    );
   }
 
   render() {
@@ -66,6 +105,10 @@ class DropdownSelect extends Component {
       this.props.disabled ? styles.disabled : null,
       this.state.open ? styles.open : null,
     );
+    const dropdownMenu = this.props.renderDropdownMenu ?
+      null :
+      this.renderDropdownMenu();
+
     return (
       <div
         className={containerClassName}
@@ -80,27 +123,7 @@ class DropdownSelect extends Component {
             <i className={dynamicsFont.arrow} />
           </span>
         </button>
-        <ul className={styles.dropdown}>
-          {
-            this.props.options.map((option, idx) => {
-              const currentValue = this.props.valueFunction(option, idx);
-              const className = classnames(
-                styles.dropdownItem,
-                this.props.value === currentValue ? styles.selected : null,
-              );
-              return (
-                <li
-                  key={currentValue}
-                  className={className}
-                  value={currentValue}
-                  onClick={e => this.onChange(e, option)}
-                >
-                  {this.props.renderFunction(option, idx)}
-                </li>
-              );
-            })
-          }
-        </ul>
+        { dropdownMenu }
       </div>
     );
   }
@@ -116,6 +139,7 @@ DropdownSelect.propTypes = {
   valueFunction: PropTypes.func,
   renderFunction: PropTypes.func,
   renderValue: PropTypes.func,
+  renderDropdownMenu: PropTypes.func,
 };
 
 DropdownSelect.defaultProps = {
@@ -124,6 +148,7 @@ DropdownSelect.defaultProps = {
   label: null,
   onChange: undefined,
   disabled: false,
+  renderDropdownMenu: undefined,
   valueFunction: option => option,
   renderFunction: option => option,
   renderValue: option => option,
