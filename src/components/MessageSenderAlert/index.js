@@ -1,11 +1,21 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
+import FormattedMessage from '../FormattedMessage';
 import i18n from './i18n';
 
-function MessageSenderAlert(props) {
-  const msg = i18n.getString(props.message.message, props.currentLocale);
+export default function MessageSenderAlert(props) {
+  const message = props.message.message;
+  if (message === messageSenderMessages.noAreaCode) {
+    const areaCode = i18n.getString('areaCode', props.currentLocale);
+    return (
+      <FormattedMessage
+        message={i18n.getString(message, props.currentLocale)}
+        values={{ areaCodeLink: <Link to={props.regionSettingsUrl}>{areaCode}</Link> }} />
+    );
+  }
   return (
-    <span>{msg}</span>
+    <span>{i18n.getString(message, props.currentLocale)}</span>
   );
 }
 
@@ -14,6 +24,7 @@ MessageSenderAlert.propTypes = {
   message: PropTypes.shape({
     message: PropTypes.string.isRequired,
   }).isRequired,
+  regionSettingsUrl: PropTypes.string.isRequired,
 };
 
 MessageSenderAlert.handleMessage = ({ message }) => (
@@ -38,4 +49,3 @@ MessageSenderAlert.handleMessage = ({ message }) => (
   (message === messageSenderMessages.internationalSMSNotSupported)
 );
 
-export default MessageSenderAlert;

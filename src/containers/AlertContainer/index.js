@@ -56,7 +56,11 @@ const AlertContainer = connect((state, {
     }
 
     if (MessageSenderAlert.handleMessage(message)) {
-      return MessageSenderAlert;
+      return props => (
+        <MessageSenderAlert
+          {...props}
+          regionSettingsUrl="/settings/region" />
+      );
     }
 
     if (RateExceededAlert.handleMessage(message)) {
