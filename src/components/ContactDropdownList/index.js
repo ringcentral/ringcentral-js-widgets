@@ -27,7 +27,8 @@ function ContactItem(props) {
           </span>
           <span className={styles.spliter}>|</span>
           <span className={styles.label}>
-            {phoneTypes.getString(`phoneType.${props.phoneType}`)}
+            { props.phoneType === 'unknown' ?
+              phoneTypes.getString(`phoneType.${props.phoneType}`) : props.phoneType }
           </span>
         </div>
       </a>
@@ -70,7 +71,8 @@ function ContactDropdownList(props) {
               name: item.name,
               phoneNumber: item.phoneNumber,
             })}
-            key={`${item.phoneNumber}${item.name}${item.phoneType}`}
+            // eslint-disable-next-line react/no-array-index-key
+            key={`${index}${item.phoneNumber}${item.name}${item.phoneType}`}
           />
         ))
       }
