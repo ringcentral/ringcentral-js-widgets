@@ -151,14 +151,14 @@ SettingsPanel.propTypes = {
   onClickToDialChange: PropTypes.func,
   version: PropTypes.string.isRequired,
   showHeader: PropTypes.bool,
-
+  rolesAndPermissions: PropTypes.object.isRequired,
 };
 SettingsPanel.defaultProps = {
   className: null,
   EulaRenderer: Eula,
   children: null,
-  showClickToDial: true,
-  clickToDialEnabled: true,
+  showClickToDial: false,
+  clickToDialEnabled: false,
   onClickToDialChange: () => { },
   showAutoLog: false,
   autoLogEnabled: false,
