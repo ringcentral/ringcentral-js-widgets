@@ -31,7 +31,8 @@ export default function SettingsPanel({
   onClickToDialChange,
   showRegion,
   showHeader,
-  rolesAndPermissions,
+  ringoutEnabled,
+  outboundSMS,
 }) {
   const region = showRegion ?
     (
@@ -42,21 +43,17 @@ export default function SettingsPanel({
     ) :
     null;
   let clickToDialText;
-  if (rolesAndPermissions.permissions.OutboundSMS &&
-     rolesAndPermissions.ringoutEnabled) {
+  if (outboundSMS && ringoutEnabled) {
     clickToDialText = i18n.getString('clickToDialSMS', currentLocale);
-  } else if (!rolesAndPermissions.permissions.OutboundSMS &&
-     rolesAndPermissions.ringoutEnabled) {
+  } else if (!outboundSMS && ringoutEnabled) {
     clickToDialText = i18n.getString('clickToDial', currentLocale);
-  } else if (rolesAndPermissions.permissions.OutboundSMS &&
-     !rolesAndPermissions.ringoutEnabled) {
+  } else if (outboundSMS && !ringoutEnabled) {
     clickToDialText = i18n.getString('clickToSMS', currentLocale);
   } else {
     clickToDialText = '';
   }
   const clickToDial = showClickToDial && (
-    rolesAndPermissions.permissions.OutboundSMS ||
-    rolesAndPermissions.ringoutEnabled) ?
+    outboundSMS || ringoutEnabled) ?
     (
       <IconLine
         icon={
@@ -151,9 +148,8 @@ SettingsPanel.propTypes = {
   onClickToDialChange: PropTypes.func,
   version: PropTypes.string.isRequired,
   showHeader: PropTypes.bool,
-  rolesAndPermissions: PropTypes.shape({
-    ringoutEnabled: PropTypes.bool,
-  }).isRequired,
+  ringoutEnabled: PropTypes.bool,
+  outboundSMS: PropTypes.bool,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -165,5 +161,7 @@ SettingsPanel.defaultProps = {
   showAutoLog: false,
   autoLogEnabled: false,
   onAutoLogChange: () => { },
-  showHeader: false
+  showHeader: false,
+  ringoutEnabled: false,
+  outboundSMS: false,
 };
