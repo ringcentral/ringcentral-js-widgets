@@ -91,9 +91,10 @@ var CallLogger = function (_LoggerBase) {
   function CallLogger(_ref) {
     var storage = _ref.storage,
         callMonitor = _ref.callMonitor,
+        callHistory = _ref.callHistory,
         contactMatcher = _ref.contactMatcher,
         activityMatcher = _ref.activityMatcher,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['storage', 'callMonitor', 'contactMatcher', 'activityMatcher']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['storage', 'callMonitor', 'callHistory', 'contactMatcher', 'activityMatcher']);
     (0, _classCallCheck3.default)(this, CallLogger);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallLogger.__proto__ || (0, _getPrototypeOf2.default)(CallLogger)).call(this, (0, _extends3.default)({}, options, {
@@ -107,6 +108,7 @@ var CallLogger = function (_LoggerBase) {
     _this._callMonitor = _ensureExist2.default.call(_this, callMonitor, 'callMonitor');
     _this._contactMatcher = _ensureExist2.default.call(_this, contactMatcher, 'contactMatcher');
     _this._activityMatcher = _ensureExist2.default.call(_this, activityMatcher, 'activityMatcher');
+    _this._callHistory = callHistory;
     _this._storageKey = _this._name + 'Data';
     _this._storage.registerReducer({
       key: _this._storageKey,
@@ -114,6 +116,7 @@ var CallLogger = function (_LoggerBase) {
     });
 
     _this._lastProcessedCalls = null;
+    _this._lastProcessedEndedCalls = null;
     return _this;
   }
 
@@ -138,16 +141,17 @@ var CallLogger = function (_LoggerBase) {
     key: '_onReset',
     value: function _onReset() {
       this._lastProcessedCalls = null;
+      this._lastProcessedEndedCalls = null;
     }
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return this.pending && this._callMonitor.ready && this._contactMatcher.ready && this._activityMatcher.ready && this.logProvidersReady && this._storage.ready;
+      return this.pending && this._callMonitor.ready && (!this._callHistory || this._callHistory.ready) && this._contactMatcher.ready && this._activityMatcher.ready && this.logProvidersReady && this._storage.ready;
     }
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return this.ready && (!this._callMonitor.ready || !this._contactMatcher.ready || !this._activityMatcher.ready || !this.logProvidersReady || !this._storage.ready);
+      return this.ready && (!this._callMonitor.ready || this._callMonitor && !this._callMonitor.ready || this._callHistory && !this._callHistory.ready || !this._contactMatcher.ready || !this._activityMatcher.ready || !this.logProvidersReady || !this._storage.ready);
     }
   }, {
     key: 'log',
@@ -254,8 +258,8 @@ var CallLogger = function (_LoggerBase) {
                 }).map(function (name) {
                   return _this2.log({
                     call: (0, _extends3.default)({}, call, {
-                      duration: Math.round((Date.now() - call.startTime) / 1000),
-                      result: call.telephonyStatus
+                      duration: Object.prototype.hasOwnProperty.call(call, 'duration') ? call.duration : Math.round((Date.now() - call.startTime) / 1000),
+                      result: call.result || call.telephonyStatus
                     }),
                     name: name,
                     fromEntity: fromEntity,
@@ -392,28 +396,49 @@ var CallLogger = function (_LoggerBase) {
     value: function _processCalls() {
       var _this3 = this;
 
-      if (this.ready && this._lastProcessedCalls !== this._callMonitor.calls) {
-        var oldCalls = this._lastProcessedCalls && this._lastProcessedCalls.slice() || [];
-        this._lastProcessedCalls = this._callMonitor.calls;
+      if (this.ready) {
+        if (this._lastProcessedCalls !== this._callMonitor.calls) {
+          var oldCalls = this._lastProcessedCalls && this._lastProcessedCalls.slice() || [];
+          this._lastProcessedCalls = this._callMonitor.calls;
 
-        this._lastProcessedCalls.forEach(function (call) {
-          var oldCallIndex = oldCalls.findIndex(function (item) {
-            return item.sessionId === call.sessionId;
-          });
+          this._lastProcessedCalls.forEach(function (call) {
+            var oldCallIndex = oldCalls.findIndex(function (item) {
+              return item.sessionId === call.sessionId;
+            });
 
-          if (oldCallIndex === -1) {
-            _this3._onNewCall(call);
-          } else {
-            var oldCall = oldCalls[oldCallIndex];
-            oldCalls.splice(oldCallIndex, 1);
-            if (call.telephonyStatus !== oldCall.telephonyStatus) {
-              _this3._onCallUpdated(call);
+            if (oldCallIndex === -1) {
+              _this3._onNewCall(call);
+            } else {
+              var oldCall = oldCalls[oldCallIndex];
+              oldCalls.splice(oldCallIndex, 1);
+              if (call.telephonyStatus !== oldCall.telephonyStatus) {
+                _this3._onCallUpdated(call);
+              }
             }
-          }
-        });
-        oldCalls.forEach(function (call) {
-          _this3._onCallUpdated(call);
-        });
+          });
+          oldCalls.forEach(function (call) {
+            _this3._onCallUpdated(call);
+          });
+        }
+        if (this._callHistory && this._lastProcessedEndedCalls !== this._callHistory.recentlyEndedCalls) {
+          var _oldCalls = this._lastProcessedEndedCalls && this._lastProcessedEndedCalls.slice() || [];
+          this._lastProcessedEndedCalls = this._callHistory.recentlyEndedCalls;
+          var currentSessions = {};
+          this._lastProcessedEndedCalls.forEach(function (call) {
+            currentSessions[call.sessionId] = true;
+          });
+          _oldCalls.forEach(function (call) {
+            if (!currentSessions[call.sessionId]) {
+              // call log updated
+              var callInfo = _this3._callHistory.calls.find(function (item) {
+                return item.sessionId === call.sessionId;
+              });
+              if (callInfo) {
+                _this3._onCallUpdated(callInfo);
+              }
+            }
+          });
+        }
       }
     }
   }, {

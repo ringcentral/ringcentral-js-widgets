@@ -326,6 +326,11 @@ var CallHistory = function (_RcModule) {
     get: function get() {
       return this._selectors.calls();
     }
+  }, {
+    key: 'recentlyEndedCalls',
+    get: function get() {
+      return this.state.endedCalls;
+    }
   }]);
   return CallHistory;
 }(_RcModule3.default);
