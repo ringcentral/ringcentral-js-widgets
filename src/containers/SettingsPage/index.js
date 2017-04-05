@@ -8,6 +8,7 @@ import Brand from 'ringcentral-integration/modules/Brand';
 import ExtensionInfo from 'ringcentral-integration/modules/ExtensionInfo';
 import Locale from 'ringcentral-integration/modules/Locale';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
+import RolesAndPermissions from 'ringcentral-integration/modules/RolesAndPermissions';
 
 import SettingsPanel from '../../components/SettingsPanel';
 
@@ -21,6 +22,7 @@ function mapToProps(_, {
   regionSettings,
   regionSettingsUrl,
   version,
+  rolesAndPermissions,
 }) {
   const loggedIn = auth.loginStatus === loginStatus.loggedIn;
   const loginNumber = (loggedIn &&
@@ -47,6 +49,8 @@ function mapToProps(_, {
     brandId: brand.id,
     callingSettingsUrl,
     regionSettingsUrl,
+    ringoutEnabled: rolesAndPermissions.ringoutEnabled,
+    outboundSMS: rolesAndPermissions.permissions.OutboundSMS,
   };
 }
 
@@ -74,6 +78,7 @@ const propTypes = {
   callingSettingsUrl: PropTypes.string.isRequired,
   regionSettingsUrl: PropTypes.string.isRequired,
   version: PropTypes.string.isRequired,
+  rolesAndPermissions: PropTypes.instanceOf(RolesAndPermissions).isRequired,
 };
 
 SettingsPage.propTypes = propTypes;
