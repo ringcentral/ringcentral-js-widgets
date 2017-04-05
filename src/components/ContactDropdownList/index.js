@@ -121,6 +121,7 @@ ContactDropdownList.propTypes = {
 
 ContactDropdownList.defaultProps = {
   className: null,
+  scrollDirection: null,
 };
 
 export default ContactDropdownList;
