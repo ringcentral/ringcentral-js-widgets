@@ -73,7 +73,9 @@ function SettingsPanel(_ref) {
       clickToDialEnabled = _ref.clickToDialEnabled,
       onClickToDialChange = _ref.onClickToDialChange,
       showRegion = _ref.showRegion,
-      showHeader = _ref.showHeader;
+      showHeader = _ref.showHeader,
+      ringoutEnabled = _ref.ringoutEnabled,
+      outboundSMS = _ref.outboundSMS;
 
   var region = showRegion ? _react2.default.createElement(
     _LinkLine2.default,
@@ -81,7 +83,17 @@ function SettingsPanel(_ref) {
       to: regionSettingsUrl },
     _i18n2.default.getString('region', currentLocale)
   ) : null;
-  var clickToDial = showClickToDial ? _react2.default.createElement(
+  var clickToDialText = void 0;
+  if (outboundSMS && ringoutEnabled) {
+    clickToDialText = _i18n2.default.getString('clickToDialSMS', currentLocale);
+  } else if (!outboundSMS && ringoutEnabled) {
+    clickToDialText = _i18n2.default.getString('clickToDial', currentLocale);
+  } else if (outboundSMS && !ringoutEnabled) {
+    clickToDialText = _i18n2.default.getString('clickToSMS', currentLocale);
+  } else {
+    clickToDialText = '';
+  }
+  var clickToDial = showClickToDial && (outboundSMS || ringoutEnabled) ? _react2.default.createElement(
     _IconLine2.default,
     {
       icon: _react2.default.createElement(_Switch2.default, {
@@ -89,7 +101,7 @@ function SettingsPanel(_ref) {
         onChange: onClickToDialChange
       })
     },
-    _i18n2.default.getString('clickToDial', currentLocale)
+    clickToDialText
   ) : null;
   var autoLog = showAutoLog ? _react2.default.createElement(
     _IconLine2.default,
@@ -181,7 +193,9 @@ SettingsPanel.propTypes = {
   clickToDialEnabled: _react.PropTypes.bool,
   onClickToDialChange: _react.PropTypes.func,
   version: _react.PropTypes.string.isRequired,
-  showHeader: _react.PropTypes.bool
+  showHeader: _react.PropTypes.bool,
+  ringoutEnabled: _react.PropTypes.bool,
+  outboundSMS: _react.PropTypes.bool
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -193,6 +207,8 @@ SettingsPanel.defaultProps = {
   showAutoLog: false,
   autoLogEnabled: false,
   onAutoLogChange: function onAutoLogChange() {},
-  showHeader: false
+  showHeader: false,
+  ringoutEnabled: false,
+  outboundSMS: false
 };
 //# sourceMappingURL=index.js.map

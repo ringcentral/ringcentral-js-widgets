@@ -49,6 +49,10 @@ var _RegionSettings = require('ringcentral-integration/modules/RegionSettings');
 
 var _RegionSettings2 = _interopRequireDefault(_RegionSettings);
 
+var _RolesAndPermissions = require('ringcentral-integration/modules/RolesAndPermissions');
+
+var _RolesAndPermissions2 = _interopRequireDefault(_RolesAndPermissions);
+
 var _SettingsPanel = require('../../components/SettingsPanel');
 
 var _SettingsPanel2 = _interopRequireDefault(_SettingsPanel);
@@ -64,7 +68,8 @@ function mapToProps(_, _ref) {
       locale = _ref.locale,
       regionSettings = _ref.regionSettings,
       regionSettingsUrl = _ref.regionSettingsUrl,
-      version = _ref.version;
+      version = _ref.version,
+      rolesAndPermissions = _ref.rolesAndPermissions;
 
   var loggedIn = auth.loginStatus === _loginStatus2.default.loggedIn;
   var loginNumber = loggedIn && accountInfo.ready && extensionInfo.ready ? (0, _formatNumber2.default)({
@@ -83,7 +88,9 @@ function mapToProps(_, _ref) {
     currentLocale: locale.currentLocale,
     brandId: brand.id,
     callingSettingsUrl: callingSettingsUrl,
-    regionSettingsUrl: regionSettingsUrl
+    regionSettingsUrl: regionSettingsUrl,
+    ringoutEnabled: rolesAndPermissions.ringoutEnabled,
+    outboundSMS: rolesAndPermissions.permissions.OutboundSMS
   };
 }
 
@@ -127,7 +134,8 @@ var propTypes = {
   regionSettings: _react.PropTypes.instanceOf(_RegionSettings2.default).isRequired,
   callingSettingsUrl: _react.PropTypes.string.isRequired,
   regionSettingsUrl: _react.PropTypes.string.isRequired,
-  version: _react.PropTypes.string.isRequired
+  version: _react.PropTypes.string.isRequired,
+  rolesAndPermissions: _react.PropTypes.instanceOf(_RolesAndPermissions2.default).isRequired
 };
 
 SettingsPage.propTypes = propTypes;
