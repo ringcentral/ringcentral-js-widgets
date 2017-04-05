@@ -29,17 +29,13 @@ function MatchedNameList(props) {
   const matchedNames = props.matchedNames;
   return (
     <div className={props.className}>
-      {
-        props.isSelected ?
-          <RecipientName
-            name={i18n.getString('selectMatchedName', props.currentLocale)}
-            className={styles.noClick}
-            onClick={
-              () => null
-            }
-          /> :
-          null
-      }
+      <RecipientName
+        name={i18n.getString('selectMatchedName', props.currentLocale)}
+        className={styles.noClick}
+        onClick={
+          () => null
+        }
+      />
       {
         matchedNames.map(matchedName => (
           <RecipientName
@@ -105,12 +101,15 @@ class RecipientHeader extends Component {
       );
     }
     let dropdownClass = this.props.dropdownClassName;
+    let dropdownArrowClass = classnames(dynamicsFont.arrow, styles.dropdownIcon);
     if (this.state.showDropdownList) {
       dropdownClass = classnames(dropdownClass, styles.active);
+      dropdownArrowClass = classnames(dynamicsFont.arrow, styles.dropdownActiveIcon);
     }
     const phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
     let matchedNames = this.context.getMatcherContactList(phoneNumber);
-    let defaultRecipient = matchedNames.join('&');
+    const matchedNamesOnly = this.context.getMatcherContactNameList(phoneNumber);
+    let defaultRecipient = matchedNamesOnly.join('&');
     // if it has old data
     let isSelected = false;
     if (recipient.matchedNames && recipient.matchedNames[0]) {
@@ -133,7 +132,7 @@ class RecipientHeader extends Component {
           className={styles.dropdownButton}
         />
         <i
-          className={classnames(dynamicsFont.arrow, styles.dropdownIcon)}
+          className={dropdownArrowClass}
           onClick={this.toggleDropdown}
         />
         <MatchedNameList
@@ -162,6 +161,7 @@ RecipientHeader.propTypes = {
 RecipientHeader.contextTypes = {
   getRecipientName: PropTypes.func.isRequired,
   getMatcherContactList: PropTypes.func.isRequired,
+  getMatcherContactNameList: PropTypes.func.isRequired,
   changeMatchedNames: PropTypes.func.isRequired,
 };
 
