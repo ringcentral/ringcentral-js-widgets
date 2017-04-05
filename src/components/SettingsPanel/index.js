@@ -151,7 +151,9 @@ SettingsPanel.propTypes = {
   onClickToDialChange: PropTypes.func,
   version: PropTypes.string.isRequired,
   showHeader: PropTypes.bool,
-  rolesAndPermissions: PropTypes.object.isRequired,
+  rolesAndPermissions: PropTypes.shape({
+    ringoutEnabled: PropTypes.bool,
+  }).isRequired,
 };
 SettingsPanel.defaultProps = {
   className: null,
