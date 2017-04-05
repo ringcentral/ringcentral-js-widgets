@@ -105,6 +105,7 @@ export default function App({
                   locale={phone.locale}
                   brand={phone.brand}
                   router={phone.router}
+                  rolesAndPermissions={phone.rolesAndPermissions}
                   regionSettingsUrl="/settings/region"
                   callingSettingsUrl="/settings/calling"
                 />

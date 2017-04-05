@@ -21,6 +21,7 @@ function mapToProps(_, {
   regionSettings,
   regionSettingsUrl,
   version,
+  rolesAndPermissions,
 }) {
   const loggedIn = auth.loginStatus === loginStatus.loggedIn;
   const loginNumber = (loggedIn &&
@@ -47,6 +48,7 @@ function mapToProps(_, {
     brandId: brand.id,
     callingSettingsUrl,
     regionSettingsUrl,
+    rolesAndPermissions,
   };
 }
 

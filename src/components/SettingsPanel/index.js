@@ -31,6 +31,7 @@ export default function SettingsPanel({
   onClickToDialChange,
   showRegion,
   showHeader,
+  rolesAndPermissions,
 }) {
   const region = showRegion ?
     (
@@ -40,7 +41,22 @@ export default function SettingsPanel({
       </LinkLine>
     ) :
     null;
-  const clickToDial = showClickToDial ?
+  let clickToDialText;
+  if (rolesAndPermissions.permissions.OutboundSMS &&
+     rolesAndPermissions.ringoutEnabled) {
+    clickToDialText = i18n.getString('clickToDialSMS', currentLocale);
+  } else if (!rolesAndPermissions.permissions.OutboundSMS &&
+     rolesAndPermissions.ringoutEnabled) {
+    clickToDialText = i18n.getString('clickToDial', currentLocale);
+  } else if (rolesAndPermissions.permissions.OutboundSMS &&
+     !rolesAndPermissions.ringoutEnabled) {
+    clickToDialText = i18n.getString('clickToSMS', currentLocale);
+  } else {
+    clickToDialText = '';
+  }
+  const clickToDial = showClickToDial && (
+    rolesAndPermissions.permissions.OutboundSMS ||
+    rolesAndPermissions.ringoutEnabled) ?
     (
       <IconLine
         icon={
@@ -50,7 +66,7 @@ export default function SettingsPanel({
           />
         }
       >
-        {i18n.getString('clickToDial', currentLocale)}
+        {clickToDialText}
       </IconLine>
     ) :
     null;
@@ -135,13 +151,14 @@ SettingsPanel.propTypes = {
   onClickToDialChange: PropTypes.func,
   version: PropTypes.string.isRequired,
   showHeader: PropTypes.bool,
+
 };
 SettingsPanel.defaultProps = {
   className: null,
   EulaRenderer: Eula,
   children: null,
-  showClickToDial: false,
-  clickToDialEnabled: false,
+  showClickToDial: true,
+  clickToDialEnabled: true,
   onClickToDialChange: () => { },
   showAutoLog: false,
   autoLogEnabled: false,
