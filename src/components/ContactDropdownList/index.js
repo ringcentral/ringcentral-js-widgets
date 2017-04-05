@@ -71,7 +71,8 @@ function ContactDropdownList(props) {
               name: item.name,
               phoneNumber: item.phoneNumber,
             })}
-            key={`${item.phoneNumber}${item.name}${item.phoneType}`}
+            // eslint-disable-next-line react/no-array-index-key
+            key={`${index}${item.phoneNumber}${item.name}${item.phoneType}`}
           />
         ))
       }
