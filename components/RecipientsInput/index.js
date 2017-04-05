@@ -105,34 +105,40 @@ var RecipientsInput = function (_Component) {
 
     _this.state = {
       isFocusOnInput: false,
-      selectedContactIndex: 0
+      selectedContactIndex: 0,
+      scrollDirection: null
     };
 
     _this.onReceiversInputFocus = function () {
       _this.setState({
-        isFocusOnInput: true,
-        selectedContactIndex: 0
+        isFocusOnInput: true
       });
     };
 
     _this.onReceiversInputBlur = function () {
       _this.setState({
-        isFocusOnInput: false,
-        selectedContactIndex: -1
+        isFocusOnInput: false
       });
     };
 
     _this.setSelectedIndex = function (index) {
       _this.setState({
-        selectedContactIndex: index
+        selectedContactIndex: index,
+        scrollDirection: null
       });
     };
-
+    _this.scrollOperation = function (direction) {
+      if (direction === 'ArrowDown' || direction === 'ArrowUp') {
+        _this.setState({
+          scrollDirection: direction
+        });
+      }
+    };
     _this.addSelectedContactIndex = function () {
-      var length = _this.props.searchContactList.length < 5 ? _this.props.searchContactList.length : 5;
+      var length = _this.props.searchContactList.length;
       if (_this.state.selectedContactIndex >= length - 1) {
         _this.setState({
-          selectedContactIndex: 0
+          selectedContactIndex: length - 1
         });
       } else {
         _this.setState(function (preState) {
@@ -144,7 +150,6 @@ var RecipientsInput = function (_Component) {
     };
 
     _this.reduceSelectedContactIndex = function () {
-      var length = _this.props.searchContactList.length < 5 ? _this.props.searchContactList.length : 5;
       if (_this.state.selectedContactIndex > 0) {
         _this.setState(function (preState) {
           return {
@@ -153,7 +158,7 @@ var RecipientsInput = function (_Component) {
         });
       } else {
         _this.setState({
-          selectedContactIndex: length - 1
+          selectedContactIndex: 0
         });
       }
     };
@@ -162,8 +167,10 @@ var RecipientsInput = function (_Component) {
       if (_this.state.isFocusOnInput && _this.props.value.length >= 3) {
         if (e.key === 'ArrowUp') {
           _this.reduceSelectedContactIndex();
+          _this.scrollOperation(e.key);
         } else if (e.key === 'ArrowDown') {
           _this.addSelectedContactIndex();
+          _this.scrollOperation(e.key);
         }
       } else {
         _this.setState({
@@ -176,10 +183,6 @@ var RecipientsInput = function (_Component) {
           return;
         }
         var relatedContactList = _this.props.value.length >= 3 ? _this.props.searchContactList : [];
-        // MAX 5
-        if (relatedContactList.length > 5) {
-          relatedContactList = relatedContactList.slice(0, 5);
-        }
         var currentSelected = relatedContactList[_this.state.selectedContactIndex];
         if (currentSelected) {
           _this.props.addToRecipients({
@@ -208,11 +211,6 @@ var RecipientsInput = function (_Component) {
         null,
         this.props.label
       ) : null;
-      // MAX 5
-      if (relatedContactList.length > 5) {
-        relatedContactList = relatedContactList.slice(0, 5);
-      }
-
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.container, onKeyDown: this.handleHotKey },
@@ -248,6 +246,7 @@ var RecipientsInput = function (_Component) {
           })
         ),
         _react2.default.createElement(_ContactDropdownList2.default, {
+          scrollDirection: this.state.scrollDirection,
           selectedIndex: this.state.selectedContactIndex,
           setSelectedIndex: this.setSelectedIndex,
           addToRecipients: this.props.addToRecipients,
