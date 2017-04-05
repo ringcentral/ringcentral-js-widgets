@@ -65,7 +65,7 @@ function ContactItem(props) {
         _react2.default.createElement(
           'span',
           { className: _styles2.default.label },
-          _phoneTypes2.default.getString('phoneType.' + props.phoneType)
+          props.phoneType === 'unknown' ? _phoneTypes2.default.getString('phoneType.' + props.phoneType) : props.phoneType
         )
       )
     )
@@ -110,8 +110,9 @@ function ContactDropdownList(props) {
             name: item.name,
             phoneNumber: item.phoneNumber
           });
-        },
-        key: '' + item.phoneNumber + item.name + item.phoneType
+        }
+        // eslint-disable-next-line react/no-array-index-key
+        , key: '' + index + item.phoneNumber + item.name + item.phoneType
       });
     })
   );
