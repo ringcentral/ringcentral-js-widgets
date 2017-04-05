@@ -163,10 +163,9 @@ ContactLink.defaultProps = {
 function LogLink({
   onLogCall,
   isLogged,
-  disableLinks,
+  disabled,
   isLogging,
 }) {
-  const disabled = disableLinks || isLogging;
   const spinner = isLogging ?
     (
       <div className={styles.spinnerContainer}>
@@ -178,10 +177,10 @@ function LogLink({
     <a
       className={classnames(
         styles.logLink,
-        disabled && styles.disabled,
+        (disabled || isLogging) && styles.disabled,
       )}
-      onClick={!disabled && onLogCall}
-      disabled={disabled}>
+      onClick={!(disabled || isLogging) && onLogCall}
+      disabled={(disabled || isLogging)}>
       <span
         className={isLogged ?
           dynamicsFont.edit :
@@ -194,7 +193,7 @@ function LogLink({
 LogLink.propTypes = {
   onLogCall: PropTypes.func,
   isLogged: PropTypes.bool.isRequired,
-  disableLinks: PropTypes.bool,
+  disabled: PropTypes.bool,
   isLogging: PropTypes.bool.isRequired,
 };
 

@@ -27,7 +27,8 @@ function ContactItem(props) {
           </span>
           <span className={styles.spliter}>|</span>
           <span className={styles.label}>
-            {props.phoneType === 'unknown' ? phoneTypes.getString(`phoneType.${props.phoneType}`) : props.phoneType}
+            { props.phoneType === 'unknown' ?
+              phoneTypes.getString(`phoneType.${props.phoneType}`) : props.phoneType }
           </span>
         </div>
       </a>

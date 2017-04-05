@@ -18,14 +18,14 @@ function mapToProps(_, {
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     disableLinks: !connectivityMonitor.connectivity,
-    loggingMap: callLogger.loggingMap,
+    loggingMap: (callLogger && callLogger.loggingMap),
     showSpinner: !(
       locale.ready &&
       callMonitor.ready &&
       regionSettings.ready &&
       connectivityMonitor.ready &&
       dateTimeFormat.ready &&
-      callLogger.ready
+      (!callLogger || callLogger.ready)
     ),
   };
 }

@@ -25,4 +25,5 @@ export default {
     please just enter extension Number.`,
   [messageSenderMessages.internationalSMSNotSupported]: `Sending SMS to international phone number 
     is not supported.`,
+  areaCode: 'area code',
 };

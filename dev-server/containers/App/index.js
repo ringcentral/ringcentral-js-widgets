@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute } from 'react-router';
 import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
+import sleep from 'ringcentral-integration/lib/sleep';
 
 import AlertContainer from '../../../src/containers/AlertContainer';
 import WelcomePage from '../../../src/containers/WelcomePage';
@@ -104,6 +105,7 @@ export default function App({
                   locale={phone.locale}
                   brand={phone.brand}
                   router={phone.router}
+                  rolesAndPermissions={phone.rolesAndPermissions}
                   regionSettingsUrl="/settings/region"
                   callingSettingsUrl="/settings/calling"
                 />
@@ -140,6 +142,8 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   connectivityMonitor={phone.connectivityMonitor}
                   dateTimeFormat={phone.dateTimeFormat}
+                  onLogCall={async () => { await sleep(1000); }}
+                  onViewContact={() => {}}
                 />
               )} />
             <Route
@@ -153,6 +157,8 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   connectivityMonitor={phone.connectivityMonitor}
                   dateTimeFormat={phone.dateTimeFormat}
+                  onLogCall={async () => { await sleep(1000); }}
+                  onViewContact={() => {}}
                 />
               )} />
             <Route
@@ -226,7 +232,8 @@ export default function App({
               <WelcomePage
                 auth={phone.auth}
                 locale={phone.locale}
-                rateLimiter={phone.rateLimiter} >
+                rateLimiter={phone.rateLimiter}
+                connectivityMonitor={phone.connectivityMonitor} >
                 <AlertContainer
                   locale={phone.locale}
                   alert={phone.alert}

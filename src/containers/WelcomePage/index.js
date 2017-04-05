@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Auth from 'ringcentral-integration/modules/Auth';
 import Locale from 'ringcentral-integration/modules/Locale';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
+import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
 import LoginPanel from '../../components/LoginPanel';
 
 import styles from './styles.scss';
@@ -40,10 +41,15 @@ function mapToProps(_, {
   auth,
   locale,
   rateLimiter,
+  connectivityMonitor,
 }) {
   return {
     currentLocale: locale.currentLocale,
-    disabled: !auth.proxyLoaded || rateLimiter.throttling,
+    disabled: (
+      !auth.proxyLoaded ||
+      rateLimiter.throttling ||
+      !connectivityMonitor.connectivity
+    ),
   };
 }
 
@@ -73,6 +79,7 @@ const propTypes = {
   auth: PropTypes.instanceOf(Auth).isRequired,
   locale: PropTypes.instanceOf(Locale).isRequired,
   rateLimiter: PropTypes.instanceOf(RateLimiter).isRequired,
+  connectivityMonitor: PropTypes.instanceOf(ConnectivityMonitor).isRequired,
   mainUrl: PropTypes.string,
   onLogin: PropTypes.func,
 };

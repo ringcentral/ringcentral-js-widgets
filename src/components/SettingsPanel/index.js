@@ -31,6 +31,8 @@ export default function SettingsPanel({
   onClickToDialChange,
   showRegion,
   showHeader,
+  ringoutEnabled,
+  outboundSMS,
 }) {
   const region = showRegion ?
     (
@@ -40,7 +42,18 @@ export default function SettingsPanel({
       </LinkLine>
     ) :
     null;
-  const clickToDial = showClickToDial ?
+  let clickToDialText;
+  if (outboundSMS && ringoutEnabled) {
+    clickToDialText = i18n.getString('clickToDialSMS', currentLocale);
+  } else if (!outboundSMS && ringoutEnabled) {
+    clickToDialText = i18n.getString('clickToDial', currentLocale);
+  } else if (outboundSMS && !ringoutEnabled) {
+    clickToDialText = i18n.getString('clickToSMS', currentLocale);
+  } else {
+    clickToDialText = '';
+  }
+  const clickToDial = showClickToDial && (
+    outboundSMS || ringoutEnabled) ?
     (
       <IconLine
         icon={
@@ -50,7 +63,7 @@ export default function SettingsPanel({
           />
         }
       >
-        {i18n.getString('clickToDial', currentLocale)}
+        {clickToDialText}
       </IconLine>
     ) :
     null;
@@ -135,6 +148,8 @@ SettingsPanel.propTypes = {
   onClickToDialChange: PropTypes.func,
   version: PropTypes.string.isRequired,
   showHeader: PropTypes.bool,
+  ringoutEnabled: PropTypes.bool,
+  outboundSMS: PropTypes.bool,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -146,5 +161,7 @@ SettingsPanel.defaultProps = {
   showAutoLog: false,
   autoLogEnabled: false,
   onAutoLogChange: () => { },
-  showHeader: false
+  showHeader: false,
+  ringoutEnabled: false,
+  outboundSMS: false,
 };
