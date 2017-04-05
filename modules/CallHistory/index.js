@@ -145,6 +145,7 @@ var CallHistory = function (_RcModule) {
                         endedCalls: endedCalls,
                         timestamp: Date.now()
                       });
+                      _this._callLog.sync();
                     }
                   }
                 }

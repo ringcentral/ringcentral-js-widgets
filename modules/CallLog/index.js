@@ -573,12 +573,54 @@ var CallLog = function (_Pollable) {
   }, {
     key: 'sync',
     value: function sync() {
+      var _this4 = this;
+
       var syncType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.token ? _syncTypes2.default.iSync : _syncTypes2.default.fSync;
 
       if (!this._promise) {
         this._promise = this._sync(syncType);
+        return this._promise;
+      } else if (!this._queueSync) {
+        this._queueSync = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+          return _regenerator2.default.wrap(function _callee8$(_context8) {
+            while (1) {
+              switch (_context8.prev = _context8.next) {
+                case 0:
+                  _context8.next = 2;
+                  return _this4._promise;
+
+                case 2:
+                  _this4._promise = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+                    return _regenerator2.default.wrap(function _callee7$(_context7) {
+                      while (1) {
+                        switch (_context7.prev = _context7.next) {
+                          case 0:
+                            _context7.next = 2;
+                            return (0, _sleep2.default)(300);
+
+                          case 2:
+                            return _context7.abrupt('return', _this4._sync(syncType));
+
+                          case 3:
+                          case 'end':
+                            return _context7.stop();
+                        }
+                      }
+                    }, _callee7, _this4);
+                  }))();
+                  _this4._queueSync = null;
+                  return _context8.abrupt('return', _this4._promise);
+
+                case 5:
+                case 'end':
+                  return _context8.stop();
+              }
+            }
+          }, _callee8, _this4);
+        }))();
+        return this._queueSync;
       }
-      return this._promise;
+      return this._queueSync;
     }
   }, {
     key: 'fetchData',
