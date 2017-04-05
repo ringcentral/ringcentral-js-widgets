@@ -9,8 +9,12 @@
 
 .hiddenRemoveButton {
   color: transparent;
-  text-decoration: none;
+  text-decoration: none !important;
   &:hover {
     color: transparent;
   }
+  &:focus {
+    outline: none;
+  }
+
 }
