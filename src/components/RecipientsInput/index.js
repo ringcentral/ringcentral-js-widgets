@@ -152,10 +152,10 @@ class RecipientsInput extends Component {
   }
   componentWillReceiveProps(newProps) {
     if (newProps.value && newProps.value !== this.props.value) {
-      this.setState({
-        isFocusOnInput: true
-      });
       if (this.props.value.length > 3) {
+        this.setState({
+          isFocusOnInput: true
+        });
         const relatedContactList = this.props.searchContactList;
         const currentSelected = relatedContactList[this.state.selectedContactIndex];
         if (currentSelected) {
