@@ -149,7 +149,29 @@ class RecipientsInput extends Component {
       }
     };
   }
-
+  componentWillReceiveProps(newProps) {
+    if (newProps.value && newProps.value !== this.props.value) {
+      this.setState({
+        isFocusOnInput: true
+      });
+      if (this.props.value.length > 3) {
+        const relatedContactList = this.props.searchContactList;
+        const currentSelected = relatedContactList[this.state.selectedContactIndex];
+        if (currentSelected) {
+          this.props.addToRecipients({
+            name: currentSelected.name,
+            phoneNumber: currentSelected.phoneNumber,
+          });
+        } else {
+          this.props.addToRecipients({
+            name: this.props.value,
+            phoneNumber: this.props.value,
+          });
+        }
+        this.props.updateTypingToNumber(newProps.value);
+      }
+    }
+  }
   render() {
     let relatedContactList = this.props.value.length >= 3 ?
       this.props.searchContactList : [];
@@ -227,6 +249,7 @@ RecipientsInput.propTypes = {
   onKeyUp: PropTypes.func,
   onKeyDown: PropTypes.func,
   addToRecipients: PropTypes.func.isRequired,
+  updateTypingToNumber: PropTypes.func.isRequired,
   removeFromRecipients: PropTypes.func.isRequired,
   formatContactPhone: PropTypes.func.isRequired,
 };

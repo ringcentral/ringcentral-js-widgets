@@ -139,6 +139,7 @@ class ComposeTextPanel extends Component {
               placeholder={i18n.getString('enterNameOrNumber', this.props.currentLocale)}
               recipients={this.props.toNumbers}
               addToRecipients={this.addToRecipients}
+              updateTypingToNumber={this.props.updateTypingToNumber}
               removeFromRecipients={this.removeFromRecipients}
               searchContactList={this.props.searchContactList}
               onKeyUp={this.onReceiverInputKeyUp}
