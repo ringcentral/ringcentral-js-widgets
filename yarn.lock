@@ -4396,9 +4396,9 @@ loader-utils@^1.0.2:
     emojis-list "^2.0.0"
     json5 "^0.5.0"
 
-locale-loader@^1.2.1:
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/locale-loader/-/locale-loader-1.2.1.tgz#6b107aab73bade575a4481e68073f3f23ba73d2b"
+locale-loader@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/locale-loader/-/locale-loader-1.2.2.tgz#b9c117cfb2305a3e0baa12da5297fe81c7150251"
   dependencies:
     babylon "^6.16.1"
     dedent "^0.6.0"
