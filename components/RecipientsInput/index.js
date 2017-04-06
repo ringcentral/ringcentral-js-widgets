@@ -106,7 +106,8 @@ var RecipientsInput = function (_Component) {
     _this.state = {
       isFocusOnInput: false,
       selectedContactIndex: 0,
-      scrollDirection: null
+      scrollDirection: null,
+      currentValue: props.value
     };
 
     _this.onReceiversInputFocus = function () {
@@ -191,8 +192,8 @@ var RecipientsInput = function (_Component) {
           });
         } else {
           _this.props.addToRecipients({
-            name: _this.props.value,
-            phoneNumber: _this.props.value
+            name: _this.props.value.replace(',', ''),
+            phoneNumber: _this.props.value.replace(',', '')
           });
           _this.props.onClean();
         }
@@ -203,6 +204,31 @@ var RecipientsInput = function (_Component) {
   }
 
   (0, _createClass3.default)(RecipientsInput, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(newProps) {
+      this.setState({
+        currentValue: newProps.value.replace(',', '')
+      });
+      if (newProps.value && newProps.value !== this.props.value && this.props.value[this.props.value.length - 1] === ',') {
+        this.setState({
+          isFocusOnInput: true
+        });
+        var relatedContactList = this.props.searchContactList;
+        var currentSelected = relatedContactList[this.state.selectedContactIndex];
+        if (currentSelected) {
+          this.props.addToRecipients({
+            name: currentSelected.name,
+            phoneNumber: currentSelected.phoneNumber
+          }, false);
+        } else {
+          this.props.addToRecipients({
+            name: this.props.value.replace(',', ''),
+            phoneNumber: this.props.value.replace(',', '')
+          }, false);
+        }
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       var relatedContactList = this.props.value.length >= 3 ? this.props.searchContactList : [];
@@ -227,7 +253,7 @@ var RecipientsInput = function (_Component) {
             { className: _styles2.default.inputField },
             _react2.default.createElement('input', {
               name: 'receiver',
-              value: this.props.value,
+              value: this.state.currentValue,
               onChange: this.props.onChange,
               onKeyUp: this.props.onKeyUp,
               onKeyDown: this.props.onKeyDown,

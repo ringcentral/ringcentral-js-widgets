@@ -125,8 +125,12 @@ var ComposeTextPanel = function (_Component) {
     };
 
     _this.addToRecipients = function (receiver) {
+      var shouldClean = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
       _this.props.addToNumber(receiver);
-      _this.props.cleanTypingToNumber();
+      if (shouldClean) {
+        _this.props.cleanTypingToNumber();
+      }
     };
 
     _this.removeFromRecipients = function (phoneNumber) {
@@ -187,7 +191,6 @@ var ComposeTextPanel = function (_Component) {
         formatPhone: this.props.formatPhone,
         onChange: this.onSenderChange
       }) : null;
-
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root },
