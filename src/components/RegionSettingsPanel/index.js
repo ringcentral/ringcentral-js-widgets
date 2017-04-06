@@ -43,7 +43,6 @@ export default class RegionSettings extends Component {
     }
   }
   onCountryCodeChange = (option) => {
-    console.debug('onCountryCodeChange:', option);
     const value = option.isoCode;
     if (value !== this.state.countryCodeValue) {
       this.setState({
@@ -74,7 +73,7 @@ export default class RegionSettings extends Component {
     `(+${option.callingCode}) ${countryNames.getString(option.isoCode, this.props.currentLocale)}`
 
   renderValue = (value) => {
-    console.debug('renderValue:', value, this.props.availableCountries);
+    // console.debug('renderValue:', value, this.props.availableCountries);
     const selectedOption = this.props.availableCountries.find(
       country => country.isoCode === value
     );
