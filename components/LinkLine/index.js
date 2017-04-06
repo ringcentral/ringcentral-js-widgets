@@ -39,7 +39,7 @@ function LinkLine(props) {
       _IconLine2.default,
       {
         className: props.className,
-        icon: _react2.default.createElement('span', { className: (0, _classnames2.default)(_DynamicsFont2.default.iconArrowRight, _styles2.default.icon) })
+        icon: _react2.default.createElement('span', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.icon) })
       },
       props.children
     )

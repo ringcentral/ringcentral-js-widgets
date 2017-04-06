@@ -34,9 +34,9 @@ var _classnames2 = _interopRequireDefault(_classnames);
 
 require('font-awesome/css/font-awesome.css');
 
-var _Header = require('../Header');
+var _BackHeader = require('../BackHeader');
 
-var _Header2 = _interopRequireDefault(_Header);
+var _BackHeader2 = _interopRequireDefault(_BackHeader);
 
 var _Panel = require('../Panel');
 
@@ -54,9 +54,9 @@ var _TextInput = require('../TextInput');
 
 var _TextInput2 = _interopRequireDefault(_TextInput);
 
-var _Select = require('../Select');
+var _DropdownSelect = require('../DropdownSelect');
 
-var _Select2 = _interopRequireDefault(_Select);
+var _DropdownSelect2 = _interopRequireDefault(_DropdownSelect);
 
 var _styles = require('./styles.scss');
 
@@ -89,8 +89,8 @@ var RegionSettings = function (_Component) {
       }
     };
 
-    _this.onCountryCodeChange = function (e) {
-      var value = e.currentTarget.value;
+    _this.onCountryCodeChange = function (option) {
+      var value = option.isoCode;
       if (value !== _this.state.countryCodeValue) {
         _this.setState({
           countryCodeValue: value
@@ -120,6 +120,19 @@ var RegionSettings = function (_Component) {
       }
     };
 
+    _this.renderHandler = function (option) {
+      return '(+' + option.callingCode + ') ' + _countryNames2.default.getString(option.isoCode, _this.props.currentLocale);
+    };
+
+    _this.renderValue = function (value) {
+      // console.debug('renderValue:', value, this.props.availableCountries);
+      var selectedOption = _this.props.availableCountries.find(function (country) {
+        return country.isoCode === value;
+      });
+
+      return '(+' + selectedOption.callingCode + ')\n        ' + _countryNames2.default.getString(selectedOption.isoCode, _this.props.currentLocale);
+    };
+
     _this.state = {
       countryCodeValue: props.countryCode,
       areaCodeValue: props.areaCode
@@ -144,16 +157,9 @@ var RegionSettings = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
-
       var buttons = [];
       var hasChanges = this.state.areaCodeValue !== this.props.areaCode || this.state.countryCodeValue !== this.props.countryCode;
       if (this.props.onBackButtonClick) {
-        buttons.push({
-          label: _react2.default.createElement('i', { className: 'fa fa-chevron-left' }),
-          onClick: this.onBackClick,
-          placement: 'left'
-        });
         buttons.push({
           label: _react2.default.createElement('i', { className: 'fa fa-undo' }),
           onClick: this.onResetClick,
@@ -188,9 +194,10 @@ var RegionSettings = function (_Component) {
         'div',
         { className: (0, _classnames2.default)(_styles2.default.root, this.props.className) },
         _react2.default.createElement(
-          _Header2.default,
+          _BackHeader2.default,
           {
-            buttons: buttons
+            buttons: buttons,
+            onBackClick: this.onBackClick
           },
           _i18n2.default.getString('title', this.props.currentLocale)
         ),
@@ -207,17 +214,17 @@ var RegionSettings = function (_Component) {
             {
               className: _styles2.default.inputField,
               label: _i18n2.default.getString('country', this.props.currentLocale) },
-            _react2.default.createElement(_Select2.default, {
+            _react2.default.createElement(_DropdownSelect2.default, {
               className: _styles2.default.select,
               value: this.state.countryCodeValue,
               onChange: this.onCountryCodeChange,
               options: this.props.availableCountries,
+              dropdownAlign: 'left',
               valueFunction: function valueFunction(option) {
                 return option.isoCode;
               },
-              renderFunction: function renderFunction(option) {
-                return '(+' + option.callingCode + ') ' + _countryNames2.default.getString(option.isoCode, _this2.props.currentLocale);
-              }
+              renderFunction: this.renderHandler,
+              renderValue: this.renderValue
             })
           ),
           showAreaCode && _react2.default.createElement(

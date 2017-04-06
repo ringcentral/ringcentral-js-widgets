@@ -129,7 +129,7 @@ var DropdownSelect = function (_Component) {
             'li',
             {
               key: currentValue,
-              className: className,
+              className: (0, _classnames2.default)(className, _styles2.default[_this2.props.dropdownAlign]),
               value: currentValue,
               onClick: function onClick(e) {
                 return _this2.onChange(e, option);
@@ -194,7 +194,8 @@ DropdownSelect.propTypes = {
   valueFunction: _react.PropTypes.func,
   renderFunction: _react.PropTypes.func,
   renderValue: _react.PropTypes.func,
-  renderDropdownMenu: _react.PropTypes.func
+  renderDropdownMenu: _react.PropTypes.func,
+  dropdownAlign: _react.PropTypes.oneOf(['left', 'center', 'right'])
 };
 
 DropdownSelect.defaultProps = {
@@ -212,7 +213,8 @@ DropdownSelect.defaultProps = {
   },
   renderValue: function renderValue(option) {
     return option;
-  }
+  },
+  dropdownAlign: 'center'
 };
 
 exports.default = DropdownSelect;
