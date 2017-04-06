@@ -28,7 +28,7 @@ function SearchInput(props) {
     {
       className: (0, _classnames2.default)(_styles2.default.root, props.className)
     },
-    _react2.default.createElement('span', { className: (0, _classnames2.default)(_DynamicsFont2.default.iconSearch, _styles2.default.icon) }),
+    _react2.default.createElement('span', { className: (0, _classnames2.default)(_DynamicsFont2.default.search, _styles2.default.icon) }),
     _react2.default.createElement('input', {
       name: 'search',
       value: props.value,

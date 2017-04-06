@@ -44,7 +44,7 @@ function MessageItem(props) {
       _react2.default.createElement(
         'div',
         { className: _styles2.default.typeIcon },
-        _react2.default.createElement('span', { className: _DynamicsFont2.default.iconMessage })
+        _react2.default.createElement('span', { className: _DynamicsFont2.default.composeText })
       ),
       _react2.default.createElement(
         'div',

@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'dynamics_icon';
-  src:  url('./fonts/dynamics_icon.eot?ehx4d3');
-  src:  url('./fonts/dynamics_icon.eot?ehx4d3#iefix') format('embedded-opentype'),
-    url('./fonts/dynamics_icon.woff2?ehx4d3') format('woff2'),
-    url('./fonts/dynamics_icon.ttf?ehx4d3') format('truetype'),
-    url('./fonts/dynamics_icon.woff?ehx4d3') format('woff'),
-    url('./fonts/dynamics_icon.svg?ehx4d3#dynamics_icon') format('svg');
+  src:  url('./fonts/dynamics_icon.eot?845iwt');
+  src:  url('./fonts/dynamics_icon.eot?845iwt#iefix') format('embedded-opentype'),
+    url('./fonts/dynamics_icon.woff2?845iwt') format('woff2'),
+    url('./fonts/dynamics_icon.ttf?845iwt') format('truetype'),
+    url('./fonts/dynamics_icon.woff?845iwt') format('woff'),
+    url('./fonts/dynamics_icon.svg?845iwt#dynamics_icon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -25,11 +25,89 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.conferenceHover {
+  composes: icon;
+}
+.conferenceHover:before {
+  content: "\e90f";
+}
+.conference {
+  composes: icon;
+}
+.conference:before {
+  content: "\e910";
+}
+.menuHover {
+  composes: icon;
+}
+.menuHover:before {
+  content: "\e911";
+}
+.menu {
+  composes: icon;
+}
+.menu:before {
+  content: "\e912";
+}
+.addEntity {
+  composes: icon;
+}
+.addEntity:before {
+  content: "\e960";
+}
 .clear {
   composes: icon;
 }
 .clear:before {
   content: "\e901";
+}
+.portrait {
+  composes: icon;
+}
+.portrait:before {
+  content: "\e904";
+}
+.search {
+  composes: icon;
+}
+.search:before {
+  content: "\e905";
+}
+.activeHover {
+  composes: icon;
+}
+.activeHover:before {
+  content: "\e908";
+}
+.active {
+  composes: icon;
+}
+.active:before {
+  content: "\e90c";
+}
+.composeTextHover {
+  composes: icon;
+}
+.composeTextHover:before {
+  content: "\e90d";
+}
+.composeText {
+  composes: icon;
+}
+.composeText:before {
+  content: "\e941";
+}
+.message {
+  composes: icon;
+}
+.message:before {
+  content: "\e95e";
+}
+.messageHover {
+  composes: icon;
+}
+.messageHover:before {
+  content: "\e95f";
 }
 .expand {
   composes: icon;
@@ -210,353 +288,5 @@
 }
 .save:before {
   content: "\e907";
-}
-.iconCallMute {
-  composes: icon;
-}
-.iconCallMute:before {
-  content: "\e924";
-}
-.iconCallUnmute {
-  composes: icon;
-}
-.iconCallUnmute:before {
-  content: "\e925";
-}
-.iconCallDial {
-  composes: icon;
-}
-.iconCallDial:before {
-  content: "\e92a";
-}
-.iconCallFlip {
-  composes: icon;
-}
-.iconCallFlip:before {
-  content: "\e92b";
-}
-.iconCallHangup {
-  composes: icon;
-}
-.iconCallHangup:before {
-  content: "\e92c";
-}
-.iconCallHold {
-  composes: icon;
-}
-.iconCallHold:before {
-  content: "\e92d";
-}
-.iconCallNoDial {
-  composes: icon;
-}
-.iconCallNoDial:before {
-  content: "\e92e";
-}
-.iconCallNoHold {
-  composes: icon;
-}
-.iconCallNoHold:before {
-  content: "\e92f";
-}
-.iconCallRecord {
-  composes: icon;
-}
-.iconCallRecord:before {
-  content: "\e930";
-}
-.iconCallStopRecord {
-  composes: icon;
-}
-.iconCallStopRecord:before {
-  content: "\e931";
-}
-.iconCallTransfer {
-  composes: icon;
-}
-.iconCallTransfer:before {
-  content: "\e932";
-}
-.iconOffice365 {
-  composes: icon;
-}
-.iconOffice365:before {
-  content: "\e933";
-}
-.iconPlay {
-  composes: icon;
-}
-.iconPlay:before {
-  content: "\e934";
-}
-.iconStatusBusy {
-  composes: icon;
-}
-.iconStatusBusy:before {
-  content: "\e935";
-}
-.iconStatusCalling {
-  composes: icon;
-}
-.iconStatusCalling:before {
-  content: "\e936";
-}
-.iconStatusHold {
-  composes: icon;
-}
-.iconStatusHold:before {
-  content: "\e937";
-}
-.iconStatusMute {
-  composes: icon;
-}
-.iconStatusMute:before {
-  content: "\e938";
-}
-.iconStatusRecord {
-  composes: icon;
-}
-.iconStatusRecord:before {
-  content: "\e939";
-}
-.iconCalling {
-  composes: icon;
-}
-.iconCalling:before {
-  content: "\e926";
-}
-.iconCallIncoming {
-  composes: icon;
-}
-.iconCallIncoming:before {
-  content: "\e927";
-}
-.iconCallMiss {
-  composes: icon;
-}
-.iconCallMiss:before {
-  content: "\e928";
-}
-.iconCallOutgoing {
-  composes: icon;
-}
-.iconCallOutgoing:before {
-  content: "\e929";
-}
-.iconCollapse {
-  composes: icon;
-}
-.iconCollapse:before {
-  content: "\e90f";
-}
-.checkboxSelected {
-  composes: icon;
-}
-.checkboxSelected:before {
-  content: "\e910";
-}
-.checkboxUnselected {
-  composes: icon;
-}
-.checkboxUnselected:before {
-  content: "\e911";
-}
-.iconAdd {
-  composes: icon;
-}
-.iconAdd:before {
-  content: "\e912";
-}
-.iconArrowRight {
-  composes: icon;
-}
-.iconArrowRight:before {
-  content: "\e913";
-}
-.iconBack {
-  composes: icon;
-}
-.iconBack:before {
-  content: "\e914";
-}
-.iconCallLog {
-  composes: icon;
-}
-.iconCallLog:before {
-  content: "\e915";
-}
-.iconCall {
-  composes: icon;
-}
-.iconCall:before {
-  content: "\e916";
-}
-.iconCheck {
-  composes: icon;
-}
-.iconCheck:before {
-  content: "\e917";
-}
-.iconConference {
-  composes: icon;
-}
-.iconConference:before {
-  content: "\e919";
-}
-.iconContact {
-  composes: icon;
-}
-.iconContact:before {
-  content: "\e91a";
-}
-.iconDial {
-  composes: icon;
-}
-.iconDial:before {
-  content: "\e91b";
-}
-.iconDisplay {
-  composes: icon;
-}
-.iconDisplay:before {
-  content: "\e91c";
-}
-.iconFax {
-  composes: icon;
-}
-.iconFax:before {
-  content: "\e91d";
-}
-.iconGoogle {
-  composes: icon;
-}
-.iconGoogle:before {
-  content: "\e91e";
-}
-.iconHangout {
-  composes: icon;
-}
-.iconHangout:before {
-  content: "\e91f";
-}
-.iconIInfo {
-  composes: icon;
-}
-.iconIInfo:before {
-  content: "\e920";
-}
-.iconMeeting {
-  composes: icon;
-}
-.iconMeeting:before {
-  content: "\e921";
-}
-.iconMessageAll {
-  composes: icon;
-}
-.iconMessageAll:before {
-  content: "\e922";
-}
-.iconMessageAllHover {
-  composes: icon;
-}
-.iconMessageAllHover:before {
-  content: "\e918";
-}
-.iconMessage {
-  composes: icon;
-}
-.iconMessage:before {
-  content: "\e941";
-}
-.iconComposeText {
-  composes: icon;
-}
-.iconComposeText:before {
-  content: "\e923";
-}
-.iconReturn {
-  composes: icon;
-}
-.iconReturn:before {
-  content: "\e93a";
-}
-.iconSearch {
-  composes: icon;
-}
-.iconSearch:before {
-  content: "\e93b";
-}
-.iconSetting {
-  composes: icon;
-}
-.iconSetting:before {
-  content: "\e93c";
-}
-.iconTime {
-  composes: icon;
-}
-.iconTime:before {
-  content: "\e93d";
-}
-.iconVoice {
-  composes: icon;
-}
-.iconVoice:before {
-  content: "\e93e";
-}
-.iconRadioOff {
-  composes: icon;
-}
-.iconRadioOff:before {
-  content: "\e93f";
-}
-.iconRadioOn {
-  composes: icon;
-}
-.iconRadioOn:before {
-  content: "\e940";
-}
-.iconCalendar {
-  composes: icon;
-}
-.iconCalendar:before {
-  content: "\e942";
-}
-.iconDropbox {
-  composes: icon;
-}
-.iconDropbox:before {
-  content: "\e943";
-}
-.iconDropdownArrow {
-  composes: icon;
-}
-.iconDropdownArrow:before {
-  content: "\e944";
-}
-.iconIBtn {
-  composes: icon;
-}
-.iconIBtn:before {
-  content: "\e945";
-}
-.iconLogout {
-  composes: icon;
-}
-.iconLogout:before {
-  content: "\e946";
-}
-.iconSwitchOn {
-  composes: icon;
-}
-.iconSwitchOn:before {
-  content: "\e947";
-}
-.iconSwtichOff {
-  composes: icon;
-}
-.iconSwtichOff:before {
-  content: "\e948";
 }
 
