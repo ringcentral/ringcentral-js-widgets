@@ -3,4 +3,5 @@ export default {
   MainCompanyNumber: 'Main',
   CompanyNumber: 'Company',
   CompanyFaxNumber: 'Fax',
+  Blocked: 'Blocked',
 };

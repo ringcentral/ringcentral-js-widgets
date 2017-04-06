@@ -32,6 +32,82 @@ PhoneNumber.propTypes = {
   currentLocale: PropTypes.string.isRequired,
 };
 
+function FromNumberSelect({
+  fromNumber,
+  fromNumbers,
+  onChange,
+  formatPhone,
+  hidden,
+  currentLocale,
+}) {
+  if (hidden) {
+    return null;
+  }
+  const options = [
+    ...fromNumbers,
+    {
+      phoneNumber: 'anonymous',
+    }
+  ];
+  return (
+    <DropdownSelect
+      className={styles.select}
+      iconClassName={styles.selectIcon}
+      value={fromNumber}
+      label={'From:'}
+      onChange={onChange}
+      options={options}
+      renderValue={(value) => {
+        if (value === 'anonymous') {
+          return (
+            <span>{i18n.getString('Blocked', currentLocale)}</span>
+          );
+        }
+        const valueItem = fromNumbers.find(
+          item => item.phoneNumber === value
+        );
+        const usageType = valueItem && valueItem.usageType;
+        return (
+          <PhoneNumber
+            formatPhone={formatPhone}
+            phoneNumber={value}
+            usageType={usageType}
+            currentLocale={currentLocale}
+          />
+        );
+      }}
+      valueFunction={option => option.phoneNumber}
+      renderFunction={(option) => {
+        if (option.phoneNumber === 'anonymous') {
+          return (
+            <span>{i18n.getString('Blocked', currentLocale)}</span>
+          );
+        }
+        return (
+          <PhoneNumber
+            formatPhone={formatPhone}
+            phoneNumber={option.phoneNumber}
+            usageType={option.usageType}
+            currentLocale={currentLocale}
+          />
+        );
+      }}
+    />
+  );
+}
+
+FromNumberSelect.propTypes = {
+  fromNumber: PropTypes.string.isRequired,
+  formatPhone: PropTypes.func.isRequired,
+  fromNumbers: PropTypes.arrayOf(PropTypes.shape({
+    phoneNumber: PropTypes.string,
+    usageType: PropTypes.string,
+  })).isRequired,
+  onChange: PropTypes.func.isRequired,
+  currentLocale: PropTypes.string.isRequired,
+  hidden: PropTypes.bool.isRequired,
+};
+
 function DialerPanel({
   callButtonDisabled,
   className,
@@ -50,44 +126,16 @@ function DialerPanel({
       onCall();
     }
   };
-  const fromNumberSelect =
-    isWebphoneMode ?
-    (
-      <DropdownSelect
-        className={styles.select}
-        iconClassName={styles.selectIcon}
-        value={fromNumber}
-        label={'From:'}
-        onChange={changeFromNumber}
-        options={fromNumbers}
-        renderValue={(value) => {
-          const valueItem = fromNumbers.find(
-            item => item.phoneNumber === value
-          );
-          const usageType = valueItem && valueItem.usageType;
-          return (
-            <PhoneNumber
-              formatPhone={formatPhone}
-              phoneNumber={value}
-              usageType={usageType}
-              currentLocale={currentLocale}
-            />
-          );
-        }}
-        valueFunction={option => option.phoneNumber}
-        renderFunction={option => (
-          <PhoneNumber
-            formatPhone={formatPhone}
-            phoneNumber={option.phoneNumber}
-            usageType={option.usageType}
-            currentLocale={currentLocale}
-          />
-        )}
-      />
-    ) : null;
   return (
     <div className={classnames(styles.root, className)}>
-      {fromNumberSelect}
+      <FromNumberSelect
+        fromNumber={fromNumber}
+        fromNumbers={fromNumbers}
+        onChange={changeFromNumber}
+        formatPhone={formatPhone}
+        currentLocale={currentLocale}
+        hidden={!isWebphoneMode}
+      />
       <DialTextInput
         value={toNumber}
         onChangeEvent={(event) => {
