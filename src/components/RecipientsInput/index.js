@@ -59,7 +59,6 @@ class RecipientsInput extends Component {
       isFocusOnInput: false,
       selectedContactIndex: 0,
       scrollDirection: null,
-      currentKey: null,
       currentValue: props.value,
     };
 
@@ -161,7 +160,6 @@ class RecipientsInput extends Component {
         this.props.value[this.props.value.length - 1] === ',') {
       this.setState({
         isFocusOnInput: true,
-        currentValue: this.props.value.replace(',', '')
       });
       const relatedContactList = this.props.searchContactList;
       const currentSelected = relatedContactList[this.state.selectedContactIndex];
