@@ -18,4 +18,7 @@ export default {
   [callingSettingsMessages.phoneNumberChanged]:
     'Your phone number information has been changed recently. Please go to {link} to check your Calling options.',
   link: 'Settings > Calling',
+  [callingSettingsMessages.webphonePermissionRemoved]:
+    `Your permissions have been changed and you cannot make calls with Browser.
+     For details please contact your account administrator.`
 };

@@ -22,6 +22,7 @@ import Locale from 'ringcentral-integration/modules/Locale';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import Ringout from 'ringcentral-integration/modules/Ringout';
+import Webphone from 'ringcentral-integration/modules/Webphone';
 import RolesAndPermissions from 'ringcentral-integration/modules/RolesAndPermissions';
 import Softphone from 'ringcentral-integration/modules/Softphone';
 import Storage from 'ringcentral-integration/modules/Storage';
@@ -213,6 +214,16 @@ export default class Phone extends RcModule {
       tabManager: this.tabManager,
       getState: () => this.state.callingSettings,
     }));
+    this.addModule('webphone', new Webphone({
+      appKey: apiConfig.appKey,
+      appName: 'RingCentral Widget',
+      appVersion: '0.1.0',
+      auth: this.auth,
+      client: this.client,
+      storage: this.storage,
+      rolesAndPermissions: this.rolesAndPermissions,
+      getState: () => this.state.webphone,
+    }));
     this.addModule('numberValidate', new NumberValidate({
       ...options,
       client: this.client,
@@ -230,7 +241,8 @@ export default class Phone extends RcModule {
       callingSettings: this.callingSettings,
       softphone: this.softphone,
       ringout: this.ringout,
-      accountExtension: this.accountExtension,
+      webphone: this.webphone,
+      extensionPhoneNumber: this.extensionPhoneNumber,
       numberValidate: this.numberValidate,
       getState: () => this.state.call,
     }));
@@ -413,6 +425,7 @@ export default class Phone extends RcModule {
       rolesAndPermissions: this.rolesAndPermissions.reducer,
       regionSettings: this.regionSettings.reducer,
       ringout: this.ringout.reducer,
+      webphone: this.webphone.reducer,
       router: this.router.reducer,
       subscription: this.subscription.reducer,
       tabManager: this.tabManager.reducer,

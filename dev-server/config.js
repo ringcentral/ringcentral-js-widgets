@@ -47,6 +47,10 @@ const base = {
           'sass?outputStyle=expanded',
         ],
       },
+      {
+        test: /\.ogg$/,
+        loader: 'url?publicPath=./&name=audio/[name]_[hash].[ext]',
+      },
     ],
   },
   devtool: 'inline-source-map',

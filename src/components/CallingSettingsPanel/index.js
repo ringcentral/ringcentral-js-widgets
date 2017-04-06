@@ -120,43 +120,47 @@ export default class CallingSettingsPanel extends Component {
       disabled: !hasChanges,
     });
 
-    const ringout = this.state.callWith !== callingOptions.softphone ? (
-      <div>
-        <div className={styles.ringoutHint}>
-          {i18n.getString('ringoutHint', currentLocale)}
+    const ringout =
+      (
+        this.state.callWith !== callingOptions.softphone &&
+        this.state.callWith !== callingOptions.browser
+      ) ? (
+        <div>
+          <div className={styles.ringoutHint}>
+            {i18n.getString('ringoutHint', currentLocale)}
+          </div>
+          <InputField
+            className={styles.inputField}
+            label={i18n.getString('myLocationLabel', currentLocale)}>
+            {
+              availableNumbers[this.state.callWith] ? (
+                <Select
+                  className={styles.select}
+                  value={this.state.myLocation}
+                  onChange={this.onMyLocationChange}
+                  options={availableNumbers[this.state.callWith]}
+                />
+              ) : (
+                <TextInput
+                  value={this.state.myLocation}
+                  maxLength={30}
+                  onChange={this.onMyLocationChange} />
+              )
+            }
+          </InputField>
+          <IconField
+            className={styles.iconField}
+            icon={
+              <Switch
+                checked={this.state.ringoutPrompt}
+                onChange={this.onRingoutPromptChange}
+                />
+            }
+            >
+            {i18n.getString('press1ToStartCallLabel', currentLocale)}
+          </IconField>
         </div>
-        <InputField
-          className={styles.inputField}
-          label={i18n.getString('myLocationLabel', currentLocale)}>
-          {
-            availableNumbers[this.state.callWith] ? (
-              <Select
-                className={styles.select}
-                value={this.state.myLocation}
-                onChange={this.onMyLocationChange}
-                options={availableNumbers[this.state.callWith]}
-              />
-            ) : (
-              <TextInput
-                value={this.state.myLocation}
-                maxLength={30}
-                onChange={this.onMyLocationChange} />
-            )
-          }
-        </InputField>
-        <IconField
-          className={styles.iconField}
-          icon={
-            <Switch
-              checked={this.state.ringoutPrompt}
-              onChange={this.onRingoutPromptChange}
-              />
-          }
-          >
-          {i18n.getString('press1ToStartCallLabel', currentLocale)}
-        </IconField>
-      </div>
-    ) : null;
+      ) : null;
     return (
       <div className={classnames(styles.root, className)}>
         <Header buttons={buttons}>

@@ -90,6 +90,7 @@ export default function App({
                   connectivityMonitor={phone.connectivityMonitor}
                   locale={phone.locale}
                   rateLimiter={phone.rateLimiter}
+                  regionSettings={phone.regionSettings}
                 />
               )} />
             <Route
