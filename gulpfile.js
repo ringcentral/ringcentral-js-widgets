@@ -10,7 +10,6 @@ import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
-import Loganberry from 'loganberry';
 import cp from 'child_process';
 import semver from 'semver';
 import transformLocaleLoader from 'locale-loader/transformLocaleLoader';

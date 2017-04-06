@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'dynamics_icon';
-  src:  url('fonts/dynamics_icon.eot?ehx4d3');
-  src:  url('fonts/dynamics_icon.eot?ehx4d3#iefix') format('embedded-opentype'),
-    url('fonts/dynamics_icon.woff2?ehx4d3') format('woff2'),
-    url('fonts/dynamics_icon.ttf?ehx4d3') format('truetype'),
-    url('fonts/dynamics_icon.woff?ehx4d3') format('woff'),
-    url('fonts/dynamics_icon.svg?ehx4d3#dynamics_icon') format('svg');
+  src:  url('fonts/dynamics_icon.eot?845iwt');
+  src:  url('fonts/dynamics_icon.eot?845iwt#iefix') format('embedded-opentype'),
+    url('fonts/dynamics_icon.woff2?845iwt') format('woff2'),
+    url('fonts/dynamics_icon.ttf?845iwt') format('truetype'),
+    url('fonts/dynamics_icon.woff?845iwt') format('woff'),
+    url('fonts/dynamics_icon.svg?845iwt#dynamics_icon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -25,8 +25,47 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-conference-hover:before {
+  content: "\e90f";
+}
+.icon-conference:before {
+  content: "\e910";
+}
+.icon-menu-hover:before {
+  content: "\e911";
+}
+.icon-menu:before {
+  content: "\e912";
+}
+.icon-add-entity:before {
+  content: "\e960";
+}
 .icon-clear:before {
   content: "\e901";
+}
+.icon-Portrait:before {
+  content: "\e904";
+}
+.icon-Search:before {
+  content: "\e905";
+}
+.icon-active-Hover:before {
+  content: "\e908";
+}
+.icon-active:before {
+  content: "\e90c";
+}
+.icon-Compose-Text-Hover:before {
+  content: "\e90d";
+}
+.icon-Compose-Text:before {
+  content: "\e941";
+}
+.icon-message:before {
+  content: "\e95e";
+}
+.icon-message-Hover:before {
+  content: "\e95f";
 }
 .icon-Expand:before {
   content: "\e902";
@@ -117,176 +156,5 @@
 }
 .icon-Save:before {
   content: "\e907";
-}
-.icon-icon_call_mute:before {
-  content: "\e924";
-}
-.icon-icon_call_unmute:before {
-  content: "\e925";
-}
-.icon-icon_call-dial:before {
-  content: "\e92a";
-}
-.icon-icon_call-flip:before {
-  content: "\e92b";
-}
-.icon-icon_call-hangup:before {
-  content: "\e92c";
-}
-.icon-icon_call-hold:before {
-  content: "\e92d";
-}
-.icon-icon_call-no-dial:before {
-  content: "\e92e";
-}
-.icon-icon_call-no-hold:before {
-  content: "\e92f";
-}
-.icon-icon_call-record:before {
-  content: "\e930";
-}
-.icon-icon_call-stop-record:before {
-  content: "\e931";
-}
-.icon-icon_call-transfer:before {
-  content: "\e932";
-}
-.icon-icon_office_365:before {
-  content: "\e933";
-}
-.icon-icon_play:before {
-  content: "\e934";
-}
-.icon-icon_status_busy:before {
-  content: "\e935";
-}
-.icon-icon_status-calling:before {
-  content: "\e936";
-}
-.icon-icon_status-hold:before {
-  content: "\e937";
-}
-.icon-icon_status-mute:before {
-  content: "\e938";
-}
-.icon-icon_status-record:before {
-  content: "\e939";
-}
-.icon-icon_calling:before {
-  content: "\e926";
-}
-.icon-icon_call_incoming:before {
-  content: "\e927";
-}
-.icon-icon_call_miss:before {
-  content: "\e928";
-}
-.icon-icon_call_outgoing:before {
-  content: "\e929";
-}
-.icon-icon_collapse:before {
-  content: "\e90f";
-}
-.icon-checkbox-selected:before {
-  content: "\e910";
-}
-.icon-checkbox-unselected:before {
-  content: "\e911";
-}
-.icon-icon_add:before {
-  content: "\e912";
-}
-.icon-icon_arrow_right:before {
-  content: "\e913";
-}
-.icon-icon_back:before {
-  content: "\e914";
-}
-.icon-icon_call_log:before {
-  content: "\e915";
-}
-.icon-icon_call:before {
-  content: "\e916";
-}
-.icon-icon_check:before {
-  content: "\e917";
-}
-.icon-icon_conference:before {
-  content: "\e919";
-}
-.icon-icon_contact:before {
-  content: "\e91a";
-}
-.icon-icon_dial:before {
-  content: "\e91b";
-}
-.icon-icon_display:before {
-  content: "\e91c";
-}
-.icon-icon_fax:before {
-  content: "\e91d";
-}
-.icon-icon_google:before {
-  content: "\e91e";
-}
-.icon-icon_hangout:before {
-  content: "\e91f";
-}
-.icon-icon_i_info:before {
-  content: "\e920";
-}
-.icon-icon_meeting:before {
-  content: "\e921";
-}
-.icon-icon_message_all:before {
-  content: "\e922";
-}
-.icon-icon_message_all_hover:before {
-  content: "\e918";
-}
-.icon-icon_compose_text:before {
-  content: "\e923";
-}
-.icon-icon_return:before {
-  content: "\e93a";
-}
-.icon-icon_search:before {
-  content: "\e93b";
-}
-.icon-icon_setting:before {
-  content: "\e93c";
-}
-.icon-icon_time:before {
-  content: "\e93d";
-}
-.icon-icon_voice:before {
-  content: "\e93e";
-}
-.icon-icon_radio_off:before {
-  content: "\e93f";
-}
-.icon-icon_radio_on:before {
-  content: "\e940";
-}
-.icon-icon_calendar:before {
-  content: "\e942";
-}
-.icon-icon_dropbox:before {
-  content: "\e943";
-}
-.icon-icon_dropdown_arrow:before {
-  content: "\e944";
-}
-.icon-icon_i_btn:before {
-  content: "\e945";
-}
-.icon-icon_logout:before {
-  content: "\e946";
-}
-.icon-icon_switch_on:before {
-  content: "\e947";
-}
-.icon-icon_swtich_off:before {
-  content: "\e948";
 }
 

@@ -19,7 +19,7 @@ export default function MessageItem(props) {
         className={styles.messageLink}
       >
         <div className={styles.typeIcon}>
-          <span className={dynamicsFont.iconMessage} />
+          <span className={dynamicsFont.composeText} />
         </div>
         <div className={styles.messageContent}>
           <div className={styles.messageFrom}>
