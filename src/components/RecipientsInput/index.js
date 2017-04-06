@@ -59,6 +59,7 @@ class RecipientsInput extends Component {
       isFocusOnInput: false,
       selectedContactIndex: 0,
       scrollDirection: null,
+      currentKey: null,
     };
 
     this.onReceiversInputFocus = () => {
@@ -151,25 +152,24 @@ class RecipientsInput extends Component {
     };
   }
   componentWillReceiveProps(newProps) {
-    if (newProps.value && newProps.value !== this.props.value) {
-      if (this.props.value.length > 3) {
-        this.setState({
-          isFocusOnInput: true
-        });
-        const relatedContactList = this.props.searchContactList;
-        const currentSelected = relatedContactList[this.state.selectedContactIndex];
-        if (currentSelected) {
-          this.props.addToRecipients({
-            name: currentSelected.name,
-            phoneNumber: currentSelected.phoneNumber,
-          });
-        } else {
-          this.props.addToRecipients({
-            name: this.props.value,
-            phoneNumber: this.props.value,
-          });
-        }
-        this.props.updateTypingToNumber(newProps.value);
+    if (newProps.value &&
+        newProps.value !== this.props.value &&
+        this.props.value[this.props.value.length - 1] === ',') {
+      this.setState({
+        isFocusOnInput: true,
+      });
+      const relatedContactList = this.props.searchContactList;
+      const currentSelected = relatedContactList[this.state.selectedContactIndex];
+      if (currentSelected) {
+        this.props.addToRecipients({
+          name: currentSelected.name,
+          phoneNumber: currentSelected.phoneNumber,
+        }, false);
+      } else {
+        this.props.addToRecipients({
+          name: this.props.value,
+          phoneNumber: this.props.value,
+        }, false);
       }
     }
   }
@@ -191,7 +191,7 @@ class RecipientsInput extends Component {
           <div className={styles.inputField}>
             <input
               name="receiver"
-              value={this.props.value}
+              value={this.props.value.replace(',', '')}
               onChange={this.props.onChange}
               onKeyUp={this.props.onKeyUp}
               onKeyDown={this.props.onKeyDown}
@@ -246,7 +246,6 @@ RecipientsInput.propTypes = {
   onKeyUp: PropTypes.func,
   onKeyDown: PropTypes.func,
   addToRecipients: PropTypes.func.isRequired,
-  updateTypingToNumber: PropTypes.func.isRequired,
   removeFromRecipients: PropTypes.func.isRequired,
   formatContactPhone: PropTypes.func.isRequired,
 };
