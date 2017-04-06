@@ -142,8 +142,8 @@ class RecipientsInput extends Component {
           });
         } else {
           this.props.addToRecipients({
-            name: this.props.value,
-            phoneNumber: this.props.value,
+            name: this.props.value.replace(',', ''),
+            phoneNumber: this.props.value.replace(',', ''),
           });
           this.props.onClean();
         }
@@ -170,8 +170,8 @@ class RecipientsInput extends Component {
         }, false);
       } else {
         this.props.addToRecipients({
-          name: this.props.value,
-          phoneNumber: this.props.value,
+          name: this.props.value.replace(',', ''),
+          phoneNumber: this.props.value.replace(',', ''),
         }, false);
       }
     }
