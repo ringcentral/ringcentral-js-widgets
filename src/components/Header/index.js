@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import styles from './styles.scss';
-import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
-
 
 function HeaderButton(props) {
   return (

@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import 'font-awesome/css/font-awesome.css';
-import find from 'lodash/find';
 
 import BackHeader from '../BackHeader';
 import Panel from '../Panel';
@@ -13,8 +12,6 @@ import Select from '../DropdownSelect';
 import styles from './styles.scss';
 import i18n from './i18n';
 import countryNames from '../../lib/countryNames';
-import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
-
 
 export default class RegionSettings extends Component {
   constructor(props) {
@@ -78,12 +75,12 @@ export default class RegionSettings extends Component {
 
   renderValue = (value) => {
     console.debug('renderValue:', value, this.props.availableCountries);
-    const selectedOption = find(
-      this.props.availableCountries,
+    const selectedOption = this.props.availableCountries.find(
       country => country.isoCode === value
     );
 
-    return `(+${selectedOption.callingCode}) ${countryNames.getString(selectedOption.isoCode, this.props.currentLocale)}`
+    return `(+${selectedOption.callingCode})
+        ${countryNames.getString(selectedOption.isoCode, this.props.currentLocale)}`;
   }
 
   render() {
