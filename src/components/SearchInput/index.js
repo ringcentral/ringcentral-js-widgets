@@ -11,7 +11,7 @@ function SearchInput(props) {
         props.className,
       )}
       >
-      <span className={classnames(dynamicsFont.iconSearch, styles.icon)} />
+      <span className={classnames(dynamicsFont.search, styles.icon)} />
       <input
         name="search"
         value={props.value}
