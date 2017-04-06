@@ -75,7 +75,7 @@ class DropdownSelect extends Component {
             return (
               <li
                 key={currentValue}
-                className={className}
+                className={classnames(className, styles[this.props.dropdownAlign])}
                 value={currentValue}
                 onClick={e => this.onChange(e, option)}
               >
@@ -140,6 +140,7 @@ DropdownSelect.propTypes = {
   renderFunction: PropTypes.func,
   renderValue: PropTypes.func,
   renderDropdownMenu: PropTypes.func,
+  dropdownAlign: PropTypes.oneOf(['left', 'center', 'right']),
 };
 
 DropdownSelect.defaultProps = {
@@ -152,6 +153,7 @@ DropdownSelect.defaultProps = {
   valueFunction: option => option,
   renderFunction: option => option,
   renderValue: option => option,
+  dropdownAlign: 'center',
 };
 
 export default DropdownSelect;

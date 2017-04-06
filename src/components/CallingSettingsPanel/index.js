@@ -7,13 +7,13 @@ import 'font-awesome/css/font-awesome.css';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-import Header from '../Header';
+import BackHeader from '../BackHeader';
 import Panel from '../Panel';
 import Switch from '../Switch';
 import IconField from '../IconField';
 import InputField from '../InputField';
 import TextInput from '../TextInput';
-import Select from '../Select';
+import Select from '../DropdownSelect';
 
 export default class CallingSettingsPanel extends Component {
   constructor(props) {
@@ -67,8 +67,7 @@ export default class CallingSettingsPanel extends Component {
       ringoutPrompt,
     });
   }
-  onCallWithChange = (e) => {
-    const callWith = e.currentTarget.value;
+  onCallWithChange = (callWith) => {
     this.setState({
       callWith,
       myLocation: (this.props.availableNumbers[callWith] &&
@@ -86,6 +85,10 @@ export default class CallingSettingsPanel extends Component {
       ringoutPrompt: checked,
     });
   }
+  renderHandler = (option) => {
+    const brand = this.props.brand;
+    return formatMessage(i18n.getString(option, this.props.currentLocale), { brand });
+  }
   render() {
     const {
       currentLocale,
@@ -102,11 +105,6 @@ export default class CallingSettingsPanel extends Component {
     const hasChanges = this.state.callWith !== callWith ||
       this.state.myLocation !== myLocation ||
       this.state.ringoutPrompt !== ringoutPrompt;
-    buttons.push({
-      label: <i className="fa fa-chevron-left" />,
-      onClick: onBackButtonClick,
-      placement: 'left',
-    });
     buttons.push({
       label: <i className="fa fa-undo" />,
       onClick: this.onReset,
@@ -135,6 +133,7 @@ export default class CallingSettingsPanel extends Component {
                 value={this.state.myLocation}
                 onChange={this.onMyLocationChange}
                 options={availableNumbers[this.state.callWith]}
+                dropdownAlign="left"
               />
             ) : (
               <TextInput
@@ -159,9 +158,12 @@ export default class CallingSettingsPanel extends Component {
     ) : null;
     return (
       <div className={classnames(styles.root, className)}>
-        <Header buttons={buttons}>
+        <BackHeader
+          buttons={buttons}
+          onBackClick={onBackButtonClick}
+          >
           {i18n.getString('title', currentLocale)}
-        </Header>
+        </BackHeader>
         <Panel className={styles.content}>
           <InputField
             className={styles.inputField}
@@ -171,9 +173,9 @@ export default class CallingSettingsPanel extends Component {
               value={this.state.callWith}
               onChange={this.onCallWithChange}
               options={callWithOptions}
-              renderFunction={
-                option => formatMessage(i18n.getString(option, currentLocale), { brand })
-              }
+              dropdownAlign="left"
+              renderValue={this.renderHandler}
+              renderFunction={this.renderHandler}
             />
           </InputField>
           {ringout}
