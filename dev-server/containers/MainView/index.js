@@ -67,9 +67,9 @@ const MainView = connect((state, props) => {
       props.rolesAndPermissions.permissions.InternalSMS !== true
       ) {
     filterTabs = tabs.filter(tab =>
-                tab.label !== 'SMS' && tab.label !== 'Messages');
+                tab.label !== 'Compose Text' && tab.label !== 'Messages');
     if (props.rolesAndPermissions.permissions.ReadMessages === true) {
-      filterTabs = tabs.filter(tab => tab.label !== 'SMS');
+      filterTabs = tabs.filter(tab => tab.label !== 'Compose Text');
     }
   }
   return {
