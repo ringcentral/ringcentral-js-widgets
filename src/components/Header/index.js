@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
-
 function HeaderButton(props) {
   return (
     <div
