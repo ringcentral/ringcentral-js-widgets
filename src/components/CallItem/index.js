@@ -13,6 +13,7 @@ import Spinner from '../Spinner';
 import Select from '../Select';
 import DurationCounter from '../DurationCounter';
 import formatDuration from '../../lib/formatDuration';
+import SlideMenu from '../SlideMenu';
 import styles from './styles.scss';
 
 import i18n from './i18n';
@@ -197,6 +198,9 @@ LogLink.propTypes = {
   isLogging: PropTypes.bool.isRequired,
 };
 
+
+
+
 export default class CallItem extends Component {
   constructor(props) {
     super(props);
@@ -380,8 +384,13 @@ export default class CallItem extends Component {
         <div className={styles.details} >
           {durationEl} | {dateEl}{statusEl}
         </div>
-        {contactLinkEl}
-        {logLinkEl}
+        <SlideMenu
+          minWidth={50}
+          maxWidth={100}
+        >
+          {contactLinkEl}
+          {logLinkEl}
+        </SlideMenu>
       </div>
     );
   }

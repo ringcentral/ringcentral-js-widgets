@@ -1,0 +1,60 @@
+@import '../../lib/commonStyles/colors';
+
+.root {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  right: 0;
+  background-color: #fff;
+  border-left: 1px solid $gray;
+}
+
+.wrapper {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  transition: width 0.2s 0s ease-in-out;
+}
+
+.content {
+  position: relative;
+  height: 100%;
+  top: 0;
+  right: 0;
+}
+
+.toggleButton {
+  position: absolute;
+  top: calc(50% - 12px);
+  border-right: 5px solid $gray;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  height: 14px;
+  width: 0;
+  right: 100%;
+}
+.toggleButtonInner {
+  position: absolute;
+  top: -4px;
+  border-right: 5px solid #fff;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  height: 13px;
+  left: 1px;
+}
+.toggleButtonIcon {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+  color: #666666;
+  font-size: 8px;
+  transform: rotateZ(90deg);
+  line-height: 14px;
+  text-align: center;
+}
+.expanded .toggleButtonIcon {
+  transform: rotateZ(-90deg);
+}
