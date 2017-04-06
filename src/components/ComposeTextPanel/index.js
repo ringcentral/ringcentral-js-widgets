@@ -127,7 +127,6 @@ class ComposeTextPanel extends Component {
           onChange={this.onSenderChange}
         />
       ) : null;
-
     return (
       <div className={styles.root}>
         {noSenderAlert}

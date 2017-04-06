@@ -60,6 +60,7 @@ class RecipientsInput extends Component {
       selectedContactIndex: 0,
       scrollDirection: null,
       currentKey: null,
+      currentValue: props.value,
     };
 
     this.onReceiversInputFocus = () => {
@@ -152,11 +153,15 @@ class RecipientsInput extends Component {
     };
   }
   componentWillReceiveProps(newProps) {
+    this.setState({
+      currentValue: newProps.value.replace(',', '')
+    });
     if (newProps.value &&
         newProps.value !== this.props.value &&
         this.props.value[this.props.value.length - 1] === ',') {
       this.setState({
         isFocusOnInput: true,
+        currentValue: this.props.value.replace(',', '')
       });
       const relatedContactList = this.props.searchContactList;
       const currentSelected = relatedContactList[this.state.selectedContactIndex];
@@ -191,7 +196,7 @@ class RecipientsInput extends Component {
           <div className={styles.inputField}>
             <input
               name="receiver"
-              value={this.props.value.replace(',', '')}
+              value={this.state.currentValue}
               onChange={this.props.onChange}
               onKeyUp={this.props.onKeyUp}
               onKeyDown={this.props.onKeyDown}
