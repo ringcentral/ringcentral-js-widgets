@@ -26,21 +26,7 @@ const ComposeTextPage = connect((state, props) => ({
   toNumbers: props.composeText.toNumbers,
   messageText: props.composeText.messageText,
   outboundSMS: props.rolesAndPermissions.permissions.OutboundSMS,
-  // searchContactList: props.contactSearch.searching.result,
-  searchContactList: [
-    {
-      name: 'bulk contact1',
-      entityType: 'contact',
-      phoneNumber: '1234567',
-      phoneType: 'business',
-    },
-    {
-      name: 'bulk contact2',
-      entityType: 'contact',
-      phoneNumber: '12345678',
-      phoneType: 'home',
-    }
-  ]
+  searchContactList: props.contactSearch.searching.result,
 }), (dispatch, props) => {
   const formatPhone = phoneNumber => (
     formatNumber({
