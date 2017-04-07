@@ -283,31 +283,35 @@ var MessageStore = function (_RcModule) {
     value: function () {
       var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref5) {
         var dateFrom = _ref5.dateFrom,
-            dateTo = _ref5.dateTo,
-            _ref5$recordCount = _ref5.recordCount,
-            recordCount = _ref5$recordCount === undefined ? 250 : _ref5$recordCount,
-            syncToken = _ref5.syncToken;
+            _ref5$dateTo = _ref5.dateTo,
+            dateTo = _ref5$dateTo === undefined ? null : _ref5$dateTo,
+            syncToken = _ref5.syncToken,
+            _ref5$recordsLength = _ref5.recordsLength,
+            recordsLength = _ref5$recordsLength === undefined ? 0 : _ref5$recordsLength;
 
-        var params, response, records, _dateTo, lastResponse;
+        var MAX_MSG_LENGTH, params, response, records, _dateTo, lastResponse;
 
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
+                MAX_MSG_LENGTH = 1000;
                 params = messageStoreHelper.getMessageSyncParams({
                   dateFrom: dateFrom,
                   dateTo: dateTo,
                   syncToken: syncToken
                 });
-                _context3.next = 3;
+                _context3.next = 4;
                 return this._messageSyncApi(params);
 
-              case 3:
+              case 4:
                 response = _context3.sent;
                 records = response.records;
 
-                if (!(records.length < recordCount)) {
-                  _context3.next = 7;
+                recordsLength += records.length;
+
+                if (!(recordsLength > MAX_MSG_LENGTH || !response.syncInfo.olderRecordsExist)) {
+                  _context3.next = 9;
                   break;
                 }
 
@@ -316,23 +320,28 @@ var MessageStore = function (_RcModule) {
                   syncInfo: response.syncInfo
                 });
 
-              case 7:
-                _context3.next = 9;
+              case 9:
+                _context3.next = 11;
                 return (0, _sleep2.default)(1000);
 
-              case 9:
+              case 11:
                 _dateTo = new Date(response.records[response.records.length - 1].creationTime);
-                lastResponse = this._recursiveFSync({
+                _context3.next = 14;
+                return this._recursiveFSync({
                   dateFrom: dateFrom,
                   dateTo: _dateTo,
-                  syncToken: syncToken
+                  syncToken: syncToken,
+                  recordsLength: recordsLength
                 });
+
+              case 14:
+                lastResponse = _context3.sent;
                 return _context3.abrupt('return', {
                   records: records.concat(lastResponse.records),
                   syncInfo: response.syncInfo
                 });
 
-              case 12:
+              case 16:
               case 'end':
                 return _context3.stop();
             }
