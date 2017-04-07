@@ -59,7 +59,7 @@ class RecipientsInput extends Component {
       isFocusOnInput: false,
       selectedContactIndex: 0,
       scrollDirection: null,
-      currentValue: props.value,
+      currentValue: props.value.replace(',', ''),
     };
 
     this.onReceiversInputFocus = () => {

@@ -117,7 +117,7 @@ class RecipientHeader extends Component {
       const isFind = matchedNames.find(name => name === firstMatchedName);
       if (isFind) {
         isSelected = true;
-        defaultRecipient = firstMatchedName;
+        defaultRecipient = firstMatchedName.slice(0, firstMatchedName.indexOf('|'));
       }
       const oldMatchedNames = recipient.matchedNames.slice().sort();
       if (matchedNames.sort().join('') === oldMatchedNames.join('')) {
