@@ -75,9 +75,9 @@ export default class CallingSettingsPanel extends Component {
         '',
     });
   }
-  onMyLocationChange = (e) => {
+  onMyLocationChange = (myLocation) => {
     this.setState({
-      myLocation: e.currentTarget.value,
+      myLocation
     });
   }
   onRingoutPromptChange = (checked) => {
