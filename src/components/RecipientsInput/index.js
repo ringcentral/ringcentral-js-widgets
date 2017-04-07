@@ -59,6 +59,7 @@ class RecipientsInput extends Component {
       isFocusOnInput: false,
       selectedContactIndex: 0,
       scrollDirection: null,
+      currentValue: props.value,
     };
 
     this.onReceiversInputFocus = () => {
@@ -141,8 +142,8 @@ class RecipientsInput extends Component {
           });
         } else {
           this.props.addToRecipients({
-            name: this.props.value,
-            phoneNumber: this.props.value,
+            name: this.props.value.replace(',', ''),
+            phoneNumber: this.props.value.replace(',', ''),
           });
           this.props.onClean();
         }
@@ -150,7 +151,31 @@ class RecipientsInput extends Component {
       }
     };
   }
-
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      currentValue: newProps.value.replace(',', '')
+    });
+    if (newProps.value &&
+        newProps.value !== this.props.value &&
+        this.props.value[this.props.value.length - 1] === ',') {
+      this.setState({
+        isFocusOnInput: true,
+      });
+      const relatedContactList = this.props.searchContactList;
+      const currentSelected = relatedContactList[this.state.selectedContactIndex];
+      if (currentSelected) {
+        this.props.addToRecipients({
+          name: currentSelected.name,
+          phoneNumber: currentSelected.phoneNumber,
+        }, false);
+      } else {
+        this.props.addToRecipients({
+          name: this.props.value.replace(',', ''),
+          phoneNumber: this.props.value.replace(',', ''),
+        }, false);
+      }
+    }
+  }
   render() {
     const relatedContactList = this.props.value.length >= 3 ?
       this.props.searchContactList : [];
@@ -169,7 +194,7 @@ class RecipientsInput extends Component {
           <div className={styles.inputField}>
             <input
               name="receiver"
-              value={this.props.value}
+              value={this.state.currentValue}
               onChange={this.props.onChange}
               onKeyUp={this.props.onKeyUp}
               onKeyDown={this.props.onKeyDown}
