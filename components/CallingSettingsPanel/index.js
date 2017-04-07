@@ -123,9 +123,9 @@ var CallingSettingsPanel = function (_Component) {
       });
     };
 
-    _this.onMyLocationChange = function (e) {
+    _this.onMyLocationChange = function (myLocation) {
       _this.setState({
-        myLocation: e.currentTarget.value
+        myLocation: myLocation
       });
     };
 
