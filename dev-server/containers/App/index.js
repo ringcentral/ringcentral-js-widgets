@@ -144,6 +144,9 @@ export default function App({
                   dateTimeFormat={phone.dateTimeFormat}
                   onLogCall={async () => { await sleep(1000); }}
                   onViewContact={() => {}}
+                  router={phone.router}
+                  composeText={phone.composeText}
+                  rolesAndPermissions={phone.rolesAndPermissions}
                 />
               )} />
             <Route
@@ -157,6 +160,10 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   connectivityMonitor={phone.connectivityMonitor}
                   dateTimeFormat={phone.dateTimeFormat}
+                  call={phone.call}
+                  composeText={phone.composeText}
+                  rolesAndPermissions={phone.rolesAndPermissions}
+                  router={phone.router}
                   onLogCall={async () => { await sleep(1000); }}
                   onViewContact={() => {}}
                 />

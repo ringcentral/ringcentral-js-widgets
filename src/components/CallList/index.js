@@ -20,8 +20,13 @@ function CallList({
   countryCode,
   onViewContact,
   onLogCall,
+  onClickToDial,
+  onClickToSms,
   isLoggedContact,
   disableLinks,
+  disableClickToDial,
+  outboundSmsPermission,
+  internalSmsPermission,
   active,
   dateTimeFormatter,
   loggingMap,
@@ -38,8 +43,13 @@ function CallList({
             countryCode={countryCode}
             onViewContact={onViewContact}
             onLogCall={onLogCall}
+            onClickToDial={onClickToDial}
+            onClickToSms={onClickToSms}
             isLoggedContact={isLoggedContact}
             disableLinks={disableLinks}
+            disableClickToDial={disableClickToDial}
+            outboundSmsPermission={outboundSmsPermission}
+            internalSmsPermission={internalSmsPermission}
             active={active}
             dateTimeFormatter={dateTimeFormatter}
             isLogging={!!loggingMap[call.sessionId]}
@@ -64,17 +74,28 @@ CallList.propTypes = {
   countryCode: PropTypes.string.isRequired,
   onViewContact: PropTypes.func,
   onLogCall: PropTypes.func,
+  onClickToDial: PropTypes.func,
+  onClickToSms: PropTypes.func,
   isLoggedContact: PropTypes.func,
   loggingMap: PropTypes.object,
   disableLinks: PropTypes.bool,
+  disableClickToDial: PropTypes.bool,
+  outboundSmsPermission: PropTypes.bool,
+  internalSmsPermission: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
 };
 CallList.defaultProps = {
   className: null,
   active: false,
   disableLinks: false,
+  disableClickToDial: false,
+  outboundSmsPermission: false,
+  internalSmsPermission: false,
   onViewContact: undefined,
   onLogCall: undefined,
+  isLoggedContact: undefined,
+  onClickToDial: undefined,
+  onClickToSms: undefined,
   loggingMap: {},
 };
 
