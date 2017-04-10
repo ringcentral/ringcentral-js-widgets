@@ -59,7 +59,9 @@ function mapToFunctions(_, {
       undefined,
     onClickToSms: composeText ?
       async (contact) => {
-        router.history.push(composeTextRoute);
+        if (router) {
+          router.history.push(composeTextRoute);
+        }
         composeText.addToNumber(contact);
         if (composeText.typingToNumber === contact.phoneNumber) {
           composeText.cleanTypingToNumber();
@@ -67,7 +69,8 @@ function mapToFunctions(_, {
       } :
       undefined,
     isLoggedContact,
-    onLogCall: onLogCall || (callLogger && (async ({ call, contact, redirect = true }) => {
+    onLogCall: onLogCall ||
+    (callLogger && (async ({ call, contact, redirect = true }) => {
       await callLogger.logCall({
         call,
         contact,
