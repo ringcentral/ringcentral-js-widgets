@@ -46,40 +46,10 @@
   margin-right: 8px;
 }
 
-
 .callStatus, .callDuration {
   display: inline-block;
 }
 
-
-.link {
-  cursor: pointer;
-  font-size: 15px;
-  text-decoration: none;
-  color: $primary-color;
-}
-.link:hover {
-  text-decoration: none;
-  color: $primary-color-highlight;
-}
-.disabled,
-.disabled:hover {
-  color: #999;
-  text-decoration: none;
-  cursor: not-allowed;
-}
-.logLink {
-  composes: link;
-  position: absolute;
-  right: 22px;
-  bottom: 12px;
-}
-.contactLink {
-  composes: link;
-  position: absolute;
-  right: 22px;
-  top: 10px;
-}
 
 .spinnerContainer {
   position: absolute;

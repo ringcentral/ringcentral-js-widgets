@@ -15,8 +15,11 @@ export default function CallsPanel({
   countryCode,
   onViewContact,
   onLogCall,
+  onClickToDial,
+  onClickToSms,
   isLoggedContact,
   disableLinks,
+  disableClickToDial,
   dateTimeFormatter,
   showSpinner,
   title,
@@ -33,8 +36,11 @@ export default function CallsPanel({
         countryCode={countryCode}
         onViewContact={onViewContact}
         onLogCall={onLogCall}
+        onClickToDial={onClickToDial}
+        onClickToSms={onClickToSms}
         isLoggedContact={isLoggedContact}
         disableLinks={disableLinks}
+        disableClickToDial={disableClickToDial}
         dateTimeFormatter={dateTimeFormatter}
         active={active}
         loggingMap={loggingMap}
@@ -58,9 +64,12 @@ CallsPanel.propTypes = {
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   onViewContact: PropTypes.func,
+  onClickToDial: PropTypes.func,
+  onClickToSms: PropTypes.func,
   onLogCall: PropTypes.func,
   isLoggedContact: PropTypes.func,
   disableLinks: PropTypes.bool.isRequired,
+  disableClickToDial: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
   showSpinner: PropTypes.bool,
   title: PropTypes.string,
@@ -71,6 +80,9 @@ CallsPanel.propTypes = {
 CallsPanel.defaultProps = {
   onViewContact: undefined,
   onLogCall: undefined,
+  onClickToDial: undefined,
+  onClickToSms: undefined,
+  disableClickToDial: false,
   showSpinner: false,
   title: '',
   active: false,

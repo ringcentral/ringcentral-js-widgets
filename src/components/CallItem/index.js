@@ -9,11 +9,10 @@ import {
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import callResults from 'ringcentral-integration/enums/callResults';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
-import Spinner from '../Spinner';
 import Select from '../Select';
 import DurationCounter from '../DurationCounter';
 import formatDuration from '../../lib/formatDuration';
-import SlideMenu from '../SlideMenu';
+import ActionMenu from '../ActionMenu';
 import styles from './styles.scss';
 
 import i18n from './i18n';
@@ -121,84 +120,15 @@ Contact.propTypes = {
   fallBackName: PropTypes.string,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
-  phoneNumber: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
   missed: PropTypes.bool.isRequired,
 };
 Contact.defaultProps = {
   onSelectContact: undefined,
   fallBackName: '',
+  phoneNumber: undefined,
 };
-
-function ContactLink({
-  className,
-  onViewContact,
-  disabled,
-  currentLocale,
-}) {
-  return (
-    <div
-      className={classnames(
-        className,
-        styles.contactLink,
-        disabled && styles.disabled,
-      )}
-      title={i18n.getString('viewContact', currentLocale)}
-      onClick={!disabled && onViewContact} >
-      <i className={dynamicsFont.record} />
-    </div>
-  );
-}
-ContactLink.propTypes = {
-  className: PropTypes.string,
-  onViewContact: PropTypes.func,
-  disabled: PropTypes.bool,
-  currentLocale: PropTypes.string.isRequired,
-};
-ContactLink.defaultProps = {
-  className: null,
-  onViewContact: null,
-  disabled: false,
-};
-
-function LogLink({
-  onLogCall,
-  isLogged,
-  disabled,
-  isLogging,
-}) {
-  const spinner = isLogging ?
-    (
-      <div className={styles.spinnerContainer}>
-        <Spinner ringWidth={2} />
-      </div>
-    ) :
-    null;
-  return (
-    <a
-      className={classnames(
-        styles.logLink,
-        (disabled || isLogging) && styles.disabled,
-      )}
-      onClick={!(disabled || isLogging) && onLogCall}
-      disabled={(disabled || isLogging)}>
-      <span
-        className={isLogged ?
-          dynamicsFont.edit :
-          dynamicsFont.callLog
-        } />
-      {spinner}
-    </a>
-  );
-}
-LogLink.propTypes = {
-  onLogCall: PropTypes.func,
-  isLogged: PropTypes.bool.isRequired,
-  disabled: PropTypes.bool,
-  isLogging: PropTypes.bool.isRequired,
-};
-
-
 
 
 export default class CallItem extends Component {
@@ -265,6 +195,11 @@ export default class CallItem extends Component {
       nextProps.call.fromMatches :
       nextProps.call.toMatches;
   }
+  getFallbackContactName() {
+    return isInbound(this.props.call) ?
+      (this.props.call.from.name) :
+      (this.props.call.to.name);
+  }
   logCall = async ({ redirect = true, selected }) => {
     if (
       typeof this.props.onLogCall === 'function' &&
@@ -294,6 +229,28 @@ export default class CallItem extends Component {
       });
     }
   }
+  clickToSms = () => {
+    if (this.props.onClickToSms) {
+      const phoneNumber = this.getPhoneNumber();
+      const contact = this.getSelectedContact();
+      if (contact) {
+        this.props.onClickToSms({
+          ...contact,
+          phoneNumber,
+        });
+      } else {
+        this.props.onClickToSms({
+          name: this.getFallbackContactName(),
+          phoneNumber,
+        });
+      }
+    }
+  }
+  clickToDial = () => {
+    if (this.props.onClickToDial) {
+      this.props.onClickToDial(this.getPhoneNumber());
+    }
+  }
   render() {
     const {
       call: {
@@ -301,24 +258,24 @@ export default class CallItem extends Component {
       telephonyStatus,
       result,
       startTime,
-      activityMatches,
       duration,
       },
       currentLocale,
       areaCode,
       countryCode,
       disableLinks,
+      disableClickToDial,
       active,
       onViewContact,
       onLogCall,
+      onClickToDial,
+      onClickToSms,
       dateTimeFormatter,
       isLogging,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
-    const fallbackContactName = isInbound(this.props.call) ?
-      (this.props.call.from.name) :
-      (this.props.call.to.name);
+    const fallbackContactName = this.getFallbackContactName();
     const ringing = isRinging(this.props.call);
     const missed = result === callResults.missed;
 
@@ -332,33 +289,11 @@ export default class CallItem extends Component {
     }
     let dateEl;
     if (!active) {
-      dateEl = dateTimeFormatter(startTime); // TODO format according to locale?
+      dateEl = dateTimeFormatter(startTime);
     }
     let statusEl;
     if (active) {
       statusEl = i18n.getString(result || telephonyStatus, currentLocale);
-    }
-
-    let logLinkEl;
-    if (onLogCall) {
-      logLinkEl = (
-        <LogLink
-          currentLocale={currentLocale}
-          onLogCall={this.logCall}
-          isLogged={activityMatches.length > 0}
-          disabled={disableLinks}
-          isLogging={isLogging || this.state.isLogging} />
-      );
-    }
-    let contactLinkEl;
-    if (onViewContact && contactMatches.length) {
-      contactLinkEl = (
-        <ContactLink
-          onViewContact={this.viewSelectedContact}
-          disabled={disableLinks}
-          currentLocale={currentLocale}
-        />
-      );
     }
 
     return (
@@ -384,13 +319,17 @@ export default class CallItem extends Component {
         <div className={styles.details} >
           {durationEl} | {dateEl}{statusEl}
         </div>
-        <SlideMenu
-          minWidth={50}
-          maxWidth={100}
-        >
-          {contactLinkEl}
-          {logLinkEl}
-        </SlideMenu>
+        <ActionMenu
+          currentLocale={currentLocale}
+          onLogCall={onLogCall}
+          onViewEntity={onViewContact && this.viewContact}
+          hasEntity={!contactMatches.length}
+          onClickToDial={onClickToDial && this.clickToDial}
+          onClickToSms={onClickToSms && this.clickToSms}
+          phoneNumber={phoneNumber}
+          disableLinks={disableLinks}
+          disableClickToDial={disableClickToDial}
+        />
       </div>
     );
   }
@@ -420,8 +359,11 @@ CallItem.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   onLogCall: PropTypes.func,
   onViewContact: PropTypes.func,
+  onClickToDial: PropTypes.func,
+  onClickToSms: PropTypes.func,
   isLoggedContact: PropTypes.func,
-  disableLinks: PropTypes.bool.isRequired,
+  disableLinks: PropTypes.bool,
+  disableClickToDial: PropTypes.bool,
   active: PropTypes.bool.isRequired,
   dateTimeFormatter: PropTypes.func.isRequired,
   isLogging: PropTypes.bool,
@@ -429,7 +371,11 @@ CallItem.propTypes = {
 
 CallItem.defaultProps = {
   onLogCall: undefined,
+  onClickToDial: undefined,
+  onClickToSms: undefined,
   onViewContact: undefined,
   isLoggedContact: () => false,
   isLogging: false,
+  disableClickToDial: false,
+  disableLinks: false,
 };

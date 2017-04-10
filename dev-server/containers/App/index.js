@@ -157,6 +157,10 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   connectivityMonitor={phone.connectivityMonitor}
                   dateTimeFormat={phone.dateTimeFormat}
+                  call={phone.call}
+                  composeText={phone.composeText}
+                  contactSearch={phone.contactSearch}
+                  router={phone.router}
                   onLogCall={async () => { await sleep(1000); }}
                   onViewContact={() => {}}
                 />
