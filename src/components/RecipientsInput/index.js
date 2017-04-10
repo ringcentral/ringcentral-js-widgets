@@ -59,7 +59,7 @@ class RecipientsInput extends Component {
       isFocusOnInput: false,
       selectedContactIndex: 0,
       scrollDirection: null,
-      currentValue: props.value,
+      currentValue: props.value.replace(',', ''),
     };
 
     this.onReceiversInputFocus = () => {
@@ -161,19 +161,10 @@ class RecipientsInput extends Component {
       this.setState({
         isFocusOnInput: true,
       });
-      const relatedContactList = this.props.searchContactList;
-      const currentSelected = relatedContactList[this.state.selectedContactIndex];
-      if (currentSelected) {
-        this.props.addToRecipients({
-          name: currentSelected.name,
-          phoneNumber: currentSelected.phoneNumber,
-        }, false);
-      } else {
-        this.props.addToRecipients({
-          name: this.props.value.replace(',', ''),
-          phoneNumber: this.props.value.replace(',', ''),
-        }, false);
-      }
+      this.props.addToRecipients({
+        name: this.props.value.replace(',', ''),
+        phoneNumber: this.props.value.replace(',', ''),
+      }, false);
     }
   }
   render() {
