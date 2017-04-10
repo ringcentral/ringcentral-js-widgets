@@ -9,7 +9,7 @@ import i18n from './i18n';
 function RecipientName(props) {
   const className = classnames(styles.recipient, props.className);
   return (
-    <a href="#recipient" className={className} onClick={props.onClick}>
+    <a href="#recipient" className={className} onClick={props.onClick} title={props.title}>
       {props.name}
     </a>
   );
@@ -19,10 +19,12 @@ RecipientName.propTypes = {
   name: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   className: PropTypes.string,
+  title: PropTypes.string,
 };
 
 RecipientName.defaultProps = {
-  className: null
+  className: null,
+  title: null,
 };
 
 function MatchedNameList(props) {
@@ -41,6 +43,7 @@ function MatchedNameList(props) {
           <RecipientName
             key={matchedName}
             name={matchedName}
+            title={matchedName}
             onClick={
               () => props.setDefaultMatchedName(matchedName)
             }
@@ -117,7 +120,7 @@ class RecipientHeader extends Component {
       const isFind = matchedNames.find(name => name === firstMatchedName);
       if (isFind) {
         isSelected = true;
-        defaultRecipient = firstMatchedName;
+        defaultRecipient = firstMatchedName.slice(0, firstMatchedName.indexOf('|'));
       }
       const oldMatchedNames = recipient.matchedNames.slice().sort();
       if (matchedNames.sort().join('') === oldMatchedNames.join('')) {

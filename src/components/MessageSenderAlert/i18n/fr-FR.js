@@ -18,8 +18,9 @@ export default {
   [messageSenderMessages.notAnExtension]: 'Le numéro de l\'extension n\'existe pas.',
   [messageSenderMessages.networkError]: 'Connexion impossible en raison de problèmes de réseau. Veuillez réessayer plus tard.',
   [messageSenderMessages.notSmsToExtension]: `Impossible d'envoyer au numéro d'extension avec le numéro de téléphone principal.\n    Si vous souhaitez envoyer à un numéro d'extension,\n    veuillez simplement saisir ce numéro.`,
-  [messageSenderMessages.senderNumberInvalids]: `Vous ne pouvez pas envoyer de SMS 
+  [messageSenderMessages.senderNumberInvalids]: `Vous ne pouvez pas envoyer de SMS
     depuis votre numéro de téléphone. Veuillez contacter votre administrateur de compte.`,
-  [messageSenderMessages.internationalSMSNotSupported]: `L'envoi de SMS vers un numéro de téléphone international n'est pas 
+  [messageSenderMessages.internationalSMSNotSupported]: `L'envoi de SMS vers un numéro de téléphone international n'est pas
     pris en charge.`,
+  areaCode: 'indicatif régional',
 };
