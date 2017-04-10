@@ -43,8 +43,13 @@ function CallList(_ref2) {
       countryCode = _ref2.countryCode,
       onViewContact = _ref2.onViewContact,
       onLogCall = _ref2.onLogCall,
+      onClickToDial = _ref2.onClickToDial,
+      onClickToSms = _ref2.onClickToSms,
       isLoggedContact = _ref2.isLoggedContact,
       disableLinks = _ref2.disableLinks,
+      disableClickToDial = _ref2.disableClickToDial,
+      outboundSmsPermission = _ref2.outboundSmsPermission,
+      internalSmsPermission = _ref2.internalSmsPermission,
       active = _ref2.active,
       dateTimeFormatter = _ref2.dateTimeFormatter,
       loggingMap = _ref2.loggingMap;
@@ -62,8 +67,13 @@ function CallList(_ref2) {
           countryCode: countryCode,
           onViewContact: onViewContact,
           onLogCall: onLogCall,
+          onClickToDial: onClickToDial,
+          onClickToSms: onClickToSms,
           isLoggedContact: isLoggedContact,
           disableLinks: disableLinks,
+          disableClickToDial: disableClickToDial,
+          outboundSmsPermission: outboundSmsPermission,
+          internalSmsPermission: internalSmsPermission,
           active: active,
           dateTimeFormatter: dateTimeFormatter,
           isLogging: !!loggingMap[call.sessionId]
@@ -87,17 +97,28 @@ CallList.propTypes = {
   countryCode: _react.PropTypes.string.isRequired,
   onViewContact: _react.PropTypes.func,
   onLogCall: _react.PropTypes.func,
+  onClickToDial: _react.PropTypes.func,
+  onClickToSms: _react.PropTypes.func,
   isLoggedContact: _react.PropTypes.func,
   loggingMap: _react.PropTypes.object,
   disableLinks: _react.PropTypes.bool,
+  disableClickToDial: _react.PropTypes.bool,
+  outboundSmsPermission: _react.PropTypes.bool,
+  internalSmsPermission: _react.PropTypes.bool,
   dateTimeFormatter: _react.PropTypes.func.isRequired
 };
 CallList.defaultProps = {
   className: null,
   active: false,
   disableLinks: false,
+  disableClickToDial: false,
+  outboundSmsPermission: false,
+  internalSmsPermission: false,
   onViewContact: undefined,
   onLogCall: undefined,
+  isLoggedContact: undefined,
+  onClickToDial: undefined,
+  onClickToSms: undefined,
   loggingMap: {}
 };
 

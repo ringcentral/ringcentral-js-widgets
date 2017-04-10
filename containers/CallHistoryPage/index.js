@@ -14,6 +14,10 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var _reactRedux = require('react-redux');
 
+var _moduleStatuses = require('ringcentral-integration/enums/moduleStatuses');
+
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
+
 var _CallsPanel = require('../../components/CallsPanel');
 
 var _CallsPanel2 = _interopRequireDefault(_CallsPanel);
@@ -30,7 +34,10 @@ function mapToProps(_, _ref) {
       regionSettings = _ref.regionSettings,
       connectivityMonitor = _ref.connectivityMonitor,
       dateTimeFormat = _ref.dateTimeFormat,
-      callLogger = _ref.callLogger;
+      callLogger = _ref.callLogger,
+      call = _ref.call,
+      composeText = _ref.composeText,
+      rolesAndPermissions = _ref.rolesAndPermissions;
 
   return {
     title: _i18n2.default.getString('title', locale.currentLocale),
@@ -39,8 +46,11 @@ function mapToProps(_, _ref) {
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     disableLinks: !connectivityMonitor.connectivity,
+    disableClickToDial: !(call && call.isIdle),
+    outboundSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.OutboundSMS),
+    internalSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.InternalSMS),
     loggingMap: callLogger && callLogger.loggingMap,
-    showSpinner: !(callHistory.ready && locale.ready && regionSettings.ready && dateTimeFormat.ready && connectivityMonitor.ready && (!callLogger || callLogger.ready))
+    showSpinner: !(callHistory.ready && locale.ready && regionSettings.ready && dateTimeFormat.ready && connectivityMonitor.ready && (!rolesAndPermissions || rolesAndPermissions.ready) && (!call || call.status === _moduleStatuses2.default.ready) && (!composeText || composeText.ready) && (!callLogger || callLogger.ready))
   };
 }
 function mapToFunctions(_, _ref2) {
@@ -56,30 +66,40 @@ function mapToFunctions(_, _ref2) {
   } : _ref2$dateTimeFormatt,
       callLogger = _ref2.callLogger,
       onLogCall = _ref2.onLogCall,
-      isLoggedContact = _ref2.isLoggedContact;
+      isLoggedContact = _ref2.isLoggedContact,
+      call = _ref2.call,
+      composeText = _ref2.composeText,
+      router = _ref2.router,
+      _ref2$dialerRoute = _ref2.dialerRoute,
+      dialerRoute = _ref2$dialerRoute === undefined ? '/' : _ref2$dialerRoute,
+      _ref2$composeTextRout = _ref2.composeTextRoute,
+      composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout;
 
   return {
     dateTimeFormatter: dateTimeFormatter,
     onViewContact: onViewContact,
-    isLoggedContact: isLoggedContact,
-    onLogCall: onLogCall || callLogger && function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref4) {
-        var call = _ref4.call,
-            contact = _ref4.contact,
-            _ref4$redirect = _ref4.redirect,
-            redirect = _ref4$redirect === undefined ? true : _ref4$redirect;
+    onClickToDial: call ? function (phoneNumber) {
+      if (call.isIdle) {
+        router.history.push(dialerRoute);
+        call.onToNumberChange(phoneNumber);
+        call.onCall();
+      }
+    } : undefined,
+    onClickToSms: composeText ? function () {
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(contact) {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return callLogger.logCall({
-                  call: call,
-                  contact: contact,
-                  redirect: redirect
-                });
+                if (router) {
+                  router.history.push(composeTextRoute);
+                }
+                composeText.addToNumber(contact);
+                if (composeText.typingToNumber === contact.phoneNumber) {
+                  composeText.cleanTypingToNumber();
+                }
 
-              case 2:
+              case 3:
               case 'end':
                 return _context.stop();
             }
@@ -89,6 +109,36 @@ function mapToFunctions(_, _ref2) {
 
       return function (_x) {
         return _ref3.apply(this, arguments);
+      };
+    }() : undefined,
+    isLoggedContact: isLoggedContact,
+    onLogCall: onLogCall || callLogger && function () {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref5) {
+        var call = _ref5.call,
+            contact = _ref5.contact,
+            _ref5$redirect = _ref5.redirect,
+            redirect = _ref5$redirect === undefined ? true : _ref5$redirect;
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return callLogger.logCall({
+                  call: call,
+                  contact: contact,
+                  redirect: redirect
+                });
+
+              case 2:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, _this);
+      }));
+
+      return function (_x2) {
+        return _ref4.apply(this, arguments);
       };
     }()
   };

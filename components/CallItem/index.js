@@ -12,6 +12,10 @@ var _getIterator2 = require('babel-runtime/core-js/get-iterator');
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -66,6 +70,10 @@ var _callDirections2 = _interopRequireDefault(_callDirections);
 
 var _callLogHelpers = require('ringcentral-integration/lib/callLogHelpers');
 
+var _parseNumber = require('ringcentral-integration/lib/parseNumber');
+
+var _parseNumber2 = _interopRequireDefault(_parseNumber);
+
 var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
@@ -78,10 +86,6 @@ var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
 var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
-var _Spinner = require('../Spinner');
-
-var _Spinner2 = _interopRequireDefault(_Spinner);
-
 var _Select = require('../Select');
 
 var _Select2 = _interopRequireDefault(_Select);
@@ -93,6 +97,10 @@ var _DurationCounter2 = _interopRequireDefault(_DurationCounter);
 var _formatDuration = require('../../lib/formatDuration');
 
 var _formatDuration2 = _interopRequireDefault(_formatDuration);
+
+var _ActionMenu = require('../ActionMenu');
+
+var _ActionMenu2 = _interopRequireDefault(_ActionMenu);
 
 var _styles = require('./styles.scss');
 
@@ -186,69 +194,14 @@ Contact.propTypes = {
   fallBackName: _react.PropTypes.string,
   areaCode: _react.PropTypes.string.isRequired,
   countryCode: _react.PropTypes.string.isRequired,
-  phoneNumber: _react.PropTypes.string.isRequired,
+  phoneNumber: _react.PropTypes.string,
   currentLocale: _react.PropTypes.string.isRequired,
   missed: _react.PropTypes.bool.isRequired
 };
 Contact.defaultProps = {
   onSelectContact: undefined,
-  fallBackName: ''
-};
-
-function ContactLink(_ref3) {
-  var className = _ref3.className,
-      onViewContact = _ref3.onViewContact,
-      disabled = _ref3.disabled,
-      currentLocale = _ref3.currentLocale;
-
-  return _react2.default.createElement(
-    'div',
-    {
-      className: (0, _classnames2.default)(className, _styles2.default.contactLink, disabled && _styles2.default.disabled),
-      title: _i18n2.default.getString('viewContact', currentLocale),
-      onClick: !disabled && onViewContact },
-    _react2.default.createElement('i', { className: _DynamicsFont2.default.record })
-  );
-}
-ContactLink.propTypes = {
-  className: _react.PropTypes.string,
-  onViewContact: _react.PropTypes.func,
-  disabled: _react.PropTypes.bool,
-  currentLocale: _react.PropTypes.string.isRequired
-};
-ContactLink.defaultProps = {
-  className: null,
-  onViewContact: null,
-  disabled: false
-};
-
-function LogLink(_ref4) {
-  var onLogCall = _ref4.onLogCall,
-      isLogged = _ref4.isLogged,
-      disabled = _ref4.disabled,
-      isLogging = _ref4.isLogging;
-
-  var spinner = isLogging ? _react2.default.createElement(
-    'div',
-    { className: _styles2.default.spinnerContainer },
-    _react2.default.createElement(_Spinner2.default, { ringWidth: 2 })
-  ) : null;
-  return _react2.default.createElement(
-    'a',
-    {
-      className: (0, _classnames2.default)(_styles2.default.logLink, (disabled || isLogging) && _styles2.default.disabled),
-      onClick: !(disabled || isLogging) && onLogCall,
-      disabled: disabled || isLogging },
-    _react2.default.createElement('span', {
-      className: isLogged ? _DynamicsFont2.default.edit : _DynamicsFont2.default.callLog }),
-    spinner
-  );
-}
-LogLink.propTypes = {
-  onLogCall: _react.PropTypes.func,
-  isLogged: _react.PropTypes.bool.isRequired,
-  disabled: _react.PropTypes.bool,
-  isLogging: _react.PropTypes.bool.isRequired
+  fallBackName: '',
+  phoneNumber: undefined
 };
 
 var CallItem = function (_Component) {
@@ -280,10 +233,10 @@ var CallItem = function (_Component) {
     };
 
     _this.logCall = function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref6) {
-        var _ref6$redirect = _ref6.redirect,
-            redirect = _ref6$redirect === undefined ? true : _ref6$redirect,
-            selected = _ref6.selected;
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref4) {
+        var _ref4$redirect = _ref4.redirect,
+            redirect = _ref4$redirect === undefined ? true : _ref4$redirect,
+            selected = _ref4.selected;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -319,7 +272,7 @@ var CallItem = function (_Component) {
       }));
 
       return function (_x2) {
-        return _ref5.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       };
     }();
 
@@ -329,6 +282,29 @@ var CallItem = function (_Component) {
           phoneNumber: _this.getPhoneNumber(),
           contact: _this.getSelectedContact()
         });
+      }
+    };
+
+    _this.clickToSms = function () {
+      if (_this.props.onClickToSms) {
+        var phoneNumber = _this.getPhoneNumber();
+        var contact = _this.getSelectedContact();
+        if (contact) {
+          _this.props.onClickToSms((0, _extends3.default)({}, contact, {
+            phoneNumber: phoneNumber
+          }));
+        } else {
+          _this.props.onClickToSms({
+            name: _this.getFallbackContactName(),
+            phoneNumber: phoneNumber
+          });
+        }
+      }
+    };
+
+    _this.clickToDial = function () {
+      if (_this.props.onClickToDial) {
+        _this.props.onClickToDial(_this.getPhoneNumber());
       }
     };
 
@@ -422,6 +398,11 @@ var CallItem = function (_Component) {
       return (0, _callLogHelpers.isInbound)(nextProps.call) ? nextProps.call.fromMatches : nextProps.call.toMatches;
     }
   }, {
+    key: 'getFallbackContactName',
+    value: function getFallbackContactName() {
+      return (0, _callLogHelpers.isInbound)(this.props.call) ? this.props.call.from.name : this.props.call.to.name;
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -430,23 +411,30 @@ var CallItem = function (_Component) {
           telephonyStatus = _props$call.telephonyStatus,
           result = _props$call.result,
           startTime = _props$call.startTime,
-          activityMatches = _props$call.activityMatches,
           duration = _props$call.duration,
           currentLocale = _props.currentLocale,
           areaCode = _props.areaCode,
           countryCode = _props.countryCode,
           disableLinks = _props.disableLinks,
+          disableClickToDial = _props.disableClickToDial,
+          outboundSmsPermission = _props.outboundSmsPermission,
+          internalSmsPermission = _props.internalSmsPermission,
           active = _props.active,
           onViewContact = _props.onViewContact,
           onLogCall = _props.onLogCall,
+          onClickToDial = _props.onClickToDial,
+          onClickToSms = _props.onClickToSms,
           dateTimeFormatter = _props.dateTimeFormatter,
           isLogging = _props.isLogging;
 
       var phoneNumber = this.getPhoneNumber();
       var contactMatches = this.getContactMatches();
-      var fallbackContactName = (0, _callLogHelpers.isInbound)(this.props.call) ? this.props.call.from.name : this.props.call.to.name;
+      var fallbackContactName = this.getFallbackContactName();
       var ringing = (0, _callLogHelpers.isRinging)(this.props.call);
       var missed = result === _callResults2.default.missed;
+      var parsedInfo = (0, _parseNumber2.default)(phoneNumber);
+      var isExtension = !parsedInfo.hasPlus && parsedInfo.number.length <= 6;
+      var showClickToSms = !!(onClickToSms && (isExtension ? internalSmsPermission : outboundSmsPermission));
 
       var durationEl = void 0;
       if (typeof duration === 'undefined') {
@@ -456,29 +444,11 @@ var CallItem = function (_Component) {
       }
       var dateEl = void 0;
       if (!active) {
-        dateEl = dateTimeFormatter(startTime); // TODO format according to locale?
+        dateEl = dateTimeFormatter(startTime);
       }
       var statusEl = void 0;
       if (active) {
         statusEl = _i18n2.default.getString(result || telephonyStatus, currentLocale);
-      }
-
-      var logLinkEl = void 0;
-      if (onLogCall) {
-        logLinkEl = _react2.default.createElement(LogLink, {
-          currentLocale: currentLocale,
-          onLogCall: this.logCall,
-          isLogged: activityMatches.length > 0,
-          disabled: disableLinks,
-          isLogging: isLogging || this.state.isLogging });
-      }
-      var contactLinkEl = void 0;
-      if (onViewContact && contactMatches.length) {
-        contactLinkEl = _react2.default.createElement(ContactLink, {
-          onViewContact: this.viewSelectedContact,
-          disabled: disableLinks,
-          currentLocale: currentLocale
-        });
       }
 
       return _react2.default.createElement(
@@ -510,8 +480,17 @@ var CallItem = function (_Component) {
           dateEl,
           statusEl
         ),
-        contactLinkEl,
-        logLinkEl
+        _react2.default.createElement(_ActionMenu2.default, {
+          currentLocale: currentLocale,
+          onLogCall: onLogCall,
+          onViewEntity: onViewContact && this.viewContact,
+          hasEntity: !contactMatches.length,
+          onClickToDial: onClickToDial && this.clickToDial,
+          onClickToSms: showClickToSms && this.clickToSms,
+          phoneNumber: phoneNumber,
+          disableLinks: disableLinks,
+          disableClickToDial: disableClickToDial
+        })
       );
     }
   }]);
@@ -545,8 +524,13 @@ CallItem.propTypes = {
   currentLocale: _react.PropTypes.string.isRequired,
   onLogCall: _react.PropTypes.func,
   onViewContact: _react.PropTypes.func,
+  onClickToDial: _react.PropTypes.func,
+  onClickToSms: _react.PropTypes.func,
   isLoggedContact: _react.PropTypes.func,
-  disableLinks: _react.PropTypes.bool.isRequired,
+  disableLinks: _react.PropTypes.bool,
+  disableClickToDial: _react.PropTypes.bool,
+  outboundSmsPermission: _react.PropTypes.bool,
+  internalSmsPermission: _react.PropTypes.bool,
   active: _react.PropTypes.bool.isRequired,
   dateTimeFormatter: _react.PropTypes.func.isRequired,
   isLogging: _react.PropTypes.bool
@@ -554,10 +538,16 @@ CallItem.propTypes = {
 
 CallItem.defaultProps = {
   onLogCall: undefined,
+  onClickToDial: undefined,
+  onClickToSms: undefined,
   onViewContact: undefined,
   isLoggedContact: function isLoggedContact() {
     return false;
   },
-  isLogging: false
+  isLogging: false,
+  disableClickToDial: false,
+  outboundSmsPermission: false,
+  internalSmsPermission: false,
+  disableLinks: false
 };
 //# sourceMappingURL=index.js.map

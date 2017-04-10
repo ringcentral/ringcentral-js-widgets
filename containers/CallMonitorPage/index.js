@@ -57,7 +57,11 @@ function mapToFunctions(_, _ref2) {
   } : _ref2$dateTimeFormatt,
       callLogger = _ref2.callLogger,
       onLogCall = _ref2.onLogCall,
-      isLoggedContact = _ref2.isLoggedContact;
+      isLoggedContact = _ref2.isLoggedContact,
+      router = _ref2.router,
+      _ref2$composeTextRout = _ref2.composeTextRoute,
+      composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout,
+      composeText = _ref2.composeText;
 
   return {
     dateTimeFormatter: dateTimeFormatter,
@@ -91,7 +95,33 @@ function mapToFunctions(_, _ref2) {
       return function (_x) {
         return _ref3.apply(this, arguments);
       };
-    }()
+    }(),
+    onClickToSms: composeText ? function () {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(contact) {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (router) {
+                  router.history.push(composeTextRoute);
+                }
+                composeText.addToNumber(contact);
+                if (composeText.typingToNumber === contact.phoneNumber) {
+                  composeText.cleanTypingToNumber();
+                }
+
+              case 3:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, _this);
+      }));
+
+      return function (_x2) {
+        return _ref5.apply(this, arguments);
+      };
+    }() : undefined
   };
 }
 
