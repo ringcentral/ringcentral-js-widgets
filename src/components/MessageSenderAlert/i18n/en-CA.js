@@ -18,8 +18,9 @@ export default {
   [messageSenderMessages.notAnExtension]: 'The extension number does not exist.',
   [messageSenderMessages.networkError]: 'Cannot connect due to network issues. Please try again later.',
   [messageSenderMessages.notSmsToExtension]: `Cannot send To a extension number with main phone number.\n    If you want to sent to a extension Number,\n    please just enter extension Number.`,
-  [messageSenderMessages.senderNumberInvalids]: `You don't have valid phone number to send SMS 
+  [messageSenderMessages.senderNumberInvalids]: `You don't have valid phone number to send SMS
     from. Please contact your account administrator.`,
-  [messageSenderMessages.internationalSMSNotSupported]: `Sending SMS to international phone number 
+  [messageSenderMessages.internationalSMSNotSupported]: `Sending SMS to international phone number
     is not supported.`,
+  areaCode: 'area code',
 };

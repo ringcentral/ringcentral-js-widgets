@@ -20,6 +20,7 @@ export default {
   [messageSenderMessages.notSmsToExtension]: `Senden an eine Durchwahl mit Haupttelefonnummer nicht möglich.\n    Geben Sie zunächst die Durchwahl an,\n    wenn Sie an eine Durchwahl senden möchten.`,
   [messageSenderMessages.senderNumberInvalids]: `Sie haben keine gültige Telefonnummer, um SMS
     zu versenden. Wenden Sie sich an Ihren Kontoadministrator.`,
-  [messageSenderMessages.internationalSMSNotSupported]: `Das Versenden von SMS an internationale Telefonnummern 
+  [messageSenderMessages.internationalSMSNotSupported]: `Das Versenden von SMS an internationale Telefonnummern
     wird nicht unterstützt.`,
+  areaCode: 'Vorwahl',
 };
