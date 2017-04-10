@@ -25,6 +25,8 @@ function CallList({
   isLoggedContact,
   disableLinks,
   disableClickToDial,
+  outboundSmsPermission,
+  internalSmsPermission,
   active,
   dateTimeFormatter,
   loggingMap,
@@ -46,6 +48,8 @@ function CallList({
             isLoggedContact={isLoggedContact}
             disableLinks={disableLinks}
             disableClickToDial={disableClickToDial}
+            outboundSmsPermission={outboundSmsPermission}
+            internalSmsPermission={internalSmsPermission}
             active={active}
             dateTimeFormatter={dateTimeFormatter}
             isLogging={!!loggingMap[call.sessionId]}
@@ -76,6 +80,8 @@ CallList.propTypes = {
   loggingMap: PropTypes.object,
   disableLinks: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
+  outboundSmsPermission: PropTypes.bool,
+  internalSmsPermission: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
 };
 CallList.defaultProps = {
@@ -83,8 +89,11 @@ CallList.defaultProps = {
   active: false,
   disableLinks: false,
   disableClickToDial: false,
+  outboundSmsPermission: false,
+  internalSmsPermission: false,
   onViewContact: undefined,
   onLogCall: undefined,
+  isLoggedContact: undefined,
   onClickToDial: undefined,
   onClickToSms: undefined,
   loggingMap: {},

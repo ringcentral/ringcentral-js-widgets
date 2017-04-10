@@ -6,6 +6,7 @@ import {
   isInbound,
   isRinging,
 } from 'ringcentral-integration/lib/callLogHelpers';
+import parseNumber from 'ringcentral-integration/lib/parseNumber';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import callResults from 'ringcentral-integration/enums/callResults';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
@@ -265,6 +266,8 @@ export default class CallItem extends Component {
       countryCode,
       disableLinks,
       disableClickToDial,
+      outboundSmsPermission,
+      internalSmsPermission,
       active,
       onViewContact,
       onLogCall,
@@ -278,6 +281,17 @@ export default class CallItem extends Component {
     const fallbackContactName = this.getFallbackContactName();
     const ringing = isRinging(this.props.call);
     const missed = result === callResults.missed;
+    const parsedInfo = parseNumber(phoneNumber);
+    const isExtension = !parsedInfo.hasPlus &&
+      parsedInfo.number.length <= 6;
+    const showClickToSms = !!(
+      onClickToSms &&
+      (
+        isExtension ?
+          internalSmsPermission :
+          outboundSmsPermission
+      )
+    );
 
     let durationEl;
     if (typeof duration === 'undefined') {
@@ -325,7 +339,7 @@ export default class CallItem extends Component {
           onViewEntity={onViewContact && this.viewContact}
           hasEntity={!contactMatches.length}
           onClickToDial={onClickToDial && this.clickToDial}
-          onClickToSms={onClickToSms && this.clickToSms}
+          onClickToSms={showClickToSms && this.clickToSms}
           phoneNumber={phoneNumber}
           disableLinks={disableLinks}
           disableClickToDial={disableClickToDial}
@@ -364,6 +378,8 @@ CallItem.propTypes = {
   isLoggedContact: PropTypes.func,
   disableLinks: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
+  outboundSmsPermission: PropTypes.bool,
+  internalSmsPermission: PropTypes.bool,
   active: PropTypes.bool.isRequired,
   dateTimeFormatter: PropTypes.func.isRequired,
   isLogging: PropTypes.bool,
@@ -377,5 +393,7 @@ CallItem.defaultProps = {
   isLoggedContact: () => false,
   isLogging: false,
   disableClickToDial: false,
+  outboundSmsPermission: false,
+  internalSmsPermission: false,
   disableLinks: false,
 };

@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import moduleStatuses from 'ringcentral-integration/enums/moduleStatuses';
 import CallsPanel from '../../components/CallsPanel';
 import i18n from './i18n';
 
@@ -10,6 +11,8 @@ function mapToProps(_, {
   dateTimeFormat,
   callLogger,
   call,
+  composeText,
+  rolesAndPermissions,
 }) {
   return {
     title: i18n.getString('title', locale.currentLocale),
@@ -19,6 +22,14 @@ function mapToProps(_, {
     countryCode: regionSettings.countryCode,
     disableLinks: !connectivityMonitor.connectivity,
     disableClickToDial: !(call && call.isIdle),
+    outboundSmsPermission: !!(
+      rolesAndPermissions.permissions &&
+      rolesAndPermissions.permissions.OutboundSMS
+    ),
+    internalSmsPermission: !!(
+      rolesAndPermissions.permissions &&
+      rolesAndPermissions.permissions.InternalSMS
+    ),
     loggingMap: (callLogger && callLogger.loggingMap),
     showSpinner: !(
       callHistory.ready &&
@@ -26,6 +37,9 @@ function mapToProps(_, {
       regionSettings.ready &&
       dateTimeFormat.ready &&
       connectivityMonitor.ready &&
+      (!rolesAndPermissions || rolesAndPermissions.ready) &&
+      (!call || call.status === moduleStatuses.ready) &&
+      (!composeText || composeText.ready) &&
       (!callLogger || callLogger.ready)
     ),
   };

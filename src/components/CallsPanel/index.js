@@ -20,6 +20,8 @@ export default function CallsPanel({
   isLoggedContact,
   disableLinks,
   disableClickToDial,
+  outboundSmsPermission,
+  internalSmsPermission,
   dateTimeFormatter,
   showSpinner,
   title,
@@ -41,6 +43,8 @@ export default function CallsPanel({
         isLoggedContact={isLoggedContact}
         disableLinks={disableLinks}
         disableClickToDial={disableClickToDial}
+        outboundSmsPermission={outboundSmsPermission}
+        internalSmsPermission={internalSmsPermission}
         dateTimeFormatter={dateTimeFormatter}
         active={active}
         loggingMap={loggingMap}
@@ -70,6 +74,8 @@ CallsPanel.propTypes = {
   isLoggedContact: PropTypes.func,
   disableLinks: PropTypes.bool.isRequired,
   disableClickToDial: PropTypes.bool,
+  outboundSmsPermission: PropTypes.bool,
+  internalSmsPermission: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
   showSpinner: PropTypes.bool,
   title: PropTypes.string,
@@ -83,8 +89,11 @@ CallsPanel.defaultProps = {
   onClickToDial: undefined,
   onClickToSms: undefined,
   disableClickToDial: false,
+  outboundSmsPermission: false,
+  internalSmsPermission: false,
   showSpinner: false,
   title: '',
   active: false,
+  isLoggedContact: undefined,
   loggingMap: {},
 };
