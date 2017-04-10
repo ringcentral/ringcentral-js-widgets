@@ -32,6 +32,9 @@ function MessageItem(props) {
   } else {
     className = _styles2.default.messageItem;
   }
+  var contactList = props.contactList.map(function (contactName) {
+    return contactName.slice(0, contactName.indexOf('|'));
+  });
   return _react2.default.createElement(
     'div',
     { className: className },
@@ -52,7 +55,7 @@ function MessageItem(props) {
         _react2.default.createElement(
           'div',
           { className: _styles2.default.messageFrom },
-          props.contactList.join(',')
+          contactList.join(',')
         ),
         _react2.default.createElement(
           'div',
