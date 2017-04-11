@@ -29,7 +29,8 @@
   border-right: 5px solid $gray;
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
-  height: 14px;
+  box-sizing: border-box;
+  height: 24px;
   width: 0;
   right: 100%;
 }
@@ -39,7 +40,8 @@
   border-right: 5px solid #fff;
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
-  height: 13px;
+  box-sizing: border-box;
+  height: 22px;
   left: 1px;
 }
 .toggleButtonIcon {
