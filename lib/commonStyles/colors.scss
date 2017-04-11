@@ -21,7 +21,7 @@ $grey-light: #797979 !default;
 $lightblack: #303030 !default;
 
 
-
+//---- variable for theme ----//
 $primary-color: $rc-blue !default;
 $primary-color-highlight: $rc-blue-highlight !default;
 
@@ -42,6 +42,14 @@ $line-panel-background-color: #f6f6f6 !default;
 $panel-background-color: white !default;
 
 // $dialer-btn-border-color: #8cc6e1;
-$dialer-btn-border-color: $primary-color-highlight;
+$dialer-btn-border-color: $primary-color-highlight !default;
 
-$call-btn-color: #00d960;
+$call-btn-color: #4cd964  !default;
+$call-btn-press-color: rgba(76,217,100,0.4) !default;
+
+
+$sms-bubble-background-color: #d5f3fd !default;
+
+$brand-font-color: $rc-blue !default;
+$brand-font-color-highlight: $rc-blue-highlight !default;
+

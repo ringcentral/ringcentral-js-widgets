@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-widget",
-  "version": "0.2.45",
+  "version": "0.1.0",
   "description": "RingCentral Integration Widget Library",
   "main": "index.js",
   "repository": {
