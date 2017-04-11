@@ -16,12 +16,12 @@
 
 .backButton {
   position: absolute;
-  top: 8px;
-  left: 11px;
+  top: 11px;
+  left: 15px;
   font-size: 13px;
   color: #666;
   text-decoration: none;
-  transform: rotateY(180deg);
+  transform: rotate(90deg);
   &:hover {
     color: #666;
     text-decoration: none;

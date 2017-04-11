@@ -1,3 +1,5 @@
+@import '../../lib/commonStyles/colors';
+
 .root {
   position: relative;
   display: block;
@@ -48,7 +50,7 @@
   word-break: break-word;
   hyphens: auto;
   padding: 10px 15px;
-  background: #d3eaf3;
+  background: $sms-bubble-background-color;
   border-radius: 16px;
   min-height: 13px;
   box-sizing: content-box;
@@ -97,7 +99,7 @@
     height: 28px;
     bottom: -2px;
     right: -8px;
-    background: #D3EAF3;
+    background: $sms-bubble-background-color;
     border-bottom-left-radius: 33px;
     transform: rotate(-6deg);
   }

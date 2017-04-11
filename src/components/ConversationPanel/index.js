@@ -65,7 +65,7 @@ class ConversationPanel extends Component {
             to={'/messages'}
             className={styles.backButton}
           >
-            <span className={dynamicsFont.iconArrowRight} />
+            <span className={dynamicsFont.arrow} />
           </Link>
           <RecipientsHeader
             recipients={recipients}
