@@ -412,6 +412,7 @@ var CallItem = function (_Component) {
           result = _props$call.result,
           startTime = _props$call.startTime,
           duration = _props$call.duration,
+          activityMatches = _props$call.activityMatches,
           currentLocale = _props.currentLocale,
           areaCode = _props.areaCode,
           countryCode = _props.countryCode,
@@ -489,7 +490,9 @@ var CallItem = function (_Component) {
           onClickToSms: showClickToSms && this.clickToSms,
           phoneNumber: phoneNumber,
           disableLinks: disableLinks,
-          disableClickToDial: disableClickToDial
+          disableClickToDial: disableClickToDial,
+          isLogging: isLogging || this.state.isLogging,
+          isLogged: activityMatches.length > 0
         })
       );
     }
