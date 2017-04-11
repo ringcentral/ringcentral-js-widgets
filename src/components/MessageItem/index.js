@@ -13,7 +13,16 @@ export default function MessageItem(props) {
     className = styles.messageItem;
   }
   const contactList = props.contactList.map(
-    contactName => contactName.slice(0, contactName.indexOf('|')));
+    (contactName) => {
+      if (contactName.indexOf('|') === -1) {
+        return contactName;
+      }
+      return contactName.slice(0, contactName.indexOf('|'));
+    }
+  );
+  const messageIcon = (contactList.length > 1) ?
+    dynamicsFont.groupConversation : dynamicsFont.composeText;
+
   return (
     <div className={className}>
       <Link
@@ -21,7 +30,7 @@ export default function MessageItem(props) {
         className={styles.messageLink}
       >
         <div className={styles.typeIcon}>
-          <span className={dynamicsFont.composeText} />
+          <span className={messageIcon} />
         </div>
         <div className={styles.messageContent}>
           <div className={styles.messageFrom}>
