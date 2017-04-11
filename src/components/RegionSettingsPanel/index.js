@@ -2,17 +2,16 @@ import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import 'font-awesome/css/font-awesome.css';
 
-import Header from '../Header';
+import BackHeader from '../BackHeader';
 import Panel from '../Panel';
 import Line from '../Line';
 import InputField from '../InputField';
 import TextInput from '../TextInput';
-import Select from '../Select';
+import Select from '../DropdownSelect';
 
 import styles from './styles.scss';
 import i18n from './i18n';
 import countryNames from '../../lib/countryNames';
-
 
 export default class RegionSettings extends Component {
   constructor(props) {
@@ -43,8 +42,8 @@ export default class RegionSettings extends Component {
       });
     }
   }
-  onCountryCodeChange = (e) => {
-    const value = e.currentTarget.value;
+  onCountryCodeChange = (option) => {
+    const value = option.isoCode;
     if (value !== this.state.countryCodeValue) {
       this.setState({
         countryCodeValue: value,
@@ -70,16 +69,24 @@ export default class RegionSettings extends Component {
       this.props.onBackButtonClick();
     }
   }
+  renderHandler = option =>
+    `(+${option.callingCode}) ${countryNames.getString(option.isoCode, this.props.currentLocale)}`
+
+  renderValue = (value) => {
+    // console.debug('renderValue:', value, this.props.availableCountries);
+    const selectedOption = this.props.availableCountries.find(
+      country => country.isoCode === value
+    );
+
+    return `(+${selectedOption.callingCode})
+        ${countryNames.getString(selectedOption.isoCode, this.props.currentLocale)}`;
+  }
+
   render() {
     const buttons = [];
     const hasChanges = this.state.areaCodeValue !== this.props.areaCode ||
       this.state.countryCodeValue !== this.props.countryCode;
     if (this.props.onBackButtonClick) {
-      buttons.push({
-        label: <i className="fa fa-chevron-left" />,
-        onClick: this.onBackClick,
-        placement: 'left',
-      });
       buttons.push({
         label: <i className="fa fa-undo" />,
         onClick: this.onResetClick,
@@ -110,29 +117,30 @@ export default class RegionSettings extends Component {
 
     return (
       <div className={classnames(styles.root, this.props.className)}>
-        <Header
+        <BackHeader
           buttons={buttons}
+          onBackClick={this.onBackClick}
           >
           {i18n.getString('title', this.props.currentLocale)}
-        </Header>
+        </BackHeader>
         <Panel className={styles.content}>
           <div className={styles.hint}>
             {i18n.getString(messageId, this.props.currentLocale)}
           </div>
-            <InputField
-              className={styles.inputField}
-              label={i18n.getString('country', this.props.currentLocale)}>
-              <Select
-                className={styles.select}
-                value={this.state.countryCodeValue}
-                onChange={this.onCountryCodeChange}
-                options={this.props.availableCountries}
-                valueFunction={option => option.isoCode}
-                renderFunction={
-                  option => `(+${option.callingCode}) ${countryNames.getString(option.isoCode, this.props.currentLocale)}`
-                }
-              />
-            </InputField>
+          <InputField
+            className={styles.inputField}
+            label={i18n.getString('country', this.props.currentLocale)}>
+            <Select
+              className={styles.select}
+              value={this.state.countryCodeValue}
+              onChange={this.onCountryCodeChange}
+              options={this.props.availableCountries}
+              dropdownAlign="left"
+              valueFunction={option => option.isoCode}
+              renderFunction={this.renderHandler}
+              renderValue={this.renderValue}
+            />
+          </InputField>
           {showAreaCode && (
             <InputField
               className={styles.inputField}

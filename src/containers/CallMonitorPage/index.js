@@ -38,19 +38,33 @@ function mapToFunctions(_, {
   callLogger,
   onLogCall,
   isLoggedContact,
-
+  router,
+  composeTextRoute = '/composeText',
+  composeText,
 }) {
   return {
     dateTimeFormatter,
     onViewContact,
     isLoggedContact,
-    onLogCall: onLogCall || (callLogger && (async ({ call, contact, redirect = true }) => {
+    onLogCall: onLogCall ||
+    (callLogger && (async ({ call, contact, redirect = true }) => {
       await callLogger.logCall({
         call,
         contact,
         redirect,
       });
     })),
+    onClickToSms: composeText ?
+      async (contact) => {
+        if (router) {
+          router.history.push(composeTextRoute);
+        }
+        composeText.addToNumber(contact);
+        if (composeText.typingToNumber === contact.phoneNumber) {
+          composeText.cleanTypingToNumber();
+        }
+      } :
+      undefined,
   };
 }
 

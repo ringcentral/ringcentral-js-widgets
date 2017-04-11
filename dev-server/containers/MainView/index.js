@@ -15,8 +15,8 @@ const tabs = [
     ),
   },
   {
-    icon: <span className={dynamicsFont.iconCall} />,
-    activityIcon: <span className={dynamicsFont.callHover} />,
+    icon: <span className={dynamicsFont.active} />,
+    activityIcon: <span className={dynamicsFont.activeHover} />,
     label: 'Calls',
     path: '/calls',
   },
@@ -27,27 +27,27 @@ const tabs = [
     path: '/history',
   },
   {
-    icon: <span className={dynamicsFont.iconConference} />,
-    activityIcon: <span className={dynamicsFont.iconConference} />,
+    icon: <span className={dynamicsFont.conference} />,
+    activityIcon: <span className={dynamicsFont.conferenceHover} />,
     label: 'Conference',
     path: '/conference',
   },
   {
-    icon: <span className={dynamicsFont.iconCallDial} />,
+    icon: <span className={dynamicsFont.dial} />,
     activityIcon: <span className={dynamicsFont.dialHover} />,
     label: 'Dial Pad',
     path: '/',
   },
   {
-    icon: <span className={dynamicsFont.iconMessageAll} />,
-    activityIcon: <span className={dynamicsFont.iconMessageAllHover} />,
+    icon: <span className={dynamicsFont.message} />,
+    activityIcon: <span className={dynamicsFont.messageHover} />,
     label: 'Messages',
     path: '/messages',
     noticeCounts: 0,
   },
   {
-    icon: <span className={dynamicsFont.iconComposeText} />,
-    activityIcon: <span className={dynamicsFont.iconComposeText} />,
+    icon: <span className={dynamicsFont.composeText} />,
+    activityIcon: <span className={dynamicsFont.composeTextHover} />,
     label: 'Compose Text',
     path: '/composeText',
     // noticeCounts: 2,
@@ -67,9 +67,9 @@ const MainView = connect((state, props) => {
       props.rolesAndPermissions.permissions.InternalSMS !== true
       ) {
     filterTabs = tabs.filter(tab =>
-                tab.label !== 'SMS' && tab.label !== 'Messages');
+                tab.label !== 'Compose Text' && tab.label !== 'Messages');
     if (props.rolesAndPermissions.permissions.ReadMessages === true) {
-      filterTabs = tabs.filter(tab => tab.label !== 'SMS');
+      filterTabs = tabs.filter(tab => tab.label !== 'Compose Text');
     }
   }
   return {

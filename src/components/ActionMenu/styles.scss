@@ -1,0 +1,36 @@
+
+.root {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.baseGroup {
+  right: 15px;
+}
+.secondGroup {
+  right: 50px;
+}
+
+.call {
+  font-size: 17px;
+  position: absolute;
+  top: 8px;
+}
+
+.sms {
+  font-size: 17px;
+  position: absolute;
+  bottom: 11px;
+}
+
+.log {
+  font-size: 15px;
+  position: absolute;
+  bottom: 12px;
+}
+.entity {
+  font-size: 15px;
+  position: absolute;
+  top: 10px;
+}

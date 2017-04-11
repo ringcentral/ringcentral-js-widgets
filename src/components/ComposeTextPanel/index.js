@@ -61,9 +61,11 @@ class ComposeTextPanel extends Component {
       this.props.searchContact(e.currentTarget.value);
     };
 
-    this.addToRecipients = (receiver) => {
+    this.addToRecipients = (receiver, shouldClean = true) => {
       this.props.addToNumber(receiver);
-      this.props.cleanTypingToNumber();
+      if (shouldClean) {
+        this.props.cleanTypingToNumber();
+      }
     };
 
     this.removeFromRecipients = (phoneNumber) => {
@@ -125,7 +127,6 @@ class ComposeTextPanel extends Component {
           onChange={this.onSenderChange}
         />
       ) : null;
-
     return (
       <div className={styles.root}>
         {noSenderAlert}

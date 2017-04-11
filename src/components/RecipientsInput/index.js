@@ -58,34 +58,40 @@ class RecipientsInput extends Component {
     this.state = {
       isFocusOnInput: false,
       selectedContactIndex: 0,
+      scrollDirection: null,
+      currentValue: props.value.replace(',', ''),
     };
 
     this.onReceiversInputFocus = () => {
       this.setState({
         isFocusOnInput: true,
-        selectedContactIndex: 0,
       });
     };
 
     this.onReceiversInputBlur = () => {
       this.setState({
         isFocusOnInput: false,
-        selectedContactIndex: -1,
       });
     };
 
     this.setSelectedIndex = (index) => {
       this.setState({
         selectedContactIndex: index,
+        scrollDirection: null,
       });
     };
-
+    this.scrollOperation = (direction) => {
+      if (direction === 'ArrowDown' || direction === 'ArrowUp') {
+        this.setState({
+          scrollDirection: direction,
+        });
+      }
+    };
     this.addSelectedContactIndex = () => {
-      const length = this.props.searchContactList.length < 5 ?
-                      this.props.searchContactList.length : 5;
+      const length = this.props.searchContactList.length;
       if (this.state.selectedContactIndex >= (length - 1)) {
         this.setState({
-          selectedContactIndex: 0,
+          selectedContactIndex: length - 1,
         });
       } else {
         this.setState(preState => ({
@@ -95,15 +101,13 @@ class RecipientsInput extends Component {
     };
 
     this.reduceSelectedContactIndex = () => {
-      const length = this.props.searchContactList.length < 5 ?
-                      this.props.searchContactList.length : 5;
       if (this.state.selectedContactIndex > 0) {
         this.setState(preState => ({
           selectedContactIndex: (preState.selectedContactIndex - 1),
         }));
       } else {
         this.setState({
-          selectedContactIndex: (length - 1),
+          selectedContactIndex: 0,
         });
       }
     };
@@ -112,8 +116,10 @@ class RecipientsInput extends Component {
       if (this.state.isFocusOnInput && this.props.value.length >= 3) {
         if (e.key === 'ArrowUp') {
           this.reduceSelectedContactIndex();
+          this.scrollOperation(e.key);
         } else if (e.key === 'ArrowDown') {
           this.addSelectedContactIndex();
+          this.scrollOperation(e.key);
         }
       } else {
         this.setState({
@@ -125,12 +131,8 @@ class RecipientsInput extends Component {
         if (this.props.value.length === 0) {
           return;
         }
-        let relatedContactList = this.props.value.length >= 3 ?
+        const relatedContactList = this.props.value.length >= 3 ?
           this.props.searchContactList : [];
-        // MAX 5
-        if (relatedContactList.length > 5) {
-          relatedContactList = relatedContactList.slice(0, 5);
-        }
         const currentSelected
           = relatedContactList[this.state.selectedContactIndex];
         if (currentSelected) {
@@ -140,8 +142,8 @@ class RecipientsInput extends Component {
           });
         } else {
           this.props.addToRecipients({
-            name: this.props.value,
-            phoneNumber: this.props.value,
+            name: this.props.value.replace(',', ''),
+            phoneNumber: this.props.value.replace(',', ''),
           });
           this.props.onClean();
         }
@@ -149,19 +151,29 @@ class RecipientsInput extends Component {
       }
     };
   }
-
+  componentWillReceiveProps(newProps) {
+    this.setState({
+      currentValue: newProps.value.replace(',', '')
+    });
+    if (newProps.value &&
+        newProps.value !== this.props.value &&
+        this.props.value[this.props.value.length - 1] === ',') {
+      this.setState({
+        isFocusOnInput: true,
+      });
+      this.props.addToRecipients({
+        name: this.props.value.replace(',', ''),
+        phoneNumber: this.props.value.replace(',', ''),
+      }, false);
+    }
+  }
   render() {
-    let relatedContactList = this.props.value.length >= 3 ?
+    const relatedContactList = this.props.value.length >= 3 ?
       this.props.searchContactList : [];
     const label = this.props.label ?
       (
         <label>{this.props.label}</label>
       ) : null;
-    // MAX 5
-    if (relatedContactList.length > 5) {
-      relatedContactList = relatedContactList.slice(0, 5);
-    }
-
     return (
       <div className={styles.container} onKeyDown={this.handleHotKey}>
         {label}
@@ -173,7 +185,7 @@ class RecipientsInput extends Component {
           <div className={styles.inputField}>
             <input
               name="receiver"
-              value={this.props.value}
+              value={this.state.currentValue}
               onChange={this.props.onChange}
               onKeyUp={this.props.onKeyUp}
               onKeyDown={this.props.onKeyDown}
@@ -195,6 +207,7 @@ class RecipientsInput extends Component {
           />
         </div>
         <ContactDropdownList
+          scrollDirection={this.state.scrollDirection}
           selectedIndex={this.state.selectedContactIndex}
           setSelectedIndex={this.setSelectedIndex}
           addToRecipients={this.props.addToRecipients}

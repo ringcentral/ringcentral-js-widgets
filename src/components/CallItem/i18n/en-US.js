@@ -14,6 +14,7 @@ export default {
   'phoneSource.account': '(Account)',
   'phoneSource.contact': '(Contact)',
   'phoneSource.lead': '(Lead)',
+  'phoneSource.opportunity': '(Opportunity)',
   'phoneType.phone': '(Phone)',
   'phoneType.home': '(Home Phone)',
   'phoneType.business': '(Business Phone)',

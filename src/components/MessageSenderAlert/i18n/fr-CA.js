@@ -18,8 +18,9 @@ export default {
   [messageSenderMessages.notAnExtension]: 'Le numéro de poste n\'existe pas.',
   [messageSenderMessages.networkError]: 'Connexion impossible en raison de problèmes de réseau. Veuillez réessayer plus tard.',
   [messageSenderMessages.notSmsToExtension]: `Impossible d'envoyer au numéro de poste avec le numéro de téléphone principal.\n    Si vous souhaitez envoyer à un numéro de poste,\n    veuillez simplement saisir ce numéro.`,
-  [messageSenderMessages.senderNumberInvalids]: `Vous ne possédez pas un numéro de téléphone valide à partir duquel 
+  [messageSenderMessages.senderNumberInvalids]: `Vous ne possédez pas un numéro de téléphone valide à partir duquel
     envoyer des textos. Veuillez communiquer avec votre administrateur de compte.`,
   [messageSenderMessages.internationalSMSNotSupported]: `L'envoi de textos vers un numéro de téléphone international n'est pas
     pris en charge.`,
+  areaCode: 'indicatif régional',
 };
