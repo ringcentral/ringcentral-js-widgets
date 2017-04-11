@@ -256,10 +256,11 @@ export default class CallItem extends Component {
     const {
       call: {
         direction,
-      telephonyStatus,
-      result,
-      startTime,
-      duration,
+        telephonyStatus,
+        result,
+        startTime,
+        duration,
+        activityMatches,
       },
       currentLocale,
       areaCode,
@@ -343,6 +344,8 @@ export default class CallItem extends Component {
           phoneNumber={phoneNumber}
           disableLinks={disableLinks}
           disableClickToDial={disableClickToDial}
+          isLogging={isLogging || this.state.isLogging}
+          isLogged={activityMatches.length > 0}
         />
       </div>
     );
