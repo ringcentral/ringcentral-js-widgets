@@ -27,9 +27,14 @@ function PhoneNumber({
 
 PhoneNumber.propTypes = {
   formatPhone: PropTypes.func.isRequired,
-  phoneNumber: PropTypes.string.isRequired,
-  usageType: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string,
+  usageType: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
+};
+
+PhoneNumber.defaultProps = {
+  phoneNumber: null,
+  usageType: null,
 };
 
 function FromNumberSelect({
@@ -97,7 +102,7 @@ function FromNumberSelect({
 }
 
 FromNumberSelect.propTypes = {
-  fromNumber: PropTypes.string.isRequired,
+  fromNumber: PropTypes.string,
   formatPhone: PropTypes.func.isRequired,
   fromNumbers: PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string,
@@ -106,6 +111,10 @@ FromNumberSelect.propTypes = {
   onChange: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
   hidden: PropTypes.bool.isRequired,
+};
+
+FromNumberSelect.defaultProps = {
+  fromNumber: null,
 };
 
 function DialerPanel({

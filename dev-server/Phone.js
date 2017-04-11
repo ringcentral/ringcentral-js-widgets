@@ -212,12 +212,14 @@ export default class Phone extends RcModule {
       storage: this.storage,
       rolesAndPermissions: this.rolesAndPermissions,
       tabManager: this.tabManager,
+      addWebphone: true,
       getState: () => this.state.callingSettings,
     }));
     this.addModule('webphone', new Webphone({
       appKey: apiConfig.appKey,
       appName: 'RingCentral Widget',
       appVersion: '0.1.0',
+      alert: this.alert,
       auth: this.auth,
       client: this.client,
       storage: this.storage,
