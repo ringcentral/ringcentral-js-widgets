@@ -335,7 +335,7 @@ export default class CallItem extends Component {
         </div>
         <ActionMenu
           currentLocale={currentLocale}
-          onLogCall={onLogCall}
+          onLogCall={onLogCall && this.logCall}
           onViewEntity={onViewContact && this.viewContact}
           hasEntity={!contactMatches.length}
           onClickToDial={onClickToDial && this.clickToDial}
