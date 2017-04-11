@@ -34,7 +34,10 @@
 .selectedValue {
   margin-left: 0;
   display: block;
-  margin-right: 20px;
+  margin-right: 35px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .icon {

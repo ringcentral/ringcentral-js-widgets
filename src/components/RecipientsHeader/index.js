@@ -72,6 +72,7 @@ class RecipientsHeader extends Component {
 
   render() {
     const recipients = this.props.recipients;
+    console.debug('!!!', recipients);
     if (recipients.length === 0) {
       return null;
     }
