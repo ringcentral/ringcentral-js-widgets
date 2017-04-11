@@ -11,13 +11,16 @@
   vertical-align: baseline;
   color: #797979;
   font-weight: 500;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 
   a {
     color: inherit;
     text-decoration: none;
     display: block;
     padding: 0 16px 0 10px;
-
+    height: 36px;
     &:focus {
       outline: none;
       text-decoration: none;
