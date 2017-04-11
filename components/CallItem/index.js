@@ -482,7 +482,7 @@ var CallItem = function (_Component) {
         ),
         _react2.default.createElement(_ActionMenu2.default, {
           currentLocale: currentLocale,
-          onLogCall: onLogCall,
+          onLogCall: onLogCall && this.logCall,
           onViewEntity: onViewContact && this.viewContact,
           hasEntity: !contactMatches.length,
           onClickToDial: onClickToDial && this.clickToDial,
