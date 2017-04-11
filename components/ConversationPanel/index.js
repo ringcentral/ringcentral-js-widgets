@@ -122,7 +122,7 @@ var ConversationPanel = function (_Component) {
               to: '/messages',
               className: _styles2.default.backButton
             },
-            _react2.default.createElement('span', { className: _DynamicsFont2.default.iconArrowRight })
+            _react2.default.createElement('span', { className: _DynamicsFont2.default.arrow })
           ),
           _react2.default.createElement(_RecipientsHeader2.default, {
             recipients: recipients,
