@@ -33,8 +33,13 @@ function MessageItem(props) {
     className = _styles2.default.messageItem;
   }
   var contactList = props.contactList.map(function (contactName) {
+    if (contactName.indexOf('|') === -1) {
+      return contactName;
+    }
     return contactName.slice(0, contactName.indexOf('|'));
   });
+  var messageIcon = contactList.length > 1 ? _DynamicsFont2.default.groupConversation : _DynamicsFont2.default.composeText;
+
   return _react2.default.createElement(
     'div',
     { className: className },
@@ -47,7 +52,7 @@ function MessageItem(props) {
       _react2.default.createElement(
         'div',
         { className: _styles2.default.typeIcon },
-        _react2.default.createElement('span', { className: _DynamicsFont2.default.composeText })
+        _react2.default.createElement('span', { className: messageIcon })
       ),
       _react2.default.createElement(
         'div',

@@ -120,6 +120,7 @@ var RecipientsHeader = function (_Component) {
     key: 'render',
     value: function render() {
       var recipients = this.props.recipients;
+      console.debug('!!!', recipients);
       if (recipients.length === 0) {
         return null;
       }
