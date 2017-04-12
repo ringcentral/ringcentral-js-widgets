@@ -30,7 +30,9 @@ function mapToProps(_, _ref) {
       regionSettings = _ref.regionSettings,
       connectivityMonitor = _ref.connectivityMonitor,
       dateTimeFormat = _ref.dateTimeFormat,
-      callLogger = _ref.callLogger;
+      callLogger = _ref.callLogger,
+      composeText = _ref.composeText,
+      rolesAndPermissions = _ref.rolesAndPermissions;
 
   return {
     active: true,
@@ -40,8 +42,10 @@ function mapToProps(_, _ref) {
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     disableLinks: !connectivityMonitor.connectivity,
+    outboundSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.OutboundSMS),
+    internalSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.InternalSMS),
     loggingMap: callLogger && callLogger.loggingMap,
-    showSpinner: !(locale.ready && callMonitor.ready && regionSettings.ready && connectivityMonitor.ready && dateTimeFormat.ready && (!callLogger || callLogger.ready))
+    showSpinner: !(locale.ready && callMonitor.ready && regionSettings.ready && connectivityMonitor.ready && dateTimeFormat.ready && (!callLogger || callLogger.ready) && (!rolesAndPermissions || rolesAndPermissions.ready) && (!composeText || composeText.ready))
   };
 }
 function mapToFunctions(_, _ref2) {
