@@ -21,15 +21,21 @@ class Environment extends Component {
     this.state = {
       hidden: true,
       serverValue: props.server,
+      recordingHostValue: props.recordingHost,
       enabledValue: props.enabled,
     };
 
-    this.onServerChange = e => {
+    this.onServerChange = (e) => {
       this.setState({
         serverValue: e.currentTarget.value,
       });
     };
-    this.onToggleEnabled = e => {
+    this.onRecordingHostChange = (e) => {
+      this.setState({
+        recordingHostValue: e.currentTarget.value,
+      });
+    };
+    this.onToggleEnabled = (e) => {
       this.setState({
         enabledValue: !this.state.enabledValue,
       });
@@ -37,6 +43,7 @@ class Environment extends Component {
     this.onOk = () => {
       this.props.onSetData({
         server: this.state.serverValue,
+        recordingHost: this.state.recordingHostValue,
         enabled: this.state.enabledValue,
       });
       this.toggleEnv();
@@ -44,6 +51,7 @@ class Environment extends Component {
     this.onCancel = () => {
       this.setState({
         serverValue: this.props.server,
+        recordingHostValue: this.props.recordingHost,
         enabledValue: this.props.enabled,
       });
       this.toggleEnv();
@@ -61,6 +69,11 @@ class Environment extends Component {
     if (nextProps.server !== this.props.server) {
       this.setState({
         serverValue: nextProps.server,
+      });
+    }
+    if (nextProps.recordingHost !== this.props.recordingHost) {
+      this.setState({
+        recordingHostValue: nextProps.recordingHost,
       });
     }
     if (nextProps.enabled !== this.props.enabled) {
@@ -86,7 +99,8 @@ class Environment extends Component {
               onClick: this.onOk,
               disabled: (
                 this.state.serverValue === this.props.server &&
-                this.state.enabledValue === this.props.enabled
+                this.state.enabledValue === this.props.enabled &&
+                this.state.recordingHostValue === this.props.recordingHost
               ),
               placement: 'right',
             },
@@ -98,6 +112,13 @@ class Environment extends Component {
             <TextInput
               value={this.state.serverValue}
               onChange={this.onServerChange}
+            />
+          </Line>
+          <Line>
+            Recording Host
+            <TextInput
+              value={this.state.recordingHostValue}
+              onChange={this.onRecordingHostChange}
             />
           </Line>
           <IconLine
@@ -119,6 +140,7 @@ class Environment extends Component {
 
 Environment.propTypes = {
   server: PropTypes.string.isRequired,
+  recordingHost: PropTypes.string.isRequired,
   enabled: PropTypes.bool.isRequired,
   onSetData: PropTypes.func.isRequired,
 };
