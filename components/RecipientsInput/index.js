@@ -42,28 +42,36 @@ var _ContactDropdownList2 = _interopRequireDefault(_ContactDropdownList);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function SelectedRecipientItem(props) {
-  var className = props.phoneNumber.length > 5 ? _styles2.default.blue : null;
+function SelectedRecipientItem(_ref) {
+  var phoneNumber = _ref.phoneNumber,
+      _ref$name = _ref.name,
+      name = _ref$name === undefined ? phoneNumber : _ref$name,
+      onRemove = _ref.onRemove;
+
+  var className = phoneNumber.length > 5 ? _styles2.default.blue : null;
   return _react2.default.createElement(
     'li',
     { className: className },
     _react2.default.createElement(
       'span',
       null,
-      props.name
+      name
     ),
     _react2.default.createElement(_RemoveButton2.default, {
       className: _styles2.default.removeReceiver,
-      onClick: props.onRemove,
+      onClick: onRemove,
       visibility: true
     })
   );
 }
 
 SelectedRecipientItem.propTypes = {
-  name: _react.PropTypes.string.isRequired,
+  name: _react.PropTypes.string,
   phoneNumber: _react.PropTypes.string.isRequired,
   onRemove: _react.PropTypes.func.isRequired
+};
+SelectedRecipientItem.defaultProps = {
+  name: undefined
 };
 
 function SelectedRecipients(props) {
