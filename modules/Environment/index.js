@@ -65,8 +65,9 @@ var Environment = function (_RcModule) {
   function Environment(_ref) {
     var client = _ref.client,
         globalStorage = _ref.globalStorage,
+        defaultRecordingHost = _ref.defaultRecordingHost,
         sdkConfig = _ref.sdkConfig,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'globalStorage', 'sdkConfig']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'globalStorage', 'defaultRecordingHost', 'sdkConfig']);
     (0, _classCallCheck3.default)(this, Environment);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Environment.__proto__ || (0, _getPrototypeOf2.default)(Environment)).call(this, (0, _extends3.default)({}, options, {
@@ -78,12 +79,20 @@ var Environment = function (_RcModule) {
     _this._sdkConfig = sdkConfig;
     _this._reducer = (0, _getEnvironmentReducer2.default)(_this.actionTypes);
     _this._serverStorageKey = 'environmentServer';
+    _this._recordingHostStoragekey = 'environmentRecordingHost';
     _this._enabledStorageKey = 'environmentEnabled';
     _this._globalStorage.registerReducer({
       key: _this._serverStorageKey,
       reducer: (0, _getEnvironmentReducer.getServerReducer)({
         types: _this.actionTypes,
         defaultServer: _ringcentral2.default.server.sandbox
+      })
+    });
+    _this._globalStorage.registerReducer({
+      key: _this._recordingHostStoragekey,
+      reducer: (0, _getEnvironmentReducer.getRecordingHostReducer)({
+        types: _this.actionTypes,
+        defaultRecordingHost: defaultRecordingHost || 'https://s3.ap-northeast-2.amazonaws.com/fetch-call-recording/test/index.html'
       })
     });
     _this._globalStorage.registerReducer({
@@ -139,15 +148,19 @@ var Environment = function (_RcModule) {
     key: 'setData',
     value: function setData(_ref2) {
       var server = _ref2.server,
+          recordingHost = _ref2.recordingHost,
           enabled = _ref2.enabled;
 
       var environmentChanged = this.enabled !== enabled || enabled && this.server !== server;
       if (environmentChanged) {
+        // recordingHost changed no need to set to SDK
         this._changeEnvironment(enabled, server);
       }
+
       this.store.dispatch({
         type: this.actionTypes.setData,
         server: server,
+        recordingHost: recordingHost,
         enabled: enabled,
         environmentChanged: environmentChanged
       });
@@ -166,6 +179,11 @@ var Environment = function (_RcModule) {
     key: 'server',
     get: function get() {
       return this._globalStorage.getItem(this._serverStorageKey);
+    }
+  }, {
+    key: 'recordingHost',
+    get: function get() {
+      return this._globalStorage.getItem(this._recordingHostStoragekey);
     }
   }, {
     key: 'enabled',

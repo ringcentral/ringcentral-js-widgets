@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getChangeCounterReducer = getChangeCounterReducer;
 exports.getServerReducer = getServerReducer;
+exports.getRecordingHostReducer = getRecordingHostReducer;
 exports.getEnabledReducer = getEnabledReducer;
 exports.default = getEnvironmentReducer;
 
@@ -43,12 +44,27 @@ function getServerReducer(_ref2) {
   };
 }
 
+function getRecordingHostReducer(_ref4) {
+  var types = _ref4.types,
+      defaultRecordingHost = _ref4.defaultRecordingHost;
+
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultRecordingHost;
+    var _ref5 = arguments[1];
+    var type = _ref5.type,
+        recordingHost = _ref5.recordingHost;
+
+    if (type === types.setData) return recordingHost;
+    return state;
+  };
+}
+
 function getEnabledReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-    var _ref4 = arguments[1];
-    var type = _ref4.type,
-        enabled = _ref4.enabled;
+    var _ref6 = arguments[1];
+    var type = _ref6.type,
+        enabled = _ref6.enabled;
 
     if (type === types.setData) return enabled;
     return state;
