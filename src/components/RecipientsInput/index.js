@@ -55,7 +55,7 @@ SelectedRecipients.propTypes = {
   removeFromRecipients: PropTypes.func.isRequired,
   items: React.PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
   })).isRequired,
 };
 
@@ -239,7 +239,7 @@ RecipientsInput.propTypes = {
   })).isRequired,
   recipients: PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
   })).isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,

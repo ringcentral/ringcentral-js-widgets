@@ -199,7 +199,7 @@ ComposeTextPanel.propTypes = {
   senderNumber: PropTypes.string,
   toNumbers: React.PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
   })).isRequired,
   outboundSMS: PropTypes.bool,
 };
