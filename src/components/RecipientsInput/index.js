@@ -3,14 +3,18 @@ import styles from './styles.scss';
 import RemoveButton from '../RemoveButton';
 import ContactDropdownList from '../ContactDropdownList';
 
-function SelectedRecipientItem(props) {
-  const className = props.phoneNumber.length > 5 ? styles.blue : null;
+function SelectedRecipientItem({
+  phoneNumber,
+  name = phoneNumber,
+  onRemove,
+}) {
+  const className = phoneNumber.length > 5 ? styles.blue : null;
   return (
     <li className={className}>
-      <span>{props.name}</span>
+      <span>{name}</span>
       <RemoveButton
         className={styles.removeReceiver}
-        onClick={props.onRemove}
+        onClick={onRemove}
         visibility
       />
     </li>
@@ -18,9 +22,12 @@ function SelectedRecipientItem(props) {
 }
 
 SelectedRecipientItem.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   phoneNumber: PropTypes.string.isRequired,
   onRemove: PropTypes.func.isRequired,
+};
+SelectedRecipientItem.defaultProps = {
+  name: undefined,
 };
 
 function SelectedRecipients(props) {
