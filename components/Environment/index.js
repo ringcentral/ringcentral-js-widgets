@@ -78,12 +78,18 @@ var Environment = function (_Component) {
     _this.state = {
       hidden: true,
       serverValue: props.server,
+      recordingHostValue: props.recordingHost,
       enabledValue: props.enabled
     };
 
     _this.onServerChange = function (e) {
       _this.setState({
         serverValue: e.currentTarget.value
+      });
+    };
+    _this.onRecordingHostChange = function (e) {
+      _this.setState({
+        recordingHostValue: e.currentTarget.value
       });
     };
     _this.onToggleEnabled = function (e) {
@@ -94,6 +100,7 @@ var Environment = function (_Component) {
     _this.onOk = function () {
       _this.props.onSetData({
         server: _this.state.serverValue,
+        recordingHost: _this.state.recordingHostValue,
         enabled: _this.state.enabledValue
       });
       _this.toggleEnv();
@@ -101,6 +108,7 @@ var Environment = function (_Component) {
     _this.onCancel = function () {
       _this.setState({
         serverValue: _this.props.server,
+        recordingHostValue: _this.props.recordingHost,
         enabledValue: _this.props.enabled
       });
       _this.toggleEnv();
@@ -122,6 +130,11 @@ var Environment = function (_Component) {
       if (nextProps.server !== this.props.server) {
         this.setState({
           serverValue: nextProps.server
+        });
+      }
+      if (nextProps.recordingHost !== this.props.recordingHost) {
+        this.setState({
+          recordingHostValue: nextProps.recordingHost
         });
       }
       if (nextProps.enabled !== this.props.enabled) {
@@ -148,7 +161,7 @@ var Environment = function (_Component) {
             }, {
               label: _react2.default.createElement('i', { className: 'fa fa-save' }),
               onClick: this.onOk,
-              disabled: this.state.serverValue === this.props.server && this.state.enabledValue === this.props.enabled,
+              disabled: this.state.serverValue === this.props.server && this.state.enabledValue === this.props.enabled && this.state.recordingHostValue === this.props.recordingHost,
               placement: 'right'
             }]
           },
@@ -164,6 +177,15 @@ var Environment = function (_Component) {
             _react2.default.createElement(_TextInput2.default, {
               value: this.state.serverValue,
               onChange: this.onServerChange
+            })
+          ),
+          _react2.default.createElement(
+            _Line2.default,
+            null,
+            'Recording Host',
+            _react2.default.createElement(_TextInput2.default, {
+              value: this.state.recordingHostValue,
+              onChange: this.onRecordingHostChange
             })
           ),
           _react2.default.createElement(
@@ -185,6 +207,7 @@ var Environment = function (_Component) {
 
 Environment.propTypes = {
   server: _react.PropTypes.string.isRequired,
+  recordingHost: _react.PropTypes.string.isRequired,
   enabled: _react.PropTypes.bool.isRequired,
   onSetData: _react.PropTypes.func.isRequired
 };
