@@ -144,6 +144,7 @@ class ComposeTextPanel extends Component {
               searchContactList={this.props.searchContactList}
               onKeyUp={this.onReceiverInputKeyUp}
               formatContactPhone={this.props.formatContactPhone}
+              titleEnabled
             />
           </div>
           <div className={styles.senderField}>

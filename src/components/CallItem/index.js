@@ -310,7 +310,6 @@ export default class CallItem extends Component {
     if (active) {
       statusEl = i18n.getString(result || telephonyStatus, currentLocale);
     }
-
     return (
       <div className={styles.callItem}>
         <CallIcon
@@ -337,7 +336,7 @@ export default class CallItem extends Component {
         <ActionMenu
           currentLocale={currentLocale}
           onLogCall={onLogCall && this.logCall}
-          onViewEntity={onViewContact && this.viewContact}
+          onViewEntity={onViewContact && this.viewSelectedContact}
           hasEntity={!!contactMatches.length}
           onClickToDial={onClickToDial && this.clickToDial}
           onClickToSms={showClickToSms && this.clickToSms}
