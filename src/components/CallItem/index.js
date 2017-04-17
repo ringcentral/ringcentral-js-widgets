@@ -99,7 +99,7 @@ function Contact({
         renderFunction={(entity, idx) => (
           idx === 0 ?
             i18n.getString('select', currentLocale) :
-            `${entity.name} ${i18n.getString(`phoneSource.${entity.entityType}`)}`;
+            `${entity.name} ${i18n.getString(`phoneSource.${entity.entityType}`)}`
         )}
         renderValue={(value) => {
           value = parseInt(value, 10) + 1;
