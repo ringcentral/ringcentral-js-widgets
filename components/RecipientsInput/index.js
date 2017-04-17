@@ -99,7 +99,7 @@ SelectedRecipients.propTypes = {
   removeFromRecipients: _react.PropTypes.func.isRequired,
   items: _react2.default.PropTypes.arrayOf(_react.PropTypes.shape({
     phoneNumber: _react.PropTypes.string.isRequired,
-    name: _react.PropTypes.string.isRequired
+    name: _react.PropTypes.string
   })).isRequired
 };
 
@@ -297,7 +297,7 @@ RecipientsInput.propTypes = {
   })).isRequired,
   recipients: _react.PropTypes.arrayOf(_react.PropTypes.shape({
     phoneNumber: _react.PropTypes.string.isRequired,
-    name: _react.PropTypes.string.isRequired
+    name: _react.PropTypes.string
   })).isRequired,
   value: _react.PropTypes.string.isRequired,
   onChange: _react.PropTypes.func.isRequired,
