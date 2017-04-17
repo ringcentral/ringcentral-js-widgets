@@ -20,9 +20,9 @@ class DropdownSelect extends Component {
       }));
     };
 
-    this.onChange = (e, option) => {
+    this.onChange = (e, option, idx) => {
       e.stopPropagation();
-      this.props.onChange(option);
+      this.props.onChange(option, idx);
       this.toggleShowDropdown();
     };
 
@@ -79,7 +79,7 @@ class DropdownSelect extends Component {
                 className={classnames(className, styles[this.props.dropdownAlign])}
                 value={currentValue}
                 title={this.props.titleEnabled && display}
-                onClick={e => this.onChange(e, option)}
+                onClick={e => this.onChange(e, option, idx)}
               >
                 {display}
               </li>
