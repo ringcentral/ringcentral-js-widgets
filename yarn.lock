@@ -6368,9 +6368,9 @@ ringcentral-client@^1.0.0-rc1:
     form-data "^2.1.2"
     isomorphic-fetch "^2.2.1"
 
-ringcentral-integration@^0.5.18:
-  version "0.5.18"
-  resolved "https://registry.yarnpkg.com/ringcentral-integration/-/ringcentral-integration-0.5.18.tgz#bf62bf0d3acb3cedba3c33b4cf2c144f11f404f8"
+ringcentral-integration@^0.5.19:
+  version "0.5.19"
+  resolved "https://registry.yarnpkg.com/ringcentral-integration/-/ringcentral-integration-0.5.19.tgz#8a6fc06d622185f95d02b16fdac87e5be1f2a8ca"
   dependencies:
     data-types "git+https://github.com/u9520107/data-types.git#release"
     json-mask "^0.3.8"

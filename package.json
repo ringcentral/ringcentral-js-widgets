@@ -78,7 +78,7 @@
     "redux-thunk": "^2.1.0",
     "ringcentral": "3.0.0",
     "ringcentral-client": "^1.0.0-rc1",
-    "ringcentral-integration": "^0.5.13",
+    "ringcentral-integration": "^0.5.19",
     "sass-loader": "^4.1.1",
     "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.1",
