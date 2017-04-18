@@ -20,9 +20,9 @@ class DropdownSelect extends Component {
       }));
     };
 
-    this.onChange = (e, option) => {
+    this.onChange = (e, option, idx) => {
       e.stopPropagation();
-      this.props.onChange(option);
+      this.props.onChange(option, idx);
       this.toggleShowDropdown();
     };
 
@@ -72,14 +72,16 @@ class DropdownSelect extends Component {
               styles.dropdownItem,
               this.props.value === currentValue ? styles.selected : null,
             );
+            const display = this.props.renderFunction(option, idx);
             return (
               <li
                 key={currentValue}
                 className={classnames(className, styles[this.props.dropdownAlign])}
                 value={currentValue}
-                onClick={e => this.onChange(e, option)}
+                title={this.props.titleEnabled && display}
+                onClick={e => this.onChange(e, option, idx)}
               >
-                {this.props.renderFunction(option, idx)}
+                {display}
               </li>
             );
           })
@@ -109,15 +111,19 @@ class DropdownSelect extends Component {
       null :
       this.renderDropdownMenu();
 
+    const renderValue = this.props.renderValue(this.props.value);
     return (
       <div
         className={containerClassName}
         ref={(ref) => { this.wrapper = ref; }}
       >
-        <button className={styles.button} onClick={this.toggleShowDropdown}>
+        <button
+          className={styles.button}
+          onClick={this.toggleShowDropdown}
+          title={this.props.titleEnabled && renderValue}>
           {label}
           <span className={styles.selectedValue}>
-            {this.props.renderValue(this.props.value)}
+            {renderValue}
           </span>
           <span className={iconClassName}>
             <i className={dynamicsFont.arrow} />
@@ -141,6 +147,7 @@ DropdownSelect.propTypes = {
   renderValue: PropTypes.func,
   renderDropdownMenu: PropTypes.func,
   dropdownAlign: PropTypes.oneOf(['left', 'center', 'right']),
+  titleEnabled: PropTypes.bool,
 };
 
 DropdownSelect.defaultProps = {
@@ -154,6 +161,7 @@ DropdownSelect.defaultProps = {
   renderFunction: option => option,
   renderValue: option => option,
   dropdownAlign: 'center',
+  titleEnabled: undefined,
 };
 
 export default DropdownSelect;

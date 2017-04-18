@@ -222,6 +222,7 @@ class RecipientsInput extends Component {
           formatContactPhone={this.props.formatContactPhone}
           className={styles.contactsDropdown}
           visibility={this.state.isFocusOnInput}
+          titleEnabled={this.props.titleEnabled}
         />
       </div>
     );
@@ -249,6 +250,7 @@ RecipientsInput.propTypes = {
   addToRecipients: PropTypes.func.isRequired,
   removeFromRecipients: PropTypes.func.isRequired,
   formatContactPhone: PropTypes.func.isRequired,
+  titleEnabled: PropTypes.bool,
 };
 
 RecipientsInput.defaultProps = {
@@ -256,6 +258,7 @@ RecipientsInput.defaultProps = {
   placeholder: '',
   onKeyUp: () => null,
   onKeyDown: () => null,
+  titleEnabled: undefined,
 };
 
 export default RecipientsInput;
