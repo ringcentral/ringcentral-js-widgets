@@ -255,7 +255,7 @@ function pushRecordsToMessageData(_ref4) {
     newMessages[index] = normalizeRecord((0, _removeUri2.default)(record));
   };
   records.forEach(function (record) {
-    if (!record.conversation) {
+    if (!record || !record.conversation) {
       return;
     }
     var existedIndexofMessages = findIndexOfMessages(messageMap, record);
