@@ -122,7 +122,7 @@ export default class CallingSettingsPanel extends Component {
       placement: 'right',
       disabled: !hasChanges,
     });
-
+    //
     const ringout = this.state.callWith !== callingOptions.softphone ? (
       <div>
         <div className={styles.ringoutHint}>
