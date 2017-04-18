@@ -190,7 +190,8 @@ var Subscription = function (_RcModule) {
           error: error
         });
         if (_this3._auth.loginStatus === _loginStatus2.default.loggedIn && _this3._storage.ready) {
-          _this3._retry();
+          // immediately start the retry process after the first renewError
+          _this3._retry(0);
         }
       });
       this._subscription.on(this._subscription.events.subscribeSuccess, function () {
