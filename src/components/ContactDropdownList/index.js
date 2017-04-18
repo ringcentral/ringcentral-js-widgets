@@ -54,6 +54,9 @@ ContactItem.propTypes = {
   onHover: PropTypes.func.isRequired,
   titleEnabled: PropTypes.bool,
 };
+ContactItem.defaultProps = {
+  titleEnabled: undefined,
+};
 
 class ContactDropdownList extends Component {
   componentWillReceiveProps(nextProps) {

@@ -17,6 +17,10 @@ function Recipient(props) {
 Recipient.propTypes = {
   name: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  title: PropTypes.string
+};
+Recipient.defaultProps = {
+  title: null,
 };
 
 function RecipientList(props) {
@@ -52,6 +56,9 @@ RecipientList.propTypes = {
     name: PropTypes.string,
   })).isRequired,
 };
+RecipientList.defaultProps = {
+  titleEnabled: undefined,
+};
 
 class RecipientsHeader extends Component {
   constructor(props) {
@@ -77,7 +84,7 @@ class RecipientsHeader extends Component {
     if (recipients.length === 0) {
       return null;
     }
-    console.debug('recipients', recipients);
+    // console.debug('recipients', recipients);
     let dropdownClass = styles.dropdownList;
     let dropdownArrowClass = classnames(dynamicsFont.arrow, styles.dropdownIcon);
     if (recipients.length === 1) {

@@ -258,6 +258,7 @@ RecipientsInput.defaultProps = {
   placeholder: '',
   onKeyUp: () => null,
   onKeyDown: () => null,
+  titleEnabled: undefined,
 };
 
 export default RecipientsInput;

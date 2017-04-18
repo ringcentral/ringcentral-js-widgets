@@ -103,7 +103,6 @@ export default class CallingSettingsPanel extends Component {
       myLocation,
       ringoutPrompt,
       onBackButtonClick,
-      brand,
       availableNumbers,
       className,
     } = this.props;
@@ -204,4 +203,8 @@ CallingSettingsPanel.propTypes = {
   availableNumbers: PropTypes.object.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
+};
+
+CallingSettingsPanel.defaultProps = {
+  className: null,
 };
