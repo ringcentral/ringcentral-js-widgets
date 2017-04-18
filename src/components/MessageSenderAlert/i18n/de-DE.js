@@ -17,10 +17,14 @@ export default {
   [messageSenderMessages.internalError]: 'Herstellen der Verbindung aufgrund interner Fehler nicht möglich. Versuchen Sie es später erneut.',
   [messageSenderMessages.notAnExtension]: 'Die Durchwahlnummer existiert nicht.',
   [messageSenderMessages.networkError]: 'Herstellen der Verbindung aufgrund von Netzwerkproblemen nicht möglich. Versuchen Sie es später erneut.',
-  [messageSenderMessages.notSmsToExtension]: `Senden an eine Durchwahl mit Haupttelefonnummer nicht möglich.\n    Geben Sie zunächst die Durchwahl an,\n    wenn Sie an eine Durchwahl senden möchten.`,
-  [messageSenderMessages.senderNumberInvalids]: `Sie haben keine gültige Telefonnummer, um SMS
-    zu versenden. Wenden Sie sich an Ihren Kontoadministrator.`,
-  [messageSenderMessages.internationalSMSNotSupported]: `Das Versenden von SMS an internationale Telefonnummern
+  [messageSenderMessages.notSmsToExtension]: `Senden an eine Durchwahl mit Haupttelefonnummer nicht möglich.
+    Geben Sie zunächst die Durchwahl an,
+    wenn Sie an eine Durchwahl senden möchten.`,
+  [messageSenderMessages.senderNumberInvalids]: `Sie haben keine gültige Telefonnummer, um SMS\n    zu versenden. Wenden Sie sich an Ihren Kontoadministrator.`,
+  [messageSenderMessages.internationalSMSNotSupported]: `Das Versenden von SMS an internationale Telefonnummern 
     wird nicht unterstützt.`,
   areaCode: 'Vorwahl',
+  [messageSenderMessages.senderNumberInvalid]: `Zum Senden von Textnachrichten an Empfänger außerhalb
+    Ihres Unternehmens ist eine gültige Telefonnummer erforderlich. Wenden Sie sich 
+    an Ihren Administrator, um Ihrem Konto eine Durchwahlnummer hinzuzufügen.`,
 };

@@ -6,5 +6,7 @@ export default {
   settings: 'Einstellungen',
   clickToDial: 'Zum Wählen klicken',
   autoCreateLog: 'Automatisch Anrufliste erstellen',
+  clickToSMS: 'Zum SMS senden klicken',
+  clickToDialSMS: 'Zum Wählen/SMS senden klicken',
 };
 
