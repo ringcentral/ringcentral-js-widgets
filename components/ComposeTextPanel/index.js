@@ -212,7 +212,8 @@ var ComposeTextPanel = function (_Component) {
               removeFromRecipients: this.removeFromRecipients,
               searchContactList: this.props.searchContactList,
               onKeyUp: this.onReceiverInputKeyUp,
-              formatContactPhone: this.props.formatContactPhone
+              formatContactPhone: this.props.formatContactPhone,
+              titleEnabled: true
             })
           ),
           _react2.default.createElement(

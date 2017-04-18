@@ -278,7 +278,8 @@ var RecipientsInput = function (_Component) {
           items: relatedContactList,
           formatContactPhone: this.props.formatContactPhone,
           className: _styles2.default.contactsDropdown,
-          visibility: this.state.isFocusOnInput
+          visibility: this.state.isFocusOnInput,
+          titleEnabled: this.props.titleEnabled
         })
       );
     }
@@ -306,7 +307,8 @@ RecipientsInput.propTypes = {
   onKeyDown: _react.PropTypes.func,
   addToRecipients: _react.PropTypes.func.isRequired,
   removeFromRecipients: _react.PropTypes.func.isRequired,
-  formatContactPhone: _react.PropTypes.func.isRequired
+  formatContactPhone: _react.PropTypes.func.isRequired,
+  titleEnabled: _react.PropTypes.bool
 };
 
 RecipientsInput.defaultProps = {
@@ -317,7 +319,8 @@ RecipientsInput.defaultProps = {
   },
   onKeyDown: function onKeyDown() {
     return null;
-  }
+  },
+  titleEnabled: undefined
 };
 
 exports.default = RecipientsInput;

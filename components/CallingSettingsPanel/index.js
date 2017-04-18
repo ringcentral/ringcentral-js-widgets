@@ -129,6 +129,13 @@ var CallingSettingsPanel = function (_Component) {
       });
     };
 
+    _this.onMyLocationTextChange = function (e) {
+      var myLocation = e.target.value;
+      _this.setState({
+        myLocation: myLocation
+      });
+    };
+
     _this.onRingoutPromptChange = function (checked) {
       _this.setState({
         ringoutPrompt: checked
@@ -177,7 +184,6 @@ var CallingSettingsPanel = function (_Component) {
           myLocation = _props.myLocation,
           ringoutPrompt = _props.ringoutPrompt,
           onBackButtonClick = _props.onBackButtonClick,
-          brand = _props.brand,
           availableNumbers = _props.availableNumbers,
           className = _props.className;
 
@@ -195,7 +201,7 @@ var CallingSettingsPanel = function (_Component) {
         placement: 'right',
         disabled: !hasChanges
       });
-
+      //
       var ringout = this.state.callWith !== _callingOptions2.default.softphone ? _react2.default.createElement(
         'div',
         null,
@@ -214,11 +220,12 @@ var CallingSettingsPanel = function (_Component) {
             value: this.state.myLocation,
             onChange: this.onMyLocationChange,
             options: availableNumbers[this.state.callWith],
-            dropdownAlign: 'left'
+            dropdownAlign: 'left',
+            titleEnabled: true
           }) : _react2.default.createElement(_TextInput2.default, {
             value: this.state.myLocation,
             maxLength: 30,
-            onChange: this.onMyLocationChange })
+            onChange: this.onMyLocationTextChange })
         ),
         _react2.default.createElement(
           _IconField2.default,
@@ -258,7 +265,8 @@ var CallingSettingsPanel = function (_Component) {
               options: callWithOptions,
               dropdownAlign: 'left',
               renderValue: this.renderHandler,
-              renderFunction: this.renderHandler
+              renderFunction: this.renderHandler,
+              titleEnabled: true
             })
           ),
           ringout
@@ -283,5 +291,9 @@ CallingSettingsPanel.propTypes = {
   availableNumbers: _react.PropTypes.object.isRequired,
   onBackButtonClick: _react.PropTypes.func.isRequired,
   onSave: _react.PropTypes.func.isRequired
+};
+
+CallingSettingsPanel.defaultProps = {
+  className: null
 };
 //# sourceMappingURL=index.js.map

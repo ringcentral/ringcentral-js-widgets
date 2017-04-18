@@ -66,9 +66,9 @@ var DropdownSelect = function (_Component) {
       });
     };
 
-    _this.onChange = function (e, option) {
+    _this.onChange = function (e, option, idx) {
       e.stopPropagation();
-      _this.props.onChange(option);
+      _this.props.onChange(option, idx);
       _this.toggleShowDropdown();
     };
 
@@ -125,17 +125,19 @@ var DropdownSelect = function (_Component) {
         this.props.options.map(function (option, idx) {
           var currentValue = _this2.props.valueFunction(option, idx);
           var className = (0, _classnames2.default)(_styles2.default.dropdownItem, _this2.props.value === currentValue ? _styles2.default.selected : null);
+          var display = _this2.props.renderFunction(option, idx);
           return _react2.default.createElement(
             'li',
             {
               key: currentValue,
               className: (0, _classnames2.default)(className, _styles2.default[_this2.props.dropdownAlign]),
               value: currentValue,
+              title: _this2.props.titleEnabled && display,
               onClick: function onClick(e) {
-                return _this2.onChange(e, option);
+                return _this2.onChange(e, option, idx);
               }
             },
-            _this2.props.renderFunction(option, idx)
+            display
           );
         })
       );
@@ -154,6 +156,7 @@ var DropdownSelect = function (_Component) {
       var containerClassName = (0, _classnames2.default)(_styles2.default.root, this.props.className, this.props.disabled ? _styles2.default.disabled : null, this.state.open ? _styles2.default.open : null);
       var dropdownMenu = this.props.renderDropdownMenu ? null : this.renderDropdownMenu();
 
+      var renderValue = this.props.renderValue(this.props.value);
       return _react2.default.createElement(
         'div',
         {
@@ -164,12 +167,15 @@ var DropdownSelect = function (_Component) {
         },
         _react2.default.createElement(
           'button',
-          { className: _styles2.default.button, onClick: this.toggleShowDropdown },
+          {
+            className: _styles2.default.button,
+            onClick: this.toggleShowDropdown,
+            title: this.props.titleEnabled && renderValue },
           label,
           _react2.default.createElement(
             'span',
             { className: _styles2.default.selectedValue },
-            this.props.renderValue(this.props.value)
+            renderValue
           ),
           _react2.default.createElement(
             'span',
@@ -195,7 +201,8 @@ DropdownSelect.propTypes = {
   renderFunction: _react.PropTypes.func,
   renderValue: _react.PropTypes.func,
   renderDropdownMenu: _react.PropTypes.func,
-  dropdownAlign: _react.PropTypes.oneOf(['left', 'center', 'right'])
+  dropdownAlign: _react.PropTypes.oneOf(['left', 'center', 'right']),
+  titleEnabled: _react.PropTypes.bool
 };
 
 DropdownSelect.defaultProps = {
@@ -214,7 +221,8 @@ DropdownSelect.defaultProps = {
   renderValue: function renderValue(option) {
     return option;
   },
-  dropdownAlign: 'center'
+  dropdownAlign: 'center',
+  titleEnabled: undefined
 };
 
 exports.default = DropdownSelect;

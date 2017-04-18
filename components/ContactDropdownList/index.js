@@ -44,6 +44,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function ContactItem(props) {
   var className = (0, _classnames2.default)(_styles2.default.contactItem, props.active ? _styles2.default.active : null);
+  var spliter = '|';
+  var nameTitle = props.name + ' ' + spliter + ' ' + ('' + _phoneTypes2.default.getString('phoneSource.' + props.entityType));
+  var phoneNumberTitle = props.formatContactPhone(props.phoneNumber) + ' ' + spliter + ' ' + ('' + (props.phoneType === 'unknown' ? _phoneTypes2.default.getString('phoneType.' + props.phoneType) : props.phoneType));
+
   return _react2.default.createElement(
     'li',
     { className: className, onMouseOver: props.onHover },
@@ -52,7 +56,7 @@ function ContactItem(props) {
       { href: '#select-contact-item', onClick: props.onClick },
       _react2.default.createElement(
         'div',
-        null,
+        { className: _styles2.default.nameSection, title: props.titleEnabled && nameTitle },
         _react2.default.createElement(
           'span',
           { className: _styles2.default.name },
@@ -61,7 +65,7 @@ function ContactItem(props) {
         _react2.default.createElement(
           'span',
           { className: _styles2.default.spliter },
-          '|'
+          spliter
         ),
         _react2.default.createElement(
           'span',
@@ -71,7 +75,7 @@ function ContactItem(props) {
       ),
       _react2.default.createElement(
         'div',
-        { className: _styles2.default.phoneNumberSection },
+        { className: _styles2.default.phoneNumberSection, title: props.titleEnabled && phoneNumberTitle },
         _react2.default.createElement(
           'span',
           null,
@@ -80,7 +84,7 @@ function ContactItem(props) {
         _react2.default.createElement(
           'span',
           { className: _styles2.default.spliter },
-          '|'
+          spliter
         ),
         _react2.default.createElement(
           'span',
@@ -100,7 +104,11 @@ ContactItem.propTypes = {
   phoneType: _react.PropTypes.string.isRequired,
   phoneNumber: _react.PropTypes.string.isRequired,
   active: _react.PropTypes.bool.isRequired,
-  onHover: _react.PropTypes.func.isRequired
+  onHover: _react.PropTypes.func.isRequired,
+  titleEnabled: _react.PropTypes.bool
+};
+ContactItem.defaultProps = {
+  titleEnabled: undefined
 };
 
 var ContactDropdownList = function (_Component) {
@@ -169,7 +177,8 @@ var ContactDropdownList = function (_Component) {
                 phoneNumber: item.phoneNumber
               });
             },
-            key: '' + item.phoneNumber + item.name + item.phoneType
+            key: '' + index + item.phoneNumber + item.name + item.phoneType,
+            titleEnabled: props.titleEnabled
           });
         })
       );
@@ -191,12 +200,14 @@ ContactDropdownList.propTypes = {
   formatContactPhone: _react.PropTypes.func.isRequired,
   addToRecipients: _react.PropTypes.func.isRequired,
   setSelectedIndex: _react.PropTypes.func.isRequired,
-  selectedIndex: _react.PropTypes.number.isRequired
+  selectedIndex: _react.PropTypes.number.isRequired,
+  titleEnabled: _react.PropTypes.bool
 };
 
 ContactDropdownList.defaultProps = {
   className: null,
-  scrollDirection: null
+  scrollDirection: null,
+  titleEnabled: undefined
 };
 
 exports.default = ContactDropdownList;

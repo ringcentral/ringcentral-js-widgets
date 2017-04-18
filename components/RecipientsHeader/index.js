@@ -49,14 +49,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function Recipient(props) {
   return _react2.default.createElement(
     'a',
-    { href: '#recipient', className: _styles2.default.recipient, onClick: props.onClick },
+    { href: '#recipient', className: _styles2.default.recipient, onClick: props.onClick, title: props.title },
     props.name
   );
 }
 
 Recipient.propTypes = {
   name: _react.PropTypes.string.isRequired,
-  onClick: _react.PropTypes.func.isRequired
+  onClick: _react.PropTypes.func.isRequired,
+  title: _react.PropTypes.string
+};
+Recipient.defaultProps = {
+  title: null
 };
 
 function RecipientList(props) {
@@ -68,6 +72,7 @@ function RecipientList(props) {
       return _react2.default.createElement(Recipient, {
         key: '' + receiver.extensionNumber + receiver.phoneNumber + receiver.name,
         name: props.getRecipientName(receiver),
+        title: props.titleEnabled && props.getRecipientName(receiver),
         onClick: function onClick() {
           return props.setDefaultRecipient(receiver.extensionNumber || receiver.phoneNumber);
         }
@@ -80,11 +85,15 @@ RecipientList.propTypes = {
   getRecipientName: _react.PropTypes.func.isRequired,
   setDefaultRecipient: _react.PropTypes.func.isRequired,
   className: _react.PropTypes.string.isRequired,
+  titleEnabled: _react.PropTypes.bool,
   recipients: _react.PropTypes.arrayOf(_react.PropTypes.shape({
     phoneNumber: _react.PropTypes.string,
     extensionNumber: _react.PropTypes.string,
     name: _react.PropTypes.string
   })).isRequired
+};
+RecipientList.defaultProps = {
+  titleEnabled: undefined
 };
 
 var RecipientsHeader = function (_Component) {
@@ -120,10 +129,10 @@ var RecipientsHeader = function (_Component) {
     key: 'render',
     value: function render() {
       var recipients = this.props.recipients;
-      console.debug('!!!', recipients);
       if (recipients.length === 0) {
         return null;
       }
+      // console.debug('recipients', recipients);
       var dropdownClass = _styles2.default.dropdownList;
       var dropdownArrowClass = (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.dropdownIcon);
       if (recipients.length === 1) {
@@ -147,6 +156,7 @@ var RecipientsHeader = function (_Component) {
         { className: _styles2.default.container },
         _react2.default.createElement(Recipient, {
           name: this.context.getRecipientName(defaultRecipient),
+          title: this.context.getRecipientName(defaultRecipient),
           onClick: this.toggleDropdown
         }),
         _react2.default.createElement('i', {
@@ -157,7 +167,8 @@ var RecipientsHeader = function (_Component) {
           recipients: recipients,
           className: dropdownClass,
           setDefaultRecipient: this.setDefaultRecipient,
-          getRecipientName: this.context.getRecipientName
+          getRecipientName: this.context.getRecipientName,
+          titleEnabled: true
         })
       );
     }

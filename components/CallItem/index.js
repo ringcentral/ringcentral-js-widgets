@@ -86,9 +86,9 @@ var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
 var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
-var _Select = require('../Select');
+var _DropdownSelect = require('../DropdownSelect');
 
-var _Select2 = _interopRequireDefault(_Select);
+var _DropdownSelect2 = _interopRequireDefault(_DropdownSelect);
 
 var _DurationCounter = require('../DurationCounter');
 
@@ -153,6 +153,7 @@ function Contact(_ref2) {
       missed = _ref2.missed;
 
   var contentEl = void 0;
+
   if (contactMatches.length === 0) {
     contentEl = fallBackName || phoneNumber && (0, _formatNumber2.default)({
       phoneNumber: phoneNumber,
@@ -163,10 +164,10 @@ function Contact(_ref2) {
     contentEl = contactMatches[0].name;
   } else if (contactMatches.length > 1) {
     var options = [{}].concat((0, _toConsumableArray3.default)(contactMatches));
-    contentEl = _react2.default.createElement(_Select2.default, {
+
+    contentEl = _react2.default.createElement(_DropdownSelect2.default, {
       className: _styles2.default.select,
       value: '' + selected,
-      paddingLeft: 0,
       onChange: onSelectContact,
       disabled: disabled || isLogging,
       options: options,
@@ -175,7 +176,13 @@ function Contact(_ref2) {
       },
       renderFunction: function renderFunction(entity, idx) {
         return idx === 0 ? _i18n2.default.getString('select', currentLocale) : entity.name + ' ' + _i18n2.default.getString('phoneSource.' + entity.entityType);
-      }
+      },
+      renderValue: function renderValue(value) {
+        value = parseInt(value, 10) + 1;
+        return value === 0 ? _i18n2.default.getString('select', currentLocale) : options[value].name + ' ' + _i18n2.default.getString('phoneSource.' + options[value].entityType);
+      },
+      dropdownAlign: 'left',
+      titleEnabled: true
     });
   }
   return _react2.default.createElement(
@@ -214,8 +221,8 @@ var CallItem = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallItem.__proto__ || (0, _getPrototypeOf2.default)(CallItem)).call(this, props));
 
-    _this.onSelectContact = function (e) {
-      var selected = parseInt(e.currentTarget.value, 10);
+    _this.onSelectContact = function (value, idx) {
+      var selected = parseInt(idx, 10) - 1;
       _this.setState({
         selected: selected,
         userSelection: true
@@ -451,7 +458,6 @@ var CallItem = function (_Component) {
       if (active) {
         statusEl = _i18n2.default.getString(result || telephonyStatus, currentLocale);
       }
-
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.callItem },
@@ -484,7 +490,7 @@ var CallItem = function (_Component) {
         _react2.default.createElement(_ActionMenu2.default, {
           currentLocale: currentLocale,
           onLogCall: onLogCall && this.logCall,
-          onViewEntity: onViewContact && this.viewContact,
+          onViewEntity: onViewContact && this.viewSelectedContact,
           hasEntity: !!contactMatches.length,
           onClickToDial: onClickToDial && this.clickToDial,
           onClickToSms: showClickToSms && this.clickToSms,
