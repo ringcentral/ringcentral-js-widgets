@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/RecipientHeader/i18n/fr-FR.js"],"names":["selectMatchedName"],"mappings":";;;;;kBAAe;AACbA,qBAAmB;AADN,C","file":"fr-FR.js","sourcesContent":["export default {\n  selectMatchedName: 'Sélectionner une correspondance de registre',\n};\n"]}

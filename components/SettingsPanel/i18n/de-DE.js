@@ -10,6 +10,8 @@ exports.default = {
   version: 'Version',
   settings: 'Einstellungen',
   clickToDial: 'Zum Wählen klicken',
-  autoCreateLog: 'Automatisch Anrufliste erstellen'
+  autoCreateLog: 'Automatisch Anrufliste erstellen',
+  clickToSMS: 'Zum SMS senden klicken',
+  clickToDialSMS: 'Zum Wählen/SMS senden klicken'
 };
 //# sourceMappingURL=de-DE.js.map

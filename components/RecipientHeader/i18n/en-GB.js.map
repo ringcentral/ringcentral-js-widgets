@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/RecipientHeader/i18n/en-GB.js"],"names":["selectMatchedName"],"mappings":";;;;;kBAAe;AACbA,qBAAmB;AADN,C","file":"en-GB.js","sourcesContent":["export default {\n  selectMatchedName: 'Select a Matching Record',\n};\n"]}

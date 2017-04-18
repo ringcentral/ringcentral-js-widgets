@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   from: 'Von',
   to: 'An',
-  enterNameOrNumber: 'Nummer oder Name eingeben',
+  enterNameOrNumber: 'Nummer oder Name eingeben ...',
   typeMessage: 'Nachricht eingeben ...',
   send: 'Senden'
 };

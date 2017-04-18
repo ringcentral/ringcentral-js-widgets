@@ -10,6 +10,8 @@ exports.default = {
   version: 'Version',
   settings: 'Settings',
   clickToDial: 'Click to Dial',
-  autoCreateLog: 'Auto-create Call Log'
+  autoCreateLog: 'Auto-create Call Log',
+  clickToSMS: 'Click to SMS',
+  clickToDialSMS: 'Click to Dial/SMS'
 };
 //# sourceMappingURL=en-GB.js.map

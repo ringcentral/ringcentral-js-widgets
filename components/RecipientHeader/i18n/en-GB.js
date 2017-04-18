@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  send: 'Envoyer',
-  typeMessage: 'Saisir un message...'
+  selectMatchedName: 'Select a Matching Record'
 };
-//# sourceMappingURL=fr-FR.js.map
+//# sourceMappingURL=en-GB.js.map

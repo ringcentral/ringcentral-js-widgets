@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  send: 'Envoyer',
-  typeMessage: 'Saisir un message...'
+  selectMatchedName: 'Sélectionner un enregistrement correspondant'
 };
-//# sourceMappingURL=fr-FR.js.map
+//# sourceMappingURL=fr-CA.js.map
