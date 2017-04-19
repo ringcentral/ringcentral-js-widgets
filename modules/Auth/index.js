@@ -792,6 +792,11 @@ var Auth = function (_RcModule) {
       return this.state.ownerId;
     }
   }, {
+    key: 'endpointId',
+    get: function get() {
+      return this.state.endpointId;
+    }
+  }, {
     key: 'status',
     get: function get() {
       return this.state.status;

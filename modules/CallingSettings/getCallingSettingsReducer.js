@@ -15,15 +15,11 @@ var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
 
 var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
 
-var _callingOptions = require('./callingOptions');
-
-var _callingOptions2 = _interopRequireDefault(_callingOptions);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getCallWithReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _callingOptions2.default.softphone;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref = arguments[1];
     var type = _ref.type,
         _ref$callWith = _ref.callWith,

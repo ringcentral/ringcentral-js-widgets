@@ -88,7 +88,8 @@ var CallingSettings = function (_RcModule) {
         rolesAndPermissions = _ref.rolesAndPermissions,
         tabManager = _ref.tabManager,
         onFirstLogin = _ref.onFirstLogin,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'brand', 'extensionInfo', 'extensionPhoneNumber', 'forwardingNumber', 'storage', 'rolesAndPermissions', 'tabManager', 'onFirstLogin']);
+        addWebphone = _ref.addWebphone,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'brand', 'extensionInfo', 'extensionPhoneNumber', 'forwardingNumber', 'storage', 'rolesAndPermissions', 'tabManager', 'onFirstLogin', 'addWebphone']);
     (0, _classCallCheck3.default)(this, CallingSettings);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallingSettings.__proto__ || (0, _getPrototypeOf2.default)(CallingSettings)).call(this, (0, _extends3.default)({}, options, {
@@ -171,9 +172,15 @@ var CallingSettings = function (_RcModule) {
     _this.addSelector('callWithOptions', function () {
       return _this._rolesAndPermissions.ringoutEnabled;
     }, function () {
+      return _this._rolesAndPermissions.webphoneEnabled;
+    }, function () {
       return _this.otherPhoneNumbers.length > 0;
-    }, function (ringoutEnabled, hasOtherPhone) {
-      var callWithOptions = [_callingOptions2.default.softphone];
+    }, function (ringoutEnabled, webphoneEnabled, hasOtherPhone) {
+      var callWithOptions = [];
+      if (addWebphone && webphoneEnabled) {
+        callWithOptions.push(_callingOptions2.default.browser);
+      }
+      callWithOptions.push(_callingOptions2.default.softphone);
       if (ringoutEnabled) {
         callWithOptions.push(_callingOptions2.default.myphone);
         if (hasOtherPhone) {
@@ -201,6 +208,7 @@ var CallingSettings = function (_RcModule) {
       var _this2 = this;
 
       this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        var defaultCallWith;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -209,13 +217,17 @@ var CallingSettings = function (_RcModule) {
                   _this2._myPhoneNumbers = _this2.myPhoneNumbers;
                   _this2._otherPhoneNumbers = _this2.otherPhoneNumbers;
                   _this2._ringoutEnabled = _this2._rolesAndPermissions.ringoutEnabled;
+                  _this2._webphoneEnabled = _this2._rolesAndPermissions.webphoneEnabled;
                   _this2.store.dispatch({
                     type: _this2.actionTypes.init
                   });
                   if (!_this2.timestamp) {
                     // first time login
+                    defaultCallWith = _this2.callWithOptions && _this2.callWithOptions[0];
+
                     _this2.store.dispatch({
                       type: _this2.actionTypes.setData,
+                      callWith: defaultCallWith,
                       timestamp: Date.now()
                     });
                     _this2._alert.warning({
@@ -233,8 +245,9 @@ var CallingSettings = function (_RcModule) {
                   _this2.store.dispatch({
                     type: _this2.actionTypes.resetSuccess
                   });
-                } else if (_this2.ready && (_this2._ringoutEnabled !== _this2._rolesAndPermissions.ringoutEnabled || _this2._myPhoneNumbers !== _this2.myPhoneNumbers || _this2._otherPhoneNumbers !== _this2.otherPhoneNumbers)) {
+                } else if (_this2.ready && (_this2._ringoutEnabled !== _this2._rolesAndPermissions.ringoutEnabled || _this2._webphoneEnabled !== _this2._rolesAndPermissions.webphoneEnabled || _this2._myPhoneNumbers !== _this2.myPhoneNumbers || _this2._otherPhoneNumbers !== _this2.otherPhoneNumbers)) {
                   _this2._ringoutEnabled = _this2._rolesAndPermissions.ringoutEnabled;
+                  _this2._webphoneEnabled = _this2._rolesAndPermissions.webphoneEnabled;
                   _this2._myPhoneNumbers = _this2.myPhoneNumbers;
                   _this2._otherPhoneNumbers = _this2.otherPhoneNumbers;
                   _this2._validateSettings();
@@ -249,14 +262,25 @@ var CallingSettings = function (_RcModule) {
       })));
     }
   }, {
+    key: '_setSoftPhoneToCallWith',
+    value: function _setSoftPhoneToCallWith() {
+      this.store.dispatch({
+        type: this.actionTypes.setData,
+        callWith: _callingOptions2.default.softphone,
+        timestamp: Date.now()
+      });
+    }
+  }, {
     key: '_validateSettings',
     value: function _validateSettings() {
-      if (!this._ringoutEnabled && this.callWith !== _callingOptions2.default.softphone) {
-        this.store.dispatch({
-          type: this.actionTypes.setData,
-          callWith: _callingOptions2.default.softphone,
-          timestamp: Date.now()
+      if (!this._webphoneEnabled && this.callWith === _callingOptions2.default.browser) {
+        this._setSoftPhoneToCallWith();
+        this._alert.danger({
+          message: _callingSettingsMessages2.default.webphonePermissionRemoved,
+          ttl: 0
         });
+      } else if (!this._ringoutEnabled && (this.callWith === _callingOptions2.default.myphone || this.callWith === _callingOptions2.default.otherphone || this.callWith === _callingOptions2.default.customphone)) {
+        this._setSoftPhoneToCallWith();
         this._alert.danger({
           message: _callingSettingsMessages2.default.permissionChanged,
           ttl: 0

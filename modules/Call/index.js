@@ -87,8 +87,11 @@ var Call = function (_RcModule) {
         callingSettings = _ref.callingSettings,
         softphone = _ref.softphone,
         ringout = _ref.ringout,
+        webphone = _ref.webphone,
+        extensionPhoneNumber = _ref.extensionPhoneNumber,
         numberValidate = _ref.numberValidate,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'client', 'storage', 'callingSettings', 'softphone', 'ringout', 'numberValidate']);
+        regionSettings = _ref.regionSettings,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'client', 'storage', 'callingSettings', 'softphone', 'ringout', 'webphone', 'extensionPhoneNumber', 'numberValidate', 'regionSettings']);
     (0, _classCallCheck3.default)(this, Call);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Call.__proto__ || (0, _getPrototypeOf2.default)(Call)).call(this, (0, _extends3.default)({}, options, {
@@ -194,15 +197,34 @@ var Call = function (_RcModule) {
     _this._client = client;
     _this._storage = storage;
     _this._storageKey = 'lastCallNumber';
+    _this._fromNumberStorageKey = 'fromCallIdNumber';
     _this._reducer = (0, _getCallReducer2.default)(_this.actionTypes);
     _this._callingSettings = callingSettings;
     _this._ringout = ringout;
     _this._softphone = softphone;
+    _this._webphone = webphone;
     _this._numberValidate = numberValidate;
+    _this._extensionPhoneNumber = extensionPhoneNumber;
+    _this._regionSettings = regionSettings;
+    _this._callSettingMode = null;
 
     _this._storage.registerReducer({
       key: _this._storageKey,
       reducer: (0, _getCallReducer.getLastCallNumberReducer)(_this.actionTypes)
+    });
+
+    _this._storage.registerReducer({
+      key: _this._fromNumberStorageKey,
+      reducer: (0, _getCallReducer.getFromNumberReducer)(_this.actionTypes)
+    });
+
+    _this.addSelector('fromNumbers', function () {
+      return _this._extensionPhoneNumber.callerIdNumbers;
+    }, function (phoneNumbers) {
+      return phoneNumbers.sort(function (firstItem, lastItem) {
+        if (firstItem.usageType === 'DirectNumber') return -1;else if (lastItem.usageType === 'DirectNumber') return 1;else if (firstItem.usageType === 'MainCompanyNumber') return -1;else if (lastItem.usageType === 'MainCompanyNumber') return 1;else if (firstItem.usageType < lastItem.usageType) return -1;else if (firstItem.usageType > lastItem.usageType) return 1;
+        return 0;
+      });
     });
     return _this;
   }
@@ -212,16 +234,121 @@ var Call = function (_RcModule) {
     value: function initialize() {
       var _this3 = this;
 
-      this.store.subscribe(function () {
-        if (_this3._numberValidate.ready && _this3._callingSettings.ready && _this3._storage.ready && _this3.status === _moduleStatuses2.default.pending) {
-          _this3.store.dispatch({
-            type: _this3.actionTypes.initSuccess
-          });
-        } else if ((!_this3._numberValidate.ready || !_this3._callingSettings.ready || !_this3._storage.ready) && _this3.status === _moduleStatuses2.default.ready) {
-          _this3.store.dispatch({
-            type: _this3.actionTypes.resetSuccess
-          });
-        }
+      this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        var oldCallSettingMode;
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!(_this3._numberValidate.ready && _this3._callingSettings.ready && _this3._storage.ready && _this3._extensionPhoneNumber.ready && _this3._regionSettings.ready && (!_this3._webphone || _this3._webphone.ready) && _this3._ringout.ready && _this3._softphone.ready && _this3.status === _moduleStatuses2.default.pending)) {
+                  _context2.next = 10;
+                  break;
+                }
+
+                _this3.store.dispatch({
+                  type: _this3.actionTypes.init
+                });
+                _this3._initFromNumber();
+                // init webphone
+                _this3._callSettingMode = _this3._callingSettings.callingMode;
+
+                if (!(_this3._callSettingMode === _callingModes2.default.webphone)) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                _context2.next = 7;
+                return _this3._webphone.connect(_this3.fromNumbers.length > 0);
+
+              case 7:
+                _this3.store.dispatch({
+                  type: _this3.actionTypes.initSuccess
+                });
+                _context2.next = 30;
+                break;
+
+              case 10:
+                if (!((!_this3._numberValidate.ready || !_this3._callingSettings.ready || !_this3._extensionPhoneNumber.ready || !_this3._regionSettings.ready || !!_this3._webphone && !_this3._webphone.ready || !_this3._ringout.ready || !_this3._softphone.ready || !_this3._storage.ready) && _this3.ready)) {
+                  _context2.next = 18;
+                  break;
+                }
+
+                _this3.store.dispatch({
+                  type: _this3.actionTypes.resetSuccess
+                });
+                _this3._callSettingMode = _this3._callingSettings.callingMode;
+
+                if (!(_this3._callSettingMode === _callingModes2.default.webphone && _this3._webphone)) {
+                  _context2.next = 16;
+                  break;
+                }
+
+                _context2.next = 16;
+                return _this3._webphone.disconnect();
+
+              case 16:
+                _context2.next = 30;
+                break;
+
+              case 18:
+                if (!_this3.ready) {
+                  _context2.next = 30;
+                  break;
+                }
+
+                oldCallSettingMode = _this3._callSettingMode;
+
+                if (!(_this3._callingSettings.callingMode !== oldCallSettingMode && _this3._webphone)) {
+                  _context2.next = 30;
+                  break;
+                }
+
+                _this3._callSettingMode = _this3._callingSettings.callingMode;
+
+                if (!(oldCallSettingMode === _callingModes2.default.webphone)) {
+                  _context2.next = 27;
+                  break;
+                }
+
+                _context2.next = 25;
+                return _this3._webphone.disconnect();
+
+              case 25:
+                _context2.next = 30;
+                break;
+
+              case 27:
+                if (!(_this3._callSettingMode === _callingModes2.default.webphone)) {
+                  _context2.next = 30;
+                  break;
+                }
+
+                _context2.next = 30;
+                return _this3._webphone.connect(_this3.fromNumbers);
+
+              case 30:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, _this3);
+      })));
+    }
+  }, {
+    key: '_initFromNumber',
+    value: function _initFromNumber() {
+      var fromNumber = this.fromNumber;
+      if (!fromNumber) {
+        var fromNumberList = this.fromNumbers;
+        this.updateFromNumber(fromNumberList[0]);
+      }
+    }
+  }, {
+    key: 'updateFromNumber',
+    value: function updateFromNumber(number) {
+      this.store.dispatch({
+        type: this.actionTypes.updateFromNumber,
+        number: number && number.phoneNumber
       });
     }
   }, {
@@ -235,28 +362,52 @@ var Call = function (_RcModule) {
   }, {
     key: '_getValidatedNumbers',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
         var _this4 = this;
 
-        var fromNumber, waitingValidateNumbers, validatedResult, parsedNumbers, parsedFromNumber;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        var fromNumber, isWebphone, waitingValidateNumbers, validatedResult, parsedNumbers, parsedFromNumber;
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
+                fromNumber = void 0;
+                isWebphone = this._callingSettings.callingMode === _callingModes2.default.webphone;
+
+                if (!isWebphone) {
+                  _context3.next = 8;
+                  break;
+                }
+
+                fromNumber = this.fromNumber;
+
+                if (!(fromNumber === null || fromNumber === '')) {
+                  _context3.next = 6;
+                  break;
+                }
+
+                return _context3.abrupt('return', null);
+
+              case 6:
+                _context3.next = 9;
+                break;
+
+              case 8:
                 fromNumber = this._callingSettings.myLocation;
+
+              case 9:
                 waitingValidateNumbers = [this.toNumber];
 
-                if (fromNumber && fromNumber.length > 0) {
+                if (fromNumber && fromNumber.length > 0 && !(isWebphone && fromNumber === 'anonymous')) {
                   waitingValidateNumbers.push(fromNumber);
                 }
-                _context2.next = 5;
+                _context3.next = 13;
                 return this._numberValidate.validateNumbers(waitingValidateNumbers);
 
-              case 5:
-                validatedResult = _context2.sent;
+              case 13:
+                validatedResult = _context3.sent;
 
                 if (validatedResult.result) {
-                  _context2.next = 9;
+                  _context3.next = 17;
                   break;
                 }
 
@@ -265,9 +416,9 @@ var Call = function (_RcModule) {
                     message: _callErrors2.default[error.type]
                   });
                 });
-                return _context2.abrupt('return', null);
+                return _context3.abrupt('return', null);
 
-              case 9:
+              case 17:
                 parsedNumbers = validatedResult.numbers;
                 // using e164 in response to call
 
@@ -277,60 +428,12 @@ var Call = function (_RcModule) {
                 if (parsedFromNumber !== '') {
                   parsedFromNumber = parsedNumbers[1].subAddress ? [parsedNumbers[1].e164, parsedNumbers[1].subAddress].join('*') : parsedNumbers[1].e164;
                 }
-                return _context2.abrupt('return', {
+                return _context3.abrupt('return', {
                   toNumber: parsedNumbers[0].e164,
                   fromNumber: parsedFromNumber
                 });
 
-              case 13:
-              case 'end':
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function _getValidatedNumbers() {
-        return _ref3.apply(this, arguments);
-      }
-
-      return _getValidatedNumbers;
-    }()
-  }, {
-    key: '_makeCall',
-    value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref5) {
-        var toNumber = _ref5.toNumber,
-            fromNumber = _ref5.fromNumber;
-        var callingMode;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
-          while (1) {
-            switch (_context3.prev = _context3.next) {
-              case 0:
-                callingMode = this._callingSettings.callingMode;
-                _context3.t0 = callingMode;
-                _context3.next = _context3.t0 === _callingModes2.default.softphone ? 4 : _context3.t0 === _callingModes2.default.ringout ? 6 : 9;
-                break;
-
-              case 4:
-                this._softphone.makeCall(toNumber);
-                return _context3.abrupt('break', 10);
-
-              case 6:
-                _context3.next = 8;
-                return this._ringout.makeCall({
-                  fromNumber: fromNumber,
-                  toNumber: toNumber,
-                  prompt: this._callingSettings.ringoutPrompt
-                });
-
-              case 8:
-                return _context3.abrupt('break', 10);
-
-              case 9:
-                return _context3.abrupt('break', 10);
-
-              case 10:
+              case 21:
               case 'end':
                 return _context3.stop();
             }
@@ -338,8 +441,77 @@ var Call = function (_RcModule) {
         }, _callee3, this);
       }));
 
-      function _makeCall(_x) {
+      function _getValidatedNumbers() {
         return _ref4.apply(this, arguments);
+      }
+
+      return _getValidatedNumbers;
+    }()
+  }, {
+    key: '_makeCall',
+    value: function () {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref6) {
+        var toNumber = _ref6.toNumber,
+            fromNumber = _ref6.fromNumber;
+        var callingMode, countryCode, homeCountry, homeCountryId;
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                callingMode = this._callingSettings.callingMode;
+                countryCode = this._regionSettings.countryCode;
+                homeCountry = this._regionSettings.availableCountries.find(function (country) {
+                  return country.isoCode === countryCode;
+                });
+                homeCountryId = homeCountry && homeCountry.callingCode || '1';
+                _context4.t0 = callingMode;
+                _context4.next = _context4.t0 === _callingModes2.default.softphone ? 7 : _context4.t0 === _callingModes2.default.ringout ? 9 : _context4.t0 === _callingModes2.default.webphone ? 12 : 16;
+                break;
+
+              case 7:
+                this._softphone.makeCall(toNumber);
+                return _context4.abrupt('break', 17);
+
+              case 9:
+                _context4.next = 11;
+                return this._ringout.makeCall({
+                  fromNumber: fromNumber,
+                  toNumber: toNumber,
+                  prompt: this._callingSettings.ringoutPrompt
+                });
+
+              case 11:
+                return _context4.abrupt('break', 17);
+
+              case 12:
+                if (!this._webphone) {
+                  _context4.next = 15;
+                  break;
+                }
+
+                _context4.next = 15;
+                return this._webphone.makeCall({
+                  fromNumber: fromNumber,
+                  toNumber: toNumber,
+                  homeCountryId: homeCountryId
+                });
+
+              case 15:
+                return _context4.abrupt('break', 17);
+
+              case 16:
+                return _context4.abrupt('break', 17);
+
+              case 17:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function _makeCall(_x) {
+        return _ref5.apply(this, arguments);
       }
 
       return _makeCall;
@@ -348,6 +520,11 @@ var Call = function (_RcModule) {
     key: 'status',
     get: function get() {
       return this.state.status;
+    }
+  }, {
+    key: 'ready',
+    get: function get() {
+      return this.state.status === _moduleStatuses2.default.ready;
     }
   }, {
     key: 'callStatus',
@@ -368,6 +545,16 @@ var Call = function (_RcModule) {
     key: 'toNumber',
     get: function get() {
       return this.state.toNumber;
+    }
+  }, {
+    key: 'fromNumber',
+    get: function get() {
+      return this._storage.getItem(this._fromNumberStorageKey);
+    }
+  }, {
+    key: 'fromNumbers',
+    get: function get() {
+      return this._selectors.fromNumbers();
     }
   }]);
   return Call;

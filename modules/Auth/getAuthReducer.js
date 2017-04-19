@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getLoginStatusReducer = getLoginStatusReducer;
 exports.getOwnerIdReducer = getOwnerIdReducer;
+exports.getEndpointIdReducer = getEndpointIdReducer;
 exports.getFreshLoginReducer = getFreshLoginReducer;
 exports.getProxyLoadedReducer = getProxyLoadedReducer;
 exports.getProxyRetryCountReducer = getProxyRetryCountReducer;
@@ -95,12 +96,44 @@ function getOwnerIdReducer(types) {
   };
 }
 
-function getFreshLoginReducer(types) {
+function getEndpointIdReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref3 = arguments[1];
     var type = _ref3.type,
-        loggedIn = _ref3.loggedIn;
+        token = _ref3.token,
+        refreshTokenValid = _ref3.refreshTokenValid;
+
+    switch (type) {
+
+      case types.loginSuccess:
+      case types.refreshSuccess:
+        return token.endpoint_id;
+
+      case types.loginError:
+      case types.logoutSuccess:
+      case types.logoutError:
+        return null;
+
+      case types.refreshError:
+        return refreshTokenValid ? state : null;
+
+      case types.initSuccess:
+      case types.tabSync:
+        return token && token.endpoint_id || null;
+
+      default:
+        return state;
+    }
+  };
+}
+
+function getFreshLoginReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var _ref4 = arguments[1];
+    var type = _ref4.type,
+        loggedIn = _ref4.loggedIn;
 
     switch (type) {
 
@@ -126,8 +159,8 @@ function getFreshLoginReducer(types) {
 function getProxyLoadedReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-    var _ref4 = arguments[1];
-    var type = _ref4.type;
+    var _ref5 = arguments[1];
+    var type = _ref5.type;
 
     switch (type) {
       case types.proxyLoaded:
@@ -143,8 +176,8 @@ function getProxyLoadedReducer(types) {
 function getProxyRetryCountReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
-    var _ref5 = arguments[1];
-    var type = _ref5.type;
+    var _ref6 = arguments[1];
+    var type = _ref6.type;
 
     switch (type) {
       case types.proxySetup:
@@ -165,6 +198,7 @@ function getAuthReducer(types) {
     loginStatus: getLoginStatusReducer(types),
     freshLogin: getFreshLoginReducer(types),
     ownerId: getOwnerIdReducer(types),
+    endpointId: getEndpointIdReducer(types),
     proxyLoaded: getProxyLoadedReducer(types),
     proxyRetryCount: getProxyRetryCountReducer(types)
   });

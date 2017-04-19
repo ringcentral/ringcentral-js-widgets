@@ -131,7 +131,12 @@ var RolesAndPermissions = function (_DataFetcher) {
   }, {
     key: 'ringoutEnabled',
     get: function get() {
-      return this._extensionInfo.serviceFeatures && this._extensionInfo.serviceFeatures.RingOut && this._extensionInfo.serviceFeatures.RingOut.enabled;
+      return !!(this._extensionInfo.serviceFeatures && this._extensionInfo.serviceFeatures.RingOut && this._extensionInfo.serviceFeatures.RingOut.enabled);
+    }
+  }, {
+    key: 'webphoneEnabled',
+    get: function get() {
+      return !!(this._extensionInfo.serviceFeatures && this._extensionInfo.serviceFeatures.WebPhone && this._extensionInfo.serviceFeatures.WebPhone.enabled);
     }
   }]);
   return RolesAndPermissions;
