@@ -15,6 +15,7 @@ import RegionSettingsAlert from '../../components/RegionSettingsAlert';
 import MessageSenderAlert from '../../components/MessageSenderAlert';
 import RateExceededAlert from '../../components/RateExceededAlert';
 import ConnectivityAlert from '../../components/ConnectivityAlert';
+import WebphoneAlert from '../../components/WebphoneAlert';
 
 const AlertContainer = connect((state, {
   locale,
@@ -74,6 +75,10 @@ const AlertContainer = connect((state, {
 
     if (ConnectivityAlert.handleMessage(message)) {
       return ConnectivityAlert;
+    }
+
+    if (WebphoneAlert.handleMessage(message)) {
+      return WebphoneAlert;
     }
 
     return undefined;
