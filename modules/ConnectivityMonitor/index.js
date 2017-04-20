@@ -175,8 +175,8 @@ var ConnectivityMonitor = function (_RcModule) {
     }
   }, {
     key: '_requestErrorHandler',
-    value: function _requestErrorHandler(apiResponse) {
-      if (apiResponse instanceof Error && (!apiResponse.apiResponse || typeof apiResponse.apiResponse.response !== 'function' || !apiResponse.apiResponse.response())) {
+    value: function _requestErrorHandler(error) {
+      if (!error.apiResponse || error.apiResponse._response) {
         if (this.connectivity) {
           this.store.dispatch({
             type: this.actionTypes.connectFail
