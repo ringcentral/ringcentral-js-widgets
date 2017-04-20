@@ -176,7 +176,7 @@ var ConnectivityMonitor = function (_RcModule) {
   }, {
     key: '_requestErrorHandler',
     value: function _requestErrorHandler(error) {
-      if (!error.apiResponse || error.apiResponse._response) {
+      if (!error.apiResponse || !error.apiResponse._response) {
         if (this.connectivity) {
           this.store.dispatch({
             type: this.actionTypes.connectFail
