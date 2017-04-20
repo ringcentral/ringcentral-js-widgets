@@ -97,9 +97,10 @@ class RecipientHeader extends Component {
     const recipient = this.props.recipient;
     const hasDropdown = this.hasDropdown();
     if (!hasDropdown) {
+      const recipientName = this.context.getRecipientName(recipient);
       return (
-        <span className={styles.title}>
-          {this.context.getRecipientName(recipient)}
+        <span className={styles.title} title={recipientName}>
+          {recipientName}
         </span>
       );
     }
@@ -131,6 +132,7 @@ class RecipientHeader extends Component {
       <div>
         <RecipientName
           name={defaultRecipient}
+          title={defaultRecipient}
           onClick={this.toggleDropdown}
           className={styles.dropdownButton}
         />

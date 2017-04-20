@@ -39,12 +39,12 @@ $btn_value_height: 55%;
   // stroke: $dialer-btn-border-color;
 }
 .btnSvgGroup:hover .circle, {
-  stroke: $rc-blue;
+  stroke: $primary-color;
   /*fill: rgba(6, 132, 189, 0.1);*/
 }
 .btnSvgGroup:hover .btnValue,
 .btnSvgGroup:hover .btnText, {
-  fill: $rc-blue;
+  fill: $primary-color;
 }
 /*.pressed .circle,
 .pressed:hover .circle {

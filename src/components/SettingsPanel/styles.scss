@@ -26,13 +26,17 @@
   padding-top: 8px;
 }
 .eula {
-  color: $primary-color;
+  color: $brand-font-color;
   text-decoration: none;
   font-size: $primary-font-size;
   outline: 0;
 }
 .eula:focus {
   outline: 0;
+}
+.eula:hover {
+  text-decoration: underline;
+  color: $brand-font-color-highlight;
 }
 
 .loginNumber{

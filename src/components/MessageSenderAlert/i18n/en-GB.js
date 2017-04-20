@@ -17,10 +17,14 @@ export default {
   [messageSenderMessages.internalError]: 'Cannot connect due to internal errors. Please try again later.',
   [messageSenderMessages.notAnExtension]: 'The extension number does not exist.',
   [messageSenderMessages.networkError]: 'Cannot connect due to network issues. Please try again later.',
-  [messageSenderMessages.notSmsToExtension]: `Cannot send to an extension number with main phone number.\n    If you want to sent to a extension number,\n    please just enter the extension number.`,
-  [messageSenderMessages.senderNumberInvalids]: `You don't have valid phone number to send SMS
-    from. Please contact your account administrator.`,
-  [messageSenderMessages.internationalSMSNotSupported]: `Sending SMS to international phone numbers
+  [messageSenderMessages.notSmsToExtension]: `Cannot send to an extension number with main phone number.
+    If you want to sent to a extension number,
+    please just enter the extension number.`,
+  [messageSenderMessages.senderNumberInvalids]: `You don't have valid phone number to send SMS\n    from. Please contact your account administrator.`,
+  [messageSenderMessages.internationalSMSNotSupported]: `Sending SMS to international phone numbers 
     is not supported.`,
   areaCode: 'area code',
+  [messageSenderMessages.senderNumberInvalid]: `A valid Phone Number is required to send text
+    messages to recipients outside of your company. Please contact your Administrator to add 
+    a direct number to your account.`,
 };

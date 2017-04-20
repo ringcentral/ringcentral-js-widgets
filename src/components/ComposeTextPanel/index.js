@@ -144,6 +144,7 @@ class ComposeTextPanel extends Component {
               searchContactList={this.props.searchContactList}
               onKeyUp={this.onReceiverInputKeyUp}
               formatContactPhone={this.props.formatContactPhone}
+              titleEnabled
             />
           </div>
           <div className={styles.senderField}>
@@ -199,7 +200,7 @@ ComposeTextPanel.propTypes = {
   senderNumber: PropTypes.string,
   toNumbers: React.PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
   })).isRequired,
   outboundSMS: PropTypes.bool,
 };

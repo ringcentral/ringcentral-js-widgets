@@ -3,14 +3,18 @@ import styles from './styles.scss';
 import RemoveButton from '../RemoveButton';
 import ContactDropdownList from '../ContactDropdownList';
 
-function SelectedRecipientItem(props) {
-  const className = props.phoneNumber.length > 5 ? styles.blue : null;
+function SelectedRecipientItem({
+  phoneNumber,
+  name = phoneNumber,
+  onRemove,
+}) {
+  const className = phoneNumber.length > 5 ? styles.blue : null;
   return (
     <li className={className}>
-      <span>{props.name}</span>
+      <span>{name}</span>
       <RemoveButton
         className={styles.removeReceiver}
-        onClick={props.onRemove}
+        onClick={onRemove}
         visibility
       />
     </li>
@@ -18,9 +22,12 @@ function SelectedRecipientItem(props) {
 }
 
 SelectedRecipientItem.propTypes = {
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   phoneNumber: PropTypes.string.isRequired,
   onRemove: PropTypes.func.isRequired,
+};
+SelectedRecipientItem.defaultProps = {
+  name: undefined,
 };
 
 function SelectedRecipients(props) {
@@ -48,7 +55,7 @@ SelectedRecipients.propTypes = {
   removeFromRecipients: PropTypes.func.isRequired,
   items: React.PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
   })).isRequired,
 };
 
@@ -215,6 +222,7 @@ class RecipientsInput extends Component {
           formatContactPhone={this.props.formatContactPhone}
           className={styles.contactsDropdown}
           visibility={this.state.isFocusOnInput}
+          titleEnabled={this.props.titleEnabled}
         />
       </div>
     );
@@ -232,7 +240,7 @@ RecipientsInput.propTypes = {
   })).isRequired,
   recipients: PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
   })).isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
@@ -242,6 +250,7 @@ RecipientsInput.propTypes = {
   addToRecipients: PropTypes.func.isRequired,
   removeFromRecipients: PropTypes.func.isRequired,
   formatContactPhone: PropTypes.func.isRequired,
+  titleEnabled: PropTypes.bool,
 };
 
 RecipientsInput.defaultProps = {
@@ -249,6 +258,7 @@ RecipientsInput.defaultProps = {
   placeholder: '',
   onKeyUp: () => null,
   onKeyDown: () => null,
+  titleEnabled: undefined,
 };
 
 export default RecipientsInput;

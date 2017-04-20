@@ -51,13 +51,6 @@
 }
 
 
-.spinnerContainer {
-  position: absolute;
-  width: 12px;
-  bottom: 0;
-  right: 0;
-}
-
 
 .details {
   position: absolute;
@@ -75,7 +68,13 @@
 
 .select {
   width: 200px;
-  height: 20px;
+  height: 25px;
+  border: 0px;
+  button {
+    margin: 0px;
+    color: #303030;
+    font-size: 14px;
+  }
 }
 .select:after {
   line-height: 20px;
@@ -86,7 +85,7 @@
   position: absolute;
   top: 12px;
   left: 46px;
-  color: #000;
+  color: #303030;
   font-size: 14px;
 }
 

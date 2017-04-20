@@ -8,7 +8,7 @@ import styles from './styles.scss';
 
 function Recipient(props) {
   return (
-    <a href="#recipient" className={styles.recipient} onClick={props.onClick}>
+    <a href="#recipient" className={styles.recipient} onClick={props.onClick} title={props.title}>
       {props.name}
     </a>
   );
@@ -17,6 +17,10 @@ function Recipient(props) {
 Recipient.propTypes = {
   name: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  title: PropTypes.string
+};
+Recipient.defaultProps = {
+  title: null,
 };
 
 function RecipientList(props) {
@@ -28,6 +32,7 @@ function RecipientList(props) {
           <Recipient
             key={`${receiver.extensionNumber}${receiver.phoneNumber}${receiver.name}`}
             name={props.getRecipientName(receiver)}
+            title={props.titleEnabled && props.getRecipientName(receiver)}
             onClick={
               () => props.setDefaultRecipient(
                 receiver.extensionNumber || receiver.phoneNumber
@@ -44,11 +49,15 @@ RecipientList.propTypes = {
   getRecipientName: PropTypes.func.isRequired,
   setDefaultRecipient: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
+  titleEnabled: PropTypes.bool,
   recipients: PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string,
     extensionNumber: PropTypes.string,
     name: PropTypes.string,
   })).isRequired,
+};
+RecipientList.defaultProps = {
+  titleEnabled: undefined,
 };
 
 class RecipientsHeader extends Component {
@@ -75,6 +84,7 @@ class RecipientsHeader extends Component {
     if (recipients.length === 0) {
       return null;
     }
+    // console.debug('recipients', recipients);
     let dropdownClass = styles.dropdownList;
     let dropdownArrowClass = classnames(dynamicsFont.arrow, styles.dropdownIcon);
     if (recipients.length === 1) {
@@ -97,6 +107,7 @@ class RecipientsHeader extends Component {
       <h1 className={styles.container}>
         <Recipient
           name={this.context.getRecipientName(defaultRecipient)}
+          title={this.context.getRecipientName(defaultRecipient)}
           onClick={this.toggleDropdown}
         />
         <i
@@ -108,6 +119,7 @@ class RecipientsHeader extends Component {
           className={dropdownClass}
           setDefaultRecipient={this.setDefaultRecipient}
           getRecipientName={this.context.getRecipientName}
+          titleEnabled
         />
       </h1>
     );

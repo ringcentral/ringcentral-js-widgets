@@ -17,10 +17,14 @@ export default {
   [messageSenderMessages.internalError]: 'Connexion impossible en raison d\'erreurs internes. Veuillez réessayer plus tard.',
   [messageSenderMessages.notAnExtension]: 'Le numéro de poste n\'existe pas.',
   [messageSenderMessages.networkError]: 'Connexion impossible en raison de problèmes de réseau. Veuillez réessayer plus tard.',
-  [messageSenderMessages.notSmsToExtension]: `Impossible d'envoyer au numéro de poste avec le numéro de téléphone principal.\n    Si vous souhaitez envoyer à un numéro de poste,\n    veuillez simplement saisir ce numéro.`,
-  [messageSenderMessages.senderNumberInvalids]: `Vous ne possédez pas un numéro de téléphone valide à partir duquel
-    envoyer des textos. Veuillez communiquer avec votre administrateur de compte.`,
+  [messageSenderMessages.notSmsToExtension]: `Impossible d'envoyer au numéro de poste avec le numéro de téléphone principal.
+    Si vous souhaitez envoyer à un numéro de poste,
+    veuillez simplement saisir ce numéro.`,
+  [messageSenderMessages.senderNumberInvalids]: `Vous ne possédez pas un numéro de téléphone valide à partir duquel\n    envoyer des textos. Veuillez communiquer avec votre administrateur de compte.`,
   [messageSenderMessages.internationalSMSNotSupported]: `L'envoi de textos vers un numéro de téléphone international n'est pas
     pris en charge.`,
   areaCode: 'indicatif régional',
+  [messageSenderMessages.senderNumberInvalid]: `Un numéro de téléphone valide est requis pour envoyer
+    des textos aux destinataires en dehors de votre entreprise. Veuillez communiquer avec
+    votre administrateur pour ajouter un numéro direct à votre compte.`,
 };

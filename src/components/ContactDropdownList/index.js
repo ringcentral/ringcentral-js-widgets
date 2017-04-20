@@ -9,23 +9,30 @@ function ContactItem(props) {
     styles.contactItem,
     props.active ? styles.active : null,
   );
+  const spliter = '|';
+  const nameTitle = `${props.name} ${spliter} `
+    + `${phoneTypes.getString(`phoneSource.${props.entityType}`)}`;
+  const phoneNumberTitle = `${props.formatContactPhone(props.phoneNumber)} ${spliter} `
+    + `${props.phoneType === 'unknown' ?
+    phoneTypes.getString(`phoneType.${props.phoneType}`) : props.phoneType}`;
+
   return (
     <li className={className} onMouseOver={props.onHover}>
       <a href="#select-contact-item" onClick={props.onClick}>
-        <div>
+        <div className={styles.nameSection} title={props.titleEnabled && nameTitle}>
           <span className={styles.name}>
             {props.name}
           </span>
-          <span className={styles.spliter}>|</span>
+          <span className={styles.spliter}>{spliter}</span>
           <span className={styles.label}>
             {phoneTypes.getString(`phoneSource.${props.entityType}`)}
           </span>
         </div>
-        <div className={styles.phoneNumberSection}>
+        <div className={styles.phoneNumberSection} title={props.titleEnabled && phoneNumberTitle}>
           <span>
             {props.formatContactPhone(props.phoneNumber)}
           </span>
-          <span className={styles.spliter}>|</span>
+          <span className={styles.spliter}>{spliter}</span>
           <span className={styles.label}>
             { props.phoneType === 'unknown' ?
               phoneTypes.getString(`phoneType.${props.phoneType}`) : props.phoneType }
@@ -45,6 +52,10 @@ ContactItem.propTypes = {
   phoneNumber: PropTypes.string.isRequired,
   active: PropTypes.bool.isRequired,
   onHover: PropTypes.func.isRequired,
+  titleEnabled: PropTypes.bool,
+};
+ContactItem.defaultProps = {
+  titleEnabled: undefined,
 };
 
 class ContactDropdownList extends Component {
@@ -94,7 +105,8 @@ class ContactDropdownList extends Component {
                 name: item.name,
                 phoneNumber: item.phoneNumber,
               })}
-              key={`${item.phoneNumber}${item.name}${item.phoneType}`}
+              key={`${index}${item.phoneNumber}${item.name}${item.phoneType}`}
+              titleEnabled={props.titleEnabled}
             />
           ))
         }
@@ -117,11 +129,13 @@ ContactDropdownList.propTypes = {
   addToRecipients: PropTypes.func.isRequired,
   setSelectedIndex: PropTypes.func.isRequired,
   selectedIndex: PropTypes.number.isRequired,
+  titleEnabled: PropTypes.bool,
 };
 
 ContactDropdownList.defaultProps = {
   className: null,
   scrollDirection: null,
+  titleEnabled: undefined,
 };
 
 export default ContactDropdownList;

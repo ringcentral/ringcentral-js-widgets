@@ -80,6 +80,12 @@ export default class CallingSettingsPanel extends Component {
       myLocation
     });
   }
+  onMyLocationTextChange = (e) => {
+    const myLocation = e.target.value;
+    this.setState({
+      myLocation
+    });
+  }
   onRingoutPromptChange = (checked) => {
     this.setState({
       ringoutPrompt: checked,
@@ -97,7 +103,6 @@ export default class CallingSettingsPanel extends Component {
       myLocation,
       ringoutPrompt,
       onBackButtonClick,
-      brand,
       availableNumbers,
       className,
     } = this.props;
@@ -138,12 +143,13 @@ export default class CallingSettingsPanel extends Component {
                   onChange={this.onMyLocationChange}
                   options={availableNumbers[this.state.callWith]}
                   dropdownAlign="left"
+                  titleEnabled
                 />
               ) : (
                 <TextInput
                   value={this.state.myLocation}
                   maxLength={30}
-                  onChange={this.onMyLocationChange} />
+                  onChange={this.onMyLocationTextChange} />
               )
             }
           </InputField>
@@ -160,6 +166,7 @@ export default class CallingSettingsPanel extends Component {
           </IconField>
         </div>
       ) : null;
+
     return (
       <div className={classnames(styles.root, className)}>
         <BackHeader
@@ -180,6 +187,7 @@ export default class CallingSettingsPanel extends Component {
               dropdownAlign="left"
               renderValue={this.renderHandler}
               renderFunction={this.renderHandler}
+              titleEnabled
             />
           </InputField>
           {ringout}
@@ -200,4 +208,8 @@ CallingSettingsPanel.propTypes = {
   availableNumbers: PropTypes.object.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
+};
+
+CallingSettingsPanel.defaultProps = {
+  className: null,
 };

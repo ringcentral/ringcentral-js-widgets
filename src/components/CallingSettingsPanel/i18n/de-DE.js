@@ -3,9 +3,9 @@ import callingOptions from 'ringcentral-integration/modules/CallingSettings/call
 export default {
   title: 'Anrufen',
   [callingOptions.softphone]: '{brand} für Desktop',
-  [callingOptions.myphone]: 'Mein {brand}-Telefon',
-  [callingOptions.otherphone]: 'Anderes Telefon',
-  [callingOptions.customphone]: 'Benutzerdefiniertes Telefon',
+  [callingOptions.myphone]: 'Meinem {brand}-Telefon',
+  [callingOptions.otherphone]: 'Anderem Telefon',
+  [callingOptions.customphone]: 'Benutzerdefiniertem Telefon',
   makeCallsWith: 'Anrufe ausführen mit',
   ringoutHint: 'Zunächst am Standort anklingeln, dann Verbindung zum Anrufempfänger herstellen',
   myLocationLabel: 'Mein Standort',

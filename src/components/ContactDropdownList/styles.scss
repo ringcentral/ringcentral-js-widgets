@@ -69,6 +69,12 @@
   padding: 0 5px;
 }
 
+.nameSection {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .phoneNumberSection {
   overflow: hidden;
   text-overflow: ellipsis;

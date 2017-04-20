@@ -10,7 +10,7 @@ import parseNumber from 'ringcentral-integration/lib/parseNumber';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import callResults from 'ringcentral-integration/enums/callResults';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
-import Select from '../Select';
+import Select from '../DropdownSelect';
 import DurationCounter from '../DurationCounter';
 import formatDuration from '../../lib/formatDuration';
 import ActionMenu from '../ActionMenu';
@@ -54,6 +54,7 @@ CallIcon.defaultProps = {
   ringing: false,
 };
 
+
 function Contact({
   contactMatches,
   selected,
@@ -68,6 +69,7 @@ function Contact({
   missed,
 }) {
   let contentEl;
+
   if (contactMatches.length === 0) {
     contentEl = fallBackName ||
       (phoneNumber && formatNumber({
@@ -85,11 +87,11 @@ function Contact({
       },
       ...contactMatches,
     ];
+
     contentEl = (
       <Select
         className={styles.select}
         value={`${selected}`}
-        paddingLeft={0}
         onChange={onSelectContact}
         disabled={disabled || isLogging}
         options={options}
@@ -99,6 +101,14 @@ function Contact({
             i18n.getString('select', currentLocale) :
             `${entity.name} ${i18n.getString(`phoneSource.${entity.entityType}`)}`
         )}
+        renderValue={(value) => {
+          value = parseInt(value, 10) + 1;
+          return value === 0 ?
+            i18n.getString('select', currentLocale) :
+            `${options[value].name} ${i18n.getString(`phoneSource.${options[value].entityType}`)}`;
+        }}
+        dropdownAlign="left"
+        titleEnabled
       />
     );
   }
@@ -158,8 +168,8 @@ export default class CallItem extends Component {
   componentWillUnmount() {
     this._mounted = false;
   }
-  onSelectContact = (e) => {
-    const selected = parseInt(e.currentTarget.value, 10);
+  onSelectContact = (value, idx) => {
+    const selected = parseInt(idx, 10) - 1;
     this.setState({
       selected,
       userSelection: true,
@@ -256,10 +266,11 @@ export default class CallItem extends Component {
     const {
       call: {
         direction,
-      telephonyStatus,
-      result,
-      startTime,
-      duration,
+        telephonyStatus,
+        result,
+        startTime,
+        duration,
+        activityMatches,
       },
       currentLocale,
       areaCode,
@@ -309,7 +320,6 @@ export default class CallItem extends Component {
     if (active) {
       statusEl = i18n.getString(result || telephonyStatus, currentLocale);
     }
-
     return (
       <div className={styles.callItem}>
         <CallIcon
@@ -335,14 +345,16 @@ export default class CallItem extends Component {
         </div>
         <ActionMenu
           currentLocale={currentLocale}
-          onLogCall={onLogCall}
-          onViewEntity={onViewContact && this.viewContact}
-          hasEntity={!contactMatches.length}
+          onLogCall={onLogCall && this.logCall}
+          onViewEntity={onViewContact && this.viewSelectedContact}
+          hasEntity={!!contactMatches.length}
           onClickToDial={onClickToDial && this.clickToDial}
           onClickToSms={showClickToSms && this.clickToSms}
           phoneNumber={phoneNumber}
           disableLinks={disableLinks}
           disableClickToDial={disableClickToDial}
+          isLogging={isLogging || this.state.isLogging}
+          isLogged={activityMatches.length > 0}
         />
       </div>
     );

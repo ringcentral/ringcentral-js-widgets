@@ -1,6 +1,7 @@
 
 .root {
   position: absolute;
+  height: 100%;
   top: 0;
   right: 0;
 }
@@ -33,4 +34,11 @@
   font-size: 15px;
   position: absolute;
   top: 10px;
+}
+
+.spinnerContainer {
+  position: absolute;
+  width: 12px;
+  bottom: 0;
+  right: 0;
 }

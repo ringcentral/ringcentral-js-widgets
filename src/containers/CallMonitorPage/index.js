@@ -9,6 +9,8 @@ function mapToProps(_, {
   connectivityMonitor,
   dateTimeFormat,
   callLogger,
+  composeText,
+  rolesAndPermissions,
 }) {
   return {
     active: true,
@@ -18,6 +20,14 @@ function mapToProps(_, {
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     disableLinks: !connectivityMonitor.connectivity,
+    outboundSmsPermission: !!(
+      rolesAndPermissions.permissions &&
+      rolesAndPermissions.permissions.OutboundSMS
+    ),
+    internalSmsPermission: !!(
+      rolesAndPermissions.permissions &&
+      rolesAndPermissions.permissions.InternalSMS
+    ),
     loggingMap: (callLogger && callLogger.loggingMap),
     showSpinner: !(
       locale.ready &&
@@ -25,7 +35,9 @@ function mapToProps(_, {
       regionSettings.ready &&
       connectivityMonitor.ready &&
       dateTimeFormat.ready &&
-      (!callLogger || callLogger.ready)
+      (!callLogger || callLogger.ready) &&
+      (!rolesAndPermissions || rolesAndPermissions.ready) &&
+      (!composeText || composeText.ready)
     ),
   };
 }
