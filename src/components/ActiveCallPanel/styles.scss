@@ -3,9 +3,55 @@
 
 .root {
   @include full-size;
+  box-sizing: border-box;
   padding-left: 5%;
   padding-right: 5%;
-  box-sizing: border-box;
+  padding-top: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background: #ffffff;
+}
+
+.phoneBage {
+  background: #00d960;
+  padding: 0 10px;
+  text-align: center;
+}
+
+.draggable {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+}
+
+.activeIcon {
+  padding-right: 2px;
+  position: relative;
+  top: -1px;
+}
+
+.minimizeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 14px;
+}
+
+.connectStatus {
+  position: absolute;
+  left: 10px;
+  top: 28px;
+  color: #00d960;
+  font-size: 22px;
+}
+
+.timeCounter {
+  position: absolute;
+  right: 10px;
+  top: 30px;
+  font-size: 13px;
 }
 
 .user {
@@ -22,6 +68,7 @@
 .userAvatar {
   font-size: 60px;
   color: $primary-color;
+  margin-bottom: 5px;
   i {
     opacity: 0.7;
   }
@@ -33,7 +80,7 @@
 }
 
 .userPhoneNumber {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .operationButton {
