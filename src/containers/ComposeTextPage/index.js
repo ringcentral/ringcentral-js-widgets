@@ -18,7 +18,9 @@ const ComposeTextPage = connect((state, props) => ({
     (
       props.composeText.toNumbers.length === 0 &&
       props.composeText.typingToNumber.length === 0
-    )
+    ) ||
+    !props.connectivityMonitor.connectivity ||
+    props.rateLimiter.throttling
   ),
   senderNumbers: props.messageSender.senderNumbersList,
   senderNumber: props.composeText.senderNumber,

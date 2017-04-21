@@ -124,6 +124,7 @@ class MessagesPage extends Component {
           placeholder={i18n.getString('noSearchResults')}
           formatDateTime={this.props.formatDateTime}
           getMessageRecipientNames={this.getMessageRecipientNames}
+          disableLinks={this.props.disableLinks}
         />
       );
     }
@@ -155,6 +156,7 @@ class MessagesPage extends Component {
           onKeyUp={this.searchMessage}
           maxLength={30}
           placeholder={i18n.getString('search')}
+          disabled={this.props.searchingDisabled}
         />
         <Panel>
           {this.renderMessageList()}
@@ -178,10 +180,14 @@ MessagesPage.propTypes = {
   searchMessagesText: PropTypes.func.isRequired,
   updateSearchResults: PropTypes.func.isRequired,
   matcherContactName: PropTypes.func,
+  searchingDisabled: PropTypes.bool,
+  disableLinks: PropTypes.bool,
 };
 
 MessagesPage.defaultProps = {
   matcherContactName: null,
+  searchingDisabled: false,
+  disableLinks: false,
 };
 
 function mapStateToProps(state, props) {
@@ -198,6 +204,12 @@ function mapStateToProps(state, props) {
     lastUpdatedAt: props.messages.lastUpdatedAt,
     searchingString: props.messages.searchingString,
     searchingResults: props.messages.searchingResults,
+    searchingDisabled: (
+      !props.connectivityMonitor.connectivity ||
+      props.rateLimiter.throttling
+    ),
+    disableLinks: !props.connectivityMonitor.connectivity ||
+      props.rateLimiter.throttling,
   });
 }
 

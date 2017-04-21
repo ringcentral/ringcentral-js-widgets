@@ -100,7 +100,9 @@ function mapStateToProps(state, props) {
   return ({
     currentLocale: props.locale.currentLocale,
     conversationId: props.params.conversationId,
-    sendButtonDisabled: props.conversation.pushing,
+    sendButtonDisabled: props.conversation.pushing
+      || !props.connectivityMonitor.connectivity
+      || props.rateLimiter.throttling,
     showSpinner: (
       !props.dateTimeFormat.ready ||
       (props.contactMatcher && !props.contactMatcher.ready) ||

@@ -62,9 +62,11 @@ MessageItem.propTypes = {
   contactList: PropTypes.arrayOf(PropTypes.string).isRequired,
   creationTime: PropTypes.string.isRequired,
   formatDateTime: PropTypes.func.isRequired,
+  disableLinks: PropTypes.bool,
 };
 
 MessageItem.defaultProps = {
   unreadCounts: 0,
   subject: '',
+  disableLinks: false,
 };

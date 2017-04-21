@@ -54,7 +54,8 @@ export default class MessageList extends Component {
                   contactList={this.props.getMessageRecipientNames(message)}
                   creationTime={message.creationTime}
                   formatDateTime={this.props.formatDateTime}
-                  key={message.id} />
+                  key={message.id}
+                  disableLinks={this.props.disableLinks} />
             )
           : <NoMessages placeholder={this.props.placeholder} />
         }
@@ -78,4 +79,9 @@ MessageList.propTypes = {
   placeholder: PropTypes.string.isRequired,
   formatDateTime: PropTypes.func.isRequired,
   getMessageRecipientNames: PropTypes.func.isRequired,
+  disableLinks: PropTypes.bool,
+};
+
+MessageList.defaultProps = {
+  disableLinks: false,
 };

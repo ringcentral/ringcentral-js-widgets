@@ -8,6 +8,7 @@ function mapToProps(_, {
   callHistory,
   regionSettings,
   connectivityMonitor,
+  rateLimiter,
   dateTimeFormat,
   callLogger,
   call,
@@ -20,7 +21,8 @@ function mapToProps(_, {
     calls: callHistory.calls,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
-    disableLinks: !connectivityMonitor.connectivity,
+    disableLinks: !connectivityMonitor.connectivity ||
+      rateLimiter.throttling,
     disableClickToDial: !(call && call.isIdle),
     outboundSmsPermission: !!(
       rolesAndPermissions.permissions &&

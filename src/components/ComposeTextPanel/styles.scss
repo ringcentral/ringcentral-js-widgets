@@ -83,7 +83,6 @@
     margin: 10px 0 10px 10px;
     resize: none;
     border: none;
-    background: #transparent;
     outline: medium none!important;
     box-sizing: border-box!important;
 
@@ -99,6 +98,7 @@
   right: 0;
   width: 115px;
   margin-top: -18px;
+  margin-right: 6px;
 }
 
 .submitButton {
@@ -110,7 +110,6 @@
   font-size: 13px;
   line-height: 18px;
   padding: 7px;
-  border: $rc-blue 1px solid;
   border-radius: 18px;
   outline: medium none!important;
   color: #fff;
@@ -118,7 +117,6 @@
 }
 
 .submitButton:hover {
-  border: $primary-color-highlight 1px solid;
   background-color: $primary-color-highlight;
   color: #fff;
 }
