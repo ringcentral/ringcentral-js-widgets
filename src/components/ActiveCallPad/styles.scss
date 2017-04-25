@@ -1,0 +1,44 @@
+@import '../../lib/commonStyles/colors.scss';
+
+.buttonRow {
+  text-align: center;
+}
+
+.operationButton {
+  text-align: center;
+  display: inline-block;
+  padding: 5px 10px;
+  width: 30%;
+  box-sizing: border-box;
+}
+
+.button {
+  font-size: 25px;
+  border: 1px solid $primary-color;
+  width: 2em;
+  height: 2em;
+  border-radius: 1em;
+  line-height: 2.2em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.buttonActive {
+  background: $primary-color;
+}
+
+.buttonTitle {
+  font-size: 13px;
+  padding: 5px 0;
+  color: #797979;
+}
+
+.stopButton {
+  background: #ff4646;
+  border: none;
+  display: inline-block;
+  margin-top: 10px;
+  i {
+    color: #ffffff;
+  }
+}

@@ -1,5 +1,4 @@
 @import '../../lib/commonStyles/full-size';
-@import '../../lib/commonStyles/colors.scss';
 
 .root {
   @include full-size;
@@ -19,19 +18,4 @@
   top: 10px;
   right: 10px;
   font-size: 14px;
-}
-
-.connectStatus {
-  position: absolute;
-  left: 10px;
-  top: 28px;
-  color: #00d960;
-  font-size: 22px;
-}
-
-.timeCounter {
-  position: absolute;
-  right: 10px;
-  top: 30px;
-  font-size: 13px;
 }

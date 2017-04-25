@@ -1,0 +1,26 @@
+@import '../../lib/commonStyles/colors.scss';
+
+.root {
+  text-align: center;
+  font-size: 13px;
+  color: #303030;
+  margin-bottom: 15px;
+}
+
+.userAvatar {
+  font-size: 60px;
+  color: $primary-color;
+  margin-bottom: 5px;
+  i {
+    opacity: 0.7;
+  }
+}
+
+.userName {
+  font-size: 13px;
+  color: #797979;
+}
+
+.userPhoneNumber {
+  font-size: 16px;
+}

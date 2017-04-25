@@ -373,6 +373,7 @@ export default class Phone extends RcModule {
       activeCalls: this.activeCalls,
       activityMatcher: this.activityMatcher,
       contactMatcher: this.contactMatcher,
+      webphone: this.webphone,
       onRinging: async () => {
         // TODO refactor some of these logic into appropriate modules
         this.router.history.push('/calls');

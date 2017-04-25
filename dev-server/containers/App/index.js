@@ -16,6 +16,7 @@ import MessagesPage from '../../../src/containers/MessagesPage';
 import SettingsPage from '../../../src/containers/SettingsPage';
 import CallMonitorPage from '../../../src/containers/CallMonitorPage';
 import CallHistoryPage from '../../../src/containers/CallHistoryPage';
+import ActiveCallPage from '../../../src/containers/ActiveCallPage';
 
 import MainView from '../MainView';
 import AppView from '../AppView';
@@ -62,6 +63,10 @@ export default function App({
               connectivityMonitor={phone.connectivityMonitor}
               callingSettings={phone.callingSettings}>
               {props.children}
+              <ActiveCallPage
+                locale={phone.locale}
+                webphone={phone.webphone}
+              />
             </AppView>
           )} >
           <Route
