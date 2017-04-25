@@ -2762,6 +2762,12 @@ file-loader@0.10.0:
   dependencies:
     loader-utils "~0.2.5"
 
+file-loader@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-0.10.1.tgz#815034119891fc6441fb5a64c11bc93c22ddd842"
+  dependencies:
+    loader-utils "^1.0.2"
+
 file-loader@^0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-0.9.0.tgz#1d2daddd424ce6d1b07cfe3f79731bed3617ab42"
@@ -5261,6 +5267,10 @@ optionator@^0.8.1, optionator@^0.8.2:
     type-check "~0.3.2"
     wordwrap "~1.0.0"
 
+options@>=0.0.5:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/options/-/options-0.0.6.tgz#ec22d312806bb53e731773e7cdaefcf1c643128f"
+
 orchestrator@^0.3.0:
   version "0.3.8"
   resolved "https://registry.yarnpkg.com/orchestrator/-/orchestrator-0.3.8.tgz#14e7e9e2764f7315fbac184e506c7aa6df94ad7e"
@@ -5772,6 +5782,10 @@ process@^0.11.0:
 progress@^1.1.8:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/progress/-/progress-1.1.8.tgz#e260c78f6161cdd9b0e56cc3e0a85de17c7a57be"
+
+promiscuous@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/promiscuous/-/promiscuous-0.6.0.tgz#54014cd3d62cafe831e3354990c05ff5b78c8892"
 
 promise@5.0.0:
   version "5.0.0"
@@ -6368,18 +6382,27 @@ ringcentral-client@^1.0.0-rc1:
     form-data "^2.1.2"
     isomorphic-fetch "^2.2.1"
 
-ringcentral-integration@^0.5.19:
-  version "0.5.19"
-  resolved "https://registry.yarnpkg.com/ringcentral-integration/-/ringcentral-integration-0.5.19.tgz#8a6fc06d622185f95d02b16fdac87e5be1f2a8ca"
+ringcentral-integration@^0.5.21:
+  version "0.5.21"
+  resolved "https://registry.yarnpkg.com/ringcentral-integration/-/ringcentral-integration-0.5.21.tgz#fc00faf6b2612fd91372ec8e0011ff30b8a326b3"
   dependencies:
     data-types "git+https://github.com/u9520107/data-types.git#release"
+    file-loader "^0.10.1"
     json-mask "^0.3.8"
     loganberry "^0.9.1"
     phoneformat.js "^1.0.3"
     redux "^3.5.2"
     reselect "^2.5.4"
+    ringcentral-web-phone "^0.4.1"
+    url-loader "^0.5.8"
     uuid "^3.0.1"
     yards "^0.1.4"
+
+ringcentral-web-phone@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/ringcentral-web-phone/-/ringcentral-web-phone-0.4.1.tgz#dfa9d7e67dc8ae02bea844718552cd5738138001"
+  dependencies:
+    sip.js "^0.7.7"
 
 ringcentral@3.0.0:
   version "3.0.0"
@@ -6538,6 +6561,14 @@ sigmund@~1.0.0:
 signal-exit@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
+
+sip.js@^0.7.7:
+  version "0.7.7"
+  resolved "https://registry.yarnpkg.com/sip.js/-/sip.js-0.7.7.tgz#5274ea19383b3593e0f90945702cd311562a2add"
+  dependencies:
+    ws "^1.0.1"
+  optionalDependencies:
+    promiscuous "^0.6.0"
 
 slash@^1.0.0:
   version "1.0.0"
@@ -7063,6 +7094,10 @@ uid-number@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/uid-number/-/uid-number-0.0.6.tgz#0ea10e8035e8eb5b8e4449f06da1c730663baa81"
 
+ultron@1.0.x:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/ultron/-/ultron-1.0.2.tgz#ace116ab557cd197386a4e88f4685378c8b2e4fa"
+
 unc-path-regex@^0.1.0:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/unc-path-regex/-/unc-path-regex-0.1.2.tgz#e73dd3d7b0d7c5ed86fbac6b0ae7d8c6a69d50fa"
@@ -7110,7 +7145,7 @@ url-loader@0.5.7:
     loader-utils "0.2.x"
     mime "1.2.x"
 
-url-loader@^0.5.7:
+url-loader@^0.5.7, url-loader@^0.5.8:
   version "0.5.8"
   resolved "https://registry.yarnpkg.com/url-loader/-/url-loader-0.5.8.tgz#b9183b1801e0f847718673673040bc9dc1c715c5"
   dependencies:
@@ -7465,6 +7500,13 @@ write@^0.2.1:
   resolved "https://registry.yarnpkg.com/write/-/write-0.2.1.tgz#5fc03828e264cea3fe91455476f7a3c566cb0757"
   dependencies:
     mkdirp "^0.5.1"
+
+ws@^1.0.1:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-1.1.4.tgz#57f40d036832e5f5055662a397c4de76ed66bf61"
+  dependencies:
+    options ">=0.0.5"
+    ultron "1.0.x"
 
 xml-char-classes@^1.0.0:
   version "1.0.0"
