@@ -292,6 +292,11 @@ var CallMonitor = function (_RcModule) {
       this.store.subscribe(this._onStateChange);
     }
   }, {
+    key: 'hasRingingCalls',
+    get: function get() {
+      return (0, _callLogHelpers.hasRingingCalls)(this.calls);
+    }
+  }, {
     key: 'status',
     get: function get() {
       return this.state.status;
