@@ -73,24 +73,28 @@ class ActiveCallPage extends Component {
     }
     const phoneNumber = session.direction === callDirections.outbound ?
       session.to : session.from;
+    const userName = 'Unknow';
     if (isRinging) {
       return (
         <IncomingCallPanel
           currentLocale={this.props.currentLocale}
           toggleMinimized={this.props.toggleMinimized}
-          userName={'Unknow'}
+          userName={userName}
           phoneNumber={phoneNumber}
           answer={this.answer}
           reject={this.reject}
-        />
+        >
+          {this.props.children}
+        </IncomingCallPanel>
       );
     }
     return (
       <ActiveCallPanel
         currentLocale={this.props.currentLocale}
         phoneNumber={phoneNumber}
-        userName={'Unknow'}
+        userName={userName}
         sessionId={session.id}
+        callStatus={session.callStatus}
         startTime={session.startTime}
         isOnMute={session.isOnMute}
         isOnHold={session.isOnHold}
@@ -103,7 +107,9 @@ class ActiveCallPage extends Component {
         onRecord={this.onRecord}
         onStopRecord={this.onStopRecord}
         hangup={this.hangup}
-      />
+      >
+        {this.props.children}
+      </ActiveCallPanel>
     );
   }
 }
@@ -131,6 +137,11 @@ ActiveCallPage.propTypes = {
   hangup: PropTypes.func.isRequired,
   answer: PropTypes.func.isRequired,
   reject: PropTypes.func.isRequired,
+  children: PropTypes.node,
+};
+
+ActiveCallPage.defaultProps = {
+  children: undefined,
 };
 
 function mapToProps(_, {

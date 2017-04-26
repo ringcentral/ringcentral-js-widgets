@@ -1,5 +1,13 @@
 @import '../../lib/commonStyles/colors.scss';
 
+.root {
+  text-align: center;
+  display: inline-block;
+  padding: 5px 5px;
+  width: 30%;
+  box-sizing: border-box;
+}
+
 .button {
   font-size: 20px;
   border: 1px solid $primary-color;
@@ -11,16 +19,12 @@
   margin-right: auto;
 }
 
-.buttonRow {
-  text-align: center;
+.buttonActive {
+  background: $primary-color;
 }
 
-.stopButton {
-  background: #ff4646;
-  border: none;
-  display: inline-block;
-  margin-top: 10px;
-  i {
-    color: #ffffff;
-  }
+.buttonTitle {
+  font-size: 12px;
+  padding: 5px 0;
+  color: #797979;
 }

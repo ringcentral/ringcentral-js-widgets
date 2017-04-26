@@ -7,7 +7,9 @@ import styles from './styles.scss';
 import i18n from './i18n';
 
 export default function ActiveCallUserInfo(props) {
-  const className = classnames(styles.root, props.className);
+  const className = classnames(
+    styles.root, props.isBig ? styles.big : null, props.className
+  );
   const name = props.name || i18n.getString('unkonw', props.currentLocale);
   return (
     <div className={className}>
@@ -22,12 +24,15 @@ export default function ActiveCallUserInfo(props) {
 
 ActiveCallUserInfo.propTypes = {
   name: PropTypes.string,
+  isBig: PropTypes.bool,
   className: PropTypes.string,
-  phoneNumber: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
 };
 
 ActiveCallUserInfo.defaultProps = {
   name: null,
   className: null,
+  phoneNumber: null,
+  isBig: false,
 };

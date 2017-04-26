@@ -20,11 +20,13 @@ export default function IncomingCallPanel(props) {
         name={props.userName}
         phoneNumber={props.phoneNumber}
         currentLocale={props.currentLocale}
+        isBig
       />
       <IncomingCallPad
         answer={props.answer}
         reject={props.reject}
       />
+      {props.children}
     </div>
   );
 }
@@ -36,9 +38,11 @@ IncomingCallPanel.propTypes = {
   phoneNumber: PropTypes.string,
   answer: PropTypes.func.isRequired,
   reject: PropTypes.func.isRequired,
+  children: PropTypes.node,
 };
 
 IncomingCallPanel.defaultProps = {
   userName: null,
   phoneNumber: null,
+  children: undefined,
 };

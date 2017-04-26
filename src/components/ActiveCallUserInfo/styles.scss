@@ -2,13 +2,12 @@
 
 .root {
   text-align: center;
-  font-size: 13px;
+  font-size: 60px;
   color: #303030;
   margin-bottom: 15px;
 }
 
 .userAvatar {
-  font-size: 60px;
   color: $primary-color;
   margin-bottom: 5px;
   i {
@@ -23,4 +22,13 @@
 
 .userPhoneNumber {
   font-size: 16px;
+}
+
+.big {
+  margin-bottom: 60px;
+  font-size: 120px;
+
+  .userAvatar {
+    margin-bottom: 15px;
+  }
 }

@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import 'core-js/fn/array/find';
 import callDirections from 'ringcentral-integration/enums/callDirections';
+import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import {
   isInbound,
   isRinging,
@@ -14,6 +15,7 @@ import Select from '../DropdownSelect';
 import DurationCounter from '../DurationCounter';
 import formatDuration from '../../lib/formatDuration';
 import ActionMenu from '../ActionMenu';
+import Button from '../Button';
 import styles from './styles.scss';
 
 import i18n from './i18n';
@@ -271,6 +273,7 @@ export default class CallItem extends Component {
         startTime,
         duration,
         activityMatches,
+        webphoneSession,
       },
       currentLocale,
       areaCode,
@@ -286,6 +289,10 @@ export default class CallItem extends Component {
       onClickToSms,
       dateTimeFormatter,
       isLogging,
+      webphoneAnswer,
+      webphoneReject,
+      webphoneHangup,
+      webphoneResume,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
@@ -320,6 +327,34 @@ export default class CallItem extends Component {
     if (active) {
       statusEl = i18n.getString(result || telephonyStatus, currentLocale);
     }
+    let webphoneEl;
+    if (webphoneSession) {
+      let hangupFunc = webphoneHangup;
+      let resumeFunc = webphoneResume;
+      if (
+        webphoneSession.direction === callDirections.inbound &&
+        webphoneSession.callStatus === sessionStatus.connecting
+      ) {
+        hangupFunc = webphoneReject;
+        resumeFunc = webphoneAnswer;
+      }
+      webphoneEl = (
+        <div className={styles.webphoneButtons}>
+          <Button
+            className={classnames(styles.webphoneButton, styles.rejectWebphoneButton)}
+            onClick={() => hangupFunc(webphoneSession.id)}
+          >
+            <i className={dynamicsFont.missed} />
+          </Button>
+          <Button
+            className={styles.webphoneButton}
+            onClick={() => resumeFunc(webphoneSession.id)}
+          >
+            <i className={dynamicsFont.call} />
+          </Button>
+        </div>
+      );
+    }
     return (
       <div className={styles.callItem}>
         <CallIcon
@@ -343,6 +378,7 @@ export default class CallItem extends Component {
         <div className={styles.details} >
           {durationEl} | {dateEl}{statusEl}
         </div>
+        {webphoneEl}
         <ActionMenu
           currentLocale={currentLocale}
           onLogCall={onLogCall && this.logCall}
@@ -379,6 +415,7 @@ CallItem.propTypes = {
       extensionNumber: PropTypes.string,
       name: PropTypes.string,
     }),
+    webphoneSession: PropTypes.object,
   }).isRequired,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
@@ -395,6 +432,10 @@ CallItem.propTypes = {
   active: PropTypes.bool.isRequired,
   dateTimeFormatter: PropTypes.func.isRequired,
   isLogging: PropTypes.bool,
+  webphoneAnswer: PropTypes.func,
+  webphoneReject: PropTypes.func,
+  webphoneHangup: PropTypes.func,
+  webphoneResume: PropTypes.func,
 };
 
 CallItem.defaultProps = {
@@ -408,4 +449,8 @@ CallItem.defaultProps = {
   outboundSmsPermission: false,
   internalSmsPermission: false,
   disableLinks: false,
+  webphoneAnswer: () => null,
+  webphoneReject: () => null,
+  webphoneHangup: () => null,
+  webphoneResume: () => null,
 };

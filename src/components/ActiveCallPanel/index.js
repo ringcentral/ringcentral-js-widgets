@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 
+import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
+
 import Button from '../Button';
 import DurationCounter from '../DurationCounter';
 import ActiveCallUserInfo from '../ActiveCallUserInfo';
@@ -16,6 +18,9 @@ function ActiveCallPanel(props) {
         <DurationCounter startTime={props.startTime} />
       </span>
     ) : null;
+  const statusIcon = props.callStatus === sessionStatus.connected ?
+    (<i className={rcFont.uniBD} />) :
+    (<i className={rcFont.uniBE} />);
   return (
     <div className={styles.root}>
       <Button
@@ -25,7 +30,7 @@ function ActiveCallPanel(props) {
         <i className={dynamicsFont.close} />
       </Button>
       <span className={styles.connectStatus}>
-        <i className={rcFont.uniBD} />
+        {statusIcon}
       </span>
       {timeCounter}
       <ActiveCallUserInfo
@@ -45,6 +50,7 @@ function ActiveCallPanel(props) {
         onStopRecord={props.onStopRecord}
         hangup={props.hangup}
       />
+      {props.children}
     </div>
   );
 }
@@ -52,6 +58,7 @@ function ActiveCallPanel(props) {
 ActiveCallPanel.propTypes = {
   phoneNumber: PropTypes.string,
   userName: PropTypes.string,
+  callStatus: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
   startTime: PropTypes.number,
   isOnMute: PropTypes.bool,
@@ -65,6 +72,7 @@ ActiveCallPanel.propTypes = {
   onStopRecord: PropTypes.func.isRequired,
   hangup: PropTypes.func.isRequired,
   toggleMinimized: PropTypes.func.isRequired,
+  children: PropTypes.node,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -75,6 +83,8 @@ ActiveCallPanel.defaultProps = {
   isOnRecord: false,
   sessionId: null,
   phoneNumber: null,
+  callStatus: null,
+  children: undefined,
 };
 
 export default ActiveCallPanel;

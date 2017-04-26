@@ -66,7 +66,14 @@ export default function App({
               <ActiveCallPage
                 locale={phone.locale}
                 webphone={phone.webphone}
-              />
+              >
+                <AlertContainer
+                  locale={phone.locale}
+                  alert={phone.alert}
+                  rateLimiter={phone.rateLimiter}
+                  brand={phone.brand}
+                />
+              </ActiveCallPage>
             </AppView>
           )} >
           <Route
@@ -153,6 +160,7 @@ export default function App({
                   router={phone.router}
                   composeText={phone.composeText}
                   rolesAndPermissions={phone.rolesAndPermissions}
+                  webphone={phone.webphone}
                 />
               )} />
             <Route

@@ -39,7 +39,6 @@ import DateTimeFormat from 'ringcentral-integration/modules/DateTimeFormat';
 import Conference from 'ringcentral-integration/modules/Conference';
 
 import ActiveCalls from 'ringcentral-integration/modules/ActiveCalls';
-import ActiveCall from 'ringcentral-integration/modules/ActiveCall';
 import DetailedPresence from 'ringcentral-integration/modules/DetailedPresence';
 import CallLog from 'ringcentral-integration/modules/CallLog';
 import CallMonitor from 'ringcentral-integration/modules/CallMonitor';
@@ -257,10 +256,6 @@ export default class Phone extends RcModule {
       tabManager: this.tabManager,
       getState: () => this.state.subscription,
     }));
-    this.addModule('activeCall', new ActiveCall({
-      webphone: this.webphone,
-      getState: () => this.state.activeCall,
-    }));
     this.addModule('activeCalls', new ActiveCalls({
       ...options,
       auth: this.auth,
@@ -447,7 +442,6 @@ export default class Phone extends RcModule {
       messages: this.messages.reducer,
       conference: this.conference.reducer,
       activeCalls: this.activeCalls.reducer,
-      activeCall: this.activeCall.reducer,
       callLog: this.callLog.reducer,
       callMonitor: this.callMonitor.reducer,
       callHistory: this.callHistory.reducer,

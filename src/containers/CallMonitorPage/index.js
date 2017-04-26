@@ -11,6 +11,7 @@ function mapToProps(_, {
   callLogger,
   composeText,
   rolesAndPermissions,
+  webphone,
 }) {
   return {
     active: true,
@@ -39,6 +40,7 @@ function mapToProps(_, {
       (!rolesAndPermissions || rolesAndPermissions.ready) &&
       (!composeText || composeText.ready)
     ),
+    webphoneSessions: (webphone && webphone.sessions),
   };
 }
 function mapToFunctions(_, {
@@ -53,6 +55,7 @@ function mapToFunctions(_, {
   router,
   composeTextRoute = '/composeText',
   composeText,
+  webphone,
 }) {
   return {
     dateTimeFormatter,
@@ -77,6 +80,10 @@ function mapToFunctions(_, {
         }
       } :
       undefined,
+    webphoneAnswer: (webphone && webphone.answer),
+    webphoneReject: (webphone && webphone.reject),
+    webphoneHangup: (webphone && webphone.hangup),
+    webphoneResume: (webphone && webphone.resume),
   };
 }
 
