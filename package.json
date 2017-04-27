@@ -23,7 +23,7 @@
     "react-router": "^3.0.0",
     "ringcentral": "3.0.0",
     "ringcentral-client": "^1.0.0-rc1",
-    "ringcentral-integration": "^0.5.9",
+    "ringcentral-integration": "^0.5.24",
     "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {
@@ -70,7 +70,7 @@
     "redux-thunk": "^2.1.0",
     "ringcentral": "3.0.0",
     "ringcentral-client": "^1.0.0-rc1",
-    "ringcentral-integration": "^0.5.21",
+    "ringcentral-integration": "^0.5.24",
     "sass-loader": "^4.1.1",
     "source-map-loader": "^0.1.5",
     "style-loader": "^0.13.1",
@@ -81,14 +81,12 @@
     "yargs": "^6.5.0"
   },
   "dependencies": {
-    "bootstrap": "^3.3.7",
     "classnames": "^2.2.5",
     "core-js": "^2.4.1",
     "dedent": "^0.7.0",
     "font-awesome": "^4.7.0",
     "locale-loader": "^1.2.2",
     "normalize-css": "^2.3.1",
-    "react-bootstrap": "^0.30.7",
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.7",
     "through2": "^2.0.3"

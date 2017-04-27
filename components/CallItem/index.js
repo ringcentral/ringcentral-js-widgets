@@ -439,7 +439,7 @@ var CallItem = function (_Component) {
       var contactMatches = this.getContactMatches();
       var fallbackContactName = this.getFallbackContactName();
       var ringing = (0, _callLogHelpers.isRinging)(this.props.call);
-      var missed = result === _callResults2.default.missed;
+      var missed = (0, _callLogHelpers.isMissed)(this.props.call);
       var parsedInfo = (0, _parseNumber2.default)(phoneNumber);
       var isExtension = !parsedInfo.hasPlus && parsedInfo.number.length <= 6;
       var showClickToSms = !!(onClickToSms && (isExtension ? internalSmsPermission : outboundSmsPermission));
