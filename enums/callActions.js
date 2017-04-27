@@ -4,13 +4,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _keyValueMap = require('data-types/key-value-map');
+var _HashMap = require('../lib/HashMap');
 
-var _keyValueMap2 = _interopRequireDefault(_keyValueMap);
+var _HashMap2 = _interopRequireDefault(_HashMap);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _keyValueMap2.default({
+exports.default = new _HashMap2.default({
   '411Info': '411 Info',
   acceptCall: 'Accept Call',
   callReturn: 'Call Return',

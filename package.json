@@ -81,7 +81,6 @@
     "whatwg-fetch": "^2.0.1"
   },
   "dependencies": {
-    "data-types": "git+https://github.com/u9520107/data-types.git#release",
     "file-loader": "^0.10.1",
     "json-mask": "^0.3.8",
     "loganberry": "^0.9.1",
