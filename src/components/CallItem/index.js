@@ -5,6 +5,7 @@ import callDirections from 'ringcentral-integration/enums/callDirections';
 import {
   isInbound,
   isRinging,
+  isMissed,
 } from 'ringcentral-integration/lib/callLogHelpers';
 import parseNumber from 'ringcentral-integration/lib/parseNumber';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
@@ -291,7 +292,7 @@ export default class CallItem extends Component {
     const contactMatches = this.getContactMatches();
     const fallbackContactName = this.getFallbackContactName();
     const ringing = isRinging(this.props.call);
-    const missed = result === callResults.missed;
+    const missed = isMissed(this.props.call);
     const parsedInfo = parseNumber(phoneNumber);
     const isExtension = !parsedInfo.hasPlus &&
       parsedInfo.number.length <= 6;
