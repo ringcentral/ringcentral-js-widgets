@@ -232,6 +232,7 @@ export default class Phone extends RcModule {
       ringout: this.ringout,
       accountExtension: this.accountExtension,
       numberValidate: this.numberValidate,
+      extensionPhoneNumber: this.extensionPhoneNumber,
       getState: () => this.state.call,
     }));
     this.addModule('subscription', new Subscription({

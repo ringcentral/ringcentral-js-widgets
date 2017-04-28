@@ -240,6 +240,17 @@ export default class CallItem extends Component {
       });
     }
   }
+
+  createSelectedContact = (entityType) => {
+    console.log('click createSelectedContact!!', entityType);
+    // if (typeof this.props.onCreateContact === 'function') {
+    //   this.props.onCreateContact({
+    //     phoneNumber: this.getPhoneNumber(),
+    //     name: this.getFallbackContactName(),
+    //     entityType, //TODO from modal
+    //   });
+    // }
+  }
   clickToSms = () => {
     if (this.props.onClickToSms) {
       const phoneNumber = this.getPhoneNumber();
@@ -281,6 +292,7 @@ export default class CallItem extends Component {
       internalSmsPermission,
       active,
       onViewContact,
+      onCreateContact,
       onLogCall,
       onClickToDial,
       onClickToSms,
@@ -347,6 +359,8 @@ export default class CallItem extends Component {
           currentLocale={currentLocale}
           onLogCall={onLogCall && this.logCall}
           onViewEntity={onViewContact && this.viewSelectedContact}
+          // onCreateEntity={onCreateContact && this.createSelectedContact}
+          onCreateEntity={this.createSelectedContact}
           hasEntity={!!contactMatches.length}
           onClickToDial={onClickToDial && this.clickToDial}
           onClickToSms={showClickToSms && this.clickToSms}
@@ -385,6 +399,7 @@ CallItem.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   onLogCall: PropTypes.func,
   onViewContact: PropTypes.func,
+  onCreateContact: PropTypes.func,
   onClickToDial: PropTypes.func,
   onClickToSms: PropTypes.func,
   isLoggedContact: PropTypes.func,
@@ -402,6 +417,7 @@ CallItem.defaultProps = {
   onClickToDial: undefined,
   onClickToSms: undefined,
   onViewContact: undefined,
+  onCreateContact: undefined,
   isLoggedContact: () => false,
   isLogging: false,
   disableClickToDial: false,

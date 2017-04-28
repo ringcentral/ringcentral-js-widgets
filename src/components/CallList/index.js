@@ -19,6 +19,7 @@ function CallList({
   areaCode,
   countryCode,
   onViewContact,
+  onCreateContact,
   onLogCall,
   onClickToDial,
   onClickToSms,
@@ -42,6 +43,7 @@ function CallList({
             areaCode={areaCode}
             countryCode={countryCode}
             onViewContact={onViewContact}
+            onCreateContact={onCreateContact}
             onLogCall={onLogCall}
             onClickToDial={onClickToDial}
             onClickToSms={onClickToSms}
@@ -73,6 +75,7 @@ CallList.propTypes = {
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   onViewContact: PropTypes.func,
+  onCreateContact: PropTypes.func,
   onLogCall: PropTypes.func,
   onClickToDial: PropTypes.func,
   onClickToSms: PropTypes.func,
@@ -92,6 +95,7 @@ CallList.defaultProps = {
   outboundSmsPermission: false,
   internalSmsPermission: false,
   onViewContact: undefined,
+  onCreateContact: undefined,
   onLogCall: undefined,
   isLoggedContact: undefined,
   onClickToDial: undefined,

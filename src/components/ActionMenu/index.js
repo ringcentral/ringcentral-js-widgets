@@ -1,11 +1,11 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import Spinner from '../Spinner';
 import SlideMenu from '../SlideMenu';
+import EntityModal from '../EntityModal';
 import Button from '../Button';
 import styles from './styles.scss';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
-
 
 function ClickToDialButton({
   className,
@@ -124,13 +124,15 @@ function EntityButton({
   hasEntity,
   disableLinks,
 }) {
+  const icon = hasEntity ? dynamicsFont.record : dynamicsFont.addEntity;
+  const onClick = hasEntity ? onViewEntity : onCreateEntity;
   return (
     <Button
       className={classnames(styles.entity, className)}
-      onClick={onViewEntity}
+      onClick={onClick}
       disabled={disableLinks} >
 
-      <i className={dynamicsFont.record} />
+      <i className={icon} />
     </Button>
   );
 }
@@ -150,7 +152,143 @@ EntityButton.defaultProps = {
   disableLinks: false,
 };
 
-export default function ActionMenu({
+
+export default class ActionMenu extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      entityModalVisible: false,
+    };
+
+    this.toggleEntityModal = () => {
+      this.setState({
+        entityModalVisible: !this.state.entityModalVisible
+      });
+    };
+  }
+
+  render() {
+    const {
+      className,
+      currentLocale,
+      onLogCall,
+      isLogged,
+      isLogging,
+      onViewEntity,
+      onCreateEntity,
+      hasEntity,
+      onClickToDial,
+      onClickToSms,
+      phoneNumber,
+      disableLinks,
+      disableClickToDial,
+    } = this.props;
+
+    const logButton = onLogCall ?
+    (
+      <LogButton
+        className={styles.baseGroup}
+        onLogCall={onLogCall}
+        disableLinks={disableLinks}
+        isLogged={isLogged}
+        isLogging={isLogging}
+        currentLocale={currentLocale}
+      />
+    ) :
+    null;
+
+    const entityButton = hasEntity ?
+      (<EntityButton
+        className={styles.baseGroup}
+        onViewEntity={onViewEntity}
+        hasEntity={hasEntity}
+        disableLinks={disableLinks}
+        currentLocale={currentLocale}
+        />
+      ) :
+      (<EntityButton
+        className={styles.baseGroup}
+        onCreateEntity={this.toggleEntityModal}
+        hasEntity={hasEntity}
+        disableLinks={disableLinks}
+        currentLocale={currentLocale}
+        />
+      );
+    const entityModal = !hasEntity ?
+      (<EntityModal
+        currentLocale={currentLocale}
+        show={this.state.entityModalVisible}
+        onSubmit={onCreateEntity}
+        onClose={this.toggleEntityModal}
+        />
+      ) : null;
+
+    const hasBaseGroup = !!(logButton || entityButton);
+
+    const clickToDialButton = onClickToDial ?
+      (
+        <ClickToDialButton
+          className={hasBaseGroup ? styles.secondGroup : styles.baseGroup}
+          onClickToDial={onClickToDial}
+          phoneNumber={phoneNumber}
+          disableLinks={disableLinks}
+          disableClickToDial={disableClickToDial}
+          currentLocale={currentLocale}
+        />
+      ) :
+      null;
+    const clickToSmsButton = onClickToSms ?
+      (
+        <ClickToSmsButton
+          className={hasBaseGroup ? styles.secondGroup : styles.baseGroup}
+          onClickToSms={onClickToSms}
+          phoneNumber={phoneNumber}
+          disableLinks={disableLinks}
+          currentLocale={currentLocale}
+        />
+      ) :
+      null;
+    const hasSecondGroup = hasBaseGroup && !!(clickToDialButton || clickToSmsButton);
+    if (hasSecondGroup) {
+      // slide menu
+      return (
+        <SlideMenu
+          className={classnames(styles.root, className)}
+          minWidth={40}
+          maxWidth={75} >
+          {clickToDialButton}
+          {clickToSmsButton}
+          {entityButton}
+          {logButton}
+          {entityModal}
+        </SlideMenu>
+
+      );
+    } else if (
+      !clickToDialButton &&
+      !clickToSmsButton &&
+      !entityButton &&
+      !logButton
+    ) {
+      return null;
+    }
+    // no slide menu
+    return (
+      <div>
+        <div className={classnames(styles.root, className)}>
+          {clickToDialButton}
+          {clickToSmsButton}
+          {entityButton}
+          {logButton}
+          {entityModal}
+        </div>
+      </div>
+    );
+  }
+}
+
+/*export default function ActionMenu({
   className,
   currentLocale,
   onLogCall,
@@ -177,18 +315,25 @@ export default function ActionMenu({
       />
     ) :
     null;
-  const entityButton = hasEntity && onViewEntity ?
-    (
-      <EntityButton
-        className={styles.baseGroup}
-        onViewEntity={onViewEntity}
-        onCreateEntity={onCreateEntity}
-        hasEntity={hasEntity}
-        disableLinks={disableLinks}
-        currentLocale={currentLocale}
+
+  const entityButton = hasEntity ?
+    (<EntityButton
+      className={styles.baseGroup}
+      onViewEntity={onViewEntity}
+      hasEntity={hasEntity}
+      disableLinks={disableLinks}
+      currentLocale={currentLocale}
       />
     ) :
-    null;
+    (<EntityButton
+      className={styles.baseGroup}
+      onCreateEntity={onCreateEntity}
+      hasEntity={hasEntity}
+      disableLinks={disableLinks}
+      currentLocale={currentLocale}
+      />
+    );
+
   const hasBaseGroup = !!(logButton || entityButton);
 
   const clickToDialButton = onClickToDial ?
@@ -243,9 +388,14 @@ export default function ActionMenu({
       {clickToSmsButton}
       {entityButton}
       {logButton}
+      <EntityModal
+        currentLocale={currentLocale}
+        show={this.state.show}
+        onSubmit={this.createSelectedContact}
+        />
     </div>
   );
-}
+}*/
 
 ActionMenu.propTypes = {
   className: PropTypes.string,
