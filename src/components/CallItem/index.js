@@ -292,7 +292,7 @@ export default class CallItem extends Component {
     const contactMatches = this.getContactMatches();
     const fallbackContactName = this.getFallbackContactName();
     const ringing = isRinging(this.props.call);
-    const missed = isMissed(this.props.call);
+    const missed = isInbound(this.props.call) && isMissed(this.props.call);
     const parsedInfo = parseNumber(phoneNumber);
     const isExtension = !parsedInfo.hasPlus &&
       parsedInfo.number.length <= 6;
