@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import Button from '../Button';
 import styles from './styles.scss';
@@ -38,80 +38,53 @@ FlatButton.defaultProps = {
   children: undefined,
 };
 
-export default class Modal extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      show: props.show,
-    };
-
-    this.onClose = () => {
-      if (typeof props.onClose === 'function') {
-        props.onClose();
-      }
-      this.close();
-    };
-    this.onSubmit = () => {
-      // console.debug('onOK');
-      this.props.onSubmit();
-      this.close();
-    };
-    this.onCancel = () => {
-      this.close();
-    };
-
-    this.close = () => {
-      this.setState({
-        show: !this.state.show
-      });
-    };
-  }
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      show: nextProps.show
-    });
-  }
-  render() {
-    const show = this.state.show;
-
-    return (
-      <div className={show ? styles.container : styles.containerHidden}>
-        <div className={show ? styles.modal : styles.modalHidden}>
-          {this.props.title ?
-            <div className={styles.header}>{this.props.title}</div> : null}
-          <div className={styles.content}>
-            {this.props.children}
-          </div>
-          <div className={styles.footer}>
-            <FlatButton
-              className={styles.btn}
-              onClick={this.onCancel}>
-              {this.props.textCancel ||
-                i18n.getString('cancel', this.props.currentLocale)}
-            </FlatButton>
-            <FlatButton
-              className={styles.btn}
-              onClick={this.onSubmit}>
-              {this.props.textConfirm ||
-                i18n.getString('confirm', this.props.currentLocale)}
-            </FlatButton>
-          </div>
+export default function Modal({
+  className,
+  children,
+  title,
+  show,
+  onConfirm,
+  onCancel,
+  textConfirm,
+  textCancel,
+  currentLocale,
+  clickOutToClose,
+}) {
+  return (
+    <div className={classnames(className, show ? styles.container : styles.containerHidden)}>
+      <div className={show ? styles.modal : styles.modalHidden}>
+        {title ?
+          <div className={styles.header}>{title}</div> : null}
+        <div className={styles.content}>
+          {children}
         </div>
-        <div
-          className={show ? styles.mask : styles.maskHidden}
-          onClick={this.props.clickOutToClose ? this.onClose : false} />
+        <div className={styles.footer}>
+          <FlatButton
+            className={styles.btn}
+            onClick={onCancel}>
+            {textCancel ||
+              i18n.getString('cancel', currentLocale)}
+          </FlatButton>
+          <FlatButton
+            className={styles.btn}
+            onClick={onConfirm}>
+            {textConfirm ||
+              i18n.getString('confirm', currentLocale)}
+          </FlatButton>
+        </div>
       </div>
-    );
-  }
+      <div
+        className={show ? styles.mask : styles.maskHidden}
+        onClick={clickOutToClose ? onCancel : false} />
+    </div>
+  );
 }
 Modal.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node,
-  effect: PropTypes.oneOf(['fadeInDown', 'fadeInUp']),
   show: PropTypes.bool,
-  onSubmit: PropTypes.func.isRequired,
-  onClose: PropTypes.func,
+  onConfirm: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
   clickOutToClose: PropTypes.bool,
   title: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
@@ -121,9 +94,7 @@ Modal.propTypes = {
 Modal.defaultProps = {
   className: '',
   children: undefined,
-  effect: 'fadeInDown',
   show: false,
-  onClose: undefined,
   clickOutToClose: false,
   title: undefined,
   textConfirm: '',

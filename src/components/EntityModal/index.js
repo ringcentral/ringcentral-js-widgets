@@ -15,8 +15,8 @@ export default class EntityModal extends Component {
     };
 
     this.onClose = () => {
-      if (typeof props.onClose === 'function') {
-        props.onClose();
+      if (typeof this.props.onClose === 'function') {
+        this.props.onClose();
       }
       this.setState({
         show: false
@@ -24,7 +24,12 @@ export default class EntityModal extends Component {
     };
     this.onSubmit = () => {
       console.debug('onOK', this.state.selected);
-      this.props.onSubmit(this.state.selected);
+      if (typeof this.props.onSubmit === 'function') {
+        this.props.onSubmit(this.state.selected);
+      }
+      this.setState({
+        show: false
+      });
     };
     this.onRadioChange = (e) => {
       console.debug('onChange:', e.target.value);
@@ -44,8 +49,8 @@ export default class EntityModal extends Component {
       <Modal
         show={this.state.show}
         title={i18n.getString('chooseEntity', currentLocale)}
-        onSubmit={this.onSubmit}
-        onClose={this.props.onClose}
+        onConfirm={this.onSubmit}
+        onCancel={this.onClose}
         textConfirm={i18n.getString('create', currentLocale)}
         currentLocale={currentLocale}
         clickOutToClose>
