@@ -2,6 +2,41 @@ import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import Button from '../Button';
 import styles from './styles.scss';
+import i18n from './i18n';
+
+export function FlatButton({
+  className,
+  disabled,
+  onClick,
+  children,
+}) {
+  return (
+    <button className={classnames(className, styles.flatBtn)}>
+      <div
+        className={classnames(
+          className,
+          styles.text,
+          disabled && styles.disabled,
+        )}
+        onClick={!disabled && onClick} >
+        {children}
+      </div>
+    </button>
+  );
+}
+FlatButton.propTypes = {
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func,
+  children: PropTypes.node,
+};
+
+FlatButton.defaultProps = {
+  className: undefined,
+  disabled: false,
+  onClick: undefined,
+  children: undefined,
+};
 
 export default class Modal extends Component {
   constructor(props) {
@@ -49,12 +84,18 @@ export default class Modal extends Component {
             {this.props.children}
           </div>
           <div className={styles.footer}>
-            <Button
+            <FlatButton
               className={styles.btn}
-              onClick={this.onCancel}> Cancel </Button>
-            <Button
+              onClick={this.onCancel}>
+              {this.props.textCancel ||
+                i18n.getString('cancel', this.props.currentLocale)}
+            </FlatButton>
+            <FlatButton
               className={styles.btn}
-              onClick={this.onSubmit}> Confirm </Button>
+              onClick={this.onSubmit}>
+              {this.props.textConfirm ||
+                i18n.getString('confirm', this.props.currentLocale)}
+            </FlatButton>
           </div>
         </div>
         <div
@@ -73,6 +114,9 @@ Modal.propTypes = {
   onClose: PropTypes.func,
   clickOutToClose: PropTypes.bool,
   title: PropTypes.string,
+  currentLocale: PropTypes.string.isRequired,
+  textConfirm: PropTypes.string,
+  textCancel: PropTypes.string,
 };
 Modal.defaultProps = {
   className: '',
@@ -82,5 +126,7 @@ Modal.defaultProps = {
   onClose: undefined,
   clickOutToClose: false,
   title: undefined,
+  textConfirm: '',
+  textCancel: '',
 };
 

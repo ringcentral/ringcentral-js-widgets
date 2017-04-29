@@ -39,7 +39,6 @@ export default class EntityModal extends Component {
     });
   }
   render() {
-    const show = this.state.show;
     const { entities, currentLocale } = this.props;
     return (
       <Modal
@@ -47,6 +46,8 @@ export default class EntityModal extends Component {
         title={i18n.getString('chooseEntity', currentLocale)}
         onSubmit={this.onSubmit}
         onClose={this.props.onClose}
+        textConfirm={i18n.getString('create', currentLocale)}
+        currentLocale={currentLocale}
         clickOutToClose>
         {entities.map((entityType, idx) =>
           <div className={styles.radio} key={idx}>

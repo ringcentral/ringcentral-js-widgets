@@ -243,13 +243,13 @@ export default class CallItem extends Component {
 
   createSelectedContact = (entityType) => {
     console.log('click createSelectedContact!!', entityType);
-    // if (typeof this.props.onCreateContact === 'function') {
-    //   this.props.onCreateContact({
-    //     phoneNumber: this.getPhoneNumber(),
-    //     name: this.getFallbackContactName(),
-    //     entityType, //TODO from modal
-    //   });
-    // }
+    if (typeof this.props.onCreateContact === 'function') {
+      this.props.onCreateContact({
+        phoneNumber: this.getPhoneNumber(),
+        name: this.getFallbackContactName(),
+        entityType, //TODO from modal
+      });
+    }
   }
   clickToSms = () => {
     if (this.props.onClickToSms) {
@@ -359,8 +359,8 @@ export default class CallItem extends Component {
           currentLocale={currentLocale}
           onLogCall={onLogCall && this.logCall}
           onViewEntity={onViewContact && this.viewSelectedContact}
-          // onCreateEntity={onCreateContact && this.createSelectedContact}
-          onCreateEntity={this.createSelectedContact}
+          onCreateEntity={onCreateContact && this.createSelectedContact}
+          // onCreateEntity={this.createSelectedContact}
           hasEntity={!!contactMatches.length}
           onClickToDial={onClickToDial && this.clickToDial}
           onClickToSms={showClickToSms && this.clickToSms}

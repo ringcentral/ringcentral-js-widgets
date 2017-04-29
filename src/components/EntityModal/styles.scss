@@ -8,12 +8,14 @@
   height: auto;
   width: 100%;
   margin-top: 16px;
+  label {
+    font-weight: normal;
+  }
   input {
     margin-right: 10px;
   }
-}
 
-input[type='radio']:after {
+  input[type='radio']:after {
     width: 14px;
     height: 14px;
     border-radius: 10px;
@@ -24,33 +26,36 @@ input[type='radio']:after {
     content: '';
     display: inline-block;
     visibility: visible;
-    border: 2px solid $primary-color;
+    border: 2px solid #797979;
     content: " ";
+  }
+
+  input[type='radio']:checked:before {
+      border-radius: 10px;
+      border: 2px solid #ffffff;
+      width: 10px;
+      height: 10px;
+      position: absolute;
+      top: 0px;
+      left: 1px;
+      content: " ";
+      display: block;
+      background: $primary-color;
+      z-index: 2;
+  }
+
+  input[type='radio']:checked:after {
+      border-radius: 10px;
+      width: 14px;
+      height: 14px;
+      position: absolute;
+      top: -2px;
+      left: -1px;
+      content: " ";
+      display: block;
+      background: $primary-color;
+      z-index: 1;
+  }
+
 }
 
-input[type='radio']:checked:before {
-    border-radius: 10px;
-    border: 2px solid #ffffff;
-    width: 10px;
-    height: 10px;
-    position: absolute;
-    top: 0px;
-    left: 1px;
-    content: " ";
-    display: block;
-    background: $primary-color;
-    z-index: 2;
-}
-
-input[type='radio']:checked:after {
-    border-radius: 10px;
-    width: 14px;
-    height: 14px;
-    position: absolute;
-    top: -2px;
-    left: -1px;
-    content: " ";
-    display: block;
-    background: $primary-color;
-    z-index: 1;
-}
