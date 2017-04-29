@@ -198,24 +198,28 @@ export default class ActionMenu extends Component {
     ) :
     null;
 
-    const entityButton = hasEntity ?
-      (<EntityButton
+    let entityButton;
+    if (hasEntity) {
+      entityButton = (<EntityButton
         className={styles.baseGroup}
         onViewEntity={onViewEntity}
         hasEntity={hasEntity}
         disableLinks={disableLinks}
         currentLocale={currentLocale}
-        />
-      ) :
-      (<EntityButton
+        />);
+    } else if (!hasEntity && phoneNumber) {
+      entityButton = (<EntityButton
         className={styles.baseGroup}
         onCreateEntity={this.toggleEntityModal}
         hasEntity={hasEntity}
         disableLinks={disableLinks}
         currentLocale={currentLocale}
-        />
-      );
-    const entityModal = !hasEntity ?
+        />);
+    } else {
+      entityButton = null;
+    }
+
+    const entityModal = (!hasEntity && phoneNumber) ?
       (<EntityModal
         currentLocale={currentLocale}
         show={this.state.entityModalVisible}
