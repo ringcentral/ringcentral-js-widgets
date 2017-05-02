@@ -178,7 +178,7 @@ var NumberValidate = function (_RcModule) {
   }, {
     key: 'isNotAnExtension',
     value: function isNotAnExtension(extensionNumber) {
-      if (extensionNumber && extensionNumber.length <= 5 && !this._accountExtension.isAvailableExtension(extensionNumber)) {
+      if (extensionNumber && extensionNumber.length <= 6 && !this._accountExtension.isAvailableExtension(extensionNumber)) {
         return true;
       }
       return false;

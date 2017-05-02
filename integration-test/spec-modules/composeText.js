@@ -1215,7 +1215,7 @@ exports.default = function (auth, client, account, alert, regionSettings, compos
                     while (1) {
                       switch (_context39.prev = _context39.next) {
                         case 0:
-                          composeText.addToNumber({ phoneNumber: '199999' });
+                          composeText.addToNumber({ phoneNumber: '19999999' });
                           composeText.updateMessageText('test sender');
                           _context39.prev = 2;
                           _context39.next = 5;

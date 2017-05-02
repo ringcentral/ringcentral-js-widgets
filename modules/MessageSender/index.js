@@ -392,10 +392,10 @@ var MessageSender = function (_RcModule) {
               case 8:
                 recipientNumbers = validateToNumberResult.numbers;
                 extensionNumbers = recipientNumbers.filter(function (number) {
-                  return number.length <= 5;
+                  return number.length <= 6;
                 });
                 phoneNumbers = recipientNumbers.filter(function (number) {
-                  return number.length > 5;
+                  return number.length > 6;
                 });
 
                 // not validate sender number if recipient is only extension number
