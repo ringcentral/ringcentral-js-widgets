@@ -13,8 +13,10 @@ export default function ActiveCallUserInfo(props) {
   const name = props.name || i18n.getString('unkonw', props.currentLocale);
   return (
     <div className={className}>
-      <div className={styles.userAvatar}>
-        <i className={dynamicsFont.portrait} />
+      <div className={styles.avatarContainer}>
+        <div className={styles.avatar}>
+          <i className={classnames(dynamicsFont.portrait, styles.icon)} />
+        </div>
       </div>
       <div className={styles.userPhoneNumber}>{props.phoneNumber}</div>
       <div className={styles.userName}>{name}</div>

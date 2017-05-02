@@ -34,7 +34,7 @@ export default function ActiveCallPad(props) {
       <div className={styles.buttonRow}>
         {muteButton}
         <ActiveCallButton
-          onClick={() => null}
+          onClick={props.onShowKeyPad}
           title={'Keypad'}
         >
           <i className={rcFont.uniA4} />
@@ -113,6 +113,7 @@ ActiveCallPad.propTypes = {
   onRecord: PropTypes.func.isRequired,
   onStopRecord: PropTypes.func.isRequired,
   hangup: PropTypes.func.isRequired,
+  onShowKeyPad: PropTypes.func.isRequired,
 };
 
 ActiveCallPad.defaultProps = {

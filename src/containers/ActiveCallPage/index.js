@@ -46,6 +46,12 @@ class ActiveCallPage extends Component {
       this.props.onStopRecord(this.props.session.id);
     this.hangup = () =>
       this.props.hangup(this.props.session.id);
+    this.onKeyPadChange = value =>
+      this.props.sendDTMF(value, this.props.session.id);
+    this.toVoiceMail = () =>
+      this.props.toVoiceMail(this.props.session.id);
+    this.replyWithMessage = message =>
+      this.props.replyWithMessage(this.props.session.id, message);
   }
 
   render() {
@@ -71,6 +77,7 @@ class ActiveCallPage extends Component {
     ) {
       isRinging = true;
     }
+    // isRinging = true;
     const phoneNumber = session.direction === callDirections.outbound ?
       session.to : session.from;
     const userName = 'Unknow';
@@ -83,6 +90,8 @@ class ActiveCallPage extends Component {
           phoneNumber={phoneNumber}
           answer={this.answer}
           reject={this.reject}
+          replyWithMessage={this.replyWithMessage}
+          toVoiceMail={this.toVoiceMail}
         >
           {this.props.children}
         </IncomingCallPanel>
@@ -106,6 +115,7 @@ class ActiveCallPage extends Component {
         onUnhold={this.onUnhold}
         onRecord={this.onRecord}
         onStopRecord={this.onStopRecord}
+        onKeyPadChange={this.onKeyPadChange}
         hangup={this.hangup}
       >
         {this.props.children}
@@ -137,6 +147,9 @@ ActiveCallPage.propTypes = {
   hangup: PropTypes.func.isRequired,
   answer: PropTypes.func.isRequired,
   reject: PropTypes.func.isRequired,
+  sendDTMF: PropTypes.func.isRequired,
+  toVoiceMail: PropTypes.func.isRequired,
+  replyWithMessage: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
 
@@ -160,15 +173,18 @@ function mapToFunctions(_, {
   webphone,
 }) {
   return {
-    hangup: sessionId => webphone.hangup(sessionId),
-    answer: sessionId => webphone.answer(sessionId),
-    reject: sessionId => webphone.reject(sessionId),
+    hangup: webphone.hangup,
+    answer: webphone.answer,
+    reject: webphone.reject,
     onMute: sessionId => webphone.mute(sessionId),
     onUnmute: sessionId => webphone.unmute(sessionId),
     onHold: sessionId => webphone.hold(sessionId),
     onUnhold: sessionId => webphone.unhold(sessionId),
     onRecord: sessionId => webphone.startRecord(sessionId),
     onStopRecord: sessionId => webphone.stopRecord(sessionId),
+    sendDTMF: (value, sessionId) => webphone.sendDTMF(value, sessionId),
+    toVoiceMail: sessionId => webphone.toVoiceMail(sessionId),
+    replyWithMessage: (sessionId, message) => webphone.replyWithMessage(sessionId, message),
     toggleMinimized: webphone.toggleMinimized,
   };
 }

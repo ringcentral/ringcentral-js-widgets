@@ -27,13 +27,14 @@ function mapToProps(_, {
     || !connectivityMonitor.connectivity
     || rateLimiter.throttling,
     toNumber: call.toNumber,
-    fromNumbers: call.fromNumbers,
-    fromNumber: call.fromNumber,
+    fromNumbers: callingSettings.fromNumbers,
+    fromNumber: callingSettings.fromNumber,
   };
 }
 
 function mapToFunctions(_, {
   call,
+  callingSettings,
   regionSettings,
 }) {
   return {
@@ -43,9 +44,7 @@ function mapToFunctions(_, {
     onCall: () => {
       call.onCall();
     },
-    changeFromNumber: (number) => {
-      call.updateFromNumber(number);
-    },
+    changeFromNumber: callingSettings.updateFromNumber,
     formatPhone: phoneNumber => formatNumber({
       phoneNumber,
       areaCode: regionSettings.areaCode,

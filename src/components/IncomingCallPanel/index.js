@@ -25,6 +25,8 @@ export default function IncomingCallPanel(props) {
       <IncomingCallPad
         answer={props.answer}
         reject={props.reject}
+        toVoiceMail={props.toVoiceMail}
+        replyWithMessage={props.replyWithMessage}
       />
       {props.children}
     </div>
@@ -38,6 +40,8 @@ IncomingCallPanel.propTypes = {
   phoneNumber: PropTypes.string,
   answer: PropTypes.func.isRequired,
   reject: PropTypes.func.isRequired,
+  toVoiceMail: PropTypes.func.isRequired,
+  replyWithMessage: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
 

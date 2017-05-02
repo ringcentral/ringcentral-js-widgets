@@ -22,7 +22,7 @@ export default function IncomingCallPad(props) {
           <i className={rcFont.RC_Sms_pressed} />
         </ActiveCallButton>
         <ActiveCallButton
-          onClick={() => null}
+          onClick={props.reject}
           title={'Ignore'}
         >
           <i className={rcFont.uni43} />
@@ -30,7 +30,7 @@ export default function IncomingCallPad(props) {
       </div>
       <div className={styles.buttonRow}>
         <ActiveCallButton
-          onClick={props.reject}
+          onClick={props.toVoiceMail}
           title={'To Voicemail'}
           buttonClassName={styles.rejectButton}
         >
@@ -51,4 +51,5 @@ export default function IncomingCallPad(props) {
 IncomingCallPad.propTypes = {
   answer: PropTypes.func.isRequired,
   reject: PropTypes.func.isRequired,
+  toVoiceMail: PropTypes.func.isRequired,
 };
