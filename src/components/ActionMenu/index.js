@@ -122,17 +122,28 @@ function EntityButton({
   onViewEntity,
   onCreateEntity,
   hasEntity,
+  isCreating,
   disableLinks,
 }) {
+  // console.debug('isCreating', isCreating);
+  const spinner = isCreating ?
+    (
+      <div className={styles.spinnerContainer}>
+        <Spinner ringWidth={2} />
+      </div>
+    ) :
+    null;
   const icon = hasEntity ? dynamicsFont.record : dynamicsFont.addEntity;
   const onClick = hasEntity ? onViewEntity : onCreateEntity;
+
   return (
     <Button
       className={classnames(styles.entity, className)}
       onClick={onClick}
       disabled={disableLinks} >
 
-      <i className={icon} />
+      <span className={icon} />
+      {spinner}
     </Button>
   );
 }
@@ -141,6 +152,7 @@ EntityButton.propTypes = {
   onViewEntity: PropTypes.func,
   onCreateEntity: PropTypes.func,
   hasEntity: PropTypes.bool,
+  isCreating: PropTypes.bool,
   disableLinks: PropTypes.bool,
   currentLocale: PropTypes.string.isRequired,
 };
@@ -149,6 +161,7 @@ EntityButton.defaultProps = {
   onViewEntity: undefined,
   hasEntity: false,
   onCreateEntity: undefined,
+  isCreating: false,
   disableLinks: false,
 };
 
@@ -167,6 +180,19 @@ export default class ActionMenu extends Component {
         entityModalVisible: true
       });
     };
+    this.closeEntityModal = () => {
+      this.setState({
+        entityModalVisible: false
+      });
+    };
+    this.onCreateEnityModal = (entityType) => {
+      console.debug('onCreateEnityModal', entityType);
+      this.props.onCreateEntity(entityType);
+      this.closeEntityModal();
+    };
+    this.onCancelEntityModal = () => {
+      this.closeEntityModal();
+    };
   }
 
   render() {
@@ -176,6 +202,7 @@ export default class ActionMenu extends Component {
       onLogCall,
       isLogged,
       isLogging,
+      isCreating,
       onViewEntity,
       onCreateEntity,
       hasEntity,
@@ -224,7 +251,8 @@ export default class ActionMenu extends Component {
       (<EntityModal
         currentLocale={currentLocale}
         show={this.state.entityModalVisible}
-        onSubmit={onCreateEntity}
+        onCreate={this.onCreateEnityModal}
+        onCancel={this.onCancelEntityModal}
         />
       ) : null;
 
@@ -292,121 +320,13 @@ export default class ActionMenu extends Component {
   }
 }
 
-/*export default function ActionMenu({
-  className,
-  currentLocale,
-  onLogCall,
-  isLogged,
-  isLogging,
-  onViewEntity,
-  onCreateEntity,
-  hasEntity,
-  onClickToDial,
-  onClickToSms,
-  phoneNumber,
-  disableLinks,
-  disableClickToDial,
- }) {
-  const logButton = onLogCall ?
-    (
-      <LogButton
-        className={styles.baseGroup}
-        onLogCall={onLogCall}
-        disableLinks={disableLinks}
-        isLogged={isLogged}
-        isLogging={isLogging}
-        currentLocale={currentLocale}
-      />
-    ) :
-    null;
-
-  const entityButton = hasEntity ?
-    (<EntityButton
-      className={styles.baseGroup}
-      onViewEntity={onViewEntity}
-      hasEntity={hasEntity}
-      disableLinks={disableLinks}
-      currentLocale={currentLocale}
-      />
-    ) :
-    (<EntityButton
-      className={styles.baseGroup}
-      onCreateEntity={onCreateEntity}
-      hasEntity={hasEntity}
-      disableLinks={disableLinks}
-      currentLocale={currentLocale}
-      />
-    );
-
-  const hasBaseGroup = !!(logButton || entityButton);
-
-  const clickToDialButton = onClickToDial ?
-    (
-      <ClickToDialButton
-        className={hasBaseGroup ? styles.secondGroup : styles.baseGroup}
-        onClickToDial={onClickToDial}
-        phoneNumber={phoneNumber}
-        disableLinks={disableLinks}
-        disableClickToDial={disableClickToDial}
-        currentLocale={currentLocale}
-      />
-    ) :
-    null;
-  const clickToSmsButton = onClickToSms ?
-    (
-      <ClickToSmsButton
-        className={hasBaseGroup ? styles.secondGroup : styles.baseGroup}
-        onClickToSms={onClickToSms}
-        phoneNumber={phoneNumber}
-        disableLinks={disableLinks}
-        currentLocale={currentLocale}
-      />
-    ) :
-    null;
-  const hasSecondGroup = hasBaseGroup && !!(clickToDialButton || clickToSmsButton);
-  if (hasSecondGroup) {
-    // slide menu
-    return (
-      <SlideMenu
-        className={classnames(styles.root, className)}
-        minWidth={40}
-        maxWidth={75} >
-        {clickToDialButton}
-        {clickToSmsButton}
-        {entityButton}
-        {logButton}
-      </SlideMenu>
-    );
-  } else if (
-    !clickToDialButton &&
-    !clickToSmsButton &&
-    !entityButton &&
-    !logButton
-  ) {
-    return null;
-  }
-  // no slide menu
-  return (
-    <div className={classnames(styles.root, className)}>
-      {clickToDialButton}
-      {clickToSmsButton}
-      {entityButton}
-      {logButton}
-      <EntityModal
-        currentLocale={currentLocale}
-        show={this.state.show}
-        onSubmit={this.createSelectedContact}
-        />
-    </div>
-  );
-}*/
-
 ActionMenu.propTypes = {
   className: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
   onLogCall: PropTypes.func,
   isLogged: PropTypes.bool,
   isLogging: PropTypes.bool,
+  isCreating: PropTypes.bool,
   onViewEntity: PropTypes.func,
   onCreateEntity: PropTypes.func,
   hasEntity: PropTypes.bool,
@@ -421,6 +341,7 @@ ActionMenu.defaultProps = {
   onLogCall: undefined,
   isLogged: false,
   isLogging: false,
+  isCreating: false,
   onViewEntity: undefined,
   onCreateEntity: undefined,
   hasEntity: false,

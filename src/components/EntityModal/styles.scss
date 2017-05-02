@@ -28,6 +28,7 @@
     visibility: visible;
     border: 2px solid #797979;
     content: " ";
+    box-sizing: initial;
   }
 
   input[type='radio']:checked:before {
@@ -42,6 +43,7 @@
       display: block;
       background: $primary-color;
       z-index: 2;
+      box-sizing: initial;
   }
 
   input[type='radio']:checked:after {
@@ -55,6 +57,7 @@
       display: block;
       background: $primary-color;
       z-index: 1;
+      box-sizing: initial;
   }
 
 }

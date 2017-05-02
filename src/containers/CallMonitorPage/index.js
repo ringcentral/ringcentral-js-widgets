@@ -44,10 +44,12 @@ function mapToProps(_, {
 function mapToFunctions(_, {
   dateTimeFormat,
   onViewContact,
+  onCreateContact,
   dateTimeFormatter = utcTimestamp => dateTimeFormat.formatDateTime({
     utcTimestamp,
   }),
   callLogger,
+  contactMatcher,
   onLogCall,
   isLoggedContact,
   router,
@@ -57,6 +59,16 @@ function mapToFunctions(_, {
   return {
     dateTimeFormatter,
     onViewContact,
+    onCreateContact: onCreateContact ?
+      async ({ phoneNumber, name, entityType }) => {
+        const hasMatchNumber = await contactMatcher.hasMatchNumber({ phoneNumber });
+        console.debug('confirm hasMatchNumber:', hasMatchNumber);
+        if (!hasMatchNumber) {
+          await onCreateContact({ phoneNumber, name, entityType });
+          await contactMatcher.forceMatchNumber({ phoneNumber });
+        }
+      } :
+      undefined,
     isLoggedContact,
     onLogCall: onLogCall ||
     (callLogger && (async ({ call, contact, redirect = true }) => {

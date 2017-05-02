@@ -150,6 +150,7 @@ export default class CallItem extends Component {
       selected: this.getInitialContactIndex(),
       userSelection: false,
       isLogging: false,
+      isCreating: false,
     };
   }
   componentDidMount() {
@@ -241,14 +242,28 @@ export default class CallItem extends Component {
     }
   }
 
-  createSelectedContact = (entityType) => {
+  createSelectedContact = async (entityType) => {
     console.log('click createSelectedContact!!', entityType);
-    if (typeof this.props.onCreateContact === 'function') {
-      this.props.onCreateContact({
+    if (typeof this.props.onCreateContact === 'function' &&
+      this._mounted &&
+      !this.state.isCreating) {
+      this.setState({
+        isCreating: true,
+      });
+      console.log('start to create: isCreating...', this.state.isCreating);
+
+      await this.props.onCreateContact({
         phoneNumber: this.getPhoneNumber(),
         name: this.getFallbackContactName(),
-        entityType, //TODO from modal
+        entityType,
       });
+
+      if (this._mounted) {
+        this.setState({
+          isCreating: false,
+        });
+        console.log('created: isCreating...', this.state.isCreating);
+      }
     }
   }
   clickToSms = () => {
@@ -359,8 +374,8 @@ export default class CallItem extends Component {
           currentLocale={currentLocale}
           onLogCall={onLogCall && this.logCall}
           onViewEntity={onViewContact && this.viewSelectedContact}
-          onCreateEntity={onCreateContact && this.createSelectedContact}
-          // onCreateEntity={this.createSelectedContact}
+          // onCreateEntity={onCreateContact && this.createSelectedContact}
+          onCreateEntity={this.createSelectedContact}
           hasEntity={!!contactMatches.length}
           onClickToDial={onClickToDial && this.clickToDial}
           onClickToSms={showClickToSms && this.clickToSms}
@@ -369,6 +384,7 @@ export default class CallItem extends Component {
           disableClickToDial={disableClickToDial}
           isLogging={isLogging || this.state.isLogging}
           isLogged={activityMatches.length > 0}
+          isCreating={this.state.isCreating}
         />
       </div>
     );

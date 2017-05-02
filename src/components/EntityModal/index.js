@@ -10,26 +10,19 @@ export default class EntityModal extends Component {
     super(props);
 
     this.state = {
-      show: props.show,
       selected: props.entities[0],
     };
 
-    this.onClose = () => {
-      if (typeof this.props.onClose === 'function') {
-        this.props.onClose();
+    this.onCancel = () => {
+      if (typeof this.props.onCancel === 'function') {
+        this.props.onCancel();
       }
-      this.setState({
-        show: false
-      });
     };
-    this.onSubmit = () => {
+    this.onCreate = () => {
       console.debug('onOK', this.state.selected);
-      if (typeof this.props.onSubmit === 'function') {
-        this.props.onSubmit(this.state.selected);
+      if (typeof this.props.onCreate === 'function') {
+        this.props.onCreate(this.state.selected);
       }
-      this.setState({
-        show: false
-      });
     };
     this.onRadioChange = (e) => {
       console.debug('onChange:', e.target.value);
@@ -38,19 +31,21 @@ export default class EntityModal extends Component {
       });
     };
   }
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      show: nextProps.show
-    });
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   // if (this.props.show !== nextProps.show) {
+  //   this.setState({
+  //     show: nextProps.show
+  //   });
+  //   // }
+  // }
   render() {
-    const { entities, currentLocale } = this.props;
+    const { entities, show, currentLocale } = this.props;
     return (
       <Modal
-        show={this.state.show}
+        show={show}
         title={i18n.getString('chooseEntity', currentLocale)}
-        onConfirm={this.onSubmit}
-        onCancel={this.onClose}
+        onConfirm={this.onCreate}
+        onCancel={this.onCancel}
         textConfirm={i18n.getString('create', currentLocale)}
         currentLocale={currentLocale}
         clickOutToClose>
@@ -74,8 +69,8 @@ export default class EntityModal extends Component {
 EntityModal.propTypes = {
   className: PropTypes.string,
   show: PropTypes.bool,
-  onSubmit: PropTypes.func.isRequired,
-  onClose: PropTypes.func,
+  onCreate: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
   entities: PropTypes.array,
   currentLocale: PropTypes.string.isRequired,
 };
@@ -83,7 +78,6 @@ EntityModal.defaultProps = {
   className: '',
   children: undefined,
   show: false,
-  onClose: undefined,
   entities: ['account', 'lead', 'contact'],
 };
 
