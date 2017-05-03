@@ -5,6 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -20,6 +28,10 @@ var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2
 var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
 
 var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
 
 var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
 
@@ -46,6 +58,70 @@ var ContactMatcher = function (_DataMatcher) {
     }, options)));
   }
 
+  (0, _createClass3.default)(ContactMatcher, [{
+    key: 'hasMatchNumber',
+    value: function () {
+      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref3) {
+        var phoneNumber = _ref3.phoneNumber,
+            _ref3$ignoreCache = _ref3.ignoreCache,
+            ignoreCache = _ref3$ignoreCache === undefined ? false : _ref3$ignoreCache;
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return this.match({
+                  queries: [phoneNumber],
+                  ignoreCache: ignoreCache
+                });
+
+              case 2:
+                return _context.abrupt('return', !!this.dataMapping[phoneNumber] && this.dataMapping[phoneNumber].length > 0);
+
+              case 3:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function hasMatchNumber(_x) {
+        return _ref2.apply(this, arguments);
+      }
+
+      return hasMatchNumber;
+    }()
+  }, {
+    key: 'forceMatchNumber',
+    value: function () {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref5) {
+        var phoneNumber = _ref5.phoneNumber;
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return this.match({
+                  queries: [phoneNumber],
+                  ignoreCache: true
+                });
+
+              case 2:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function forceMatchNumber(_x2) {
+        return _ref4.apply(this, arguments);
+      }
+
+      return forceMatchNumber;
+    }()
+  }]);
   return ContactMatcher;
 }(_DataMatcher3.default);
 
