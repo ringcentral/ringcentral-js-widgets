@@ -6382,11 +6382,10 @@ ringcentral-client@^1.0.0-rc1:
     form-data "^2.1.2"
     isomorphic-fetch "^2.2.1"
 
-ringcentral-integration@^0.5.21:
-  version "0.5.21"
-  resolved "https://registry.yarnpkg.com/ringcentral-integration/-/ringcentral-integration-0.5.21.tgz#fc00faf6b2612fd91372ec8e0011ff30b8a326b3"
+ringcentral-integration@^0.5.27:
+  version "0.5.27"
+  resolved "https://registry.yarnpkg.com/ringcentral-integration/-/ringcentral-integration-0.5.27.tgz#64c4b0903249e5f141de32c6893213c7fbb9210a"
   dependencies:
-    data-types "git+https://github.com/u9520107/data-types.git#release"
     file-loader "^0.10.1"
     json-mask "^0.3.8"
     loganberry "^0.9.1"
