@@ -38,6 +38,14 @@ function mapToProps(_, {
     }) :
     '';
   return {
+    showSpinner: !(
+      accountInfo.ready &&
+      auth.ready &&
+      extensionInfo.ready &&
+      locale.ready &&
+      regionSettings.ready &&
+      rolesAndPermissions.ready
+    ),
     showRegion: loggedIn && brand.id === '1210' && (
       regionSettings.availableCountries.length > 1 ||
       !!regionSettings.availableCountries.find(c => c.isoCode === 'US') ||
