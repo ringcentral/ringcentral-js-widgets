@@ -151,6 +151,7 @@ export default class CallItem extends Component {
       selected: this.getInitialContactIndex(),
       userSelection: false,
       isLogging: false,
+      isCreating: false,
     };
   }
   componentDidMount() {
@@ -241,6 +242,31 @@ export default class CallItem extends Component {
       });
     }
   }
+
+  createSelectedContact = async (entityType) => {
+    console.log('click createSelectedContact!!', entityType);
+    if (typeof this.props.onCreateContact === 'function' &&
+      this._mounted &&
+      !this.state.isCreating) {
+      this.setState({
+        isCreating: true,
+      });
+      console.log('start to create: isCreating...', this.state.isCreating);
+
+      await this.props.onCreateContact({
+        phoneNumber: this.getPhoneNumber(),
+        name: this.getFallbackContactName(),
+        entityType,
+      });
+
+      if (this._mounted) {
+        this.setState({
+          isCreating: false,
+        });
+        console.log('created: isCreating...', this.state.isCreating);
+      }
+    }
+  }
   clickToSms = () => {
     if (this.props.onClickToSms) {
       const phoneNumber = this.getPhoneNumber();
@@ -282,6 +308,7 @@ export default class CallItem extends Component {
       internalSmsPermission,
       active,
       onViewContact,
+      onCreateContact,
       onLogCall,
       onClickToDial,
       onClickToSms,
@@ -348,6 +375,7 @@ export default class CallItem extends Component {
           currentLocale={currentLocale}
           onLogCall={onLogCall && this.logCall}
           onViewEntity={onViewContact && this.viewSelectedContact}
+          onCreateEntity={onCreateContact && this.createSelectedContact}
           hasEntity={!!contactMatches.length}
           onClickToDial={onClickToDial && this.clickToDial}
           onClickToSms={showClickToSms && this.clickToSms}
@@ -356,6 +384,7 @@ export default class CallItem extends Component {
           disableClickToDial={disableClickToDial}
           isLogging={isLogging || this.state.isLogging}
           isLogged={activityMatches.length > 0}
+          isCreating={this.state.isCreating}
         />
       </div>
     );
@@ -386,6 +415,7 @@ CallItem.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   onLogCall: PropTypes.func,
   onViewContact: PropTypes.func,
+  onCreateContact: PropTypes.func,
   onClickToDial: PropTypes.func,
   onClickToSms: PropTypes.func,
   isLoggedContact: PropTypes.func,
@@ -403,6 +433,7 @@ CallItem.defaultProps = {
   onClickToDial: undefined,
   onClickToSms: undefined,
   onViewContact: undefined,
+  onCreateContact: undefined,
   isLoggedContact: () => false,
   isLogging: false,
   disableClickToDial: false,

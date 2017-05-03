@@ -1,0 +1,64 @@
+@import '../../lib/commonStyles/colors';
+
+.radio {
+  cursor: pointer;
+  position: relative;
+  overflow: visible;
+  display: table;
+  height: auto;
+  width: 100%;
+  margin-top: 16px;
+  label {
+    font-weight: normal;
+  }
+  input {
+    margin-right: 10px;
+  }
+
+  input[type='radio']:after {
+    width: 14px;
+    height: 14px;
+    border-radius: 10px;
+    top: -2px;
+    left: -1px;
+    position: relative;
+    background-color: #ffffff;
+    content: '';
+    display: inline-block;
+    visibility: visible;
+    border: 2px solid #797979;
+    content: " ";
+    box-sizing: initial;
+  }
+
+  input[type='radio']:checked:before {
+      border-radius: 10px;
+      border: 2px solid #ffffff;
+      width: 10px;
+      height: 10px;
+      position: absolute;
+      top: 0px;
+      left: 1px;
+      content: " ";
+      display: block;
+      background: $primary-color;
+      z-index: 2;
+      box-sizing: initial;
+  }
+
+  input[type='radio']:checked:after {
+      border-radius: 10px;
+      width: 14px;
+      height: 14px;
+      position: absolute;
+      top: -2px;
+      left: -1px;
+      content: " ";
+      display: block;
+      background: $primary-color;
+      z-index: 1;
+      box-sizing: initial;
+  }
+
+}
+
