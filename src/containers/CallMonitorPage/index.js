@@ -61,8 +61,10 @@ function mapToFunctions(_, {
     onViewContact,
     onCreateContact: onCreateContact ?
       async ({ phoneNumber, name, entityType }) => {
-        const hasMatchNumber = await contactMatcher.hasMatchNumber({ phoneNumber });
-        console.debug('confirm hasMatchNumber:', hasMatchNumber);
+        const hasMatchNumber = await contactMatcher.hasMatchNumber({
+          phoneNumber,
+          ignoreCache: true
+        });
         if (!hasMatchNumber) {
           await onCreateContact({ phoneNumber, name, entityType });
           await contactMatcher.forceMatchNumber({ phoneNumber });

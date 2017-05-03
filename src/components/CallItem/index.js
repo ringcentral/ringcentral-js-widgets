@@ -374,8 +374,7 @@ export default class CallItem extends Component {
           currentLocale={currentLocale}
           onLogCall={onLogCall && this.logCall}
           onViewEntity={onViewContact && this.viewSelectedContact}
-          // onCreateEntity={onCreateContact && this.createSelectedContact}
-          onCreateEntity={this.createSelectedContact}
+          onCreateEntity={onCreateContact && this.createSelectedContact}
           hasEntity={!!contactMatches.length}
           onClickToDial={onClickToDial && this.clickToDial}
           onClickToSms={showClickToSms && this.clickToSms}

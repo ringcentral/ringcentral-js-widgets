@@ -175,7 +175,6 @@ export default class ActionMenu extends Component {
     };
 
     this.openEntityModal = () => {
-      console.debug('openEntityModal', this.state.entityModalVisible);
       this.setState({
         entityModalVisible: true
       });
@@ -186,7 +185,6 @@ export default class ActionMenu extends Component {
       });
     };
     this.onCreateEnityModal = (entityType) => {
-      console.debug('onCreateEnityModal', entityType);
       this.props.onCreateEntity(entityType);
       this.closeEntityModal();
     };
@@ -227,7 +225,7 @@ export default class ActionMenu extends Component {
     null;
 
     let entityButton;
-    if (hasEntity) {
+    if (hasEntity && onViewEntity) {
       entityButton = (<EntityButton
         className={styles.baseGroup}
         onViewEntity={onViewEntity}
@@ -235,7 +233,7 @@ export default class ActionMenu extends Component {
         disableLinks={disableLinks}
         currentLocale={currentLocale}
         />);
-    } else if (!hasEntity && phoneNumber) {
+    } else if (!hasEntity && phoneNumber && onCreateEntity) {
       entityButton = (<EntityButton
         className={styles.baseGroup}
         onCreateEntity={this.openEntityModal}
