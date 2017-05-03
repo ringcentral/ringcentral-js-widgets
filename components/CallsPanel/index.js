@@ -39,6 +39,7 @@ function CallsPanel(_ref) {
       areaCode = _ref.areaCode,
       countryCode = _ref.countryCode,
       onViewContact = _ref.onViewContact,
+      onCreateContact = _ref.onCreateContact,
       onLogCall = _ref.onLogCall,
       onClickToDial = _ref.onClickToDial,
       onClickToSms = _ref.onClickToSms,
@@ -59,6 +60,7 @@ function CallsPanel(_ref) {
     areaCode: areaCode,
     countryCode: countryCode,
     onViewContact: onViewContact,
+    onCreateContact: onCreateContact,
     onLogCall: onLogCall,
     onClickToDial: onClickToDial,
     onClickToSms: onClickToSms,
@@ -93,6 +95,7 @@ CallsPanel.propTypes = {
   areaCode: _react.PropTypes.string.isRequired,
   countryCode: _react.PropTypes.string.isRequired,
   onViewContact: _react.PropTypes.func,
+  onCreateContact: _react.PropTypes.func,
   onClickToDial: _react.PropTypes.func,
   onClickToSms: _react.PropTypes.func,
   onLogCall: _react.PropTypes.func,
@@ -110,6 +113,7 @@ CallsPanel.propTypes = {
 
 CallsPanel.defaultProps = {
   onViewContact: undefined,
+  onCreateContact: undefined,
   onLogCall: undefined,
   onClickToDial: undefined,
   onClickToSms: undefined,

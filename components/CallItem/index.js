@@ -292,6 +292,53 @@ var CallItem = function (_Component) {
       }
     };
 
+    _this.createSelectedContact = function () {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(entityType) {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                console.log('click createSelectedContact!!', entityType);
+
+                if (!(typeof _this.props.onCreateContact === 'function' && _this._mounted && !_this.state.isCreating)) {
+                  _context2.next = 7;
+                  break;
+                }
+
+                _this.setState({
+                  isCreating: true
+                });
+                console.log('start to create: isCreating...', _this.state.isCreating);
+
+                _context2.next = 6;
+                return _this.props.onCreateContact({
+                  phoneNumber: _this.getPhoneNumber(),
+                  name: _this.getFallbackContactName(),
+                  entityType: entityType
+                });
+
+              case 6:
+
+                if (_this._mounted) {
+                  _this.setState({
+                    isCreating: false
+                  });
+                  console.log('created: isCreating...', _this.state.isCreating);
+                }
+
+              case 7:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, _this2);
+      }));
+
+      return function (_x3) {
+        return _ref5.apply(this, arguments);
+      };
+    }();
+
     _this.clickToSms = function () {
       if (_this.props.onClickToSms) {
         var phoneNumber = _this.getPhoneNumber();
@@ -318,7 +365,8 @@ var CallItem = function (_Component) {
     _this.state = {
       selected: _this.getInitialContactIndex(),
       userSelection: false,
-      isLogging: false
+      isLogging: false,
+      isCreating: false
     };
     return _this;
   }
@@ -429,6 +477,7 @@ var CallItem = function (_Component) {
           internalSmsPermission = _props.internalSmsPermission,
           active = _props.active,
           onViewContact = _props.onViewContact,
+          onCreateContact = _props.onCreateContact,
           onLogCall = _props.onLogCall,
           onClickToDial = _props.onClickToDial,
           onClickToSms = _props.onClickToSms,
@@ -491,6 +540,7 @@ var CallItem = function (_Component) {
           currentLocale: currentLocale,
           onLogCall: onLogCall && this.logCall,
           onViewEntity: onViewContact && this.viewSelectedContact,
+          onCreateEntity: onCreateContact && this.createSelectedContact,
           hasEntity: !!contactMatches.length,
           onClickToDial: onClickToDial && this.clickToDial,
           onClickToSms: showClickToSms && this.clickToSms,
@@ -498,7 +548,8 @@ var CallItem = function (_Component) {
           disableLinks: disableLinks,
           disableClickToDial: disableClickToDial,
           isLogging: isLogging || this.state.isLogging,
-          isLogged: activityMatches.length > 0
+          isLogged: activityMatches.length > 0,
+          isCreating: this.state.isCreating
         })
       );
     }
@@ -533,6 +584,7 @@ CallItem.propTypes = {
   currentLocale: _react.PropTypes.string.isRequired,
   onLogCall: _react.PropTypes.func,
   onViewContact: _react.PropTypes.func,
+  onCreateContact: _react.PropTypes.func,
   onClickToDial: _react.PropTypes.func,
   onClickToSms: _react.PropTypes.func,
   isLoggedContact: _react.PropTypes.func,
@@ -550,6 +602,7 @@ CallItem.defaultProps = {
   onClickToDial: undefined,
   onClickToSms: undefined,
   onViewContact: undefined,
+  onCreateContact: undefined,
   isLoggedContact: function isLoggedContact() {
     return false;
   },
