@@ -191,20 +191,10 @@ var RecipientsInput = function (_Component) {
         if (_this.props.value.length === 0) {
           return;
         }
-        var relatedContactList = _this.props.value.length >= 3 ? _this.props.searchContactList : [];
-        var currentSelected = relatedContactList[_this.state.selectedContactIndex];
-        if (currentSelected) {
-          _this.props.addToRecipients({
-            name: currentSelected.name,
-            phoneNumber: currentSelected.phoneNumber
-          });
-        } else {
-          _this.props.addToRecipients({
-            name: _this.props.value.replace(',', ''),
-            phoneNumber: _this.props.value.replace(',', '')
-          });
-          _this.props.onClean();
-        }
+        _this.props.addToRecipients({
+          name: _this.props.value.replace(',', ''),
+          phoneNumber: _this.props.value.replace(',', '')
+        });
         _this.props.onClean();
       }
     };
