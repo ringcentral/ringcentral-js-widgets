@@ -212,7 +212,7 @@ var Conversation = function (_RcModule) {
       var messages = this._messageStore.messages.filter(function (message) {
         return message.conversationId === conversationId;
       });
-      var lastMessage = this._messageStore.conversations[conversation.index];
+      var lastMessage = this._messageStore.allConversations[conversation.index];
       var senderNumber = this._getCurrentSenderNumber(lastMessage);
       var recipients = lastMessage && lastMessage.recipients;
       if (!recipients || recipients.length === 0) {

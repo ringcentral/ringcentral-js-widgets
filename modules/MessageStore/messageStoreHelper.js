@@ -41,7 +41,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function normalizeRecord(record) {
   return (0, _extends3.default)({}, record, {
-    conversationId: record.conversation.id
+    conversationId: record.conversation && record.conversation.id || record.id
   });
 }
 
@@ -134,8 +134,11 @@ function filterNullFromConversations(_ref3) {
   };
 }
 
-function findIndexOfConversations(newConversationMap, record) {
-  var conversationId = record.conversation && record.conversation.id;
+function findIndexOfConversations(newConversationMap, message) {
+  var conversationId = message.conversationId;
+  if (!conversationId) {
+    return -1;
+  }
   var existedIndex = newConversationMap[conversationId] && newConversationMap[conversationId].index;
   if (existedIndex !== undefined && existedIndex !== null) {
     return existedIndex;
@@ -143,9 +146,9 @@ function findIndexOfConversations(newConversationMap, record) {
   return -1;
 }
 
-function findIndexOfMessages(messageMap, record) {
-  if (messageMap[record.id] !== undefined) {
-    return messageMap[record.id];
+function findIndexOfMessages(messageMap, message) {
+  if (messageMap[message.id] !== undefined) {
+    return messageMap[message.id];
   }
   return -1;
 }
@@ -195,22 +198,22 @@ function pushRecordsToMessageData(_ref4) {
     }
     newConversationMap[conversationId] = conversation;
   };
-  var pushMessageToConversations = function pushMessageToConversations(record) {
-    var message = normalizeRecord((0, _removeUri2.default)(record));
+  var pushMessageToConversations = function pushMessageToConversations(message) {
+    var newConversation = (0, _extends3.default)({}, message);
     var index = newConversations.length;
-    addMessageToConversationMap(message, index);
-    var conversation = newConversationMap[message.conversationId];
+    addMessageToConversationMap(newConversation, index);
+    var conversation = newConversationMap[newConversation.conversationId];
     if (conversation) {
-      message.unreadCounts = calcUnreadCount(conversation);
+      newConversation.unreadCounts = calcUnreadCount(conversation);
     } else {
-      message.unreadCounts = 0;
+      newConversation.unreadCounts = 0;
     }
-    newConversations.push(message);
+    newConversations.push(newConversation);
   };
-  var pushMessageToMessages = function pushMessageToMessages(record) {
-    var message = normalizeRecord((0, _removeUri2.default)(record));
-    newMessages.push(message);
-    addMessageToMessageMap(message, newMessages.length - 1);
+  var pushMessageToMessages = function pushMessageToMessages(message) {
+    var newMessage = (0, _extends3.default)({}, message);
+    newMessages.push(newMessage);
+    addMessageToMessageMap(newMessage, newMessages.length - 1);
   };
   // TODO: delete message or conversation?
   var deleteMessageFromConversations = function deleteMessageFromConversations(index, record) {
@@ -221,25 +224,25 @@ function pushRecordsToMessageData(_ref4) {
       });
       if (conversationMessages.length === 0) {
         newConversations[index] = null;
-        delete newConversationMap[record.conversation.id];
+        delete newConversationMap[record.conversationId];
         return;
       }
       newConversations[index] = conversationMessages[conversationMessages.length - 1];
     }
-    var conversation = newConversationMap[record.conversation.id];
+    var conversation = newConversationMap[record.conversationId];
     setSyncTokenToConversation(conversation);
     delete conversation.unreadMessages[record.id];
     message.unreadCounts = calcUnreadCount(conversation);
   };
-  var deleteMessageFromMessages = function deleteMessageFromMessages(index, record) {
+  var deleteMessageFromMessages = function deleteMessageFromMessages(index, message) {
     newMessages[index] = null;
-    delete messageMap[record.id];
+    delete messageMap[message.id];
   };
-  var replaceMessageInConversations = function replaceMessageInConversations(index, record) {
+  var replaceMessageInConversations = function replaceMessageInConversations(index, message) {
     var oldConversation = newConversations[index];
-    var newMessage = (0, _extends3.default)({}, oldConversation, normalizeRecord((0, _removeUri2.default)(record)));
+    var newMessage = (0, _extends3.default)({}, oldConversation, message);
     var oldCreated = new Date(oldConversation.creationTime);
-    var newCreated = new Date(record.creationTime);
+    var newCreated = new Date(message.creationTime);
     if (newCreated >= oldCreated) {
       // move the message to the top of new Messages
       newConversations[index] = null;
@@ -251,34 +254,36 @@ function pushRecordsToMessageData(_ref4) {
     var conversation = newConversationMap[newMessage.conversationId];
     newMessage.unreadCounts = calcUnreadCount(conversation);
   };
-  var replaceMessageInMessages = function replaceMessageInMessages(index, record) {
-    newMessages[index] = normalizeRecord((0, _removeUri2.default)(record));
+  var replaceMessageInMessages = function replaceMessageInMessages(index, message) {
+    newMessages[index] = (0, _extends3.default)({}, message);
   };
   records.forEach(function (record) {
-    if (!record || !record.conversation) {
+    if (!record) {
       return;
     }
-    var existedIndexofMessages = findIndexOfMessages(messageMap, record);
-    var existedIndexofConversations = findIndexOfConversations(newConversationMap, record);
-    var isDeleted = messageHelper.messageIsDeleted(record);
-    var isAcceptable = messageHelper.messageIsAcceptable(record);
+    var message = normalizeRecord((0, _removeUri2.default)(record));
+    var existedIndexofMessages = findIndexOfMessages(messageMap, message);
+    var existedIndexofConversations = findIndexOfConversations(newConversationMap, message);
+    var isDeleted = messageHelper.messageIsDeleted(message);
+    var isTextMessage = messageHelper.messageIsTextMessage(message);
+    var isAcceptable = messageHelper.messageIsAcceptable(message);
     if (existedIndexofMessages > -1) {
       if (isDeleted) {
-        deleteMessageFromMessages(existedIndexofMessages, record);
+        deleteMessageFromMessages(existedIndexofMessages, message);
       } else {
-        replaceMessageInMessages(existedIndexofMessages, record);
+        replaceMessageInMessages(existedIndexofMessages, message);
       }
-    } else if (isAcceptable) {
-      pushMessageToMessages(record);
+    } else if (isAcceptable && isTextMessage) {
+      pushMessageToMessages(message);
     }
     if (existedIndexofConversations > -1) {
       if (isDeleted) {
-        deleteMessageFromConversations(existedIndexofConversations, record);
+        deleteMessageFromConversations(existedIndexofConversations, message);
       } else {
-        replaceMessageInConversations(existedIndexofConversations, record);
+        replaceMessageInConversations(existedIndexofConversations, message);
       }
     } else if (isAcceptable) {
-      pushMessageToConversations(record);
+      pushMessageToConversations(message);
     }
   });
   var filteredConversation = filterNullFromConversations({
