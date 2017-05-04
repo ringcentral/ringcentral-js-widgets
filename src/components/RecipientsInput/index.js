@@ -138,22 +138,10 @@ class RecipientsInput extends Component {
         if (this.props.value.length === 0) {
           return;
         }
-        const relatedContactList = this.props.value.length >= 3 ?
-          this.props.searchContactList : [];
-        const currentSelected
-          = relatedContactList[this.state.selectedContactIndex];
-        if (currentSelected) {
-          this.props.addToRecipients({
-            name: currentSelected.name,
-            phoneNumber: currentSelected.phoneNumber,
-          });
-        } else {
-          this.props.addToRecipients({
-            name: this.props.value.replace(',', ''),
-            phoneNumber: this.props.value.replace(',', ''),
-          });
-          this.props.onClean();
-        }
+        this.props.addToRecipients({
+          name: this.props.value.replace(',', ''),
+          phoneNumber: this.props.value.replace(',', ''),
+        });
         this.props.onClean();
       }
     };
