@@ -73,7 +73,7 @@ ClickToSmsButton.defaultProps = {
 function LogButton({
   className,
   currentLocale,
-  onLogCall,
+  onLog,
   isLogged,
   disableLinks,
   isLogging,
@@ -88,7 +88,7 @@ function LogButton({
   return (
     <Button
       className={classnames(styles.log, className)}
-      onClick={onLogCall}
+      onClick={onLog}
       disabled={disableLinks || isLogging}
     >
       <span
@@ -102,7 +102,7 @@ function LogButton({
 }
 LogButton.propTypes = {
   className: PropTypes.string,
-  onLogCall: PropTypes.func,
+  onLog: PropTypes.func,
   isLogged: PropTypes.bool,
   disableLinks: PropTypes.bool,
   isLogging: PropTypes.bool,
@@ -110,7 +110,7 @@ LogButton.propTypes = {
 };
 LogButton.defaultProps = {
   className: undefined,
-  onLogCall: undefined,
+  onLog: undefined,
   isLogged: false,
   disableLinks: false,
   isLogging: false,
@@ -173,31 +173,33 @@ export default class ActionMenu extends Component {
     this.state = {
       entityModalVisible: false,
     };
-
-    this.openEntityModal = () => {
-      this.setState({
-        entityModalVisible: true
-      });
-    };
-    this.closeEntityModal = () => {
-      this.setState({
-        entityModalVisible: false
-      });
-    };
-    this.onCreateEnityModal = (entityType) => {
-      this.props.onCreateEntity(entityType);
-      this.closeEntityModal();
-    };
-    this.onCancelEntityModal = () => {
-      this.closeEntityModal();
-    };
+  }
+  onCreateEnityModal = (entityType) => {
+    this.props.onCreateEntity(entityType);
+    this.closeEntityModal();
+  }
+  onCancelEntityModal = () => {
+    this.closeEntityModal();
+  }
+  openEntityModal = () => {
+    this.setState({
+      entityModalVisible: true
+    });
+  }
+  closeEntityModal = () => {
+    this.setState({
+      entityModalVisible: false
+    });
+  }
+  captureClick = (e) => {
+    e.stopPropagation();
   }
 
   render() {
     const {
       className,
       currentLocale,
-      onLogCall,
+      onLog,
       isLogged,
       isLogging,
       isCreating,
@@ -211,18 +213,18 @@ export default class ActionMenu extends Component {
       disableClickToDial,
     } = this.props;
 
-    const logButton = onLogCall ?
-    (
-      <LogButton
-        className={styles.baseGroup}
-        onLogCall={onLogCall}
-        disableLinks={disableLinks}
-        isLogged={isLogged}
-        isLogging={isLogging}
-        currentLocale={currentLocale}
-      />
-    ) :
-    null;
+    const logButton = onLog ?
+      (
+        <LogButton
+          className={styles.baseGroup}
+          onLog={onLog}
+          disableLinks={disableLinks}
+          isLogged={isLogged}
+          isLogging={isLogging}
+          currentLocale={currentLocale}
+        />
+      ) :
+      null;
 
     let entityButton;
     if (hasEntity && onViewEntity) {
@@ -232,7 +234,7 @@ export default class ActionMenu extends Component {
         hasEntity={hasEntity}
         disableLinks={disableLinks}
         currentLocale={currentLocale}
-        />);
+      />);
     } else if (!hasEntity && phoneNumber && onCreateEntity) {
       entityButton = (<EntityButton
         className={styles.baseGroup}
@@ -240,7 +242,7 @@ export default class ActionMenu extends Component {
         hasEntity={hasEntity}
         disableLinks={disableLinks}
         currentLocale={currentLocale}
-        />);
+      />);
     } else {
       entityButton = null;
     }
@@ -251,7 +253,7 @@ export default class ActionMenu extends Component {
         show={this.state.entityModalVisible}
         onCreate={this.onCreateEnityModal}
         onCancel={this.onCancelEntityModal}
-        />
+      />
       ) : null;
 
     const hasBaseGroup = !!(logButton || entityButton);
@@ -305,7 +307,8 @@ export default class ActionMenu extends Component {
     }
     // no slide menu
     return (
-      <div>
+      <div
+        onClick={this.captureClick} >
         <div className={classnames(styles.root, className)}>
           {clickToDialButton}
           {clickToSmsButton}
@@ -321,7 +324,7 @@ export default class ActionMenu extends Component {
 ActionMenu.propTypes = {
   className: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
-  onLogCall: PropTypes.func,
+  onLog: PropTypes.func,
   isLogged: PropTypes.bool,
   isLogging: PropTypes.bool,
   isCreating: PropTypes.bool,
@@ -336,7 +339,7 @@ ActionMenu.propTypes = {
 };
 ActionMenu.defaultProps = {
   className: undefined,
-  onLogCall: undefined,
+  onLog: undefined,
   isLogged: false,
   isLogging: false,
   isCreating: false,

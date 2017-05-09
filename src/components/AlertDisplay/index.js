@@ -12,13 +12,12 @@ function Message(props) {
         className={classnames(
           styles[props.level],
         )}>
-        { props.message }
-        <a
-          href="#close-message"
+        {props.message}
+        <div
           className={styles.dismiss}
           onClick={props.onDismiss}>
           <i className={dynamicsFont.close} />
-        </a>
+        </div>
       </div>
     </div>
   );

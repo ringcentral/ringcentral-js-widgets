@@ -1,0 +1,30 @@
+@import '../../lib/commonStyles/colors';
+
+.select {
+  width: 200px;
+  height: 25px;
+  border: 0px;
+  button {
+    margin: 0px;
+    color: #303030;
+    font-size: 14px;
+  }
+}
+.select:after {
+  line-height: 20px;
+  color: #979797;
+}
+
+.contact {
+  position: absolute;
+  top: 12px;
+  left: 46px;
+  color: #303030;
+  font-size: 14px;
+}
+
+.callerPhone .phoneType {
+  color: #666;
+  font-size: 13px;
+  margin-left: 8px;
+}
