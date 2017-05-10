@@ -113,12 +113,12 @@ class ConversationPanel extends Component {
   getPhoneNumber() {
     const correspondents = this.props.conversation.correspondents;
     return (correspondents.length === 1 &&
-      (correspondents[0].phoneNumber || correspondents[0].extensionNumber)) || null;
+      (correspondents[0].phoneNumber || correspondents[0].extensionNumber)) || undefined;
   }
   getFallbackContactName() {
     const correspondents = this.props.conversation.correspondents;
     return (correspondents.length === 1 &&
-      (correspondents[0].name)) || null;
+      (correspondents[0].name)) || undefined;
   }
 
   render() {
