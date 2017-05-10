@@ -11,7 +11,10 @@ class DropdownSelect extends Component {
     };
     this.mounted = true;
 
-    this.toggleShowDropdown = () => {
+    this.toggleShowDropdown = (e) => {
+      if (e && this.props.stopPropagation) {
+        e.stopPropagation();
+      }
       if (this.props.disabled) {
         return;
       }
@@ -148,6 +151,7 @@ DropdownSelect.propTypes = {
   renderDropdownMenu: PropTypes.func,
   dropdownAlign: PropTypes.oneOf(['left', 'center', 'right']),
   titleEnabled: PropTypes.bool,
+  stopPropagation: PropTypes.bool,
 };
 
 DropdownSelect.defaultProps = {
@@ -162,6 +166,7 @@ DropdownSelect.defaultProps = {
   renderValue: option => option,
   dropdownAlign: 'center',
   titleEnabled: undefined,
+  stopPropagation: false,
 };
 
 export default DropdownSelect;

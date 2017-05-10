@@ -45,6 +45,8 @@ import CallHistory from 'ringcentral-integration/modules/CallHistory';
 import ContactMatcher from 'ringcentral-integration/modules/ContactMatcher';
 import ActivityMatcher from 'ringcentral-integration/modules/ActivityMatcher';
 import CallLogger from 'ringcentral-integration/modules/CallLogger';
+import ConversationMatcher from 'ringcentral-integration/modules/ConversationMatcher';
+import ConversationLogger from 'ringcentral-integration/modules/ConversationLogger';
 
 import RouterInteraction from '../src/modules/RouterInteraction';
 
@@ -321,13 +323,7 @@ export default class Phone extends RcModule {
       messageStore: this.messageStore,
       getState: () => this.state.conversation,
     }));
-    this.addModule('messages', new Messages({
-      ...options,
-      alert: this.alert,
-      messageStore: this.messageStore,
-      perPage: 20,
-      getState: () => this.state.messages,
-    }));
+
     this.addModule('conference', new Conference({
       ...options,
       auth: this.auth,
@@ -386,7 +382,35 @@ export default class Phone extends RcModule {
       callMonitor: this.callMonitor,
       contactMatcher: this.contactMatcher,
       activityMatcher: this.activityMatcher,
+      logFunction: async () => {},
+      readyCheckFunction: () => true,
       getState: () => this.state.callLogger,
+    }));
+    this.addModule('conversationMatcher', new ConversationMatcher({
+      storage: this.storage,
+      getState: () => this.state.conversationMatcher,
+    }));
+    this.addModule('conversationLogger', new ConversationLogger({
+      ...options,
+      storage: this.storage,
+      dateTimeFormat: this.dateTimeFormat,
+      messageStore: this.messageStore,
+      extensionInfo: this.extensionInfo,
+      contactMatcher: this.contactMatcher,
+      conversationMatcher: this.conversationMatcher,
+      tabManager: this.tabManager,
+      logFunction: async () => {},
+      readyCheckFunction: () => true,
+      getState: () => this.state.conversationLogger,
+    }));
+    this.addModule('messages', new Messages({
+      ...options,
+      alert: this.alert,
+      messageStore: this.messageStore,
+      extensionInfo: this.extensionInfo,
+      contactMatcher: this.contactMatcher,
+      conversationLogger: this.conversationLogger,
+      getState: () => this.state.messages,
     }));
     this._reducer = combineReducers({
       accountExtension: this.accountExtension.reducer,
@@ -424,6 +448,8 @@ export default class Phone extends RcModule {
       composeText: this.composeText.reducer,
       messageStore: this.messageStore.reducer,
       conversation: this.conversation.reducer,
+      conversationMatcher: this.conversationMatcher.reducer,
+      conversationLogger: this.conversationLogger.reducer,
       messages: this.messages.reducer,
       conference: this.conference.reducer,
       activeCalls: this.activeCalls.reducer,

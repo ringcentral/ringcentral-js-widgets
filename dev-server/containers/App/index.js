@@ -166,6 +166,7 @@ export default function App({
                   router={phone.router}
                   onLogCall={async () => { await sleep(1000); }}
                   onViewContact={() => {}}
+                  onCreateContact={() => {}}
                 />
               )} />
             <Route
@@ -209,6 +210,11 @@ export default function App({
                   messageStore={phone.messageStore}
                   dateTimeFormat={phone.dateTimeFormat}
                   contactMatcher={phone.contactMatcher}
+                  messages={phone.messages}
+                  conversationLogger={phone.conversationLogger}
+                  rateLimiter={phone.rateLimiter}
+                  connectivityMonitor={phone.connectivityMonitor}
+                  onLogConversation={async () => {sleep(1000);}}
                 />
               )} />
             <Route
@@ -217,13 +223,18 @@ export default function App({
               component={() => (
                 <MessagesPage
                   locale={phone.locale}
-                  auth={phone.auth}
+                  router={phone.router}
                   messages={phone.messages}
-                  messageStore={phone.messageStore}
-                  extensionInfo={phone.extensionInfo}
                   regionSettings={phone.regionSettings}
-                  contactMatcher={phone.contactMatcher}
                   dateTimeFormat={phone.dateTimeFormat}
+                  connectivityMonitor={phone.connectivityMonitor}
+                  rateLimiter={phone.rateLimiter}
+                  call={phone.call}
+                  conversationLogger={phone.conversationLogger}
+                  rolesAndPermissions={phone.rolesAndPermissions}
+                  onLogConversation={async () => { await sleep(1000); }}
+                  onViewContact={() => {}}
+                  onCreateContact={() => {}}
                 />
               )} />
           </Route>
