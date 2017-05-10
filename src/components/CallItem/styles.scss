@@ -1,12 +1,17 @@
 @import '../../lib/commonStyles/colors';
 
-.callItem {
+.root {
   display: block;
   position: relative;
   background: #fff;
   border-bottom: 1px solid #e2e2e2;
   height: 74px;
   width: 100%;
+
+  // &:hover {
+  //   background-color: #fafafa;
+  //   border-bottom: 1px solid #efefef;
+  // }
 }
 
 .callIcon {
@@ -42,16 +47,6 @@
   animation-iteration-count: infinite;
 }
 
-.callStatus {
-  margin-right: 8px;
-}
-
-.callStatus, .callDuration {
-  display: inline-block;
-}
-
-
-
 .details {
   position: absolute;
   left: 46px;
@@ -60,42 +55,12 @@
   color: #979797;
 }
 
-.callerType {
-  color: #666;
-  font-size: 13px;
-  margin-left: 8px;
-}
-
-.select {
-  width: 200px;
-  height: 25px;
-  border: 0px;
-  button {
-    margin: 0px;
-    color: #303030;
-    font-size: 14px;
-  }
-}
-.select:after {
-  line-height: 20px;
-  color: #979797;
-}
-
-.contact {
+.contactDisplay {
   position: absolute;
   top: 12px;
   left: 46px;
-  color: #303030;
-  font-size: 14px;
-}
-
-.callerPhone .phoneType {
-  color: #666;
-  font-size: 13px;
-  margin-left: 8px;
 }
 
 .missed {
   color: #D9282f;
 }
-

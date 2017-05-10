@@ -30,13 +30,16 @@ SearchInput.propTypes = {
   className: PropTypes.string,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  onKeyUp: PropTypes.func.isRequired,
-  maxLength: PropTypes.number.isRequired,
-  placeholder: PropTypes.string.isRequired,
+  onKeyUp: PropTypes.func,
+  maxLength: PropTypes.number,
+  placeholder: PropTypes.string,
 };
 
 SearchInput.defaultProps = {
   className: null,
+  placeholder: '',
+  maxLength: undefined,
+  onKeyUp: undefined,
 };
 
 export default SearchInput;

@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import moduleStatuses from 'ringcentral-integration/enums/moduleStatuses';
 import CallsPanel from '../../components/CallsPanel';
 import i18n from './i18n';
 
@@ -38,7 +37,7 @@ function mapToProps(_, {
       dateTimeFormat.ready &&
       connectivityMonitor.ready &&
       (!rolesAndPermissions || rolesAndPermissions.ready) &&
-      (!call || call.status === moduleStatuses.ready) &&
+      (!call || call.ready) &&
       (!composeText || composeText.ready) &&
       (!callLogger || callLogger.ready)
     ),

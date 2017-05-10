@@ -1,0 +1,25 @@
+@import '../../lib/commonStyles/colors';
+
+.root {
+  text-align: center;
+  color: #303030;
+  font-size: 14px;
+}
+
+.select {
+  display: inline-block;
+  width: 200px;
+  height: 25px;
+  border: 0px;
+  button {
+    margin: 0px;
+    color: #303030;
+    font-size: 14px;
+  }
+}
+
+.select:after {
+  line-height: 20px;
+  color: #979797;
+}
+
