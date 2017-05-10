@@ -210,6 +210,11 @@ export default function App({
                   messageStore={phone.messageStore}
                   dateTimeFormat={phone.dateTimeFormat}
                   contactMatcher={phone.contactMatcher}
+                  messages={phone.messages}
+                  conversationLogger={phone.conversationLogger}
+                  rateLimiter={phone.rateLimiter}
+                  connectivityMonitor={phone.connectivityMonitor}
+                  onLogConversation={async () => {sleep(1000);}}
                 />
               )} />
             <Route
@@ -219,12 +224,8 @@ export default function App({
                 <MessagesPage
                   locale={phone.locale}
                   router={phone.router}
-                  // auth={phone.auth}
                   messages={phone.messages}
-                  // messageStore={phone.messageStore}
-                  // extensionInfo={phone.extensionInfo}
                   regionSettings={phone.regionSettings}
-                  // contactMatcher={phone.contactMatcher}
                   dateTimeFormat={phone.dateTimeFormat}
                   connectivityMonitor={phone.connectivityMonitor}
                   rateLimiter={phone.rateLimiter}

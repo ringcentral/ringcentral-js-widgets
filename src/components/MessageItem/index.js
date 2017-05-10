@@ -34,7 +34,22 @@ export default class MessageItem extends Component {
       isCreating: false,
     };
   }
-
+  componentDidMount() {
+    this._mounted = true;
+  }
+  componentWillReceiveProps(nextProps) {
+    if (
+      !this.state.userSelection &&
+      nextProps.conversation.conversationMatches !== this.props.conversation.conversationMatches
+    ) {
+      this.setState({
+        selected: this.getInitialContactIndex(nextProps),
+      });
+    }
+  }
+  componentWillUnmount() {
+    this._mounted = false;
+  }
   onSelectContact = (value, idx) => {
     const selected = parseInt(idx, 10) - 1;
     this.setState({
@@ -57,6 +72,12 @@ export default class MessageItem extends Component {
       if (index > -1) return index;
     }
     return -1;
+  }
+  getSelectedContact = (selected = this.state.selected) => {
+    const contactMatches = this.props.conversation.correspondentMatches;
+    return (selected > -1 && contactMatches[selected]) ||
+      (contactMatches.length === 1 && contactMatches[0]) ||
+      null;
   }
 
   getPhoneNumber() {
@@ -111,7 +132,7 @@ export default class MessageItem extends Component {
         isLogging: true,
       });
       await this.props.onLogConversation({
-        correspondent: this.getSelectedContact(selected),
+        correspondentEntity: this.getSelectedContact(selected),
         conversationId: this.props.conversation.conversationId,
         redirect,
       });
@@ -164,9 +185,11 @@ export default class MessageItem extends Component {
           styles.root,
           unreadCounts && styles.unread
         )}
+        onClick={this.showConversationDetail}
       >
         <ConversationIcon group={correspondents.length > 1} />
         <ContactDisplay
+          className={styles.contactDisplay}
           contactMatches={correspondentMatches}
           selected={this.state.selected}
           onSelectContact={this.onSelectContact}
@@ -194,6 +217,7 @@ export default class MessageItem extends Component {
           isLogging={isLogging || this.state.isLogging}
           isLogged={conversationMatches.length > 0}
           isCreating={this.state.isCreating}
+          stopPropagation
         />
       </div>
     );

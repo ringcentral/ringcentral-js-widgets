@@ -203,11 +203,11 @@ export default class CallItem extends Component {
     const {
       call: {
         direction,
-        telephonyStatus,
-        result,
-        startTime,
-        duration,
-        activityMatches,
+      telephonyStatus,
+      result,
+      startTime,
+      duration,
+      activityMatches,
       },
       currentLocale,
       areaCode,
@@ -259,7 +259,7 @@ export default class CallItem extends Component {
       statusEl = i18n.getString(result || telephonyStatus, currentLocale);
     }
     return (
-      <div className={styles.callItem}>
+      <div className={styles.root}>
         <CallIcon
           direction={direction}
           ringing={ringing}
@@ -267,7 +267,10 @@ export default class CallItem extends Component {
           missed={missed}
         />
         <ContactDisplay
-          className={classnames(missed && styles.missed)}
+          className={classnames(
+            styles.contactDisplay,
+            missed && styles.missed,
+          )}
           contactMatches={contactMatches}
           selected={this.state.selected}
           onSelectContact={this.onSelectContact}

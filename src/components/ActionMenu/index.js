@@ -4,6 +4,7 @@ import Spinner from '../Spinner';
 import SlideMenu from '../SlideMenu';
 import EntityModal from '../EntityModal';
 import Button from '../Button';
+import LogButton from '../LogButton';
 import styles from './styles.scss';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
@@ -68,52 +69,6 @@ ClickToSmsButton.defaultProps = {
   onClickToSms: undefined,
   disableLinks: false,
   phoneNumber: undefined,
-};
-
-function LogButton({
-  className,
-  currentLocale,
-  onLog,
-  isLogged,
-  disableLinks,
-  isLogging,
-}) {
-  const spinner = isLogging ?
-    (
-      <div className={styles.spinnerContainer}>
-        <Spinner ringWidth={2} />
-      </div>
-    ) :
-    null;
-  return (
-    <Button
-      className={classnames(styles.log, className)}
-      onClick={onLog}
-      disabled={disableLinks || isLogging}
-    >
-      <span
-        className={isLogged ?
-          dynamicsFont.edit :
-          dynamicsFont.callLog
-        } />
-      {spinner}
-    </Button>
-  );
-}
-LogButton.propTypes = {
-  className: PropTypes.string,
-  onLog: PropTypes.func,
-  isLogged: PropTypes.bool,
-  disableLinks: PropTypes.bool,
-  isLogging: PropTypes.bool,
-  currentLocale: PropTypes.string.isRequired,
-};
-LogButton.defaultProps = {
-  className: undefined,
-  onLog: undefined,
-  isLogged: false,
-  disableLinks: false,
-  isLogging: false,
 };
 
 function EntityButton({
@@ -192,7 +147,9 @@ export default class ActionMenu extends Component {
     });
   }
   captureClick = (e) => {
-    e.stopPropagation();
+    if (this.props.stopPropagation) {
+      e.stopPropagation();
+    }
   }
 
   render() {
@@ -211,6 +168,7 @@ export default class ActionMenu extends Component {
       phoneNumber,
       disableLinks,
       disableClickToDial,
+      stopPropagation,
     } = this.props;
 
     const logButton = onLog ?
@@ -285,17 +243,19 @@ export default class ActionMenu extends Component {
     if (hasSecondGroup) {
       // slide menu
       return (
-        <SlideMenu
-          className={classnames(styles.root, className)}
-          minWidth={40}
-          maxWidth={75} >
-          {clickToDialButton}
-          {clickToSmsButton}
-          {entityButton}
-          {logButton}
-          {entityModal}
-        </SlideMenu>
-
+        <div
+          onClick={this.captureClick}>
+          <SlideMenu
+            className={classnames(styles.root, className)}
+            minWidth={40}
+            maxWidth={75} >
+            {clickToDialButton}
+            {clickToSmsButton}
+            {entityButton}
+            {logButton}
+            {entityModal}
+          </SlideMenu>
+        </div>
       );
     } else if (
       !clickToDialButton &&
@@ -336,6 +296,7 @@ ActionMenu.propTypes = {
   phoneNumber: PropTypes.string,
   disableLinks: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
+  stopPropagation: PropTypes.bool,
 };
 ActionMenu.defaultProps = {
   className: undefined,
@@ -351,4 +312,5 @@ ActionMenu.defaultProps = {
   phoneNumber: undefined,
   disableLinks: false,
   disableClickToDial: false,
+  stopPropagation: false,
 };

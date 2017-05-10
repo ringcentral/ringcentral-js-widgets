@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import Select from '../Select';
+import DropdownSelect from '../DropdownSelect';
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -41,7 +41,7 @@ export default function ContactDisplay({
     ];
 
     contentEl = (
-      <Select
+      <DropdownSelect
         className={styles.select}
         value={`${selected}`}
         onChange={onSelectContact}
@@ -61,13 +61,14 @@ export default function ContactDisplay({
         }}
         dropdownAlign="left"
         titleEnabled
+        stopPropagation
       />
     );
   }
   return (
     <div
       className={classnames(
-        styles.contact,
+        styles.root,
         className,
       )} >
       {contentEl}

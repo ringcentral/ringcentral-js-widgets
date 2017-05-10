@@ -7,13 +7,11 @@
   border-bottom: 1px solid #e2e2e2;
   height: 74px;
   width: 100%;
+  cursor: pointer;
 
   &:hover {
     background-color: #fafafa;
     border-bottom: 1px solid #efefef;
-    // .messageContent {
-    //   border-bottom: none;
-    // }
   }
 }
 .conversationIcon {
@@ -40,7 +38,13 @@
   white-space: nowrap;
   max-width: 200px;
 }
-
+.contactDisplay {
+  position: absolute;
+  top: 12px;
+  left: 46px;
+  color: #303030;
+  font-size: 14px;
+}
 // .messageLink {
 //   text-decoration: none;
 // }
