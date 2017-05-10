@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
 import permissionsMessages from
   'ringcentral-integration/modules/RolesAndPermissions/permissionsMessages';
 import FormattedMessage from '../FormattedMessage';
