@@ -1,12 +1,14 @@
 import React, { Component, PropTypes } from 'react';
-
+import classnames from 'classnames';
+import SearchInput from '../SearchInput';
+import Panel from '../Panel';
 import MessageItem from '../MessageItem';
-
 import styles from './styles.scss';
+import i18n from './i18n';
 
 function NoMessages(props) {
   return (
-    <p className={styles.NoMessages}>{props.placeholder}</p>
+    <p className={styles.noMessages}>{props.placeholder}</p>
   );
 }
 
@@ -17,71 +19,96 @@ NoMessages.propTypes = {
 export default class MessageList extends Component {
   constructor(props) {
     super(props);
-    let lastScrollHeight = 0;
-    let currentScrollHeight = 0;
-
-    this.onScroll = () => {
-      const totalScrollHeight = this.messagesListBody.scrollHeight;
-      const clientHeight = this.messagesListBody.clientHeight;
-      currentScrollHeight = this.messagesListBody.scrollTop;
-      // loadNextPageMessages if scroll near buttom
-      if (
-        (totalScrollHeight - lastScrollHeight) > (clientHeight + 10) &&
-        (totalScrollHeight - currentScrollHeight) <= (clientHeight + 10)
-      ) {
-        this.props.loadNextPageMessages();
-      }
-      lastScrollHeight = currentScrollHeight;
+    this._scrollTop = 0;
+    this.state = {
+      page: 0,
     };
+  }
+  onScroll = () => {
+    const totalScrollHeight = this.messagesListBody.scrollHeight;
+    const clientHeight = this.messagesListBody.clientHeight;
+    const currentScrollTop = this.messagesListBody.scrollTop;
+    // load next page if scroll near buttom
+    if (
+      (totalScrollHeight - this._scrollTop) > (clientHeight + 10) &&
+      (totalScrollHeight - currentScrollTop) <= (clientHeight + 10)
+    ) {
+      this.setState({
+        page: this.state.page + 1,
+      });
+    }
+    this._scrollTop = currentScrollTop;
   }
 
   render() {
-    const messages = this.props.messages;
+    const {
+      className,
+      currentLocale,
+      conversations,
+      searchInput,
+      onSearchInputChange,
+      perPage,
+      ...childProps,
+    } = this.props;
+
+    const search = onSearchInputChange ?
+      (
+        <SearchInput
+          value={searchInput}
+          onChange={onSearchInputChange}
+          placeholder={i18n.getString('search', currentLocale)}
+        />
+      ) :
+      null;
+    const placeholder = onSearchInputChange && searchInput.length > 0 ?
+      i18n.getString('noSearchResults', currentLocale) :
+      i18n.getString('noMessages', currentLocale);
+
+    const lastIndex = ((this.state.page + 1) * perPage) - 1;
+
+    const content = (conversations && conversations.length) ?
+      conversations.slice(0, lastIndex).map(item => (
+        <MessageItem
+          {...childProps}
+          conversation={item}
+          currentLocale={currentLocale}
+          key={item.id}
+        />
+      ))
+      : <NoMessages placeholder={placeholder} />;
     return (
       <div
-        className={styles.messageList}
+        className={classnames(styles.root, className)}
         onScroll={this.onScroll}
         ref={(list) => { this.messagesListBody = list; }}
       >
-        {messages && messages.length
-          ? messages.map(
-              message =>
-                <MessageItem
-                  type={message.type}
-                  unreadCounts={message.unreadCounts}
-                  conversationId={message.conversationId}
-                  subject={message.subject}
-                  contactList={this.props.getMessageRecipientNames(message)}
-                  creationTime={message.creationTime}
-                  formatDateTime={this.props.formatDateTime}
-                  key={message.id}
-                  disableLinks={this.props.disableLinks} />
-            )
-          : <NoMessages placeholder={this.props.placeholder} />
-        }
+        {search}
+        <Panel>
+          {content}
+        </Panel>
       </div>
     );
   }
 }
 
 MessageList.propTypes = {
-  messages: PropTypes.arrayOf(PropTypes.shape({
+  currentLocale: PropTypes.string.isRequired,
+  conversations: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
-    type: PropTypes.string,
-    unreadCounts: PropTypes.number,
     conversationId: PropTypes.string.isRequired,
     subject: PropTypes.string,
-    creationTime: PropTypes.string,
-    to: PropTypes.array,
-    from: PropTypes.object,
   })).isRequired,
-  loadNextPageMessages: PropTypes.func.isRequired,
-  placeholder: PropTypes.string.isRequired,
-  formatDateTime: PropTypes.func.isRequired,
-  getMessageRecipientNames: PropTypes.func.isRequired,
   disableLinks: PropTypes.bool,
+  onSearchInputChange: PropTypes.func,
+  searchInput: PropTypes.string,
+  perPage: PropTypes.number,
+  className: PropTypes.string,
+  showConversationDetail: PropTypes.func.isRequired,
 };
-
 MessageList.defaultProps = {
+  onSearchInputChange: undefined,
+  searchInput: '',
+  perPage: 20,
+  className: undefined,
   disableLinks: false,
 };

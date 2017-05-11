@@ -1,13 +1,21 @@
-.NoMessages {
+@import '../../lib/commonStyles/full-size';
+
+.noMessages {
   color: #797979;
   font-size: 14px;
   text-align: center;
   margin-top: 50px;
 }
 
-.messageList {
-  height: calc(100% - 28px);
-  max-height: 800px;
+.root {
+  @include full-size;
+}
+
+.content {
+  @include full-size;
   overflow-y: auto;
   overflow-x: hidden;
+}
+.contentWithSearch {
+  height: calc(100% - 40px);
 }

@@ -5,13 +5,12 @@ import callDirections from 'ringcentral-integration/enums/callDirections';
 import {
   isInbound,
   isRinging,
+  isMissed,
 } from 'ringcentral-integration/lib/callLogHelpers';
 import parseNumber from 'ringcentral-integration/lib/parseNumber';
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import callResults from 'ringcentral-integration/enums/callResults';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
-import Select from '../DropdownSelect';
 import DurationCounter from '../DurationCounter';
+import ContactDisplay from '../ContactDisplay';
 import formatDuration from '../../lib/formatDuration';
 import ActionMenu from '../ActionMenu';
 import styles from './styles.scss';
@@ -54,94 +53,6 @@ CallIcon.defaultProps = {
   ringing: false,
 };
 
-
-function Contact({
-  contactMatches,
-  selected,
-  onSelectContact,
-  disabled,
-  isLogging,
-  fallBackName,
-  areaCode,
-  countryCode,
-  phoneNumber,
-  currentLocale,
-  missed,
-}) {
-  let contentEl;
-
-  if (contactMatches.length === 0) {
-    contentEl = fallBackName ||
-      (phoneNumber && formatNumber({
-        phoneNumber,
-        countryCode,
-        areaCode,
-      })) ||
-      i18n.getString('unknownNumber', currentLocale);
-  } else if (contactMatches.length === 1) {
-    contentEl = contactMatches[0].name;
-  } else if (contactMatches.length > 1) {
-    const options = [
-      {
-
-      },
-      ...contactMatches,
-    ];
-
-    contentEl = (
-      <Select
-        className={styles.select}
-        value={`${selected}`}
-        onChange={onSelectContact}
-        disabled={disabled || isLogging}
-        options={options}
-        valueFunction={(_, idx) => `${idx - 1}`}
-        renderFunction={(entity, idx) => (
-          idx === 0 ?
-            i18n.getString('select', currentLocale) :
-            `${entity.name} ${i18n.getString(`phoneSource.${entity.entityType}`)}`
-        )}
-        renderValue={(value) => {
-          value = parseInt(value, 10) + 1;
-          return value === 0 ?
-            i18n.getString('select', currentLocale) :
-            `${options[value].name} ${i18n.getString(`phoneSource.${options[value].entityType}`)}`;
-        }}
-        dropdownAlign="left"
-        titleEnabled
-      />
-    );
-  }
-  return (
-    <div
-      className={classnames(
-        styles.contact,
-        missed && styles.missed,
-      )} >
-      {contentEl}
-    </div>
-  );
-}
-Contact.propTypes = {
-  contactMatches: PropTypes.arrayOf(PropTypes.any).isRequired,
-  selected: PropTypes.number.isRequired,
-  onSelectContact: PropTypes.func,
-  disabled: PropTypes.bool.isRequired,
-  isLogging: PropTypes.bool.isRequired,
-  fallBackName: PropTypes.string,
-  areaCode: PropTypes.string.isRequired,
-  countryCode: PropTypes.string.isRequired,
-  phoneNumber: PropTypes.string,
-  currentLocale: PropTypes.string.isRequired,
-  missed: PropTypes.bool.isRequired,
-};
-Contact.defaultProps = {
-  onSelectContact: undefined,
-  fallBackName: '',
-  phoneNumber: undefined,
-};
-
-
 export default class CallItem extends Component {
   constructor(props) {
     super(props);
@@ -150,6 +61,7 @@ export default class CallItem extends Component {
       selected: this.getInitialContactIndex(),
       userSelection: false,
       isLogging: false,
+      isCreating: false,
     };
   }
   componentDidMount() {
@@ -240,6 +152,31 @@ export default class CallItem extends Component {
       });
     }
   }
+
+  createSelectedContact = async (entityType) => {
+    console.log('click createSelectedContact!!', entityType);
+    if (typeof this.props.onCreateContact === 'function' &&
+      this._mounted &&
+      !this.state.isCreating) {
+      this.setState({
+        isCreating: true,
+      });
+      console.log('start to create: isCreating...', this.state.isCreating);
+
+      await this.props.onCreateContact({
+        phoneNumber: this.getPhoneNumber(),
+        name: this.getFallbackContactName(),
+        entityType,
+      });
+
+      if (this._mounted) {
+        this.setState({
+          isCreating: false,
+        });
+        console.log('created: isCreating...', this.state.isCreating);
+      }
+    }
+  }
   clickToSms = () => {
     if (this.props.onClickToSms) {
       const phoneNumber = this.getPhoneNumber();
@@ -266,11 +203,11 @@ export default class CallItem extends Component {
     const {
       call: {
         direction,
-        telephonyStatus,
-        result,
-        startTime,
-        duration,
-        activityMatches,
+      telephonyStatus,
+      result,
+      startTime,
+      duration,
+      activityMatches,
       },
       currentLocale,
       areaCode,
@@ -281,6 +218,7 @@ export default class CallItem extends Component {
       internalSmsPermission,
       active,
       onViewContact,
+      onCreateContact,
       onLogCall,
       onClickToDial,
       onClickToSms,
@@ -291,7 +229,7 @@ export default class CallItem extends Component {
     const contactMatches = this.getContactMatches();
     const fallbackContactName = this.getFallbackContactName();
     const ringing = isRinging(this.props.call);
-    const missed = result === callResults.missed;
+    const missed = isInbound(this.props.call) && isMissed(this.props.call);
     const parsedInfo = parseNumber(phoneNumber);
     const isExtension = !parsedInfo.hasPlus &&
       parsedInfo.number.length <= 6;
@@ -321,14 +259,18 @@ export default class CallItem extends Component {
       statusEl = i18n.getString(result || telephonyStatus, currentLocale);
     }
     return (
-      <div className={styles.callItem}>
+      <div className={styles.root}>
         <CallIcon
           direction={direction}
           ringing={ringing}
           active={active}
           missed={missed}
         />
-        <Contact
+        <ContactDisplay
+          className={classnames(
+            styles.contactDisplay,
+            missed && styles.missed,
+          )}
           contactMatches={contactMatches}
           selected={this.state.selected}
           onSelectContact={this.onSelectContact}
@@ -338,15 +280,15 @@ export default class CallItem extends Component {
           areaCode={areaCode}
           countryCode={countryCode}
           phoneNumber={phoneNumber}
-          currentLocale={currentLocale}
-          missed={missed} />
+          currentLocale={currentLocale} />
         <div className={styles.details} >
           {durationEl} | {dateEl}{statusEl}
         </div>
         <ActionMenu
           currentLocale={currentLocale}
-          onLogCall={onLogCall && this.logCall}
+          onLog={onLogCall && this.logCall}
           onViewEntity={onViewContact && this.viewSelectedContact}
+          onCreateEntity={onCreateContact && this.createSelectedContact}
           hasEntity={!!contactMatches.length}
           onClickToDial={onClickToDial && this.clickToDial}
           onClickToSms={showClickToSms && this.clickToSms}
@@ -355,6 +297,7 @@ export default class CallItem extends Component {
           disableClickToDial={disableClickToDial}
           isLogging={isLogging || this.state.isLogging}
           isLogged={activityMatches.length > 0}
+          isCreating={this.state.isCreating}
         />
       </div>
     );
@@ -385,6 +328,7 @@ CallItem.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   onLogCall: PropTypes.func,
   onViewContact: PropTypes.func,
+  onCreateContact: PropTypes.func,
   onClickToDial: PropTypes.func,
   onClickToSms: PropTypes.func,
   isLoggedContact: PropTypes.func,
@@ -402,6 +346,7 @@ CallItem.defaultProps = {
   onClickToDial: undefined,
   onClickToSms: undefined,
   onViewContact: undefined,
+  onCreateContact: undefined,
   isLoggedContact: () => false,
   isLogging: false,
   disableClickToDial: false,

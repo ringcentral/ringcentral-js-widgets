@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import moduleStatuses from 'ringcentral-integration/enums/moduleStatuses';
 import CallsPanel from '../../components/CallsPanel';
 import i18n from './i18n';
 
@@ -40,7 +39,7 @@ function mapToProps(_, {
       dateTimeFormat.ready &&
       connectivityMonitor.ready &&
       (!rolesAndPermissions || rolesAndPermissions.ready) &&
-      (!call || call.status === moduleStatuses.ready) &&
+      (!call || call.ready) &&
       (!composeText || composeText.ready) &&
       (!callLogger || callLogger.ready)
     ),
@@ -49,10 +48,12 @@ function mapToProps(_, {
 function mapToFunctions(_, {
   dateTimeFormat,
   onViewContact,
+  onCreateContact,
   dateTimeFormatter = utcTimestamp => dateTimeFormat.formatDateTime({
     utcTimestamp,
   }),
   callLogger,
+  contactMatcher,
   onLogCall,
   isLoggedContact,
   call,
@@ -64,6 +65,19 @@ function mapToFunctions(_, {
   return {
     dateTimeFormatter,
     onViewContact,
+    onCreateContact: onCreateContact ?
+      async ({ phoneNumber, name, entityType }) => {
+        const hasMatchNumber = await contactMatcher.hasMatchNumber({
+          phoneNumber,
+          ignoreCache: true
+        });
+        // console.debug('confirm hasMatchNumber:', hasMatchNumber);
+        if (!hasMatchNumber) {
+          await onCreateContact({ phoneNumber, name, entityType });
+          await contactMatcher.forceMatchNumber({ phoneNumber });
+        }
+      } :
+      undefined,
     onClickToDial: call ?
       (phoneNumber) => {
         if (call.isIdle) {

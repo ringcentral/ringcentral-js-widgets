@@ -7,16 +7,6 @@ after_success:
 before_deploy:
   - ./scripts/prepare_release.sh && cd release
 deploy:
-  - provider: script
-    skip_cleanup: true
-    script: ../scripts/start_release.sh
-    on:
-      node: '6'
-      condition: "$TRAVIS_TAG == ''"
-      branches:
-        only:
-          - master
-          - dev
   - provider: npm
     email: embbnux@embbnux.com
     skip_cleanup: true

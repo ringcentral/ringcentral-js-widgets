@@ -1,5 +1,6 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/layout';
 
 .root {
   @include full-size;
@@ -14,9 +15,6 @@
   border-bottom-width: 1px;
   border-style: solid;
 }
-
-.spinerContainer {
-  height: 40px;
-  width: 40px;
-  margin: 50px auto;
+.contentWithHeader {
+  height: calc(100% - #{$header-height});
 }

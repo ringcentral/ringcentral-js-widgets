@@ -142,7 +142,7 @@ class RecipientsInput extends Component {
           this.props.searchContactList : [];
         const currentSelected
           = relatedContactList[this.state.selectedContactIndex];
-        if (currentSelected) {
+        if (currentSelected && e.key === 'Enter') {
           this.props.addToRecipients({
             name: currentSelected.name,
             phoneNumber: currentSelected.phoneNumber,
