@@ -58,7 +58,8 @@ function mapToProps(_, {
     callingSettingsUrl,
     regionSettingsUrl,
     ringoutEnabled: rolesAndPermissions.ringoutEnabled,
-    outboundSMS: rolesAndPermissions.permissions.OutboundSMS,
+    outboundSMS: !!rolesAndPermissions.permissions.OutboundSMS ||
+      !!rolesAndPermissions.permissions.InternalSMS,
   };
 }
 
