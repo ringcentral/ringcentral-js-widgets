@@ -114,6 +114,7 @@
   outline: medium none!important;
   color: #fff;
   background-color: $primary-color;
+  border-style: none;
 }
 
 .submitButton:hover {
@@ -121,8 +122,10 @@
   color: #fff;
 }
 
-.submitButton:disabled {
+.submitButton:disabled,
+.submitButton:disabled:hover {
   background-color: #fff!important;
   border: #c9c9c9 1px solid;
   color: #a9a9a9;
+  cursor: not-allowed;
 }
