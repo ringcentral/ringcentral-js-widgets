@@ -36,6 +36,16 @@ function MessagesPanel({
   );
 }
 
+MessagesPanel.propTypes = {
+  currentLocale: PropTypes.string.isRequired,
+  showSpinner: PropTypes.bool,
+  showTitle: PropTypes.bool,
+};
+MessagesPanel.defaultProps = {
+  showSpinner: false,
+  showTitle: false,
+};
+
 function mapToProps(_, {
   locale,
   messages,
@@ -144,7 +154,6 @@ function mapToFunctions(_, {
     },
   };
 }
-
 export default connect(
   mapToProps,
   mapToFunctions,

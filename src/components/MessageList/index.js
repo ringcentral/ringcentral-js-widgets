@@ -98,6 +98,7 @@ MessageList.propTypes = {
     conversationId: PropTypes.string.isRequired,
     subject: PropTypes.string,
   })).isRequired,
+  disableLinks: PropTypes.bool,
   onSearchInputChange: PropTypes.func,
   searchInput: PropTypes.string,
   perPage: PropTypes.number,
@@ -109,4 +110,5 @@ MessageList.defaultProps = {
   searchInput: '',
   perPage: 20,
   className: undefined,
+  disableLinks: false,
 };

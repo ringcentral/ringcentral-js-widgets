@@ -7,6 +7,7 @@ function mapToProps(_, {
   callMonitor,
   regionSettings,
   connectivityMonitor,
+  rateLimiter,
   dateTimeFormat,
   callLogger,
   composeText,
@@ -19,7 +20,8 @@ function mapToProps(_, {
     calls: callMonitor.calls,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
-    disableLinks: !connectivityMonitor.connectivity,
+    disableLinks: !connectivityMonitor.connectivity ||
+      rateLimiter.throttling,
     outboundSmsPermission: !!(
       rolesAndPermissions.permissions &&
       rolesAndPermissions.permissions.OutboundSMS

@@ -195,6 +195,8 @@ export default function App({
                   contactSearch={phone.contactSearch}
                   rolesAndPermissions={phone.rolesAndPermissions}
                   messageSender={phone.messageSender}
+                  connectivityMonitor={phone.connectivityMonitor}
+                  rateLimiter={phone.rateLimiter}
                 />
               )} />
             <Route

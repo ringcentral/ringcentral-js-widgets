@@ -205,6 +205,7 @@ class ConversationPanel extends Component {
                 value={i18n.getString('send', this.props.currentLocale)}
                 className={styles.submitButton}
                 disabled={
+                  this.props.disableLinks ||
                   this.props.sendButtonDisabled ||
                   loading ||
                   this.state.textValue.length === 0
@@ -225,6 +226,10 @@ ConversationPanel.propTypes = {
   sendButtonDisabled: PropTypes.bool.isRequired,
   currentLocale: PropTypes.string.isRequired,
   showSpinner: PropTypes.bool.isRequired,
+  disableLinks: PropTypes.bool,
+};
+ConversationPanel.defaultProps = {
+  disableLinks: false,
 };
 
 export default ConversationPanel;
