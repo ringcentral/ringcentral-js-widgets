@@ -74,6 +74,7 @@ class ConversationMessageList extends Component {
   }
 
   render() {
+    const dateTimeFormatter = this.props.dateTimeFormatter;
     const messages = this.props.messages;
     let lastFormatedTime = null;
     const messageList = messages.map((message) => {

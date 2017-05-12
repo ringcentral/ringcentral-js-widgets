@@ -89,7 +89,25 @@ class ConversationPanel extends Component {
     }
     return -1;
   }
-
+  getPhoneNumber() {
+    const correspondents = this.props.conversation.correspondents;
+    return (correspondents.length === 1 &&
+      (correspondents[0].phoneNumber || correspondents[0].extensionNumber)) || undefined;
+  }
+  getGroupPhoneNumbers() {
+    const correspondents = this.props.conversation.correspondents;
+    const groupNumbers = correspondents.length > 1 ?
+      correspondents.map(correspondent =>
+        correspondent.extensionNumber || correspondent.phoneNumber || undefined
+      )
+      : null;
+    return groupNumbers;
+  }
+  getFallbackContactName() {
+    const correspondents = this.props.conversation.correspondents;
+    return (correspondents.length === 1 &&
+      (correspondents[0].name)) || undefined;
+  }
   logConversation = async ({ redirect = true, selected }) => {
     if (typeof this.props.onLogConversation === 'function' &&
       this._mounted &&
@@ -109,16 +127,6 @@ class ConversationPanel extends Component {
         });
       }
     }
-  }
-  getPhoneNumber() {
-    const correspondents = this.props.conversation.correspondents;
-    return (correspondents.length === 1 &&
-      (correspondents[0].phoneNumber || correspondents[0].extensionNumber)) || undefined;
-  }
-  getFallbackContactName() {
-    const correspondents = this.props.conversation.correspondents;
-    return (correspondents.length === 1 &&
-      (correspondents[0].name)) || undefined;
   }
 
   render() {
@@ -142,11 +150,10 @@ class ConversationPanel extends Component {
     }
     const {
       isLogging,
-      correspondents,
       conversationMatches,
       correspondentMatches,
     } = this.props.conversation;
-    const groupNumbers = correspondents.length > 1 ? correspondents : null;
+    const groupNumbers = this.getGroupPhoneNumbers();
     const phoneNumber = this.getPhoneNumber();
     const fallbackName = this.getFallbackContactName();
 
@@ -227,9 +234,16 @@ ConversationPanel.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   showSpinner: PropTypes.bool.isRequired,
   disableLinks: PropTypes.bool,
+  conversation: PropTypes.object.isRequired,
+  isLoggedContact: PropTypes.func,
+  onLogConversation: PropTypes.func,
+  areaCode: PropTypes.string.isRequired,
+  countryCode: PropTypes.string.isRequired,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
+  isLoggedContact: undefined,
+  onLogConversation: undefined,
 };
 
 export default ConversationPanel;

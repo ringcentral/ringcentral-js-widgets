@@ -83,7 +83,7 @@ export default class MessageList extends Component {
         ref={(list) => { this.messagesListBody = list; }}
       >
         {search}
-        <Panel>
+        <Panel className={styles.scroll}>
           {content}
         </Panel>
       </div>
@@ -104,6 +104,7 @@ MessageList.propTypes = {
   perPage: PropTypes.number,
   className: PropTypes.string,
   showConversationDetail: PropTypes.func.isRequired,
+  dateTimeFormatter: PropTypes.func,
 };
 MessageList.defaultProps = {
   onSearchInputChange: undefined,
@@ -111,4 +112,5 @@ MessageList.defaultProps = {
   perPage: 20,
   className: undefined,
   disableLinks: false,
+  dateTimeFormatter: undefined,
 };

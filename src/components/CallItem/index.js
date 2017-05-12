@@ -252,7 +252,7 @@ export default class CallItem extends Component {
     }
     let dateEl;
     if (!active) {
-      dateEl = dateTimeFormatter(startTime);
+      dateEl = dateTimeFormatter({ utcTimestamp: startTime });
     }
     let statusEl;
     if (active) {
