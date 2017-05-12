@@ -49,7 +49,7 @@ function mapToFunctions(_, {
   dateTimeFormat,
   onViewContact,
   onCreateContact,
-  dateTimeFormatter = utcTimestamp => dateTimeFormat.formatDateTime({
+  dateTimeFormatter = ({ utcTimestamp }) => dateTimeFormat.formatDateTime({
     utcTimestamp,
   }),
   callLogger,

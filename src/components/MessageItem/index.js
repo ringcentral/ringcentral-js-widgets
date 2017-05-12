@@ -85,6 +85,15 @@ export default class MessageItem extends Component {
     return (correspondents.length === 1 &&
       (correspondents[0].phoneNumber || correspondents[0].extensionNumber)) || undefined;
   }
+  getGroupPhoneNumbers() {
+    const correspondents = this.props.conversation.correspondents;
+    const groupNumbers = correspondents.length > 1 ?
+      correspondents.map(correspondent =>
+        correspondent.extensionNumber || correspondent.phoneNumber || undefined
+      )
+      : null;
+    return groupNumbers;
+  }
   getFallbackContactName() {
     const correspondents = this.props.conversation.correspondents;
     return (correspondents.length === 1 &&
@@ -175,7 +184,7 @@ export default class MessageItem extends Component {
       dateTimeFormatter,
     } = this.props;
 
-    const groupNumbers = correspondents.length > 1 ? correspondents : null;
+    const groupNumbers = this.getGroupPhoneNumbers();
     const phoneNumber = this.getPhoneNumber();
     const fallbackName = this.getFallbackContactName();
 
