@@ -57,7 +57,7 @@ export default class MessageItem extends Component {
       userSelection: true,
     });
     if (this.props.conversation.conversationMatches.length > 0) {
-      this.logConversation({ redirect: false, selected });
+      this.logConversation({ redirect: false, selected, prefill: false });
     }
   }
   getInitialContactIndex(nextProps = this.props) {
@@ -132,7 +132,7 @@ export default class MessageItem extends Component {
     }
   }
 
-  logConversation = async ({ redirect = true, selected }) => {
+  logConversation = async ({ redirect = true, selected, prefill = true }) => {
     if (typeof this.props.onLogConversation === 'function' &&
       this._mounted &&
       !this.state.isLogging
@@ -144,6 +144,7 @@ export default class MessageItem extends Component {
         correspondentEntity: this.getSelectedContact(selected),
         conversationId: this.props.conversation.conversationId,
         redirect,
+        prefill,
       });
       if (this._mounted) {
         this.setState({
