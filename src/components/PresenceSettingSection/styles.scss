@@ -1,0 +1,87 @@
+@import '../../lib/commonStyles/colors';
+
+$icon-width: 50%;
+$icon-min-width: 120px;
+
+.iconLine {
+  display: block;
+}
+
+.show {
+  transform: rotate(180deg);
+}
+
+.statusIcon {
+  display: block;
+}
+
+.title {
+  display: inline-block;
+  width: calc(100% - #{$icon-width});
+  max-width: calc(100% - #{$icon-min-width});
+}
+
+.subTitle {
+  display: inline-block;
+  width: $icon-width;
+  min-width: $icon-min-width;
+  text-align: right;
+}
+
+.status {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  background: #4cd964;
+  margin-right: 5px;
+  color: transparent;
+  line-height: 1;
+  i {
+    display: block;
+    font-weight: bold;
+    width: 10px;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+    top: 2px;
+  }
+}
+
+.notDisturb {
+  color: #fff;
+}
+
+.busy {
+  background: #ff3703;
+}
+
+.invisible {
+  background: #cccccc;
+}
+
+.presenceItem {
+  display: block;
+  text-decoration: none;
+  padding: 5px 0;
+  cursor: pointer;
+
+  .status {
+    width: 16px;
+    height: 16px;
+    i {
+      top: 0;
+    }
+  }
+  .selected {
+    float: right;
+    display: inline-block;
+    width: 10px;
+    color: $primary-color;
+    font-family: 'Calibri';
+  }
+}
+
+.hidden {
+  display: none;
+}

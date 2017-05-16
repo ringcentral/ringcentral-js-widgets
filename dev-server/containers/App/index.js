@@ -106,6 +106,7 @@ export default function App({
                   brand={phone.brand}
                   router={phone.router}
                   rolesAndPermissions={phone.rolesAndPermissions}
+                  presence={phone.presence}
                   regionSettingsUrl="/settings/region"
                   callingSettingsUrl="/settings/calling"
                 />
@@ -147,6 +148,7 @@ export default function App({
                   router={phone.router}
                   composeText={phone.composeText}
                   rolesAndPermissions={phone.rolesAndPermissions}
+                  rateLimiter={phone.rateLimiter}
                 />
               )} />
             <Route
@@ -163,6 +165,7 @@ export default function App({
                   call={phone.call}
                   composeText={phone.composeText}
                   rolesAndPermissions={phone.rolesAndPermissions}
+                  rateLimiter={phone.rateLimiter}
                   router={phone.router}
                   onLogCall={async () => { await sleep(1000); }}
                   onViewContact={() => {}}

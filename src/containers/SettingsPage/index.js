@@ -9,6 +9,7 @@ import ExtensionInfo from 'ringcentral-integration/modules/ExtensionInfo';
 import Locale from 'ringcentral-integration/modules/Locale';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import RolesAndPermissions from 'ringcentral-integration/modules/RolesAndPermissions';
+import Presence from 'ringcentral-integration/modules/Presence';
 
 import SettingsPanel from '../../components/SettingsPanel';
 
@@ -23,6 +24,7 @@ function mapToProps(_, {
   regionSettingsUrl,
   version,
   rolesAndPermissions,
+  presence,
 }) {
   const loggedIn = auth.loginStatus === loginStatus.loggedIn;
   const loginNumber = (loggedIn &&
@@ -60,16 +62,25 @@ function mapToProps(_, {
     ringoutEnabled: rolesAndPermissions.ringoutEnabled,
     outboundSMS: !!rolesAndPermissions.permissions.OutboundSMS ||
       !!rolesAndPermissions.permissions.InternalSMS,
+    isCallQueueMember: extensionInfo.isCallQueueMember,
+    dndStatus: presence && presence.dndStatus,
+    userStatus: presence && presence.userStatus,
   };
 }
 
 function mapToFunctions(_, {
   auth,
+  presence,
 }) {
   return {
     onLogoutButtonClick: async () => {
       await auth.logout();
     },
+    setAvailable: presence && presence.setAvailable,
+    setBusy: presence && presence.setBusy,
+    setDoNotDisturb: presence && presence.setDoNotDisturb,
+    setInvisible: presence && presence.setInvisible,
+    toggleAcceptCallQueueCalls: presence && presence.toggleAcceptCallQueueCalls,
   };
 }
 const SettingsPage = connect(
@@ -88,6 +99,7 @@ const propTypes = {
   regionSettingsUrl: PropTypes.string.isRequired,
   version: PropTypes.string.isRequired,
   rolesAndPermissions: PropTypes.instanceOf(RolesAndPermissions).isRequired,
+  presence: PropTypes.instanceOf(Presence),
 };
 
 SettingsPage.propTypes = propTypes;

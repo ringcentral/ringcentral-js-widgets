@@ -9,6 +9,7 @@ import LinkLine from '../LinkLine';
 import IconLine from '../IconLine';
 import Eula from '../Eula';
 import SpinnerOverlay from '../SpinnerOverlay';
+import PresenceSettingSection from '../PresenceSettingSection';
 import styles from './styles.scss';
 import Switch from '../Switch';
 import i18n from './i18n';
@@ -38,6 +39,14 @@ export default function SettingsPanel({
   ringoutEnabled,
   outboundSMS,
   showSpinner,
+  dndStatus,
+  userStatus,
+  setAvailable,
+  setBusy,
+  setDoNotDisturb,
+  setInvisible,
+  toggleAcceptCallQueueCalls,
+  isCallQueueMember,
 }) {
   if (showSpinner) {
     return (
@@ -50,6 +59,21 @@ export default function SettingsPanel({
         to={regionSettingsUrl} >
         {i18n.getString('region', currentLocale)}
       </LinkLine>
+    ) :
+    null;
+  const presenceSetting = (dndStatus && userStatus) ?
+    (
+      <PresenceSettingSection
+        currentLocale={currentLocale}
+        dndStatus={dndStatus}
+        userStatus={userStatus}
+        isCallQueueMember={isCallQueueMember}
+        setAvailable={setAvailable}
+        setBusy={setBusy}
+        setDoNotDisturb={setDoNotDisturb}
+        setInvisible={setInvisible}
+        toggleAcceptCallQueueCalls={toggleAcceptCallQueueCalls}
+      />
     ) :
     null;
   let clickToDialText;
@@ -121,6 +145,7 @@ export default function SettingsPanel({
           {i18n.getString('calling', currentLocale)}
         </LinkLine>
         {region}
+        {presenceSetting}
         {children}
         {autoLog}
         {autoLogSMS}
@@ -178,6 +203,14 @@ SettingsPanel.propTypes = {
   ringoutEnabled: PropTypes.bool,
   outboundSMS: PropTypes.bool,
   showSpinner: PropTypes.bool,
+  dndStatus: PropTypes.string,
+  userStatus: PropTypes.string,
+  isCallQueueMember: PropTypes.bool,
+  setAvailable: PropTypes.func,
+  setBusy: PropTypes.func,
+  setDoNotDisturb: PropTypes.func,
+  setInvisible: PropTypes.func,
+  toggleAcceptCallQueueCalls: PropTypes.func,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -196,4 +229,12 @@ SettingsPanel.defaultProps = {
   ringoutEnabled: false,
   outboundSMS: false,
   showSpinner: false,
+  dndStatus: undefined,
+  userStatus: undefined,
+  isCallQueueMember: false,
+  setAvailable: () => null,
+  setBusy: () => null,
+  setDoNotDisturb: () => null,
+  setInvisible: () => null,
+  toggleAcceptCallQueueCalls: () => null,
 };
