@@ -55,10 +55,13 @@
 
 .dropdownItem {
   display: block;
-  padding: 10px;
+  padding: 10px 10px 5px 10px;
   &:hover {
     color: $primary-color;
   }
+}
+.dropdownItem:last-child {
+  padding: 10px;
 }
 
 .left {

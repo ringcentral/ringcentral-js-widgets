@@ -20,19 +20,19 @@ export default function ContactDisplay({
   groupNumbers,
 }) {
   let contentEl;
-  if (groupNumbers) {
-    contentEl = groupNumbers.join(', ');
-  } else if (contactMatches.length === 0) {
-    contentEl = fallBackName ||
-      (phoneNumber && formatNumber({
-        phoneNumber,
-        countryCode,
-        areaCode,
-      })) ||
-      i18n.getString('unknownNumber', currentLocale);
-  } else if (contactMatches.length === 1) {
-    contentEl = contactMatches[0].name;
-  } else if (contactMatches.length > 1) {
+  // if (groupNumbers) {
+  //   contentEl = groupNumbers.join(', ');
+  // } else if (contactMatches.length === 0) {
+  //   contentEl = fallBackName ||
+  //     (phoneNumber && formatNumber({
+  //       phoneNumber,
+  //       countryCode,
+  //       areaCode,
+  //     })) ||
+  //     i18n.getString('unknownNumber', currentLocale);
+  // } else if (contactMatches.length === 1) {
+  //   contentEl = contactMatches[0].name;
+  // } else if (contactMatches.length > 1) {
     const options = [
       {
 
@@ -46,7 +46,8 @@ export default function ContactDisplay({
         value={`${selected}`}
         onChange={onSelectContact}
         disabled={disabled || isLogging}
-        options={options}
+        //options={options}
+        options={[{ name: '123', phoneNumber: 1234, entityType:'account' }, { name: '333', phoneNumber: 8723, entityType:'account' }]}
         valueFunction={(_, idx) => `${idx - 1}`}
         renderFunction={(entity, idx) => (
           idx === 0 ?
@@ -64,7 +65,7 @@ export default function ContactDisplay({
         stopPropagation
       />
     );
-  }
+  // }
   return (
     <div
       className={classnames(
