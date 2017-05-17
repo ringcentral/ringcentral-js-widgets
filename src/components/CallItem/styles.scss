@@ -27,12 +27,12 @@
   color: #666;
 }
 .activeCall {
-  color: #23B23D;
+  color: $active;
 }
 
 @keyframes ringing {
   0% {
-    text-shadow: 0px 0px 1px #23B23D;
+    text-shadow: 0px 0px 1px $active;
   }
   100% {
     color: #2ce44d;
@@ -62,5 +62,15 @@
 }
 
 .missed {
-  color: #D9282f;
+  color: $missed;
+  button {
+    color: $missed;
+  }
+}
+
+.active {
+  color: $active;
+  button {
+    color: $missed;
+  }
 }

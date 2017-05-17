@@ -33,32 +33,27 @@ export default function ContactDisplay({
   // } else if (contactMatches.length === 1) {
   //   contentEl = contactMatches[0].name;
   // } else if (contactMatches.length > 1) {
-    const options = [
-      {
+    // const options = [
+    //   {
 
-      },
-      ...contactMatches,
-    ];
-
+    //   },
+    //   ...contactMatches,
+    // ];
+    const options = [{ name: '12343242353454654654756634543', phoneNumbers: [{phoneNumber:1234, phoneType: 'main'}], entityType: 'account' }, { name: '333', phoneNumbers: [{phoneNumber:12346, phoneType: 'main'}], entityType:'account' }];
     contentEl = (
       <DropdownSelect
         className={styles.select}
         value={`${selected}`}
         onChange={onSelectContact}
         disabled={disabled || isLogging}
-        //options={options}
-        options={[{ name: '123', phoneNumber: 1234, entityType:'account' }, { name: '333', phoneNumber: 8723, entityType:'account' }]}
-        valueFunction={(_, idx) => `${idx - 1}`}
+        options={options}
+        placeholder={i18n.getString('select', currentLocale)}
         renderFunction={(entity, idx) => (
-          idx === 0 ?
-            i18n.getString('select', currentLocale) :
-            `${entity.name} ${i18n.getString(`phoneSource.${entity.entityType}`)}`
+          `${entity.name} | ${i18n.getString(`phoneSource.${entity.entityType}`)}`
         )}
         renderValue={(value) => {
-          value = parseInt(value, 10) + 1;
-          return value === 0 ?
-            i18n.getString('select', currentLocale) :
-            `${options[value].name} ${i18n.getString(`phoneSource.${options[value].entityType}`)}`;
+          console.debug('render', value);
+          return `${options[value].name} ${i18n.getString(`phoneSource.${options[value].entityType}`)}`
         }}
         dropdownAlign="left"
         titleEnabled
@@ -89,6 +84,8 @@ ContactDisplay.propTypes = {
   phoneNumber: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
   groupNumbers: PropTypes.arrayOf(PropTypes.string),
+  missed: PropTypes.string,
+  active: PropTypes.string,
 };
 ContactDisplay.defaultProps = {
   className: undefined,

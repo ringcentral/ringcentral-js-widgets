@@ -147,6 +147,7 @@ export default class ActionMenu extends Component {
     });
   }
   captureClick = (e) => {
+    e.captureClick = this.props.captureClick;
     if (this.props.stopPropagation) {
       e.stopPropagation();
     }
@@ -297,6 +298,7 @@ ActionMenu.propTypes = {
   disableLinks: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
   stopPropagation: PropTypes.bool,
+  captureClick: PropTypes.bool,
 };
 ActionMenu.defaultProps = {
   className: undefined,
@@ -313,4 +315,5 @@ ActionMenu.defaultProps = {
   disableLinks: false,
   disableClickToDial: false,
   stopPropagation: false,
+  captureClick: false,
 };

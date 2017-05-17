@@ -34,14 +34,11 @@
   margin-left: 0;
   display: block;
   margin-right: 35px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .icon {
   position: absolute;
-  right: 20px;
+  right: -10px;
   top: 0;
 }
 
@@ -55,13 +52,17 @@
 
 .dropdownItem {
   display: block;
-  padding: 10px 10px 5px 10px;
+  padding: 5px 10px;
   &:hover {
     color: $primary-color;
   }
 }
+.dropdownItem:first-child {
+  padding: 10px 10px 5px 10px;
+}
+
 .dropdownItem:last-child {
-  padding: 10px;
+  padding: 5px 10px 10px 10px;
 }
 
 .left {
@@ -93,12 +94,27 @@
   &:hover {
     .selected {
       color: inherit;
-
       &:hover {
         color: $primary-color;
       }
     }
   }
+
+  .placeholder:first-child {
+    color: #303030;
+    font-size: 13px;
+    font-weight: bold;
+    &:hover {
+      color: #303030;
+    }
+    .selected {
+      color: #303030;
+      &:hover {
+        color: #303030;
+      }
+    }
+  }
+
 }
 
 .open {
@@ -111,3 +127,16 @@
   color: #777;
   cursor: not-allowed;
 }
+
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  li {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+

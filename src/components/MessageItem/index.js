@@ -127,7 +127,7 @@ export default class MessageItem extends Component {
         this.setState({
           isCreating: false,
         });
-        console.log('created: isCreating...', this.state.isCreating);
+        // console.log('created: isCreating...', this.state.isCreating);
       }
     }
   }
@@ -158,8 +158,10 @@ export default class MessageItem extends Component {
       this.props.onClickToDial(this.getPhoneNumber());
     }
   }
-  showConversationDetail = () => {
-    this.props.showConversationDetail(this.props.conversation.conversationId);
+  showConversationDetail = (e) => {
+    if (e.captureClick !== false) {
+      this.props.showConversationDetail(this.props.conversation.conversationId);
+    }
   }
 
   render() {
@@ -227,7 +229,6 @@ export default class MessageItem extends Component {
           isLogging={isLogging || this.state.isLogging}
           isLogged={conversationMatches.length > 0}
           isCreating={this.state.isCreating}
-          stopPropagation
         />
       </div>
     );
