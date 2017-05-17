@@ -20,26 +20,25 @@ export default function ContactDisplay({
   groupNumbers,
 }) {
   let contentEl;
-  // if (groupNumbers) {
-  //   contentEl = groupNumbers.join(', ');
-  // } else if (contactMatches.length === 0) {
-  //   contentEl = fallBackName ||
-  //     (phoneNumber && formatNumber({
-  //       phoneNumber,
-  //       countryCode,
-  //       areaCode,
-  //     })) ||
-  //     i18n.getString('unknownNumber', currentLocale);
-  // } else if (contactMatches.length === 1) {
-  //   contentEl = contactMatches[0].name;
-  // } else if (contactMatches.length > 1) {
-    // const options = [
-    //   {
+  if (groupNumbers) {
+    contentEl = groupNumbers.join(', ');
+  } else if (contactMatches.length === 0) {
+    contentEl = fallBackName ||
+      (phoneNumber && formatNumber({
+        phoneNumber,
+        countryCode,
+        areaCode,
+      })) ||
+      i18n.getString('unknownNumber', currentLocale);
+  } else if (contactMatches.length === 1) {
+    contentEl = contactMatches[0].name;
+  } else if (contactMatches.length > 1) {
+    const options = [
+      {
 
-    //   },
-    //   ...contactMatches,
-    // ];
-    const options = [{ name: '12343242353454654654756634543', phoneNumbers: [{phoneNumber:1234, phoneType: 'main'}], entityType: 'account' }, { name: '333', phoneNumbers: [{phoneNumber:12346, phoneType: 'main'}], entityType:'account' }];
+      },
+      ...contactMatches,
+    ];
     contentEl = (
       <DropdownSelect
         className={styles.select}
@@ -60,7 +59,7 @@ export default function ContactDisplay({
         stopPropagation
       />
     );
-  // }
+  }
   return (
     <div
       className={classnames(
@@ -84,8 +83,6 @@ ContactDisplay.propTypes = {
   phoneNumber: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
   groupNumbers: PropTypes.arrayOf(PropTypes.string),
-  missed: PropTypes.string,
-  active: PropTypes.string,
 };
 ContactDisplay.defaultProps = {
   className: undefined,
