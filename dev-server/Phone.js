@@ -258,6 +258,7 @@ export default class Phone extends RcModule {
       auth: this.auth,
       client: this.client,
       subscription: this.subscription,
+      updateDelayTime: 2000,
       getState: () => this.state.presence,
     }));
     this.addModule('detailedPresence', new DetailedPresence({

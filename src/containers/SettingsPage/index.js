@@ -25,6 +25,7 @@ function mapToProps(_, {
   version,
   rolesAndPermissions,
   presence,
+  params,
 }) {
   const loggedIn = auth.loginStatus === loginStatus.loggedIn;
   const loginNumber = (loggedIn &&
@@ -65,6 +66,7 @@ function mapToProps(_, {
     isCallQueueMember: extensionInfo.isCallQueueMember,
     dndStatus: presence && presence.dndStatus,
     userStatus: presence && presence.userStatus,
+    showPresenceSettings: !!(params && params.showPresenceSettings),
   };
 }
 

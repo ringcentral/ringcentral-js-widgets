@@ -95,8 +95,9 @@ export default function App({
             <Route
               path="/settings"
               onEnter={ensureLogin}
-              component={() => (
+              component={routerProps => (
                 <SettingsPage
+                  params={routerProps.location.query}
                   auth={phone.auth}
                   extensionInfo={phone.extensionInfo}
                   accountInfo={phone.accountInfo}

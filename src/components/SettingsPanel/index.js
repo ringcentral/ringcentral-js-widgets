@@ -47,6 +47,7 @@ export default function SettingsPanel({
   setInvisible,
   toggleAcceptCallQueueCalls,
   isCallQueueMember,
+  showPresenceSettings,
 }) {
   if (showSpinner) {
     return (
@@ -73,6 +74,7 @@ export default function SettingsPanel({
         setDoNotDisturb={setDoNotDisturb}
         setInvisible={setInvisible}
         toggleAcceptCallQueueCalls={toggleAcceptCallQueueCalls}
+        showPresenceSettings={showPresenceSettings}
       />
     ) :
     null;
@@ -211,6 +213,7 @@ SettingsPanel.propTypes = {
   setDoNotDisturb: PropTypes.func,
   setInvisible: PropTypes.func,
   toggleAcceptCallQueueCalls: PropTypes.func,
+  showPresenceSettings: PropTypes.bool,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -237,4 +240,5 @@ SettingsPanel.defaultProps = {
   setDoNotDisturb: () => null,
   setInvisible: () => null,
   toggleAcceptCallQueueCalls: () => null,
+  showPresenceSettings: false,
 };

@@ -12,13 +12,16 @@ import styles from './styles.scss';
 import i18n from './i18n';
 
 function PresenceItem(props) {
+  const className = classnames(
+    styles.presenceItem,
+    props.selected ? styles.selected : null
+  );
   return (
-    <a className={styles.presenceItem} onClick={props.onClick}>
+    <a className={className} onClick={props.onClick}>
       {props.icon}
       <span className={styles.statusName}>
         {props.name}
       </span>
-      { props.selected && (<span className={styles.selected}>√</span>) }
     </a>
   );
 }
@@ -34,7 +37,7 @@ export default class PresenceSettingSection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showSelects: true,
+      showSelects: props.showPresenceSettings,
     };
 
     this.toggleShow = () => {
@@ -85,13 +88,9 @@ export default class PresenceSettingSection extends Component {
   }
 
   render() {
-    const presenceListClass = classnames(
-      styles.presenceList,
-      this.state.showSelects ? null : styles.hidden,
-    );
-    const dropdownIconClass = classnames(
-      dynamicsFont.arrow,
-      this.state.showSelects ? styles.show : null,
+    const sectionClass = classnames(
+      styles.section,
+      this.state.showSelects ? styles.showDropdown : null,
     );
     const acceptQueueCalls = this.props.isCallQueueMember ? (
       <IconLine
@@ -102,7 +101,7 @@ export default class PresenceSettingSection extends Component {
           />
         }
       >
-        Accept Queue Calls
+        {i18n.getString('acceptQueueCalls', this.props.currentLocale)}
       </IconLine>
     ) :
       null;
@@ -115,10 +114,12 @@ export default class PresenceSettingSection extends Component {
       this.props.dndStatus
     );
     return (
-      <div className={styles.section}>
+      <section className={sectionClass}>
         <IconLine
           icon={
-            <span className={dropdownIconClass} />
+            <span className={styles.dropdownIcon} >
+              <i className={dynamicsFont.arrow} />
+            </span>
           }
           onClick={this.toggleShow}
         >
@@ -132,7 +133,7 @@ export default class PresenceSettingSection extends Component {
             </span>
           </div>
         </IconLine>
-        <Line className={presenceListClass}>
+        <Line className={styles.presenceList}>
           <PresenceItem
             icon={this._getPresenceStatusIcon(presenceStatus.available)}
             name={i18n.getString(presenceStatus.available, this.props.currentLocale)}
@@ -179,7 +180,7 @@ export default class PresenceSettingSection extends Component {
           />
         </Line>
         {acceptQueueCalls}
-      </div>
+      </section>
     );
   }
 }
@@ -194,4 +195,5 @@ PresenceSettingSection.propTypes = {
   setDoNotDisturb: PropTypes.func.isRequired,
   setInvisible: PropTypes.func.isRequired,
   toggleAcceptCallQueueCalls: PropTypes.func.isRequired,
+  showPresenceSettings: PropTypes.bool.isRequired,
 };

@@ -7,10 +7,6 @@ $icon-min-width: 120px;
   display: block;
 }
 
-.show {
-  transform: rotate(180deg);
-}
-
 .statusIcon {
   display: block;
 }
@@ -30,21 +26,23 @@ $icon-min-width: 120px;
 
 .status {
   display: inline-block;
-  width: 20px;
-  height: 20px;
-  border-radius: 20px;
-  background: #4cd964;
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  background: #5fb95c;
   margin-right: 5px;
   color: transparent;
   line-height: 1;
+  position: relative;
+  top: 2px;
   i {
     display: block;
     font-weight: bold;
-    width: 10px;
+    width: 8px;
     overflow: hidden;
     margin: 0 auto;
     position: relative;
-    top: 2px;
+    top: -1px;
   }
 }
 
@@ -53,35 +51,42 @@ $icon-min-width: 120px;
 }
 
 .busy {
-  background: #ff3703;
+  background: #f95b5c;
 }
 
 .invisible {
-  background: #cccccc;
+  background: #cdcdcd;
+}
+
+.dropdownIcon {
+  display: inline-block;
+}
+
+.presenceList {
+  display: none;
+  padding: 5px 25px;
 }
 
 .presenceItem {
   display: block;
   text-decoration: none;
-  padding: 5px 0;
+  padding: 8px 0;
   cursor: pointer;
-
-  .status {
-    width: 16px;
-    height: 16px;
-    i {
-      top: 0;
-    }
-  }
-  .selected {
-    float: right;
-    display: inline-block;
-    width: 10px;
-    color: $primary-color;
-    font-family: 'Calibri';
-  }
 }
 
-.hidden {
-  display: none;
+.selected {
+  color: $primary-color;
+}
+
+.showDropdown {
+  .title {
+    color: $primary-color;
+  }
+  .presenceList {
+    display: block;
+  }
+  .dropdownIcon {
+    transform: rotate(180deg);
+    color: $primary-color;
+  }
 }
