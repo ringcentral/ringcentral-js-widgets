@@ -154,7 +154,7 @@ export default class CallItem extends Component {
   }
 
   createSelectedContact = async (entityType) => {
-    console.log('click createSelectedContact!!', entityType);
+    // console.log('click createSelectedContact!!', entityType);
     if (typeof this.props.onCreateContact === 'function' &&
       this._mounted &&
       !this.state.isCreating) {
@@ -173,7 +173,7 @@ export default class CallItem extends Component {
         this.setState({
           isCreating: false,
         });
-        console.log('created: isCreating...', this.state.isCreating);
+        // console.log('created: isCreating...', this.state.isCreating);
       }
     }
   }
@@ -270,6 +270,7 @@ export default class CallItem extends Component {
           className={classnames(
             styles.contactDisplay,
             missed && styles.missed,
+            active && styles.active,
           )}
           contactMatches={contactMatches}
           selected={this.state.selected}
@@ -280,7 +281,8 @@ export default class CallItem extends Component {
           areaCode={areaCode}
           countryCode={countryCode}
           phoneNumber={phoneNumber}
-          currentLocale={currentLocale} />
+          currentLocale={currentLocale}
+          />
         <div className={styles.details} >
           {durationEl} | {dateEl}{statusEl}
         </div>

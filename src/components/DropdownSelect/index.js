@@ -12,6 +12,12 @@ class DropdownSelect extends Component {
     this.mounted = true;
 
     this.toggleShowDropdown = (e) => {
+      console.debug('this.state.open', this.state.open);
+      if (!this.state.open) {
+        window.addEventListener('click', this._handleDocumentClick, false);
+      } else {
+        window.removeEventListener('click', this._handleDocumentClick, false);
+      }
       if (e && this.props.stopPropagation) {
         e.stopPropagation();
       }
@@ -25,11 +31,16 @@ class DropdownSelect extends Component {
 
     this.onChange = (e, option, idx) => {
       e.stopPropagation();
+      if (idx === 0) {
+        this.toggleShowDropdown();
+        return;
+      }
       this.props.onChange(option, idx);
       this.toggleShowDropdown();
     };
 
     this._handleDocumentClick = (e) => {
+      console.debug('_handleDocumentClick', e);
       if (!this.mounted) {
         return;
       }
@@ -47,7 +58,6 @@ class DropdownSelect extends Component {
 
   componentDidMount() {
     this.mounted = true;
-    window.addEventListener('click', this._handleDocumentClick, false);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -65,21 +75,59 @@ class DropdownSelect extends Component {
     window.removeEventListener('click', this._handleDocumentClick, false);
   }
 
+  valueFunction(_, idx) {
+    if (this.props.placeholder) {
+      idx = `${idx - 1}`;
+    }
+    return this.props.valueFunction(_, idx);
+  }
+
+  renderFunction(option, idx) {
+    if (this.props.placeholder) {
+      return idx === 0 ? this.props.placeholder : this.props.renderFunction(option, idx);
+    }
+    return this.props.renderFunction(option, idx);
+  }
+
+  renderValue(value) {
+    value = parseInt(value, 10) + 1;
+    if (this.props.placeholder) {
+      return value === 0 ? this.props.placeholder : this.props.renderValue(value - 1);
+    }
+    return this.props.renderValue(value);
+  }
+
   renderDropdownMenu() {
+    let options;
+    const { placeholder, ellipsis } = this.props;
+    if (placeholder) {
+      options = [
+        {},
+        ...this.props.options,
+      ];
+    } else {
+      options = this.props.options;
+    }
     return (
-      <ul className={styles.dropdown} ref={(ref) => { this.dropdownMenu = ref; }}>
+      <ul
+        className={classnames(styles.dropdown,
+          placeholder && styles.placeholder,
+          ellipsis && styles.ellipsis)}
+        ref={(ref) => { this.dropdownMenu = ref; }}>
         {
-          this.props.options.map((option, idx) => {
-            const currentValue = this.props.valueFunction(option, idx);
+          options.map((option, idx) => {
+            const currentValue = this.valueFunction(option, idx);
             const className = classnames(
               styles.dropdownItem,
               this.props.value === currentValue ? styles.selected : null,
             );
-            const display = this.props.renderFunction(option, idx);
+            const display = this.renderFunction(option, idx);
             return (
               <li
                 key={currentValue}
-                className={classnames(className, styles[this.props.dropdownAlign])}
+                className={classnames(className,
+                  styles[this.props.dropdownAlign],
+                  placeholder && styles.placeholder)}
                 value={currentValue}
                 title={this.props.titleEnabled && display}
                 onClick={e => this.onChange(e, option, idx)}
@@ -94,6 +142,7 @@ class DropdownSelect extends Component {
   }
 
   render() {
+    const ellipsis = this.props.ellipsis;
     const label = this.props.label ?
       (
         <label>
@@ -114,7 +163,7 @@ class DropdownSelect extends Component {
       null :
       this.renderDropdownMenu();
 
-    const renderValue = this.props.renderValue(this.props.value);
+    const renderValue = this.renderValue(this.props.value);
     return (
       <div
         className={containerClassName}
@@ -125,7 +174,10 @@ class DropdownSelect extends Component {
           onClick={this.toggleShowDropdown}
           title={this.props.titleEnabled && renderValue}>
           {label}
-          <span className={styles.selectedValue}>
+          <span
+            className={classnames(this.props.className,
+            styles.selectedValue,
+            ellipsis && styles.ellipsis)}>
             {renderValue}
           </span>
           <span className={iconClassName}>
@@ -152,6 +204,8 @@ DropdownSelect.propTypes = {
   dropdownAlign: PropTypes.oneOf(['left', 'center', 'right']),
   titleEnabled: PropTypes.bool,
   stopPropagation: PropTypes.bool,
+  placeholder: PropTypes.string,
+  ellipsis: PropTypes.bool,
 };
 
 DropdownSelect.defaultProps = {
@@ -161,12 +215,14 @@ DropdownSelect.defaultProps = {
   onChange: undefined,
   disabled: false,
   renderDropdownMenu: undefined,
-  valueFunction: option => option,
+  valueFunction: (_, idx) => idx,
   renderFunction: option => option,
   renderValue: option => option,
   dropdownAlign: 'center',
   titleEnabled: undefined,
   stopPropagation: false,
+  placeholder: undefined,
+  ellipsis: true,
 };
 
 export default DropdownSelect;

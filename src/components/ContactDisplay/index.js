@@ -39,7 +39,6 @@ export default function ContactDisplay({
       },
       ...contactMatches,
     ];
-
     contentEl = (
       <DropdownSelect
         className={styles.select}
@@ -47,18 +46,13 @@ export default function ContactDisplay({
         onChange={onSelectContact}
         disabled={disabled || isLogging}
         options={options}
-        valueFunction={(_, idx) => `${idx - 1}`}
-        renderFunction={(entity, idx) => (
-          idx === 0 ?
-            i18n.getString('select', currentLocale) :
-            `${entity.name} ${i18n.getString(`phoneSource.${entity.entityType}`)}`
+        placeholder={i18n.getString('select', currentLocale)}
+        renderFunction={entity => (
+          `${entity.name} | ${i18n.getString(`phoneSource.${entity.entityType}`)}`
         )}
-        renderValue={(value) => {
-          value = parseInt(value, 10) + 1;
-          return value === 0 ?
-            i18n.getString('select', currentLocale) :
-            `${options[value].name} ${i18n.getString(`phoneSource.${options[value].entityType}`)}`;
-        }}
+        renderValue={value => (
+          `${options[value].name} ${i18n.getString(`phoneSource.${options[value].entityType}`)}`
+        )}
         dropdownAlign="left"
         titleEnabled
         stopPropagation
