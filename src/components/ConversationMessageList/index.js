@@ -78,7 +78,7 @@ class ConversationMessageList extends Component {
     const messages = this.props.messages;
     let lastFormatedTime = null;
     const messageList = messages.map((message) => {
-      const formatedTime = this.context.formatDateTime(message.creationTime);
+      const formatedTime = dateTimeFormatter({ utcTimestamp: message.creationTime });
       let showDate = true;
       if (lastFormatedTime === formatedTime) {
         showDate = false;
@@ -124,6 +124,7 @@ ConversationMessageList.propTypes = {
   })).isRequired,
   className: PropTypes.string,
   showSender: PropTypes.bool,
+  dateTimeFormatter: PropTypes.func.isRequired,
 };
 
 ConversationMessageList.defaultProps = {
@@ -132,7 +133,6 @@ ConversationMessageList.defaultProps = {
 };
 
 ConversationMessageList.contextTypes = {
-  formatDateTime: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
 };
 

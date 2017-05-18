@@ -148,6 +148,7 @@ class ConversationPanel extends Component {
         <ConversationMessageList
           messages={this.props.messages}
           className={styles.conversationBody}
+          dateTimeFormatter={this.props.dateTimeFormatter}
           showFrom={recipients && recipients.length > 1}
         />
       );
@@ -246,6 +247,7 @@ ConversationPanel.propTypes = {
   countryCode: PropTypes.string.isRequired,
   autoLog: PropTypes.bool,
   enableContactFallback: PropTypes.bool,
+  dateTimeFormatter: PropTypes.func.isRequired,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
