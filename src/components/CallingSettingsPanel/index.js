@@ -180,8 +180,8 @@ export default class CallingSettingsPanel extends Component {
               onChange={this.onCallWithChange}
               options={callWithOptions}
               dropdownAlign="left"
-              renderValue={this.renderHandler}
               renderFunction={this.renderHandler}
+              renderValue={this.renderHandler}
               titleEnabled
             />
           </InputField>

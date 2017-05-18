@@ -10,7 +10,6 @@ class DropdownSelect extends Component {
       open: false,
     };
     this.mounted = true;
-
     this.toggleShowDropdown = (e) => {
       console.debug('this.state.open', this.state.open);
       if (!this.state.open) {
@@ -31,7 +30,7 @@ class DropdownSelect extends Component {
 
     this.onChange = (e, option, idx) => {
       e.stopPropagation();
-      if (idx === 0) {
+      if (this.props.placeholder && idx === 0) {
         this.toggleShowDropdown();
         return;
       }
@@ -90,8 +89,8 @@ class DropdownSelect extends Component {
   }
 
   renderValue(value) {
-    value = parseInt(value, 10) + 1;
     if (this.props.placeholder) {
+      value = parseInt(value, 10) + 1;
       return value === 0 ? this.props.placeholder : this.props.renderValue(value - 1);
     }
     return this.props.renderValue(value);
@@ -175,16 +174,17 @@ class DropdownSelect extends Component {
           title={this.props.titleEnabled && renderValue}>
           {label}
           <span
-            className={classnames(this.props.className,
-            styles.selectedValue,
-            ellipsis && styles.ellipsis)}>
+            className={classnames(
+              styles.selectedValue,
+              ellipsis && styles.ellipsis
+            )}>
             {renderValue}
           </span>
           <span className={iconClassName}>
             <i className={dynamicsFont.arrow} />
           </span>
         </button>
-        { dropdownMenu }
+        {dropdownMenu}
       </div>
     );
   }
