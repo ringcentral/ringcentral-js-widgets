@@ -34,9 +34,6 @@ export default function ContactDisplay({
     contentEl = contactMatches[0].name;
   } else if (contactMatches.length > 1) {
     const options = [
-      {
-
-      },
       ...contactMatches,
     ];
     contentEl = (

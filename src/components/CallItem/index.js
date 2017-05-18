@@ -161,7 +161,7 @@ export default class CallItem extends Component {
       this.setState({
         isCreating: true,
       });
-      console.log('start to create: isCreating...', this.state.isCreating);
+      // console.log('start to create: isCreating...', this.state.isCreating);
 
       await this.props.onCreateContact({
         phoneNumber: this.getPhoneNumber(),
