@@ -56,7 +56,10 @@ export default class MessageItem extends Component {
       selected,
       userSelection: true,
     });
-    if (this.props.conversation.conversationMatches.length > 0) {
+    if (
+      this.props.conversation.conversationMatches.length > 0 &&
+      this.props.autoLog
+    ) {
       this.logConversation({ redirect: false, selected, prefill: false });
     }
   }
@@ -108,14 +111,14 @@ export default class MessageItem extends Component {
     }
   }
   createSelectedContact = async (entityType) => {
-    console.log('click createSelectedContact!!', entityType);
+    // console.log('click createSelectedContact!!', entityType);
     if (typeof this.props.onCreateContact === 'function' &&
       this._mounted &&
       !this.state.isCreating) {
       this.setState({
         isCreating: true,
       });
-      console.log('start to create: isCreating...', this.state.isCreating);
+      // console.log('start to create: isCreating...', this.state.isCreating);
 
       await this.props.onCreateContact({
         phoneNumber: this.getPhoneNumber(),
@@ -264,6 +267,7 @@ MessageItem.propTypes = {
   disableClickToDial: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
   showConversationDetail: PropTypes.func.isRequired,
+  autoLog: PropTypes.bool,
 };
 
 MessageItem.defaultProps = {
@@ -276,4 +280,5 @@ MessageItem.defaultProps = {
   outboundSmsPermission: false,
   internalSmsPermission: false,
   disableLinks: false,
+  autoLog: false,
 };

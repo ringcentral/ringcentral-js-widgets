@@ -66,7 +66,10 @@ class ConversationPanel extends Component {
       selected,
       userSelection: true,
     });
-    if (this.props.conversation.conversationMatches.length > 0) {
+    if (
+      this.props.conversation.conversationMatches.length > 0 &&
+      this.props.autoLog
+    ) {
       this.logConversation({ redirect: false, selected, prefill: false });
     }
   }
@@ -240,11 +243,13 @@ ConversationPanel.propTypes = {
   onLogConversation: PropTypes.func,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
+  autoLog: PropTypes.bool,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
   isLoggedContact: undefined,
   onLogConversation: undefined,
+  autoLog: false,
 };
 
 export default ConversationPanel;
