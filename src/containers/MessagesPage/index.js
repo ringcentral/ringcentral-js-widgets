@@ -93,6 +93,7 @@ function mapToProps(_, {
       (!conversationLogger || conversationLogger.ready)
     ),
     searchInput: messages.searchInput,
+    autoLog: conversationLogger.autoLog,
   });
 }
 
