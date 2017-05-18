@@ -12,8 +12,10 @@ function mapToProps(_, {
   callLogger,
   composeText,
   rolesAndPermissions,
+  enableContactFallback = false,
 }) {
   return {
+    enableContactFallback,
     active: true,
     title: i18n.getString('title', locale.currentLocale),
     currentLocale: locale.currentLocale,
@@ -87,9 +89,14 @@ function mapToFunctions(_, {
         if (router) {
           router.history.push(composeTextRoute);
         }
-        composeText.addToNumber(contact);
-        if (composeText.typingToNumber === contact.phoneNumber) {
-          composeText.cleanTypingToNumber();
+        if (contact.name && contact.phoneNumber &&
+          contact.name === contact.phoneNumber) {
+          composeText.updateTypingToNumber(contact.phoneNumber);
+        } else {
+          composeText.addToNumber(contact);
+          if (composeText.typingToNumber === contact.phoneNumber) {
+            composeText.cleanTypingToNumber();
+          }
         }
       } :
       undefined,

@@ -13,8 +13,10 @@ function mapToProps(_, {
   call,
   composeText,
   rolesAndPermissions,
+  enableContactFallback = false,
 }) {
   return {
+    enableContactFallback,
     title: i18n.getString('title', locale.currentLocale),
     currentLocale: locale.currentLocale,
     calls: callHistory.calls,
@@ -92,9 +94,15 @@ function mapToFunctions(_, {
         if (router) {
           router.history.push(composeTextRoute);
         }
-        composeText.addToNumber(contact);
-        if (composeText.typingToNumber === contact.phoneNumber) {
-          composeText.cleanTypingToNumber();
+        // if contact autocomplete, if no match fill the number only
+        if (contact.name && contact.phoneNumber &&
+          contact.name === contact.phoneNumber) {
+          composeText.updateTypingToNumber(contact.phoneNumber);
+        } else {
+          composeText.addToNumber(contact);
+          if (composeText.typingToNumber === contact.phoneNumber) {
+            composeText.cleanTypingToNumber();
+          }
         }
       } :
       undefined,

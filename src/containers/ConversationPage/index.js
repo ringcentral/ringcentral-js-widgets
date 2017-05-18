@@ -113,8 +113,10 @@ function mapToProps(_, {
   messages,
   rateLimiter,
   connectivityMonitor,
+  enableContactFallback = false,
 }) {
   return ({
+    enableContactFallback,
     currentLocale: locale.currentLocale,
     conversationId: params.conversationId,
     sendButtonDisabled: conversation.pushing,

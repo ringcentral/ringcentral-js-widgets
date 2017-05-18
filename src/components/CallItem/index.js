@@ -162,10 +162,10 @@ export default class CallItem extends Component {
         isCreating: true,
       });
       // console.log('start to create: isCreating...', this.state.isCreating);
-
+      const phoneNumber = this.getPhoneNumber();
       await this.props.onCreateContact({
-        phoneNumber: this.getPhoneNumber(),
-        name: this.getFallbackContactName(),
+        phoneNumber,
+        name: this.props.enableContactFallback ? this.getFallbackContactName() : phoneNumber,
         entityType,
       });
 
@@ -188,7 +188,7 @@ export default class CallItem extends Component {
         });
       } else {
         this.props.onClickToSms({
-          name: this.getFallbackContactName(),
+          name: this.props.enableContactFallback ? this.getFallbackContactName() : phoneNumber,
           phoneNumber,
         });
       }
@@ -224,6 +224,7 @@ export default class CallItem extends Component {
       onClickToSms,
       dateTimeFormatter,
       isLogging,
+      enableContactFallback,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
@@ -278,6 +279,7 @@ export default class CallItem extends Component {
           disabled={disableLinks}
           isLogging={isLogging || this.state.isLogging}
           fallBackName={fallbackContactName}
+          enableContactFallback={enableContactFallback}
           areaCode={areaCode}
           countryCode={countryCode}
           phoneNumber={phoneNumber}
@@ -341,6 +343,7 @@ CallItem.propTypes = {
   active: PropTypes.bool.isRequired,
   dateTimeFormatter: PropTypes.func.isRequired,
   isLogging: PropTypes.bool,
+  enableContactFallback: PropTypes.bool,
 };
 
 CallItem.defaultProps = {
@@ -355,4 +358,5 @@ CallItem.defaultProps = {
   outboundSmsPermission: false,
   internalSmsPermission: false,
   disableLinks: false,
+  enableContactFallback: undefined,
 };

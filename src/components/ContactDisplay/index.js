@@ -13,6 +13,7 @@ export default function ContactDisplay({
   disabled,
   isLogging,
   fallBackName,
+  enableContactFallback,
   areaCode,
   countryCode,
   phoneNumber,
@@ -23,7 +24,7 @@ export default function ContactDisplay({
   if (groupNumbers) {
     contentEl = groupNumbers.join(', ');
   } else if (contactMatches.length === 0) {
-    contentEl = fallBackName ||
+    contentEl = (enableContactFallback && fallBackName) ||
       (phoneNumber && formatNumber({
         phoneNumber,
         countryCode,
@@ -74,6 +75,7 @@ ContactDisplay.propTypes = {
   disabled: PropTypes.bool.isRequired,
   isLogging: PropTypes.bool.isRequired,
   fallBackName: PropTypes.string,
+  enableContactFallback: PropTypes.bool,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   phoneNumber: PropTypes.string,
@@ -86,4 +88,5 @@ ContactDisplay.defaultProps = {
   fallBackName: '',
   phoneNumber: undefined,
   groupNumbers: undefined,
+  enableContactFallback: undefined,
 };
