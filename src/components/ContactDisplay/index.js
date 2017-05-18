@@ -47,13 +47,12 @@ export default function ContactDisplay({
         disabled={disabled || isLogging}
         options={options}
         placeholder={i18n.getString('select', currentLocale)}
-        renderFunction={(entity, idx) => (
+        renderFunction={entity => (
           `${entity.name} | ${i18n.getString(`phoneSource.${entity.entityType}`)}`
         )}
-        renderValue={(value) => {
-          console.debug('render', value);
-          return `${options[value].name} ${i18n.getString(`phoneSource.${options[value].entityType}`)}`
-        }}
+        renderValue={value => (
+          `${options[value].name} ${i18n.getString(`phoneSource.${options[value].entityType}`)}`
+        )}
         dropdownAlign="left"
         titleEnabled
         stopPropagation
