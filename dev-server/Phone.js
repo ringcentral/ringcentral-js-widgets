@@ -398,6 +398,7 @@ export default class Phone extends RcModule {
       extensionInfo: this.extensionInfo,
       contactMatcher: this.contactMatcher,
       conversationMatcher: this.conversationMatcher,
+      rolesAndPermissions: this.rolesAndPermissions,
       tabManager: this.tabManager,
       logFunction: async () => {},
       readyCheckFunction: () => true,

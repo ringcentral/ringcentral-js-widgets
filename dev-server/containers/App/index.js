@@ -141,6 +141,7 @@ export default function App({
                   contactMatcher={phone.contactMatcher}
                   regionSettings={phone.regionSettings}
                   connectivityMonitor={phone.connectivityMonitor}
+                  rateLimiter={phone.rateLimiter}
                   dateTimeFormat={phone.dateTimeFormat}
                   onLogCall={async () => { await sleep(1000); }}
                   onViewContact={() => {}}
@@ -159,6 +160,7 @@ export default function App({
                   contactMatcher={phone.contactMatcher}
                   regionSettings={phone.regionSettings}
                   connectivityMonitor={phone.connectivityMonitor}
+                  rateLimiter={phone.rateLimiter}
                   dateTimeFormat={phone.dateTimeFormat}
                   call={phone.call}
                   composeText={phone.composeText}
@@ -167,7 +169,6 @@ export default function App({
                   onLogCall={async () => { await sleep(1000); }}
                   onViewContact={() => {}}
                   onCreateContact={() => {}}
-                  rateLimiter={phone.rateLimiter}
                 />
               )} />
             <Route
