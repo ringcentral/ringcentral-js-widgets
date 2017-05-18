@@ -174,7 +174,8 @@ class DropdownSelect extends Component {
           onClick={this.toggleShowDropdown}
           title={this.props.titleEnabled && renderValue}>
           {label}
-          <span className={classnames(this.props.className,
+          <span
+            className={classnames(this.props.className,
             styles.selectedValue,
             ellipsis && styles.ellipsis)}>
             {renderValue}
