@@ -169,7 +169,6 @@ export default function App({
                   onLogCall={async () => { await sleep(1000); }}
                   onViewContact={() => {}}
                   onCreateContact={() => {}}
-                  rateLimiter={phone.rateLimiter}
                 />
               )} />
             <Route
