@@ -157,6 +157,7 @@ class DropdownSelect extends Component {
       this.props.className,
       this.props.disabled ? styles.disabled : null,
       this.state.open ? styles.open : null,
+      this.props.noPadding ? styles.noPadding : null,
     );
     const dropdownMenu = this.props.renderDropdownMenu ?
       null :
@@ -206,6 +207,7 @@ DropdownSelect.propTypes = {
   stopPropagation: PropTypes.bool,
   placeholder: PropTypes.string,
   ellipsis: PropTypes.bool,
+  noPadding: PropTypes.bool,
 };
 
 DropdownSelect.defaultProps = {
@@ -223,6 +225,7 @@ DropdownSelect.defaultProps = {
   stopPropagation: false,
   placeholder: undefined,
   ellipsis: true,
+  noPadding: false,
 };
 
 export default DropdownSelect;

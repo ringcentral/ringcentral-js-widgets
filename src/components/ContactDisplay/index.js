@@ -54,6 +54,7 @@ export default function ContactDisplay({
         dropdownAlign="left"
         titleEnabled
         stopPropagation
+        noPadding
       />
     );
   }

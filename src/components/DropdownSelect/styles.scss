@@ -7,6 +7,11 @@
   border: 1px solid #a6a6a6;
   border-radius: 2px;
   color: #797979;
+  padding: 0 10px;
+}
+
+.noPadding {
+  padding: 0 0px;
 }
 
 .button {
@@ -14,7 +19,7 @@
   height: 30px;
   line-height: 30px;
   border: 0;
-  margin: 0 10px;
+  // margin: 0 10px;
   padding: 0;
   width: 100%;
   outline: medium none!important;
@@ -33,12 +38,12 @@
 .selectedValue {
   margin-left: 0;
   display: block;
-  margin-right: 35px;
+  margin-right: 20px;
 }
 
 .icon {
   position: absolute;
-  right: -10px;
+  right: 0px;
   top: 0;
 }
 
@@ -79,6 +84,7 @@
   display: none;
   position: absolute;
   top: 100%;
+  left: 0px;
   margin: 0;
   margin-top: 1px;
   padding: 0;
