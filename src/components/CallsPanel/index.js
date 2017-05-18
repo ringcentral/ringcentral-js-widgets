@@ -29,6 +29,7 @@ export default function CallsPanel({
   title,
   active,
   loggingMap,
+  enableContactFallback,
 }) {
   const content = showSpinner ?
     <SpinnerOverlay /> :
@@ -51,6 +52,7 @@ export default function CallsPanel({
         dateTimeFormatter={dateTimeFormatter}
         active={active}
         loggingMap={loggingMap}
+        enableContactFallback={enableContactFallback}
       />
     );
   return (
@@ -85,6 +87,7 @@ CallsPanel.propTypes = {
   title: PropTypes.string,
   active: PropTypes.bool,
   loggingMap: PropTypes.object,
+  enableContactFallback: PropTypes.bool,
 };
 
 CallsPanel.defaultProps = {
@@ -101,4 +104,5 @@ CallsPanel.defaultProps = {
   active: false,
   isLoggedContact: undefined,
   loggingMap: {},
+  enableContactFallback: undefined,
 };

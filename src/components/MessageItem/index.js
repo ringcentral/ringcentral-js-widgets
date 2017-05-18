@@ -119,10 +119,10 @@ export default class MessageItem extends Component {
         isCreating: true,
       });
       // console.log('start to create: isCreating...', this.state.isCreating);
-
+      const phoneNumber = this.getPhoneNumber();
       await this.props.onCreateContact({
-        phoneNumber: this.getPhoneNumber(),
-        name: this.getFallbackContactName(),
+        phoneNumber,
+        name: this.props.enableContactFallback ? this.getFallbackContactName() : phoneNumber,
         entityType,
       });
 
@@ -162,9 +162,11 @@ export default class MessageItem extends Component {
     }
   }
   showConversationDetail = (e) => {
-    if (e.captureClick !== false) {
-      this.props.showConversationDetail(this.props.conversation.conversationId);
+    if (e.captureClick === false) {
+      delete e.captureClick;
+      return;
     }
+    this.props.showConversationDetail(this.props.conversation.conversationId);
   }
 
   render() {
@@ -188,6 +190,7 @@ export default class MessageItem extends Component {
       onViewContact,
       onCreateContact,
       dateTimeFormatter,
+      enableContactFallback,
     } = this.props;
 
     const groupNumbers = this.getGroupPhoneNumbers();
@@ -215,7 +218,9 @@ export default class MessageItem extends Component {
           countryCode={countryCode}
           phoneNumber={phoneNumber}
           groupNumbers={groupNumbers}
-          currentLocale={currentLocale} />
+          currentLocale={currentLocale}
+          enableContactFallback={enableContactFallback}
+          />
         <div className={styles.details}>
           {dateTimeFormatter({ utcTimestamp: creationTime })} | {subject}
         </div>
@@ -268,6 +273,7 @@ MessageItem.propTypes = {
   dateTimeFormatter: PropTypes.func.isRequired,
   showConversationDetail: PropTypes.func.isRequired,
   autoLog: PropTypes.bool,
+  enableContactFallback: PropTypes.bool,
 };
 
 MessageItem.defaultProps = {
@@ -281,4 +287,5 @@ MessageItem.defaultProps = {
   internalSmsPermission: false,
   disableLinks: false,
   autoLog: false,
+  enableContactFallback: undefined,
 };

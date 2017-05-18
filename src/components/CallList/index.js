@@ -31,6 +31,7 @@ function CallList({
   active,
   dateTimeFormatter,
   loggingMap,
+  enableContactFallback,
 }) {
   if (calls && calls.length) {
     return (
@@ -55,6 +56,7 @@ function CallList({
             active={active}
             dateTimeFormatter={dateTimeFormatter}
             isLogging={!!loggingMap[call.sessionId]}
+            enableContactFallback={enableContactFallback}
           />
         ))}
       </div>
@@ -86,6 +88,7 @@ CallList.propTypes = {
   outboundSmsPermission: PropTypes.bool,
   internalSmsPermission: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
+  enableContactFallback: PropTypes.bool,
 };
 CallList.defaultProps = {
   className: null,
@@ -101,6 +104,7 @@ CallList.defaultProps = {
   onClickToDial: undefined,
   onClickToSms: undefined,
   loggingMap: {},
+  enableContactFallback: undefined,
 };
 
 export default CallList;

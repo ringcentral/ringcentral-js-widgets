@@ -189,6 +189,7 @@ class ConversationPanel extends Component {
             phoneNumber={phoneNumber}
             groupNumbers={groupNumbers}
             currentLocale={this.props.currentLocale}
+            enableContactFallback={this.props.enableContactFallback}
           />
           <Link
             to={'/messages'}
@@ -244,12 +245,14 @@ ConversationPanel.propTypes = {
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   autoLog: PropTypes.bool,
+  enableContactFallback: PropTypes.bool,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
   isLoggedContact: undefined,
   onLogConversation: undefined,
   autoLog: false,
+  enableContactFallback: undefined,
 };
 
 export default ConversationPanel;
