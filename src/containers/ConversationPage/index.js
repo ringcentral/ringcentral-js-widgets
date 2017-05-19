@@ -62,6 +62,7 @@ class ConversationPage extends Component {
         showSpinner={this.props.showSpinner}
         replyToReceivers={this.props.replyToReceivers}
         sendButtonDisabled={this.props.sendButtonDisabled}
+        autoLog={this.props.autoLog}
       />
     );
   }
