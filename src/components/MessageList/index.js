@@ -83,7 +83,7 @@ export default class MessageList extends Component {
         ref={(list) => { this.messagesListBody = list; }}
       >
         {search}
-        <Panel className={styles.scroll}>
+        <Panel className={classnames(styles.content, styles.contentWithSearch)}>
           {content}
         </Panel>
       </div>

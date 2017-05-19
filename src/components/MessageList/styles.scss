@@ -10,10 +10,7 @@
 .root {
   @include full-size;
 }
-.scroll {
-  overflow-y: auto;
-  padding-bottom: 40px;
-}
+
 .content {
   @include full-size;
   overflow-y: auto;

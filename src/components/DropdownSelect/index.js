@@ -11,7 +11,6 @@ class DropdownSelect extends Component {
     };
     this.mounted = true;
     this.toggleShowDropdown = (e) => {
-      console.debug('this.state.open', this.state.open);
       if (!this.state.open) {
         window.addEventListener('click', this._handleDocumentClick, false);
       } else {

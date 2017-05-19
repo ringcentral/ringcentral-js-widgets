@@ -165,7 +165,7 @@ export default class CallItem extends Component {
       const phoneNumber = this.getPhoneNumber();
       await this.props.onCreateContact({
         phoneNumber,
-        name: this.props.enableContactFallback ? this.getFallbackContactName() : phoneNumber,
+        name: this.props.enableContactFallback ? this.getFallbackContactName() : '',
         entityType,
       });
 
@@ -188,7 +188,7 @@ export default class CallItem extends Component {
         });
       } else {
         this.props.onClickToSms({
-          name: this.props.enableContactFallback ? this.getFallbackContactName() : phoneNumber,
+          name: this.props.enableContactFallback ? this.getFallbackContactName() : '',
           phoneNumber,
         });
       }

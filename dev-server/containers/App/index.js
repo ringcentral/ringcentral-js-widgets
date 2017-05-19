@@ -139,6 +139,7 @@ export default function App({
                   locale={phone.locale}
                   callMonitor={phone.callMonitor}
                   contactMatcher={phone.contactMatcher}
+                  contactSearch={phone.contactSearch}
                   regionSettings={phone.regionSettings}
                   connectivityMonitor={phone.connectivityMonitor}
                   rateLimiter={phone.rateLimiter}
@@ -158,6 +159,7 @@ export default function App({
                   locale={phone.locale}
                   callHistory={phone.callHistory}
                   contactMatcher={phone.contactMatcher}
+                  contactSearch={phone.contactSearch}
                   regionSettings={phone.regionSettings}
                   connectivityMonitor={phone.connectivityMonitor}
                   rateLimiter={phone.rateLimiter}
