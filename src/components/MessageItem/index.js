@@ -122,7 +122,7 @@ export default class MessageItem extends Component {
       const phoneNumber = this.getPhoneNumber();
       await this.props.onCreateContact({
         phoneNumber,
-        name: this.props.enableContactFallback ? this.getFallbackContactName() : phoneNumber,
+        name: this.props.enableContactFallback ? this.getFallbackContactName() : '',
         entityType,
       });
 

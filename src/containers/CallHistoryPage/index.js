@@ -63,6 +63,7 @@ function mapToFunctions(_, {
   router,
   dialerRoute = '/',
   composeTextRoute = '/composeText',
+  contactSearch,
 }) {
   return {
     dateTimeFormatter,
@@ -98,6 +99,7 @@ function mapToFunctions(_, {
         if (contact.name && contact.phoneNumber &&
           contact.name === contact.phoneNumber) {
           composeText.updateTypingToNumber(contact.phoneNumber);
+          contactSearch.search({ searchString: contact.phoneNumber });
         } else {
           composeText.addToNumber(contact);
           if (composeText.typingToNumber === contact.phoneNumber) {
