@@ -144,6 +144,7 @@ export default function App({
                   callingSettings={phone.callingSettings}
                   locale={phone.locale}
                   router={phone.router}
+                  webphone={phone.webphone}
                 />
               )} />
             <Route

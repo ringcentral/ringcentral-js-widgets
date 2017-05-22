@@ -105,6 +105,7 @@ export default class CallingSettingsPanel extends Component {
       onBackButtonClick,
       availableNumbers,
       className,
+      disabled,
     } = this.props;
     const buttons = [];
     const hasChanges = this.state.callWith !== callWith ||
@@ -142,6 +143,7 @@ export default class CallingSettingsPanel extends Component {
                   value={this.state.myLocation}
                   onChange={this.onMyLocationChange}
                   options={availableNumbers[this.state.callWith]}
+                  disabled={disabled}
                   dropdownAlign="left"
                   titleEnabled
                 />
@@ -187,6 +189,7 @@ export default class CallingSettingsPanel extends Component {
               dropdownAlign="left"
               renderFunction={this.renderHandler}
               renderValue={this.renderHandler}
+              disabled={disabled}
               titleEnabled
             />
           </InputField>
@@ -208,8 +211,10 @@ CallingSettingsPanel.propTypes = {
   availableNumbers: PropTypes.object.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
 
 CallingSettingsPanel.defaultProps = {
   className: null,
+  disabled: false,
 };

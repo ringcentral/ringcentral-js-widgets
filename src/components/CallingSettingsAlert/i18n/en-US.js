@@ -20,5 +20,8 @@ export default {
   link: 'Settings > Calling',
   [callingSettingsMessages.webphonePermissionRemoved]:
     `Your permissions have been changed and you cannot make calls with Browser.
-     For details please contact your account administrator.`
+     For details please contact your account administrator.`,
+  [callingSettingsMessages.emergencyCallingNotAvailable]:
+    `Dialing emergency or special service numbers is not supported.
+     In an emergency, use your traditional wireline or wireless phone to call an emergency number.`,
 };
