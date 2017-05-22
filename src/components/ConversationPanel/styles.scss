@@ -41,15 +41,19 @@
   font-family: Helvetica;
   border-top: 1px solid #e3e3e5;
   textarea {
-    font-size: 14px;
+    font-size: 13px;
     line-height: 18px;
     width: 100%;
     margin: 10px 0 10px 10px;
     resize: none;
     border: none;
-    background: #fff;
+    background: transparent;
     outline: medium none!important;
     box-sizing: border-box!important;
+
+    &::placeholder {
+      color: #a9a9a9;
+    }
   }
 }
 
@@ -68,13 +72,14 @@
 .submitButton {
   display: block;
   margin: 0 auto;
-  width: 80px;
+  width: 73px;
+  height: 36px;
   box-sizing: border-box;
   font-size: 13px;
   line-height: 18px;
   padding: 7px;
   border: 0;
-  border-radius: 16px;
+  border-radius: 18px;
   outline: medium none!important;
   color: #fff;
   background-color: $primary-color;
@@ -85,14 +90,26 @@
   color: #fff;
 }
 
-.submitButton:disabled {
+.submitButton:disabled,
+.submitButton:disabled:hover {
   background-color: #fff!important;
   border: #c9c9c9 1px solid;
   color: #a9a9a9;
+  cursor: not-allowed;
 }
 
 .spinerContainer {
   height: 120px;
   width: 40px;
   margin: 80px auto;
+}
+
+.logButton {
+  right: 15px;
+}
+
+.contactDisplay {
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
 }

@@ -8,6 +8,7 @@ import Line from '../Line';
 import LinkLine from '../LinkLine';
 import IconLine from '../IconLine';
 import Eula from '../Eula';
+import SpinnerOverlay from '../SpinnerOverlay';
 import styles from './styles.scss';
 import Switch from '../Switch';
 import i18n from './i18n';
@@ -26,6 +27,9 @@ export default function SettingsPanel({
   showAutoLog,
   autoLogEnabled,
   onAutoLogChange,
+  showAutoLogSMS,
+  autoLogSMSEnabled,
+  onAutoLogSMSChange,
   showClickToDial,
   clickToDialEnabled,
   onClickToDialChange,
@@ -33,7 +37,13 @@ export default function SettingsPanel({
   showHeader,
   ringoutEnabled,
   outboundSMS,
+  showSpinner,
 }) {
+  if (showSpinner) {
+    return (
+      <SpinnerOverlay />
+    );
+  }
   const region = showRegion ?
     (
       <LinkLine
@@ -76,7 +86,20 @@ export default function SettingsPanel({
         />
       }
     >
-      {i18n.getString('autoCreateLog', currentLocale)}
+      {i18n.getString('autoLogCalls', currentLocale)}
+    </IconLine>
+  ) :
+    null;
+  const autoLogSMS = showAutoLogSMS ? (
+    <IconLine
+      icon={
+        <Switch
+          checked={autoLogSMSEnabled}
+          onChange={onAutoLogSMSChange}
+        />
+      }
+    >
+      {i18n.getString('autoLogSMS', currentLocale)}
     </IconLine>
   ) :
     null;
@@ -100,6 +123,7 @@ export default function SettingsPanel({
         {region}
         {children}
         {autoLog}
+        {autoLogSMS}
         {clickToDial}
         <section className={styles.section}>
           <Line>
@@ -142,6 +166,9 @@ SettingsPanel.propTypes = {
   showAutoLog: PropTypes.bool,
   autoLogEnabled: PropTypes.bool,
   onAutoLogChange: PropTypes.func,
+  showAutoLogSMS: PropTypes.bool,
+  autoLogSMSEnabled: PropTypes.bool,
+  onAutoLogSMSChange: PropTypes.func,
   showRegion: PropTypes.bool.isRequired,
   showClickToDial: PropTypes.bool,
   clickToDialEnabled: PropTypes.bool,
@@ -150,6 +177,7 @@ SettingsPanel.propTypes = {
   showHeader: PropTypes.bool,
   ringoutEnabled: PropTypes.bool,
   outboundSMS: PropTypes.bool,
+  showSpinner: PropTypes.bool,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -157,11 +185,15 @@ SettingsPanel.defaultProps = {
   children: null,
   showClickToDial: false,
   clickToDialEnabled: false,
-  onClickToDialChange: () => { },
+  onClickToDialChange: undefined,
   showAutoLog: false,
   autoLogEnabled: false,
-  onAutoLogChange: () => { },
+  onAutoLogChange: undefined,
+  showAutoLogSMS: false,
+  autoLogSMSEnabled: false,
+  onAutoLogSMSChange: undefined,
   showHeader: false,
   ringoutEnabled: false,
   outboundSMS: false,
+  showSpinner: false,
 };

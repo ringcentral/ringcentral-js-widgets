@@ -21,6 +21,7 @@ function SearchInput(props) {
         maxLength={props.maxLength}
         placeholder={props.placeholder}
         autoComplete="off"
+        disabled={props.disabled}
       />
     </div>
   );
@@ -30,13 +31,18 @@ SearchInput.propTypes = {
   className: PropTypes.string,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  onKeyUp: PropTypes.func.isRequired,
-  maxLength: PropTypes.number.isRequired,
-  placeholder: PropTypes.string.isRequired,
+  onKeyUp: PropTypes.func,
+  maxLength: PropTypes.number,
+  placeholder: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 SearchInput.defaultProps = {
   className: null,
+  disabled: false,
+  placeholder: '',
+  maxLength: undefined,
+  onKeyUp: undefined,
 };
 
 export default SearchInput;

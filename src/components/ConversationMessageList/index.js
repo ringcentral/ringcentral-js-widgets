@@ -3,109 +3,106 @@ import classnames from 'classnames';
 
 import styles from './styles.scss';
 
-function MessageItem(props) {
-  const messageClassName = classnames(
-    styles.messageBody,
-    props.direction === 'Outbound' ? styles.outbound : styles.inbound,
-    props.subject && props.subject.length > 500 ? styles.big : null,
-  );
-  const fromName = props.senderName && props.direction === 'Inbound' ?
-    (
-      <div className={styles.messageFrom}>
-        {props.senderName}
-      </div>
-    ) :
-    null;
-  const messageCreationTime = props.showDate ?
-    (
-      <div className={styles.messsageTime}>
-        {props.creationTime}
-      </div>
-    ) :
-    null;
+function Message({
+  subject,
+  time,
+  direction,
+  sender,
+}) {
   return (
-    <div className={styles.messageItem}>
-      {messageCreationTime}
-      {fromName}
-      <div className={messageClassName}>
-        {props.subject}
+    <div className={styles.message}>
+      {
+        time ?
+          (
+            <div className={styles.time}>
+              {time}
+            </div>
+          ) :
+          null
+      }
+      {
+        (sender && direction === 'Inbound') ?
+          (
+            <div className={styles.sender}>
+              {sender}
+            </div>
+          ) :
+          null
+      }
+      <div
+        className={classnames(
+          styles.messageBody,
+          direction === 'Outbound' ? styles.outbound : styles.inbound,
+          (subject && subject.length > 500) && styles.big,
+        )}>
+        {subject}
       </div>
       <div className={styles.clear} />
     </div>
   );
 }
 
-MessageItem.propTypes = {
+Message.propTypes = {
   direction: PropTypes.string.isRequired,
   subject: PropTypes.string,
-  creationTime: PropTypes.string.isRequired,
-  showDate: PropTypes.bool.isRequired,
-  senderName: PropTypes.string,
+  time: PropTypes.string,
+  sender: PropTypes.string,
 };
 
-MessageItem.defaultProps = {
+Message.defaultProps = {
   subject: '',
-  senderName: null,
+  sender: undefined,
+  time: undefined,
 };
 
 class ConversationMessageList extends Component {
-  constructor(props) {
-    super(props);
-    let lastMessagesLength = 0;
-    this.scrollToLastMessage = () => {
-      const conversationBody = this.conversationBody;
-      if (!conversationBody) {
-        return;
-      }
-      if (this.props.messages.length === lastMessagesLength) {
-        return;
-      }
-      lastMessagesLength = props.messages.length;
-      conversationBody.scrollTop = conversationBody.scrollHeight;
-    };
-  }
-
   componentDidMount() {
     this.scrollToLastMessage();
   }
 
-  componentDidUpdate() {
-    this.scrollToLastMessage();
+  componentDidUpdate(previousProps) {
+    if (previousProps.messages.length !== this.props.messages.length) {
+      this.scrollToLastMessage();
+    }
   }
-
+  scrollToLastMessage = () => {
+    if (this.conversationBody) {
+      this.conversationBody.scrollTop = this.conversationBody.scrollHeight;
+    }
+  }
   render() {
-    const messages = this.props.messages;
-    let lastFormatedTime = null;
+    const {
+      className,
+      dateTimeFormatter,
+      messages,
+      showSender,
+    } = this.props;
+    let lastDisplayedTimestamp = 0;
     const messageList = messages.map((message) => {
-      const formatedTime = this.context.formatDateTime(message.creationTime);
-      let showDate = true;
-      if (lastFormatedTime === formatedTime) {
-        showDate = false;
-      }
-      lastFormatedTime = formatedTime;
-      let senderName = null;
-      if (this.props.showSender && message.from) {
-        if (message.from.name) {
-          senderName = message.from.name;
-        } else {
-          const phoneNumber = message.from.extensionNumber || message.from.phoneNumber;
-          senderName = this.context.formatPhone(phoneNumber);
-        }
-      }
+      const sender = showSender ?
+        (
+          messages.from.name ||
+          this.context.formatPhone(message.from.extensionNumber || message.from.phoneNumber)
+        ) :
+        null;
+      const timestamp = new Date(message.creationTime).getTime();
+      const time = (timestamp - lastDisplayedTimestamp > 60 * 60 * 1000) ?
+        dateTimeFormatter({ utcTimestamp: message.creationTime, type: 'long' }) :
+        null;
+      if (time) lastDisplayedTimestamp = timestamp;
       return (
-        <MessageItem
+        <Message
           key={message.id}
+          sender={sender}
+          time={time}
           direction={message.direction}
           subject={message.subject}
-          creationTime={formatedTime}
-          showDate={showDate}
-          senderName={senderName}
         />
       );
     });
     return (
       <div
-        className={classnames(styles.root, this.props.className)}
+        className={classnames(styles.root, className)}
         ref={(body) => { this.conversationBody = body; }}
       >
         {messageList}
@@ -123,6 +120,7 @@ ConversationMessageList.propTypes = {
   })).isRequired,
   className: PropTypes.string,
   showSender: PropTypes.bool,
+  dateTimeFormatter: PropTypes.func.isRequired,
 };
 
 ConversationMessageList.defaultProps = {
@@ -131,7 +129,6 @@ ConversationMessageList.defaultProps = {
 };
 
 ConversationMessageList.contextTypes = {
-  formatDateTime: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
 };
 

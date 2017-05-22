@@ -5,6 +5,7 @@ import Panel from '../Panel';
 import SpinnerOverlay from '../SpinnerOverlay';
 import CallList from '../CallList';
 
+
 import styles from './styles.scss';
 
 
@@ -14,6 +15,7 @@ export default function CallsPanel({
   areaCode,
   countryCode,
   onViewContact,
+  onCreateContact,
   onLogCall,
   onClickToDial,
   onClickToSms,
@@ -31,6 +33,7 @@ export default function CallsPanel({
   webphoneReject,
   webphoneHangup,
   webphoneResume,
+  enableContactFallback,
 }) {
   const content = showSpinner ?
     <SpinnerOverlay /> :
@@ -41,6 +44,7 @@ export default function CallsPanel({
         areaCode={areaCode}
         countryCode={countryCode}
         onViewContact={onViewContact}
+        onCreateContact={onCreateContact}
         onLogCall={onLogCall}
         onClickToDial={onClickToDial}
         onClickToSms={onClickToSms}
@@ -56,6 +60,7 @@ export default function CallsPanel({
         webphoneReject={webphoneReject}
         webphoneHangup={webphoneHangup}
         webphoneResume={webphoneResume}
+        enableContactFallback={enableContactFallback}
       />
     );
   return (
@@ -76,6 +81,7 @@ CallsPanel.propTypes = {
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   onViewContact: PropTypes.func,
+  onCreateContact: PropTypes.func,
   onClickToDial: PropTypes.func,
   onClickToSms: PropTypes.func,
   onLogCall: PropTypes.func,
@@ -93,10 +99,12 @@ CallsPanel.propTypes = {
   webphoneReject: PropTypes.func,
   webphoneHangup: PropTypes.func,
   webphoneResume: PropTypes.func,
+  enableContactFallback: PropTypes.bool,
 };
 
 CallsPanel.defaultProps = {
   onViewContact: undefined,
+  onCreateContact: undefined,
   onLogCall: undefined,
   onClickToDial: undefined,
   onClickToSms: undefined,
@@ -112,4 +120,5 @@ CallsPanel.defaultProps = {
   webphoneReject: undefined,
   webphoneHangup: undefined,
   webphoneResume: undefined,
+  enableContactFallback: undefined,
 };

@@ -6,6 +6,8 @@ import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import Spinner from '../Spinner';
 import RecipientsHeader from '../RecipientsHeader';
 import ConversationMessageList from '../ConversationMessageList';
+import LogButton from '../LogButton';
+import ContactDisplay from '../ContactDisplay';
 
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -15,6 +17,10 @@ class ConversationPanel extends Component {
     super(props);
     this.state = {
       textValue: '',
+      selected: this.getInitialContactIndex(),
+      userSelection: false,
+      isLogging: false,
+
     };
     this.onTextChange = (e) => {
       this.setState({
@@ -38,6 +44,94 @@ class ConversationPanel extends Component {
       }
     };
   }
+  componentDidMount() {
+    this._mounted = true;
+  }
+  componentWillReceiveProps(nextProps) {
+    if (
+      !this.state.userSelection &&
+      nextProps.conversation.conversationMatches !== this.props.conversation.conversationMatches
+    ) {
+      this.setState({
+        selected: this.getInitialContactIndex(nextProps),
+      });
+    }
+  }
+  componentWillUnmount() {
+    this._mounted = false;
+  }
+  onSelectContact = (value, idx) => {
+    const selected = parseInt(idx, 10) - 1;
+    this.setState({
+      selected,
+      userSelection: true,
+    });
+    if (
+      this.props.conversation.conversationMatches.length > 0 &&
+      this.props.autoLog
+    ) {
+      this.logConversation({ redirect: false, selected, prefill: false });
+    }
+  }
+  getSelectedContact = (selected = this.state.selected) => {
+    const contactMatches = this.props.conversation.correspondentMatches;
+    return (selected > -1 && contactMatches[selected]) ||
+      (contactMatches.length === 1 && contactMatches[0]) ||
+      null;
+  }
+  getInitialContactIndex(nextProps = this.props) {
+    const {
+      correspondentMatches,
+      conversationMatches,
+    } = nextProps.conversation;
+    for (const conversation of conversationMatches) {
+      const index = correspondentMatches.findIndex(contact => (
+        this.props.isLoggedContact(nextProps.conversation, conversation, contact)
+      ));
+      if (index > -1) return index;
+    }
+    return -1;
+  }
+  getPhoneNumber() {
+    const correspondents = this.props.conversation.correspondents;
+    return (correspondents.length === 1 &&
+      (correspondents[0].phoneNumber || correspondents[0].extensionNumber)) || undefined;
+  }
+  getGroupPhoneNumbers() {
+    const correspondents = this.props.conversation.correspondents;
+    const groupNumbers = correspondents.length > 1 ?
+      correspondents.map(correspondent =>
+        correspondent.extensionNumber || correspondent.phoneNumber || undefined
+      )
+      : null;
+    return groupNumbers;
+  }
+  getFallbackContactName() {
+    const correspondents = this.props.conversation.correspondents;
+    return (correspondents.length === 1 &&
+      (correspondents[0].name)) || undefined;
+  }
+  logConversation = async ({ redirect = true, selected, prefill = true }) => {
+    if (typeof this.props.onLogConversation === 'function' &&
+      this._mounted &&
+      !this.state.isLogging
+    ) {
+      this.setState({
+        isLogging: true,
+      });
+      await this.props.onLogConversation({
+        correspondentEntity: this.getSelectedContact(selected),
+        conversationId: this.props.conversation.conversationId,
+        redirect,
+        prefill,
+      });
+      if (this._mounted) {
+        this.setState({
+          isLogging: false,
+        });
+      }
+    }
+  }
 
   render() {
     let conversationBody = null;
@@ -54,23 +148,57 @@ class ConversationPanel extends Component {
         <ConversationMessageList
           messages={this.props.messages}
           className={styles.conversationBody}
+          dateTimeFormatter={this.props.dateTimeFormatter}
           showFrom={recipients && recipients.length > 1}
         />
       );
     }
+    const {
+      isLogging,
+      conversationMatches,
+      correspondentMatches,
+    } = this.props.conversation;
+    const groupNumbers = this.getGroupPhoneNumbers();
+    const phoneNumber = this.getPhoneNumber();
+    const fallbackName = this.getFallbackContactName();
+
+    const logButton = this.props.onLogConversation ?
+      (
+        <LogButton
+          className={styles.logButton}
+          onLog={this.logConversation}
+          disableLinks={this.props.disableLinks}
+          isLogged={conversationMatches.length > 0}
+          isLogging={isLogging || this.state.isLogging}
+          currentLocale={this.props.currentLocale}
+        />
+      ) :
+      null;
     return (
       <div className={styles.root}>
         <div className={styles.header}>
+          <ContactDisplay
+            className={styles.contactDisplay}
+            contactMatches={correspondentMatches}
+            selected={this.state.selected}
+            onSelectContact={this.onSelectContact}
+            disabled={this.props.disableLinks}
+            isLogging={isLogging || this.state.isLogging}
+            fallBackName={fallbackName}
+            areaCode={this.props.areaCode}
+            countryCode={this.props.countryCode}
+            phoneNumber={phoneNumber}
+            groupNumbers={groupNumbers}
+            currentLocale={this.props.currentLocale}
+            enableContactFallback={this.props.enableContactFallback}
+          />
           <Link
             to={'/messages'}
             className={styles.backButton}
           >
             <span className={dynamicsFont.arrow} />
           </Link>
-          <RecipientsHeader
-            recipients={recipients}
-            currentLocale={this.props.currentLocale}
-          />
+          {logButton}
         </div>
         {conversationBody}
         <div className={styles.messageForm}>
@@ -90,6 +218,7 @@ class ConversationPanel extends Component {
                 value={i18n.getString('send', this.props.currentLocale)}
                 className={styles.submitButton}
                 disabled={
+                  this.props.disableLinks ||
                   this.props.sendButtonDisabled ||
                   loading ||
                   this.state.textValue.length === 0
@@ -110,6 +239,22 @@ ConversationPanel.propTypes = {
   sendButtonDisabled: PropTypes.bool.isRequired,
   currentLocale: PropTypes.string.isRequired,
   showSpinner: PropTypes.bool.isRequired,
+  disableLinks: PropTypes.bool,
+  conversation: PropTypes.object.isRequired,
+  isLoggedContact: PropTypes.func,
+  onLogConversation: PropTypes.func,
+  areaCode: PropTypes.string.isRequired,
+  countryCode: PropTypes.string.isRequired,
+  autoLog: PropTypes.bool,
+  enableContactFallback: PropTypes.bool,
+  dateTimeFormatter: PropTypes.func.isRequired,
+};
+ConversationPanel.defaultProps = {
+  disableLinks: false,
+  isLoggedContact: undefined,
+  onLogConversation: undefined,
+  autoLog: false,
+  enableContactFallback: undefined,
 };
 
 export default ConversationPanel;

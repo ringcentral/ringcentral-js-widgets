@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import moduleStatuses from 'ringcentral-integration/enums/moduleStatuses';
 import CallsPanel from '../../components/CallsPanel';
 import i18n from './i18n';
 
@@ -8,19 +7,23 @@ function mapToProps(_, {
   callHistory,
   regionSettings,
   connectivityMonitor,
+  rateLimiter,
   dateTimeFormat,
   callLogger,
   call,
   composeText,
   rolesAndPermissions,
+  enableContactFallback = false,
 }) {
   return {
+    enableContactFallback,
     title: i18n.getString('title', locale.currentLocale),
     currentLocale: locale.currentLocale,
     calls: callHistory.calls,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
-    disableLinks: !connectivityMonitor.connectivity,
+    disableLinks: !connectivityMonitor.connectivity ||
+      rateLimiter.throttling,
     disableClickToDial: !(call && call.isIdle),
     outboundSmsPermission: !!(
       rolesAndPermissions.permissions &&
@@ -38,7 +41,7 @@ function mapToProps(_, {
       dateTimeFormat.ready &&
       connectivityMonitor.ready &&
       (!rolesAndPermissions || rolesAndPermissions.ready) &&
-      (!call || call.status === moduleStatuses.ready) &&
+      (!call || call.ready) &&
       (!composeText || composeText.ready) &&
       (!callLogger || callLogger.ready)
     ),
@@ -47,10 +50,12 @@ function mapToProps(_, {
 function mapToFunctions(_, {
   dateTimeFormat,
   onViewContact,
-  dateTimeFormatter = utcTimestamp => dateTimeFormat.formatDateTime({
+  onCreateContact,
+  dateTimeFormatter = ({ utcTimestamp }) => dateTimeFormat.formatDateTime({
     utcTimestamp,
   }),
   callLogger,
+  contactMatcher,
   onLogCall,
   isLoggedContact,
   call,
@@ -58,10 +63,24 @@ function mapToFunctions(_, {
   router,
   dialerRoute = '/',
   composeTextRoute = '/composeText',
+  contactSearch,
 }) {
   return {
     dateTimeFormatter,
     onViewContact,
+    onCreateContact: onCreateContact ?
+      async ({ phoneNumber, name, entityType }) => {
+        const hasMatchNumber = await contactMatcher.hasMatchNumber({
+          phoneNumber,
+          ignoreCache: true
+        });
+        // console.debug('confirm hasMatchNumber:', hasMatchNumber);
+        if (!hasMatchNumber) {
+          await onCreateContact({ phoneNumber, name, entityType });
+          await contactMatcher.forceMatchNumber({ phoneNumber });
+        }
+      } :
+      undefined,
     onClickToDial: call ?
       (phoneNumber) => {
         if (call.isIdle) {
@@ -76,9 +95,16 @@ function mapToFunctions(_, {
         if (router) {
           router.history.push(composeTextRoute);
         }
-        composeText.addToNumber(contact);
-        if (composeText.typingToNumber === contact.phoneNumber) {
-          composeText.cleanTypingToNumber();
+        // if contact autocomplete, if no match fill the number only
+        if (contact.name && contact.phoneNumber &&
+          contact.name === contact.phoneNumber) {
+          composeText.updateTypingToNumber(contact.phoneNumber);
+          contactSearch.search({ searchString: contact.phoneNumber });
+        } else {
+          composeText.addToNumber(contact);
+          if (composeText.typingToNumber === contact.phoneNumber) {
+            composeText.cleanTypingToNumber();
+          }
         }
       } :
       undefined,

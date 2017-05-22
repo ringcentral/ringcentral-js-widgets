@@ -9,7 +9,6 @@ class ConversationPage extends Component {
   getChildContext() {
     return {
       formatPhone: this.props.formatNumber,
-      formatDateTime: this.props.formatDateTime,
       changeDefaultRecipient: this.props.changeDefaultRecipient,
       changeMatchedNames: this.props.changeMatchedNames,
       getRecipientName: recipient => (this.getRecipientName(recipient)),
@@ -49,13 +48,21 @@ class ConversationPage extends Component {
   render() {
     return (
       <ConversationPanel
+        countryCode={this.props.countryCode}
+        areaCode={this.props.areaCode}
+        disableLinks={this.props.disableLinks}
         conversationId={this.props.conversationId}
         currentLocale={this.props.currentLocale}
         messages={this.props.messages}
+        conversation={this.props.conversation}
+        onLogConversation={this.props.onLogConversation}
+        isLoggedContact={this.props.isLoggedContact}
         recipients={this.props.recipients}
         showSpinner={this.props.showSpinner}
         replyToReceivers={this.props.replyToReceivers}
         sendButtonDisabled={this.props.sendButtonDisabled}
+        autoLog={this.props.autoLog}
+        dateTimeFormatter={this.props.dateTimeFormatter}
       />
     );
   }
@@ -73,11 +80,11 @@ ConversationPage.propTypes = {
   loadConversationById: PropTypes.func.isRequired,
   changeDefaultRecipient: PropTypes.func.isRequired,
   formatNumber: PropTypes.func.isRequired,
-  formatDateTime: PropTypes.func.isRequired,
   getMatcherContactName: PropTypes.func,
   getMatcherContactList: PropTypes.func,
   getMatcherContactNameList: PropTypes.func,
   changeMatchedNames: PropTypes.func.isRequired,
+  dateTimeFormatter: PropTypes.func.isRequired,
 };
 
 ConversationPage.defaultProps = {
@@ -88,7 +95,6 @@ ConversationPage.defaultProps = {
 
 ConversationPage.childContextTypes = {
   formatPhone: PropTypes.func.isRequired,
-  formatDateTime: PropTypes.func.isRequired,
   getRecipientName: PropTypes.func.isRequired,
   changeDefaultRecipient: PropTypes.func.isRequired,
   changeMatchedNames: PropTypes.func.isRequired,
@@ -96,29 +102,65 @@ ConversationPage.childContextTypes = {
   getMatcherContactNameList: PropTypes.func.isRequired,
 };
 
-function mapStateToProps(state, props) {
+function mapToProps(_, {
+  locale,
+  params,
+  conversation,
+  conversationLogger,
+  dateTimeFormat,
+  contactMatcher,
+  regionSettings,
+  messages,
+  rateLimiter,
+  connectivityMonitor,
+  enableContactFallback = false,
+}) {
   return ({
-    currentLocale: props.locale.currentLocale,
-    conversationId: props.params.conversationId,
-    sendButtonDisabled: props.conversation.pushing,
-    showSpinner: (
-      !props.dateTimeFormat.ready ||
-      (props.contactMatcher && !props.contactMatcher.ready) ||
-      !props.conversation.ready ||
-      !props.regionSettings.ready
+    enableContactFallback,
+    currentLocale: locale.currentLocale,
+    conversationId: params.conversationId,
+    sendButtonDisabled: conversation.pushing,
+    areaCode: regionSettings.areaCode,
+    countryCode: regionSettings.countryCode,
+    showSpinner: !(
+      dateTimeFormat.ready &&
+      (!contactMatcher || contactMatcher.ready) &&
+      conversation.ready &&
+      regionSettings.ready &&
+      messages.ready &&
+      rateLimiter.ready &&
+      connectivityMonitor.ready &&
+      conversationLogger.ready
     ),
-    recipients: props.conversation.recipients,
-    messages: props.conversation.messages,
+    recipients: conversation.recipients,
+    messages: conversation.messages,
+    conversation: messages.allConversations.find(item => (
+      item.conversationId === params.conversationId
+    )),
+    disableLinks: (
+      rateLimiter.isThrottling ||
+      !connectivityMonitor.connectivity
+    ),
+    autoLog: conversationLogger.autoLog,
   });
 }
 
-function mapDispatchToProps(dispatch, props) {
+function mapToFunctions(_, {
+  contactMatcher,
+  conversation,
+  dateTimeFormat,
+  dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
+  regionSettings,
+  isLoggedContact,
+  conversationLogger,
+  onLogConversation,
+}) {
   let getMatcherContactName;
   let getMatcherContactList;
   let getMatcherContactNameList;
-  if (props.contactMatcher && props.contactMatcher.ready) {
+  if (contactMatcher && contactMatcher.ready) {
     getMatcherContactList = (phoneNumber) => {
-      const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
+      const matcherNames = contactMatcher.dataMapping[phoneNumber];
       if (matcherNames && matcherNames.length > 0) {
         return matcherNames.map(matcher =>
           `${matcher.name} | ${matcher.phoneNumbers[0].phoneType}`
@@ -127,7 +169,7 @@ function mapDispatchToProps(dispatch, props) {
       return [];
     };
     getMatcherContactNameList = (phoneNumber) => {
-      const matcherNames = props.contactMatcher.dataMapping[phoneNumber];
+      const matcherNames = contactMatcher.dataMapping[phoneNumber];
       if (matcherNames && matcherNames.length > 0) {
         return matcherNames.map(matcher => matcher.name);
       }
@@ -143,24 +185,32 @@ function mapDispatchToProps(dispatch, props) {
   }
 
   return {
-    replyToReceivers: props.conversation.replyToReceivers,
-    changeDefaultRecipient: props.conversation.changeDefaultRecipient,
-    changeMatchedNames: props.conversation.changeMatchedNames,
-    unloadConversation: () => props.conversation.unloadConversation(),
-    loadConversationById: id => props.conversation.loadConversationById(id),
-    formatDateTime: props.formatDateTime ||
-    (utcTimestamp => props.dateTimeFormat.formatDateTime({
-      utcTimestamp,
-    })),
+    replyToReceivers: conversation.replyToReceivers,
+    changeDefaultRecipient: conversation.changeDefaultRecipient,
+    changeMatchedNames: conversation.changeMatchedNames,
+    unloadConversation: () => conversation.unloadConversation(),
+    loadConversationById: id => conversation.loadConversationById(id),
+    dateTimeFormatter,
     formatNumber: phoneNumber => formatNumber({
       phoneNumber,
-      areaCode: props.regionSettings.areaCode,
-      countryCode: props.regionSettings.countryCode,
+      areaCode: regionSettings.areaCode,
+      countryCode: regionSettings.countryCode,
     }),
     getMatcherContactName,
     getMatcherContactList,
     getMatcherContactNameList,
+    isLoggedContact,
+    onLogConversation: onLogConversation ||
+    (conversationLogger && (async ({ redirect = true, ...options }) => {
+      await conversationLogger.logConversation({
+        ...options,
+        redirect,
+      });
+    })),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConversationPage);
+export default connect(
+  mapToProps,
+  mapToFunctions,
+)(ConversationPage);

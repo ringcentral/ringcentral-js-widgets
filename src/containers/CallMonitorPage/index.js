@@ -7,19 +7,23 @@ function mapToProps(_, {
   callMonitor,
   regionSettings,
   connectivityMonitor,
+  rateLimiter,
   dateTimeFormat,
   callLogger,
   composeText,
   rolesAndPermissions,
+  enableContactFallback = false,
 }) {
   return {
+    enableContactFallback,
     active: true,
     title: i18n.getString('title', locale.currentLocale),
     currentLocale: locale.currentLocale,
     calls: callMonitor.calls,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
-    disableLinks: !connectivityMonitor.connectivity,
+    disableLinks: !connectivityMonitor.connectivity ||
+      rateLimiter.throttling,
     outboundSmsPermission: !!(
       rolesAndPermissions.permissions &&
       rolesAndPermissions.permissions.OutboundSMS
@@ -44,10 +48,13 @@ function mapToProps(_, {
 function mapToFunctions(_, {
   dateTimeFormat,
   onViewContact,
-  dateTimeFormatter = utcTimestamp => dateTimeFormat.formatDateTime({
+  onCreateContact,
+  dateTimeFormatter = ({ utcTimestamp }) => dateTimeFormat.formatDateTime({
     utcTimestamp,
   }),
   callLogger,
+  contactMatcher,
+  contactSearch,
   onLogCall,
   isLoggedContact,
   router,
@@ -58,6 +65,18 @@ function mapToFunctions(_, {
   return {
     dateTimeFormatter,
     onViewContact,
+    onCreateContact: onCreateContact ?
+      async ({ phoneNumber, name, entityType }) => {
+        const hasMatchNumber = await contactMatcher.hasMatchNumber({
+          phoneNumber,
+          ignoreCache: true
+        });
+        if (!hasMatchNumber) {
+          await onCreateContact({ phoneNumber, name, entityType });
+          await contactMatcher.forceMatchNumber({ phoneNumber });
+        }
+      } :
+      undefined,
     isLoggedContact,
     onLogCall: onLogCall ||
     (callLogger && (async ({ call, contact, redirect = true }) => {
@@ -72,9 +91,15 @@ function mapToFunctions(_, {
         if (router) {
           router.history.push(composeTextRoute);
         }
-        composeText.addToNumber(contact);
-        if (composeText.typingToNumber === contact.phoneNumber) {
-          composeText.cleanTypingToNumber();
+        if (contact.name && contact.phoneNumber &&
+          contact.name === contact.phoneNumber) {
+          composeText.updateTypingToNumber(contact.phoneNumber);
+          contactSearch.search({ searchString: contact.phoneNumber });
+        } else {
+          composeText.addToNumber(contact);
+          if (composeText.typingToNumber === contact.phoneNumber) {
+            composeText.cleanTypingToNumber();
+          }
         }
       } :
       undefined,
