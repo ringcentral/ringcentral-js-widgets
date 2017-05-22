@@ -114,6 +114,7 @@ ActiveCallPad.propTypes = {
   onStopRecord: PropTypes.func.isRequired,
   hangup: PropTypes.func.isRequired,
   onShowKeyPad: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired,
 };
 
 ActiveCallPad.defaultProps = {

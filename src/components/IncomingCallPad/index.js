@@ -1,6 +1,4 @@
 import React, { PropTypes } from 'react';
-import classnames from 'classnames';
-import Button from '../Button';
 import ActiveCallButton from '../ActiveCallButton';
 import rcFont from '../../assets/RcFont/RcFont.scss';
 import styles from './styles.scss';

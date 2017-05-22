@@ -9,7 +9,6 @@ import ActiveCallPad from '../ActiveCallPad';
 import ActiveCallDialPad from '../ActiveCallDialPad';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
-import rcFont from '../../assets/RcFont/RcFont.scss';
 import styles from './styles.scss';
 
 class ActiveCallPanel extends Component {
@@ -114,6 +113,7 @@ ActiveCallPanel.propTypes = {
   onUnhold: PropTypes.func.isRequired,
   onRecord: PropTypes.func.isRequired,
   onStopRecord: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired,
   hangup: PropTypes.func.isRequired,
   toggleMinimized: PropTypes.func.isRequired,
   onKeyPadChange: PropTypes.func.isRequired,
