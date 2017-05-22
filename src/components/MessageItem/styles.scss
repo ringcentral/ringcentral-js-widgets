@@ -40,8 +40,8 @@
 }
 .contactDisplay {
   position: absolute;
-  top: 12px;
-  left: 46px;
+  top: 5px;
+  left: 45px;
   color: #303030;
   font-size: 14px;
 }
@@ -81,6 +81,13 @@
 // }
 
 .unread {
+  .contactDisplay {
+    color: $primary-color;
+    button {
+      color: $primary-color;
+    }
+  }
+
   .conversationIcon {
     color: $primary-color;
   }

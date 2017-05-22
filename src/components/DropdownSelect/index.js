@@ -38,7 +38,6 @@ class DropdownSelect extends Component {
     };
 
     this._handleDocumentClick = (e) => {
-      console.debug('_handleDocumentClick', e);
       if (!this.mounted) {
         return;
       }
@@ -95,6 +94,14 @@ class DropdownSelect extends Component {
     return this.props.renderValue(value);
   }
 
+  renderTitle(selectedOption, defaultTitle) {
+    if (this.props.titleEnabled) {
+      return typeof this.props.renderTitle === 'function' ?
+        this.props.renderTitle(selectedOption) : defaultTitle;
+    }
+    return '';
+  }
+
   renderDropdownMenu() {
     let options;
     const { placeholder, ellipsis } = this.props;
@@ -127,7 +134,7 @@ class DropdownSelect extends Component {
                   styles[this.props.dropdownAlign],
                   placeholder && styles.placeholder)}
                 value={currentValue}
-                title={this.props.titleEnabled && display}
+                title={this.renderTitle(option, display)}
                 onClick={e => this.onChange(e, option, idx)}
               >
                 {display}
@@ -171,7 +178,7 @@ class DropdownSelect extends Component {
         <button
           className={styles.button}
           onClick={this.toggleShowDropdown}
-          title={this.props.titleEnabled && renderValue}>
+          title={this.renderTitle(this.props.options[this.props.value], renderValue)}>
           {label}
           <span
             className={classnames(
@@ -201,8 +208,9 @@ DropdownSelect.propTypes = {
   renderFunction: PropTypes.func,
   renderValue: PropTypes.func,
   renderDropdownMenu: PropTypes.func,
-  dropdownAlign: PropTypes.oneOf(['left', 'center', 'right']),
+  renderTitle: PropTypes.func,
   titleEnabled: PropTypes.bool,
+  dropdownAlign: PropTypes.oneOf(['left', 'center', 'right']),
   stopPropagation: PropTypes.bool,
   placeholder: PropTypes.string,
   ellipsis: PropTypes.bool,
@@ -216,11 +224,13 @@ DropdownSelect.defaultProps = {
   onChange: undefined,
   disabled: false,
   renderDropdownMenu: undefined,
+  renderTitle: undefined,
   valueFunction: (_, idx) => idx,
   renderFunction: option => option,
   renderValue: option => option,
   dropdownAlign: 'center',
   titleEnabled: undefined,
+  title: undefined,
   stopPropagation: false,
   placeholder: undefined,
   ellipsis: true,
