@@ -62,7 +62,7 @@ export default function ActiveCallPad(props) {
           <i className={rcFont.icon_radio_off} />
         </ActiveCallButton>
         <ActiveCallButton
-          onClick={() => null}
+          onClick={props.onAdd}
           title={'Add'}
         >
           <i className={rcFont.ActionButtons_Add} />

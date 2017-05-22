@@ -1,0 +1,32 @@
+@import '../../lib/commonStyles/colors';
+
+.root {
+  width: 100%;
+  border: none;
+  label {
+    color: $grey-light;
+    font-size: 12px;
+    width: 42px;
+  }
+  button {
+    margin-left: 0;
+    margin-right: 0;
+    color: $grey-light;
+    font-size: 12px;
+  }
+  .selectIcon {
+    right: 0;
+    top: 0;
+  }
+  li {
+    text-align: left;
+  }
+}
+
+.usageType {
+  float: right;
+}
+
+.phoneNumber {
+  width: 100%;
+}

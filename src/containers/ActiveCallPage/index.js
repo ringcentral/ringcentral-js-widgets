@@ -1,8 +1,10 @@
 import { connect } from 'react-redux';
 import React, { PropTypes, Component } from 'react';
 
+import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import Webphone from 'ringcentral-integration/modules/Webphone';
 import Locale from 'ringcentral-integration/modules/Locale';
+import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
@@ -92,6 +94,7 @@ class ActiveCallPage extends Component {
           reject={this.reject}
           replyWithMessage={this.replyWithMessage}
           toVoiceMail={this.toVoiceMail}
+          formatPhone={this.props.formatPhone}
         >
           {this.props.children}
         </IncomingCallPanel>
@@ -100,6 +103,7 @@ class ActiveCallPage extends Component {
     return (
       <ActiveCallPanel
         currentLocale={this.props.currentLocale}
+        formatPhone={this.props.formatPhone}
         phoneNumber={phoneNumber}
         userName={userName}
         sessionId={session.id}
@@ -117,6 +121,7 @@ class ActiveCallPage extends Component {
         onStopRecord={this.onStopRecord}
         onKeyPadChange={this.onKeyPadChange}
         hangup={this.hangup}
+        onAdd={this.props.onAdd}
       >
         {this.props.children}
       </ActiveCallPanel>
@@ -150,6 +155,8 @@ ActiveCallPage.propTypes = {
   sendDTMF: PropTypes.func.isRequired,
   toVoiceMail: PropTypes.func.isRequired,
   replyWithMessage: PropTypes.func.isRequired,
+  formatPhone: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
 
@@ -171,8 +178,15 @@ function mapToProps(_, {
 
 function mapToFunctions(_, {
   webphone,
+  regionSettings,
+  router,
 }) {
   return {
+    formatPhone: phoneNumber => formatNumber({
+      phoneNumber,
+      areaCode: regionSettings.areaCode,
+      countryCode: regionSettings.countryCode,
+    }),
     hangup: webphone.hangup,
     answer: webphone.answer,
     reject: webphone.reject,
@@ -182,6 +196,10 @@ function mapToFunctions(_, {
     onUnhold: sessionId => webphone.unhold(sessionId),
     onRecord: sessionId => webphone.startRecord(sessionId),
     onStopRecord: sessionId => webphone.stopRecord(sessionId),
+    onAdd: () => {
+      router.history.push('/');
+      webphone.toggleMinimized();
+    },
     sendDTMF: (value, sessionId) => webphone.sendDTMF(value, sessionId),
     toVoiceMail: sessionId => webphone.toVoiceMail(sessionId),
     replyWithMessage: (sessionId, message) => webphone.replyWithMessage(sessionId, message),
@@ -197,6 +215,7 @@ const ActiveCallContainer = connect(
 ActiveCallContainer.propTypes = {
   webphone: PropTypes.instanceOf(Webphone).isRequired,
   locale: PropTypes.instanceOf(Locale).isRequired,
+  regionSettings: PropTypes.instanceOf(RegionSettings).isRequired,
 };
 
 export default ActiveCallContainer;

@@ -1,8 +1,8 @@
 import React, { PropTypes, Component } from 'react';
+import classnames from 'classnames';
 
-import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
-
-import Button from '../Button';
+import BackHeader from '../BackHeader';
+import Panel from '../Panel';
 import DurationCounter from '../DurationCounter';
 import ActiveCallUserInfo from '../ActiveCallUserInfo';
 import ActiveCallPad from '../ActiveCallPad';
@@ -39,14 +39,18 @@ class ActiveCallPanel extends Component {
           <DurationCounter startTime={this.props.startTime} />
         </span>
       ) : null;
-    const statusIcon = this.props.callStatus === sessionStatus.connected ?
-      (<i className={rcFont.uniBD} />) :
-      (<i className={rcFont.uniBE} />);
     const userInfo = this.state.isShowKeyPad ? null : (
       <ActiveCallUserInfo
         name={this.props.userName}
         phoneNumber={this.props.phoneNumber}
         currentLocale={this.props.currentLocale}
+        formatPhone={this.props.formatPhone}
+        className={styles.userInfo}
+        avatar={(
+          <div className={styles.avatar}>
+            <i className={classnames(dynamicsFont.portrait, styles.icon)} />
+          </div>
+        )}
       />
     );
     const buttonsPad = this.state.isShowKeyPad ? null : (
@@ -62,6 +66,7 @@ class ActiveCallPanel extends Component {
         onStopRecord={this.props.onStopRecord}
         onShowKeyPad={this.showKeyPad}
         hangup={this.props.hangup}
+        onAdd={this.props.onAdd}
       />
     );
     const dialPad = this.state.isShowKeyPad ? (
@@ -73,20 +78,23 @@ class ActiveCallPanel extends Component {
     ) : null;
     return (
       <div className={styles.root}>
-        <Button
-          className={styles.minimizeButton}
-          onClick={this.props.toggleMinimized}
-        >
-          <i className={dynamicsFont.close} />
-        </Button>
-        <span className={styles.connectStatus}>
-          {statusIcon}
-        </span>
-        {timeCounter}
-        {userInfo}
-        {buttonsPad}
-        {dialPad}
-        {this.props.children}
+        <BackHeader
+          onBackClick={this.props.toggleMinimized}
+          backButton={(
+            <span className={styles.backButton}>
+              <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
+              <span className={styles.backLabel}>Calls</span>
+            </span>
+          )}
+          buttons={[]}
+        />
+        <Panel>
+          {timeCounter}
+          {userInfo}
+          {buttonsPad}
+          {dialPad}
+          {this.props.children}
+        </Panel>
       </div>
     );
   }
@@ -95,7 +103,6 @@ class ActiveCallPanel extends Component {
 ActiveCallPanel.propTypes = {
   phoneNumber: PropTypes.string,
   userName: PropTypes.string,
-  callStatus: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
   startTime: PropTypes.number,
   isOnMute: PropTypes.bool,
@@ -110,6 +117,7 @@ ActiveCallPanel.propTypes = {
   hangup: PropTypes.func.isRequired,
   toggleMinimized: PropTypes.func.isRequired,
   onKeyPadChange: PropTypes.func.isRequired,
+  formatPhone: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
 

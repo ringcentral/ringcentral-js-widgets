@@ -9,38 +9,18 @@ $dial_input_height: 10%;
 
 .root {
   @include full-size;
-  padding-left: 10%;
-  padding-right: 10%;
   box-sizing: border-box;
 }
+.inputFields {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 4px;
+  border-bottom: solid 1px #e2e2e2;
+}
+
 .dial_input {
   width: 100%;
   height: $dial_input_height;
-}
-.select {
-  width: 100%;
-  margin-top: 5px;
-  border: none;
-  label {
-    color: #797979;
-  }
-  button {
-    margin-left: 0;
-    margin-right: 0;
-  }
-  .selectIcon {
-    right: 0;
-    top: 0;
-  }
-  li {
-    text-align: left;
-  }
-}
-.phoneNumber {
-  width: 100%;
-}
-.usageType {
-  float: right;
 }
 .dialInput {
   height: 100%;
@@ -54,6 +34,9 @@ $dial_input_height: 10%;
 .dialButtons {
   @include full-size;
   height: calc(100% - 60px);
+  width: 80%;
+  padding-left: 10%;
+  padding-right: 10%;
 }
 .dialPad {
   height: 80%;

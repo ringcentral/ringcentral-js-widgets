@@ -2,120 +2,8 @@ import React, { PropTypes } from 'react';
 import classnames from 'classnames';
 import DialPad from '../DialPad';
 import DialTextInput from '../DialTextInput';
-import DropdownSelect from '../DropdownSelect';
+import CallIdSelect from '../CallIdSelect';
 import styles from './styles.scss';
-
-import i18n from './i18n';
-
-function PhoneNumber({
-  formatPhone,
-  usageType,
-  currentLocale,
-  phoneNumber,
-}) {
-  return (
-    <span className={styles.phoneNumber}>
-      <span>
-        {formatPhone(phoneNumber)}
-      </span>
-      <span className={styles.usageType}>
-        {i18n.getString(usageType, currentLocale)}
-      </span>
-    </span>
-  );
-}
-
-PhoneNumber.propTypes = {
-  formatPhone: PropTypes.func.isRequired,
-  phoneNumber: PropTypes.string,
-  usageType: PropTypes.string,
-  currentLocale: PropTypes.string.isRequired,
-};
-
-PhoneNumber.defaultProps = {
-  phoneNumber: null,
-  usageType: null,
-};
-
-function FromNumberSelect({
-  fromNumber,
-  fromNumbers,
-  onChange,
-  formatPhone,
-  hidden,
-  currentLocale,
-}) {
-  if (hidden) {
-    return null;
-  }
-  const options = [
-    ...fromNumbers,
-    {
-      phoneNumber: 'anonymous',
-    }
-  ];
-  return (
-    <DropdownSelect
-      className={styles.select}
-      iconClassName={styles.selectIcon}
-      value={fromNumber}
-      label={'From:'}
-      onChange={onChange}
-      options={options}
-      renderValue={(value) => {
-        if (value === 'anonymous') {
-          return (
-            <span>{i18n.getString('Blocked', currentLocale)}</span>
-          );
-        }
-        const valueItem = fromNumbers.find(
-          item => item.phoneNumber === value
-        );
-        const usageType = valueItem && valueItem.usageType;
-        return (
-          <PhoneNumber
-            formatPhone={formatPhone}
-            phoneNumber={value}
-            usageType={usageType}
-            currentLocale={currentLocale}
-          />
-        );
-      }}
-      valueFunction={option => option.phoneNumber}
-      renderFunction={(option) => {
-        if (option.phoneNumber === 'anonymous') {
-          return (
-            <span>{i18n.getString('Blocked', currentLocale)}</span>
-          );
-        }
-        return (
-          <PhoneNumber
-            formatPhone={formatPhone}
-            phoneNumber={option.phoneNumber}
-            usageType={option.usageType}
-            currentLocale={currentLocale}
-          />
-        );
-      }}
-    />
-  );
-}
-
-FromNumberSelect.propTypes = {
-  fromNumber: PropTypes.string,
-  formatPhone: PropTypes.func.isRequired,
-  fromNumbers: PropTypes.arrayOf(PropTypes.shape({
-    phoneNumber: PropTypes.string,
-    usageType: PropTypes.string,
-  })).isRequired,
-  onChange: PropTypes.func.isRequired,
-  currentLocale: PropTypes.string.isRequired,
-  hidden: PropTypes.bool.isRequired,
-};
-
-FromNumberSelect.defaultProps = {
-  fromNumber: null,
-};
 
 function DialerPanel({
   callButtonDisabled,
@@ -137,23 +25,25 @@ function DialerPanel({
   };
   return (
     <div className={classnames(styles.root, className)}>
-      <FromNumberSelect
-        fromNumber={fromNumber}
-        fromNumbers={fromNumbers}
-        onChange={changeFromNumber}
-        formatPhone={formatPhone}
-        currentLocale={currentLocale}
-        hidden={!isWebphoneMode}
-      />
-      <DialTextInput
-        value={toNumber}
-        onChangeEvent={(event) => {
-          keepToNumber(event.currentTarget.value);
-        }}
-        onDelete={() => {
-          keepToNumber('');
-        }}
+      <div className={styles.inputFields}>
+        <DialTextInput
+          value={toNumber}
+          onChangeEvent={(event) => {
+            keepToNumber(event.currentTarget.value);
+          }}
+          onDelete={() => {
+            keepToNumber('');
+          }}
+          />
+        <CallIdSelect
+          fromNumber={fromNumber}
+          fromNumbers={fromNumbers}
+          onChange={changeFromNumber}
+          formatPhone={formatPhone}
+          currentLocale={currentLocale}
+          hidden={!isWebphoneMode}
         />
+      </div>
       <div className={styles.dialButtons}>
         <DialPad
           className={styles.dialPad}

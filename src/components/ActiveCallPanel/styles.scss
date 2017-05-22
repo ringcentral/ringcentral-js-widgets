@@ -4,9 +4,6 @@
 .root {
   @include full-size;
   box-sizing: border-box;
-  padding-left: 5%;
-  padding-right: 5%;
-  padding-top: 20px;
   position: absolute;
   top: 0;
   left: 0;
@@ -14,19 +11,28 @@
   background: #ffffff;
 }
 
-.minimizeButton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 14px;
+.backButton {
+  color: $lightblack;
+  &:hover {
+    color: $lightblack;
+  }
 }
 
-.connectStatus {
+.backIcon {
+  transform: rotate(90deg);
   position: absolute;
+  top: 5px;
   left: 10px;
-  top: 28px;
-  color: #00d960;
-  font-size: 22px;
+}
+
+.backLabel {
+  position: absolute;
+  top: 5px;
+  left: 34px;
+}
+
+.userInfo {
+  margin-top: 10px;
 }
 
 .timeCounter {
@@ -34,4 +40,20 @@
   right: 10px;
   top: 35px;
   font-size: 13px;
+}
+
+.avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.3;
+  color: $primary-color;
+  margin-bottom: 5px;
+}
+
+.icon {
+  display: block;
+  font-size: 54px;
 }

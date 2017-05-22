@@ -66,6 +66,8 @@ export default function App({
               <ActiveCallPage
                 locale={phone.locale}
                 webphone={phone.webphone}
+                regionSettings={phone.regionSettings}
+                router={phone.router}
               >
                 <AlertContainer
                   locale={phone.locale}

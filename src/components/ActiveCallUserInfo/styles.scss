@@ -3,44 +3,21 @@
 .root {
   text-align: center;
   font-size: 60px;
-  color: #303030;
+  color: lightblack;
   margin-bottom: 15px;
 }
 
 .avatarContainer {
-  color: $primary-color;
-  margin-bottom: 5px;
-  i {
-    opacity: 0.7;
-  }
+  display: block;
 }
 
 .userName {
-  font-size: 13px;
-  color: #797979;
+  font-size: 15px;
+  color: $lightblack;
 }
 
 .userPhoneNumber {
-  font-size: 16px;
-}
-
-.big {
-  margin-bottom: 60px;
-  font-size: 120px;
-
-  .avatarContainer {
-    margin-bottom: 15px;
-  }
-}
-
-.avatar {
-  width: 1em;
-  height: 1em;
-  border-radius: 1em;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.icon {
-  display: block;
+  font-size: 12px;
+  color: $grey-light;
+  margin-top: 5px;
 }

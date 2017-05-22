@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
+import classnames from 'classnames';
 
-import Button from '../Button';
 import ActiveCallUserInfo from '../ActiveCallUserInfo';
 import IncomingCallPad from '../IncomingCallPad';
 
@@ -10,17 +10,21 @@ import styles from './styles.scss';
 export default function IncomingCallPanel(props) {
   return (
     <div className={styles.root}>
-      <Button
-        className={styles.minimizeButton}
-        onClick={props.toggleMinimized}
-      >
-        <i className={dynamicsFont.close} />
-      </Button>
       <ActiveCallUserInfo
         name={props.userName}
         phoneNumber={props.phoneNumber}
         currentLocale={props.currentLocale}
-        isBig
+        className={styles.userInfo}
+        formatPhone={props.formatPhone}
+        avatar={(
+          <div className={styles.avatarHolder}>
+            <div className={classnames(styles.ringOutside, styles.ringing)} />
+            <div className={classnames(styles.ringInner, styles.ringing)} />
+            <div className={styles.avatar}>
+              <i className={classnames(dynamicsFont.portrait, styles.icon)} />
+            </div>
+          </div>
+        )}
       />
       <IncomingCallPad
         answer={props.answer}
@@ -34,7 +38,6 @@ export default function IncomingCallPanel(props) {
 }
 
 IncomingCallPanel.propTypes = {
-  toggleMinimized: PropTypes.func.isRequired,
   userName: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
   phoneNumber: PropTypes.string,
@@ -43,6 +46,7 @@ IncomingCallPanel.propTypes = {
   toVoiceMail: PropTypes.func.isRequired,
   replyWithMessage: PropTypes.func.isRequired,
   children: PropTypes.node,
+  formatPhone: PropTypes.func.isRequired,
 };
 
 IncomingCallPanel.defaultProps = {
