@@ -207,7 +207,10 @@ export default class MessageItem extends Component {
       >
         <ConversationIcon group={correspondents.length > 1} />
         <ContactDisplay
-          className={styles.contactDisplay}
+          className={classnames(
+            styles.contactDisplay,
+            unreadCounts && styles.unread
+          )}
           contactMatches={correspondentMatches}
           selected={this.state.selected}
           onSelectContact={this.onSelectContact}
