@@ -22,6 +22,7 @@ function mapToProps(_, {
 }) {
   return {
     currentLocale: locale.currentLocale,
+    callingMode: callingSettings.callingMode,
     isWebphoneMode: callingSettings.callingMode === callingModes.webphone,
     callButtonDisabled: !call.isIdle
     || !connectivityMonitor.connectivity
@@ -47,8 +48,8 @@ function mapToFunctions(_, {
     changeFromNumber: callingSettings.updateFromNumber,
     formatPhone: phoneNumber => formatNumber({
       phoneNumber,
-      areaCode: regionSettings.areaCode,
-      countryCode: regionSettings.countryCode,
+      areaCode: regionSettings && regionSettings.areaCode,
+      countryCode: regionSettings && regionSettings.countryCode,
     }),
   };
 }
