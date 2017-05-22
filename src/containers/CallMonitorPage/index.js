@@ -11,7 +11,6 @@ function mapToProps(_, {
   callLogger,
   composeText,
   rolesAndPermissions,
-  webphone,
 }) {
   return {
     active: true,
@@ -40,7 +39,6 @@ function mapToProps(_, {
       (!rolesAndPermissions || rolesAndPermissions.ready) &&
       (!composeText || composeText.ready)
     ),
-    webphoneSessions: (webphone && webphone.sessions),
   };
 }
 function mapToFunctions(_, {
