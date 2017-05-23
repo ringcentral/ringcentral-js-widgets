@@ -35,7 +35,7 @@ export default function ContactDisplay({
   if (groupNumbers) {
     const display = groupNumbers.join(', ');
     contentEl = (
-      <div className={styles.content} title={display}>
+      <div title={display}>
         {display}
       </div>
     );
@@ -48,7 +48,7 @@ export default function ContactDisplay({
       })) ||
       i18n.getString('unknownNumber', currentLocale);
     contentEl = (
-      <div className={styles.content} title={display}>
+      <div title={display}>
         {display}
       </div>
     );
@@ -64,7 +64,7 @@ export default function ContactDisplay({
       })
     });
     contentEl = (
-      <div className={styles.content} title={title}>
+      <div title={title}>
         {display}
       </div>
     );

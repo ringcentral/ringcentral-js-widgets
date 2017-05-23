@@ -9,6 +9,7 @@ import {
   isMissed,
 } from 'ringcentral-integration/lib/callLogHelpers';
 import parseNumber from 'ringcentral-integration/lib/parseNumber';
+import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DurationCounter from '../DurationCounter';
 import ContactDisplay from '../ContactDisplay';
@@ -179,7 +180,7 @@ export default class CallItem extends Component {
       }
     }
   }
-  clickToSms = () => {
+  clickToSms = ({ countryCode, areaCode }) => {
     if (this.props.onClickToSms) {
       const phoneNumber = this.getPhoneNumber();
       const contact = this.getSelectedContact();
@@ -189,10 +190,15 @@ export default class CallItem extends Component {
           phoneNumber,
         });
       } else {
-        this.props.onClickToSms({
-          name: this.props.enableContactFallback ? this.getFallbackContactName() : '',
+        const formatted = formatNumber({
           phoneNumber,
+          countryCode,
+          areaCode,
         });
+        this.props.onClickToSms({
+          name: this.props.enableContactFallback ? this.getFallbackContactName() : formatted,
+          phoneNumber,
+        }, true);
       }
     }
   }
@@ -330,7 +336,11 @@ export default class CallItem extends Component {
           onCreateEntity={onCreateContact && this.createSelectedContact}
           hasEntity={!!contactMatches.length}
           onClickToDial={onClickToDial && this.clickToDial}
-          onClickToSms={showClickToSms && this.clickToSms}
+          onClickToSms={
+            showClickToSms ?
+            () => this.clickToSms({ countryCode, areaCode })
+            : undefined
+          }
           phoneNumber={phoneNumber}
           disableLinks={disableLinks}
           disableClickToDial={disableClickToDial}

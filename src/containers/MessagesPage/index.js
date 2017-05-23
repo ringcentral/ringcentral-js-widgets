@@ -116,7 +116,17 @@ function mapToFunctions(_, {
 }) {
   return {
     dateTimeFormatter,
-    onViewContact,
+    onViewContact: onViewContact ?
+      async ({ phoneNumber, contact }) => {
+        const hasMatchNumber = await contactMatcher.hasMatchNumber({
+          phoneNumber,
+          ignoreCache: true
+        });
+        if (hasMatchNumber) {
+          await onViewContact({ phoneNumber, contact });
+        }
+      } :
+      undefined,
     onCreateContact: onCreateContact ?
       async ({ phoneNumber, name, entityType }) => {
         const hasMatchNumber = await contactMatcher.hasMatchNumber({
