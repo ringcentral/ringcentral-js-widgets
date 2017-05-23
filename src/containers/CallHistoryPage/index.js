@@ -67,7 +67,17 @@ function mapToFunctions(_, {
 }) {
   return {
     dateTimeFormatter,
-    onViewContact,
+    onViewContact: onViewContact ?
+      async ({ phoneNumber, contact }) => {
+        const hasMatchNumber = await contactMatcher.hasMatchNumber({
+          phoneNumber,
+          ignoreCache: true
+        });
+        if (hasMatchNumber) {
+          await onViewContact({ phoneNumber, contact });
+        }
+      } :
+      undefined,
     onCreateContact: onCreateContact ?
       async ({ phoneNumber, name, entityType }) => {
         const hasMatchNumber = await contactMatcher.hasMatchNumber({
@@ -91,15 +101,14 @@ function mapToFunctions(_, {
       } :
       undefined,
     onClickToSms: composeText ?
-      async (contact) => {
+      async (contact, isDummyContact = false) => {
         if (router) {
           router.history.push(composeTextRoute);
         }
         // if contact autocomplete, if no match fill the number only
-        if (contact.name && contact.phoneNumber &&
-          contact.name === contact.phoneNumber) {
-          composeText.updateTypingToNumber(contact.phoneNumber);
-          contactSearch.search({ searchString: contact.phoneNumber });
+        if (contact.name && contact.phoneNumber && isDummyContact) {
+          composeText.updateTypingToNumber(contact.name);
+          contactSearch.search({ searchString: contact.name });
         } else {
           composeText.addToNumber(contact);
           if (composeText.typingToNumber === contact.phoneNumber) {

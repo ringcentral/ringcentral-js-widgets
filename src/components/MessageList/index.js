@@ -77,15 +77,15 @@ export default class MessageList extends Component {
       ))
       : <NoMessages placeholder={placeholder} />;
     return (
-      <div
-        className={classnames(styles.root, className)}
-        onScroll={this.onScroll}
-        ref={(list) => { this.messagesListBody = list; }}
-      >
+      <div className={classnames(styles.root, className)}>
         {search}
-        <Panel className={classnames(styles.content, styles.contentWithSearch)}>
+        <div
+          className={classnames(styles.content, styles.contentWithSearch)}
+          onScroll={this.onScroll}
+          ref={(list) => { this.messagesListBody = list; }}
+          >
           {content}
-        </Panel>
+        </div>
       </div>
     );
   }
