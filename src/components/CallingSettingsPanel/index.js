@@ -105,6 +105,7 @@ export default class CallingSettingsPanel extends Component {
       onBackButtonClick,
       availableNumbers,
       className,
+      disabled,
     } = this.props;
     const buttons = [];
     const hasChanges = this.state.callWith !== callWith ||
@@ -122,46 +123,52 @@ export default class CallingSettingsPanel extends Component {
       placement: 'right',
       disabled: !hasChanges,
     });
-    //
-    const ringout = this.state.callWith !== callingOptions.softphone ? (
-      <div>
-        <div className={styles.ringoutHint}>
-          {i18n.getString('ringoutHint', currentLocale)}
+
+    const ringout =
+      (
+        this.state.callWith !== callingOptions.softphone &&
+        this.state.callWith !== callingOptions.browser
+      ) ? (
+        <div>
+          <div className={styles.ringoutHint}>
+            {i18n.getString('ringoutHint', currentLocale)}
+          </div>
+          <InputField
+            className={styles.inputField}
+            label={i18n.getString('myLocationLabel', currentLocale)}>
+            {
+              availableNumbers[this.state.callWith] ? (
+                <Select
+                  className={styles.select}
+                  value={this.state.myLocation}
+                  onChange={this.onMyLocationChange}
+                  options={availableNumbers[this.state.callWith]}
+                  disabled={disabled}
+                  dropdownAlign="left"
+                  titleEnabled
+                />
+              ) : (
+                <TextInput
+                  value={this.state.myLocation}
+                  maxLength={30}
+                  onChange={this.onMyLocationTextChange} />
+              )
+            }
+          </InputField>
+          <IconField
+            className={styles.iconField}
+            icon={
+              <Switch
+                checked={this.state.ringoutPrompt}
+                onChange={this.onRingoutPromptChange}
+                />
+            }
+            >
+            {i18n.getString('press1ToStartCallLabel', currentLocale)}
+          </IconField>
         </div>
-        <InputField
-          className={styles.inputField}
-          label={i18n.getString('myLocationLabel', currentLocale)}>
-          {
-            availableNumbers[this.state.callWith] ? (
-              <Select
-                className={styles.select}
-                value={this.state.myLocation}
-                onChange={this.onMyLocationChange}
-                options={availableNumbers[this.state.callWith]}
-                dropdownAlign="left"
-                titleEnabled
-              />
-            ) : (
-              <TextInput
-                value={this.state.myLocation}
-                maxLength={30}
-                onChange={this.onMyLocationTextChange} />
-            )
-          }
-        </InputField>
-        <IconField
-          className={styles.iconField}
-          icon={
-            <Switch
-              checked={this.state.ringoutPrompt}
-              onChange={this.onRingoutPromptChange}
-              />
-          }
-          >
-          {i18n.getString('press1ToStartCallLabel', currentLocale)}
-        </IconField>
-      </div>
-    ) : null;
+      ) : null;
+
     return (
       <div className={classnames(styles.root, className)}>
         <BackHeader
@@ -180,8 +187,9 @@ export default class CallingSettingsPanel extends Component {
               onChange={this.onCallWithChange}
               options={callWithOptions}
               dropdownAlign="left"
-              renderValue={this.renderHandler}
               renderFunction={this.renderHandler}
+              renderValue={this.renderHandler}
+              disabled={disabled}
               titleEnabled
             />
           </InputField>
@@ -203,8 +211,10 @@ CallingSettingsPanel.propTypes = {
   availableNumbers: PropTypes.object.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
   onSave: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 };
 
 CallingSettingsPanel.defaultProps = {
   className: null,
+  disabled: false,
 };

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
-import classnames from 'classnames';
-import styles from './styles.scss';
+
+import Badge from '../Badge';
 import i18n from './i18n';
 
 export default function OfflineModeBadge({
@@ -11,12 +11,13 @@ export default function OfflineModeBadge({
 }) {
   if (offline) {
     return (
-      <a
-        href="#offline-badge"
-        className={classnames(styles.root, className)}
-        onClick={showOfflineAlert} >
+      <Badge
+        className={className}
+        name={'offline'}
+        onClick={showOfflineAlert}
+      >
         {i18n.getString('offlineMode', currentLocale)}
-      </a>
+      </Badge>
     );
   }
   return null;

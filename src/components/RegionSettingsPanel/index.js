@@ -73,13 +73,11 @@ export default class RegionSettings extends Component {
     `(+${option.callingCode}) ${countryNames.getString(option.isoCode, this.props.currentLocale)}`
 
   renderValue = (value) => {
-    // console.debug('renderValue:', value, this.props.availableCountries);
     const selectedOption = this.props.availableCountries.find(
       country => country.isoCode === value
     );
 
-    return `(+${selectedOption.callingCode})
-        ${countryNames.getString(selectedOption.isoCode, this.props.currentLocale)}`;
+    return `(+${selectedOption.callingCode}) ${countryNames.getString(selectedOption.isoCode, this.props.currentLocale)}`;
   }
 
   render() {
@@ -139,6 +137,7 @@ export default class RegionSettings extends Component {
               valueFunction={option => option.isoCode}
               renderFunction={this.renderHandler}
               renderValue={this.renderValue}
+              titleEnabled
             />
           </InputField>
           {showAreaCode && (

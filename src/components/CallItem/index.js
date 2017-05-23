@@ -2,6 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import 'core-js/fn/array/find';
 import callDirections from 'ringcentral-integration/enums/callDirections';
+// import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import {
   isInbound,
   isRinging,
@@ -13,6 +14,7 @@ import DurationCounter from '../DurationCounter';
 import ContactDisplay from '../ContactDisplay';
 import formatDuration from '../../lib/formatDuration';
 import ActionMenu from '../ActionMenu';
+// import Button from '../Button';
 import styles from './styles.scss';
 
 import i18n from './i18n';
@@ -154,18 +156,18 @@ export default class CallItem extends Component {
   }
 
   createSelectedContact = async (entityType) => {
-    console.log('click createSelectedContact!!', entityType);
+    // console.log('click createSelectedContact!!', entityType);
     if (typeof this.props.onCreateContact === 'function' &&
       this._mounted &&
       !this.state.isCreating) {
       this.setState({
         isCreating: true,
       });
-      console.log('start to create: isCreating...', this.state.isCreating);
-
+      // console.log('start to create: isCreating...', this.state.isCreating);
+      const phoneNumber = this.getPhoneNumber();
       await this.props.onCreateContact({
-        phoneNumber: this.getPhoneNumber(),
-        name: this.getFallbackContactName(),
+        phoneNumber,
+        name: this.props.enableContactFallback ? this.getFallbackContactName() : '',
         entityType,
       });
 
@@ -173,7 +175,7 @@ export default class CallItem extends Component {
         this.setState({
           isCreating: false,
         });
-        console.log('created: isCreating...', this.state.isCreating);
+        // console.log('created: isCreating...', this.state.isCreating);
       }
     }
   }
@@ -188,7 +190,7 @@ export default class CallItem extends Component {
         });
       } else {
         this.props.onClickToSms({
-          name: this.getFallbackContactName(),
+          name: this.props.enableContactFallback ? this.getFallbackContactName() : '',
           phoneNumber,
         });
       }
@@ -203,11 +205,12 @@ export default class CallItem extends Component {
     const {
       call: {
         direction,
-      telephonyStatus,
-      result,
-      startTime,
-      duration,
-      activityMatches,
+        telephonyStatus,
+        result,
+        startTime,
+        duration,
+        activityMatches,
+        // webphoneSession,
       },
       currentLocale,
       areaCode,
@@ -224,6 +227,11 @@ export default class CallItem extends Component {
       onClickToSms,
       dateTimeFormatter,
       isLogging,
+      // webphoneAnswer,
+      // webphoneReject,
+      // webphoneHangup,
+      // webphoneResume,
+      enableContactFallback,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
@@ -258,6 +266,34 @@ export default class CallItem extends Component {
     if (active) {
       statusEl = i18n.getString(result || telephonyStatus, currentLocale);
     }
+    // let webphoneEl;
+    // if (webphoneSession) {
+    //   let hangupFunc = webphoneHangup;
+    //   let resumeFunc = webphoneResume;
+    //   if (
+    //     webphoneSession.direction === callDirections.inbound &&
+    //     webphoneSession.callStatus === sessionStatus.connecting
+    //   ) {
+    //     hangupFunc = webphoneReject;
+    //     resumeFunc = webphoneAnswer;
+    //   }
+    //   webphoneEl = (
+    //     <div className={styles.webphoneButtons}>
+    //       <Button
+    //         className={classnames(styles.webphoneButton, styles.rejectWebphoneButton)}
+    //         onClick={() => hangupFunc(webphoneSession.id)}
+    //       >
+    //         <i className={dynamicsFont.missed} />
+    //       </Button>
+    //       <Button
+    //         className={styles.webphoneButton}
+    //         onClick={() => resumeFunc(webphoneSession.id)}
+    //       >
+    //         <i className={dynamicsFont.call} />
+    //       </Button>
+    //     </div>
+    //   );
+    // }
     return (
       <div className={styles.root}>
         <CallIcon
@@ -270,6 +306,7 @@ export default class CallItem extends Component {
           className={classnames(
             styles.contactDisplay,
             missed && styles.missed,
+            active && styles.active,
           )}
           contactMatches={contactMatches}
           selected={this.state.selected}
@@ -277,10 +314,12 @@ export default class CallItem extends Component {
           disabled={disableLinks}
           isLogging={isLogging || this.state.isLogging}
           fallBackName={fallbackContactName}
+          enableContactFallback={enableContactFallback}
           areaCode={areaCode}
           countryCode={countryCode}
           phoneNumber={phoneNumber}
-          currentLocale={currentLocale} />
+          currentLocale={currentLocale}
+          />
         <div className={styles.details} >
           {durationEl} | {dateEl}{statusEl}
         </div>
@@ -322,6 +361,7 @@ CallItem.propTypes = {
       extensionNumber: PropTypes.string,
       name: PropTypes.string,
     }),
+    webphoneSession: PropTypes.object,
   }).isRequired,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
@@ -339,6 +379,11 @@ CallItem.propTypes = {
   active: PropTypes.bool.isRequired,
   dateTimeFormatter: PropTypes.func.isRequired,
   isLogging: PropTypes.bool,
+  // webphoneAnswer: PropTypes.func,
+  // webphoneReject: PropTypes.func,
+  // webphoneHangup: PropTypes.func,
+  // webphoneResume: PropTypes.func,
+  enableContactFallback: PropTypes.bool,
 };
 
 CallItem.defaultProps = {
@@ -353,4 +398,9 @@ CallItem.defaultProps = {
   outboundSmsPermission: false,
   internalSmsPermission: false,
   disableLinks: false,
+  // webphoneAnswer: () => null,
+  // webphoneReject: () => null,
+  // webphoneHangup: () => null,
+  // webphoneResume: () => null,
+  enableContactFallback: undefined,
 };

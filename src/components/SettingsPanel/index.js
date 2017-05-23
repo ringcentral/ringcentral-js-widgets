@@ -112,7 +112,7 @@ export default function SettingsPanel({
         />
       }
     >
-      {i18n.getString('autoCreateLog', currentLocale)}
+      {i18n.getString('autoLogCalls', currentLocale)}
     </IconLine>
   ) :
     null;
@@ -125,7 +125,7 @@ export default function SettingsPanel({
         />
       }
     >
-      {i18n.getString('autoCreateSMSLog', currentLocale)}
+      {i18n.getString('autoLogSMS', currentLocale)}
     </IconLine>
   ) :
     null;

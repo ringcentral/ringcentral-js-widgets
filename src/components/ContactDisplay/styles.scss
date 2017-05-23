@@ -5,15 +5,17 @@
   color: #303030;
   font-size: 14px;
 }
+.content {
+  line-height: 40px;
+}
 
 .select {
   display: inline-block;
-  width: 200px;
+  width: 180px;
   height: 25px;
   border: 0px;
   button {
     margin: 0px;
-    color: #303030;
     font-size: 14px;
   }
 }

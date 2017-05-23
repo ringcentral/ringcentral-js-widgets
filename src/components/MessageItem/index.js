@@ -56,8 +56,11 @@ export default class MessageItem extends Component {
       selected,
       userSelection: true,
     });
-    if (this.props.conversation.conversationMatches.length > 0) {
-      this.logConversation({ redirect: false, selected });
+    if (
+      this.props.conversation.conversationMatches.length > 0 &&
+      this.props.autoLog
+    ) {
+      this.logConversation({ redirect: false, selected, prefill: false });
     }
   }
   getInitialContactIndex(nextProps = this.props) {
@@ -108,18 +111,18 @@ export default class MessageItem extends Component {
     }
   }
   createSelectedContact = async (entityType) => {
-    console.log('click createSelectedContact!!', entityType);
+    // console.log('click createSelectedContact!!', entityType);
     if (typeof this.props.onCreateContact === 'function' &&
       this._mounted &&
       !this.state.isCreating) {
       this.setState({
         isCreating: true,
       });
-      console.log('start to create: isCreating...', this.state.isCreating);
-
+      // console.log('start to create: isCreating...', this.state.isCreating);
+      const phoneNumber = this.getPhoneNumber();
       await this.props.onCreateContact({
-        phoneNumber: this.getPhoneNumber(),
-        name: this.getFallbackContactName(),
+        phoneNumber,
+        name: this.props.enableContactFallback ? this.getFallbackContactName() : '',
         entityType,
       });
 
@@ -127,12 +130,12 @@ export default class MessageItem extends Component {
         this.setState({
           isCreating: false,
         });
-        console.log('created: isCreating...', this.state.isCreating);
+        // console.log('created: isCreating...', this.state.isCreating);
       }
     }
   }
 
-  logConversation = async ({ redirect = true, selected }) => {
+  logConversation = async ({ redirect = true, selected, prefill = true }) => {
     if (typeof this.props.onLogConversation === 'function' &&
       this._mounted &&
       !this.state.isLogging
@@ -144,6 +147,7 @@ export default class MessageItem extends Component {
         correspondentEntity: this.getSelectedContact(selected),
         conversationId: this.props.conversation.conversationId,
         redirect,
+        prefill,
       });
       if (this._mounted) {
         this.setState({
@@ -157,7 +161,11 @@ export default class MessageItem extends Component {
       this.props.onClickToDial(this.getPhoneNumber());
     }
   }
-  showConversationDetail = () => {
+  showConversationDetail = (e) => {
+    if (e.captureClick === false) {
+      delete e.captureClick;
+      return;
+    }
     this.props.showConversationDetail(this.props.conversation.conversationId);
   }
 
@@ -182,6 +190,7 @@ export default class MessageItem extends Component {
       onViewContact,
       onCreateContact,
       dateTimeFormatter,
+      enableContactFallback,
     } = this.props;
 
     const groupNumbers = this.getGroupPhoneNumbers();
@@ -198,7 +207,10 @@ export default class MessageItem extends Component {
       >
         <ConversationIcon group={correspondents.length > 1} />
         <ContactDisplay
-          className={styles.contactDisplay}
+          className={classnames(
+            styles.contactDisplay,
+            unreadCounts && styles.unread
+          )}
           contactMatches={correspondentMatches}
           selected={this.state.selected}
           onSelectContact={this.onSelectContact}
@@ -209,7 +221,9 @@ export default class MessageItem extends Component {
           countryCode={countryCode}
           phoneNumber={phoneNumber}
           groupNumbers={groupNumbers}
-          currentLocale={currentLocale} />
+          currentLocale={currentLocale}
+          enableContactFallback={enableContactFallback}
+          />
         <div className={styles.details}>
           {dateTimeFormatter({ utcTimestamp: creationTime })} | {subject}
         </div>
@@ -226,7 +240,6 @@ export default class MessageItem extends Component {
           isLogging={isLogging || this.state.isLogging}
           isLogged={conversationMatches.length > 0}
           isCreating={this.state.isCreating}
-          stopPropagation
         />
       </div>
     );
@@ -262,6 +275,8 @@ MessageItem.propTypes = {
   disableClickToDial: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
   showConversationDetail: PropTypes.func.isRequired,
+  autoLog: PropTypes.bool,
+  enableContactFallback: PropTypes.bool,
 };
 
 MessageItem.defaultProps = {
@@ -274,4 +289,6 @@ MessageItem.defaultProps = {
   outboundSmsPermission: false,
   internalSmsPermission: false,
   disableLinks: false,
+  autoLog: false,
+  enableContactFallback: undefined,
 };

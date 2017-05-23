@@ -66,8 +66,11 @@ class ConversationPanel extends Component {
       selected,
       userSelection: true,
     });
-    if (this.props.conversation.conversationMatches.length > 0) {
-      this.logConversation({ redirect: false, selected });
+    if (
+      this.props.conversation.conversationMatches.length > 0 &&
+      this.props.autoLog
+    ) {
+      this.logConversation({ redirect: false, selected, prefill: false });
     }
   }
   getSelectedContact = (selected = this.state.selected) => {
@@ -108,7 +111,7 @@ class ConversationPanel extends Component {
     return (correspondents.length === 1 &&
       (correspondents[0].name)) || undefined;
   }
-  logConversation = async ({ redirect = true, selected }) => {
+  logConversation = async ({ redirect = true, selected, prefill = true }) => {
     if (typeof this.props.onLogConversation === 'function' &&
       this._mounted &&
       !this.state.isLogging
@@ -120,6 +123,7 @@ class ConversationPanel extends Component {
         correspondentEntity: this.getSelectedContact(selected),
         conversationId: this.props.conversation.conversationId,
         redirect,
+        prefill,
       });
       if (this._mounted) {
         this.setState({
@@ -144,6 +148,7 @@ class ConversationPanel extends Component {
         <ConversationMessageList
           messages={this.props.messages}
           className={styles.conversationBody}
+          dateTimeFormatter={this.props.dateTimeFormatter}
           showFrom={recipients && recipients.length > 1}
         />
       );
@@ -185,6 +190,7 @@ class ConversationPanel extends Component {
             phoneNumber={phoneNumber}
             groupNumbers={groupNumbers}
             currentLocale={this.props.currentLocale}
+            enableContactFallback={this.props.enableContactFallback}
           />
           <Link
             to={'/messages'}
@@ -239,11 +245,16 @@ ConversationPanel.propTypes = {
   onLogConversation: PropTypes.func,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
+  autoLog: PropTypes.bool,
+  enableContactFallback: PropTypes.bool,
+  dateTimeFormatter: PropTypes.func.isRequired,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
   isLoggedContact: undefined,
   onLogConversation: undefined,
+  autoLog: false,
+  enableContactFallback: undefined,
 };
 
 export default ConversationPanel;

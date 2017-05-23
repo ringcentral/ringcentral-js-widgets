@@ -27,12 +27,12 @@
   color: #666;
 }
 .activeCall {
-  color: #23B23D;
+  color: $active;
 }
 
 @keyframes ringing {
   0% {
-    text-shadow: 0px 0px 1px #23B23D;
+    text-shadow: 0px 0px 1px $active;
   }
   100% {
     color: #2ce44d;
@@ -57,10 +57,48 @@
 
 .contactDisplay {
   position: absolute;
-  top: 12px;
-  left: 46px;
+  top: 5px;
+  left: 45px;
 }
 
 .missed {
-  color: #D9282f;
+  color: $missed;
+  button {
+    color: $missed;
+  }
+}
+
+.webphoneButtons {
+  position: absolute;
+  left: 194px;
+  bottom: 7px;
+}
+
+.webphoneButton {
+  display: inline-block;
+  font-size: 15px;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 1em;
+  line-height: 1.4em;
+  margin-left: auto;
+  margin-right: auto;
+  background: #4cd964;
+  text-align: center;
+  margin: 2px;
+  color: #ffffff;
+  &:hover {
+    color: #ffffff;
+  }
+}
+
+.rejectWebphoneButton {
+  background: #ff4646;
+}
+
+.active {
+  color: $active;
+  button {
+    color: $active;
+  }
 }

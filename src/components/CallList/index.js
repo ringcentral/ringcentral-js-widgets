@@ -31,6 +31,11 @@ function CallList({
   active,
   dateTimeFormatter,
   loggingMap,
+  webphoneAnswer,
+  webphoneReject,
+  webphoneHangup,
+  webphoneResume,
+  enableContactFallback,
 }) {
   if (calls && calls.length) {
     return (
@@ -55,6 +60,11 @@ function CallList({
             active={active}
             dateTimeFormatter={dateTimeFormatter}
             isLogging={!!loggingMap[call.sessionId]}
+            webphoneAnswer={webphoneAnswer}
+            webphoneReject={webphoneReject}
+            webphoneHangup={webphoneHangup}
+            webphoneResume={webphoneResume}
+            enableContactFallback={enableContactFallback}
           />
         ))}
       </div>
@@ -86,6 +96,11 @@ CallList.propTypes = {
   outboundSmsPermission: PropTypes.bool,
   internalSmsPermission: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
+  webphoneAnswer: PropTypes.func,
+  webphoneReject: PropTypes.func,
+  webphoneHangup: PropTypes.func,
+  webphoneResume: PropTypes.func,
+  enableContactFallback: PropTypes.bool,
 };
 CallList.defaultProps = {
   className: null,
@@ -101,6 +116,11 @@ CallList.defaultProps = {
   onClickToDial: undefined,
   onClickToSms: undefined,
   loggingMap: {},
+  webphoneAnswer: undefined,
+  webphoneReject: undefined,
+  webphoneHangup: undefined,
+  webphoneResume: undefined,
+  enableContactFallback: undefined,
 };
 
 export default CallList;

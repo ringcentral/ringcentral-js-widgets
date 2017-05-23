@@ -1,3 +1,3 @@
 export default {
-  selectMatchedName: 'Übereinstimmenden Datensatz auswählen',
+  selectMatchedName: 'Übereinstimmenden datensatz auswählen',
 };

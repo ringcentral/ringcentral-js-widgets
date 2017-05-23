@@ -11,6 +11,7 @@ function mapToProps(_, {
   callingSettings,
   brand,
   locale,
+  webphone,
 }) {
   return {
     brand: brand.fullName,
@@ -20,6 +21,7 @@ function mapToProps(_, {
     myLocation: callingSettings.myLocation,
     ringoutPrompt: callingSettings.ringoutPrompt,
     availableNumbers: callingSettings.availableNumbers,
+    disabled: webphone && (webphone.sessions.length > 0),
   };
 }
 

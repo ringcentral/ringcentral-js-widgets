@@ -10,8 +10,12 @@ class DropdownSelect extends Component {
       open: false,
     };
     this.mounted = true;
-
     this.toggleShowDropdown = (e) => {
+      if (!this.state.open) {
+        window.addEventListener('click', this._handleDocumentClick, false);
+      } else {
+        window.removeEventListener('click', this._handleDocumentClick, false);
+      }
       if (e && this.props.stopPropagation) {
         e.stopPropagation();
       }
@@ -25,6 +29,10 @@ class DropdownSelect extends Component {
 
     this.onChange = (e, option, idx) => {
       e.stopPropagation();
+      if (this.props.placeholder && idx === 0) {
+        this.toggleShowDropdown();
+        return;
+      }
       this.props.onChange(option, idx);
       this.toggleShowDropdown();
     };
@@ -47,7 +55,6 @@ class DropdownSelect extends Component {
 
   componentDidMount() {
     this.mounted = true;
-    window.addEventListener('click', this._handleDocumentClick, false);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -65,23 +72,69 @@ class DropdownSelect extends Component {
     window.removeEventListener('click', this._handleDocumentClick, false);
   }
 
+  valueFunction(_, idx) {
+    if (this.props.placeholder) {
+      idx = `${idx - 1}`;
+    }
+    return this.props.valueFunction(_, idx);
+  }
+
+  renderFunction(option, idx) {
+    if (this.props.placeholder) {
+      return idx === 0 ? this.props.placeholder : this.props.renderFunction(option, idx);
+    }
+    return this.props.renderFunction(option, idx);
+  }
+
+  renderValue(value) {
+    if (this.props.placeholder) {
+      value = parseInt(value, 10) + 1;
+      return value === 0 ? this.props.placeholder : this.props.renderValue(value - 1);
+    }
+    return this.props.renderValue(value);
+  }
+
+  renderTitle(selectedOption, defaultTitle) {
+    if (this.props.titleEnabled) {
+      return typeof this.props.renderTitle === 'function' ?
+        this.props.renderTitle(selectedOption) : defaultTitle;
+    }
+    return '';
+  }
+
   renderDropdownMenu() {
+    let options;
+    const { placeholder, ellipsis } = this.props;
+    if (placeholder) {
+      options = [
+        {},
+        ...this.props.options,
+      ];
+    } else {
+      options = this.props.options;
+    }
     return (
-      <ul className={styles.dropdown} ref={(ref) => { this.dropdownMenu = ref; }}>
+      <ul
+        className={classnames(styles.dropdown,
+          placeholder && styles.placeholder,
+          ellipsis && styles.ellipsis)}
+        ref={(ref) => { this.dropdownMenu = ref; }}>
         {
-          this.props.options.map((option, idx) => {
-            const currentValue = this.props.valueFunction(option, idx);
+          options.map((option, idx) => {
+            const currentValue = this.valueFunction(option, idx);
             const className = classnames(
               styles.dropdownItem,
               this.props.value === currentValue ? styles.selected : null,
             );
-            const display = this.props.renderFunction(option, idx);
+            const display = this.renderFunction(option, idx);
             return (
               <li
                 key={currentValue}
-                className={classnames(className, styles[this.props.dropdownAlign])}
+                className={classnames(className,
+                  styles[this.props.dropdownAlign],
+                  placeholder && styles.placeholder)}
                 value={currentValue}
-                title={this.props.titleEnabled && display}
+                title={this.renderTitle(option, display)}
                 onClick={e => this.onChange(e, option, idx)}
               >
                 {display}
@@ -94,6 +147,7 @@ class DropdownSelect extends Component {
   }
 
   render() {
+    const ellipsis = this.props.ellipsis;
     const label = this.props.label ?
       (
         <label>
@@ -103,18 +157,20 @@ class DropdownSelect extends Component {
     const iconClassName = classnames(
       styles.icon,
       this.state.open ? styles.iconUp : null,
+      this.props.iconClassName,
     );
     const containerClassName = classnames(
       styles.root,
       this.props.className,
       this.props.disabled ? styles.disabled : null,
       this.state.open ? styles.open : null,
+      this.props.noPadding ? styles.noPadding : null,
     );
     const dropdownMenu = this.props.renderDropdownMenu ?
       null :
       this.renderDropdownMenu();
 
-    const renderValue = this.props.renderValue(this.props.value);
+    const renderValue = this.renderValue(this.props.value);
     return (
       <div
         className={containerClassName}
@@ -123,16 +179,20 @@ class DropdownSelect extends Component {
         <button
           className={styles.button}
           onClick={this.toggleShowDropdown}
-          title={this.props.titleEnabled && renderValue}>
+          title={this.renderTitle(this.props.options[this.props.value], renderValue)}>
           {label}
-          <span className={styles.selectedValue}>
+          <span
+            className={classnames(
+              styles.selectedValue,
+              ellipsis && styles.ellipsis
+            )}>
             {renderValue}
           </span>
           <span className={iconClassName}>
             <i className={dynamicsFont.arrow} />
           </span>
         </button>
-        { dropdownMenu }
+        {dropdownMenu}
       </div>
     );
   }
@@ -140,6 +200,7 @@ class DropdownSelect extends Component {
 
 DropdownSelect.propTypes = {
   className: PropTypes.string,
+  iconClassName: PropTypes.string,
   value: PropTypes.string,
   label: PropTypes.string,
   onChange: PropTypes.func,
@@ -149,24 +210,34 @@ DropdownSelect.propTypes = {
   renderFunction: PropTypes.func,
   renderValue: PropTypes.func,
   renderDropdownMenu: PropTypes.func,
-  dropdownAlign: PropTypes.oneOf(['left', 'center', 'right']),
+  renderTitle: PropTypes.func,
   titleEnabled: PropTypes.bool,
+  dropdownAlign: PropTypes.oneOf(['left', 'center', 'right']),
   stopPropagation: PropTypes.bool,
+  placeholder: PropTypes.string,
+  ellipsis: PropTypes.bool,
+  noPadding: PropTypes.bool,
 };
 
 DropdownSelect.defaultProps = {
   className: null,
+  iconClassName: null,
   value: null,
   label: null,
   onChange: undefined,
   disabled: false,
   renderDropdownMenu: undefined,
-  valueFunction: option => option,
+  renderTitle: undefined,
+  valueFunction: (_, idx) => idx,
   renderFunction: option => option,
   renderValue: option => option,
   dropdownAlign: 'center',
   titleEnabled: undefined,
+  title: undefined,
   stopPropagation: false,
+  placeholder: undefined,
+  ellipsis: true,
+  noPadding: false,
 };
 
 export default DropdownSelect;

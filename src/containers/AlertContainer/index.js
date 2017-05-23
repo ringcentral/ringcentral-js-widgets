@@ -15,6 +15,7 @@ import RegionSettingsAlert from '../../components/RegionSettingsAlert';
 import MessageSenderAlert from '../../components/MessageSenderAlert';
 import RateExceededAlert from '../../components/RateExceededAlert';
 import ConnectivityAlert from '../../components/ConnectivityAlert';
+import WebphoneAlert from '../../components/WebphoneAlert';
 import RolesAndPermissionsAlert from '../../components/RolesAndPermissionsAlert';
 
 const AlertContainer = connect((state, {
@@ -77,6 +78,9 @@ const AlertContainer = connect((state, {
       return ConnectivityAlert;
     }
 
+    if (WebphoneAlert.handleMessage(message)) {
+      return WebphoneAlert;
+    }
     if (RolesAndPermissionsAlert.handleMessage(message)) {
       return props => (
         <RolesAndPermissionsAlert

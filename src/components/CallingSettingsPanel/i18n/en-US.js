@@ -6,6 +6,7 @@ export default {
   [callingOptions.myphone]: 'My {brand} Phone',
   [callingOptions.otherphone]: 'Other Phone',
   [callingOptions.customphone]: 'Custom Phone',
+  [callingOptions.browser]: 'Browser',
   makeCallsWith: 'Make my calls with',
   ringoutHint: 'Ring me at my location first, then connect the called party',
   myLocationLabel: 'My Location',

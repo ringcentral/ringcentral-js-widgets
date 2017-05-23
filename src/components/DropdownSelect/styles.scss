@@ -7,14 +7,19 @@
   border: 1px solid #a6a6a6;
   border-radius: 2px;
   color: #797979;
+  padding: 0 10px;
+}
+
+.noPadding {
+  padding: 0 0px;
 }
 
 .button {
   position: relative;
   height: 30px;
-  line-height: 30px;
+  line-height: 40px;
   border: 0;
-  margin: 0 10px;
+  // margin: 0 10px;
   padding: 0;
   width: 100%;
   outline: medium none!important;
@@ -33,15 +38,12 @@
 .selectedValue {
   margin-left: 0;
   display: block;
-  margin-right: 35px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin-right: 20px;
 }
 
 .icon {
   position: absolute;
-  right: 20px;
+  right: 0px;
   top: 0;
 }
 
@@ -55,10 +57,17 @@
 
 .dropdownItem {
   display: block;
-  padding: 10px;
+  padding: 5px 10px;
   &:hover {
     color: $primary-color;
   }
+}
+.dropdownItem:first-child {
+  padding: 10px 10px 5px 10px;
+}
+
+.dropdownItem:last-child {
+  padding: 5px 10px 10px 10px;
 }
 
 .left {
@@ -75,6 +84,7 @@
   display: none;
   position: absolute;
   top: 100%;
+  left: 0px;
   margin: 0;
   margin-top: 1px;
   padding: 0;
@@ -90,12 +100,27 @@
   &:hover {
     .selected {
       color: inherit;
-
       &:hover {
         color: $primary-color;
       }
     }
   }
+
+  .placeholder:first-child {
+    color: #303030;
+    font-size: 13px;
+    font-weight: bold;
+    &:hover {
+      color: #303030;
+    }
+    .selected {
+      color: #303030;
+      &:hover {
+        color: #303030;
+      }
+    }
+  }
+
 }
 
 .open {
@@ -108,3 +133,16 @@
   color: #777;
   cursor: not-allowed;
 }
+
+.ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  li {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+

@@ -58,9 +58,11 @@ function mapToProps(_, {
   connectivityMonitor,
   rateLimiter,
   showTitle = false,
+  enableContactFallback = false,
 }) {
   return ({
     showTitle,
+    enableContactFallback,
     currentLocale: locale.currentLocale,
     conversations: messages.filteredConversations,
     areaCode: regionSettings.areaCode,
@@ -93,6 +95,7 @@ function mapToProps(_, {
       (!conversationLogger || conversationLogger.ready)
     ),
     searchInput: messages.searchInput,
+    autoLog: conversationLogger.autoLog,
   });
 }
 

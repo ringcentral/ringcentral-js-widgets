@@ -9,7 +9,6 @@ class ConversationPage extends Component {
   getChildContext() {
     return {
       formatPhone: this.props.formatNumber,
-      formatDateTime: this.props.formatDateTime,
       changeDefaultRecipient: this.props.changeDefaultRecipient,
       changeMatchedNames: this.props.changeMatchedNames,
       getRecipientName: recipient => (this.getRecipientName(recipient)),
@@ -62,6 +61,8 @@ class ConversationPage extends Component {
         showSpinner={this.props.showSpinner}
         replyToReceivers={this.props.replyToReceivers}
         sendButtonDisabled={this.props.sendButtonDisabled}
+        autoLog={this.props.autoLog}
+        dateTimeFormatter={this.props.dateTimeFormatter}
       />
     );
   }
@@ -79,11 +80,11 @@ ConversationPage.propTypes = {
   loadConversationById: PropTypes.func.isRequired,
   changeDefaultRecipient: PropTypes.func.isRequired,
   formatNumber: PropTypes.func.isRequired,
-  formatDateTime: PropTypes.func.isRequired,
   getMatcherContactName: PropTypes.func,
   getMatcherContactList: PropTypes.func,
   getMatcherContactNameList: PropTypes.func,
   changeMatchedNames: PropTypes.func.isRequired,
+  dateTimeFormatter: PropTypes.func.isRequired,
 };
 
 ConversationPage.defaultProps = {
@@ -94,7 +95,6 @@ ConversationPage.defaultProps = {
 
 ConversationPage.childContextTypes = {
   formatPhone: PropTypes.func.isRequired,
-  formatDateTime: PropTypes.func.isRequired,
   getRecipientName: PropTypes.func.isRequired,
   changeDefaultRecipient: PropTypes.func.isRequired,
   changeMatchedNames: PropTypes.func.isRequired,
@@ -113,8 +113,10 @@ function mapToProps(_, {
   messages,
   rateLimiter,
   connectivityMonitor,
+  enableContactFallback = false,
 }) {
   return ({
+    enableContactFallback,
     currentLocale: locale.currentLocale,
     conversationId: params.conversationId,
     sendButtonDisabled: conversation.pushing,
@@ -139,6 +141,7 @@ function mapToProps(_, {
       rateLimiter.isThrottling ||
       !connectivityMonitor.connectivity
     ),
+    autoLog: conversationLogger.autoLog,
   });
 }
 
@@ -146,7 +149,7 @@ function mapToFunctions(_, {
   contactMatcher,
   conversation,
   dateTimeFormat,
-  formatDateTime,
+  dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
   regionSettings,
   isLoggedContact,
   conversationLogger,
@@ -187,10 +190,7 @@ function mapToFunctions(_, {
     changeMatchedNames: conversation.changeMatchedNames,
     unloadConversation: () => conversation.unloadConversation(),
     loadConversationById: id => conversation.loadConversationById(id),
-    formatDateTime: formatDateTime ||
-    (utcTimestamp => dateTimeFormat.formatDateTime({
-      utcTimestamp,
-    })),
+    dateTimeFormatter,
     formatNumber: phoneNumber => formatNumber({
       phoneNumber,
       areaCode: regionSettings.areaCode,

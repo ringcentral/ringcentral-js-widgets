@@ -5,6 +5,17 @@ import DropdownSelect from '../DropdownSelect';
 import i18n from './i18n';
 import styles from './styles.scss';
 
+const displayFomatter = ({ entityName, entityType, phoneNumber }) => {
+  if (phoneNumber && entityName && entityType) {
+    return `${entityName} | ${i18n.getString(`phoneSource.${entityType}`)} ${phoneNumber}`;
+  } else if (entityName && entityType) {
+    return `${entityName} | ${i18n.getString(`phoneSource.${entityType}`)}`;
+  } else if (phoneNumber) {
+    return `${phoneNumber}`;
+  }
+  return '';
+};
+
 export default function ContactDisplay({
   className,
   contactMatches,
@@ -13,6 +24,7 @@ export default function ContactDisplay({
   disabled,
   isLogging,
   fallBackName,
+  enableContactFallback,
   areaCode,
   countryCode,
   phoneNumber,
@@ -21,25 +33,45 @@ export default function ContactDisplay({
 }) {
   let contentEl;
   if (groupNumbers) {
-    contentEl = groupNumbers.join(', ');
+    const display = groupNumbers.join(', ');
+    contentEl = (
+      <div className={styles.content} title={display}>
+        {display}
+      </div>
+    );
   } else if (contactMatches.length === 0) {
-    contentEl = fallBackName ||
+    const display = (enableContactFallback && fallBackName) ||
       (phoneNumber && formatNumber({
         phoneNumber,
         countryCode,
         areaCode,
       })) ||
       i18n.getString('unknownNumber', currentLocale);
+    contentEl = (
+      <div className={styles.content} title={display}>
+        {display}
+      </div>
+    );
   } else if (contactMatches.length === 1) {
-    contentEl = contactMatches[0].name;
+    const display = contactMatches[0].name;
+    const title = displayFomatter({
+      entityName: display,
+      entityType: contactMatches[0].entityType,
+      phoneNumber: phoneNumber && formatNumber({
+        phoneNumber,
+        countryCode,
+        areaCode,
+      })
+    });
+    contentEl = (
+      <div className={styles.content} title={title}>
+        {display}
+      </div>
+    );
   } else if (contactMatches.length > 1) {
     const options = [
-      {
-
-      },
       ...contactMatches,
     ];
-
     contentEl = (
       <DropdownSelect
         className={styles.select}
@@ -47,21 +79,35 @@ export default function ContactDisplay({
         onChange={onSelectContact}
         disabled={disabled || isLogging}
         options={options}
-        valueFunction={(_, idx) => `${idx - 1}`}
-        renderFunction={(entity, idx) => (
-          idx === 0 ?
-            i18n.getString('select', currentLocale) :
-            `${entity.name} ${i18n.getString(`phoneSource.${entity.entityType}`)}`
+        placeholder={i18n.getString('select', currentLocale)}
+        renderFunction={entity => (
+          displayFomatter({
+            entityName: entity.name,
+            entityType: entity.entityType,
+          })
         )}
-        renderValue={(value) => {
-          value = parseInt(value, 10) + 1;
-          return value === 0 ?
-            i18n.getString('select', currentLocale) :
-            `${options[value].name} ${i18n.getString(`phoneSource.${options[value].entityType}`)}`;
+        renderValue={value => (
+          displayFomatter({
+            entityName: options[value].name,
+            entityType: options[value].entityType,
+          })
+        )}
+        renderTitle={(entity) => {
+          const formatted = phoneNumber && formatNumber({
+            phoneNumber,
+            countryCode,
+            areaCode,
+          });
+          return entity ? displayFomatter({
+            entityName: entity.name,
+            entityType: entity.entityType,
+            phoneNumber: formatted,
+          }) : formatted;
         }}
         dropdownAlign="left"
         titleEnabled
         stopPropagation
+        noPadding
       />
     );
   }
@@ -83,6 +129,7 @@ ContactDisplay.propTypes = {
   disabled: PropTypes.bool.isRequired,
   isLogging: PropTypes.bool.isRequired,
   fallBackName: PropTypes.string,
+  enableContactFallback: PropTypes.bool,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   phoneNumber: PropTypes.string,
@@ -95,4 +142,5 @@ ContactDisplay.defaultProps = {
   fallBackName: '',
   phoneNumber: undefined,
   groupNumbers: undefined,
+  enableContactFallback: undefined,
 };

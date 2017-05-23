@@ -4,78 +4,101 @@ import dynamicsFont from '../../../src/assets/DynamicsFont/DynamicsFont.scss';
 import TabNavigationView from '../../../src/components/TabNavigationView';
 import RouterInteraction from '../../../src/modules/RouterInteraction';
 
-const tabs = [
-  {
-    icon: <span className={dynamicsFont.setting} />,
-    activityIcon: <span className={dynamicsFont.settingHover} />,
-    label: 'Settings',
-    path: '/settings',
-    isActive: currentPath => (
-      currentPath.substr(0, 9) === '/settings'
-    ),
-  },
-  {
-    icon: <span className={dynamicsFont.active} />,
-    activityIcon: <span className={dynamicsFont.activeHover} />,
-    label: 'Calls',
-    path: '/calls',
-  },
-  {
-    icon: <span className={dynamicsFont.history} />,
-    activityIcon: <span className={dynamicsFont.historyHover} />,
-    label: 'History',
-    path: '/history',
-  },
-  {
-    icon: <span className={dynamicsFont.conference} />,
-    activityIcon: <span className={dynamicsFont.conferenceHover} />,
-    label: 'Conference',
-    path: '/conference',
-  },
-  {
-    icon: <span className={dynamicsFont.dial} />,
-    activityIcon: <span className={dynamicsFont.dialHover} />,
-    label: 'Dial Pad',
-    path: '/',
-  },
-  {
-    icon: <span className={dynamicsFont.message} />,
-    activityIcon: <span className={dynamicsFont.messageHover} />,
-    label: 'Messages',
-    path: '/messages',
-    noticeCounts: 0,
-  },
-  {
-    icon: <span className={dynamicsFont.composeText} />,
-    activityIcon: <span className={dynamicsFont.composeTextHover} />,
-    label: 'Compose Text',
-    path: '/composeText',
-    // noticeCounts: 2,
-  },
-];
 
-const MainView = connect((state, props) => {
-  const messageTab = tabs.find(tab =>
-    tab.label === 'Messages'
+function getTabs({
+  showMessages,
+  showComposeText,
+  unreadCounts,
+}) {
+  return [
+    {
+      icon: <span className={dynamicsFont.dial} />,
+      activityIcon: <span className={dynamicsFont.dialHover} />,
+      label: 'Dial Pad',
+      path: '/',
+    },
+    {
+      icon: <span className={dynamicsFont.active} />,
+      activityIcon: <span className={dynamicsFont.activeHover} />,
+      label: 'Calls',
+      path: '/calls',
+    },
+    {
+      icon: <span className={dynamicsFont.history} />,
+      activityIcon: <span className={dynamicsFont.historyHover} />,
+      label: 'History',
+      path: '/history',
+    },
+    showMessages && {
+      icon: <span className={dynamicsFont.message} />,
+      activityIcon: <span className={dynamicsFont.messageHover} />,
+      label: 'Messages',
+      path: '/messages',
+      noticeCounts: unreadCounts,
+      isActive: currentPath => (
+        currentPath === '/messages' || currentPath.indexOf('/conversations/') !== -1
+      ),
+    },
+    showComposeText && {
+      icon: <span className={dynamicsFont.composeText} />,
+      activityIcon: <span className={dynamicsFont.composeTextHover} />,
+      label: 'Compose Text',
+      path: '/composeText',
+    },
+    {
+      icon: <span className={dynamicsFont.conference} />,
+      activityIcon: <span className={dynamicsFont.conferenceHover} />,
+      label: 'Conference',
+      path: '/conference',
+    },
+    {
+      icon: <span className={dynamicsFont.setting} />,
+      activityIcon: <span className={dynamicsFont.settingHover} />,
+      label: 'Settings',
+      path: '/settings',
+      isActive: currentPath => (
+        currentPath.substr(0, 9) === '/settings'
+      ),
+    },
+  ].filter(x => !!x);
+}
+
+const MainView = connect((_, {
+  messageStore,
+  rolesAndPermissions,
+  router,
+}) => {
+  const unreadCounts = messageStore.unreadCounts || 0;
+  const serviceFeatures = rolesAndPermissions.serviceFeatures;
+  const showComposeText = (
+    rolesAndPermissions.ready &&
+    (
+      (serviceFeatures.Pager && serviceFeatures.Pager.enabled) ||
+      (serviceFeatures.SMS && serviceFeatures.SMS.enabled)
+    )
   );
-  if (messageTab) {
-    messageTab.noticeCounts = props.messageStore.unreadCounts;
-  }
-  let filterTabs = tabs;
-  if (props.rolesAndPermissions.permissions &&
-      props.rolesAndPermissions.permissions.OutboundSMS !== true &&
-      props.rolesAndPermissions.permissions.InternalSMS !== true
-      ) {
-    filterTabs = tabs.filter(tab =>
-                tab.label !== 'Compose Text' && tab.label !== 'Messages');
-    if (props.rolesAndPermissions.permissions.ReadMessages === true) {
-      filterTabs = tabs.filter(tab => tab.label !== 'Compose Text');
-    }
-  }
+  const showMessages = (
+    rolesAndPermissions.ready &&
+    (
+      (
+        serviceFeatures.PagerReceiving &&
+        serviceFeatures.PagerReceiving.enabled
+      ) ||
+      (
+        serviceFeatures.SMSReceiving &&
+        serviceFeatures.SMSReceiving.enabled
+      )
+    )
+  );
+  const tabs = getTabs({
+    unreadCounts,
+    showComposeText,
+    showMessages,
+  });
   return {
-    tabs: filterTabs,
-    unreadCounts: props.messageStore.unreadCounts,
-    currentPath: props.router.currentPath,
+    tabs,
+    unreadCounts,
+    currentPath: router.currentPath,
   };
 })(TabNavigationView);
 
