@@ -3,13 +3,16 @@ import CallItem from '../CallItem';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-function NoCalls({ currentLocale }) {
+function NoCalls({ currentLocale, active }) {
   return (
-    <p className={styles.noCalls}>{i18n.getString('noActiveCalls', currentLocale)}</p>
+    <p className={styles.noCalls}>
+      {i18n.getString(active ? 'noActiveCalls' : 'noRecords', currentLocale)}
+    </p>
   );
 }
 NoCalls.propTypes = {
   currentLocale: PropTypes.string.isRequired,
+  active: PropTypes.bool.isRequired,
 };
 
 function CallList({
@@ -72,7 +75,7 @@ function CallList({
   }
   return (
     <div className={className}>
-      <NoCalls currentLocale={currentLocale} />
+      <NoCalls currentLocale={currentLocale} active={active} />
     </div>
   );
 }
