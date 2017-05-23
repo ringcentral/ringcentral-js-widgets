@@ -22,6 +22,7 @@ import Locale from 'ringcentral-integration/modules/Locale';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import Ringout from 'ringcentral-integration/modules/Ringout';
+import Webphone from 'ringcentral-integration/modules/Webphone';
 import RolesAndPermissions from 'ringcentral-integration/modules/RolesAndPermissions';
 import Softphone from 'ringcentral-integration/modules/Softphone';
 import Storage from 'ringcentral-integration/modules/Storage';
@@ -213,7 +214,19 @@ export default class Phone extends RcModule {
       storage: this.storage,
       rolesAndPermissions: this.rolesAndPermissions,
       tabManager: this.tabManager,
+      addWebphone: true,
       getState: () => this.state.callingSettings,
+    }));
+    this.addModule('webphone', new Webphone({
+      appKey: apiConfig.appKey,
+      appName: 'RingCentral Widget',
+      appVersion: '0.1.0',
+      alert: this.alert,
+      auth: this.auth,
+      client: this.client,
+      storage: this.storage,
+      rolesAndPermissions: this.rolesAndPermissions,
+      getState: () => this.state.webphone,
     }));
     this.addModule('numberValidate', new NumberValidate({
       ...options,
@@ -232,7 +245,8 @@ export default class Phone extends RcModule {
       callingSettings: this.callingSettings,
       softphone: this.softphone,
       ringout: this.ringout,
-      accountExtension: this.accountExtension,
+      webphone: this.webphone,
+      extensionPhoneNumber: this.extensionPhoneNumber,
       numberValidate: this.numberValidate,
       extensionPhoneNumber: this.extensionPhoneNumber,
       getState: () => this.state.call,
@@ -351,6 +365,7 @@ export default class Phone extends RcModule {
       activeCalls: this.activeCalls,
       activityMatcher: this.activityMatcher,
       contactMatcher: this.contactMatcher,
+      webphone: this.webphone,
       onRinging: async () => {
         // TODO refactor some of these logic into appropriate modules
         this.router.history.push('/calls');
@@ -439,6 +454,7 @@ export default class Phone extends RcModule {
       rolesAndPermissions: this.rolesAndPermissions.reducer,
       regionSettings: this.regionSettings.reducer,
       ringout: this.ringout.reducer,
+      webphone: this.webphone.reducer,
       router: this.router.reducer,
       subscription: this.subscription.reducer,
       tabManager: this.tabManager.reducer,

@@ -1,0 +1,59 @@
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/colors.scss';
+
+.root {
+  @include full-size;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background: #ffffff;
+}
+
+.backButton {
+  color: $lightblack;
+  &:hover {
+    color: $lightblack;
+  }
+}
+
+.backIcon {
+  transform: rotate(90deg);
+  position: absolute;
+  top: 5px;
+  left: 10px;
+}
+
+.backLabel {
+  position: absolute;
+  top: 5px;
+  left: 34px;
+}
+
+.userInfo {
+  margin-top: 10px;
+}
+
+.timeCounter {
+  position: absolute;
+  right: 10px;
+  top: 35px;
+  font-size: 13px;
+}
+
+.avatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.3;
+  color: $primary-color;
+  margin-bottom: 5px;
+}
+
+.icon {
+  display: block;
+  font-size: 54px;
+}

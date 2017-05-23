@@ -1,0 +1,42 @@
+.root {
+  margin: 20px 10px 0 10px;
+}
+
+.dialPad {
+  height: 300px;
+}
+
+.dialInput {
+  height: 100%;
+  box-sizing: content-box;
+  border: 0px;
+  margin-bottom: 5px;
+  color: dimgrey;
+  border-bottom: 1px solid #e3e3e5;
+  padding: 5px;
+  input {
+    box-sizing: content-box;
+    font-size: 18px;
+    text-align: left;
+    padding: 0;
+  }
+}
+
+.button {
+  margin-left: 20px;
+  margin-right: 20px;
+  text-align: center;
+}
+
+.stopButton {
+  background: #ff4646;
+  display: inline-block;
+  border: #ff4646;
+  i {
+    color: #ffffff;
+  }
+}
+
+.buttonRow {
+  text-align: center;
+}

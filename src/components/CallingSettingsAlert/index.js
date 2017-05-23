@@ -44,6 +44,7 @@ CallingSettingsAlert.handleMessage = ({ message }) => (
     message === callingSettingsMessages.firstLogin ||
     message === callingSettingsMessages.firstLoginOther ||
     message === callingSettingsMessages.permissionChanged ||
+    message === callingSettingsMessages.webphonePermissionRemoved ||
     message === callingSettingsMessages.phoneNumberChanged
 );
 

@@ -1,0 +1,30 @@
+@import '../../lib/commonStyles/colors.scss';
+
+.root {
+  text-align: center;
+  display: inline-block;
+  padding: 5px 5px;
+  width: 30%;
+  box-sizing: border-box;
+}
+
+.button {
+  font-size: 20px;
+  border: 1px solid $primary-color;
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 1.25em;
+  line-height: 2.7em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.buttonActive {
+  background: $primary-color;
+}
+
+.buttonTitle {
+  font-size: 12px;
+  padding: 5px 0;
+  color: #797979;
+}

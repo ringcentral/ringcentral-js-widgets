@@ -157,6 +157,7 @@ class DropdownSelect extends Component {
     const iconClassName = classnames(
       styles.icon,
       this.state.open ? styles.iconUp : null,
+      this.props.iconClassName,
     );
     const containerClassName = classnames(
       styles.root,
@@ -199,6 +200,7 @@ class DropdownSelect extends Component {
 
 DropdownSelect.propTypes = {
   className: PropTypes.string,
+  iconClassName: PropTypes.string,
   value: PropTypes.string,
   label: PropTypes.string,
   onChange: PropTypes.func,
@@ -219,6 +221,7 @@ DropdownSelect.propTypes = {
 
 DropdownSelect.defaultProps = {
   className: null,
+  iconClassName: null,
   value: null,
   label: null,
   onChange: undefined,

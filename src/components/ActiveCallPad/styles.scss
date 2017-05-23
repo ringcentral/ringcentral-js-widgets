@@ -1,0 +1,26 @@
+@import '../../lib/commonStyles/colors.scss';
+
+.button {
+  font-size: 20px;
+  border: 1px solid $primary-color;
+  width: 2.5em;
+  height: 2.5em;
+  border-radius: 1.25em;
+  line-height: 2.7em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.buttonRow {
+  text-align: center;
+}
+
+.stopButton {
+  background: #ff4646;
+  border: none;
+  display: inline-block;
+  margin-top: 10px;
+  i {
+    color: #ffffff;
+  }
+}

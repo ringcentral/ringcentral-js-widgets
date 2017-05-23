@@ -16,6 +16,7 @@ import MessagesPage from '../../../src/containers/MessagesPage';
 import SettingsPage from '../../../src/containers/SettingsPage';
 import CallMonitorPage from '../../../src/containers/CallMonitorPage';
 import CallHistoryPage from '../../../src/containers/CallHistoryPage';
+import ActiveCallPage from '../../../src/containers/ActiveCallPage';
 
 import MainView from '../MainView';
 import AppView from '../AppView';
@@ -62,6 +63,19 @@ export default function App({
               connectivityMonitor={phone.connectivityMonitor}
               callingSettings={phone.callingSettings}>
               {props.children}
+              <ActiveCallPage
+                locale={phone.locale}
+                webphone={phone.webphone}
+                regionSettings={phone.regionSettings}
+                router={phone.router}
+              >
+                <AlertContainer
+                  locale={phone.locale}
+                  alert={phone.alert}
+                  rateLimiter={phone.rateLimiter}
+                  brand={phone.brand}
+                />
+              </ActiveCallPage>
             </AppView>
           )} >
           <Route
@@ -90,6 +104,7 @@ export default function App({
                   connectivityMonitor={phone.connectivityMonitor}
                   locale={phone.locale}
                   rateLimiter={phone.rateLimiter}
+                  regionSettings={phone.regionSettings}
                 />
               )} />
             <Route
@@ -129,6 +144,7 @@ export default function App({
                   callingSettings={phone.callingSettings}
                   locale={phone.locale}
                   router={phone.router}
+                  webphone={phone.webphone}
                 />
               )} />
             <Route
@@ -149,6 +165,7 @@ export default function App({
                   router={phone.router}
                   composeText={phone.composeText}
                   rolesAndPermissions={phone.rolesAndPermissions}
+                  webphone={phone.webphone}
                 />
               )} />
             <Route

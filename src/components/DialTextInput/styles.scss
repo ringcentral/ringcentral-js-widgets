@@ -10,13 +10,14 @@
 .dial_Input {
   position: absolute;
   top: 0;
-  left: 30px;
+  left: 42px;
   display: inline-block;
   border: none;
   input {
-    font-size: 13px;
+    font-size: 15px;
     padding: 0;
-    max-width: 80%;
+    max-width: 72%;
+    color: $primary-neutral-color;
   }
 }
 .to {
@@ -24,16 +25,16 @@
   top: 0;
   left: 0;
   display: inline-block;
-  width: 30px; 
-  color: $grey-light;
-  font-size: 13px;
+  width: 45px;
+  color: $primary-neutral-color;
+  font-size: 15px;
 }
 .delete {
   cursor: pointer;
-  font-size: 13px;
+  font-size: 18px;
   position: absolute;
-  top: 13px;
-  right: 0;
+  top: 11px;
+  right: -3px;
   color: $grey-light;
   &:hover {
     color: $rc-blue;

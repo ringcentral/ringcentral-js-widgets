@@ -29,6 +29,10 @@ export default function CallsPanel({
   title,
   active,
   loggingMap,
+  webphoneAnswer,
+  webphoneReject,
+  webphoneHangup,
+  webphoneResume,
   enableContactFallback,
 }) {
   const content = showSpinner ?
@@ -52,6 +56,10 @@ export default function CallsPanel({
         dateTimeFormatter={dateTimeFormatter}
         active={active}
         loggingMap={loggingMap}
+        webphoneAnswer={webphoneAnswer}
+        webphoneReject={webphoneReject}
+        webphoneHangup={webphoneHangup}
+        webphoneResume={webphoneResume}
         enableContactFallback={enableContactFallback}
       />
     );
@@ -87,6 +95,10 @@ CallsPanel.propTypes = {
   title: PropTypes.string,
   active: PropTypes.bool,
   loggingMap: PropTypes.object,
+  webphoneAnswer: PropTypes.func,
+  webphoneReject: PropTypes.func,
+  webphoneHangup: PropTypes.func,
+  webphoneResume: PropTypes.func,
   enableContactFallback: PropTypes.bool,
 };
 
@@ -104,5 +116,9 @@ CallsPanel.defaultProps = {
   active: false,
   isLoggedContact: undefined,
   loggingMap: {},
+  webphoneAnswer: undefined,
+  webphoneReject: undefined,
+  webphoneHangup: undefined,
+  webphoneResume: undefined,
   enableContactFallback: undefined,
 };
