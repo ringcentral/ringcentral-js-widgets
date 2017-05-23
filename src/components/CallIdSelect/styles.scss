@@ -19,8 +19,12 @@
     right: 0;
     top: 0;
   }
+  ul {
+    overflow-y: auto;
+  }
   li {
     text-align: left;
+    padding: 10px;
   }
 }
 
