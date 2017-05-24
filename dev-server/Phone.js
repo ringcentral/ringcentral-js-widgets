@@ -248,7 +248,6 @@ export default class Phone extends RcModule {
       webphone: this.webphone,
       extensionPhoneNumber: this.extensionPhoneNumber,
       numberValidate: this.numberValidate,
-      extensionPhoneNumber: this.extensionPhoneNumber,
       getState: () => this.state.call,
     }));
     this.addModule('subscription', new Subscription({

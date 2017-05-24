@@ -20,6 +20,5 @@ WebphoneAlert.handleMessage = ({ message }) => (
   (message === webphoneErrors.connectFailed) ||
   (message === webphoneErrors.browserNotSupported) ||
   (message === webphoneErrors.webphoneCountOverLimit) ||
-  (message === webphoneErrors.notOutboundCallWithoutDL) ||
-  (message === webphoneErrors.getSipProvisionError)
+  (message === webphoneErrors.notOutboundCallWithoutDL)
 );

@@ -11,10 +11,12 @@ function CallingSettingsAlert({ message: { message }, currentLocale, brand, call
     case callingSettingsMessages.saveSuccessWithSoftphone:
     case callingSettingsMessages.firstLogin:
     case callingSettingsMessages.firstLoginOther:
+    case callingSettingsMessages.webphonePermissionRemoved:
+    case callingSettingsMessages.emergencyCallingNotAvailable:
       return (
         <FormattedMessage
           message={i18n.getString(message)}
-          values={{ brand: brand }}
+          values={{ brand }}
         />
       );
 
