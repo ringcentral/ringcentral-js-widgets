@@ -9,6 +9,7 @@ function getTabs({
   showMessages,
   showComposeText,
   unreadCounts,
+  showConference,
 }) {
   return [
     {
@@ -45,7 +46,7 @@ function getTabs({
       label: 'Compose Text',
       path: '/composeText',
     },
-    {
+    showConference && {
       icon: <span className={dynamicsFont.conference} />,
       activityIcon: <span className={dynamicsFont.conferenceHover} />,
       label: 'Conference',
@@ -90,10 +91,15 @@ const MainView = connect((_, {
       )
     )
   );
+  const showConference = (
+    rolesAndPermissions.ready &&
+    rolesAndPermissions.permissions.OrganizeConference
+  );
   const tabs = getTabs({
     unreadCounts,
     showComposeText,
     showMessages,
+    showConference,
   });
   return {
     tabs,
