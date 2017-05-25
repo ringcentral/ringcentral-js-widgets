@@ -1,0 +1,92 @@
+@import '../../lib/commonStyles/colors';
+
+$icon-width: 50%;
+$icon-min-width: 120px;
+
+.iconLine {
+  display: block;
+}
+
+.statusIcon {
+  display: block;
+}
+
+.title {
+  display: inline-block;
+  width: calc(100% - #{$icon-width});
+  max-width: calc(100% - #{$icon-min-width});
+}
+
+.subTitle {
+  display: inline-block;
+  width: $icon-width;
+  min-width: $icon-min-width;
+  text-align: right;
+}
+
+.status {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-radius: 7px;
+  background: #5fb95c;
+  margin-right: 5px;
+  color: transparent;
+  line-height: 1;
+  position: relative;
+  top: 2px;
+  i {
+    display: block;
+    font-weight: bold;
+    width: 8px;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+    top: -1px;
+  }
+}
+
+.notDisturb {
+  color: #fff;
+}
+
+.busy {
+  background: #f95b5c;
+}
+
+.invisible {
+  background: #cdcdcd;
+}
+
+.dropdownIcon {
+  display: inline-block;
+}
+
+.presenceList {
+  display: none;
+  padding: 5px 25px;
+}
+
+.presenceItem {
+  display: block;
+  text-decoration: none;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.selected {
+  color: $primary-color;
+}
+
+.showDropdown {
+  .title {
+    color: $primary-color;
+  }
+  .presenceList {
+    display: block;
+  }
+  .dropdownIcon {
+    transform: rotate(180deg);
+    color: $primary-color;
+  }
+}

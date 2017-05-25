@@ -27,4 +27,3 @@ ReactDOM.render(
   />,
   document.querySelector('div#viewport'),
 );
-

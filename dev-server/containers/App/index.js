@@ -110,8 +110,9 @@ export default function App({
             <Route
               path="/settings"
               onEnter={ensureLogin}
-              component={() => (
+              component={routerProps => (
                 <SettingsPage
+                  params={routerProps.location.query}
                   auth={phone.auth}
                   extensionInfo={phone.extensionInfo}
                   accountInfo={phone.accountInfo}
@@ -121,6 +122,7 @@ export default function App({
                   brand={phone.brand}
                   router={phone.router}
                   rolesAndPermissions={phone.rolesAndPermissions}
+                  presence={phone.presence}
                   regionSettingsUrl="/settings/region"
                   callingSettingsUrl="/settings/calling"
                 />

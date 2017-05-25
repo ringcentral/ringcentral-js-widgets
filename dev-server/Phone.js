@@ -19,6 +19,7 @@ import ExtensionPhoneNumber from 'ringcentral-integration/modules/ExtensionPhone
 import ForwardingNumber from 'ringcentral-integration/modules/ForwardingNumber';
 import GlobalStorage from 'ringcentral-integration/modules/GlobalStorage';
 import Locale from 'ringcentral-integration/modules/Locale';
+import Presence from 'ringcentral-integration/modules/Presence';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import Ringout from 'ringcentral-integration/modules/Ringout';
@@ -266,6 +267,14 @@ export default class Phone extends RcModule {
       subscription: this.subscription,
       getState: () => this.state.activeCalls,
     }));
+    this.addModule('presence', new Presence({
+      ...options,
+      auth: this.auth,
+      client: this.client,
+      subscription: this.subscription,
+      updateDelayTime: 2000,
+      getState: () => this.state.presence,
+    }));
     this.addModule('detailedPresence', new DetailedPresence({
       ...options,
       auth: this.auth,
@@ -450,6 +459,7 @@ export default class Phone extends RcModule {
       storage: this.storage.reducer,
       globalStorage: this.globalStorage.reducer,
       detailedPresence: this.detailedPresence.reducer,
+      presence: this.presence.reducer,
       rateLimiter: this.rateLimiter.reducer,
       rolesAndPermissions: this.rolesAndPermissions.reducer,
       regionSettings: this.regionSettings.reducer,
