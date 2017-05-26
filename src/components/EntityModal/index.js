@@ -14,7 +14,6 @@ export default class EntityModal extends Component {
     };
 
     this.onCancel = () => {
-      console.debug('onCancel!!');
       if (typeof this.props.onCancel === 'function') {
         this.props.onCancel();
       }
