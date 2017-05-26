@@ -48,6 +48,7 @@ export default class MessageList extends Component {
       searchInput,
       onSearchInputChange,
       perPage,
+      disableLinks,
       ...childProps,
     } = this.props;
 
@@ -57,6 +58,7 @@ export default class MessageList extends Component {
           value={searchInput}
           onChange={onSearchInputChange}
           placeholder={i18n.getString('search', currentLocale)}
+          disabled={disableLinks}
         />
       ) :
       null;
