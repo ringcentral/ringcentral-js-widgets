@@ -14,18 +14,17 @@ export default class EntityModal extends Component {
     };
 
     this.onCancel = () => {
+      console.debug('onCancel!!');
       if (typeof this.props.onCancel === 'function') {
         this.props.onCancel();
       }
     };
     this.onCreate = () => {
-      console.debug('onOK', this.state.selected);
       if (typeof this.props.onCreate === 'function') {
         this.props.onCreate(this.state.selected);
       }
     };
     this.onRadioChange = (e) => {
-      console.debug('onChange:', e.target.value);
       this.setState({
         selected: e.target.value
       });

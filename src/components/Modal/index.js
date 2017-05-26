@@ -11,17 +11,16 @@ export function FlatButton({
   children,
 }) {
   return (
-    <button className={classnames(className, styles.flatBtn)}>
-      <div
-        className={classnames(
-          className,
-          styles.text,
-          disabled && styles.disabled,
-        )}
-        onClick={!disabled && onClick} >
-        {children}
-      </div>
-    </button>
+    <div
+      className={classnames(
+        className,
+        styles.flatBtn,
+        styles.text,
+        disabled && styles.disabled,
+      )}
+      onClick={!disabled && onClick} >
+      {children}
+    </div>
   );
 }
 FlatButton.propTypes = {
