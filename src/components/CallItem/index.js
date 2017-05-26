@@ -73,7 +73,11 @@ export default class CallItem extends Component {
   componentWillReceiveProps(nextProps) {
     if (
       !this.state.userSelection &&
-      nextProps.call.activityMatches !== this.props.call.activityMatches
+      (
+        nextProps.call.activityMatches !== this.props.call.activityMatches ||
+        nextProps.call.fromMatches !== this.props.call.fromMatches ||
+        nextProps.call.toMatches !== this.props.call.toMatches
+      )
     ) {
       this.setState({
         selected: this.getInitialContactIndex(nextProps),

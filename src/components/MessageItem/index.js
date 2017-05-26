@@ -40,7 +40,12 @@ export default class MessageItem extends Component {
   componentWillReceiveProps(nextProps) {
     if (
       !this.state.userSelection &&
-      nextProps.conversation.conversationMatches !== this.props.conversation.conversationMatches
+      (
+        nextProps.conversation.conversationMatches !==
+        this.props.conversation.conversationMatches ||
+        nextProps.conversation.correspondentMatches !==
+        this.props.conversation.correspondentMatches
+      )
     ) {
       this.setState({
         selected: this.getInitialContactIndex(nextProps),
@@ -223,7 +228,7 @@ export default class MessageItem extends Component {
           groupNumbers={groupNumbers}
           currentLocale={currentLocale}
           enableContactFallback={enableContactFallback}
-          />
+        />
         <div className={styles.details}>
           {dateTimeFormatter({ utcTimestamp: creationTime })} | {subject}
         </div>
