@@ -35,6 +35,40 @@ function MainView(props) {
                 </a>
               </div>
             </div>
+            <div className={styles.footerRowRight}>
+              <ul className={styles.footerLinks}>
+                <li>
+                  <a href="http://www.ringcentral.com/legal.html" target="_blank">Legal</a>
+                </li>
+                <li>
+                  <a href="http://www.ringcentral.com/security-statement.html" target="_blank">
+                    Security Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="http://www.ringcentral.com/legal/privacy-policy.html" target="_blank">
+                    Privacy Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="https://devcommunity.ringcentral.com" target="_blank">
+                    Community
+                  </a>
+                </li>
+                <li>
+                  <a href="https://medium.com/ringcentral-developers" target="_blank">
+                    Blog
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div className={classnames(styles.footerRow, styles.footerRowLast)}>
+            <div className={styles.footerRowLeft}>
+              <span className={styles.copyright}>
+                &copy 1999-2017 RingCentral, Inc. All rights reserved.
+              </span>
+            </div>
           </div>
         </div>
       </footer>
