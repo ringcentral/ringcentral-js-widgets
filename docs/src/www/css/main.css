@@ -1,4 +1,27 @@
+html {
+	position: relative;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-family: "Lato",Helvetica,Arial,sans-serif;
+  color: #585858;
+  background-color: #fff;
+  height: 100%;
+}
+
+#app {
+	height: 100%;
+	overflow: auto;
+}
+
+* {
+  box-sizing: border-box;
+}
+
 a {
-  color: #ff4081;
-  text-decoration: none;
+	text-decoration: none;
 }

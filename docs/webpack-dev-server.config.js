@@ -7,15 +7,20 @@ const config = {
   entry: './src/app/index.js',
   devServer: {
     contentBase: 'src/www',
-    devtool: 'eval',
     hot: true,
     inline: true,
     port: 8300,
-    outputPath: buildPath,
   },
+  devtool: 'eval',
   output: {
     path: buildPath,
     filename: 'index.js',
+  },
+  resolve: {
+    extensions: ['.js', '.md', '.txt'],
+    alias: {
+      'ringcentral-widget': path.resolve(__dirname, '../src'),
+    },
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

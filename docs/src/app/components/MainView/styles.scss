@@ -1,0 +1,78 @@
+.root {
+  position: relative;
+  width: 100%;
+  color: #585858;
+  min-height: 100%;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 980px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.header {
+  background: #f9f9f9;
+  border-bottom: 1px solid #cdcdcd;
+}
+
+.logo {
+  display: inline-block;
+  height: 50px;
+  padding: 5px 80px 5px 0;
+}
+
+.title {
+  color: #0073ae;
+  font-weight: 200;
+  font-weight: 200;
+  font-size: 36px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  line-height: normal;
+}
+
+.content {
+  padding-bottom: 190px;
+}
+
+.footer {
+  bottom: 0;
+  width: 100%;
+  height: 120px;
+  background: #303030;
+  color: #797979;
+  position: absolute;
+}
+
+.footerRow {
+  padding: 20px 0 10px;
+}
+
+.footerRowLeft {
+  display: inline-block;
+  vertical-align: middle;
+  width: 50%;
+}
+
+.footerRowRight {
+  display: inline-block;
+  vertical-align: middle;
+  width: 50%;
+  text-align: right;
+}
+
+.footerLogo {
+  line-height: 24px;
+  a {
+    display: block;
+    padding-top: 18px;
+    width: 161px;
+    font-size: 11px;
+    color: #797979;
+    background: url(https://developers.ringcentral.com/assets/images/footer_rclogo.png?1487230240) no-repeat;
+  }
+}
