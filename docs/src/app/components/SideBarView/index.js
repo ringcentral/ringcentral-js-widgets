@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import Collapse from '../Collapse';
 import styles from './styles.scss';
 
 function SideBarView(props) {
@@ -16,9 +17,23 @@ function SideBarView(props) {
               </Link>
             </li>
             <li>
-              <Link to="/test">
-                Components
-              </Link>
+              <Collapse
+                collapsed={false}
+                button={'Components'}
+              >
+                <ul>
+                  <li>
+                    <Link to="/test">
+                      Test1
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/test">
+                      Test2
+                    </Link>
+                  </li>
+                </ul>
+              </Collapse>
             </li>
           </ul>
         </div>
