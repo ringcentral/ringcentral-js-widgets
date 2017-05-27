@@ -75,6 +75,7 @@ export default class MessageList extends Component {
           conversation={item}
           currentLocale={currentLocale}
           key={item.id}
+          disableLinks={disableLinks}
         />
       ))
       : <NoMessages placeholder={placeholder} />;
