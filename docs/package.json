@@ -33,6 +33,7 @@
     "prop-types": "^15.5.10",
     "raw-loader": "^0.5.1",
     "react": "^15.5.4",
+    "react-docgen": "^2.15.0",
     "react-dom": "^15.5.4",
     "react-router-dom": "^4.1.1",
     "source-map-loader": "^0.1.6",
