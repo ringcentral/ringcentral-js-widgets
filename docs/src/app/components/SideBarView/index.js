@@ -5,6 +5,26 @@ import { Link } from 'react-router-dom';
 import Collapse from '../Collapse';
 import styles from './styles.scss';
 
+function ComponentList(props) {
+  return (
+    <ul>
+      {
+        props.components.map(component => (
+          <li key={component.name}>
+            <Link to={`/componets/${component.name}`}>
+              {component.name}
+            </Link>
+          </li>
+        ))
+      }
+    </ul>
+  );
+}
+
+ComponentList.propTypes = {
+  components: PropTypes.array.isRequired,
+};
+
 function SideBarView(props) {
   return (
     <div className={styles.root}>
@@ -21,18 +41,7 @@ function SideBarView(props) {
                 collapsed={false}
                 button={'Components'}
               >
-                <ul>
-                  <li>
-                    <Link to="/test">
-                      Test1
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/test">
-                      Test2
-                    </Link>
-                  </li>
-                </ul>
+                <ComponentList components={props.components} />
               </Collapse>
             </li>
           </ul>
@@ -47,6 +56,7 @@ function SideBarView(props) {
 
 SideBarView.propTypes = {
   children: PropTypes.node.isRequired,
+  components: PropTypes.array.isRequired,
 };
 
 export default SideBarView;

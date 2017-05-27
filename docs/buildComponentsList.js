@@ -34,6 +34,6 @@ componentDirs.forEach((componentName) => {
   }
 });
 
-const dataPath = path.resolve(__dirname, 'src/app/components.json');
+const dataPath = path.resolve(__dirname, 'src/app/componentsData.json');
 
 fs.writeFileSync(dataPath, JSON.stringify(components, null, 2));

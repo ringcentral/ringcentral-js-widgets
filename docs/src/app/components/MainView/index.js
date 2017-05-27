@@ -21,7 +21,7 @@ function MainView(props) {
         <h1 className={styles.title}>
           RingCentral Widget
         </h1>
-        <SideBarView>
+        <SideBarView components={props.components}>
           {props.children}
         </SideBarView>
       </div>
@@ -78,6 +78,7 @@ function MainView(props) {
 
 MainView.propTypes = {
   children: PropTypes.node.isRequired,
+  components: PropTypes.array.isRequired,
 };
 
 export default MainView;

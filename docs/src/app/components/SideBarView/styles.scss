@@ -1,3 +1,5 @@
+$sidebar-width: 220px;
+
 .root {
   margin-top: 0;
   position: relative;
@@ -6,21 +8,25 @@
 }
 
 .sidebar {
-  float: left;
+  position: relative;
+  display: inline-block;
   padding-top: 10px;
-  width: 220px;
+  width: $sidebar-width;
   text-align: left;
   font-weight: normal;
+  vertical-align: top;
 }
 
 .main {
-  margin-left: 220px;
-  width: 740px;
+  position: relative;
+  display: inline-block;
+  width: calc(100% - #{$sidebar-width});
   padding-top: 10px;
   padding-left: 30px;
   text-align: left;
-  min-height: 398px;
+  min-height: 500px;
   font-size: 16px;
+  vertical-align: top;
 }
 
 .navigation {
