@@ -29,17 +29,20 @@ export default class MessageItem extends Component {
     super(props);
     this.state = {
       selected: this.getInitialContactIndex(),
-      userSelection: false,
       isLogging: false,
       isCreating: false,
     };
+    this._userSelection = false;
+    /* [RCINT-4301] onSelection would trigger some state changes that would push new
+     * properties before the state has been changed. Which would reset the selected value.
+     */
   }
   componentDidMount() {
     this._mounted = true;
   }
   componentWillReceiveProps(nextProps) {
     if (
-      !this.state.userSelection &&
+      !this._userSelection &&
       (
         nextProps.conversation.conversationMatches !==
         this.props.conversation.conversationMatches ||
@@ -57,9 +60,9 @@ export default class MessageItem extends Component {
   }
   onSelectContact = (value, idx) => {
     const selected = parseInt(idx, 10) - 1;
+    this._userSelection = true;
     this.setState({
       selected,
-      userSelection: true,
     });
     if (
       this.props.conversation.conversationMatches.length > 0 &&

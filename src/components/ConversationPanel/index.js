@@ -18,10 +18,10 @@ class ConversationPanel extends Component {
     this.state = {
       textValue: '',
       selected: this.getInitialContactIndex(),
-      userSelection: false,
       isLogging: false,
 
     };
+    this._userSelection = false;
     this.onTextChange = (e) => {
       this.setState({
         textValue: e.currentTarget.value,
@@ -49,7 +49,7 @@ class ConversationPanel extends Component {
   }
   componentWillReceiveProps(nextProps) {
     if (
-      !this.state.userSelection &&
+      !this._userSelection &&
       (
         nextProps.conversation.conversationMatches !==
         this.props.conversation.conversationMatches ||
@@ -67,9 +67,9 @@ class ConversationPanel extends Component {
   }
   onSelectContact = (value, idx) => {
     const selected = parseInt(idx, 10) - 1;
+    this._userSelection = true;
     this.setState({
       selected,
-      userSelection: true,
     });
     if (
       this.props.conversation.conversationMatches.length > 0 &&
