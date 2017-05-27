@@ -47,8 +47,10 @@ export default function ContactDisplay({
         areaCode,
       })) ||
       i18n.getString('unknownNumber', currentLocale);
+    const title = (enableContactFallback && fallBackName) ||
+      phoneNumber || '';
     contentEl = (
-      <div title={display}>
+      <div title={title}>
         {display}
       </div>
     );
@@ -57,11 +59,7 @@ export default function ContactDisplay({
     const title = displayFomatter({
       entityName: display,
       entityType: contactMatches[0].entityType,
-      phoneNumber: phoneNumber && formatNumber({
-        phoneNumber,
-        countryCode,
-        areaCode,
-      })
+      phoneNumber,
     });
     contentEl = (
       <div title={title}>
@@ -92,18 +90,13 @@ export default function ContactDisplay({
             entityType: options[value].entityType,
           })
         )}
-        renderTitle={(entity) => {
-          const formatted = phoneNumber && formatNumber({
-            phoneNumber,
-            countryCode,
-            areaCode,
-          });
-          return entity ? displayFomatter({
+        renderTitle={entity => (
+          entity ? displayFomatter({
             entityName: entity.name,
             entityType: entity.entityType,
-            phoneNumber: formatted,
-          }) : formatted;
-        }}
+            phoneNumber,
+          }) : phoneNumber)
+        }
         dropdownAlign="left"
         titleEnabled
         stopPropagation
