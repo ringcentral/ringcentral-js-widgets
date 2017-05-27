@@ -62,17 +62,17 @@ export default class CallItem extends Component {
 
     this.state = {
       selected: this.getInitialContactIndex(),
-      userSelection: false,
       isLogging: false,
       isCreating: false,
     };
+    this._userSelection = false;
   }
   componentDidMount() {
     this._mounted = true;
   }
   componentWillReceiveProps(nextProps) {
     if (
-      !this.state.userSelection &&
+      !this._userSelection &&
       (
         nextProps.call.activityMatches !== this.props.call.activityMatches ||
         nextProps.call.fromMatches !== this.props.call.fromMatches ||
@@ -89,9 +89,9 @@ export default class CallItem extends Component {
   }
   onSelectContact = (value, idx) => {
     const selected = parseInt(idx, 10) - 1;
+    this._userSelection = true;
     this.setState({
       selected,
-      userSelection: true,
     });
     if (this.props.call.activityMatches.length > 0) {
       this.logCall({ redirect: false, selected });
