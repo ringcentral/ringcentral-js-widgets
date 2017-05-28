@@ -17,7 +17,6 @@ const config = {
     filename: 'index.js',
   },
   resolve: {
-    extensions: ['.js', '.md', '.txt'],
     alias: {
       'ringcentral-widget': path.resolve(__dirname, '../src'),
     },
@@ -31,7 +30,6 @@ const config = {
       },
     }),
   ],
-  devtool: 'eval',
   module: {
     rules: [
       {
@@ -62,8 +60,13 @@ const config = {
         test: /\.sass|\.scss/,
         use: [
           'style-loader',
-          'css-loader?modules&localIdentName=[name]_[local]_[hash:base64:5]',
-          'postcss-loader',
+          'css-loader?modules&localIdentName=[path]_[name]_[local]_[hash:base64:5]',
+          {
+            loader: 'postcss-loader',
+            options: {
+              config: 'postcss.config.js'
+            }
+          },
           'sass-loader?outputStyle=expanded',
         ],
       },

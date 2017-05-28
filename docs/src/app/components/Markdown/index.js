@@ -16,6 +16,7 @@ class Markdown extends Component {
       sanitize: false,
       smartLists: true,
       smartypants: false,
+      highlight: (code, lang) => hl.highlight(lang, code).value,
     });
   }
 

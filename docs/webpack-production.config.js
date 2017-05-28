@@ -2,12 +2,18 @@ const webpack = require('webpack');
 const path = require('path');
 
 const buildPath = path.resolve(__dirname, 'src/www');
+const outputPath = path.resolve(__dirname, 'release');
 
 const config = {
   entry: './src/app/index.js',
   output: {
-    path: buildPath,
+    path: outputPath,
     filename: 'index.js',
+  },
+  resolve: {
+    alias: {
+      'ringcentral-widget': path.resolve(__dirname, '../src'),
+    },
   },
   plugins: [
     new webpack.DefinePlugin({
@@ -24,7 +30,6 @@ const config = {
       },
     }),
   ],
-  devtool: 'eval',
   module: {
     rules: [
       {
@@ -56,7 +61,12 @@ const config = {
         use: [
           'style-loader',
           'css-loader?modules&localIdentName=[name]_[local]_[hash:base64:5]',
-          'postcss-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              config: 'postcss.config.js'
+            }
+          },
           'sass-loader?outputStyle=expanded',
         ],
       },

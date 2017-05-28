@@ -11,7 +11,7 @@ function ComponentList(props) {
       {
         props.components.map(component => (
           <li key={component.name}>
-            <Link to={`/componets/${component.name}`}>
+            <Link to={`/components/${component.name}`}>
               {component.name}
             </Link>
           </li>

@@ -7,16 +7,9 @@ import {
 
 import MainView from './components/MainView';
 import OverView from './pages/OverView';
+import BadgePage from './pages/Components/Badge';
 
 import componentsData from './componentsList.json';
-
-function SecPage() {
-  return (
-    <div>
-      second
-    </div>
-  );
-}
 
 render(
   <Router
@@ -25,7 +18,7 @@ render(
     <MainView components={componentsData}>
       <Route exact path="/" component={OverView} />
       <Route path="/home" component={OverView} />
-      <Route path="/test" component={SecPage} />
+      <Route path="/components/Badge" component={BadgePage} />
     </MainView>
   </Router>
 , document.getElementById('app'));
