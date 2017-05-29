@@ -35,6 +35,7 @@ $sidebar-width: 220px;
   max-height: 560px;
   border: 1px solid #e8e8e8;
   border-radius: 8px;
+  background: #ffffff;
 
   ul {
     list-style: none;
@@ -54,4 +55,11 @@ $sidebar-width: 220px;
       text-decoration: none;
     }
   }
+}
+
+.fixed {
+  position: fixed;
+  top: 10px;
+  width: $sidebar-width;
+  z-index: 2;
 }

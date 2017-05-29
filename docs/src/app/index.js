@@ -9,7 +9,7 @@ import MainView from './components/MainView';
 import OverView from './pages/OverView';
 import ComponentRoutes from './pages/ComponentRoutes';
 
-import componentsData from './componentsList.json';
+import componentsData from './componentsData.json';
 
 render(
   <Router

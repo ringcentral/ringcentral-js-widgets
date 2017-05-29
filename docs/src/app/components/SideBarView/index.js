@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import classnames from 'classnames';
 
 import Collapse from '../Collapse';
 import styles from './styles.scss';
@@ -26,10 +27,14 @@ ComponentList.propTypes = {
 };
 
 function SideBarView(props) {
+  const navClassName = classnames(
+    styles.navigation,
+    props.fixed ? styles.fixed : null
+  );
   return (
     <div className={styles.root}>
       <div className={styles.sidebar}>
-        <div className={styles.navigation}>
+        <div className={navClassName}>
           <ul>
             <li>
               <Link to="/">
@@ -57,6 +62,7 @@ function SideBarView(props) {
 SideBarView.propTypes = {
   children: PropTypes.node.isRequired,
   components: PropTypes.array.isRequired,
+  fixed: PropTypes.bool.isRequired,
 };
 
 export default SideBarView;

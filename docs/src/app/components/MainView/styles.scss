@@ -1,7 +1,13 @@
 .root {
-  position: relative;
   width: 100%;
   color: #585858;
+  height: 100%;
+  overflow: auto;
+}
+
+.mainBody {
+  position: relative;
+  width: 100%;
   min-height: 100%;
 }
 
