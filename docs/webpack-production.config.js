@@ -1,8 +1,9 @@
 const webpack = require('webpack');
 const path = require('path');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
-const buildPath = path.resolve(__dirname, 'src/www');
-const outputPath = path.resolve(__dirname, 'release');
+const buildPath = path.resolve(__dirname, 'src/app');
+const outputPath = path.resolve(__dirname, 'gh-pages');
 
 const config = {
   entry: './src/app/index.js',
@@ -29,12 +30,20 @@ const config = {
         comments: false,
       },
     }),
+    new CopyWebpackPlugin([
+      { from: 'src/www/css', to: 'css' },
+      { from: 'src/www/images', to: 'images' },
+      { from: 'src/www/index.html', to: 'index.html' },
+    ]),
   ],
   module: {
     rules: [
       {
         test: /\.js$/,
-        use: 'babel-loader',
+        use: [
+          'babel-loader',
+          'locale-loader',
+        ],
         exclude: /node_modules/,
       },
       {
@@ -60,14 +69,20 @@ const config = {
         test: /\.sass|\.scss/,
         use: [
           'style-loader',
-          'css-loader?modules&localIdentName=[name]_[local]_[hash:base64:5]',
+          'css-loader?modules&localIdentName=[local]_[hash:base64:5]',
           {
             loader: 'postcss-loader',
             options: {
               config: 'postcss.config.js'
             }
           },
-          'sass-loader?outputStyle=expanded',
+          {
+            loader: 'sass-loader',
+            options: {
+              outputStyle: 'expanded',
+              includePaths: [buildPath],
+            },
+          },
         ],
       },
     ],
