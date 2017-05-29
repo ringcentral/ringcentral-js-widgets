@@ -1,0 +1,18 @@
+import React from 'react';
+// eslint-disable-next-line
+import <%= component.name %> from 'ringcentral-widget/components/<%= component.name %>';
+
+/**
+ * A example of `<%= component.name %>`
+ */
+const <%= component.name %>Demo = () => (
+  <<%= component.name %>
+    <%_ Object.keys(component.props).forEach(function(key) { -%>
+      <%- `${key}={${component.props[key]}}` %>
+	<%_ }) -%>
+  >
+    <%- component.children %>
+  </<%= component.name %>>
+);
+
+export default <%= component.name %>Demo;

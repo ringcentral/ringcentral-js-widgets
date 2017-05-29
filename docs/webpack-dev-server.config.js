@@ -1,7 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
 
-const buildPath = path.resolve(__dirname, 'src/www');
+const buildPath = path.resolve(__dirname, 'src/app');
+const outputPath = path.resolve(__dirname, 'src/www');
 
 const config = {
   entry: './src/app/index.js',
@@ -13,7 +14,7 @@ const config = {
   },
   devtool: 'eval',
   output: {
-    path: buildPath,
+    path: outputPath,
     filename: 'index.js',
   },
   resolve: {
@@ -67,7 +68,13 @@ const config = {
               config: 'postcss.config.js'
             }
           },
-          'sass-loader?outputStyle=expanded',
+          {
+            loader: 'sass-loader',
+            options: {
+              outputStyle: 'expanded',
+              includePaths: [buildPath],
+            },
+          },
         ],
       },
     ],

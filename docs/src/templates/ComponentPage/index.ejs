@@ -8,16 +8,17 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import badgeCode from '!raw-loader!ringcentral-widget/components/Badge';
 
-const AppBarPage = () => {
-  const info = parse(badgeCode);
+import componentCode from '!raw-loader!ringcentral-widget/components/<%= component.name %>';
+
+const <%= component.name %>Page = () => {
+  const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="Badge" description={info.description} />
+      <ComponentHeader name="<%= component.name %>" description={info.description} />
       <CodeExample
         code={demoCode}
-        title="Badge Example"
+        title="<%= component.name %> Example"
       >
         <Demo />
       </CodeExample>
@@ -26,4 +27,4 @@ const AppBarPage = () => {
   );
 };
 
-export default AppBarPage;
+export default <%= component.name %>Page;

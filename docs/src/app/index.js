@@ -7,7 +7,7 @@ import {
 
 import MainView from './components/MainView';
 import OverView from './pages/OverView';
-import BadgePage from './pages/Components/Badge';
+import ComponentRoutes from './pages/ComponentRoutes';
 
 import componentsData from './componentsList.json';
 
@@ -18,7 +18,7 @@ render(
     <MainView components={componentsData}>
       <Route exact path="/" component={OverView} />
       <Route path="/home" component={OverView} />
-      <Route path="/components/Badge" component={BadgePage} />
+      <ComponentRoutes />
     </MainView>
   </Router>
 , document.getElementById('app'));
