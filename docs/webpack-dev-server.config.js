@@ -35,7 +35,10 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        use: 'babel-loader',
+        use: [
+          'babel-loader',
+          'locale-loader',
+        ],
         exclude: /node_modules/,
       },
       {

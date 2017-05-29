@@ -60,7 +60,7 @@ function getValueFromPropType(type) {
     return '[]';
   }
   if (type.name === 'custom') {
-    return '""';
+    return undefined;
   }
   if (type.name === 'shape') {
     const prop = {};
@@ -70,12 +70,21 @@ function getValueFromPropType(type) {
       }
       prop[key] = getValueFromPropType(type.value[key]);
     });
-    return prop;
+    return JSON.stringify(prop, null, 2).replace(/"/g, '').replace(/\\n/g, '\n');
   }
   if (type.name === 'arrayOf') {
     const prop = [];
-    prop.push(getValueFromPropType(type.value));
-    return prop;
+    const value = getValueFromPropType(type.value);
+    if (value) {
+      prop.push(value);
+    }
+    return JSON.stringify(prop, null, 2)
+               .replace(/":/g, ':')
+               .replace(/\s"/g, ' ')
+               .replace(/\\n/g, '\n')
+               .replace(/^\[\n\s+/, '[')
+               .replace(/\s*\n\]$/, ']')
+               .replace(/"]/, ']');
   }
   return undefined;
 }
@@ -97,7 +106,7 @@ function getComponentDocRenderData(componentData) {
   component.props = getPropsFromPropTypes(componentData.props);
   let childrenText = 'Children Node';
   if (component.props.onClick) {
-    component.props.onClick = '() => alert("clicked")';
+    component.props.onClick = "() => alert('clicked')";
     childrenText = 'Click Me';
   }
   if (component.props.children) {
@@ -105,8 +114,10 @@ function getComponentDocRenderData(componentData) {
     delete component.props.children;
   }
   if (component.props.currentLocale) {
-    component.props.currentLocale = '"en-US"';
+    component.props.currentLocale = "'en-US'";
   }
+  component.name = componentData.name;
+  component.description = componentData.description;
   return component;
 }
 
@@ -117,9 +128,9 @@ function createComponentDocPage(componentData) {
     return;
   }
   fs.mkdirSync(componentPageDir);
+  const component = getComponentDocRenderData(componentData);
   const indexTemplatePath = path.resolve(templatesPath, 'ComponentPage/index.ejs');
   const indexTemplate = fs.readFileSync(indexTemplatePath, { encoding: 'utf8' });
-  const component = getComponentDocRenderData(componentData);
   const indexStr = ejs.render(indexTemplate, { component });
   const indexPath = path.resolve(componentPageDir, 'index.js');
   fs.writeFileSync(indexPath, indexStr);
@@ -161,3 +172,6 @@ const components = getComponentsList();
 fs.writeFileSync(jsonDataPath, JSON.stringify(components, null, 2));
 createComponentDocPages(components);
 createComponentRoutesFile();
+
+// createComponentDocPage(data);
+// createComponentRoutesFile();

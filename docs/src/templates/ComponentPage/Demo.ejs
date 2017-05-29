@@ -2,17 +2,25 @@ import React from 'react';
 // eslint-disable-next-line
 import <%= component.name %> from 'ringcentral-widget/components/<%= component.name %>';
 
+const props = {};
+<%_ Object.keys(component.props).forEach(function(key) { -%>
+<%- `props.${key} = ${component.props[key]};` %>
+<%_ }) -%>
+
 /**
  * A example of `<%= component.name %>`
  */
 const <%= component.name %>Demo = () => (
+<%_ if (component.children) { -%>
   <<%= component.name %>
-    <%_ Object.keys(component.props).forEach(function(key) { -%>
-      <%- `${key}={${component.props[key]}}` %>
-	<%_ }) -%>
+    {...props}
   >
     <%- component.children %>
   </<%= component.name %>>
+<%_ } else { -%>
+  <<%= component.name %>
+    {...props}
+  />
+<%_ } -%>
 );
-
 export default <%= component.name %>Demo;

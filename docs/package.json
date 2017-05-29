@@ -29,6 +29,7 @@
     "file-loader": "^0.10.0",
     "highlight.js": "^9.11.0",
     "history": "^4.6.1",
+    "locale-loader": "^1.2.4",
     "marked": "^0.3.6",
     "node-sass": "^4.5.0",
     "postcss-loader": "^1.2.2",
