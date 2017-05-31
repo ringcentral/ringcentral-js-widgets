@@ -172,6 +172,3 @@ const components = getComponentsList();
 fs.writeFileSync(jsonDataPath, JSON.stringify(components, null, 2));
 createComponentDocPages(components);
 createComponentRoutesFile();
-
-// createComponentDocPage(data);
-// createComponentRoutesFile();
