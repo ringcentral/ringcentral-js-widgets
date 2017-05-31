@@ -74,11 +74,11 @@ export default class MessageItem extends Component {
   getInitialContactIndex(nextProps = this.props) {
     const {
       correspondentMatches,
-      conversationMatches,
+      lastMatchedCorrespondentEntity,
     } = nextProps.conversation;
-    for (const conversation of conversationMatches) {
+    if (lastMatchedCorrespondentEntity) {
       const index = correspondentMatches.findIndex(contact => (
-        this.props.isLoggedContact(nextProps.conversation, conversation, contact)
+        contact.id === lastMatchedCorrespondentEntity.id
       ));
       if (index > -1) return index;
     }
