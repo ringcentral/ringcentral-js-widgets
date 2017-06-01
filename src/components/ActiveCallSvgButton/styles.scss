@@ -1,0 +1,29 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/no-select';
+
+.btnSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.btnSvgGroup {
+  @include no-select;
+  cursor: pointer;
+}
+
+.circle {
+  fill: transparent;
+  stroke-width: 10;
+  stroke: transparent;
+  font-weight: 100;
+  stroke: $primary-color;
+  // stroke: $dialer-btn-border-color;
+}
+.btnSvgGroup:hover .circle, {
+  stroke: $primary-color;
+  /*fill: rgba(6, 132, 189, 0.1);*/
+}
+.btnSvgGroup:hover .btnValue,
+.btnSvgGroup:hover .btnText, {
+  fill: $primary-color;
+}

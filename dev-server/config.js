@@ -51,6 +51,13 @@ const base = {
         test: /\.ogg$/,
         loader: 'url?publicPath=./&name=audio/[name]_[hash].[ext]',
       },
+      {
+        test: /\.inline.svg$/,
+        loaders: [
+          'babel',
+          'svg-react'
+        ],
+      },
     ],
   },
   devtool: 'inline-source-map',

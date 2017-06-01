@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import ActiveCallButton from '../ActiveCallButton';
+import ActiveCallSvgButton from '../ActiveCallSvgButton';
 import rcFont from '../../assets/RcFont/RcFont.scss';
 import styles from './styles.scss';
 
@@ -13,12 +14,12 @@ export default function IncomingCallPad(props) {
         >
           <i className={rcFont.icon_collapse} />
         </ActiveCallButton>
-        <ActiveCallButton
+        <ActiveCallSvgButton
           onClick={() => null}
           title={'Reply'}
         >
           <i className={rcFont.RC_Sms_pressed} />
-        </ActiveCallButton>
+        </ActiveCallSvgButton>
         <ActiveCallButton
           onClick={props.reject}
           title={'Ignore'}
