@@ -8,17 +8,16 @@ import LoginPanel from '../../components/LoginPanel';
 
 import styles from './styles.scss';
 
-function WelcomeContainer(props) {
+function WelcomeContainer({
+  children,
+  ...props,
+}) {
   return (
     <div className={styles.root}>
       <LoginPanel
-        currentLocale={props.currentLocale}
-        disabled={props.disabled}
-        setupProxyFrame={props.setupProxyFrame}
-        clearProxyFrame={props.clearProxyFrame}
-        onLoginButtonClick={props.onLoginButtonClick}
+        {...props}
       />
-      {props.children}
+      {children}
     </div>
   );
 }
@@ -42,6 +41,7 @@ function mapToProps(_, {
   locale,
   rateLimiter,
   connectivityMonitor,
+  version,
 }) {
   return {
     currentLocale: locale.currentLocale,
@@ -50,6 +50,7 @@ function mapToProps(_, {
       rateLimiter.throttling ||
       !connectivityMonitor.connectivity
     ),
+    version,
   };
 }
 
@@ -82,6 +83,7 @@ const propTypes = {
   connectivityMonitor: PropTypes.instanceOf(ConnectivityMonitor).isRequired,
   mainUrl: PropTypes.string,
   onLogin: PropTypes.func,
+  version: PropTypes.string,
 };
 
 WelcomePage.propTypes = propTypes;

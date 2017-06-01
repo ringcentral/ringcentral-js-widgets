@@ -415,13 +415,14 @@ export default class Phone extends RcModule {
     }));
     this.addModule('conversationLogger', new ConversationLogger({
       ...options,
-      storage: this.storage,
-      dateTimeFormat: this.dateTimeFormat,
-      messageStore: this.messageStore,
-      extensionInfo: this.extensionInfo,
+      auth: this.auth,
       contactMatcher: this.contactMatcher,
       conversationMatcher: this.conversationMatcher,
+      dateTimeFormat: this.dateTimeFormat,
+      extensionInfo: this.extensionInfo,
+      messageStore: this.messageStore,
       rolesAndPermissions: this.rolesAndPermissions,
+      storage: this.storage,
       tabManager: this.tabManager,
       logFunction: async () => {},
       readyCheckFunction: () => true,
