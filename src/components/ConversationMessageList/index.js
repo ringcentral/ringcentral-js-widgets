@@ -77,7 +77,8 @@ class ConversationMessageList extends Component {
       messages,
       showSender,
     } = this.props;
-    let lastDisplayedTimestamp = 0;
+
+    let lastDate = 0;
     const messageList = messages.map((message) => {
       const sender = showSender ?
         (
@@ -85,11 +86,11 @@ class ConversationMessageList extends Component {
           this.context.formatPhone(message.from.extensionNumber || message.from.phoneNumber)
         ) :
         null;
-      const timestamp = new Date(message.creationTime).getTime();
-      const time = (timestamp - lastDisplayedTimestamp > 60 * 60 * 1000) ?
-        dateTimeFormatter({ utcTimestamp: message.creationTime, type: 'long' }) :
-        null;
-      if (time) lastDisplayedTimestamp = timestamp;
+      const date = new Date(message.creationTime);
+      const time = (date - lastDate < 60 * 60 * 1000 && date.getHours() === lastDate.getHours()) ?
+        null :
+        dateTimeFormatter({ utcTimestamp: message.creationTime, type: 'long' });
+      lastDate = date;
       return (
         <Message
           key={message.id}
