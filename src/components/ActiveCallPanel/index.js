@@ -127,9 +127,7 @@ ActiveCallPanel.defaultProps = {
   isOnMute: false,
   isOnHold: false,
   isOnRecord: false,
-  sessionId: null,
   phoneNumber: null,
-  callStatus: null,
   children: undefined,
 };
 

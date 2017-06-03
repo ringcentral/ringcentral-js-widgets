@@ -234,7 +234,6 @@ DropdownSelect.defaultProps = {
   renderValue: option => option,
   dropdownAlign: 'center',
   titleEnabled: undefined,
-  title: undefined,
   stopPropagation: false,
   placeholder: undefined,
   ellipsis: true,

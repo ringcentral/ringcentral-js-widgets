@@ -1,0 +1,25 @@
+.root {
+  display: block;
+
+  button {
+    color: inherit;
+    outline: none;
+    border: none;
+    background: inherit;
+    display: block;
+    text-align: left;
+    -webkit-appearance: none;
+    padding: 10px 0 10px 0;
+    font-size: 14px;
+    border-bottom: 1px solid #e8e8e8;
+    width: 100%;
+  }
+}
+
+.collapse {
+  display: block;
+}
+
+.collapsed {
+  display: none;
+}

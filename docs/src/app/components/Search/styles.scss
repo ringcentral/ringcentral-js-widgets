@@ -1,0 +1,68 @@
+.root {
+  display: block;
+  position: relative;
+}
+
+.searchInput {
+  display: block;
+}
+
+.input {
+  display: block;
+  width: 542px;
+  border: 1px solid #e8e8e8;
+  font-size: 14px;
+  background: #fff url(../../assets/images/ico_search.png) no-repeat 8px 50% !important;
+  height: 40px;
+  border-radius: 3px;
+  padding: 0 6px;
+  color: #282828;
+  margin: 0;
+  padding-left: 25px;
+
+  &:hover {
+    border-color: #0073ae;
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 8px rgba(102,175,233,0.6);
+  }
+}
+
+.result {
+  position: absolute;
+  top: 100%;
+  background: #ffffff;
+  width: 542px;
+  z-index: 2;
+  border: 1px solid #ccc;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+.resultList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 0;
+    cursor: pointer;
+
+    &:hover {
+      background: #f3f3f3;
+    }
+
+    a {
+      padding: 10px 25px;
+      display: block;
+      width: 100%;
+      color: #585858;
+      &:hover {
+        color: #585858;
+      }
+    }
+  }
+}

@@ -1,0 +1,16 @@
+import React from 'react';
+import { Route } from 'react-router-dom';
+
+<%_ components.forEach(function(component) { -%>
+<%- `import ${component}Page from './Components/${component}';` %>
+<%_ }) -%>
+
+const Routes = () => (
+  <div>
+  <%_ components.forEach(function(component) { -%>
+    <%- `<Route path="/components/${component}" component={${component}Page} />` %>
+  <%_ }) -%>
+  </div>
+);
+
+export default Routes;
