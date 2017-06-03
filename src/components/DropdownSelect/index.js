@@ -177,6 +177,7 @@ class DropdownSelect extends Component {
         ref={(ref) => { this.wrapper = ref; }}
       >
         <button
+          type="button"
           className={styles.button}
           onClick={this.toggleShowDropdown}
           title={this.renderTitle(this.props.options[this.props.value], renderValue)}>

@@ -60,9 +60,12 @@ export default class Phone extends RcModule {
     ...options,
   }) {
     super();
+    const cachePrefix = `sdk${options.prefix ? `-${options.prefix}` : ''}`;
     this.addModule('client', new RingCentralClient(new SDK({
       ...options,
       ...apiConfig,
+      cachePrefix,
+      clearCacheOnRefreshError: false,
     })));
     this.addModule('alert', new Alert({
       ...options,
