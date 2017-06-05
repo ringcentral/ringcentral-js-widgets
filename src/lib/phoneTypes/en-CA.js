@@ -9,4 +9,5 @@ export default {
   'phoneType.mobile': 'Mobile Phone',
   'phoneType.unknown': 'Unknown Phone Type',
   'phoneType.extension': 'Extension Phone',
+  'phoneSource.opportunity': 'Opportunity',
 };

@@ -8,5 +8,8 @@ export default {
   autoCreateLog: 'Crear registro de llamadas automáticamente',
   clickToSMS: 'Haga clic para enviar SMS',
   clickToDialSMS: 'Haga clic para marcar/enviar SMS',
+  autoCreateSMSLog: 'Crear registro de SMS automáticamente',
+  autoLogCalls: 'Registrar llamadas automáticamente',
+  autoLogSMS: 'Registrar SMS automáticamente',
 };
 

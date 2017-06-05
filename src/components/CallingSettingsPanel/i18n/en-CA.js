@@ -10,4 +10,5 @@ export default {
   ringoutHint: 'Ring me at my location first, then connect the called party',
   myLocationLabel: 'My Location',
   press1ToStartCallLabel: 'Prompt me to dial 1 before connecting the call',
+  [callingOptions.browser]: 'Browser',
 };

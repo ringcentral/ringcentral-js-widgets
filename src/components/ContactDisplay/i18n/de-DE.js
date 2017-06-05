@@ -19,4 +19,5 @@ export default {
   'phoneType.business': 'Telefon geschäftlich',
   'phoneType.mobile': 'Mobiltelefon',
   'phoneType.unknown': 'Unbekannter Telefontyp',
+  'phoneSource.opportunity': 'Opportunity',
 };

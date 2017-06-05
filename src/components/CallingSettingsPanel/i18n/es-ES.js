@@ -10,4 +10,5 @@ export default {
   ringoutHint: 'Llamar primero a mi ubicación y conectar después con la parte que llama',
   myLocationLabel: 'Mi ubicación',
   press1ToStartCallLabel: 'Avisarme de que marque 1 para conectar la llamada',
+  [callingOptions.browser]: 'Navegador',
 };
