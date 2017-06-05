@@ -10,4 +10,5 @@ export default {
   ringoutHint: 'Appeler d\'abord à mon emplacement, puis connecter le destinataire.',
   myLocationLabel: 'Mon emplacement',
   press1ToStartCallLabel: 'Me demander de composer le 1 avant d\'établir la connexion',
+  [callingOptions.browser]: 'Navigateur',
 };

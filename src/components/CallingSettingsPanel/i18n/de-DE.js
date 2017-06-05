@@ -10,4 +10,5 @@ export default {
   ringoutHint: 'Zunächst am Standort anklingeln, dann Verbindung zum Anrufempfänger herstellen',
   myLocationLabel: 'Mein Standort',
   press1ToStartCallLabel: 'Vor dem Verbinden des Anrufs zum Wählen von "1" auffordern',
+  [callingOptions.browser]: 'Browser',
 };

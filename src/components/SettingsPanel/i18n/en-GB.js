@@ -8,5 +8,8 @@ export default {
   autoCreateLog: 'Auto-create Call Log',
   clickToSMS: 'Click to SMS',
   clickToDialSMS: 'Click to Dial/SMS',
+  autoCreateSMSLog: 'Auto-create SMS log',
+  autoLogCalls: 'Auto log calls',
+  autoLogSMS: 'Auto log SMS',
 };
 
