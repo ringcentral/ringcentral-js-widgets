@@ -10,69 +10,88 @@ import RouterInteraction from '../../modules/RouterInteraction';
 
 import ComposeTextPanel from '../../components/ComposeTextPanel';
 
-const ComposeTextPage = connect((state, props) => ({
-  currentLocale: props.locale.currentLocale,
-  sendButtonDisabled: (
-    !(props.composeText.ready && props.messageSender.idle) ||
-    (props.composeText.messageText.length === 0) ||
-    (
-      props.composeText.toNumbers.length === 0 &&
-      props.composeText.typingToNumber.length === 0
-    ) ||
-    !props.connectivityMonitor.connectivity ||
-    props.rateLimiter.throttling
-  ),
-  senderNumbers: props.messageSender.senderNumbersList,
-  senderNumber: props.composeText.senderNumber,
-  typingToNumber: props.composeText.typingToNumber,
-  toNumbers: props.composeText.toNumbers,
-  messageText: props.composeText.messageText,
-  outboundSMS: props.rolesAndPermissions.permissions.OutboundSMS,
-  searchContactList: props.contactSearch.searching.result,
-}), (dispatch, props) => {
-  const formatPhone = phoneNumber => (
-    formatNumber({
-      phoneNumber,
-      areaCode: props.regionSettings.areaCode,
-      countryCode: props.regionSettings.countryCode
-    })
-  );
-  const formatContactPhone = props.formatContactPhone ?
-    props.formatContactPhone :
-    formatPhone;
+
+function mapToProps(_, {
+composeText,
+  connectivityMonitor,
+  contactSearch,
+  locale,
+  messageSender,
+  rateLimiter,
+  rolesAndPermissions,
+}) {
+  return {
+    currentLocale: locale.currentLocale,
+    sendButtonDisabled: (
+      !(composeText.ready && messageSender.idle) ||
+      (composeText.messageText.length === 0) ||
+      (
+        composeText.toNumbers.length === 0 &&
+        composeText.typingToNumber.length === 0
+      ) ||
+      !connectivityMonitor.connectivity ||
+      rateLimiter.throttling
+    ),
+    senderNumbers: messageSender.senderNumbersList,
+    senderNumber: composeText.senderNumber,
+    typingToNumber: composeText.typingToNumber,
+    toNumbers: composeText.toNumbers,
+    messageText: composeText.messageText,
+    outboundSMS: rolesAndPermissions.permissions.OutboundSMS,
+    searchContactList: contactSearch.searching.result,
+  };
+}
+
+function mapToFunctions(_, {
+  composeText,
+  contactSearch,
+  messageStore,
+  regionSettings,
+  router,
+  formatContactPhone = phoneNumber => formatNumber({
+    phoneNumber,
+    areaCode: regionSettings.areaCode,
+    countryCode: regionSettings.countryCode,
+  }),
+}) {
   return {
     send: () =>
-      props.composeText.send().then((responses) => {
+      composeText.send().then((responses) => {
         if (!responses || responses.length === 0) {
           return null;
         }
-        props.messageStore.pushMessages(responses);
+        messageStore.pushMessages(responses);
         if (responses.length === 1) {
           const conversationId =
             responses[0] && responses[0].conversation && responses[0].conversation.id;
           if (!conversationId) {
             return null;
           }
-          props.router.history.push(`/conversations/${conversationId}`);
+          router.push(`/conversations/${conversationId}`);
         } else {
-          props.router.history.push('/messages');
+          router.push('/messages');
         }
-        props.composeText.clean();
+        composeText.clean();
         return null;
       }),
-    formatPhone,
+    formatPhone: formatContactPhone,
     formatContactPhone,
     searchContact: searchString => (
-      props.contactSearch.search({ searchString })
+      contactSearch.search({ searchString })
     ),
-    updateSenderNumber: props.composeText.updateSenderNumber,
-    updateTypingToNumber: props.composeText.updateTypingToNumber,
-    cleanTypingToNumber: props.composeText.cleanTypingToNumber,
-    addToNumber: props.composeText.addToNumber,
-    removeToNumber: props.composeText.removeToNumber,
-    updateMessageText: props.composeText.updateMessageText,
+    updateSenderNumber: (...args) => composeText.updateSenderNumber(...args),
+    updateTypingToNumber: (...args) => composeText.updateTypingToNumber(...args),
+    cleanTypingToNumber: (...args) => composeText.cleanTypingToNumber(...args),
+    addToNumber: (...args) => composeText.addToNumber(...args),
+    removeToNumber: (...args) => composeText.removeToNumber(...args),
+    updateMessageText: (...args) => composeText.updateMessageText(...args),
   };
-})(ComposeTextPanel);
+}
+
+const ComposeTextPage = connect(
+  mapToProps,
+  mapToFunctions
+)(ComposeTextPanel);
 
 ComposeTextPage.propTypes = {
   router: PropTypes.instanceOf(RouterInteraction).isRequired,

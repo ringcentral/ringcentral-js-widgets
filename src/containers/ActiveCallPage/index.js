@@ -187,9 +187,9 @@ function mapToFunctions(_, {
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode,
     }),
-    hangup: webphone.hangup,
-    answer: webphone.answer,
-    reject: webphone.reject,
+    hangup: (...args) => webphone.hangup(...args),
+    answer: (...args) => webphone.answer(...args),
+    reject: (...args) => webphone.reject(...args),
     onMute: sessionId => webphone.mute(sessionId),
     onUnmute: sessionId => webphone.unmute(sessionId),
     onHold: sessionId => webphone.hold(sessionId),
@@ -197,13 +197,13 @@ function mapToFunctions(_, {
     onRecord: sessionId => webphone.startRecord(sessionId),
     onStopRecord: sessionId => webphone.stopRecord(sessionId),
     onAdd: () => {
-      router.history.push('/');
+      router.push('/');
       webphone.toggleMinimized();
     },
     sendDTMF: (value, sessionId) => webphone.sendDTMF(value, sessionId),
     toVoiceMail: sessionId => webphone.toVoiceMail(sessionId),
     replyWithMessage: (sessionId, message) => webphone.replyWithMessage(sessionId, message),
-    toggleMinimized: webphone.toggleMinimized,
+    toggleMinimized: (...args) => webphone.toggleMinimized(...args),
   };
 }
 

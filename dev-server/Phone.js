@@ -379,7 +379,7 @@ export default class Phone extends RcModule {
       webphone: this.webphone,
       onRinging: async () => {
         // TODO refactor some of these logic into appropriate modules
-        this.router.history.push('/calls');
+        this.router.push('/calls');
       },
       getState: () => this.state.callMonitor,
     }));
@@ -408,7 +408,7 @@ export default class Phone extends RcModule {
       callMonitor: this.callMonitor,
       contactMatcher: this.contactMatcher,
       activityMatcher: this.activityMatcher,
-      logFunction: async () => {},
+      logFunction: async () => { },
       readyCheckFunction: () => true,
       getState: () => this.state.callLogger,
     }));
@@ -427,7 +427,7 @@ export default class Phone extends RcModule {
       rolesAndPermissions: this.rolesAndPermissions,
       storage: this.storage,
       tabManager: this.tabManager,
-      logFunction: async () => {},
+      logFunction: async () => { },
       readyCheckFunction: () => true,
       getState: () => this.state.conversationLogger,
     }));
@@ -493,6 +493,24 @@ export default class Phone extends RcModule {
         console.log(action);
         return action;
       },
+    });
+  }
+
+  initialize() {
+    this.store.subscribe(() => {
+      if (this.auth.ready) {
+        if (
+          this.router.currentPath !== '/welcome' &&
+          !this.auth.loggedIn
+        ) {
+          this.router.push('/welcome');
+        } else if (
+          this.router.currentPath === '/welcome' &&
+          this.auth.loggedIn
+        ) {
+          this.router.push('/');
+        }
+      }
     });
   }
 

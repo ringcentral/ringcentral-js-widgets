@@ -36,5 +36,6 @@
     "no-shadow": 0,
     "import/extensions": "off",
     "class-methods-use-this": 0,
+    "react/no-array-index-key": 0
   }
 }
