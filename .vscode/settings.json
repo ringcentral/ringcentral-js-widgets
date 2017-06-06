@@ -15,7 +15,6 @@
     "**/CVS": true,
     "**/.DS_Store": true,
     "build/**": true,
-    "release/**": true,
-    "demo-extension/**": true
+    "release/**": true
   }
 }

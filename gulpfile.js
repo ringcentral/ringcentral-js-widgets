@@ -11,12 +11,15 @@ import WebpackDevServer from 'webpack-dev-server';
 import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
 import cp from 'child_process';
-import semver from 'semver';
 import transformLocaleLoader from 'locale-loader/transformLocaleLoader';
 import dedent from 'dedent';
 import exportLocale from 'locale-loader/exportLocale';
 import importLocale from 'locale-loader/importLocale';
 import devServerConfig from './dev-server/webpack.config';
+<<<<<<< HEAD
+=======
+import demoExtensionConfig from './demo-extension/webpack.config';
+>>>>>>> set up demo-extension
 
 gulp.task('dev-server', async () => {
   const compiler = webpack(devServerConfig);
@@ -158,3 +161,29 @@ gulp.task('generate-font', async () => {
 gulp.task('export-locale', () => exportLocale());
 gulp.task('export-locale-full', () => exportLocale({ exportType: 'full' }));
 gulp.task('import-locale', () => importLocale());
+
+gulp.task('demo-extension-clean', async () => {
+  await rm('demo-extension-build');
+});
+gulp.task('demo-extension-webpack', ['demo-extension-clean'], () => (
+  new Promise((resolve, reject) => {
+    webpack(demoExtensionConfig, (err) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+      resolve();
+    });
+  })
+));
+gulp.task('demo-extension-copy', ['demo-extension-clean'], () => (
+  gulp.src(['demo-extension/**/*', '!demo-extension/**/*.js'])
+    .pipe(gulp.dest('demo-extension-build'))
+));
+gulp.task('demo-extension',
+  [
+    'demo-extension-clean',
+    'demo-extension-webpack',
+    'demo-extension-copy',
+  ],
+);
