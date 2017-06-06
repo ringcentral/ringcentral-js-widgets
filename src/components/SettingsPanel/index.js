@@ -23,8 +23,8 @@ export default function SettingsPanel({
   currentLocale,
   brandId,
   EulaRenderer,
-  callingSettingsUrl,
-  regionSettingsUrl,
+  onCallingSettingsLinkClick,
+  onRegionSettingsLinkClick,
   showAutoLog,
   autoLogEnabled,
   onAutoLogChange,
@@ -57,7 +57,7 @@ export default function SettingsPanel({
   const region = showRegion ?
     (
       <LinkLine
-        to={regionSettingsUrl} >
+        onClick={onRegionSettingsLinkClick} >
         {i18n.getString('region', currentLocale)}
       </LinkLine>
     ) :
@@ -143,7 +143,7 @@ export default function SettingsPanel({
           showHeader && styles.contentWithHeader,
         )}>
         <LinkLine
-          to={callingSettingsUrl} >
+          onClick={onCallingSettingsLinkClick} >
           {i18n.getString('calling', currentLocale)}
         </LinkLine>
         {region}
@@ -182,14 +182,14 @@ export default function SettingsPanel({
 
 SettingsPanel.propTypes = {
   brandId: PropTypes.string.isRequired,
-  callingSettingsUrl: PropTypes.string.isRequired,
+  onCallingSettingsLinkClick: PropTypes.func.isRequired,
   children: PropTypes.node,
   className: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
   EulaRenderer: PropTypes.func,
   loginNumber: PropTypes.string.isRequired,
   onLogoutButtonClick: PropTypes.func.isRequired,
-  regionSettingsUrl: PropTypes.string.isRequired,
+  onRegionSettingsLinkClick: PropTypes.func.isRequired,
   showAutoLog: PropTypes.bool,
   autoLogEnabled: PropTypes.bool,
   onAutoLogChange: PropTypes.func,

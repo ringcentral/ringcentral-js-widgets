@@ -31,7 +31,7 @@ function mapToFunctions(_, {
   return {
     inviteWithText: (text) => {
       composeText.updateMessageText(text);
-      router.history.push('/composeText');
+      router.push('/composeText');
     },
     formatInternational: (phoneNumber, callingCode) => {
       if (phoneNumber.indexOf(callingCode === 1)) {
