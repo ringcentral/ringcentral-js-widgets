@@ -57,10 +57,16 @@ export default class Phone extends RcModule {
     apiConfig,
     brandConfig,
     appVersion,
+    useTabManager = true,
+    extensionMode = false,
     ...options,
   }) {
-    super();
+    super({
+      ...options,
+    });
     const cachePrefix = `sdk${options.prefix ? `-${options.prefix}` : ''}`;
+    const reducers = {};
+    const proxyReducers = {};
     this.addModule('client', new RingCentralClient(new SDK({
       ...options,
       ...apiConfig,
@@ -71,32 +77,45 @@ export default class Phone extends RcModule {
       ...options,
       getState: () => this.state.alert,
     }));
+    reducers.alert = this.alert.reducer;
     this.addModule('brand', new Brand({
       ...options,
       ...brandConfig,
       getState: () => this.state.brand,
     }));
+    reducers.brand = this.brand.reducer;
     this.addModule('softphone', new Softphone({
       ...options,
       brand: this.brand,
+      extensionMode,
     }));
     this.addModule('locale', new Locale({
       ...options,
       getState: () => this.state.locale,
+      getProxyState: () => this.proxyState.locale,
     }));
+    reducers.locale = this.locale.reducer;
+    proxyReducers.locale = this.locale.proxyReducer;
     this.addModule('dateTimeFormat', new DateTimeFormat({
       ...options,
       locale: this.locale,
       getState: () => this.state.dateTimeFormat,
+      getProxyState: () => this.proxyState.dateTimeFormat,
     }));
-    this.addModule('tabManager', new TabManager({
-      ...options,
-      getState: () => this.state.tabManager,
-    }));
+    reducers.dateTimeFormat = this.dateTimeFormat.reducer;
+    proxyReducers.dateTimeFormat = this.dateTimeFormat.proxyReducer;
+    if (useTabManager) {
+      this.addModule('tabManager', new TabManager({
+        ...options,
+        getState: () => this.state.tabManager,
+      }));
+      reducers.tabManager = this.tabManager.reducer;
+    }
     this.addModule('globalStorage', new GlobalStorage({
       ...options,
       getState: () => this.state.globalStorage,
     }));
+    reducers.globalStorage = this.globalStorage.reducer;
     this.addModule('environment', new Environment({
       ...options,
       client: this.client,
@@ -106,6 +125,7 @@ export default class Phone extends RcModule {
       },
       getState: () => this.state.environment,
     }));
+    reducers.environment = this.environment.reducer;
     this.addModule('auth', new Auth({
       ...options,
       alert: this.alert,
@@ -116,12 +136,14 @@ export default class Phone extends RcModule {
       tabManager: this.tabManager,
       getState: () => this.state.auth,
     }));
+    reducers.auth = this.auth.reducer;
     this.addModule('ringout', new Ringout({
       ...options,
       auth: this.auth,
       client: this.client,
       getState: () => this.state.ringout,
     }));
+    reducers.ringout = this.ringout.reducer;
     this.addModule('connectivityMonitor', new ConnectivityMonitor({
       ...options,
       alert: this.alert,
@@ -129,6 +151,7 @@ export default class Phone extends RcModule {
       environment: this.environment,
       getState: () => this.state.connectivityMonitor,
     }));
+    reducers.connectivityMonitor = this.connectivityMonitor.reducer;
     this.addModule('rateLimiter', new RateLimiter({
       ...options,
       alert: this.alert,
@@ -137,11 +160,13 @@ export default class Phone extends RcModule {
       globalStorage: this.globalStorage,
       getState: () => this.state.rateLimiter,
     }));
+    reducers.rateLimiter = this.rateLimiter.reducer;
     this.addModule('storage', new Storage({
       ...options,
       auth: this.auth,
       getState: () => this.state.storage,
     }));
+    reducers.storage = this.storage.reducer;
     this.addModule('accountExtension', new AccountExtension({
       ...options,
       auth: this.auth,
@@ -150,6 +175,7 @@ export default class Phone extends RcModule {
       tabManager: this.tabManager,
       getState: () => this.state.accountExtension,
     }));
+    reducers.accountExtension = this.accountExtension.reducer;
     this.addModule('accountInfo', new AccountInfo({
       ...options,
       auth: this.auth,
@@ -158,6 +184,7 @@ export default class Phone extends RcModule {
       tabManager: this.tabManager,
       getState: () => this.state.accountInfo,
     }));
+    reducers.accountInfo = this.accountInfo.reducer;
     this.addModule('extensionInfo', new ExtensionInfo({
       ...options,
       auth: this.auth,
@@ -166,6 +193,7 @@ export default class Phone extends RcModule {
       tabManager: this.tabManager,
       getState: () => this.state.extensionInfo,
     }));
+    reducers.extensionInfo = this.extensionInfo.reducer;
     this.addModule('rolesAndPermissions', new RolesAndPermissions({
       ...options,
       auth: this.auth,
@@ -175,6 +203,7 @@ export default class Phone extends RcModule {
       tabManager: this.tabManager,
       getState: () => this.state.rolesAndPermissions,
     }));
+    reducers.rolesAndPermissions = this.rolesAndPermissions.reducer;
     this.addModule('dialingPlan', new DialingPlan({
       ...options,
       auth: this.auth,
@@ -183,6 +212,7 @@ export default class Phone extends RcModule {
       tabManager: this.tabManager,
       getState: () => this.state.dialingPlan,
     }));
+    reducers.dialingPlan = this.dialingPlan.reducer;
     this.addModule('extensionPhoneNumber', new ExtensionPhoneNumber({
       ...options,
       auth: this.auth,
@@ -191,6 +221,7 @@ export default class Phone extends RcModule {
       tabManager: this.tabManager,
       getState: () => this.state.extensionPhoneNumber,
     }));
+    reducers.extensionPhoneNumber = this.extensionPhoneNumber.reducer;
     this.addModule('forwardingNumber', new ForwardingNumber({
       ...options,
       auth: this.auth,
@@ -198,28 +229,6 @@ export default class Phone extends RcModule {
       storage: this.storage,
       tabManager: this.tabManager,
       getState: () => this.state.forwardingNumber,
-    }));
-    this.addModule('regionSettings', new RegionSettings({
-      ...options,
-      storage: this.storage,
-      extensionInfo: this.extensionInfo,
-      dialingPlan: this.dialingPlan,
-      alert: this.alert,
-      tabManager: this.tabManager,
-      getState: () => this.state.regionSettings,
-    }));
-    this.addModule('callingSettings', new CallingSettings({
-      ...options,
-      alert: this.alert,
-      brand: this.brand,
-      extensionInfo: this.extensionInfo,
-      extensionPhoneNumber: this.extensionPhoneNumber,
-      forwardingNumber: this.forwardingNumber,
-      storage: this.storage,
-      rolesAndPermissions: this.rolesAndPermissions,
-      tabManager: this.tabManager,
-      addWebphone: true,
-      getState: () => this.state.callingSettings,
     }));
     this.addModule('webphone', new Webphone({
       appKey: apiConfig.appKey,
@@ -232,6 +241,32 @@ export default class Phone extends RcModule {
       rolesAndPermissions: this.rolesAndPermissions,
       getState: () => this.state.webphone,
     }));
+    reducers.webphone = this.webphone.reducer;
+    reducers.forwardingNumber = this.forwardingNumber.reducer;
+    this.addModule('regionSettings', new RegionSettings({
+      ...options,
+      storage: this.storage,
+      extensionInfo: this.extensionInfo,
+      dialingPlan: this.dialingPlan,
+      alert: this.alert,
+      tabManager: this.tabManager,
+      getState: () => this.state.regionSettings,
+    }));
+    reducers.regionSettings = this.regionSettings.reducer;
+    this.addModule('callingSettings', new CallingSettings({
+      ...options,
+      alert: this.alert,
+      brand: this.brand,
+      extensionInfo: this.extensionInfo,
+      extensionPhoneNumber: this.extensionPhoneNumber,
+      forwardingNumber: this.forwardingNumber,
+      rolesAndPermissions: this.rolesAndPermissions,
+      storage: this.storage,
+      tabManager: this.tabManager,
+      webphone: this.webphone,
+      getState: () => this.state.callingSettings,
+    }));
+    reducers.callingSettings = this.callingSettings.reducer;
     this.addModule('numberValidate', new NumberValidate({
       ...options,
       client: this.client,
@@ -240,6 +275,7 @@ export default class Phone extends RcModule {
       accountInfo: this.accountInfo,
       getState: () => this.state.numberValidate,
     }));
+    reducers.numberValidate = this.numberValidate.reducer;
     this.addModule('call', new Call({
       ...options,
       alert: this.alert,
@@ -254,6 +290,7 @@ export default class Phone extends RcModule {
       numberValidate: this.numberValidate,
       getState: () => this.state.call,
     }));
+    reducers.call = this.call.reducer;
     this.addModule('subscription', new Subscription({
       ...options,
       auth: this.auth,
@@ -262,6 +299,7 @@ export default class Phone extends RcModule {
       tabManager: this.tabManager,
       getState: () => this.state.subscription,
     }));
+    reducers.subscription = this.subscription.reducer;
     this.addModule('activeCalls', new ActiveCalls({
       ...options,
       auth: this.auth,
@@ -269,6 +307,7 @@ export default class Phone extends RcModule {
       subscription: this.subscription,
       getState: () => this.state.activeCalls,
     }));
+    reducers.activeCalls = this.activeCalls.reducer;
     this.addModule('presence', new Presence({
       ...options,
       auth: this.auth,
@@ -277,6 +316,7 @@ export default class Phone extends RcModule {
       updateDelayTime: 2000,
       getState: () => this.state.presence,
     }));
+    reducers.presence = this.presence.reducer;
     this.addModule('detailedPresence', new DetailedPresence({
       ...options,
       auth: this.auth,
@@ -284,12 +324,14 @@ export default class Phone extends RcModule {
       subscription: this.subscription,
       getState: () => this.state.detailedPresence,
     }));
+    reducers.detailedPresence = this.detailedPresence.reducer;
     this.addModule('contactSearch', new ContactSearch({
       ...options,
       auth: this.auth,
       storage: this.storage,
       getState: () => this.state.contactSearch,
     }));
+    reducers.contactSearch = this.contactSearch.reducer;
     this.contactSearch.addSearchSource({
       sourceName: 'extensions',
       searchFn: ({ searchString }) => {
@@ -321,6 +363,7 @@ export default class Phone extends RcModule {
       extensionInfo: this.extensionInfo,
       numberValidate: this.numberValidate,
     }));
+    reducers.messageSender = this.messageSender.reducer;
     this.addModule('composeText', new ComposeText({
       ...options,
       auth: this.auth,
@@ -330,6 +373,7 @@ export default class Phone extends RcModule {
       messageSender: this.messageSender,
       numberValidate: this.numberValidate,
     }));
+    reducers.composeText = this.composeText.reducer;
     this.addModule('messageStore', new MessageStore({
       ...options,
       auth: this.auth,
@@ -339,6 +383,7 @@ export default class Phone extends RcModule {
       subscription: this.subscription,
       getState: () => this.state.messageStore,
     }));
+    reducers.messageStore = this.messageStore.reducer;
     this.addModule('conversation', new Conversation({
       ...options,
       auth: this.auth,
@@ -348,6 +393,7 @@ export default class Phone extends RcModule {
       messageStore: this.messageStore,
       getState: () => this.state.conversation,
     }));
+    reducers.conversation = this.conversation.reducer;
 
     this.addModule('conference', new Conference({
       ...options,
@@ -356,10 +402,12 @@ export default class Phone extends RcModule {
       regionSettings: this.regionSettings,
       getState: () => this.state.conference,
     }));
+    reducers.conference = this.conference.reducer;
     this.addModule('router', new RouterInteraction({
       ...options,
       getState: () => this.state.router,
     }));
+    reducers.router = this.router.reducer;
     this.addModule('callLog', new CallLog({
       ...options,
       auth: this.auth,
@@ -369,6 +417,7 @@ export default class Phone extends RcModule {
       rolesAndPermissions: this.rolesAndPermissions,
       getState: () => this.state.callLog,
     }));
+    reducers.callLog = this.callLog.reducer;
     this.addModule('callMonitor', new CallMonitor({
       ...options,
       accountInfo: this.accountInfo,
@@ -383,6 +432,7 @@ export default class Phone extends RcModule {
       },
       getState: () => this.state.callMonitor,
     }));
+    reducers.callMonitor = this.callMonitor.reducer;
     this.addModule('callHistory', new CallHistory({
       ...options,
       accountInfo: this.accountInfo,
@@ -392,16 +442,19 @@ export default class Phone extends RcModule {
       contactMatcher: this.contactMatcher,
       getState: () => this.state.callHistory,
     }));
+    reducers.callHistory = this.callHistory.reducer;
     this.addModule('contactMatcher', new ContactMatcher({
       ...options,
       storage: this.storage,
       getState: () => this.state.contactMatcher,
     }));
+    reducers.contactMatcher = this.contactMatcher.reducer;
     this.addModule('activityMatcher', new ActivityMatcher({
       ...options,
       storage: this.storage,
       getState: () => this.state.activityMatcher,
     }));
+    reducers.activityMatcher = this.activityMatcher.reducer;
     this.addModule('callLogger', new CallLogger({
       ...options,
       storage: this.storage,
@@ -412,10 +465,12 @@ export default class Phone extends RcModule {
       readyCheckFunction: () => true,
       getState: () => this.state.callLogger,
     }));
+    reducers.callLogger = this.callLogger.reducer;
     this.addModule('conversationMatcher', new ConversationMatcher({
       storage: this.storage,
       getState: () => this.state.conversationMatcher,
     }));
+    reducers.conversationMatcher = this.conversationMatcher.reducer;
     this.addModule('conversationLogger', new ConversationLogger({
       ...options,
       auth: this.auth,
@@ -431,6 +486,7 @@ export default class Phone extends RcModule {
       readyCheckFunction: () => true,
       getState: () => this.state.conversationLogger,
     }));
+    reducers.conversationLogger = this.conversationLogger.reducer;
     this.addModule('messages', new Messages({
       ...options,
       alert: this.alert,
@@ -440,59 +496,20 @@ export default class Phone extends RcModule {
       conversationLogger: this.conversationLogger,
       getState: () => this.state.messages,
     }));
+    reducers.messages = this.messages.reducer;
     this._reducer = combineReducers({
-      accountExtension: this.accountExtension.reducer,
-      accountInfo: this.accountInfo.reducer,
-      alert: this.alert.reducer,
-      auth: this.auth.reducer,
+      ...reducers,
       app: (state = {
         name: brandConfig.appName,
         version: appVersion,
       }) => state,
-      call: this.call.reducer,
-      callingSettings: this.callingSettings.reducer,
-      connectivityMonitor: this.connectivityMonitor.reducer,
-      environment: this.environment.reducer,
-      extensionInfo: this.extensionInfo.reducer,
-      extensionPhoneNumber: this.extensionPhoneNumber.reducer,
-      forwardingNumber: this.forwardingNumber.reducer,
-      brand: this.brand.reducer,
-      dialingPlan: this.dialingPlan.reducer,
-      locale: this.locale.reducer,
-      storage: this.storage.reducer,
-      globalStorage: this.globalStorage.reducer,
-      detailedPresence: this.detailedPresence.reducer,
-      presence: this.presence.reducer,
-      rateLimiter: this.rateLimiter.reducer,
-      rolesAndPermissions: this.rolesAndPermissions.reducer,
-      regionSettings: this.regionSettings.reducer,
-      ringout: this.ringout.reducer,
-      webphone: this.webphone.reducer,
-      router: this.router.reducer,
-      subscription: this.subscription.reducer,
-      tabManager: this.tabManager.reducer,
-      dateTimeFormat: this.dateTimeFormat.reducer,
-      contactSearch: this.contactSearch.reducer,
-      numberValidate: this.numberValidate.reducer,
-      messageSender: this.messageSender.reducer,
-      composeText: this.composeText.reducer,
-      messageStore: this.messageStore.reducer,
-      conversation: this.conversation.reducer,
-      conversationMatcher: this.conversationMatcher.reducer,
-      conversationLogger: this.conversationLogger.reducer,
-      messages: this.messages.reducer,
-      conference: this.conference.reducer,
-      activeCalls: this.activeCalls.reducer,
-      callLog: this.callLog.reducer,
-      callMonitor: this.callMonitor.reducer,
-      callHistory: this.callHistory.reducer,
-      contactMatcher: this.contactMatcher.reducer,
-      activityMatcher: this.activityMatcher.reducer,
-      callLogger: this.callLogger.reducer,
       lastAction: (state = null, action) => {
         console.log(action);
         return action;
       },
+    });
+    this._proxyReducer = combineReducers({
+      ...proxyReducers,
     });
   }
 

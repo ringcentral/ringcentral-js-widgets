@@ -22,9 +22,16 @@ export default class RouterInteraction extends RcModule {
     this._history = history;
   }
   initialize() {
-    syncHistoryWithStore(this._history, this.store, {
+    this._history = syncHistoryWithStore(this._history, this.store, {
       selectLocationState: () => this.state,
     });
+  }
+  initializeProxy() {
+    console.log('@@@ augment history');
+    this._history = syncHistoryWithStore(this._history, this.store, {
+      selectLocationState: () => this.state,
+    });
+    console.log('@@@ after augment history');
   }
 
   get history() {
