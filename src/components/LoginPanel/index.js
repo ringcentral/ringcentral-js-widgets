@@ -16,7 +16,15 @@ export default class LoginPanel extends Component {
       onLoginButtonClick,
       currentLocale,
       disabled,
+      version,
     } = this.props;
+    const versionDisplay = version ?
+      (
+        <div className={styles.versionContainer} >
+          {i18n.getString('version', currentLocale)} {version}
+        </div>
+      ) :
+      null;
     return (
       <div className={classnames(styles.root, className)}>
         <button
@@ -25,6 +33,7 @@ export default class LoginPanel extends Component {
           disabled={disabled} >
           {i18n.getString('loginButton', currentLocale)}
         </button>
+        {versionDisplay}
       </div>
     );
   }
@@ -37,9 +46,11 @@ LoginPanel.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   onLoginButtonClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
+  version: PropTypes.string,
 };
 
 LoginPanel.defaultProps = {
   className: null,
   disabled: false,
+  version: undefined,
 };

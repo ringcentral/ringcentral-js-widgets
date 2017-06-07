@@ -6,24 +6,21 @@ import styles from './styles.scss';
 import RecipientsInput from '../RecipientsInput';
 import AlertDisplay from '../AlertDisplay';
 import MessageSenderAlert from '../MessageSenderAlert';
-import Select from '../Select';
+import Select from '../DropdownSelect';
 
 function SenderField(props) {
   return (
-    <div>
-      <label>{i18n.getString('from', props.currentLocale)}:</label>
-      <div className={styles.senderInput}>
-        <Select
-          className={styles.senderSelect}
-          value={props.value}
-          onChange={props.onChange}
-          options={props.options}
-          paddingLeft={0}
-          valueFunction={option => option}
-          renderFunction={props.formatPhone}
-        />
-      </div>
-    </div>
+    <Select
+      label={`${i18n.getString('from', props.currentLocale)}:`}
+      className={styles.senderSelect}
+      value={props.value}
+      onChange={props.onChange}
+      options={props.options}
+      paddingLeft={0}
+      renderValue={props.formatPhone}
+      valueFunction={value => value}
+      renderFunction={props.formatPhone}
+    />
   );
 }
 
@@ -43,8 +40,7 @@ class ComposeTextPanel extends Component {
       showAlert: !this.hasSenderNumbers() && this.props.outboundSMS,
     };
 
-    this.onSenderChange = (e) => {
-      const value = e.currentTarget.value;
+    this.onSenderChange = (value) => {
       this.props.updateSenderNumber(value);
     };
 

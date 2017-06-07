@@ -10,4 +10,5 @@ export default {
   ringoutHint: 'Chiamami prima alla mia postazione, poi connetti il gruppo chiamato',
   myLocationLabel: 'La mia postazione',
   press1ToStartCallLabel: 'Chiedimi di comporre 1 prima di connettere la chiamata',
+  [callingOptions.browser]: 'Browser',
 };

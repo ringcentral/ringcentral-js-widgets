@@ -82,7 +82,7 @@ class ActiveCallPage extends Component {
     // isRinging = true;
     const phoneNumber = session.direction === callDirections.outbound ?
       session.to : session.from;
-    const userName = 'Unknow';
+    const userName = 'Unknown';
     if (isRinging) {
       return (
         <IncomingCallPanel

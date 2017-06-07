@@ -2,7 +2,8 @@ import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
-import phoneTypes from '../../lib/phoneTypes';
+import phoneTypeNames from '../../lib/phoneTypeNames';
+import phoneSourceNames from '../../lib/phoneSourceNames';
 
 function ContactItem(props) {
   const className = classnames(
@@ -10,11 +11,11 @@ function ContactItem(props) {
     props.active ? styles.active : null,
   );
   const spliter = '|';
-  const nameTitle = `${props.name} ${spliter} `
-    + `${phoneTypes.getString(`phoneSource.${props.entityType}`)}`;
-  const phoneNumberTitle = `${props.formatContactPhone(props.phoneNumber)} ${spliter} `
-    + `${props.phoneType === 'unknown' ?
-    phoneTypes.getString(`phoneType.${props.phoneType}`) : props.phoneType}`;
+  const phoneTypeName = phoneTypeNames.getString(props.phoneType);
+  const phoneSourceName = phoneSourceNames.getString(props.entityType);
+  const nameTitle = `${props.name} ${spliter} ${phoneSourceName}`;
+  const phoneNumberTitle =
+    `${props.formatContactPhone(props.phoneNumber)} ${spliter} ${phoneTypeName}`;
 
   return (
     <li className={className} onMouseOver={props.onHover}>
@@ -25,7 +26,7 @@ function ContactItem(props) {
           </span>
           <span className={styles.spliter}>{spliter}</span>
           <span className={styles.label}>
-            {phoneTypes.getString(`phoneSource.${props.entityType}`)}
+            {phoneSourceName}
           </span>
         </div>
         <div className={styles.phoneNumberSection} title={props.titleEnabled && phoneNumberTitle}>
@@ -34,8 +35,7 @@ function ContactItem(props) {
           </span>
           <span className={styles.spliter}>{spliter}</span>
           <span className={styles.label}>
-            { props.phoneType === 'unknown' ?
-              phoneTypes.getString(`phoneType.${props.phoneType}`) : props.phoneType }
+            {phoneTypeName}
           </span>
         </div>
       </a>

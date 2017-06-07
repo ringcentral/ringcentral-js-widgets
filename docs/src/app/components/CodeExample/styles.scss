@@ -1,0 +1,67 @@
+.root {
+  display: block;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 6px, rgba(0, 0, 0, 0.12) 0px 1px 4px;
+  border-radius: 2px;
+  margin: 20px 10px;
+}
+
+.codeBlock {
+  background: #f7f7f7;
+  border-top: solid 1px #e0e0e0;
+
+  button {
+    padding: 0;
+  }
+}
+
+.markdown {
+  overflow: auto;
+  max-height: 1400;
+  transition: max-height 800ms 0ms ease-in-out;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.description {
+  background: #ffffff;
+  overflow: auto;
+  padding: 10px 25px 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.codeTitle {
+  position: relative;
+  display: block;
+  background: #e8e8e8;
+  height: 56px;
+  padding: 0px 24px;
+  padding-right: 16px;
+  line-height: 56px;
+  font-size: 20px;
+  color: rgba(0, 0, 0, 0.4);
+
+  .codeIcon {
+    position: absolute;
+    color: #333;
+    right: 18px;
+    top: 19px;
+    font-size: 16px;
+    line-height: 1;
+    font-weight: 600;
+  }
+}
+
+.showCase {
+  position: relative;
+  border-radius: 0px 0px 2px;
+  padding: 14px 25px 24px;
+  margin: 0px;
+  min-height: 60px;
+}
+
+.clearFix {
+  box-sizing: border-box;
+  content: " ";
+  display: table;
+}

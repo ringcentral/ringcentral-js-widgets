@@ -4,12 +4,13 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import DropdownSelect from '../DropdownSelect';
 import i18n from './i18n';
 import styles from './styles.scss';
+import phoneSourceNames from '../../lib/phoneSourceNames';
 
 const displayFomatter = ({ entityName, entityType, phoneNumber }) => {
   if (phoneNumber && entityName && entityType) {
-    return `${entityName} | ${i18n.getString(`phoneSource.${entityType}`)} ${phoneNumber}`;
+    return `${entityName} | ${phoneSourceNames.getString(entityType)} ${phoneNumber}`;
   } else if (entityName && entityType) {
-    return `${entityName} | ${i18n.getString(`phoneSource.${entityType}`)}`;
+    return `${entityName} | ${phoneSourceNames.getString(entityType)}`;
   } else if (phoneNumber) {
     return `${phoneNumber}`;
   }

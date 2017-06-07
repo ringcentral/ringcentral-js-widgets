@@ -163,7 +163,7 @@ export default function App({
                   rateLimiter={phone.rateLimiter}
                   dateTimeFormat={phone.dateTimeFormat}
                   onLogCall={async () => { await sleep(1000); }}
-                  onViewContact={() => {}}
+                  onViewContact={() => { }}
                   router={phone.router}
                   composeText={phone.composeText}
                   rolesAndPermissions={phone.rolesAndPermissions}
@@ -188,8 +188,8 @@ export default function App({
                   rolesAndPermissions={phone.rolesAndPermissions}
                   router={phone.router}
                   onLogCall={async () => { await sleep(1000); }}
-                  onViewContact={() => {}}
-                  onCreateContact={() => {}}
+                  onViewContact={() => { }}
+                  onCreateContact={() => { }}
                 />
               )} />
             <Route
@@ -239,7 +239,7 @@ export default function App({
                   conversationLogger={phone.conversationLogger}
                   rateLimiter={phone.rateLimiter}
                   connectivityMonitor={phone.connectivityMonitor}
-                  onLogConversation={async () => {sleep(1000);}}
+                  onLogConversation={async () => { sleep(1000); }}
                 />
               )} />
             <Route
@@ -258,8 +258,8 @@ export default function App({
                   conversationLogger={phone.conversationLogger}
                   rolesAndPermissions={phone.rolesAndPermissions}
                   onLogConversation={async () => { await sleep(1000); }}
-                  onViewContact={() => {}}
-                  onCreateContact={() => {}}
+                  onViewContact={() => { }}
+                  onCreateContact={() => { }}
                 />
               )} />
           </Route>
@@ -276,7 +276,8 @@ export default function App({
                 auth={phone.auth}
                 locale={phone.locale}
                 rateLimiter={phone.rateLimiter}
-                connectivityMonitor={phone.connectivityMonitor} >
+                connectivityMonitor={phone.connectivityMonitor}
+                version={phone.version} >
                 <AlertContainer
                   locale={phone.locale}
                   alert={phone.alert}

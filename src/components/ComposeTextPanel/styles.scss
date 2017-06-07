@@ -17,37 +17,38 @@
 
 .senderField {
   margin: 0 0 5px 0;
-  padding: 0 12px 1px 20px;
+  padding: 0 20px 1px 20px;
   border-bottom: #e3e3e3 1px solid;
 	transition: height 0.5s ease-in;
   color: #797979;
-  overflow: hidden;
-
-  label {
-    font-size: 12px;
-    line-height: 30px;
-    display: block;
-    float: left;
-  }
-
-  .senderInput {
-    position: relative;
-    line-height: 30px;
-    margin-left: 45px;
-  }
 }
 
 .senderSelect {
   font-size: 12px;
   width: 100%;
-  height: 100%;
+  border: none;
+  padding: 0;
 
-  select {
-    box-sizing: border-box;
+  label {
+    color: $grey-light;
+    font-size: 12px;
+    width: 46px;
+  }
+  button {
+    margin-left: 0;
+    margin-right: 0;
+    color: $grey-light;
+    font-size: 12px;
+  }
+  ul {
+    overflow-y: auto;
+    margin-top: -2px;
   }
 
-  select:focus {
-    outline: none;
+  li {
+    text-align: left;
+    padding: 10px;
+    font-size: 13px;
   }
 }
 

@@ -1,0 +1,51 @@
+{
+  "name": "ringcentral-js-widget-docs",
+  "version": "0.0.1",
+  "description": "Documentation site for RingCentral JS Widget",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ringcentral/ringcentral-js-widget.git"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "start": "npm run dev-server",
+    "dev-server": "webpack-dev-server --config webpack-dev-server.config.js --progress --colors --inline",
+    "build": "NODE_ENV=production webpack --config webpack-production.config.js --progress --colors",
+    "pageGen": "node buildComponentDocPages.js"
+  },
+  "private": true,
+  "dependencies": {
+    "autoprefixer": "^6.7.2",
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-polyfill": "^6.22.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.22.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "classnames": "^2.2.5",
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.26.1",
+    "doctrine": "^2.0.0",
+    "ejs": "^2.5.6",
+    "file-loader": "^0.10.0",
+    "highlight.js": "^9.11.0",
+    "history": "^4.6.1",
+    "locale-loader": "^1.2.4",
+    "marked": "^0.3.6",
+    "node-sass": "^4.5.0",
+    "postcss-loader": "^1.2.2",
+    "prop-types": "^15.5.10",
+    "raw-loader": "^0.5.1",
+    "react": "^15.5.4",
+    "react-docgen": "^2.15.0",
+    "react-dom": "^15.5.4",
+    "react-router-dom": "^4.1.1",
+    "source-map-loader": "^0.1.6",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^1.16.3"
+  }
+}

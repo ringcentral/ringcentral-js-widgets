@@ -17,13 +17,8 @@ export default {
   [messageSenderMessages.internalError]: 'Se ha producido un fallo en la conexión. Vuelva a intentarlo más tarde.',
   [messageSenderMessages.notAnExtension]: 'El número de extensión no existe.',
   [messageSenderMessages.networkError]: 'No se puede conectar debido a errores de red. Vuelva a intentarlo más tarde.',
-  [messageSenderMessages.senderNumberInvalid]: `Se necesita un número de teléfono válido para enviar mensajes
-    de texto a destinatarios fuera de la compañía. Póngase en contacto con el administrador para añadir 
-    un número directo a su cuenta.`,
-  [messageSenderMessages.notSmsToExtension]: `No se puede enviar a un número de extensión desde un número de teléfono principal.
-    Si quiere enviar un mensaje a un número de extensión,
-    escriba solo dicho número.`,
-  [messageSenderMessages.internationalSMSNotSupported]: `No es posible 
-    enviar SMS a números de teléfono internacionales.`,
+  [messageSenderMessages.senderNumberInvalid]: 'Se necesita un número de teléfono válido para enviar mensajes de texto a destinatarios fuera de la compañía. Póngase en contacto con el administrador para añadir un número directo a su cuenta.',
+  [messageSenderMessages.notSmsToExtension]: 'No se puede enviar a un número de extensión desde un número de teléfono principal. Si quiere enviar un mensaje a un número de extensión, escriba solo dicho número.',
+  [messageSenderMessages.internationalSMSNotSupported]: 'No es posible enviar SMS a números de teléfono internacionales.',
   areaCode: 'código de área',
 };
