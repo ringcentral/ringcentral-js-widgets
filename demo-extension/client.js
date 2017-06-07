@@ -24,6 +24,8 @@ const client = new ProxyServer({
 });
 global.client = client;
 
+navigator.mediaDevices.getUserMedia({ audio: true });
+
 const store = createStore(client.reducer);
 client.setStore(store);
 
