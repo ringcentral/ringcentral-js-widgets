@@ -17,3 +17,14 @@ deploy:
       tags: true
       condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
       repo: ringcentral/ringcentral-js-widget
+  - provider: pages
+    skip_cleanup: true
+    github_token: $RELEASE_TOKEN
+    local_dir: ../docs/gh-pages
+    email: 'integrations@ringcentral.com'
+    name: 'RingCentral Integrations Team'
+    on:
+      node: '6'
+      tags: true
+      condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
+      repo: ringcentral/ringcentral-js-widget
