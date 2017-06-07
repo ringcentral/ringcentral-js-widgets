@@ -29,12 +29,20 @@ navigator.mediaDevices.getUserMedia({ audio: true });
 const store = createStore(client.reducer);
 client.setStore(store);
 
-window.addEventListener('load', () => {
+function renderApp() {
   ReactDOM.render(
     <App
-      phone={client}
+      phone={client._target}
     />,
     document.querySelector('div#viewport'),
   );
   client.sync(); // Rendering App with Routes would force the history object to default path
-});
+}
+(async () => {
+  await client.sync();  // wait for the first sync
+  if (document.readyState !== 'loading') {
+    renderApp();
+  } else {
+    window.addEventListener('load', renderApp);
+  }
+})();

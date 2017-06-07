@@ -187,9 +187,9 @@ function mapToFunctions(_, {
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode,
     }),
-    hangup: (...args) => webphone.hangup(...args),
-    answer: (...args) => webphone.answer(...args),
-    reject: (...args) => webphone.reject(...args),
+    hangup: sessionId => webphone.hangup(sessionId),
+    answer: sessionId => webphone.answer(sessionId),
+    reject: sessionId => webphone.reject(sessionId),
     onMute: sessionId => webphone.mute(sessionId),
     onUnmute: sessionId => webphone.unmute(sessionId),
     onHold: sessionId => webphone.hold(sessionId),
@@ -203,7 +203,7 @@ function mapToFunctions(_, {
     sendDTMF: (value, sessionId) => webphone.sendDTMF(value, sessionId),
     toVoiceMail: sessionId => webphone.toVoiceMail(sessionId),
     replyWithMessage: (sessionId, message) => webphone.replyWithMessage(sessionId, message),
-    toggleMinimized: (...args) => webphone.toggleMinimized(...args),
+    toggleMinimized: () => webphone.toggleMinimized(),
   };
 }
 
