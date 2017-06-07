@@ -30,7 +30,7 @@ server.setStore(store);
 window.addEventListener('load', () => {
   ReactDOM.render(
     <App
-      phone={server}
+      phone={server._target}
     />,
     document.querySelector('div#viewport'),
   );
