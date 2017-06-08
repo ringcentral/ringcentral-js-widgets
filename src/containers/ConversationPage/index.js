@@ -63,6 +63,7 @@ class ConversationPage extends Component {
         sendButtonDisabled={this.props.sendButtonDisabled}
         autoLog={this.props.autoLog}
         dateTimeFormatter={this.props.dateTimeFormatter}
+        goBack={this.props.goBack}
       />
     );
   }
@@ -154,6 +155,7 @@ function mapToFunctions(_, {
   isLoggedContact,
   conversationLogger,
   onLogConversation,
+  router,
 }) {
   let getMatcherContactName;
   let getMatcherContactList;
@@ -185,9 +187,9 @@ function mapToFunctions(_, {
   }
 
   return {
-    replyToReceivers: conversation.replyToReceivers,
-    changeDefaultRecipient: conversation.changeDefaultRecipient,
-    changeMatchedNames: conversation.changeMatchedNames,
+    replyToReceivers: (...args) => conversation.replyToReceivers(...args),
+    changeDefaultRecipient: (...args) => conversation.changeDefaultRecipient(...args),
+    changeMatchedNames: (...args) => conversation.changeMatchedNames(...args),
     unloadConversation: () => conversation.unloadConversation(),
     loadConversationById: id => conversation.loadConversationById(id),
     dateTimeFormatter,
@@ -207,6 +209,9 @@ function mapToFunctions(_, {
         redirect,
       });
     })),
+    goBack: () => {
+      router.goBack();
+    },
   };
 }
 

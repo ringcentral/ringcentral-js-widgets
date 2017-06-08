@@ -4,7 +4,6 @@ import 'font-awesome/css/font-awesome.css';
 
 import BackHeader from '../BackHeader';
 import Panel from '../Panel';
-import Line from '../Line';
 import InputField from '../InputField';
 import TextInput from '../TextInput';
 import Select from '../DropdownSelect';
