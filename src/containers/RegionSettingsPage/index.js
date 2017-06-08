@@ -27,7 +27,7 @@ function mapToFunctions(_, {
       await auth.logout();
     },
     onBackButtonClick: () => {
-      router.history.goBack();
+      router.goBack();
     },
     onSave: ({ areaCode, countryCode }) => {
       regionSettings.setData({

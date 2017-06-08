@@ -1,45 +1,107 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes, Component } from 'react';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
-
-function TextInput({
-  className,
-  invalid,
-  onChange,
-  placeholder,
-  disabled,
-  readOnly,
-  pattern,
-  name,
-  maxLength,
-  value,
-  defaultValue,
-  onKeyDown,
-}) {
-  return (
-    <div
-      className={classnames(
-        styles.root,
-        className,
-        invalid && styles.invalid,
-      )}>
-      <input
-        onChange={onChange}
-        placeholder={placeholder}
-        disabled={disabled}
-        readOnly={readOnly}
-        pattern={pattern}
-        maxLength={maxLength}
-        name={name}
-        value={value || ''}
-        defaultValue={defaultValue}
-        className={styles.input}
-        onKeyDown={onKeyDown}
-      />
-    </div>
-  );
+class TextInput extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: props.value,
+    };
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.props.value) {
+      this.setState({
+        value: nextProps.value,
+      });
+    }
+  }
+  onInputChange = (e) => {
+    this.setState({
+      value: e.currentTarget.value,
+    });
+    if (typeof this.props.onChange === 'function') {
+      this.props.onChange(e);
+    }
+  }
+  render() {
+    const {
+      className,
+      invalid,
+      placeholder,
+      disabled,
+      readOnly,
+      pattern,
+      name,
+      maxLength,
+      defaultValue,
+      onKeyDown,
+    } = this.props;
+    const {
+      value,
+    } = this.state;
+    return (
+      <div
+        className={classnames(
+          styles.root,
+          className,
+          invalid && styles.invalid,
+        )}>
+        <input
+          onChange={this.onInputChange}
+          placeholder={placeholder}
+          disabled={disabled}
+          readOnly={readOnly}
+          pattern={pattern}
+          maxLength={maxLength}
+          name={name}
+          value={value || ''}
+          defaultValue={defaultValue}
+          className={styles.input}
+          onKeyDown={onKeyDown}
+        />
+      </div>
+    );
+  }
 }
+
+// function TextInput({
+//   className,
+//   invalid,
+//   onChange,
+//   placeholder,
+//   disabled,
+//   readOnly,
+//   pattern,
+//   name,
+//   maxLength,
+//   value,
+//   defaultValue,
+//   onKeyDown,
+// }) {
+//   return (
+//     <div
+//       className={classnames(
+//         styles.root,
+//         className,
+//         invalid && styles.invalid,
+//       )}>
+//       <input
+//         onChange={onChange}
+//         placeholder={placeholder}
+//         disabled={disabled}
+//         readOnly={readOnly}
+//         pattern={pattern}
+//         maxLength={maxLength}
+//         name={name}
+//         value={value || ''}
+//         defaultValue={defaultValue}
+//         className={styles.input}
+//         onKeyDown={onKeyDown}
+//       />
+//     </div>
+//   );
+// }
 TextInput.propTypes = {
   className: PropTypes.string,
   onChange: PropTypes.func,

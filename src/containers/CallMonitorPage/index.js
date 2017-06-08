@@ -99,7 +99,7 @@ function mapToFunctions(_, {
     onClickToSms: composeText ?
       async (contact, isDummyContact = false) => {
         if (router) {
-          router.history.push(composeTextRoute);
+          router.push(composeTextRoute);
         }
         if (contact.name && contact.phoneNumber && isDummyContact) {
           composeText.updateTypingToNumber(contact.name);
@@ -112,10 +112,10 @@ function mapToFunctions(_, {
         }
       } :
       undefined,
-    webphoneAnswer: (webphone && webphone.answer),
-    webphoneReject: (webphone && webphone.reject),
-    webphoneHangup: (webphone && webphone.hangup),
-    webphoneResume: (webphone && webphone.resume),
+    webphoneAnswer: (...args) => (webphone && webphone.answer(...args)),
+    webphoneReject: (...args) => (webphone && webphone.reject(...args)),
+    webphoneHangup: (...args) => (webphone && webphone.hangup(...args)),
+    webphoneResume: (...args) => (webphone && webphone.resume(...args)),
   };
 }
 

@@ -45,7 +45,7 @@ function mapToFunctions(_, {
     onCall: () => {
       call.onCall();
     },
-    changeFromNumber: callingSettings.updateFromNumber,
+    changeFromNumber: (...args) => callingSettings.updateFromNumber(...args),
     formatPhone: phoneNumber => formatNumber({
       phoneNumber,
       areaCode: regionSettings && regionSettings.areaCode,

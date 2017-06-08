@@ -143,7 +143,7 @@ function mapToFunctions(_, {
     onClickToDial: call ?
       (phoneNumber) => {
         if (call.isIdle) {
-          router.history.push(dialerRoute);
+          router.push(dialerRoute);
           call.onToNumberChange(phoneNumber);
           call.onCall();
         }
@@ -161,7 +161,7 @@ function mapToFunctions(_, {
       messages.updateSearchInput(e.currentTarget.value);
     },
     showConversationDetail(conversationId) {
-      router.history.push(
+      router.push(
         conversationDetailRoute.replace('{conversationId}', conversationId)
       );
     },

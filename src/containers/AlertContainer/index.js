@@ -18,84 +18,109 @@ import ConnectivityAlert from '../../components/ConnectivityAlert';
 import WebphoneAlert from '../../components/WebphoneAlert';
 import RolesAndPermissionsAlert from '../../components/RolesAndPermissionsAlert';
 
-const AlertContainer = connect((state, {
+
+function mapToProps(_, {
   locale,
   alert,
-}) => ({
-  currentLocale: locale.currentLocale,
-  messages: alert.messages,
-}), (dispatch, {
+}) {
+  return {
+    currentLocale: locale.currentLocale,
+    messages: alert.messages,
+  };
+}
+
+function mapToFunctions(_, {
   rateLimiter,
   brand,
   alert,
-}) => ({
-  getRenderer: (message) => {
-    if (AuthAlert.handleMessage(message)) {
-      return AuthAlert;
-    }
-    if (CallAlert.handleMessage(message)) {
-      return props => (
-        <CallAlert
-          {...props}
-          regionSettingsUrl="/settings/region" />
-      );
-    }
-    if (CallingSettingsAlert.handleMessage(message)) {
-      return props => (
-        <CallingSettingsAlert
-          {...props}
-          brand={brand.fullName}
-          callingSettingsUrl="/settings/calling" />
-      );
-    }
+  router,
+  regionSettingsUrl,
+  callingSettingsUrl,
+}) {
+  const onRegionSettingsLinkClick = () => {
+    router.push(regionSettingsUrl);
+  };
+  const onCallingSettingsLinkClick = () => {
+    router.push(callingSettingsUrl);
+  };
+  return {
+    getRenderer: (message) => {
+      if (AuthAlert.handleMessage(message)) {
+        return AuthAlert;
+      }
+      if (CallAlert.handleMessage(message)) {
+        return props => (
+          <CallAlert
+            {...props}
+            onAreaCodeLinkClick={onRegionSettingsLinkClick}
+          />
+        );
+      }
+      if (CallingSettingsAlert.handleMessage(message)) {
+        return props => (
+          <CallingSettingsAlert
+            {...props}
+            brand={brand.fullName}
+            onCallingSettingsLinkClick={onCallingSettingsLinkClick}
+          />
+        );
+      }
 
-    if (RegionSettingsAlert.handleMessage(message)) {
-      return props => (
-        <RegionSettingsAlert
-          {...props}
-          regionSettingsUrl="/settings/region" />
-      );
-    }
+      if (RegionSettingsAlert.handleMessage(message)) {
+        return props => (
+          <RegionSettingsAlert
+            {...props}
+            onRegionSettingsLinkClick={onRegionSettingsLinkClick}
+          />
+        );
+      }
 
-    if (MessageSenderAlert.handleMessage(message)) {
-      return props => (
-        <MessageSenderAlert
-          {...props}
-          regionSettingsUrl="/settings/region" />
-      );
-    }
+      if (MessageSenderAlert.handleMessage(message)) {
+        return props => (
+          <MessageSenderAlert
+            {...props}
+            onAreaCodeLink={onRegionSettingsLinkClick}
+          />
+        );
+      }
 
-    if (RateExceededAlert.handleMessage(message)) {
-      return props => (
-        <RateExceededAlert
-          {...props}
-          timestamp={rateLimiter.timestamp}
-          duration={rateLimiter._throttleDuration} />
-      );
-    }
+      if (RateExceededAlert.handleMessage(message)) {
+        return props => (
+          <RateExceededAlert
+            {...props}
+            timestamp={rateLimiter.timestamp}
+            duration={rateLimiter._throttleDuration} />
+        );
+      }
 
-    if (ConnectivityAlert.handleMessage(message)) {
-      return ConnectivityAlert;
-    }
+      if (ConnectivityAlert.handleMessage(message)) {
+        return ConnectivityAlert;
+      }
 
-    if (WebphoneAlert.handleMessage(message)) {
-      return WebphoneAlert;
-    }
-    if (RolesAndPermissionsAlert.handleMessage(message)) {
-      return props => (
-        <RolesAndPermissionsAlert
-          {...props}
-          brand={brand.fullName}
-          application={brand.application} />
-      );
-    }
+      if (WebphoneAlert.handleMessage(message)) {
+        return WebphoneAlert;
+      }
+      if (RolesAndPermissionsAlert.handleMessage(message)) {
+        return props => (
+          <RolesAndPermissionsAlert
+            {...props}
+            brand={brand.fullName}
+            application={brand.application} />
+        );
+      }
 
-    return undefined;
-  },
-  dismiss: (id) => {
-    alert.dismiss(id);
-  },
-}))(AlertDisplay);
+      return undefined;
+    },
+    dismiss: (id) => {
+      alert.dismiss(id);
+    },
+  };
+}
+
+const AlertContainer = connect(
+  mapToProps,
+  mapToFunctions
+)(AlertDisplay);
 
 AlertContainer.propTypes = {
   alert: PropTypes.instanceOf(Alert).isRequired,
