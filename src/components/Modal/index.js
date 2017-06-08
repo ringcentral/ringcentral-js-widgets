@@ -4,7 +4,7 @@ import Button from '../Button';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-export function FlatButton({
+function FlatButton({
   className,
   disabled,
   onClick,

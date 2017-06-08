@@ -595,18 +595,6 @@
           "value": "undefined",
           "computed": true
         }
-      },
-      "sessionId": {
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
-      "callStatus": {
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
       }
     },
     "name": "ActiveCallPanel"
@@ -704,7 +692,25 @@
                 "required": true
               },
               "level": {
-                "name": "string",
+                "name": "enum",
+                "value": [
+                  {
+                    "value": "'success'",
+                    "computed": false
+                  },
+                  {
+                    "value": "'info'",
+                    "computed": false
+                  },
+                  {
+                    "value": "'warning'",
+                    "computed": false
+                  },
+                  {
+                    "value": "'danger'",
+                    "computed": false
+                  }
+                ],
                 "required": true
               },
               "message": {
@@ -960,12 +966,16 @@
     "description": "",
     "methods": [],
     "props": {
-      "regionSettingsUrl": {
+      "onAreaCodeLinkClick": {
         "type": {
-          "name": "string"
+          "name": "func"
         },
-        "required": true,
-        "description": ""
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       },
       "message": {
         "type": {
@@ -1331,12 +1341,16 @@
         "required": true,
         "description": ""
       },
-      "callingSettingsUrl": {
+      "onCallingSettingsLinkClick": {
         "type": {
-          "name": "string"
+          "name": "func"
         },
-        "required": true,
-        "description": ""
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "CallingSettingsAlert"
@@ -2858,12 +2872,6 @@
           "value": "false",
           "computed": false
         }
-      },
-      "title": {
-        "defaultValue": {
-          "value": "undefined",
-          "computed": true
-        }
       }
     },
     "name": "DropdownSelect"
@@ -3419,25 +3427,33 @@
     "description": "",
     "methods": [],
     "props": {
-      "className": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": ""
-      },
-      "to": {
-        "type": {
-          "name": "string"
-        },
-        "required": true,
-        "description": ""
-      },
       "children": {
         "type": {
           "name": "node"
         },
         "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onClick": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
         "description": ""
       }
     },
@@ -3564,6 +3580,17 @@
         "defaultValue": {
           "value": "false",
           "computed": false
+        }
+      },
+      "version": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
         }
       }
     },
@@ -3704,12 +3731,16 @@
         "required": true,
         "description": ""
       },
-      "regionSettingsUrl": {
+      "onAreaCodeLink": {
         "type": {
-          "name": "string"
+          "name": "func"
         },
-        "required": true,
-        "description": ""
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "MessageSenderAlert"
@@ -3723,7 +3754,116 @@
           "name": "string"
         },
         "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "''",
+          "computed": false
+        }
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "show": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "onConfirm": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
         "description": ""
+      },
+      "onCancel": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "clickOutToClose": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "title": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "textConfirm": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "''",
+          "computed": false
+        }
+      },
+      "textCancel": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "''",
+          "computed": false
+        }
+      }
+    },
+    "name": "Modal"
+  },
+  {
+    "description": "",
+    "methods": [],
+    "props": {
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       },
       "tabs": {
         "type": {
@@ -3735,7 +3875,7 @@
                 "name": "node",
                 "required": true
               },
-              "activityIcon": {
+              "activeIcon": {
                 "name": "node",
                 "required": true
               },
@@ -3764,6 +3904,13 @@
           "value": "[]",
           "computed": false
         }
+      },
+      "goTo": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
       },
       "currentPath": {
         "type": {
@@ -4218,19 +4365,23 @@
         "required": true,
         "description": ""
       },
-      "regionSettingsUrl": {
-        "type": {
-          "name": "string"
-        },
-        "required": true,
-        "description": ""
-      },
       "currentLocale": {
         "type": {
           "name": "string"
         },
         "required": true,
         "description": ""
+      },
+      "onRegionSettingsLinkClick": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "RegionSettingsAlert"
@@ -4569,9 +4720,9 @@
         "required": true,
         "description": ""
       },
-      "callingSettingsUrl": {
+      "onCallingSettingsLinkClick": {
         "type": {
-          "name": "string"
+          "name": "func"
         },
         "required": true,
         "description": ""
@@ -4630,9 +4781,9 @@
         "required": true,
         "description": ""
       },
-      "regionSettingsUrl": {
+      "onRegionSettingsLinkClick": {
         "type": {
-          "name": "string"
+          "name": "func"
         },
         "required": true,
         "description": ""
@@ -5019,17 +5170,6 @@
     "description": "",
     "methods": [],
     "props": {
-      "className": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
       "children": {
         "type": {
           "name": "node"
@@ -5041,10 +5181,9 @@
           "computed": false
         }
       },
-      "tabs": {
+      "className": {
         "type": {
-          "name": "custom",
-          "raw": "NavigationBar.propTypes.tabs"
+          "name": "string"
         },
         "required": false,
         "description": "",
@@ -5056,6 +5195,13 @@
       "currentPath": {
         "type": {
           "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "goTo": {
+        "type": {
+          "name": "func"
         },
         "required": true,
         "description": ""
@@ -5078,6 +5224,18 @@
         "description": "",
         "defaultValue": {
           "value": "'top'",
+          "computed": false
+        }
+      },
+      "tabs": {
+        "type": {
+          "name": "custom",
+          "raw": "NavigationBar.propTypes.tabs"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
           "computed": false
         }
       }

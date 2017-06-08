@@ -75,7 +75,9 @@ export default class RegionSettings extends Component {
     const selectedOption = this.props.availableCountries.find(
       country => country.isoCode === value
     );
-
+    if (!selectedOption) {
+      return '';
+    }
     return `(+${selectedOption.callingCode}) ${countryNames.getString(selectedOption.isoCode, this.props.currentLocale)}`;
   }
 

@@ -48,6 +48,7 @@ import LogButtonPage from './Components/LogButton';
 import LoginPanelPage from './Components/LoginPanel';
 import MessageListPage from './Components/MessageList';
 import MessageSenderAlertPage from './Components/MessageSenderAlert';
+import ModalPage from './Components/Modal';
 import NavigationBarPage from './Components/NavigationBar';
 import OfflineModeBadgePage from './Components/OfflineModeBadge';
 import PanelPage from './Components/Panel';
@@ -120,6 +121,7 @@ const Routes = () => (
     <Route path="/components/LoginPanel" component={LoginPanelPage} />
     <Route path="/components/MessageList" component={MessageListPage} />
     <Route path="/components/MessageSenderAlert" component={MessageSenderAlertPage} />
+    <Route path="/components/Modal" component={ModalPage} />
     <Route path="/components/NavigationBar" component={NavigationBarPage} />
     <Route path="/components/OfflineModeBadge" component={OfflineModeBadgePage} />
     <Route path="/components/Panel" component={PanelPage} />

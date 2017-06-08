@@ -10,6 +10,13 @@ props.currentLocale = 'en-US';
  */
 const ActionMenuDemo = () => (
   <ActionMenu
+    disableLinks={false}
+    hasEntity={true}
+    phoneNumber={'12345678'}
+    onViewEntity={ () => alert(`click 'onViewEntity'`) }
+    onClickToDial={ () => alert(`click 'onClickToDial'`) }
+    onClickToSms={ () => alert(`click 'onClickToSms'`) }
+    onLog={ () => alert(`click 'onLog'`) }
     {...props}
   />
 );

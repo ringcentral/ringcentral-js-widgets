@@ -19,7 +19,7 @@ const BackHeaderPage = () => {
         code={demoCode}
         title="BackHeader Example"
       >
-        <Demo />
+        <Demo/>
       </CodeExample>
       <PropTypeDescription componentInfo={info} />
     </div>
