@@ -24,6 +24,25 @@
 .userInfo {
   margin-top: 0;
   margin-bottom: 30px;
+  text-align: center;
+  font-size: 60px;
+  color: lightblack;
+  margin-bottom: 15px;
+}
+
+.avatarContainer {
+  display: block;
+}
+
+.userName {
+  font-size: 15px;
+  color: $lightblack;
+}
+
+.userPhoneNumber {
+  font-size: 12px;
+  color: $grey-light;
+  margin-top: 5px;
 }
 
 .avatarHolder {
