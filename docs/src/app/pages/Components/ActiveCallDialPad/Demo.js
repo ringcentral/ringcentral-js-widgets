@@ -6,6 +6,7 @@ const props = {};
 props.onChange = () => null;
 props.hiddenDialPad = () => null;
 props.hangup = () => null;
+props.currentLocale = 'en-US';
 
 /**
  * A example of `ActiveCallDialPad`

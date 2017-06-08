@@ -6,6 +6,7 @@ const props = {};
 props.answer = () => null;
 props.reject = () => null;
 props.toVoiceMail = () => null;
+props.currentLocale = 'en-US';
 
 /**
  * A example of `IncomingCallPad`
