@@ -35,7 +35,16 @@ const base = {
         loader: 'url?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
       },
       {
+        test: /\.svg/,
+        exclude: /node_modules|font/,
+        loaders: [
+          'babel',
+          'svg-react',
+        ],
+      },
+      {
         test: /\.png|\.jpg|\.gif|\.svg/,
+        exclude: /assets\/images\/.+\.svg/,
         loader: 'url?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
       },
       {
@@ -50,13 +59,6 @@ const base = {
       {
         test: /\.ogg$/,
         loader: 'url?publicPath=./&name=audio/[name]_[hash].[ext]',
-      },
-      {
-        test: /\.inline.svg$/,
-        loaders: [
-          'babel',
-          'svg-react'
-        ],
       },
     ],
   },

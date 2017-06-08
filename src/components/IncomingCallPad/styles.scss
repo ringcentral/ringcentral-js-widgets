@@ -1,19 +1,31 @@
+.root {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
 .buttonRow {
   text-align: center;
+  margin-bottom: 10px;
+}
+
+.callButton {
+  width: 33.33%;
+}
+
+.bigCallButton {
+  composes: callButton;
+  padding: 1px;
 }
 
 .rejectButton {
   background: #ff4646;
-  border: none;
-  i {
-    color: #ffffff;
+  font-size: 20px;
+  g, path {
+    fill: #ffffff;
   }
 }
 
 .answerButton {
+  composes: rejectButton;
   background: #4cd964;
-  border: none;
-  i {
-    color: #ffffff;
-  }
 }
