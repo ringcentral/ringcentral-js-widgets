@@ -54,6 +54,7 @@ class ActiveCallPanel extends Component {
     );
     const buttonsPad = this.state.isShowKeyPad ? null : (
       <ActiveCallPad
+        currentLocale={this.props.currentLocale}
         isOnMute={this.props.isOnMute}
         isOnHold={this.props.isOnHold}
         isOnRecord={this.props.isOnRecord}

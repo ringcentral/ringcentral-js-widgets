@@ -31,6 +31,7 @@ export default function IncomingCallPanel(props) {
         reject={props.reject}
         toVoiceMail={props.toVoiceMail}
         replyWithMessage={props.replyWithMessage}
+        currentLocale={props.currentLocale}
       />
       {props.children}
     </div>

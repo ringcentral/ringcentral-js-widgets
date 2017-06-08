@@ -7,6 +7,8 @@ import VoicemailIcon from '../../assets/images/Voicemail.svg';
 import AnswerIcon from '../../assets/images/Answer.svg';
 import styles from './styles.scss';
 
+import i18n from './i18n';
+
 export default function IncomingCallPad(props) {
   return (
     <div className={styles.root}>
@@ -14,26 +16,26 @@ export default function IncomingCallPad(props) {
         <ActiveCallButton
           onClick={() => null}
           Icon={ForwardIcon}
-          title={'Forward'}
+          title={i18n.getString('forward', props.currentLocale)}
           className={styles.callButton}
         />
         <ActiveCallButton
           onClick={() => null}
           Icon={MessageIcon}
-          title={'Reply'}
+          title={i18n.getString('reply', props.currentLocale)}
           className={styles.callButton}
         />
         <ActiveCallButton
           onClick={props.reject}
           Icon={IgnoreIcon}
-          title={'Ignore'}
+          title={i18n.getString('ignore', props.currentLocale)}
           className={styles.callButton}
         />
       </div>
       <div className={styles.buttonRow}>
         <ActiveCallButton
           onClick={props.toVoiceMail}
-          title={'To Voicemail'}
+          title={i18n.getString('toVoicemail', props.currentLocale)}
           buttonClassName={styles.rejectButton}
           Icon={VoicemailIcon}
           showBorder={false}
@@ -41,7 +43,7 @@ export default function IncomingCallPad(props) {
         />
         <ActiveCallButton
           onClick={props.answer}
-          title={'Answer'}
+          title={i18n.getString('answer', props.currentLocale)}
           buttonClassName={styles.answerButton}
           Icon={AnswerIcon}
           showBorder={false}
@@ -56,4 +58,5 @@ IncomingCallPad.propTypes = {
   answer: PropTypes.func.isRequired,
   reject: PropTypes.func.isRequired,
   toVoiceMail: PropTypes.func.isRequired,
+  currentLocale: PropTypes.string.isRequired,
 };
