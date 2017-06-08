@@ -35,7 +35,7 @@ ActiveCallButton.propTypes = {
   disabled: PropTypes.bool,
   active: PropTypes.bool,
   title: PropTypes.string.isRequired,
-  Icon: PropTypes.component,
+  Icon: PropTypes.func,
   showBorder: PropTypes.bool,
 };
 

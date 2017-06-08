@@ -43,7 +43,7 @@ function CircleButton(props) {
 }
 
 CircleButton.propTypes = {
-  Icon: PropTypes.component,
+  Icon: PropTypes.func,
   className: PropTypes.string,
   showBorder: PropTypes.bool,
   iconClassName: PropTypes.string,

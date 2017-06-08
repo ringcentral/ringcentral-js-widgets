@@ -74,6 +74,7 @@ class ActiveCallPanel extends Component {
         onChange={this.props.onKeyPadChange}
         hiddenDialPad={this.hiddenKeyPad}
         hangup={this.props.hangup}
+        currentLocale={this.props.currentLocale}
       />
     ) : null;
     return (

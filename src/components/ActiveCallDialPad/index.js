@@ -4,8 +4,11 @@ import DialPad from '../DialPad';
 import TextInput from '../TextInput';
 import ActiveCallButton from '../ActiveCallButton';
 
-import rcFont from '../../assets/RcFont/RcFont.scss';
+import HideIcon from '../../assets/images/HideDialpad.svg';
+import EndIcon from '../../assets/images/End.svg';
+
 import styles from './styles.scss';
+import i18n from './i18n';
 
 const cleanRegex = /[^\d*#]/g;
 
@@ -49,18 +52,17 @@ class ActiveCallDialPad extends Component {
           <ActiveCallButton
             onClick={this.props.hiddenDialPad}
             className={styles.button}
-            title={'Hide'}
-          >
-            <i className={rcFont.uni40} />
-          </ActiveCallButton>
+            Icon={HideIcon}
+            title={i18n.getString('hide', this.props.currentLocale)}
+          />
           <ActiveCallButton
             onClick={this.props.hangup}
             className={styles.button}
             buttonClassName={styles.stopButton}
-            title={'End'}
-          >
-            <i className={rcFont.uni44} />
-          </ActiveCallButton>
+            Icon={EndIcon}
+            title={i18n.getString('end', this.props.currentLocale)}
+            showBorder={false}
+          />
         </div>
       </div>
     );
@@ -71,6 +73,7 @@ ActiveCallDialPad.propTypes = {
   onChange: PropTypes.func.isRequired,
   hiddenDialPad: PropTypes.func.isRequired,
   hangup: PropTypes.func.isRequired,
+  currentLocale: PropTypes.string.isRequired,
 };
 
 export default ActiveCallDialPad;
