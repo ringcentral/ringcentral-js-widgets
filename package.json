@@ -69,6 +69,7 @@
     "locale-loader": "^1.2.4",
     "node-sass": "^4.5.3",
     "postcss-loader": "^2.0.5",
+    "json-loader": "^0.5.4",
     "react": "^15.4.1",
     "react-addons-test-utils": "^15.4.2",
     "react-dom": "^15.4.1",
