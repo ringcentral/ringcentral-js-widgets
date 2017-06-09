@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
 import FormattedMessage from '../FormattedMessage';
 import i18n from './i18n';

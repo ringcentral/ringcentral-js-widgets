@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import Locale from 'ringcentral-integration/modules/Locale';

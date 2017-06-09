@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import messageSenderMessages from
 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
 import i18n from './i18n';
@@ -194,7 +195,7 @@ ComposeTextPanel.propTypes = {
   messageText: PropTypes.string,
   typingToNumber: PropTypes.string,
   senderNumber: PropTypes.string,
-  toNumbers: React.PropTypes.arrayOf(PropTypes.shape({
+  toNumbers: PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string.isRequired,
     name: PropTypes.string,
   })).isRequired,
