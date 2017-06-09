@@ -131,7 +131,7 @@ function mapToProps(_, {
       messages.ready &&
       rateLimiter.ready &&
       connectivityMonitor.ready &&
-      conversationLogger.ready
+      (!conversationLogger || conversationLogger.ready)
     ),
     recipients: conversation.recipients,
     messages: conversation.messages,
