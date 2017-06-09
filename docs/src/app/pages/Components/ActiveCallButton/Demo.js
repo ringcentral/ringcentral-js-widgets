@@ -5,9 +5,10 @@ import ActiveCallButton from 'ringcentral-widget/components/ActiveCallButton';
 import KeypadIcon from 'ringcentral-widget/assets/images/Dialpad.svg';
 
 const props = {};
+// eslint-disable-next-line
 props.onClick = () => alert('clicked');
 props.title = 'KeyPad';
-props.Icon = KeypadIcon;
+props.icon = KeypadIcon;
 
 /**
  * A example of `ActiveCallButton`

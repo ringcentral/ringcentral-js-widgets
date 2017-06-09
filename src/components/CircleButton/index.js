@@ -7,8 +7,8 @@ import styles from './styles.scss';
  */
 function CircleButton(props) {
   let icon;
-  if (props.Icon) {
-    const Icon = props.Icon;
+  if (props.icon) {
+    const Icon = props.icon;
     icon = (
       <Icon
         className={classnames(styles.icon, props.iconClassName)}
@@ -46,7 +46,7 @@ function CircleButton(props) {
 }
 
 CircleButton.propTypes = {
-  Icon: PropTypes.func,
+  icon: PropTypes.func,
   className: PropTypes.string,
   showBorder: PropTypes.bool,
   iconClassName: PropTypes.string,
@@ -54,7 +54,7 @@ CircleButton.propTypes = {
 };
 
 CircleButton.defaultProps = {
-  Icon: undefined,
+  icon: undefined,
   className: undefined,
   showBorder: true,
   iconClassName: undefined,

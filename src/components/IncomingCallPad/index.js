@@ -15,19 +15,19 @@ export default function IncomingCallPad(props) {
       <div className={styles.buttonRow}>
         <ActiveCallButton
           onClick={() => null}
-          Icon={ForwardIcon}
+          icon={ForwardIcon}
           title={i18n.getString('forward', props.currentLocale)}
           className={styles.callButton}
         />
         <ActiveCallButton
           onClick={() => null}
-          Icon={MessageIcon}
+          icon={MessageIcon}
           title={i18n.getString('reply', props.currentLocale)}
           className={styles.callButton}
         />
         <ActiveCallButton
           onClick={props.reject}
-          Icon={IgnoreIcon}
+          icon={IgnoreIcon}
           title={i18n.getString('ignore', props.currentLocale)}
           className={styles.callButton}
         />
@@ -37,7 +37,7 @@ export default function IncomingCallPad(props) {
           onClick={props.toVoiceMail}
           title={i18n.getString('toVoicemail', props.currentLocale)}
           buttonClassName={styles.rejectButton}
-          Icon={VoicemailIcon}
+          icon={VoicemailIcon}
           showBorder={false}
           className={styles.bigCallButton}
         />
@@ -45,7 +45,7 @@ export default function IncomingCallPad(props) {
           onClick={props.answer}
           title={i18n.getString('answer', props.currentLocale)}
           buttonClassName={styles.answerButton}
-          Icon={AnswerIcon}
+          icon={AnswerIcon}
           showBorder={false}
           className={styles.bigCallButton}
         />

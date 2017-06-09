@@ -16,7 +16,7 @@ export default function ActiveCallButton(props) {
       <CircleButton
         className={buttonClassName}
         onClick={props.onClick}
-        Icon={props.Icon}
+        icon={props.icon}
         disabled={props.disabled}
         showBorder={props.showBorder}
         iconClassName={props.buttonClassName}
@@ -35,7 +35,7 @@ ActiveCallButton.propTypes = {
   disabled: PropTypes.bool,
   active: PropTypes.bool,
   title: PropTypes.string.isRequired,
-  Icon: PropTypes.func,
+  icon: PropTypes.func,
   showBorder: PropTypes.bool,
 };
 
@@ -44,6 +44,6 @@ ActiveCallButton.defaultProps = {
   buttonClassName: undefined,
   disabled: false,
   active: false,
-  Icon: undefined,
+  icon: undefined,
   showBorder: true,
 };

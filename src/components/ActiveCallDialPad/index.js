@@ -52,14 +52,14 @@ class ActiveCallDialPad extends Component {
           <ActiveCallButton
             onClick={this.props.hiddenDialPad}
             className={styles.button}
-            Icon={HideIcon}
+            icon={HideIcon}
             title={i18n.getString('hide', this.props.currentLocale)}
           />
           <ActiveCallButton
             onClick={this.props.hangup}
             className={styles.button}
             buttonClassName={styles.stopButton}
-            Icon={EndIcon}
+            icon={EndIcon}
             title={i18n.getString('end', this.props.currentLocale)}
             showBorder={false}
           />
