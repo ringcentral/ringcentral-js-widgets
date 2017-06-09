@@ -5,7 +5,7 @@ import CallList from 'ringcentral-widget/components/CallList';
 const props = {};
 props.currentLocale = 'en-US';
 props.calls = [{
-  "id":"6fdBlmrIQGm1n.Wt.dZ4KwtYIZEJxesw",
+  "id":"1234",
   "direction":"Outbound",
   "from":{"phoneNumber":"+16507411889"},
   "to":{"phoneNumber":"+12055439065"},
@@ -20,7 +20,7 @@ props.calls = [{
   "activityMatches":[],
   "duration":20
 },{
-  "id":"DPKm0zIrgo8RJic",
+  "id":"2345",
   "sessionId":"156529999020",
   "startTime":1496914031914,
   "duration":11,
