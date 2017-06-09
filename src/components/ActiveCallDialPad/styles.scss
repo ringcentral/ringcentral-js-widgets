@@ -12,7 +12,6 @@
   border: 0px;
   margin-bottom: 5px;
   color: dimgrey;
-  border-bottom: 1px solid #e3e3e5;
   padding: 5px;
   input {
     box-sizing: content-box;
@@ -23,17 +22,14 @@
 }
 
 .button {
-  margin-left: 20px;
-  margin-right: 20px;
+  width: 33.3%;
   text-align: center;
 }
 
 .stopButton {
   background: #ff4646;
-  display: inline-block;
-  border: #ff4646;
-  i {
-    color: #ffffff;
+  g, path {
+    fill: #ffffff;
   }
 }
 

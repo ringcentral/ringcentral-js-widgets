@@ -6,7 +6,7 @@
   box-sizing: border-box;
   padding-left: 5%;
   padding-right: 5%;
-  padding-top: 20px;
+  padding-top: 30px;
   position: absolute;
   top: 0;
   left: 0;
@@ -22,8 +22,27 @@
 }
 
 .userInfo {
-  margin-top: 50px;
+  margin-top: 0;
   margin-bottom: 30px;
+  text-align: center;
+  font-size: 60px;
+  color: lightblack;
+  margin-bottom: 15px;
+}
+
+.avatarContainer {
+  display: block;
+}
+
+.userName {
+  font-size: 15px;
+  color: $lightblack;
+}
+
+.userPhoneNumber {
+  font-size: 12px;
+  color: $grey-light;
+  margin-top: 5px;
 }
 
 .avatarHolder {

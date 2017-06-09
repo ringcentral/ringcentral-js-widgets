@@ -268,9 +268,16 @@
           "computed": false
         }
       },
-      "children": {
+      "title": {
         "type": {
-          "name": "node"
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "Icon": {
+        "type": {
+          "name": "func"
         },
         "required": false,
         "description": "",
@@ -279,12 +286,16 @@
           "computed": true
         }
       },
-      "title": {
+      "showBorder": {
         "type": {
-          "name": "string"
+          "name": "bool"
         },
-        "required": true,
-        "description": ""
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
       }
     },
     "name": "ActiveCallButton"
@@ -313,6 +324,13 @@
         },
         "required": true,
         "description": ""
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
       }
     },
     "name": "ActiveCallDialPad"
@@ -321,6 +339,13 @@
     "description": "",
     "methods": [],
     "props": {
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
       "className": {
         "type": {
           "name": "string"
@@ -598,77 +623,6 @@
       }
     },
     "name": "ActiveCallPanel"
-  },
-  {
-    "description": "",
-    "methods": [],
-    "props": {
-      "name": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
-      "className": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
-      "phoneNumber": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
-      "avatar": {
-        "type": {
-          "name": "node"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "undefined",
-          "computed": true
-        }
-      },
-      "currentLocale": {
-        "type": {
-          "name": "string"
-        },
-        "required": true,
-        "description": ""
-      },
-      "formatPhone": {
-        "type": {
-          "name": "func"
-        },
-        "required": true,
-        "description": ""
-      },
-      "isBig": {
-        "defaultValue": {
-          "value": "false",
-          "computed": false
-        }
-      }
-    },
-    "name": "ActiveCallUserInfo"
   },
   {
     "description": "",
@@ -1699,6 +1653,68 @@
       }
     },
     "name": "CallsPanel"
+  },
+  {
+    "description": "",
+    "methods": [],
+    "props": {
+      "Icon": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "showBorder": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "iconClassName": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onClick": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "() => null",
+          "computed": false
+        }
+      }
+    },
+    "name": "CircleButton"
   },
   {
     "description": "",
@@ -3211,6 +3227,13 @@
       "toVoiceMail": {
         "type": {
           "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
         },
         "required": true,
         "description": ""

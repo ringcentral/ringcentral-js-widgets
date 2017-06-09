@@ -131,7 +131,7 @@ function mapToProps(_, {
       messages.ready &&
       rateLimiter.ready &&
       connectivityMonitor.ready &&
-      conversationLogger.ready
+      (!conversationLogger || conversationLogger.ready)
     ),
     recipients: conversation.recipients,
     messages: conversation.messages,
@@ -142,7 +142,7 @@ function mapToProps(_, {
       rateLimiter.isThrottling ||
       !connectivityMonitor.connectivity
     ),
-    autoLog: conversationLogger.autoLog,
+    autoLog: !!(conversationLogger && conversationLogger.autoLog),
   });
 }
 

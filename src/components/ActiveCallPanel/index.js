@@ -4,12 +4,51 @@ import classnames from 'classnames';
 import BackHeader from '../BackHeader';
 import Panel from '../Panel';
 import DurationCounter from '../DurationCounter';
-import ActiveCallUserInfo from '../ActiveCallUserInfo';
 import ActiveCallPad from '../ActiveCallPad';
 import ActiveCallDialPad from '../ActiveCallDialPad';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
+
+function CallInfo(props) {
+  const timeCounter = props.startTime ?
+    (
+      <span className={styles.timeCounter}>
+        <span className={styles.splitLine}>|</span>
+        <DurationCounter startTime={props.startTime} />
+      </span>
+    ) : null;
+  return (
+    <div className={styles.userInfo}>
+      <div className={styles.avatarContainer}>
+        <div className={styles.avatar}>
+          <i className={classnames(dynamicsFont.portrait, styles.icon)} />
+        </div>
+      </div>
+      <div className={styles.infoContent}>
+        <div className={styles.userName}>
+          {props.name}
+          { timeCounter }
+        </div>
+        <div className={styles.userPhoneNumber}>
+          {props.formatPhone(props.phoneNumber)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+CallInfo.propTypes = {
+  name: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string,
+  formatPhone: PropTypes.func.isRequired,
+  startTime: PropTypes.number,
+};
+
+CallInfo.defaultProps = {
+  phoneNumber: null,
+  startTime: null,
+};
 
 class ActiveCallPanel extends Component {
   constructor(props) {
@@ -32,28 +71,17 @@ class ActiveCallPanel extends Component {
   }
 
   render() {
-    const timeCounter = this.props.startTime ?
-      (
-        <span className={styles.timeCounter}>
-          <DurationCounter startTime={this.props.startTime} />
-        </span>
-      ) : null;
     const userInfo = this.state.isShowKeyPad ? null : (
-      <ActiveCallUserInfo
+      <CallInfo
         name={this.props.userName}
         phoneNumber={this.props.phoneNumber}
-        currentLocale={this.props.currentLocale}
         formatPhone={this.props.formatPhone}
-        className={styles.userInfo}
-        avatar={(
-          <div className={styles.avatar}>
-            <i className={classnames(dynamicsFont.portrait, styles.icon)} />
-          </div>
-        )}
+        startTime={this.props.startTime}
       />
     );
     const buttonsPad = this.state.isShowKeyPad ? null : (
       <ActiveCallPad
+        currentLocale={this.props.currentLocale}
         isOnMute={this.props.isOnMute}
         isOnHold={this.props.isOnHold}
         isOnRecord={this.props.isOnRecord}
@@ -73,6 +101,7 @@ class ActiveCallPanel extends Component {
         onChange={this.props.onKeyPadChange}
         hiddenDialPad={this.hiddenKeyPad}
         hangup={this.props.hangup}
+        currentLocale={this.props.currentLocale}
       />
     ) : null;
     return (
@@ -82,13 +111,12 @@ class ActiveCallPanel extends Component {
           backButton={(
             <span className={styles.backButton}>
               <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
-              <span className={styles.backLabel}>Calls</span>
+              <span className={styles.backLabel}>Active Calls</span>
             </span>
           )}
           buttons={[]}
         />
         <Panel>
-          {timeCounter}
           {userInfo}
           {buttonsPad}
           {dialPad}

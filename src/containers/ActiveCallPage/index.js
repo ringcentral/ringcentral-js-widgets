@@ -13,6 +13,8 @@ import ActiveCallPanel from '../../components/ActiveCallPanel';
 import IncomingCallPanel from '../../components/IncomingCallPanel';
 import ActiveCallBadge from '../../components/ActiveCallBadge';
 
+import i18n from './i18n';
+
 class ActiveCallPage extends Component {
   constructor(props) {
     super(props);
@@ -82,7 +84,18 @@ class ActiveCallPage extends Component {
     // isRinging = true;
     const phoneNumber = session.direction === callDirections.outbound ?
       session.to : session.from;
-    const userName = 'Unknown';
+    let userName;
+    if (session.direction === callDirections.inbound) {
+      userName = session.fromUserName;
+      if (session.from === 'anonymous') {
+        userName = i18n.getString('anonymous', this.props.currentLocale);
+      }
+    } else {
+      userName = session.toUserName;
+    }
+    if (!userName) {
+      userName = i18n.getString('unknown', this.props.currentLocale);
+    }
     if (isRinging) {
       return (
         <IncomingCallPanel

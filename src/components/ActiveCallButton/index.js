@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import classnames from 'classnames';
-import Button from '../Button';
+import CircleButton from '../CircleButton';
+
 import styles from './styles.scss';
 
 export default function ActiveCallButton(props) {
@@ -12,13 +13,14 @@ export default function ActiveCallButton(props) {
   );
   return (
     <div className={className}>
-      <Button
+      <CircleButton
         className={buttonClassName}
         onClick={props.onClick}
+        icon={props.icon}
         disabled={props.disabled}
-      >
-        {props.children}
-      </Button>
+        showBorder={props.showBorder}
+        iconClassName={props.buttonClassName}
+      />
       <div className={styles.buttonTitle}>
         {props.title}
       </div>
@@ -32,8 +34,9 @@ ActiveCallButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   active: PropTypes.bool,
-  children: PropTypes.node,
   title: PropTypes.string.isRequired,
+  icon: PropTypes.func,
+  showBorder: PropTypes.bool,
 };
 
 ActiveCallButton.defaultProps = {
@@ -41,5 +44,6 @@ ActiveCallButton.defaultProps = {
   buttonClassName: undefined,
   disabled: false,
   active: false,
-  children: undefined,
+  icon: undefined,
+  showBorder: true,
 };
