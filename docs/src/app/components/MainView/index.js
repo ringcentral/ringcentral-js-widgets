@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import SideBarView from '../SideBarView';
 import Search from '../Search';
 
-import logoImg from '../../assets/images/logo_beta.svg';
+import LogoImg from '../../assets/images/logo_beta.svg';
 
 import styles from './styles.scss';
 
@@ -91,7 +91,7 @@ class MainView extends Component {
           <header className={styles.header}>
             <div className={styles.wrapper}>
               <div className={styles.logo}>
-                <img className={styles.logoImg} src={logoImg} alt={'RingCentral Logo Beta'} />
+                <LogoImg />
               </div>
             </div>
           </header>
