@@ -142,7 +142,7 @@ function mapToProps(_, {
       rateLimiter.isThrottling ||
       !connectivityMonitor.connectivity
     ),
-    autoLog: conversationLogger.autoLog,
+    autoLog: !!(conversationLogger && conversationLogger.autoLog),
   });
 }
 
