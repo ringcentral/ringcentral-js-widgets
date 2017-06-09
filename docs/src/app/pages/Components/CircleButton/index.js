@@ -8,16 +8,16 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widget/components/ActiveCallUserInfo';
+import componentCode from '!raw-loader!ringcentral-widget/components/CircleButton';
 
-const ActiveCallUserInfoPage = () => {
+const CircleButtonPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="ActiveCallUserInfo" description={info.description} />
+      <ComponentHeader name="CircleButton" description={info.description} />
       <CodeExample
         code={demoCode}
-        title="ActiveCallUserInfo Example"
+        title="CircleButton Example"
       >
         <Demo />
       </CodeExample>
@@ -26,4 +26,4 @@ const ActiveCallUserInfoPage = () => {
   );
 };
 
-export default ActiveCallUserInfoPage;
+export default CircleButtonPage;

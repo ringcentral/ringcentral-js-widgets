@@ -15,7 +15,9 @@ props.hangup = () => null;
 props.toggleMinimized = () => null;
 props.onKeyPadChange = () => null;
 props.formatPhone = () => null;
-
+props.userName = 'User Name';
+props.phoneNumber = '1234567890';
+props.startTime = (new Date()).getTime();
 /**
  * A example of `ActiveCallPanel`
  */
