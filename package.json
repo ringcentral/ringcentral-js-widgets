@@ -67,7 +67,7 @@
     "gulp-sourcemaps": "^2.4.0",
     "intl": "^1.2.5",
     "json-loader": "^0.5.4",
-    "node-sass": "^4.1.1",
+    "node-sass": "^4.5.3",
     "postcss-loader": "^1.2.1",
     "react": "^15.4.1",
     "react-addons-test-utils": "^15.4.2",
