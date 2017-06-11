@@ -41,7 +41,7 @@ const base = {
           {
             loader: 'postcss-loader',
             options: {
-              plugins: (loader) => [
+              plugins: () => [
                 autoprefixer
               ]
             }

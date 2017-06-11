@@ -16,7 +16,7 @@ import transformLocaleLoader from 'locale-loader/transformLocaleLoader';
 import dedent from 'dedent';
 import exportLocale from 'locale-loader/exportLocale';
 import importLocale from 'locale-loader/importLocale';
-import devServerConfig from './dev-server/config';
+import devServerConfig from './dev-server/webpack.config';
 
 gulp.task('dev-server', async () => {
   const compiler = webpack(devServerConfig);
