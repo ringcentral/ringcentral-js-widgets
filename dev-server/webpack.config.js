@@ -39,7 +39,7 @@ const base = {
         exclude: /node_modules|font/,
         loaders: [
           'babel',
-          'svg-react',
+          'react-svg',
         ],
       },
       {

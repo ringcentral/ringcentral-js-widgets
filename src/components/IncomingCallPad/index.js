@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import ActiveCallButton from '../ActiveCallButton';
 import MessageIcon from '../../assets/images/MessageFill.svg';
 import ForwardIcon from '../../assets/images/Forward.svg';

@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import RemoveButton from '../RemoveButton';
 import ContactDropdownList from '../ContactDropdownList';
@@ -53,7 +54,7 @@ function SelectedRecipients(props) {
 
 SelectedRecipients.propTypes = {
   removeFromRecipients: PropTypes.func.isRequired,
-  items: React.PropTypes.arrayOf(PropTypes.shape({
+  items: PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string.isRequired,
     name: PropTypes.string,
   })).isRequired,
