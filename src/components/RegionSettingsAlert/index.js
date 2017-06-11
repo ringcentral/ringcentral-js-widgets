@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import regionSettingsMessages from
   'ringcentral-integration/modules/RegionSettings/regionSettingsMessages';
 import FormattedMessage from '../FormattedMessage';

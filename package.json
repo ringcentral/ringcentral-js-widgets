@@ -96,9 +96,10 @@
     "dedent": "^0.7.0",
     "font-awesome": "^4.7.0",
     "normalize-css": "^2.3.1",
+    "prop-types": "^15.5.10",
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.7",
-    "svg-react-loader": "^0.3.7",
+    "react-svg-loader": "^1.1.1",
     "through2": "^2.0.3"
   }
 }

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import CallItem from '../CallItem';
 import styles from './styles.scss';
 import i18n from './i18n';

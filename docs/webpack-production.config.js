@@ -66,7 +66,7 @@ const config = {
         exclude: /node_modules|font/,
         use: [
           'babel-loader',
-          'svg-react-loader',
+          'react-svg-loader',
         ],
       },
       {

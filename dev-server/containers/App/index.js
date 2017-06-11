@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute } from 'react-router';
 import sleep from 'ringcentral-integration/lib/sleep';
