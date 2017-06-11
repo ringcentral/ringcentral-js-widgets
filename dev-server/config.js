@@ -4,57 +4,64 @@ import webpack from 'webpack';
 
 const base = {
   module: {
-    preLoaders: [
+    rules: [
       {
+        enforce: 'pre',
         test: /\.js$/,
-        loader: 'source-map-loader',
+        use: 'source-map-loader'
       },
-    ],
-    loaders: [
       {
         test: /\.js$/,
-        loaders: [
-          'babel',
-          'locale',
+        use: [
+          'babel-loader',
+          'locale-loader',
         ],
         exclude: /node_modules/,
       },
       {
-        test: /\.json$/i,
-        loader: 'json',
-      },
-      {
         test: /\.css$/i,
-        loaders: [
-          'style',
-          'css',
+        use: [
+          'style-loader',
+          'css-loader',
         ],
       },
       {
         test: /\.woff|\.woff2|.eot|\.ttf/,
-        loader: 'url?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
+        use: 'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
       },
       {
         test: /\.png|\.jpg|\.gif|\.svg/,
-        loader: 'url?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
+        use: 'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
       },
       {
         test: /\.sass|\.scss/,
-        loaders: [
-          'style',
-          'css?modules&localIdentName=[path]_[name]_[local]_[hash:base64:5]',
-          'postcss-loader',
-          'sass?outputStyle=expanded',
+        use: [
+          'style-loader',
+          'css-loader?modules&localIdentName=[path]_[name]_[local]_[hash:base64:5]',
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: (loader) => [
+                autoprefixer
+              ]
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              includePaths: [__dirname],
+              outputStyle: 'expanded'
+            }
+          }
         ],
       },
       {
         test: /\.ogg$/,
-        loader: 'url?publicPath=./&name=audio/[name]_[hash].[ext]',
+        use: 'url-loader?publicPath=./&name=audio/[name]_[hash].[ext]',
       },
     ],
   },
   devtool: 'inline-source-map',
-  postcss: () => [autoprefixer],
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
@@ -67,9 +74,6 @@ const base = {
 
 const config = [{
   ...base,
-  sassLoader: {
-    includePaths: __dirname,
-  },
   entry: {
     index: [path.resolve(__dirname, './index')],
     proxy: [path.resolve(__dirname, './proxy')],
