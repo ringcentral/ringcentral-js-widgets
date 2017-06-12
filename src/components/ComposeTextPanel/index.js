@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import messageSenderMessages from
 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
+import classnames from 'classnames';
 import i18n from './i18n';
 import styles from './styles.scss';
 import RecipientsInput from '../RecipientsInput';
 import AlertDisplay from '../AlertDisplay';
 import MessageSenderAlert from '../MessageSenderAlert';
 import Select from '../DropdownSelect';
+
 
 function SenderField(props) {
   return (
@@ -125,7 +127,7 @@ class ComposeTextPanel extends Component {
         />
       ) : null;
     return (
-      <div className={styles.root}>
+      <div className={classnames(styles.root, this.props.className)}>
         {noSenderAlert}
         <form onSubmit={this.handleSubmit}>
           <div className={styles.receiverField}>
@@ -173,6 +175,7 @@ class ComposeTextPanel extends Component {
 }
 
 ComposeTextPanel.propTypes = {
+  className: PropTypes.string,
   send: PropTypes.func.isRequired,
   senderNumbers: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
   sendButtonDisabled: PropTypes.bool.isRequired,
@@ -203,6 +206,7 @@ ComposeTextPanel.propTypes = {
 };
 
 ComposeTextPanel.defaultProps = {
+  className: null,
   messageText: '',
   typingToNumber: '',
   senderNumber: '',

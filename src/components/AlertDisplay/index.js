@@ -60,7 +60,7 @@ AlertDisplay.propTypes = {
   className: PropTypes.string,
   messages: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
-    level: PropTypes.string.isRequired,
+    level: PropTypes.oneOf(['success', 'info', 'warning', 'danger']).isRequired,
     message: PropTypes.string.isRequired,
     payload: PropTypes.any,
   })),

@@ -10,6 +10,8 @@ const props = {};
 const LineDemo = () => (
   <Line
     {...props}
-  />
+  >
+    <span>Line</span>
+  </Line>
 );
 export default LineDemo;

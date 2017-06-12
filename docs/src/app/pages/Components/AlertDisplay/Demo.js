@@ -1,15 +1,29 @@
 import React from 'react';
 // eslint-disable-next-line
 import AlertDisplay from 'ringcentral-widget/components/AlertDisplay';
+import styles from './styles.scss';
 
 const props = {};
 props.dismiss = () => null;
 props.currentLocale = 'en-US';
 props.messages = [
   {
-    id: '123',
+    id: '111',
+    level: 'success',
+    message: 'success message',
+  },
+  {
+    id: '222',
+    level: 'info',
+    message: 'info message',
+  },{
+    id: '333',
     level: 'warning',
-    message: 'message',
+    message: 'warning message',
+  }, {
+    id: '444',
+    level: 'danger',
+    message: 'danger',
   }
 ];
 
@@ -25,8 +39,11 @@ props.getRenderer = () => MessageRender;
  * A example of `AlertDisplay`
  */
 const AlertDisplayDemo = () => (
-  <AlertDisplay
-    {...props}
-  />
+  <div className={styles.root}>
+    <AlertDisplay
+      messages={props.messages}
+      {...props}
+    />
+  </div>
 );
 export default AlertDisplayDemo;

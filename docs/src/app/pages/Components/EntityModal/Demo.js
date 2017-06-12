@@ -1,18 +1,54 @@
-import React from 'react';
+import React, {Component} from 'react';
 // eslint-disable-next-line
 import EntityModal from 'ringcentral-widget/components/EntityModal';
+import Button from 'ringcentral-widget/components/Button';
 
 const props = {};
-props.onCreate = () => null;
-props.onCancel = () => null;
 props.currentLocale = 'en-US';
 
 /**
  * A example of `EntityModal`
  */
-const EntityModalDemo = () => (
-  <EntityModal
-    {...props}
-  />
-);
+class EntityModalDemo extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      show: false,
+      selected: `unknown`,
+    }
+  }
+  onClick = () => {
+    this.setState({
+      show: !this.state.show
+    });
+  }
+  onClose = () => {
+    this.setState({
+      show: false
+    });
+  }
+  onCreate = (selected) => {
+    this.setState({
+      selected
+    });
+    this.onClose();
+  }
+  render() {
+    return(
+      <div>
+        <Button onClick={this.onClick}>
+          Open Entity Modal
+        </Button>
+        <EntityModal
+          title={`Entity Modal Title`}
+          onCancel={this.onClose}
+          onCreate={this.onCreate}
+          show={this.state.show}
+          {...props}
+        />
+        <p>{`You choose [ ${this.state.selected} ] as your Entity Type.`}</p>
+      </div>
+    );
+  }
+}
 export default EntityModalDemo;
