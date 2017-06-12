@@ -32,15 +32,15 @@ const base = {
       {
         test: /\.svg/,
         exclude: /node_modules|font/,
-        loaders: [
-          'babel',
-          'react-svg',
+        use: [
+          'babel-loader',
+          'react-svg-loader',
         ],
       },
       {
         test: /\.png|\.jpg|\.gif|\.svg/,
         use: 'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
-        exclude: /assets\/images\/.+\.svg/,
+        exclude: /assets(\/|\\)images(\/|\\).+\.svg/,
       },
       {
         test: /\.sass|\.scss/,
