@@ -1,6 +1,7 @@
 import RcModule from 'ringcentral-integration/lib/RcModule';
 import { useRouterHistory, createMemoryHistory, hashHistory } from 'react-router';
 import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
+import proxify from 'ringcentral-integration/lib/proxy/proxify';
 
 function getDefaultHistory() {
   // if (typeof window !== 'undefined') {
@@ -21,7 +22,12 @@ export default class RouterInteraction extends RcModule {
     this._history = history;
   }
   initialize() {
-    syncHistoryWithStore(this._history, this.store, {
+    this._history = syncHistoryWithStore(this._history, this.store, {
+      selectLocationState: () => this.state,
+    });
+  }
+  initializeProxy() {
+    this._history = syncHistoryWithStore(this._history, this.store, {
       selectLocationState: () => this.state,
     });
   }
@@ -32,5 +38,18 @@ export default class RouterInteraction extends RcModule {
 
   get currentPath() {
     return this.state.locationBeforeTransitions.pathname;
+  }
+
+  @proxify
+  async push(...args) {
+    this._history.push(...args);
+  }
+  @proxify
+  async replace(...args) {
+    this._history.replace(...args);
+  }
+  @proxify
+  async goBack(...args) {
+    this._history.goBack(...args);
   }
 }

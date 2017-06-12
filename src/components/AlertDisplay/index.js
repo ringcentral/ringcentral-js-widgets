@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
@@ -59,7 +60,7 @@ AlertDisplay.propTypes = {
   className: PropTypes.string,
   messages: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
-    level: PropTypes.string.isRequired,
+    level: PropTypes.oneOf(['success', 'info', 'warning', 'danger']).isRequired,
     message: PropTypes.string.isRequired,
     payload: PropTypes.any,
   })),

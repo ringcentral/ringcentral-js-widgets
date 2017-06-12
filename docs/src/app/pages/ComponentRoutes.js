@@ -7,7 +7,6 @@ import ActiveCallButtonPage from './Components/ActiveCallButton';
 import ActiveCallDialPadPage from './Components/ActiveCallDialPad';
 import ActiveCallPadPage from './Components/ActiveCallPad';
 import ActiveCallPanelPage from './Components/ActiveCallPanel';
-import ActiveCallUserInfoPage from './Components/ActiveCallUserInfo';
 import AlertDisplayPage from './Components/AlertDisplay';
 import AuthAlertPage from './Components/AuthAlert';
 import BackHeaderPage from './Components/BackHeader';
@@ -19,6 +18,7 @@ import CallListPage from './Components/CallList';
 import CallingSettingsAlertPage from './Components/CallingSettingsAlert';
 import CallingSettingsPanelPage from './Components/CallingSettingsPanel';
 import CallsPanelPage from './Components/CallsPanel';
+import CircleButtonPage from './Components/CircleButton';
 import ComposeTextPanelPage from './Components/ComposeTextPanel';
 import ConferencePanelPage from './Components/ConferencePanel';
 import ConnectivityAlertPage from './Components/ConnectivityAlert';
@@ -48,6 +48,7 @@ import LogButtonPage from './Components/LogButton';
 import LoginPanelPage from './Components/LoginPanel';
 import MessageListPage from './Components/MessageList';
 import MessageSenderAlertPage from './Components/MessageSenderAlert';
+import ModalPage from './Components/Modal';
 import NavigationBarPage from './Components/NavigationBar';
 import OfflineModeBadgePage from './Components/OfflineModeBadge';
 import PanelPage from './Components/Panel';
@@ -79,7 +80,6 @@ const Routes = () => (
     <Route path="/components/ActiveCallDialPad" component={ActiveCallDialPadPage} />
     <Route path="/components/ActiveCallPad" component={ActiveCallPadPage} />
     <Route path="/components/ActiveCallPanel" component={ActiveCallPanelPage} />
-    <Route path="/components/ActiveCallUserInfo" component={ActiveCallUserInfoPage} />
     <Route path="/components/AlertDisplay" component={AlertDisplayPage} />
     <Route path="/components/AuthAlert" component={AuthAlertPage} />
     <Route path="/components/BackHeader" component={BackHeaderPage} />
@@ -91,6 +91,7 @@ const Routes = () => (
     <Route path="/components/CallingSettingsAlert" component={CallingSettingsAlertPage} />
     <Route path="/components/CallingSettingsPanel" component={CallingSettingsPanelPage} />
     <Route path="/components/CallsPanel" component={CallsPanelPage} />
+    <Route path="/components/CircleButton" component={CircleButtonPage} />
     <Route path="/components/ComposeTextPanel" component={ComposeTextPanelPage} />
     <Route path="/components/ConferencePanel" component={ConferencePanelPage} />
     <Route path="/components/ConnectivityAlert" component={ConnectivityAlertPage} />
@@ -120,6 +121,7 @@ const Routes = () => (
     <Route path="/components/LoginPanel" component={LoginPanelPage} />
     <Route path="/components/MessageList" component={MessageListPage} />
     <Route path="/components/MessageSenderAlert" component={MessageSenderAlertPage} />
+    <Route path="/components/Modal" component={ModalPage} />
     <Route path="/components/NavigationBar" component={NavigationBarPage} />
     <Route path="/components/OfflineModeBadge" component={OfflineModeBadgePage} />
     <Route path="/components/Panel" component={PanelPage} />

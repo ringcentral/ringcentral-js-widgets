@@ -1,16 +1,47 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
-
-import ActiveCallUserInfo from '../ActiveCallUserInfo';
 import IncomingCallPad from '../IncomingCallPad';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 
+function UserInfo(props) {
+  const name = props.name;
+  return (
+    <div className={styles.userInfo}>
+      <div className={styles.avatarContainer}>
+        <div className={styles.avatarHolder}>
+          <div className={classnames(styles.ringOutside, styles.ringing)} />
+          <div className={classnames(styles.ringInner, styles.ringing)} />
+          <div className={styles.avatar}>
+            <i className={classnames(dynamicsFont.portrait, styles.icon)} />
+          </div>
+        </div>
+      </div>
+      <div className={styles.userName}>{name}</div>
+      <div className={styles.userPhoneNumber}>
+        {props.formatPhone(props.phoneNumber)}
+      </div>
+    </div>
+  );
+}
+
+UserInfo.propTypes = {
+  name: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string,
+  formatPhone: PropTypes.func.isRequired,
+};
+
+UserInfo.defaultProps = {
+  className: null,
+  phoneNumber: null,
+};
+
 export default function IncomingCallPanel(props) {
   return (
     <div className={styles.root}>
-      <ActiveCallUserInfo
+      <UserInfo
         name={props.userName}
         phoneNumber={props.phoneNumber}
         currentLocale={props.currentLocale}
@@ -31,6 +62,7 @@ export default function IncomingCallPanel(props) {
         reject={props.reject}
         toVoiceMail={props.toVoiceMail}
         replyWithMessage={props.replyWithMessage}
+        currentLocale={props.currentLocale}
       />
       {props.children}
     </div>

@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import 'core-js/fn/array/find';
 import Header from '../Header';
 import Panel from '../Panel';

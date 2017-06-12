@@ -1,4 +1,5 @@
-import { createElement, isValidElement, PropTypes } from 'react';
+import { createElement, isValidElement } from 'react';
+import PropTypes from 'prop-types';
 import format from 'format-message';
 
 export default function FormattedMessage({ message, values, tagName = 'span' }) {
@@ -27,4 +28,8 @@ FormattedMessage.propTypes = {
   message: PropTypes.string.isRequired,
   values: PropTypes.object,
   tagName: PropTypes.string,
+};
+FormattedMessage.defaultProps = {
+  values: undefined,
+  tagName: '',
 };

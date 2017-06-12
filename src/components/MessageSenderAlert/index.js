@@ -1,21 +1,37 @@
-import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import React from 'react';
+import PropTypes from 'prop-types';
 import messageSenderMessages from 'ringcentral-integration/modules/MessageSender/messageSenderMessages';
 import FormattedMessage from '../FormattedMessage';
 import i18n from './i18n';
 
-export default function MessageSenderAlert(props) {
-  const message = props.message.message;
+export default function MessageSenderAlert({
+  currentLocale,
+  message: {
+    message,
+  },
+  onAreaCodeLink,
+}) {
   if (message === messageSenderMessages.noAreaCode) {
-    const areaCode = i18n.getString('areaCode', props.currentLocale);
+    const areaCode = i18n.getString('areaCode', currentLocale);
+    const areaCodeLink = onAreaCodeLink ?
+      (
+        <a
+          onClick={(e) => {
+            e.preventDefault();
+            onAreaCodeLink();
+          }}>
+          {areaCode}
+        </a>
+      ) :
+      areaCode;
     return (
       <FormattedMessage
-        message={i18n.getString(message, props.currentLocale)}
-        values={{ areaCodeLink: <Link to={props.regionSettingsUrl}>{areaCode}</Link> }} />
+        message={i18n.getString(message, currentLocale)}
+        values={{ areaCodeLink }} />
     );
   }
   return (
-    <span>{i18n.getString(message, props.currentLocale)}</span>
+    <span>{i18n.getString(message, currentLocale)}</span>
   );
 }
 
@@ -24,7 +40,10 @@ MessageSenderAlert.propTypes = {
   message: PropTypes.shape({
     message: PropTypes.string.isRequired,
   }).isRequired,
-  regionSettingsUrl: PropTypes.string.isRequired,
+  onAreaCodeLink: PropTypes.func,
+};
+MessageSenderAlert.defaultProps = {
+  onAreaCodeLink: undefined,
 };
 
 MessageSenderAlert.handleMessage = ({ message }) => (

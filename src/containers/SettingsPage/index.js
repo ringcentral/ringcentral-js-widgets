@@ -1,4 +1,4 @@
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
@@ -10,6 +10,7 @@ import Locale from 'ringcentral-integration/modules/Locale';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import RolesAndPermissions from 'ringcentral-integration/modules/RolesAndPermissions';
 import Presence from 'ringcentral-integration/modules/Presence';
+import Router from '../../modules/RouterInteraction';
 
 import SettingsPanel from '../../components/SettingsPanel';
 
@@ -17,11 +18,9 @@ function mapToProps(_, {
   accountInfo,
   auth,
   brand,
-  callingSettingsUrl,
   extensionInfo,
   locale,
   regionSettings,
-  regionSettingsUrl,
   version,
   rolesAndPermissions,
   presence,
@@ -34,7 +33,7 @@ function mapToProps(_, {
   ) ?
     formatNumber({
       phoneNumber: `${
-        accountInfo.mainCompanyNumber
+      accountInfo.mainCompanyNumber
       }*${extensionInfo.extensionNumber}`,
       countryCode: regionSettings.countryCode,
       areaCode: regionSettings.areaCode,
@@ -58,11 +57,9 @@ function mapToProps(_, {
     version,
     currentLocale: locale.currentLocale,
     brandId: brand.id,
-    callingSettingsUrl,
-    regionSettingsUrl,
     ringoutEnabled: rolesAndPermissions.ringoutEnabled,
     outboundSMS: !!rolesAndPermissions.permissions.OutboundSMS ||
-      !!rolesAndPermissions.permissions.InternalSMS,
+    !!rolesAndPermissions.permissions.InternalSMS,
     isCallQueueMember: extensionInfo.isCallQueueMember,
     dndStatus: presence && presence.dndStatus,
     userStatus: presence && presence.userStatus,
@@ -73,16 +70,27 @@ function mapToProps(_, {
 function mapToFunctions(_, {
   auth,
   presence,
+  router,
+  regionSettingsUrl,
+  callingSettingsUrl,
 }) {
   return {
     onLogoutButtonClick: async () => {
       await auth.logout();
     },
-    setAvailable: presence && presence.setAvailable,
-    setBusy: presence && presence.setBusy,
-    setDoNotDisturb: presence && presence.setDoNotDisturb,
-    setInvisible: presence && presence.setInvisible,
-    toggleAcceptCallQueueCalls: presence && presence.toggleAcceptCallQueueCalls,
+    onRegionSettingsLinkClick: () => {
+      router.push(regionSettingsUrl);
+    },
+    onCallingSettingsLinkClick: () => {
+      router.push(callingSettingsUrl);
+    },
+    setAvailable: (...args) => (presence && presence.setAvailable(...args)),
+    setBusy: (...args) => (presence && presence.setBusy(...args)),
+    setDoNotDisturb: (...args) => (presence && presence.setDoNotDisturb(...args)),
+    setInvisible: (...args) => (presence && presence.setInvisible(...args)),
+    toggleAcceptCallQueueCalls: (...args) => (
+      presence && presence.toggleAcceptCallQueueCalls(...args)
+    ),
   };
 }
 const SettingsPage = connect(
@@ -102,6 +110,7 @@ const propTypes = {
   version: PropTypes.string.isRequired,
   rolesAndPermissions: PropTypes.instanceOf(RolesAndPermissions).isRequired,
   presence: PropTypes.instanceOf(Presence),
+  router: PropTypes.instanceOf(Router),
 };
 
 SettingsPage.propTypes = propTypes;

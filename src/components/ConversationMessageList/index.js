@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import styles from './styles.scss';
@@ -113,7 +114,7 @@ class ConversationMessageList extends Component {
 }
 
 ConversationMessageList.propTypes = {
-  messages: React.PropTypes.arrayOf(PropTypes.shape({
+  messages: PropTypes.arrayOf(PropTypes.shape({
     creationTime: PropTypes.string,
     id: PropTypes.number,
     direction: PropTypes.string,

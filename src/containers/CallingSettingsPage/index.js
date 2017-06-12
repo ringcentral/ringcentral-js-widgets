@@ -1,4 +1,4 @@
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import Brand from 'ringcentral-integration/modules/Brand';
 import CallingSettings from 'ringcentral-integration/modules/CallingSettings';
@@ -31,7 +31,7 @@ function mapToFunctions(_, {
 }) {
   return {
     onBackButtonClick: () => {
-      router.history.goBack();
+      router.goBack();
     },
     onSave: ({ callWith, myLocation, ringoutPrompt }) => {
       callingSettings.setData({

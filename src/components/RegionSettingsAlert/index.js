@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import React from 'react';
+import PropTypes from 'prop-types';
 import regionSettingsMessages from
   'ringcentral-integration/modules/RegionSettings/regionSettingsMessages';
 import FormattedMessage from '../FormattedMessage';
@@ -10,16 +10,27 @@ export default function RegionSettingsAlert({
     message
   },
   currentLocale,
-  regionSettingsUrl,
+  onRegionSettingsLinkClick,
 }) {
   let msg;
   switch (message) {
     case regionSettingsMessages.dialingPlansChanged: {
       const regionSettings = i18n.getString('regionSettings', currentLocale);
+      const regionSettingsLink = onRegionSettingsLinkClick ?
+        (
+          <a
+            onClick={(e) => {
+              e.preventDefault();
+              onRegionSettingsLinkClick();
+            }}>
+            {regionSettings}
+          </a>
+        ) :
+        regionSettings;
       msg = (
         <FormattedMessage
           message={i18n.getString(message, currentLocale)}
-          values={{ regionSettingsLink: <Link to={regionSettingsUrl}>{regionSettings}</Link> }} />
+          values={{ regionSettingsLink }} />
       );
     }
       break;
@@ -37,8 +48,11 @@ RegionSettingsAlert.propTypes = {
   message: PropTypes.shape({
     message: PropTypes.string.isRequired,
   }).isRequired,
-  regionSettingsUrl: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
+  onRegionSettingsLinkClick: PropTypes.func,
+};
+RegionSettingsAlert.defaultProps = {
+  onRegionSettingsLinkClick: undefined,
 };
 RegionSettingsAlert.handleMessage = ({ message }) => (
   message === regionSettingsMessages.saveSuccess ||

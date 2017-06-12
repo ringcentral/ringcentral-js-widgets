@@ -9,7 +9,9 @@ const props = {};
  */
 const BackHeaderDemo = () => (
   <BackHeader
-    {...props}
-  />
+    buttons={[]}
+    onBackClick={() => alert('Implement \'onBackClick\'') }>
+    {'Back Header'}
+  </BackHeader>
 );
 export default BackHeaderDemo;

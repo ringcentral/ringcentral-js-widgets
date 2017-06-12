@@ -1,30 +1,40 @@
-import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import IconLine from '../IconLine';
 import styles from './styles.scss';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
-function LinkLine(props) {
+function LinkLine({
+  onClick,
+  className,
+  children
+}) {
   return (
-    <Link
-      to={props.to}
+    <a
+      onClick={(e) => {
+        e.preventDefault();
+        onClick();
+      }}
       className={styles.link}
     >
       <IconLine
-        className={props.className}
+        className={className}
         icon={<span className={classnames(dynamicsFont.arrow, styles.icon)} />}
       >
-        {props.children}
+        {children}
       </IconLine>
-    </Link>
+    </a>
   );
 }
 
 LinkLine.propTypes = {
-  className: PropTypes.string,
-  to: PropTypes.string.isRequired,
   children: PropTypes.node,
+  className: PropTypes.string,
+  onClick: PropTypes.func.isRequired,
 };
-
+LinkLine.defaultProps = {
+  children: undefined,
+  className: undefined,
+};
 export default LinkLine;

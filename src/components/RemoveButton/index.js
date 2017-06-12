@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import rcFont from '../../assets/RcFont/RcFont.scss';
 import styles from './styles.scss';
@@ -11,9 +12,9 @@ function RemoveButton(props) {
     className = classnames(styles.containner, props.className, styles.hiddenRemoveButton);
   }
   return (
-    <a href="#remove" className={className} onClick={props.onClick}>
+    <span className={className} onClick={props.onClick}>
       <i className={rcFont.uni2471} />
-    </a>
+    </span>
   );
 }
 

@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
@@ -19,7 +20,7 @@ function ContactItem(props) {
 
   return (
     <li className={className} onMouseOver={props.onHover}>
-      <a href="#select-contact-item" onClick={props.onClick}>
+      <div className={styles.clickable} onClick={props.onClick}>
         <div className={styles.nameSection} title={props.titleEnabled && nameTitle}>
           <span className={styles.name}>
             {props.name}
@@ -38,7 +39,7 @@ function ContactItem(props) {
             {phoneTypeName}
           </span>
         </div>
-      </a>
+      </div>
     </li>
   );
 }

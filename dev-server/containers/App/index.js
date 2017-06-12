@@ -1,7 +1,7 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute } from 'react-router';
-import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
 import sleep from 'ringcentral-integration/lib/sleep';
 
 import AlertContainer from '../../../src/containers/AlertContainer';
@@ -25,29 +25,6 @@ import AppView from '../AppView';
 export default function App({
   phone,
 }) {
-  // TODO find a more reason place to do this
-  phone.store.subscribe(() => {
-    if (phone.auth.ready) {
-      if (
-        phone.router.currentPath !== '/welcome' &&
-        phone.auth.loginStatus === loginStatus.notLoggedIn
-      ) {
-        phone.router.history.push('/welcome');
-      } else if (
-        phone.router.currentPath === '/welcome' &&
-        phone.auth.loginStatus === loginStatus.loggedIn
-      ) {
-        phone.router.history.push('/');
-      }
-    }
-  });
-
-  const ensureLogin = async (nextState, replace, cb) => {
-    if (!(await phone.auth.checkIsLoggedIn())) {
-      replace('/welcome');
-    }
-    cb();
-  };
   return (
     <Provider store={phone.store} >
       <Router history={phone.router.history} >
@@ -74,6 +51,8 @@ export default function App({
                   alert={phone.alert}
                   rateLimiter={phone.rateLimiter}
                   brand={phone.brand}
+                  callingSettingsUrl="/settings/calling"
+                  regionSettingsUrl="/settings/region"
                 />
               </ActiveCallPage>
             </AppView>
@@ -92,11 +71,13 @@ export default function App({
                   alert={phone.alert}
                   rateLimiter={phone.rateLimiter}
                   brand={phone.brand}
+                  callingSettingsUrl="/settings/calling"
+                  regionSettingsUrl="/settings/region"
                 />
               </MainView>
             )} >
             <IndexRoute
-              onEnter={ensureLogin}
+
               component={() => (
                 <DialerPage
                   call={phone.call}
@@ -109,7 +90,6 @@ export default function App({
               )} />
             <Route
               path="/settings"
-              onEnter={ensureLogin}
               component={routerProps => (
                 <SettingsPage
                   params={routerProps.location.query}
@@ -129,7 +109,6 @@ export default function App({
               )} />
             <Route
               path="/settings/region"
-              onEnter={ensureLogin}
               component={() => (
                 <RegionSettingsPage
                   regionSettings={phone.regionSettings}
@@ -139,7 +118,6 @@ export default function App({
               )} />
             <Route
               path="/settings/calling"
-              onEnter={ensureLogin}
               component={() => (
                 <CallingSettingsPage
                   brand={phone.brand}
@@ -151,7 +129,6 @@ export default function App({
               )} />
             <Route
               path="/calls"
-              onEnter={ensureLogin}
               component={() => (
                 <CallMonitorPage
                   locale={phone.locale}
@@ -172,7 +149,6 @@ export default function App({
               )} />
             <Route
               path="/history"
-              onEnter={ensureLogin}
               component={() => (
                 <CallHistoryPage
                   locale={phone.locale}
@@ -194,7 +170,6 @@ export default function App({
               )} />
             <Route
               path="/conference"
-              onEnter={ensureLogin}
               component={() => (
                 <ConferencePage
                   conference={phone.conference}
@@ -206,7 +181,6 @@ export default function App({
               )} />
             <Route
               path="/composeText"
-              onEnter={ensureLogin}
               component={() => (
                 <ComposeTextPage
                   locale={phone.locale}
@@ -224,7 +198,6 @@ export default function App({
               )} />
             <Route
               path="/conversations/:conversationId"
-              onEnter={ensureLogin}
               component={props => (
                 <ConversationPage
                   locale={phone.locale}
@@ -240,11 +213,11 @@ export default function App({
                   rateLimiter={phone.rateLimiter}
                   connectivityMonitor={phone.connectivityMonitor}
                   onLogConversation={async () => { sleep(1000); }}
+                  router={phone.router}
                 />
               )} />
             <Route
               path="/messages"
-              onEnter={ensureLogin}
               component={() => (
                 <MessagesPage
                   locale={phone.locale}
@@ -265,12 +238,6 @@ export default function App({
           </Route>
           <Route
             path="/welcome"
-            onEnter={async (nextState, replace, cb) => {
-              if (await phone.auth.checkIsLoggedIn()) {
-                replace('/');
-              }
-              cb();
-            }}
             component={() => (
               <WelcomePage
                 auth={phone.auth}
@@ -283,6 +250,8 @@ export default function App({
                   alert={phone.alert}
                   rateLimiter={phone.rateLimiter}
                   brand={phone.brand}
+                  callingSettingsUrl="/settings/calling"
+                  regionSettingsUrl="/settings/region"
                 />
               </WelcomePage>
             )}

@@ -1,6 +1,5 @@
-import React, { PropTypes, Component } from 'react';
-import { Link } from 'react-router';
-
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 import Spinner from '../Spinner';
@@ -197,12 +196,12 @@ class ConversationPanel extends Component {
             currentLocale={this.props.currentLocale}
             enableContactFallback={this.props.enableContactFallback}
           />
-          <Link
-            to={'/messages'}
+          <a
+            onClick={() => this.props.goBack()}
             className={styles.backButton}
           >
             <span className={dynamicsFont.arrow} />
-          </Link>
+          </a>
           {logButton}
         </div>
         {conversationBody}
@@ -246,13 +245,13 @@ ConversationPanel.propTypes = {
   showSpinner: PropTypes.bool.isRequired,
   disableLinks: PropTypes.bool,
   conversation: PropTypes.object.isRequired,
-  isLoggedContact: PropTypes.func,
   onLogConversation: PropTypes.func,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   autoLog: PropTypes.bool,
   enableContactFallback: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
+  goBack: PropTypes.func.isRequired,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,

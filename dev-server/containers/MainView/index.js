@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import dynamicsFont from '../../../src/assets/DynamicsFont/DynamicsFont.scss';
 import TabNavigationView from '../../../src/components/TabNavigationView';
@@ -14,25 +15,25 @@ function getTabs({
   return [
     {
       icon: <span className={dynamicsFont.dial} />,
-      activityIcon: <span className={dynamicsFont.dialHover} />,
+      activeIcon: <span className={dynamicsFont.dialHover} />,
       label: 'Dial Pad',
       path: '/',
     },
     {
       icon: <span className={dynamicsFont.active} />,
-      activityIcon: <span className={dynamicsFont.activeHover} />,
+      activeIcon: <span className={dynamicsFont.activeHover} />,
       label: 'Calls',
       path: '/calls',
     },
     {
       icon: <span className={dynamicsFont.history} />,
-      activityIcon: <span className={dynamicsFont.historyHover} />,
+      activeIcon: <span className={dynamicsFont.historyHover} />,
       label: 'History',
       path: '/history',
     },
     showMessages && {
       icon: <span className={dynamicsFont.message} />,
-      activityIcon: <span className={dynamicsFont.messageHover} />,
+      activeIcon: <span className={dynamicsFont.messageHover} />,
       label: 'Messages',
       path: '/messages',
       noticeCounts: unreadCounts,
@@ -42,19 +43,19 @@ function getTabs({
     },
     showComposeText && {
       icon: <span className={dynamicsFont.composeText} />,
-      activityIcon: <span className={dynamicsFont.composeTextHover} />,
+      activeIcon: <span className={dynamicsFont.composeTextHover} />,
       label: 'Compose Text',
       path: '/composeText',
     },
     showConference && {
       icon: <span className={dynamicsFont.conference} />,
-      activityIcon: <span className={dynamicsFont.conferenceHover} />,
+      activeIcon: <span className={dynamicsFont.conferenceHover} />,
       label: 'Conference',
       path: '/conference',
     },
     {
       icon: <span className={dynamicsFont.setting} />,
-      activityIcon: <span className={dynamicsFont.settingHover} />,
+      activeIcon: <span className={dynamicsFont.settingHover} />,
       label: 'Settings',
       path: '/settings',
       isActive: currentPath => (
@@ -64,11 +65,11 @@ function getTabs({
   ].filter(x => !!x);
 }
 
-const MainView = connect((_, {
+function mapToProps(_, {
   messageStore,
   rolesAndPermissions,
   router,
-}) => {
+}) {
   const unreadCounts = messageStore.unreadCounts || 0;
   const serviceFeatures = rolesAndPermissions.serviceFeatures;
   const showComposeText = (
@@ -106,7 +107,21 @@ const MainView = connect((_, {
     unreadCounts,
     currentPath: router.currentPath,
   };
-})(TabNavigationView);
+}
+function mapToFunctions(_, {
+  router,
+}) {
+  return {
+    goTo: (path) => {
+      router.push(path);
+    },
+  };
+}
+
+const MainView = connect(
+  mapToProps,
+  mapToFunctions
+)(TabNavigationView);
 
 MainView.propTypes = {
   router: PropTypes.instanceOf(RouterInteraction).isRequired,

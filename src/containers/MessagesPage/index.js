@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import { connect } from 'react-redux';
 import Header from '../../components/Header';
@@ -95,7 +96,7 @@ function mapToProps(_, {
       (!conversationLogger || conversationLogger.ready)
     ),
     searchInput: messages.searchInput,
-    autoLog: conversationLogger.autoLog,
+    autoLog: !!(conversationLogger && conversationLogger.autoLog),
   });
 }
 
@@ -143,7 +144,7 @@ function mapToFunctions(_, {
     onClickToDial: call ?
       (phoneNumber) => {
         if (call.isIdle) {
-          router.history.push(dialerRoute);
+          router.push(dialerRoute);
           call.onToNumberChange(phoneNumber);
           call.onCall();
         }
@@ -161,7 +162,7 @@ function mapToFunctions(_, {
       messages.updateSearchInput(e.currentTarget.value);
     },
     showConversationDetail(conversationId) {
-      router.history.push(
+      router.push(
         conversationDetailRoute.replace('{conversationId}', conversationId)
       );
     },

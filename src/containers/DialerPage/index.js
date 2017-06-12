@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import { PropTypes } from 'react';
-
+import PropTypes from 'prop-types';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 
 import Locale from 'ringcentral-integration/modules/Locale';
@@ -45,7 +44,7 @@ function mapToFunctions(_, {
     onCall: () => {
       call.onCall();
     },
-    changeFromNumber: callingSettings.updateFromNumber,
+    changeFromNumber: (...args) => callingSettings.updateFromNumber(...args),
     formatPhone: phoneNumber => formatNumber({
       phoneNumber,
       areaCode: regionSettings && regionSettings.areaCode,

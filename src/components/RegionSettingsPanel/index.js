@@ -1,10 +1,10 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import 'font-awesome/css/font-awesome.css';
 
 import BackHeader from '../BackHeader';
 import Panel from '../Panel';
-import Line from '../Line';
 import InputField from '../InputField';
 import TextInput from '../TextInput';
 import Select from '../DropdownSelect';
@@ -76,7 +76,9 @@ export default class RegionSettings extends Component {
     const selectedOption = this.props.availableCountries.find(
       country => country.isoCode === value
     );
-
+    if (!selectedOption) {
+      return '';
+    }
     return `(+${selectedOption.callingCode}) ${countryNames.getString(selectedOption.isoCode, this.props.currentLocale)}`;
   }
 

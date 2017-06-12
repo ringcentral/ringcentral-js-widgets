@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import Locale from 'ringcentral-integration/modules/Locale';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import RouterInteraction from '../../modules/RouterInteraction';
@@ -27,7 +27,7 @@ function mapToFunctions(_, {
       await auth.logout();
     },
     onBackButtonClick: () => {
-      router.history.goBack();
+      router.goBack();
     },
     onSave: ({ areaCode, countryCode }) => {
       regionSettings.setData({

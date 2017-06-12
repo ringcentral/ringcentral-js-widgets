@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import React from 'react';
+import PropTypes from 'prop-types';
 import callErrors from 'ringcentral-integration/modules/Call/callErrors';
 import FormattedMessage from '../FormattedMessage';
 import i18n from './i18n';
@@ -8,15 +8,26 @@ export default function CallAlert({
   message: {
     message,
   },
-  regionSettingsUrl,
+  onAreaCodeLinkClick,
   currentLocale,
 }) {
   if (message === callErrors.noAreaCode) {
     const areaCode = i18n.getString('areaCode', currentLocale);
+    const areaCodeLink = onAreaCodeLinkClick ?
+      (
+        <a
+          onClick={(e) => {
+            e.preventDefault();
+            onAreaCodeLinkClick();
+          }} >
+          {areaCode}
+        </a>
+      ) :
+      areaCode;
     return (
       <FormattedMessage
         message={i18n.getString(message, currentLocale)}
-        values={{ areaCodeLink: <Link to={regionSettingsUrl}>{areaCode}</Link> }} />
+        values={{ areaCodeLink }} />
     );
   }
   return (
@@ -25,11 +36,14 @@ export default function CallAlert({
 }
 
 CallAlert.propTypes = {
-  regionSettingsUrl: PropTypes.string.isRequired,
+  onAreaCodeLinkClick: PropTypes.func,
   message: PropTypes.shape({
     message: PropTypes.string.isRequired,
   }).isRequired,
   currentLocale: PropTypes.string.isRequired,
+};
+CallAlert.defaultProps = {
+  onAreaCodeLinkClick: undefined,
 };
 
 CallAlert.handleMessage = ({ message }) => (

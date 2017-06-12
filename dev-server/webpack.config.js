@@ -30,8 +30,17 @@ const base = {
         use: 'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
       },
       {
+        test: /\.svg/,
+        exclude: /node_modules|font/,
+        use: [
+          'babel-loader',
+          'react-svg-loader',
+        ],
+      },
+      {
         test: /\.png|\.jpg|\.gif|\.svg/,
         use: 'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
+        exclude: /assets(\/|\\)images(\/|\\).+\.svg/,
       },
       {
         test: /\.sass|\.scss/,

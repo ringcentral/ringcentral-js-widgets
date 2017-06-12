@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
@@ -63,6 +64,7 @@ class ConversationPage extends Component {
         sendButtonDisabled={this.props.sendButtonDisabled}
         autoLog={this.props.autoLog}
         dateTimeFormatter={this.props.dateTimeFormatter}
+        goBack={this.props.goBack}
       />
     );
   }
@@ -130,7 +132,7 @@ function mapToProps(_, {
       messages.ready &&
       rateLimiter.ready &&
       connectivityMonitor.ready &&
-      conversationLogger.ready
+      (!conversationLogger || conversationLogger.ready)
     ),
     recipients: conversation.recipients,
     messages: conversation.messages,
@@ -141,7 +143,7 @@ function mapToProps(_, {
       rateLimiter.isThrottling ||
       !connectivityMonitor.connectivity
     ),
-    autoLog: conversationLogger.autoLog,
+    autoLog: !!(conversationLogger && conversationLogger.autoLog),
   });
 }
 
@@ -154,6 +156,7 @@ function mapToFunctions(_, {
   isLoggedContact,
   conversationLogger,
   onLogConversation,
+  router,
 }) {
   let getMatcherContactName;
   let getMatcherContactList;
@@ -185,9 +188,9 @@ function mapToFunctions(_, {
   }
 
   return {
-    replyToReceivers: conversation.replyToReceivers,
-    changeDefaultRecipient: conversation.changeDefaultRecipient,
-    changeMatchedNames: conversation.changeMatchedNames,
+    replyToReceivers: (...args) => conversation.replyToReceivers(...args),
+    changeDefaultRecipient: (...args) => conversation.changeDefaultRecipient(...args),
+    changeMatchedNames: (...args) => conversation.changeMatchedNames(...args),
     unloadConversation: () => conversation.unloadConversation(),
     loadConversationById: id => conversation.loadConversationById(id),
     dateTimeFormatter,
@@ -207,6 +210,9 @@ function mapToFunctions(_, {
         redirect,
       });
     })),
+    goBack: () => {
+      router.goBack();
+    },
   };
 }
 

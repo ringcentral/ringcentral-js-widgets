@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import React, { PropTypes, Component } from 'react';
-
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import Webphone from 'ringcentral-integration/modules/Webphone';
 import Locale from 'ringcentral-integration/modules/Locale';
@@ -12,6 +12,8 @@ import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatu
 import ActiveCallPanel from '../../components/ActiveCallPanel';
 import IncomingCallPanel from '../../components/IncomingCallPanel';
 import ActiveCallBadge from '../../components/ActiveCallBadge';
+
+import i18n from './i18n';
 
 class ActiveCallPage extends Component {
   constructor(props) {
@@ -82,7 +84,18 @@ class ActiveCallPage extends Component {
     // isRinging = true;
     const phoneNumber = session.direction === callDirections.outbound ?
       session.to : session.from;
-    const userName = 'Unknown';
+    let userName;
+    if (session.direction === callDirections.inbound) {
+      userName = session.fromUserName;
+      if (session.from === 'anonymous') {
+        userName = i18n.getString('anonymous', this.props.currentLocale);
+      }
+    } else {
+      userName = session.toUserName;
+    }
+    if (!userName) {
+      userName = i18n.getString('unknown', this.props.currentLocale);
+    }
     if (isRinging) {
       return (
         <IncomingCallPanel
@@ -187,9 +200,9 @@ function mapToFunctions(_, {
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode,
     }),
-    hangup: webphone.hangup,
-    answer: webphone.answer,
-    reject: webphone.reject,
+    hangup: sessionId => webphone.hangup(sessionId),
+    answer: sessionId => webphone.answer(sessionId),
+    reject: sessionId => webphone.reject(sessionId),
     onMute: sessionId => webphone.mute(sessionId),
     onUnmute: sessionId => webphone.unmute(sessionId),
     onHold: sessionId => webphone.hold(sessionId),
@@ -197,13 +210,13 @@ function mapToFunctions(_, {
     onRecord: sessionId => webphone.startRecord(sessionId),
     onStopRecord: sessionId => webphone.stopRecord(sessionId),
     onAdd: () => {
-      router.history.push('/');
+      router.push('/');
       webphone.toggleMinimized();
     },
     sendDTMF: (value, sessionId) => webphone.sendDTMF(value, sessionId),
     toVoiceMail: sessionId => webphone.toVoiceMail(sessionId),
     replyWithMessage: (sessionId, message) => webphone.replyWithMessage(sessionId, message),
-    toggleMinimized: webphone.toggleMinimized,
+    toggleMinimized: () => webphone.toggleMinimized(),
   };
 }
 

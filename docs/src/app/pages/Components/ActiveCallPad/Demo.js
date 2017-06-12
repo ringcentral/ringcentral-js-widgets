@@ -12,6 +12,7 @@ props.onStopRecord = () => null;
 props.hangup = () => null;
 props.onShowKeyPad = () => null;
 props.onAdd = () => null;
+props.currentLocale = 'en-US';
 
 /**
  * A example of `ActiveCallPad`

@@ -1,42 +1,49 @@
-import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
 
-function NavigationButton(props) {
+function NavigationButton({
+  active,
+  activeIcon,
+  icon,
+  label,
+  noticeCounts,
+  onClick,
+  width,
+}) {
   let notice = null;
-  if (props.noticeCounts && props.noticeCounts > 0) {
-    if (props.noticeCounts > 99) {
+  if (noticeCounts && noticeCounts > 0) {
+    if (noticeCounts > 99) {
       notice = <div className={styles.notices}>99+</div>;
     } else {
-      notice = <div className={styles.notice}>{props.noticeCounts}</div>;
+      notice = <div className={styles.notice}>{noticeCounts}</div>;
     }
   }
   return (
-    <Link
-      to={props.path}
+    <div
+      onClick={onClick}
       className={classnames(
         styles.navigationButton,
-        props.active && styles.active,
+        active && styles.active,
       )}
       style={{
-        width: props.width,
+        width,
       }}
     >
-      <div className={styles.iconHolder} title={props.label}>
+      <div className={styles.iconHolder} title={label}>
         <div className={styles.icon}>
-          {props.active ? props.activityIcon : props.icon }
+          {active ? activeIcon : icon }
         </div>
         {notice}
       </div>
-    </Link>
+    </div>
   );
 }
 NavigationButton.propTypes = {
-  icon: PropTypes.node,
-  activityIcon: PropTypes.node,
-  path: PropTypes.string,
+  icon: PropTypes.node.isRequired,
+  activeIcon: PropTypes.node.isRequired,
   active: PropTypes.bool,
   label: PropTypes.string,
   noticeCounts: PropTypes.number,
@@ -44,6 +51,13 @@ NavigationButton.propTypes = {
     PropTypes.number,
     PropTypes.string,
   ]).isRequired,
+  onClick: PropTypes.func,
+};
+NavigationButton.defaultProps = {
+  active: false,
+  label: undefined,
+  noticeCounts: undefined,
+  onClick: undefined,
 };
 
 function NavigationBar(props) {
@@ -57,6 +71,9 @@ function NavigationBar(props) {
           <NavigationButton
             {...t}
             key={idx}
+            onClick={() => {
+              props.goTo(t.path);
+            }}
             active={
               (t.isActive && t.isActive(props.currentPath)) ||
               t.path === props.currentPath
@@ -72,15 +89,17 @@ NavigationBar.propTypes = {
   className: PropTypes.string,
   tabs: PropTypes.arrayOf(PropTypes.shape({
     icon: PropTypes.node.isRequired,
-    activityIcon: PropTypes.node.isRequired,
+    activeIcon: PropTypes.node.isRequired,
     label: PropTypes.string,
     path: PropTypes.string.isRequired,
     isActive: PropTypes.func,
     noticeCounts: PropTypes.number,
   })),
+  goTo: PropTypes.func.isRequired,
   currentPath: PropTypes.string.isRequired,
 };
 NavigationBar.defaultProps = {
+  className: undefined,
   tabs: [],
 };
 

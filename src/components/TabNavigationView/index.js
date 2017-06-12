@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
 import NavigationBar from '../NavigationBar';
@@ -7,6 +8,7 @@ function TabNavigationView(props) {
   const navBar = (
     <NavigationBar
       tabs={props.tabs}
+      goTo={props.goTo}
       currentPath={props.currentPath}
     />
   );
@@ -30,18 +32,19 @@ function TabNavigationView(props) {
 }
 
 TabNavigationView.propTypes = {
-  className: PropTypes.string,
   children: PropTypes.node,
-  tabs: NavigationBar.propTypes.tabs,
+  className: PropTypes.string,
   currentPath: PropTypes.string.isRequired,
+  goTo: PropTypes.func.isRequired,
   navigationPosition: PropTypes.oneOf(['top', 'bottom']),
+  tabs: NavigationBar.propTypes.tabs,
 };
 
 TabNavigationView.defaultProps = {
-  className: null,
   children: null,
-  tabs: null,
+  className: null,
   navigationPosition: 'top',
+  tabs: null,
 };
 
 export default TabNavigationView;

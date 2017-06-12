@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import Locale from 'ringcentral-integration/modules/Locale';
@@ -31,7 +31,7 @@ function mapToFunctions(_, {
   return {
     inviteWithText: (text) => {
       composeText.updateMessageText(text);
-      router.history.push('/composeText');
+      router.push('/composeText');
     },
     formatInternational: (phoneNumber, callingCode) => {
       if (phoneNumber.indexOf(callingCode === 1)) {
