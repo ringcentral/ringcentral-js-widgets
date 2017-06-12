@@ -29,3 +29,7 @@ FormattedMessage.propTypes = {
   values: PropTypes.object,
   tagName: PropTypes.string,
 };
+FormattedMessage.defaultProps = {
+  values: undefined,
+  tagName: '',
+};

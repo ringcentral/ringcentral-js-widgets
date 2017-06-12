@@ -67,6 +67,7 @@ export default class EntityModal extends Component {
 }
 EntityModal.propTypes = {
   className: PropTypes.string,
+  children: PropTypes.node,
   show: PropTypes.bool,
   onCreate: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,

@@ -8,22 +8,22 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widget/components/BackHeader';
+import componentCode from '!raw-loader!ringcentral-widget/components/Modal';
 
-const BackHeaderPage = () => {
+const ModalPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="BackHeader" description={info.description} />
+      <ComponentHeader name="Modal" description={info.description} />
       <CodeExample
         code={demoCode}
-        title="BackHeader Example"
+        title="Modal Example"
       >
-        <Demo/>
+        <Demo />
       </CodeExample>
       <PropTypeDescription componentInfo={info} />
     </div>
   );
 };
 
-export default BackHeaderPage;
+export default ModalPage;
