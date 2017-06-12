@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 // eslint-disable-next-line
 import ComposeTextPanel from 'ringcentral-widget/components/ComposeTextPanel';
 import styles from './styles.scss';
