@@ -16,10 +16,7 @@ import dedent from 'dedent';
 import exportLocale from 'locale-loader/exportLocale';
 import importLocale from 'locale-loader/importLocale';
 import devServerConfig from './dev-server/webpack.config';
-<<<<<<< HEAD
-=======
 import demoExtensionConfig from './demo-extension/webpack.config';
->>>>>>> set up demo-extension
 
 gulp.task('dev-server', async () => {
   const compiler = webpack(devServerConfig);
