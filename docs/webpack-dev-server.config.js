@@ -66,7 +66,7 @@ const config = {
       },
       {
         test: /\.png|\.jpg|\.gif|\.svg/,
-        exclude: /assets\/images\/.+\.svg/,
+        exclude: /assets(\/|\\)images(\/|\\).+\.svg/,
         use: 'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
       },
       {
