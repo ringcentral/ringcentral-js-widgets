@@ -38,6 +38,9 @@
 .inputField {
   position: relative;
   padding-right: 20px;
+  input::-ms-clear {
+    display: none;
+  }
 }
 
 .numberInput {
