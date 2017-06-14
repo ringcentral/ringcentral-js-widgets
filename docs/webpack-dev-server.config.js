@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const autoprefixer = require('autoprefixer');
 
 const buildPath = path.resolve(__dirname, 'src/app');
 const outputPath = path.resolve(__dirname, 'src/www');
@@ -61,7 +62,18 @@ const config = {
         exclude: /node_modules|font/,
         use: [
           'babel-loader',
-          'react-svg-loader',
+          {
+            loader: 'react-svg-loader',
+            query: {
+              svgo: {
+                plugins: [{
+                  removeTitle: true,
+                  removeDesc: true,
+                }],
+                floatPrecision: 2
+              }
+            }
+          }
         ],
       },
       {
@@ -77,7 +89,9 @@ const config = {
           {
             loader: 'postcss-loader',
             options: {
-              config: 'postcss.config.js'
+              plugins: () => [
+                autoprefixer
+              ]
             }
           },
           {

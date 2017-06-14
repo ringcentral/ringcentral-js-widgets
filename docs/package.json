@@ -34,7 +34,7 @@
     "history": "^4.6.1",
     "locale-loader": "^1.2.4",
     "marked": "^0.3.6",
-    "node-sass": "^4.5.0",
+    "node-sass": "^4.5.3",
     "postcss-loader": "^2.0.5",
     "prop-types": "^15.5.10",
     "raw-loader": "^0.5.1",
