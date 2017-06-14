@@ -86,10 +86,7 @@ export default function ContactDisplay({
           })
         )}
         renderValue={value => (
-          displayFomatter({
-            entityName: options[value].name,
-            entityType: options[value].entityType,
-          })
+          options[value].name
         )}
         renderTitle={entity => (
           entity ? displayFomatter({
