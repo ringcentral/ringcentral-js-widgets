@@ -47,7 +47,7 @@
 }
 
 .icon {
-  g, path {
-    fill: #0684bd;
+  g, path, rect {
+    fill: $primary-color;
   }
 }
