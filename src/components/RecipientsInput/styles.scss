@@ -54,6 +54,9 @@
     color: #A9A9A9;
   }
 }
+.numberInput::-ms-clear {
+  display: none;
+}
 
 .contactsDropdown {
   width: 100%;
