@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
 const buildPath = path.resolve(__dirname, 'src/app');
 const outputPath = path.resolve(__dirname, 'gh-pages');
@@ -66,7 +67,7 @@ const config = {
         exclude: /node_modules|font/,
         use: [
           'babel-loader',
-          'react-svg-loader',
+          'react-svg-loader'
         ],
       },
       {
@@ -82,7 +83,9 @@ const config = {
           {
             loader: 'postcss-loader',
             options: {
-              config: 'postcss.config.js'
+              plugins: () => [
+                autoprefixer
+              ]
             }
           },
           {

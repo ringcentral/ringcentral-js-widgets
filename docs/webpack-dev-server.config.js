@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const autoprefixer = require('autoprefixer');
 
 const buildPath = path.resolve(__dirname, 'src/app');
 const outputPath = path.resolve(__dirname, 'src/www');
@@ -77,7 +78,9 @@ const config = {
           {
             loader: 'postcss-loader',
             options: {
-              config: 'postcss.config.js'
+              plugins: () => [
+                autoprefixer
+              ]
             }
           },
           {
