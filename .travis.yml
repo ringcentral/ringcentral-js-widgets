@@ -7,6 +7,8 @@ node_js:
 #    - 'cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js'
 before_deploy:
   - ./scripts/prepare_release.sh && cd release
+after_deploy:
+  - cd ../
 deploy:
   - provider: npm
     email: embbnux@embbnux.com
@@ -21,7 +23,7 @@ deploy:
   - provider: pages
     skip_cleanup: true
     github_token: $RELEASE_TOKEN
-    local_dir: ../docs/gh-pages
+    local_dir: docs/gh-pages
     email: 'integrations@ringcentral.com'
     name: 'RingCentral Integrations Team'
     on:
