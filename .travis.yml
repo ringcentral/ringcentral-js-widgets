@@ -23,7 +23,7 @@ deploy:
   - provider: pages
     skip_cleanup: true
     github_token: $RELEASE_TOKEN
-    local_dir: docs/gh-pages
+    local_dir: ../docs/gh-pages
     email: 'integrations@ringcentral.com'
     name: 'RingCentral Integrations Team'
     on:
