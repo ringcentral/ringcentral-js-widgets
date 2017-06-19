@@ -6,11 +6,14 @@ import RcModule from 'ringcentral-integration/lib/RcModule';
 
 import AccountExtension from 'ringcentral-integration/modules/AccountExtension';
 import AccountInfo from 'ringcentral-integration/modules/AccountInfo';
+import AccountPhoneNumber from 'ringcentral-integration/modules/AccountPhoneNumber';
+import AddressBook from 'ringcentral-integration/modules/AddressBook';
 import Alert from 'ringcentral-integration/modules/Alert';
 import Auth from 'ringcentral-integration/modules/Auth';
 import Brand from 'ringcentral-integration/modules/Brand';
 import Call from 'ringcentral-integration/modules/Call';
 import CallingSettings from 'ringcentral-integration/modules/CallingSettings';
+import Contacts from 'ringcentral-integration/modules/Contacts';
 import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
 import DialingPlan from 'ringcentral-integration/modules/DialingPlan';
 import Environment from 'ringcentral-integration/modules/Environment';
@@ -230,6 +233,12 @@ export default class Phone extends RcModule {
       tabManager: this.tabManager,
       getState: () => this.state.forwardingNumber,
     }));
+    this.addModule('contactMatcher', new ContactMatcher({
+      ...options,
+      storage: this.storage,
+      getState: () => this.state.contactMatcher,
+    }));
+    reducers.contactMatcher = this.contactMatcher.reducer;
     this.addModule('webphone', new Webphone({
       appKey: apiConfig.appKey,
       appName: 'RingCentral Widget',
@@ -239,6 +248,7 @@ export default class Phone extends RcModule {
       client: this.client,
       storage: this.storage,
       rolesAndPermissions: this.rolesAndPermissions,
+      contactMatcher: this.contactMatcher,
       getState: () => this.state.webphone,
     }));
     reducers.webphone = this.webphone.reducer;
@@ -443,12 +453,6 @@ export default class Phone extends RcModule {
       getState: () => this.state.callHistory,
     }));
     reducers.callHistory = this.callHistory.reducer;
-    this.addModule('contactMatcher', new ContactMatcher({
-      ...options,
-      storage: this.storage,
-      getState: () => this.state.contactMatcher,
-    }));
-    reducers.contactMatcher = this.contactMatcher.reducer;
     this.addModule('activityMatcher', new ActivityMatcher({
       ...options,
       storage: this.storage,
@@ -466,6 +470,33 @@ export default class Phone extends RcModule {
       getState: () => this.state.callLogger,
     }));
     reducers.callLogger = this.callLogger.reducer;
+    this.addModule('accountPhoneNumber', new AccountPhoneNumber({
+      auth: this.auth,
+      client: this.client,
+      storage: this.storage,
+      tabManager: this.tabManager,
+      getState: () => this.state.accountPhoneNumber,
+    }));
+    reducers.accountPhoneNumber = this.accountPhoneNumber.reducer;
+    this.addModule('addressBook', new AddressBook({
+      client: this.client,
+      auth: this.auth,
+      storage: this.storage,
+      getState: () => this.state.addressBook,
+    }));
+    reducers.addressBook = this.addressBook.reducer;
+    this.addModule('contacts', new Contacts({
+      addressBook: this.addressBook,
+      accountPhoneNumber: this.accountPhoneNumber,
+      accountExtension: this.accountExtension,
+      getState: () => this.state.contacts,
+    }));
+    reducers.contacts = this.contacts.reducer;
+    this.contactMatcher.addSearchProvider({
+      name: 'contacts',
+      searchFn: async ({ queries }) => this.contacts.matchContacts({ phoneNumbers: queries }),
+      readyCheckFn: () => this.contacts.ready,
+    });
     this.addModule('conversationMatcher', new ConversationMatcher({
       storage: this.storage,
       getState: () => this.state.conversationMatcher,

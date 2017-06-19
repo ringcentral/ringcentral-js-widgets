@@ -22,7 +22,13 @@ class ActiveCallPage extends Component {
     this.state = {
       badgeOffsetX: 0,
       badgeOffsetY: 0,
-      connectedAt: new Date(),
+      selectedMatcherIndex: 0,
+    };
+
+    this.onSelectMatcherName = (_, index) => {
+      this.setState({
+        selectedMatcherIndex: (index - 1),
+      });
     };
 
     this.updatePositionOffset = (x, y) => {
@@ -84,30 +90,32 @@ class ActiveCallPage extends Component {
     // isRinging = true;
     const phoneNumber = session.direction === callDirections.outbound ?
       session.to : session.from;
-    let userName;
-    if (session.direction === callDirections.inbound) {
-      userName = session.fromUserName;
-      if (session.from === 'anonymous') {
-        userName = i18n.getString('anonymous', this.props.currentLocale);
-      }
-    } else {
-      userName = session.toUserName;
+    const nameMatches = session.direction === callDirections.outbound ?
+      this.props.toMatches : this.props.fromMatches;
+    let fallbackUserName;
+    if (session.direction === callDirections.inbound && session.from === 'anonymous') {
+      fallbackUserName = i18n.getString('anonymous', this.props.currentLocale);
     }
-    if (!userName) {
-      userName = i18n.getString('unknown', this.props.currentLocale);
+    if (!fallbackUserName) {
+      fallbackUserName = i18n.getString('unknown', this.props.currentLocale);
     }
     if (isRinging) {
       return (
         <IncomingCallPanel
           currentLocale={this.props.currentLocale}
           toggleMinimized={this.props.toggleMinimized}
-          userName={userName}
+          nameMatches={nameMatches}
+          fallBackName={fallbackUserName}
           phoneNumber={phoneNumber}
           answer={this.answer}
           reject={this.reject}
           replyWithMessage={this.replyWithMessage}
           toVoiceMail={this.toVoiceMail}
           formatPhone={this.props.formatPhone}
+          areaCode={this.props.areaCode}
+          countryCode={this.props.countryCode}
+          selectedMatcherIndex={this.state.selectedMatcherIndex}
+          onSelectMatcherName={this.onSelectMatcherName}
         >
           {this.props.children}
         </IncomingCallPanel>
@@ -118,7 +126,6 @@ class ActiveCallPage extends Component {
         currentLocale={this.props.currentLocale}
         formatPhone={this.props.formatPhone}
         phoneNumber={phoneNumber}
-        userName={userName}
         sessionId={session.id}
         callStatus={session.callStatus}
         startTime={session.startTime}
@@ -135,6 +142,12 @@ class ActiveCallPage extends Component {
         onKeyPadChange={this.onKeyPadChange}
         hangup={this.hangup}
         onAdd={this.props.onAdd}
+        nameMatches={nameMatches}
+        fallBackName={fallbackUserName}
+        areaCode={this.props.areaCode}
+        countryCode={this.props.countryCode}
+        selectedMatcherIndex={this.state.selectedMatcherIndex}
+        onSelectMatcherName={this.onSelectMatcherName}
       >
         {this.props.children}
       </ActiveCallPanel>
@@ -171,6 +184,10 @@ ActiveCallPage.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
   children: PropTypes.node,
+  toMatches: PropTypes.array.isRequired,
+  fromMatches: PropTypes.array.isRequired,
+  areaCode: PropTypes.string.isRequired,
+  countryCode: PropTypes.string.isRequired,
 };
 
 ActiveCallPage.defaultProps = {
@@ -180,12 +197,19 @@ ActiveCallPage.defaultProps = {
 function mapToProps(_, {
   webphone,
   locale,
+  contactMatcher,
+  regionSettings,
 }) {
   const currentSession = webphone.currentSession || {};
+  const contactMapping = contactMatcher && contactMatcher.dataMapping;
   return {
+    fromMatches: (contactMapping && contactMapping[currentSession.from]) || [],
+    toMatches: (contactMapping && contactMapping[currentSession.to]) || [],
     currentLocale: locale.currentLocale,
     session: currentSession,
     minimized: webphone.minimized,
+    areaCode: regionSettings.areaCode,
+    countryCode: regionSettings.countryCode,
   };
 }
 

@@ -11,6 +11,7 @@ $avatar-width: 60px;
   left: 0;
   z-index: 10;
   background: #ffffff;
+  text-align: center;
 }
 
 .backButton {
@@ -34,12 +35,13 @@ $avatar-width: 60px;
 }
 
 .userInfo {
+  display: inline-block;
   text-align: left;
   color: $lightblack;
   margin-bottom: 8px;
   margin-top: 15px;
-  margin-left: 18%;
-  margin-right: 8%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .avatarContainer {
@@ -77,6 +79,15 @@ $avatar-width: 60px;
   .splitLine {
     padding: 0 7px;
   }
+}
+
+.contactDisplay {
+  display: inline-block;
+  line-height: 16px;
+}
+
+.contactNameSelect {
+  width: 100%;
 }
 
 .userPhoneNumber {

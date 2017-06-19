@@ -7,7 +7,7 @@ import Panel from '../Panel';
 import DurationCounter from '../DurationCounter';
 import ActiveCallPad from '../ActiveCallPad';
 import ActiveCallDialPad from '../ActiveCallDialPad';
-
+import ContactDisplay from '../ContactDisplay';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 
@@ -28,8 +28,23 @@ function CallInfo(props) {
       </div>
       <div className={styles.infoContent}>
         <div className={styles.userName}>
-          {props.name}
-          { timeCounter }
+          <ContactDisplay
+            className={styles.contactDisplay}
+            contactMatches={props.nameMatches}
+            phoneNumber={props.phoneNumber}
+            fallBackName={props.fallBackName}
+            currentLocale={props.currentLocale}
+            areaCode={props.areaCode}
+            countryCode={props.countryCode}
+            selectClassName={styles.contactNameSelect}
+            showType={false}
+            disabled={false}
+            selected={props.selectedMatcherIndex}
+            onSelectContact={props.onSelectMatcherName}
+            isLogging={false}
+            enableContactFallback
+          />
+          {timeCounter}
         </div>
         <div className={styles.userPhoneNumber}>
           {props.formatPhone(props.phoneNumber)}
@@ -40,10 +55,16 @@ function CallInfo(props) {
 }
 
 CallInfo.propTypes = {
-  name: PropTypes.string.isRequired,
   phoneNumber: PropTypes.string,
   formatPhone: PropTypes.func.isRequired,
   startTime: PropTypes.number,
+  nameMatches: PropTypes.array.isRequired,
+  fallBackName: PropTypes.string.isRequired,
+  areaCode: PropTypes.string.isRequired,
+  countryCode: PropTypes.string.isRequired,
+  currentLocale: PropTypes.string.isRequired,
+  selectedMatcherIndex: PropTypes.number.isRequired,
+  onSelectMatcherName: PropTypes.func.isRequired,
 };
 
 CallInfo.defaultProps = {
@@ -74,10 +95,16 @@ class ActiveCallPanel extends Component {
   render() {
     const userInfo = this.state.isShowKeyPad ? null : (
       <CallInfo
-        name={this.props.userName}
+        currentLocale={this.props.currentLocale}
+        nameMatches={this.props.nameMatches}
+        fallBackName={this.props.fallBackName}
         phoneNumber={this.props.phoneNumber}
         formatPhone={this.props.formatPhone}
         startTime={this.props.startTime}
+        areaCode={this.props.areaCode}
+        countryCode={this.props.countryCode}
+        selectedMatcherIndex={this.props.selectedMatcherIndex}
+        onSelectMatcherName={this.props.onSelectMatcherName}
       />
     );
     const buttonsPad = this.state.isShowKeyPad ? null : (
@@ -130,7 +157,8 @@ class ActiveCallPanel extends Component {
 
 ActiveCallPanel.propTypes = {
   phoneNumber: PropTypes.string,
-  userName: PropTypes.string,
+  nameMatches: PropTypes.array.isRequired,
+  fallBackName: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   startTime: PropTypes.number,
   isOnMute: PropTypes.bool,
@@ -148,6 +176,10 @@ ActiveCallPanel.propTypes = {
   onKeyPadChange: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
   children: PropTypes.node,
+  areaCode: PropTypes.string.isRequired,
+  countryCode: PropTypes.string.isRequired,
+  selectedMatcherIndex: PropTypes.number.isRequired,
+  onSelectMatcherName: PropTypes.func.isRequired,
 };
 
 ActiveCallPanel.defaultProps = {
