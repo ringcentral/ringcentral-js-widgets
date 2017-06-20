@@ -37,6 +37,12 @@
 .userName {
   font-size: 15px;
   color: $lightblack;
+  display: inline-block;
+  line-height: 25px;
+}
+
+.contactNameSelect {
+  width: 100%;
 }
 
 .userPhoneNumber {
