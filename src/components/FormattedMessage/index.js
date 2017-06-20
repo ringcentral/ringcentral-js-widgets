@@ -2,7 +2,7 @@ import { createElement, isValidElement } from 'react';
 import PropTypes from 'prop-types';
 import format from 'format-message';
 
-export default function FormattedMessage({ message, values, tagName = 'span' }) {
+export default function FormattedMessage({ message, values, tagName }) {
   const uid = Math.floor(Math.random() * 0x10000000000).toString(16);
   const hashedParams = {};
   const elements = {};
@@ -31,5 +31,5 @@ FormattedMessage.propTypes = {
 };
 FormattedMessage.defaultProps = {
   values: undefined,
-  tagName: '',
+  tagName: 'span',
 };
