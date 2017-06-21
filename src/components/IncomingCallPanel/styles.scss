@@ -98,13 +98,18 @@
   width: 66px;
   height: 66px;
   border-radius: 33px;
-  opacity: 0.3;
   z-index: 3;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+  }
 }
 
 .icon {
   display: block;
   font-size: 66px;
+  opacity: 0.3;
 }
 
 @keyframes ringingOutside {

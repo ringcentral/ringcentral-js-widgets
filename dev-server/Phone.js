@@ -437,6 +437,9 @@ export default class Phone extends RcModule {
       contactMatcher: this.contactMatcher,
       webphone: this.webphone,
       onRinging: async () => {
+        if (this.webphone._webphone) {
+          return;
+        }
         // TODO refactor some of these logic into appropriate modules
         this.router.push('/calls');
       },
@@ -486,6 +489,7 @@ export default class Phone extends RcModule {
     }));
     reducers.addressBook = this.addressBook.reducer;
     this.addModule('contacts', new Contacts({
+      client: this.client,
       addressBook: this.addressBook,
       accountPhoneNumber: this.accountPhoneNumber,
       accountExtension: this.accountExtension,

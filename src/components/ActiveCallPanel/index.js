@@ -19,11 +19,17 @@ function CallInfo(props) {
         <DurationCounter startTime={props.startTime} />
       </span>
     ) : null;
+  let avatar;
+  if (props.avatarUrl) {
+    avatar = (<img src={props.avatarUrl} alt="avatar" />);
+  } else {
+    avatar = (<i className={classnames(dynamicsFont.portrait, styles.icon)} />);
+  }
   return (
     <div className={styles.userInfo}>
       <div className={styles.avatarContainer}>
         <div className={styles.avatar}>
-          <i className={classnames(dynamicsFont.portrait, styles.icon)} />
+          {avatar}
         </div>
       </div>
       <div className={styles.infoContent}>
@@ -65,11 +71,13 @@ CallInfo.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   selectedMatcherIndex: PropTypes.number.isRequired,
   onSelectMatcherName: PropTypes.func.isRequired,
+  avatarUrl: PropTypes.string,
 };
 
 CallInfo.defaultProps = {
   phoneNumber: null,
   startTime: null,
+  avatarUrl: null,
 };
 
 class ActiveCallPanel extends Component {
@@ -105,6 +113,7 @@ class ActiveCallPanel extends Component {
         countryCode={this.props.countryCode}
         selectedMatcherIndex={this.props.selectedMatcherIndex}
         onSelectMatcherName={this.props.onSelectMatcherName}
+        avatarUrl={this.props.avatarUrl}
       />
     );
     const buttonsPad = this.state.isShowKeyPad ? null : (
@@ -180,6 +189,7 @@ ActiveCallPanel.propTypes = {
   countryCode: PropTypes.string.isRequired,
   selectedMatcherIndex: PropTypes.number.isRequired,
   onSelectMatcherName: PropTypes.func.isRequired,
+  avatarUrl: PropTypes.string,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -190,6 +200,7 @@ ActiveCallPanel.defaultProps = {
   isOnRecord: false,
   phoneNumber: null,
   children: undefined,
+  avatarUrl: null,
 };
 
 export default ActiveCallPanel;

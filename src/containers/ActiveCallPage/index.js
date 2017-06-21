@@ -23,12 +23,23 @@ class ActiveCallPage extends Component {
       badgeOffsetX: 0,
       badgeOffsetY: 0,
       selectedMatcherIndex: 0,
+      avatarUrl: null,
     };
 
     this.onSelectMatcherName = (_, index) => {
+      // `remember last matcher contact` will finish in next ticket
       this.setState({
         selectedMatcherIndex: (index - 1),
+        avatarUrl: null,
       });
+      const nameMatches = this.props.session.direction === callDirections.outbound ?
+        this.props.toMatches : this.props.fromMatches;
+      const contact = nameMatches && nameMatches[index - 1];
+      if (contact) {
+        this.props.getAvatarUrl(contact).then((avatarUrl) => {
+          this.setState({ avatarUrl });
+        });
+      }
     };
 
     this.updatePositionOffset = (x, y) => {
@@ -62,6 +73,20 @@ class ActiveCallPage extends Component {
       this.props.toVoiceMail(this.props.session.id);
     this.replyWithMessage = message =>
       this.props.replyWithMessage(this.props.session.id, message);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.session.id !== nextProps.session.id) {
+      this.setState({ selectedMatcherIndex: 0 });
+      const nameMatches = nextProps.session.direction === callDirections.outbound ?
+        nextProps.toMatches : nextProps.fromMatches;
+      const contact = nameMatches && nameMatches[0];
+      if (contact) {
+        nextProps.getAvatarUrl(contact).then((avatarUrl) => {
+          this.setState({ avatarUrl });
+        });
+      }
+    }
   }
 
   render() {
@@ -116,6 +141,7 @@ class ActiveCallPage extends Component {
           countryCode={this.props.countryCode}
           selectedMatcherIndex={this.state.selectedMatcherIndex}
           onSelectMatcherName={this.onSelectMatcherName}
+          avatarUrl={this.state.avatarUrl}
         >
           {this.props.children}
         </IncomingCallPanel>
@@ -148,6 +174,7 @@ class ActiveCallPage extends Component {
         countryCode={this.props.countryCode}
         selectedMatcherIndex={this.state.selectedMatcherIndex}
         onSelectMatcherName={this.onSelectMatcherName}
+        avatarUrl={this.state.avatarUrl}
       >
         {this.props.children}
       </ActiveCallPanel>
@@ -188,6 +215,7 @@ ActiveCallPage.propTypes = {
   fromMatches: PropTypes.array.isRequired,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
+  getAvatarUrl: PropTypes.func.isRequired,
 };
 
 ActiveCallPage.defaultProps = {
@@ -217,6 +245,7 @@ function mapToFunctions(_, {
   webphone,
   regionSettings,
   router,
+  getAvatarUrl,
 }) {
   return {
     formatPhone: phoneNumber => formatNumber({
@@ -241,6 +270,7 @@ function mapToFunctions(_, {
     toVoiceMail: sessionId => webphone.toVoiceMail(sessionId),
     replyWithMessage: (sessionId, message) => webphone.replyWithMessage(sessionId, message),
     toggleMinimized: () => webphone.toggleMinimized(),
+    getAvatarUrl,
   };
 }
 
@@ -253,6 +283,11 @@ ActiveCallContainer.propTypes = {
   webphone: PropTypes.instanceOf(Webphone).isRequired,
   locale: PropTypes.instanceOf(Locale).isRequired,
   regionSettings: PropTypes.instanceOf(RegionSettings).isRequired,
+  getAvatarUrl: PropTypes.func,
+};
+
+ActiveCallContainer.defaultProps = {
+  getAvatarUrl: () => null,
 };
 
 export default ActiveCallContainer;

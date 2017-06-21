@@ -7,6 +7,12 @@ import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 
 function UserInfo(props) {
+  let avatar;
+  if (props.avatarUrl) {
+    avatar = (<img src={props.avatarUrl} alt="avatar" />);
+  } else {
+    avatar = (<i className={classnames(dynamicsFont.portrait, styles.icon)} />);
+  }
   return (
     <div className={styles.userInfo}>
       <div className={styles.avatarContainer}>
@@ -14,7 +20,7 @@ function UserInfo(props) {
           <div className={classnames(styles.ringOutside, styles.ringing)} />
           <div className={classnames(styles.ringInner, styles.ringing)} />
           <div className={styles.avatar}>
-            <i className={classnames(dynamicsFont.portrait, styles.icon)} />
+            {avatar}
           </div>
         </div>
       </div>
@@ -51,11 +57,13 @@ UserInfo.propTypes = {
   countryCode: PropTypes.string.isRequired,
   selectedMatcherIndex: PropTypes.number.isRequired,
   onSelectMatcherName: PropTypes.func.isRequired,
+  avatarUrl: PropTypes.string,
 };
 
 UserInfo.defaultProps = {
   className: null,
   phoneNumber: null,
+  avatarUrl: null,
 };
 
 export default function IncomingCallPanel(props) {
@@ -72,6 +80,7 @@ export default function IncomingCallPanel(props) {
         countryCode={props.countryCode}
         selectedMatcherIndex={props.selectedMatcherIndex}
         onSelectMatcherName={props.onSelectMatcherName}
+        avatarUrl={props.avatarUrl}
       />
       <IncomingCallPad
         answer={props.answer}
@@ -100,10 +109,12 @@ IncomingCallPanel.propTypes = {
   countryCode: PropTypes.string.isRequired,
   selectedMatcherIndex: PropTypes.number.isRequired,
   onSelectMatcherName: PropTypes.func.isRequired,
+  avatarUrl: PropTypes.string,
 };
 
 IncomingCallPanel.defaultProps = {
   userName: null,
   phoneNumber: null,
   children: undefined,
+  avatarUrl: null,
 };
