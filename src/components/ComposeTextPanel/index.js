@@ -74,6 +74,7 @@ class ComposeTextPanel extends Component {
     };
 
     this.onTextAreaKeyDown = (e) => {
+      console.debug('onTextAreaKeyDown', e);
       if (e.key === 'Enter') {
         e.preventDefault();
         this.props.send();
@@ -153,7 +154,7 @@ class ComposeTextPanel extends Component {
                 value={this.props.messageText}
                 maxLength="1000"
                 onChange={this.onTextChange}
-                onKeyDown={this.onTextAreaKeyDown}
+                onKeyPressCapture={this.onTextAreaKeyDown}
               />
             </div>
             <div className={styles.submitField}>
