@@ -13,6 +13,7 @@ import Call from 'ringcentral-integration/modules/Call';
 import CallingSettings from 'ringcentral-integration/modules/CallingSettings';
 import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
 import DialingPlan from 'ringcentral-integration/modules/DialingPlan';
+import ExtensionDevice from 'ringcentral-integration/modules/ExtensionDevice';
 import Environment from 'ringcentral-integration/modules/Environment';
 import ExtensionInfo from 'ringcentral-integration/modules/ExtensionInfo';
 import ExtensionPhoneNumber from 'ringcentral-integration/modules/ExtensionPhoneNumber';
@@ -185,6 +186,14 @@ export default class Phone extends RcModule {
       getState: () => this.state.accountInfo,
     }));
     reducers.accountInfo = this.accountInfo.reducer;
+    this.addModule('extensionDevice', new ExtensionDevice({
+      auth: this.auth,
+      client: this.client,
+      storage: this.storage,
+      tabManager: this.tabManager,
+      getState: () => this.state.extensionDevice,
+    }));
+    reducers.extensionDevice = this.extensionDevice.reducer;
     this.addModule('extensionInfo', new ExtensionInfo({
       ...options,
       auth: this.auth,
@@ -239,6 +248,8 @@ export default class Phone extends RcModule {
       client: this.client,
       storage: this.storage,
       rolesAndPermissions: this.rolesAndPermissions,
+      webphoneLogLevel: 3,
+      extensionDevice: this.extensionDevice,
       getState: () => this.state.webphone,
     }));
     reducers.webphone = this.webphone.reducer;

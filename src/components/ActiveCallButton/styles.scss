@@ -1,4 +1,5 @@
 @import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/fonts.scss';
 
 .root {
   text-align: center;
@@ -20,8 +21,7 @@
 }
 
 .buttonTitle {
+  @include secondary-font;
   font-size: 12px;
   padding: 5px 0;
-  color: #797979;
-  font-family: HelveticaNeue;
 }

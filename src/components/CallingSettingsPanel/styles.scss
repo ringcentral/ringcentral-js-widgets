@@ -24,10 +24,26 @@
   @include primary-font;
 }
 
+.infoIcon {
+  margin-left: 6px;
+  font-size: 14px;
+  color: #848484;
+}
+
+.tooltipArrow {
+  position: relative;
+  margin-right: 6px;
+  top: 1px;
+  margin-left: -6px;
+  border-width: 0 6px 6px;
+  border-bottom-color: #ffffff;
+}
+
 .ringoutHint {
   padding: 15px 0px;
   @include primary-font;
 }
+
 .select {
   border: 1px solid #a6a6a6;
   border-radius: 2px;

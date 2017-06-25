@@ -66,7 +66,7 @@ const base = {
       },
       {
         test: /\.ogg$/,
-        use: 'url-loader?publicPath=./&name=audio/[name]_[hash].[ext]',
+        use: 'file-loader?publicPath=./&name=audio/[name]_[hash].[ext]',
       },
     ],
   },
