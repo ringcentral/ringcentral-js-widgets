@@ -24,10 +24,17 @@
   @include primary-font;
 }
 
+.infoIcon {
+  margin-left: 6px;
+  font-size: 14px;
+  color: #848484;
+}
+
 .ringoutHint {
   padding: 15px 0px;
   @include primary-font;
 }
+
 .select {
   border: 1px solid #a6a6a6;
   border-radius: 2px;

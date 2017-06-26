@@ -5,6 +5,9 @@ import formatMessage from 'format-message';
 
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 import 'font-awesome/css/font-awesome.css';
+import Tooltip from 'rc-tooltip';
+import 'rc-tooltip/assets/bootstrap_white.css';
+import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 import i18n from './i18n';
 
@@ -170,6 +173,16 @@ export default class CallingSettingsPanel extends Component {
         </div>
       ) : null;
 
+    const toolTip = (
+      <div style={{ width: 150 }}>
+        {
+          formatMessage(
+            i18n.getString(`${this.state.callWith}Tooltip`, currentLocale),
+            { brand: this.props.brand }
+          )
+        }
+      </div>
+    );
     return (
       <div className={classnames(styles.root, className)}>
         <BackHeader
@@ -181,7 +194,21 @@ export default class CallingSettingsPanel extends Component {
         <Panel className={styles.content}>
           <InputField
             className={styles.inputField}
-            label={i18n.getString('makeCallsWith', currentLocale)} noBorder>
+            label={
+              <span>
+                {i18n.getString('makeCallsWith', currentLocale)}
+                <Tooltip
+                  placement="bottom"
+                  trigger="click"
+                  overlay={toolTip}
+                  arrowContent={<div className="rc-tooltip-arrow-inner" />}
+                >
+                  <i className={classnames(dynamicsFont.information, styles.infoIcon)} />
+                </Tooltip>
+              </span>
+            }
+            noBorder
+          >
             <Select
               className={styles.select}
               value={this.state.callWith}

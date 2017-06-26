@@ -4,6 +4,7 @@ export default {
   CompanyNumber: 'Company',
   CompanyFaxNumber: 'Fax',
   Blocked: 'Blocked',
+  AdditionalCompanyNumber: 'Company',
   ForwardedCompanyNumber: 'Forwarded',
   from: 'From',
 };

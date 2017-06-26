@@ -58,6 +58,7 @@ export default function App({
                   alert={phone.alert}
                   rateLimiter={phone.rateLimiter}
                   brand={phone.brand}
+                  router={phone.router}
                   callingSettingsUrl="/settings/calling"
                   regionSettingsUrl="/settings/region"
                 />
@@ -78,6 +79,7 @@ export default function App({
                   alert={phone.alert}
                   rateLimiter={phone.rateLimiter}
                   brand={phone.brand}
+                  router={phone.router}
                   callingSettingsUrl="/settings/calling"
                   regionSettingsUrl="/settings/region"
                 />
@@ -257,6 +259,7 @@ export default function App({
                   alert={phone.alert}
                   rateLimiter={phone.rateLimiter}
                   brand={phone.brand}
+                  router={phone.router}
                   callingSettingsUrl="/settings/calling"
                   regionSettingsUrl="/settings/region"
                 />
