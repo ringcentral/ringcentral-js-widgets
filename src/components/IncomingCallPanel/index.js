@@ -2,12 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import IncomingCallPad from '../IncomingCallPad';
-
+import ContactDisplay from '../ContactDisplay';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 
 function UserInfo(props) {
-  const name = props.name;
+  let avatar;
+  if (props.avatarUrl) {
+    avatar = (<img src={props.avatarUrl} alt="avatar" />);
+  } else {
+    avatar = (<i className={classnames(dynamicsFont.portrait, styles.icon)} />);
+  }
   return (
     <div className={styles.userInfo}>
       <div className={styles.avatarContainer}>
@@ -15,11 +20,26 @@ function UserInfo(props) {
           <div className={classnames(styles.ringOutside, styles.ringing)} />
           <div className={classnames(styles.ringInner, styles.ringing)} />
           <div className={styles.avatar}>
-            <i className={classnames(dynamicsFont.portrait, styles.icon)} />
+            {avatar}
           </div>
         </div>
       </div>
-      <div className={styles.userName}>{name}</div>
+      <ContactDisplay
+        className={styles.userName}
+        selectClassName={styles.contactNameSelect}
+        contactMatches={props.nameMatches}
+        phoneNumber={props.phoneNumber}
+        fallBackName={props.fallBackName}
+        currentLocale={props.currentLocale}
+        areaCode={props.areaCode}
+        countryCode={props.countryCode}
+        showType={false}
+        disabled={false}
+        selected={props.selectedMatcherIndex}
+        onSelectContact={props.onSelectMatcherName}
+        isLogging={false}
+        enableContactFallback
+      />
       <div className={styles.userPhoneNumber}>
         {props.formatPhone(props.phoneNumber)}
       </div>
@@ -28,34 +48,39 @@ function UserInfo(props) {
 }
 
 UserInfo.propTypes = {
-  name: PropTypes.string.isRequired,
   phoneNumber: PropTypes.string,
+  currentLocale: PropTypes.string.isRequired,
   formatPhone: PropTypes.func.isRequired,
+  nameMatches: PropTypes.array.isRequired,
+  fallBackName: PropTypes.string.isRequired,
+  areaCode: PropTypes.string.isRequired,
+  countryCode: PropTypes.string.isRequired,
+  selectedMatcherIndex: PropTypes.number.isRequired,
+  onSelectMatcherName: PropTypes.func.isRequired,
+  avatarUrl: PropTypes.string,
 };
 
 UserInfo.defaultProps = {
   className: null,
   phoneNumber: null,
+  avatarUrl: null,
 };
 
 export default function IncomingCallPanel(props) {
   return (
     <div className={styles.root}>
       <UserInfo
-        name={props.userName}
         phoneNumber={props.phoneNumber}
         currentLocale={props.currentLocale}
         className={styles.userInfo}
         formatPhone={props.formatPhone}
-        avatar={(
-          <div className={styles.avatarHolder}>
-            <div className={classnames(styles.ringOutside, styles.ringing)} />
-            <div className={classnames(styles.ringInner, styles.ringing)} />
-            <div className={styles.avatar}>
-              <i className={classnames(dynamicsFont.portrait, styles.icon)} />
-            </div>
-          </div>
-        )}
+        nameMatches={props.nameMatches}
+        fallBackName={props.fallBackName}
+        areaCode={props.areaCode}
+        countryCode={props.countryCode}
+        selectedMatcherIndex={props.selectedMatcherIndex}
+        onSelectMatcherName={props.onSelectMatcherName}
+        avatarUrl={props.avatarUrl}
       />
       <IncomingCallPad
         answer={props.answer}
@@ -70,7 +95,6 @@ export default function IncomingCallPanel(props) {
 }
 
 IncomingCallPanel.propTypes = {
-  userName: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
   phoneNumber: PropTypes.string,
   answer: PropTypes.func.isRequired,
@@ -79,10 +103,18 @@ IncomingCallPanel.propTypes = {
   replyWithMessage: PropTypes.func.isRequired,
   children: PropTypes.node,
   formatPhone: PropTypes.func.isRequired,
+  nameMatches: PropTypes.array.isRequired,
+  fallBackName: PropTypes.string.isRequired,
+  areaCode: PropTypes.string.isRequired,
+  countryCode: PropTypes.string.isRequired,
+  selectedMatcherIndex: PropTypes.number.isRequired,
+  onSelectMatcherName: PropTypes.func.isRequired,
+  avatarUrl: PropTypes.string,
 };
 
 IncomingCallPanel.defaultProps = {
   userName: null,
   phoneNumber: null,
   children: undefined,
+  avatarUrl: null,
 };

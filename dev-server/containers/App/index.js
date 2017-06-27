@@ -45,6 +45,13 @@ export default function App({
                 webphone={phone.webphone}
                 regionSettings={phone.regionSettings}
                 router={phone.router}
+                contactMatcher={phone.contactMatcher}
+                getAvatarUrl={
+                  async (contact) => {
+                    const avatarUrl = await phone.contacts.getImageProfile(contact);
+                    return avatarUrl;
+                  }
+                }
               >
                 <AlertContainer
                   locale={phone.locale}

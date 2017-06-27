@@ -12,6 +12,8 @@ const displayFomatter = ({ entityName, entityType, phoneNumber }) => {
     return `${entityName} | ${phoneSourceNames.getString(entityType)} ${phoneNumber}`;
   } else if (entityName && entityType) {
     return `${entityName} | ${phoneSourceNames.getString(entityType)}`;
+  } else if (entityName) {
+    return entityName;
   } else if (phoneNumber) {
     return `${phoneNumber}`;
   }
@@ -32,6 +34,8 @@ export default function ContactDisplay({
   phoneNumber,
   currentLocale,
   groupNumbers,
+  showType,
+  selectClassName,
 }) {
   let contentEl;
   if (groupNumbers) {
@@ -74,7 +78,7 @@ export default function ContactDisplay({
     ];
     contentEl = (
       <DropdownSelect
-        className={styles.select}
+        className={classnames(styles.select, selectClassName)}
         value={`${selected}`}
         onChange={onSelectContact}
         disabled={disabled || isLogging}
@@ -89,7 +93,7 @@ export default function ContactDisplay({
         renderValue={value => (
           displayFomatter({
             entityName: options[value].name,
-            entityType: options[value].entityType,
+            entityType: showType && options[value].entityType,
           })
         )}
         renderTitle={entity => (
@@ -130,6 +134,8 @@ ContactDisplay.propTypes = {
   phoneNumber: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
   groupNumbers: PropTypes.arrayOf(PropTypes.string),
+  showType: PropTypes.bool,
+  selectClassName: PropTypes.string,
 };
 ContactDisplay.defaultProps = {
   className: undefined,
@@ -138,4 +144,6 @@ ContactDisplay.defaultProps = {
   phoneNumber: undefined,
   groupNumbers: undefined,
   enableContactFallback: undefined,
+  showType: true,
+  selectClassName: undefined,
 };
