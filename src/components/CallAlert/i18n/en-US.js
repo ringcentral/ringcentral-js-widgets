@@ -8,8 +8,6 @@ export default {
   [callErrors.internalError]: 'Cannot connect due to internal errors. Please try again later.',
   [callErrors.notAnExtension]: 'The extension number does not exist.',
   [callErrors.networkError]: 'Cannot connect due to network issues. Please try again later.',
-  [callErrors.noRingoutEnable]: `Your extension is allowed to make calls with desktop app.
-    If you wish to switch to other calling options
-    please contact your account administrator for an upgrade.`,
+  [callErrors.noRingoutEnable]: 'Your extension is allowed to make calls with desktop app.\n    If you wish to switch to other calling options\n    please contact your account administrator for an upgrade.',
   areaCode: 'area code',
 };
