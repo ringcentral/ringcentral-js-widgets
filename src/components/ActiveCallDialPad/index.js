@@ -26,12 +26,11 @@ class ActiveCallDialPad extends Component {
         return;
       }
       this.setState({ value });
-      this.props.onChange(value);
     };
     this.onButtonOutput = (key) => {
       this.setState((preState) => {
         const value = preState.value + key;
-        this.props.onChange(value);
+        this.props.onChange(key);
         return { value };
       });
     };
