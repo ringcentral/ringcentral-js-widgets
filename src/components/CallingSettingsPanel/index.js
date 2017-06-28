@@ -95,10 +95,37 @@ export default class CallingSettingsPanel extends Component {
       ringoutPrompt: checked,
     });
   }
+
+  getTooltipContent() {
+    let contentKeys;
+    if (this.state.callWith === callingOptions.browser
+      || this.state.callWith === callingOptions.softphone
+    ) {
+      contentKeys = [`${this.state.callWith}Tooltip`];
+    } else {
+      contentKeys = [`${this.state.callWith}Tooltip`, `${this.state.callWith}Tooltip1`];
+    }
+    return (
+      <div>
+        {
+          contentKeys.map(contentKey => (
+            <div key={contentKey}>
+              {formatMessage(
+                i18n.getString(contentKey, this.props.currentLocale),
+                { brand: this.props.brand }
+              )}
+            </div>
+          ))
+        }
+      </div>
+    );
+  }
+
   renderHandler = (option) => {
     const brand = this.props.brand;
     return formatMessage(i18n.getString(option, this.props.currentLocale), { brand });
   }
+
   render() {
     const {
       currentLocale,
@@ -173,16 +200,7 @@ export default class CallingSettingsPanel extends Component {
         </div>
       ) : null;
 
-    const toolTip = (
-      <div style={{ width: 150 }}>
-        {
-          formatMessage(
-            i18n.getString(`${this.state.callWith}Tooltip`, currentLocale),
-            { brand: this.props.brand }
-          )
-        }
-      </div>
-    );
+    const toolTip = this.getTooltipContent();
     return (
       <div className={classnames(styles.root, className)}>
         <BackHeader
@@ -201,7 +219,11 @@ export default class CallingSettingsPanel extends Component {
                   placement="bottom"
                   trigger="click"
                   overlay={toolTip}
+                  align={{
+                    offset: [0, 47],
+                  }}
                   arrowContent={<div className="rc-tooltip-arrow-inner" />}
+                  getTooltipContainer={() => this.tooltipContainner}
                 >
                   <i className={classnames(dynamicsFont.information, styles.infoIcon)} />
                 </Tooltip>
@@ -219,6 +241,12 @@ export default class CallingSettingsPanel extends Component {
               renderValue={this.renderHandler}
               disabled={disabled}
               titleEnabled
+            />
+            <div
+              className={styles.tooltipContainner}
+              ref={(tooltipContainner) => {
+                this.tooltipContainner = tooltipContainner;
+              }}
             />
           </InputField>
           {ringout}

@@ -11,15 +11,12 @@ export default {
   ringoutHint: 'Ring me at my location first, then connect the called party',
   myLocationLabel: 'My Location',
   press1ToStartCallLabel: 'Prompt me to dial 1 before connecting the call',
-  [`${callingOptions.browser}Tooltip`]: `Use this option to make and receive calls
-    using your computer’s microphone and speaker.`,
-  [`${callingOptions.softphone}Tooltip`]: `Use this option to make and receive calls
-    using your {brand} for Desktop app.`,
+  [`${callingOptions.browser}Tooltip`]: 'Use this option to make and receive calls using your computer’s microphone and speaker.',
+  [`${callingOptions.softphone}Tooltip`]: 'Use this option to make and receive calls using your {brand} for Desktop app.',
   [`${callingOptions.myphone}Tooltip`]: 'Use this option to make calls using your {brand} phone.',
-  [`${callingOptions.otherphone}Tooltip`]: `Use this option to make calls using your other phones
-    such as home or cell phones that you have added in your {brand} Extension.
-    For the call you make, this phone will ring first then the party you called.`,
-  [`${callingOptions.customphone}Tooltip`]: `Use this option to make calls using any phone of
-    your choice by entering a valid phone number in the field below.
-    For the call you make, this phone will ring first then the party you called.`,
+  [`${callingOptions.myphone}Tooltip1`]: 'For the call you make, your {brand} phone will ring first then the party you called.',
+  [`${callingOptions.otherphone}Tooltip`]: 'Use this option to make calls using your other phones such as home or cell phones that you have added in your {brand} Extension.',
+  [`${callingOptions.otherphone}Tooltip1`]: 'For the call you make, this phone will ring first then the party you called.',
+  [`${callingOptions.customphone}Tooltip`]: 'Use this option to make calls using any phone of your choice by entering a valid phone number in the field below.',
+  [`${callingOptions.customphone}Tooltip1`]: 'For the call you make, this phone will ring first then the party you called.',
 };
