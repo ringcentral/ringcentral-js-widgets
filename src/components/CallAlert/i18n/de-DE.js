@@ -8,8 +8,6 @@ export default {
   [callErrors.internalError]: 'Herstellen der Verbindung aufgrund interner Fehler nicht möglich. Versuchen Sie es später erneut.',
   [callErrors.notAnExtension]: 'Die Durchwahlnummer existiert nicht.',
   [callErrors.networkError]: 'Herstellen der Verbindung aufgrund von Netzwerkproblemen nicht möglich. Versuchen Sie es später erneut.',
-  [callErrors.noRingoutEnable]: `Mit Ihrer Durchwahl können Anrufe mit Desktop-Apps getätigt werden.
-    Wenden Sie sich an Ihren Kontoadministrator für ein Upgrade,
-    wenn Sie zu anderen Anrufoptionen wechseln möchten.`,
+  [callErrors.noRingoutEnable]: 'Mit Ihrer Durchwahl können Anrufe mit Desktop-Apps getätigt werden.\n    Wenden Sie sich an Ihren Kontoadministrator für ein Upgrade,\n    wenn Sie zu anderen Anrufoptionen wechseln möchten.',
   areaCode: 'Vorwahl',
 };

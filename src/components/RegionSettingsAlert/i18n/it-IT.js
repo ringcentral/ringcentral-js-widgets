@@ -4,8 +4,7 @@ import regionSettingsMessages from
 export default {
   region: 'Regione',
   [regionSettingsMessages.saveSuccess]: 'Impostazioni salvate correttamente.',
-  [regionSettingsMessages.dialingPlansChanged]: `La regione precedente non è più supportata per l'account.
-    Verifica la nuova {regionSettingsLink}.`,
+  [regionSettingsMessages.dialingPlansChanged]: 'La regione precedente non è più supportata per l\'account.\n    Verifica la nuova {regionSettingsLink}.',
   regionSettings: 'impostazioni regione',
   [regionSettingsMessages.areaCodeInvalid]: 'Inserisci un prefisso valido.',
 };

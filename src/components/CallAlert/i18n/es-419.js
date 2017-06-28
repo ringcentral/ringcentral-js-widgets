@@ -8,8 +8,6 @@ export default {
   [callErrors.internalError]: 'Se produjo un error en la conexión. Vuelva a intentarlo más tarde.',
   [callErrors.notAnExtension]: 'El número de extensión no existe.',
   [callErrors.networkError]: 'No se puede conectar debido a errores de la red. Vuelva a intentarlo más tarde.',
-  [callErrors.noRingoutEnable]: `Su extensión puede hacer llamadas con la aplicación de escritorio.
-    Si desea acceder a otras opciones
-    comuníquese con el administrador de su cuenta para la actualización.`,
+  [callErrors.noRingoutEnable]: 'Su extensión puede hacer llamadas con la aplicación de escritorio.\n    Si desea acceder a otras opciones\n    comuníquese con el administrador de su cuenta para la actualización.',
   areaCode: 'código de área',
 };

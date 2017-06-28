@@ -8,7 +8,7 @@
     100
   ],
   "editor.tabSize": 2,
-  "files.exclude": {
+  "search.exclude": {
     "**/.git": true,
     "**/.svn": true,
     "**/.hg": true,

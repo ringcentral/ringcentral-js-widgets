@@ -8,8 +8,6 @@ export default {
   [callErrors.internalError]: 'Impossibile connettersi a causa di errori interni. Riprova più tardi.',
   [callErrors.notAnExtension]: 'Il numero interno non esiste.',
   [callErrors.networkError]: 'Impossibile connettersi a causa di problemi di rete. Riprova più tardi.',
-  [callErrors.noRingoutEnable]: `Dal tuo interno è possibile effettuare chiamate con l'app per il desktop.
-    Per passare ad altre opzioni di chiamata
-    contatta l'amministratore dell'account per un aggiornamento.`,
+  [callErrors.noRingoutEnable]: 'Dal tuo interno è possibile effettuare chiamate con l\'app per il desktop.\n    Per passare ad altre opzioni di chiamata\n    contatta l\'amministratore dell\'account per un aggiornamento.',
   areaCode: 'prefisso',
 };

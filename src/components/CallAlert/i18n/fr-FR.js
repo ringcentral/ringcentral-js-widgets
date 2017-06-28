@@ -8,8 +8,6 @@ export default {
   [callErrors.internalError]: 'Connexion impossible en raison d\'erreurs internes. Veuillez réessayer plus tard.',
   [callErrors.notAnExtension]: 'Le numéro de l\'extension n\'existe pas.',
   [callErrors.networkError]: 'Connexion impossible en raison de problèmes de réseau. Veuillez réessayer plus tard.',
-  [callErrors.noRingoutEnable]: `Votre extension est autorisée à passer des appels avec l'application pour ordinateur de bureau.
-    Si vous souhaitez passer à d'autres options d'appel,
-    veuillez contacter votre administrateur de compte pour une mise à niveau.`,
+  [callErrors.noRingoutEnable]: 'Votre extension est autorisée à passer des appels avec l\'application pour ordinateur de bureau.\n    Si vous souhaitez passer à d\'autres options d\'appel,\n    veuillez contacter votre administrateur de compte pour une mise à niveau.',
   areaCode: 'indicatif régional',
 };
