@@ -176,7 +176,7 @@ export default class Phone extends RcModule {
       auth: this.auth,
       client: this.client,
       storage: this.storage,
-      tabManager: this.tabManager,
+      // tabManager: this.tabManager,
       getState: () => this.state.accountExtension,
     }));
     reducers.accountExtension = this.accountExtension.reducer;
@@ -488,7 +488,6 @@ export default class Phone extends RcModule {
       auth: this.auth,
       client: this.client,
       storage: this.storage,
-      tabManager: this.tabManager,
       getState: () => this.state.accountPhoneNumber,
     }));
     reducers.accountPhoneNumber = this.accountPhoneNumber.reducer;
