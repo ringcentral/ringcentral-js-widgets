@@ -193,7 +193,6 @@ ActiveCallPanel.propTypes = {
 };
 
 ActiveCallPanel.defaultProps = {
-  userName: null,
   startTime: null,
   isOnMute: false,
   isOnHold: false,

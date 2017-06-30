@@ -275,7 +275,7 @@
         "required": true,
         "description": ""
       },
-      "Icon": {
+      "icon": {
         "type": {
           "name": "func"
         },
@@ -471,16 +471,19 @@
           "computed": false
         }
       },
-      "userName": {
+      "nameMatches": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": ""
+      },
+      "fallBackName": {
         "type": {
           "name": "string"
         },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
+        "required": true,
+        "description": ""
       },
       "currentLocale": {
         "type": {
@@ -619,6 +622,45 @@
         "defaultValue": {
           "value": "undefined",
           "computed": true
+        }
+      },
+      "areaCode": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "countryCode": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "selectedMatcherIndex": {
+        "type": {
+          "name": "number"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onSelectMatcherName": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "avatarUrl": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
         }
       }
     },
@@ -1311,7 +1353,15 @@
   },
   {
     "description": "",
-    "methods": [],
+    "methods": [
+      {
+        "name": "getTooltipContent",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      }
+    ],
     "props": {
       "brand": {
         "type": {
@@ -1655,10 +1705,10 @@
     "name": "CallsPanel"
   },
   {
-    "description": "",
+    "description": "Circle Button with SVG",
     "methods": [],
     "props": {
-      "Icon": {
+      "icon": {
         "type": {
           "name": "func"
         },
@@ -1728,6 +1778,17 @@
       }
     ],
     "props": {
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
       "send": {
         "type": {
           "name": "func"
@@ -2142,6 +2203,28 @@
           "value": {
             "name": "string"
           }
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "showType": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "selectClassName": {
+        "type": {
+          "name": "string"
         },
         "required": false,
         "description": "",
@@ -2940,6 +3023,17 @@
           "computed": false
         }
       },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
       "show": {
         "type": {
           "name": "bool"
@@ -2982,12 +3076,6 @@
         },
         "required": true,
         "description": ""
-      },
-      "children": {
-        "defaultValue": {
-          "value": "undefined",
-          "computed": true
-        }
       }
     },
     "name": "EntityModal"
@@ -3245,17 +3333,6 @@
     "description": "",
     "methods": [],
     "props": {
-      "userName": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
-      },
       "currentLocale": {
         "type": {
           "name": "string"
@@ -3319,6 +3396,65 @@
         },
         "required": true,
         "description": ""
+      },
+      "nameMatches": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": ""
+      },
+      "fallBackName": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "areaCode": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "countryCode": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "selectedMatcherIndex": {
+        "type": {
+          "name": "number"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onSelectMatcherName": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "avatarUrl": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "userName": {
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
       }
     },
     "name": "IncomingCallPanel"
