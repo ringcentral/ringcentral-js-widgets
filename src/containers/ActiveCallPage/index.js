@@ -77,7 +77,10 @@ class ActiveCallPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.session.id !== nextProps.session.id) {
-      this.setState({ selectedMatcherIndex: 0 });
+      this.setState({
+        selectedMatcherIndex: 0,
+        avatarUrl: null,
+      });
       const nameMatches = nextProps.session.direction === callDirections.outbound ?
         nextProps.toMatches : nextProps.fromMatches;
       const contact = nameMatches && nameMatches[0];
