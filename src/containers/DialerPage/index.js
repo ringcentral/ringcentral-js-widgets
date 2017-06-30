@@ -21,7 +21,7 @@ function mapToProps(_, {
   webphone,
 }) {
   const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
-  const waitingWebphoneConnected = (isWebphoneMode && webphone && webphone.disconnecting);
+  const waitingWebphoneConnected = (isWebphoneMode && webphone && webphone.connecting);
   return {
     currentLocale: locale.currentLocale,
     callingMode: callingSettings.callingMode,
