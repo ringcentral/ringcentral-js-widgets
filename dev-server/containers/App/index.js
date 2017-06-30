@@ -95,6 +95,7 @@ export default function App({
                   locale={phone.locale}
                   rateLimiter={phone.rateLimiter}
                   regionSettings={phone.regionSettings}
+                  webphone={phone.webphone}
                 />
               )} />
             <Route

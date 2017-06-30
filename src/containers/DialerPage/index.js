@@ -18,14 +18,20 @@ function mapToProps(_, {
   connectivityMonitor,
   locale,
   rateLimiter,
+  webphone,
 }) {
+  const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
+  const waitingWebphoneConnected = (isWebphoneMode && webphone && webphone.connecting);
   return {
     currentLocale: locale.currentLocale,
     callingMode: callingSettings.callingMode,
-    isWebphoneMode: callingSettings.callingMode === callingModes.webphone,
-    callButtonDisabled: !call.isIdle
-    || !connectivityMonitor.connectivity
-    || rateLimiter.throttling,
+    isWebphoneMode,
+    callButtonDisabled: (
+      !call.isIdle
+      || !connectivityMonitor.connectivity
+      || rateLimiter.throttling
+      || waitingWebphoneConnected
+    ),
     toNumber: call.toNumber,
     fromNumbers: callingSettings.fromNumbers,
     fromNumber: callingSettings.fromNumber,
