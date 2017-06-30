@@ -113,7 +113,6 @@ IncomingCallPanel.propTypes = {
 };
 
 IncomingCallPanel.defaultProps = {
-  userName: null,
   phoneNumber: null,
   children: undefined,
   avatarUrl: null,

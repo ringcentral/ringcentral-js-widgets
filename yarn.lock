@@ -6040,9 +6040,9 @@ ringcentral-client@^1.0.0-rc1:
     form-data "^2.1.2"
     isomorphic-fetch "^2.2.1"
 
-ringcentral-integration@^0.7.0-rc3:
-  version "0.7.0-rc3"
-  resolved "https://registry.yarnpkg.com/ringcentral-integration/-/ringcentral-integration-0.7.0-rc3.tgz#34d74eef92187b8f381d1bd58db9d0ad235e9f5c"
+ringcentral-integration@^0.7.0-rc5:
+  version "0.7.0-rc5"
+  resolved "https://registry.yarnpkg.com/ringcentral-integration/-/ringcentral-integration-0.7.0-rc5.tgz#bd47aaa3368b6b07269d29789d6f2f53486dd65d"
   dependencies:
     file-loader "^0.11.2"
     json-mask "^0.3.8"

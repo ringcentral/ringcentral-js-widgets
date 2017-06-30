@@ -14,16 +14,28 @@ props.onAdd = () => null;
 props.hangup = () => null;
 props.toggleMinimized = () => null;
 props.onKeyPadChange = () => null;
-props.formatPhone = () => null;
-props.userName = 'User Name';
+props.formatPhone = phone => phone;
 props.phoneNumber = '1234567890';
 props.startTime = (new Date()).getTime();
+props.areaCode = '';
+props.countryCode = 'US';
+props.nameMatches = [];
+props.onSelectMatcherName = () => null;
+props.selectedMatcherIndex = 0;
+props.fallBackName = 'Unknown';
 /**
  * A example of `ActiveCallPanel`
  */
 const ActiveCallPanelDemo = () => (
-  <ActiveCallPanel
-    {...props}
-  />
+  <div style={{
+    position: 'relative',
+    height: '500px',
+    width: '300px',
+    border: '1px solid #f3f3f3',
+  }}>
+    <ActiveCallPanel
+      {...props}
+    />
+  </div>
 );
 export default ActiveCallPanelDemo;
