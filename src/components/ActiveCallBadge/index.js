@@ -21,9 +21,9 @@ export default function ActiveCallBadge(props) {
         name={'active-call'}
       >
         <span className={styles.activeIcon}>
-          <i className={dynamicsFont.active} />
+          <i className={dynamicsFont.callHover} />
         </span>
-        Calling
+        {props.title}
       </Badge>
     </Draggable>
   );
@@ -34,4 +34,9 @@ ActiveCallBadge.propTypes = {
   offsetX: PropTypes.number.isRequired,
   offsetY: PropTypes.number.isRequired,
   updatePositionOffset: PropTypes.func.isRequired,
+  title: PropTypes.string,
+};
+
+ActiveCallBadge.defaultProps = {
+  title: 'Active Call',
 };

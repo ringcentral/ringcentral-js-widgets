@@ -28,6 +28,7 @@ function AppView(props) {
         server={props.server}
         enabled={props.enabled}
         onSetData={props.onSetData}
+        recordingHost={''}
       />
     </div>
   );
