@@ -3449,12 +3449,6 @@
           "value": "null",
           "computed": false
         }
-      },
-      "userName": {
-        "defaultValue": {
-          "value": "null",
-          "computed": false
-        }
       }
     },
     "name": "IncomingCallPanel"
