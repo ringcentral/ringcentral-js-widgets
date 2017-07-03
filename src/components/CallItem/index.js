@@ -93,7 +93,10 @@ export default class CallItem extends Component {
     this.setState({
       selected,
     });
-    if (this.props.call.activityMatches.length > 0) {
+    if (
+      this.props.call.activityMatches.length > 0 &&
+      this.props.autoLog
+    ) {
       this.logCall({ redirect: false, selected });
     }
   }
@@ -215,13 +218,13 @@ export default class CallItem extends Component {
     const {
       call: {
         direction,
-        telephonyStatus,
-        result,
-        startTime,
-        duration,
-        activityMatches,
-        // webphoneSession,
-      },
+      telephonyStatus,
+      result,
+      startTime,
+      duration,
+      activityMatches,
+      // webphoneSession,
+    },
       currentLocale,
       areaCode,
       countryCode,
@@ -329,7 +332,7 @@ export default class CallItem extends Component {
           countryCode={countryCode}
           phoneNumber={phoneNumber}
           currentLocale={currentLocale}
-          />
+        />
         <div className={styles.details} >
           {durationEl} | {dateEl}{statusEl}
         </div>
@@ -342,8 +345,8 @@ export default class CallItem extends Component {
           onClickToDial={onClickToDial && this.clickToDial}
           onClickToSms={
             showClickToSms ?
-            () => this.clickToSms({ countryCode, areaCode })
-            : undefined
+              () => this.clickToSms({ countryCode, areaCode })
+              : undefined
           }
           phoneNumber={phoneNumber}
           disableLinks={disableLinks}
@@ -398,6 +401,7 @@ CallItem.propTypes = {
   // webphoneHangup: PropTypes.func,
   // webphoneResume: PropTypes.func,
   enableContactFallback: PropTypes.bool,
+  autoLog: PropTypes.bool,
 };
 
 CallItem.defaultProps = {
@@ -417,4 +421,5 @@ CallItem.defaultProps = {
   // webphoneHangup: () => null,
   // webphoneResume: () => null,
   enableContactFallback: undefined,
+  autoLog: false,
 };

@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import classnames from 'classnames';
 import SearchInput from '../SearchInput';
-import Panel from '../Panel';
 import MessageItem from '../MessageItem';
 import styles from './styles.scss';
 import i18n from './i18n';
