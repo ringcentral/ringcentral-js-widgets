@@ -105,6 +105,7 @@ class ActiveCallPage extends Component {
           offsetX={this.state.badgeOffsetX}
           offsetY={this.state.badgeOffsetY}
           updatePositionOffset={this.updatePositionOffset}
+          title={i18n.getString('activeCall', this.props.currentLocale)}
         />
       );
     }
@@ -131,7 +132,6 @@ class ActiveCallPage extends Component {
       return (
         <IncomingCallPanel
           currentLocale={this.props.currentLocale}
-          toggleMinimized={this.props.toggleMinimized}
           nameMatches={nameMatches}
           fallBackName={fallbackUserName}
           phoneNumber={phoneNumber}
@@ -145,6 +145,7 @@ class ActiveCallPage extends Component {
           selectedMatcherIndex={this.state.selectedMatcherIndex}
           onSelectMatcherName={this.onSelectMatcherName}
           avatarUrl={this.state.avatarUrl}
+          onBackButtonClick={this.props.toggleMinimized}
         >
           {this.props.children}
         </IncomingCallPanel>

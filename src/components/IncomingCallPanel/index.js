@@ -68,7 +68,10 @@ UserInfo.defaultProps = {
 
 export default function IncomingCallPanel(props) {
   return (
-    <div className={styles.root}>
+    <div className={classnames(styles.root, props.className)}>
+      <span className={styles.backButton} onClick={props.onBackButtonClick}>
+        <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
+      </span>
       <UserInfo
         phoneNumber={props.phoneNumber}
         currentLocale={props.currentLocale}
@@ -97,6 +100,7 @@ export default function IncomingCallPanel(props) {
 IncomingCallPanel.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   phoneNumber: PropTypes.string,
+  className: PropTypes.string,
   answer: PropTypes.func.isRequired,
   reject: PropTypes.func.isRequired,
   toVoiceMail: PropTypes.func.isRequired,
@@ -110,9 +114,11 @@ IncomingCallPanel.propTypes = {
   selectedMatcherIndex: PropTypes.number.isRequired,
   onSelectMatcherName: PropTypes.func.isRequired,
   avatarUrl: PropTypes.string,
+  onBackButtonClick: PropTypes.func.isRequired,
 };
 
 IncomingCallPanel.defaultProps = {
+  className: null,
   phoneNumber: null,
   children: undefined,
   avatarUrl: null,
