@@ -8,7 +8,7 @@ function SelectedRecipientItem({
   name = phoneNumber,
   onRemove,
 }) {
-  const className = phoneNumber.length > 5 ? styles.blue : null;
+  const className = phoneNumber.length > 5 ? styles.phoneNumber : styles.extension;
   return (
     <li className={className}>
       <span>{name}</span>
