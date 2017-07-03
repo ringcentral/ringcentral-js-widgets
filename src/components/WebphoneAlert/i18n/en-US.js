@@ -6,4 +6,5 @@ export default {
   [webphoneErrors.webphoneCountOverLimit]: 'A maximum of 5 web phones could be registered.',
   [webphoneErrors.notOutboundCallWithoutDL]: 'Your extension is not allowed to make outbound calls with browser currently, please contact your account representative for an upgrade.',
   [webphoneErrors.getSipProvisionError]: 'You have no permission to send message.',
+  [webphoneErrors.toVoiceMailError]: 'Cannot send call to voicemail due to internal error'
 };
