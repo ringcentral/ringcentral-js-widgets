@@ -16,6 +16,7 @@ props.countryCode = '';
 props.phoneNumber = '1234567890';
 props.selectedMatcherIndex = 0;
 props.onSelectMatcherName = () => null;
+props.onBackButtonClick = () => null;
 /**
  * A example of `IncomingCallPanel`
  */
