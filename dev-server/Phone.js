@@ -260,6 +260,7 @@ export default class Phone extends RcModule {
       contactMatcher: this.contactMatcher,
       webphoneLogLevel: 3,
       extensionDevice: this.extensionDevice,
+      globalStorage: this.globalStorage,
       getState: () => this.state.webphone,
     }));
     reducers.webphone = this.webphone.reducer;
