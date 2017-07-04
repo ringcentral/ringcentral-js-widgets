@@ -23,3 +23,4 @@ WebphoneAlert.handleMessage = ({ message }) => (
   (message === webphoneErrors.notOutboundCallWithoutDL) ||
   (message === webphoneErrors.toVoiceMailError)
 );
+
