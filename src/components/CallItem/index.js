@@ -65,8 +65,16 @@ export default class CallItem extends Component {
       selected: this.getInitialContactIndex(),
       isLogging: false,
       isCreating: false,
+      loading: true,
     };
     this._userSelection = false;
+    setTimeout(() => {
+      if (this._mounted) {
+        this.setState({
+          loading: false,
+        });
+      }
+    }, 10);
   }
   componentDidMount() {
     this._mounted = true;
@@ -213,16 +221,21 @@ export default class CallItem extends Component {
     }
   }
   render() {
+    if (this.state.loading) {
+      return (
+        <div className={styles.root} />
+      );
+    }
     const {
       call: {
         direction,
-        telephonyStatus,
-        result,
-        startTime,
-        duration,
-        activityMatches,
-        // webphoneSession,
-      },
+      telephonyStatus,
+      result,
+      startTime,
+      duration,
+      activityMatches,
+      // webphoneSession,
+    },
       currentLocale,
       areaCode,
       countryCode,
@@ -330,7 +343,7 @@ export default class CallItem extends Component {
           countryCode={countryCode}
           phoneNumber={phoneNumber}
           currentLocale={currentLocale}
-          />
+        />
         <div className={styles.details} >
           {durationEl} | {dateEl}{statusEl}
         </div>
@@ -343,8 +356,8 @@ export default class CallItem extends Component {
           onClickToDial={onClickToDial && this.clickToDial}
           onClickToSms={
             showClickToSms ?
-            () => this.clickToSms({ countryCode, areaCode })
-            : undefined
+              () => this.clickToSms({ countryCode, areaCode })
+              : undefined
           }
           phoneNumber={phoneNumber}
           disableLinks={disableLinks}
