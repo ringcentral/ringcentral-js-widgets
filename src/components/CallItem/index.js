@@ -68,16 +68,17 @@ export default class CallItem extends Component {
       loading: true,
     };
     this._userSelection = false;
+  }
+  componentDidMount() {
+    this._mounted = true;
     setTimeout(() => {
+      // clear timeout is probably not necessary
       if (this._mounted) {
         this.setState({
           loading: false,
         });
       }
     }, 10);
-  }
-  componentDidMount() {
-    this._mounted = true;
   }
   componentWillReceiveProps(nextProps) {
     if (
