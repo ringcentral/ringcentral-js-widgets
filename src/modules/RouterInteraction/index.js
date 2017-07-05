@@ -34,7 +34,9 @@ export default class RouterInteraction extends RcModule {
     return this.state.locationBeforeTransitions.pathname;
   }
 
-  get locationChange() {
-    return LOCATION_CHANGE;
+  get actionTypes() {
+    return {
+      locationChange: LOCATION_CHANGE
+    };
   }
 }
