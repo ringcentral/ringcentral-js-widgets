@@ -20,5 +20,7 @@ WebphoneAlert.propTypes = {
 WebphoneAlert.handleMessage = ({ message }) => (
   (message === webphoneErrors.browserNotSupported) ||
   (message === webphoneErrors.webphoneCountOverLimit) ||
-  (message === webphoneErrors.notOutboundCallWithoutDL)
+  (message === webphoneErrors.notOutboundCallWithoutDL) ||
+  (message === webphoneErrors.toVoiceMailError)
 );
+

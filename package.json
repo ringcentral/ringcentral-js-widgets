@@ -30,9 +30,9 @@
     "react-redux": "^5.0.1",
     "react-router": "^3.0.0",
     "react-router-redux": "^4.0.7",
-    "ringcentral": "3.0.0",
+    "ringcentral": "3.1.1",
     "ringcentral-client": "^1.0.0-rc1",
-    "ringcentral-integration": "^0.7.0-rc1",
+    "ringcentral-integration": "^0.7.0-rc8",
     "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {
