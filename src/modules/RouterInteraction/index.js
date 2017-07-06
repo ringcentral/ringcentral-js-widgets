@@ -1,6 +1,6 @@
 import RcModule from 'ringcentral-integration/lib/RcModule';
 import { useRouterHistory, createMemoryHistory, hashHistory } from 'react-router';
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
+import { syncHistoryWithStore, routerReducer, LOCATION_CHANGE } from 'react-router-redux';
 
 function getDefaultHistory() {
   // if (typeof window !== 'undefined') {
@@ -32,5 +32,11 @@ export default class RouterInteraction extends RcModule {
 
   get currentPath() {
     return this.state.locationBeforeTransitions.pathname;
+  }
+
+  get actionTypes() {
+    return {
+      locationChange: LOCATION_CHANGE
+    };
   }
 }
