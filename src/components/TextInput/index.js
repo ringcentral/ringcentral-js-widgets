@@ -18,9 +18,11 @@ class TextInput extends Component {
     }
   }
   onInputChange = (e) => {
-    this.setState({
-      value: e.currentTarget.value,
-    });
+    let value = e.currentTarget.value;
+    if (typeof this.props.filter === 'function') {
+      value = this.props.filter(value);
+    }
+    this.setState({ value });
     if (typeof this.props.onChange === 'function') {
       this.props.onChange(e);
     }
@@ -116,6 +118,7 @@ TextInput.propTypes = {
   defaultValue: PropTypes.string,
   invalid: PropTypes.bool,
   onKeyDown: PropTypes.func,
+  filter: PropTypes.func,
 };
 TextInput.defaultProps = {
   className: undefined,
@@ -130,6 +133,7 @@ TextInput.defaultProps = {
   defaultValue: undefined,
   invalid: false,
   onKeyDown: undefined,
+  filter: undefined,
 };
 
 export default TextInput;

@@ -242,12 +242,32 @@ export default class Phone extends RcModule {
       tabManager: this.tabManager,
       getState: () => this.state.forwardingNumber,
     }));
+    reducers.forwardingNumber = this.forwardingNumber.reducer;
     this.addModule('contactMatcher', new ContactMatcher({
       ...options,
       storage: this.storage,
       getState: () => this.state.contactMatcher,
     }));
     reducers.contactMatcher = this.contactMatcher.reducer;
+    this.addModule('regionSettings', new RegionSettings({
+      ...options,
+      storage: this.storage,
+      extensionInfo: this.extensionInfo,
+      dialingPlan: this.dialingPlan,
+      alert: this.alert,
+      tabManager: this.tabManager,
+      getState: () => this.state.regionSettings,
+    }));
+    reducers.regionSettings = this.regionSettings.reducer;
+    this.addModule('numberValidate', new NumberValidate({
+      ...options,
+      client: this.client,
+      accountExtension: this.accountExtension,
+      regionSettings: this.regionSettings,
+      accountInfo: this.accountInfo,
+      getState: () => this.state.numberValidate,
+    }));
+    reducers.numberValidate = this.numberValidate.reducer;
     this.addModule('webphone', new Webphone({
       appKey: apiConfig.appKey,
       appName: 'RingCentral Widget',
@@ -261,20 +281,10 @@ export default class Phone extends RcModule {
       webphoneLogLevel: 3,
       extensionDevice: this.extensionDevice,
       globalStorage: this.globalStorage,
+      numberValidate: this.numberValidate,
       getState: () => this.state.webphone,
     }));
     reducers.webphone = this.webphone.reducer;
-    reducers.forwardingNumber = this.forwardingNumber.reducer;
-    this.addModule('regionSettings', new RegionSettings({
-      ...options,
-      storage: this.storage,
-      extensionInfo: this.extensionInfo,
-      dialingPlan: this.dialingPlan,
-      alert: this.alert,
-      tabManager: this.tabManager,
-      getState: () => this.state.regionSettings,
-    }));
-    reducers.regionSettings = this.regionSettings.reducer;
     this.addModule('callingSettings', new CallingSettings({
       ...options,
       alert: this.alert,
@@ -289,15 +299,6 @@ export default class Phone extends RcModule {
       getState: () => this.state.callingSettings,
     }));
     reducers.callingSettings = this.callingSettings.reducer;
-    this.addModule('numberValidate', new NumberValidate({
-      ...options,
-      client: this.client,
-      accountExtension: this.accountExtension,
-      regionSettings: this.regionSettings,
-      accountInfo: this.accountInfo,
-      getState: () => this.state.numberValidate,
-    }));
-    reducers.numberValidate = this.numberValidate.reducer;
     this.addModule('call', new Call({
       ...options,
       alert: this.alert,
