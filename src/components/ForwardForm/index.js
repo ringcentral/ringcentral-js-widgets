@@ -80,6 +80,9 @@ export default class ForwardForm extends Component {
         handling: true,
       });
       const result = await this.props.onForward(this.getValue());
+      if (!this._mounted) {
+        return;
+      }
       this.setState({
         handling: false,
       });
@@ -90,8 +93,21 @@ export default class ForwardForm extends Component {
 
     this.onSelectCustomNumber = () => {
       this.onSelect(this.props.forwardingNumbers.length);
-      this.customInput.focus();
+      if (this.customInput && this.customInput.input) {
+        setTimeout(() => {
+          this.customInput.input.focus();
+        }, 100);
+      }
     };
+  }
+
+  componentDidMount() {
+    this._mounted = true;
+    this.focusInput();
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
   }
 
   getValue() {
@@ -102,6 +118,16 @@ export default class ForwardForm extends Component {
       );
     }
     return this.state.customValue;
+  }
+
+  focusInput() {
+    if (
+      this.state.selectedIndex === this.props.forwardingNumbers.length &&
+      this.customInput &&
+      this.customInput.input
+    ) {
+      this.customInput.input.focus();
+    }
   }
 
   render() {

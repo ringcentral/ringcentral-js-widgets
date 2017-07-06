@@ -47,9 +47,10 @@
     color: #ffffff;
   }
   &.disabled {
-    background: $gray;
+    background: #ffffff;
+    border: solid 1px #e3e3e3;
     .buttonText {
-      color: #ffffff;
+      color: $darkergray;
     }
   }
 }

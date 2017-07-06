@@ -9,6 +9,7 @@ class TextInput extends Component {
     this.state = {
       value: props.value,
     };
+    this.input = null;
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.props.value) {
@@ -51,6 +52,7 @@ class TextInput extends Component {
           invalid && styles.invalid,
         )}>
         <input
+          ref={(input) => { this.input = input; }}
           onChange={this.onInputChange}
           placeholder={placeholder}
           disabled={disabled}

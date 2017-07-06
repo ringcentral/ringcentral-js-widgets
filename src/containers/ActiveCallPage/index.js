@@ -250,7 +250,7 @@ function mapToProps(_, {
     minimized: webphone.minimized,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
-    forwardingNumbers: forwardingNumber.numbers,
+    forwardingNumbers: forwardingNumber.forwardingNumbers,
   };
 }
 
