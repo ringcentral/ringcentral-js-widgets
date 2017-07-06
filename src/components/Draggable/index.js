@@ -60,14 +60,14 @@ class Draggable extends Component {
           translateY: preState.translateY + (newPositionY - preState.positionY),
         };
         if (
-          originalPositionX + newState.translateX > offsetParent.clientWidth + width ||
-          originalPositionX + newState.translateX < width / 2
+          (originalPositionX - 10) + newState.translateX > offsetParent.clientWidth ||
+          (originalPositionX - 10) + newState.translateX < width
         ) {
           delete newState.translateX;
         }
         if (
-          originalPositionY + newState.translateY > offsetParent.clientHeight - height ||
-          originalPositionY + newState.translateY < -height
+          (originalPositionY + 10) + newState.translateY > offsetParent.clientHeight - height ||
+          (originalPositionY + 10) + newState.translateY < 0
         ) {
           delete newState.translateY;
         }
