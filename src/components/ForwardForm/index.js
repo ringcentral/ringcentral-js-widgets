@@ -55,7 +55,7 @@ export default class ForwardForm extends Component {
     };
 
     this.filter = value => value.replace(cleanRegex, '');
-    this.onCustromValueChange = (e) => {
+    this.onCustomValueChange = (e) => {
       const value = e.currentTarget.value;
       const cleanValue = this.filter(value);
       this.setState({
@@ -165,7 +165,7 @@ export default class ForwardForm extends Component {
             filter={this.filter}
             className={styles.customInput}
             value={this.state.customValue}
-            onChange={this.onCustromValueChange}
+            onChange={this.onCustomValueChange}
           />
         </div>
         <div className={styles.buttonGroup}>
