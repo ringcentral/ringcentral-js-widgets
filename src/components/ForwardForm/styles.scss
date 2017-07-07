@@ -101,7 +101,8 @@
   overflow-y: auto;
   overflow-x: hidden;
   .number {
-    height: 18px;
+    box-sizing: border-box;
+    height: 28px;
     padding: 5px 20px;
     span {
       display: inline-block;
