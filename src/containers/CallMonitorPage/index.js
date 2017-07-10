@@ -13,9 +13,11 @@ function mapToProps(_, {
   composeText,
   rolesAndPermissions,
   enableContactFallback = false,
+  defaultContact,
 }) {
   return {
     enableContactFallback,
+    defaultContact,
     active: true,
     title: i18n.getString('title', locale.currentLocale),
     currentLocale: locale.currentLocale,
