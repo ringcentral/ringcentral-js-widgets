@@ -34,6 +34,7 @@ export default function CallsPanel({
   webphoneHangup,
   webphoneResume,
   enableContactFallback,
+  autoLog,
 }) {
   const content = showSpinner ?
     <SpinnerOverlay /> :
@@ -61,6 +62,7 @@ export default function CallsPanel({
         webphoneHangup={webphoneHangup}
         webphoneResume={webphoneResume}
         enableContactFallback={enableContactFallback}
+        autoLog={autoLog}
       />
     );
   return (
@@ -100,6 +102,7 @@ CallsPanel.propTypes = {
   webphoneHangup: PropTypes.func,
   webphoneResume: PropTypes.func,
   enableContactFallback: PropTypes.bool,
+  autoLog: PropTypes.bool,
 };
 
 CallsPanel.defaultProps = {
@@ -121,4 +124,5 @@ CallsPanel.defaultProps = {
   webphoneHangup: undefined,
   webphoneResume: undefined,
   enableContactFallback: undefined,
+  autoLog: false,
 };
