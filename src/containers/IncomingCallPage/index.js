@@ -5,15 +5,16 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import Webphone from 'ringcentral-integration/modules/Webphone';
 import Locale from 'ringcentral-integration/modules/Locale';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
-import ForwardingNumber from 'ringcentral-integration/modules/ForwardingNumber';
 
 import callDirections from 'ringcentral-integration/enums/callDirections';
+import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 
-import ActiveCallPanel from '../../components/ActiveCallPanel';
+import IncomingCallPanel from '../../components/IncomingCallPanel';
+import ActiveCallBadge from '../../components/ActiveCallBadge';
 
 import i18n from './i18n';
 
-class CallCtrlPage extends Component {
+class IncomingCallPage extends Component {
   constructor(props) {
     super(props);
 
@@ -38,22 +39,14 @@ class CallCtrlPage extends Component {
       }
     };
 
-    this.onMute = () =>
-      this.props.onMute(this.props.session.id);
-    this.onUnmute = () =>
-      this.props.onUnmute(this.props.session.id);
-    this.onHold = () =>
-      this.props.onHold(this.props.session.id);
-    this.onUnhold = () =>
-      this.props.onUnhold(this.props.session.id);
-    this.onRecord = () =>
-      this.props.onRecord(this.props.session.id);
-    this.onStopRecord = () =>
-      this.props.onStopRecord(this.props.session.id);
-    this.hangup = () =>
-      this.props.hangup(this.props.session.id);
-    this.onKeyPadChange = value =>
-      this.props.sendDTMF(value, this.props.session.id);
+    this.answer = () =>
+      this.props.answer(this.props.session.id);
+    this.reject = () =>
+      this.props.reject(this.props.session.id);
+    this.toVoiceMail = () =>
+      this.props.toVoiceMail(this.props.session.id);
+    this.replyWithMessage = message =>
+      this.props.replyWithMessage(this.props.session.id, message);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -75,8 +68,27 @@ class CallCtrlPage extends Component {
 
   render() {
     const session = this.props.session;
-    if (!session.id) {
+    const active = !!session.id;
+    if (!active) {
       return null;
+    }
+    if (this.props.minimized) {
+      return (
+        <ActiveCallBadge
+          onClick={this.props.toggleMinimized}
+          offsetX={this.state.badgeOffsetX}
+          offsetY={this.state.badgeOffsetY}
+          updatePositionOffset={this.updatePositionOffset}
+          title={i18n.getString('activeCall', this.props.currentLocale)}
+        />
+      );
+    }
+    let isRinging = false;
+    if (
+      session.direction === callDirections.inbound &&
+      session.callStatus === sessionStatus.connecting
+    ) {
+      isRinging = true;
     }
     // isRinging = true;
     const phoneNumber = session.direction === callDirections.outbound ?
@@ -90,42 +102,34 @@ class CallCtrlPage extends Component {
     if (!fallbackUserName) {
       fallbackUserName = i18n.getString('unknown', this.props.currentLocale);
     }
-    return (
-      <ActiveCallPanel
-        currentLocale={this.props.currentLocale}
-        formatPhone={this.props.formatPhone}
-        phoneNumber={phoneNumber}
-        sessionId={session.id}
-        callStatus={session.callStatus}
-        startTime={session.startTime}
-        isOnMute={session.isOnMute}
-        isOnHold={session.isOnHold}
-        isOnRecord={session.isOnRecord}
-        onBackButtonClick={() => null}
-        onMute={this.onMute}
-        onUnmute={this.onUnmute}
-        onHold={this.onHold}
-        onUnhold={this.onUnhold}
-        onRecord={this.onRecord}
-        onStopRecord={this.onStopRecord}
-        onKeyPadChange={this.onKeyPadChange}
-        hangup={this.hangup}
-        onAdd={this.props.onAdd}
-        nameMatches={nameMatches}
-        fallBackName={fallbackUserName}
-        areaCode={this.props.areaCode}
-        countryCode={this.props.countryCode}
-        selectedMatcherIndex={this.state.selectedMatcherIndex}
-        onSelectMatcherName={this.onSelectMatcherName}
-        avatarUrl={this.state.avatarUrl}
-      >
-        {this.props.children}
-      </ActiveCallPanel>
-    );
+    if (isRinging) {
+      return (
+        <IncomingCallPanel
+          currentLocale={this.props.currentLocale}
+          nameMatches={nameMatches}
+          fallBackName={fallbackUserName}
+          phoneNumber={phoneNumber}
+          answer={this.answer}
+          reject={this.reject}
+          replyWithMessage={this.replyWithMessage}
+          toVoiceMail={this.toVoiceMail}
+          formatPhone={this.props.formatPhone}
+          areaCode={this.props.areaCode}
+          countryCode={this.props.countryCode}
+          selectedMatcherIndex={this.state.selectedMatcherIndex}
+          onSelectMatcherName={this.onSelectMatcherName}
+          avatarUrl={this.state.avatarUrl}
+          onBackButtonClick={this.props.toggleMinimized}
+        >
+          {this.props.children}
+        </IncomingCallPanel>
+      );
+    }
+    return null;
   }
 }
 
-CallCtrlPage.propTypes = {
+IncomingCallPage.propTypes = {
   session: PropTypes.shape({
     id: PropTypes.string,
     direction: PropTypes.string,
@@ -137,16 +141,13 @@ CallCtrlPage.propTypes = {
     from: PropTypes.string,
   }).isRequired,
   currentLocale: PropTypes.string.isRequired,
-  onMute: PropTypes.func.isRequired,
-  onUnmute: PropTypes.func.isRequired,
-  onHold: PropTypes.func.isRequired,
-  onUnhold: PropTypes.func.isRequired,
-  onRecord: PropTypes.func.isRequired,
-  onStopRecord: PropTypes.func.isRequired,
-  hangup: PropTypes.func.isRequired,
-  sendDTMF: PropTypes.func.isRequired,
+  minimized: PropTypes.bool.isRequired,
+  toggleMinimized: PropTypes.func.isRequired,
+  answer: PropTypes.func.isRequired,
+  reject: PropTypes.func.isRequired,
+  toVoiceMail: PropTypes.func.isRequired,
+  replyWithMessage: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
-  onAdd: PropTypes.func.isRequired,
   children: PropTypes.node,
   toMatches: PropTypes.array.isRequired,
   fromMatches: PropTypes.array.isRequired,
@@ -155,7 +156,7 @@ CallCtrlPage.propTypes = {
   getAvatarUrl: PropTypes.func.isRequired,
 };
 
-CallCtrlPage.defaultProps = {
+IncomingCallPage.defaultProps = {
   children: undefined,
 };
 
@@ -164,7 +165,6 @@ function mapToProps(_, {
   locale,
   contactMatcher,
   regionSettings,
-  forwardingNumber,
 }) {
   const currentSession = webphone.currentSession || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -173,16 +173,15 @@ function mapToProps(_, {
     toMatches: (contactMapping && contactMapping[currentSession.to]) || [],
     currentLocale: locale.currentLocale,
     session: currentSession,
+    minimized: webphone.minimized,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
-    forwardingNumbers: forwardingNumber.forwardingNumbers,
   };
 }
 
 function mapToFunctions(_, {
   webphone,
   regionSettings,
-  router,
   getAvatarUrl,
 }) {
   return {
@@ -191,38 +190,30 @@ function mapToFunctions(_, {
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode,
     }),
-    hangup: sessionId => webphone.hangup(sessionId),
-    onMute: sessionId => webphone.mute(sessionId),
-    onUnmute: sessionId => webphone.unmute(sessionId),
-    onHold: sessionId => webphone.hold(sessionId),
-    onUnhold: sessionId => webphone.unhold(sessionId),
-    onRecord: sessionId => webphone.startRecord(sessionId),
-    onStopRecord: sessionId => webphone.stopRecord(sessionId),
-    onAdd: () => {
-      router.push('/');
-      webphone.toggleMinimized();
-    },
-    sendDTMF: (value, sessionId) => webphone.sendDTMF(value, sessionId),
+    answer: sessionId => webphone.answer(sessionId),
+    reject: sessionId => webphone.reject(sessionId),
+    toVoiceMail: sessionId => webphone.toVoiceMail(sessionId),
+    replyWithMessage: (sessionId, message) => webphone.replyWithMessage(sessionId, message),
+    toggleMinimized: () => webphone.toggleMinimized(),
     getAvatarUrl,
   };
 }
 
-const CallCtrlContainer = connect(
+const IncomingCallContainer = connect(
   mapToProps,
   mapToFunctions,
-)(CallCtrlPage);
+)(IncomingCallPage);
 
-CallCtrlContainer.propTypes = {
+IncomingCallContainer.propTypes = {
   webphone: PropTypes.instanceOf(Webphone).isRequired,
   locale: PropTypes.instanceOf(Locale).isRequired,
   regionSettings: PropTypes.instanceOf(RegionSettings).isRequired,
-  forwardingNumber: PropTypes.instanceOf(ForwardingNumber).isRequired,
   getAvatarUrl: PropTypes.func,
 };
 
-CallCtrlContainer.defaultProps = {
+IncomingCallContainer.defaultProps = {
   getAvatarUrl: () => null,
 };
 
-export default CallCtrlContainer;
+export default IncomingCallContainer;
 

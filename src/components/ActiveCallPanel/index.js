@@ -144,7 +144,7 @@ class ActiveCallPanel extends Component {
     return (
       <div className={styles.root}>
         <BackHeader
-          onBackClick={this.props.toggleMinimized}
+          onBackClick={this.props.onBackButtonClick}
           backButton={(
             <span className={styles.backButton}>
               <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
@@ -181,7 +181,7 @@ ActiveCallPanel.propTypes = {
   onStopRecord: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
   hangup: PropTypes.func.isRequired,
-  toggleMinimized: PropTypes.func.isRequired,
+  onBackButtonClick: PropTypes.func.isRequired,
   onKeyPadChange: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
   children: PropTypes.node,
