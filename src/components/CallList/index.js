@@ -39,6 +39,7 @@ function CallList({
   webphoneHangup,
   webphoneResume,
   enableContactFallback,
+  autoLog,
 }) {
   if (calls && calls.length) {
     return (
@@ -68,6 +69,7 @@ function CallList({
             webphoneHangup={webphoneHangup}
             webphoneResume={webphoneResume}
             enableContactFallback={enableContactFallback}
+            autoLog={autoLog}
           />
         ))}
       </div>
@@ -104,6 +106,7 @@ CallList.propTypes = {
   webphoneHangup: PropTypes.func,
   webphoneResume: PropTypes.func,
   enableContactFallback: PropTypes.bool,
+  autoLog: PropTypes.bool,
 };
 CallList.defaultProps = {
   className: null,
@@ -124,6 +127,7 @@ CallList.defaultProps = {
   webphoneHangup: undefined,
   webphoneResume: undefined,
   enableContactFallback: undefined,
+  autoLog: false,
 };
 
 export default CallList;
