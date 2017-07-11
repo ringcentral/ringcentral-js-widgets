@@ -17,6 +17,12 @@ props.phoneNumber = '1234567890';
 props.selectedMatcherIndex = 0;
 props.onSelectMatcherName = () => null;
 props.onBackButtonClick = () => null;
+props.forwardingNumbers = [{
+  id: '123',
+  label: 'Mobile',
+  phoneNumber: '12345678',
+}];
+props.onForward = () => null;
 /**
  * A example of `IncomingCallPanel`
  */

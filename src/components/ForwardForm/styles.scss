@@ -1,0 +1,120 @@
+@import '../../lib/commonStyles/fonts.scss';
+@import '../../lib/commonStyles/colors.scss';
+
+.root {
+  box-sizing: border-box;
+  width: 100%;
+  display: block;
+  padding: 0 0 20px 0;
+  background: #ffffff;
+}
+
+.buttonGroup {
+  @include primary-font;
+  display: block;
+  margin-top: 10px;
+  padding: 0 20px;
+}
+
+.cancelButton {
+  font-size: 12px;
+  color: $primary-color;
+  display: inline-block;
+  width: 65px;
+  height: 28px;
+  border-radius: 100px;
+  border: solid 1px $primary-color-highlight;
+  line-height: 28px;
+  text-align: center;
+  margin-right: 20px;
+  opacity: 0.9;
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.forwardButton {
+  display: inline-block;
+  width: 65px;
+  height: 28px;
+  border-radius: 100px;
+  background: $primary-color;
+  font-size: 12px;
+  color: #ffffff;
+  line-height: 28px;
+  text-align: center;
+  &:hover {
+    color: #ffffff;
+  }
+  &.disabled {
+    background: #ffffff;
+    border: solid 1px #e3e3e3;
+    .buttonText {
+      color: $darkergray;
+    }
+  }
+}
+
+.customInput {
+  display: none;
+  padding: 0;
+  background: #ffffff;
+  border: none;
+  margin-top: 10px;
+  input {
+    @include secondary-font;
+    padding: 0;
+    font-size: 12px;
+    line-height: 14px;
+    padding: 7px 10px;
+  }
+}
+
+.custromNumber {
+  padding: 5px 20px 10px 20px;
+  .customLabel {
+    @include secondary-font;
+    font-size: 14px;
+    line-height: 16px;
+  }
+  &.active {
+    .customLabel {
+      color: $primary-color;
+    }
+    .customInput {
+      display: block;
+    }
+  }
+}
+
+.active {
+  color: $primary-color;
+  background-color: #f5f5f5;
+}
+
+.numbers {
+  @include secondary-font;
+  width: 100%;
+  font-size: 14px;
+  line-height: 18px;
+  max-height: 80px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  .number {
+    box-sizing: border-box;
+    height: 28px;
+    padding: 5px 20px;
+    span {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .label {
+      max-width: 38px;
+    }
+    .colon {
+      padding-right: 5px;
+    }
+  }
+}

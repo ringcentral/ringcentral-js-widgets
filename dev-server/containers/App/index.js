@@ -43,6 +43,7 @@ export default function App({
               <ActiveCallPage
                 locale={phone.locale}
                 webphone={phone.webphone}
+                forwardingNumber={phone.forwardingNumber}
                 regionSettings={phone.regionSettings}
                 router={phone.router}
                 contactMatcher={phone.contactMatcher}

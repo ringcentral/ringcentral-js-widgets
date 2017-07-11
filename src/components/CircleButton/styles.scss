@@ -24,8 +24,8 @@
   fill: transparent;
   stroke-width: 10;
   font-weight: 100;
-  stroke: $primary-color;
-  opacity: 0.3;
+  stroke: $primary-color-highlight;
+  opacity: 0.9;
 }
 
 .noBorder {
@@ -38,7 +38,7 @@
 
   &:hover {
     .circle {
-      opacity: 0.5;
+      stroke: $primary-color-highlight-solid;
     }
     .noBorder {
       stroke: transparent;
