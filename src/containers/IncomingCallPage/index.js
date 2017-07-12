@@ -5,6 +5,7 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import Webphone from 'ringcentral-integration/modules/Webphone';
 import Locale from 'ringcentral-integration/modules/Locale';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
+import ForwardingNumber from 'ringcentral-integration/modules/ForwardingNumber';
 
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
@@ -47,6 +48,8 @@ class IncomingCallPage extends Component {
       this.props.toVoiceMail(this.props.session.id);
     this.replyWithMessage = message =>
       this.props.replyWithMessage(this.props.session.id, message);
+    this.onForward = forwardNumber =>
+      this.props.onForward(this.props.session.id, forwardNumber);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -120,6 +123,8 @@ class IncomingCallPage extends Component {
           onSelectMatcherName={this.onSelectMatcherName}
           avatarUrl={this.state.avatarUrl}
           onBackButtonClick={this.props.toggleMinimized}
+          forwardingNumbers={this.props.forwardingNumbers}
+          onForward={this.onForward}
         >
           {this.props.children}
         </IncomingCallPanel>
@@ -154,6 +159,8 @@ IncomingCallPage.propTypes = {
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   getAvatarUrl: PropTypes.func.isRequired,
+  forwardingNumbers: PropTypes.array.isRequired,
+  onForward: PropTypes.func.isRequired,
 };
 
 IncomingCallPage.defaultProps = {
@@ -165,6 +172,7 @@ function mapToProps(_, {
   locale,
   contactMatcher,
   regionSettings,
+  forwardingNumber,
 }) {
   const currentSession = webphone.currentSession || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -176,6 +184,7 @@ function mapToProps(_, {
     minimized: webphone.minimized,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
+    forwardingNumbers: forwardingNumber.forwardingNumbers,
   };
 }
 
@@ -193,6 +202,7 @@ function mapToFunctions(_, {
     answer: sessionId => webphone.answer(sessionId),
     reject: sessionId => webphone.reject(sessionId),
     toVoiceMail: sessionId => webphone.toVoiceMail(sessionId),
+    onForward: (sessionId, forwardNumber) => webphone.forward(sessionId, forwardNumber),
     replyWithMessage: (sessionId, message) => webphone.replyWithMessage(sessionId, message),
     toggleMinimized: () => webphone.toggleMinimized(),
     getAvatarUrl,
@@ -208,6 +218,7 @@ IncomingCallContainer.propTypes = {
   webphone: PropTypes.instanceOf(Webphone).isRequired,
   locale: PropTypes.instanceOf(Locale).isRequired,
   regionSettings: PropTypes.instanceOf(RegionSettings).isRequired,
+  forwardingNumber: PropTypes.instanceOf(ForwardingNumber).isRequired,
   getAvatarUrl: PropTypes.func,
 };
 
