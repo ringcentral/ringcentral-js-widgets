@@ -5,6 +5,7 @@ import IncomingCallPad from 'ringcentral-widget/components/IncomingCallPad';
 const props = {};
 props.answer = () => null;
 props.reject = () => null;
+props.replyWithMessage = () => null;
 props.toVoiceMail = () => null;
 props.currentLocale = 'en-US';
 props.forwardingNumbers = [{
