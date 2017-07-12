@@ -250,10 +250,7 @@ function mapToProps(_, {
     minimized: webphone.minimized,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
-    // forwardingNumbers: forwardingNumber.forwardingNumbers,
-    forwardingNumbers: [{ id: '1', label: 'RC US Cisco SPA-122 ATA', phoneNumber: '8613666035097' },
-    { id: '2', label: 'RC US Polycom VVX-311 Gigabit Ethernet Phone', phoneNumber: '165 7224 4548' },
-    { id: '3', label: '122222222223', phoneNumber: '13666035097' }],
+    forwardingNumbers: forwardingNumber.forwardingNumbers,
   };
 }
 
