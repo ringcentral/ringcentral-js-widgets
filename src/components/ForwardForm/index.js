@@ -30,7 +30,7 @@ function ForwardNumbers({
           >
             <span className={styles.label} title={number.label}>{number.label}</span>
             <span className={styles.colon}>:</span>
-            <span className={styles.phoneNumber} title={formatPhone(number.phoneNumber)}>{formatPhone(number.phoneNumber)}</span>
+            <span>{formatPhone(number.phoneNumber)}</span>
           </div>
         ))
       }
