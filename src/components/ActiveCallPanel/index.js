@@ -148,7 +148,7 @@ class ActiveCallPanel extends Component {
           backButton={(
             <span className={styles.backButton}>
               <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
-              <span className={styles.backLabel}>Active Calls</span>
+              <span className={styles.backLabel}>{this.props.backButtonLabel}</span>
             </span>
           )}
           buttons={[]}
@@ -190,6 +190,7 @@ ActiveCallPanel.propTypes = {
   selectedMatcherIndex: PropTypes.number.isRequired,
   onSelectMatcherName: PropTypes.func.isRequired,
   avatarUrl: PropTypes.string,
+  backButtonLabel: PropTypes.string,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -200,6 +201,7 @@ ActiveCallPanel.defaultProps = {
   phoneNumber: null,
   children: undefined,
   avatarUrl: null,
+  backButtonLabel: 'Active Calls',
 };
 
 export default ActiveCallPanel;

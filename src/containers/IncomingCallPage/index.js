@@ -11,7 +11,6 @@ import callDirections from 'ringcentral-integration/enums/callDirections';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 
 import IncomingCallPanel from '../../components/IncomingCallPanel';
-import ActiveCallBadge from '../../components/ActiveCallBadge';
 
 import i18n from './i18n';
 
@@ -76,15 +75,7 @@ class IncomingCallPage extends Component {
       return null;
     }
     if (this.props.minimized) {
-      return (
-        <ActiveCallBadge
-          onClick={this.props.toggleMinimized}
-          offsetX={this.state.badgeOffsetX}
-          offsetY={this.state.badgeOffsetY}
-          updatePositionOffset={this.updatePositionOffset}
-          title={i18n.getString('activeCall', this.props.currentLocale)}
-        />
-      );
+      return null;
     }
     let isRinging = false;
     if (
@@ -94,6 +85,9 @@ class IncomingCallPage extends Component {
       isRinging = true;
     }
     // isRinging = true;
+    if (!isRinging) {
+      return null;
+    }
     const phoneNumber = session.direction === callDirections.outbound ?
       session.to : session.from;
     const nameMatches = session.direction === callDirections.outbound ?
@@ -105,32 +99,29 @@ class IncomingCallPage extends Component {
     if (!fallbackUserName) {
       fallbackUserName = i18n.getString('unknown', this.props.currentLocale);
     }
-    if (isRinging) {
-      return (
-        <IncomingCallPanel
-          currentLocale={this.props.currentLocale}
-          nameMatches={nameMatches}
-          fallBackName={fallbackUserName}
-          phoneNumber={phoneNumber}
-          answer={this.answer}
-          reject={this.reject}
-          replyWithMessage={this.replyWithMessage}
-          toVoiceMail={this.toVoiceMail}
-          formatPhone={this.props.formatPhone}
-          areaCode={this.props.areaCode}
-          countryCode={this.props.countryCode}
-          selectedMatcherIndex={this.state.selectedMatcherIndex}
-          onSelectMatcherName={this.onSelectMatcherName}
-          avatarUrl={this.state.avatarUrl}
-          onBackButtonClick={this.props.toggleMinimized}
-          forwardingNumbers={this.props.forwardingNumbers}
-          onForward={this.onForward}
-        >
-          {this.props.children}
-        </IncomingCallPanel>
-      );
-    }
-    return null;
+    return (
+      <IncomingCallPanel
+        currentLocale={this.props.currentLocale}
+        nameMatches={nameMatches}
+        fallBackName={fallbackUserName}
+        phoneNumber={phoneNumber}
+        answer={this.answer}
+        reject={this.reject}
+        replyWithMessage={this.replyWithMessage}
+        toVoiceMail={this.toVoiceMail}
+        formatPhone={this.props.formatPhone}
+        areaCode={this.props.areaCode}
+        countryCode={this.props.countryCode}
+        selectedMatcherIndex={this.state.selectedMatcherIndex}
+        onSelectMatcherName={this.onSelectMatcherName}
+        avatarUrl={this.state.avatarUrl}
+        onBackButtonClick={this.props.toggleMinimized}
+        forwardingNumbers={this.props.forwardingNumbers}
+        onForward={this.onForward}
+      >
+        {this.props.children}
+      </IncomingCallPanel>
+    );
   }
 }
 

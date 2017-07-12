@@ -5,8 +5,6 @@ import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import Webphone from 'ringcentral-integration/modules/Webphone';
 import Locale from 'ringcentral-integration/modules/Locale';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
-import ForwardingNumber from 'ringcentral-integration/modules/ForwardingNumber';
-
 import callDirections from 'ringcentral-integration/enums/callDirections';
 
 import ActiveCallPanel from '../../components/ActiveCallPanel';
@@ -92,6 +90,7 @@ class CallCtrlPage extends Component {
     }
     return (
       <ActiveCallPanel
+        backButtonLabel={i18n.getString('activeCalls', this.props.currentLocale)}
         currentLocale={this.props.currentLocale}
         formatPhone={this.props.formatPhone}
         phoneNumber={phoneNumber}
@@ -101,7 +100,7 @@ class CallCtrlPage extends Component {
         isOnMute={session.isOnMute}
         isOnHold={session.isOnHold}
         isOnRecord={session.isOnRecord}
-        onBackButtonClick={() => null}
+        onBackButtonClick={this.props.onBackButtonClick}
         onMute={this.onMute}
         onUnmute={this.onUnmute}
         onHold={this.onHold}
@@ -153,6 +152,7 @@ CallCtrlPage.propTypes = {
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   getAvatarUrl: PropTypes.func.isRequired,
+  onBackButtonClick: PropTypes.func.isRequired,
 };
 
 CallCtrlPage.defaultProps = {
@@ -164,7 +164,6 @@ function mapToProps(_, {
   locale,
   contactMatcher,
   regionSettings,
-  forwardingNumber,
 }) {
   const currentSession = webphone.currentSession || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -175,15 +174,15 @@ function mapToProps(_, {
     session: currentSession,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
-    forwardingNumbers: forwardingNumber.forwardingNumbers,
   };
 }
 
 function mapToFunctions(_, {
   webphone,
   regionSettings,
-  router,
   getAvatarUrl,
+  onBackButtonClick,
+  onAdd,
 }) {
   return {
     formatPhone: phoneNumber => formatNumber({
@@ -198,12 +197,9 @@ function mapToFunctions(_, {
     onUnhold: sessionId => webphone.unhold(sessionId),
     onRecord: sessionId => webphone.startRecord(sessionId),
     onStopRecord: sessionId => webphone.stopRecord(sessionId),
-    onAdd: () => {
-      router.push('/');
-      webphone.toggleMinimized();
-    },
     sendDTMF: (value, sessionId) => webphone.sendDTMF(value, sessionId),
     getAvatarUrl,
+    onBackButtonClick,
   };
 }
 
@@ -216,12 +212,9 @@ CallCtrlContainer.propTypes = {
   webphone: PropTypes.instanceOf(Webphone).isRequired,
   locale: PropTypes.instanceOf(Locale).isRequired,
   regionSettings: PropTypes.instanceOf(RegionSettings).isRequired,
-  forwardingNumber: PropTypes.instanceOf(ForwardingNumber).isRequired,
-  getAvatarUrl: PropTypes.func,
-};
-
-CallCtrlContainer.defaultProps = {
-  getAvatarUrl: () => null,
+  getAvatarUrl: PropTypes.func.isRequired,
+  onBackButtonClick: PropTypes.func.isRequired,
+  onAdd: PropTypes.func.isRequired,
 };
 
 export default CallCtrlContainer;

@@ -16,7 +16,9 @@ import MessagesPage from '../../../src/containers/MessagesPage';
 import SettingsPage from '../../../src/containers/SettingsPage';
 import CallMonitorPage from '../../../src/containers/CallMonitorPage';
 import CallHistoryPage from '../../../src/containers/CallHistoryPage';
-import ActiveCallPage from '../../../src/containers/ActiveCallPage';
+import IncomingCallPage from '../../../src/containers/IncomingCallPage';
+import CallCtrlPage from '../../../src/containers/CallCtrlPage';
+import CallBadgeContainer from '../../../src/containers/CallBadgeContainer';
 
 import MainView from '../MainView';
 import AppView from '../AppView';
@@ -29,7 +31,7 @@ export default function App({
     <Provider store={phone.store} >
       <Router history={phone.router.history} >
         <Route
-          component={props => (
+          component={routerProps => (
             <AppView
               auth={phone.auth}
               alert={phone.alert}
@@ -39,8 +41,16 @@ export default function App({
               rateLimiter={phone.rateLimiter}
               connectivityMonitor={phone.connectivityMonitor}
               callingSettings={phone.callingSettings}>
-              {props.children}
-              <ActiveCallPage
+              {routerProps.children}
+              <CallBadgeContainer
+                locale={phone.locale}
+                webphone={phone.webphone}
+                hidden={routerProps.location.pathname === '/calls/active'}
+                goToCallCtrl={() => {
+                  phone.router.push('/calls/active');
+                }}
+              />
+              <IncomingCallPage
                 locale={phone.locale}
                 webphone={phone.webphone}
                 forwardingNumber={phone.forwardingNumber}
@@ -63,7 +73,7 @@ export default function App({
                   callingSettingsUrl="/settings/calling"
                   regionSettingsUrl="/settings/region"
                 />
-              </ActiveCallPage>
+              </IncomingCallPage>
             </AppView>
           )} >
           <Route
@@ -87,7 +97,6 @@ export default function App({
               </MainView>
             )} >
             <IndexRoute
-
               component={() => (
                 <DialerPage
                   call={phone.call}
@@ -156,6 +165,28 @@ export default function App({
                   composeText={phone.composeText}
                   rolesAndPermissions={phone.rolesAndPermissions}
                   webphone={phone.webphone}
+                />
+              )} />
+            <Route
+              path="/calls/active"
+              component={() => (
+                <CallCtrlPage
+                  locale={phone.locale}
+                  contactMatcher={phone.contactMatcher}
+                  webphone={phone.webphone}
+                  regionSettings={phone.regionSettings}
+                  onAdd={() => {
+                    phone.router.push('/');
+                  }}
+                  onBackButtonClick={() => {
+                    phone.router.push('/calls');
+                  }}
+                  getAvatarUrl={
+                    async (contact) => {
+                      const avatarUrl = await phone.contacts.getImageProfile(contact);
+                      return avatarUrl;
+                    }
+                  }
                 />
               )} />
             <Route
