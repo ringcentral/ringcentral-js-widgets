@@ -144,11 +144,11 @@ class ActiveCallPanel extends Component {
     return (
       <div className={styles.root}>
         <BackHeader
-          onBackClick={this.props.toggleMinimized}
+          onBackClick={this.props.onBackButtonClick}
           backButton={(
             <span className={styles.backButton}>
               <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
-              <span className={styles.backLabel}>Active Calls</span>
+              <span className={styles.backLabel}>{this.props.backButtonLabel}</span>
             </span>
           )}
           buttons={[]}
@@ -181,7 +181,7 @@ ActiveCallPanel.propTypes = {
   onStopRecord: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
   hangup: PropTypes.func.isRequired,
-  toggleMinimized: PropTypes.func.isRequired,
+  onBackButtonClick: PropTypes.func.isRequired,
   onKeyPadChange: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
   children: PropTypes.node,
@@ -190,6 +190,7 @@ ActiveCallPanel.propTypes = {
   selectedMatcherIndex: PropTypes.number.isRequired,
   onSelectMatcherName: PropTypes.func.isRequired,
   avatarUrl: PropTypes.string,
+  backButtonLabel: PropTypes.string,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -200,6 +201,7 @@ ActiveCallPanel.defaultProps = {
   phoneNumber: null,
   children: undefined,
   avatarUrl: null,
+  backButtonLabel: 'Active Calls',
 };
 
 export default ActiveCallPanel;
