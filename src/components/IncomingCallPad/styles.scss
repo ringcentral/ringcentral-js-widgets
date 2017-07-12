@@ -63,6 +63,7 @@
   width: 60%;
   height: 1px;
   :global .rc-tooltip {
+    z-index: 9;
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
     border: solid 1px #e3e3e3;
     border-radius: 0;
