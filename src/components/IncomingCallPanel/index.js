@@ -86,10 +86,13 @@ export default function IncomingCallPanel(props) {
         avatarUrl={props.avatarUrl}
       />
       <IncomingCallPad
+        forwardingNumbers={props.forwardingNumbers}
+        formatPhone={props.formatPhone}
         answer={props.answer}
         reject={props.reject}
         toVoiceMail={props.toVoiceMail}
         replyWithMessage={props.replyWithMessage}
+        onForward={props.onForward}
         currentLocale={props.currentLocale}
       />
       {props.children}
@@ -115,6 +118,8 @@ IncomingCallPanel.propTypes = {
   onSelectMatcherName: PropTypes.func.isRequired,
   avatarUrl: PropTypes.string,
   onBackButtonClick: PropTypes.func.isRequired,
+  forwardingNumbers: PropTypes.array.isRequired,
+  onForward: PropTypes.func.isRequired,
 };
 
 IncomingCallPanel.defaultProps = {

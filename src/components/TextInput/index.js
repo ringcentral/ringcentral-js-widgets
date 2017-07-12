@@ -9,6 +9,7 @@ class TextInput extends Component {
     this.state = {
       value: props.value,
     };
+    this.input = null;
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.props.value) {
@@ -18,9 +19,11 @@ class TextInput extends Component {
     }
   }
   onInputChange = (e) => {
-    this.setState({
-      value: e.currentTarget.value,
-    });
+    let value = e.currentTarget.value;
+    if (typeof this.props.filter === 'function') {
+      value = this.props.filter(value);
+    }
+    this.setState({ value });
     if (typeof this.props.onChange === 'function') {
       this.props.onChange(e);
     }
@@ -49,6 +52,7 @@ class TextInput extends Component {
           invalid && styles.invalid,
         )}>
         <input
+          ref={(input) => { this.input = input; }}
           onChange={this.onInputChange}
           placeholder={placeholder}
           disabled={disabled}
@@ -116,6 +120,7 @@ TextInput.propTypes = {
   defaultValue: PropTypes.string,
   invalid: PropTypes.bool,
   onKeyDown: PropTypes.func,
+  filter: PropTypes.func,
 };
 TextInput.defaultProps = {
   className: undefined,
@@ -130,6 +135,7 @@ TextInput.defaultProps = {
   defaultValue: undefined,
   invalid: false,
   onKeyDown: undefined,
+  filter: undefined,
 };
 
 export default TextInput;
