@@ -9,7 +9,7 @@ import Button from '../Button';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-const cleanRegex = /[^\d+*-]/g;
+const cleanRegex = /[^\d+*-\s]/g;
 
 function ForwardNumbers({
   numbers,
