@@ -1,0 +1,59 @@
+@import '../../lib/commonStyles/fonts.scss';
+@import '../../lib/commonStyles/colors.scss';
+
+// TODO: since it's commonly-used, maybe we can move it to utility lib?
+@mixin truncate-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.messages {
+  height: calc(100% - 85px);
+  padding-top: 15px;
+  overflow-y: auto;
+  @include secondary-font;
+}
+
+.messageItem {
+  height: 40px;
+  line-height: 40px;
+  padding: 0 15px;
+}
+
+.localMessageItem {
+  cursor: pointer;
+}
+
+.localMessageItem:hover {
+  background: #fafafa;
+}
+
+.dl {
+  margin: 0;
+}
+
+.messageSubject {
+  float: left;
+  width: 67%;
+  margin-right: 3%;
+  color: $lightblack;
+  @include truncate-text;
+}
+
+.messageTime {
+  width: 30%;
+  text-align: right;
+  color: $darkergray;
+  @include truncate-text;
+}
+
+.unread {
+  color: $rc-blue;
+}
+.noRecords {
+  color: $darkgray;
+  font-size: 14px;
+  text-align: center;
+  margin-top: 30px;
+}

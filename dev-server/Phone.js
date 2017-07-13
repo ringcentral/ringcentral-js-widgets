@@ -53,6 +53,7 @@ import ActivityMatcher from 'ringcentral-integration/modules/ActivityMatcher';
 import CallLogger from 'ringcentral-integration/modules/CallLogger';
 import ConversationMatcher from 'ringcentral-integration/modules/ConversationMatcher';
 import ConversationLogger from 'ringcentral-integration/modules/ConversationLogger';
+import RecentMessages from 'ringcentral-integration/modules/RecentMessages';
 
 import RouterInteraction from '../src/modules/RouterInteraction';
 
@@ -563,6 +564,13 @@ export default class Phone extends RcModule {
       getState: () => this.state.messages,
     }));
     reducers.messages = this.messages.reducer;
+    this.addModule('recentMessages', new RecentMessages({
+      ...options,
+      client: this.client,
+      messageStore: this.dessageStore,
+      getState: () => this.state.recentMessages
+    }));
+    reducers.recentMessages = this.recentMessages.reducer;
     this._reducer = combineReducers({
       ...reducers,
       app: (state = {

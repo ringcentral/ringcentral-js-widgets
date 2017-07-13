@@ -19,10 +19,9 @@ import CallHistoryPage from '../../../src/containers/CallHistoryPage';
 import IncomingCallPage from '../../../src/containers/IncomingCallPage';
 import CallCtrlPage from '../../../src/containers/CallCtrlPage';
 import CallBadgeContainer from '../../../src/containers/CallBadgeContainer';
-
+import RecentActivityContainer from '../../../src/containers/RecentActivityContainer';
 import MainView from '../MainView';
 import AppView from '../AppView';
-
 
 export default function App({
   phone,
@@ -73,6 +72,7 @@ export default function App({
                   callingSettingsUrl="/settings/calling"
                   regionSettingsUrl="/settings/region"
                 />
+
               </IncomingCallPage>
             </AppView>
           )} >
@@ -126,7 +126,8 @@ export default function App({
                   regionSettingsUrl="/settings/region"
                   callingSettingsUrl="/settings/calling"
                 />
-              )} />
+              )}
+            />
             <Route
               path="/settings/region"
               component={() => (
@@ -170,24 +171,34 @@ export default function App({
             <Route
               path="/calls/active"
               component={() => (
-                <CallCtrlPage
-                  locale={phone.locale}
-                  contactMatcher={phone.contactMatcher}
-                  webphone={phone.webphone}
-                  regionSettings={phone.regionSettings}
-                  onAdd={() => {
-                    phone.router.push('/');
-                  }}
-                  onBackButtonClick={() => {
-                    phone.router.push('/calls');
-                  }}
-                  getAvatarUrl={
-                    async (contact) => {
-                      const avatarUrl = await phone.contacts.getImageProfile(contact);
-                      return avatarUrl;
+                <div>
+                  <CallCtrlPage
+                    locale={phone.locale}
+                    contactMatcher={phone.contactMatcher}
+                    webphone={phone.webphone}
+                    regionSettings={phone.regionSettings}
+                    onAdd={() => {
+                      phone.router.push('/');
+                    }}
+                    onBackButtonClick={() => {
+                      phone.router.push('/calls');
+                    }}
+                    getAvatarUrl={
+                      async (contact) => {
+                        const avatarUrl = await phone.contacts.getImageProfile(contact);
+                        return avatarUrl;
+                      }
                     }
-                  }
-                />
+                  />
+                  <RecentActivityContainer
+                    locale={phone.locale}
+                    router={phone.router}
+                    dateTimeFormat={phone.dateTimeFormat}
+                    webphone={phone.webphone}
+                    contactMatcher={phone.contactMatcher}
+                    recentMessages={phone.recentMessages}
+                  />
+                </div>
               )} />
             <Route
               path="/history"
