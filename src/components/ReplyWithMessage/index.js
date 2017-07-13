@@ -249,6 +249,7 @@ export default class ReplyWithMessage extends Component {
               classnames(styles.replyButton, disableButton ? styles.disabled : null)
             }
             onClick={this.onReply}
+            disabled={disableButton}
           >
             <span className={styles.buttonText}>
               {i18n.getString('send', currentLocale)}
