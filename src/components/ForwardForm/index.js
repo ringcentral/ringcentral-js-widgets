@@ -28,9 +28,9 @@ function ForwardNumbers({
             }
             onClick={() => onSelect(index)}
           >
-            <span className={styles.label}>{number.label}</span>
+            <span className={styles.label} title={number.label}>{number.label}</span>
             <span className={styles.colon}>:</span>
-            <span>{formatPhone(number.phoneNumber)}</span>
+            <span >{formatPhone(number.phoneNumber)}</span>
           </div>
         ))
       }

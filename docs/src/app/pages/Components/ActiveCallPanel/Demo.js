@@ -12,7 +12,7 @@ props.onRecord = () => null;
 props.onStopRecord = () => null;
 props.onAdd = () => null;
 props.hangup = () => null;
-props.toggleMinimized = () => null;
+props.onBackButtonClick = () => null;
 props.onKeyPadChange = () => null;
 props.formatPhone = phone => phone;
 props.phoneNumber = '1234567890';
