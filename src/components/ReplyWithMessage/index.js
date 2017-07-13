@@ -24,7 +24,7 @@ function TimeInput(props) {
     <div className={styles.timeInput}>
       <span className={styles.timeValue}>
         <input
-          maxLength={3}
+          maxLength={2}
           value={props.timeValue}
           onChange={props.onTimeValueChange}
           ref={props.inputRef}
