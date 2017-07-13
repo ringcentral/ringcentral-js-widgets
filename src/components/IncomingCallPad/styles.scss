@@ -58,3 +58,26 @@
     }
   }
 }
+
+.replyWithMessageContainner {
+  display: block;
+  width: 60%;
+  height: 1px;
+  :global .rc-tooltip {
+    z-index: 9;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+    border: solid 1px #e3e3e3;
+    border-radius: 0;
+    opacity: 1;
+    width: 79%;
+    min-width: 192px;
+    background: #fff;
+  }
+  :global .rc-tooltip-inner {
+    padding: 0;
+    border: none;
+  }
+  :global .rc-tooltip-arrow {
+    border-top-color: #e3e3e3;
+  }
+}

@@ -4,6 +4,7 @@ import Tooltip from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap_white.css';
 
 import ForwardForm from '../ForwardForm';
+import ReplyWithMessage from '../ReplyWithMessage';
 import ActiveCallButton from '../ActiveCallButton';
 import MessageIcon from '../../assets/images/MessageFill.svg';
 import ForwardIcon from '../../assets/images/Forward.svg';
@@ -19,6 +20,9 @@ export default class IncomingCallPad extends Component {
     super(props);
     this.state = {
       showForward: false,
+      forwardNumber: '',
+      replyMessage: null,
+      showReplyWithMessage: false,
     };
     this.onShowForwardChange = (visible) => {
       this.setState({
@@ -31,6 +35,17 @@ export default class IncomingCallPad extends Component {
     };
     this.closeForwardForm = () => {
       this.onShowForwardChange(false);
+    };
+    this.onShowReplyWithMessageChange = (visible) => {
+      this.setState({
+        showReplyWithMessage: visible,
+      });
+    };
+    this.onReplyMessageChange = (message) => {
+      this.setState({ replyMessage: message });
+    };
+    this.closeReplyWithMessage = () => {
+      this.onShowReplyWithMessageChange(false);
     };
   }
 
@@ -49,6 +64,12 @@ export default class IncomingCallPad extends Component {
           className={styles.forwardContainner}
           ref={(containner) => {
             this.forwardContainner = containner;
+          }}
+        />
+        <div
+          className={styles.replyWithMessageContainner}
+          ref={(containner) => {
+            this.replyWithMessageContainner = containner;
           }}
         />
         <div className={styles.buttonRow}>
@@ -79,12 +100,31 @@ export default class IncomingCallPad extends Component {
               className={styles.callButton}
             />
           </Tooltip>
-          <ActiveCallButton
-            onClick={() => console.log('test')}
-            icon={MessageIcon}
-            title={i18n.getString('reply', currentLocale)}
-            className={styles.callButton}
-          />
+          <Tooltip
+            defaultVisible={false}
+            visible={this.state.showReplyWithMessage}
+            onVisibleChange={this.onShowReplyWithMessageChange}
+            placement="top"
+            trigger="click"
+            arrowContent={<div className="rc-tooltip-arrow-inner" />}
+            getTooltipContainer={() => this.replyWithMessageContainner}
+            overlay={
+              <ReplyWithMessage
+                currentLocale={currentLocale}
+                onCancel={this.closeReplyWithMessage}
+                value={this.state.replyMessage}
+                onChange={this.onReplyMessageChange}
+                onReply={this.props.replyWithMessage}
+              />
+            }
+          >
+            <ActiveCallButton
+              onClick={() => null}
+              icon={MessageIcon}
+              title={i18n.getString('reply', currentLocale)}
+              className={styles.callButton}
+            />
+          </Tooltip>
           <ActiveCallButton
             onClick={reject}
             icon={IgnoreIcon}
@@ -123,6 +163,7 @@ IncomingCallPad.propTypes = {
   forwardingNumbers: PropTypes.array.isRequired,
   formatPhone: PropTypes.func,
   onForward: PropTypes.func.isRequired,
+  replyWithMessage: PropTypes.func.isRequired,
 };
 
 IncomingCallPad.defaultProps = {

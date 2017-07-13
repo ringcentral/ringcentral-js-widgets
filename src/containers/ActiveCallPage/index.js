@@ -158,6 +158,7 @@ class ActiveCallPage extends Component {
     }
     return (
       <ActiveCallPanel
+        backButtonLabel={i18n.getString('activeCalls', this.props.currentLocale)}
         currentLocale={this.props.currentLocale}
         formatPhone={this.props.formatPhone}
         phoneNumber={phoneNumber}
@@ -167,7 +168,7 @@ class ActiveCallPage extends Component {
         isOnMute={session.isOnMute}
         isOnHold={session.isOnHold}
         isOnRecord={session.isOnRecord}
-        toggleMinimized={this.props.toggleMinimized}
+        onBackButtonClick={this.props.toggleMinimized}
         onMute={this.onMute}
         onUnmute={this.onUnmute}
         onHold={this.onHold}
