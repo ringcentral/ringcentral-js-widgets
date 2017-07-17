@@ -19,14 +19,14 @@ class ActiveCallDialPad extends Component {
     this.state = {
       value: '',
     };
-    this.onTextChange = (e) => {
-      const value = e.currentTarget.value;
-      const cleanValue = value.replace(cleanRegex, '');
-      if (value !== cleanValue) {
-        return;
-      }
-      this.setState({ value });
-    };
+    // this.onTextChange = (e) => {
+      // const value = e.currentTarget.value;
+      // const cleanValue = value.replace(cleanRegex, '');
+      // if (value !== cleanValue) {
+      //   return;
+      // }
+      // this.setState({ value });
+    // };
     this.onButtonOutput = (key) => {
       this.setState((preState) => {
         const value = preState.value + key;
@@ -39,11 +39,12 @@ class ActiveCallDialPad extends Component {
   render() {
     return (
       <div className={styles.root}>
-        <TextInput
-          className={styles.dialInput}
-          value={this.state.value}
-          onChange={this.onTextChange}
-        />
+        <div className={styles.dialInput}>
+          <input
+            className={styles.input}
+            value={this.state.value}
+          />
+        </div>
         <DialPad
           className={styles.dialPad}
           onButtonOutput={this.onButtonOutput}
