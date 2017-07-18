@@ -1,5 +1,4 @@
 @import '../../lib/commonStyles/colors';
-@import '../../lib/commonStyles/fonts';
 .root {
   margin: 44px 10px 0 10px;
 }
@@ -13,7 +12,6 @@
   box-sizing: content-box;
   border: 0px;
   margin-bottom: 5px;
-  color: $lightblack;
   padding: 5px;
   input {
     box-sizing: content-box;

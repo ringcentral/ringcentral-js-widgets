@@ -98,9 +98,9 @@ class ActiveCallPage extends Component {
   render() {
     const session = this.props.session;
     const active = !!session.id;
-    // if (!active) {
-    //   return null;
-    // }
+    if (!active) {
+      return null;
+    }
     if (this.props.minimized) {
       return (
         <ActiveCallBadge

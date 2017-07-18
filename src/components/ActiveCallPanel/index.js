@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
-
 import BackHeader from '../BackHeader';
 import Panel from '../Panel';
 import DurationCounter from '../DurationCounter';
@@ -150,9 +149,9 @@ class ActiveCallPanel extends Component {
             <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
             <span className={styles.backLabel}>{this.props.backButtonLabel}</span>
           </span>
-          )}
+        )}
         buttons={[]}
-        />
+      />
     );
     return (
       <div className={styles.root}>
