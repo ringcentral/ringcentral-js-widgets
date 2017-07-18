@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
+
 import BackHeader from '../BackHeader';
 import Panel from '../Panel';
 import DurationCounter from '../DurationCounter';
@@ -141,18 +142,21 @@ class ActiveCallPanel extends Component {
         currentLocale={this.props.currentLocale}
       />
     ) : null;
+    const backHeader = this.state.isShowKeyPad ? null : (
+      <BackHeader
+        onBackClick={this.props.onBackButtonClick}
+        backButton={(
+          <span className={styles.backButton}>
+            <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
+            <span className={styles.backLabel}>{this.props.backButtonLabel}</span>
+          </span>
+          )}
+        buttons={[]}
+        />
+    );
     return (
       <div className={styles.root}>
-        <BackHeader
-          onBackClick={this.props.onBackButtonClick}
-          backButton={(
-            <span className={styles.backButton}>
-              <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
-              <span className={styles.backLabel}>{this.props.backButtonLabel}</span>
-            </span>
-          )}
-          buttons={[]}
-        />
+        {backHeader}
         <Panel>
           {userInfo}
           {buttonsPad}
