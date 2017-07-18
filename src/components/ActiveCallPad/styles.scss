@@ -7,9 +7,22 @@
 
 .callButton {
   width: 33.33%;
-  &.disabled g{
-    background: #ffffff;
-    border: solid 1px #e3e3e3;
+  &.disabled {
+    g {
+      fill: $lightgray;
+    }
+    circle {
+      fill: $lightgray;
+      stroke: $gray;
+    }
+    path {
+      fill:$rc-blue-highlight-solid;
+    }
+  }
+  &.disabled:hover{
+    circle {
+      stroke: $gray;
+    }
   }
 }
 
