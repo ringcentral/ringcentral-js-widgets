@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import Textinput from '../src/components/TextInput';
+import Textinput from '../../src/components/TextInput';
 
 describe('<Textinput />', () => {
   it('should render correct', () => {
