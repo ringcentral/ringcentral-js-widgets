@@ -16,12 +16,33 @@
   margin-bottom: 2px;
 }
 
-.buttonActive {
-  background: $primary-color;
-}
-
 .buttonTitle {
   @include secondary-font;
   font-size: 12px;
   padding: 5px 0;
+}
+
+.buttonActive {
+  circle {
+    fill: $primary-color;
+    stroke: $primary-color;
+  }
+  path {
+    fill: #ffffff;
+  }
+}
+
+.buttonDisabled {
+  circle {
+    fill: $lightgray;
+    stroke: $gray;
+  }
+  path {
+    fill:$primary-color-highlight-solid;
+  }
+  &:hover {
+    circle {
+      stroke: $gray;
+    }
+  }
 }

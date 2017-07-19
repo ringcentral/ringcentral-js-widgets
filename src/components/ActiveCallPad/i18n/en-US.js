@@ -3,6 +3,7 @@ export default {
   mute: 'Mute',
   keypad: 'Keypad',
   hold: 'Hold',
+  onHold: 'On Hold',
   park: 'Park',
   stopRecord: 'Stop',
   record: 'Record',

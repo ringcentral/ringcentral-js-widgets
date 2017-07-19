@@ -52,8 +52,12 @@ export default function ActiveCallPad(props) {
         />
         <ActiveCallButton
           onClick={onHoldClicked}
-          className={styles.callButton}
-          title={i18n.getString('hold', props.currentLocale)}
+          className={classnames(styles.callButton)}
+          title={
+            props.isOnHold ?
+            i18n.getString('onHold', props.currentLocale) :
+            i18n.getString('hold', props.currentLocale)
+          }
           active={props.isOnHold}
           icon={HoldIcon}
         />
@@ -61,9 +65,10 @@ export default function ActiveCallPad(props) {
       <div className={styles.buttonRow}>
         <ActiveCallButton
           onClick={props.onHold ? null : null}
-          className={classnames(styles.callButton, props.isOnHold ? styles.disabled : null)}
+          className={classnames(styles.callButton)}
           title={i18n.getString('park', props.currentLocale)}
           icon={ParkIcon}
+          disabled={props.isOnHold}
         />
         <ActiveCallButton
           onClick={props.onHold ? null : onRecordClicked}
@@ -73,8 +78,9 @@ export default function ActiveCallPad(props) {
               i18n.getString('record', props.currentLocale)
           }
           active={props.isOnRecord}
-          className={classnames(styles.callButton, props.isOnHold ? styles.disabled : null)}
+          className={classnames(styles.callButton)}
           icon={RecordIcon}
+          disabled={props.isOnHold}
         />
         <ActiveCallButton
           onClick={props.onAdd}
@@ -94,7 +100,8 @@ export default function ActiveCallPad(props) {
           onClick={props.onHold ? null : null}
           title={i18n.getString('flip', props.currentLocale)}
           icon={FlipIcon}
-          className={classnames(styles.callButton, props.isOnHold ? styles.disabled : null)}
+          className={classnames(styles.callButton)}
+          disabled={props.isOnHold}
         />
       </div>
       <div className={styles.buttonRow}>
