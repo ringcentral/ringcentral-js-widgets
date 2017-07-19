@@ -103,7 +103,7 @@
   .number {
     box-sizing: border-box;
     height: 28px;
-    padding: 5px 0 5px 20px;
+    padding: 8px 20px 5px 20px;
     span {
       display: inline-block;
       overflow: hidden;
@@ -111,7 +111,7 @@
       text-overflow: ellipsis;
     }
     .label {
-      max-width: 33px;
+      max-width: 38px;
     }
     .colon {
       padding-right: 5px;

@@ -98,9 +98,9 @@ class ActiveCallPage extends Component {
   render() {
     const session = this.props.session;
     const active = !!session.id;
-    if (!active) {
-      return null;
-    }
+    // if (!active) {
+    //   return null;
+    // }
     if (this.props.minimized) {
       return (
         <ActiveCallBadge
@@ -119,7 +119,7 @@ class ActiveCallPage extends Component {
     ) {
       isRinging = true;
     }
-    // isRinging = true;
+    isRinging = true;
     const phoneNumber = session.direction === callDirections.outbound ?
       session.to : session.from;
     const nameMatches = session.direction === callDirections.outbound ?
