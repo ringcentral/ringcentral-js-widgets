@@ -6,3 +6,5 @@ function mockedMatchMedia() {
   };
 }
 window.matchMedia = window.matchMedia || mockedMatchMedia;
+
+console.log = () => {};

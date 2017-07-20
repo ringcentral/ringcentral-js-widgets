@@ -83,11 +83,13 @@
     "react-test-renderer": "^15.6.1",
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
+    "redux-logic": "^0.12.2",
     "redux-logic-test": "^1.0.5",
     "redux-thunk": "^2.2.0",
     "ringcentral": "^3.1.1",
     "ringcentral-client": "^1.0.0-rc1",
     "ringcentral-integration": "^0.7.0-rc13",
+    "rxjs": "^5.4.2",
     "sass-loader": "^6.0.5",
     "source-map-loader": "^0.2.1",
     "style-loader": "^0.18.2",
@@ -110,8 +112,12 @@
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/test/__mocks__/fileMock.js",
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|ogg)$": "<rootDir>/test/__mocks__/fileMock.js",
       "\\.(css|less|scss)$": "<rootDir>/test/__mocks__/styleMock.js"
+    },
+    "transform": {
+      "loadLocale\\.js$": "<rootDir>/test/__mocks__/loadLocale.js",
+      "^.+\\.js$": "babel-jest"
     },
     "setupFiles": [
       "./test/setup.js"
