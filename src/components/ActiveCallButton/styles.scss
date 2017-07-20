@@ -42,16 +42,9 @@
   }
   g {
     cursor: default;
+
     &:hover {
       circle {
-        stroke: $gray;
-      }
-    }
-  }
-  .btnSvgGroup {
-    cursor: default;
-    &:hover {
-      .circle {
         stroke: $gray;
       }
     }
