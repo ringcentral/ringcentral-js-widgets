@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
-import styles from './expandable-styles.scss';
 
-export default function expandable({ height = '50%', offset = '40px' }) {
+export default function expandable({ styles = {}, className = null }) {
   return WrappedComponent =>
     class Expandable extends PureComponent {
       constructor(props) {
@@ -19,9 +18,16 @@ export default function expandable({ height = '50%', offset = '40px' }) {
 
       render() {
         const { expanded } = this.state;
-        const _height = expanded ? height : offset;
+        console.log(styles);
+        const _styles = Object.assign({}, styles, {
+          height: expanded ? styles.height : styles.offset
+        });
+        console.log(styles, _styles);
         return (
-          <div className={styles.expandable} style={{ height: _height }}>
+          <div
+            style={_styles}
+            className={className}
+          >
             <WrappedComponent
               onToggle={this.togglePanel}
               expanded={expanded}

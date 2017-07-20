@@ -35,14 +35,15 @@
 
 .messageSubject {
   float: left;
-  width: 67%;
-  margin-right: 3%;
+  width: 78%;
+  margin-right: 2%;
   color: $lightblack;
+  text-align: left;
   @include truncate-text;
 }
 
 .messageTime {
-  width: 30%;
+  width: 20%;
   text-align: right;
   color: $darkergray;
   @include truncate-text;
@@ -56,4 +57,9 @@
   font-size: 14px;
   text-align: center;
   margin-top: 30px;
+}
+.spinner {
+  width: 43px;
+  height: 43px;
+  margin: 30px auto;
 }

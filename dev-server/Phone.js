@@ -567,7 +567,7 @@ export default class Phone extends RcModule {
     this.addModule('recentMessages', new RecentMessages({
       ...options,
       client: this.client,
-      messageStore: this.dessageStore,
+      messageStore: this.messageStore,
       getState: () => this.state.recentMessages
     }));
     reducers.recentMessages = this.recentMessages.reducer;

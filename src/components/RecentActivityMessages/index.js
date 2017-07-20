@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
-import SpinnerOverlay from '../SpinnerOverlay';
+import Spinner from '../Spinner';
 import styles from './styles.scss';
 import i18n from './i18n';
 
@@ -38,7 +38,7 @@ export default function RecentActivityMessages({
 }) {
   let messageListView = null;
   if (!isMessagesLoaded) {
-    messageListView = (<SpinnerOverlay />);
+    messageListView = (<Spinner className={styles.spinner} ringWidth={4} />);
   } else if (messages.length > 0) {
     messageListView = messages.map(message => (
       <MessageItem

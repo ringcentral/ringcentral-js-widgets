@@ -171,25 +171,24 @@ export default function App({
             <Route
               path="/calls/active"
               component={() => (
-                <div>
-                  <CallCtrlPage
-                    locale={phone.locale}
-                    contactMatcher={phone.contactMatcher}
-                    webphone={phone.webphone}
-                    regionSettings={phone.regionSettings}
-                    onAdd={() => {
-                      phone.router.push('/');
-                    }}
-                    onBackButtonClick={() => {
-                      phone.router.push('/calls');
-                    }}
-                    getAvatarUrl={
-                      async (contact) => {
-                        const avatarUrl = await phone.contacts.getImageProfile(contact);
-                        return avatarUrl;
-                      }
+                <CallCtrlPage
+                  locale={phone.locale}
+                  contactMatcher={phone.contactMatcher}
+                  webphone={phone.webphone}
+                  regionSettings={phone.regionSettings}
+                  onAdd={() => {
+                    phone.router.push('/');
+                  }}
+                  onBackButtonClick={() => {
+                    phone.router.push('/calls');
+                  }}
+                  getAvatarUrl={
+                    async (contact) => {
+                      const avatarUrl = await phone.contacts.getImageProfile(contact);
+                      return avatarUrl;
                     }
-                  />
+                  }
+                >
                   <RecentActivityContainer
                     locale={phone.locale}
                     router={phone.router}
@@ -198,7 +197,7 @@ export default function App({
                     contactMatcher={phone.contactMatcher}
                     recentMessages={phone.recentMessages}
                   />
-                </div>
+                </CallCtrlPage>
               )} />
             <Route
               path="/history"
