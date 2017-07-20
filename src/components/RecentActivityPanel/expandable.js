@@ -18,18 +18,16 @@ export default function expandable({ styles = {}, className = null }) {
 
       render() {
         const { expanded } = this.state;
-        console.log(styles);
         const _styles = Object.assign({}, styles, {
           height: expanded ? styles.height : styles.offset
         });
-        console.log(styles, _styles);
         return (
           <div
             style={_styles}
             className={className}
           >
             <WrappedComponent
-              onToggle={this.togglePanel}
+              onPanelToggle={this.togglePanel}
               expanded={expanded}
               {...this.props}
             />
