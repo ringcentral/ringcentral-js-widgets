@@ -7,7 +7,7 @@ beforeEach(() => {
   wrapper = getWrapper();
 });
 
-describe('test alerts', () => {
+describe('initial test', () => {
   test('initial state', () => {
     expect(wrapper).toBeDefined();
     const json = toJson(wrapper);
