@@ -10,7 +10,8 @@ export default function ActiveCallButton(props) {
   const buttonClassName = classnames(
     styles.button,
     props.buttonClassName,
-    props.active ? styles.buttonActive : null
+    props.active ? styles.buttonActive : null,
+    props.disabled ? styles.buttonDisabled : null,
   );
   return (
     <div className={className}>

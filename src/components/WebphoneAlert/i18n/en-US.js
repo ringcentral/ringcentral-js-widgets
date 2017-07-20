@@ -8,4 +8,5 @@ export default {
   [webphoneErrors.getSipProvisionError]: 'You have no permission to send message.',
   [webphoneErrors.toVoiceMailError]: 'Cannot send call to voicemail due to internal error',
   [webphoneErrors.muteError]: 'Call cannot be muted at the moment.',
+  [webphoneErrors.holdError]: 'Call cannot be hold at the moment.',
 };
