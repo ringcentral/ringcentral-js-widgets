@@ -40,9 +40,20 @@
   path {
     fill:$primary-color-highlight-solid;
   }
-  &:hover {
-    circle {
-      stroke: $gray;
+  g {
+    cursor: default;
+    &:hover {
+      circle {
+        stroke: $gray;
+      }
+    }
+  }
+  .btnSvgGroup {
+    cursor: default;
+    &:hover {
+      .circle {
+        stroke: $gray;
+      }
     }
   }
 }
