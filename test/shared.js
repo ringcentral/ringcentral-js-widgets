@@ -12,21 +12,21 @@ require('dotenv').config();
 
 const apiConfig = process.env;
 
-const phone = new Phone({
-  apiConfig,
-  brandConfig,
-  prefix,
-  appVersion: version,
-});
+export const getWrapper = () => {
+  const phone = new Phone({
+    apiConfig,
+    brandConfig,
+    prefix,
+    appVersion: version,
+  });
 
-const store = createMockStore({
-  reducer: phone.reducer
-});
+  const store = createMockStore({
+    reducer: phone.reducer
+  });
 
-phone.setStore(store);
+  phone.setStore(store);
 
-window.phone = phone;
+  window.phone = phone;
 
-const wrapper = mount(<App phone={phone} />);
-
-export default wrapper;
+  return mount(<App phone={phone} />);
+};

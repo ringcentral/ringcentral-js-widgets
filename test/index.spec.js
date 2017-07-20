@@ -1,6 +1,11 @@
 import toJson from 'enzyme-to-json';
 
-import wrapper from './shared';
+import { getWrapper } from './shared';
+
+let wrapper = null;
+beforeEach(() => {
+  wrapper = getWrapper();
+});
 
 describe('test alerts', () => {
   test('initial state', () => {
@@ -8,6 +13,5 @@ describe('test alerts', () => {
     const json = toJson(wrapper);
     expect(json).toBeDefined();
     expect(json.children[0].type).toEqual('Provider');
-    console.info(toJson(wrapper));
   });
 });
