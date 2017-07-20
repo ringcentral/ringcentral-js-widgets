@@ -74,7 +74,7 @@ export default class IncomingCallPad extends Component {
         />
         <div className={styles.buttonRow}>
           <Tooltip
-            defaultVisible
+            defaultVisible={false}
             visible={this.state.showForward}
             onVisibleChange={this.onShowForwardChange}
             placement="topRight"
