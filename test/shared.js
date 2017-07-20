@@ -27,4 +27,6 @@ phone.setStore(store);
 
 window.phone = phone;
 
-export const wrapper = mount(<App phone={phone} />);
+const wrapper = mount(<App phone={phone} />);
+
+export default wrapper;
