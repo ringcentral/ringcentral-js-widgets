@@ -78,7 +78,7 @@ export default function ActiveCallPad(props) {
               i18n.getString('record', props.currentLocale)
           }
           active={props.isOnRecord}
-          className={classnames(styles.callButton)}
+          className={styles.callButton}
           icon={RecordIcon}
           disabled={props.isOnHold}
         />
