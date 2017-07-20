@@ -1,6 +1,7 @@
 import React from 'react';
 // eslint-disable-next-line
 import NavigationBar from 'ringcentral-widget/components/NavigationBar';
+import TabNavigationButton from 'ringcentral-widget/components/TabNavigationButton';
 import dynamicsFont from 'ringcentral-widget/assets/DynamicsFont/DynamicsFont.scss';
 
 const props = {};
@@ -60,6 +61,7 @@ props.tabs = [
 props.goTo = (path) => alert(`go to ${path}`)
 const NavigationBarDemo = () => (
   <NavigationBar
+    button={TabNavigationButton}
     {...props}
   />
 );
