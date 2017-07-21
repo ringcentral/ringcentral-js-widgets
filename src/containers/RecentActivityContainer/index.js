@@ -65,6 +65,7 @@ function mapToFunctions(_, {
   return {
     dateTimeFormatter,
     navigateTo(path) {
+      webphone.toggleMinimized();
       router.push(path);
     },
     getRecentMessages: async () => recentMessages.getMessages(currentContact),

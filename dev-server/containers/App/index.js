@@ -72,7 +72,14 @@ export default function App({
                   callingSettingsUrl="/settings/calling"
                   regionSettingsUrl="/settings/region"
                 />
-
+                <RecentActivityContainer
+                  locale={phone.locale}
+                  router={phone.router}
+                  dateTimeFormat={phone.dateTimeFormat}
+                  webphone={phone.webphone}
+                  contactMatcher={phone.contactMatcher}
+                  recentMessages={phone.recentMessages}
+                />
               </IncomingCallPage>
             </AppView>
           )} >
