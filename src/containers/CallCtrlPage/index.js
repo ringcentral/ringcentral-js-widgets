@@ -232,6 +232,7 @@ CallCtrlContainer.propTypes = {
   getAvatarUrl: PropTypes.func.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
+  children: PropTypes.node
 };
 
 export default CallCtrlContainer;

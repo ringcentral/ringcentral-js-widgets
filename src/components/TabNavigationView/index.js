@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
 import NavigationBar from '../NavigationBar';
+import TabNavigationButton from '../TabNavigationButton';
 
 function TabNavigationView(props) {
   const navBar = (
     <NavigationBar
+      button={TabNavigationButton}
       tabs={props.tabs}
       goTo={props.goTo}
       currentPath={props.currentPath}
