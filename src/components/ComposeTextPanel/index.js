@@ -38,10 +38,6 @@ class ComposeTextPanel extends Component {
   constructor(props) {
     super(props);
 
-    // this.state = {
-    //   showAlert: !this.hasSenderNumbers() && this.props.outboundSMS,
-    // };
-
     this.onSenderChange = (value) => {
       this.props.updateSenderNumber(value);
     };
