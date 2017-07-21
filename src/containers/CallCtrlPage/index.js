@@ -15,8 +15,14 @@ class CallCtrlPage extends Component {
   constructor(props) {
     super(props);
 
+    let selectedMatcherIndex = 0;
+    if (props.session.contactMatch) {
+      selectedMatcherIndex = props.nameMatches.findIndex(match =>
+        match.id === props.session.contactMatch.id
+      );
+    }
     this.state = {
-      selectedMatcherIndex: 0,
+      selectedMatcherIndex,
       avatarUrl: null,
     };
 
@@ -26,10 +32,10 @@ class CallCtrlPage extends Component {
         selectedMatcherIndex: (index - 1),
         avatarUrl: null,
       });
-      const nameMatches = this.props.session.direction === callDirections.outbound ?
-        this.props.toMatches : this.props.fromMatches;
+      const nameMatches = this.props.nameMatches;
       const contact = nameMatches && nameMatches[index - 1];
       if (contact) {
+        this.props.updateSessionMatchedContact(this.props.session.id, contact);
         this.props.getAvatarUrl(contact).then((avatarUrl) => {
           this.setState({ avatarUrl });
         });
@@ -56,13 +62,19 @@ class CallCtrlPage extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.session.id !== nextProps.session.id) {
+      let contact = nextProps.session.contactMatch;
+      let selectedMatcherIndex = 0;
+      if (!contact) {
+        contact = nextProps.nameMatches && nextProps.nameMatches[0];
+      } else {
+        selectedMatcherIndex = nextProps.nameMatches.findIndex(match =>
+          match.id === contact.id
+        );
+      }
       this.setState({
-        selectedMatcherIndex: 0,
+        selectedMatcherIndex,
         avatarUrl: null,
       });
-      const nameMatches = nextProps.session.direction === callDirections.outbound ?
-        nextProps.toMatches : nextProps.fromMatches;
-      const contact = nameMatches && nameMatches[0];
       if (contact) {
         nextProps.getAvatarUrl(contact).then((avatarUrl) => {
           this.setState({ avatarUrl });
@@ -79,8 +91,6 @@ class CallCtrlPage extends Component {
     // isRinging = true;
     const phoneNumber = session.direction === callDirections.outbound ?
       session.to : session.from;
-    const nameMatches = session.direction === callDirections.outbound ?
-      this.props.toMatches : this.props.fromMatches;
     let fallbackUserName;
     if (session.direction === callDirections.inbound && session.from === 'anonymous') {
       fallbackUserName = i18n.getString('anonymous', this.props.currentLocale);
@@ -110,7 +120,7 @@ class CallCtrlPage extends Component {
         onKeyPadChange={this.onKeyPadChange}
         hangup={this.hangup}
         onAdd={this.props.onAdd}
-        nameMatches={nameMatches}
+        nameMatches={this.props.nameMatches}
         fallBackName={fallbackUserName}
         areaCode={this.props.areaCode}
         countryCode={this.props.countryCode}
@@ -134,6 +144,7 @@ CallCtrlPage.propTypes = {
     isOnRecord: PropTypes.bool,
     to: PropTypes.string,
     from: PropTypes.string,
+    contactMatch: PropTypes.object,
   }).isRequired,
   currentLocale: PropTypes.string.isRequired,
   onMute: PropTypes.func.isRequired,
@@ -147,12 +158,12 @@ CallCtrlPage.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
   children: PropTypes.node,
-  toMatches: PropTypes.array.isRequired,
-  fromMatches: PropTypes.array.isRequired,
+  nameMatches: PropTypes.array.isRequired,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   getAvatarUrl: PropTypes.func.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
+  updateSessionMatchedContact: PropTypes.func.isRequired,
 };
 
 CallCtrlPage.defaultProps = {
@@ -167,9 +178,12 @@ function mapToProps(_, {
 }) {
   const currentSession = webphone.currentSession || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
+  const fromMatches = (contactMapping && contactMapping[currentSession.from]) || [];
+  const toMatches = (contactMapping && contactMapping[currentSession.to]) || [];
+  const nameMatches =
+    currentSession.direction === callDirections.outbound ? toMatches : fromMatches;
   return {
-    fromMatches: (contactMapping && contactMapping[currentSession.from]) || [],
-    toMatches: (contactMapping && contactMapping[currentSession.to]) || [],
+    nameMatches,
     currentLocale: locale.currentLocale,
     session: currentSession,
     areaCode: regionSettings.areaCode,
@@ -198,8 +212,11 @@ function mapToFunctions(_, {
     onRecord: sessionId => webphone.startRecord(sessionId),
     onStopRecord: sessionId => webphone.stopRecord(sessionId),
     sendDTMF: (value, sessionId) => webphone.sendDTMF(value, sessionId),
+    updateSessionMatchedContact: (sessionId, contact) =>
+      webphone.updateSessionMatchedContact(sessionId, contact),
     getAvatarUrl,
     onBackButtonClick,
+    onAdd,
   };
 }
 
