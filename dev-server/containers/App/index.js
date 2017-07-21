@@ -14,7 +14,7 @@ import ConversationPage from '../../../src/containers/ConversationPage';
 import ConferencePage from '../../../src/containers/ConferencePage';
 import MessagesPage from '../../../src/containers/MessagesPage';
 import SettingsPage from '../../../src/containers/SettingsPage';
-import CallMonitorPage from '../../../src/containers/CallMonitorPage';
+import ActiveCallsPage from '../../../src/containers/ActiveCallsPage';
 import CallHistoryPage from '../../../src/containers/CallHistoryPage';
 import IncomingCallPage from '../../../src/containers/IncomingCallPage';
 import CallCtrlPage from '../../../src/containers/CallCtrlPage';
@@ -189,7 +189,7 @@ export default function App({
             <Route
               path="/calls"
               component={() => (
-                <CallMonitorPage
+                <ActiveCallsPage
                   locale={phone.locale}
                   callMonitor={phone.callMonitor}
                   contactMatcher={phone.contactMatcher}
