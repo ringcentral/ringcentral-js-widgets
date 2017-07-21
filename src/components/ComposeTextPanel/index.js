@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import messageSenderMessages from
-'ringcentral-integration/modules/MessageSender/messageSenderMessages';
 import classnames from 'classnames';
 import i18n from './i18n';
 import styles from './styles.scss';
 import RecipientsInput from '../RecipientsInput';
-import AlertDisplay from '../AlertDisplay';
-import MessageSenderAlert from '../MessageSenderAlert';
 import Select from '../DropdownSelect';
+import SpinnerOverlay from '../SpinnerOverlay';
+import NoSenderAlert from './NoSenderAlert';
 
 
 function SenderField(props) {
@@ -35,13 +33,14 @@ SenderField.propTypes = {
   options: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
 };
 
+
 class ComposeTextPanel extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      showAlert: !this.hasSenderNumbers() && this.props.outboundSMS,
-    };
+    // this.state = {
+    //   showAlert: !this.hasSenderNumbers() && this.props.outboundSMS,
+    // };
 
     this.onSenderChange = (value) => {
       this.props.updateSenderNumber(value);
@@ -88,19 +87,6 @@ class ComposeTextPanel extends Component {
       this.props.send();
       console.debug('send message ...');
     };
-    this.onDismissAlert = () => {
-      this.setState({
-        showAlert: false
-      });
-    };
-    this.getRenderer = () => MessageSenderAlert;
-    this.messages = [
-      {
-        id: '1',
-        level: 'warning',
-        message: messageSenderMessages.senderNumberInvalid,
-      }
-    ];
   }
 
   hasSenderNumbers() {
@@ -108,14 +94,13 @@ class ComposeTextPanel extends Component {
   }
 
   render() {
-    const noSenderAlert = this.state.showAlert ? (
-      <AlertDisplay
-        currentLocale={this.props.currentLocale}
-        messages={this.messages}
-        dismiss={this.onDismissAlert}
-        getRenderer={this.getRenderer}
-      />
-    ) : null;
+    if (this.props.showSpinner) {
+      return (
+        <div className={classnames(styles.root, this.props.className)}>
+          <SpinnerOverlay />
+        </div>
+      );
+    }
     const senderField = this.hasSenderNumbers() ?
       (
         <SenderField
@@ -128,7 +113,11 @@ class ComposeTextPanel extends Component {
       ) : null;
     return (
       <div className={classnames(styles.root, this.props.className)}>
-        {noSenderAlert}
+        <NoSenderAlert
+          currentLocale={this.props.currentLocale}
+          outboundSMS={this.props.outboundSMS}
+          hasSenderNumbers={this.hasSenderNumbers()}
+        />
         <form onSubmit={this.handleSubmit}>
           <div className={styles.receiverField}>
             <RecipientsInput
@@ -203,6 +192,7 @@ ComposeTextPanel.propTypes = {
     name: PropTypes.string,
   })).isRequired,
   outboundSMS: PropTypes.bool,
+  showSpinner: PropTypes.bool,
 };
 
 ComposeTextPanel.defaultProps = {
@@ -211,6 +201,7 @@ ComposeTextPanel.defaultProps = {
   typingToNumber: '',
   senderNumber: '',
   outboundSMS: false,
+  showSpinner: false,
 };
 
 export default ComposeTextPanel;

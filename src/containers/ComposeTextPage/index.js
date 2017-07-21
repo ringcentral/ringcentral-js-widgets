@@ -39,6 +39,13 @@ composeText,
     messageText: composeText.messageText,
     outboundSMS: rolesAndPermissions.permissions.OutboundSMS,
     searchContactList: contactSearch.searching.result,
+    showSpinner: !(
+      composeText.ready &&
+      locale.ready &&
+      messageSender.ready &&
+      rolesAndPermissions.ready &&
+      contactSearch.ready
+    ),
   };
 }
 
