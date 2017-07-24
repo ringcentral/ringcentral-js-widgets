@@ -14,15 +14,8 @@ import i18n from './i18n';
 class CallCtrlPage extends Component {
   constructor(props) {
     super(props);
-
-    let selectedMatcherIndex = 0;
-    if (props.session.contactMatch) {
-      selectedMatcherIndex = props.nameMatches.findIndex(match =>
-        match.id === props.session.contactMatch.id
-      );
-    }
     this.state = {
-      selectedMatcherIndex,
+      selectedMatcherIndex: 0,
       avatarUrl: null,
     };
 
@@ -60,26 +53,34 @@ class CallCtrlPage extends Component {
       this.props.sendDTMF(value, this.props.session.id);
   }
 
+  componentDidMount() {
+    this._updateAvatarAndMatchIndex(this.props);
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.session.id !== nextProps.session.id) {
-      let contact = nextProps.session.contactMatch;
-      let selectedMatcherIndex = 0;
-      if (!contact) {
-        contact = nextProps.nameMatches && nextProps.nameMatches[0];
-      } else {
-        selectedMatcherIndex = nextProps.nameMatches.findIndex(match =>
-          match.id === contact.id
-        );
-      }
-      this.setState({
-        selectedMatcherIndex,
-        avatarUrl: null,
+      this._updateAvatarAndMatchIndex(nextProps);
+    }
+  }
+
+  _updateAvatarAndMatchIndex(props) {
+    let contact = props.session.contactMatch;
+    let selectedMatcherIndex = 0;
+    if (!contact) {
+      contact = props.nameMatches && props.nameMatches[0];
+    } else {
+      selectedMatcherIndex = props.nameMatches.findIndex(match =>
+        match.id === contact.id
+      );
+    }
+    this.setState({
+      selectedMatcherIndex,
+      avatarUrl: null,
+    });
+    if (contact) {
+      props.getAvatarUrl(contact).then((avatarUrl) => {
+        this.setState({ avatarUrl });
       });
-      if (contact) {
-        nextProps.getAvatarUrl(contact).then((avatarUrl) => {
-          this.setState({ avatarUrl });
-        });
-      }
     }
   }
 
@@ -88,7 +89,6 @@ class CallCtrlPage extends Component {
     if (!session.id) {
       return null;
     }
-    // isRinging = true;
     const phoneNumber = session.direction === callDirections.outbound ?
       session.to : session.from;
     let fallbackUserName;

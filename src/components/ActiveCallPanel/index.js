@@ -134,6 +134,7 @@ function ActiveCallPanel({
           avatarUrl={avatarUrl}
         />
         <ActiveCallPad
+          className={styles.callPad}
           currentLocale={currentLocale}
           isOnMute={isOnMute}
           isOnHold={isOnHold}

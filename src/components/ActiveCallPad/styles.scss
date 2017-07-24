@@ -1,8 +1,11 @@
 @import '../../lib/commonStyles/colors.scss';
 
 .root {
-  margin-left: 9%;
-  margin-right: 9%;
+  max-width: 550px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 9%;
+  padding-right: 9%;
 }
 
 .callButton {
@@ -11,6 +14,7 @@
 
 .buttonRow {
   text-align: left;
+  height: 33.33%;
 }
 
 .button {
@@ -27,4 +31,13 @@
   g, path {
     fill: #ffffff;
   }
+}
+
+.callCtrlButtonGroup {
+  height: 60%;
+  // min-height: 250px;
+}
+
+.stopButtonGroup {
+  height: 20%;
 }

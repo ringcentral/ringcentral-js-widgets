@@ -1,16 +1,20 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/fonts.scss';
 
+$title-height: 24px;
+
 .root {
+  position: relative;
   text-align: center;
   display: inline-block;
-  padding: 5px 5px;
+  padding: 5px 8%;
   box-sizing: border-box;
+  height: 100%;
 }
 
 .button {
-  width: 63%;
-  border-radius: 63%;
+  width: 100%;
+  border-radius: 100%;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 2px;
@@ -19,7 +23,10 @@
 .buttonTitle {
   @include secondary-font;
   font-size: 12px;
-  padding: 5px 0;
+  text-align: center;
+  width: 100%;
+  line-height: $title-height;
+  height: $title-height;
 }
 
 .buttonActive {

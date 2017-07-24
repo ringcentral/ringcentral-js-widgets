@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import Tooltip from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap_white.css';
 
@@ -132,7 +133,7 @@ export default class IncomingCallPad extends Component {
             className={styles.callButton}
           />
         </div>
-        <div className={styles.buttonRow}>
+        <div className={classnames(styles.buttonRow, styles.answerButtonGroup)}>
           <ActiveCallButton
             onClick={toVoiceMail}
             title={i18n.getString('toVoicemail', currentLocale)}
