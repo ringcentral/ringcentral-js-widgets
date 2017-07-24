@@ -1,15 +1,16 @@
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 
-import { getWrapper } from './shared';
+import { getWrapper, getState } from './shared';
 import DialerPanel from '../src/components/DialerPanel';
 import DialTextInput from '../src/components/DialTextInput';
 import TextInput from '../src/components/TextInput';
 import DialPad, { DialButton } from '../src/components/DialPad';
 
 let panel = null;
+let wrapper = null;
 beforeEach(() => {
-  const wrapper = getWrapper();
+  wrapper = getWrapper();
   panel = wrapper.find(Provider).first()
     .find(Router).first()
     .find(DialerPanel)
@@ -77,5 +78,7 @@ describe('dialer panel', () => {
     clickButton(buttonStar);
     clickButton(buttonSharp);
     expect(textInput.props().value).toEqual('0123456789*#');
+
+    expect(getState(wrapper).call.toNumber).toEqual('0123456789*#');
   });
 });

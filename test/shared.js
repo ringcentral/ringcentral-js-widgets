@@ -30,3 +30,5 @@ export const getWrapper = () => {
 
   return mount(<App phone={phone} />);
 };
+
+export const getState = wrapper => wrapper.props().phone.store.getState();
