@@ -1,5 +1,6 @@
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
+import toJson from 'enzyme-to-json';
 
 import { getWrapper, getState } from './shared';
 import DialerPanel from '../src/components/DialerPanel';
@@ -80,5 +81,7 @@ describe('dialer panel', () => {
     expect(textInput.props().value).toEqual('0123456789*#');
 
     expect(getState(wrapper).call.toNumber).toEqual('0123456789*#');
+
+    expect(toJson(textInput)).toMatchSnapshot();
   });
 });
