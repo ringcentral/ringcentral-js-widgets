@@ -1,29 +1,29 @@
-// import toJson from 'enzyme-to-json';
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 
 import { getWrapper } from './shared';
+import DialerPanel from '../src/components/DialerPanel';
 import DialTextInput from '../src/components/DialTextInput';
 import TextInput from '../src/components/TextInput';
 import DialPad, { DialButton } from '../src/components/DialPad';
-// import { DialButton } from '../src/components/DialPad';
 
-let router = null;
+let panel = null;
 beforeEach(() => {
   const wrapper = getWrapper();
-  router = wrapper.find(Provider).first().find(Router).first();
+  panel = wrapper.find(Provider).first()
+    .find(Router).first()
+    .find(DialerPanel)
+    .first();
 });
 
-describe('initial test', () => {
-  test('initial state', () => {
-    expect(router).toBeDefined();
-  });
-});
+const clickButton = (button) => {
+  button.find('g').first().props().onMouseDown();
+  button.find('g').first().props().onMouseUp();
+};
 
-
-describe('dial page', () => {
+describe('dialer panel', () => {
   test('dial text input', () => {
-    const dialTextInput = router.find(DialTextInput).first();
+    const dialTextInput = panel.find(DialTextInput).first();
     expect(dialTextInput).toBeDefined();
     const textInput = dialTextInput.find(TextInput).first();
     expect(textInput).toBeDefined();
@@ -32,8 +32,9 @@ describe('dial page', () => {
     textInput.props().onChange({ currentTarget: { value: '16506417422' } });
     expect(textInput.props().value).toEqual('16506417422');
   });
+
   test('dial buttons', () => {
-    const dialPad = router.find(DialPad).first();
+    const dialPad = panel.find(DialPad).first();
     const buttons = dialPad.find(DialButton);
     expect(buttons.length).toEqual(12);
     const button1 = buttons.at(0);
@@ -61,7 +62,20 @@ describe('dial page', () => {
     const buttonSharp = buttons.at(11);
     expect(buttonSharp.props().btn.value).toEqual('#');
 
-    const textInput = router.find(DialTextInput).first().find(TextInput).first();
+    const textInput = panel.find(DialTextInput).first().find(TextInput).first();
     expect(textInput.props().value).toEqual('');
+    clickButton(button0);
+    clickButton(button1);
+    clickButton(button2);
+    clickButton(button3);
+    clickButton(button4);
+    clickButton(button5);
+    clickButton(button6);
+    clickButton(button7);
+    clickButton(button8);
+    clickButton(button9);
+    clickButton(buttonStar);
+    clickButton(buttonSharp);
+    expect(textInput.props().value).toEqual('0123456789*#');
   });
 });
