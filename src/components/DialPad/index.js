@@ -17,7 +17,7 @@ const keyConfig = [
 
 const ALTERNATIVE_TIMEOUT = 1000;
 
-class DialButton extends Component {
+export class DialButton extends Component {
   constructor(props, ...args) {
     super(props, ...args);
     this.state = {
