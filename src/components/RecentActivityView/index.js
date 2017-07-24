@@ -5,12 +5,13 @@ import NavigationBar from '../NavigationBar';
 import SpinnerOverlay from '../SpinnerOverlay';
 import RecentActivityNavigationButton from '../RecentActivityNavigationButton';
 import RecentActivityMessages from '../RecentActivityMessages';
+import RecentActivityCalls from '../RecentActivityCalls';
 
 export default class RecentActivityView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: 'recentMessages'
+      currentTab: 'recentCalls'
     };
   }
 
@@ -26,11 +27,14 @@ export default class RecentActivityView extends PureComponent {
 
   componentWillUnmount() {
     this.props.cleanUpMessages();
+    this.props.cleanUpCalls();
   }
 
   onTabChanged = (tabName = 'recentMessages', currentContact = this.props.currentContact) => {
     if (tabName === 'recentMessages') {
       this.props.getRecentMessages(currentContact);
+    } else if (tabName === 'recentCalls') {
+      this.props.getRecentCalls();
     }
     this.setState({
       currentTab: tabName
@@ -42,8 +46,10 @@ export default class RecentActivityView extends PureComponent {
       navigateTo,
       dateTimeFormatter,
       messages,
+      calls,
       currentLocale,
-      isMessagesLoaded
+      isMessagesLoaded,
+      isCallsLoaded
     } = this.props;
     const currentTab = this.state.currentTab;
     if (currentTab === 'recentMessages') {
@@ -54,6 +60,15 @@ export default class RecentActivityView extends PureComponent {
           dateTimeFormatter={dateTimeFormatter}
           currentLocale={currentLocale}
           isMessagesLoaded={isMessagesLoaded}
+        />
+      );
+    } else if (currentTab === 'recentCalls') {
+      return (
+        <RecentActivityCalls
+          calls={calls}
+          dateTimeFormatter={dateTimeFormatter}
+          currentLocale={currentLocale}
+          isCallsLoaded={isCallsLoaded}
         />
       );
     }
@@ -69,13 +84,15 @@ export default class RecentActivityView extends PureComponent {
       tabs
     };
     return (
-      <div>
+      <div className={styles.recentActivityView}>
         <NavigationBar
           button={RecentActivityNavigationButton}
           className={styles.navigationBar}
           {...props}
         />
-        {this.getCurrentTabPanel()}
+        <div className={styles.listView}>
+          {this.getCurrentTabPanel()}
+        </div>
       </div>
     );
   }
@@ -86,10 +103,14 @@ RecentActivityView.propTypes = {
   showSpinner: PropTypes.bool.isRequired,
   isMessagesLoaded: PropTypes.bool.isRequired,
   currentContact: PropTypes.object.isRequired,
+  isCallsLoaded: PropTypes.bool.isRequired,
   tabs: PropTypes.array.isRequired,
   navigateTo: PropTypes.func.isRequired,
   dateTimeFormatter: PropTypes.func.isRequired,
   messages: PropTypes.array.isRequired,
+  calls: PropTypes.array.isRequired,
   getRecentMessages: PropTypes.func.isRequired,
-  cleanUpMessages: PropTypes.func.isRequired
+  getRecentCalls: PropTypes.func.isRequired,
+  cleanUpMessages: PropTypes.func.isRequired,
+  cleanUpCalls: PropTypes.func.isRequired
 };

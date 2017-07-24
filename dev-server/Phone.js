@@ -54,6 +54,7 @@ import CallLogger from 'ringcentral-integration/modules/CallLogger';
 import ConversationMatcher from 'ringcentral-integration/modules/ConversationMatcher';
 import ConversationLogger from 'ringcentral-integration/modules/ConversationLogger';
 import RecentMessages from 'ringcentral-integration/modules/RecentMessages';
+import RecentCalls from 'ringcentral-integration/modules/RecentCalls';
 
 import RouterInteraction from '../src/modules/RouterInteraction';
 
@@ -571,6 +572,13 @@ export default class Phone extends RcModule {
       getState: () => this.state.recentMessages
     }));
     reducers.recentMessages = this.recentMessages.reducer;
+    this.addModule('recentCalls', new RecentCalls({
+      ...options,
+      client: this.client,
+      callLog: this.callLog,
+      getState: () => this.state.recentCalls
+    }));
+    reducers.recentCalls = this.recentCalls.reducer;
     this._reducer = combineReducers({
       ...reducers,
       app: (state = {

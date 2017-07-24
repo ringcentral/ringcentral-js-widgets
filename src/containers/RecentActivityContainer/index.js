@@ -28,6 +28,7 @@ function mapToProps(_, {
   currentLocale = locale.currentLocale,
   dateTimeFormat,
   recentMessages,
+  recentCalls,
   webphone,
   contactMatcher
 }) {
@@ -50,11 +51,14 @@ function mapToProps(_, {
       dateTimeFormat.ready &&
       locale.ready &&
       contactMatcher.ready &&
-      recentMessages.ready
+      recentMessages.ready &&
+      recentCalls.ready
     ),
     currentContact,
     isMessagesLoaded: recentMessages.isMessagesLoaded,
     messages: recentMessages.messages || [],
+    isCallsLoaded: recentCalls.isCallsLoaded,
+    calls: recentCalls.calls || [],
     tabs: getTabs({ unreadCounts })
   };
 }
@@ -64,7 +68,9 @@ function mapToFunctions(_, {
   dateTimeFormat,
   dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
   recentMessages,
-  webphone
+  recentCalls,
+  webphone,
+  contactMatcher
 }) {
   return {
     dateTimeFormatter,
@@ -73,9 +79,15 @@ function mapToFunctions(_, {
       router.push(path);
     },
     getRecentMessages: contact => recentMessages.getMessages(contact),
+    getRecentCalls: async () => recentCalls.getCalls(currentContact),
     cleanUpMessages: () => (
       !webphone.currentSession
         ? recentMessages.cleanUpMessages()
+        : () => {}
+    ),
+    cleanUpCalls: () => (
+      !webphone.currentSession
+        ? recentCalls.cleanUpCalls()
         : () => {}
     )
   };

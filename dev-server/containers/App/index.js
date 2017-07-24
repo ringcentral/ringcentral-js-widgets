@@ -203,6 +203,7 @@ export default function App({
                     webphone={phone.webphone}
                     contactMatcher={phone.contactMatcher}
                     recentMessages={phone.recentMessages}
+                    recentCalls={phone.recentCalls}
                   />
                 </CallCtrlPage>
               )} />
