@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
@@ -6,7 +6,6 @@ import BackHeader from '../BackHeader';
 import Panel from '../Panel';
 import DurationCounter from '../DurationCounter';
 import ActiveCallPad from '../ActiveCallPad';
-import ActiveCallDialPad from '../ActiveCallDialPad';
 import ContactDisplay from '../ContactDisplay';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
@@ -80,91 +79,79 @@ CallInfo.defaultProps = {
   avatarUrl: null,
 };
 
-class ActiveCallPanel extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isShowKeyPad: false,
-    };
-
-    this.hiddenKeyPad = () => {
-      this.setState({
-        isShowKeyPad: false,
-      });
-    };
-
-    this.showKeyPad = () => {
-      this.setState({
-        isShowKeyPad: true,
-      });
-    };
-  }
-
-  render() {
-    const userInfo = this.state.isShowKeyPad ? null : (
-      <CallInfo
-        currentLocale={this.props.currentLocale}
-        nameMatches={this.props.nameMatches}
-        fallBackName={this.props.fallBackName}
-        phoneNumber={this.props.phoneNumber}
-        formatPhone={this.props.formatPhone}
-        startTime={this.props.startTime}
-        areaCode={this.props.areaCode}
-        countryCode={this.props.countryCode}
-        selectedMatcherIndex={this.props.selectedMatcherIndex}
-        onSelectMatcherName={this.props.onSelectMatcherName}
-        avatarUrl={this.props.avatarUrl}
-      />
-    );
-    const buttonsPad = this.state.isShowKeyPad ? null : (
-      <ActiveCallPad
-        currentLocale={this.props.currentLocale}
-        isOnMute={this.props.isOnMute}
-        isOnHold={this.props.isOnHold}
-        isOnRecord={this.props.isOnRecord}
-        onMute={this.props.onMute}
-        onUnmute={this.props.onUnmute}
-        onHold={this.props.onHold}
-        onUnhold={this.props.onUnhold}
-        onRecord={this.props.onRecord}
-        onStopRecord={this.props.onStopRecord}
-        onShowKeyPad={this.showKeyPad}
-        hangup={this.props.hangup}
-        onAdd={this.props.onAdd}
-      />
-    );
-    const dialPad = this.state.isShowKeyPad ? (
-      <ActiveCallDialPad
-        onChange={this.props.onKeyPadChange}
-        hiddenDialPad={this.hiddenKeyPad}
-        hangup={this.props.hangup}
-        currentLocale={this.props.currentLocale}
-      />
-    ) : null;
-    const backHeader = this.state.isShowKeyPad ? null : (
+function ActiveCallPanel({
+  onBackButtonClick,
+  backButtonLabel,
+  currentLocale,
+  nameMatches,
+  fallBackName,
+  phoneNumber,
+  formatPhone,
+  startTime,
+  areaCode,
+  countryCode,
+  selectedMatcherIndex,
+  onSelectMatcherName,
+  avatarUrl,
+  isOnMute,
+  isOnHold,
+  isOnRecord,
+  onMute,
+  onUnmute,
+  onHold,
+  onUnhold,
+  onRecord,
+  onStopRecord,
+  onShowKeyPad,
+  hangup,
+  onAdd,
+  children,
+}) {
+  return (
+    <div className={styles.root}>
       <BackHeader
-        onBackClick={this.props.onBackButtonClick}
+        onBackClick={onBackButtonClick}
         backButton={(
           <span className={styles.backButton}>
             <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
-            <span className={styles.backLabel}>{this.props.backButtonLabel}</span>
+            <span className={styles.backLabel}>{backButtonLabel}</span>
           </span>
         )}
         buttons={[]}
       />
-    );
-    return (
-      <div className={styles.root}>
-        {backHeader}
-        <Panel>
-          {userInfo}
-          {buttonsPad}
-          {dialPad}
-          {this.props.children}
-        </Panel>
-      </div>
-    );
-  }
+      <Panel>
+        <CallInfo
+          currentLocale={currentLocale}
+          nameMatches={nameMatches}
+          fallBackName={fallBackName}
+          phoneNumber={phoneNumber}
+          formatPhone={formatPhone}
+          startTime={startTime}
+          areaCode={areaCode}
+          countryCode={countryCode}
+          selectedMatcherIndex={selectedMatcherIndex}
+          onSelectMatcherName={onSelectMatcherName}
+          avatarUrl={avatarUrl}
+        />
+        <ActiveCallPad
+          currentLocale={currentLocale}
+          isOnMute={isOnMute}
+          isOnHold={isOnHold}
+          isOnRecord={isOnRecord}
+          onMute={onMute}
+          onUnmute={onUnmute}
+          onHold={onHold}
+          onUnhold={onUnhold}
+          onRecord={onRecord}
+          onStopRecord={onStopRecord}
+          onShowKeyPad={onShowKeyPad}
+          hangup={hangup}
+          onAdd={onAdd}
+        />
+        {children}
+      </Panel>
+    </div>
+  );
 }
 
 ActiveCallPanel.propTypes = {
@@ -185,7 +172,7 @@ ActiveCallPanel.propTypes = {
   onAdd: PropTypes.func.isRequired,
   hangup: PropTypes.func.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
-  onKeyPadChange: PropTypes.func.isRequired,
+  onShowKeyPad: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
   children: PropTypes.node,
   areaCode: PropTypes.string.isRequired,

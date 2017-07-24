@@ -7,7 +7,7 @@ import Locale from 'ringcentral-integration/modules/Locale';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 
-import ActiveCallPanel from '../../components/ActiveCallPanel';
+import CallCtrlPanel from '../../components/CallCtrlPanel';
 
 import i18n from './i18n';
 
@@ -99,7 +99,7 @@ class CallCtrlPage extends Component {
       fallbackUserName = i18n.getString('unknown', this.props.currentLocale);
     }
     return (
-      <ActiveCallPanel
+      <CallCtrlPanel
         backButtonLabel={i18n.getString('activeCalls', this.props.currentLocale)}
         currentLocale={this.props.currentLocale}
         formatPhone={this.props.formatPhone}
@@ -129,7 +129,7 @@ class CallCtrlPage extends Component {
         avatarUrl={this.state.avatarUrl}
       >
         {this.props.children}
-      </ActiveCallPanel>
+      </CallCtrlPanel>
     );
   }
 }
