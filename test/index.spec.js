@@ -1,4 +1,6 @@
 import toJson from 'enzyme-to-json';
+import { Provider } from 'react-redux';
+import { Router } from 'react-router';
 
 import { getWrapper } from './shared';
 
@@ -10,8 +12,14 @@ beforeEach(() => {
 describe('initial test', () => {
   test('initial state', () => {
     expect(wrapper).toBeDefined();
-    const json = toJson(wrapper);
-    expect(json).toBeDefined();
-    expect(json.children[0].type).toEqual('Provider');
+
+    const provider = wrapper.find(Provider).first();
+    expect(provider).toBeDefined();
+
+    const router = provider.find(Router).first();
+    expect(router).toBeDefined();
+    expect(toJson(router)).toMatchSnapshot();
+
+    console.info(router.children());
   });
 });
