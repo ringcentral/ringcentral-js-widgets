@@ -32,3 +32,7 @@ export const getWrapper = () => {
 };
 
 export const getState = wrapper => wrapper.props().phone.store.getState();
+
+export function timeout(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
