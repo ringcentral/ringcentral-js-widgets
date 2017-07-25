@@ -68,6 +68,7 @@
     "gulp-mocha": "^3.0.1",
     "gulp-sourcemaps": "^2.4.0",
     "husky": "^0.14.3",
+    "identity-obj-proxy": "^3.0.0",
     "intl": "^1.2.5",
     "jest": "^20.0.4",
     "json-loader": "^0.5.4",

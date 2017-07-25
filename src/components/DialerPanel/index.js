@@ -61,7 +61,6 @@ function DialerPanel({
                   callButtonDisabled && styles.disabled,
                 )}
                 onClick={onCallFunc}
-                id="call-button"
                 >
                 <circle
                   className={styles.circle}
