@@ -26,4 +26,8 @@ describe('compose text panel', () => {
     expect(panel).toBeDefined();
     expect(panel.props()).toBeDefined();
   });
+
+  test('send button status', () => {
+    // todo: need to login first
+  });
 });
