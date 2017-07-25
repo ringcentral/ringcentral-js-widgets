@@ -6,22 +6,23 @@ import CallsPanel from '../src/components/CallsPanel';
 import NavigationBar from '../src/components/NavigationBar';
 
 let wrapper = null;
-beforeEach(() => {
+let panel = null;
+beforeEach(async () => {
   wrapper = getWrapper();
-});
-
-describe('history', () => {
-  test('switch to history panel', async () => {
-    const navigationBar = wrapper.find(Provider).first()
+  const navigationBar = wrapper.find(Provider).first()
     .find(Router).first()
     .find(NavigationBar)
     .first();
-    await navigationBar.props().goTo('/history');
-    const panel = wrapper.find(Provider).first()
+  await navigationBar.props().goTo('/history');
+  panel = wrapper.find(Provider).first()
     .find(Router).first()
     .find(CallsPanel)
     .first();
+});
+
+describe('history', () => {
+  test('initial state', () => {
     expect(panel).toBeDefined();
-    expect(panel.props).toBeDefined();
+    expect(panel.props()).toBeDefined();
   });
 });
