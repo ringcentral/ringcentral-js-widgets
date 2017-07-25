@@ -30,7 +30,7 @@ describe('<Textinput />', () => {
     const div = wrapper.find('div').first();
 
     expect(div.props().className).toBeDefined();
-    expect(div.props().className).toEqual('helloClass');
+    expect(div.props().className).toEqual('root helloClass');
 
     const input = wrapper.find('input').first();
 
