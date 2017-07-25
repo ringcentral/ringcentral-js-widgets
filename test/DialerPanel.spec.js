@@ -84,4 +84,18 @@ describe('dialer panel', () => {
 
     expect(toJson(textInput)).toMatchSnapshot();
   });
+
+  test('invalid  number', async () => {
+    const textInput = panel.find(DialTextInput).first().find(TextInput).first();
+    textInput.props().onChange({ currentTarget: { value: 'Hello world' } });
+    expect(getState(wrapper).call.toNumber).toEqual('Hello world');
+
+    const callButton = panel.find('#call-button').first();
+    await callButton.props().onClick();
+    const messages = getState(wrapper).alert.messages;
+    expect(messages.length).toEqual(1);
+    const message = messages[0];
+    expect(message.level).toEqual('warning');
+    expect(message.message).toEqual('callErrors-noToNumber');
+  });
 });
