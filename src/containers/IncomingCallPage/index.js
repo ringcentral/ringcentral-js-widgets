@@ -17,15 +17,8 @@ import i18n from './i18n';
 class IncomingCallPage extends Component {
   constructor(props) {
     super(props);
-
-    let selectedMatcherIndex = 0;
-    if (props.session.contactMatch) {
-      selectedMatcherIndex = props.nameMatches.findIndex(match =>
-        match.id === props.session.contactMatch.id
-      );
-    }
     this.state = {
-      selectedMatcherIndex,
+      selectedMatcherIndex: 0,
       avatarUrl: null,
     };
 
@@ -57,26 +50,34 @@ class IncomingCallPage extends Component {
       this.props.onForward(this.props.session.id, forwardNumber);
   }
 
+  componentDidMount() {
+    this._updateAvatarAndMatchIndex(this.props);
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.session.id !== nextProps.session.id) {
-      let selectedMatcherIndex = 0;
-      let contact = nextProps.session.contactMatch;
-      if (!contact) {
-        contact = nextProps.nameMatches && nextProps.nameMatches[0];
-      } else {
-        selectedMatcherIndex = nextProps.nameMatches.findIndex(match =>
-          match.id === contact.id
-        );
-      }
-      this.setState({
-        selectedMatcherIndex,
-        avatarUrl: null,
+      this._updateAvatarAndMatchIndex(nextProps);
+    }
+  }
+
+  _updateAvatarAndMatchIndex(props) {
+    let selectedMatcherIndex = 0;
+    let contact = props.session.contactMatch;
+    if (!contact) {
+      contact = props.nameMatches && props.nameMatches[0];
+    } else {
+      selectedMatcherIndex = props.nameMatches.findIndex(match =>
+        match.id === contact.id
+      );
+    }
+    this.setState({
+      selectedMatcherIndex,
+      avatarUrl: null,
+    });
+    if (contact) {
+      props.getAvatarUrl(contact).then((avatarUrl) => {
+        this.setState({ avatarUrl });
       });
-      if (contact) {
-        nextProps.getAvatarUrl(contact).then((avatarUrl) => {
-          this.setState({ avatarUrl });
-        });
-      }
     }
   }
 
