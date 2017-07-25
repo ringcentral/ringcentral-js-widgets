@@ -1,10 +1,10 @@
 function mockedMatchMedia() {
   return {
     matches: false,
-    addListener() {},
-    removeListener() {}
+    addListener() { },
+    removeListener() { }
   };
 }
 window.matchMedia = window.matchMedia || mockedMatchMedia;
 
-console.log = () => {};
+console.log = () => { };
