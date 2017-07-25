@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
 
-import { getWrapper, getState, timeout } from './shared';
+import { getWrapper, getState } from './shared';
 import DialerPanel from '../src/components/DialerPanel';
 import DialTextInput from '../src/components/DialTextInput';
 import TextInput from '../src/components/TextInput';
@@ -85,7 +85,7 @@ describe('dialer panel', () => {
 
   test('invalid  number', async () => {
     const textInput = panel.find(DialTextInput).first().find(TextInput).first();
-    textInput.props().onChange({ currentTarget: { value: 'Hello world' } });
+    await textInput.props().onChange({ currentTarget: { value: 'Hello world' } });
     expect(getState(wrapper).call.toNumber).toEqual('Hello world');
 
     const callButton = panel.find('.callBtnRow').first().find('.btnSvgGroup').first();
@@ -97,29 +97,28 @@ describe('dialer panel', () => {
     expect(message.message).toEqual('callErrors-noToNumber');
   });
 
-  test('clear input', () => {
+  test('clear input', async () => {
     const textInput = panel.find(DialTextInput).first().find(TextInput).first();
-    textInput.props().onChange({ currentTarget: { value: 'Hello world' } });
+    await textInput.props().onChange({ currentTarget: { value: 'Hello world' } });
     expect(getState(wrapper).call.toNumber).toEqual('Hello world');
 
     const deleteButton = panel.find(DialTextInput).first().find('.delete').first();
-    deleteButton.props().onClick();
+    await deleteButton.props().onClick();
     expect(getState(wrapper).call.toNumber).toEqual('');
   });
 
   test('click call button to restore last number', async () => {
     const textInput = panel.find(DialTextInput).first().find(TextInput).first();
-    textInput.props().onChange({ currentTarget: { value: 'Hello world' } });
+    await textInput.props().onChange({ currentTarget: { value: 'Hello world' } });
     expect(getState(wrapper).call.toNumber).toEqual('Hello world');
 
     const callButton = panel.find('.callBtnRow').first().find('.btnSvgGroup').first();
     await callButton.props().onClick();
 
     const deleteButton = panel.find(DialTextInput).first().find('.delete').first();
-    deleteButton.props().onClick();
+    await deleteButton.props().onClick();
     expect(getState(wrapper).call.toNumber).toEqual('');
 
-    await timeout(32);
     await callButton.props().onClick();
     expect(getState(wrapper).call.toNumber).toEqual('Hello world');
   });
