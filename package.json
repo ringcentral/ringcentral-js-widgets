@@ -33,7 +33,7 @@
     "react-router-redux": "^4.0.7",
     "ringcentral": "3.1.1",
     "ringcentral-client": "^1.0.0-rc1",
-    "ringcentral-integration": "^0.7.0-rc8",
+    "ringcentral-integration": "^0.7.0-rc14",
     "whatwg-fetch": "^2.0.1"
   },
   "devDependencies": {
@@ -90,8 +90,8 @@
     "redux-thunk": "^2.2.0",
     "ringcentral": "^3.1.1",
     "ringcentral-client": "^1.0.0-rc1",
-    "ringcentral-integration": "^0.7.0-rc13",
     "rxjs": "^5.4.2",
+    "ringcentral-integration": "^0.7.0-rc14",
     "sass-loader": "^6.0.5",
     "source-map-loader": "^0.2.1",
     "style-loader": "^0.18.2",

@@ -4,12 +4,7 @@
 .root {
   position: relative;
   width: 100%;
-  box-sizing: border-box
-}
-
-.root:before {
-  content: "";
-  display: block;
+  box-sizing: border-box;
   padding-top: 100%;
 }
 
@@ -37,7 +32,7 @@
   cursor: pointer;
 
   &:hover {
-    .circle {
+    circle {
       stroke: $primary-color-highlight-solid;
     }
     .noBorder {

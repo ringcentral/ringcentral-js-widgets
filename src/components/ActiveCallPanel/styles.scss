@@ -38,8 +38,8 @@ $avatar-width: 60px;
   display: inline-block;
   text-align: left;
   color: $lightblack;
-  margin-bottom: 8px;
-  margin-top: 15px;
+  padding-bottom: 15px;
+  padding-top: 15px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -104,4 +104,8 @@ $avatar-width: 60px;
 .timeCounter {
   color: $grey-light;
   font-size: 12px;
+}
+
+.callPad {
+  height: calc(100% - 70px);
 }

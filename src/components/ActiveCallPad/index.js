@@ -42,62 +42,71 @@ export default function ActiveCallPad(props) {
     props.onRecord;
   return (
     <div className={classnames(styles.root, props.className)}>
-      <div className={styles.buttonRow}>
-        {muteButton}
-        <ActiveCallButton
-          onClick={props.onShowKeyPad}
-          className={styles.callButton}
-          icon={KeypadIcon}
-          title={i18n.getString('keypad', props.currentLocale)}
-        />
-        <ActiveCallButton
-          onClick={onHoldClicked}
-          className={styles.callButton}
-          title={i18n.getString('hold', props.currentLocale)}
-          active={props.isOnHold}
-          icon={HoldIcon}
-        />
+      <div className={styles.callCtrlButtonGroup}>
+        <div className={styles.buttonRow}>
+          {muteButton}
+          <ActiveCallButton
+            onClick={props.onShowKeyPad}
+            className={styles.callButton}
+            icon={KeypadIcon}
+            title={i18n.getString('keypad', props.currentLocale)}
+          />
+          <ActiveCallButton
+            onClick={onHoldClicked}
+            className={styles.callButton}
+            title={
+              props.isOnHold ?
+              i18n.getString('onHold', props.currentLocale) :
+              i18n.getString('hold', props.currentLocale)
+            }
+            active={props.isOnHold}
+            icon={HoldIcon}
+          />
+        </div>
+        <div className={styles.buttonRow}>
+          <ActiveCallButton
+            onClick={props.isOnHold ? () => {} : () => {}}
+            className={styles.callButton}
+            title={i18n.getString('park', props.currentLocale)}
+            icon={ParkIcon}
+            disabled={props.isOnHold}
+          />
+          <ActiveCallButton
+            onClick={props.isOnHold ? () => {} : onRecordClicked}
+            title={
+              props.isOnRecord ?
+                i18n.getString('stopRecord', props.currentLocale) :
+                i18n.getString('record', props.currentLocale)
+            }
+            active={props.isOnRecord}
+            className={styles.callButton}
+            icon={RecordIcon}
+            disabled={props.isOnHold}
+          />
+          <ActiveCallButton
+            onClick={props.onAdd}
+            title={i18n.getString('add', props.currentLocale)}
+            className={styles.callButton}
+            icon={AddIcon}
+          />
+        </div>
+        <div className={styles.buttonRow}>
+          <ActiveCallButton
+            onClick={() => null}
+            title={i18n.getString('transfer', props.currentLocale)}
+            icon={TransferIcon}
+            className={styles.callButton}
+          />
+          <ActiveCallButton
+            onClick={props.isOnHold ? () => {} : () => {}}
+            title={i18n.getString('flip', props.currentLocale)}
+            icon={FlipIcon}
+            className={styles.callButton}
+            disabled={props.isOnHold}
+          />
+        </div>
       </div>
-      <div className={styles.buttonRow}>
-        <ActiveCallButton
-          onClick={() => null}
-          className={styles.callButton}
-          title={i18n.getString('park', props.currentLocale)}
-          icon={ParkIcon}
-        />
-        <ActiveCallButton
-          onClick={onRecordClicked}
-          title={
-            props.isOnRecord ?
-              i18n.getString('stopRecord', props.currentLocale) :
-              i18n.getString('record', props.currentLocale)
-          }
-          active={props.isOnRecord}
-          className={styles.callButton}
-          icon={RecordIcon}
-        />
-        <ActiveCallButton
-          onClick={props.onAdd}
-          title={i18n.getString('add', props.currentLocale)}
-          className={styles.callButton}
-          icon={AddIcon}
-        />
-      </div>
-      <div className={styles.buttonRow}>
-        <ActiveCallButton
-          onClick={() => null}
-          title={i18n.getString('transfer', props.currentLocale)}
-          icon={TransferIcon}
-          className={styles.callButton}
-        />
-        <ActiveCallButton
-          onClick={() => null}
-          title={i18n.getString('flip', props.currentLocale)}
-          icon={FlipIcon}
-          className={styles.callButton}
-        />
-      </div>
-      <div className={styles.buttonRow}>
+      <div className={classnames(styles.buttonRow, styles.stopButtonGroup)}>
         <div className={styles.button}>
           <CircleButton
             className={styles.stopButton}
