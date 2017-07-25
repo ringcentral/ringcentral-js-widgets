@@ -7,7 +7,7 @@ $title-height: 24px;
   position: relative;
   text-align: center;
   display: inline-block;
-  padding: 5px 8%;
+  padding: 5px;
   box-sizing: border-box;
   height: 100%;
 }
@@ -18,6 +18,11 @@ $title-height: 24px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 2px;
+}
+
+.buttonContainer {
+  padding-left: 22%;
+  padding-right: 22%;
 }
 
 .buttonTitle {

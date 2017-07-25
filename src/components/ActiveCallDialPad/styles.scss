@@ -1,19 +1,23 @@
 @import '../../lib/commonStyles/colors';
-.root {
-  margin: 44px 10px 0 10px;
-}
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/fonts';
 
-.dialPad {
-  height: 300px;
+$input-height: 30px;
+
+.root {
+  @include full-size;
+  padding: 32px 10px 0 10px;
+  box-sizing: border-box;
 }
 
 .dialInput {
-  height: 100%;
+  height: $input-height;
   box-sizing: content-box;
   border: 0px;
   margin-bottom: 5px;
   padding: 5px;
   input {
+    @include secondary-font;
     box-sizing: content-box;
     text-align: center;
     padding: 0;
@@ -30,9 +34,18 @@
   }
 }
 
+.padContainer {
+  height: calc(100% - #{$input-height});
+}
+
+.dialPad {
+  height: 65%;
+}
+
 .button {
   width: 33.3%;
   text-align: center;
+  padding: 2px;
 }
 
 .stopButton {
@@ -44,4 +57,5 @@
 
 .buttonRow {
   text-align: center;
+  height: 35%;
 }

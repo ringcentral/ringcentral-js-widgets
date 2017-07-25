@@ -11,7 +11,7 @@
 
 .callButton {
   width: 33.33%;
-  padding: 0 7% 5px 7%;
+  padding: 0;
 }
 
 .bigCallButton {
@@ -23,9 +23,6 @@
 .rejectButton {
   background: #ff4646;
   font-size: 20px;
-  width: 65%;
-  height: 65%;
-  padding-top: 65%;
   g, path {
     fill: #ffffff;
   }
@@ -37,7 +34,7 @@
 }
 
 .answerButtonGroup {
-  width: 66%;
+  width: 75%;
   margin-left: auto;
   margin-right: auto;
 }

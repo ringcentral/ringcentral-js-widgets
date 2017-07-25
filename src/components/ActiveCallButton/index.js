@@ -15,14 +15,16 @@ export default function ActiveCallButton(props) {
   );
   return (
     <div className={className}>
-      <CircleButton
-        className={buttonClassName}
-        onClick={props.onClick}
-        icon={props.icon}
-        disabled={props.disabled}
-        showBorder={props.showBorder}
-        iconClassName={props.buttonClassName}
-      />
+      <div className={styles.buttonContainer}>
+        <CircleButton
+          className={buttonClassName}
+          onClick={props.onClick}
+          icon={props.icon}
+          disabled={props.disabled}
+          showBorder={props.showBorder}
+          iconClassName={props.buttonClassName}
+        />
+      </div>
       <div className={styles.buttonTitle}>
         {props.title}
       </div>
