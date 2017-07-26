@@ -20,6 +20,7 @@ export const getPhone = () => {
     prefix,
     appVersion: version,
   });
+  state.storage.status = 'module-initializing';
   const store = createStore(phone.reducer, state);
   phone.setStore(store);
   return phone;

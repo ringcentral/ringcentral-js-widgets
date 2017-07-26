@@ -57,7 +57,7 @@
     "status": "module-ready"
   },
   "storage": {
-    "status": "module-initializing",
+    "status": "module-ready",
     "data": {
       "accountExtensionData": [
         {
@@ -117,7 +117,7 @@
           "timeFormat": "12h"
         }
       },
-      "accountInfoTimestamp": 1501046006031,
+      "accountInfoTimestamp": 1501075446757,
       "extensionDeviceData": [
         {
           "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/device/22174004",
@@ -168,7 +168,7 @@
           "linePooling": "Host"
         }
       ],
-      "extensionDeviceTimestamp": 1501046006232,
+      "extensionDeviceTimestamp": 1501075443494,
       "extensionInfoData": {
         "id": 130829004,
         "extensionNumber": "101",
@@ -413,7 +413,7 @@
           }
         }
       },
-      "extensionInfoTimestamp": 1501046006019,
+      "extensionInfoTimestamp": 1501075443983,
       "rolesAndPermissionsData": {
         "AccountAdministration": true,
         "AccountValidation": true,
@@ -543,7 +543,7 @@
           "callingCode": "1"
         }
       ],
-      "dialingPlanTimestamp": 1501046349089,
+      "dialingPlanTimestamp": 1501079802702,
       "extensionPhoneNumberData": [
         {
           "id": 246314004,
@@ -646,7 +646,7 @@
           ]
         }
       ],
-      "extensionPhoneNumberTimestamp": 1501046005726,
+      "extensionPhoneNumberTimestamp": 1501075442989,
       "forwardingNumberData": [
         {
           "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/forwarding-number/444216004",
@@ -681,11 +681,11 @@
           "flipNumber": "2"
         }
       ],
-      "forwardingNumberTimestamp": 1501046005715,
+      "forwardingNumberTimestamp": 1501075442558,
       "contactMatcherData": {
         "+16504776476": {
           "contacts": {
-            "_t": 1501046319055,
+            "_t": 1501080540132,
             "data": [
 
             ]
@@ -693,7 +693,7 @@
         },
         "+16505819951": {
           "contacts": {
-            "_t": 1501046319055,
+            "_t": 1501080540132,
             "data": [
 
             ]
@@ -710,25 +710,24 @@
       "fromCallIdNumber": "+15623535396",
       "lastCallNumber": "fdsafdsa",
       "cachedSubscription": {
-        "uri": "https://platform.devtest.ringcentral.com:-1/restapi/v1.0/subscription/42b6cfa9-db55-427f-a1f5-2f0bc6362733",
-        "id": "42b6cfa9-db55-427f-a1f5-2f0bc6362733",
-        "creationTime": "2017-07-26T04:01:28.285+0000",
+        "uri": "https://platform.devtest.ringcentral.com:-1/restapi/v1.0/subscription/31939860-32d5-4b1e-9ed6-dcedd34c91ff",
+        "id": "31939860-32d5-4b1e-9ed6-dcedd34c91ff",
+        "creationTime": "2017-07-26T10:42:36.196+0000",
         "status": "Active",
         "eventFilters": [
           "/restapi/v1.0/account/130829004/extension/130829004/presence?detailedTelephonyState=true",
           "/restapi/v1.0/account/130829004/extension/130829004/message-store",
-          "/restapi/v1.0/account/130829004/extension/130829004/presence?detailedTelephonyState=true&sipData=true",
-          "/restapi/v1.0/account/130829004/extension/130829004/presence"
+          "/restapi/v1.0/account/130829004/extension/130829004/presence?detailedTelephonyState=true&sipData=true"
         ],
-        "expirationTime": "2017-07-26T05:28:38.662+0000",
+        "expirationTime": "2017-07-26T14:58:16.001+0000",
         "expiresIn": 899,
         "deliveryMode": {
           "transportType": "PubNub",
           "encryption": true,
-          "address": "565946720231498_9de896b5",
+          "address": "598058594260333_c143834d",
           "subscriberKey": "sub-c-b8b9cd8c-e906-11e2-b383-02ee2ddab7fe",
           "encryptionAlgorithm": "AES",
-          "encryptionKey": "Dsv7j24l1rsKvrTka/NHjg=="
+          "encryptionKey": "K1rQz/U3vSoNuHe+OnmvEA=="
         }
       },
       "contactSearchCache": {
@@ -749,9 +748,9 @@
 
           ]
         },
-        "updatedTimestamp": 1501046017133,
-        "syncToken": "AQEAAAAAAwAAAV1ZQ8cyBgAAAPoFAAABXX1QTUwTAAgAAAAAB8xKzAkBCgEPRo4u",
-        "syncTimestamp": 1501046000972
+        "updatedTimestamp": 1501075441312,
+        "syncToken": "AQEAAAAAAwAAAV1bBPizBgAAAPoFAAABXX8QlvwTAAgAAAAAB8xKzAkBCgEyB7lQ",
+        "syncTimestamp": 1501075379964
       },
       "callLogData": [
         {
@@ -791,8 +790,8 @@
           }
         }
       ],
-      "callLogToken": "FAMAAAFdVm10AAQAAAFdfO0QtAgAAAAAB8xKzA0AAAAD7ofn1A4AAAFapmrx2BIAAAFdfVUrTxQBFQCZgPjI",
-      "callLogTimestamp": 1501046319951,
+      "callLogToken": "FAMAAAFdVm10AAQAAAFdfO0QtAgAAAAAB8xKzA0AAAAD7ofn1A4AAAFapmrx2BIAAAFdf19QGBQBFQCUA04i",
+      "callLogTimestamp": 1501080539160,
       "activityMatcherData": {
       },
       "callLoggerData": {
@@ -921,9 +920,9 @@
           "status": "Normal"
         }
       ],
-      "accountPhoneNumberTimestamp": 1501046005433,
+      "accountPhoneNumberTimestamp": 1501075440053,
       "contactsSyncToken": "HgAAAAAHzErMAQEAAAAAAAANGJA7OzQ",
-      "contactsSyncTimestamp": 1501046017997,
+      "contactsSyncTimestamp": 1501079038682,
       "addressBookContactsList": [
         {
           "availability": "Alive",
@@ -1171,7 +1170,7 @@
     "subscriptionStatus": "subscriptionStatus-subscribed"
   },
   "activeCalls": {
-    "timestamp": 1501046017380,
+    "timestamp": 1501075441958,
     "data": [
 
     ],
@@ -1238,7 +1237,7 @@
     "messageStoreUpdatedAt": null
   },
   "conference": {
-    "timestamp": 1501046017299,
+    "timestamp": 1501075440905,
     "data": {
       "phoneNumber": "+12679304000",
       "hostCode": "628456073",
@@ -1660,11 +1659,11 @@
   },
   "router": {
     "locationBeforeTransitions": {
-      "pathname": "/settings",
+      "pathname": "/",
       "search": "",
       "hash": "",
-      "action": "PUSH",
-      "key": "nh105v",
+      "action": "POP",
+      "key": null,
       "query": {
       }
     }
