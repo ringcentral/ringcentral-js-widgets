@@ -29,7 +29,7 @@
 
 .status {
   float: left;
-  width: 78%;
+  width: 68%;
   margin-right: 2%;
   font-size: 14px;
   color: $darkergray;
@@ -43,7 +43,6 @@
   color: $grey-light;
 }
 .time {
-  width: 20%;
   text-align: right;
   @include truncate-text;
 }
