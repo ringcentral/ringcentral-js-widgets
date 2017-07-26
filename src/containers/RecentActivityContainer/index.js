@@ -70,7 +70,6 @@ function mapToFunctions(_, {
   recentMessages,
   recentCalls,
   webphone,
-  contactMatcher
 }) {
   return {
     dateTimeFormatter,
@@ -79,7 +78,7 @@ function mapToFunctions(_, {
       router.push(path);
     },
     getRecentMessages: contact => recentMessages.getMessages(contact),
-    getRecentCalls: async () => recentCalls.getCalls(currentContact),
+    getRecentCalls: contact => recentCalls.getCalls(contact),
     cleanUpMessages: () => (
       !webphone.currentSession
         ? recentMessages.cleanUpMessages()

@@ -30,11 +30,11 @@ export default class RecentActivityView extends PureComponent {
     this.props.cleanUpCalls();
   }
 
-  onTabChanged = (tabName = 'recentMessages', currentContact = this.props.currentContact) => {
+  onTabChanged = (tabName = 'recentCalls', currentContact = this.props.currentContact) => {
     if (tabName === 'recentMessages') {
       this.props.getRecentMessages(currentContact);
     } else if (tabName === 'recentCalls') {
-      this.props.getRecentCalls();
+      this.props.getRecentCalls(currentContact);
     }
     this.setState({
       currentTab: tabName
