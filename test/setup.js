@@ -1,3 +1,7 @@
+import LocalStorage from './localstorage';
+
+window.localStorage = new LocalStorage();
+
 function mockedMatchMedia() {
   return {
     matches: false,

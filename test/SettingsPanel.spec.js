@@ -4,6 +4,7 @@ import { mount } from 'enzyme';
 
 import { getPhone } from './shared';
 import SettingsPage from '../src/containers/SettingsPage';
+import LinkLine from '../src/components/LinkLine';
 
 let wrapper = null;
 beforeEach(() => {
@@ -28,6 +29,9 @@ beforeEach(() => {
 
 describe('settings panel', () => {
   test('initial state', () => {
-    // expect(wrapper).toMatchSnapshot();
+    const linkLines = wrapper.find(LinkLine);
+    expect(linkLines.length).toBeGreaterThan(1);
+    expect(linkLines.at(0).props().children).toEqual('calling');
+    expect(linkLines.at(1).props().children).toEqual('region');
   });
 });
