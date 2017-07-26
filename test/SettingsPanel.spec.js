@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import { mount } from 'enzyme';
 
 import { getPhone } from './shared';
 import SettingsPage from '../src/containers/SettingsPage';
@@ -7,7 +8,7 @@ import SettingsPage from '../src/containers/SettingsPage';
 let wrapper = null;
 beforeEach(() => {
   const phone = getPhone();
-  wrapper = (<Provider store={phone.store}>
+  wrapper = mount(<Provider store={phone.store}>
     <SettingsPage
       auth={phone.auth}
       extensionInfo={phone.extensionInfo}
@@ -24,7 +25,6 @@ beforeEach(() => {
     />
   </Provider>);
 });
-
 
 describe('settings panel', () => {
   test('initial state', () => {

@@ -1,12 +1,13 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { createMockStore } from 'redux-logic-test';
+import { createStore } from 'redux';
 
 import Phone from '../dev-server/Phone';
 import App from '../dev-server/containers/App';
 import brandConfig from '../dev-server/brandConfig';
 import version from '../dev-server/version';
 import prefix from '../dev-server/prefix';
+import state from './state.json';
 
 require('dotenv').config();
 
@@ -19,9 +20,7 @@ export const getPhone = () => {
     prefix,
     appVersion: version,
   });
-  const store = createMockStore({
-    reducer: phone.reducer
-  });
+  const store = createStore(phone.reducer, state);
   phone.setStore(store);
   return phone;
 };
