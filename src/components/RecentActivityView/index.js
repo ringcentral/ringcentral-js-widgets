@@ -18,13 +18,19 @@ export default class RecentActivityView extends PureComponent {
     this.onTabChanged();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.currentContact !== this.props.currentContact) {
+      this.onTabChanged(this.state.currentTab, nextProps.currentContact);
+    }
+  }
+
   componentWillUnmount() {
     this.props.cleanUpMessages();
   }
 
-  onTabChanged = (tabName = 'recentMessages') => {
+  onTabChanged = (tabName = 'recentMessages', currentContact = this.props.currentContact) => {
     if (tabName === 'recentMessages') {
-      this.props.getRecentMessages();
+      this.props.getRecentMessages(currentContact);
     }
     this.setState({
       currentTab: tabName
@@ -79,6 +85,7 @@ RecentActivityView.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   showSpinner: PropTypes.bool.isRequired,
   isMessagesLoaded: PropTypes.bool.isRequired,
+  currentContact: PropTypes.object.isRequired,
   tabs: PropTypes.array.isRequired,
   navigateTo: PropTypes.func.isRequired,
   dateTimeFormatter: PropTypes.func.isRequired,
