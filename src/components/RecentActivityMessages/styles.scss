@@ -35,7 +35,7 @@
 
 .messageSubject {
   float: left;
-  width: 78%;
+  width: 68%;
   margin-right: 2%;
   color: $lightblack;
   text-align: left;
@@ -43,7 +43,6 @@
 }
 
 .messageTime {
-  width: 20%;
   text-align: right;
   color: $darkergray;
   @include truncate-text;

@@ -27,6 +27,9 @@ function RecentActivityPanel(props) {
     onClick: onPanelToggle,
     placement: 'right'
   };
+  if (!props.currentContact) {
+    return null;
+  }
   return (
     <div className={styles.container}>
       <div className={styles.header} onClick={onPanelToggle}>

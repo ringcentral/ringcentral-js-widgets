@@ -28,9 +28,21 @@ function mapToProps(_, {
   currentLocale = locale.currentLocale,
   dateTimeFormat,
   recentMessages,
+  webphone,
   contactMatcher
 }) {
   const unreadCounts = recentMessages.unreadMessageCounts || 0;
+  const currentSession = webphone.currentSession || {};
+  const contactMapping = contactMatcher && contactMatcher.dataMapping;
+  const phoneNumber = currentSession.direction === callDirections.outbound ?
+      currentSession.to : currentSession.from;
+  let currentContact = currentSession.contactMatch;
+  if (!currentContact) {
+    currentContact = contactMapping && contactMapping[phoneNumber];
+    if (currentContact && currentContact.length >= 1) {
+      currentContact = currentContact[0];
+    }
+  }
   return {
     currentLocale,
     title: i18n.getString('recentActivities', locale.currentLocale),
@@ -40,6 +52,7 @@ function mapToProps(_, {
       contactMatcher.ready &&
       recentMessages.ready
     ),
+    currentContact,
     isMessagesLoaded: recentMessages.isMessagesLoaded,
     messages: recentMessages.messages || [],
     tabs: getTabs({ unreadCounts })
@@ -51,24 +64,15 @@ function mapToFunctions(_, {
   dateTimeFormat,
   dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
   recentMessages,
-  webphone,
-  contactMatcher
+  webphone
 }) {
-  const currentSession = webphone.currentSession || {};
-  const contactMapping = contactMatcher && contactMatcher.dataMapping;
-  const phoneNumber = currentSession.direction === callDirections.outbound ?
-      currentSession.to : currentSession.from;
-  let currentContact = contactMapping && contactMapping[phoneNumber];
-  if (currentContact && currentContact.length >= 1) {
-    currentContact = currentContact[0];
-  }
   return {
     dateTimeFormatter,
     navigateTo(path) {
       webphone.toggleMinimized();
       router.push(path);
     },
-    getRecentMessages: async () => recentMessages.getMessages(currentContact),
+    getRecentMessages: contact => recentMessages.getMessages(contact),
     cleanUpMessages: () => (
       !webphone.currentSession
         ? recentMessages.cleanUpMessages()
