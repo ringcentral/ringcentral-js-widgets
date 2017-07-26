@@ -43,7 +43,6 @@
 }
 
 .messageTime {
-  width: 30%;
   text-align: right;
   color: $darkergray;
   @include truncate-text;
