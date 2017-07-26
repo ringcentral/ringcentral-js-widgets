@@ -1,6 +1,5 @@
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
-import toJson from 'enzyme-to-json';
 
 import { getWrapper, getState } from './shared';
 import CallsPanel from '../src/components/CallsPanel';
@@ -25,8 +24,5 @@ describe('history', () => {
   test('initial state', () => {
     expect(panel).toBeDefined();
     expect(panel.props()).toBeDefined();
-
-    // expect(toJson(panel)).toMatchSnapshot();
-    // todo: https://github.com/rogeliog/jest-serializer-enzyme
   });
 });

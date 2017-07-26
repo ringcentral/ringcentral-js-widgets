@@ -1,6 +1,5 @@
 import { Provider } from 'react-redux';
 import { Router } from 'react-router';
-import toJson from 'enzyme-to-json';
 
 import { getWrapper, getState, timeout } from './shared';
 import NavigationBar from '../src/components/NavigationBar';
