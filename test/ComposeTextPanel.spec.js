@@ -25,6 +25,7 @@ describe('compose text panel', () => {
   test('initial state', () => {
     expect(panel).toBeDefined();
     expect(panel.props()).toBeDefined();
+    // expect(panel).toMatchSnapshot();
   });
 
   test('send button status', () => {
