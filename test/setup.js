@@ -16,3 +16,5 @@ window.matchMedia = window.matchMedia || mockedMatchMedia;
 console.log = () => { };
 
 require('dotenv').config({ path: path.join(__dirname, '.env') });
+
+window.authData = null;

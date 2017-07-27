@@ -22,11 +22,16 @@ export const getPhone = async () => {
     prefix,
     appVersion: version,
   });
-  await phone.client.service.platform().login({
-    username: process.env.username,
-    extension: process.env.extension,
-    password: process.env.password
-  });
+  if (window.authData === null) {
+    await phone.client.service.platform().login({
+      username: process.env.username,
+      extension: process.env.extension,
+      password: process.env.password
+    });
+    window.authData = phone.client.service.platform().auth().data();
+  } else {
+    phone.client.service.platform().auth().setData(window.authData);
+  }
   state.storage.status = 'module-initializing';
   const store = createStore(phone.reducer, state);
   phone.setStore(store);

@@ -53,6 +53,9 @@ describe('settings panel', () => {
     expect(phone.store.getState().auth.loginStatus).toMatch(/-loggedIn$/);
     await logoutLine.props().onClick();
     expect(phone.store.getState().auth.loginStatus).toMatch(/-loggingOut$/);
+
+    // need to login again, otherwise other tests will fail
+    window.authData = null; // set it to null will trigger login
   });
 
   test('change status', async () => {
