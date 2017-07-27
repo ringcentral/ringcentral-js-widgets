@@ -45,6 +45,7 @@ describe('settings panel', () => {
   });
 
   test('logout', async () => {
+    jasmine.DEFAULT_TIMEOUT_INTERVAL = 16000;
     const logoutIcon = wrapper.find('span.logout').first();
     const logoutLines = logoutIcon.closest(IconLine);
     expect(logoutLines.length).toBe(1);
