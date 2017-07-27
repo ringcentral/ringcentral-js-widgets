@@ -33,8 +33,8 @@ export const getPhone = async () => {
   return phone;
 };
 
-export const getWrapper = () => {
-  const phone = getPhone();
+export const getWrapper = async () => {
+  const phone = await getPhone();
   return mount(<App phone={phone} />);
 };
 

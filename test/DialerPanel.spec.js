@@ -9,8 +9,8 @@ import DialPad, { DialButton } from '../src/components/DialPad';
 
 let panel = null;
 let wrapper = null;
-beforeEach(() => {
-  wrapper = getWrapper();
+beforeEach(async () => {
+  wrapper = await getWrapper();
   panel = wrapper.find(Provider).first()
     .find(Router).first()
     .find(DialerPanel)

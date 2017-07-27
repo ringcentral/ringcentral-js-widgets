@@ -8,7 +8,7 @@ import NavigationBar from '../src/components/NavigationBar';
 let wrapper = null;
 let panel = null;
 beforeEach(async () => {
-  wrapper = getWrapper();
+  wrapper = await getWrapper();
   const navigationBar = wrapper.find(Provider).first()
     .find(Router).first()
     .find(NavigationBar)

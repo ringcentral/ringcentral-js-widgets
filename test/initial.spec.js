@@ -4,8 +4,8 @@ import { Router } from 'react-router';
 import { getWrapper } from './shared';
 
 let wrapper = null;
-beforeEach(() => {
-  wrapper = getWrapper();
+beforeEach(async () => {
+  wrapper = await getWrapper();
 });
 
 describe('initial test', () => {
