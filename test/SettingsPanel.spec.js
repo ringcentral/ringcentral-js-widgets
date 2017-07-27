@@ -58,7 +58,7 @@ describe('settings panel', () => {
     window.authData = null; // set it to null will trigger login
   });
 
-  test('change status', async () => {
+  test('change presence status', async () => {
     const presenceSettingSection = wrapper.find(PresenceSettingSection).first();
 
     const presenceItems = presenceSettingSection.find('.presenceList').first().find(PresenceItem);
@@ -70,18 +70,26 @@ describe('settings panel', () => {
 
     await availableItem.props().onClick();
     expect(presenceSettingSection.props().userStatus).toEqual('Available');
+    expect(phone.store.getState().presence.userStatus).toEqual('Available');
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
+    expect(phone.store.getState().presence.dndStatus).toEqual('TakeAllCalls');
 
     await busyItem.props().onClick();
     expect(presenceSettingSection.props().userStatus).toEqual('Busy');
+    expect(phone.store.getState().presence.userStatus).toEqual('Busy');
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
+    expect(phone.store.getState().presence.dndStatus).toEqual('TakeAllCalls');
 
     await noDisturbItem.props().onClick();
     expect(presenceSettingSection.props().userStatus).toEqual('Busy');
+    expect(phone.store.getState().presence.userStatus).toEqual('Busy');
     expect(presenceSettingSection.props().dndStatus).toEqual('DoNotAcceptAnyCalls');
+    expect(phone.store.getState().presence.dndStatus).toEqual('DoNotAcceptAnyCalls');
 
     await invisibleItem.props().onClick();
     expect(presenceSettingSection.props().userStatus).toEqual('Offline');
+    expect(phone.store.getState().presence.userStatus).toEqual('Offline');
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
+    expect(phone.store.getState().presence.dndStatus).toEqual('TakeAllCalls');
   });
 });
