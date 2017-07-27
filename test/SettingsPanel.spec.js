@@ -5,12 +5,14 @@ import { mount } from 'enzyme';
 import { getPhone } from './shared';
 import SettingsPage from '../src/containers/SettingsPage';
 import LinkLine from '../src/components/LinkLine';
+import IconLine from '../src/components/IconLine';
 import PresenceSettingSection from '../src/components/PresenceSettingSection';
 import Eula from '../src/components/Eula';
 
 let wrapper = null;
+let phone = null;
 beforeEach(() => {
-  const phone = getPhone();
+  phone = getPhone();
   wrapper = mount(<Provider store={phone.store}>
     <SettingsPage
       auth={phone.auth}
@@ -32,7 +34,7 @@ beforeEach(() => {
 describe('settings panel', () => {
   test('initial state', () => {
     const linkLines = wrapper.find(LinkLine);
-    expect(linkLines.length).toBeGreaterThan(1);
+    expect(linkLines.length).toBe(2);
     expect(linkLines.at(0).props().children).toEqual('calling');
     expect(linkLines.at(1).props().children).toEqual('region');
 
@@ -40,5 +42,15 @@ describe('settings panel', () => {
     expect(wrapper.find(Eula).length).toBe(1);
     expect(wrapper.find('span.logout').length).toBe(1);
     expect(wrapper.find('div.versionContainer').length).toBe(1);
+  });
+
+  test('logout', async () => {
+    const logoutIcon = wrapper.find('span.logout').first();
+    const logoutLines = logoutIcon.closest(IconLine);
+    expect(logoutLines.length).toBe(1);
+    const logoutLine = logoutLines.at(0);
+    expect(phone.store.getState().auth.loginStatus).toMatch(/-loggedIn$/);
+    await logoutLine.props().onClick();
+    expect(phone.store.getState().auth.loginStatus).toMatch(/-loggingOut$/);
   });
 });
