@@ -8,7 +8,10 @@ $icon-min-width: 120px;
 }
 
 .statusIcon {
-  display: block;
+  display: inline-block;
+  position: relative;
+  margin-right: 5px;
+  top: 2px;
 }
 
 .title {
@@ -22,40 +25,6 @@ $icon-min-width: 120px;
   width: $icon-width;
   min-width: $icon-min-width;
   text-align: right;
-}
-
-.status {
-  display: inline-block;
-  width: 14px;
-  height: 14px;
-  border-radius: 7px;
-  background: #5fb95c;
-  margin-right: 5px;
-  color: transparent;
-  line-height: 1;
-  position: relative;
-  top: 2px;
-  i {
-    display: block;
-    font-weight: bold;
-    width: 8px;
-    overflow: hidden;
-    margin: 0 auto;
-    position: relative;
-    top: -1px;
-  }
-}
-
-.notDisturb {
-  color: #fff;
-}
-
-.busy {
-  background: #f95b5c;
-}
-
-.invisible {
-  background: #cdcdcd;
 }
 
 .dropdownIcon {
