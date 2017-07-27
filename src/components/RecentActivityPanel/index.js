@@ -42,8 +42,13 @@ function RecentActivityPanel(props) {
 
 RecentActivityPanel.propTypes = {
   title: PropTypes.string.isRequired,
+  currentContact: PropTypes.object,
   onPanelToggle: PropTypes.func.isRequired,
   expanded: PropTypes.bool.isRequired
+};
+
+RecentActivityPanel.defaultProps = {
+  currentContact: null
 };
 
 export default expandable({

@@ -8,51 +8,55 @@
   text-overflow: ellipsis;
 }
 
-.messages {
-  @include secondary-font;
+.calls {
+  @include primary-font;
 }
 
-.messageItem {
+.callItem {
   height: 40px;
   line-height: 40px;
   padding: 0 15px;
 }
 
-.localMessageItem {
-  cursor: pointer;
-}
-
-.localMessageItem:hover {
-  background: #fafafa;
+.callIcon {
+  font-size: 19px;
+  margin-right: 7px;
 }
 
 .dl {
   margin: 0;
 }
 
-.messageSubject {
+.status {
   float: left;
   width: 68%;
   margin-right: 2%;
-  color: $lightblack;
+  font-size: 14px;
+  color: $darkergray;
   text-align: left;
   @include truncate-text;
 }
 
-.messageTime {
+.duration {
+  margin-left: 10px;
+  font-size: 12px;
+  color: $grey-light;
+}
+.time {
   text-align: right;
-  color: $darkergray;
   @include truncate-text;
 }
 
-.unread {
-  color: $rc-blue;
-}
 .noRecords {
   color: $darkgray;
   font-size: 14px;
   text-align: center;
   margin-top: 30px;
+}
+.missedCall {
+  * {
+    color: #f95b5c;
+  }
 }
 .spinner {
   width: 43px;
