@@ -6,13 +6,13 @@ import { getPhone } from './shared';
 import SettingsPage from '../src/containers/SettingsPage';
 import LinkLine from '../src/components/LinkLine';
 import IconLine from '../src/components/IconLine';
-import PresenceSettingSection from '../src/components/PresenceSettingSection';
+import PresenceSettingSection, { PresenceItem } from '../src/components/PresenceSettingSection';
 import Eula from '../src/components/Eula';
 
 let wrapper = null;
 let phone = null;
-beforeEach(() => {
-  phone = getPhone();
+beforeEach(async () => {
+  phone = await getPhone();
   wrapper = mount(<Provider store={phone.store}>
     <SettingsPage
       auth={phone.auth}
@@ -53,5 +53,32 @@ describe('settings panel', () => {
     expect(phone.store.getState().auth.loginStatus).toMatch(/-loggedIn$/);
     await logoutLine.props().onClick();
     expect(phone.store.getState().auth.loginStatus).toMatch(/-loggingOut$/);
+  });
+
+  test('change status', async () => {
+    const presenceSettingSection = wrapper.find(PresenceSettingSection).first();
+
+    const presenceItems = presenceSettingSection.find('.presenceList').first().find(PresenceItem);
+    expect(presenceItems.length).toBe(4);
+    const availableItem = presenceItems.at(0);
+    const busyItem = presenceItems.at(1);
+    const noDisturbItem = presenceItems.at(2);
+    const invisibleItem = presenceItems.at(3);
+
+    await availableItem.props().onClick();
+    expect(presenceSettingSection.props().userStatus).toEqual('Available');
+    expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
+
+    await busyItem.props().onClick();
+    expect(presenceSettingSection.props().userStatus).toEqual('Busy');
+    expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
+
+    await noDisturbItem.props().onClick();
+    expect(presenceSettingSection.props().userStatus).toEqual('Busy');
+    expect(presenceSettingSection.props().dndStatus).toEqual('DoNotAcceptAnyCalls');
+
+    await invisibleItem.props().onClick();
+    expect(presenceSettingSection.props().userStatus).toEqual('Offline');
+    expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
   });
 });

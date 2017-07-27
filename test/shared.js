@@ -15,12 +15,17 @@ const apiConfig = {
   server: process.env.server,
 };
 
-export const getPhone = () => {
+export const getPhone = async () => {
   const phone = new Phone({
     apiConfig,
     brandConfig,
     prefix,
     appVersion: version,
+  });
+  await phone.client.service.platform().login({
+    username: process.env.username,
+    extension: process.env.extension,
+    password: process.env.password
   });
   state.storage.status = 'module-initializing';
   const store = createStore(phone.reducer, state);

@@ -12,7 +12,7 @@ import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-function PresenceItem(props) {
+export function PresenceItem(props) {
   const className = classnames(
     styles.presenceItem,
     props.selected ? styles.selected : null
