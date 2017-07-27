@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import Webphone from 'ringcentral-integration/modules/Webphone';
+import Brand from 'ringcentral-integration/modules/Brand';
 import Locale from 'ringcentral-integration/modules/Locale';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import callDirections from 'ringcentral-integration/enums/callDirections';
@@ -19,14 +20,19 @@ class CallCtrlPage extends Component {
       avatarUrl: null,
     };
 
-    this.onSelectMatcherName = (_, index) => {
-      // `remember last matcher contact` will finish in next ticket
+    this.onSelectMatcherName = (option) => {
+      const nameMatches = this.props.nameMatches || [];
+      let selectedMatcherIndex = nameMatches.findIndex(
+        match => match.id === option.id
+      );
+      if (selectedMatcherIndex < 0) {
+        selectedMatcherIndex = 0;
+      }
       this.setState({
-        selectedMatcherIndex: (index - 1),
+        selectedMatcherIndex,
         avatarUrl: null,
       });
-      const nameMatches = this.props.nameMatches;
-      const contact = nameMatches && nameMatches[index - 1];
+      const contact = nameMatches[selectedMatcherIndex];
       if (contact) {
         this.props.updateSessionMatchedContact(this.props.session.id, contact);
         this.props.getAvatarUrl(contact).then((avatarUrl) => {
@@ -127,6 +133,8 @@ class CallCtrlPage extends Component {
         selectedMatcherIndex={this.state.selectedMatcherIndex}
         onSelectMatcherName={this.onSelectMatcherName}
         avatarUrl={this.state.avatarUrl}
+        brand={this.props.brand}
+        showContactDisplayPlaceHolder={this.props.showContactDisplayPlaceHolder}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -164,6 +172,8 @@ CallCtrlPage.propTypes = {
   getAvatarUrl: PropTypes.func.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
   updateSessionMatchedContact: PropTypes.func.isRequired,
+  brand: PropTypes.string.isRequired,
+  showContactDisplayPlaceHolder: PropTypes.bool.isRequired,
 };
 
 CallCtrlPage.defaultProps = {
@@ -175,6 +185,7 @@ function mapToProps(_, {
   locale,
   contactMatcher,
   regionSettings,
+  brand,
 }) {
   const currentSession = webphone.currentSession || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -183,6 +194,7 @@ function mapToProps(_, {
   const nameMatches =
     currentSession.direction === callDirections.outbound ? toMatches : fromMatches;
   return {
+    brand: brand.fullName,
     nameMatches,
     currentLocale: locale.currentLocale,
     session: currentSession,
@@ -228,11 +240,19 @@ const CallCtrlContainer = connect(
 CallCtrlContainer.propTypes = {
   webphone: PropTypes.instanceOf(Webphone).isRequired,
   locale: PropTypes.instanceOf(Locale).isRequired,
+  brand: PropTypes.instanceOf(Brand).isRequired,
   regionSettings: PropTypes.instanceOf(RegionSettings).isRequired,
-  getAvatarUrl: PropTypes.func.isRequired,
+  getAvatarUrl: PropTypes.func,
   onBackButtonClick: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
-  children: PropTypes.node
+  children: PropTypes.node,
+  showContactDisplayPlaceHolder: PropTypes.bool,
+};
+
+CallCtrlContainer.defaultProps = {
+  getAvatarUrl: () => null,
+  showContactDisplayPlaceHolder: false,
+  children: undefined,
 };
 
 export default CallCtrlContainer;

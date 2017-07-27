@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Brand from 'ringcentral-integration/modules/Brand';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import Webphone from 'ringcentral-integration/modules/Webphone';
 import Locale from 'ringcentral-integration/modules/Locale';
@@ -22,14 +23,19 @@ class IncomingCallPage extends Component {
       avatarUrl: null,
     };
 
-    this.onSelectMatcherName = (_, index) => {
-      // `remember last matcher contact` will finish in next ticket
+    this.onSelectMatcherName = (option) => {
+      const nameMatches = this.props.nameMatches || [];
+      let selectedMatcherIndex = nameMatches.findIndex(
+        match => match.id === option.id
+      );
+      if (selectedMatcherIndex < 0) {
+        selectedMatcherIndex = 0;
+      }
       this.setState({
-        selectedMatcherIndex: (index - 1),
+        selectedMatcherIndex,
         avatarUrl: null,
       });
-      const nameMatches = this.props.nameMatches;
-      const contact = nameMatches && nameMatches[index - 1];
+      const contact = nameMatches[selectedMatcherIndex];
       if (contact) {
         this.props.updateSessionMatchedContact(this.props.session.id, contact);
         this.props.getAvatarUrl(contact).then((avatarUrl) => {
@@ -129,6 +135,8 @@ class IncomingCallPage extends Component {
         onBackButtonClick={this.props.toggleMinimized}
         forwardingNumbers={this.props.forwardingNumbers}
         onForward={this.onForward}
+        brand={this.props.brand}
+        showContactDisplayPlaceHolder={this.props.showContactDisplayPlaceHolder}
       >
         {this.props.children}
       </IncomingCallPanel>
@@ -164,6 +172,7 @@ IncomingCallPage.propTypes = {
   forwardingNumbers: PropTypes.array.isRequired,
   onForward: PropTypes.func.isRequired,
   updateSessionMatchedContact: PropTypes.func.isRequired,
+  showContactDisplayPlaceHolder: PropTypes.bool.isRequired,
 };
 
 IncomingCallPage.defaultProps = {
@@ -176,6 +185,8 @@ function mapToProps(_, {
   contactMatcher,
   regionSettings,
   forwardingNumber,
+  brand,
+  showContactDisplayPlaceHolder,
 }) {
   const currentSession = webphone.currentSession || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -184,6 +195,7 @@ function mapToProps(_, {
   const nameMatches =
     currentSession.direction === callDirections.outbound ? toMatches : fromMatches;
   return {
+    brand: brand.fullName,
     nameMatches,
     currentLocale: locale.currentLocale,
     session: currentSession,
@@ -191,6 +203,7 @@ function mapToProps(_, {
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     forwardingNumbers: forwardingNumber.forwardingNumbers,
+    showContactDisplayPlaceHolder,
   };
 }
 
@@ -223,15 +236,20 @@ const IncomingCallContainer = connect(
 )(IncomingCallPage);
 
 IncomingCallContainer.propTypes = {
+  showContactDisplayPlaceHolder: PropTypes.bool,
   webphone: PropTypes.instanceOf(Webphone).isRequired,
   locale: PropTypes.instanceOf(Locale).isRequired,
+  brand: PropTypes.instanceOf(Brand).isRequired,
   regionSettings: PropTypes.instanceOf(RegionSettings).isRequired,
   forwardingNumber: PropTypes.instanceOf(ForwardingNumber).isRequired,
   getAvatarUrl: PropTypes.func,
+  children: PropTypes.node,
 };
 
 IncomingCallContainer.defaultProps = {
   getAvatarUrl: () => null,
+  showContactDisplayPlaceHolder: false,
+  children: undefined,
 };
 
 export default IncomingCallContainer;

@@ -64,6 +64,8 @@ class CallCtrlPanel extends Component {
         selectedMatcherIndex={this.props.selectedMatcherIndex}
         onSelectMatcherName={this.props.onSelectMatcherName}
         avatarUrl={this.props.avatarUrl}
+        brand={this.props.brand}
+        showContactDisplayPlaceHolder={this.props.showContactDisplayPlaceHolder}
       >
         {this.props.children}
       </ActiveCallPanel>
@@ -100,6 +102,8 @@ CallCtrlPanel.propTypes = {
   onSelectMatcherName: PropTypes.func.isRequired,
   avatarUrl: PropTypes.string,
   backButtonLabel: PropTypes.string,
+  brand: PropTypes.string,
+  showContactDisplayPlaceHolder: PropTypes.bool,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -113,6 +117,8 @@ CallCtrlPanel.defaultProps = {
   backButtonLabel: 'Active Calls',
   sessionId: undefined,
   callStatus: null,
+  brand: 'RingCentral',
+  showContactDisplayPlaceHolder: true,
 };
 
 export default CallCtrlPanel;

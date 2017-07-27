@@ -2,16 +2,30 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import formatMessage from 'format-message';
 import DropdownSelect from '../DropdownSelect';
 import i18n from './i18n';
 import styles from './styles.scss';
 import phoneSourceNames from '../../lib/phoneSourceNames';
 
-const displayFomatter = ({ entityName, entityType, phoneNumber }) => {
+const displayFomatter = ({
+  entityName,
+  entityType,
+  phoneNumber,
+  currentLocale,
+  brand,
+}) => {
+  let typeName;
+  if (entityType) {
+    typeName = formatMessage(
+      phoneSourceNames.getString(entityType, currentLocale),
+      { brand }
+    );
+  }
   if (phoneNumber && entityName && entityType) {
-    return `${entityName} | ${phoneSourceNames.getString(entityType)} ${phoneNumber}`;
+    return `${entityName} | ${typeName} ${phoneNumber}`;
   } else if (entityName && entityType) {
-    return `${entityName} | ${phoneSourceNames.getString(entityType)}`;
+    return `${entityName} | ${typeName}`;
   } else if (entityName) {
     return entityName;
   } else if (phoneNumber) {
@@ -36,6 +50,8 @@ export default function ContactDisplay({
   groupNumbers,
   showType,
   selectClassName,
+  showPlaceholder,
+  brand,
 }) {
   let contentEl;
   if (groupNumbers) {
@@ -76,6 +92,10 @@ export default function ContactDisplay({
     const options = [
       ...contactMatches,
     ];
+    let placeholder;
+    if (showPlaceholder) {
+      placeholder = i18n.getString('select', currentLocale);
+    }
     contentEl = (
       <DropdownSelect
         className={classnames(styles.select, selectClassName)}
@@ -83,17 +103,21 @@ export default function ContactDisplay({
         onChange={onSelectContact}
         disabled={disabled || isLogging}
         options={options}
-        placeholder={i18n.getString('select', currentLocale)}
+        placeholder={placeholder}
         renderFunction={entity => (
           displayFomatter({
             entityName: entity.name,
             entityType: entity.entityType,
+            brand,
+            currentLocale,
           })
         )}
         renderValue={value => (
           displayFomatter({
             entityName: options[value].name,
             entityType: showType && options[value].entityType,
+            brand,
+            currentLocale,
           })
         )}
         renderTitle={entity => (
@@ -101,6 +125,8 @@ export default function ContactDisplay({
             entityName: entity.name,
             entityType: entity.entityType,
             phoneNumber,
+            brand,
+            currentLocale,
           }) : phoneNumber)
         }
         dropdownAlign="left"
@@ -136,6 +162,8 @@ ContactDisplay.propTypes = {
   groupNumbers: PropTypes.arrayOf(PropTypes.string),
   showType: PropTypes.bool,
   selectClassName: PropTypes.string,
+  showPlaceholder: PropTypes.bool,
+  brand: PropTypes.string,
 };
 ContactDisplay.defaultProps = {
   className: undefined,
@@ -146,4 +174,6 @@ ContactDisplay.defaultProps = {
   enableContactFallback: undefined,
   showType: true,
   selectClassName: undefined,
+  showPlaceholder: true,
+  brand: undefined,
 };

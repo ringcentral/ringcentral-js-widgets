@@ -41,13 +41,14 @@ function CallInfo(props) {
             currentLocale={props.currentLocale}
             areaCode={props.areaCode}
             countryCode={props.countryCode}
-            selectClassName={styles.contactNameSelect}
             showType={false}
             disabled={false}
             selected={props.selectedMatcherIndex}
             onSelectContact={props.onSelectMatcherName}
             isLogging={false}
             enableContactFallback
+            brand={props.brand}
+            showPlaceholder={props.showContactDisplayPlaceHolder}
           />
           {timeCounter}
         </div>
@@ -71,12 +72,16 @@ CallInfo.propTypes = {
   selectedMatcherIndex: PropTypes.number.isRequired,
   onSelectMatcherName: PropTypes.func.isRequired,
   avatarUrl: PropTypes.string,
+  brand: PropTypes.string,
+  showContactDisplayPlaceHolder: PropTypes.bool,
 };
 
 CallInfo.defaultProps = {
   phoneNumber: null,
   startTime: null,
   avatarUrl: null,
+  brand: 'RingCentral',
+  showContactDisplayPlaceHolder: true,
 };
 
 function ActiveCallPanel({
@@ -106,6 +111,8 @@ function ActiveCallPanel({
   hangup,
   onAdd,
   children,
+  showContactDisplayPlaceHolder,
+  brand,
 }) {
   return (
     <div className={styles.root}>
@@ -132,6 +139,8 @@ function ActiveCallPanel({
           selectedMatcherIndex={selectedMatcherIndex}
           onSelectMatcherName={onSelectMatcherName}
           avatarUrl={avatarUrl}
+          brand={brand}
+          showContactDisplayPlaceHolder={showContactDisplayPlaceHolder}
         />
         <ActiveCallPad
           className={styles.callPad}
@@ -182,6 +191,8 @@ ActiveCallPanel.propTypes = {
   onSelectMatcherName: PropTypes.func.isRequired,
   avatarUrl: PropTypes.string,
   backButtonLabel: PropTypes.string,
+  brand: PropTypes.string,
+  showContactDisplayPlaceHolder: PropTypes.bool,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -193,6 +204,8 @@ ActiveCallPanel.defaultProps = {
   children: undefined,
   avatarUrl: null,
   backButtonLabel: 'Active Calls',
+  brand: 'RingCentral',
+  showContactDisplayPlaceHolder: true,
 };
 
 export default ActiveCallPanel;
