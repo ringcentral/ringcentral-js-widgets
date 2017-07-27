@@ -9,9 +9,11 @@ import version from '../dev-server/version';
 import prefix from '../dev-server/prefix';
 import state from './state.json';
 
-require('dotenv').config();
-
-const apiConfig = process.env;
+const apiConfig = {
+  appKey: process.env.appKey,
+  appSecret: process.env.appSecret,
+  server: process.env.server,
+};
 
 export const getPhone = () => {
   const phone = new Phone({
