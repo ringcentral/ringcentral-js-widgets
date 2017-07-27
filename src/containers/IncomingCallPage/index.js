@@ -136,7 +136,7 @@ class IncomingCallPage extends Component {
         forwardingNumbers={this.props.forwardingNumbers}
         onForward={this.onForward}
         brand={this.props.brand}
-        showContactDisplayPlaceHolder={this.props.showContactDisplayPlaceHolder}
+        showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
       >
         {this.props.children}
       </IncomingCallPanel>
@@ -172,7 +172,7 @@ IncomingCallPage.propTypes = {
   forwardingNumbers: PropTypes.array.isRequired,
   onForward: PropTypes.func.isRequired,
   updateSessionMatchedContact: PropTypes.func.isRequired,
-  showContactDisplayPlaceHolder: PropTypes.bool.isRequired,
+  showContactDisplayPlaceholder: PropTypes.bool.isRequired,
 };
 
 IncomingCallPage.defaultProps = {
@@ -186,7 +186,7 @@ function mapToProps(_, {
   regionSettings,
   forwardingNumber,
   brand,
-  showContactDisplayPlaceHolder,
+  showContactDisplayPlaceholder,
 }) {
   const currentSession = webphone.currentSession || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -203,7 +203,7 @@ function mapToProps(_, {
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     forwardingNumbers: forwardingNumber.forwardingNumbers,
-    showContactDisplayPlaceHolder,
+    showContactDisplayPlaceholder,
   };
 }
 
@@ -236,7 +236,7 @@ const IncomingCallContainer = connect(
 )(IncomingCallPage);
 
 IncomingCallContainer.propTypes = {
-  showContactDisplayPlaceHolder: PropTypes.bool,
+  showContactDisplayPlaceholder: PropTypes.bool,
   webphone: PropTypes.instanceOf(Webphone).isRequired,
   locale: PropTypes.instanceOf(Locale).isRequired,
   brand: PropTypes.instanceOf(Brand).isRequired,
@@ -248,7 +248,7 @@ IncomingCallContainer.propTypes = {
 
 IncomingCallContainer.defaultProps = {
   getAvatarUrl: () => null,
-  showContactDisplayPlaceHolder: false,
+  showContactDisplayPlaceholder: false,
   children: undefined,
 };
 

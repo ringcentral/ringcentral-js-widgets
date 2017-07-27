@@ -134,7 +134,7 @@ class CallCtrlPage extends Component {
         onSelectMatcherName={this.onSelectMatcherName}
         avatarUrl={this.state.avatarUrl}
         brand={this.props.brand}
-        showContactDisplayPlaceHolder={this.props.showContactDisplayPlaceHolder}
+        showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -173,7 +173,7 @@ CallCtrlPage.propTypes = {
   onBackButtonClick: PropTypes.func.isRequired,
   updateSessionMatchedContact: PropTypes.func.isRequired,
   brand: PropTypes.string.isRequired,
-  showContactDisplayPlaceHolder: PropTypes.bool.isRequired,
+  showContactDisplayPlaceholder: PropTypes.bool.isRequired,
 };
 
 CallCtrlPage.defaultProps = {
@@ -246,12 +246,12 @@ CallCtrlContainer.propTypes = {
   onBackButtonClick: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
   children: PropTypes.node,
-  showContactDisplayPlaceHolder: PropTypes.bool,
+  showContactDisplayPlaceholder: PropTypes.bool,
 };
 
 CallCtrlContainer.defaultProps = {
   getAvatarUrl: () => null,
-  showContactDisplayPlaceHolder: false,
+  showContactDisplayPlaceholder: false,
   children: undefined,
 };
 

@@ -48,7 +48,7 @@ function CallInfo(props) {
             isLogging={false}
             enableContactFallback
             brand={props.brand}
-            showPlaceholder={props.showContactDisplayPlaceHolder}
+            showPlaceholder={props.showContactDisplayPlaceholder}
           />
           {timeCounter}
         </div>
@@ -73,7 +73,7 @@ CallInfo.propTypes = {
   onSelectMatcherName: PropTypes.func.isRequired,
   avatarUrl: PropTypes.string,
   brand: PropTypes.string,
-  showContactDisplayPlaceHolder: PropTypes.bool,
+  showContactDisplayPlaceholder: PropTypes.bool,
 };
 
 CallInfo.defaultProps = {
@@ -81,7 +81,7 @@ CallInfo.defaultProps = {
   startTime: null,
   avatarUrl: null,
   brand: 'RingCentral',
-  showContactDisplayPlaceHolder: true,
+  showContactDisplayPlaceholder: true,
 };
 
 function ActiveCallPanel({
@@ -111,7 +111,7 @@ function ActiveCallPanel({
   hangup,
   onAdd,
   children,
-  showContactDisplayPlaceHolder,
+  showContactDisplayPlaceholder,
   brand,
 }) {
   return (
@@ -140,7 +140,7 @@ function ActiveCallPanel({
           onSelectMatcherName={onSelectMatcherName}
           avatarUrl={avatarUrl}
           brand={brand}
-          showContactDisplayPlaceHolder={showContactDisplayPlaceHolder}
+          showContactDisplayPlaceholder={showContactDisplayPlaceholder}
         />
         <ActiveCallPad
           className={styles.callPad}
@@ -192,7 +192,7 @@ ActiveCallPanel.propTypes = {
   avatarUrl: PropTypes.string,
   backButtonLabel: PropTypes.string,
   brand: PropTypes.string,
-  showContactDisplayPlaceHolder: PropTypes.bool,
+  showContactDisplayPlaceholder: PropTypes.bool,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -205,7 +205,7 @@ ActiveCallPanel.defaultProps = {
   avatarUrl: null,
   backButtonLabel: 'Active Calls',
   brand: 'RingCentral',
-  showContactDisplayPlaceHolder: true,
+  showContactDisplayPlaceholder: true,
 };
 
 export default ActiveCallPanel;

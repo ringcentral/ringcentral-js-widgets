@@ -57,6 +57,7 @@ export default function App({
                 regionSettings={phone.regionSettings}
                 router={phone.router}
                 contactMatcher={phone.contactMatcher}
+                showContactDisplayPlaceholder={false}
                 getAvatarUrl={
                   async (contact) => {
                     const avatarUrl = await phone.contacts.getImageProfile(contact);
@@ -185,6 +186,7 @@ export default function App({
                   contactMatcher={phone.contactMatcher}
                   webphone={phone.webphone}
                   regionSettings={phone.regionSettings}
+                  showContactDisplayPlaceholder={false}
                   onAdd={() => {
                     phone.router.push('/');
                   }}
