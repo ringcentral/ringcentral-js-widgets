@@ -67,7 +67,6 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-istanbul": "^1.1.1",
-    "gulp-mocha": "^3.0.1",
     "gulp-sourcemaps": "^2.4.0",
     "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",
