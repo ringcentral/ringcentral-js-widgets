@@ -6,7 +6,6 @@ import PresenceSettingSection, { PresenceItem } from '../../src/components/Prese
 import Eula from '../../src/components/Eula';
 import NavigationBar from '../../src/components/NavigationBar';
 
-
 let wrapper = null;
 let store = null;
 let panel = null;
