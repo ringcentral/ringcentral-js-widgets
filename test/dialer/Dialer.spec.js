@@ -1,4 +1,5 @@
 import { getWrapper } from '../shared';
+import NavigationBar from '../../src/components/NavigationBar';
 import DialerPanel from '../../src/components/DialerPanel';
 import DialTextInput from '../../src/components/DialTextInput';
 import TextInput from '../../src/components/TextInput';
@@ -11,6 +12,8 @@ beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 32000;
   wrapper = await getWrapper();
   store = wrapper.props().phone.store;
+  const navigationBar = wrapper.find(NavigationBar).first();
+  await navigationBar.props().goTo('/');
   panel = wrapper.find(DialerPanel).first();
 });
 
