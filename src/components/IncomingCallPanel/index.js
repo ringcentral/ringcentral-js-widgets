@@ -26,7 +26,6 @@ function UserInfo(props) {
       </div>
       <ContactDisplay
         className={styles.userName}
-        selectClassName={styles.contactNameSelect}
         contactMatches={props.nameMatches}
         phoneNumber={props.phoneNumber}
         fallBackName={props.fallBackName}
@@ -39,6 +38,8 @@ function UserInfo(props) {
         onSelectContact={props.onSelectMatcherName}
         isLogging={false}
         enableContactFallback
+        brand={props.brand}
+        showPlaceholder={props.showContactDisplayPlaceholder}
       />
       <div className={styles.userPhoneNumber}>
         {props.formatPhone(props.phoneNumber)}
@@ -58,12 +59,16 @@ UserInfo.propTypes = {
   selectedMatcherIndex: PropTypes.number.isRequired,
   onSelectMatcherName: PropTypes.func.isRequired,
   avatarUrl: PropTypes.string,
+  brand: PropTypes.string,
+  showContactDisplayPlaceholder: PropTypes.bool,
 };
 
 UserInfo.defaultProps = {
   className: null,
   phoneNumber: null,
   avatarUrl: null,
+  brand: 'RingCentral',
+  showContactDisplayPlaceholder: true,
 };
 
 export default function IncomingCallPanel(props) {
@@ -84,6 +89,8 @@ export default function IncomingCallPanel(props) {
         selectedMatcherIndex={props.selectedMatcherIndex}
         onSelectMatcherName={props.onSelectMatcherName}
         avatarUrl={props.avatarUrl}
+        brand={props.brand}
+        showContactDisplayPlaceholder={props.showContactDisplayPlaceholder}
       />
       <IncomingCallPad
         forwardingNumbers={props.forwardingNumbers}
@@ -120,6 +127,8 @@ IncomingCallPanel.propTypes = {
   onBackButtonClick: PropTypes.func.isRequired,
   forwardingNumbers: PropTypes.array.isRequired,
   onForward: PropTypes.func.isRequired,
+  brand: PropTypes.string,
+  showContactDisplayPlaceholder: PropTypes.bool,
 };
 
 IncomingCallPanel.defaultProps = {
@@ -127,4 +136,6 @@ IncomingCallPanel.defaultProps = {
   phoneNumber: null,
   children: undefined,
   avatarUrl: null,
+  brand: 'RingCentral',
+  showContactDisplayPlaceholder: true,
 };
