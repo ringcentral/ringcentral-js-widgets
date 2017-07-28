@@ -27,6 +27,9 @@ function RecentActivityPanel(props) {
     onClick: onPanelToggle,
     placement: 'right'
   };
+  if (!props.currentContact) {
+    return null;
+  }
   return (
     <div className={styles.container}>
       <div className={styles.header} onClick={onPanelToggle}>
@@ -39,8 +42,13 @@ function RecentActivityPanel(props) {
 
 RecentActivityPanel.propTypes = {
   title: PropTypes.string.isRequired,
+  currentContact: PropTypes.object,
   onPanelToggle: PropTypes.func.isRequired,
   expanded: PropTypes.bool.isRequired
+};
+
+RecentActivityPanel.defaultProps = {
+  currentContact: null
 };
 
 export default expandable({

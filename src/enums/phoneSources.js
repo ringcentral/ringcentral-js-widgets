@@ -6,4 +6,5 @@ export default new Enum([
   'lead',
   'opportunity',
   'systemUser',
+  'rcContact',
 ]);
