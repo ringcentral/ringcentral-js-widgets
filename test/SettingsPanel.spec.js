@@ -5,12 +5,16 @@ import IconLine from '../src/components/IconLine';
 import PresenceSettingSection, { PresenceItem } from '../src/components/PresenceSettingSection';
 import Eula from '../src/components/Eula';
 import NavigationBar from '../src/components/NavigationBar';
+import RegionSettings from '../src/components/RegionSettingsPanel';
+import CallingSettings from '../src/components/CallingSettingsPanel';
+import { HeaderButton } from '../src/components/Header';
 
+let wrapper = null;
 let store = null;
 let panel = null;
 beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 32000;
-  const wrapper = await getWrapper();
+  wrapper = await getWrapper();
   store = wrapper.props().phone.store;
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/settings');
@@ -21,8 +25,8 @@ describe('settings panel', () => {
   test('initial state', () => {
     const linkLines = panel.find(LinkLine);
     expect(linkLines.length).toBe(2);
-    expect(linkLines.at(0).props().children).toEqual('calling');
-    expect(linkLines.at(1).props().children).toEqual('region');
+    expect(linkLines.at(0).props().children).toEqual('Calling');
+    expect(linkLines.at(1).props().children).toEqual('Region');
 
     expect(panel.find(PresenceSettingSection).length).toBe(1);
     expect(panel.find(Eula).length).toBe(1);
@@ -76,5 +80,32 @@ describe('settings panel', () => {
     expect(store.getState().presence.userStatus).toEqual('Offline');
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
     expect(store.getState().presence.dndStatus).toEqual('TakeAllCalls');
+  });
+
+  test('calling settings', async () => {
+    const callingLinkLine = panel.find(LinkLine).at(0);
+    await callingLinkLine.props().onClick();
+    const callingSettings = wrapper.find(CallingSettings).first();
+
+    expect(callingSettings.find('div.label').first().props().children).toEqual('Calling');
+
+    const saveIcon = callingSettings.find('i.fa-floppy-o').first();
+    const saveButton = saveIcon.closest(HeaderButton).first();
+    expect(saveButton.props().disabled).toEqual(true);
+  });
+
+  test('region settings', async () => {
+    const regionLinkLine = panel.find(LinkLine).at(1);
+    await regionLinkLine.props().onClick();
+    const regionSettings = wrapper.find(RegionSettings).first();
+
+    expect(regionSettings.find('div.label').first().props().children).toEqual('Region');
+
+    const saveIcon = regionSettings.find('i.fa-floppy-o').first();
+    const saveButton = saveIcon.closest(HeaderButton).first();
+    expect(saveButton.props().disabled).toEqual(true);
+    const input = regionSettings.find('input.input').first();
+    await input.props().onChange({ currentTarget: { value: '853' } });
+    expect(saveButton.props().disabled).toEqual(undefined);
   });
 });

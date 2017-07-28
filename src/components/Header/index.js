@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
-function HeaderButton(props) {
+export function HeaderButton(props) {
   return (
     <div
       className={classnames(
