@@ -1,4 +1,6 @@
 import path from 'path';
+import fs from 'fs';
+import dotenv from 'dotenv';
 
 import LocalStorage from './localstorage';
 
@@ -15,6 +17,9 @@ window.matchMedia = window.matchMedia || mockedMatchMedia;
 
 console.log = () => { };
 
-require('dotenv').config({ path: path.join(__dirname, '.env') });
+const dotenvPath = path.join(__dirname, '.env');
+if (fs.existsSync(dotenvPath)) {
+  dotenv.config({ path: dotenvPath });
+}
 
 window.authData = null;
