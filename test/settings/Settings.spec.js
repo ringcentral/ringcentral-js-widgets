@@ -1,13 +1,11 @@
-import { getWrapper } from './shared';
-import SettingsPanel from '../src/components/SettingsPanel';
-import LinkLine from '../src/components/LinkLine';
-import IconLine from '../src/components/IconLine';
-import PresenceSettingSection, { PresenceItem } from '../src/components/PresenceSettingSection';
-import Eula from '../src/components/Eula';
-import NavigationBar from '../src/components/NavigationBar';
-import RegionSettings from '../src/components/RegionSettingsPanel';
-import CallingSettings from '../src/components/CallingSettingsPanel';
-import { HeaderButton } from '../src/components/Header';
+import { getWrapper } from '../shared';
+import SettingsPanel from '../../src/components/SettingsPanel';
+import LinkLine from '../../src/components/LinkLine';
+import IconLine from '../../src/components/IconLine';
+import PresenceSettingSection, { PresenceItem } from '../../src/components/PresenceSettingSection';
+import Eula from '../../src/components/Eula';
+import NavigationBar from '../../src/components/NavigationBar';
+
 
 let wrapper = null;
 let store = null;
@@ -80,32 +78,5 @@ describe('settings panel', () => {
     expect(store.getState().presence.userStatus).toEqual('Offline');
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
     expect(store.getState().presence.dndStatus).toEqual('TakeAllCalls');
-  });
-
-  test('calling settings', async () => {
-    const callingLinkLine = panel.find(LinkLine).at(0);
-    await callingLinkLine.props().onClick();
-    const callingSettings = wrapper.find(CallingSettings).first();
-
-    expect(callingSettings.find('div.label').first().props().children).toEqual('Calling');
-
-    const saveIcon = callingSettings.find('i.fa-floppy-o').first();
-    const saveButton = saveIcon.closest(HeaderButton).first();
-    expect(saveButton.props().disabled).toEqual(true);
-  });
-
-  test('region settings', async () => {
-    const regionLinkLine = panel.find(LinkLine).at(1);
-    await regionLinkLine.props().onClick();
-    const regionSettings = wrapper.find(RegionSettings).first();
-
-    expect(regionSettings.find('div.label').first().props().children).toEqual('Region');
-
-    const saveIcon = regionSettings.find('i.fa-floppy-o').first();
-    const saveButton = saveIcon.closest(HeaderButton).first();
-    expect(saveButton.props().disabled).toEqual(true);
-    const input = regionSettings.find('input.input').first();
-    await input.props().onChange({ currentTarget: { value: '853' } });
-    expect(saveButton.props().disabled).toEqual(undefined);
   });
 });
