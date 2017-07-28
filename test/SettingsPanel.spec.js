@@ -1,52 +1,37 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { mount } from 'enzyme';
-
-import { getPhone } from './shared';
-import SettingsPage from '../src/containers/SettingsPage';
+import { getWrapper } from './shared';
+import SettingsPanel from '../src/components/SettingsPanel';
 import LinkLine from '../src/components/LinkLine';
 import IconLine from '../src/components/IconLine';
 import PresenceSettingSection, { PresenceItem } from '../src/components/PresenceSettingSection';
 import Eula from '../src/components/Eula';
+import NavigationBar from '../src/components/NavigationBar';
 
-let wrapper = null;
 let phone = null;
+let panel = null;
 beforeEach(async () => {
-  phone = await getPhone();
-  wrapper = mount(<Provider store={phone.store}>
-    <SettingsPage
-      auth={phone.auth}
-      extensionInfo={phone.extensionInfo}
-      accountInfo={phone.accountInfo}
-      regionSettings={phone.regionSettings}
-      version={phone.version}
-      locale={phone.locale}
-      brand={phone.brand}
-      router={phone.router}
-      rolesAndPermissions={phone.rolesAndPermissions}
-      presence={phone.presence}
-      regionSettingsUrl="/settings/region"
-      callingSettingsUrl="/settings/calling"
-    />
-  </Provider>);
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 32000;
+  const wrapper = await getWrapper();
+  phone = wrapper.props().phone;
+  const navigationBar = wrapper.find(NavigationBar).first();
+  await navigationBar.props().goTo('/settings');
+  panel = wrapper.find(SettingsPanel).first();
 });
 
 describe('settings panel', () => {
   test('initial state', () => {
-    const linkLines = wrapper.find(LinkLine);
+    const linkLines = panel.find(LinkLine);
     expect(linkLines.length).toBe(2);
     expect(linkLines.at(0).props().children).toEqual('calling');
     expect(linkLines.at(1).props().children).toEqual('region');
 
-    expect(wrapper.find(PresenceSettingSection).length).toBe(1);
-    expect(wrapper.find(Eula).length).toBe(1);
-    expect(wrapper.find('span.logout').length).toBe(1);
-    expect(wrapper.find('div.versionContainer').length).toBe(1);
+    expect(panel.find(PresenceSettingSection).length).toBe(1);
+    expect(panel.find(Eula).length).toBe(1);
+    expect(panel.find('span.logout').length).toBe(1);
+    expect(panel.find('div.versionContainer').length).toBe(1);
   });
 
   test('logout', async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 16000;
-    const logoutIcon = wrapper.find('span.logout').first();
+    const logoutIcon = panel.find('span.logout').first();
     const logoutLines = logoutIcon.closest(IconLine);
     expect(logoutLines.length).toBe(1);
     const logoutLine = logoutLines.at(0);
@@ -59,7 +44,7 @@ describe('settings panel', () => {
   });
 
   test('change presence status', async () => {
-    const presenceSettingSection = wrapper.find(PresenceSettingSection).first();
+    const presenceSettingSection = panel.find(PresenceSettingSection).first();
 
     const presenceItems = presenceSettingSection.find('.presenceList').first().find(PresenceItem);
     expect(presenceItems.length).toBe(4);
