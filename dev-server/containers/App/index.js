@@ -51,11 +51,13 @@ export default function App({
               />
               <IncomingCallPage
                 locale={phone.locale}
+                brand={phone.brand}
                 webphone={phone.webphone}
                 forwardingNumber={phone.forwardingNumber}
                 regionSettings={phone.regionSettings}
                 router={phone.router}
                 contactMatcher={phone.contactMatcher}
+                showContactDisplayPlaceholder={false}
                 getAvatarUrl={
                   async (contact) => {
                     const avatarUrl = await phone.contacts.getImageProfile(contact);
@@ -180,10 +182,12 @@ export default function App({
               path="/calls/active"
               component={() => (
                 <CallCtrlPage
+                  brand={phone.brand}
                   locale={phone.locale}
                   contactMatcher={phone.contactMatcher}
                   webphone={phone.webphone}
                   regionSettings={phone.regionSettings}
+                  showContactDisplayPlaceholder={false}
                   onAdd={() => {
                     phone.router.push('/');
                   }}
