@@ -50,3 +50,14 @@ Open up your browser and access http://localhost:8191 to see how it works.
 
 Note that the development server is using OAuth for authorization process.
 Please make sure the app you specified in configuration above is setup with Redirect Uri `http://localhost:8191/redirect.html`.
+
+
+## Test
+
+Create `.env` file in `test`, with the following content:
+
+```ini
+appKey=your-appKey
+appSecret=your-appSecret
+server=sever_url
+```
