@@ -1,8 +1,8 @@
-import { getWrapper } from './shared';
-import DialerPanel from '../src/components/DialerPanel';
-import DialTextInput from '../src/components/DialTextInput';
-import TextInput from '../src/components/TextInput';
-import DialPad, { DialButton } from '../src/components/DialPad';
+import { getWrapper } from '../shared';
+import DialerPanel from '../../src/components/DialerPanel';
+import DialTextInput from '../../src/components/DialTextInput';
+import TextInput from '../../src/components/TextInput';
+import DialPad, { DialButton } from '../../src/components/DialPad';
 
 let wrapper = null;
 let store = null;

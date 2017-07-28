@@ -1,6 +1,6 @@
-import { getWrapper } from './shared';
-import CallsPanel from '../src/components/CallsPanel';
-import NavigationBar from '../src/components/NavigationBar';
+import { getWrapper } from '../shared';
+import CallsPanel from '../../src/components/CallsPanel';
+import NavigationBar from '../../src/components/NavigationBar';
 
 let wrapper = null;
 let panel = null;

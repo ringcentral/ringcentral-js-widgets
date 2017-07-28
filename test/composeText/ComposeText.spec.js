@@ -1,6 +1,6 @@
-import { getWrapper } from './shared';
-import NavigationBar from '../src/components/NavigationBar';
-import ComposeTextPanel from '../src/components/ComposeTextPanel';
+import { getWrapper } from '../shared';
+import NavigationBar from '../../src/components/NavigationBar';
+import ComposeTextPanel from '../../src/components/ComposeTextPanel';
 
 let wrapper = null;
 let panel = null;

@@ -54,10 +54,13 @@ Please make sure the app you specified in configuration above is setup with Redi
 
 ## Test
 
-Create `.env` file in `test`, with the following content:
+Create `.env` file in `./test/` folder, with the following content:
 
 ```ini
 appKey=your-appKey
 appSecret=your-appSecret
-server=sever_url
+server=sever-url
+username=your-phone-number
+extension=your-extension
+password=your-password
 ```
