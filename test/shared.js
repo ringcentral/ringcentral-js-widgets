@@ -9,6 +9,8 @@ import version from '../dev-server/version';
 import prefix from '../dev-server/prefix';
 import state from './state.json';
 
+console.info(process.env);
+
 const apiConfig = {
   appKey: process.env.appKey,
   appSecret: process.env.appSecret,
