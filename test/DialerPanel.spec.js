@@ -10,6 +10,7 @@ import DialPad, { DialButton } from '../src/components/DialPad';
 let panel = null;
 let wrapper = null;
 beforeEach(async () => {
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 32000;
   wrapper = await getWrapper();
   panel = wrapper.find(Provider).first()
     .find(Router).first()
