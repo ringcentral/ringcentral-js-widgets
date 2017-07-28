@@ -38,7 +38,9 @@ function CallItem({ call, dateTimeFormatter, currentLocale }) {
     >
       <dl className={classnames(styles.dl, isMissedCall ? styles.missedCall : '')}>
         <dt className={styles.status} title={status}>
-          <i className={classnames(icon, styles.callIcon)} title={status} />
+          <span className={styles.iconWrapper}>
+            <i className={classnames(icon, styles.callIcon)} title={status} />
+          </span>
           <span title={status}>{status}</span>
           <small className={styles.duration} title={duration}>{duration}</small>
         </dt>
