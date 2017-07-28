@@ -6,12 +6,12 @@ import PresenceSettingSection, { PresenceItem } from '../src/components/Presence
 import Eula from '../src/components/Eula';
 import NavigationBar from '../src/components/NavigationBar';
 
-let phone = null;
+let store = null;
 let panel = null;
 beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 32000;
   const wrapper = await getWrapper();
-  phone = wrapper.props().phone;
+  store = wrapper.props().phone.store;
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/settings');
   panel = wrapper.find(SettingsPanel).first();
@@ -35,9 +35,9 @@ describe('settings panel', () => {
     const logoutLines = logoutIcon.closest(IconLine);
     expect(logoutLines.length).toBe(1);
     const logoutLine = logoutLines.at(0);
-    expect(phone.store.getState().auth.loginStatus).toMatch(/-loggedIn$/);
+    expect(store.getState().auth.loginStatus).toMatch(/-loggedIn$/);
     await logoutLine.props().onClick();
-    expect(phone.store.getState().auth.loginStatus).toMatch(/-loggingOut$/);
+    expect(store.getState().auth.loginStatus).toMatch(/-loggingOut$/);
 
     // need to login again, otherwise other tests will fail
     window.authData = null; // set it to null will trigger login
@@ -55,26 +55,26 @@ describe('settings panel', () => {
 
     await availableItem.props().onClick();
     expect(presenceSettingSection.props().userStatus).toEqual('Available');
-    expect(phone.store.getState().presence.userStatus).toEqual('Available');
+    expect(store.getState().presence.userStatus).toEqual('Available');
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
-    expect(phone.store.getState().presence.dndStatus).toEqual('TakeAllCalls');
+    expect(store.getState().presence.dndStatus).toEqual('TakeAllCalls');
 
     await busyItem.props().onClick();
     expect(presenceSettingSection.props().userStatus).toEqual('Busy');
-    expect(phone.store.getState().presence.userStatus).toEqual('Busy');
+    expect(store.getState().presence.userStatus).toEqual('Busy');
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
-    expect(phone.store.getState().presence.dndStatus).toEqual('TakeAllCalls');
+    expect(store.getState().presence.dndStatus).toEqual('TakeAllCalls');
 
     await noDisturbItem.props().onClick();
     expect(presenceSettingSection.props().userStatus).toEqual('Busy');
-    expect(phone.store.getState().presence.userStatus).toEqual('Busy');
+    expect(store.getState().presence.userStatus).toEqual('Busy');
     expect(presenceSettingSection.props().dndStatus).toEqual('DoNotAcceptAnyCalls');
-    expect(phone.store.getState().presence.dndStatus).toEqual('DoNotAcceptAnyCalls');
+    expect(store.getState().presence.dndStatus).toEqual('DoNotAcceptAnyCalls');
 
     await invisibleItem.props().onClick();
     expect(presenceSettingSection.props().userStatus).toEqual('Offline');
-    expect(phone.store.getState().presence.userStatus).toEqual('Offline');
+    expect(store.getState().presence.userStatus).toEqual('Offline');
     expect(presenceSettingSection.props().dndStatus).toEqual('TakeAllCalls');
-    expect(phone.store.getState().presence.dndStatus).toEqual('TakeAllCalls');
+    expect(store.getState().presence.dndStatus).toEqual('TakeAllCalls');
   });
 });
