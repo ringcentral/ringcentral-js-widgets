@@ -15,7 +15,7 @@ const apiConfig = {
   server: process.env.server,
 };
 
-export const getPhone = async () => {
+const getPhone = async () => {
   const phone = new Phone({
     apiConfig,
     brandConfig,
@@ -42,7 +42,3 @@ export const getWrapper = async () => {
   const phone = await getPhone();
   return mount(<App phone={phone} />);
 };
-
-export const getState = wrapper => wrapper.props().phone.store.getState();
-
-export const timeout = ms => new Promise(resolve => setTimeout(resolve, ms));

@@ -1,7 +1,4 @@
-import { Provider } from 'react-redux';
-import { Router } from 'react-router';
-
-import { getWrapper, getState } from './shared';
+import { getWrapper } from './shared';
 import CallsPanel from '../src/components/CallsPanel';
 import NavigationBar from '../src/components/NavigationBar';
 
@@ -10,15 +7,9 @@ let panel = null;
 beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 32000;
   wrapper = await getWrapper();
-  const navigationBar = wrapper.find(Provider).first()
-    .find(Router).first()
-    .find(NavigationBar)
-    .first();
+  const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/history');
-  panel = wrapper.find(Provider).first()
-    .find(Router).first()
-    .find(CallsPanel)
-    .first();
+  panel = wrapper.find(CallsPanel).first();
 });
 
 describe('history', () => {

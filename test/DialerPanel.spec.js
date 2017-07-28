@@ -1,21 +1,17 @@
-import { Provider } from 'react-redux';
-import { Router } from 'react-router';
-
-import { getWrapper, getState } from './shared';
+import { getWrapper } from './shared';
 import DialerPanel from '../src/components/DialerPanel';
 import DialTextInput from '../src/components/DialTextInput';
 import TextInput from '../src/components/TextInput';
 import DialPad, { DialButton } from '../src/components/DialPad';
 
-let panel = null;
 let wrapper = null;
+let store = null;
+let panel = null;
 beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 32000;
   wrapper = await getWrapper();
-  panel = wrapper.find(Provider).first()
-    .find(Router).first()
-    .find(DialerPanel)
-    .first();
+  store = wrapper.props().phone.store;
+  panel = wrapper.find(DialerPanel).first();
 });
 
 const clickButton = (button) => {
@@ -33,7 +29,7 @@ describe('dialer panel', () => {
 
     textInput.props().onChange({ currentTarget: { value: '16506417422' } });
     expect(textInput.props().value).toEqual('16506417422');
-    expect(getState(wrapper).call.toNumber).toEqual('16506417422');
+    expect(store.getState(wrapper).call.toNumber).toEqual('16506417422');
   });
 
   test('dial buttons', () => {
@@ -81,17 +77,17 @@ describe('dialer panel', () => {
     clickButton(buttonSharp);
     expect(textInput.props().value).toEqual('0123456789*#');
 
-    expect(getState(wrapper).call.toNumber).toEqual('0123456789*#');
+    expect(store.getState(wrapper).call.toNumber).toEqual('0123456789*#');
   });
 
   test('invalid  number', async () => {
     const textInput = panel.find(DialTextInput).first().find(TextInput).first();
     await textInput.props().onChange({ currentTarget: { value: 'Hello world' } });
-    expect(getState(wrapper).call.toNumber).toEqual('Hello world');
+    expect(store.getState(wrapper).call.toNumber).toEqual('Hello world');
 
     const callButton = panel.find('.callBtnRow').first().find('.btnSvgGroup').first();
     await callButton.props().onClick();
-    const messages = getState(wrapper).alert.messages;
+    const messages = store.getState(wrapper).alert.messages;
     expect(messages.length).toEqual(1);
     const message = messages[0];
     expect(message.level).toEqual('warning');
@@ -101,26 +97,26 @@ describe('dialer panel', () => {
   test('clear input', async () => {
     const textInput = panel.find(DialTextInput).first().find(TextInput).first();
     await textInput.props().onChange({ currentTarget: { value: 'Hello world' } });
-    expect(getState(wrapper).call.toNumber).toEqual('Hello world');
+    expect(store.getState(wrapper).call.toNumber).toEqual('Hello world');
 
     const deleteButton = panel.find(DialTextInput).first().find('.delete').first();
     await deleteButton.props().onClick();
-    expect(getState(wrapper).call.toNumber).toEqual('');
+    expect(store.getState(wrapper).call.toNumber).toEqual('');
   });
 
   test('click call button to restore last number', async () => {
     const textInput = panel.find(DialTextInput).first().find(TextInput).first();
     await textInput.props().onChange({ currentTarget: { value: 'Hello world' } });
-    expect(getState(wrapper).call.toNumber).toEqual('Hello world');
+    expect(store.getState(wrapper).call.toNumber).toEqual('Hello world');
 
     const callButton = panel.find('.callBtnRow').first().find('.btnSvgGroup').first();
     await callButton.props().onClick();
 
     const deleteButton = panel.find(DialTextInput).first().find('.delete').first();
     await deleteButton.props().onClick();
-    expect(getState(wrapper).call.toNumber).toEqual('');
+    expect(store.getState(wrapper).call.toNumber).toEqual('');
 
     await callButton.props().onClick();
-    expect(getState(wrapper).call.toNumber).toEqual('Hello world');
+    expect(store.getState(wrapper).call.toNumber).toEqual('Hello world');
   });
 });
