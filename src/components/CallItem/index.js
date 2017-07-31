@@ -108,10 +108,9 @@ export default class CallItem extends Component {
       ));
       if (index > -1) return index;
     }
-    if (nextProps.call.toNumberEntity &&
-      nextProps.call.toNumberEntity.id !== '') {
+    if (nextProps.call.toNumberEntity) {
       const index = contactMatches.findIndex(contact => (
-        contact.id === nextProps.call.toNumberEntity.id
+        contact.id === nextProps.call.toNumberEntity
       ));
       return index;
     }
