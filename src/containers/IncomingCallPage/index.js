@@ -9,7 +9,6 @@ import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import ForwardingNumber from 'ringcentral-integration/modules/ForwardingNumber';
 
 import callDirections from 'ringcentral-integration/enums/callDirections';
-import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 
 import IncomingCallPanel from '../../components/IncomingCallPanel';
 
@@ -54,6 +53,8 @@ class IncomingCallPage extends Component {
       this.props.replyWithMessage(this.props.session.id, message);
     this.onForward = forwardNumber =>
       this.props.onForward(this.props.session.id, forwardNumber);
+    this.toggleMinimized = () =>
+      this.props.toggleMinimized(this.props.session.id);
   }
 
   componentDidMount() {
@@ -93,18 +94,7 @@ class IncomingCallPage extends Component {
     if (!active) {
       return null;
     }
-    if (this.props.minimized) {
-      return null;
-    }
-    let isRinging = false;
-    if (
-      session.direction === callDirections.inbound &&
-      session.callStatus === sessionStatus.connecting
-    ) {
-      isRinging = true;
-    }
-    // isRinging = true;
-    if (!isRinging) {
+    if (session.minimized) {
       return null;
     }
     const phoneNumber = session.direction === callDirections.outbound ?
@@ -132,7 +122,7 @@ class IncomingCallPage extends Component {
         selectedMatcherIndex={this.state.selectedMatcherIndex}
         onSelectMatcherName={this.onSelectMatcherName}
         avatarUrl={this.state.avatarUrl}
-        onBackButtonClick={this.props.toggleMinimized}
+        onBackButtonClick={this.toggleMinimized}
         forwardingNumbers={this.props.forwardingNumbers}
         onForward={this.onForward}
         brand={this.props.brand}
@@ -157,7 +147,6 @@ IncomingCallPage.propTypes = {
     contactMatch: PropTypes.object,
   }).isRequired,
   currentLocale: PropTypes.string.isRequired,
-  minimized: PropTypes.bool.isRequired,
   toggleMinimized: PropTypes.func.isRequired,
   answer: PropTypes.func.isRequired,
   reject: PropTypes.func.isRequired,
@@ -173,6 +162,7 @@ IncomingCallPage.propTypes = {
   onForward: PropTypes.func.isRequired,
   updateSessionMatchedContact: PropTypes.func.isRequired,
   showContactDisplayPlaceholder: PropTypes.bool.isRequired,
+  brand: PropTypes.string.isRequired,
 };
 
 IncomingCallPage.defaultProps = {
@@ -188,7 +178,7 @@ function mapToProps(_, {
   brand,
   showContactDisplayPlaceholder,
 }) {
-  const currentSession = webphone.currentSession || {};
+  const currentSession = webphone.ringSession || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
   const fromMatches = (contactMapping && contactMapping[currentSession.from]) || [];
   const toMatches = (contactMapping && contactMapping[currentSession.to]) || [];
@@ -199,7 +189,6 @@ function mapToProps(_, {
     nameMatches,
     currentLocale: locale.currentLocale,
     session: currentSession,
-    minimized: webphone.minimized,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     forwardingNumbers: forwardingNumber.forwardingNumbers,
@@ -223,7 +212,7 @@ function mapToFunctions(_, {
     toVoiceMail: sessionId => webphone.toVoiceMail(sessionId),
     onForward: (sessionId, forwardNumber) => webphone.forward(sessionId, forwardNumber),
     replyWithMessage: (sessionId, message) => webphone.replyWithMessage(sessionId, message),
-    toggleMinimized: () => webphone.toggleMinimized(),
+    toggleMinimized: sessionId => webphone.toggleMinimized(sessionId),
     updateSessionMatchedContact: (sessionId, contact) =>
       webphone.updateSessionMatchedContact(sessionId, contact),
     getAvatarUrl,
