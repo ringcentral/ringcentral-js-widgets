@@ -29,7 +29,7 @@ class CallBadge extends Component {
     this.onClick = () => {
       const isRinging = this._isRinging();
       if (isRinging) {
-        this.props.toggleMinimized();
+        this.props.toggleMinimized(this.props.session.id);
         return;
       }
       this.props.goToCallCtrl();
@@ -55,7 +55,7 @@ class CallBadge extends Component {
       return null;
     }
     const isRinging = this._isRinging();
-    if (isRinging && !this.props.minimized) {
+    if (isRinging && !session.minimized) {
       return null;
     }
     if (this.props.hidden) {
@@ -85,7 +85,6 @@ CallBadge.propTypes = {
     from: PropTypes.string,
   }).isRequired,
   currentLocale: PropTypes.string.isRequired,
-  minimized: PropTypes.bool.isRequired,
   toggleMinimized: PropTypes.func.isRequired,
   goToCallCtrl: PropTypes.func.isRequired,
   hidden: PropTypes.bool.isRequired,
@@ -97,11 +96,11 @@ function mapToProps(_, {
   hidden,
   goToCallCtrl,
 }) {
-  const currentSession = webphone.currentSession || {};
+  const currentSession =
+    webphone.ringSession || webphone.activeSession || {};
   return {
     currentLocale: locale.currentLocale,
     session: currentSession,
-    minimized: webphone.minimized,
     hidden,
     goToCallCtrl,
   };
@@ -111,7 +110,7 @@ function mapToFunctions(_, {
   webphone,
 }) {
   return {
-    toggleMinimized: () => webphone.toggleMinimized(),
+    toggleMinimized: sessionId => webphone.toggleMinimized(sessionId),
   };
 }
 

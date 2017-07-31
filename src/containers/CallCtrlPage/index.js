@@ -187,7 +187,7 @@ function mapToProps(_, {
   regionSettings,
   brand,
 }) {
-  const currentSession = webphone.currentSession || {};
+  const currentSession = webphone.activeSession || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
   const fromMatches = (contactMapping && contactMapping[currentSession.from]) || [];
   const toMatches = (contactMapping && contactMapping[currentSession.to]) || [];
