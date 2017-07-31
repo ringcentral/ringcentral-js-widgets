@@ -76,8 +76,7 @@ export default class CallItem extends Component {
       (
         nextProps.call.activityMatches !== this.props.call.activityMatches ||
         nextProps.call.fromMatches !== this.props.call.fromMatches ||
-        nextProps.call.toMatches !== this.props.call.toMatches ||
-        nextProps.defaultContact !== this.props.defaultContact
+        nextProps.call.toMatches !== this.props.call.toMatches
       )
     ) {
       this.setState({
@@ -101,19 +100,20 @@ export default class CallItem extends Component {
   getInitialContactIndex(nextProps = this.props) {
     const contactMatches = this.getContactMatches(nextProps);
     const activityMatches = nextProps.call.activityMatches;
-    if (nextProps.defaultContact &&
-      (!activityMatches || activityMatches.length === 0)) {
-      const index = contactMatches.findIndex(contact => (
-        contact.id === nextProps.defaultContact.entityId
-      ));
-      return index;
-    }
+    // console.log('getInitialContactIndex:', nextProps.call.toNumberEntity);
     for (const activity of activityMatches) {
       const index = contactMatches.findIndex(contact => (
         // TODO find a better name or mechanism...
         this.props.isLoggedContact(nextProps.call, activity, contact)
       ));
       if (index > -1) return index;
+    }
+    if (nextProps.call.toNumberEntity &&
+      nextProps.call.toNumberEntity.id !== '') {
+      const index = contactMatches.findIndex(contact => (
+        contact.id === nextProps.call.toNumberEntity.id
+      ));
+      return index;
     }
     return -1;
   }
@@ -406,10 +406,6 @@ CallItem.propTypes = {
   // webphoneHangup: PropTypes.func,
   // webphoneResume: PropTypes.func,
   enableContactFallback: PropTypes.bool,
-  defaultContact: PropTypes.shape({
-    phoneNumber: PropTypes.string,
-    entityId: PropTypes.string,
-  }),
 };
 
 CallItem.defaultProps = {
@@ -429,5 +425,4 @@ CallItem.defaultProps = {
   // webphoneHangup: () => null,
   // webphoneResume: () => null,
   enableContactFallback: undefined,
-  defaultContact: undefined,
 };
