@@ -24,23 +24,25 @@ function UserInfo(props) {
           </div>
         </div>
       </div>
-      <ContactDisplay
-        className={styles.userName}
-        contactMatches={props.nameMatches}
-        phoneNumber={props.phoneNumber}
-        fallBackName={props.fallBackName}
-        currentLocale={props.currentLocale}
-        areaCode={props.areaCode}
-        countryCode={props.countryCode}
-        showType={false}
-        disabled={false}
-        selected={props.selectedMatcherIndex}
-        onSelectContact={props.onSelectMatcherName}
-        isLogging={false}
-        enableContactFallback
-        brand={props.brand}
-        showPlaceholder={props.showContactDisplayPlaceholder}
-      />
+      <div className={styles.userNameContainer}>
+        <ContactDisplay
+          className={styles.userName}
+          contactMatches={props.nameMatches}
+          phoneNumber={props.phoneNumber}
+          fallBackName={props.fallBackName}
+          currentLocale={props.currentLocale}
+          areaCode={props.areaCode}
+          countryCode={props.countryCode}
+          showType={false}
+          disabled={false}
+          selected={props.selectedMatcherIndex}
+          onSelectContact={props.onSelectMatcherName}
+          isLogging={false}
+          enableContactFallback
+          brand={props.brand}
+          showPlaceholder={props.showContactDisplayPlaceholder}
+        />
+      </div>
       <div className={styles.userPhoneNumber}>
         {props.formatPhone(props.phoneNumber)}
       </div>
