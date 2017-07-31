@@ -48,7 +48,7 @@ export default function App({
                 goToCallCtrl={() => {
                   phone.router.push('/calls/active');
                 }}
-              />
+            />
               <IncomingCallPage
                 locale={phone.locale}
                 brand={phone.brand}
@@ -76,12 +76,17 @@ export default function App({
                 />
                 <RecentActivityContainer
                   locale={phone.locale}
-                  router={phone.router}
                   dateTimeFormat={phone.dateTimeFormat}
-                  webphone={phone.webphone}
                   contactMatcher={phone.contactMatcher}
                   recentMessages={phone.recentMessages}
                   recentCalls={phone.recentCalls}
+                  getSession={() => (phone.webphone.ringSession || {})}
+                  navigateTo={(path) => {
+                    phone.webphone.toggleMinimized(
+                      phone.webphone.ringSession && phone.webphone.ringSession.id
+                    );
+                    phone.router.push(path);
+                  }}
                 />
               </IncomingCallPage>
             </AppView>
@@ -203,12 +208,14 @@ export default function App({
                 >
                   <RecentActivityContainer
                     locale={phone.locale}
-                    router={phone.router}
                     dateTimeFormat={phone.dateTimeFormat}
-                    webphone={phone.webphone}
                     contactMatcher={phone.contactMatcher}
                     recentMessages={phone.recentMessages}
                     recentCalls={phone.recentCalls}
+                    getSession={() => (phone.webphone.activeSession || {})}
+                    navigateTo={(path) => {
+                      phone.router.push(path);
+                    }}
                   />
                 </CallCtrlPage>
               )} />

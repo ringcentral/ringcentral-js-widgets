@@ -6,6 +6,48 @@ import SpinnerOverlay from '../SpinnerOverlay';
 import RecentActivityNavigationButton from '../RecentActivityNavigationButton';
 import RecentActivityMessages from '../RecentActivityMessages';
 import RecentActivityCalls from '../RecentActivityCalls';
+import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
+import GmailIcon from '../../assets/images/Gmail.svg';
+import VoicemailIcon from '../../assets/images/VoicemailIcon.svg';
+import FaxIcon from '../../assets/images/Fax.svg';
+import i18n from './i18n';
+
+function getTabs({ locale, unreadMessageCounts }) {
+  const currentLocale = locale.currentLocale;
+  return [
+    {
+      icon: <span><GmailIcon width={20} height={20} className={styles.gmail} /></span>,
+      label: i18n.getString('gmail', currentLocale),
+      path: 'gmail',
+      isActive: path => path === 'gmail'
+    },
+    {
+      icon: <VoicemailIcon width={23} height={23} />,
+      label: i18n.getString('voicemail', currentLocale),
+      path: 'voicemails',
+      isActive: path => path === 'voicemails'
+    },
+    {
+      icon: <span className={dynamicsFont.composeText} />,
+      label: i18n.getString('text', currentLocale),
+      path: 'recentMessages',
+      noticeCounts: unreadMessageCounts,
+      isActive: path => path === 'recentMessages'
+    },
+    {
+      icon: <FaxIcon width={23} height={23} />,
+      label: i18n.getString('fax', currentLocale),
+      path: 'faxes',
+      isActive: path => path === 'faxes'
+    },
+    {
+      icon: <span className={dynamicsFont.active} />,
+      label: i18n.getString('call', currentLocale),
+      path: 'recentCalls',
+      isActive: path => path === 'recentCalls'
+    },
+  ];
+}
 
 export default class RecentActivityView extends PureComponent {
   constructor(props) {
@@ -76,12 +118,12 @@ export default class RecentActivityView extends PureComponent {
   }
 
   render() {
-    const { showSpinner, tabs } = this.props;
+    const { showSpinner, locale, unreadMessageCounts } = this.props;
     if (showSpinner) return <SpinnerOverlay />;
     const props = {
       currentPath: this.state.currentTab,
       goTo: this.onTabChanged,
-      tabs
+      tabs: getTabs({ locale, unreadMessageCounts })
     };
     return (
       <div className={styles.recentActivityView}>
@@ -104,7 +146,8 @@ RecentActivityView.propTypes = {
   isMessagesLoaded: PropTypes.bool.isRequired,
   currentContact: PropTypes.object.isRequired,
   isCallsLoaded: PropTypes.bool.isRequired,
-  tabs: PropTypes.array.isRequired,
+  locale: PropTypes.object.isRequired,
+  unreadMessageCounts: PropTypes.number.isRequired,
   navigateTo: PropTypes.func.isRequired,
   dateTimeFormatter: PropTypes.func.isRequired,
   messages: PropTypes.array.isRequired,

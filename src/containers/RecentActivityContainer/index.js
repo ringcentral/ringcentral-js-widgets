@@ -1,27 +1,7 @@
-import React from 'react';
 import { connect } from 'react-redux';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import RecentActivityPanel from '../../components/RecentActivityPanel';
-import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import i18n from './i18n';
-
-function getTabs({ unreadCounts }) {
-  return [
-    {
-      icon: <span className={dynamicsFont.active} />,
-      label: 'Calls',
-      path: 'recentCalls',
-      isActive: path => path === 'recentCalls'
-    },
-    {
-      icon: <span className={dynamicsFont.composeText} />,
-      label: 'Messages',
-      path: 'recentMessages',
-      noticeCounts: unreadCounts,
-      isActive: path => path === 'recentMessages'
-    }
-  ];
-}
 
 function mapToProps(_, {
   locale,
@@ -29,15 +9,15 @@ function mapToProps(_, {
   dateTimeFormat,
   recentMessages,
   recentCalls,
-  webphone,
-  contactMatcher
+  contactMatcher,
+  getSession
 }) {
-  const unreadCounts = recentMessages.unreadMessageCounts || 0;
-  const currentSession = webphone.currentSession || {};
+  const session = getSession();
+  const unreadMessageCounts = recentMessages.unreadMessageCounts || 0;
+  let currentContact = session.contactMatch;
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
-  const phoneNumber = currentSession.direction === callDirections.outbound ?
-      currentSession.to : currentSession.from;
-  let currentContact = currentSession.contactMatch;
+  const phoneNumber = session.direction === callDirections.outbound ?
+    session.to : session.from;
   if (!currentContact) {
     currentContact = contactMapping && contactMapping[phoneNumber];
     if (currentContact && currentContact.length >= 1) {
@@ -59,33 +39,31 @@ function mapToProps(_, {
     messages: recentMessages.messages || [],
     isCallsLoaded: recentCalls.isCallsLoaded,
     calls: recentCalls.calls || [],
-    tabs: getTabs({ unreadCounts })
+    unreadMessageCounts
   };
 }
 
 function mapToFunctions(_, {
-  router,
   dateTimeFormat,
   dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
   recentMessages,
   recentCalls,
-  webphone,
+  navigateTo,
+  getSession
 }) {
+  const session = getSession();
   return {
     dateTimeFormatter,
-    navigateTo(path) {
-      webphone.toggleMinimized();
-      router.push(path);
-    },
+    navigateTo,
     getRecentMessages: contact => recentMessages.getMessages(contact),
     getRecentCalls: contact => recentCalls.getCalls(contact),
     cleanUpMessages: () => (
-      !webphone.currentSession
+      !session
         ? recentMessages.cleanUpMessages()
         : () => {}
     ),
     cleanUpCalls: () => (
-      !webphone.currentSession
+      !session
         ? recentCalls.cleanUpCalls()
         : () => {}
     )
