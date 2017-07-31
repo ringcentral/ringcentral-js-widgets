@@ -25,21 +25,26 @@
 
 .userInfo {
   margin-top: 0;
-  margin-bottom: 30px;
   text-align: center;
   font-size: 60px;
   color: lightblack;
-  margin-bottom: 15px;
+  margin-bottom: 40px;
 }
 
 .avatarContainer {
   display: block;
 }
 
+.userNameContainer {
+  display: block;
+  height: 25px;
+}
+
 .userName {
   font-size: 15px;
   color: $lightblack;
   display: inline-block;
+  vertical-align: top;
   line-height: 25px;
 }
 
