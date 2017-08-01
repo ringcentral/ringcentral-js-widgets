@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import recordStatus from 'ringcentral-integration/modules/Webphone/recordStatus';
 import CircleButton from '../CircleButton';
 import ActiveCallButton from '../ActiveCallButton';
 import MuteIcon from '../../assets/images/Mute.svg';
@@ -37,10 +38,15 @@ export default function ActiveCallPad(props) {
   const onHoldClicked = props.isOnHold ?
     props.onUnhold :
     props.onHold;
-  const onRecordClicked = props.isOnRecord ?
+  const onRecordClicked = props.recordStatus === recordStatus.recording ?
     props.onStopRecord :
     props.onRecord;
   const disabledFlip = props.flipNumbers.length === 0;
+  const recordTitle = props.recordStatus === recordStatus.recording ?
+    i18n.getString('stopRecord', props.currentLocale) :
+    i18n.getString('record', props.currentLocale);
+  const isRecordButtonActive = props.recordStatus === recordStatus.recording;
+  const isRecordDisabled = props.recordStatus === recordStatus.pending;
   return (
     <div className={classnames(styles.root, props.className)}>
       <div className={styles.callCtrlButtonGroup}>
@@ -74,15 +80,11 @@ export default function ActiveCallPad(props) {
           />
           <ActiveCallButton
             onClick={props.isOnHold ? () => {} : onRecordClicked}
-            title={
-              props.isOnRecord ?
-                i18n.getString('stopRecord', props.currentLocale) :
-                i18n.getString('record', props.currentLocale)
-            }
-            active={props.isOnRecord}
+            title={recordTitle}
+            active={isRecordButtonActive}
             className={styles.callButton}
             icon={RecordIcon}
-            disabled={props.isOnHold}
+            disabled={props.isOnHold || isRecordDisabled}
           />
           <ActiveCallButton
             onClick={props.onAdd}
@@ -127,6 +129,7 @@ ActiveCallPad.propTypes = {
   isOnMute: PropTypes.bool,
   isOnHold: PropTypes.bool,
   isOnRecord: PropTypes.bool,
+  recordStatus: PropTypes.string.isRequired,
   onMute: PropTypes.func.isRequired,
   onUnmute: PropTypes.func.isRequired,
   onHold: PropTypes.func.isRequired,
