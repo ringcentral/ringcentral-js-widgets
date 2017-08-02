@@ -103,19 +103,29 @@ export default class CallItem extends Component {
     this.setState({
       selected,
     });
-    if (this.props.call.activityMatches.length > 0) {
+    if (
+      this.props.call.activityMatches.length > 0 &&
+      this.props.autoLog
+    ) {
       this.logCall({ redirect: false, selected });
     }
   }
   getInitialContactIndex(nextProps = this.props) {
     const contactMatches = this.getContactMatches(nextProps);
     const activityMatches = nextProps.call.activityMatches;
+    // console.log('getInitialContactIndex:', nextProps.call.toNumberEntity);
     for (const activity of activityMatches) {
       const index = contactMatches.findIndex(contact => (
         // TODO find a better name or mechanism...
         this.props.isLoggedContact(nextProps.call, activity, contact)
       ));
       if (index > -1) return index;
+    }
+    if (nextProps.call.toNumberEntity) {
+      const index = contactMatches.findIndex(contact => (
+        contact.id === nextProps.call.toNumberEntity
+      ));
+      return index;
     }
     return -1;
   }
@@ -413,6 +423,7 @@ CallItem.propTypes = {
   // webphoneHangup: PropTypes.func,
   // webphoneResume: PropTypes.func,
   enableContactFallback: PropTypes.bool,
+  autoLog: PropTypes.bool,
 };
 
 CallItem.defaultProps = {
@@ -432,4 +443,5 @@ CallItem.defaultProps = {
   // webphoneHangup: () => null,
   // webphoneResume: () => null,
   enableContactFallback: undefined,
+  autoLog: false,
 };

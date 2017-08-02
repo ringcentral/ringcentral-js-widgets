@@ -465,10 +465,12 @@ export default class Phone extends RcModule {
     this.addModule('callMonitor', new CallMonitor({
       ...options,
       accountInfo: this.accountInfo,
-      detailedPresence: this.detailedPresence,
       activeCalls: this.activeCalls,
       activityMatcher: this.activityMatcher,
+      call: this.call,
       contactMatcher: this.contactMatcher,
+      detailedPresence: this.detailedPresence,
+      storage: this.storage,
       webphone: this.webphone,
       onRinging: async () => {
         if (this.webphone._webphone) {
