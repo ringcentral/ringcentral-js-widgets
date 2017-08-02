@@ -1,11 +1,12 @@
-@import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/full-size.scss';
 @import '../../lib/commonStyles/layout.scss';
 @import '../../lib/commonStyles/fonts.scss';
+@import '../../lib/commonStyles/buttons.scss';
 
 .root {
   @include full-size;
 }
+
 .content {
   @include full-size;
   overflow-y: auto;
@@ -15,6 +16,7 @@
   background-color: white;
   padding: 10px $container-padding-right 10px $container-padding-left;
 }
+
 .inputField {
   padding: 5px 0px;
 }
@@ -48,4 +50,19 @@
   border: 1px solid #a6a6a6;
   border-radius: 2px;
   height: 100%;
+}
+
+.saveButton {
+  display: block;
+  margin-top: 20px;
+  @include big-submit-button;
+
+  &.disabled {
+    @include big-submit-button-disabled
+  }
+}
+
+.revertIcon {
+  margin-right: 15px;
+  margin-top: 12px;
 }

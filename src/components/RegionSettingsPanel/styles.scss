@@ -2,6 +2,7 @@
 @import '../../lib/commonStyles/full-size.scss';
 @import '../../lib/commonStyles/layout.scss';
 @import '../../lib/commonStyles/fonts.scss';
+@import '../../lib/commonStyles/buttons.scss';
 
 .root {
   @include full-size;
@@ -36,4 +37,19 @@
   position: absolute;
   top: 5px;
   left: 10px;
+}
+
+.revertIcon {
+  margin-right: 15px;
+  margin-top: 12px;
+}
+
+.saveButton {
+  display: block;
+  margin-top: 20px;
+  @include big-submit-button;
+
+  &.disabled {
+    @include big-submit-button-disabled
+  }
 }
