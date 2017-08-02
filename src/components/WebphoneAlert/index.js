@@ -22,7 +22,7 @@ WebphoneAlert.handleMessage = ({ message }) => (
   (message === webphoneErrors.webphoneCountOverLimit) ||
   (message === webphoneErrors.notOutboundCallWithoutDL) ||
   (message === webphoneErrors.toVoiceMailError) ||
+  (message === webphoneErrors.connected) ||
   (message === webphoneErrors.muteError) ||
   (message === webphoneErrors.holdError)
 );
-
