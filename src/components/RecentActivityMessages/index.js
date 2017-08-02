@@ -13,7 +13,7 @@ function MessageItem({ message, navigateTo, dateTimeFormatter }) {
   return (
     <div
       className={cx('messageItem', { localMessageItem: !message.fromRemote })}
-      onClick={() => !message.fromRemote && navigateTo(`conversations/${conversationId}`)}
+      onClick={() => !message.fromRemote && navigateTo(`/conversations/${conversationId}`)}
     >
       <dl className={styles.dl}>
         <dt className={cx('messageSubject', { unread: isUnread })} title={subject}>{subject}</dt>
