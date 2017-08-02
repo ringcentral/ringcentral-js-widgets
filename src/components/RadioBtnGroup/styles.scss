@@ -1,0 +1,22 @@
+.optionBtn {
+  display: inline-block;
+  position: relative;
+  width:17px;
+  height: 17px;
+  border-radius: 100%;
+  background: #fff;
+  border: 1px solid #000;
+  
+  &.active:before{
+    content: '';
+    display: block;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 6px;
+    height: 6px;
+    border: 1px solid blue;
+    border-radius: 100%;
+    background: blue;
+  }
+}

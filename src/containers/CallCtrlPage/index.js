@@ -7,6 +7,7 @@ import Brand from 'ringcentral-integration/modules/Brand';
 import Locale from 'ringcentral-integration/modules/Locale';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import callDirections from 'ringcentral-integration/enums/callDirections';
+import ForwardingNumber from 'ringcentral-integration/modules/ForwardingNumber';
 
 import CallCtrlPanel from '../../components/CallCtrlPanel';
 
@@ -57,6 +58,10 @@ class CallCtrlPage extends Component {
       this.props.hangup(this.props.session.id);
     this.onKeyPadChange = value =>
       this.props.sendDTMF(value, this.props.session.id);
+    this.flip = value =>
+      this.props.flip(value, this.props.session.id);
+    this.reject = () =>
+      this.props.reject(this.props.session.id);
   }
 
   componentDidMount() {
@@ -116,6 +121,7 @@ class CallCtrlPage extends Component {
         isOnMute={session.isOnMute}
         isOnHold={session.isOnHold}
         isOnRecord={session.isOnRecord}
+        isOnFlip={session.isOnFlip}
         onBackButtonClick={this.props.onBackButtonClick}
         onMute={this.onMute}
         onUnmute={this.onUnmute}
@@ -126,6 +132,8 @@ class CallCtrlPage extends Component {
         onKeyPadChange={this.onKeyPadChange}
         hangup={this.hangup}
         onAdd={this.props.onAdd}
+        flip={this.flip}
+        reject={this.reject}
         nameMatches={this.props.nameMatches}
         fallBackName={fallbackUserName}
         areaCode={this.props.areaCode}
@@ -135,6 +143,7 @@ class CallCtrlPage extends Component {
         avatarUrl={this.state.avatarUrl}
         brand={this.props.brand}
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
+        flipNumbers={this.props.flipNumbers}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -150,6 +159,7 @@ CallCtrlPage.propTypes = {
     isOnMute: PropTypes.bool,
     isOnHold: PropTypes.bool,
     isOnRecord: PropTypes.bool,
+    isOnFlip: PropTypes.bool,
     to: PropTypes.string,
     from: PropTypes.string,
     contactMatch: PropTypes.object,
@@ -165,6 +175,8 @@ CallCtrlPage.propTypes = {
   sendDTMF: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
+  flip: PropTypes.func.isRequired,
+  reject: PropTypes.func.isRequired,
   children: PropTypes.node,
   nameMatches: PropTypes.array.isRequired,
   areaCode: PropTypes.string.isRequired,
@@ -174,6 +186,7 @@ CallCtrlPage.propTypes = {
   updateSessionMatchedContact: PropTypes.func.isRequired,
   brand: PropTypes.string.isRequired,
   showContactDisplayPlaceholder: PropTypes.bool.isRequired,
+  flipNumbers: PropTypes.array.isRequired,
 };
 
 CallCtrlPage.defaultProps = {
@@ -186,6 +199,7 @@ function mapToProps(_, {
   contactMatcher,
   regionSettings,
   brand,
+  forwardingNumber,
 }) {
   const currentSession = webphone.currentSession || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -200,6 +214,7 @@ function mapToProps(_, {
     session: currentSession,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
+    flipNumbers: forwardingNumber.flipNumbers,
   };
 }
 
@@ -229,6 +244,8 @@ function mapToFunctions(_, {
     getAvatarUrl,
     onBackButtonClick,
     onAdd,
+    flip: (flipNumber, sessionId) => webphone.flip(flipNumber, sessionId),
+    reject: sessionId => webphone.reject(sessionId),
   };
 }
 
@@ -242,6 +259,7 @@ CallCtrlContainer.propTypes = {
   locale: PropTypes.instanceOf(Locale).isRequired,
   brand: PropTypes.instanceOf(Brand).isRequired,
   regionSettings: PropTypes.instanceOf(RegionSettings).isRequired,
+  forwardingNumber: PropTypes.instanceOf(ForwardingNumber).isRequired,
   getAvatarUrl: PropTypes.func,
   onBackButtonClick: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,

@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 
 import ActiveCallDialPad from '../ActiveCallDialPad';
 import ActiveCallPanel from '../ActiveCallPanel';
+import FlipPanel from '../FlipPanel';
 
 class CallCtrlPanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isShowKeyPad: false,
+      isShowFlipPanel: true,
     };
 
     this.hiddenKeyPad = () => {
@@ -22,6 +24,18 @@ class CallCtrlPanel extends Component {
         isShowKeyPad: true,
       });
     };
+
+    this.showFlipPanel = () => {
+      this.setState({
+        isShowFlipPanel: true
+      });
+    };
+
+    this.hideFlipPanel = () => {
+      this.setState({
+        isShowFlipPanel: false
+      });
+    };
   }
 
   render() {
@@ -32,6 +46,19 @@ class CallCtrlPanel extends Component {
           hiddenDialPad={this.hiddenKeyPad}
           hangup={this.props.hangup}
           currentLocale={this.props.currentLocale}
+        />
+      );
+    }
+    if (this.state.isShowFlipPanel) {
+      return (
+        <FlipPanel
+          flipNumbers={this.props.flipNumbers}
+          formatPhone={this.props.formatPhone}
+          isOnFlip={this.props.isOnFlip}
+          currentLocale={this.props.currentLocale}
+          flip={this.props.flip}
+          hideFlipPanel={this.hideFlipPanel}
+          reject={this.props.reject}
         />
       );
     }
@@ -66,6 +93,8 @@ class CallCtrlPanel extends Component {
         avatarUrl={this.props.avatarUrl}
         brand={this.props.brand}
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
+        onShowFlipPanel={this.showFlipPanel}
+        flipNumbers={this.props.flipNumbers}
       >
         {this.props.children}
       </ActiveCallPanel>
@@ -84,6 +113,8 @@ CallCtrlPanel.propTypes = {
   isOnMute: PropTypes.bool,
   isOnHold: PropTypes.bool,
   isOnRecord: PropTypes.bool,
+  isOnFlip: PropTypes.bool,
+  flipNumbers: PropTypes.array,
   onMute: PropTypes.func.isRequired,
   onUnmute: PropTypes.func.isRequired,
   onHold: PropTypes.func.isRequired,
@@ -92,6 +123,8 @@ CallCtrlPanel.propTypes = {
   onStopRecord: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
   hangup: PropTypes.func.isRequired,
+  flip: PropTypes.func.isRequired,
+  reject: PropTypes.func.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
   onKeyPadChange: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
@@ -111,6 +144,8 @@ CallCtrlPanel.defaultProps = {
   isOnMute: false,
   isOnHold: false,
   isOnRecord: false,
+  isOnFlip: false,
+  flipNumbers: [],
   phoneNumber: null,
   children: undefined,
   avatarUrl: null,
