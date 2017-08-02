@@ -2,6 +2,7 @@ import callingOptions from 'ringcentral-integration/modules/CallingSettings/call
 
 export default {
   title: 'Calling',
+  save: 'Save',
   [callingOptions.softphone]: '{brand} for Desktop',
   [callingOptions.myphone]: 'My {brand} Phone',
   [callingOptions.otherphone]: 'Other Phone',

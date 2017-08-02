@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import 'font-awesome/css/font-awesome.css';
 
 import BackHeader from '../BackHeader';
 import Panel from '../Panel';
 import InputField from '../InputField';
 import TextInput from '../TextInput';
 import Select from '../DropdownSelect';
+import Button from '../Button';
+import Revert from '../../assets/images/Revert.svg';
 
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -88,16 +89,10 @@ export default class RegionSettings extends Component {
       this.state.countryCodeValue !== this.props.countryCode;
     if (this.props.onBackButtonClick) {
       buttons.push({
-        label: <i className="fa fa-undo" />,
+        label: <Revert width="19" className={styles.revertIcon} />,
         onClick: this.onResetClick,
         placement: 'right',
         hidden: !hasChanges,
-      });
-      buttons.push({
-        label: <i className="fa fa-floppy-o" />,
-        onClick: this.onSaveClick,
-        placement: 'right',
-        disabled: !hasChanges,
       });
     }
     const hasNA = !!this.props.availableCountries.find(c => c.isoCode === 'US') ||
@@ -153,6 +148,13 @@ export default class RegionSettings extends Component {
                 onChange={this.onAreaCodeChange} />
             </InputField>
           )}
+          <Button
+            className={classnames(styles.saveButton, !hasChanges ? styles.disabled : null)}
+            onClick={this.onSaveClick}
+            disabled={!hasChanges}
+          >
+            {i18n.getString('save', this.props.currentLocale)}
+          </Button>
           {this.props.children}
         </Panel>
       </div>
@@ -172,4 +174,11 @@ RegionSettings.propTypes = {
   countryCode: PropTypes.string.isRequired,
   areaCode: PropTypes.string.isRequired,
   onSave: PropTypes.func,
+};
+
+RegionSettings.defaultProps = {
+  className: undefined,
+  children: undefined,
+  onBackButtonClick: undefined,
+  onSave: undefined,
 };

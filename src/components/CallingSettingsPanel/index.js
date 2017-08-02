@@ -4,10 +4,11 @@ import classnames from 'classnames';
 import formatMessage from 'format-message';
 
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
-import 'font-awesome/css/font-awesome.css';
 import Tooltip from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap_white.css';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
+import Revert from '../../assets/images/Revert.svg';
+
 import styles from './styles.scss';
 import i18n from './i18n';
 
@@ -18,6 +19,7 @@ import IconField from '../IconField';
 import InputField from '../InputField';
 import TextInput from '../TextInput';
 import Select from '../DropdownSelect';
+import Button from '../Button';
 
 export default class CallingSettingsPanel extends Component {
   constructor(props) {
@@ -143,16 +145,10 @@ export default class CallingSettingsPanel extends Component {
       this.state.myLocation !== myLocation ||
       this.state.ringoutPrompt !== ringoutPrompt;
     buttons.push({
-      label: <i className="fa fa-undo" />,
+      label: <Revert width="19" className={styles.revertIcon} />,
       onClick: this.onReset,
       placement: 'right',
       hidden: !hasChanges,
-    });
-    buttons.push({
-      label: <i className="fa fa-floppy-o" />,
-      onClick: this.onSave,
-      placement: 'right',
-      disabled: !hasChanges,
     });
 
     const ringout =
@@ -250,6 +246,13 @@ export default class CallingSettingsPanel extends Component {
             />
           </InputField>
           {ringout}
+          <Button
+            className={classnames(styles.saveButton, !hasChanges ? styles.disabled : null)}
+            onClick={this.onSave}
+            disabled={!hasChanges}
+          >
+            {i18n.getString('save', currentLocale)}
+          </Button>
         </Panel>
       </div>
     );
