@@ -103,12 +103,19 @@ export default class CallItem extends Component {
   getInitialContactIndex(nextProps = this.props) {
     const contactMatches = this.getContactMatches(nextProps);
     const activityMatches = nextProps.call.activityMatches;
+    // console.log('getInitialContactIndex:', nextProps.call.toNumberEntity);
     for (const activity of activityMatches) {
       const index = contactMatches.findIndex(contact => (
         // TODO find a better name or mechanism...
         this.props.isLoggedContact(nextProps.call, activity, contact)
       ));
       if (index > -1) return index;
+    }
+    if (nextProps.call.toNumberEntity) {
+      const index = contactMatches.findIndex(contact => (
+        contact.id === nextProps.call.toNumberEntity
+      ));
+      return index;
     }
     return -1;
   }
