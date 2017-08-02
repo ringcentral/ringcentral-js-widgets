@@ -213,7 +213,7 @@ class ConversationPanel extends Component {
                 value={this.state.textValue}
                 maxLength="1000"
                 onChange={this.onTextChange}
-                onKeyDown={this.onTextAreaKeyDown}
+                onKeyPressCapture={this.onTextAreaKeyDown}
               />
             </div>
             <div className={styles.submitField}>

@@ -9,7 +9,7 @@ function SelectedRecipientItem({
   name = phoneNumber,
   onRemove,
 }) {
-  const className = phoneNumber.length > 5 ? styles.blue : null;
+  const className = phoneNumber.length > 5 ? styles.phoneNumber : styles.extension;
   return (
     <li className={className}>
       <span>{name}</span>
@@ -120,7 +120,20 @@ class RecipientsInput extends Component {
       }
     };
 
-    this.handleHotKey = (e) => {
+    this.isSplitter = (e) => {
+      if (
+        e.key === ',' || e.key === ';' || e.key === 'Enter' ||
+        (e.key === 'Unidentified' && // for Safari (FF cannot rely on keyCode...)
+        (e.keyCode === 186 || // semicolon
+        e.keyCode === 188 || // comma
+        e.keyCode === 13)) // enter
+      ) {
+        return true;
+      }
+      return false;
+    };
+    // using React SyntheticEvent to deal with cross browser issue
+    this.handleHotKey = (e: React.KeyboardEvent) => {
       if (this.state.isFocusOnInput && this.props.value.length >= 3) {
         if (e.key === 'ArrowUp') {
           this.reduceSelectedContactIndex();
@@ -134,7 +147,7 @@ class RecipientsInput extends Component {
           selectedContactIndex: 0,
         });
       }
-      if (e.key === ',' || e.key === ';' || e.key === 'Enter') {
+      if (this.isSplitter(e)) {
         e.preventDefault();
         if (this.props.value.length === 0) {
           return;
