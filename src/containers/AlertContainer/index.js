@@ -140,8 +140,11 @@ const AlertContainer = connect(
 
 AlertContainer.propTypes = {
   alert: PropTypes.instanceOf(Alert).isRequired,
-  getRenderer: PropTypes.func.isRequired,
+  getRenderer: PropTypes.func,
   locale: PropTypes.instanceOf(Locale).isRequired,
+};
+AlertContainer.defaultProps = {
+  getRenderer: undefined,
 };
 
 export default AlertContainer;

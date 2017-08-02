@@ -45,7 +45,7 @@ function mapToProps(_, {
       (!composeText || composeText.ready) &&
       (!callLogger || callLogger.ready)
     ),
-    autoLog: callLogger.autoLog,
+    autoLog: !!(callLogger && callLogger.autoLog),
   };
 }
 function mapToFunctions(_, {

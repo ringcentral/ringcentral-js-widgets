@@ -171,10 +171,10 @@ export default class MessageItem extends Component {
     }
   }
   showConversationDetail = (e) => {
-    if (e.captureClick === false) {
-      delete e.captureClick;
-      return;
-    }
+    // if (e.captureClick === false) {
+    //   delete e.captureClick;
+    //   return;
+    // }
     this.props.showConversationDetail(this.props.conversation.conversationId);
   }
 
@@ -249,6 +249,7 @@ export default class MessageItem extends Component {
           isLogging={isLogging || this.state.isLogging}
           isLogged={conversationMatches.length > 0}
           isCreating={this.state.isCreating}
+          stopPropagation
         />
       </div>
     );

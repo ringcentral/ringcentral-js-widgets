@@ -43,7 +43,7 @@ function mapToProps(_, {
       (!rolesAndPermissions || rolesAndPermissions.ready) &&
       (!composeText || composeText.ready)
     ),
-    autoLog: callLogger.autoLog,
+    autoLog: !!(callLogger && callLogger.autoLog),
   };
 }
 function mapToFunctions(_, {
