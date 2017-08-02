@@ -118,7 +118,6 @@ class CallCtrlPage extends Component {
         startTime={session.startTime}
         isOnMute={session.isOnMute}
         isOnHold={session.isOnHold}
-        isOnRecord={session.isOnRecord}
         isOnFlip={session.isOnFlip}
         recordStatus={session.recordStatus}
         onBackButtonClick={this.props.onBackButtonClick}

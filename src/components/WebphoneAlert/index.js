@@ -5,9 +5,20 @@ import i18n from './i18n';
 
 export default function WebphoneAlert(props) {
   const message = props.message.message;
-  return (
-    <span>{i18n.getString(message, props.currentLocale)}</span>
-  );
+  let view = (<span>{i18n.getString(message, props.currentLocale)}</span>);
+  // Handle call record error
+  if (message === webphoneErrors.recordError) {
+    const errorCode = props.message.payload.errorCode;
+    view = (
+      <span>
+        {i18n.getString(message, props.currentLocale)}
+        {
+          errorCode ? `${i18n.getString('errorCode', props.currentLocale)} ${errorCode}` : null
+        }
+      </span>
+    );
+  }
+  return view;
 }
 
 WebphoneAlert.propTypes = {
@@ -25,5 +36,6 @@ WebphoneAlert.handleMessage = ({ message }) => (
   (message === webphoneErrors.connected) ||
   (message === webphoneErrors.muteError) ||
   (message === webphoneErrors.holdError) ||
-  (message === webphoneErrors.flipError)
+  (message === webphoneErrors.flipError) ||
+  (message === webphoneErrors.recordError)
 );

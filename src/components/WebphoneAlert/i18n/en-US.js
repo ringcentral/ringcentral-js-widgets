@@ -10,5 +10,7 @@ export default {
   [webphoneErrors.toVoiceMailError]: 'Cannot send call to voicemail due to internal error',
   [webphoneErrors.muteError]: 'Call cannot be muted at the moment.',
   [webphoneErrors.holdError]: 'Call cannot be hold at the moment.',
-  [webphoneErrors.flipError]: 'Cannot flip the call. Please try again later.'
+  [webphoneErrors.flipError]: 'Cannot flip the call. Please try again later.',
+  [webphoneErrors.recordError]: 'You cannot record the call at the moment.',
+  errorCode: 'Error code:'
 };

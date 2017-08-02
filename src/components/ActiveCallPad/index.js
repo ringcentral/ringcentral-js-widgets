@@ -128,7 +128,6 @@ ActiveCallPad.propTypes = {
   className: PropTypes.string,
   isOnMute: PropTypes.bool,
   isOnHold: PropTypes.bool,
-  isOnRecord: PropTypes.bool,
   recordStatus: PropTypes.string.isRequired,
   onMute: PropTypes.func.isRequired,
   onUnmute: PropTypes.func.isRequired,
@@ -147,5 +146,4 @@ ActiveCallPad.defaultProps = {
   className: null,
   isOnMute: false,
   isOnHold: false,
-  isOnRecord: false,
 };
