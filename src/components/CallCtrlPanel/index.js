@@ -58,7 +58,7 @@ class CallCtrlPanel extends Component {
           currentLocale={this.props.currentLocale}
           flip={this.props.flip}
           hideFlipPanel={this.hideFlipPanel}
-          reject={this.props.reject}
+          hangup={this.props.hangup}
         />
       );
     }
@@ -124,7 +124,6 @@ CallCtrlPanel.propTypes = {
   onAdd: PropTypes.func.isRequired,
   hangup: PropTypes.func.isRequired,
   flip: PropTypes.func.isRequired,
-  reject: PropTypes.func.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
   onKeyPadChange: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,

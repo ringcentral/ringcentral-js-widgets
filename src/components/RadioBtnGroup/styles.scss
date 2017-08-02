@@ -1,22 +1,56 @@
-.optionBtn {
-  display: inline-block;
-  position: relative;
-  width:17px;
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/fonts';
+
+.root {
+  @include primary-font;
+  padding: 0 0 0 20px;
+}
+
+.radioOption {
+  width: 100%;
   height: 17px;
-  border-radius: 100%;
-  background: #fff;
-  border: 1px solid #000;
+  line-height: 17px;
+  margin-top: 18px;
   
-  &.active:before{
-    content: '';
-    display: block;
-    position: absolute;
-    top: 5px;
-    left: 5px;
-    width: 6px;
-    height: 6px;
-    border: 1px solid blue;
+  .optionBtn {
+    display: inline-block;
+    position: relative;
+    width:15px;
+    height: 15px;
     border-radius: 100%;
-    background: blue;
+    background: #fff;
+    border: 1px solid #979797;
+  
+    &.active:before{
+      content: '';
+      display: block;
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 5px;
+      height: 5px;
+      border: 1px solid #0073ae;
+      border-radius: 100%;
+      background: #0073ae;
+    }
+  }
+
+  .optionNumber {
+    display: inline-block;
+    margin-left: 15px;
+    height: 16px;
+    overflow: hidden;
+  }
+
+  .optionLabel {
+    display: inline-block;
+    margin-left: 26px;
+    height: 16px;
+    max-width: 43px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
+

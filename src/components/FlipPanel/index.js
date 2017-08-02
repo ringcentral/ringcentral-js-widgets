@@ -27,11 +27,14 @@ export default class FlipPanel extends Component {
   }
   render() {
     const formatFlipNumbers = [];
-    this.props.flipNumbers.forEach((number) => {
-      formatFlipNumbers.push(this.props.formatPhone(number.phoneNumber));
+    this.props.flipNumbers.forEach((item) => {
+      formatFlipNumbers.push({
+        number: this.props.formatPhone(item.phoneNumber),
+        label: item.label
+      });
     });
     return (
-      <div>
+      <div className={styles.root}>
         <BackHeader
           onBackClick={this.props.hideFlipPanel}
           backButton={(
@@ -41,31 +44,34 @@ export default class FlipPanel extends Component {
                 {i18n.getString('flipHeader', this.props.currentLocale)}
               </span>
             </span>
-        )}
+          )}
           buttons={[]}
         />
-        <RadioButtonGroup
-          radioOptions={formatFlipNumbers}
-          radioSelect={this.radioSelect}
-        />
-        <div className={styles.buttonGroup}>
-          <div className={styles.button}>
-            <CircleButton
-              className={styles.flipButton}
-              iconClassName={styles.flipIcon}
-              onClick={this.flip}
-              icon={FlipIcon}
-              showBorder
+        <div className={styles.flipContainer}>
+          <RadioButtonGroup
+            radioOptions={formatFlipNumbers}
+            radioSelect={this.radioSelect}
+            className={styles.radioGroup}
+          />
+          <div className={styles.buttonGroup}>
+            <div className={styles.button}>
+              <CircleButton
+                className={styles.flipButton}
+                iconClassName={styles.flipIcon}
+                onClick={this.flip}
+                icon={FlipIcon}
+                showBorder
               />
-          </div>
-          <div className={styles.button}>
-            <CircleButton
-              className={styles.rejectButton}
-              iconClassName={styles.rejectIcon}
-              onClick={this.props.reject}
-              icon={EndIcon}
-              showBorder
+            </div>
+            <div className={styles.button}>
+              <CircleButton
+                className={styles.hangupButton}
+                iconClassName={styles.hangupIcon}
+                onClick={this.props.hangup}
+                icon={EndIcon}
+                showBorder={false}
               />
+            </div>
           </div>
         </div>
       </div>
@@ -79,5 +85,5 @@ FlipPanel.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   hideFlipPanel: PropTypes.func.isRequired,
   flip: PropTypes.func.isRequired,
-  reject: PropTypes.func.isRequired,
+  hangup: PropTypes.func.isRequired,
 };

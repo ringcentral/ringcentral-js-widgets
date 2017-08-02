@@ -60,8 +60,6 @@ class CallCtrlPage extends Component {
       this.props.sendDTMF(value, this.props.session.id);
     this.flip = value =>
       this.props.flip(value, this.props.session.id);
-    this.reject = () =>
-      this.props.reject(this.props.session.id);
   }
 
   componentDidMount() {
@@ -97,9 +95,9 @@ class CallCtrlPage extends Component {
 
   render() {
     const session = this.props.session;
-    if (!session.id) {
-      return null;
-    }
+    // if (!session.id) {
+    //   return null;
+    // }
     const phoneNumber = session.direction === callDirections.outbound ?
       session.to : session.from;
     let fallbackUserName;
@@ -133,7 +131,6 @@ class CallCtrlPage extends Component {
         hangup={this.hangup}
         onAdd={this.props.onAdd}
         flip={this.flip}
-        reject={this.reject}
         nameMatches={this.props.nameMatches}
         fallBackName={fallbackUserName}
         areaCode={this.props.areaCode}
@@ -176,7 +173,6 @@ CallCtrlPage.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
   flip: PropTypes.func.isRequired,
-  reject: PropTypes.func.isRequired,
   children: PropTypes.node,
   nameMatches: PropTypes.array.isRequired,
   areaCode: PropTypes.string.isRequired,
@@ -245,7 +241,6 @@ function mapToFunctions(_, {
     onBackButtonClick,
     onAdd,
     flip: (flipNumber, sessionId) => webphone.flip(flipNumber, sessionId),
-    reject: sessionId => webphone.reject(sessionId),
   };
 }
 
