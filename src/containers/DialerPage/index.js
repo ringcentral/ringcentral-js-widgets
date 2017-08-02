@@ -35,6 +35,13 @@ function mapToProps(_, {
     toNumber: call.toNumber,
     fromNumbers: callingSettings.fromNumbers,
     fromNumber: callingSettings.fromNumber,
+    showSpinner: !(
+      call.ready &&
+      callingSettings.ready &&
+      locale.ready &&
+      connectivityMonitor.ready &&
+      (!isWebphoneMode || !webphone || !waitingWebphoneConnected)
+    ),
   };
 }
 
