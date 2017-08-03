@@ -21,6 +21,7 @@
     border-radius: 100%;
     background: #fff;
     border: 1px solid #979797;
+    cursor: pointer;
   
     &.active:before{
       content: '';
