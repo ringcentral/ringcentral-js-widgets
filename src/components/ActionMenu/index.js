@@ -148,7 +148,7 @@ export default class ActionMenu extends Component {
     });
   }
   captureClick = (e) => {
-    e.captureClick = this.props.captureClick;
+    // e.captureClick = this.props.captureClick;
     if (this.props.stopPropagation) {
       e.stopPropagation();
     }

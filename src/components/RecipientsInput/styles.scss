@@ -38,6 +38,9 @@
 .inputField {
   position: relative;
   padding-right: 20px;
+  input::-ms-clear {
+    display: none;
+  }
 }
 
 .numberInput {
@@ -54,6 +57,9 @@
     color: #A9A9A9;
   }
 }
+.numberInput::-ms-clear {
+  display: none;
+}
 
 .contactsDropdown {
   width: 100%;
@@ -67,7 +73,6 @@
   li {
     position: relative;
     color: #fff;
-    background-color: #66d17b;
     border-radius: 20px;
     font-size: 13px;
     line-height: 1;
@@ -84,11 +89,16 @@
     }
   }
 
-  .blue {
-    background-color: $rc-blue;
+  .phoneNumber {
+    background-color: $primary-color;
     opacity: 0.6;
   }
+  .extension {
+    background-color: $extension-background-color;
+  }
+
 }
+
 
 .removeReceiver {
   position: absolute;

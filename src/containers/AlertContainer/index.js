@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 import Alert from 'ringcentral-integration/modules/Alert';
-import Brand from 'ringcentral-integration/modules/Brand';
 import Locale from 'ringcentral-integration/modules/Locale';
-import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 
 import AlertDisplay from '../../components/AlertDisplay';
 
@@ -30,10 +28,9 @@ function mapToProps(_, {
   };
 }
 
-function mapToFunctions(_, {
+function getDefaultRenderer({
   rateLimiter,
   brand,
-  alert,
   router,
   regionSettingsUrl,
   callingSettingsUrl,
@@ -44,74 +41,92 @@ function mapToFunctions(_, {
   const onCallingSettingsLinkClick = () => {
     router.push(callingSettingsUrl);
   };
+  return (message) => {
+    if (AuthAlert.handleMessage(message)) {
+      return AuthAlert;
+    }
+    if (CallAlert.handleMessage(message)) {
+      return props => (
+        <CallAlert
+          {...props}
+          onAreaCodeLinkClick={onRegionSettingsLinkClick}
+        />
+      );
+    }
+    if (CallingSettingsAlert.handleMessage(message)) {
+      return props => (
+        <CallingSettingsAlert
+          {...props}
+          brand={brand.fullName}
+          onCallingSettingsLinkClick={onCallingSettingsLinkClick}
+        />
+      );
+    }
+
+    if (RegionSettingsAlert.handleMessage(message)) {
+      return props => (
+        <RegionSettingsAlert
+          {...props}
+          onRegionSettingsLinkClick={onRegionSettingsLinkClick}
+        />
+      );
+    }
+
+    if (MessageSenderAlert.handleMessage(message)) {
+      return props => (
+        <MessageSenderAlert
+          {...props}
+          onAreaCodeLink={onRegionSettingsLinkClick}
+        />
+      );
+    }
+
+    if (RateExceededAlert.handleMessage(message)) {
+      return props => (
+        <RateExceededAlert
+          {...props}
+          timestamp={rateLimiter.timestamp}
+          duration={rateLimiter._throttleDuration} />
+      );
+    }
+
+    if (ConnectivityAlert.handleMessage(message)) {
+      return ConnectivityAlert;
+    }
+
+    if (WebphoneAlert.handleMessage(message)) {
+      return WebphoneAlert;
+    }
+    if (RolesAndPermissionsAlert.handleMessage(message)) {
+      return props => (
+        <RolesAndPermissionsAlert
+          {...props}
+          brand={brand.fullName}
+          application={brand.application} />
+      );
+    }
+
+    return undefined;
+  };
+}
+
+function mapToFunctions(_, {
+  rateLimiter,
+  brand,
+  alert,
+  router,
+  regionSettingsUrl,
+  callingSettingsUrl,
+  getRenderer = getDefaultRenderer({
+    rateLimiter,
+    brand,
+    router,
+    regionSettingsUrl,
+    callingSettingsUrl,
+  }),
+}) {
   return {
-    getRenderer: (message) => {
-      if (AuthAlert.handleMessage(message)) {
-        return AuthAlert;
-      }
-      if (CallAlert.handleMessage(message)) {
-        return props => (
-          <CallAlert
-            {...props}
-            onAreaCodeLinkClick={onRegionSettingsLinkClick}
-          />
-        );
-      }
-      if (CallingSettingsAlert.handleMessage(message)) {
-        return props => (
-          <CallingSettingsAlert
-            {...props}
-            brand={brand.fullName}
-            onCallingSettingsLinkClick={onCallingSettingsLinkClick}
-          />
-        );
-      }
-
-      if (RegionSettingsAlert.handleMessage(message)) {
-        return props => (
-          <RegionSettingsAlert
-            {...props}
-            onRegionSettingsLinkClick={onRegionSettingsLinkClick}
-          />
-        );
-      }
-
-      if (MessageSenderAlert.handleMessage(message)) {
-        return props => (
-          <MessageSenderAlert
-            {...props}
-            onAreaCodeLink={onRegionSettingsLinkClick}
-          />
-        );
-      }
-
-      if (RateExceededAlert.handleMessage(message)) {
-        return props => (
-          <RateExceededAlert
-            {...props}
-            timestamp={rateLimiter.timestamp}
-            duration={rateLimiter._throttleDuration} />
-        );
-      }
-
-      if (ConnectivityAlert.handleMessage(message)) {
-        return ConnectivityAlert;
-      }
-
-      if (WebphoneAlert.handleMessage(message)) {
-        return WebphoneAlert;
-      }
-      if (RolesAndPermissionsAlert.handleMessage(message)) {
-        return props => (
-          <RolesAndPermissionsAlert
-            {...props}
-            brand={brand.fullName}
-            application={brand.application} />
-        );
-      }
-
-      return undefined;
-    },
+    getRenderer,
     dismiss: (id) => {
       alert.dismiss(id);
     },
@@ -125,9 +140,11 @@ const AlertContainer = connect(
 
 AlertContainer.propTypes = {
   alert: PropTypes.instanceOf(Alert).isRequired,
-  brand: PropTypes.instanceOf(Brand).isRequired,
+  getRenderer: PropTypes.func,
   locale: PropTypes.instanceOf(Locale).isRequired,
-  rateLimiter: PropTypes.instanceOf(RateLimiter).isRequired,
+};
+AlertContainer.defaultProps = {
+  getRenderer: undefined,
 };
 
 export default AlertContainer;
