@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { createStore } from 'redux';
+import getIntlDateTimeFormatter from 'ringcentral-integration/lib/getIntlDateTimeFormatter';
 
 import Phone from '../dev-server/Phone';
 import App from '../dev-server/containers/App';
@@ -35,6 +36,7 @@ const getPhone = async () => {
   state.storage.status = 'module-initializing';
   const store = createStore(phone.reducer, state);
   phone.setStore(store);
+  phone.dateTimeFormat._defaultFormatter = getIntlDateTimeFormatter();
   return phone;
 };
 
