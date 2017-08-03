@@ -7,9 +7,9 @@ import styles from './styles.scss';
 function RadioOption(props) {
   let btnClassName = '';
   if (props.currentIndex === props.selectedIndex) {
-    btnClassName = classnames(styles.optionBtn, styles.active);
+    btnClassName = classnames(styles.radioBtn, styles.active);
   } else {
-    btnClassName = styles.optionBtn;
+    btnClassName = styles.radioBtn;
   }
   return (
     <div key={props.key} className={styles.radioOption} onClick={() => { props.onSelect(props.currentIndex); }}>
