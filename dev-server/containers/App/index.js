@@ -192,6 +192,7 @@ export default function App({
                   contactMatcher={phone.contactMatcher}
                   webphone={phone.webphone}
                   regionSettings={phone.regionSettings}
+                  forwardingNumber={phone.forwardingNumber}
                   showContactDisplayPlaceholder={false}
                   onAdd={() => {
                     phone.router.push('/');

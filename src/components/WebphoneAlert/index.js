@@ -24,5 +24,6 @@ WebphoneAlert.handleMessage = ({ message }) => (
   (message === webphoneErrors.toVoiceMailError) ||
   (message === webphoneErrors.connected) ||
   (message === webphoneErrors.muteError) ||
-  (message === webphoneErrors.holdError)
+  (message === webphoneErrors.holdError) ||
+  (message === webphoneErrors.flipError)
 );

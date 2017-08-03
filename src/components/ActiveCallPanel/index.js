@@ -110,9 +110,11 @@ function ActiveCallPanel({
   onShowKeyPad,
   hangup,
   onAdd,
+  onShowFlipPanel,
   children,
   showContactDisplayPlaceholder,
   brand,
+  flipNumbers
 }) {
   return (
     <div className={styles.root}>
@@ -157,6 +159,8 @@ function ActiveCallPanel({
           onShowKeyPad={onShowKeyPad}
           hangup={hangup}
           onAdd={onAdd}
+          onShowFlipPanel={onShowFlipPanel}
+          flipNumbers={flipNumbers}
         />
         {children}
       </Panel>
@@ -193,6 +197,8 @@ ActiveCallPanel.propTypes = {
   backButtonLabel: PropTypes.string,
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
+  onShowFlipPanel: PropTypes.func.isRequired,
+  flipNumbers: PropTypes.array.isRequired,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -206,6 +212,7 @@ ActiveCallPanel.defaultProps = {
   backButtonLabel: 'Active Calls',
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
+  flipNumbers: [],
 };
 
 export default ActiveCallPanel;

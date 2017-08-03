@@ -40,6 +40,7 @@ export default function ActiveCallPad(props) {
   const onRecordClicked = props.isOnRecord ?
     props.onStopRecord :
     props.onRecord;
+  const disabledFlip = props.flipNumbers.length === 0;
   return (
     <div className={classnames(styles.root, props.className)}>
       <div className={styles.callCtrlButtonGroup}>
@@ -98,11 +99,11 @@ export default function ActiveCallPad(props) {
             className={styles.callButton}
           />
           <ActiveCallButton
-            onClick={props.isOnHold ? () => {} : () => {}}
+            onClick={(disabledFlip || props.isOnHold) ? () => {} : props.onShowFlipPanel}
             title={i18n.getString('flip', props.currentLocale)}
             icon={FlipIcon}
             className={styles.callButton}
-            disabled={props.isOnHold}
+            disabled={disabledFlip || props.isOnHold}
           />
         </div>
       </div>
@@ -135,6 +136,8 @@ ActiveCallPad.propTypes = {
   hangup: PropTypes.func.isRequired,
   onShowKeyPad: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
+  onShowFlipPanel: PropTypes.func.isRequired,
+  flipNumbers: PropTypes.array.isRequired,
 };
 
 ActiveCallPad.defaultProps = {
