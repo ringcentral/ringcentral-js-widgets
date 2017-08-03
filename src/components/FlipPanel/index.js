@@ -16,7 +16,7 @@ export default class FlipPanel extends Component {
     this.state = {
       flipValue: '',
     };
-    this.radioSelect = (value) => {
+    this.onRadioSelect = (value) => {
       this.setState({
         flipValue: value,
       });
@@ -26,39 +26,35 @@ export default class FlipPanel extends Component {
     };
   }
   render() {
-    const formatFlipNumbers = [];
-    this.props.flipNumbers.forEach((item) => {
-      formatFlipNumbers.push({
-        number: this.props.formatPhone(item.phoneNumber),
-        label: item.label
-      });
-    });
     return (
       <div className={styles.root}>
         <BackHeader
-          onBackClick={this.props.hideFlipPanel}
+          onBackClick={this.props.isOnFlip ? () => {} : this.props.hideFlipPanel}
           backButton={(
             <span className={styles.backButton}>
-              <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
-              <span className={styles.backLabel}>
-                {i18n.getString('flipHeader', this.props.currentLocale)}
-              </span>
+              {
+                this.props.isOnFlip ? null :
+                <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
+              }
             </span>
           )}
           buttons={[]}
-        />
+        >
+          {i18n.getString('flipHeader', this.props.currentLocale)}
+        </BackHeader>
         <div className={styles.flipContainer}>
           <RadioButtonGroup
-            radioOptions={formatFlipNumbers}
-            radioSelect={this.radioSelect}
             className={styles.radioGroup}
+            radioOptions={this.props.flipNumbers}
+            formatPhone={this.props.formatPhone}
+            onRadioSelect={this.onRadioSelect}
           />
           <div className={styles.buttonGroup}>
             <div className={styles.button}>
               <CircleButton
-                className={styles.flipButton}
+                className={this.props.isOnFlip ? styles.buttonDisabled : styles.flipButton}
                 iconClassName={styles.flipIcon}
-                onClick={this.flip}
+                onClick={this.props.isOnFlip ? () => {} : this.flip}
                 icon={FlipIcon}
                 showBorder
               />
@@ -80,9 +76,10 @@ export default class FlipPanel extends Component {
 }
 
 FlipPanel.propTypes = {
+  isOnFlip: PropTypes.bool.isRequired,
   flipNumbers: PropTypes.array.isRequired,
-  formatPhone: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
+  formatPhone: PropTypes.func.isRequired,
   hideFlipPanel: PropTypes.func.isRequired,
   flip: PropTypes.func.isRequired,
   hangup: PropTypes.func.isRequired,

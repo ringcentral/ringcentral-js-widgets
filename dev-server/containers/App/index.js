@@ -111,7 +111,7 @@ export default function App({
                 />
               </MainView>
             )} >
-            <Route
+            <IndexRoute
               component={() => (
                 <DialerPage
                   call={phone.call}
@@ -183,7 +183,7 @@ export default function App({
                   webphone={phone.webphone}
                 />
               )} />
-            <IndexRoute
+            <Route
               path="/calls/active"
               component={() => (
                 <CallCtrlPage

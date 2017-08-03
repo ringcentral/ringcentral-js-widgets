@@ -5,17 +5,17 @@ import classnames from 'classnames';
 import styles from './styles.scss';
 
 function RadioOption(props) {
-  let optionBtn = '';
+  let btnClassName = '';
   if (props.currentIndex === props.selectedIndex) {
-    optionBtn = classnames(styles.optionBtn, styles.active);
+    btnClassName = classnames(styles.optionBtn, styles.active);
   } else {
-    optionBtn = styles.optionBtn;
+    btnClassName = styles.optionBtn;
   }
   return (
-    <div className={styles.radioOption} onClick={() => { props.onSelect(props.currentIndex); }}>
-      <span className={optionBtn} />
+    <div key={props.key} className={styles.radioOption} onClick={() => { props.onSelect(props.currentIndex); }}>
+      <span className={btnClassName} />
       <span className={styles.optionNumber}>
-        {props.number}
+        {props.phoneNumber}
       </span>
       <span className={styles.optionLabel} title={props.label}>
         {props.label}
@@ -24,8 +24,9 @@ function RadioOption(props) {
   );
 }
 RadioOption.propTypes = {
+  key: PropTypes.string.isRequired,
   currentIndex: PropTypes.number.isRequired,
-  number: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string.isRequired,
   label: PropTypes.string,
   selectedIndex: PropTypes.number.isRequired,
   onSelect: PropTypes.func.isRequired,
@@ -44,21 +45,21 @@ export default class RadioButtonGroup extends Component {
       this.setState({
         selectedIndex: index,
       });
-      this.props.radioSelect(this.props.radioOptions[index].number);
+      this.props.onRadioSelect(this.props.radioOptions[index].phoneNumber);
     };
   }
   render() {
     return (
       <div className={classnames(styles.root, this.props.className)}>
         {
-          this.props.radioOptions.map((value, idx) => (
+          this.props.radioOptions.map((number, idx) => (
             <RadioOption
               currentIndex={idx}
               selectedIndex={this.state.selectedIndex}
-              number={value.number}
-              label={value.label}
+              key={number.id}
+              phoneNumber={this.props.formatPhone(number.phoneNumber)}
+              label={number.label}
               onSelect={this.chooseOption}
-              key={idx}
             />
          ))
         }
@@ -68,7 +69,8 @@ export default class RadioButtonGroup extends Component {
 }
 
 RadioButtonGroup.propTypes = {
-  radioOptions: PropTypes.array.isRequired,
-  radioSelect: PropTypes.func.isRequired,
   className: PropTypes.string.isRequired,
+  radioOptions: PropTypes.array.isRequired,
+  formatPhone: PropTypes.func.isRequired,
+  onRadioSelect: PropTypes.func.isRequired,
 };

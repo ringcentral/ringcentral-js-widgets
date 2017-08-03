@@ -10,7 +10,7 @@ class CallCtrlPanel extends Component {
     super(props);
     this.state = {
       isShowKeyPad: false,
-      isShowFlipPanel: true,
+      isShowFlipPanel: false,
     };
 
     this.hiddenKeyPad = () => {
@@ -52,12 +52,12 @@ class CallCtrlPanel extends Component {
     if (this.state.isShowFlipPanel) {
       return (
         <FlipPanel
-          flipNumbers={this.props.flipNumbers}
-          formatPhone={this.props.formatPhone}
           isOnFlip={this.props.isOnFlip}
+          flipNumbers={this.props.flipNumbers}
           currentLocale={this.props.currentLocale}
-          flip={this.props.flip}
+          formatPhone={this.props.formatPhone}
           hideFlipPanel={this.hideFlipPanel}
+          flip={this.props.flip}
           hangup={this.props.hangup}
         />
       );
