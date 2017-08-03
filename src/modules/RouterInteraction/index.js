@@ -1,6 +1,6 @@
 import RcModule from 'ringcentral-integration/lib/RcModule';
 import { useRouterHistory, createMemoryHistory, hashHistory } from 'react-router';
-import { syncHistoryWithStore, routerReducer } from 'react-router-redux';
+import { syncHistoryWithStore, routerReducer, LOCATION_CHANGE } from 'react-router-redux';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
 
 function getDefaultHistory() {
@@ -51,5 +51,11 @@ export default class RouterInteraction extends RcModule {
   @proxify
   async goBack(...args) {
     this._history.goBack(...args);
+  }
+
+  get actionTypes() {
+    return {
+      locationChange: LOCATION_CHANGE
+    };
   }
 }

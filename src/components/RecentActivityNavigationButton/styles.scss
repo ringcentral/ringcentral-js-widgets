@@ -21,20 +21,22 @@
   box-sizing: border-box;
   border-bottom: 1px solid #e3e3e3;
 }
-/*.navigationButton:hover {
-  background-color: $lightergray;
-}*/
 .navigationButton:hover,
 .navigationButton:focus {
   span {
     color: $rc-blue;
   }
-
+  .icon > svg path {
+    fill: $rc-blue;
+  }
 }
 .navigationButton.active {
   border-bottom: 1px solid $rc-blue;
   span {
     color: $rc-blue;
+  }
+  .icon > svg path {
+    fill: $rc-blue;
   }
 }
 .iconHolder {
@@ -46,6 +48,13 @@
   -moz-osx-font-smoothing: grayscale;
   font-size: 1.3em;
   line-height: $navigation-bar-height;
+
+  > svg {
+    margin-top: 14px;
+    path {
+      fill: $darkergray;
+    }
+  }
 }
 .labelHolder {
   @include full-size;

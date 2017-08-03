@@ -38,6 +38,7 @@ $primary-neutral-color: $lightblack !default;
 $secondary-neutral-color: $darkergray !default;
 
 $border-color: $gray !default;
+$disabled-border-color: #e3e3e3 !default;
 
 $app-background-color: $lightgray !default;
 
@@ -53,7 +54,7 @@ $dialer-btn-border-color: $primary-color-highlight !default;
 $call-btn-color: #4cd964  !default;
 $call-btn-press-color: rgba(76,217,100,0.4) !default;
 
-
+$extension-background-color: #66d17b !default;
 $sms-bubble-background-color: #d5f3fd !default;
 
 $brand-font-color: $rc-blue !default;

@@ -67,7 +67,8 @@ CallingSettingsAlert.handleMessage = ({ message }) => (
   message === callingSettingsMessages.firstLoginOther ||
   message === callingSettingsMessages.permissionChanged ||
   message === callingSettingsMessages.webphonePermissionRemoved ||
-  message === callingSettingsMessages.phoneNumberChanged
+  message === callingSettingsMessages.phoneNumberChanged ||
+  message === callingSettingsMessages.emergencyCallingNotAvailable
 );
 
 export default CallingSettingsAlert;

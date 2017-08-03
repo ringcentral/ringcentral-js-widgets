@@ -4,14 +4,12 @@ import styles from './styles.scss';
 import NavigationBar from '../NavigationBar';
 import SpinnerOverlay from '../SpinnerOverlay';
 import RecentActivityNavigationButton from '../RecentActivityNavigationButton';
-import RecentActivityMessages from '../RecentActivityMessages';
-import RecentActivityCalls from '../RecentActivityCalls';
 
 export default class RecentActivityView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      currentTab: 'recentCalls'
+      currentTab: props.defaultTab
     };
   }
 
@@ -21,67 +19,42 @@ export default class RecentActivityView extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.currentContact !== this.props.currentContact) {
-      this.onTabChanged(this.state.currentTab, nextProps.currentContact);
+      this.onTabChanged(this.state.currentTab, nextProps);
     }
   }
 
   componentWillUnmount() {
-    this.props.cleanUpMessages();
-    this.props.cleanUpCalls();
+    for (const tab of this.props.tabs) {
+      tab.cleanUp();
+    }
   }
 
-  onTabChanged = (tabName = 'recentCalls', currentContact = this.props.currentContact) => {
-    if (tabName === 'recentMessages') {
-      this.props.getRecentMessages(currentContact);
-    } else if (tabName === 'recentCalls') {
-      this.props.getRecentCalls(currentContact);
-    }
+  onTabChanged = (tabName = this.props.defaultTab, nextProps = this.props) => {
+    const currentTab = this.getCurrentTab(nextProps, tabName);
+    currentTab.getData();
     this.setState({
       currentTab: tabName
     });
   }
 
   getCurrentTabPanel() {
-    const {
-      navigateTo,
-      dateTimeFormatter,
-      messages,
-      calls,
-      currentLocale,
-      isMessagesLoaded,
-      isCallsLoaded
-    } = this.props;
-    const currentTab = this.state.currentTab;
-    if (currentTab === 'recentMessages') {
-      return (
-        <RecentActivityMessages
-          messages={messages}
-          navigateTo={navigateTo}
-          dateTimeFormatter={dateTimeFormatter}
-          currentLocale={currentLocale}
-          isMessagesLoaded={isMessagesLoaded}
-        />
-      );
-    } else if (currentTab === 'recentCalls') {
-      return (
-        <RecentActivityCalls
-          calls={calls}
-          dateTimeFormatter={dateTimeFormatter}
-          currentLocale={currentLocale}
-          isCallsLoaded={isCallsLoaded}
-        />
-      );
-    }
-    return null;
+    const currentTabPath = this.state.currentTab;
+    const currentTab = this.getCurrentTab(this.props, currentTabPath);
+    return currentTab.view || null;
+  }
+
+  getCurrentTab(props, currentTabPath) {
+    const tabs = props.tabs;
+    return tabs.find(tab => tab.path === currentTabPath);
   }
 
   render() {
-    const { showSpinner, tabs } = this.props;
+    const { showSpinner } = this.props;
     if (showSpinner) return <SpinnerOverlay />;
     const props = {
       currentPath: this.state.currentTab,
       goTo: this.onTabChanged,
-      tabs
+      tabs: this.props.tabs
     };
     return (
       <div className={styles.recentActivityView}>
@@ -99,18 +72,8 @@ export default class RecentActivityView extends PureComponent {
 }
 
 RecentActivityView.propTypes = {
-  currentLocale: PropTypes.string.isRequired,
   showSpinner: PropTypes.bool.isRequired,
-  isMessagesLoaded: PropTypes.bool.isRequired,
   currentContact: PropTypes.object.isRequired,
-  isCallsLoaded: PropTypes.bool.isRequired,
   tabs: PropTypes.array.isRequired,
-  navigateTo: PropTypes.func.isRequired,
-  dateTimeFormatter: PropTypes.func.isRequired,
-  messages: PropTypes.array.isRequired,
-  calls: PropTypes.array.isRequired,
-  getRecentMessages: PropTypes.func.isRequired,
-  getRecentCalls: PropTypes.func.isRequired,
-  cleanUpMessages: PropTypes.func.isRequired,
-  cleanUpCalls: PropTypes.func.isRequired
+  defaultTab: PropTypes.string.isRequired
 };

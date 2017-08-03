@@ -4,6 +4,7 @@ import classnames from 'classnames';
 import DialPad from '../DialPad';
 import DialTextInput from '../DialTextInput';
 import CallIdSelect from '../CallIdSelect';
+import SpinnerOverlay from '../SpinnerOverlay';
 import styles from './styles.scss';
 
 function DialerPanel({
@@ -18,12 +19,14 @@ function DialerPanel({
   formatPhone,
   isWebphoneMode,
   currentLocale,
+  showSpinner,
 }) {
   const onCallFunc = () => {
     if (!callButtonDisabled) {
       onCall();
     }
   };
+  const content = showSpinner ? (<SpinnerOverlay />) : null;
   return (
     <div className={classnames(styles.root, className)}>
       <div className={styles.inputFields}>
@@ -82,6 +85,7 @@ function DialerPanel({
           </div>
         </div>
       </div>
+      {content}
     </div>
   );
 }
@@ -100,6 +104,7 @@ DialerPanel.propTypes = {
   })),
   changeFromNumber: PropTypes.func,
   formatPhone: PropTypes.func,
+  showSpinner: PropTypes.bool,
 };
 
 DialerPanel.defaultProps = {
@@ -112,6 +117,7 @@ DialerPanel.defaultProps = {
   changeFromNumber: () => null,
   keepToNumber: () => null,
   formatPhone: phoneNumber => phoneNumber,
+  showSpinner: false,
 };
 
 export default DialerPanel;
