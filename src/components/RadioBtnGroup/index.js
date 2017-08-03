@@ -42,10 +42,12 @@ export default class RadioButtonGroup extends Component {
       selectedIndex: 0,
     };
     this.chooseOption = (index) => {
-      this.setState({
-        selectedIndex: index,
-      });
-      this.props.onRadioSelect(this.props.radioOptions[index].phoneNumber);
+      if (!this.props.disabled) {
+        this.setState({
+          selectedIndex: index,
+        });
+        this.props.onRadioSelect(this.props.radioOptions[index].phoneNumber);
+      }
     };
   }
   render() {
@@ -71,6 +73,7 @@ export default class RadioButtonGroup extends Component {
 RadioButtonGroup.propTypes = {
   className: PropTypes.string.isRequired,
   radioOptions: PropTypes.array.isRequired,
+  disabled: PropTypes.bool.isRequired,
   formatPhone: PropTypes.func.isRequired,
   onRadioSelect: PropTypes.func.isRequired,
 };

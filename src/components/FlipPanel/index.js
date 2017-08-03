@@ -46,6 +46,7 @@ export default class FlipPanel extends Component {
           <RadioButtonGroup
             className={styles.radioGroup}
             radioOptions={this.props.flipNumbers}
+            disabled={this.props.isOnFlip}
             formatPhone={this.props.formatPhone}
             onRadioSelect={this.onRadioSelect}
           />
