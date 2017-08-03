@@ -14,12 +14,19 @@ export default function ActiveCallButton(props) {
     props.disabled ? styles.buttonDisabled : null,
   );
   return (
-    <svg className={className} viewBox="0 0 500 500">
+    <svg
+      className={className}
+      viewBox="0 0 500 400"
+      width={props.width}
+      height={props.height}
+      x={props.x}
+      y={props.y}
+    >
       <CircleButton
-        width={200}
-        height={200}
-        x={150}
-        y={150}
+        width={250}
+        height={250}
+        x={125}
+        y={0}
         className={buttonClassName}
         onClick={props.onClick}
         icon={props.icon}
@@ -29,10 +36,9 @@ export default function ActiveCallButton(props) {
       />
       <text
         className={styles.buttonTitle}
-        x="0"
-        dx="200"
-        y="0"
-        dy="280"
+        x="250"
+        y="340"
+        textAnchor="middle"
       >
         {props.title}
       </text>
@@ -49,6 +55,10 @@ ActiveCallButton.propTypes = {
   title: PropTypes.string.isRequired,
   icon: PropTypes.func,
   showBorder: PropTypes.bool,
+  width: PropTypes.number,
+  height: PropTypes.number,
+  x: PropTypes.number,
+  y: PropTypes.number,
 };
 
 ActiveCallButton.defaultProps = {
@@ -58,4 +68,8 @@ ActiveCallButton.defaultProps = {
   active: false,
   icon: undefined,
   showBorder: true,
+  width: '100%',
+  height: '100%',
+  x: 0,
+  y: 0,
 };

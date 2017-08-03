@@ -67,8 +67,8 @@ CircleButton.defaultProps = {
   showBorder: true,
   iconClassName: undefined,
   onClick: () => null,
-  width: 500,
-  height: 500,
+  width: '100%',
+  height: '100%',
   x: 0,
   y: 0,
 };

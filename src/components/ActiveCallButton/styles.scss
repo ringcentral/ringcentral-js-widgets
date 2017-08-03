@@ -27,11 +27,7 @@ $title-height: 24px;
 
 .buttonTitle {
   @include secondary-font;
-  font-size: 12px;
-  text-align: center;
-  width: 100%;
-  line-height: $title-height;
-  height: $title-height;
+  font-size: 73px;
 }
 
 .buttonActive {
