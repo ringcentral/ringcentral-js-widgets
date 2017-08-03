@@ -112,12 +112,8 @@ CallCtrlPanel.propTypes = {
   startTime: PropTypes.number,
   isOnMute: PropTypes.bool,
   isOnHold: PropTypes.bool,
-<<<<<<< HEAD
-  isOnRecord: PropTypes.bool,
   isOnFlip: PropTypes.bool,
   flipNumbers: PropTypes.array,
-=======
->>>>>>> add recording in call control page
   recordStatus: PropTypes.string.isRequired,
   onMute: PropTypes.func.isRequired,
   onUnmute: PropTypes.func.isRequired,
