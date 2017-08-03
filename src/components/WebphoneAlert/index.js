@@ -37,5 +37,6 @@ WebphoneAlert.handleMessage = ({ message }) => (
   (message === webphoneErrors.muteError) ||
   (message === webphoneErrors.holdError) ||
   (message === webphoneErrors.flipError) ||
-  (message === webphoneErrors.recordError)
+  (message === webphoneErrors.recordError) ||
+  (message === webphoneErrors.recordDisabled)
 );
