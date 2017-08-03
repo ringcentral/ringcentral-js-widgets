@@ -3,7 +3,7 @@ import NavigationBar from '../../src/components/NavigationBar';
 import SettingsPanel from '../../src/components/SettingsPanel';
 import CallingSettings from '../../src/components/CallingSettingsPanel';
 import LinkLine from '../../src/components/LinkLine';
-import { HeaderButton } from '../../src/components/Header';
+import Button from '../../src/components/Button';
 
 let wrapper = null;
 let panel = null;
@@ -22,7 +22,6 @@ test('calling settings', async () => {
 
   expect(callingSettings.find('div.label').first().props().children).toEqual('Calling');
 
-  const saveIcon = callingSettings.find('i.fa-floppy-o').first();
-  const saveButton = saveIcon.closest(HeaderButton).first();
+  const saveButton = callingSettings.find(Button).first();
   expect(saveButton.props().disabled).toEqual(true);
 });
