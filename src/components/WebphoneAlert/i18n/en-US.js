@@ -11,7 +11,6 @@ export default {
   [webphoneErrors.muteError]: 'Call cannot be muted at the moment.',
   [webphoneErrors.holdError]: 'Call cannot be hold at the moment.',
   [webphoneErrors.flipError]: 'Cannot flip the call. Please try again later.',
-  [webphoneErrors.recordError]: 'You cannot record the call at the moment.',
-  [webphoneErrors.recordDisabled]: 'Sorry, your account does not have the feature to record a call. Please contact your account administrator.',
-  errorCode: 'Error code:'
+  [webphoneErrors.recordError]: 'You cannot record the call at the moment. Error code: {errorCode}',
+  [webphoneErrors.recordDisabled]: 'Sorry, your account does not have the feature to record a call. Please contact your account administrator.'
 };

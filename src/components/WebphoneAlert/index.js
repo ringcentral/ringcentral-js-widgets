@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import webphoneErrors from 'ringcentral-integration/modules/Webphone/webphoneErrors';
+import FormattedMessage from '../FormattedMessage';
 import i18n from './i18n';
 
 export default function WebphoneAlert(props) {
@@ -10,12 +11,10 @@ export default function WebphoneAlert(props) {
   if (message === webphoneErrors.recordError) {
     const errorCode = props.message.payload.errorCode;
     view = (
-      <span>
-        {i18n.getString(message, props.currentLocale)}
-        {
-          errorCode ? `${i18n.getString('errorCode', props.currentLocale)} ${errorCode}` : null
-        }
-      </span>
+      <FormattedMessage
+        message={i18n.getString(message, props.currentLocale)}
+        values={{ errorCode }}
+      />
     );
   }
   return view;
