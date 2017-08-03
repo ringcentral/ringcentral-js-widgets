@@ -575,7 +575,7 @@ export default class Phone extends RcModule {
     this.addModule('recentCalls', new RecentCalls({
       ...options,
       client: this.client,
-      callLog: this.callLog,
+      callHistory: this.callHistory,
       getState: () => this.state.recentCalls
     }));
     reducers.recentCalls = this.recentCalls.reducer;
