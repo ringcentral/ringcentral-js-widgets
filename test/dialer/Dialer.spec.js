@@ -83,7 +83,7 @@ describe('dialer panel', () => {
     expect(store.getState(wrapper).call.toNumber).toEqual('0123456789*#');
   });
 
-  test('invalid  number', async () => {
+  test('invalid number', async () => {
     const textInput = panel.find(DialTextInput).first().find(TextInput).first();
     await textInput.props().onChange({ currentTarget: { value: 'Hello world' } });
     expect(store.getState(wrapper).call.toNumber).toEqual('Hello world');
@@ -121,5 +121,6 @@ describe('dialer panel', () => {
 
     await callButton.props().onClick();
     expect(store.getState(wrapper).call.toNumber).toEqual('Hello world');
+    expect(textInput.props().value).toEqual('Hello world');
   });
 });
