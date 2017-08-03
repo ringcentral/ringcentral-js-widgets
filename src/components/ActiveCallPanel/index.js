@@ -100,7 +100,7 @@ function ActiveCallPanel({
   avatarUrl,
   isOnMute,
   isOnHold,
-  isOnRecord,
+  recordStatus,
   onMute,
   onUnmute,
   onHold,
@@ -149,7 +149,7 @@ function ActiveCallPanel({
           currentLocale={currentLocale}
           isOnMute={isOnMute}
           isOnHold={isOnHold}
-          isOnRecord={isOnRecord}
+          recordStatus={recordStatus}
           onMute={onMute}
           onUnmute={onUnmute}
           onHold={onHold}
@@ -176,7 +176,7 @@ ActiveCallPanel.propTypes = {
   startTime: PropTypes.number,
   isOnMute: PropTypes.bool,
   isOnHold: PropTypes.bool,
-  isOnRecord: PropTypes.bool,
+  recordStatus: PropTypes.string.isRequired,
   onMute: PropTypes.func.isRequired,
   onUnmute: PropTypes.func.isRequired,
   onHold: PropTypes.func.isRequired,

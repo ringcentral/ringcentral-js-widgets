@@ -73,7 +73,7 @@ class CallCtrlPanel extends Component {
         startTime={this.props.startTime}
         isOnMute={this.props.isOnMute}
         isOnHold={this.props.isOnHold}
-        isOnRecord={this.props.isOnRecord}
+        recordStatus={this.props.recordStatus}
         onBackButtonClick={this.props.onBackButtonClick}
         onMute={this.props.onMute}
         onUnmute={this.props.onUnmute}
@@ -112,9 +112,9 @@ CallCtrlPanel.propTypes = {
   startTime: PropTypes.number,
   isOnMute: PropTypes.bool,
   isOnHold: PropTypes.bool,
-  isOnRecord: PropTypes.bool,
   isOnFlip: PropTypes.bool,
   flipNumbers: PropTypes.array,
+  recordStatus: PropTypes.string.isRequired,
   onMute: PropTypes.func.isRequired,
   onUnmute: PropTypes.func.isRequired,
   onHold: PropTypes.func.isRequired,
