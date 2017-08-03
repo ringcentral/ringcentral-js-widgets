@@ -12,7 +12,7 @@ function RadioOption(props) {
     btnClassName = styles.radioBtn;
   }
   return (
-    <div key={props.key} className={styles.radioOption} onClick={() => { props.onSelect(props.currentIndex); }}>
+    <div key={props.id} className={styles.radioOption} onClick={() => { props.onSelect(props.currentIndex); }}>
       <span className={btnClassName} />
       <span className={styles.optionNumber}>
         {props.phoneNumber}
@@ -24,7 +24,7 @@ function RadioOption(props) {
   );
 }
 RadioOption.propTypes = {
-  key: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   currentIndex: PropTypes.number.isRequired,
   phoneNumber: PropTypes.string.isRequired,
   label: PropTypes.string,
@@ -56,7 +56,7 @@ export default class RadioButtonGroup extends Component {
             <RadioOption
               currentIndex={idx}
               selectedIndex={this.state.selectedIndex}
-              key={number.id}
+              id={number.id}
               phoneNumber={this.props.formatPhone(number.phoneNumber)}
               label={number.label}
               onSelect={this.chooseOption}
