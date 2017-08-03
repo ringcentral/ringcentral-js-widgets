@@ -3,12 +3,15 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
-import Header from '../Header';
+import BackHeader from '../BackHeader';
 import Panel from '../Panel';
 import Line from '../Line';
 import IconLine from '../IconLine';
 import TextInput from '../TextInput';
 import Switch from '../Switch';
+import Button from '../Button';
+import Revert from '../../assets/images/Revert.svg';
+import dynamicsFonts from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 
 /**
@@ -87,26 +90,16 @@ class Environment extends Component {
     if (this.state.hidden) {
       return null;
     }
+    const hasChanges = !(
+      this.state.serverValue === this.props.server &&
+      this.state.enabledValue === this.props.enabled &&
+      this.state.recordingHostValue === this.props.recordingHost
+    );
     return (
       <div className={styles.root}>
-        <Header
-          buttons={[
-            {
-              label: <i className="fa fa-times" />,
-              onClick: this.onCancel,
-            },
-            {
-              label: <i className="fa fa-save" />,
-              onClick: this.onOk,
-              disabled: (
-                this.state.serverValue === this.props.server &&
-                this.state.enabledValue === this.props.enabled &&
-                this.state.recordingHostValue === this.props.recordingHost
-              ),
-              placement: 'right',
-            },
-          ]}
-        >Environment</Header>
+        <BackHeader
+          onBackClick={this.onCancel}
+        >Environment</BackHeader>
         <Panel classname={styles.content}>
           <Line>
             Server
@@ -132,7 +125,15 @@ class Environment extends Component {
           >
             Enable
           </IconLine>
-
+          <Line>
+            <Button
+              className={classnames(styles.saveButton, !hasChanges ? styles.disabled : null)}
+              onClick={this.onOk}
+              disabled={!hasChanges}
+            >
+              Save
+            </Button>
+          </Line>
         </Panel>
       </div>
     );
