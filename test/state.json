@@ -39,9 +39,9 @@
   "auth": {
     "status": "module-ready",
     "loginStatus": "loginStatus-loggedIn",
-    "freshLogin": false,
+    "freshLogin": true,
     "ownerId": "130829004",
-    "endpointId": "4mzothYuTAyQUmJFTAIKzQ",
+    "endpointId": "UUbFzkIIRjmwLbZ5FJsSQA",
     "proxyLoaded": false,
     "proxyRetryCount": 0
   },
@@ -79,10 +79,10 @@
               "text": "Something New"
             }
           },
-          "hasProfileImage": "b15c113aeddbeb606d938010b88cf8e6"
+          "hasProfileImage": "fe106cf535a56bf66b9783e0e95d1b1e"
         }
       ],
-      "accountExtensionTimestamp": 1501039146415,
+      "accountExtensionTimestamp": 1501723072513,
       "accountInfoData": {
         "id": 130829004,
         "mainNumber": "+17322764403",
@@ -117,7 +117,7 @@
           "timeFormat": "12h"
         }
       },
-      "accountInfoTimestamp": 1501075446757,
+      "accountInfoTimestamp": 1501723072357,
       "extensionDeviceData": [
         {
           "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/device/22174004",
@@ -168,7 +168,7 @@
           "linePooling": "Host"
         }
       ],
-      "extensionDeviceTimestamp": 1501075443494,
+      "extensionDeviceTimestamp": 1501723072292,
       "extensionInfoData": {
         "id": 130829004,
         "extensionNumber": "101",
@@ -204,9 +204,9 @@
         },
         "profileImage": {
           "uri": "https://media.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/profile-image",
-          "etag": "b15c113aeddbeb606d938010b88cf8e6",
+          "etag": "fe106cf535a56bf66b9783e0e95d1b1e",
           "contentType": "image/png",
-          "lastModified": "2017-07-14T03:12:58.496Z",
+          "lastModified": "2017-07-27T09:23:56.510Z",
           "scales": [
             {
               "uri": "https://media.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/profile-image/90x90"
@@ -413,7 +413,7 @@
           }
         }
       },
-      "extensionInfoTimestamp": 1501075443983,
+      "extensionInfoTimestamp": 1501723072350,
       "rolesAndPermissionsData": {
         "AccountAdministration": true,
         "AccountValidation": true,
@@ -535,7 +535,7 @@
         "UserInfo": true,
         "Users": true
       },
-      "rolesAndPermissionsTimestamp": 1501039146681,
+      "rolesAndPermissionsTimestamp": 1501723072151,
       "dialingPlanData": [
         {
           "id": "1",
@@ -543,7 +543,7 @@
           "callingCode": "1"
         }
       ],
-      "dialingPlanTimestamp": 1501079802702,
+      "dialingPlanTimestamp": 1501723072123,
       "extensionPhoneNumberData": [
         {
           "id": 246314004,
@@ -646,7 +646,7 @@
           ]
         }
       ],
-      "extensionPhoneNumberTimestamp": 1501075442989,
+      "extensionPhoneNumberTimestamp": 1501723072071,
       "forwardingNumberData": [
         {
           "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/forwarding-number/444216004",
@@ -681,19 +681,59 @@
           "flipNumber": "2"
         }
       ],
-      "forwardingNumberTimestamp": 1501075442558,
+      "forwardingNumberTimestamp": 1501723071873,
       "contactMatcherData": {
-        "+16504776476": {
+        "+17322764403": {
           "contacts": {
-            "_t": 1501080540132,
             "data": [
-
+              {
+                "type": "personal",
+                "phoneNumbers": [
+                  {
+                    "phoneNumber": "+12098135681",
+                    "phoneType": "homePhone"
+                  },
+                  {
+                    "phoneNumber": "+15856234100",
+                    "phoneType": "homePhone2"
+                  },
+                  {
+                    "phoneNumber": "+17322764403",
+                    "phoneType": "businessPhone"
+                  }
+                ],
+                "availability": "Alive",
+                "id": 391595004,
+                "lastName": "qwe",
+                "firstName": "qwe",
+                "homePhone": "+12098135681",
+                "homePhone2": "+15856234100",
+                "businessPhone": "+17322764403",
+                "entityType": "rcContact",
+                "name": "qwe qwe"
+              },
+              {
+                "type": "personal",
+                "phoneNumbers": [
+                  {
+                    "phoneNumber": "+17322764403",
+                    "phoneType": "homePhone"
+                  }
+                ],
+                "availability": "Alive",
+                "id": 391920004,
+                "lastName": "~!@#$%^&amp;*(){}[]:\";&apos;?>,.<&sol;_+-=&bsol;|",
+                "firstName": "_test",
+                "homePhone": "+17322764403",
+                "entityType": "rcContact",
+                "name": "_test ~!@#$%^&amp;*(){}[]:\";&apos;?>,.<&sol;_+-=&bsol;|"
+              }
             ]
           }
         },
-        "+16505819951": {
+        "+16505819954": {
           "contacts": {
-            "_t": 1501080540132,
+            "_t": 1501723072607,
             "data": [
 
             ]
@@ -702,32 +742,33 @@
       },
       "regionSettingsCountryCode": "US",
       "regionSettingsAreaCode": "",
-      "webphoneCounts": -1,
+      "webphoneCounts": -8,
       "callingSettingsCallWith": "callingOptions-browser",
       "callingSettingsRingoutPrompt": true,
       "callingSettingsMyLocation": "",
-      "callingSettingsTimestamp": 1496999528769,
+      "callingSettingsTimestamp": 1501230214095,
       "fromCallIdNumber": "+15623535396",
       "lastCallNumber": "fdsafdsa",
       "cachedSubscription": {
-        "uri": "https://platform.devtest.ringcentral.com:-1/restapi/v1.0/subscription/31939860-32d5-4b1e-9ed6-dcedd34c91ff",
-        "id": "31939860-32d5-4b1e-9ed6-dcedd34c91ff",
-        "creationTime": "2017-07-26T10:42:36.196+0000",
+        "uri": "https://platform.devtest.ringcentral.com:-1/restapi/v1.0/subscription/ac87424a-0ed5-4538-9685-b60d3584c45e",
+        "id": "ac87424a-0ed5-4538-9685-b60d3584c45e",
+        "creationTime": "2017-08-03T01:17:51.292+0000",
         "status": "Active",
         "eventFilters": [
           "/restapi/v1.0/account/130829004/extension/130829004/presence?detailedTelephonyState=true",
           "/restapi/v1.0/account/130829004/extension/130829004/message-store",
-          "/restapi/v1.0/account/130829004/extension/130829004/presence?detailedTelephonyState=true&sipData=true"
+          "/restapi/v1.0/account/130829004/extension/130829004/presence?detailedTelephonyState=true&sipData=true",
+          "/restapi/v1.0/account/130829004/extension/130829004/presence"
         ],
-        "expirationTime": "2017-07-26T14:58:16.001+0000",
+        "expirationTime": "2017-08-03T01:32:51.292+0000",
         "expiresIn": 899,
         "deliveryMode": {
           "transportType": "PubNub",
           "encryption": true,
-          "address": "598058594260333_c143834d",
+          "address": "1255373690238018_23a71b14",
           "subscriberKey": "sub-c-b8b9cd8c-e906-11e2-b383-02ee2ddab7fe",
           "encryptionAlgorithm": "AES",
-          "encryptionKey": "K1rQz/U3vSoNuHe+OnmvEA=="
+          "encryptionKey": "4LpzQltDRRlNgQgNicLGGg=="
         }
       },
       "contactSearchCache": {
@@ -740,58 +781,1592 @@
       "messageStore": {
         "data": {
           "conversations": [
-
+            {
+              "id": 3294310004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T09:27:25.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294310004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294310004/content/3294310004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T09:27:27.205Z",
+              "unreadCounts": 0
+            }
           ],
           "conversationMap": {
+            "205133443784764385": {
+              "unreadMessages": {
+              },
+              "index": 0,
+              "id": "205133443784764385",
+              "syncToken": "AQEAAAAAAwAAAV2C2OHwBgAAAPoFAAABXaWq-Z8TAAgAAAAAB8xKzAkBCgEQ_Fm6"
+            }
           },
           "messages": [
-
+            {
+              "id": 3294062004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T07:01:05.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294062004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294062004/content/3294062004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T07:01:07.065Z"
+            },
+            {
+              "id": 3294066004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T07:01:34.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294066004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294066004/content/3294066004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T07:01:48.239Z"
+            },
+            {
+              "id": 3294070004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T07:02:15.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294070004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294070004/content/3294070004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                },
+                {
+                  "id": 1395276004,
+                  "uri": "https://media.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294070004/content/1395276004",
+                  "type": "MmsAttachment",
+                  "contentType": "image/png",
+                  "size": 6909,
+                  "fileName": "test.png",
+                  "width": 128,
+                  "height": 128
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
+              "messageStatus": "Sent",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T07:02:19.899Z"
+            },
+            {
+              "id": 3294074004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T07:03:24.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294074004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294074004/content/3294074004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T07:03:25.912Z"
+            },
+            {
+              "id": 3294090004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T07:12:17.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294090004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294090004/content/3294090004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T07:12:19.088Z"
+            },
+            {
+              "id": 3294102004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T07:12:47.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294102004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294102004/content/3294102004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T07:13:00.720Z"
+            },
+            {
+              "id": 3294106004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T07:13:28.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294106004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294106004/content/3294106004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                },
+                {
+                  "id": 1395308004,
+                  "uri": "https://media.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294106004/content/1395308004",
+                  "type": "MmsAttachment",
+                  "contentType": "image/png",
+                  "size": 6909,
+                  "fileName": "test.png",
+                  "width": 128,
+                  "height": 128
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
+              "messageStatus": "Sent",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T07:13:31.544Z"
+            },
+            {
+              "id": 3294112004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T07:14:37.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294112004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294112004/content/3294112004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T07:14:39.326Z"
+            },
+            {
+              "id": 3294251004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T09:13:48.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294251004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294251004/content/3294251004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T09:13:50.401Z"
+            },
+            {
+              "id": 3294257004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T09:14:15.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294257004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294257004/content/3294257004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T09:14:29.908Z"
+            },
+            {
+              "id": 3294261004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T09:15:01.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294261004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294261004/content/3294261004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                },
+                {
+                  "id": 1395338004,
+                  "uri": "https://media.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294261004/content/1395338004",
+                  "type": "MmsAttachment",
+                  "contentType": "image/png",
+                  "size": 6909,
+                  "fileName": "test.png",
+                  "width": 128,
+                  "height": 128
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
+              "messageStatus": "Sent",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T09:15:06.130Z"
+            },
+            {
+              "id": 3294267004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T09:16:13.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294267004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294267004/content/3294267004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T09:16:15.121Z"
+            },
+            {
+              "id": 3294288004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T09:25:07.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294288004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294288004/content/3294288004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T09:25:08.691Z"
+            },
+            {
+              "id": 3294292004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T09:25:35.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294292004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294292004/content/3294292004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T09:25:49.217Z"
+            },
+            {
+              "id": 3294302004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T09:26:16.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294302004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294302004/content/3294302004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                },
+                {
+                  "id": 1395361004,
+                  "uri": "https://media.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294302004/content/1395361004",
+                  "type": "MmsAttachment",
+                  "contentType": "image/png",
+                  "size": 6909,
+                  "fileName": "test.png",
+                  "width": 128,
+                  "height": 128
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - Hello world",
+              "messageStatus": "Sent",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T09:26:20.499Z"
+            },
+            {
+              "id": 3294310004,
+              "to": [
+                {
+                  "phoneNumber": "+16505819954",
+                  "location": "San Mateo, CA"
+                }
+              ],
+              "from": {
+                "phoneNumber": "+17322764403",
+                "location": "Lakewood, NJ"
+              },
+              "type": "SMS",
+              "creationTime": "2017-07-27T09:27:25.000Z",
+              "readStatus": "Read",
+              "priority": "Normal",
+              "attachments": [
+                {
+                  "id": 3294310004,
+                  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/130829004/extension/130829004/message-store/3294310004/content/3294310004",
+                  "type": "Text",
+                  "contentType": "text/plain"
+                }
+              ],
+              "direction": "Outbound",
+              "availability": "Alive",
+              "subject": "Test SMS using a RingCentral Developer account - hello world",
+              "messageStatus": "Delivered",
+              "smsSendingAttemptsCount": 1,
+              "conversationId": "205133443784764385",
+              "conversation": {
+                "id": "205133443784764385",
+                "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/205133443784764385"
+              },
+              "lastModifiedTime": "2017-07-27T09:27:27.205Z"
+            }
           ]
         },
-        "updatedTimestamp": 1501075441312,
-        "syncToken": "AQEAAAAAAwAAAV1bBPizBgAAAPoFAAABXX8QlvwTAAgAAAAAB8xKzAkBCgEyB7lQ",
-        "syncTimestamp": 1501075379964
+        "updatedTimestamp": 1501723071881,
+        "syncToken": "AQEAAAAAAwAAAV2C2OHwBgAAAPoFAAABXaWq-Z8TAAgAAAAAB8xKzAkBCgEQ_Fm6",
+        "syncTimestamp": 1501723031967
       },
       "callLogData": [
         {
-          "id": "AWWXiBvhhYuKzUA",
-          "sessionId": "16886801004",
-          "startTime": 1501026867970,
-          "duration": 10,
-          "type": "Voice",
-          "direction": "Inbound",
-          "action": "Phone Call",
-          "result": "Missed",
+          "id": "24D5fssnQ6K3ssA",
+          "sessionId": "-441211900402",
+          "startTime": 1501148305841,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
           "to": {
-            "phoneNumber": "+16505819951",
-            "name": "Jitender Kumar"
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
           },
           "from": {
-            "phoneNumber": "+16504776476",
-            "location": "San Mateo, CA"
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
           }
         },
         {
-          "id": "AWWXc0rPeBB0zUA",
-          "sessionId": "16886786004",
-          "startTime": 1501026708820,
-          "duration": 10,
-          "type": "Voice",
-          "direction": "Inbound",
-          "action": "Phone Call",
-          "result": "Missed",
+          "id": "24EBoHY0h7dPssA",
+          "sessionId": "-441210400402",
+          "startTime": 1501148187700,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
           "to": {
-            "phoneNumber": "+16505819951",
-            "name": "Jitender Kumar"
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
           },
           "from": {
-            "phoneNumber": "+16504776476",
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EAACDLehmXssA",
+          "sessionId": "-441210700402",
+          "startTime": 1501148185226,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
             "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EBFa8Rgy1nssA",
+          "sessionId": "-441210500402",
+          "startTime": 1501148184853,
+          "duration": 73,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Sent",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24D5fsuCNrMx8sA",
+          "sessionId": "-441211900401",
+          "startTime": 1501148064024,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EBFa9sdj3h8sA",
+          "sessionId": "-441210500401",
+          "startTime": 1501147948575,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EAACEmbSoR8sA",
+          "sessionId": "-441210700401",
+          "startTime": 1501147948447,
+          "duration": 38,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EBoHaPesfJ8sA",
+          "sessionId": "-441210400401",
+          "startTime": 1501147945899,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24D5fsvdKcOsMsA",
+          "sessionId": "-441211900400",
+          "startTime": 1501147720744,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EAACGBYDqMMsA",
+          "sessionId": "-441210700400",
+          "startTime": 1501147634689,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EBFa_HaU5cMsA",
+          "sessionId": "-441210500400",
+          "startTime": 1501147619474,
+          "duration": 41,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EBoHbqbdhEMsA",
+          "sessionId": "-441210400400",
+          "startTime": 1501147602889,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EoqHgNzoCPssA",
+          "sessionId": "-441203200402",
+          "startTime": 1501147585202,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EunwaPAG2HssA",
+          "sessionId": "-441202100402",
+          "startTime": 1501147465170,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EwyiMbEpUnssA",
+          "sessionId": "-441201700402",
+          "startTime": 1501147462294,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EwP1v4Dgs_ssA",
+          "sessionId": "-441201800402",
+          "startTime": 1501147462199,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EoqHhowZEJ8sA",
+          "sessionId": "-441203200401",
+          "startTime": 1501147344320,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EwP1xTARu58sA",
+          "sessionId": "-441201800401",
+          "startTime": 1501147228258,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EwyiN2BaWh8sA",
+          "sessionId": "-441201700401",
+          "startTime": 1501147226817,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24Eunwbp834B8sA",
+          "sessionId": "-441202100401",
+          "startTime": 1501147225965,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EoqHjDtKGEMsA",
+          "sessionId": "-441203200400",
+          "startTime": 1501147005895,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EwP1yt9Cw0MsA",
+          "sessionId": "-441201800400",
+          "startTime": 1501146981881,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EunwdE5o58MsA",
+          "sessionId": "-441202100400",
+          "startTime": 1501146912996,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24EwyiPQ-LYcMsA",
+          "sessionId": "-441201700400",
+          "startTime": 1501146892741,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24Gf65oltQPvssA",
+          "sessionId": "-441181200402",
+          "startTime": 1501140378276,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24GteQyRJnuXssA",
+          "sessionId": "-441178700402",
+          "startTime": 1501140268607,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24GuA9O0KwV_ssA",
+          "sessionId": "-441178600402",
+          "startTime": 1501140268598,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24Gs7kVuIfGvssA",
+          "sessionId": "-441178800402",
+          "startTime": 1501140257888,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "No Answer",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24Gf65qAqBRp8sA",
+          "sessionId": "-441181200401",
+          "startTime": 1501140017977,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24GuA9QPHhX58sA",
+          "sessionId": "-441178600401",
+          "startTime": 1501139910277,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24Gs7kXJFQIp8sA",
+          "sessionId": "-441178800401",
+          "startTime": 1501139909539,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24GteQzsGYwR8sA",
+          "sessionId": "-441178700401",
+          "startTime": 1501139900823,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "No Answer",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24HDsvEs4JG_ssA",
+          "sessionId": "-441174600402",
+          "startTime": 1501139779894,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24Gf65rbmyTkMsA",
+          "sessionId": "-441181200400",
+          "startTime": 1501139675785,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24HIk_FoCWrnssA",
+          "sessionId": "-441173700402",
+          "startTime": 1501139670287,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24HJHriLDfTPssA",
+          "sessionId": "-441173600402",
+          "startTime": 1501139667651,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24HICSpFBOD_ssA",
+          "sessionId": "-441173800402",
+          "startTime": 1501139662024,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24Gs7kYkCBKkMsA",
+          "sessionId": "-441178800400",
+          "startTime": 1501139573144,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24GteQ1HDJyMMsA",
+          "sessionId": "-441178700400",
+          "startTime": 1501139559318,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24GuA9RqESZ0MsA",
+          "sessionId": "-441178600400",
+          "startTime": 1501139556751,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24HDsvGH06I58sA",
+          "sessionId": "-441174600401",
+          "startTime": 1501139420756,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24HJHrjmAQVJ8sA",
+          "sessionId": "-441173600401",
+          "startTime": 1501139308730,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24HICSqf9_F58sA",
+          "sessionId": "-441173800401",
+          "startTime": 1501139306042,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24HIk_HC_Hth8sA",
+          "sessionId": "-441173700401",
+          "startTime": 1501139298168,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24HDsvHixrK0MsA",
+          "sessionId": "-441174600400",
+          "startTime": 1501139079826,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24HICSr66wH0MsA",
+          "sessionId": "-441173800400",
+          "startTime": 1501138974543,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24HIk_Id74vcMsA",
+          "sessionId": "-441173700400",
+          "startTime": 1501138969729,
+          "duration": 48,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
+          }
+        },
+        {
+          "id": "24HJHrlA9BXEMsA",
+          "sessionId": "-441173600400",
+          "startTime": 1501138954589,
+          "duration": 47,
+          "type": "Fax",
+          "direction": "Outbound",
+          "action": "Outgoing Fax",
+          "result": "Unknown",
+          "to": {
+            "phoneNumber": "+16505819954",
+            "name": "Colin Liu",
+            "location": "San Mateo, CA"
+          },
+          "from": {
+            "phoneNumber": "+17322764403",
+            "name": "Jitender Kumar"
           }
         }
       ],
-      "callLogToken": "FAMAAAFdVm10AAQAAAFdfO0QtAgAAAAAB8xKzA0AAAAD7ofn1A4AAAFapmrx2BIAAAFdf19QGBQBFQCUA04i",
-      "callLogTimestamp": 1501080539160,
+      "callLogToken": "FAMAAAFdf6BUAAQAAAFdpauN6ggAAAAAB8xKzA3___-ZSAEXcA4AAAFapmrx2BEADwAxADUAMAAxADAAOAA0ADgAMAAwADAAMAAwAF8AMBIAAAFdpauN6xQBFQB9dYzR",
+      "callLogTimestamp": 1501723069933,
       "activityMatcherData": {
       },
       "callLoggerData": {
@@ -920,15 +2495,15 @@
           "status": "Normal"
         }
       ],
-      "accountPhoneNumberTimestamp": 1501075440053,
+      "accountPhoneNumberTimestamp": 1501723071381,
       "contactsSyncToken": "HgAAAAAHzErMAQEAAAAAAAANGJA7OzQ",
-      "contactsSyncTimestamp": 1501079038682,
+      "contactsSyncTimestamp": 1501723069872,
       "addressBookContactsList": [
         {
           "availability": "Alive",
           "id": 386979004,
-          "firstName": "Test",
           "lastName": "Testov",
+          "firstName": "Test",
           "homePhone": "+79085552102",
           "homePhone2": "+79873819682",
           "businessPhone": "+79085571499"
@@ -936,31 +2511,31 @@
         {
           "availability": "Alive",
           "id": 389986005,
-          "firstName": "Vanessa",
           "lastName": "May",
+          "firstName": "Vanessa",
           "businessPhone": "+1234567890"
         },
         {
           "availability": "Alive",
           "id": 389987005,
-          "firstName": "Jhon",
           "lastName": "Travolta",
+          "firstName": "Jhon",
           "homePhone": "+122334455",
           "businessPhone": "+1875434343"
         },
         {
           "availability": "Alive",
           "id": 390003005,
-          "firstName": "Donald",
           "lastName": "Duck",
+          "firstName": "Donald",
           "businessPhone": "+12098135681"
         },
         {
           "availability": "Alive",
           "id": 391101004,
           "company": "Test",
-          "firstName": "Test",
           "lastName": "Test",
+          "firstName": "Test",
           "middleName": "Test",
           "jobTitle": "Test",
           "nickName": "Test",
@@ -969,15 +2544,15 @@
         {
           "availability": "Alive",
           "id": 391247004,
-          "firstName": "qwer",
           "lastName": "qwer",
+          "firstName": "qwer",
           "homePhone": "+18885287464"
         },
         {
           "availability": "Alive",
           "id": 391248004,
-          "firstName": "Ivan&apos;s",
           "lastName": "phone",
+          "firstName": "Ivan&apos;s",
           "homePhone": "+14158021958"
         },
         {
@@ -1025,15 +2600,15 @@
         {
           "availability": "Alive",
           "id": 391594004,
-          "firstName": "Petr",
           "lastName": "Ivanov",
+          "firstName": "Petr",
           "homePhone": "+15856234100"
         },
         {
           "availability": "Alive",
           "id": 391595004,
-          "firstName": "qwe",
           "lastName": "qwe",
+          "firstName": "qwe",
           "homePhone": "+12098135681",
           "homePhone2": "+15856234100",
           "businessPhone": "+17322764403"
@@ -1041,42 +2616,42 @@
         {
           "availability": "Alive",
           "id": 391621004,
-          "firstName": "Nicola",
           "lastName": "Tesla",
+          "firstName": "Nicola",
           "homePhone": "+14567891212"
         },
         {
           "availability": "Alive",
           "id": 391920004,
-          "firstName": "_test",
           "lastName": "~!@#$%^&amp;*(){}[]:\";&apos;?>,.<&sol;_+-=&bsol;|",
+          "firstName": "_test",
           "homePhone": "+17322764403"
         },
         {
           "availability": "Alive",
           "id": 392045004,
-          "firstName": "Jitender",
           "lastName": "Kumar",
+          "firstName": "Jitender",
           "mobilePhone": "+16502578497"
         },
         {
           "availability": "Alive",
           "id": 394775004,
-          "firstName": "Dmitry",
           "lastName": "Markov",
+          "firstName": "Dmitry",
           "homePhone": "+16506429155"
         },
         {
           "availability": "Alive",
           "id": 395494004,
-          "firstName": "Tyler",
-          "lastName": "Long"
+          "lastName": "Long",
+          "firstName": "Tyler"
         },
         {
           "availability": "Alive",
           "id": 395495004,
-          "firstName": "Tyler",
-          "lastName": "Long"
+          "lastName": "Long",
+          "firstName": "Tyler"
         },
         {
           "availability": "Alive",
@@ -1091,8 +2666,8 @@
         {
           "availability": "Alive",
           "id": 470276004,
-          "firstName": "Tyler",
           "lastName": "Liu",
+          "firstName": "Tyler",
           "homePhone": "+15889546648"
         }
       ],
@@ -1144,11 +2719,11 @@
     "connectRetryCounts": 0,
     "errorCode": null,
     "webphoneCounts": 1,
-    "currentSession": null,
+    "activeSessionId": null,
+    "ringSessionId": null,
     "sessions": [
 
-    ],
-    "minimized": false
+    ]
   },
   "callingSettings": {
     "status": "module-ready"
@@ -1160,17 +2735,32 @@
   },
   "subscription": {
     "status": "module-ready",
-    "message": null,
+    "message": {
+      "uuid": "5990505101177043484-1227548534936956056",
+      "event": "/restapi/v1.0/account/130829004/extension/130829004/presence?detailedTelephonyState=true&sipData=true",
+      "timestamp": "2017-08-03T01:18:15.074Z",
+      "subscriptionId": "ac87424a-0ed5-4538-9685-b60d3584c45e",
+      "body": {
+        "extensionId": 130829004,
+        "telephonyStatus": "NoCall",
+        "presenceStatus": "Offline",
+        "userStatus": "Offline",
+        "dndStatus": "TakeAllCalls",
+        "allowSeeMyPresence": true,
+        "ringOnMonitoredCall": false,
+        "pickUpCallsOnHold": false
+      }
+    },
     "filters": [
       "/account/~/extension/~/presence?detailedTelephonyState=true",
-      "/account/~/extension/~/message-store",
       "/account/~/extension/~/presence?detailedTelephonyState=true&sipData=true",
-      "/account/~/extension/~/presence"
+      "/account/~/extension/~/presence",
+      "/account/~/extension/~/message-store"
     ],
     "subscriptionStatus": "subscriptionStatus-subscribed"
   },
   "activeCalls": {
-    "timestamp": 1501075441958,
+    "timestamp": 1501723071851,
     "data": [
 
     ],
@@ -1237,7 +2827,7 @@
     "messageStoreUpdatedAt": null
   },
   "conference": {
-    "timestamp": 1501075440905,
+    "timestamp": 1501723071584,
     "data": {
       "phoneNumber": "+12679304000",
       "hostCode": "628456073",
@@ -1659,11 +3249,11 @@
   },
   "router": {
     "locationBeforeTransitions": {
-      "pathname": "/",
+      "pathname": "/settings",
       "search": "",
       "hash": "",
-      "action": "POP",
-      "key": null,
+      "action": "PUSH",
+      "key": "de3ggr",
       "query": {
       }
     }
@@ -1722,6 +3312,13 @@
 
     ],
     "messageStatus": null
+  },
+  "recentCalls": {
+    "status": "module-ready",
+    "calls": [
+
+    ],
+    "callStatus": null
   },
   "app": {
     "name": "RingCentral JS Widget",
