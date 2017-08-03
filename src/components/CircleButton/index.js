@@ -24,11 +24,12 @@ function CircleButton(props) {
     styles.circle,
     props.showBorder ? null : styles.noBorder
   );
+  const onClick = props.disabled ? () => {} : props.onClick;
   return (
     <svg
       className={classnames(styles.btnSvg, props.className)}
       viewBox="0 0 500 500"
-      onClick={props.onClick}
+      onClick={onClick}
       width={props.width}
       height={props.height}
       x={props.x}
@@ -55,10 +56,11 @@ CircleButton.propTypes = {
   showBorder: PropTypes.bool,
   iconClassName: PropTypes.string,
   onClick: PropTypes.func,
-  width: PropTypes.number,
-  height: PropTypes.number,
+  width: PropTypes.string,
+  height: PropTypes.string,
   x: PropTypes.number,
   y: PropTypes.number,
+  disabled: PropTypes.bool
 };
 
 CircleButton.defaultProps = {
@@ -66,6 +68,7 @@ CircleButton.defaultProps = {
   className: undefined,
   showBorder: true,
   iconClassName: undefined,
+  disabled: false,
   onClick: () => null,
   width: '100%',
   height: '100%',
