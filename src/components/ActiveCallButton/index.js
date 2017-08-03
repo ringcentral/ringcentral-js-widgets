@@ -6,7 +6,7 @@ import CircleButton from '../CircleButton';
 import styles from './styles.scss';
 
 export default function ActiveCallButton(props) {
-  const className = classnames(styles.root, props.className);
+  const className = classnames(styles.btnSvg, props.className);
   const buttonClassName = classnames(
     styles.button,
     props.buttonClassName,
@@ -14,21 +14,29 @@ export default function ActiveCallButton(props) {
     props.disabled ? styles.buttonDisabled : null,
   );
   return (
-    <div className={className}>
-      <div className={styles.buttonContainer}>
-        <CircleButton
-          className={buttonClassName}
-          onClick={props.onClick}
-          icon={props.icon}
-          disabled={props.disabled}
-          showBorder={props.showBorder}
-          iconClassName={props.buttonClassName}
-        />
-      </div>
-      <div className={styles.buttonTitle}>
+    <svg className={className} viewBox="0 0 500 500">
+      <CircleButton
+        width={200}
+        height={200}
+        x={150}
+        y={150}
+        className={buttonClassName}
+        onClick={props.onClick}
+        icon={props.icon}
+        disabled={props.disabled}
+        showBorder={props.showBorder}
+        iconClassName={props.buttonClassName}
+      />
+      <text
+        className={styles.buttonTitle}
+        x="0"
+        dx="200"
+        y="0"
+        dy="280"
+      >
         {props.title}
-      </div>
-    </div>
+      </text>
+    </svg>
   );
 }
 
