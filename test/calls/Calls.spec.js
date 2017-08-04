@@ -16,5 +16,6 @@ describe('history', () => {
   test('initial state', () => {
     expect(panel).toBeDefined();
     expect(panel.props()).toBeDefined();
+    expect(panel.find('p.noCalls').first().text()).toEqual('No active calls');
   });
 });
