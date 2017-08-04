@@ -24,19 +24,19 @@
 .navigationButton:hover,
 .navigationButton:focus {
   span {
-    color: $rc-blue;
+    color: $primary-color;
   }
   .icon > svg path {
-    fill: $rc-blue;
+    fill: $primary-color;
   }
 }
 .navigationButton.active {
-  border-bottom: 1px solid $rc-blue;
+  border-bottom: 1px solid $primary-color;
   span {
-    color: $rc-blue;
+    color: $primary-color;
   }
   .icon > svg path {
-    fill: $rc-blue;
+    fill: $primary-color;
   }
 }
 .iconHolder {
