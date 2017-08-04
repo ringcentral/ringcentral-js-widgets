@@ -1,19 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
-import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
-import SpinnerOverlay from '../../../src/components/SpinnerOverlay';
 import OfflineModeBadge from '../../../src/components/OfflineModeBadge';
 import Environment from '../../../src/components/Environment';
 
 import styles from './styles.scss';
 
 function AppView(props) {
-  // const spinner = props.showSpinner ?
-  //   <SpinnerOverlay /> :
-  //   null;
-
   return (
     <div className={styles.root}>
       {props.children}
