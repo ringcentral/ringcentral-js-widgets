@@ -17,4 +17,13 @@ describe('conference', () => {
     expect(panel).toBeDefined();
     expect(panel.props()).toBeDefined();
   });
+
+  test('click invite button', async () => {
+    const inviteButton = panel.find('input.textBtn').first();
+    expect(inviteButton.props()).toBeDefined();
+
+    await inviteButton.props().onClick();
+    const textArea = wrapper.find('.textField').first().find('textarea').first();
+    expect(textArea.props().value).toMatch(/Please join the RingCentral conference/);
+  });
 });
