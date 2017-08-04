@@ -37,6 +37,9 @@ function mapToProps(_, {
     fromNumber: callingSettings.fromNumber,
     showSpinner: !(
       call.ready &&
+      callingSettings.ready &&
+      locale.ready &&
+      connectivityMonitor.ready &&
       (!isWebphoneMode || !webphone || !waitingWebphoneConnected)
     ),
   };
