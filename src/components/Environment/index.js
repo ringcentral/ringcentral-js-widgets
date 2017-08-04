@@ -99,7 +99,10 @@ class Environment extends Component {
       <div className={styles.root}>
         <BackHeader
           onBackClick={this.onCancel}
-        >Environment</BackHeader>
+          buttons={[]}
+        >
+          Environment
+        </BackHeader>
         <Panel classname={styles.content}>
           <Line>
             Server

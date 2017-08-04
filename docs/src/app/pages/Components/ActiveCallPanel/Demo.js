@@ -23,6 +23,9 @@ props.nameMatches = [];
 props.onSelectMatcherName = () => null;
 props.selectedMatcherIndex = 0;
 props.fallBackName = 'Unknown';
+props.flipNumbers = [];
+props.recordStatus = 'recordStatus-idle';
+props.onShowKeyPad = () => null;
 /**
  * A example of `ActiveCallPanel`
  */

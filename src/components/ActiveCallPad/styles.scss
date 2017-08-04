@@ -27,7 +27,9 @@
 }
 
 .stopButton {
-  background: #ff4646;
+  circle {
+    fill: #ff4646;
+  }
   g, path {
     fill: #ffffff;
   }

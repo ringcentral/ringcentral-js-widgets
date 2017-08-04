@@ -197,15 +197,14 @@ ActiveCallPanel.propTypes = {
   backButtonLabel: PropTypes.string,
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
-  onShowFlipPanel: PropTypes.func.isRequired,
-  flipNumbers: PropTypes.array.isRequired,
+  onShowFlipPanel: PropTypes.func,
+  flipNumbers: PropTypes.array,
 };
 
 ActiveCallPanel.defaultProps = {
   startTime: null,
   isOnMute: false,
   isOnHold: false,
-  isOnRecord: false,
   phoneNumber: null,
   children: undefined,
   avatarUrl: null,
@@ -213,6 +212,7 @@ ActiveCallPanel.defaultProps = {
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   flipNumbers: [],
+  onShowFlipPanel: () => null,
 };
 
 export default ActiveCallPanel;

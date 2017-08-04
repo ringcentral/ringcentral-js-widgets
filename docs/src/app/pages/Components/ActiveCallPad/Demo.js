@@ -13,7 +13,9 @@ props.hangup = () => null;
 props.onShowKeyPad = () => null;
 props.onAdd = () => null;
 props.currentLocale = 'en-US';
-
+props.flipNumbers = [];
+props.recordStatus = 'recordStatus-idle';
+props.onShowFlipPanel = () => null;
 /**
  * A example of `ActiveCallPad`
  */
