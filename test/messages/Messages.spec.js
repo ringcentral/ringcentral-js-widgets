@@ -23,5 +23,6 @@ describe('messages', () => {
     const searchInput = panel.find(SearchInput).first();
     searchInput.props().onChange({ currentTarget: { value: 'something-doesnt-exist' } });
     expect(searchInput.props().value).toEqual('something-doesnt-exist');
+    expect(panel.find('.noMessages').text().trim()).toEqual('No matching records found');
   });
 });
