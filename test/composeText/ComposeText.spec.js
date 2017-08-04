@@ -1,6 +1,7 @@
 import { getWrapper } from '../shared';
 import NavigationBar from '../../src/components/NavigationBar';
 import ComposeTextPanel from '../../src/components/ComposeTextPanel';
+import DropdownSelect from '../../src/components/DropdownSelect';
 
 let wrapper = null;
 let panel = null;
@@ -37,5 +38,22 @@ describe('compose text panel', () => {
     expect(toNumber.props().value).toEqual('Hello world');
 
     expect(submitButton.props().disabled).toBe(false);
+  });
+
+  test('from dropdown', async () => {
+    const dropdownSelect = panel.find(DropdownSelect).first();
+    const dropdown = dropdownSelect.find('.dropdown').first();
+    const dropdownItems = dropdown.find('.dropdownItem');
+    expect(dropdownItems.length > 1).toEqual(true);
+
+    const firstNumber = dropdownItems.at(0).text();
+    const secondNumber = dropdownItems.at(1).text();
+    expect(firstNumber).not.toEqual(secondNumber);
+
+    const selected = dropdownSelect.find('button.button').first().find('span.selectedValue').first();
+    await dropdownItems.at(1).simulate('click');
+    expect(selected.text()).toEqual(secondNumber);
+    await dropdownItems.at(0).simulate('click');
+    expect(selected.text()).toEqual(firstNumber);
   });
 });
