@@ -60,8 +60,9 @@ describe('compose text panel', () => {
   });
 
   test('send an SMS', async () => {
+    const messageContent = `Hello world ${Date.now()}`;
     await toNumber.props().onChange({ currentTarget: { value: process.env.receiver } });
-    await textArea.props().onChange({ currentTarget: { value: 'Hello world 111' } });
+    await textArea.props().onChange({ currentTarget: { value: messageContent } });
     expect(submitButton.props().disabled).toBe(false);
     await submitButton.closest('form').simulate('submit');
 
@@ -72,6 +73,6 @@ describe('compose text panel', () => {
     const messages = conversationPanel.first().find(Message);
     const lastMessage = messages.at(messages.length - 1);
     expect(lastMessage.props()).toBeDefined();
-    expect(lastMessage.props().subject).toMatch(/Hello world 111/);
+    expect(lastMessage.props().subject).toMatch(new RegExp(messageContent));
   });
 });
