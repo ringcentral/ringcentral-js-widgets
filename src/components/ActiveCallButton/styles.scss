@@ -23,6 +23,7 @@ $title-height: 24px;
 .buttonTitle {
   @include secondary-font;
   font-size: 73px;
+  fill: $darkergray;
 }
 
 .buttonActive {
