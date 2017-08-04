@@ -44,3 +44,6 @@ export const getWrapper = async () => {
   const phone = await getPhone();
   return mount(<App phone={phone} />);
 };
+
+
+export const timeout = ms => new Promise(resolve => setTimeout(() => resolve(true), ms));
