@@ -3,6 +3,7 @@ import NavigationBar from '../../src/components/NavigationBar';
 import MessageList from '../../src/components/MessageList';
 import SearchInput from '../../src/components/SearchInput';
 import MessageItem from '../../src/components/MessageItem';
+import ConversationPanel from '../../src/components/ConversationPanel';
 
 let wrapper = null;
 let panel = null;
@@ -30,5 +31,12 @@ describe('messages', () => {
   test('message list', () => {
     const firstMessage = panel.find(MessageItem).first();
     expect(firstMessage.props()).toBeDefined();
+  });
+
+  test('click a message', async () => {
+    const firstMessage = panel.find(MessageItem).first();
+    await firstMessage.find('div').first().props().onClick();
+    const conversationPanel = wrapper.find(ConversationPanel);
+    expect(conversationPanel.length > 0).toBe(true);
   });
 });
