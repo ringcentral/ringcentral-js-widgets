@@ -7,9 +7,9 @@ import i18n from './i18n';
 
 const cx = classNames.bind(styles);
 function MessageItem({ message, navigateTo, dateTimeFormatter }) {
-  const { subject, lastModifiedTime, readStatus, conversationId } = message;
+  const { subject, creationTime, readStatus, conversationId } = message;
   const isUnread = readStatus !== 'Read';
-  const time = dateTimeFormatter({ utcTimestamp: lastModifiedTime });
+  const time = dateTimeFormatter({ utcTimestamp: creationTime });
   return (
     <div
       className={cx('messageItem', { localMessageItem: !message.fromRemote })}

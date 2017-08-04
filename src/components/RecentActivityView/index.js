@@ -17,9 +17,9 @@ export default class RecentActivityView extends PureComponent {
     this.onTabChanged();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.currentContact !== this.props.currentContact) {
-      this.onTabChanged(this.state.currentTab, nextProps);
+  componentDidUpdate(prevProps) {
+    if (prevProps.currentContact !== this.props.currentContact) {
+      this.onTabChanged(this.state.currentTab);
     }
   }
 
@@ -29,8 +29,8 @@ export default class RecentActivityView extends PureComponent {
     }
   }
 
-  onTabChanged = (tabName = this.props.defaultTab, nextProps = this.props) => {
-    const currentTab = this.getCurrentTab(nextProps, tabName);
+  onTabChanged = (tabName = this.props.defaultTab) => {
+    const currentTab = this.getCurrentTab(tabName);
     currentTab.getData();
     this.setState({
       currentTab: tabName
@@ -39,12 +39,12 @@ export default class RecentActivityView extends PureComponent {
 
   getCurrentTabPanel() {
     const currentTabPath = this.state.currentTab;
-    const currentTab = this.getCurrentTab(this.props, currentTabPath);
+    const currentTab = this.getCurrentTab(currentTabPath);
     return currentTab.view || null;
   }
 
-  getCurrentTab(props, currentTabPath) {
-    const tabs = props.tabs;
+  getCurrentTab(currentTabPath) {
+    const tabs = this.props.tabs;
     return tabs.find(tab => tab.path === currentTabPath);
   }
 
