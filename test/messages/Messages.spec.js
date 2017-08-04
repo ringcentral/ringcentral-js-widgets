@@ -2,6 +2,7 @@ import { getWrapper } from '../shared';
 import NavigationBar from '../../src/components/NavigationBar';
 import MessageList from '../../src/components/MessageList';
 import SearchInput from '../../src/components/SearchInput';
+import MessageItem from '../../src/components/MessageItem';
 
 let wrapper = null;
 let panel = null;
@@ -24,5 +25,10 @@ describe('messages', () => {
     searchInput.props().onChange({ currentTarget: { value: 'something-doesnt-exist' } });
     expect(searchInput.props().value).toEqual('something-doesnt-exist');
     expect(panel.find('.noMessages').text().trim()).toEqual('No matching records found');
+  });
+
+  test('message list', () => {
+    const firstMessage = panel.find(MessageItem).first();
+    expect(firstMessage.props()).toBeDefined();
   });
 });
