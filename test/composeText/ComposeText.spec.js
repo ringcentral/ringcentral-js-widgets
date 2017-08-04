@@ -1,7 +1,8 @@
-import { getWrapper } from '../shared';
+import { getWrapper, timeout } from '../shared';
 import NavigationBar from '../../src/components/NavigationBar';
 import ComposeTextPanel from '../../src/components/ComposeTextPanel';
 import DropdownSelect from '../../src/components/DropdownSelect';
+import ConversationPanel from '../../src/components/ConversationPanel';
 
 let wrapper = null;
 let panel = null;
@@ -55,5 +56,17 @@ describe('compose text panel', () => {
     expect(selected.text()).toEqual(secondNumber);
     await dropdownItems.at(0).simulate('click');
     expect(selected.text()).toEqual(firstNumber);
+  });
+
+  test('send an SMS', async () => {
+    await toNumber.props().onChange({ currentTarget: { value: process.env.receiver } });
+    await textArea.props().onChange({ currentTarget: { value: 'Hello world 111' } });
+    expect(submitButton.props().disabled).toBe(false);
+    await submitButton.closest('form').simulate('submit');
+
+    await timeout(8000);
+
+    const conversationPanel = wrapper.find(ConversationPanel);
+    expect(conversationPanel.length > 0).toBe(true);
   });
 });
