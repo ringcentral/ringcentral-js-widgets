@@ -11,8 +11,7 @@
     "gulp": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js",
     "dev-server": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js dev-server",
     "release": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js release",
-    "eslint": "node ./node_modules/eslint/bin/eslint.js --quiet src --ignore-pattern *.test.js",
-    "prepush": "yarn test"
+    "eslint": "node ./node_modules/eslint/bin/eslint.js --quiet src --ignore-pattern *.test.js"
   },
   "repository": {
     "type": "git",
@@ -68,7 +67,6 @@
     "gulp-babel": "^6.1.2",
     "gulp-istanbul": "^1.1.1",
     "gulp-sourcemaps": "^2.4.0",
-    "husky": "^0.14.3",
     "identity-obj-proxy": "^3.0.0",
     "intl": "^1.2.5",
     "jest": "^20.0.4",
