@@ -8,11 +8,12 @@ import styles from './styles.scss';
 
 export default function LogButton({
   className,
-  currentLocale,
   onLog,
   isLogged,
   disableLinks,
   isLogging,
+  addTitle,
+  editTitle,
 }) {
   const spinner = isLogging ?
     (
@@ -31,6 +32,10 @@ export default function LogButton({
         className={isLogged ?
           dynamicsFont.edit :
           dynamicsFont.callLog
+        }
+        title={isLogged ?
+          editTitle :
+          addTitle
         } />
       {spinner}
     </Button>
@@ -42,7 +47,8 @@ LogButton.propTypes = {
   isLogged: PropTypes.bool,
   disableLinks: PropTypes.bool,
   isLogging: PropTypes.bool,
-  currentLocale: PropTypes.string.isRequired,
+  viewTitle: PropTypes.string,
+  editTitle: PropTypes.string,
 };
 LogButton.defaultProps = {
   className: undefined,
@@ -50,4 +56,6 @@ LogButton.defaultProps = {
   isLogged: false,
   disableLinks: false,
   isLogging: false,
+  addTitle: undefined,
+  editTitle: undefined,
 };

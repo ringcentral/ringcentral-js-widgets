@@ -32,7 +32,12 @@ function CallIcon({
   missed,
   active,
   ringing,
+  inboundTitle,
+  outboundTitle,
+  missedTitle,
 }) {
+  const title = missed ? missedTitle :
+    (direction === callDirections.inbound) ? inboundTitle : outboundTitle;
   return (
     <div className={styles.callIcon}>
       <span
@@ -41,7 +46,9 @@ function CallIcon({
           active && styles.activeCall,
           ringing && styles.ringing,
           missed && styles.missed,
-        )} />
+        )}
+        title={title}
+      />
     </div>
   );
 }
@@ -336,6 +343,9 @@ export default class CallItem extends Component {
           ringing={ringing}
           active={active}
           missed={missed}
+          inboundTitle={i18n.getString('inboundCall', currentLocale)}
+          outboundTitle={i18n.getString('outboundCall', currentLocale)}
+          missedTitle={i18n.getString('missedCall', currentLocale)}
         />
         <ContactDisplay
           className={classnames(
@@ -376,6 +386,12 @@ export default class CallItem extends Component {
           isLogging={isLogging || this.state.isLogging}
           isLogged={activityMatches.length > 0}
           isCreating={this.state.isCreating}
+          addLogTitle={i18n.getString('addLog', currentLocale)}
+          editLogTitle={i18n.getString('editLog', currentLocale)}
+          textTitle={i18n.getString('text', currentLocale)}
+          callTitle={i18n.getString('call', currentLocale)}
+          createEntityTitle={i18n.getString('addEntity', currentLocale)}
+          viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
         />
       </div>
     );
