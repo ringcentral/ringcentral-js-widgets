@@ -35,14 +35,14 @@ export default class RegionSettings extends Component {
       });
     }
   }
+
   onAreaCodeChange = (e) => {
-    const value = e.currentTarget.value.replace(/[^\d]/g, '');
-    if (value !== this.state.areaCodeValue) {
-      this.setState({
-        areaCodeValue: value,
-      });
-    }
+    const value = e.currentTarget.value;
+    this.setState({
+      areaCodeValue: this.areaCodeInputFilter(value),
+    });
   }
+
   onCountryCodeChange = (option) => {
     const value = option.isoCode;
     if (value !== this.state.countryCodeValue) {
@@ -70,6 +70,10 @@ export default class RegionSettings extends Component {
       this.props.onBackButtonClick();
     }
   }
+
+  areaCodeInputFilter = value =>
+    value.replace(/[^\d]/g, '')
+
   renderHandler = option =>
     `(+${option.callingCode}) ${countryNames.getString(option.isoCode, this.props.currentLocale)}`
 
@@ -144,6 +148,7 @@ export default class RegionSettings extends Component {
               <TextInput
                 placeholder={i18n.getString('areaCodePlaceholder', this.props.currentLocale)}
                 maxLength={3}
+                filter={this.areaCodeInputFilter}
                 value={this.state.areaCodeValue}
                 onChange={this.onAreaCodeChange} />
             </InputField>

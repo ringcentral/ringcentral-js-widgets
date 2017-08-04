@@ -5,16 +5,21 @@ import ContactDisplay from '../ContactDisplay';
 import ActionMenu from '../ActionMenu';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
+import i18n from './i18n';
 
 function ConversationIcon({
   group,
+  conversationTitle,
+  groupConversationTitle,
 }) {
+  const title = group ? groupConversationTitle : conversationTitle;
   return (
     <div className={styles.conversationIcon}>
       <span
         className={classnames(
           group ? dynamicsFont.groupConversation : dynamicsFont.composeText
-        )} />
+        )}
+        title={title}/>
     </div>
   );
 }
@@ -214,7 +219,11 @@ export default class MessageItem extends Component {
         )}
         onClick={this.showConversationDetail}
       >
-        <ConversationIcon group={correspondents.length > 1} />
+        <ConversationIcon
+          group={correspondents.length > 1}
+          conversationTitle={i18n.getString('conversation', currentLocale)}
+          groupConversationTitle={i18n.getString('groupConversation', currentLocale)}
+        />
         <ContactDisplay
           className={classnames(
             styles.contactDisplay,
@@ -249,6 +258,11 @@ export default class MessageItem extends Component {
           isLogging={isLogging || this.state.isLogging}
           isLogged={conversationMatches.length > 0}
           isCreating={this.state.isCreating}
+          addLogTitle={i18n.getString('addLog', currentLocale)}
+          editLogTitle={i18n.getString('editLog', currentLocale)}
+          callTitle={i18n.getString('call', currentLocale)}
+          createEntityTitle={i18n.getString('addEntity', currentLocale)}
+          viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
           stopPropagation
         />
       </div>

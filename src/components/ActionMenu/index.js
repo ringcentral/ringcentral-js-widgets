@@ -11,18 +11,20 @@ import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 function ClickToDialButton({
   className,
-  currentLocale,
   onClickToDial,
   disableLinks,
   disableClickToDial,
   phoneNumber,
+  title,
 }) {
   return (
     <Button
       className={classnames(styles.call, className)}
       onClick={onClickToDial}
       disabled={disableLinks || disableClickToDial || !phoneNumber} >
-      <span className={dynamicsFont.call} />
+      <span
+        className={dynamicsFont.call}
+        title={title}/>
     </Button>
   );
 }
@@ -32,7 +34,6 @@ ClickToDialButton.propTypes = {
   disableLinks: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
   phoneNumber: PropTypes.string,
-  currentLocale: PropTypes.string.isRequired,
 };
 ClickToDialButton.defaultProps = {
   className: undefined,
@@ -44,17 +45,19 @@ ClickToDialButton.defaultProps = {
 
 function ClickToSmsButton({
   className,
-  currentLocale,
   onClickToSms,
   disableLinks,
   phoneNumber,
+  title,
 }) {
   return (
     <Button
       className={classnames(styles.sms, className)}
       onClick={onClickToSms}
       disabled={disableLinks || !phoneNumber} >
-      <span className={dynamicsFont.composeText} />
+      <span
+        className={dynamicsFont.composeText}
+        title={title}/>
     </Button>
   );
 }
@@ -63,7 +66,6 @@ ClickToSmsButton.propTypes = {
   onClickToSms: PropTypes.func,
   disableLinks: PropTypes.bool,
   phoneNumber: PropTypes.string,
-  currentLocale: PropTypes.string.isRequired,
 };
 ClickToSmsButton.defaultProps = {
   className: undefined,
@@ -74,12 +76,13 @@ ClickToSmsButton.defaultProps = {
 
 function EntityButton({
   className,
-  currentLocale,
   onViewEntity,
   onCreateEntity,
   hasEntity,
   isCreating,
   disableLinks,
+  viewEntityTitle,
+  createEntityTitle,
 }) {
   // console.debug('isCreating', isCreating);
   const spinner = isCreating ?
@@ -91,14 +94,17 @@ function EntityButton({
     null;
   const icon = hasEntity ? dynamicsFont.record : dynamicsFont.addEntity;
   const onClick = hasEntity ? onViewEntity : onCreateEntity;
-
+  const title = hasEntity ? viewEntityTitle : createEntityTitle;
   return (
     <Button
       className={classnames(styles.entity, className)}
       onClick={onClick}
       disabled={disableLinks} >
 
-      <span className={icon} />
+      <span
+        className={icon}
+        title={title}
+      />
       {spinner}
     </Button>
   );
@@ -110,7 +116,6 @@ EntityButton.propTypes = {
   hasEntity: PropTypes.bool,
   isCreating: PropTypes.bool,
   disableLinks: PropTypes.bool,
-  currentLocale: PropTypes.string.isRequired,
 };
 EntityButton.defaultProps = {
   className: undefined,
@@ -171,6 +176,12 @@ export default class ActionMenu extends Component {
       disableLinks,
       disableClickToDial,
       stopPropagation,
+      addLogTitle,
+      editLogTitle,
+      callTitle,
+      textTitle,
+      createEntityTitle,
+      viewEntityTitle,
     } = this.props;
 
     const logButton = onLog ?
@@ -182,6 +193,8 @@ export default class ActionMenu extends Component {
           isLogged={isLogged}
           isLogging={isLogging}
           currentLocale={currentLocale}
+          addTitle={addLogTitle}
+          editTitle={editLogTitle}
         />
       ) :
       null;
@@ -193,7 +206,7 @@ export default class ActionMenu extends Component {
         onViewEntity={onViewEntity}
         hasEntity={hasEntity}
         disableLinks={disableLinks}
-        currentLocale={currentLocale}
+        viewEntityTitle={viewEntityTitle}
       />);
     } else if (!hasEntity && phoneNumber && onCreateEntity) {
       entityButton = (<EntityButton
@@ -201,7 +214,7 @@ export default class ActionMenu extends Component {
         onCreateEntity={this.openEntityModal}
         hasEntity={hasEntity}
         disableLinks={disableLinks}
-        currentLocale={currentLocale}
+        createEntityTitle={createEntityTitle}
       />);
     } else {
       entityButton = null;
@@ -227,6 +240,7 @@ export default class ActionMenu extends Component {
           disableLinks={disableLinks}
           disableClickToDial={disableClickToDial}
           currentLocale={currentLocale}
+          title={callTitle}
         />
       ) :
       null;
@@ -238,6 +252,7 @@ export default class ActionMenu extends Component {
           phoneNumber={phoneNumber}
           disableLinks={disableLinks}
           currentLocale={currentLocale}
+          title={textTitle}
         />
       ) :
       null;
@@ -300,6 +315,12 @@ ActionMenu.propTypes = {
   disableClickToDial: PropTypes.bool,
   stopPropagation: PropTypes.bool,
   captureClick: PropTypes.bool,
+  addLogTitle: PropTypes.string,
+  editLogTitle: PropTypes.string,
+  textTitle: PropTypes.string,
+  callTitle: PropTypes.string,
+  createEntityTitle: PropTypes.string,
+  viewEntityTitle: PropTypes.string,
 };
 ActionMenu.defaultProps = {
   className: undefined,
@@ -317,4 +338,10 @@ ActionMenu.defaultProps = {
   disableClickToDial: false,
   stopPropagation: false,
   captureClick: false,
+  addLogTitle: undefined,
+  editLogTitle: undefined,
+  textTitle: undefined,
+  callTitle: undefined,
+  createEntityTitle: undefined,
+  viewEntityTitle: undefined,
 };
