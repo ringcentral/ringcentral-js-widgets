@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
 import i18n from './i18n';
+import SpinnerOverlay from '../SpinnerOverlay';
 
 export default class LoginPanel extends Component {
   componentDidMount() {
@@ -18,7 +19,11 @@ export default class LoginPanel extends Component {
       currentLocale,
       disabled,
       version,
+      showSpinner,
     } = this.props;
+    const spinner = showSpinner ?
+      <SpinnerOverlay /> :
+      null;
     const versionDisplay = version ?
       (
         <div className={styles.versionContainer} >
@@ -35,6 +40,7 @@ export default class LoginPanel extends Component {
           {i18n.getString('loginButton', currentLocale)}
         </button>
         {versionDisplay}
+        {spinner}
       </div>
     );
   }
@@ -48,10 +54,12 @@ LoginPanel.propTypes = {
   onLoginButtonClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   version: PropTypes.string,
+  showSpinner: PropTypes.bool,
 };
 
 LoginPanel.defaultProps = {
   className: null,
   disabled: false,
   version: undefined,
+  showSpinner: false
 };

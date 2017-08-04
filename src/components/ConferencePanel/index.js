@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import formatMessage from 'format-message';
 import IconField from '../IconField';
 import Switch from '../Switch';
+import SpinnerOverlay from '../SpinnerOverlay';
 import i18n from './i18n';
 import styles from './styles.scss';
 import RcFont from '../../assets/RcFont/RcFont.scss';
@@ -80,7 +81,7 @@ class ConferencePanel extends Component {
         });
       } else {
         const newState = state.filter(value =>
-        value.phoneNumber !== e.currentTarget.getAttribute('data-number'));
+          value.phoneNumber !== e.currentTarget.getAttribute('data-number'));
         newState.sort((a, b) => a.id - b.id);
         this.setState({
           selectInternationals: newState
@@ -91,7 +92,13 @@ class ConferencePanel extends Component {
   render() {
     const {
       currentLocale,
+      showSpinner,
     } = this.props;
+    if (showSpinner) {
+      return (
+        <SpinnerOverlay />
+      );
+    }
     const internationalNumbers = this.state.showInternational ? (
       <div className={styles.international}>
         <h2>
@@ -126,7 +133,7 @@ class ConferencePanel extends Component {
                 </span>
               </label>
             </div>
-            ))}
+          ))}
         </div>
       </div>
     ) : '';
@@ -155,9 +162,9 @@ class ConferencePanel extends Component {
             icon={
               <Switch
                 onChange={this.onInternationalSwitch}
-             />
-           }
-           >
+              />
+            }
+          >
             {i18n.getString('internationalParticipants', currentLocale)}
           </IconField>
         </div>
@@ -185,6 +192,11 @@ ConferencePanel.propTypes = {
   inviteWithText: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
   formatInternational: PropTypes.func.isRequired,
-  formatPin: PropTypes.func.isRequired
+  formatPin: PropTypes.func.isRequired,
+  showSpinner: PropTypes.bool,
 };
+ConferencePanel.defaultProps = {
+  showSpinner: false,
+};
+
 export default ConferencePanel;

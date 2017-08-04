@@ -15,12 +15,19 @@ function mapToProps(_, {
   conference,
   regionSettings,
   locale,
+  composeText,
 }) {
   return {
     conferenceNumbers: conference.conferenceNumbers,
     countryCode: regionSettings.countryCode,
     areaCode: regionSettings.areaCode,
     currentLocale: locale.currentLocale,
+    showSpinner: !(
+      conference.ready &&
+      regionSettings.ready &&
+      locale.ready &&
+      composeText.ready
+    ),
   };
 }
 
