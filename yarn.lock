@@ -2763,12 +2763,6 @@ file-entry-cache@^2.0.0:
     flat-cache "^1.2.1"
     object-assign "^4.0.1"
 
-file-loader@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-0.10.1.tgz#815034119891fc6441fb5a64c11bc93c22ddd842"
-  dependencies:
-    loader-utils "^1.0.2"
-
 file-loader@^0.11.2:
   version "0.11.2"
   resolved "https://registry.yarnpkg.com/file-loader/-/file-loader-0.11.2.tgz#4ff1df28af38719a6098093b88c82c71d1794a34"
@@ -6206,7 +6200,7 @@ requires-port@1.0.x, requires-port@1.x.x:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
 
-reselect@^2.5.4:
+reselect@2.5.4:
   version "2.5.4"
   resolved "https://registry.yarnpkg.com/reselect/-/reselect-2.5.4.tgz#b7d23fdf00b83fa7ad0279546f8dbbbd765c7047"
 
@@ -6269,23 +6263,23 @@ ringcentral-client@^1.0.0-rc1:
     form-data "^2.1.2"
     isomorphic-fetch "^2.2.1"
 
-ringcentral-integration@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/ringcentral-integration/-/ringcentral-integration-0.7.1.tgz#eead2056a8ddc6ad23df6b18c117d16e163cb566"
+ringcentral-integration@^0.7.4:
+  version "0.7.4"
+  resolved "https://registry.yarnpkg.com/ringcentral-integration/-/ringcentral-integration-0.7.4.tgz#d089cc99c7265bf76ca3f0543b01682aea3be52b"
   dependencies:
-    file-loader "^0.10.1"
+    file-loader "^0.11.2"
     json-mask "^0.3.8"
     loganberry "^0.9.1"
     phoneformat.js "^1.0.3"
     ramda "^0.24.1"
     redux "^3.5.2"
-    reselect "^2.5.4"
-    ringcentral-web-phone "^0.4.1"
+    reselect "2.5.4"
+    ringcentral-web-phone "^0.4.2"
     url-loader "^0.5.8"
     uuid "^3.0.1"
     yards "^0.1.4"
 
-ringcentral-web-phone@^0.4.1:
+ringcentral-web-phone@^0.4.2:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/ringcentral-web-phone/-/ringcentral-web-phone-0.4.2.tgz#6a854f4691472715fbbcb4f94b8ee1dc3a835c33"
   dependencies:
