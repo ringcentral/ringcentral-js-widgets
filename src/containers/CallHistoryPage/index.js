@@ -62,7 +62,7 @@ function mapToFunctions(_, {
   call,
   composeText,
   router,
-  dialerRoute = '/',
+  dialerRoute = '/dialer',
   composeTextRoute = '/composeText',
   contactSearch,
 }) {

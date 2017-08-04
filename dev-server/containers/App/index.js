@@ -48,7 +48,7 @@ export default function App({
                 goToCallCtrl={() => {
                   phone.router.push('/calls/active');
                 }}
-            />
+              />
               <IncomingCallPage
                 locale={phone.locale}
                 brand={phone.brand}
@@ -93,6 +93,27 @@ export default function App({
           )} >
           <Route
             path="/"
+            component={() => (
+              <WelcomePage
+                auth={phone.auth}
+                locale={phone.locale}
+                rateLimiter={phone.rateLimiter}
+                connectivityMonitor={phone.connectivityMonitor}
+                version={phone.version} >
+                <AlertContainer
+                  locale={phone.locale}
+                  alert={phone.alert}
+                  rateLimiter={phone.rateLimiter}
+                  brand={phone.brand}
+                  router={phone.router}
+                  callingSettingsUrl="/settings/calling"
+                  regionSettingsUrl="/settings/region"
+                />
+              </WelcomePage>
+            )}
+          />
+          <Route
+            path="/"
             component={props => (
               <MainView
                 router={phone.router}
@@ -111,7 +132,8 @@ export default function App({
                 />
               </MainView>
             )} >
-            <IndexRoute
+            <route
+              path="dialer"
               component={() => (
                 <DialerPage
                   call={phone.call}
@@ -137,6 +159,7 @@ export default function App({
                   brand={phone.brand}
                   router={phone.router}
                   rolesAndPermissions={phone.rolesAndPermissions}
+                  callingSettings={phone.callingSettings}
                   presence={phone.presence}
                   regionSettingsUrl="/settings/region"
                   callingSettingsUrl="/settings/calling"
@@ -195,7 +218,7 @@ export default function App({
                   forwardingNumber={phone.forwardingNumber}
                   showContactDisplayPlaceholder={false}
                   onAdd={() => {
-                    phone.router.push('/');
+                    phone.router.push('/dialer');
                   }}
                   onBackButtonClick={() => {
                     phone.router.push('/calls');
@@ -309,27 +332,6 @@ export default function App({
                 />
               )} />
           </Route>
-          <Route
-            path="/welcome"
-            component={() => (
-              <WelcomePage
-                auth={phone.auth}
-                locale={phone.locale}
-                rateLimiter={phone.rateLimiter}
-                connectivityMonitor={phone.connectivityMonitor}
-                version={phone.version} >
-                <AlertContainer
-                  locale={phone.locale}
-                  alert={phone.alert}
-                  rateLimiter={phone.rateLimiter}
-                  brand={phone.brand}
-                  router={phone.router}
-                  callingSettingsUrl="/settings/calling"
-                  regionSettingsUrl="/settings/region"
-                />
-              </WelcomePage>
-            )}
-          />
         </Route>
       </Router>
     </Provider>

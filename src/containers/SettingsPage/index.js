@@ -21,6 +21,7 @@ function mapToProps(_, {
   extensionInfo,
   locale,
   regionSettings,
+  callingSettings,
   version,
   rolesAndPermissions,
   presence,
@@ -43,10 +44,13 @@ function mapToProps(_, {
     showSpinner: !(
       accountInfo.ready &&
       auth.ready &&
+      loggedIn &&
       extensionInfo.ready &&
       locale.ready &&
       regionSettings.ready &&
-      rolesAndPermissions.ready
+      callingSettings.ready &&
+      rolesAndPermissions.ready &&
+      presence.ready
     ),
     showRegion: loggedIn && brand.id === '1210' && (
       regionSettings.availableCountries.length > 1 ||
@@ -111,6 +115,7 @@ const propTypes = {
   rolesAndPermissions: PropTypes.instanceOf(RolesAndPermissions).isRequired,
   presence: PropTypes.instanceOf(Presence),
   router: PropTypes.instanceOf(Router),
+  callingSettings: PropTypes.object.isRequired,
 };
 
 SettingsPage.propTypes = propTypes;

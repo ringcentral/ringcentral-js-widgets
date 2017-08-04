@@ -277,7 +277,7 @@ function mapToFunctions(_, {
     onRecord: sessionId => webphone.startRecord(sessionId),
     onStopRecord: sessionId => webphone.stopRecord(sessionId),
     onAdd: () => {
-      router.push('/');
+      router.push('/dialer');
       webphone.toggleMinimized();
     },
     sendDTMF: (value, sessionId) => webphone.sendDTMF(value, sessionId),
