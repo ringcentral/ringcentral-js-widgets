@@ -20,18 +20,10 @@ $title-height: 24px;
   margin-bottom: 2px;
 }
 
-.buttonContainer {
-  padding-left: 22%;
-  padding-right: 22%;
-}
-
 .buttonTitle {
   @include secondary-font;
-  font-size: 12px;
-  text-align: center;
-  width: 100%;
-  line-height: $title-height;
-  height: $title-height;
+  font-size: 73px;
+  fill: $darkergray;
 }
 
 .buttonActive {

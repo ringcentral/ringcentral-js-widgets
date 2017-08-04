@@ -111,6 +111,7 @@ function ActiveCallPanel({
   hangup,
   onAdd,
   onShowFlipPanel,
+  onToggleTransferPanel,
   children,
   showContactDisplayPlaceholder,
   brand,
@@ -160,6 +161,7 @@ function ActiveCallPanel({
           hangup={hangup}
           onAdd={onAdd}
           onShowFlipPanel={onShowFlipPanel}
+          onToggleTransferPanel={onToggleTransferPanel}
           flipNumbers={flipNumbers}
         />
         {children}
@@ -197,15 +199,15 @@ ActiveCallPanel.propTypes = {
   backButtonLabel: PropTypes.string,
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
-  onShowFlipPanel: PropTypes.func.isRequired,
-  flipNumbers: PropTypes.array.isRequired,
+  onShowFlipPanel: PropTypes.func,
+  flipNumbers: PropTypes.array,
+  onToggleTransferPanel: PropTypes.func,
 };
 
 ActiveCallPanel.defaultProps = {
   startTime: null,
   isOnMute: false,
   isOnHold: false,
-  isOnRecord: false,
   phoneNumber: null,
   children: undefined,
   avatarUrl: null,
@@ -213,6 +215,8 @@ ActiveCallPanel.defaultProps = {
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   flipNumbers: [],
+  onShowFlipPanel: () => null,
+  onToggleTransferPanel: () => null,
 };
 
 export default ActiveCallPanel;

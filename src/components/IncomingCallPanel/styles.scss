@@ -1,6 +1,8 @@
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/colors';
 
+$userInfoHight: 180px;
+
 .root {
   @include full-size;
   box-sizing: border-box;
@@ -21,6 +23,7 @@
   font-size: 13px;
   color: $grey-light;
   transform: rotate(90deg);
+  cursor: pointer;
 }
 
 .userInfo {
@@ -28,7 +31,13 @@
   text-align: center;
   font-size: 60px;
   color: lightblack;
-  margin-bottom: 40px;
+  width: 100%;
+  height: $userInfoHight;
+}
+
+.callPad {
+  height: calc(100% - #{$userInfoHight});
+  padding-bottom: 30px;
 }
 
 .avatarContainer {

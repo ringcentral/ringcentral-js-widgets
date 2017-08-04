@@ -2,6 +2,7 @@
 
 .root {
   @include secondary-font;
+  z-index: 1;
   position: absolute;
   top: 46px;
   right: 10px;

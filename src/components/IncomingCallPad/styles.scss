@@ -7,22 +7,30 @@
 .buttonRow {
   text-align: center;
   margin-bottom: 10px;
+  height: 24%;
 }
 
 .callButton {
   width: 33.33%;
   padding: 0;
+
+  text {
+    font-size: 73px;
+  }
 }
 
 .bigCallButton {
   composes: callButton;
-  padding: 1px;
   width: 50%;
+  text {
+    font-size: 65px;
+  }
 }
 
 .rejectButton {
-  background: #ff4646;
-  font-size: 20px;
+  circle {
+    fill: #ff4646;
+  }
   g, path {
     fill: #ffffff;
   }
@@ -30,13 +38,16 @@
 
 .answerButton {
   composes: rejectButton;
-  background: #4cd964;
+  circle {
+    fill: #4cd964;
+  }
 }
 
 .answerButtonGroup {
-  width: 75%;
+  width: 76%;
   margin-left: auto;
   margin-right: auto;
+  height: 27%;
 }
 
 .forwardContainner{

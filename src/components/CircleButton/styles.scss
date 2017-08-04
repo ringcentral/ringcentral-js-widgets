@@ -1,17 +1,7 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/no-select';
 
-.root {
-  position: relative;
-  width: 100%;
-  box-sizing: border-box;
-  padding-top: 100%;
-}
-
 .btnSvg {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
 }
 

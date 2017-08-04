@@ -58,9 +58,10 @@ export default class IncomingCallPad extends Component {
       answer,
       forwardingNumbers,
       formatPhone,
+      className,
     } = this.props;
     return (
-      <div className={styles.root}>
+      <div className={classnames(styles.root, className)}>
         <div
           className={styles.forwardContainner}
           ref={(containner) => {
@@ -165,8 +166,10 @@ IncomingCallPad.propTypes = {
   formatPhone: PropTypes.func,
   onForward: PropTypes.func.isRequired,
   replyWithMessage: PropTypes.func.isRequired,
+  className: PropTypes.string
 };
 
 IncomingCallPad.defaultProps = {
   formatPhone: phone => phone,
+  className: null,
 };

@@ -95,6 +95,7 @@ export default function IncomingCallPanel(props) {
         showContactDisplayPlaceholder={props.showContactDisplayPlaceholder}
       />
       <IncomingCallPad
+        className={styles.callPad}
         forwardingNumbers={props.forwardingNumbers}
         formatPhone={props.formatPhone}
         answer={props.answer}
