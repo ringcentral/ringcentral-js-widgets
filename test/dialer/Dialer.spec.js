@@ -4,6 +4,7 @@ import DialerPanel from '../../src/components/DialerPanel';
 import DialTextInput from '../../src/components/DialTextInput';
 import TextInput from '../../src/components/TextInput';
 import DialPad, { DialButton } from '../../src/components/DialPad';
+import DropdownSelect from '../../src/components/DropdownSelect';
 
 let wrapper = null;
 let store = null;
@@ -122,5 +123,28 @@ describe('dialer panel', () => {
     await callButton.props().onClick();
     expect(store.getState(wrapper).call.toNumber).toEqual('Hello world');
     expect(textInput.props().value).toEqual('Hello world');
+  });
+
+  test('from dropdown', async () => {
+    const dropdownSelect = panel.find(DropdownSelect).first();
+    const dropdown = dropdownSelect.find('.dropdown').first();
+    const dropdownItems = dropdown.find('.dropdownItem');
+    expect(dropdownItems.length > 1).toEqual(true);
+
+    const firstNumber = dropdownItems.at(0).find('span.phoneNumber').first().children()
+      .find('span')
+      .first()
+      .text();
+    const secondNumber = dropdownItems.at(1).find('span.phoneNumber').first().children()
+      .find('span')
+      .first()
+      .text();
+    expect(firstNumber).not.toEqual(secondNumber);
+
+    const selected = dropdownSelect.find('button.button').first().find('span.phoneNumber').first();
+    await dropdownItems.at(1).simulate('click');
+    expect(selected.children().find('span').first().text()).toEqual(secondNumber);
+    await dropdownItems.at(0).simulate('click');
+    expect(selected.children().find('span').first().text()).toEqual(firstNumber);
   });
 });
