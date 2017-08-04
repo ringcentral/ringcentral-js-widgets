@@ -111,6 +111,7 @@ function ActiveCallPanel({
   hangup,
   onAdd,
   onShowFlipPanel,
+  onToggleTransferPanel,
   children,
   showContactDisplayPlaceholder,
   brand,
@@ -160,6 +161,7 @@ function ActiveCallPanel({
           hangup={hangup}
           onAdd={onAdd}
           onShowFlipPanel={onShowFlipPanel}
+          onToggleTransferPanel={onToggleTransferPanel}
           flipNumbers={flipNumbers}
         />
         {children}
@@ -199,6 +201,7 @@ ActiveCallPanel.propTypes = {
   showContactDisplayPlaceholder: PropTypes.bool,
   onShowFlipPanel: PropTypes.func,
   flipNumbers: PropTypes.array,
+  onToggleTransferPanel: PropTypes.func,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -213,6 +216,7 @@ ActiveCallPanel.defaultProps = {
   showContactDisplayPlaceholder: true,
   flipNumbers: [],
   onShowFlipPanel: () => null,
+  onToggleTransferPanel: () => null,
 };
 
 export default ActiveCallPanel;
