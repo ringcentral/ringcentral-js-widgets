@@ -3,6 +3,7 @@ import NavigationBar from '../../src/components/NavigationBar';
 import ComposeTextPanel from '../../src/components/ComposeTextPanel';
 import DropdownSelect from '../../src/components/DropdownSelect';
 import ConversationPanel from '../../src/components/ConversationPanel';
+import { Message } from '../../src/components/ConversationMessageList';
 
 let wrapper = null;
 let panel = null;
@@ -64,9 +65,13 @@ describe('compose text panel', () => {
     expect(submitButton.props().disabled).toBe(false);
     await submitButton.closest('form').simulate('submit');
 
-    await timeout(8000);
+    await timeout(10000);
 
     const conversationPanel = wrapper.find(ConversationPanel);
     expect(conversationPanel.length > 0).toBe(true);
+    const messages = conversationPanel.first().find(Message);
+    const lastMessage = messages.at(messages.length - 1);
+    expect(lastMessage.props()).toBeDefined();
+    expect(lastMessage.props().subject).toMatch(/Hello world 111/);
   });
 });

@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 import styles from './styles.scss';
 
-function Message({
+export function Message({
   subject,
   time,
   direction,
