@@ -95,7 +95,7 @@ export default function ActiveCallPad(props) {
         </div>
         <div className={styles.buttonRow}>
           <ActiveCallButton
-            onClick={() => null}
+            onClick={props.onToggleTransferPanel}
             title={i18n.getString('transfer', props.currentLocale)}
             icon={TransferIcon}
             className={styles.callButton}
@@ -139,6 +139,7 @@ ActiveCallPad.propTypes = {
   onShowKeyPad: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
   onShowFlipPanel: PropTypes.func.isRequired,
+  onToggleTransferPanel: PropTypes.func.isRequired,
   flipNumbers: PropTypes.array.isRequired,
 };
 

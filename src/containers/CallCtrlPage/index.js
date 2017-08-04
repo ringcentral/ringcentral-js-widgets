@@ -60,6 +60,8 @@ class CallCtrlPage extends Component {
       this.props.sendDTMF(value, this.props.session.id);
     this.flip = value =>
       this.props.flip(value, this.props.session.id);
+    this.transfer = value =>
+      this.props.transfer(value, this.props.session.id);
   }
 
   componentDidMount() {
@@ -119,6 +121,7 @@ class CallCtrlPage extends Component {
         isOnMute={session.isOnMute}
         isOnHold={session.isOnHold}
         isOnFlip={session.isOnFlip}
+        isOnTransfer={session.isOnTransfer}
         recordStatus={session.recordStatus}
         onBackButtonClick={this.props.onBackButtonClick}
         onMute={this.onMute}
@@ -131,6 +134,7 @@ class CallCtrlPage extends Component {
         hangup={this.hangup}
         onAdd={this.props.onAdd}
         flip={this.flip}
+        transfer={this.transfer}
         nameMatches={this.props.nameMatches}
         fallBackName={fallbackUserName}
         areaCode={this.props.areaCode}
@@ -155,8 +159,9 @@ CallCtrlPage.propTypes = {
     startTime: PropTypes.number,
     isOnMute: PropTypes.bool,
     isOnHold: PropTypes.bool,
-    isOnRecord: PropTypes.bool,
     isOnFlip: PropTypes.bool,
+    isOnTransfer: PropTypes.bool,
+    recordStatus: PropTypes.string.isRequired,
     to: PropTypes.string,
     from: PropTypes.string,
     contactMatch: PropTypes.object,
@@ -173,6 +178,7 @@ CallCtrlPage.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
   flip: PropTypes.func.isRequired,
+  transfer: PropTypes.func.isRequired,
   children: PropTypes.node,
   nameMatches: PropTypes.array.isRequired,
   areaCode: PropTypes.string.isRequired,
@@ -241,6 +247,7 @@ function mapToFunctions(_, {
     onBackButtonClick,
     onAdd,
     flip: (flipNumber, sessionId) => webphone.flip(flipNumber, sessionId),
+    transfer: (transferNumber, sessionId) => webphone.transfer(transferNumber, sessionId)
   };
 }
 
