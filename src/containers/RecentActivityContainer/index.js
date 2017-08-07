@@ -17,9 +17,18 @@ function getTabs({
   recentCalls,
   currentContact,
 }) {
-  const messages = recentMessages.messages[currentContact.id] || [];
-  const calls = recentCalls.calls[currentContact.id] || [];
-  const unreadMessagesCount = recentMessages.unreadMessageCounts[currentContact.id];
+  let messages = [];
+  let calls = [];
+  let unreadMessageCounts = 0;
+  if (currentContact && currentContact.id) {
+    const contactId = currentContact.id;
+    if (recentMessages.messages[contactId])
+      messages = recentMessages.messages[contactId];
+    if (recentCalls.calls[contactId])
+      calls = recentCalls.calls[contactId];
+    if (recentMessages.unreadMessageCounts[contactId])
+      unreadMessageCounts = recentMessages.unreadMessageCounts[contactId];
+  }
   return [
     {
       icon: <VoicemailIcon width={23} height={23} />,
@@ -34,7 +43,7 @@ function getTabs({
       icon: <span className={dynamicsFont.composeText} />,
       label: i18n.getString('text', currentLocale),
       path: 'recentMessages',
-      noticeCounts: unreadMessagesCount || 0,
+      noticeCounts: unreadMessageCounts,
       isActive: path => path === 'recentMessages',
       view: (
         <RecentActivityMessages
