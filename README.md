@@ -63,4 +63,18 @@ server=sever-url
 username=your-phone-number
 extension=your-extension
 password=your-password
+receiver=testing-phone-number-to-receive-sms-fax-etc
+```
+
+Run:
+
+```
+yarn test
+```
+
+If you want to run it in watch mode:
+
+```
+brew install watchman
+yarn test:watch
 ```
