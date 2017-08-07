@@ -26,19 +26,23 @@ function mapToProps(_, {
   presence,
   params,
 }) {
+  let loginNumber = '';
   const loggedIn = auth.loginStatus === loginStatus.loggedIn;
-  const loginNumber = (loggedIn &&
+  if (
+    loggedIn &&
     accountInfo.ready &&
     extensionInfo.ready
-  ) ?
-    formatNumber({
-      phoneNumber: `${
-      accountInfo.mainCompanyNumber
-      }*${extensionInfo.extensionNumber}`,
+  ) {
+    // If no extensionNumber, extensionNumber field needs to be omitted
+    const extensionNumber = extensionInfo.extensionNumber &&
+      extensionInfo.extensionNumber !== '0' ? extensionInfo.extensionNumber : null;
+    const phoneNumber = [accountInfo.mainCompanyNumber, extensionNumber].join('*');
+    loginNumber = formatNumber({
+      phoneNumber: phoneNumber,
       countryCode: regionSettings.countryCode,
       areaCode: regionSettings.areaCode,
-    }) :
-    '';
+    });
+  }
   return {
     showSpinner: !(
       accountInfo.ready &&
