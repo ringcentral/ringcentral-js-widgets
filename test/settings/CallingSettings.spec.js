@@ -46,8 +46,16 @@ describe('calling settings', () => {
 
     const messages = store.getState(wrapper).alert.messages;
     expect(messages.length).toEqual(1);
-    const message = messages[0];
+    let message = messages[0];
     expect(message.level).toEqual('info');
     expect(message.message).toMatch(/saveSuccess/);
+
+    const firstItem = items.at(0); // Browser
+    await firstItem.simulate('click');
+    await saveButton.props().onClick();
+
+    message = store.getState(wrapper).alert.messages[2];
+    expect(message.level).toEqual('info');
+    expect(message.message).toMatch(/emergencyCallingNotAvailable/);
   });
 });
