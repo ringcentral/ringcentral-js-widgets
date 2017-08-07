@@ -108,7 +108,7 @@ function mapToFunctions(_, {
   contactMatcher,
   call,
   router,
-  dialerRoute = '/',
+  dialerRoute = '/dialer',
   onViewContact,
   onCreateContact,
   onLogConversation,

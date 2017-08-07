@@ -601,15 +601,15 @@ export default class Phone extends RcModule {
     this.store.subscribe(() => {
       if (this.auth.ready) {
         if (
-          this.router.currentPath !== '/welcome' &&
+          this.router.currentPath !== '/' &&
           !this.auth.loggedIn
         ) {
-          this.router.push('/welcome');
+          this.router.push('/');
         } else if (
-          this.router.currentPath === '/welcome' &&
+          this.router.currentPath === '/' &&
           this.auth.loggedIn
         ) {
-          this.router.push('/');
+          this.router.push('/dialer');
         }
       }
     });
