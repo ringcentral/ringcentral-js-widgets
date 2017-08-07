@@ -24,8 +24,13 @@ describe('calling settings', () => {
     expect(callingSettings.find('div.label').first().props().children).toEqual('Calling');
   });
 
-  test('button state', () => {
+  test('button state', async () => {
     const saveButton = callingSettings.find(Button).first();
     expect(saveButton.props().disabled).toEqual(true);
+
+    const items = callingSettings.find('.dropdownItem');
+    const lastItem = items.at(items.length - 1);
+    await lastItem.simulate('click');
+    expect(saveButton.props().disabled).toEqual(false);
   });
 });
