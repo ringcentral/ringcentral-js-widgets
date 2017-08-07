@@ -8,9 +8,11 @@ import Button from '../../src/components/Button';
 let wrapper = null;
 let panel = null;
 let callingSettings = null;
+let store = null;
 beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 32000;
   wrapper = await getWrapper();
+  store = wrapper.props().phone.store;
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/settings');
   panel = wrapper.find(SettingsPanel).first();
@@ -32,5 +34,20 @@ describe('calling settings', () => {
     const lastItem = items.at(items.length - 1);
     await lastItem.simulate('click');
     expect(saveButton.props().disabled).toEqual(false);
+  });
+
+  test('save', async () => {
+    const saveButton = callingSettings.find(Button).first();
+
+    const items = callingSettings.find('.dropdownItem');
+    const lastItem = items.at(items.length - 1);
+    await lastItem.simulate('click');
+    await saveButton.props().onClick();
+
+    const messages = store.getState(wrapper).alert.messages;
+    expect(messages.length).toEqual(1);
+    const message = messages[0];
+    expect(message.level).toEqual('info');
+    expect(message.message).toMatch(/saveSuccess/);
   });
 });
