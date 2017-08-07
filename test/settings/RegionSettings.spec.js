@@ -45,4 +45,16 @@ describe('region settings', async () => {
     expect(message.level).toEqual('info');
     expect(message.message).toMatch(/saveSuccess/);
   });
+
+  test('invalid area code', async () => {
+    const saveButton = regionSettings.find(Button).first();
+    const input = regionSettings.find('input.input').first();
+    await input.props().onChange({ currentTarget: { value: '000' } });
+    await saveButton.props().onClick();
+    const messages = store.getState(wrapper).alert.messages;
+    expect(messages.length).toEqual(1);
+    const message = messages[0];
+    expect(message.level).toEqual('danger');
+    expect(message.message).toMatch(/areaCodeInvalid/);
+  });
 });
