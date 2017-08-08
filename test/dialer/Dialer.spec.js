@@ -90,7 +90,7 @@ describe('dialer panel', () => {
     expect(store.getState(wrapper).call.toNumber).toEqual('Hello world');
 
     const callButton = panel.find('.callBtnRow').first().find('.btnSvgGroup').first();
-    await callButton.props().onClick();
+    await callButton.simulate('click');
     const messages = store.getState(wrapper).alert.messages;
     expect(messages.length).toEqual(1);
     const message = messages[0];
@@ -104,7 +104,7 @@ describe('dialer panel', () => {
     expect(store.getState(wrapper).call.toNumber).toEqual('Hello world');
 
     const deleteButton = panel.find(DialTextInput).first().find('.delete').first();
-    await deleteButton.props().onClick();
+    await deleteButton.simulate('click');
     expect(store.getState(wrapper).call.toNumber).toEqual('');
   });
 
@@ -114,13 +114,13 @@ describe('dialer panel', () => {
     expect(store.getState(wrapper).call.toNumber).toEqual('Hello world');
 
     const callButton = panel.find('.callBtnRow').first().find('.btnSvgGroup').first();
-    await callButton.props().onClick();
+    await callButton.simulate('click');
 
     const deleteButton = panel.find(DialTextInput).first().find('.delete').first();
-    await deleteButton.props().onClick();
+    await deleteButton.simulate('click');
     expect(store.getState(wrapper).call.toNumber).toEqual('');
 
-    await callButton.props().onClick();
+    await callButton.simulate('click');
     expect(store.getState(wrapper).call.toNumber).toEqual('Hello world');
     expect(textInput.props().value).toEqual('Hello world');
   });

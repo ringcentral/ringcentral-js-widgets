@@ -22,7 +22,7 @@ describe('conference', () => {
     const inviteButton = panel.find('input.textBtn').first();
     expect(inviteButton.props()).toBeDefined();
 
-    await inviteButton.props().onClick();
+    await inviteButton.simulate('click');
     const textArea = wrapper.find('.textField').first().find('textarea').first();
     expect(textArea.props().value).toMatch(/Please join the RingCentral conference/);
   });

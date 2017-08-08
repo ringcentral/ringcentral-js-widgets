@@ -35,7 +35,7 @@ describe('messages', () => {
 
   test('click a message', async () => {
     const firstMessage = panel.find(MessageItem).first();
-    await firstMessage.find('div').first().props().onClick();
+    await firstMessage.find('div').first().simulate('click');
     const conversationPanel = wrapper.find(ConversationPanel);
     expect(conversationPanel.length > 0).toBe(true);
   });
