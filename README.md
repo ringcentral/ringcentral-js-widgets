@@ -78,3 +78,10 @@ If you want to run it in watch mode:
 brew install watchman
 yarn test:watch
 ```
+
+
+### About test coverage
+
+WebRTC code is excluded from test coverage report. Because we are unable to run WebRTC in node.js.
+
+We might need to do some mocking to cover this part in the future.

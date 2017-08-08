@@ -123,16 +123,15 @@
       "<rootDir>/node_modules/enzyme-to-json/serializer"
     ],
     "coveragePathIgnorePatterns": [
-      "src\/components\/TransferPanel/.+",
-      "src\/components\/RecentActivityView/.+",
-      "src\/components\/ForwardForm/.+",
-      "src\/components\/FlipPanel/.+",
-      "src\/components\/ActiveCallPad/.+",
-      "src\/components\/RecentActivityCalls/.+",
-      "src\/components\/CallCtrlPanel/.+",
-      "src\/components\/IncomingCallPad/.+",
-      "src\/components\/ActiveCallDialPad/.+",
-      "src\/components\/RecentActivityNavigationButton/.+"
+      "src/(?:components|containers)/RecentActivity.+",
+      "src/(?:components|containers)/TransferPanel.+",
+      "src/(?:components|containers)/ForwardForm/.+",
+      "src/(?:components|containers)/FlipPanel.+",
+      "src/(?:components|containers)/CallCtrl.+",
+      "src/(?:components|containers)/IncomingCall.+",
+      "src/(?:components|containers)/ActiveCall.+",
+      "src/(?:components|containers)/DurationCounter.+",
+      "src/(?:components|containers)/WebPhone.+"
     ]
   }
 }
