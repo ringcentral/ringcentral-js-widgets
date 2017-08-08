@@ -123,16 +123,16 @@
       "<rootDir>/node_modules/enzyme-to-json/serializer"
     ],
     "coveragePathIgnorePatterns": [
-      "<rootDir>/src/components/TransferPanel/**/*.js",
-      "<rootDir>/src/components/RecentActivityView/**/*.js",
-      "<rootDir>/src/components/ForwardForm/**/*.js",
-      "<rootDir>/src/components/FlipPanel/**/*.js",
-      "<rootDir>/src/components/ActiveCallPad/**/*.js",
-      "<rootDir>/src/components/RecentActivityCalls/**/*.js",
-      "<rootDir>/src/components/CallCtrlPanel/**/*.js",
-      "<rootDir>/src/components/IncomingCallPad/**/*.js",
-      "<rootDir>/src/components/ActiveCallDialPad/**/*.js",
-      "<rootDir>/src/components/RecentActivityNavigationButton/**/*.js"
+      "src\/components\/TransferPanel/.+",
+      "src\/components\/RecentActivityView/.+",
+      "src\/components\/ForwardForm/.+",
+      "src\/components\/FlipPanel/.+",
+      "src\/components\/ActiveCallPad/.+",
+      "src\/components\/RecentActivityCalls/.+",
+      "src\/components\/CallCtrlPanel/.+",
+      "src\/components\/IncomingCallPad/.+",
+      "src\/components\/ActiveCallDialPad/.+",
+      "src\/components\/RecentActivityNavigationButton/.+"
     ]
   }
 }
