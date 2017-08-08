@@ -15,6 +15,7 @@ export default class FlipPanel extends Component {
     super(props);
     this.state = {
       flipValue: '',
+      flipEnabled: true,
     };
     this.onRadioSelect = (value) => {
       this.setState({
@@ -23,6 +24,9 @@ export default class FlipPanel extends Component {
     };
     this.flip = () => {
       this.props.flip(this.state.flipValue);
+      this.setState({
+        flipEnabled: false
+      });
     };
   }
   render() {
@@ -46,16 +50,16 @@ export default class FlipPanel extends Component {
           <RadioButtonGroup
             className={styles.radioGroup}
             radioOptions={this.props.flipNumbers}
-            disabled={this.props.isOnFlip}
+            disabled={!this.state.flipEnabled}
             formatPhone={this.props.formatPhone}
             onRadioSelect={this.onRadioSelect}
           />
           <div className={styles.buttonGroup}>
             <div className={styles.button}>
               <CircleButton
-                className={this.props.isOnFlip ? styles.buttonDisabled : styles.flipButton}
+                className={this.state.flipEnabled ? styles.flipButton : styles.buttonDisabled}
                 iconClassName={styles.flipIcon}
-                onClick={this.props.isOnFlip ? () => {} : this.flip}
+                onClick={this.state.flipEnabled ? this.flip : () => {}}
                 icon={FlipIcon}
                 showBorder
               />
