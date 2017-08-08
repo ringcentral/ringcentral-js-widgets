@@ -17,7 +17,7 @@ beforeEach(async () => {
   await navigationBar.props().goTo('/settings');
   panel = wrapper.find(SettingsPanel).first();
   const regionLinkLine = panel.find(LinkLine).at(1);
-  await regionLinkLine.props().onClick();
+  await regionLinkLine.simulate('click');
   regionSettings = wrapper.find(RegionSettings).first();
 });
 
@@ -38,7 +38,7 @@ describe('region settings', async () => {
     const saveButton = regionSettings.find(Button).first();
     const input = regionSettings.find('input.input').first();
     await input.props().onChange({ currentTarget: { value: '853' } });
-    await saveButton.props().onClick();
+    await saveButton.simulate('click');
     const messages = store.getState(wrapper).alert.messages;
     expect(messages.length).toEqual(1);
     const message = messages[0];
@@ -50,7 +50,7 @@ describe('region settings', async () => {
     const saveButton = regionSettings.find(Button).first();
     const input = regionSettings.find('input.input').first();
     await input.props().onChange({ currentTarget: { value: '000' } });
-    await saveButton.props().onClick();
+    await saveButton.simulate('click');
     const messages = store.getState(wrapper).alert.messages;
     expect(messages.length).toEqual(1);
     const message = messages[0];

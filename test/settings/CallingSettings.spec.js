@@ -17,7 +17,7 @@ beforeEach(async () => {
   await navigationBar.props().goTo('/settings');
   panel = wrapper.find(SettingsPanel).first();
   const callingLinkLine = panel.find(LinkLine).at(0);
-  await callingLinkLine.props().onClick();
+  await callingLinkLine.simulate('click');
   callingSettings = wrapper.find(CallingSettings).first();
 });
 
@@ -42,7 +42,7 @@ describe('calling settings', () => {
     const items = callingSettings.find('.dropdownItem');
     const lastItem = items.at(items.length - 1);
     await lastItem.simulate('click');
-    await saveButton.props().onClick();
+    await saveButton.simulate('click');
 
     const messages = store.getState(wrapper).alert.messages;
     expect(messages.length).toEqual(1);
@@ -52,7 +52,7 @@ describe('calling settings', () => {
 
     const firstItem = items.at(0); // Browser
     await firstItem.simulate('click');
-    await saveButton.props().onClick();
+    await saveButton.simulate('click');
 
     message = store.getState(wrapper).alert.messages[2];
     expect(message.level).toEqual('info');
