@@ -131,7 +131,10 @@
       "src/(?:components|containers)/IncomingCall.+",
       "src/(?:components|containers)/ActiveCall.+",
       "src/(?:components|containers)/DurationCounter.+",
-      "src/(?:components|containers)/WebPhone.+"
+      "src/(?:components|containers)/WebPhone.+",
+      "src/(?:components|containers)/Draggable.+",
+      "src/(?:components|containers)/CircleButton.+",
+      "src/(?:components|containers)/RadioBtnGroup.+"
     ]
   }
 }
