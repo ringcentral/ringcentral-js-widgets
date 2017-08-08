@@ -23,7 +23,9 @@ describe('messages', () => {
 
   test('search but no match', () => {
     const searchInput = panel.find(SearchInput).first();
-    searchInput.props().onChange({ currentTarget: { value: 'something-doesnt-exist' } });
+    const domInput = searchInput.find('input').first();
+    domInput.get(0).value = 'something-doesnt-exist';
+    domInput.simulate('change');
     expect(searchInput.props().value).toEqual('something-doesnt-exist');
     expect(panel.find('.noMessages').text().trim()).toEqual('No matching records found');
   });
