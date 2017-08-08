@@ -33,10 +33,12 @@ describe('compose text panel', () => {
   test('send button status', async () => {
     expect(submitButton.props().disabled).toBe(true);
 
-    await textArea.props().onChange({ currentTarget: { value: 'Hello world' } });
+    textArea.get(0).value = 'Hello world';
+    await textArea.simulate('change');
     expect(textArea.props().value).toEqual('Hello world');
 
-    await toNumber.props().onChange({ currentTarget: { value: 'Hello world' } });
+    toNumber.get(0).value = 'Hello world';
+    await toNumber.simulate('change');
     expect(toNumber.props().value).toEqual('Hello world');
 
     expect(submitButton.props().disabled).toBe(false);
@@ -61,8 +63,10 @@ describe('compose text panel', () => {
 
   test('send an SMS', async () => {
     const messageContent = `Hello world ${Date.now()}`;
-    await toNumber.props().onChange({ currentTarget: { value: process.env.receiver } });
-    await textArea.props().onChange({ currentTarget: { value: messageContent } });
+    toNumber.get(0).value = process.env.receiver;
+    await toNumber.simulate('change');
+    textArea.get(0).value = messageContent;
+    await textArea.simulate('change');
     expect(submitButton.props().disabled).toBe(false);
     await submitButton.closest('form').simulate('submit');
 
