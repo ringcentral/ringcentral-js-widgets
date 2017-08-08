@@ -21,6 +21,12 @@ beforeEach(async () => {
   regionSettings = wrapper.find(RegionSettings).first();
 });
 
+const enterAreaCode = async (areaCode) => {
+  const input = regionSettings.find('input.input').first();
+  input.get(0).value = areaCode;
+  await input.simulate('change');
+};
+
 describe('region settings', async () => {
   test('initial state', () => {
     expect(regionSettings.find('div.label').first().props().children).toEqual('Region');
@@ -29,15 +35,13 @@ describe('region settings', async () => {
   test('button state', async () => {
     const saveButton = regionSettings.find(Button).first();
     expect(saveButton.props().disabled).toEqual(true);
-    const input = regionSettings.find('input.input').first();
-    await input.props().onChange({ currentTarget: { value: '853' } });
+    await enterAreaCode('853');
     expect(saveButton.props().disabled).toEqual(false);
   });
 
   test('save', async () => {
     const saveButton = regionSettings.find(Button).first();
-    const input = regionSettings.find('input.input').first();
-    await input.props().onChange({ currentTarget: { value: '853' } });
+    await enterAreaCode('853');
     await saveButton.simulate('click');
     const messages = store.getState(wrapper).alert.messages;
     expect(messages.length).toEqual(1);
@@ -48,8 +52,7 @@ describe('region settings', async () => {
 
   test('invalid area code', async () => {
     const saveButton = regionSettings.find(Button).first();
-    const input = regionSettings.find('input.input').first();
-    await input.props().onChange({ currentTarget: { value: '000' } });
+    await enterAreaCode('000');
     await saveButton.simulate('click');
     const messages = store.getState(wrapper).alert.messages;
     expect(messages.length).toEqual(1);

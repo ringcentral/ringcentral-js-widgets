@@ -10,12 +10,12 @@ describe('<Textinput />', () => {
   });
 
   it('props received', () => {
-    const onChange = jest.fn();
+    const eventHandler = jest.fn();
     const onKeyDown = jest.fn();
     const wrapper = shallow(<Textinput
       className={'helloClass'}
       invalid={false}
-      onChange={onChange}
+      onChange={eventHandler}
       placeholder={'hello placeholder'}
       disabled={false}
       readOnly={false}
@@ -54,10 +54,10 @@ describe('<Textinput />', () => {
   });
 
   it('onChange event bind success', () => {
-    const onChangeSpy = jest.fn();
-    const wrapper = mount(<Textinput onChange={onChangeSpy} />);
+    const eventHandler = jest.fn();
+    const wrapper = mount(<Textinput onChange={eventHandler} />);
     wrapper.find('input').simulate('change', { target: { value: 'hello' } });
-    expect(onChangeSpy.mock.calls.length).toEqual(1);
+    expect(eventHandler.mock.calls.length).toEqual(1);
   });
 
   it('onKeyDown event bind success', () => {
