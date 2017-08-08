@@ -117,10 +117,22 @@
       "^.+\\.js$": "babel-jest"
     },
     "setupFiles": [
-      "./test/setup.js"
+      "<rootDir>/test/setup.js"
     ],
     "snapshotSerializers": [
       "<rootDir>/node_modules/enzyme-to-json/serializer"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/components/TransferPanel/**/*.js",
+      "<rootDir>/src/components/RecentActivityView/**/*.js",
+      "<rootDir>/src/components/ForwardForm/**/*.js",
+      "<rootDir>/src/components/FlipPanel/**/*.js",
+      "<rootDir>/src/components/ActiveCallPad/**/*.js",
+      "<rootDir>/src/components/RecentActivityCalls/**/*.js",
+      "<rootDir>/src/components/CallCtrlPanel/**/*.js",
+      "<rootDir>/src/components/IncomingCallPad/**/*.js",
+      "<rootDir>/src/components/ActiveCallDialPad/**/*.js",
+      "<rootDir>/src/components/RecentActivityNavigationButton/**/*.js"
     ]
   }
 }
