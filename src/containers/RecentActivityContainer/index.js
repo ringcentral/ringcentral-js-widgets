@@ -84,7 +84,7 @@ function getTabs({
       getData: () => {
         recentCalls.getCalls(currentContact);
       },
-      cleanUp: () => recentCalls.cleanUpCalls()
+      cleanUp: () => recentCalls.cleanUpCalls(currentContact)
     },
   ];
 }
