@@ -104,6 +104,9 @@ export default function IncomingCallPanel(props) {
         replyWithMessage={props.replyWithMessage}
         onForward={props.onForward}
         currentLocale={props.currentLocale}
+        isMultiCall={props.isMultiCall}
+        answerAndEnd={props.answerAndEnd}
+        answerAndHold={props.answerAndHold}
       />
       {props.children}
     </div>

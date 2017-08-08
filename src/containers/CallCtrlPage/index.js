@@ -97,9 +97,9 @@ class CallCtrlPage extends Component {
 
   render() {
     const session = this.props.session;
-    if (!session.id) {
-      return null;
-    }
+    // if (!session.id) {
+    //   return null;
+    // }
     const phoneNumber = session.direction === callDirections.outbound ?
       session.to : session.from;
     let fallbackUserName;

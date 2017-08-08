@@ -7,11 +7,15 @@ import 'rc-tooltip/assets/bootstrap_white.css';
 import ForwardForm from '../ForwardForm';
 import ReplyWithMessage from '../ReplyWithMessage';
 import ActiveCallButton from '../ActiveCallButton';
+import MultiCallButton from '../MultiCallButton';
+
 import MessageIcon from '../../assets/images/MessageFill.svg';
 import ForwardIcon from '../../assets/images/Forward.svg';
 import IgnoreIcon from '../../assets/images/Ignore.svg';
 import VoicemailIcon from '../../assets/images/Voicemail.svg';
 import AnswerIcon from '../../assets/images/Answer.svg';
+import HoldIcon from '../../assets/images/Hold.svg';
+import EndIcon from '../../assets/images/End.svg';
 import styles from './styles.scss';
 
 import i18n from './i18n';
@@ -59,7 +63,58 @@ export default class IncomingCallPad extends Component {
       forwardingNumbers,
       formatPhone,
       className,
+      isMultiCall,
+      answerAndEnd,
+      answerAndHold,
     } = this.props;
+    // const isMultiCall = true;
+    const multiCallButtons = (
+      <div className={classnames(styles.buttonRow, styles.multiCallsButtonGroup)}>
+        <MultiCallButton
+          onClick={answerAndEnd}
+          title={i18n.getString('answerAndEnd', currentLocale)}
+          firstIcon={EndIcon}
+          secondIcon={AnswerIcon}
+          className={styles.callButton}
+          isEnd
+        />
+        <ActiveCallButton
+          onClick={toVoiceMail}
+          title={i18n.getString('toVoicemail', currentLocale)}
+          buttonClassName={styles.rejectButton}
+          icon={VoicemailIcon}
+          showBorder={false}
+          className={styles.callButton}
+        />
+        <MultiCallButton
+          onClick={answerAndHold}
+          title={i18n.getString('answerAndHold', currentLocale)}
+          firstIcon={HoldIcon}
+          secondIcon={AnswerIcon}
+          className={styles.callButton}
+        />
+      </div>
+    );
+    const singleCallButtons = (
+      <div className={classnames(styles.buttonRow, styles.answerButtonGroup)}>
+        <ActiveCallButton
+          onClick={toVoiceMail}
+          title={i18n.getString('toVoicemail', currentLocale)}
+          buttonClassName={styles.rejectButton}
+          icon={VoicemailIcon}
+          showBorder={false}
+          className={styles.bigCallButton}
+        />
+        <ActiveCallButton
+          onClick={answer}
+          title={i18n.getString('answer', currentLocale)}
+          buttonClassName={styles.answerButton}
+          icon={AnswerIcon}
+          showBorder={false}
+          className={styles.bigCallButton}
+        />
+      </div>
+    );
     return (
       <div className={classnames(styles.root, className)}>
         <div
@@ -134,24 +189,7 @@ export default class IncomingCallPad extends Component {
             className={styles.callButton}
           />
         </div>
-        <div className={classnames(styles.buttonRow, styles.answerButtonGroup)}>
-          <ActiveCallButton
-            onClick={toVoiceMail}
-            title={i18n.getString('toVoicemail', currentLocale)}
-            buttonClassName={styles.rejectButton}
-            icon={VoicemailIcon}
-            showBorder={false}
-            className={styles.bigCallButton}
-          />
-          <ActiveCallButton
-            onClick={answer}
-            title={i18n.getString('answer', currentLocale)}
-            buttonClassName={styles.answerButton}
-            icon={AnswerIcon}
-            showBorder={false}
-            className={styles.bigCallButton}
-          />
-        </div>
+        {isMultiCall ? multiCallButtons : singleCallButtons}
       </div>
     );
   }

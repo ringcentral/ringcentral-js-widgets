@@ -55,6 +55,14 @@ class IncomingCallPage extends Component {
       this.props.onForward(this.props.session.id, forwardNumber);
     this.toggleMinimized = () =>
       this.props.toggleMinimized(this.props.session.id);
+    this.answerAndEnd = async () => {
+      this.props.hangup(this.props.activeSessionId);
+      await this.props.answer(this.props.session.id);
+    };
+    this.answerAndHold = async () => {
+      await this.props.onHold(this.props.activeSessionId);
+      await this.props.answer(this.props.session.id);
+    };
   }
 
   componentDidMount() {
@@ -127,6 +135,9 @@ class IncomingCallPage extends Component {
         onForward={this.onForward}
         brand={this.props.brand}
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
+        isMultiCall={!!this.props.activeSessionId}
+        answerAndEnd={this.answerAndEnd}
+        answerAndHold={this.answerAndHold}
       >
         {this.props.children}
       </IncomingCallPanel>
@@ -189,6 +200,7 @@ function mapToProps(_, {
     nameMatches,
     currentLocale: locale.currentLocale,
     session: currentSession,
+    activeSessionId: webphone.activeSessionId,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     forwardingNumbers: forwardingNumber.forwardingNumbers,
@@ -216,6 +228,8 @@ function mapToFunctions(_, {
     updateSessionMatchedContact: (sessionId, contact) =>
       webphone.updateSessionMatchedContact(sessionId, contact),
     getAvatarUrl,
+    hangup: sessionId => webphone.hangup(sessionId),
+    onHold: sessionId => webphone.hold(sessionId),
   };
 }
 
