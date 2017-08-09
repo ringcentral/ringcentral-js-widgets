@@ -149,7 +149,7 @@ export default class MessageItem extends Component {
     }
   }
 
-  logConversation = async ({ redirect = true, selected, prefill = true }) => {
+  async logConversation({ redirect = true, selected, prefill = true }) {
     if (typeof this.props.onLogConversation === 'function' &&
       this._mounted &&
       !this.state.isLogging

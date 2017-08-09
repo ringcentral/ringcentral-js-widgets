@@ -157,7 +157,7 @@ export default class CallItem extends Component {
       (this.props.call.from.name) :
       (this.props.call.to.name);
   }
-  logCall = async ({ redirect = true, selected }) => {
+  async logCall({ redirect = true, selected }) {
     if (
       typeof this.props.onLogCall === 'function' &&
       this._mounted &&

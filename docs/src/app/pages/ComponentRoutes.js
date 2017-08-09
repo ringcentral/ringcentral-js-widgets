@@ -15,6 +15,7 @@ import ButtonPage from './Components/Button';
 import CallAlertPage from './Components/CallAlert';
 import CallCtrlPanelPage from './Components/CallCtrlPanel';
 import CallIdSelectPage from './Components/CallIdSelect';
+import CallItemPage from './Components/CallItem';
 import CallListPage from './Components/CallList';
 import CallingSettingsAlertPage from './Components/CallingSettingsAlert';
 import CallingSettingsPanelPage from './Components/CallingSettingsPanel';
@@ -26,6 +27,7 @@ import ConnectivityAlertPage from './Components/ConnectivityAlert';
 import ContactDisplayPage from './Components/ContactDisplay';
 import ContactDropdownListPage from './Components/ContactDropdownList';
 import ConversationMessageListPage from './Components/ConversationMessageList';
+import ConversationPanelPage from './Components/ConversationPanel';
 import DialPadPage from './Components/DialPad';
 import DialTextInputPage from './Components/DialTextInput';
 import DialerPanelPage from './Components/DialerPanel';
@@ -100,6 +102,7 @@ const Routes = () => (
     <Route path="/components/CallAlert" component={CallAlertPage} />
     <Route path="/components/CallCtrlPanel" component={CallCtrlPanelPage} />
     <Route path="/components/CallIdSelect" component={CallIdSelectPage} />
+    <Route path="/components/CallItem" component={CallItemPage} />
     <Route path="/components/CallList" component={CallListPage} />
     <Route path="/components/CallingSettingsAlert" component={CallingSettingsAlertPage} />
     <Route path="/components/CallingSettingsPanel" component={CallingSettingsPanelPage} />
@@ -111,6 +114,7 @@ const Routes = () => (
     <Route path="/components/ContactDisplay" component={ContactDisplayPage} />
     <Route path="/components/ContactDropdownList" component={ContactDropdownListPage} />
     <Route path="/components/ConversationMessageList" component={ConversationMessageListPage} />
+    <Route path="/components/ConversationPanel" component={ConversationPanelPage} />
     <Route path="/components/DialPad" component={DialPadPage} />
     <Route path="/components/DialTextInput" component={DialTextInputPage} />
     <Route path="/components/DialerPanel" component={DialerPanelPage} />

@@ -1572,6 +1572,317 @@
   },
   {
     "description": "",
+    "methods": [
+      {
+        "name": "getInitialContactIndex",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "nextProps",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "getPhoneNumber",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "getContactMatches",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "nextProps",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "getFallbackContactName",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "logCall",
+        "docblock": null,
+        "modifiers": [
+          "async"
+        ],
+        "params": [
+          {
+            "name": "{ redirect = true, selected }",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "call": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "direction": {
+              "name": "string",
+              "required": true
+            },
+            "telephonyStatus": {
+              "name": "string",
+              "required": false
+            },
+            "startTime": {
+              "name": "number",
+              "required": true
+            },
+            "activityMatches": {
+              "name": "array",
+              "required": true
+            },
+            "fromMatches": {
+              "name": "array",
+              "required": true
+            },
+            "toMatches": {
+              "name": "array",
+              "required": true
+            },
+            "from": {
+              "name": "shape",
+              "value": {
+                "phoneNumber": {
+                  "name": "string",
+                  "required": false
+                },
+                "extensionNumber": {
+                  "name": "string",
+                  "required": false
+                },
+                "name": {
+                  "name": "string",
+                  "required": false
+                }
+              },
+              "required": true
+            },
+            "to": {
+              "name": "shape",
+              "value": {
+                "phoneNumber": {
+                  "name": "string",
+                  "required": false
+                },
+                "extensionNumber": {
+                  "name": "string",
+                  "required": false
+                },
+                "name": {
+                  "name": "string",
+                  "required": false
+                }
+              },
+              "required": false
+            },
+            "webphoneSession": {
+              "name": "object",
+              "required": false
+            }
+          }
+        },
+        "required": true,
+        "description": ""
+      },
+      "areaCode": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "countryCode": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onLogCall": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onViewContact": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onCreateContact": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onClickToDial": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onClickToSms": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "isLoggedContact": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "() => false",
+          "computed": false
+        }
+      },
+      "disableLinks": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "disableClickToDial": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "outboundSmsPermission": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "internalSmsPermission": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "active": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      },
+      "dateTimeFormatter": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "isLogging": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "enableContactFallback": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "autoLog": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      }
+    },
+    "name": "CallItem"
+  },
+  {
+    "description": "",
     "methods": [],
     "props": {
       "className": {
@@ -3031,6 +3342,206 @@
       }
     },
     "name": "ConversationMessageList"
+  },
+  {
+    "description": "",
+    "methods": [
+      {
+        "name": "getInitialContactIndex",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "nextProps",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "getPhoneNumber",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "getGroupPhoneNumbers",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "getFallbackContactName",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "logConversation",
+        "docblock": null,
+        "modifiers": [
+          "async"
+        ],
+        "params": [
+          {
+            "name": "{ redirect = true, selected, prefill = true }",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "replyToReceivers": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "messages": {
+        "type": {
+          "name": "custom",
+          "raw": "ConversationMessageList.propTypes.messages"
+        },
+        "required": false,
+        "description": ""
+      },
+      "recipients": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "phoneNumber": {
+                "name": "string",
+                "required": false
+              },
+              "extensionNumber": {
+                "name": "string",
+                "required": false
+              },
+              "name": {
+                "name": "string",
+                "required": false
+              }
+            }
+          }
+        },
+        "required": true,
+        "description": ""
+      },
+      "sendButtonDisabled": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "showSpinner": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      },
+      "disableLinks": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "conversation": {
+        "type": {
+          "name": "object"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onLogConversation": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "areaCode": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "countryCode": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "autoLog": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "enableContactFallback": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "dateTimeFormatter": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "goBack": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "isLoggedContact": {
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      }
+    },
+    "name": "ConversationPanel"
   },
   {
     "description": "",
@@ -4648,6 +5159,275 @@
       }
     },
     "name": "LoginPanel"
+  },
+  {
+    "description": "",
+    "methods": [
+      {
+        "name": "getInitialContactIndex",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "nextProps",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "getPhoneNumber",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "getGroupPhoneNumbers",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "getFallbackContactName",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "logConversation",
+        "docblock": null,
+        "modifiers": [
+          "async"
+        ],
+        "params": [
+          {
+            "name": "{ redirect = true, selected, prefill = true }",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "conversation": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "conversationId": {
+              "name": "string",
+              "required": true
+            },
+            "isLogging": {
+              "name": "bool",
+              "required": false
+            },
+            "correspondents": {
+              "name": "arrayOf",
+              "value": {
+                "name": "shape",
+                "value": {
+                  "name": {
+                    "name": "string",
+                    "required": false
+                  },
+                  "phoneNumber": {
+                    "name": "string",
+                    "required": false
+                  },
+                  "extensionNumber": {
+                    "name": "string",
+                    "required": false
+                  }
+                }
+              },
+              "required": false
+            },
+            "correspondentMatches": {
+              "name": "arrayOf",
+              "value": {
+                "name": "shape",
+                "value": {
+                  "name": {
+                    "name": "string",
+                    "required": false
+                  },
+                  "entityType": {
+                    "name": "string",
+                    "required": false
+                  }
+                }
+              },
+              "required": false
+            },
+            "conversationMatches": {
+              "name": "arrayOf",
+              "value": {
+                "name": "shape",
+                "value": {
+                  "id": {
+                    "name": "string",
+                    "required": false
+                  }
+                }
+              },
+              "required": false
+            }
+          }
+        },
+        "required": true,
+        "description": ""
+      },
+      "areaCode": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "countryCode": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onLogConversation": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onViewContact": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onCreateContact": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onClickToDial": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "isLoggedContact": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "() => false",
+          "computed": false
+        }
+      },
+      "disableLinks": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "disableClickToDial": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "dateTimeFormatter": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "showConversationDetail": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "autoLog": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "enableContactFallback": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "outboundSmsPermission": {
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "internalSmsPermission": {
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      }
+    },
+    "name": "MessageItem"
   },
   {
     "description": "",
