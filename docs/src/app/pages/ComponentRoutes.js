@@ -39,6 +39,7 @@ import EnvironmentPage from './Components/Environment';
 import EulaPage from './Components/Eula';
 import FlipPanelPage from './Components/FlipPanel';
 import FooterPage from './Components/Footer';
+import FormattedMessagePage from './Components/FormattedMessage';
 import ForwardFormPage from './Components/ForwardForm';
 import HeaderPage from './Components/Header';
 import IconFieldPage from './Components/IconField';
@@ -126,6 +127,7 @@ const Routes = () => (
     <Route path="/components/Eula" component={EulaPage} />
     <Route path="/components/FlipPanel" component={FlipPanelPage} />
     <Route path="/components/Footer" component={FooterPage} />
+    <Route path="/components/FormattedMessage" component={FormattedMessagePage} />
     <Route path="/components/ForwardForm" component={ForwardFormPage} />
     <Route path="/components/Header" component={HeaderPage} />
     <Route path="/components/IconField" component={IconFieldPage} />

@@ -4373,6 +4373,42 @@
   },
   {
     "description": "",
+    "methods": [],
+    "props": {
+      "message": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "values": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "tagName": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "'span'",
+          "computed": false
+        }
+      }
+    },
+    "name": "FormattedMessage"
+  },
+  {
+    "description": "",
     "methods": [
       {
         "name": "getValue",
