@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 import Spinner from '../Spinner';
-import RecipientsHeader from '../RecipientsHeader';
 import ConversationMessageList from '../ConversationMessageList';
 import LogButton from '../LogButton';
 import ContactDisplay from '../ContactDisplay';
@@ -239,7 +238,11 @@ class ConversationPanel extends Component {
 ConversationPanel.propTypes = {
   replyToReceivers: PropTypes.func.isRequired,
   messages: ConversationMessageList.propTypes.messages,
-  recipients: RecipientsHeader.propTypes.recipients,
+  recipients: PropTypes.arrayOf(PropTypes.shape({
+    phoneNumber: PropTypes.string,
+    extensionNumber: PropTypes.string,
+    name: PropTypes.string,
+  })).isRequired,
   sendButtonDisabled: PropTypes.bool.isRequired,
   currentLocale: PropTypes.string.isRequired,
   showSpinner: PropTypes.bool.isRequired,

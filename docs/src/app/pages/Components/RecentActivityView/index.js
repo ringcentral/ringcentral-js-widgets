@@ -8,16 +8,16 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widget/components/RecipientsHeader';
+import componentCode from '!raw-loader!ringcentral-widget/components/RecentActivityView';
 
-const RecipientsHeaderPage = () => {
+const RecentActivityViewPage = () => {
   const info = parse(componentCode);
   return (
     <div>
-      <ComponentHeader name="RecipientsHeader" description={info.description} />
+      <ComponentHeader name="RecentActivityView" description={info.description} />
       <CodeExample
         code={demoCode}
-        title="RecipientsHeader Example"
+        title="RecentActivityView Example"
       >
         <Demo />
       </CodeExample>
@@ -26,4 +26,4 @@ const RecipientsHeaderPage = () => {
   );
 };
 
-export default RecipientsHeaderPage;
+export default RecentActivityViewPage;
