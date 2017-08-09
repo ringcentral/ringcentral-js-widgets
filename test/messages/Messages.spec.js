@@ -8,7 +8,7 @@ import ConversationPanel from '../../src/components/ConversationPanel';
 let wrapper = null;
 let panel = null;
 beforeEach(async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 32000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
   wrapper = await getWrapper();
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/messages');

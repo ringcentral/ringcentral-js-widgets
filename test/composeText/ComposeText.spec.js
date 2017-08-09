@@ -11,7 +11,7 @@ let submitButton = null;
 let textArea = null;
 let toNumber = null;
 beforeEach(async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 32000;
+  jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
   wrapper = await getWrapper();
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/composeText');
