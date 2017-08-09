@@ -14,7 +14,7 @@ export default class FlipPanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      flipValue: '',
+      flipValue: this.props.flipNumbers[0].phoneNumber,
       flipEnabled: true,
     };
     this.onRadioSelect = (value) => {
