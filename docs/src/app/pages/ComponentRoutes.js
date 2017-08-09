@@ -13,6 +13,7 @@ import BackHeaderPage from './Components/BackHeader';
 import BadgePage from './Components/Badge';
 import ButtonPage from './Components/Button';
 import CallAlertPage from './Components/CallAlert';
+import CallCtrlPanelPage from './Components/CallCtrlPanel';
 import CallIdSelectPage from './Components/CallIdSelect';
 import CallListPage from './Components/CallList';
 import CallingSettingsAlertPage from './Components/CallingSettingsAlert';
@@ -34,7 +35,9 @@ import DurationCounterPage from './Components/DurationCounter';
 import EntityModalPage from './Components/EntityModal';
 import EnvironmentPage from './Components/Environment';
 import EulaPage from './Components/Eula';
+import FlipPanelPage from './Components/FlipPanel';
 import FooterPage from './Components/Footer';
+import ForwardFormPage from './Components/ForwardForm';
 import HeaderPage from './Components/Header';
 import IconFieldPage from './Components/IconField';
 import IconLinePage from './Components/IconLine';
@@ -53,13 +56,20 @@ import NavigationBarPage from './Components/NavigationBar';
 import OfflineModeBadgePage from './Components/OfflineModeBadge';
 import PanelPage from './Components/Panel';
 import PresenceSettingSectionPage from './Components/PresenceSettingSection';
+import PresenceStatusIconPage from './Components/PresenceStatusIcon';
+import RadioBtnGroupPage from './Components/RadioBtnGroup';
 import RateExceededAlertPage from './Components/RateExceededAlert';
+import RecentActivityCallsPage from './Components/RecentActivityCalls';
+import RecentActivityMessagesPage from './Components/RecentActivityMessages';
+import RecentActivityNavigationButtonPage from './Components/RecentActivityNavigationButton';
+import RecentActivityPanelPage from './Components/RecentActivityPanel';
+import RecentActivityViewPage from './Components/RecentActivityView';
 import RecipientHeaderPage from './Components/RecipientHeader';
-import RecipientsHeaderPage from './Components/RecipientsHeader';
 import RecipientsInputPage from './Components/RecipientsInput';
 import RegionSettingsAlertPage from './Components/RegionSettingsAlert';
 import RegionSettingsPanelPage from './Components/RegionSettingsPanel';
 import RemoveButtonPage from './Components/RemoveButton';
+import ReplyWithMessagePage from './Components/ReplyWithMessage';
 import RolesAndPermissionsAlertPage from './Components/RolesAndPermissionsAlert';
 import SearchInputPage from './Components/SearchInput';
 import SelectPage from './Components/Select';
@@ -68,8 +78,10 @@ import SlideMenuPage from './Components/SlideMenu';
 import SpinnerPage from './Components/Spinner';
 import SpinnerOverlayPage from './Components/SpinnerOverlay';
 import SwitchPage from './Components/Switch';
+import TabNavigationButtonPage from './Components/TabNavigationButton';
 import TabNavigationViewPage from './Components/TabNavigationView';
 import TextInputPage from './Components/TextInput';
+import TransferPanelPage from './Components/TransferPanel';
 import WebphoneAlertPage from './Components/WebphoneAlert';
 
 const Routes = () => (
@@ -86,6 +98,7 @@ const Routes = () => (
     <Route path="/components/Badge" component={BadgePage} />
     <Route path="/components/Button" component={ButtonPage} />
     <Route path="/components/CallAlert" component={CallAlertPage} />
+    <Route path="/components/CallCtrlPanel" component={CallCtrlPanelPage} />
     <Route path="/components/CallIdSelect" component={CallIdSelectPage} />
     <Route path="/components/CallList" component={CallListPage} />
     <Route path="/components/CallingSettingsAlert" component={CallingSettingsAlertPage} />
@@ -107,7 +120,9 @@ const Routes = () => (
     <Route path="/components/EntityModal" component={EntityModalPage} />
     <Route path="/components/Environment" component={EnvironmentPage} />
     <Route path="/components/Eula" component={EulaPage} />
+    <Route path="/components/FlipPanel" component={FlipPanelPage} />
     <Route path="/components/Footer" component={FooterPage} />
+    <Route path="/components/ForwardForm" component={ForwardFormPage} />
     <Route path="/components/Header" component={HeaderPage} />
     <Route path="/components/IconField" component={IconFieldPage} />
     <Route path="/components/IconLine" component={IconLinePage} />
@@ -126,13 +141,20 @@ const Routes = () => (
     <Route path="/components/OfflineModeBadge" component={OfflineModeBadgePage} />
     <Route path="/components/Panel" component={PanelPage} />
     <Route path="/components/PresenceSettingSection" component={PresenceSettingSectionPage} />
+    <Route path="/components/PresenceStatusIcon" component={PresenceStatusIconPage} />
+    <Route path="/components/RadioBtnGroup" component={RadioBtnGroupPage} />
     <Route path="/components/RateExceededAlert" component={RateExceededAlertPage} />
+    <Route path="/components/RecentActivityCalls" component={RecentActivityCallsPage} />
+    <Route path="/components/RecentActivityMessages" component={RecentActivityMessagesPage} />
+    <Route path="/components/RecentActivityNavigationButton" component={RecentActivityNavigationButtonPage} />
+    <Route path="/components/RecentActivityPanel" component={RecentActivityPanelPage} />
+    <Route path="/components/RecentActivityView" component={RecentActivityViewPage} />
     <Route path="/components/RecipientHeader" component={RecipientHeaderPage} />
-    <Route path="/components/RecipientsHeader" component={RecipientsHeaderPage} />
     <Route path="/components/RecipientsInput" component={RecipientsInputPage} />
     <Route path="/components/RegionSettingsAlert" component={RegionSettingsAlertPage} />
     <Route path="/components/RegionSettingsPanel" component={RegionSettingsPanelPage} />
     <Route path="/components/RemoveButton" component={RemoveButtonPage} />
+    <Route path="/components/ReplyWithMessage" component={ReplyWithMessagePage} />
     <Route path="/components/RolesAndPermissionsAlert" component={RolesAndPermissionsAlertPage} />
     <Route path="/components/SearchInput" component={SearchInputPage} />
     <Route path="/components/Select" component={SelectPage} />
@@ -141,8 +163,10 @@ const Routes = () => (
     <Route path="/components/Spinner" component={SpinnerPage} />
     <Route path="/components/SpinnerOverlay" component={SpinnerOverlayPage} />
     <Route path="/components/Switch" component={SwitchPage} />
+    <Route path="/components/TabNavigationButton" component={TabNavigationButtonPage} />
     <Route path="/components/TabNavigationView" component={TabNavigationViewPage} />
     <Route path="/components/TextInput" component={TextInputPage} />
+    <Route path="/components/TransferPanel" component={TransferPanelPage} />
     <Route path="/components/WebphoneAlert" component={WebphoneAlertPage} />
   </div>
 );

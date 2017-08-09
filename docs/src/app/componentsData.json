@@ -174,6 +174,72 @@
           "value": "false",
           "computed": false
         }
+      },
+      "addLogTitle": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "editLogTitle": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "textTitle": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "callTitle": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "createEntityTitle": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "viewEntityTitle": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "ActionMenu"
@@ -209,6 +275,17 @@
         },
         "required": true,
         "description": ""
+      },
+      "title": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "'Active Call'",
+          "computed": false
+        }
       }
     },
     "name": "ActiveCallBadge"
@@ -296,6 +373,50 @@
           "value": "true",
           "computed": false
         }
+      },
+      "width": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "'100%'",
+          "computed": false
+        }
+      },
+      "height": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "'100%'",
+          "computed": false
+        }
+      },
+      "x": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      },
+      "y": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
       }
     },
     "name": "ActiveCallButton"
@@ -379,16 +500,12 @@
           "computed": false
         }
       },
-      "isOnRecord": {
+      "recordStatus": {
         "type": {
-          "name": "bool"
+          "name": "string"
         },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "false",
-          "computed": false
-        }
+        "required": true,
+        "description": ""
       },
       "onMute": {
         "type": {
@@ -449,6 +566,27 @@
       "onAdd": {
         "type": {
           "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onShowFlipPanel": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onToggleTransferPanel": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "flipNumbers": {
+        "type": {
+          "name": "array"
         },
         "required": true,
         "description": ""
@@ -525,16 +663,12 @@
           "computed": false
         }
       },
-      "isOnRecord": {
+      "recordStatus": {
         "type": {
-          "name": "bool"
+          "name": "string"
         },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "false",
-          "computed": false
-        }
+        "required": true,
+        "description": ""
       },
       "onMute": {
         "type": {
@@ -592,14 +726,14 @@
         "required": true,
         "description": ""
       },
-      "toggleMinimized": {
+      "onBackButtonClick": {
         "type": {
           "name": "func"
         },
         "required": true,
         "description": ""
       },
-      "onKeyPadChange": {
+      "onShowKeyPad": {
         "type": {
           "name": "func"
         },
@@ -660,6 +794,72 @@
         "description": "",
         "defaultValue": {
           "value": "null",
+          "computed": false
+        }
+      },
+      "backButtonLabel": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "'Active Calls'",
+          "computed": false
+        }
+      },
+      "brand": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "'RingCentral'",
+          "computed": false
+        }
+      },
+      "showContactDisplayPlaceholder": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "onShowFlipPanel": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "() => null",
+          "computed": false
+        }
+      },
+      "flipNumbers": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "onToggleTransferPanel": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "() => null",
           "computed": false
         }
       }
@@ -1000,6 +1200,314 @@
     "description": "",
     "methods": [],
     "props": {
+      "callStatus": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "sessionId": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "phoneNumber": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "nameMatches": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": ""
+      },
+      "fallBackName": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "startTime": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "isOnMute": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "isOnHold": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "isOnFlip": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "isOnTransfer": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "flipNumbers": {
+        "type": {
+          "name": "array"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "[]",
+          "computed": false
+        }
+      },
+      "recordStatus": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onMute": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onUnmute": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onHold": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onUnhold": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onRecord": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onStopRecord": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onAdd": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "hangup": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "flip": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "transfer": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onBackButtonClick": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onKeyPadChange": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "formatPhone": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "areaCode": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "countryCode": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "selectedMatcherIndex": {
+        "type": {
+          "name": "number"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onSelectMatcherName": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "avatarUrl": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "backButtonLabel": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "'Active Calls'",
+          "computed": false
+        }
+      },
+      "brand": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "'RingCentral'",
+          "computed": false
+        }
+      },
+      "showContactDisplayPlaceholder": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      }
+    },
+    "name": "CallCtrlPanel"
+  },
+  {
+    "description": "",
+    "methods": [],
+    "props": {
       "fromNumber": {
         "type": {
           "name": "string"
@@ -1301,6 +1809,17 @@
         "defaultValue": {
           "value": "undefined",
           "computed": true
+        }
+      },
+      "autoLog": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
         }
       }
     },
@@ -1700,6 +2219,17 @@
           "value": "undefined",
           "computed": true
         }
+      },
+      "autoLog": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
       }
     },
     "name": "CallsPanel"
@@ -1760,6 +2290,61 @@
         "description": "",
         "defaultValue": {
           "value": "() => null",
+          "computed": false
+        }
+      },
+      "width": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "'100%'",
+          "computed": false
+        }
+      },
+      "height": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "'100%'",
+          "computed": false
+        }
+      },
+      "x": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      },
+      "y": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
+      },
+      "disabled": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
           "computed": false
         }
       }
@@ -1974,6 +2559,17 @@
           "value": "false",
           "computed": false
         }
+      },
+      "showSpinner": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
       }
     },
     "name": "ComposeTextPanel"
@@ -2055,6 +2651,17 @@
         },
         "required": true,
         "description": ""
+      },
+      "showSpinner": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
       }
     },
     "name": "ConferencePanel"
@@ -2223,6 +2830,28 @@
         }
       },
       "selectClassName": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "showPlaceholder": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
+      "brand": {
         "type": {
           "name": "string"
         },
@@ -2614,6 +3243,17 @@
         "description": "",
         "defaultValue": {
           "value": "phoneNumber => phoneNumber",
+          "computed": false
+        }
+      },
+      "showSpinner": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
           "computed": false
         }
       }
@@ -3147,6 +3787,62 @@
     "description": "",
     "methods": [],
     "props": {
+      "isOnFlip": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      },
+      "flipNumbers": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": ""
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "formatPhone": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "hideFlipPanel": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "flip": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "hangup": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      }
+    },
+    "name": "FlipPanel"
+  },
+  {
+    "description": "",
+    "methods": [],
+    "props": {
       "className": {
         "type": {
           "name": "string"
@@ -3163,6 +3859,85 @@
       }
     },
     "name": "Footer"
+  },
+  {
+    "description": "",
+    "methods": [
+      {
+        "name": "getValue",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "focusInput",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      }
+    ],
+    "props": {
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "onCancel": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "forwardingNumbers": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": ""
+      },
+      "formatPhone": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onForward": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onChange": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      }
+    },
+    "name": "ForwardForm"
   },
   {
     "description": "",
@@ -3325,6 +4100,49 @@
         },
         "required": true,
         "description": ""
+      },
+      "forwardingNumbers": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": ""
+      },
+      "formatPhone": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "phone => phone",
+          "computed": false
+        }
+      },
+      "onForward": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "replyWithMessage": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
       }
     },
     "name": "IncomingCallPad"
@@ -3341,6 +4159,17 @@
         "description": ""
       },
       "phoneNumber": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "className": {
         "type": {
           "name": "string"
         },
@@ -3447,6 +4276,49 @@
         "description": "",
         "defaultValue": {
           "value": "null",
+          "computed": false
+        }
+      },
+      "onBackButtonClick": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "forwardingNumbers": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onForward": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "brand": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "'RingCentral'",
+          "computed": false
+        }
+      },
+      "showContactDisplayPlaceholder": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "true",
           "computed": false
         }
       }
@@ -3671,12 +4543,29 @@
           "computed": false
         }
       },
-      "currentLocale": {
+      "viewTitle": {
         "type": {
           "name": "string"
         },
-        "required": true,
+        "required": false,
         "description": ""
+      },
+      "editTitle": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "addTitle": {
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "LogButton"
@@ -3744,6 +4633,17 @@
         "defaultValue": {
           "value": "undefined",
           "computed": true
+        }
+      },
+      "showSpinner": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
         }
       }
     },
@@ -4018,6 +4918,21 @@
           "computed": true
         }
       },
+      "button": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "func"
+            },
+            {
+              "name": "element"
+            }
+          ]
+        },
+        "required": true,
+        "description": ""
+      },
       "tabs": {
         "type": {
           "name": "arrayOf",
@@ -4030,7 +4945,7 @@
               },
               "activeIcon": {
                 "name": "node",
-                "required": true
+                "required": false
               },
               "label": {
                 "name": "string",
@@ -4137,40 +5052,7 @@
   },
   {
     "description": "",
-    "methods": [
-      {
-        "name": "_getPresenceStatus",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "currentUserStatus",
-            "type": null
-          },
-          {
-            "name": "currentDndStatus",
-            "type": null
-          }
-        ],
-        "returns": null
-      },
-      {
-        "name": "_getPresenceStatusIcon",
-        "docblock": null,
-        "modifiers": [],
-        "params": [
-          {
-            "name": "currentUserStatus",
-            "type": null
-          },
-          {
-            "name": "currentDndStatus",
-            "type": null
-          }
-        ],
-        "returns": null
-      }
-    ],
+    "methods": [],
     "props": {
       "currentLocale": {
         "type": {
@@ -4249,6 +5131,88 @@
     "description": "",
     "methods": [],
     "props": {
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "dndStatus": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "userStatus": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      }
+    },
+    "name": "PresenceStatusIcon"
+  },
+  {
+    "description": "",
+    "methods": [],
+    "props": {
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "radioOptions": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": ""
+      },
+      "disabled": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      },
+      "formatPhone": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onRadioSelect": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      }
+    },
+    "name": "RadioBtnGroup"
+  },
+  {
+    "description": "",
+    "methods": [],
+    "props": {
       "timestamp": {
         "type": {
           "name": "number"
@@ -4272,6 +5236,250 @@
       }
     },
     "name": "RateExceededAlert"
+  },
+  {
+    "description": "",
+    "methods": [],
+    "props": {
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "calls": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": ""
+      },
+      "isCallsLoaded": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      },
+      "dateTimeFormatter": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      }
+    },
+    "name": "RecentActivityCalls"
+  },
+  {
+    "description": "",
+    "methods": [],
+    "props": {
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "messages": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": ""
+      },
+      "isMessagesLoaded": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      },
+      "navigateTo": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "dateTimeFormatter": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      }
+    },
+    "name": "RecentActivityMessages"
+  },
+  {
+    "description": "",
+    "methods": [],
+    "props": {
+      "icon": {
+        "type": {
+          "name": "node"
+        },
+        "required": true,
+        "description": ""
+      },
+      "active": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "label": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "noticeCounts": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "width": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "number"
+            },
+            {
+              "name": "string"
+            }
+          ]
+        },
+        "required": true,
+        "description": ""
+      },
+      "onClick": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      }
+    },
+    "name": "RecentActivityNavigationButton"
+  },
+  {
+    "description": "RecentActivityPanel component provides a animated slide-out panel.",
+    "methods": [],
+    "props": {
+      "title": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "currentContact": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "onPanelToggle": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "expanded": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      }
+    },
+    "name": "RecentActivityPanel"
+  },
+  {
+    "description": "",
+    "methods": [
+      {
+        "name": "getCurrentTabPanel",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "getCurrentTab",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "currentTabPath",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "showSpinner": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      },
+      "currentContact": {
+        "type": {
+          "name": "object"
+        },
+        "required": true,
+        "description": ""
+      },
+      "tabs": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": ""
+      },
+      "defaultTab": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      }
+    },
+    "name": "RecentActivityView"
   },
   {
     "description": "",
@@ -4326,28 +5534,6 @@
       }
     },
     "name": "RecipientHeader"
-  },
-  {
-    "description": "",
-    "methods": [],
-    "props": {
-      "recipients": {
-        "type": {
-          "name": "custom",
-          "raw": "RecipientList.propTypes.recipients"
-        },
-        "required": false,
-        "description": ""
-      },
-      "currentLocale": {
-        "type": {
-          "name": "string"
-        },
-        "required": true,
-        "description": ""
-      }
-    },
-    "name": "RecipientsHeader"
   },
   {
     "description": "",
@@ -4548,21 +5734,33 @@
           "name": "string"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       },
       "children": {
         "type": {
           "name": "node"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       },
       "onBackButtonClick": {
         "type": {
           "name": "func"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       },
       "currentLocale": {
         "type": {
@@ -4610,7 +5808,11 @@
           "name": "func"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "RegionSettingsPanel"
@@ -4650,6 +5852,64 @@
       }
     },
     "name": "RemoveButton"
+  },
+  {
+    "description": "",
+    "methods": [
+      {
+        "name": "_getValue",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      }
+    ],
+    "props": {
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "onCancel": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onReply": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onChange": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      }
+    },
+    "name": "ReplyWithMessage"
   },
   {
     "description": "",
@@ -5323,6 +6583,86 @@
     "description": "",
     "methods": [],
     "props": {
+      "icon": {
+        "type": {
+          "name": "node"
+        },
+        "required": true,
+        "description": ""
+      },
+      "activeIcon": {
+        "type": {
+          "name": "node"
+        },
+        "required": true,
+        "description": ""
+      },
+      "active": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "label": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "noticeCounts": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "width": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "number"
+            },
+            {
+              "name": "string"
+            }
+          ]
+        },
+        "required": true,
+        "description": ""
+      },
+      "onClick": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      }
+    },
+    "name": "TabNavigationButton"
+  },
+  {
+    "description": "",
+    "methods": [],
+    "props": {
       "children": {
         "type": {
           "name": "node"
@@ -5530,9 +6870,55 @@
           "value": "undefined",
           "computed": true
         }
+      },
+      "filter": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "TextInput"
+  },
+  {
+    "description": "",
+    "methods": [],
+    "props": {
+      "transfer": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "toggleTransferPanel": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "isOnTransfer": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      }
+    },
+    "name": "TransferPanel"
   },
   {
     "description": "",

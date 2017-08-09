@@ -38,3 +38,5 @@ node_modules
 /dev-server/api-config.js
 /localization
 /demo-extension-build
+
+.env
