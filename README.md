@@ -50,3 +50,38 @@ Open up your browser and access http://localhost:8191 to see how it works.
 
 Note that the development server is using OAuth for authorization process.
 Please make sure the app you specified in configuration above is setup with Redirect Uri `http://localhost:8191/redirect.html`.
+
+
+## Test
+
+Create `.env` file in `./test/` folder, with the following content:
+
+```ini
+appKey=your-appKey
+appSecret=your-appSecret
+server=sever-url
+username=your-phone-number
+extension=your-extension
+password=your-password
+receiver=testing-phone-number-to-receive-sms-fax-etc
+```
+
+Run:
+
+```
+yarn test
+```
+
+If you want to run it in watch mode:
+
+```
+brew install watchman
+yarn test:watch
+```
+
+
+### About test coverage
+
+WebRTC code is excluded from test coverage report. Because we are unable to run WebRTC in node.js.
+
+We might need to do some mocking to cover this part in the future.

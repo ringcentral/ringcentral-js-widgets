@@ -6299,60 +6299,6 @@
   },
   {
     "description": "",
-    "methods": [
-      {
-        "name": "hasDropdown",
-        "docblock": null,
-        "modifiers": [],
-        "params": [],
-        "returns": null
-      }
-    ],
-    "props": {
-      "recipient": {
-        "type": {
-          "name": "shape",
-          "value": {
-            "phoneNumber": {
-              "name": "string",
-              "required": false
-            },
-            "extensionNumber": {
-              "name": "string",
-              "required": false
-            },
-            "name": {
-              "name": "string",
-              "required": false
-            },
-            "matchedNames": {
-              "name": "array",
-              "required": false
-            }
-          }
-        },
-        "required": true,
-        "description": ""
-      },
-      "currentLocale": {
-        "type": {
-          "name": "string"
-        },
-        "required": true,
-        "description": ""
-      },
-      "dropdownClassName": {
-        "type": {
-          "name": "string"
-        },
-        "required": true,
-        "description": ""
-      }
-    },
-    "name": "RecipientHeader"
-  },
-  {
-    "description": "",
     "methods": [],
     "props": {
       "label": {

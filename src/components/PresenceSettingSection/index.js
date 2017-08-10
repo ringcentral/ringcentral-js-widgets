@@ -20,7 +20,7 @@ function getPresenceStatusName(currentUserStatus, currentDndStatus, currentLocal
   return i18n.getString(currentUserStatus + currentDndStatus, currentLocale);
 }
 
-function PresenceItem(props) {
+export function PresenceItem(props) {
   const className = classnames(
     styles.presenceItem,
     props.selected ? styles.selected : null
