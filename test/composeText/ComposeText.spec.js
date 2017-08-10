@@ -70,7 +70,7 @@ describe('compose text panel', () => {
     expect(submitButton.props().disabled).toBe(false);
     await submitButton.closest('form').simulate('submit');
 
-    await timeout(10000);
+    await timeout(16000);
 
     const conversationPanel = wrapper.find(ConversationPanel);
     expect(conversationPanel.length > 0).toBe(true);

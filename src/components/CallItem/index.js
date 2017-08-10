@@ -178,7 +178,7 @@ export default class CallItem extends Component {
       }
     }
   }
-  bindedLogCall = this.logCall.bind(this)
+  logCall = this.logCall.bind(this)
 
   viewSelectedContact = () => {
     if (typeof this.props.onViewContact === 'function') {
@@ -372,7 +372,7 @@ export default class CallItem extends Component {
         </div>
         <ActionMenu
           currentLocale={currentLocale}
-          onLog={onLogCall && this.bindedLogCall}
+          onLog={onLogCall && this.logCall}
           onViewEntity={onViewContact && this.viewSelectedContact}
           onCreateEntity={onCreateContact && this.createSelectedContact}
           hasEntity={!!contactMatches.length}
