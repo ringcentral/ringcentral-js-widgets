@@ -170,6 +170,8 @@ export default class MessageItem extends Component {
       }
     }
   }
+  bindedLogConversation = this.logConversation.bind(this)
+
   clickToDial = () => {
     if (this.props.onClickToDial) {
       this.props.onClickToDial(this.getPhoneNumber());
@@ -247,7 +249,7 @@ export default class MessageItem extends Component {
         </div>
         <ActionMenu
           currentLocale={currentLocale}
-          onLog={onLogConversation && this.logConversation}
+          onLog={onLogConversation && this.bindedLogConversation}
           onViewEntity={onViewContact && this.viewSelectedContact}
           onCreateEntity={onCreateContact && this.createSelectedContact}
           hasEntity={correspondents.length === 1 && !!correspondentMatches.length}
