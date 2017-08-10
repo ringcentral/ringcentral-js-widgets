@@ -67,4 +67,26 @@ describe('messages', () => {
       expect(logButton.find(Spinner).length).toBe(0);
     }
   });
+
+  test('message log button', async () => {
+    const firstMessage = panel.find(MessageItem).first();
+    await firstMessage.find('div').first().simulate('click');
+    const conversationPanel = wrapper.find(ConversationPanel);
+
+    const logButton = conversationPanel.find(LogButton).first().find(Button).first();
+    expect(logButton.props().disabled).toBe(false);
+  });
+
+  test('message click log button', async () => {
+    const firstMessage = panel.find(MessageItem).first();
+    await firstMessage.find('div').first().simulate('click');
+    const conversationPanel = wrapper.find(ConversationPanel);
+    const logButton = conversationPanel.find(LogButton).first().find(Button).first();
+    logButton.simulate('click');
+    expect(logButton.props().disabled).toBe(true);
+    expect(logButton.find(Spinner).length).toBe(1);
+    await timeout(1000);
+    expect(logButton.props().disabled).toBe(false);
+    expect(logButton.find(Spinner).length).toBe(0);
+  });
 });

@@ -135,7 +135,7 @@ class ConversationPanel extends Component {
       }
     }
   }
-  bindedLogConversation = this.logConversation.bind(this)
+  logConversation = this.logConversation.bind(this)
 
   render() {
     let conversationBody = null;
@@ -170,7 +170,7 @@ class ConversationPanel extends Component {
       (
         <LogButton
           className={styles.logButton}
-          onLog={this.bindedLogConversation}
+          onLog={this.logConversation}
           disableLinks={this.props.disableLinks}
           isLogged={conversationMatches.length > 0}
           isLogging={isLogging || this.state.isLogging}
