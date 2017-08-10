@@ -161,7 +161,7 @@ CallCtrlPage.propTypes = {
     isOnHold: PropTypes.bool,
     isOnFlip: PropTypes.bool,
     isOnTransfer: PropTypes.bool,
-    recordStatus: PropTypes.string.isRequired,
+    recordStatus: PropTypes.string,
     to: PropTypes.string,
     from: PropTypes.string,
     contactMatch: PropTypes.object,
