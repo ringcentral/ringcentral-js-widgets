@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 import Spinner from '../Spinner';
-import RecipientsHeader from '../RecipientsHeader';
 import ConversationMessageList from '../ConversationMessageList';
 import LogButton from '../LogButton';
 import ContactDisplay from '../ContactDisplay';
@@ -115,7 +114,7 @@ class ConversationPanel extends Component {
     return (correspondents.length === 1 &&
       (correspondents[0].name)) || undefined;
   }
-  logConversation = async ({ redirect = true, selected, prefill = true }) => {
+  async logConversation({ redirect = true, selected, prefill = true }) {
     if (typeof this.props.onLogConversation === 'function' &&
       this._mounted &&
       !this.state.isLogging
@@ -136,6 +135,7 @@ class ConversationPanel extends Component {
       }
     }
   }
+  logConversation = this.logConversation.bind(this)
 
   render() {
     let conversationBody = null;
@@ -239,7 +239,11 @@ class ConversationPanel extends Component {
 ConversationPanel.propTypes = {
   replyToReceivers: PropTypes.func.isRequired,
   messages: ConversationMessageList.propTypes.messages,
-  recipients: RecipientsHeader.propTypes.recipients,
+  recipients: PropTypes.arrayOf(PropTypes.shape({
+    phoneNumber: PropTypes.string,
+    extensionNumber: PropTypes.string,
+    name: PropTypes.string,
+  })).isRequired,
   sendButtonDisabled: PropTypes.bool.isRequired,
   currentLocale: PropTypes.string.isRequired,
   showSpinner: PropTypes.bool.isRequired,

@@ -17,6 +17,18 @@ function getTabs({
   recentCalls,
   currentContact,
 }) {
+  let messages = [];
+  let calls = [];
+  let unreadMessageCounts = 0;
+  if (currentContact && currentContact.id) {
+    const contactId = currentContact.id;
+    if (recentMessages.messages[contactId])
+      messages = recentMessages.messages[contactId];
+    if (recentCalls.calls[contactId])
+      calls = recentCalls.calls[contactId];
+    if (recentMessages.unreadMessageCounts[contactId])
+      unreadMessageCounts = recentMessages.unreadMessageCounts[contactId];
+  }
   return [
     {
       icon: <VoicemailIcon width={23} height={23} />,
@@ -31,11 +43,11 @@ function getTabs({
       icon: <span className={dynamicsFont.composeText} />,
       label: i18n.getString('text', currentLocale),
       path: 'recentMessages',
-      noticeCounts: recentMessages.unreadMessageCounts || 0,
+      noticeCounts: unreadMessageCounts,
       isActive: path => path === 'recentMessages',
       view: (
         <RecentActivityMessages
-          messages={recentMessages.messages}
+          messages={messages}
           navigateTo={navigateTo}
           dateTimeFormatter={dateTimeFormatter}
           currentLocale={currentLocale}
@@ -45,7 +57,7 @@ function getTabs({
       getData: () => {
         recentMessages.getMessages(currentContact);
       },
-      cleanUp: () => recentMessages.cleanUpMessages()
+      cleanUp: () => recentMessages.cleanUpMessages(currentContact)
     },
     {
       icon: <FaxIcon width={23} height={23} />,
@@ -63,7 +75,7 @@ function getTabs({
       isActive: path => path === 'recentCalls',
       view: (
         <RecentActivityCalls
-          calls={recentCalls.calls}
+          calls={calls}
           dateTimeFormatter={dateTimeFormatter}
           currentLocale={currentLocale}
           isCallsLoaded={recentCalls.isCallsLoaded}
@@ -72,7 +84,7 @@ function getTabs({
       getData: () => {
         recentCalls.getCalls(currentContact);
       },
-      cleanUp: () => recentCalls.cleanUpCalls()
+      cleanUp: () => recentCalls.cleanUpCalls(currentContact)
     },
   ];
 }

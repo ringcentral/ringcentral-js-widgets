@@ -1,10 +1,10 @@
 language: node_js
 node_js:
-  - '6'
-  - '7'
   - '8'
-# after_success:
-#    - 'cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js'
+script:
+  - yarn test:coverage
+after_success:
+   - cat ./coverage/lcov.info | ./node_modules/.bin/coveralls
 before_deploy:
   - ./scripts/prepare_release.sh && cd release
 after_deploy:
