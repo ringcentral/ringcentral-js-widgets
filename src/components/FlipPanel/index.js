@@ -66,11 +66,11 @@ export default class FlipPanel extends Component {
             </div>
             <div className={styles.button}>
               <CircleButton
-                className={styles.hangupButton}
-                iconClassName={styles.hangupIcon}
-                onClick={this.props.hangup}
+                className={this.props.isOnFlip ? styles.completeButton : styles.buttonDisabled}
+                iconClassName={this.props.isOnFlip ? styles.completeIcon : ''}
+                onClick={this.props.isOnFlip ? this.props.complete : () => {}}
                 icon={EndIcon}
-                showBorder={false}
+                showBorder
               />
             </div>
           </div>
@@ -87,5 +87,5 @@ FlipPanel.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   hideFlipPanel: PropTypes.func.isRequired,
   flip: PropTypes.func.isRequired,
-  hangup: PropTypes.func.isRequired,
+  complete: PropTypes.func.isRequired,
 };

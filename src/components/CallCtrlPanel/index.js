@@ -65,7 +65,7 @@ class CallCtrlPanel extends Component {
           formatPhone={this.props.formatPhone}
           hideFlipPanel={this.hideFlipPanel}
           flip={this.props.flip}
-          hangup={this.props.hangup}
+          complete={this.props.hangup}
         />
       );
     }
