@@ -114,7 +114,7 @@ class ConversationPanel extends Component {
     return (correspondents.length === 1 &&
       (correspondents[0].name)) || undefined;
   }
-  logConversation = async ({ redirect = true, selected, prefill = true }) => {
+  async logConversation({ redirect = true, selected, prefill = true }) {
     if (typeof this.props.onLogConversation === 'function' &&
       this._mounted &&
       !this.state.isLogging
@@ -135,6 +135,7 @@ class ConversationPanel extends Component {
       }
     }
   }
+  logConversation = this.logConversation.bind(this)
 
   render() {
     let conversationBody = null;
