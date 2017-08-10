@@ -1,9 +1,12 @@
-import { getWrapper } from '../shared';
+import { getWrapper, timeout } from '../shared';
 import NavigationBar from '../../src/components/NavigationBar';
 import MessageList from '../../src/components/MessageList';
 import SearchInput from '../../src/components/SearchInput';
 import MessageItem from '../../src/components/MessageItem';
 import ConversationPanel from '../../src/components/ConversationPanel';
+import LogButton from '../../src/components/LogButton';
+import Button from '../../src/components/Button';
+import Spinner from '../../src/components/Spinner';
 
 let wrapper = null;
 let panel = null;
@@ -40,5 +43,28 @@ describe('messages', () => {
     await firstMessage.find('div').first().simulate('click');
     const conversationPanel = wrapper.find(ConversationPanel);
     expect(conversationPanel.length > 0).toBe(true);
+  });
+
+  test('log button', async () => {
+    const messageItems = panel.find(MessageItem);
+    if (messageItems.length > 0) {
+      const callItem = messageItems.at(messageItems.length - 1); // last item
+      const logButton = callItem.find(LogButton).first().find(Button).first();
+      expect(logButton.props().disabled).toBe(false);
+    }
+  });
+
+  test('click log button', async () => {
+    const messageItems = panel.find(MessageItem);
+    if (messageItems.length > 0) {
+      const callItem = messageItems.at(messageItems.length - 1); // last item
+      const logButton = callItem.find(LogButton).first().find(Button).first();
+      logButton.simulate('click');
+      expect(logButton.props().disabled).toBe(true);
+      expect(logButton.find(Spinner).length).toBe(1);
+      await timeout(3000);
+      expect(logButton.props().disabled).toBe(false);
+      expect(logButton.find(Spinner).length).toBe(0);
+    }
   });
 });
