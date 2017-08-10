@@ -85,3 +85,8 @@ yarn test:watch
 WebRTC code is excluded from test coverage report. Because we are unable to run WebRTC in node.js.
 
 We might need to do some mocking to cover this part in the future.
+
+
+### About Travis Build
+
+Every time you make a push or PR, Travis will automatically build the project.
