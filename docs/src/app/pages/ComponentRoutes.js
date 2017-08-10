@@ -64,7 +64,6 @@ import RecentActivityMessagesPage from './Components/RecentActivityMessages';
 import RecentActivityNavigationButtonPage from './Components/RecentActivityNavigationButton';
 import RecentActivityPanelPage from './Components/RecentActivityPanel';
 import RecentActivityViewPage from './Components/RecentActivityView';
-import RecipientHeaderPage from './Components/RecipientHeader';
 import RecipientsInputPage from './Components/RecipientsInput';
 import RegionSettingsAlertPage from './Components/RegionSettingsAlert';
 import RegionSettingsPanelPage from './Components/RegionSettingsPanel';
@@ -149,7 +148,6 @@ const Routes = () => (
     <Route path="/components/RecentActivityNavigationButton" component={RecentActivityNavigationButtonPage} />
     <Route path="/components/RecentActivityPanel" component={RecentActivityPanelPage} />
     <Route path="/components/RecentActivityView" component={RecentActivityViewPage} />
-    <Route path="/components/RecipientHeader" component={RecipientHeaderPage} />
     <Route path="/components/RecipientsInput" component={RecipientsInputPage} />
     <Route path="/components/RegionSettingsAlert" component={RegionSettingsAlertPage} />
     <Route path="/components/RegionSettingsPanel" component={RegionSettingsPanelPage} />
