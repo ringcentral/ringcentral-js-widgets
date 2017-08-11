@@ -15,7 +15,7 @@ export default class FlipPanel extends Component {
     super(props);
     this.state = {
       flipValue: this.props.flipNumbers.length === 0 ? '' : this.props.flipNumbers[0].phoneNumber,
-      flipEnabled: true,
+      flipEnabled: !this.props.isOnFlip,
     };
     this.onRadioSelect = (value) => {
       this.setState({
@@ -25,7 +25,7 @@ export default class FlipPanel extends Component {
     this.flip = () => {
       this.props.flip(this.state.flipValue);
       this.setState({
-        flipEnabled: false
+        flipEnabled: false,
       });
     };
   }
@@ -55,7 +55,7 @@ export default class FlipPanel extends Component {
             onRadioSelect={this.onRadioSelect}
           />
           <div className={styles.buttonGroup}>
-            <div className={styles.button}>
+            <div className={styles.button} title={i18n.getString('flip', this.props.currentLocale)}>
               <CircleButton
                 className={this.state.flipEnabled ? styles.flipButton : styles.buttonDisabled}
                 iconClassName={styles.flipIcon}
@@ -64,13 +64,13 @@ export default class FlipPanel extends Component {
                 showBorder
               />
             </div>
-            <div className={styles.button}>
+            <div className={styles.button} title={i18n.getString('complete', this.props.currentLocale)}>
               <CircleButton
-                className={styles.hangupButton}
-                iconClassName={styles.hangupIcon}
-                onClick={this.props.hangup}
+                className={this.props.isOnFlip ? styles.completeButton : styles.buttonDisabled}
+                iconClassName={this.props.isOnFlip ? styles.completeIcon : ''}
+                onClick={this.props.isOnFlip ? this.props.complete : () => {}}
                 icon={EndIcon}
-                showBorder={false}
+                showBorder
               />
             </div>
           </div>
@@ -87,5 +87,5 @@ FlipPanel.propTypes = {
   formatPhone: PropTypes.func.isRequired,
   hideFlipPanel: PropTypes.func.isRequired,
   flip: PropTypes.func.isRequired,
-  hangup: PropTypes.func.isRequired,
+  complete: PropTypes.func.isRequired,
 };
