@@ -52,6 +52,7 @@ export default function ContactDisplay({
   selectClassName,
   showPlaceholder,
   brand,
+  stopPropagation,
 }) {
   let contentEl;
   if (groupNumbers) {
@@ -132,6 +133,7 @@ export default function ContactDisplay({
         dropdownAlign="left"
         titleEnabled
         noPadding
+        stopPropagation={stopPropagation}
       />
     );
   }
@@ -163,6 +165,7 @@ ContactDisplay.propTypes = {
   selectClassName: PropTypes.string,
   showPlaceholder: PropTypes.bool,
   brand: PropTypes.string,
+  stopPropagation: PropTypes.bool,
 };
 ContactDisplay.defaultProps = {
   className: undefined,
@@ -175,4 +178,5 @@ ContactDisplay.defaultProps = {
   selectClassName: undefined,
   showPlaceholder: true,
   brand: undefined,
+  stopPropagation: true,
 };

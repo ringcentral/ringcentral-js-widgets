@@ -183,6 +183,7 @@ class ConversationPanel extends Component {
         <div className={styles.header}>
           <ContactDisplay
             className={styles.contactDisplay}
+            selectClassName={styles.contactDisplaySelect}
             contactMatches={correspondentMatches}
             selected={this.state.selected}
             onSelectContact={this.onSelectContact}

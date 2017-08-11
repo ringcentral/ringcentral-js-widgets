@@ -366,6 +366,7 @@ export default class CallItem extends Component {
           countryCode={countryCode}
           phoneNumber={phoneNumber}
           currentLocale={currentLocale}
+          stopPropagation={false}
         />
         <div className={styles.details} >
           {durationEl} | {dateEl}{statusEl}
