@@ -9,7 +9,7 @@ props.currentLocale = 'en-US';
 props.formatPhone = () => null;
 props.hideFlipPanel = () => null;
 props.flip = () => null;
-props.hangup = () => null;
+props.complete = () => null;
 
 /**
  * A example of `FlipPanel`
