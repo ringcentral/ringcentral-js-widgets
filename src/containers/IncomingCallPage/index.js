@@ -20,6 +20,7 @@ class IncomingCallPage extends Component {
     this.state = {
       selectedMatcherIndex: 0,
       avatarUrl: null,
+      hasOtherActiveCall: false,
     };
 
     this.onSelectMatcherName = (option) => {
@@ -72,6 +73,9 @@ class IncomingCallPage extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.session.id !== nextProps.session.id) {
       this._updateAvatarAndMatchIndex(nextProps);
+      this.setState({
+        hasOtherActiveCall: !!nextProps.activeSessionId,
+      });
     }
   }
 
@@ -135,7 +139,7 @@ class IncomingCallPage extends Component {
         onForward={this.onForward}
         brand={this.props.brand}
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
-        isMultiCall={!!this.props.activeSessionId}
+        hasOtherActiveCall={this.state.hasOtherActiveCall}
         answerAndEnd={this.answerAndEnd}
         answerAndHold={this.answerAndHold}
       >
@@ -174,10 +178,12 @@ IncomingCallPage.propTypes = {
   updateSessionMatchedContact: PropTypes.func.isRequired,
   showContactDisplayPlaceholder: PropTypes.bool.isRequired,
   brand: PropTypes.string.isRequired,
+  activeSessionId: PropTypes.string,
 };
 
 IncomingCallPage.defaultProps = {
   children: undefined,
+  activeSessionId: null,
 };
 
 function mapToProps(_, {

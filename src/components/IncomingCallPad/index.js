@@ -7,15 +7,13 @@ import 'rc-tooltip/assets/bootstrap_white.css';
 import ForwardForm from '../ForwardForm';
 import ReplyWithMessage from '../ReplyWithMessage';
 import ActiveCallButton from '../ActiveCallButton';
-import MultiCallButton from '../MultiCallButton';
+import MultiCallAnswerButton from '../MultiCallAnswerButton';
 
 import MessageIcon from '../../assets/images/MessageFill.svg';
 import ForwardIcon from '../../assets/images/Forward.svg';
 import IgnoreIcon from '../../assets/images/Ignore.svg';
 import VoicemailIcon from '../../assets/images/Voicemail.svg';
 import AnswerIcon from '../../assets/images/Answer.svg';
-import HoldIcon from '../../assets/images/Hold.svg';
-import EndIcon from '../../assets/images/End.svg';
 import styles from './styles.scss';
 
 import i18n from './i18n';
@@ -63,35 +61,34 @@ export default class IncomingCallPad extends Component {
       forwardingNumbers,
       formatPhone,
       className,
-      isMultiCall,
+      hasOtherActiveCall,
       answerAndEnd,
       answerAndHold,
     } = this.props;
     // const isMultiCall = true;
     const multiCallButtons = (
       <div className={classnames(styles.buttonRow, styles.multiCallsButtonGroup)}>
-        <MultiCallButton
+        <MultiCallAnswerButton
           onClick={answerAndEnd}
           title={i18n.getString('answerAndEnd', currentLocale)}
-          firstIcon={EndIcon}
-          secondIcon={AnswerIcon}
           className={styles.callButton}
-          isEnd
+          isEndOtherCall
         />
         <ActiveCallButton
           onClick={toVoiceMail}
           title={i18n.getString('toVoicemail', currentLocale)}
           buttonClassName={styles.rejectButton}
           icon={VoicemailIcon}
+          iconWidth={274}
+          iconX={116}
           showBorder={false}
           className={styles.callButton}
         />
-        <MultiCallButton
+        <MultiCallAnswerButton
           onClick={answerAndHold}
           title={i18n.getString('answerAndHold', currentLocale)}
-          firstIcon={HoldIcon}
-          secondIcon={AnswerIcon}
           className={styles.callButton}
+          isEndOtherCall={false}
         />
       </div>
     );
@@ -102,6 +99,8 @@ export default class IncomingCallPad extends Component {
           title={i18n.getString('toVoicemail', currentLocale)}
           buttonClassName={styles.rejectButton}
           icon={VoicemailIcon}
+          iconWidth={274}
+          iconX={116}
           showBorder={false}
           className={styles.bigCallButton}
         />
@@ -152,6 +151,8 @@ export default class IncomingCallPad extends Component {
           >
             <ActiveCallButton
               icon={ForwardIcon}
+              iconWidth={250}
+              iconX={125}
               onClick={() => null}
               title={i18n.getString('forward', currentLocale)}
               className={styles.callButton}
@@ -189,7 +190,7 @@ export default class IncomingCallPad extends Component {
             className={styles.callButton}
           />
         </div>
-        {isMultiCall ? multiCallButtons : singleCallButtons}
+        {hasOtherActiveCall ? multiCallButtons : singleCallButtons}
       </div>
     );
   }
@@ -204,10 +205,16 @@ IncomingCallPad.propTypes = {
   formatPhone: PropTypes.func,
   onForward: PropTypes.func.isRequired,
   replyWithMessage: PropTypes.func.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  answerAndEnd: PropTypes.func,
+  answerAndHold: PropTypes.func,
+  hasOtherActiveCall: PropTypes.bool,
 };
 
 IncomingCallPad.defaultProps = {
   formatPhone: phone => phone,
   className: null,
+  answerAndEnd: () => null,
+  answerAndHold: () => null,
+  hasOtherActiveCall: false,
 };

@@ -104,7 +104,7 @@ export default function IncomingCallPanel(props) {
         replyWithMessage={props.replyWithMessage}
         onForward={props.onForward}
         currentLocale={props.currentLocale}
-        isMultiCall={props.isMultiCall}
+        hasOtherActiveCall={props.hasOtherActiveCall}
         answerAndEnd={props.answerAndEnd}
         answerAndHold={props.answerAndHold}
       />
@@ -135,6 +135,9 @@ IncomingCallPanel.propTypes = {
   onForward: PropTypes.func.isRequired,
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
+  answerAndEnd: PropTypes.func,
+  answerAndHold: PropTypes.func,
+  hasOtherActiveCall: PropTypes.bool,
 };
 
 IncomingCallPanel.defaultProps = {
@@ -144,4 +147,7 @@ IncomingCallPanel.defaultProps = {
   avatarUrl: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
+  answerAndEnd: undefined,
+  answerAndHold: undefined,
+  hasOtherActiveCall: false,
 };
