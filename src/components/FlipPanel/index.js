@@ -55,7 +55,7 @@ export default class FlipPanel extends Component {
             onRadioSelect={this.onRadioSelect}
           />
           <div className={styles.buttonGroup}>
-            <div className={styles.button}>
+            <div className={styles.button} title={i18n.getString('flip', this.props.currentLocale)}>
               <CircleButton
                 className={this.state.flipEnabled ? styles.flipButton : styles.buttonDisabled}
                 iconClassName={styles.flipIcon}
@@ -64,7 +64,7 @@ export default class FlipPanel extends Component {
                 showBorder
               />
             </div>
-            <div className={styles.button}>
+            <div className={styles.button} title={i18n.getString('complete', this.props.currentLocale)}>
               <CircleButton
                 className={this.props.isOnFlip ? styles.completeButton : styles.buttonDisabled}
                 iconClassName={this.props.isOnFlip ? styles.completeIcon : ''}
