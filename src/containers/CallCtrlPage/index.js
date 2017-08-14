@@ -109,9 +109,14 @@ class CallCtrlPage extends Component {
     if (!fallbackUserName) {
       fallbackUserName = i18n.getString('unknown', this.props.currentLocale);
     }
+    // The label of back button is customizable
+    // the property `backButtonLabel` should be internationalizational
+    const backButtonLabel = this.props.backButtonLabel
+      ? this.props.backButtonLabel
+      : i18n.getString('activeCalls', this.props.currentLocale);
     return (
       <CallCtrlPanel
-        backButtonLabel={i18n.getString('activeCalls', this.props.currentLocale)}
+        backButtonLabel={backButtonLabel}
         currentLocale={this.props.currentLocale}
         formatPhone={this.props.formatPhone}
         phoneNumber={phoneNumber}
@@ -186,6 +191,7 @@ CallCtrlPage.propTypes = {
   getAvatarUrl: PropTypes.func.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
   updateSessionMatchedContact: PropTypes.func.isRequired,
+  backButtonLabel: PropTypes.string,
   brand: PropTypes.string.isRequired,
   showContactDisplayPlaceholder: PropTypes.bool.isRequired,
   flipNumbers: PropTypes.array.isRequired,
@@ -193,6 +199,7 @@ CallCtrlPage.propTypes = {
 
 CallCtrlPage.defaultProps = {
   children: undefined,
+  backButtonLabel: null,
 };
 
 function mapToProps(_, {
@@ -265,6 +272,7 @@ CallCtrlContainer.propTypes = {
   getAvatarUrl: PropTypes.func,
   onBackButtonClick: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
+  backButtonLabel: PropTypes.string,
   children: PropTypes.node,
   showContactDisplayPlaceholder: PropTypes.bool,
 };

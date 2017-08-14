@@ -138,11 +138,13 @@
 .ellipsis {
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden;
   li {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+  }
+  li:hover {
+    cursor: pointer;
   }
 }
 

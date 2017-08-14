@@ -62,8 +62,8 @@ $input-height: 30px;
 }
 
 .backButton {
+  font-size: $primary-font-size;
   color: $lightblack;
-
   .backIcon {
     display: inline-block;
     position: absolute;
@@ -74,7 +74,6 @@ $input-height: 30px;
   .backLabel {
     display: inline-block;
     width: 79px;
-    font-size: 14px;
   }
 }
 .clear {
