@@ -1,5 +1,6 @@
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/fonts.scss';
 
 $avatar-width: 60px;
 
@@ -15,6 +16,7 @@ $avatar-width: 60px;
 }
 
 .backButton {
+  font-size: $primary-font-size;
   color: $lightblack;
   &:hover {
     color: $lightblack;
