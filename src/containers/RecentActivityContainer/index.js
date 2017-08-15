@@ -10,6 +10,7 @@ import FaxIcon from '../../assets/images/Fax.svg';
 import i18n from './i18n';
 
 function getTabs({
+  ready,
   currentLocale,
   dateTimeFormatter,
   navigateTo,
@@ -17,17 +18,21 @@ function getTabs({
   recentCalls,
   currentContact,
 }) {
+  if (!ready) return [];
   let messages = [];
   let calls = [];
   let unreadMessageCounts = 0;
   if (currentContact && currentContact.id) {
     const contactId = currentContact.id;
-    if (recentMessages.messages[contactId])
+    if (recentMessages.messages[contactId]) {
       messages = recentMessages.messages[contactId];
-    if (recentCalls.calls[contactId])
+    }
+    if (recentCalls.calls[contactId]) {
       calls = recentCalls.calls[contactId];
-    if (recentMessages.unreadMessageCounts[contactId])
+    }
+    if (recentMessages.unreadMessageCounts[contactId]) {
       unreadMessageCounts = recentMessages.unreadMessageCounts[contactId];
+    }
   }
   return [
     {
@@ -124,6 +129,7 @@ function mapToProps(_, {
     currentContact,
     calls: recentCalls.calls || [],
     tabs: getTabs({
+      ready,
       currentLocale,
       dateTimeFormatter,
       navigateTo,

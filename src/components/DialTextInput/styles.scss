@@ -13,10 +13,10 @@
   left: 42px;
   display: inline-block;
   border: none;
+  width: calc(100% - 70px);
   input {
     font-size: 15px;
     padding: 0;
-    max-width: 72%;
     color: $primary-neutral-color;
   }
 }
