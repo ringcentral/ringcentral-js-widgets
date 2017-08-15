@@ -8,18 +8,18 @@
 }
 
 .backButton {
+  font-size: $primary-font-size;
   color: $lightblack;
-
   .backIcon {
     display: inline-block;
+    position: absolute;
     transform: rotate(90deg);
-    margin-top: 5px;
-    margin-left: 10px;
+    top: 5px;
+    left: 10px;
   }
   .backLabel {
     display: inline-block;
     width: 79px;
-    font-size: 14px;
   }
 }
 
