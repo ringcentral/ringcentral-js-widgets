@@ -140,17 +140,9 @@ export default class CallingSettingsPanel extends Component {
       className,
       disabled,
     } = this.props;
-    const buttons = [];
     const hasChanges = this.state.callWith !== callWith ||
       this.state.myLocation !== myLocation ||
       this.state.ringoutPrompt !== ringoutPrompt;
-    buttons.push({
-      label: <Revert width="19" className={styles.revertIcon} />,
-      onClick: this.onReset,
-      placement: 'right',
-      hidden: !hasChanges,
-    });
-
     const ringout =
       (
         this.state.callWith !== callingOptions.softphone &&
@@ -200,7 +192,7 @@ export default class CallingSettingsPanel extends Component {
     return (
       <div className={classnames(styles.root, className)}>
         <BackHeader
-          buttons={buttons}
+          buttons={[]}
           onBackClick={onBackButtonClick}
           >
           {i18n.getString('title', currentLocale)}

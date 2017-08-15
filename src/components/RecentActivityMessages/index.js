@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import Spinner from '../Spinner';
@@ -29,33 +29,42 @@ MessageItem.propTypes = {
   dateTimeFormatter: PropTypes.func.isRequired
 };
 
-export default function RecentActivityMessages({
-  currentLocale,
-  messages,
-  isMessagesLoaded,
-  navigateTo,
-  dateTimeFormatter
-}) {
-  let messageListView = null;
-  if (!isMessagesLoaded) {
-    messageListView = (<Spinner className={styles.spinner} ringWidth={4} />);
-  } else if (messages.length > 0) {
-    messageListView = messages.map(message => (
-      <MessageItem
-        key={message.id}
-        message={message}
-        navigateTo={navigateTo}
-        dateTimeFormatter={dateTimeFormatter}
-      />
-    ));
-  } else {
-    messageListView = (<p className={styles.noRecords}>{i18n.getString('noRecords', currentLocale)}</p>);
+export default class RecentActivityMessages extends Component {
+  shouldComponentUpdate(nextProps) {
+    return nextProps.currentLocale !== this.props.currentLocale ||
+      nextProps.messages !== this.props.messages ||
+      nextProps.isMessagesLoaded !== this.props.isMessagesLoaded;
   }
-  return (
-    <div className={styles.messages}>
-      { messageListView }
-    </div>
-  );
+
+  render() {
+    const {
+      currentLocale,
+      messages,
+      isMessagesLoaded,
+      navigateTo,
+      dateTimeFormatter
+    } = this.props;
+    let messageListView = null;
+    if (!isMessagesLoaded) {
+      messageListView = (<Spinner className={styles.spinner} ringWidth={4} />);
+    } else if (messages.length > 0) {
+      messageListView = messages.map(message => (
+        <MessageItem
+          key={message.id}
+          message={message}
+          navigateTo={navigateTo}
+          dateTimeFormatter={dateTimeFormatter}
+        />
+      ));
+    } else {
+      messageListView = (<p className={styles.noRecords}>{i18n.getString('noRecords', currentLocale)}</p>);
+    }
+    return (
+      <div className={styles.messages}>
+        {messageListView}
+      </div>
+    );
+  }
 }
 
 RecentActivityMessages.propTypes = {

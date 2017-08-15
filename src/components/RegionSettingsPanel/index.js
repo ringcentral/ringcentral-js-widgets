@@ -88,17 +88,8 @@ export default class RegionSettings extends Component {
   }
 
   render() {
-    const buttons = [];
     const hasChanges = this.state.areaCodeValue !== this.props.areaCode ||
       this.state.countryCodeValue !== this.props.countryCode;
-    if (this.props.onBackButtonClick) {
-      buttons.push({
-        label: <Revert width="19" className={styles.revertIcon} />,
-        onClick: this.onResetClick,
-        placement: 'right',
-        hidden: !hasChanges,
-      });
-    }
     const hasNA = !!this.props.availableCountries.find(c => c.isoCode === 'US') ||
       !!this.props.availableCountries.find(c => c.isoCode === 'CA');
     let messageId;
@@ -117,7 +108,7 @@ export default class RegionSettings extends Component {
     return (
       <div className={classnames(styles.root, this.props.className)}>
         <BackHeader
-          buttons={buttons}
+          buttons={[]}
           onBackClick={this.onBackClick}
           >
           {i18n.getString('title', this.props.currentLocale)}
