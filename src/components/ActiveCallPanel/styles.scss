@@ -16,8 +16,13 @@ $avatar-width: 60px;
 }
 
 .backButton {
-  font-size: $primary-font-size;
   color: $lightblack;
+  i {
+    font-size: $primary-font-size;
+  }
+  span {
+    font-size: 0.9em;
+  }
   &:hover {
     color: $lightblack;
   }

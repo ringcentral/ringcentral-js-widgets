@@ -4,13 +4,25 @@ import callErrors from 'ringcentral-integration/modules/Call/callErrors';
 import FormattedMessage from '../FormattedMessage';
 import i18n from './i18n';
 
+const TELUS_ID = '7310';
 export default function CallAlert({
   message: {
     message,
+    payload,
   },
+  brand,
   onAreaCodeLinkClick,
   currentLocale,
 }) {
+  // If brand is Telus and special number is 911,
+  // show messages of its own version.
+  if (
+    brand && brand.id === TELUS_ID &&
+    message === callErrors.specialNumber &&
+    payload && payload.phoneNumber === '911'
+  ) {
+    return (<span>{i18n.getString('telus911', currentLocale)}</span>);
+  }
   if (message === callErrors.noAreaCode) {
     const areaCode = i18n.getString('areaCode', currentLocale);
     const areaCodeLink = onAreaCodeLinkClick ?
@@ -40,10 +52,11 @@ CallAlert.propTypes = {
   message: PropTypes.shape({
     message: PropTypes.string.isRequired,
   }).isRequired,
+  brand: PropTypes.object.isRequired,
   currentLocale: PropTypes.string.isRequired,
 };
 CallAlert.defaultProps = {
-  onAreaCodeLinkClick: undefined,
+  onAreaCodeLinkClick: undefined
 };
 
 CallAlert.handleMessage = ({ message }) => (
