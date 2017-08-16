@@ -13,10 +13,10 @@ function CircleButton(props) {
     icon = (
       <Icon
         className={classnames(styles.icon, props.iconClassName)}
-        width={200}
-        height={200}
-        x={150}
-        y={150}
+        width={props.iconWidth}
+        height={props.iconHeight}
+        x={props.iconX}
+        y={props.iconY}
       />
     );
   }
@@ -60,7 +60,11 @@ CircleButton.propTypes = {
   height: PropTypes.string,
   x: PropTypes.number,
   y: PropTypes.number,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  iconWidth: PropTypes.number,
+  iconHeight: PropTypes.number,
+  iconX: PropTypes.number,
+  iconY: PropTypes.number,
 };
 
 CircleButton.defaultProps = {
@@ -74,6 +78,10 @@ CircleButton.defaultProps = {
   height: '100%',
   x: 0,
   y: 0,
+  iconWidth: 200,
+  iconHeight: 200,
+  iconX: 150,
+  iconY: 150,
 };
 
 export default CircleButton;

@@ -7,6 +7,8 @@ import 'rc-tooltip/assets/bootstrap_white.css';
 import ForwardForm from '../ForwardForm';
 import ReplyWithMessage from '../ReplyWithMessage';
 import ActiveCallButton from '../ActiveCallButton';
+import MultiCallAnswerButton from '../MultiCallAnswerButton';
+
 import MessageIcon from '../../assets/images/MessageFill.svg';
 import ForwardIcon from '../../assets/images/Forward.svg';
 import IgnoreIcon from '../../assets/images/Ignore.svg';
@@ -59,7 +61,59 @@ export default class IncomingCallPad extends Component {
       forwardingNumbers,
       formatPhone,
       className,
+      hasOtherActiveCall,
+      answerAndEnd,
+      answerAndHold,
     } = this.props;
+    // const isMultiCall = true;
+    const multiCallButtons = (
+      <div className={classnames(styles.buttonRow, styles.multiCallsButtonGroup)}>
+        <MultiCallAnswerButton
+          onClick={answerAndEnd}
+          title={i18n.getString('answerAndEnd', currentLocale)}
+          className={styles.callButton}
+          isEndOtherCall
+        />
+        <ActiveCallButton
+          onClick={toVoiceMail}
+          title={i18n.getString('toVoicemail', currentLocale)}
+          buttonClassName={styles.rejectButton}
+          icon={VoicemailIcon}
+          iconWidth={274}
+          iconX={116}
+          showBorder={false}
+          className={styles.callButton}
+        />
+        <MultiCallAnswerButton
+          onClick={answerAndHold}
+          title={i18n.getString('answerAndHold', currentLocale)}
+          className={styles.callButton}
+          isEndOtherCall={false}
+        />
+      </div>
+    );
+    const singleCallButtons = (
+      <div className={classnames(styles.buttonRow, styles.answerButtonGroup)}>
+        <ActiveCallButton
+          onClick={toVoiceMail}
+          title={i18n.getString('toVoicemail', currentLocale)}
+          buttonClassName={styles.rejectButton}
+          icon={VoicemailIcon}
+          iconWidth={274}
+          iconX={116}
+          showBorder={false}
+          className={styles.bigCallButton}
+        />
+        <ActiveCallButton
+          onClick={answer}
+          title={i18n.getString('answer', currentLocale)}
+          buttonClassName={styles.answerButton}
+          icon={AnswerIcon}
+          showBorder={false}
+          className={styles.bigCallButton}
+        />
+      </div>
+    );
     return (
       <div className={classnames(styles.root, className)}>
         <div
@@ -97,6 +151,8 @@ export default class IncomingCallPad extends Component {
           >
             <ActiveCallButton
               icon={ForwardIcon}
+              iconWidth={250}
+              iconX={125}
               onClick={() => null}
               title={i18n.getString('forward', currentLocale)}
               className={styles.callButton}
@@ -134,24 +190,7 @@ export default class IncomingCallPad extends Component {
             className={styles.callButton}
           />
         </div>
-        <div className={classnames(styles.buttonRow, styles.answerButtonGroup)}>
-          <ActiveCallButton
-            onClick={toVoiceMail}
-            title={i18n.getString('toVoicemail', currentLocale)}
-            buttonClassName={styles.rejectButton}
-            icon={VoicemailIcon}
-            showBorder={false}
-            className={styles.bigCallButton}
-          />
-          <ActiveCallButton
-            onClick={answer}
-            title={i18n.getString('answer', currentLocale)}
-            buttonClassName={styles.answerButton}
-            icon={AnswerIcon}
-            showBorder={false}
-            className={styles.bigCallButton}
-          />
-        </div>
+        {hasOtherActiveCall ? multiCallButtons : singleCallButtons}
       </div>
     );
   }
@@ -166,10 +205,16 @@ IncomingCallPad.propTypes = {
   formatPhone: PropTypes.func,
   onForward: PropTypes.func.isRequired,
   replyWithMessage: PropTypes.func.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+  answerAndEnd: PropTypes.func,
+  answerAndHold: PropTypes.func,
+  hasOtherActiveCall: PropTypes.bool,
 };
 
 IncomingCallPad.defaultProps = {
   formatPhone: phone => phone,
   className: null,
+  answerAndEnd: () => null,
+  answerAndHold: () => null,
+  hasOtherActiveCall: false,
 };
