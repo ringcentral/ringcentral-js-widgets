@@ -46,6 +46,10 @@ $input-height: 30px;
   width: 33.3%;
   text-align: center;
   padding: 2px;
+
+  text {
+    font-size: 68px;
+  }
 }
 
 .stopButton {
@@ -59,5 +63,5 @@ $input-height: 30px;
 
 .buttonRow {
   text-align: center;
-  height: 35%;
+  height: 22%;
 }

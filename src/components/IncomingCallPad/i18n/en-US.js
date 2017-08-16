@@ -4,4 +4,6 @@ export default {
   ignore: 'Ignore',
   toVoicemail: 'To Voicemail',
   answer: 'Answer',
+  answerAndEnd: 'Answer & End',
+  answerAndHold: 'Answer & Hold',
 };

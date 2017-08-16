@@ -10,6 +10,8 @@
 
 .callButton {
   width: 33.33%;
+  box-sizing: border-box;
+  padding: 0 7px;
 }
 
 .buttonRow {
@@ -18,12 +20,16 @@
 }
 
 .button {
-  width: 17%;
+  width: 17.2%;
+  height: 100%;
   border-radius: 63%;
   margin-left: auto;
   margin-right: auto;
   overflow: hidden;
-  margin-top: 10px;
+
+  text {
+    font-size: 88px;
+  }
 }
 
 .stopButton {
@@ -36,7 +42,7 @@
 }
 
 .callCtrlButtonGroup {
-  height: 60%;
+  height: 70%;
 }
 
 .stopButtonGroup {

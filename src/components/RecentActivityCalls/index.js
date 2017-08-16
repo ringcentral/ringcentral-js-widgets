@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
@@ -56,35 +56,44 @@ CallItem.propTypes = {
   currentLocale: PropTypes.string.isRequired
 };
 
-export default function RecentActivityMessages({
-  currentLocale,
-  calls,
-  isCallsLoaded,
-  dateTimeFormatter
-}) {
-  let callListView = null;
-  if (!isCallsLoaded) {
-    callListView = (<Spinner className={styles.spinner} ringWidth={4} />);
-  } else if (calls.length > 0) {
-    callListView = calls.map(call => (
-      <CallItem
-        key={call.id}
-        call={call}
-        currentLocale={currentLocale}
-        dateTimeFormatter={dateTimeFormatter}
-      />
-    ));
-  } else {
-    callListView = (<p className={styles.noRecords}>{i18n.getString('noRecords', currentLocale)}</p>);
+export default class RecentActivityCalls extends Component {
+  shouldComponentUpdate(nextProps) {
+    return nextProps.currentLocale !== this.props.currentLocale ||
+      nextProps.calls !== this.props.calls ||
+      nextProps.isCallsLoaded !== this.props.isCallsLoaded;
   }
-  return (
-    <div className={styles.calls}>
-      { callListView }
-    </div>
-  );
+
+  render() {
+    const {
+      currentLocale,
+      calls,
+      isCallsLoaded,
+      dateTimeFormatter
+    } = this.props;
+    let callListView = null;
+    if (!isCallsLoaded) {
+      callListView = (<Spinner className={styles.spinner} ringWidth={4} />);
+    } else if (calls.length > 0) {
+      callListView = calls.map(call => (
+        <CallItem
+          key={call.id}
+          call={call}
+          currentLocale={currentLocale}
+          dateTimeFormatter={dateTimeFormatter}
+        />
+      ));
+    } else {
+      callListView = (<p className={styles.noRecords}>{i18n.getString('noRecords', currentLocale)}</p>);
+    }
+    return (
+      <div className={styles.calls}>
+        {callListView}
+      </div>
+    );
+  }
 }
 
-RecentActivityMessages.propTypes = {
+RecentActivityCalls.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   calls: PropTypes.array.isRequired,
   isCallsLoaded: PropTypes.bool.isRequired,

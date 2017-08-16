@@ -116,6 +116,8 @@ export default function ActiveCallPad(props) {
             onClick={props.hangup}
             icon={EndIcon}
             showBorder={false}
+            iconWidth={250}
+            iconX={125}
           />
         </div>
       </div>
