@@ -8,9 +8,7 @@ const TELUS_ID = '7310';
 export default function CallAlert({
   message: {
     message,
-    payload: {
-      phoneNumber
-    }
+    payload,
   },
   brand,
   onAreaCodeLinkClick,
@@ -19,10 +17,9 @@ export default function CallAlert({
   // If brand is Telus and special number is 911,
   // show messages of its own version.
   if (
-    brand &&
-    brand.id === TELUS_ID &&
+    brand && brand.id === TELUS_ID &&
     message === callErrors.specialNumber &&
-    phoneNumber === '911'
+    payload && payload.phoneNumber === '911'
   ) {
     return (<span>{i18n.getString('telus911', currentLocale)}</span>);
   }
