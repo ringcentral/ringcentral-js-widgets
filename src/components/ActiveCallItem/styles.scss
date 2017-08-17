@@ -18,18 +18,6 @@
   @include secondary-font;
 }
 
-.actionMenu {
-  display: block;
-  position: relative;
-  height: 0;
-  overflow: hidden;
-  transition: height 1s;
-
-  &.extended {
-    height: 30px;
-  }
-}
-
 .callIcon {
   display: block;
   position: absolute;
@@ -127,6 +115,7 @@
 }
 
 .callDetail {
+  font-size: 12px;
   position: absolute;
   top: 30px;
   left: 45px;
@@ -140,28 +129,6 @@
   }
 }
 
-.sms {
-  font-size: 17px;
-  position: absolute;
-  bottom: 10px;
-  color: $primary-color;
-}
-
-.smsButton {
-  left: 20px;
-}
-
-.addContact {
-  font-size: 17px;
-  position: absolute;
-  bottom: 11px;
-  color: $primary-color;
-}
-
-.addContactButton {
-  left: 70px;
-}
-
 .extendIcon {
   position: absolute;
   top: 100%;
@@ -173,6 +140,7 @@
   width: 28px;
   height: 0;
   margin-left: -14px;
+  cursor: pointer;
 
   .extendInner {
     position: absolute;
@@ -193,5 +161,14 @@
     width: 6px;
     height: 1px;
     background: #e2e2e2;
+  }
+}
+
+.actionMenu {
+  height: 0;
+  transition: height 1s;
+
+  &.extended {
+    height: 30px;
   }
 }

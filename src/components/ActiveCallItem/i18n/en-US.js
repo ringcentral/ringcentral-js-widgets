@@ -14,6 +14,7 @@ export default {
   addLog: 'Log',
   text: 'Text',
   call: 'Call',
+  addContact: 'Add Contact',
   missedCall: 'Missed',
   inboundCall: 'Inbound',
   outboundCall: 'Outbound',

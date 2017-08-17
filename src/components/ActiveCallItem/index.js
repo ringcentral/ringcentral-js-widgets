@@ -3,15 +3,13 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 import callDirections from 'ringcentral-integration/enums/callDirections';
-import {
-  isInbound,
-  isRinging,
-  isMissed,
-} from 'ringcentral-integration/lib/callLogHelpers';
+import { isInbound, isRinging } from 'ringcentral-integration/lib/callLogHelpers';
+import parseNumber from 'ringcentral-integration/lib/parseNumber';
+
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DurationCounter from '../DurationCounter';
 import ContactDisplay from '../ContactDisplay';
-import Button from '../Button';
+import ActiveCallActionMenu from '../ActiveCallActionMenu';
 import CircleButton from '../CircleButton';
 import EndIcon from '../../assets/images/End.svg';
 import AnswerIcon from '../../assets/images/Answer.svg';
@@ -23,28 +21,22 @@ import i18n from './i18n';
 const callIconMap = {
   [callDirections.inbound]: dynamicsFont.inbound,
   [callDirections.outbound]: dynamicsFont.outbound,
-  missed: dynamicsFont.missed,
 };
 
 function CallIcon({
   direction,
-  missed,
-  active,
   ringing,
   inboundTitle,
   outboundTitle,
-  missedTitle,
 }) {
-  const title = missed ? missedTitle :
-    ((direction === callDirections.inbound) ? inboundTitle : outboundTitle);
+  const title = (direction === callDirections.inbound) ? inboundTitle : outboundTitle;
   return (
     <div className={styles.callIcon}>
       <span
         className={classnames(
-          missed ? callIconMap.missed : callIconMap[direction],
-          active && styles.activeCall,
+          callIconMap[direction],
+          styles.activeCall,
           ringing && styles.ringing,
-          missed && styles.missed,
         )}
         title={title}
       />
@@ -54,75 +46,17 @@ function CallIcon({
 
 CallIcon.propTypes = {
   direction: PropTypes.string.isRequired,
-  missed: PropTypes.bool,
-  active: PropTypes.bool,
   ringing: PropTypes.bool,
   inboundTitle: PropTypes.string,
   outboundTitle: PropTypes.string,
-  missedTitle: PropTypes.string,
 };
 
 CallIcon.defaultProps = {
-  missed: false,
-  active: false,
   ringing: false,
   inboundTitle: undefined,
   outboundTitle: undefined,
   missedTitle: undefined,
 };
-
-function ClickToSmsButton({
-  className,
-  onClickToSms,
-  disableLinks,
-  phoneNumber,
-  title,
-}) {
-  return (
-    <Button
-      className={classnames(styles.sms, className)}
-      onClick={onClickToSms}
-      disabled={disableLinks || !phoneNumber} >
-      <span
-        className={dynamicsFont.composeText}
-        title={title}
-      />
-    </Button>
-  );
-}
-
-ClickToSmsButton.propTypes = {
-  className: PropTypes.string,
-  onClickToSms: PropTypes.func,
-  disableLinks: PropTypes.bool,
-  phoneNumber: PropTypes.string,
-};
-ClickToSmsButton.defaultProps = {
-  className: undefined,
-  onClickToSms: undefined,
-  disableLinks: false,
-  phoneNumber: undefined,
-};
-
-function AddContactButton({
-  className,
-  onAddContact,
-  disableLinks,
-  phoneNumber,
-  title,
-}) {
-  return (
-    <Button
-      className={classnames(styles.addContact, className)}
-      onClick={onAddContact}
-      disabled={disableLinks || !phoneNumber} >
-      <span
-        className={dynamicsFont.add2}
-        title={title}
-      />
-    </Button>
-  );
-}
 
 function ExtendIcon() {
   return (
@@ -140,6 +74,7 @@ export default class ActiveCallItem extends Component {
       selected: 0,
       isLogging: false,
       extended: false,
+      isCreating: false,
     };
     this._userSelection = false;
 
@@ -151,7 +86,15 @@ export default class ActiveCallItem extends Component {
     };
   }
 
-  onSelectContact = (value, idx) => {
+  componentDidMount() {
+    this._mounted = true;
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
+  }
+
+  onSelectContact = (value) => {
     const nameMatches = this.getContactMatches();
     const selected = nameMatches.findIndex(
       match => match.id === value.id
@@ -286,10 +229,87 @@ export default class ActiveCallItem extends Component {
     );
   }
 
+  clickToSms = () => {
+    if (this.props.onClickToSms) {
+      const phoneNumber = this.getPhoneNumber();
+      const contact = this.getSelectedContact();
+      if (contact) {
+        this.props.onClickToSms({
+          ...contact,
+          phoneNumber,
+        });
+      } else {
+        const formatted = this.props.formatPhone(phoneNumber);
+        this.props.onClickToSms({
+          name: this.props.enableContactFallback ? this.getFallbackContactName() : formatted,
+          phoneNumber,
+        }, true);
+      }
+    }
+  }
+
+  createSelectedContact = async (entityType) => {
+    // console.log('click createSelectedContact!!', entityType);
+    if (typeof this.props.onCreateContact === 'function' &&
+      this._mounted &&
+      !this.state.isCreating) {
+      this.setState({
+        isCreating: true,
+      });
+      // console.log('start to create: isCreating...', this.state.isCreating);
+      const phoneNumber = this.getPhoneNumber();
+      await this.props.onCreateContact({
+        phoneNumber,
+        name: this.props.enableContactFallback ? this.getFallbackContactName() : '',
+        entityType,
+      });
+
+      if (this._mounted) {
+        this.setState({
+          isCreating: false,
+        });
+        // console.log('created: isCreating...', this.state.isCreating);
+      }
+    }
+  }
+
+  viewSelectedContact = () => {
+    if (typeof this.props.onViewContact === 'function') {
+      this.props.onViewContact({
+        phoneNumber: this.getPhoneNumber(),
+        contact: this.getSelectedContact(),
+      });
+    }
+  }
+
+  async logCall({ redirect = true, selected }) {
+    if (
+      typeof this.props.onLogCall === 'function' &&
+      this._mounted &&
+      !this.state.isLogging
+    ) {
+      this.setState({
+        isLogging: true,
+      });
+      await this.props.onLogCall({
+        contact: this.getSelectedContact(selected),
+        call: this.props.call,
+        redirect,
+      });
+      if (this._mounted) {
+        this.setState({
+          isLogging: false,
+        });
+      }
+    }
+  }
+  logCall = this.logCall.bind(this)
+
   render() {
     const {
       call: {
         direction,
+        activityMatches,
       },
       disableLinks,
       currentLocale,
@@ -301,8 +321,23 @@ export default class ActiveCallItem extends Component {
       isLogging,
       brand,
       showContactDisplayPlaceholder,
+      onClickToSms,
+      onViewContact,
+      onCreateContact,
+      onLogCall,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
+    const parsedInfo = parseNumber(phoneNumber);
+    const isExtension = !parsedInfo.hasPlus &&
+      parsedInfo.number.length <= 6;
+    const showClickToSms = !!(
+      onClickToSms &&
+      (
+        isExtension ?
+          internalSmsPermission :
+          outboundSmsPermission
+      )
+    );
     const contactMatches = this.getContactMatches();
     const fallbackContactName = this.getFallbackContactName();
     const ringing = isRinging(this.props.call);
@@ -342,23 +377,32 @@ export default class ActiveCallItem extends Component {
           {callDetail}
           {webphoneEl}
         </div>
-        <div
+        <ActiveCallActionMenu
+          currentLocale={currentLocale}
           className={classnames(
             styles.actionMenu,
             this.state.extended ? styles.extended : null
           )}
-        >
-          <ClickToSmsButton
-            className={styles.smsButton}
-            disableLinks={disableLinks}
-            phoneNumber={phoneNumber}
-          />
-          <AddContactButton
-            className={styles.addContactButton}
-            disableLinks={disableLinks}
-            phoneNumber={phoneNumber}
-          />
-        </div>
+          disableLinks={disableLinks}
+          phoneNumber={phoneNumber}
+          onClickToSms={
+            showClickToSms ?
+              () => this.clickToSms({ countryCode, areaCode })
+              : undefined
+          }
+          hasEntity={!!contactMatches.length}
+          onViewEntity={onViewContact && this.viewSelectedContact}
+          onCreateEntity={onCreateContact && this.createSelectedContact}
+          textTitle={i18n.getString('text', currentLocale)}
+          onLog={onLogCall}
+          isLogging={isLogging || this.state.isLogging}
+          isLogged={activityMatches.length > 0}
+          isCreating={this.state.isCreating}
+          addLogTitle={i18n.getString('addLog', currentLocale)}
+          editLogTitle={i18n.getString('editLog', currentLocale)}
+          createEntityTitle={i18n.getString('addEntity', currentLocale)}
+          viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
+        />
         <ExtendIcon />
       </div>
     );
@@ -403,11 +447,14 @@ ActiveCallItem.propTypes = {
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
   formatPhone: PropTypes.func.isRequired,
+  onClickToSms: PropTypes.func,
+  onCreateContact: PropTypes.func,
+  onLogCall: PropTypes.func,
+  onViewContact: PropTypes.func,
 };
 
 ActiveCallItem.defaultProps = {
   onLogCall: undefined,
-  onClickToDial: undefined,
   onClickToSms: undefined,
   onViewContact: undefined,
   onCreateContact: undefined,
