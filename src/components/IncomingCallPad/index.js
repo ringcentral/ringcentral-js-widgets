@@ -26,6 +26,8 @@ export default class IncomingCallPad extends Component {
       forwardNumber: '',
       replyMessage: null,
       showReplyWithMessage: false,
+      toVoiceMailEnabled: true,
+      replyMessageEnabled: true,
     };
     this.onShowForwardChange = (visible) => {
       this.setState({
@@ -49,6 +51,28 @@ export default class IncomingCallPad extends Component {
     };
     this.closeReplyWithMessage = () => {
       this.onShowReplyWithMessageChange(false);
+    };
+    this.toVoiceMail = () => {
+      this.props.toVoiceMail();
+      if (this.props.toVoiceMail) {
+        this.setState({
+          toVoiceMailEnabled: false
+        });
+        setTimeout(() => {
+          this.props.reject();
+        }, 3000);
+      }
+    };
+    this.replyWithMessage = (value) => {
+      this.props.replyWithMessage(value);
+      if (this.props.replyWithMessage) {
+        this.setState({
+          replyMessageEnabled: false
+        });
+        setTimeout(() => {
+          this.props.reject();
+        }, 3000);
+      }
     };
   }
 
@@ -75,14 +99,15 @@ export default class IncomingCallPad extends Component {
           isEndOtherCall
         />
         <ActiveCallButton
-          onClick={toVoiceMail}
+          onClick={this.state.toVoiceMailEnabled ? this.toVoiceMail : () => {}}
           title={i18n.getString('toVoicemail', currentLocale)}
-          buttonClassName={styles.rejectButton}
+          buttonClassName={this.state.toVoiceMailEnabled ? styles.rejectButton : ''}
           icon={VoicemailIcon}
           iconWidth={274}
           iconX={116}
-          showBorder={false}
+          showBorder={!this.state.toVoiceMailEnabled}
           className={styles.callButton}
+          disabled={!this.state.toVoiceMailEnabled}
         />
         <MultiCallAnswerButton
           onClick={answerAndHold}
@@ -95,14 +120,15 @@ export default class IncomingCallPad extends Component {
     const singleCallButtons = (
       <div className={classnames(styles.buttonRow, styles.answerButtonGroup)}>
         <ActiveCallButton
-          onClick={toVoiceMail}
+          onClick={this.state.toVoiceMailEnabled ? this.toVoiceMail : () => {}}
           title={i18n.getString('toVoicemail', currentLocale)}
-          buttonClassName={styles.rejectButton}
+          buttonClassName={this.state.toVoiceMailEnabled ? styles.rejectButton : ''}
           icon={VoicemailIcon}
           iconWidth={274}
           iconX={116}
-          showBorder={false}
+          showBorder={!this.state.toVoiceMailEnabled}
           className={styles.bigCallButton}
+          disabled={!this.state.toVoiceMailEnabled}
         />
         <ActiveCallButton
           onClick={answer}
@@ -172,7 +198,8 @@ export default class IncomingCallPad extends Component {
                 onCancel={this.closeReplyWithMessage}
                 value={this.state.replyMessage}
                 onChange={this.onReplyMessageChange}
-                onReply={this.props.replyWithMessage}
+                onReply={this.state.replyMessageEnabled ? this.replyWithMessage : () => {}}
+                disabled={!this.state.replyMessageEnabled}
               />
             }
           >
