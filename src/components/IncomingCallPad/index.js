@@ -58,7 +58,7 @@ export default class IncomingCallPad extends Component {
         this.setState({
           toVoiceMailEnabled: false
         });
-        setTimeout(() => {
+        this.timeout = setTimeout(() => {
           this.props.reject();
         }, 3000);
       }
@@ -69,18 +69,30 @@ export default class IncomingCallPad extends Component {
         this.setState({
           replyMessageEnabled: false
         });
-        setTimeout(() => {
+        this.timeout = setTimeout(() => {
           this.props.reject();
         }, 3000);
       }
     };
   }
-
+  componentWillReceiveProps(newProps) {
+    if (this.props.sessionId !== newProps.sessionId) {
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+        this.timeout = null;
+      }
+    }
+  }
+  componentWillUnmount() {
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+      this.timeout = null;
+    }
+  }
   render() {
     const {
       currentLocale,
       reject,
-      toVoiceMail,
       answer,
       forwardingNumbers,
       formatPhone,
@@ -236,6 +248,7 @@ IncomingCallPad.propTypes = {
   answerAndEnd: PropTypes.func,
   answerAndHold: PropTypes.func,
   hasOtherActiveCall: PropTypes.bool,
+  sessionId: PropTypes.string.isRequired,
 };
 
 IncomingCallPad.defaultProps = {
