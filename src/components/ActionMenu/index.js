@@ -161,6 +161,7 @@ export default class ActionMenu extends Component {
 
   render() {
     const {
+      reference,
       className,
       currentLocale,
       onLog,
@@ -261,6 +262,7 @@ export default class ActionMenu extends Component {
       // slide menu
       return (
         <div
+          ref={reference}
           onClick={this.captureClick}>
           <SlideMenu
             className={classnames(styles.root, className)}
@@ -285,6 +287,7 @@ export default class ActionMenu extends Component {
     // no slide menu
     return (
       <div
+        ref={reference}
         onClick={this.captureClick} >
         <div className={classnames(styles.root, className)}>
           {clickToDialButton}
@@ -299,6 +302,7 @@ export default class ActionMenu extends Component {
 }
 
 ActionMenu.propTypes = {
+  reference: PropTypes.func,
   className: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
   onLog: PropTypes.func,
@@ -323,6 +327,7 @@ ActionMenu.propTypes = {
   viewEntityTitle: PropTypes.string,
 };
 ActionMenu.defaultProps = {
+  reference: undefined,
   className: undefined,
   onLog: undefined,
   isLogged: false,

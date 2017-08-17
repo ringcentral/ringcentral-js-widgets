@@ -182,6 +182,12 @@ export default class MessageItem extends Component {
     //   delete e.captureClick;
     //   return;
     // }
+    if (
+      this.contactDisplay.contains(e.target) ||
+      this.actionMenu.contains(e.target)
+    ) {
+      return;
+    }
     this.props.showConversationDetail(this.props.conversation.conversationId);
   }
 
@@ -227,6 +233,7 @@ export default class MessageItem extends Component {
           groupConversationTitle={i18n.getString('groupConversation', currentLocale)}
         />
         <ContactDisplay
+          reference={(ref) => { this.contactDisplay = ref; }}
           className={classnames(
             styles.contactDisplay,
             unreadCounts && styles.unread
@@ -243,11 +250,13 @@ export default class MessageItem extends Component {
           groupNumbers={groupNumbers}
           currentLocale={currentLocale}
           enableContactFallback={enableContactFallback}
+          stopPropagation={false}
         />
         <div className={styles.details}>
           {dateTimeFormatter({ utcTimestamp: creationTime })} | {subject}
         </div>
         <ActionMenu
+          reference={(ref) => { this.actionMenu = ref; }}
           currentLocale={currentLocale}
           onLog={onLogConversation && this.logConversation}
           onViewEntity={onViewContact && this.viewSelectedContact}
@@ -265,7 +274,7 @@ export default class MessageItem extends Component {
           callTitle={i18n.getString('call', currentLocale)}
           createEntityTitle={i18n.getString('addEntity', currentLocale)}
           viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
-          stopPropagation
+          stopPropagation={false}
         />
       </div>
     );
