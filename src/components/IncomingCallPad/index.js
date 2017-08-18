@@ -58,7 +58,7 @@ export default class IncomingCallPad extends Component {
         this.setState({
           toVoiceMailEnabled: false
         });
-        this.timeout = setTimeout(() => {
+        this.voicemailTimeout = setTimeout(() => {
           this.props.reject();
         }, 3000);
       }
@@ -69,7 +69,7 @@ export default class IncomingCallPad extends Component {
         this.setState({
           replyMessageEnabled: false
         });
-        this.timeout = setTimeout(() => {
+        this.replyTimeout = setTimeout(() => {
           this.props.reject();
         }, 3000);
       }
@@ -77,16 +77,24 @@ export default class IncomingCallPad extends Component {
   }
   componentWillReceiveProps(newProps) {
     if (this.props.sessionId !== newProps.sessionId) {
-      if (this.timeout) {
-        clearTimeout(this.timeout);
-        this.timeout = null;
+      if (this.replyTimeout) {
+        clearTimeout(this.replyTimeout);
+        this.replyTimeout = null;
+      }
+      if (this.voicemailTimeout) {
+        clearTimeout(this.voicemailTimeout);
+        this.voicemailTimeout = null;
       }
     }
   }
   componentWillUnmount() {
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-      this.timeout = null;
+    if (this.replyTimeout) {
+      clearTimeout(this.replyTimeout);
+      this.replyTimeout = null;
+    }
+    if (this.voicemailTimeout) {
+      clearTimeout(this.voicemailTimeout);
+      this.voicemailTimeout = null;
     }
   }
   render() {
