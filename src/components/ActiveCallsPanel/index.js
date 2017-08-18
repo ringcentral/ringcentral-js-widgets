@@ -159,104 +159,38 @@ export default function ActiveCallsPanel({
       </div>
     );
   }
+  const getCallList = (calls, title) => (
+    <ActiveCallList
+      title={title}
+      calls={calls}
+      currentLocale={currentLocale}
+      areaCode={areaCode}
+      countryCode={countryCode}
+      brand={brand}
+      showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+      formatPhone={formatPhone}
+      onClickToSms={onClickToSms}
+      onCreateContact={onCreateContact}
+      onViewContact={onViewContact}
+      outboundSmsPermission={outboundSmsPermission}
+      internalSmsPermission={internalSmsPermission}
+      isLoggedContact={isLoggedContact}
+      onLogCall={onLogCall}
+      autoLog={autoLog}
+      loggingMap={loggingMap}
+      webphoneAnswer={webphoneAnswer}
+      webphoneReject={webphoneReject}
+      webphoneHangup={webphoneHangup}
+      webphoneResume={webphoneResume}
+      enableContactFallback={enableContactFallback}
+    />
+  );
   return (
     <div className={classnames(styles.root, className)}>
-      <ActiveCallList
-        title={i18n.getString('ringCall', currentLocale)}
-        calls={activeRingCalls}
-        currentLocale={currentLocale}
-        areaCode={areaCode}
-        countryCode={countryCode}
-        brand={brand}
-        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-        formatPhone={formatPhone}
-        onClickToSms={onClickToSms}
-        onCreateContact={onCreateContact}
-        onViewContact={onViewContact}
-        outboundSmsPermission={outboundSmsPermission}
-        internalSmsPermission={internalSmsPermission}
-        isLoggedContact={isLoggedContact}
-        onLogCall={onLogCall}
-        autoLog={autoLog}
-        loggingMap={loggingMap}
-        webphoneAnswer={webphoneAnswer}
-        webphoneReject={webphoneReject}
-        webphoneHangup={webphoneHangup}
-        webphoneResume={webphoneResume}
-        enableContactFallback={enableContactFallback}
-      />
-      <ActiveCallList
-        title={i18n.getString('currentCall', currentLocale)}
-        calls={activeCurrentCalls}
-        currentLocale={currentLocale}
-        areaCode={areaCode}
-        countryCode={countryCode}
-        brand={brand}
-        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-        formatPhone={formatPhone}
-        onClickToSms={onClickToSms}
-        onCreateContact={onCreateContact}
-        onViewContact={onViewContact}
-        outboundSmsPermission={outboundSmsPermission}
-        internalSmsPermission={internalSmsPermission}
-        isLoggedContact={isLoggedContact}
-        onLogCall={onLogCall}
-        autoLog={autoLog}
-        loggingMap={loggingMap}
-        webphoneAnswer={webphoneAnswer}
-        webphoneReject={webphoneReject}
-        webphoneHangup={webphoneHangup}
-        webphoneResume={webphoneResume}
-        enableContactFallback={enableContactFallback}
-      />
-      <ActiveCallList
-        title={i18n.getString('onHoldCall', currentLocale)}
-        calls={activeOnHoldCalls}
-        currentLocale={currentLocale}
-        areaCode={areaCode}
-        countryCode={countryCode}
-        brand={brand}
-        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-        formatPhone={formatPhone}
-        onClickToSms={onClickToSms}
-        onCreateContact={onCreateContact}
-        onViewContact={onViewContact}
-        outboundSmsPermission={outboundSmsPermission}
-        internalSmsPermission={internalSmsPermission}
-        isLoggedContact={isLoggedContact}
-        onLogCall={onLogCall}
-        autoLog={autoLog}
-        loggingMap={loggingMap}
-        webphoneAnswer={webphoneAnswer}
-        webphoneReject={webphoneReject}
-        webphoneHangup={webphoneHangup}
-        webphoneResume={webphoneResume}
-        enableContactFallback={enableContactFallback}
-      />
-      <ActiveCallList
-        title={i18n.getString('otherDeviceCall', currentLocale)}
-        calls={otherDeviceCalls}
-        currentLocale={currentLocale}
-        areaCode={areaCode}
-        countryCode={countryCode}
-        brand={brand}
-        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
-        formatPhone={formatPhone}
-        onClickToSms={onClickToSms}
-        onCreateContact={onCreateContact}
-        onViewContact={onViewContact}
-        outboundSmsPermission={outboundSmsPermission}
-        internalSmsPermission={internalSmsPermission}
-        isLoggedContact={isLoggedContact}
-        onLogCall={onLogCall}
-        autoLog={autoLog}
-        loggingMap={loggingMap}
-        webphoneAnswer={webphoneAnswer}
-        webphoneReject={webphoneReject}
-        webphoneHangup={webphoneHangup}
-        webphoneResume={webphoneResume}
-        enableContactFallback={enableContactFallback}
-      />
+      {getCallList(activeRingCalls, i18n.getString('ringCall', currentLocale))}
+      {getCallList(activeCurrentCalls, i18n.getString('currentCall', currentLocale))}
+      {getCallList(activeOnHoldCalls, i18n.getString('onHoldCall', currentLocale))}
+      {getCallList(otherDeviceCalls, i18n.getString('otherDeviceCall', currentLocale))}
     </div>
   );
 }
