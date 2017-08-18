@@ -60,11 +60,11 @@ function mapToFunctions(_, {
     webphoneAnswer: (...args) => (webphone && webphone.answer(...args)),
     webphoneReject: (...args) => (webphone && webphone.toVoiceMail(...args)),
     webphoneHangup: (...args) => (webphone && webphone.hangup(...args)),
-    webphoneResume: (...args) => {
+    webphoneResume: async (...args) => {
       if (!webphone) {
         return;
       }
-      webphone.resume(...args);
+      await webphone.resume(...args);
       if (router.currentPath !== callCtrlRoute) {
         router.push(callCtrlRoute);
       }
