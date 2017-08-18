@@ -249,7 +249,7 @@ export default class ReplyWithMessage extends Component {
             className={
               classnames(styles.replyButton, disableButton ? styles.disabled : null)
             }
-            onClick={this.onReply}
+            onClick={this.props.disabled ? () => {} : this.onReply}
             disabled={disableButton}
           >
             <span className={styles.buttonText}>
