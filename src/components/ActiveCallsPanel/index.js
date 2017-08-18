@@ -13,7 +13,6 @@ function ActiveCallList({
   currentLocale,
   areaCode,
   countryCode,
-  dateTimeFormatter,
   brand,
   showContactDisplayPlaceholder,
   formatPhone,
@@ -31,9 +30,16 @@ function ActiveCallList({
   webphoneHangup,
   webphoneResume,
   enableContactFallback,
+  title,
 }) {
+  if (calls.length === 0) {
+    return null;
+  }
   return (
     <div className={classnames(styles.list, className)}>
+      <div className={styles.listTitle}>
+        {title}
+      </div>
       {
         calls.map(call => (
           <ActiveCallItem
@@ -42,7 +48,6 @@ function ActiveCallList({
             currentLocale={currentLocale}
             areaCode={areaCode}
             countryCode={countryCode}
-            dateTimeFormatter={dateTimeFormatter}
             brand={brand}
             showContactDisplayPlaceholder={showContactDisplayPlaceholder}
             formatPhone={formatPhone}
@@ -70,12 +75,12 @@ function ActiveCallList({
 ActiveCallList.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   className: PropTypes.string,
+  title: PropTypes.string.isRequired,
   calls: PropTypes.array.isRequired,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
-  dateTimeFormatter: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
   onClickToSms: PropTypes.func,
   onCreateContact: PropTypes.func,
@@ -114,13 +119,16 @@ ActiveCallList.defaultProps = {
 };
 
 export default function ActiveCallsPanel({
-  calls,
+  hasCalls,
+  activeRingCalls,
+  activeOnHoldCalls,
+  activeCurrentCalls,
+  otherDeviceCalls,
   showSpinner,
   className,
   currentLocale,
   areaCode,
   countryCode,
-  dateTimeFormatter,
   brand,
   showContactDisplayPlaceholder,
   formatPhone,
@@ -142,7 +150,7 @@ export default function ActiveCallsPanel({
   if (showSpinner) {
     return (<SpinnerOverlay />);
   }
-  if (calls.length === 0) {
+  if (!hasCalls) {
     return (
       <div className={classnames(styles.root, className)}>
         <p className={styles.noCalls}>
@@ -153,15 +161,84 @@ export default function ActiveCallsPanel({
   }
   return (
     <div className={classnames(styles.root, className)}>
-      <div className={styles.listTitle}>
-        {i18n.getString('currentCall', currentLocale)}
-      </div>
       <ActiveCallList
-        calls={calls}
+        title={i18n.getString('ringCall', currentLocale)}
+        calls={activeRingCalls}
         currentLocale={currentLocale}
         areaCode={areaCode}
         countryCode={countryCode}
-        dateTimeFormatter={dateTimeFormatter}
+        brand={brand}
+        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+        formatPhone={formatPhone}
+        onClickToSms={onClickToSms}
+        onCreateContact={onCreateContact}
+        onViewContact={onViewContact}
+        outboundSmsPermission={outboundSmsPermission}
+        internalSmsPermission={internalSmsPermission}
+        isLoggedContact={isLoggedContact}
+        onLogCall={onLogCall}
+        autoLog={autoLog}
+        loggingMap={loggingMap}
+        webphoneAnswer={webphoneAnswer}
+        webphoneReject={webphoneReject}
+        webphoneHangup={webphoneHangup}
+        webphoneResume={webphoneResume}
+        enableContactFallback={enableContactFallback}
+      />
+      <ActiveCallList
+        title={i18n.getString('currentCall', currentLocale)}
+        calls={activeCurrentCalls}
+        currentLocale={currentLocale}
+        areaCode={areaCode}
+        countryCode={countryCode}
+        brand={brand}
+        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+        formatPhone={formatPhone}
+        onClickToSms={onClickToSms}
+        onCreateContact={onCreateContact}
+        onViewContact={onViewContact}
+        outboundSmsPermission={outboundSmsPermission}
+        internalSmsPermission={internalSmsPermission}
+        isLoggedContact={isLoggedContact}
+        onLogCall={onLogCall}
+        autoLog={autoLog}
+        loggingMap={loggingMap}
+        webphoneAnswer={webphoneAnswer}
+        webphoneReject={webphoneReject}
+        webphoneHangup={webphoneHangup}
+        webphoneResume={webphoneResume}
+        enableContactFallback={enableContactFallback}
+      />
+      <ActiveCallList
+        title={i18n.getString('onHoldCall', currentLocale)}
+        calls={activeOnHoldCalls}
+        currentLocale={currentLocale}
+        areaCode={areaCode}
+        countryCode={countryCode}
+        brand={brand}
+        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+        formatPhone={formatPhone}
+        onClickToSms={onClickToSms}
+        onCreateContact={onCreateContact}
+        onViewContact={onViewContact}
+        outboundSmsPermission={outboundSmsPermission}
+        internalSmsPermission={internalSmsPermission}
+        isLoggedContact={isLoggedContact}
+        onLogCall={onLogCall}
+        autoLog={autoLog}
+        loggingMap={loggingMap}
+        webphoneAnswer={webphoneAnswer}
+        webphoneReject={webphoneReject}
+        webphoneHangup={webphoneHangup}
+        webphoneResume={webphoneResume}
+        enableContactFallback={enableContactFallback}
+      />
+      <ActiveCallList
+        title={i18n.getString('otherDeviceCall', currentLocale)}
+        calls={otherDeviceCalls}
+        currentLocale={currentLocale}
+        areaCode={areaCode}
+        countryCode={countryCode}
         brand={brand}
         showContactDisplayPlaceholder={showContactDisplayPlaceholder}
         formatPhone={formatPhone}
@@ -185,15 +262,18 @@ export default function ActiveCallsPanel({
 }
 
 ActiveCallsPanel.propTypes = {
+  hasCalls: PropTypes.bool.isRequired,
   currentLocale: PropTypes.string.isRequired,
   className: PropTypes.string,
-  calls: PropTypes.array.isRequired,
+  activeRingCalls: PropTypes.array.isRequired,
+  activeOnHoldCalls: PropTypes.array.isRequired,
+  activeCurrentCalls: PropTypes.array.isRequired,
+  otherDeviceCalls: PropTypes.array.isRequired,
   showSpinner: PropTypes.bool.isRequired,
   areaCode: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
-  dateTimeFormatter: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
   onClickToSms: PropTypes.func,
   onCreateContact: PropTypes.func,

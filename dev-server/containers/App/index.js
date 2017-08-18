@@ -197,13 +197,14 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   connectivityMonitor={phone.connectivityMonitor}
                   rateLimiter={phone.rateLimiter}
-                  dateTimeFormat={phone.dateTimeFormat}
                   onLogCall={async () => { await sleep(1000); }}
                   onViewContact={() => { }}
+                  onCreateContact={() => { }}
                   router={phone.router}
                   composeText={phone.composeText}
                   rolesAndPermissions={phone.rolesAndPermissions}
                   webphone={phone.webphone}
+                  brand={phone.brand}
                 />
               )} />
             <Route

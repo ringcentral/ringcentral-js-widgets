@@ -65,6 +65,7 @@ class CallCtrlPage extends Component {
   }
 
   componentDidMount() {
+    this._mounted = true;
     this._updateAvatarAndMatchIndex(this.props);
   }
 
@@ -72,6 +73,10 @@ class CallCtrlPage extends Component {
     if (this.props.session.id !== nextProps.session.id) {
       this._updateAvatarAndMatchIndex(nextProps);
     }
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
   }
 
   _updateAvatarAndMatchIndex(props) {
@@ -90,6 +95,9 @@ class CallCtrlPage extends Component {
     });
     if (contact) {
       props.getAvatarUrl(contact).then((avatarUrl) => {
+        if (!this._mounted) {
+          return;
+        }
         this.setState({ avatarUrl });
       });
     }

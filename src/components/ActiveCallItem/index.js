@@ -13,6 +13,7 @@ import ActiveCallActionMenu from '../ActiveCallActionMenu';
 import CircleButton from '../CircleButton';
 import EndIcon from '../../assets/images/End.svg';
 import AnswerIcon from '../../assets/images/Answer.svg';
+import VoicemailIcon from '../../assets/images/Voicemail.svg';
 
 import styles from './styles.scss';
 
@@ -67,6 +68,69 @@ function ExtendIcon() {
   );
 }
 
+function WebphoneButtons({
+  session,
+  webphoneAnswer,
+  webphoneReject,
+  webphoneHangup,
+  webphoneResume,
+}) {
+  if (!session || !webphoneAnswer || !webphoneReject) {
+    return null;
+  }
+  let hangupFunc = webphoneHangup;
+  let resumeFunc = webphoneResume;
+  let endIcon = EndIcon;
+  if (
+    session.direction === callDirections.inbound &&
+    session.callStatus === sessionStatus.connecting
+  ) {
+    hangupFunc = webphoneReject;
+    resumeFunc = webphoneAnswer;
+    endIcon = VoicemailIcon;
+  }
+  return (
+    <div className={styles.webphoneButtons}>
+      <CircleButton
+        className={styles.rejectButton}
+        onClick={(e) => {
+          e.stopPropagation();
+          hangupFunc(session.id);
+        }}
+        iconWidth={260}
+        iconX={120}
+        icon={endIcon}
+        showBorder={false}
+      />
+      <CircleButton
+        className={styles.answerButton}
+        onClick={(e) => {
+          e.stopPropagation();
+          resumeFunc(session.id);
+        }}
+        icon={AnswerIcon}
+        showBorder={false}
+      />
+    </div>
+  );
+}
+
+WebphoneButtons.propTypes = {
+  session: PropTypes.object,
+  webphoneAnswer: PropTypes.func,
+  webphoneReject: PropTypes.func,
+  webphoneHangup: PropTypes.func,
+  webphoneResume: PropTypes.func,
+};
+
+WebphoneButtons.defaultProps = {
+  session: undefined,
+  webphoneAnswer: undefined,
+  webphoneReject: undefined,
+  webphoneHangup: undefined,
+  webphoneResume: undefined,
+};
+
 export default class ActiveCallItem extends Component {
   constructor(props) {
     super(props);
@@ -79,7 +143,6 @@ export default class ActiveCallItem extends Component {
     this._userSelection = false;
 
     this.toggleExtended = () => {
-      console.log('clicked');
       this.setState(preState => ({
         extended: !preState.extended,
       }));
@@ -140,54 +203,6 @@ export default class ActiveCallItem extends Component {
     return isInbound(this.props.call) ?
       (this.props.call.to.phoneNumber || this.props.call.to.extensionNumber) :
       (this.props.call.from.phoneNumber || this.props.call.from.extensionNumber);
-  }
-
-  getWebphoneButtons() {
-    const {
-      call: {
-        webphoneSession,
-      },
-      webphoneAnswer,
-      webphoneReject,
-      webphoneHangup,
-      webphoneResume,
-    } = this.props;
-    if (!webphoneSession) {
-      return null;
-    }
-    let hangupFunc = webphoneHangup;
-    let resumeFunc = webphoneResume;
-    if (
-      webphoneSession.direction === callDirections.inbound &&
-      webphoneSession.callStatus === sessionStatus.connecting
-    ) {
-      hangupFunc = webphoneReject;
-      resumeFunc = webphoneAnswer;
-    }
-    const onHangupFunc = (e) => {
-      e.stopPropagation();
-      hangupFunc(webphoneSession.id);
-    };
-    const onResumeFunc = (e) => {
-      e.stopPropagation();
-      resumeFunc(webphoneSession.id);
-    };
-    return (
-      <div className={styles.webphoneButtons}>
-        <CircleButton
-          className={styles.rejectButton}
-          onClick={onHangupFunc}
-          icon={EndIcon}
-          showBorder={false}
-        />
-        <CircleButton
-          className={styles.answerButton}
-          onClick={onResumeFunc}
-          icon={AnswerIcon}
-          showBorder={false}
-        />
-      </div>
-    );
   }
 
   getCallInfo() {
@@ -310,6 +325,7 @@ export default class ActiveCallItem extends Component {
       call: {
         direction,
         activityMatches,
+        webphoneSession,
       },
       disableLinks,
       currentLocale,
@@ -325,6 +341,10 @@ export default class ActiveCallItem extends Component {
       onViewContact,
       onCreateContact,
       onLogCall,
+      webphoneAnswer,
+      webphoneReject,
+      webphoneHangup,
+      webphoneResume,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const parsedInfo = parseNumber(phoneNumber);
@@ -341,7 +361,6 @@ export default class ActiveCallItem extends Component {
     const contactMatches = this.getContactMatches();
     const fallbackContactName = this.getFallbackContactName();
     const ringing = isRinging(this.props.call);
-    const webphoneEl = this.getWebphoneButtons();
     const callDetail = this.getCallInfo();
 
     return (
@@ -375,7 +394,13 @@ export default class ActiveCallItem extends Component {
             stopPropagation
           />
           {callDetail}
-          {webphoneEl}
+          <WebphoneButtons
+            session={webphoneSession}
+            webphoneAnswer={webphoneAnswer}
+            webphoneReject={webphoneReject}
+            webphoneHangup={webphoneHangup}
+            webphoneResume={webphoneResume}
+          />
         </div>
         <ActiveCallActionMenu
           currentLocale={currentLocale}
@@ -433,10 +458,8 @@ ActiveCallItem.propTypes = {
   countryCode: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   disableLinks: PropTypes.bool,
-  isLoggedContact: PropTypes.func,
   outboundSmsPermission: PropTypes.bool,
   internalSmsPermission: PropTypes.bool,
-  dateTimeFormatter: PropTypes.func.isRequired,
   isLogging: PropTypes.bool,
   webphoneAnswer: PropTypes.func,
   webphoneReject: PropTypes.func,
