@@ -18,7 +18,6 @@ class Draggable extends Component {
     };
 
     this._isClick = true;
-
     this._onMouseDown = (e) => {
       if (e.button !== 0) return;
       if (this.state.dragging) {
@@ -29,6 +28,8 @@ class Draggable extends Component {
         positionY: e.clientY,
         dragging: true,
       });
+      this._positionXOnMouseDown = e.clientX;
+      this._positionYOnMouseDown = e.clientY;
       this._isClick = true;
       window.addEventListener('mousemove', this._onMouseMove, false);
       window.addEventListener('mouseup', this._onMouseUp, false);
@@ -51,7 +52,12 @@ class Draggable extends Component {
       const child = this.draggableDom.firstChild;
       const height = (child && child.clientHeight) || 0;
       const width = (child && child.clientWidth) || 0;
-      this._isClick = false;
+      if (
+        Math.abs(newPositionX - this._positionXOnMouseDown) > this.props.clickThreshold ||
+        Math.abs(newPositionY - this._positionYOnMouseDown) > this.props.clickThreshold
+      ) {
+        this._isClick = false;
+      }
       this.setState((preState) => {
         const newState = {
           positionX: newPositionX,
@@ -132,6 +138,7 @@ Draggable.propTypes = {
   positionOffsetX: PropTypes.number,
   positionOffsetY: PropTypes.number,
   updatePositionOffset: PropTypes.func,
+  clickThreshold: PropTypes.number,
 };
 
 Draggable.defaultProps = {
@@ -140,6 +147,7 @@ Draggable.defaultProps = {
   positionOffsetX: 0,
   positionOffsetY: 0,
   updatePositionOffset: () => null,
+  clickThreshold: 5,
 };
 
 export default Draggable;
