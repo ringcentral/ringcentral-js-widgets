@@ -48,6 +48,7 @@
 }
 .time {
   text-align: right;
+  color: $grey-light;
   @include truncate-text;
 }
 
