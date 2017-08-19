@@ -302,7 +302,14 @@ export default class Phone extends RcModule {
         this.router.push('/calls/active');
       },
       onCallRing: () => {
-        console.log('it is ringing');
+        if (
+          this.webphone.ringSessions.length > 1
+        ) {
+          if (this.router.currentPath !== '/calls') {
+            this.router.push('/calls');
+          }
+          this.webphone.toggleMinimized(this.webphone.ringSessionId);
+        }
       }
     }));
     reducers.webphone = this.webphone.reducer;
