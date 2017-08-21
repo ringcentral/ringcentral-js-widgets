@@ -1,0 +1,38 @@
+@import '../../lib/commonStyles/colors';
+
+.root {
+  display: block;
+  position: relative;
+  padding: 0 20px;
+  height: 30px;
+  overflow: hidden;
+}
+
+.actionButton {
+  position: relative;
+  display: inline-block;
+  margin-right: 30px;
+  bottom: auto;
+}
+
+.sms {
+  font-size: 17px;
+  color: $primary-color;
+  top: 1px;
+  span {
+    font-weight: 600;
+  }
+}
+
+.entity {
+  top: 1px;
+}
+
+.addContact {
+  font-size: 17px;
+  color: $primary-color;
+}
+
+.log {
+  top: 1px;
+}

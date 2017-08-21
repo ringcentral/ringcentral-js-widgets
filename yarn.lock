@@ -6626,9 +6626,9 @@ ringcentral-client@^1.0.0-rc1:
     form-data "^2.1.2"
     isomorphic-fetch "^2.2.1"
 
-ringcentral-integration@^0.7.9:
-  version "0.7.9"
-  resolved "https://registry.yarnpkg.com/ringcentral-integration/-/ringcentral-integration-0.7.9.tgz#78a97dc18c7af9572afc9919b919e7b5ffb11913"
+ringcentral-integration@^0.7.12:
+  version "0.7.12"
+  resolved "https://registry.yarnpkg.com/ringcentral-integration/-/ringcentral-integration-0.7.12.tgz#e3a2e519cc43d23b1e031fd3403e57c00f8cb78a"
   dependencies:
     file-loader "^0.11.2"
     json-mask "^0.3.8"
@@ -6648,9 +6648,9 @@ ringcentral-web-phone@^0.4.2:
   dependencies:
     sip.js "^0.7.7"
 
-ringcentral@^3.1.2:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/ringcentral/-/ringcentral-3.1.2.tgz#c3b3d9b01fbe8676a1a76929374feaf20437cb25"
+ringcentral@^3.1.3:
+  version "3.1.3"
+  resolved "https://registry.yarnpkg.com/ringcentral/-/ringcentral-3.1.3.tgz#f6de6ea42d1c562639b32d49e989b5669c1d215d"
   dependencies:
     es6-promise "^4.0.5"
     fetch-ponyfill "^3.0.2"
