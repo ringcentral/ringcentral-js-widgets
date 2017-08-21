@@ -23,6 +23,7 @@
   color: #666;
   text-decoration: none;
   transform: rotate(90deg);
+  cursor: pointer;
   &:hover {
     color: #666;
     text-decoration: none;
@@ -117,4 +118,8 @@
 
 .contactDisplaySelect {
   max-width: 180px;
+
+  button {
+    margin-top: 5px;
+  }
 }

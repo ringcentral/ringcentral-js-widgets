@@ -33,9 +33,7 @@ function CallItem({ call, dateTimeFormatter, currentLocale }) {
   startTime = dateTimeFormatter({ utcTimestamp: new Date(startTime).getTime() });
   duration = formatDuration(duration);
   return (
-    <div
-      className={styles.callItem}
-    >
+    <div className={styles.callItem}>
       <dl className={classnames(styles.dl, isMissedCall ? styles.missedCall : '')}>
         <dt className={styles.status} title={status}>
           <span className={styles.iconWrapper}>

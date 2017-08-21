@@ -31,7 +31,7 @@ export default class RecentActivityView extends PureComponent {
 
   onTabChanged = (tabName = this.props.defaultTab) => {
     const currentTab = this.getCurrentTab(tabName);
-    currentTab.getData();
+    if (currentTab) currentTab.getData();
     this.setState({
       currentTab: tabName
     });
@@ -40,7 +40,7 @@ export default class RecentActivityView extends PureComponent {
   getCurrentTabPanel() {
     const currentTabPath = this.state.currentTab;
     const currentTab = this.getCurrentTab(currentTabPath);
-    return currentTab.view || null;
+    return currentTab ? currentTab.view : null;
   }
 
   getCurrentTab(currentTabPath) {

@@ -150,6 +150,7 @@ class IncomingCallPage extends Component {
         hasOtherActiveCall={this.state.hasOtherActiveCall}
         answerAndEnd={this.answerAndEnd}
         answerAndHold={this.answerAndHold}
+        sessionId={this.props.session.id}
       >
         {this.props.children}
       </IncomingCallPanel>

@@ -35,6 +35,7 @@ const displayFomatter = ({
 };
 
 export default function ContactDisplay({
+  reference,
   className,
   contactMatches,
   selected,
@@ -139,6 +140,7 @@ export default function ContactDisplay({
   }
   return (
     <div
+      ref={reference}
       className={classnames(
         styles.root,
         className,
@@ -148,6 +150,7 @@ export default function ContactDisplay({
   );
 }
 ContactDisplay.propTypes = {
+  reference: PropTypes.func,
   className: PropTypes.string,
   contactMatches: PropTypes.arrayOf(PropTypes.any).isRequired,
   selected: PropTypes.number.isRequired,
@@ -168,6 +171,7 @@ ContactDisplay.propTypes = {
   stopPropagation: PropTypes.bool,
 };
 ContactDisplay.defaultProps = {
+  reference: undefined,
   className: undefined,
   onSelectContact: undefined,
   fallBackName: '',
