@@ -100,6 +100,7 @@ export default function ContactDisplay({
     }
     contentEl = (
       <DropdownSelect
+        reference={reference}
         className={classnames(styles.select, selectClassName)}
         value={`${selected}`}
         onChange={onSelectContact}
@@ -140,7 +141,6 @@ export default function ContactDisplay({
   }
   return (
     <div
-      ref={reference}
       className={classnames(
         styles.root,
         className,
