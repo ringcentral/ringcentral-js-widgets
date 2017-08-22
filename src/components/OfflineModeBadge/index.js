@@ -13,7 +13,7 @@ export default function OfflineModeBadge({
     return (
       <Badge
         className={className}
-        name={'offline'}
+        name={i18n.getString('offlineMode', currentLocale)}
         onClick={showOfflineAlert}
       >
         {i18n.getString('offlineMode', currentLocale)}
