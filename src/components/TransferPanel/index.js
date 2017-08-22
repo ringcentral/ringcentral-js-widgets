@@ -11,7 +11,7 @@ import i18n from './i18n';
 
 export default class TransferPanel extends PureComponent {
   static propTypes = {
-    transfer: PropTypes.func.isRequired,
+    onTransfer: PropTypes.func.isRequired,
     currentLocale: PropTypes.string.isRequired,
     toggleTransferPanel: PropTypes.func.isRequired,
     isOnTransfer: PropTypes.bool.isRequired
@@ -31,8 +31,8 @@ export default class TransferPanel extends PureComponent {
     });
   }
 
-  handleChange = (event) => {
-    this.setState({ value: event.target.value });
+  onTransfer = () => {
+    this.props.onTransfer(this.state.value);
   }
 
   clearText = () => {
@@ -41,8 +41,8 @@ export default class TransferPanel extends PureComponent {
     });
   }
 
-  transfer = () => {
-    this.props.transfer(this.state.value);
+  handleChange = (event) => {
+    this.setState({ value: event.target.value });
   }
 
   render() {
@@ -83,7 +83,7 @@ export default class TransferPanel extends PureComponent {
           />
           <div className={styles.buttonRow}>
             <ActiveCallButton
-              onClick={this.transfer}
+              onClick={this.onTransfer}
               className={styles.button}
               icon={TransferIcon}
               title={i18n.getString('blindTransfer', this.props.currentLocale)}

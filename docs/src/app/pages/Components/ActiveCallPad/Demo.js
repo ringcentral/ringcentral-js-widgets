@@ -9,13 +9,15 @@ props.onHold = () => null;
 props.onUnhold = () => null;
 props.onRecord = () => null;
 props.onStopRecord = () => null;
-props.hangup = () => null;
+props.onHangup = () => null;
+props.onPark = () => null;
 props.onShowKeyPad = () => null;
 props.onAdd = () => null;
 props.currentLocale = 'en-US';
 props.flipNumbers = [];
 props.recordStatus = 'recordStatus-idle';
 props.onShowFlipPanel = () => null;
+props.onToggleTransferPanel = () => null;
 /**
  * A example of `ActiveCallPad`
  */

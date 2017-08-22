@@ -108,7 +108,8 @@ function ActiveCallPanel({
   onRecord,
   onStopRecord,
   onShowKeyPad,
-  hangup,
+  onHangup,
+  onPark,
   onAdd,
   onShowFlipPanel,
   onToggleTransferPanel,
@@ -127,7 +128,6 @@ function ActiveCallPanel({
             <span className={styles.backLabel}>{backButtonLabel}</span>
           </span>
         )}
-        buttons={[]}
       />
       <Panel>
         <CallInfo
@@ -158,11 +158,12 @@ function ActiveCallPanel({
           onRecord={onRecord}
           onStopRecord={onStopRecord}
           onShowKeyPad={onShowKeyPad}
-          hangup={hangup}
+          onHangup={onHangup}
           onAdd={onAdd}
           onShowFlipPanel={onShowFlipPanel}
           onToggleTransferPanel={onToggleTransferPanel}
           flipNumbers={flipNumbers}
+          onPark={onPark}
         />
         {children}
       </Panel>
@@ -186,7 +187,8 @@ ActiveCallPanel.propTypes = {
   onRecord: PropTypes.func.isRequired,
   onStopRecord: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
-  hangup: PropTypes.func.isRequired,
+  onHangup: PropTypes.func.isRequired,
+  onPark: PropTypes.func.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
   onShowKeyPad: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,

@@ -22,8 +22,8 @@ export default class FlipPanel extends Component {
         flipValue: value,
       });
     };
-    this.flip = () => {
-      this.props.flip(this.state.flipValue);
+    this.onFlip = () => {
+      this.props.onFlip(this.state.flipValue);
       this.setState({
         flipEnabled: false,
       });
@@ -42,7 +42,6 @@ export default class FlipPanel extends Component {
               }
             </span>
           )}
-          buttons={[]}
         >
           {i18n.getString('flipHeader', this.props.currentLocale)}
         </BackHeader>
@@ -59,7 +58,7 @@ export default class FlipPanel extends Component {
               <CircleButton
                 className={this.state.flipEnabled ? styles.flipButton : styles.buttonDisabled}
                 iconClassName={styles.flipIcon}
-                onClick={this.state.flipEnabled ? this.flip : () => {}}
+                onClick={this.state.flipEnabled ? this.onFlip : () => {}}
                 icon={FlipIcon}
                 showBorder
               />
@@ -86,6 +85,6 @@ FlipPanel.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   formatPhone: PropTypes.func.isRequired,
   hideFlipPanel: PropTypes.func.isRequired,
-  flip: PropTypes.func.isRequired,
+  onFlip: PropTypes.func.isRequired,
   complete: PropTypes.func.isRequired,
 };
