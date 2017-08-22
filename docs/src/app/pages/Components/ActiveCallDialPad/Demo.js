@@ -5,7 +5,7 @@ import ActiveCallDialPad from 'ringcentral-widget/components/ActiveCallDialPad';
 const props = {};
 props.onChange = () => null;
 props.hiddenDialPad = () => null;
-props.hangup = () => null;
+props.onHangup = () => null;
 props.currentLocale = 'en-US';
 
 /**

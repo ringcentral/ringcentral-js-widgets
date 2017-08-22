@@ -72,14 +72,14 @@ export default function ActiveCallPad(props) {
         </div>
         <div className={styles.buttonRow}>
           <ActiveCallButton
-            onClick={props.isOnHold ? () => {} : () => {}}
+            onClick={props.onPark}
             className={styles.callButton}
             title={i18n.getString('park', props.currentLocale)}
             icon={ParkIcon}
             disabled={props.isOnHold}
           />
           <ActiveCallButton
-            onClick={props.isOnHold ? () => {} : onRecordClicked}
+            onClick={onRecordClicked}
             title={recordTitle}
             active={isRecordButtonActive}
             className={styles.callButton}
@@ -101,7 +101,7 @@ export default function ActiveCallPad(props) {
             className={styles.callButton}
           />
           <ActiveCallButton
-            onClick={(disabledFlip || props.isOnHold) ? () => {} : props.onShowFlipPanel}
+            onClick={props.onShowFlipPanel}
             title={i18n.getString('flip', props.currentLocale)}
             icon={FlipIcon}
             className={styles.callButton}
@@ -113,7 +113,7 @@ export default function ActiveCallPad(props) {
         <div className={styles.button}>
           <CircleButton
             className={styles.stopButton}
-            onClick={props.hangup}
+            onClick={props.onHangup}
             icon={EndIcon}
             showBorder={false}
             iconWidth={250}
@@ -137,7 +137,8 @@ ActiveCallPad.propTypes = {
   onUnhold: PropTypes.func.isRequired,
   onRecord: PropTypes.func.isRequired,
   onStopRecord: PropTypes.func.isRequired,
-  hangup: PropTypes.func.isRequired,
+  onHangup: PropTypes.func.isRequired,
+  onPark: PropTypes.func.isRequired,
   onShowKeyPad: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
   onShowFlipPanel: PropTypes.func.isRequired,

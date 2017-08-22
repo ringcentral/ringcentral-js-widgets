@@ -47,7 +47,7 @@ class ActiveCallDialPad extends Component {
               title={i18n.getString('hide', this.props.currentLocale)}
             />
             <ActiveCallButton
-              onClick={this.props.hangup}
+              onClick={this.props.onHangup}
               className={styles.button}
               buttonClassName={styles.stopButton}
               icon={EndIcon}
@@ -64,7 +64,7 @@ class ActiveCallDialPad extends Component {
 ActiveCallDialPad.propTypes = {
   onChange: PropTypes.func.isRequired,
   hiddenDialPad: PropTypes.func.isRequired,
-  hangup: PropTypes.func.isRequired,
+  onHangup: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
 };
 

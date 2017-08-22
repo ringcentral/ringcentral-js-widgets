@@ -3,7 +3,7 @@ import React from 'react';
 import TransferPanel from 'ringcentral-widget/components/TransferPanel';
 
 const props = {};
-props.transfer = () => null;
+props.onTransfer = () => null;
 props.currentLocale = 'en-US';
 props.toggleTransferPanel = () => null;
 props.isOnTransfer = false;

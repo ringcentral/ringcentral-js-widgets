@@ -51,7 +51,7 @@ class CallCtrlPanel extends Component {
         <ActiveCallDialPad
           onChange={this.props.onKeyPadChange}
           hiddenDialPad={this.hiddenKeyPad}
-          hangup={this.props.hangup}
+          onHangup={this.props.onHangup}
           currentLocale={this.props.currentLocale}
         />
       );
@@ -64,15 +64,15 @@ class CallCtrlPanel extends Component {
           currentLocale={this.props.currentLocale}
           formatPhone={this.props.formatPhone}
           hideFlipPanel={this.hideFlipPanel}
-          flip={this.props.flip}
-          complete={this.props.hangup}
+          onFlip={this.props.onFlip}
+          complete={this.props.onHangup}
         />
       );
     }
     if (this.state.isShowTransferPanel) {
       return (
         <TransferPanel
-          transfer={this.props.transfer}
+          onTransfer={this.props.onTransfer}
           currentLocale={this.props.currentLocale}
           toggleTransferPanel={this.toggleTransferPanel}
           isOnTransfer={this.props.isOnTransfer}
@@ -99,7 +99,8 @@ class CallCtrlPanel extends Component {
         onRecord={this.props.onRecord}
         onStopRecord={this.props.onStopRecord}
         onShowKeyPad={this.showKeyPad}
-        hangup={this.props.hangup}
+        onHangup={this.props.onHangup}
+        onPark={this.props.onPark}
         onAdd={this.props.onAdd}
         nameMatches={this.props.nameMatches}
         fallBackName={this.props.fallBackName}
@@ -141,9 +142,10 @@ CallCtrlPanel.propTypes = {
   onRecord: PropTypes.func.isRequired,
   onStopRecord: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
-  hangup: PropTypes.func.isRequired,
-  flip: PropTypes.func.isRequired,
-  transfer: PropTypes.func.isRequired,
+  onPark: PropTypes.func.isRequired,
+  onHangup: PropTypes.func.isRequired,
+  onFlip: PropTypes.func.isRequired,
+  onTransfer: PropTypes.func.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
   onKeyPadChange: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
