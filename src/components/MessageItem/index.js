@@ -182,8 +182,9 @@ export default class MessageItem extends Component {
     //   delete e.captureClick;
     //   return;
     // }
-    if (
-      this.contactDisplay.contains(e.target) ||
+    if ((
+      this.contactDisplay &&
+      this.contactDisplay.contains(e.target)) ||
       this.actionMenu.contains(e.target)
     ) {
       return;
