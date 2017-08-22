@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { Router, Route, IndexRoute } from 'react-router';
+import { Router, Route } from 'react-router';
 import sleep from 'ringcentral-integration/lib/sleep';
 
 import AlertContainer from '../../../src/containers/AlertContainer';
@@ -132,7 +132,7 @@ export default function App({
                 />
               </MainView>
             )} >
-            <route
+            <Route
               path="dialer"
               component={() => (
                 <DialerPage
