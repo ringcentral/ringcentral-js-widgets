@@ -3,7 +3,8 @@ import NavigationBar from '../../src/components/NavigationBar';
 import DialerPanel from '../../src/components/DialerPanel';
 import DialTextInput from '../../src/components/DialTextInput';
 import TextInput from '../../src/components/TextInput';
-import DialPad, { DialButton } from '../../src/components/DialPad';
+import DialButton from '../../src/components/DialButton';
+import DialPad from '../../src/components/DialPad';
 import DropdownSelect from '../../src/components/DropdownSelect';
 
 let wrapper = null;

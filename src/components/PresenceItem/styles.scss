@@ -1,0 +1,19 @@
+@import '../../lib/commonStyles/colors';
+
+.root {
+  display: block;
+  text-decoration: none;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.selected {
+  color: $primary-color;
+}
+
+.statusIcon {
+  display: inline-block;
+  position: relative;
+  margin-right: 5px;
+  top: 2px;
+}

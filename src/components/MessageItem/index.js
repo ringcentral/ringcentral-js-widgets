@@ -19,15 +19,20 @@ function ConversationIcon({
         className={classnames(
           group ? dynamicsFont.groupConversation : dynamicsFont.composeText
         )}
-        title={title}/>
+        title={title}
+      />
     </div>
   );
 }
 ConversationIcon.propTypes = {
   group: PropTypes.bool,
+  conversationTitle: PropTypes.string,
+  groupConversationTitle: PropTypes.string,
 };
 ConversationIcon.defaultProps = {
   group: false,
+  conversationTitle: undefined,
+  groupConversationTitle: undefined,
 };
 
 export default class MessageItem extends Component {
@@ -124,7 +129,7 @@ export default class MessageItem extends Component {
       });
     }
   }
-  createSelectedContact = async (entityType) => {
+  async createSelectedContact(entityType) {
     // console.log('click createSelectedContact!!', entityType);
     if (typeof this.props.onCreateContact === 'function' &&
       this._mounted &&
@@ -148,6 +153,7 @@ export default class MessageItem extends Component {
       }
     }
   }
+  createSelectedContact = this.createSelectedContact.bind(this);
 
   async logConversation({ redirect = true, selected, prefill = true }) {
     if (typeof this.props.onLogConversation === 'function' &&
@@ -306,7 +312,6 @@ MessageItem.propTypes = {
   onViewContact: PropTypes.func,
   onCreateContact: PropTypes.func,
   onClickToDial: PropTypes.func,
-  isLoggedContact: PropTypes.func,
   disableLinks: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
@@ -320,10 +325,7 @@ MessageItem.defaultProps = {
   onClickToDial: undefined,
   onViewContact: undefined,
   onCreateContact: undefined,
-  isLoggedContact: () => false,
   disableClickToDial: false,
-  outboundSmsPermission: false,
-  internalSmsPermission: false,
   disableLinks: false,
   autoLog: false,
   enableContactFallback: undefined,

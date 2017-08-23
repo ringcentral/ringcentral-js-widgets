@@ -2,11 +2,14 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 
 import ActionMenuPage from './Components/ActionMenu';
+import ActiveCallActionMenuPage from './Components/ActiveCallActionMenu';
 import ActiveCallBadgePage from './Components/ActiveCallBadge';
 import ActiveCallButtonPage from './Components/ActiveCallButton';
 import ActiveCallDialPadPage from './Components/ActiveCallDialPad';
+import ActiveCallItemPage from './Components/ActiveCallItem';
 import ActiveCallPadPage from './Components/ActiveCallPad';
 import ActiveCallPanelPage from './Components/ActiveCallPanel';
+import ActiveCallsPanelPage from './Components/ActiveCallsPanel';
 import AlertDisplayPage from './Components/AlertDisplay';
 import AuthAlertPage from './Components/AuthAlert';
 import BackHeaderPage from './Components/BackHeader';
@@ -28,12 +31,14 @@ import ContactDisplayPage from './Components/ContactDisplay';
 import ContactDropdownListPage from './Components/ContactDropdownList';
 import ConversationMessageListPage from './Components/ConversationMessageList';
 import ConversationPanelPage from './Components/ConversationPanel';
+import DialButtonPage from './Components/DialButton';
 import DialPadPage from './Components/DialPad';
 import DialTextInputPage from './Components/DialTextInput';
 import DialerPanelPage from './Components/DialerPanel';
 import DraggablePage from './Components/Draggable';
 import DropdownSelectPage from './Components/DropdownSelect';
 import DurationCounterPage from './Components/DurationCounter';
+import EntityButtonPage from './Components/EntityButton';
 import EntityModalPage from './Components/EntityModal';
 import EnvironmentPage from './Components/Environment';
 import EulaPage from './Components/Eula';
@@ -52,12 +57,15 @@ import LinePage from './Components/Line';
 import LinkLinePage from './Components/LinkLine';
 import LogButtonPage from './Components/LogButton';
 import LoginPanelPage from './Components/LoginPanel';
+import MessageItemPage from './Components/MessageItem';
 import MessageListPage from './Components/MessageList';
 import MessageSenderAlertPage from './Components/MessageSenderAlert';
 import ModalPage from './Components/Modal';
+import MultiCallAnswerButtonPage from './Components/MultiCallAnswerButton';
 import NavigationBarPage from './Components/NavigationBar';
 import OfflineModeBadgePage from './Components/OfflineModeBadge';
 import PanelPage from './Components/Panel';
+import PresenceItemPage from './Components/PresenceItem';
 import PresenceSettingSectionPage from './Components/PresenceSettingSection';
 import PresenceStatusIconPage from './Components/PresenceStatusIcon';
 import RadioBtnGroupPage from './Components/RadioBtnGroup';
@@ -89,11 +97,14 @@ import WebphoneAlertPage from './Components/WebphoneAlert';
 const Routes = () => (
   <div>
     <Route path="/components/ActionMenu" component={ActionMenuPage} />
+    <Route path="/components/ActiveCallActionMenu" component={ActiveCallActionMenuPage} />
     <Route path="/components/ActiveCallBadge" component={ActiveCallBadgePage} />
     <Route path="/components/ActiveCallButton" component={ActiveCallButtonPage} />
     <Route path="/components/ActiveCallDialPad" component={ActiveCallDialPadPage} />
+    <Route path="/components/ActiveCallItem" component={ActiveCallItemPage} />
     <Route path="/components/ActiveCallPad" component={ActiveCallPadPage} />
     <Route path="/components/ActiveCallPanel" component={ActiveCallPanelPage} />
+    <Route path="/components/ActiveCallsPanel" component={ActiveCallsPanelPage} />
     <Route path="/components/AlertDisplay" component={AlertDisplayPage} />
     <Route path="/components/AuthAlert" component={AuthAlertPage} />
     <Route path="/components/BackHeader" component={BackHeaderPage} />
@@ -115,12 +126,14 @@ const Routes = () => (
     <Route path="/components/ContactDropdownList" component={ContactDropdownListPage} />
     <Route path="/components/ConversationMessageList" component={ConversationMessageListPage} />
     <Route path="/components/ConversationPanel" component={ConversationPanelPage} />
+    <Route path="/components/DialButton" component={DialButtonPage} />
     <Route path="/components/DialPad" component={DialPadPage} />
     <Route path="/components/DialTextInput" component={DialTextInputPage} />
     <Route path="/components/DialerPanel" component={DialerPanelPage} />
     <Route path="/components/Draggable" component={DraggablePage} />
     <Route path="/components/DropdownSelect" component={DropdownSelectPage} />
     <Route path="/components/DurationCounter" component={DurationCounterPage} />
+    <Route path="/components/EntityButton" component={EntityButtonPage} />
     <Route path="/components/EntityModal" component={EntityModalPage} />
     <Route path="/components/Environment" component={EnvironmentPage} />
     <Route path="/components/Eula" component={EulaPage} />
@@ -139,12 +152,15 @@ const Routes = () => (
     <Route path="/components/LinkLine" component={LinkLinePage} />
     <Route path="/components/LogButton" component={LogButtonPage} />
     <Route path="/components/LoginPanel" component={LoginPanelPage} />
+    <Route path="/components/MessageItem" component={MessageItemPage} />
     <Route path="/components/MessageList" component={MessageListPage} />
     <Route path="/components/MessageSenderAlert" component={MessageSenderAlertPage} />
     <Route path="/components/Modal" component={ModalPage} />
+    <Route path="/components/MultiCallAnswerButton" component={MultiCallAnswerButtonPage} />
     <Route path="/components/NavigationBar" component={NavigationBarPage} />
     <Route path="/components/OfflineModeBadge" component={OfflineModeBadgePage} />
     <Route path="/components/Panel" component={PanelPage} />
+    <Route path="/components/PresenceItem" component={PresenceItemPage} />
     <Route path="/components/PresenceSettingSection" component={PresenceSettingSectionPage} />
     <Route path="/components/PresenceStatusIcon" component={PresenceStatusIconPage} />
     <Route path="/components/RadioBtnGroup" component={RadioBtnGroupPage} />
