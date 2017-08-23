@@ -155,3 +155,9 @@ $userInfoHight: 180px;
   animation-duration: 0.7s;
   animation-iteration-count: infinite;
 }
+
+.dropdown {
+  ul {
+    max-height: 80px;
+  }
+}

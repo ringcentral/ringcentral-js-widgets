@@ -35,6 +35,7 @@ function CallInfo(props) {
         <div className={styles.userName}>
           <ContactDisplay
             className={styles.contactDisplay}
+            selectClassName={styles.dropdown}
             contactMatches={props.nameMatches}
             phoneNumber={props.phoneNumber}
             fallBackName={props.fallBackName}
