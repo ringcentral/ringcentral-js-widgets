@@ -115,3 +115,9 @@ $avatar-width: 60px;
   height: calc(100% - 73px);
   padding-bottom: 50px;
 }
+
+.dropdown {
+  ul {
+    max-height: 80px;
+  }
+}

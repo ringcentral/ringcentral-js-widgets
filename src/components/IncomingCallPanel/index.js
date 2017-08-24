@@ -27,6 +27,7 @@ function UserInfo(props) {
       <div className={styles.userNameContainer}>
         <ContactDisplay
           className={styles.userName}
+          selectClassName={styles.dropdown}
           contactMatches={props.nameMatches}
           phoneNumber={props.phoneNumber}
           fallBackName={props.fallBackName}

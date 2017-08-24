@@ -46,11 +46,13 @@
   @include full-size;
  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 1.3em;
+  font-size: 1.2em;
   line-height: $navigation-bar-height;
+  height: 35px;
+  line-height: 35px;
 
   > svg {
-    margin-top: 14px;
+    margin-top: 9px;
     path {
       fill: $darkergray;
     }
