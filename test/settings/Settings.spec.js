@@ -2,7 +2,8 @@ import { getWrapper } from '../shared';
 import SettingsPanel from '../../src/components/SettingsPanel';
 import LinkLine from '../../src/components/LinkLine';
 import IconLine from '../../src/components/IconLine';
-import PresenceSettingSection, { PresenceItem } from '../../src/components/PresenceSettingSection';
+import PresenceSettingSection from '../../src/components/PresenceSettingSection';
+import PresenceItem from '../../src/components/PresenceItem';
 import Eula from '../../src/components/Eula';
 import NavigationBar from '../../src/components/NavigationBar';
 
