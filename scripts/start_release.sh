@@ -5,6 +5,6 @@ if [[ $(git status -s) != '' ]]
   git config user.email "integrations@ringcentral.com" &> /dev/null
   git config user.name "RingCentral Integrations Team" &> /dev/null
   git add --all . &> /dev/null
-  git commit -m "released at $(date)" &> /dev/null
+  git commit -m "released at $(date), commit: $TRAVIS_COMMIT" &> /dev/null
   git push origin latest -f &> /dev/null
 fi
