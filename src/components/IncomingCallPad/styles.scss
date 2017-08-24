@@ -27,7 +27,7 @@
   }
 }
 
-.rejectButton {
+.button {
   circle {
     fill: #ff4646;
   }
@@ -36,8 +36,13 @@
   }
 }
 
+.voiceMailButton {
+  composes: button;
+}
+
+
 .answerButton {
-  composes: rejectButton;
+  composes: button;
   circle {
     fill: #4cd964;
   }
