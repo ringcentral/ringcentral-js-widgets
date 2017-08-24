@@ -151,7 +151,7 @@ function mapToProps(_, _ref) {
       hidden = _ref.hidden,
       goToCallCtrl = _ref.goToCallCtrl;
 
-  var currentSession = webphone.ringSession || webphone.activeSession || {};
+  var currentSession = webphone.activeSession || webphone.ringSession || {};
   return {
     currentLocale: locale.currentLocale,
     session: currentSession,
