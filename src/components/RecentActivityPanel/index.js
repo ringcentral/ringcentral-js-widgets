@@ -53,8 +53,8 @@ RecentActivityPanel.defaultProps = {
 
 export default expandable({
   styles: {
-    height: '250px',
-    offset: '40px'
+    height: '200px',
+    offset: '35px'
   },
   className: styles.expandable
 })(RecentActivityPanel);
