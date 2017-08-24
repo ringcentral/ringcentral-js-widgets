@@ -8,6 +8,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -36,9 +40,9 @@ function InputField(props) {
 }
 
 InputField.propTypes = {
-  children: _react.PropTypes.node,
-  label: _react.PropTypes.node,
-  className: _react.PropTypes.string
+  children: _propTypes2.default.node,
+  label: _propTypes2.default.node,
+  className: _propTypes2.default.string
 };
 
 exports.default = InputField;

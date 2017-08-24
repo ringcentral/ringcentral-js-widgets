@@ -1,0 +1,123 @@
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/fonts.scss';
+
+$avatar-width: 60px;
+
+.root {
+  @include full-size;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background: #ffffff;
+  text-align: center;
+}
+
+.backButton {
+  color: $lightblack;
+  i {
+    font-size: $primary-font-size;
+  }
+  span {
+    font-size: 0.9em;
+  }
+  &:hover {
+    color: $lightblack;
+  }
+}
+
+.backIcon {
+  transform: rotate(90deg);
+  position: absolute;
+  top: 5px;
+  left: 10px;
+}
+
+.backLabel {
+  position: absolute;
+  top: 5px;
+  left: 34px;
+}
+
+.userInfo {
+  display: inline-block;
+  text-align: left;
+  color: $lightblack;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
+
+.avatarContainer {
+  display: inline-block;
+  width: $avatar-width;
+  vertical-align: top;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  color: $primary-color;
+  margin-bottom: 5px;
+  overflow: hidden;
+
+  .icon {
+    display: block;
+    font-size: 38px;
+    opacity: 0.3;
+  }
+
+  img {
+    width: 100%;
+  }
+}
+
+.infoContent {
+  display: inline-block;
+  width: calc(100% - #{$avatar-width});
+  vertical-align: top;
+}
+
+.userName {
+  font-size: 15px;
+  color: $lightblack;
+
+  .splitLine {
+    padding: 0 7px;
+  }
+}
+
+.contactDisplay {
+  display: inline-block;
+  line-height: 16px;
+}
+
+.userPhoneNumber {
+  font-size: 12px;
+  color: $grey-light;
+  margin-top: 5px;
+}
+
+.timeCounter {
+  color: $grey-light;
+  font-size: 12px;
+}
+
+.callPad {
+  box-sizing: border-box;
+  height: calc(100% - 73px);
+  padding-bottom: 50px;
+}
+
+.dropdown {
+  ul {
+    max-height: 80px;
+  }
+}

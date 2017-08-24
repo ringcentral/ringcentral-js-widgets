@@ -8,6 +8,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -34,9 +38,8 @@ function Message(props) {
         className: (0, _classnames2.default)(_styles2.default[props.level]) },
       props.message,
       _react2.default.createElement(
-        'a',
+        'div',
         {
-          href: '#close-message',
           className: _styles2.default.dismiss,
           onClick: props.onDismiss },
         _react2.default.createElement('i', { className: _DynamicsFont2.default.close })
@@ -45,9 +48,9 @@ function Message(props) {
   );
 }
 Message.propTypes = {
-  level: _react.PropTypes.string.isRequired,
-  message: _react.PropTypes.node.isRequired,
-  onDismiss: _react.PropTypes.func.isRequired
+  level: _propTypes2.default.string.isRequired,
+  message: _propTypes2.default.node.isRequired,
+  onDismiss: _propTypes2.default.func.isRequired
 };
 
 function AlertDisplay(props) {
@@ -72,16 +75,16 @@ function AlertDisplay(props) {
   );
 }
 AlertDisplay.propTypes = {
-  className: _react.PropTypes.string,
-  messages: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-    id: _react.PropTypes.string.isRequired,
-    level: _react.PropTypes.string.isRequired,
-    message: _react.PropTypes.string.isRequired,
-    payload: _react.PropTypes.any
+  className: _propTypes2.default.string,
+  messages: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+    id: _propTypes2.default.string.isRequired,
+    level: _propTypes2.default.oneOf(['success', 'info', 'warning', 'danger']).isRequired,
+    message: _propTypes2.default.string.isRequired,
+    payload: _propTypes2.default.any
   })),
-  getRenderer: _react.PropTypes.func,
-  dismiss: _react.PropTypes.func.isRequired,
-  currentLocale: _react.PropTypes.string.isRequired
+  getRenderer: _propTypes2.default.func,
+  dismiss: _propTypes2.default.func.isRequired,
+  currentLocale: _propTypes2.default.string.isRequired
 };
 AlertDisplay.defaultProps = {
   getRenderer: function getRenderer() {

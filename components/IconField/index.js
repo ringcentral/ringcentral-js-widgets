@@ -9,6 +9,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -37,8 +41,8 @@ function IconField(props) {
 }
 
 IconField.propTypes = {
-  children: _react.PropTypes.node,
-  icon: _react.PropTypes.node,
-  className: _react.PropTypes.string
+  children: _propTypes2.default.node,
+  icon: _propTypes2.default.node,
+  className: _propTypes2.default.string
 };
 //# sourceMappingURL=index.js.map

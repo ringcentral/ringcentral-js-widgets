@@ -11,7 +11,7 @@
   background: #fff;
 }
 
-.messageItem {
+.message {
   display: block;
   width: 100%;
   font-size: 12px;
@@ -26,7 +26,7 @@
   }
 }
 
-.messsageTime {
+.time {
   text-align: center;
   font-size: 12px;
   margin-bottom: 10px;
@@ -34,7 +34,7 @@
   clear: both;
 }
 
-.messageFrom {
+.sender {
   color: #a2a2a2;
   clear: both;
   margin-bottom: 1px;
@@ -47,13 +47,17 @@
   min-width: 50%;
   max-width: 60%;
   text-align: left;
-  word-break: break-word;
   hyphens: auto;
   padding: 10px 15px;
   background: $sms-bubble-background-color;
   border-radius: 16px;
   min-height: 13px;
   box-sizing: content-box;
+  /* For Firefox */
+  white-space: pre-wrap;
+  word-break: break-all;
+  /* For Chrome and IE */
+  word-wrap: break-word;
 }
 
 .messageBody.inbound {

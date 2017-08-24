@@ -28,6 +28,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _errorMessages = require('ringcentral-integration/modules/RateLimiter/errorMessages');
 
 var _errorMessages2 = _interopRequireDefault(_errorMessages);
@@ -92,9 +96,9 @@ var RequestRateExceededAlert = function (_Component) {
 }(_react.Component);
 
 RequestRateExceededAlert.propTypes = {
-  timestamp: _react.PropTypes.number.isRequired,
-  duration: _react.PropTypes.number.isRequired,
-  currentLocale: _react.PropTypes.string.isRequired
+  timestamp: _propTypes2.default.number.isRequired,
+  duration: _propTypes2.default.number.isRequired,
+  currentLocale: _propTypes2.default.string.isRequired
 };
 
 RequestRateExceededAlert.handleMessage = function (_ref) {

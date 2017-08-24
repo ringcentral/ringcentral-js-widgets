@@ -13,7 +13,9 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _react = require('react');
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactRedux = require('react-redux');
 
@@ -53,6 +55,14 @@ var _RolesAndPermissions = require('ringcentral-integration/modules/RolesAndPerm
 
 var _RolesAndPermissions2 = _interopRequireDefault(_RolesAndPermissions);
 
+var _Presence = require('ringcentral-integration/modules/Presence');
+
+var _Presence2 = _interopRequireDefault(_Presence);
+
+var _RouterInteraction = require('../../modules/RouterInteraction');
+
+var _RouterInteraction2 = _interopRequireDefault(_RouterInteraction);
+
 var _SettingsPanel = require('../../components/SettingsPanel');
 
 var _SettingsPanel2 = _interopRequireDefault(_SettingsPanel);
@@ -63,21 +73,29 @@ function mapToProps(_, _ref) {
   var accountInfo = _ref.accountInfo,
       auth = _ref.auth,
       brand = _ref.brand,
-      callingSettingsUrl = _ref.callingSettingsUrl,
       extensionInfo = _ref.extensionInfo,
       locale = _ref.locale,
       regionSettings = _ref.regionSettings,
-      regionSettingsUrl = _ref.regionSettingsUrl,
+      callingSettings = _ref.callingSettings,
       version = _ref.version,
-      rolesAndPermissions = _ref.rolesAndPermissions;
+      rolesAndPermissions = _ref.rolesAndPermissions,
+      presence = _ref.presence,
+      params = _ref.params;
 
+  var loginNumber = '';
   var loggedIn = auth.loginStatus === _loginStatus2.default.loggedIn;
-  var loginNumber = loggedIn && accountInfo.ready && extensionInfo.ready ? (0, _formatNumber2.default)({
-    phoneNumber: accountInfo.mainCompanyNumber + '*' + extensionInfo.extensionNumber,
-    countryCode: regionSettings.countryCode,
-    areaCode: regionSettings.areaCode
-  }) : '';
+  if (loggedIn && accountInfo.ready && extensionInfo.ready) {
+    // If no extensionNumber, extensionNumber field needs to be omitted
+    var extensionNumber = extensionInfo.extensionNumber && extensionInfo.extensionNumber !== '0' ? extensionInfo.extensionNumber : null;
+    var phoneNumber = [accountInfo.mainCompanyNumber, extensionNumber].join('*');
+    loginNumber = (0, _formatNumber2.default)({
+      phoneNumber: phoneNumber,
+      countryCode: regionSettings.countryCode,
+      areaCode: regionSettings.areaCode
+    });
+  }
   return {
+    showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && callingSettings.ready && rolesAndPermissions.ready && presence.ready),
     showRegion: loggedIn && brand.id === '1210' && (regionSettings.availableCountries.length > 1 || !!regionSettings.availableCountries.find(function (c) {
       return c.isoCode === 'US';
     }) || !!regionSettings.availableCountries.find(function (c) {
@@ -87,17 +105,23 @@ function mapToProps(_, _ref) {
     version: version,
     currentLocale: locale.currentLocale,
     brandId: brand.id,
-    callingSettingsUrl: callingSettingsUrl,
-    regionSettingsUrl: regionSettingsUrl,
     ringoutEnabled: rolesAndPermissions.ringoutEnabled,
-    outboundSMS: rolesAndPermissions.permissions.OutboundSMS
+    outboundSMS: !!rolesAndPermissions.permissions.OutboundSMS || !!rolesAndPermissions.permissions.InternalSMS,
+    isCallQueueMember: extensionInfo.isCallQueueMember,
+    dndStatus: presence && presence.dndStatus,
+    userStatus: presence && presence.userStatus,
+    showPresenceSettings: !!(params && params.showPresenceSettings)
   };
 }
 
 function mapToFunctions(_, _ref2) {
   var _this = this;
 
-  var auth = _ref2.auth;
+  var auth = _ref2.auth,
+      presence = _ref2.presence,
+      router = _ref2.router,
+      regionSettingsUrl = _ref2.regionSettingsUrl,
+      callingSettingsUrl = _ref2.callingSettingsUrl;
 
   return {
     onLogoutButtonClick: function () {
@@ -120,22 +144,46 @@ function mapToFunctions(_, _ref2) {
       return function onLogoutButtonClick() {
         return _ref3.apply(this, arguments);
       };
-    }()
+    }(),
+    onRegionSettingsLinkClick: function onRegionSettingsLinkClick() {
+      router.push(regionSettingsUrl);
+    },
+    onCallingSettingsLinkClick: function onCallingSettingsLinkClick() {
+      router.push(callingSettingsUrl);
+    },
+    setAvailable: function setAvailable() {
+      return presence && presence.setAvailable.apply(presence, arguments);
+    },
+    setBusy: function setBusy() {
+      return presence && presence.setBusy.apply(presence, arguments);
+    },
+    setDoNotDisturb: function setDoNotDisturb() {
+      return presence && presence.setDoNotDisturb.apply(presence, arguments);
+    },
+    setInvisible: function setInvisible() {
+      return presence && presence.setInvisible.apply(presence, arguments);
+    },
+    toggleAcceptCallQueueCalls: function toggleAcceptCallQueueCalls() {
+      return presence && presence.toggleAcceptCallQueueCalls.apply(presence, arguments);
+    }
   };
 }
 var SettingsPage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_SettingsPanel2.default);
 
 var propTypes = {
-  accountInfo: _react.PropTypes.instanceOf(_AccountInfo2.default).isRequired,
-  auth: _react.PropTypes.instanceOf(_Auth2.default).isRequired,
-  brand: _react.PropTypes.instanceOf(_Brand2.default).isRequired,
-  extensionInfo: _react.PropTypes.instanceOf(_ExtensionInfo2.default).isRequired,
-  locale: _react.PropTypes.instanceOf(_Locale2.default).isRequired,
-  regionSettings: _react.PropTypes.instanceOf(_RegionSettings2.default).isRequired,
-  callingSettingsUrl: _react.PropTypes.string.isRequired,
-  regionSettingsUrl: _react.PropTypes.string.isRequired,
-  version: _react.PropTypes.string.isRequired,
-  rolesAndPermissions: _react.PropTypes.instanceOf(_RolesAndPermissions2.default).isRequired
+  accountInfo: _propTypes2.default.instanceOf(_AccountInfo2.default).isRequired,
+  auth: _propTypes2.default.instanceOf(_Auth2.default).isRequired,
+  brand: _propTypes2.default.instanceOf(_Brand2.default).isRequired,
+  extensionInfo: _propTypes2.default.instanceOf(_ExtensionInfo2.default).isRequired,
+  locale: _propTypes2.default.instanceOf(_Locale2.default).isRequired,
+  regionSettings: _propTypes2.default.instanceOf(_RegionSettings2.default).isRequired,
+  callingSettingsUrl: _propTypes2.default.string.isRequired,
+  regionSettingsUrl: _propTypes2.default.string.isRequired,
+  version: _propTypes2.default.string.isRequired,
+  rolesAndPermissions: _propTypes2.default.instanceOf(_RolesAndPermissions2.default).isRequired,
+  presence: _propTypes2.default.instanceOf(_Presence2.default),
+  router: _propTypes2.default.instanceOf(_RouterInteraction2.default),
+  callingSettings: _propTypes2.default.object.isRequired
 };
 
 SettingsPage.propTypes = propTypes;

@@ -9,6 +9,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 require('core-js/fn/array/find');
 
 var _Header = require('../Header');
@@ -52,7 +56,13 @@ function CallsPanel(_ref) {
       showSpinner = _ref.showSpinner,
       title = _ref.title,
       active = _ref.active,
-      loggingMap = _ref.loggingMap;
+      loggingMap = _ref.loggingMap,
+      webphoneAnswer = _ref.webphoneAnswer,
+      webphoneReject = _ref.webphoneReject,
+      webphoneHangup = _ref.webphoneHangup,
+      webphoneResume = _ref.webphoneResume,
+      enableContactFallback = _ref.enableContactFallback,
+      autoLog = _ref.autoLog;
 
   var content = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(_CallList2.default, {
     currentLocale: currentLocale,
@@ -71,7 +81,13 @@ function CallsPanel(_ref) {
     internalSmsPermission: internalSmsPermission,
     dateTimeFormatter: dateTimeFormatter,
     active: active,
-    loggingMap: loggingMap
+    loggingMap: loggingMap,
+    webphoneAnswer: webphoneAnswer,
+    webphoneReject: webphoneReject,
+    webphoneHangup: webphoneHangup,
+    webphoneResume: webphoneResume,
+    enableContactFallback: enableContactFallback,
+    autoLog: autoLog
   });
   return _react2.default.createElement(
     'div',
@@ -90,25 +106,31 @@ function CallsPanel(_ref) {
 }
 
 CallsPanel.propTypes = {
-  currentLocale: _react.PropTypes.string.isRequired,
-  calls: _react.PropTypes.arrayOf(_react.PropTypes.any).isRequired,
-  areaCode: _react.PropTypes.string.isRequired,
-  countryCode: _react.PropTypes.string.isRequired,
-  onViewContact: _react.PropTypes.func,
-  onCreateContact: _react.PropTypes.func,
-  onClickToDial: _react.PropTypes.func,
-  onClickToSms: _react.PropTypes.func,
-  onLogCall: _react.PropTypes.func,
-  isLoggedContact: _react.PropTypes.func,
-  disableLinks: _react.PropTypes.bool.isRequired,
-  disableClickToDial: _react.PropTypes.bool,
-  outboundSmsPermission: _react.PropTypes.bool,
-  internalSmsPermission: _react.PropTypes.bool,
-  dateTimeFormatter: _react.PropTypes.func.isRequired,
-  showSpinner: _react.PropTypes.bool,
-  title: _react.PropTypes.string,
-  active: _react.PropTypes.bool,
-  loggingMap: _react.PropTypes.object
+  currentLocale: _propTypes2.default.string.isRequired,
+  calls: _propTypes2.default.arrayOf(_propTypes2.default.any).isRequired,
+  areaCode: _propTypes2.default.string.isRequired,
+  countryCode: _propTypes2.default.string.isRequired,
+  onViewContact: _propTypes2.default.func,
+  onCreateContact: _propTypes2.default.func,
+  onClickToDial: _propTypes2.default.func,
+  onClickToSms: _propTypes2.default.func,
+  onLogCall: _propTypes2.default.func,
+  isLoggedContact: _propTypes2.default.func,
+  disableLinks: _propTypes2.default.bool.isRequired,
+  disableClickToDial: _propTypes2.default.bool,
+  outboundSmsPermission: _propTypes2.default.bool,
+  internalSmsPermission: _propTypes2.default.bool,
+  dateTimeFormatter: _propTypes2.default.func.isRequired,
+  showSpinner: _propTypes2.default.bool,
+  title: _propTypes2.default.string,
+  active: _propTypes2.default.bool,
+  loggingMap: _propTypes2.default.object,
+  webphoneAnswer: _propTypes2.default.func,
+  webphoneReject: _propTypes2.default.func,
+  webphoneHangup: _propTypes2.default.func,
+  webphoneResume: _propTypes2.default.func,
+  enableContactFallback: _propTypes2.default.bool,
+  autoLog: _propTypes2.default.bool
 };
 
 CallsPanel.defaultProps = {
@@ -124,6 +146,12 @@ CallsPanel.defaultProps = {
   title: '',
   active: false,
   isLoggedContact: undefined,
-  loggingMap: {}
+  loggingMap: {},
+  webphoneAnswer: undefined,
+  webphoneReject: undefined,
+  webphoneHangup: undefined,
+  webphoneResume: undefined,
+  enableContactFallback: undefined,
+  autoLog: false
 };
 //# sourceMappingURL=index.js.map

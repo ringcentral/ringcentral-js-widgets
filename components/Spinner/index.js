@@ -9,6 +9,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -35,8 +39,8 @@ function Spinner(_ref) {
   );
 }
 Spinner.propTypes = {
-  className: _react.PropTypes.string,
-  ringWidth: _react.PropTypes.number
+  className: _propTypes2.default.string,
+  ringWidth: _propTypes2.default.number
 };
 Spinner.defaultProps = {
   className: null,

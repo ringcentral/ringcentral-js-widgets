@@ -9,6 +9,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -41,6 +45,14 @@ var _Eula = require('../Eula');
 
 var _Eula2 = _interopRequireDefault(_Eula);
 
+var _SpinnerOverlay = require('../SpinnerOverlay');
+
+var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
+
+var _PresenceSettingSection = require('../PresenceSettingSection');
+
+var _PresenceSettingSection2 = _interopRequireDefault(_PresenceSettingSection);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -64,25 +76,53 @@ function SettingsPanel(_ref) {
       currentLocale = _ref.currentLocale,
       brandId = _ref.brandId,
       EulaRenderer = _ref.EulaRenderer,
-      callingSettingsUrl = _ref.callingSettingsUrl,
-      regionSettingsUrl = _ref.regionSettingsUrl,
+      onCallingSettingsLinkClick = _ref.onCallingSettingsLinkClick,
+      onRegionSettingsLinkClick = _ref.onRegionSettingsLinkClick,
       showAutoLog = _ref.showAutoLog,
       autoLogEnabled = _ref.autoLogEnabled,
       onAutoLogChange = _ref.onAutoLogChange,
+      showAutoLogSMS = _ref.showAutoLogSMS,
+      autoLogSMSEnabled = _ref.autoLogSMSEnabled,
+      onAutoLogSMSChange = _ref.onAutoLogSMSChange,
       showClickToDial = _ref.showClickToDial,
       clickToDialEnabled = _ref.clickToDialEnabled,
       onClickToDialChange = _ref.onClickToDialChange,
       showRegion = _ref.showRegion,
       showHeader = _ref.showHeader,
       ringoutEnabled = _ref.ringoutEnabled,
-      outboundSMS = _ref.outboundSMS;
+      outboundSMS = _ref.outboundSMS,
+      showSpinner = _ref.showSpinner,
+      dndStatus = _ref.dndStatus,
+      userStatus = _ref.userStatus,
+      setAvailable = _ref.setAvailable,
+      setBusy = _ref.setBusy,
+      setDoNotDisturb = _ref.setDoNotDisturb,
+      setInvisible = _ref.setInvisible,
+      toggleAcceptCallQueueCalls = _ref.toggleAcceptCallQueueCalls,
+      isCallQueueMember = _ref.isCallQueueMember,
+      showPresenceSettings = _ref.showPresenceSettings;
 
+  if (showSpinner) {
+    return _react2.default.createElement(_SpinnerOverlay2.default, null);
+  }
   var region = showRegion ? _react2.default.createElement(
     _LinkLine2.default,
     {
-      to: regionSettingsUrl },
+      onClick: onRegionSettingsLinkClick },
     _i18n2.default.getString('region', currentLocale)
   ) : null;
+  var presenceSetting = dndStatus && userStatus ? _react2.default.createElement(_PresenceSettingSection2.default, {
+    currentLocale: currentLocale,
+    dndStatus: dndStatus,
+    userStatus: userStatus,
+    isCallQueueMember: isCallQueueMember,
+    setAvailable: setAvailable,
+    setBusy: setBusy,
+    setDoNotDisturb: setDoNotDisturb,
+    setInvisible: setInvisible,
+    toggleAcceptCallQueueCalls: toggleAcceptCallQueueCalls,
+    showPresenceSettings: showPresenceSettings
+  }) : null;
   var clickToDialText = void 0;
   if (outboundSMS && ringoutEnabled) {
     clickToDialText = _i18n2.default.getString('clickToDialSMS', currentLocale);
@@ -111,7 +151,17 @@ function SettingsPanel(_ref) {
         onChange: onAutoLogChange
       })
     },
-    _i18n2.default.getString('autoCreateLog', currentLocale)
+    _i18n2.default.getString('autoLogCalls', currentLocale)
+  ) : null;
+  var autoLogSMS = showAutoLogSMS ? _react2.default.createElement(
+    _IconLine2.default,
+    {
+      icon: _react2.default.createElement(_Switch2.default, {
+        checked: autoLogSMSEnabled,
+        onChange: onAutoLogSMSChange
+      })
+    },
+    _i18n2.default.getString('autoLogSMS', currentLocale)
   ) : null;
   var header = showHeader ? _react2.default.createElement(
     _Header2.default,
@@ -129,12 +179,14 @@ function SettingsPanel(_ref) {
       _react2.default.createElement(
         _LinkLine2.default,
         {
-          to: callingSettingsUrl },
+          onClick: onCallingSettingsLinkClick },
         _i18n2.default.getString('calling', currentLocale)
       ),
       region,
+      presenceSetting,
       children,
       autoLog,
+      autoLogSMS,
       clickToDial,
       _react2.default.createElement(
         'section',
@@ -176,26 +228,39 @@ function SettingsPanel(_ref) {
 }
 
 SettingsPanel.propTypes = {
-  brandId: _react.PropTypes.string.isRequired,
-  callingSettingsUrl: _react.PropTypes.string.isRequired,
-  children: _react.PropTypes.node,
-  className: _react.PropTypes.string,
-  currentLocale: _react.PropTypes.string.isRequired,
-  EulaRenderer: _react.PropTypes.func,
-  loginNumber: _react.PropTypes.string.isRequired,
-  onLogoutButtonClick: _react.PropTypes.func.isRequired,
-  regionSettingsUrl: _react.PropTypes.string.isRequired,
-  showAutoLog: _react.PropTypes.bool,
-  autoLogEnabled: _react.PropTypes.bool,
-  onAutoLogChange: _react.PropTypes.func,
-  showRegion: _react.PropTypes.bool.isRequired,
-  showClickToDial: _react.PropTypes.bool,
-  clickToDialEnabled: _react.PropTypes.bool,
-  onClickToDialChange: _react.PropTypes.func,
-  version: _react.PropTypes.string.isRequired,
-  showHeader: _react.PropTypes.bool,
-  ringoutEnabled: _react.PropTypes.bool,
-  outboundSMS: _react.PropTypes.bool
+  brandId: _propTypes2.default.string.isRequired,
+  onCallingSettingsLinkClick: _propTypes2.default.func.isRequired,
+  children: _propTypes2.default.node,
+  className: _propTypes2.default.string,
+  currentLocale: _propTypes2.default.string.isRequired,
+  EulaRenderer: _propTypes2.default.func,
+  loginNumber: _propTypes2.default.string.isRequired,
+  onLogoutButtonClick: _propTypes2.default.func.isRequired,
+  onRegionSettingsLinkClick: _propTypes2.default.func.isRequired,
+  showAutoLog: _propTypes2.default.bool,
+  autoLogEnabled: _propTypes2.default.bool,
+  onAutoLogChange: _propTypes2.default.func,
+  showAutoLogSMS: _propTypes2.default.bool,
+  autoLogSMSEnabled: _propTypes2.default.bool,
+  onAutoLogSMSChange: _propTypes2.default.func,
+  showRegion: _propTypes2.default.bool.isRequired,
+  showClickToDial: _propTypes2.default.bool,
+  clickToDialEnabled: _propTypes2.default.bool,
+  onClickToDialChange: _propTypes2.default.func,
+  version: _propTypes2.default.string.isRequired,
+  showHeader: _propTypes2.default.bool,
+  ringoutEnabled: _propTypes2.default.bool,
+  outboundSMS: _propTypes2.default.bool,
+  showSpinner: _propTypes2.default.bool,
+  dndStatus: _propTypes2.default.string,
+  userStatus: _propTypes2.default.string,
+  isCallQueueMember: _propTypes2.default.bool,
+  setAvailable: _propTypes2.default.func,
+  setBusy: _propTypes2.default.func,
+  setDoNotDisturb: _propTypes2.default.func,
+  setInvisible: _propTypes2.default.func,
+  toggleAcceptCallQueueCalls: _propTypes2.default.func,
+  showPresenceSettings: _propTypes2.default.bool
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -203,12 +268,35 @@ SettingsPanel.defaultProps = {
   children: null,
   showClickToDial: false,
   clickToDialEnabled: false,
-  onClickToDialChange: function onClickToDialChange() {},
+  onClickToDialChange: undefined,
   showAutoLog: false,
   autoLogEnabled: false,
-  onAutoLogChange: function onAutoLogChange() {},
+  onAutoLogChange: undefined,
+  showAutoLogSMS: false,
+  autoLogSMSEnabled: false,
+  onAutoLogSMSChange: undefined,
   showHeader: false,
   ringoutEnabled: false,
-  outboundSMS: false
+  outboundSMS: false,
+  showSpinner: false,
+  dndStatus: undefined,
+  userStatus: undefined,
+  isCallQueueMember: false,
+  setAvailable: function setAvailable() {
+    return null;
+  },
+  setBusy: function setBusy() {
+    return null;
+  },
+  setDoNotDisturb: function setDoNotDisturb() {
+    return null;
+  },
+  setInvisible: function setInvisible() {
+    return null;
+  },
+  toggleAcceptCallQueueCalls: function toggleAcceptCallQueueCalls() {
+    return null;
+  },
+  showPresenceSettings: false
 };
 //# sourceMappingURL=index.js.map

@@ -8,6 +8,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -37,22 +41,28 @@ function SearchInput(props) {
       className: _styles2.default.input,
       maxLength: props.maxLength,
       placeholder: props.placeholder,
-      autoComplete: 'off'
+      autoComplete: 'off',
+      disabled: props.disabled
     })
   );
 }
 
 SearchInput.propTypes = {
-  className: _react.PropTypes.string,
-  value: _react.PropTypes.string.isRequired,
-  onChange: _react.PropTypes.func.isRequired,
-  onKeyUp: _react.PropTypes.func.isRequired,
-  maxLength: _react.PropTypes.number.isRequired,
-  placeholder: _react.PropTypes.string.isRequired
+  className: _propTypes2.default.string,
+  value: _propTypes2.default.string.isRequired,
+  onChange: _propTypes2.default.func.isRequired,
+  onKeyUp: _propTypes2.default.func,
+  maxLength: _propTypes2.default.number,
+  placeholder: _propTypes2.default.string,
+  disabled: _propTypes2.default.bool
 };
 
 SearchInput.defaultProps = {
-  className: null
+  className: null,
+  disabled: false,
+  placeholder: '',
+  maxLength: undefined,
+  onKeyUp: undefined
 };
 
 exports.default = SearchInput;

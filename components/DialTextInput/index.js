@@ -8,6 +8,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -57,11 +61,11 @@ function DialTextInput(_ref) {
 }
 
 DialTextInput.propTypes = {
-  className: _react.PropTypes.string,
-  invalid: _react.PropTypes.bool,
-  value: _react.PropTypes.string,
-  onChangeEvent: _react.PropTypes.func,
-  onDelete: _react.PropTypes.func
+  className: _propTypes2.default.string,
+  invalid: _propTypes2.default.bool,
+  value: _propTypes2.default.string,
+  onChangeEvent: _propTypes2.default.func,
+  onDelete: _propTypes2.default.func
 };
 DialTextInput.defaultValue = {
   className: _styles2.default.input

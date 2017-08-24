@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -27,6 +28,10 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _classnames = require('classnames');
 
@@ -60,7 +65,7 @@ function ToggleButton(_ref) {
   );
 }
 ToggleButton.propTypes = {
-  onClick: _react.PropTypes.func
+  onClick: _propTypes2.default.func
 };
 ToggleButton.defaultProps = {
   onClick: undefined
@@ -158,10 +163,10 @@ exports.default = SlideMenu;
 
 
 SlideMenu.propTypes = {
-  children: _react.PropTypes.node,
-  className: _react.PropTypes.string,
-  minWidth: _react.PropTypes.number,
-  maxWidth: _react.PropTypes.number
+  children: _propTypes2.default.node,
+  className: _propTypes2.default.string,
+  minWidth: _propTypes2.default.number,
+  maxWidth: _propTypes2.default.number
 };
 SlideMenu.defaultProps = {
   className: undefined,

@@ -47,6 +47,22 @@ function loadLocale(locale) {
           }, 'en-US');
           break;
         }
+      case 'es-419':
+        {
+          require.ensure(['./es-419'], function (require) {
+            var data = require('./es-419');
+            resolve(data.__esModule === true ? data.default : data);
+          }, 'es-419');
+          break;
+        }
+      case 'es-ES':
+        {
+          require.ensure(['./es-ES'], function (require) {
+            var data = require('./es-ES');
+            resolve(data.__esModule === true ? data.default : data);
+          }, 'es-ES');
+          break;
+        }
       case 'fr-CA':
         {
           require.ensure(['./fr-CA'], function (require) {
@@ -61,6 +77,14 @@ function loadLocale(locale) {
             var data = require('./fr-FR');
             resolve(data.__esModule === true ? data.default : data);
           }, 'fr-FR');
+          break;
+        }
+      case 'it-IT':
+        {
+          require.ensure(['./it-IT'], function (require) {
+            var data = require('./it-IT');
+            resolve(data.__esModule === true ? data.default : data);
+          }, 'it-IT');
           break;
         }
       default:

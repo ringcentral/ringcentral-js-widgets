@@ -9,13 +9,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _classnames = require('classnames');
+var _propTypes = require('prop-types');
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _styles = require('./styles.scss');
+var _Badge = require('../Badge');
 
-var _styles2 = _interopRequireDefault(_styles);
+var _Badge2 = _interopRequireDefault(_Badge);
 
 var _i18n = require('./i18n');
 
@@ -31,11 +31,12 @@ function OfflineModeBadge(_ref) {
 
   if (offline) {
     return _react2.default.createElement(
-      'a',
+      _Badge2.default,
       {
-        href: '#offline-badge',
-        className: (0, _classnames2.default)(_styles2.default.root, className),
-        onClick: showOfflineAlert },
+        className: className,
+        name: _i18n2.default.getString('offlineMode', currentLocale),
+        onClick: showOfflineAlert
+      },
       _i18n2.default.getString('offlineMode', currentLocale)
     );
   }
@@ -43,10 +44,10 @@ function OfflineModeBadge(_ref) {
 }
 
 OfflineModeBadge.propTypes = {
-  offline: _react.PropTypes.bool.isRequired,
-  showOfflineAlert: _react.PropTypes.func.isRequired,
-  currentLocale: _react.PropTypes.string.isRequired,
-  className: _react.PropTypes.string
+  offline: _propTypes2.default.bool.isRequired,
+  showOfflineAlert: _propTypes2.default.func.isRequired,
+  currentLocale: _propTypes2.default.string.isRequired,
+  className: _propTypes2.default.string
 };
 
 OfflineModeBadge.defaultProps = {

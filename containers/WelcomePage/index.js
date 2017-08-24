@@ -9,11 +9,19 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _reactRedux = require('react-redux');
 
 var _Auth = require('ringcentral-integration/modules/Auth');
 
 var _Auth2 = _interopRequireDefault(_Auth);
+
+var _loginStatus = require('ringcentral-integration/modules/Auth/loginStatus');
+
+var _loginStatus2 = _interopRequireDefault(_loginStatus);
 
 var _Locale = require('ringcentral-integration/modules/Locale');
 
@@ -31,50 +39,20 @@ var _LoginPanel = require('../../components/LoginPanel');
 
 var _LoginPanel2 = _interopRequireDefault(_LoginPanel);
 
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function WelcomeContainer(props) {
-  return _react2.default.createElement(
-    'div',
-    { className: _styles2.default.root },
-    _react2.default.createElement(_LoginPanel2.default, {
-      currentLocale: props.currentLocale,
-      disabled: props.disabled,
-      setupProxyFrame: props.setupProxyFrame,
-      clearProxyFrame: props.clearProxyFrame,
-      onLoginButtonClick: props.onLoginButtonClick
-    }),
-    props.children
-  );
-}
-
-WelcomeContainer.propTypes = {
-  children: _react.PropTypes.node,
-  currentLocale: _react.PropTypes.string.isRequired,
-  setupProxyFrame: _react.PropTypes.func.isRequired,
-  clearProxyFrame: _react.PropTypes.func.isRequired,
-  onLoginButtonClick: _react.PropTypes.func.isRequired,
-  disabled: _react.PropTypes.bool
-};
-
-WelcomeContainer.defaultProps = {
-  children: null,
-  disabled: false
-};
 
 function mapToProps(_, _ref) {
   var auth = _ref.auth,
       locale = _ref.locale,
       rateLimiter = _ref.rateLimiter,
-      connectivityMonitor = _ref.connectivityMonitor;
+      connectivityMonitor = _ref.connectivityMonitor,
+      version = _ref.version;
 
   return {
     currentLocale: locale.currentLocale,
-    disabled: !auth.proxyLoaded || rateLimiter.throttling || !connectivityMonitor.connectivity
+    disabled: !auth.proxyLoaded || rateLimiter.throttling || !connectivityMonitor.connectivity,
+    version: version,
+    showSpinner: !auth.ready || auth.loginStatus === _loginStatus2.default.loggingIn || auth.loginStatus === _loginStatus2.default.loggingOut || auth.loginStatus === _loginStatus2.default.beforeLogout
   };
 }
 
@@ -95,15 +73,16 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var WelcomePage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(WelcomeContainer);
+var WelcomePage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_LoginPanel2.default);
 
 var propTypes = {
-  auth: _react.PropTypes.instanceOf(_Auth2.default).isRequired,
-  locale: _react.PropTypes.instanceOf(_Locale2.default).isRequired,
-  rateLimiter: _react.PropTypes.instanceOf(_RateLimiter2.default).isRequired,
-  connectivityMonitor: _react.PropTypes.instanceOf(_ConnectivityMonitor2.default).isRequired,
-  mainUrl: _react.PropTypes.string,
-  onLogin: _react.PropTypes.func
+  auth: _propTypes2.default.instanceOf(_Auth2.default).isRequired,
+  locale: _propTypes2.default.instanceOf(_Locale2.default).isRequired,
+  rateLimiter: _propTypes2.default.instanceOf(_RateLimiter2.default).isRequired,
+  connectivityMonitor: _propTypes2.default.instanceOf(_ConnectivityMonitor2.default).isRequired,
+  mainUrl: _propTypes2.default.string,
+  onLogin: _propTypes2.default.func,
+  version: _propTypes2.default.string
 };
 
 WelcomePage.propTypes = propTypes;

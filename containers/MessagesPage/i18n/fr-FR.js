@@ -4,9 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  title: 'Messages',
-  search: 'Recherche...',
-  noMessages: 'Aucun message',
-  noSearchResults: 'Aucune correspondance de registre trouvée'
+  title: 'Messages'
 };
 //# sourceMappingURL=fr-FR.js.map

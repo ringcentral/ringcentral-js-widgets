@@ -7,7 +7,9 @@ exports.default = exports.propTypes = exports.mapToProps = exports.mapToFunction
 
 var _reactRedux = require('react-redux');
 
-var _react = require('react');
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
@@ -42,13 +44,15 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function mapToProps(_, _ref) {
   var conference = _ref.conference,
       regionSettings = _ref.regionSettings,
-      locale = _ref.locale;
+      locale = _ref.locale,
+      composeText = _ref.composeText;
 
   return {
     conferenceNumbers: conference.conferenceNumbers,
     countryCode: regionSettings.countryCode,
     areaCode: regionSettings.areaCode,
-    currentLocale: locale.currentLocale
+    currentLocale: locale.currentLocale,
+    showSpinner: !(conference.ready && regionSettings.ready && locale.ready && composeText.ready)
   };
 }
 
@@ -59,7 +63,7 @@ function mapToFunctions(_, _ref2) {
   return {
     inviteWithText: function inviteWithText(text) {
       composeText.updateMessageText(text);
-      router.history.push('/composeText');
+      router.push('/composeText');
     },
     formatInternational: function formatInternational(phoneNumber, callingCode) {
       if (phoneNumber.indexOf(callingCode === 1)) {
@@ -86,11 +90,11 @@ function mapToFunctions(_, _ref2) {
 var ConferencePage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ConferencePanel2.default);
 
 var propTypes = {
-  conference: _react.PropTypes.instanceOf(_Conference2.default),
-  regionSettings: _react.PropTypes.instanceOf(_RegionSettings2.default),
-  locale: _react.PropTypes.instanceOf(_Locale2.default),
-  composeText: _react.PropTypes.instanceOf(_ComposeText2.default),
-  router: _react.PropTypes.instanceOf(_RouterInteraction2.default)
+  conference: _propTypes2.default.instanceOf(_Conference2.default),
+  regionSettings: _propTypes2.default.instanceOf(_RegionSettings2.default),
+  locale: _propTypes2.default.instanceOf(_Locale2.default),
+  composeText: _propTypes2.default.instanceOf(_ComposeText2.default),
+  router: _propTypes2.default.instanceOf(_RouterInteraction2.default)
 };
 
 ConferencePage.propTypes = propTypes;

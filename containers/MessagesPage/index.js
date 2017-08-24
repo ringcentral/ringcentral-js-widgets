@@ -4,57 +4,47 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _getIterator2 = require('babel-runtime/core-js/get-iterator');
+var _regenerator = require('babel-runtime/regenerator');
 
-var _getIterator3 = _interopRequireDefault(_getIterator2);
+var _regenerator2 = _interopRequireDefault(_regenerator);
 
-var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+var _extends2 = require('babel-runtime/helpers/extends');
 
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+var _extends3 = _interopRequireDefault(_extends2);
 
-var _createClass2 = require('babel-runtime/helpers/createClass');
+var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
 
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = require('babel-runtime/helpers/inherits');
-
-var _inherits3 = _interopRequireDefault(_inherits2);
+var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 var _reactRedux = require('react-redux');
 
-var _formatNumber = require('ringcentral-integration/lib/formatNumber');
+var _Header = require('../../components/Header');
 
-var _formatNumber2 = _interopRequireDefault(_formatNumber);
+var _Header2 = _interopRequireDefault(_Header);
 
-var _messageHelper = require('ringcentral-integration/lib/messageHelper');
+var _SpinnerOverlay = require('../../components/SpinnerOverlay');
 
-var _Spinner = require('../../components/Spinner');
-
-var _Spinner2 = _interopRequireDefault(_Spinner);
-
-var _Panel = require('../../components/Panel');
-
-var _Panel2 = _interopRequireDefault(_Panel);
+var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
 
 var _MessageList = require('../../components/MessageList');
 
 var _MessageList2 = _interopRequireDefault(_MessageList);
-
-var _SearchInput = require('../../components/SearchInput');
-
-var _SearchInput2 = _interopRequireDefault(_SearchInput);
 
 var _styles = require('./styles.scss');
 
@@ -66,270 +56,220 @@ var _i18n2 = _interopRequireDefault(_i18n);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function MessageSpiner() {
+function MessagesPanel(_ref) {
+  var currentLocale = _ref.currentLocale,
+      showSpinner = _ref.showSpinner,
+      showTitle = _ref.showTitle,
+      props = (0, _objectWithoutProperties3.default)(_ref, ['currentLocale', 'showSpinner', 'showTitle']);
+
+  var header = showTitle ? _react2.default.createElement(
+    _Header2.default,
+    null,
+    _i18n2.default.getString('title', currentLocale)
+  ) : null;
+  var content = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(_MessageList2.default, (0, _extends3.default)({
+    className: (0, _classnames2.default)(_styles2.default.content, showTitle && _styles2.default.contentWithHeader)
+  }, props, {
+    currentLocale: currentLocale
+  }));
   return _react2.default.createElement(
     'div',
-    { className: _styles2.default.spinerContainer },
-    _react2.default.createElement(_Spinner2.default, null)
+    { className: _styles2.default.root },
+    header,
+    content
   );
 }
 
-var MessagesPage = function (_Component) {
-  (0, _inherits3.default)(MessagesPage, _Component);
+MessagesPanel.propTypes = {
+  currentLocale: _propTypes2.default.string.isRequired,
+  showSpinner: _propTypes2.default.bool,
+  showTitle: _propTypes2.default.bool
+};
+MessagesPanel.defaultProps = {
+  showSpinner: false,
+  showTitle: false
+};
 
-  function MessagesPage(props) {
-    (0, _classCallCheck3.default)(this, MessagesPage);
+function mapToProps(_, _ref2) {
+  var locale = _ref2.locale,
+      messages = _ref2.messages,
+      contactMatcher = _ref2.contactMatcher,
+      dateTimeFormat = _ref2.dateTimeFormat,
+      regionSettings = _ref2.regionSettings,
+      rolesAndPermissions = _ref2.rolesAndPermissions,
+      call = _ref2.call,
+      conversationLogger = _ref2.conversationLogger,
+      connectivityMonitor = _ref2.connectivityMonitor,
+      rateLimiter = _ref2.rateLimiter,
+      _ref2$showTitle = _ref2.showTitle,
+      showTitle = _ref2$showTitle === undefined ? false : _ref2$showTitle,
+      _ref2$enableContactFa = _ref2.enableContactFallback,
+      enableContactFallback = _ref2$enableContactFa === undefined ? false : _ref2$enableContactFa;
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (MessagesPage.__proto__ || (0, _getPrototypeOf2.default)(MessagesPage)).call(this, props));
+  return {
+    showTitle: showTitle,
+    enableContactFallback: enableContactFallback,
+    currentLocale: locale.currentLocale,
+    conversations: messages.filteredConversations,
+    areaCode: regionSettings.areaCode,
+    countryCode: regionSettings.countryCode,
+    disableLinks: !connectivityMonitor.connectivity || rateLimiter.throttling,
+    disableClickToDial: !(call && call.isIdle),
+    outboundSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.OutboundSMS),
+    internalSmsPermission: !!(rolesAndPermissions.permissions && rolesAndPermissions.permissions.InternalSMS),
+    loggingMap: conversationLogger && conversationLogger.loggingMap,
+    showSpinner: !(locale.ready && messages.ready && (!contactMatcher || contactMatcher.ready) && dateTimeFormat.ready && regionSettings.ready && rolesAndPermissions.ready && connectivityMonitor.ready && rateLimiter.ready && (!rolesAndPermissions || rolesAndPermissions.ready) && (!call || call.ready) && (!conversationLogger || conversationLogger.ready)),
+    searchInput: messages.searchInput,
+    autoLog: !!(conversationLogger && conversationLogger.autoLog)
+  };
+}
 
-    _this.onSearchChange = function (e) {
-      var value = e.currentTarget.value;
-      _this.props.updateSearchingString(value);
-    };
+function mapToFunctions(_, _ref3) {
+  var _this = this;
 
-    _this.searchMessage = _this.searchMessage.bind(_this);
-    _this.getMessageRecipientNames = _this.getMessageRecipientNames.bind(_this);
-    return _this;
-  }
+  var dateTimeFormat = _ref3.dateTimeFormat,
+      _ref3$dateTimeFormatt = _ref3.dateTimeFormatter,
+      dateTimeFormatter = _ref3$dateTimeFormatt === undefined ? function () {
+    return dateTimeFormat.formatDateTime.apply(dateTimeFormat, arguments);
+  } : _ref3$dateTimeFormatt,
+      messages = _ref3.messages,
+      conversationLogger = _ref3.conversationLogger,
+      contactMatcher = _ref3.contactMatcher,
+      call = _ref3.call,
+      router = _ref3.router,
+      _ref3$dialerRoute = _ref3.dialerRoute,
+      dialerRoute = _ref3$dialerRoute === undefined ? '/dialer' : _ref3$dialerRoute,
+      onViewContact = _ref3.onViewContact,
+      onCreateContact = _ref3.onCreateContact,
+      onLogConversation = _ref3.onLogConversation,
+      isLoggedContact = _ref3.isLoggedContact,
+      _ref3$conversationDet = _ref3.conversationDetailRoute,
+      conversationDetailRoute = _ref3$conversationDet === undefined ? '/conversations/{conversationId}' : _ref3$conversationDet;
 
-  (0, _createClass3.default)(MessagesPage, [{
-    key: 'getMessageRecipientNames',
-    value: function getMessageRecipientNames(message) {
-      var _this2 = this;
+  return {
+    dateTimeFormatter: dateTimeFormatter,
+    onViewContact: onViewContact ? function () {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref5) {
+        var phoneNumber = _ref5.phoneNumber,
+            contact = _ref5.contact;
+        var hasMatchNumber;
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return contactMatcher.hasMatchNumber({
+                  phoneNumber: phoneNumber,
+                  ignoreCache: true
+                });
 
-      var recipients = message.recipients;
-      if (!recipients || recipients.length === 0) {
-        recipients = this.props.getRecipientsList(message);
-      }
-      return recipients.map(function (recipient) {
-        var phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
-        if (phoneNumber && _this2.props.matcherContactName) {
-          if (recipient.matchedNames && recipient.matchedNames[0]) {
-            return recipient.matchedNames[0];
-          }
-          var matcherName = _this2.props.matcherContactName(phoneNumber);
-          if (matcherName) {
-            return matcherName;
-          }
-          return _this2.props.formatPhone(phoneNumber);
-        }
-        if (recipient.name) {
-          return recipient.name;
-        }
-        return _this2.props.formatPhone(phoneNumber);
-      });
-    }
-  }, {
-    key: 'isMatchRecipients',
-    value: function isMatchRecipients(message, searchText, searchNumber) {
-      var recipients = this.props.getRecipientsList(message);
-      var _iteratorNormalCompletion = true;
-      var _didIteratorError = false;
-      var _iteratorError = undefined;
+              case 2:
+                hasMatchNumber = _context.sent;
 
-      try {
-        for (var _iterator = (0, _getIterator3.default)(recipients), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-          var recipient = _step.value;
+                if (!hasMatchNumber) {
+                  _context.next = 6;
+                  break;
+                }
 
-          var phoneNumber = recipient.phoneNumber || recipient.extensionNumber;
-          var recipientName = null;
-          if (phoneNumber) {
-            if (searchNumber && searchNumber.length > 0 && phoneNumber.indexOf(searchNumber) >= 0) {
-              return true;
+                _context.next = 6;
+                return onViewContact({ phoneNumber: phoneNumber, contact: contact });
+
+              case 6:
+              case 'end':
+                return _context.stop();
             }
-            if (this.props.matcherContactName) {
-              var matcherName = this.props.matcherContactName(phoneNumber);
-              if (matcherName) {
-                recipientName = matcherName;
-              } else {
-                recipientName = phoneNumber;
-              }
-            }
           }
-          if (!recipientName && recipient.name) {
-            recipientName = recipient.name;
-          }
-          if (recipientName && recipientName.toLowerCase().indexOf(searchText) >= 0) {
-            return true;
-          }
-        }
-      } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion && _iterator.return) {
-            _iterator.return();
-          }
-        } finally {
-          if (_didIteratorError) {
-            throw _iteratorError;
-          }
-        }
-      }
+        }, _callee, _this);
+      }));
 
-      return false;
-    }
-  }, {
-    key: 'searchMessage',
-    value: function searchMessage() {
-      var _this3 = this;
-
-      var searchString = this.props.searchingString;
-      if (searchString.length < 3) {
-        this.props.updateSearchResults([]);
-        return;
-      }
-      var searchText = searchString.toLowerCase().trim();
-      var searchNumber = searchString.replace(/[^\d]/g, '');
-      if (searchString.length !== searchNumber.length && searchNumber.length < 2) {
-        searchNumber = null;
-      }
-      var searchTextResults = this.props.searchMessagesText(searchText).reverse();
-      var searchContactresults = this.props.allMessages.filter(function (message) {
-        return _this3.isMatchRecipients(message, searchText, searchNumber);
-      }).reverse();
-      var results = [];
-      var searchMap = {};
-      var addSearchResultToResult = function addSearchResultToResult(message) {
-        if (searchMap[message.conversationId]) {
-          return;
-        }
-        searchMap[message.conversationId] = 1;
-        results.push(message);
+      return function (_x) {
+        return _ref4.apply(this, arguments);
       };
-      searchContactresults.forEach(addSearchResultToResult);
-      searchTextResults.forEach(addSearchResultToResult);
-      this.props.updateSearchResults(results);
-    }
-  }, {
-    key: 'renderMessageList',
-    value: function renderMessageList() {
-      if (this.props.searchingString.length >= 3) {
-        return _react2.default.createElement(_MessageList2.default, {
-          messages: this.props.searchingResults,
-          loadNextPageMessages: function loadNextPageMessages() {
-            return null;
-          },
-          loading: false,
-          placeholder: _i18n2.default.getString('noSearchResults'),
-          formatDateTime: this.props.formatDateTime,
-          getMessageRecipientNames: this.getMessageRecipientNames
-        });
+    }() : undefined,
+    onCreateContact: onCreateContact ? function () {
+      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref7) {
+        var phoneNumber = _ref7.phoneNumber,
+            name = _ref7.name,
+            entityType = _ref7.entityType;
+        var hasMatchNumber;
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return contactMatcher.hasMatchNumber({
+                  phoneNumber: phoneNumber,
+                  ignoreCache: true
+                });
+
+              case 2:
+                hasMatchNumber = _context2.sent;
+
+                if (hasMatchNumber) {
+                  _context2.next = 8;
+                  break;
+                }
+
+                _context2.next = 6;
+                return onCreateContact({ phoneNumber: phoneNumber, name: name, entityType: entityType });
+
+              case 6:
+                _context2.next = 8;
+                return contactMatcher.forceMatchNumber({ phoneNumber: phoneNumber });
+
+              case 8:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, _this);
+      }));
+
+      return function (_x2) {
+        return _ref6.apply(this, arguments);
+      };
+    }() : undefined,
+    onClickToDial: call ? function (phoneNumber) {
+      if (call.isIdle) {
+        router.push(dialerRoute);
+        call.onToNumberChange(phoneNumber);
+        call.onCall();
       }
-      return _react2.default.createElement(_MessageList2.default, {
-        messages: this.props.messages,
-        loadNextPageMessages: this.props.loadNextPageMessages,
-        placeholder: _i18n2.default.getString('noMessages'),
-        formatDateTime: this.props.formatDateTime,
-        getMessageRecipientNames: this.getMessageRecipientNames
-      });
+    } : undefined,
+    isLoggedContact: isLoggedContact,
+    onLogConversation: onLogConversation || conversationLogger && function () {
+      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref9) {
+        var _ref9$redirect = _ref9.redirect,
+            redirect = _ref9$redirect === undefined ? true : _ref9$redirect,
+            options = (0, _objectWithoutProperties3.default)(_ref9, ['redirect']);
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return conversationLogger.logConversation((0, _extends3.default)({}, options, {
+                  redirect: redirect
+                }));
+
+              case 2:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, _this);
+      }));
+
+      return function (_x3) {
+        return _ref8.apply(this, arguments);
+      };
+    }(),
+    onSearchInputChange: function onSearchInputChange(e) {
+      messages.updateSearchInput(e.currentTarget.value);
+    },
+    showConversationDetail: function showConversationDetail(conversationId) {
+      router.push(conversationDetailRoute.replace('{conversationId}', conversationId));
     }
-  }, {
-    key: 'render',
-    value: function render() {
-      var showSpinner = this.props.showSpinner;
-      if (showSpinner) {
-        return _react2.default.createElement(
-          'div',
-          { className: _styles2.default.root },
-          _react2.default.createElement(MessageSpiner, null)
-        );
-      }
-      return _react2.default.createElement(
-        'div',
-        { className: _styles2.default.content },
-        _react2.default.createElement(_SearchInput2.default, {
-          value: this.props.searchingString,
-          onChange: this.onSearchChange,
-          onKeyUp: this.searchMessage,
-          maxLength: 30,
-          placeholder: _i18n2.default.getString('search')
-        }),
-        _react2.default.createElement(
-          _Panel2.default,
-          null,
-          this.renderMessageList()
-        )
-      );
-    }
-  }]);
-  return MessagesPage;
-}(_react.Component);
-
-MessagesPage.propTypes = {
-  messages: _MessageList2.default.propTypes.messages,
-  allMessages: _MessageList2.default.propTypes.messages,
-  searchingResults: _MessageList2.default.propTypes.messages,
-  loadNextPageMessages: _react.PropTypes.func.isRequired,
-  updateSearchingString: _react.PropTypes.func.isRequired,
-  showSpinner: _react.PropTypes.bool.isRequired,
-  searchingString: _react.PropTypes.string.isRequired,
-  formatDateTime: _react.PropTypes.func.isRequired,
-  formatPhone: _react.PropTypes.func.isRequired,
-  getRecipientsList: _react.PropTypes.func.isRequired,
-  searchMessagesText: _react.PropTypes.func.isRequired,
-  updateSearchResults: _react.PropTypes.func.isRequired,
-  matcherContactName: _react.PropTypes.func
-};
-
-MessagesPage.defaultProps = {
-  matcherContactName: null
-};
-
-function mapStateToProps(state, props) {
-  return {
-    currentLocale: props.locale.currentLocale,
-    messages: props.messages.messages,
-    allMessages: props.messageStore.conversations,
-    showSpinner: !props.messages.ready || props.contactMatcher && !props.contactMatcher.ready || !props.extensionInfo.ready || !props.dateTimeFormat.ready,
-    lastUpdatedAt: props.messages.lastUpdatedAt,
-    searchingString: props.messages.searchingString,
-    searchingResults: props.messages.searchingResults
   };
 }
-
-function mapDispatchToProps(dispatch, props) {
-  var matcherContactName = null;
-  if (props.contactMatcher && props.contactMatcher.ready) {
-    matcherContactName = function matcherContactName(phoneNumber) {
-      var matcherNames = props.contactMatcher.dataMapping[phoneNumber];
-      if (matcherNames && matcherNames.length > 0) {
-        return matcherNames.map(function (matcher) {
-          return matcher.name;
-        }).join('&');
-      }
-      return null;
-    };
-  }
-  return {
-    loadNextPageMessages: props.messages.loadNextPageMessages,
-    updateSearchingString: props.messages.updateSearchingString,
-    updateSearchResults: props.messages.updateSearchResults,
-    formatDateTime: props.formatDateTime || function (utcTimestamp) {
-      return props.dateTimeFormat.formatDateTime({
-        utcTimestamp: utcTimestamp
-      });
-    },
-    formatPhone: function formatPhone(phoneNumber) {
-      return (0, _formatNumber2.default)({
-        phoneNumber: phoneNumber,
-        areaCode: props.regionSettings.areaCode,
-        countryCode: props.regionSettings.countryCode
-      });
-    },
-    getRecipientsList: function getRecipientsList(message) {
-      return (0, _messageHelper.getRecipients)({
-        message: message,
-        myExtensionNumber: props.extensionInfo.extensionNumber
-      });
-    },
-    searchMessagesText: function searchMessagesText(searchText) {
-      return props.messageStore.searchMessagesText(searchText);
-    },
-    matcherContactName: matcherContactName
-  };
-}
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(MessagesPage);
+exports.default = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(MessagesPanel);
 //# sourceMappingURL=index.js.map

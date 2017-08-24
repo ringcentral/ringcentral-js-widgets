@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  send: 'Send'
+  send: 'Send',
+  typeMessage: 'Type message...'
 };
 //# sourceMappingURL=en-CA.js.map

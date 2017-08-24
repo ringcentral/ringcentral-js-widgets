@@ -1,125 +1,135 @@
 @import '../../lib/commonStyles/colors';
 
-.messageItem {
+.root {
+  display: block;
   position: relative;
-  width: 100%;
-  padding: 0 50px 0 0;
-  clear: both;
-  cursor: default;
   background: #fff;
-  overflow: hidden;
-  box-sizing: content-box;
-
-  * {
-    box-sizing: content-box;
-  }
+  border-bottom: 1px solid #e2e2e2;
+  height: 74px;
+  width: 100%;
+  cursor: pointer;
 
   &:hover {
     background-color: #fafafa;
     border-bottom: 1px solid #efefef;
-    .messageContent {
-      border-bottom: none;
+  }
+}
+.conversationIcon {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 6px;
+  width: 40px;
+  height: 74px;
+  line-height: 74px;
+  font-size: 22px;
+  text-align: center;
+  color: #666;
+}
+
+.details {
+  position: absolute;
+  left: 46px;
+  bottom: 12px;
+  font-size: 12px;
+  color: #979797;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 170px;
+}
+.contactDisplay {
+  position: absolute;
+  top: 5px;
+  left: 45px;
+  color: #303030;
+  font-size: 14px;
+}
+// .messageLink {
+//   text-decoration: none;
+// }
+
+// .messageLink:hover {
+//   text-decoration: none;
+// }
+
+// .messageLink:focus {
+//   text-decoration: none;
+// }
+
+
+// .messageContent {
+//   padding: 15px 52px 15px 0;
+//   color: #797979;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   white-space: nowrap;
+//   font-size: 14px;
+//   border-bottom: 1px solid #efefef;
+//   min-height: 36px;
+// }
+
+// .messageFrom {
+//   color: #303030;
+//   font-size: 13px;
+//   line-height: 18px;
+//   display: block;
+//   min-height: 12px;
+//   white-space: nowrap;
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+// }
+
+.unread {
+  .contactDisplay {
+    color: $primary-color;
+    button {
+      color: $primary-color;
     }
   }
-}
 
-.messageLink {
-  text-decoration: none;
-}
-
-.messageLink:hover {
-  text-decoration: none;
-}
-
-.messageLink:focus {
-  text-decoration: none;
-}
-
-.typeIcon {
-  display: inline-block;
-  padding: 15px 8px;
-  float: left;
-  font-size: 1.1em;
-  width: 30px;
-  text-align: center;
-  line-height: 33px;
-  color: #555;
-}
-
-.messageContent {
-  padding: 15px 52px 15px 0;
-  color: #797979;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 14px;
-  border-bottom: 1px solid #efefef;
-  min-height: 36px;
-}
-
-.messageFrom {
-  color: #303030;
-  font-size: 13px;
-  line-height: 18px;
-  display: block;
-  min-height: 12px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.messageText {
-  font-size: 12px;
-  line-height: 18px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  max-width: 20em;
-  margin-right: 2em;
-}
-
-.unRead {
-  .typeIcon {
+  .conversationIcon {
     color: $primary-color;
   }
 
-  .messageFrom {
-    color: $primary-color;
-  }
+  // .messageFrom {
+  //   color: $primary-color;
+  // }
 
-  .messageText {
+  .details {
     color: $primary-color;
   }
 }
 
-.messageInfo {
-  position: absolute;
-  top: 37px;
-  right: 65px;
-  color: #b3b3b3;
-  max-width: 70px;
-  text-align: right;
-}
+// .messageInfo {
+//   position: absolute;
+//   top: 37px;
+//   right: 65px;
+//   color: #b3b3b3;
+//   max-width: 70px;
+//   text-align: right;
+// }
 
-.contactInfo {
-  color: #b3b3b3;
-  font-size: 1em;
-  position: absolute;
-  top: 15px;
-  right: 65px;
-  line-height: 18px;
-  width: 20px;
-  text-align: right;
-  cursor: pointer;
-  &:hover {
-    color: #333;
-  }
-}
+// .contactInfo {
+//   color: #b3b3b3;
+//   font-size: 1em;
+//   position: absolute;
+//   top: 15px;
+//   right: 65px;
+//   line-height: 18px;
+//   width: 20px;
+//   text-align: right;
+//   cursor: pointer;
+//   &:hover {
+//     color: #333;
+//   }
+// }
 
-.messageTime {
-  font-size: 11px;
-  width: 70px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  text-align: right;
-}
+// .messageTime {
+//   font-size: 11px;
+//   width: 70px;
+//   text-overflow: ellipsis;
+//   overflow: hidden;
+//   white-space: nowrap;
+//   text-align: right;
+// }

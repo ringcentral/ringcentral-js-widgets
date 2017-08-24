@@ -28,6 +28,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -36,24 +40,30 @@ var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
 
-var _phoneTypes = require('../../lib/phoneTypes');
+var _phoneTypeNames = require('../../lib/phoneTypeNames');
 
-var _phoneTypes2 = _interopRequireDefault(_phoneTypes);
+var _phoneTypeNames2 = _interopRequireDefault(_phoneTypeNames);
+
+var _phoneSourceNames = require('../../lib/phoneSourceNames');
+
+var _phoneSourceNames2 = _interopRequireDefault(_phoneSourceNames);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function ContactItem(props) {
   var className = (0, _classnames2.default)(_styles2.default.contactItem, props.active ? _styles2.default.active : null);
   var spliter = '|';
-  var nameTitle = props.name + ' ' + spliter + ' ' + ('' + _phoneTypes2.default.getString('phoneSource.' + props.entityType));
-  var phoneNumberTitle = props.formatContactPhone(props.phoneNumber) + ' ' + spliter + ' ' + ('' + (props.phoneType === 'unknown' ? _phoneTypes2.default.getString('phoneType.' + props.phoneType) : props.phoneType));
+  var phoneTypeName = _phoneTypeNames2.default.getString(props.phoneType);
+  var phoneSourceName = _phoneSourceNames2.default.getString(props.entityType);
+  var nameTitle = props.name + ' ' + spliter + ' ' + phoneSourceName;
+  var phoneNumberTitle = props.formatContactPhone(props.phoneNumber) + ' ' + spliter + ' ' + phoneTypeName;
 
   return _react2.default.createElement(
     'li',
     { className: className, onMouseOver: props.onHover },
     _react2.default.createElement(
-      'a',
-      { href: '#select-contact-item', onClick: props.onClick },
+      'div',
+      { className: _styles2.default.clickable, onClick: props.onClick },
       _react2.default.createElement(
         'div',
         { className: _styles2.default.nameSection, title: props.titleEnabled && nameTitle },
@@ -70,7 +80,7 @@ function ContactItem(props) {
         _react2.default.createElement(
           'span',
           { className: _styles2.default.label },
-          _phoneTypes2.default.getString('phoneSource.' + props.entityType)
+          phoneSourceName
         )
       ),
       _react2.default.createElement(
@@ -89,7 +99,7 @@ function ContactItem(props) {
         _react2.default.createElement(
           'span',
           { className: _styles2.default.label },
-          props.phoneType === 'unknown' ? _phoneTypes2.default.getString('phoneType.' + props.phoneType) : props.phoneType
+          phoneTypeName
         )
       )
     )
@@ -97,15 +107,15 @@ function ContactItem(props) {
 }
 
 ContactItem.propTypes = {
-  onClick: _react.PropTypes.func.isRequired,
-  formatContactPhone: _react.PropTypes.func.isRequired,
-  name: _react.PropTypes.string.isRequired,
-  entityType: _react.PropTypes.string.isRequired,
-  phoneType: _react.PropTypes.string.isRequired,
-  phoneNumber: _react.PropTypes.string.isRequired,
-  active: _react.PropTypes.bool.isRequired,
-  onHover: _react.PropTypes.func.isRequired,
-  titleEnabled: _react.PropTypes.bool
+  onClick: _propTypes2.default.func.isRequired,
+  formatContactPhone: _propTypes2.default.func.isRequired,
+  name: _propTypes2.default.string.isRequired,
+  entityType: _propTypes2.default.string.isRequired,
+  phoneType: _propTypes2.default.string.isRequired,
+  phoneNumber: _propTypes2.default.string.isRequired,
+  active: _propTypes2.default.bool.isRequired,
+  onHover: _propTypes2.default.func.isRequired,
+  titleEnabled: _propTypes2.default.bool
 };
 ContactItem.defaultProps = {
   titleEnabled: undefined
@@ -188,20 +198,20 @@ var ContactDropdownList = function (_Component) {
 }(_react.Component);
 
 ContactDropdownList.propTypes = {
-  scrollDirection: _react.PropTypes.string,
-  visibility: _react.PropTypes.bool.isRequired,
-  className: _react.PropTypes.string,
-  items: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-    name: _react.PropTypes.string.isRequired,
-    entityType: _react.PropTypes.string.isRequired,
-    phoneType: _react.PropTypes.string.isRequired,
-    phoneNumber: _react.PropTypes.string.isRequired
+  scrollDirection: _propTypes2.default.string,
+  visibility: _propTypes2.default.bool.isRequired,
+  className: _propTypes2.default.string,
+  items: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+    name: _propTypes2.default.string.isRequired,
+    entityType: _propTypes2.default.string.isRequired,
+    phoneType: _propTypes2.default.string.isRequired,
+    phoneNumber: _propTypes2.default.string.isRequired
   })).isRequired,
-  formatContactPhone: _react.PropTypes.func.isRequired,
-  addToRecipients: _react.PropTypes.func.isRequired,
-  setSelectedIndex: _react.PropTypes.func.isRequired,
-  selectedIndex: _react.PropTypes.number.isRequired,
-  titleEnabled: _react.PropTypes.bool
+  formatContactPhone: _propTypes2.default.func.isRequired,
+  addToRecipients: _propTypes2.default.func.isRequired,
+  setSelectedIndex: _propTypes2.default.func.isRequired,
+  selectedIndex: _propTypes2.default.number.isRequired,
+  titleEnabled: _propTypes2.default.bool
 };
 
 ContactDropdownList.defaultProps = {

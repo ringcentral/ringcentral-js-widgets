@@ -3,6 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
+
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+var _objectWithoutProperties2 = require('babel-runtime/helpers/objectWithoutProperties');
+
+var _objectWithoutProperties3 = _interopRequireDefault(_objectWithoutProperties2);
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -28,6 +37,18 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _SearchInput = require('../SearchInput');
+
+var _SearchInput2 = _interopRequireDefault(_SearchInput);
+
 var _MessageItem = require('../MessageItem');
 
 var _MessageItem2 = _interopRequireDefault(_MessageItem);
@@ -36,18 +57,22 @@ var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
 
+var _i18n = require('./i18n');
+
+var _i18n2 = _interopRequireDefault(_i18n);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function NoMessages(props) {
   return _react2.default.createElement(
     'p',
-    { className: _styles2.default.NoMessages },
+    { className: _styles2.default.noMessages },
     props.placeholder
   );
 }
 
 NoMessages.propTypes = {
-  placeholder: _react.PropTypes.string.isRequired
+  placeholder: _propTypes2.default.string.isRequired
 };
 
 var MessageList = function (_Component) {
@@ -58,18 +83,22 @@ var MessageList = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (MessageList.__proto__ || (0, _getPrototypeOf2.default)(MessageList)).call(this, props));
 
-    var lastScrollHeight = 0;
-    var currentScrollHeight = 0;
-
     _this.onScroll = function () {
       var totalScrollHeight = _this.messagesListBody.scrollHeight;
       var clientHeight = _this.messagesListBody.clientHeight;
-      currentScrollHeight = _this.messagesListBody.scrollTop;
-      // loadNextPageMessages if scroll near buttom
-      if (totalScrollHeight - lastScrollHeight > clientHeight + 10 && totalScrollHeight - currentScrollHeight <= clientHeight + 10) {
-        _this.props.loadNextPageMessages();
+      var currentScrollTop = _this.messagesListBody.scrollTop;
+      // load next page if scroll near buttom
+      if (totalScrollHeight - _this._scrollTop > clientHeight + 10 && totalScrollHeight - currentScrollTop <= clientHeight + 10) {
+        _this.setState({
+          page: _this.state.page + 1
+        });
       }
-      lastScrollHeight = currentScrollHeight;
+      _this._scrollTop = currentScrollTop;
+    };
+
+    _this._scrollTop = 0;
+    _this.state = {
+      page: 0
     };
     return _this;
   }
@@ -79,27 +108,50 @@ var MessageList = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var messages = this.props.messages;
+      var _props = this.props,
+          className = _props.className,
+          currentLocale = _props.currentLocale,
+          conversations = _props.conversations,
+          searchInput = _props.searchInput,
+          onSearchInputChange = _props.onSearchInputChange,
+          perPage = _props.perPage,
+          disableLinks = _props.disableLinks,
+          childProps = (0, _objectWithoutProperties3.default)(_props, ['className', 'currentLocale', 'conversations', 'searchInput', 'onSearchInputChange', 'perPage', 'disableLinks']);
+
+
+      var search = onSearchInputChange ? _react2.default.createElement(_SearchInput2.default, {
+        value: searchInput,
+        onChange: onSearchInputChange,
+        placeholder: _i18n2.default.getString('search', currentLocale),
+        disabled: disableLinks
+      }) : null;
+      var placeholder = onSearchInputChange && searchInput.length > 0 ? _i18n2.default.getString('noSearchResults', currentLocale) : _i18n2.default.getString('noMessages', currentLocale);
+
+      var lastIndex = (this.state.page + 1) * perPage - 1;
+
+      var content = conversations && conversations.length ? conversations.slice(0, lastIndex).map(function (item) {
+        return _react2.default.createElement(_MessageItem2.default, (0, _extends3.default)({}, childProps, {
+          conversation: item,
+          currentLocale: currentLocale,
+          key: item.id,
+          disableLinks: disableLinks
+        }));
+      }) : _react2.default.createElement(NoMessages, { placeholder: placeholder });
       return _react2.default.createElement(
         'div',
-        {
-          className: _styles2.default.messageList,
-          onScroll: this.onScroll,
-          ref: function ref(list) {
-            _this2.messagesListBody = list;
-          }
-        },
-        messages && messages.length ? messages.map(function (message) {
-          return _react2.default.createElement(_MessageItem2.default, {
-            type: message.type,
-            unreadCounts: message.unreadCounts,
-            conversationId: message.conversationId,
-            subject: message.subject,
-            contactList: _this2.props.getMessageRecipientNames(message),
-            creationTime: message.creationTime,
-            formatDateTime: _this2.props.formatDateTime,
-            key: message.id });
-        }) : _react2.default.createElement(NoMessages, { placeholder: this.props.placeholder })
+        { className: (0, _classnames2.default)(_styles2.default.root, className) },
+        search,
+        _react2.default.createElement(
+          'div',
+          {
+            className: (0, _classnames2.default)(_styles2.default.content, _styles2.default.contentWithSearch),
+            onScroll: this.onScroll,
+            ref: function ref(list) {
+              _this2.messagesListBody = list;
+            }
+          },
+          content
+        )
       );
     }
   }]);
@@ -110,19 +162,26 @@ exports.default = MessageList;
 
 
 MessageList.propTypes = {
-  messages: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-    id: _react.PropTypes.number,
-    type: _react.PropTypes.string,
-    unreadCounts: _react.PropTypes.number,
-    conversationId: _react.PropTypes.string.isRequired,
-    subject: _react.PropTypes.string,
-    creationTime: _react.PropTypes.string,
-    to: _react.PropTypes.array,
-    from: _react.PropTypes.object
+  currentLocale: _propTypes2.default.string.isRequired,
+  conversations: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+    id: _propTypes2.default.number,
+    conversationId: _propTypes2.default.string.isRequired,
+    subject: _propTypes2.default.string
   })).isRequired,
-  loadNextPageMessages: _react.PropTypes.func.isRequired,
-  placeholder: _react.PropTypes.string.isRequired,
-  formatDateTime: _react.PropTypes.func.isRequired,
-  getMessageRecipientNames: _react.PropTypes.func.isRequired
+  disableLinks: _propTypes2.default.bool,
+  onSearchInputChange: _propTypes2.default.func,
+  searchInput: _propTypes2.default.string,
+  perPage: _propTypes2.default.number,
+  className: _propTypes2.default.string,
+  showConversationDetail: _propTypes2.default.func.isRequired,
+  dateTimeFormatter: _propTypes2.default.func
+};
+MessageList.defaultProps = {
+  onSearchInputChange: undefined,
+  searchInput: '',
+  perPage: 20,
+  className: undefined,
+  disableLinks: false,
+  dateTimeFormatter: undefined
 };
 //# sourceMappingURL=index.js.map

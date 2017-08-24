@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/CallList/i18n/en-CA.js"],"names":["noActiveCalls"],"mappings":";;;;;kBAAe;AACbA,iBAAe;AADF,C","file":"en-CA.js","sourcesContent":["export default {\n  noActiveCalls: 'No active calls',\n};\n"]}
+{"version":3,"sources":["components/CallList/i18n/en-CA.js"],"names":["noActiveCalls","noRecords"],"mappings":";;;;;kBAAe;AACbA,iBAAe,iBADF;AAEbC,aAAW;AAFE,C","file":"en-CA.js","sourcesContent":["export default {\n  noActiveCalls: 'No active calls',\n  noRecords: 'No records',\n};\n"]}

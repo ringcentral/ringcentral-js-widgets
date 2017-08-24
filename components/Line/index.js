@@ -8,6 +8,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -30,11 +34,11 @@ function Line(props) {
 }
 
 Line.propTypes = {
-  className: _react.PropTypes.string,
-  children: _react.PropTypes.node,
-  onClick: _react.PropTypes.func,
-  horizontal: _react.PropTypes.bool,
-  noBorder: _react.PropTypes.bool
+  className: _propTypes2.default.string,
+  children: _propTypes2.default.node,
+  onClick: _propTypes2.default.func,
+  horizontal: _propTypes2.default.bool,
+  noBorder: _propTypes2.default.bool
 };
 
 Line.defaultProps = {

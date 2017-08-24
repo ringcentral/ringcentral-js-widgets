@@ -8,6 +8,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -40,12 +44,12 @@ function InputLine(props) {
 }
 
 InputLine.propTypes = {
-  children: _react.PropTypes.node,
-  label: _react.PropTypes.node,
-  input: _react.PropTypes.node,
-  className: _react.PropTypes.string,
-  onClick: _react.PropTypes.func,
-  noBorder: _react.PropTypes.bool
+  children: _propTypes2.default.node,
+  label: _propTypes2.default.node,
+  input: _propTypes2.default.node,
+  className: _propTypes2.default.string,
+  onClick: _propTypes2.default.func,
+  noBorder: _propTypes2.default.bool
 };
 
 exports.default = InputLine;

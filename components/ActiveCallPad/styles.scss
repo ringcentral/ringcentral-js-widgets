@@ -1,0 +1,50 @@
+@import '../../lib/commonStyles/colors.scss';
+
+.root {
+  max-width: 550px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 9%;
+  padding-right: 9%;
+}
+
+.callButton {
+  width: 33.33%;
+  box-sizing: border-box;
+  padding: 0 7px;
+}
+
+.buttonRow {
+  text-align: left;
+  height: 33.33%;
+}
+
+.button {
+  width: 17.2%;
+  height: 100%;
+  border-radius: 63%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow: hidden;
+
+  text {
+    font-size: 88px;
+  }
+}
+
+.stopButton {
+  circle {
+    fill: #ff4646;
+  }
+  g, path {
+    fill: #ffffff;
+  }
+}
+
+.callCtrlButtonGroup {
+  height: 70%;
+}
+
+.stopButtonGroup {
+  height: 20%;
+}

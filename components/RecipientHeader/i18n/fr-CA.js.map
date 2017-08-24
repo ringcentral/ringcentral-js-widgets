@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/RecipientHeader/i18n/fr-CA.js"],"names":["selectMatchedName"],"mappings":";;;;;kBAAe;AACbA,qBAAmB;AADN,C","file":"fr-CA.js","sourcesContent":["export default {\n  selectMatchedName: 'Sélectionner un enregistrement correspondant',\n};\n"]}

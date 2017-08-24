@@ -1,7 +1,13 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = {};
+exports.default = {
+  account: 'Account',
+  contact: 'Contact',
+  lead: 'Lead',
+  chooseEntity: 'Please select entity type',
+  create: 'Create'
+};
 //# sourceMappingURL=en-CA.js.map

@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -28,17 +29,21 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _Spinner = require('../Spinner');
-
-var _Spinner2 = _interopRequireDefault(_Spinner);
-
 var _SlideMenu = require('../SlideMenu');
 
 var _SlideMenu2 = _interopRequireDefault(_SlideMenu);
+
+var _EntityButton = require('../EntityButton');
+
+var _EntityButton2 = _interopRequireDefault(_EntityButton);
 
 var _EntityModal = require('../EntityModal');
 
@@ -47,6 +52,10 @@ var _EntityModal2 = _interopRequireDefault(_EntityModal);
 var _Button = require('../Button');
 
 var _Button2 = _interopRequireDefault(_Button);
+
+var _LogButton = require('../LogButton');
+
+var _LogButton2 = _interopRequireDefault(_LogButton);
 
 var _styles = require('./styles.scss');
 
@@ -60,11 +69,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function ClickToDialButton(_ref) {
   var className = _ref.className,
-      currentLocale = _ref.currentLocale,
       onClickToDial = _ref.onClickToDial,
       disableLinks = _ref.disableLinks,
       disableClickToDial = _ref.disableClickToDial,
-      phoneNumber = _ref.phoneNumber;
+      phoneNumber = _ref.phoneNumber,
+      title = _ref.title;
 
   return _react2.default.createElement(
     _Button2.default,
@@ -72,31 +81,34 @@ function ClickToDialButton(_ref) {
       className: (0, _classnames2.default)(_styles2.default.call, className),
       onClick: onClickToDial,
       disabled: disableLinks || disableClickToDial || !phoneNumber },
-    _react2.default.createElement('span', { className: _DynamicsFont2.default.call })
+    _react2.default.createElement('span', {
+      className: _DynamicsFont2.default.call,
+      title: title })
   );
 }
 ClickToDialButton.propTypes = {
-  className: _react.PropTypes.string,
-  onClickToDial: _react.PropTypes.func,
-  disableLinks: _react.PropTypes.bool,
-  disableClickToDial: _react.PropTypes.bool,
-  phoneNumber: _react.PropTypes.string,
-  currentLocale: _react.PropTypes.string.isRequired
+  className: _propTypes2.default.string,
+  onClickToDial: _propTypes2.default.func,
+  disableLinks: _propTypes2.default.bool,
+  disableClickToDial: _propTypes2.default.bool,
+  phoneNumber: _propTypes2.default.string,
+  title: _propTypes2.default.string
 };
 ClickToDialButton.defaultProps = {
   className: undefined,
   onClickToDial: undefined,
   disableLinks: false,
   disableClickToDial: false,
-  phoneNumber: undefined
+  phoneNumber: undefined,
+  title: undefined
 };
 
 function ClickToSmsButton(_ref2) {
   var className = _ref2.className,
-      currentLocale = _ref2.currentLocale,
       onClickToSms = _ref2.onClickToSms,
       disableLinks = _ref2.disableLinks,
-      phoneNumber = _ref2.phoneNumber;
+      phoneNumber = _ref2.phoneNumber,
+      title = _ref2.title;
 
   return _react2.default.createElement(
     _Button2.default,
@@ -104,108 +116,22 @@ function ClickToSmsButton(_ref2) {
       className: (0, _classnames2.default)(_styles2.default.sms, className),
       onClick: onClickToSms,
       disabled: disableLinks || !phoneNumber },
-    _react2.default.createElement('span', { className: _DynamicsFont2.default.composeText })
+    _react2.default.createElement('span', {
+      className: _DynamicsFont2.default.composeText,
+      title: title })
   );
 }
 ClickToSmsButton.propTypes = {
-  className: _react.PropTypes.string,
-  onClickToSms: _react.PropTypes.func,
-  disableLinks: _react.PropTypes.bool,
-  phoneNumber: _react.PropTypes.string,
-  currentLocale: _react.PropTypes.string.isRequired
+  className: _propTypes2.default.string,
+  onClickToSms: _propTypes2.default.func,
+  disableLinks: _propTypes2.default.bool,
+  phoneNumber: _propTypes2.default.string
 };
 ClickToSmsButton.defaultProps = {
   className: undefined,
   onClickToSms: undefined,
   disableLinks: false,
   phoneNumber: undefined
-};
-
-function LogButton(_ref3) {
-  var className = _ref3.className,
-      currentLocale = _ref3.currentLocale,
-      onLogCall = _ref3.onLogCall,
-      isLogged = _ref3.isLogged,
-      disableLinks = _ref3.disableLinks,
-      isLogging = _ref3.isLogging;
-
-  var spinner = isLogging ? _react2.default.createElement(
-    'div',
-    { className: _styles2.default.spinnerContainer },
-    _react2.default.createElement(_Spinner2.default, { ringWidth: 2 })
-  ) : null;
-  return _react2.default.createElement(
-    _Button2.default,
-    {
-      className: (0, _classnames2.default)(_styles2.default.log, className),
-      onClick: onLogCall,
-      disabled: disableLinks || isLogging
-    },
-    _react2.default.createElement('span', {
-      className: isLogged ? _DynamicsFont2.default.edit : _DynamicsFont2.default.callLog }),
-    spinner
-  );
-}
-LogButton.propTypes = {
-  className: _react.PropTypes.string,
-  onLogCall: _react.PropTypes.func,
-  isLogged: _react.PropTypes.bool,
-  disableLinks: _react.PropTypes.bool,
-  isLogging: _react.PropTypes.bool,
-  currentLocale: _react.PropTypes.string.isRequired
-};
-LogButton.defaultProps = {
-  className: undefined,
-  onLogCall: undefined,
-  isLogged: false,
-  disableLinks: false,
-  isLogging: false
-};
-
-function EntityButton(_ref4) {
-  var className = _ref4.className,
-      currentLocale = _ref4.currentLocale,
-      onViewEntity = _ref4.onViewEntity,
-      onCreateEntity = _ref4.onCreateEntity,
-      hasEntity = _ref4.hasEntity,
-      isCreating = _ref4.isCreating,
-      disableLinks = _ref4.disableLinks;
-
-  // console.debug('isCreating', isCreating);
-  var spinner = isCreating ? _react2.default.createElement(
-    'div',
-    { className: _styles2.default.spinnerContainer },
-    _react2.default.createElement(_Spinner2.default, { ringWidth: 2 })
-  ) : null;
-  var icon = hasEntity ? _DynamicsFont2.default.record : _DynamicsFont2.default.addEntity;
-  var onClick = hasEntity ? onViewEntity : onCreateEntity;
-
-  return _react2.default.createElement(
-    _Button2.default,
-    {
-      className: (0, _classnames2.default)(_styles2.default.entity, className),
-      onClick: onClick,
-      disabled: disableLinks },
-    _react2.default.createElement('span', { className: icon }),
-    spinner
-  );
-}
-EntityButton.propTypes = {
-  className: _react.PropTypes.string,
-  onViewEntity: _react.PropTypes.func,
-  onCreateEntity: _react.PropTypes.func,
-  hasEntity: _react.PropTypes.bool,
-  isCreating: _react.PropTypes.bool,
-  disableLinks: _react.PropTypes.bool,
-  currentLocale: _react.PropTypes.string.isRequired
-};
-EntityButton.defaultProps = {
-  className: undefined,
-  onViewEntity: undefined,
-  hasEntity: false,
-  onCreateEntity: undefined,
-  isCreating: false,
-  disableLinks: false
 };
 
 var ActionMenu = function (_Component) {
@@ -216,8 +142,13 @@ var ActionMenu = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ActionMenu.__proto__ || (0, _getPrototypeOf2.default)(ActionMenu)).call(this, props));
 
-    _this.state = {
-      entityModalVisible: false
+    _this.onCreateEnityModal = function (entityType) {
+      _this.props.onCreateEntity(entityType);
+      _this.closeEntityModal();
+    };
+
+    _this.onCancelEntityModal = function () {
+      _this.closeEntityModal();
     };
 
     _this.openEntityModal = function () {
@@ -225,17 +156,22 @@ var ActionMenu = function (_Component) {
         entityModalVisible: true
       });
     };
+
     _this.closeEntityModal = function () {
       _this.setState({
         entityModalVisible: false
       });
     };
-    _this.onCreateEnityModal = function (entityType) {
-      _this.props.onCreateEntity(entityType);
-      _this.closeEntityModal();
+
+    _this.captureClick = function (e) {
+      // e.captureClick = this.props.captureClick;
+      if (_this.props.stopPropagation) {
+        e.stopPropagation();
+      }
     };
-    _this.onCancelEntityModal = function () {
-      _this.closeEntityModal();
+
+    _this.state = {
+      entityModalVisible: false
     };
     return _this;
   }
@@ -244,9 +180,10 @@ var ActionMenu = function (_Component) {
     key: 'render',
     value: function render() {
       var _props = this.props,
+          reference = _props.reference,
           className = _props.className,
           currentLocale = _props.currentLocale,
-          onLogCall = _props.onLogCall,
+          onLog = _props.onLog,
           isLogged = _props.isLogged,
           isLogging = _props.isLogging,
           isCreating = _props.isCreating,
@@ -257,34 +194,42 @@ var ActionMenu = function (_Component) {
           onClickToSms = _props.onClickToSms,
           phoneNumber = _props.phoneNumber,
           disableLinks = _props.disableLinks,
-          disableClickToDial = _props.disableClickToDial;
+          disableClickToDial = _props.disableClickToDial,
+          addLogTitle = _props.addLogTitle,
+          editLogTitle = _props.editLogTitle,
+          callTitle = _props.callTitle,
+          textTitle = _props.textTitle,
+          createEntityTitle = _props.createEntityTitle,
+          viewEntityTitle = _props.viewEntityTitle;
 
 
-      var logButton = onLogCall ? _react2.default.createElement(LogButton, {
+      var logButton = onLog ? _react2.default.createElement(_LogButton2.default, {
         className: _styles2.default.baseGroup,
-        onLogCall: onLogCall,
+        onLog: onLog,
         disableLinks: disableLinks,
         isLogged: isLogged,
         isLogging: isLogging,
-        currentLocale: currentLocale
+        currentLocale: currentLocale,
+        addTitle: addLogTitle,
+        editTitle: editLogTitle
       }) : null;
 
       var entityButton = void 0;
       if (hasEntity && onViewEntity) {
-        entityButton = _react2.default.createElement(EntityButton, {
-          className: _styles2.default.baseGroup,
+        entityButton = _react2.default.createElement(_EntityButton2.default, {
+          className: (0, _classnames2.default)(_styles2.default.entity, _styles2.default.baseGroup),
           onViewEntity: onViewEntity,
           hasEntity: hasEntity,
           disableLinks: disableLinks,
-          currentLocale: currentLocale
+          viewEntityTitle: viewEntityTitle
         });
       } else if (!hasEntity && phoneNumber && onCreateEntity) {
-        entityButton = _react2.default.createElement(EntityButton, {
-          className: _styles2.default.baseGroup,
+        entityButton = _react2.default.createElement(_EntityButton2.default, {
+          className: (0, _classnames2.default)(_styles2.default.entity, _styles2.default.baseGroup),
           onCreateEntity: this.openEntityModal,
           hasEntity: hasEntity,
           disableLinks: disableLinks,
-          currentLocale: currentLocale
+          createEntityTitle: createEntityTitle
         });
       } else {
         entityButton = null;
@@ -305,29 +250,37 @@ var ActionMenu = function (_Component) {
         phoneNumber: phoneNumber,
         disableLinks: disableLinks,
         disableClickToDial: disableClickToDial,
-        currentLocale: currentLocale
+        currentLocale: currentLocale,
+        title: callTitle
       }) : null;
       var clickToSmsButton = onClickToSms ? _react2.default.createElement(ClickToSmsButton, {
         className: hasBaseGroup ? _styles2.default.secondGroup : _styles2.default.baseGroup,
         onClickToSms: onClickToSms,
         phoneNumber: phoneNumber,
         disableLinks: disableLinks,
-        currentLocale: currentLocale
+        currentLocale: currentLocale,
+        title: textTitle
       }) : null;
       var hasSecondGroup = hasBaseGroup && !!(clickToDialButton || clickToSmsButton);
       if (hasSecondGroup) {
         // slide menu
         return _react2.default.createElement(
-          _SlideMenu2.default,
+          'div',
           {
-            className: (0, _classnames2.default)(_styles2.default.root, className),
-            minWidth: 40,
-            maxWidth: 75 },
-          clickToDialButton,
-          clickToSmsButton,
-          entityButton,
-          logButton,
-          entityModal
+            ref: reference,
+            onClick: this.captureClick },
+          _react2.default.createElement(
+            _SlideMenu2.default,
+            {
+              className: (0, _classnames2.default)(_styles2.default.root, className),
+              minWidth: 40,
+              maxWidth: 75 },
+            clickToDialButton,
+            clickToSmsButton,
+            entityButton,
+            logButton,
+            entityModal
+          )
         );
       } else if (!clickToDialButton && !clickToSmsButton && !entityButton && !logButton) {
         return null;
@@ -335,7 +288,9 @@ var ActionMenu = function (_Component) {
       // no slide menu
       return _react2.default.createElement(
         'div',
-        null,
+        {
+          ref: reference,
+          onClick: this.captureClick },
         _react2.default.createElement(
           'div',
           { className: (0, _classnames2.default)(_styles2.default.root, className) },
@@ -355,24 +310,33 @@ exports.default = ActionMenu;
 
 
 ActionMenu.propTypes = {
-  className: _react.PropTypes.string,
-  currentLocale: _react.PropTypes.string.isRequired,
-  onLogCall: _react.PropTypes.func,
-  isLogged: _react.PropTypes.bool,
-  isLogging: _react.PropTypes.bool,
-  isCreating: _react.PropTypes.bool,
-  onViewEntity: _react.PropTypes.func,
-  onCreateEntity: _react.PropTypes.func,
-  hasEntity: _react.PropTypes.bool,
-  onClickToDial: _react.PropTypes.func,
-  onClickToSms: _react.PropTypes.func,
-  phoneNumber: _react.PropTypes.string,
-  disableLinks: _react.PropTypes.bool,
-  disableClickToDial: _react.PropTypes.bool
+  reference: _propTypes2.default.func,
+  className: _propTypes2.default.string,
+  currentLocale: _propTypes2.default.string.isRequired,
+  onLog: _propTypes2.default.func,
+  isLogged: _propTypes2.default.bool,
+  isLogging: _propTypes2.default.bool,
+  isCreating: _propTypes2.default.bool,
+  onViewEntity: _propTypes2.default.func,
+  onCreateEntity: _propTypes2.default.func,
+  hasEntity: _propTypes2.default.bool,
+  onClickToDial: _propTypes2.default.func,
+  onClickToSms: _propTypes2.default.func,
+  phoneNumber: _propTypes2.default.string,
+  disableLinks: _propTypes2.default.bool,
+  disableClickToDial: _propTypes2.default.bool,
+  stopPropagation: _propTypes2.default.bool,
+  addLogTitle: _propTypes2.default.string,
+  editLogTitle: _propTypes2.default.string,
+  textTitle: _propTypes2.default.string,
+  callTitle: _propTypes2.default.string,
+  createEntityTitle: _propTypes2.default.string,
+  viewEntityTitle: _propTypes2.default.string
 };
 ActionMenu.defaultProps = {
+  reference: undefined,
   className: undefined,
-  onLogCall: undefined,
+  onLog: undefined,
   isLogged: false,
   isLogging: false,
   isCreating: false,
@@ -383,6 +347,13 @@ ActionMenu.defaultProps = {
   onClickToSms: undefined,
   phoneNumber: undefined,
   disableLinks: false,
-  disableClickToDial: false
+  disableClickToDial: false,
+  stopPropagation: false,
+  addLogTitle: undefined,
+  editLogTitle: undefined,
+  textTitle: undefined,
+  callTitle: undefined,
+  createEntityTitle: undefined,
+  viewEntityTitle: undefined
 };
 //# sourceMappingURL=index.js.map

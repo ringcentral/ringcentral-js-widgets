@@ -9,7 +9,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = require('react-router');
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _regionSettingsMessages = require('ringcentral-integration/modules/RegionSettings/regionSettingsMessages');
 
@@ -28,20 +30,25 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function RegionSettingsAlert(_ref) {
   var message = _ref.message.message,
       currentLocale = _ref.currentLocale,
-      regionSettingsUrl = _ref.regionSettingsUrl;
+      onRegionSettingsLinkClick = _ref.onRegionSettingsLinkClick;
 
   var msg = void 0;
   switch (message) {
     case _regionSettingsMessages2.default.dialingPlansChanged:
       {
         var regionSettings = _i18n2.default.getString('regionSettings', currentLocale);
+        var regionSettingsLink = onRegionSettingsLinkClick ? _react2.default.createElement(
+          'a',
+          {
+            onClick: function onClick(e) {
+              e.preventDefault();
+              onRegionSettingsLinkClick();
+            } },
+          regionSettings
+        ) : regionSettings;
         msg = _react2.default.createElement(_FormattedMessage2.default, {
           message: _i18n2.default.getString(message, currentLocale),
-          values: { regionSettingsLink: _react2.default.createElement(
-              _reactRouter.Link,
-              { to: regionSettingsUrl },
-              regionSettings
-            ) } });
+          values: { regionSettingsLink: regionSettingsLink } });
       }
       break;
     default:
@@ -55,11 +62,14 @@ function RegionSettingsAlert(_ref) {
   );
 }
 RegionSettingsAlert.propTypes = {
-  message: _react.PropTypes.shape({
-    message: _react.PropTypes.string.isRequired
+  message: _propTypes2.default.shape({
+    message: _propTypes2.default.string.isRequired
   }).isRequired,
-  regionSettingsUrl: _react.PropTypes.string.isRequired,
-  currentLocale: _react.PropTypes.string.isRequired
+  currentLocale: _propTypes2.default.string.isRequired,
+  onRegionSettingsLinkClick: _propTypes2.default.func
+};
+RegionSettingsAlert.defaultProps = {
+  onRegionSettingsLinkClick: undefined
 };
 RegionSettingsAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;

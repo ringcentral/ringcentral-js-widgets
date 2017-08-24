@@ -8,9 +8,15 @@ var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
 
+exports.HeaderButton = HeaderButton;
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _classnames = require('classnames');
 
@@ -33,9 +39,9 @@ function HeaderButton(props) {
   );
 }
 HeaderButton.propTypes = {
-  onClick: _react.PropTypes.func,
-  label: _react.PropTypes.node,
-  disabled: _react.PropTypes.bool
+  onClick: _propTypes2.default.func,
+  label: _propTypes2.default.node,
+  disabled: _propTypes2.default.bool
 };
 
 function Header(props) {
@@ -76,12 +82,12 @@ function Header(props) {
 }
 
 Header.propTypes = {
-  className: _react.PropTypes.string,
-  children: _react.PropTypes.node,
-  buttons: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-    label: _react.PropTypes.node.isRequired,
-    onClick: _react.PropTypes.funcs,
-    placement: _react.PropTypes.oneOf(['left', 'right'])
+  className: _propTypes2.default.string,
+  children: _propTypes2.default.node,
+  buttons: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+    label: _propTypes2.default.node.isRequired,
+    onClick: _propTypes2.default.funcs,
+    placement: _propTypes2.default.oneOf(['left', 'right'])
   }))
 };
 

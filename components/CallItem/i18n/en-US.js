@@ -7,7 +7,7 @@ exports.default = {
   logging: 'Logging...',
   logCall: 'Log Call',
   editLog: 'Edit Log',
-  select: 'Select a Matching Record',
+  select: 'Select a matching record',
   OnHold: 'On Hold',
   Ringing: 'Ringing',
   CallConnected: 'Call Connected',
@@ -15,15 +15,12 @@ exports.default = {
   unknownNumber: 'Anonymous',
   unavailable: 'Unavailable',
   viewDetails: 'View Details',
-  'phoneSource.systemUser': '(System User)',
-  'phoneSource.account': '(Account)',
-  'phoneSource.contact': '(Contact)',
-  'phoneSource.lead': '(Lead)',
-  'phoneSource.opportunity': '(Opportunity)',
-  'phoneType.phone': '(Phone)',
-  'phoneType.home': '(Home Phone)',
-  'phoneType.business': '(Business Phone)',
-  'phoneType.mobile': '(Mobile Phone)',
-  'phoneType.unknown': '(Unknown Phone Type)'
+  addEntity: 'Create New',
+  addLog: 'Log',
+  text: 'Text',
+  call: 'Call',
+  missedCall: 'Missed',
+  inboundCall: 'Inbound',
+  outboundCall: 'Outbound'
 };
 //# sourceMappingURL=en-US.js.map

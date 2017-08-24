@@ -4,9 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  title: 'Nachrichten',
-  search: 'Suchen ...',
-  noMessages: 'Keine Meldungen',
-  noSearchResults: 'Kein übereinstimmender Datensatz gefunden'
+  title: 'Nachrichten'
 };
 //# sourceMappingURL=de-DE.js.map

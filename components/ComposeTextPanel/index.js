@@ -28,9 +28,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _messageSenderMessages = require('ringcentral-integration/modules/MessageSender/messageSenderMessages');
+var _propTypes = require('prop-types');
 
-var _messageSenderMessages2 = _interopRequireDefault(_messageSenderMessages);
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
 
 var _i18n = require('./i18n');
 
@@ -44,54 +48,42 @@ var _RecipientsInput = require('../RecipientsInput');
 
 var _RecipientsInput2 = _interopRequireDefault(_RecipientsInput);
 
-var _AlertDisplay = require('../AlertDisplay');
+var _DropdownSelect = require('../DropdownSelect');
 
-var _AlertDisplay2 = _interopRequireDefault(_AlertDisplay);
+var _DropdownSelect2 = _interopRequireDefault(_DropdownSelect);
 
-var _MessageSenderAlert = require('../MessageSenderAlert');
+var _SpinnerOverlay = require('../SpinnerOverlay');
 
-var _MessageSenderAlert2 = _interopRequireDefault(_MessageSenderAlert);
+var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
 
-var _Select = require('../Select');
+var _NoSenderAlert = require('./NoSenderAlert');
 
-var _Select2 = _interopRequireDefault(_Select);
+var _NoSenderAlert2 = _interopRequireDefault(_NoSenderAlert);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function SenderField(props) {
-  return _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(
-      'label',
-      null,
-      _i18n2.default.getString('from', props.currentLocale),
-      ':'
-    ),
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.senderInput },
-      _react2.default.createElement(_Select2.default, {
-        className: _styles2.default.senderSelect,
-        value: props.value,
-        onChange: props.onChange,
-        options: props.options,
-        paddingLeft: 0,
-        valueFunction: function valueFunction(option) {
-          return option;
-        },
-        renderFunction: props.formatPhone
-      })
-    )
-  );
+  return _react2.default.createElement(_DropdownSelect2.default, {
+    label: _i18n2.default.getString('from', props.currentLocale) + ':',
+    className: _styles2.default.senderSelect,
+    value: props.value,
+    onChange: props.onChange,
+    options: props.options,
+    paddingLeft: 0,
+    renderValue: props.formatPhone,
+    valueFunction: function valueFunction(value) {
+      return value;
+    },
+    renderFunction: props.formatPhone
+  });
 }
 
 SenderField.propTypes = {
-  currentLocale: _react.PropTypes.string.isRequired,
-  value: _react.PropTypes.string.isRequired,
-  onChange: _react.PropTypes.func.isRequired,
-  formatPhone: _react.PropTypes.func.isRequired,
-  options: _react.PropTypes.arrayOf(_react.PropTypes.string.isRequired).isRequired
+  currentLocale: _propTypes2.default.string.isRequired,
+  value: _propTypes2.default.string.isRequired,
+  onChange: _propTypes2.default.func.isRequired,
+  formatPhone: _propTypes2.default.func.isRequired,
+  options: _propTypes2.default.arrayOf(_propTypes2.default.string.isRequired).isRequired
 };
 
 var ComposeTextPanel = function (_Component) {
@@ -102,12 +94,7 @@ var ComposeTextPanel = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ComposeTextPanel.__proto__ || (0, _getPrototypeOf2.default)(ComposeTextPanel)).call(this, props));
 
-    _this.state = {
-      showAlert: !_this.hasSenderNumbers() && _this.props.outboundSMS
-    };
-
-    _this.onSenderChange = function (e) {
-      var value = e.currentTarget.value;
+    _this.onSenderChange = function (value) {
       _this.props.updateSenderNumber(value);
     };
 
@@ -143,6 +130,7 @@ var ComposeTextPanel = function (_Component) {
     };
 
     _this.onTextAreaKeyDown = function (e) {
+      console.debug('onTextAreaKeyDown', e);
       if (e.key === 'Enter') {
         e.preventDefault();
         _this.props.send();
@@ -154,19 +142,6 @@ var ComposeTextPanel = function (_Component) {
       _this.props.send();
       console.debug('send message ...');
     };
-    _this.onDismissAlert = function () {
-      _this.setState({
-        showAlert: false
-      });
-    };
-    _this.getRenderer = function () {
-      return _MessageSenderAlert2.default;
-    };
-    _this.messages = [{
-      id: '1',
-      level: 'warning',
-      message: _messageSenderMessages2.default.senderNumberInvalid
-    }];
     return _this;
   }
 
@@ -178,12 +153,13 @@ var ComposeTextPanel = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var noSenderAlert = this.state.showAlert ? _react2.default.createElement(_AlertDisplay2.default, {
-        currentLocale: this.props.currentLocale,
-        messages: this.messages,
-        dismiss: this.onDismissAlert,
-        getRenderer: this.getRenderer
-      }) : null;
+      if (this.props.showSpinner) {
+        return _react2.default.createElement(
+          'div',
+          { className: (0, _classnames2.default)(_styles2.default.root, this.props.className) },
+          _react2.default.createElement(_SpinnerOverlay2.default, null)
+        );
+      }
       var senderField = this.hasSenderNumbers() ? _react2.default.createElement(SenderField, {
         currentLocale: this.props.currentLocale,
         value: this.props.senderNumber,
@@ -193,8 +169,12 @@ var ComposeTextPanel = function (_Component) {
       }) : null;
       return _react2.default.createElement(
         'div',
-        { className: _styles2.default.root },
-        noSenderAlert,
+        { className: (0, _classnames2.default)(_styles2.default.root, this.props.className) },
+        _react2.default.createElement(_NoSenderAlert2.default, {
+          currentLocale: this.props.currentLocale,
+          outboundSMS: this.props.outboundSMS,
+          hasSenderNumbers: this.hasSenderNumbers()
+        }),
         _react2.default.createElement(
           'form',
           { onSubmit: this.handleSubmit },
@@ -232,7 +212,7 @@ var ComposeTextPanel = function (_Component) {
                 value: this.props.messageText,
                 maxLength: '1000',
                 onChange: this.onTextChange,
-                onKeyDown: this.onTextAreaKeyDown
+                onKeyPressCapture: this.onTextAreaKeyDown
               })
             ),
             _react2.default.createElement(
@@ -254,40 +234,44 @@ var ComposeTextPanel = function (_Component) {
 }(_react.Component);
 
 ComposeTextPanel.propTypes = {
-  send: _react.PropTypes.func.isRequired,
-  senderNumbers: _react.PropTypes.arrayOf(_react.PropTypes.string.isRequired).isRequired,
-  sendButtonDisabled: _react.PropTypes.bool.isRequired,
-  formatPhone: _react.PropTypes.func.isRequired,
-  formatContactPhone: _react.PropTypes.func.isRequired,
-  searchContact: _react.PropTypes.func.isRequired,
-  searchContactList: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-    name: _react.PropTypes.string.isRequired,
-    entityType: _react.PropTypes.string.isRequired,
-    phoneType: _react.PropTypes.string.isRequired,
-    phoneNumber: _react.PropTypes.string.isRequired
+  className: _propTypes2.default.string,
+  send: _propTypes2.default.func.isRequired,
+  senderNumbers: _propTypes2.default.arrayOf(_propTypes2.default.string.isRequired).isRequired,
+  sendButtonDisabled: _propTypes2.default.bool.isRequired,
+  formatPhone: _propTypes2.default.func.isRequired,
+  formatContactPhone: _propTypes2.default.func.isRequired,
+  searchContact: _propTypes2.default.func.isRequired,
+  searchContactList: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+    name: _propTypes2.default.string.isRequired,
+    entityType: _propTypes2.default.string.isRequired,
+    phoneType: _propTypes2.default.string.isRequired,
+    phoneNumber: _propTypes2.default.string.isRequired
   })).isRequired,
-  currentLocale: _react.PropTypes.string.isRequired,
-  updateSenderNumber: _react.PropTypes.func.isRequired,
-  updateTypingToNumber: _react.PropTypes.func.isRequired,
-  cleanTypingToNumber: _react.PropTypes.func.isRequired,
-  addToNumber: _react.PropTypes.func.isRequired,
-  removeToNumber: _react.PropTypes.func.isRequired,
-  updateMessageText: _react.PropTypes.func.isRequired,
-  messageText: _react.PropTypes.string,
-  typingToNumber: _react.PropTypes.string,
-  senderNumber: _react.PropTypes.string,
-  toNumbers: _react2.default.PropTypes.arrayOf(_react.PropTypes.shape({
-    phoneNumber: _react.PropTypes.string.isRequired,
-    name: _react.PropTypes.string
+  currentLocale: _propTypes2.default.string.isRequired,
+  updateSenderNumber: _propTypes2.default.func.isRequired,
+  updateTypingToNumber: _propTypes2.default.func.isRequired,
+  cleanTypingToNumber: _propTypes2.default.func.isRequired,
+  addToNumber: _propTypes2.default.func.isRequired,
+  removeToNumber: _propTypes2.default.func.isRequired,
+  updateMessageText: _propTypes2.default.func.isRequired,
+  messageText: _propTypes2.default.string,
+  typingToNumber: _propTypes2.default.string,
+  senderNumber: _propTypes2.default.string,
+  toNumbers: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+    phoneNumber: _propTypes2.default.string.isRequired,
+    name: _propTypes2.default.string
   })).isRequired,
-  outboundSMS: _react.PropTypes.bool
+  outboundSMS: _propTypes2.default.bool,
+  showSpinner: _propTypes2.default.bool
 };
 
 ComposeTextPanel.defaultProps = {
+  className: null,
   messageText: '',
   typingToNumber: '',
   senderNumber: '',
-  outboundSMS: false
+  outboundSMS: false,
+  showSpinner: false
 };
 
 exports.default = ComposeTextPanel;

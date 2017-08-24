@@ -1,0 +1,89 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/fonts';
+
+$input-height: 30px;
+
+.root {
+  @include full-size;
+  box-sizing: border-box;
+}
+
+.dialInput {
+  height: $input-height;
+  box-sizing: content-box;
+  width: calc(100% - 30px);
+  border: 0px;
+  margin-bottom: 5px;
+  padding: 5px 0;
+  margin: 5px 20px;
+  min-width: 100px;
+  label {
+    color: $darkergray;
+  }
+  input {
+    @include secondary-font;
+    box-sizing: content-box;
+    display: inline-block;
+    text-align: left;
+    padding: 0;
+    outline: 0;
+    height: 100%;
+    width: calc(100% - 75px);
+    margin-left: 15px;
+    background-color: transparent;
+    border: none;
+    font-size:15px;
+    color: $lightblack;
+  }
+  .input::-ms-clear {
+    display: none;
+  }
+}
+
+.padContainer {
+  height: calc(100% - #{$input-height});
+  padding: 0 10px;
+}
+
+.dialPad {
+  height: 65%;
+}
+
+.button {
+  width: 30%;
+  text-align: center;
+  padding: 2px;
+}
+
+.buttonRow {
+  text-align: center;
+  height: 20%;
+}
+
+.backButton {
+  font-size: $primary-font-size;
+  color: $lightblack;
+  .backIcon {
+    display: inline-block;
+    position: absolute;
+    transform: rotate(90deg);
+    top: 5px;
+    left: 10px;
+  }
+  .backLabel {
+    display: inline-block;
+    width: 79px;
+  }
+}
+.clear {
+  position: absolute;
+  right: 25px;
+  margin-top: -24px;
+  cursor: pointer;
+  font-size: 18px;
+  color: $grey-light;
+  &:hover {
+    color: $primary-color;
+  }
+}

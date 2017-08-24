@@ -9,6 +9,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -62,14 +66,14 @@ function Select(_ref) {
 }
 
 Select.propTypes = {
-  className: _react.PropTypes.string,
-  value: _react.PropTypes.string,
-  onChange: _react.PropTypes.func,
-  disabled: _react.PropTypes.bool,
-  options: _react.PropTypes.arrayOf(_react.PropTypes.any).isRequired,
-  paddingLeft: _react.PropTypes.number,
-  valueFunction: _react.PropTypes.func,
-  renderFunction: _react.PropTypes.func
+  className: _propTypes2.default.string,
+  value: _propTypes2.default.string,
+  onChange: _propTypes2.default.func,
+  disabled: _propTypes2.default.bool,
+  options: _propTypes2.default.arrayOf(_propTypes2.default.any).isRequired,
+  paddingLeft: _propTypes2.default.number,
+  valueFunction: _propTypes2.default.func,
+  renderFunction: _propTypes2.default.func
 };
 
 Select.defaultProps = {

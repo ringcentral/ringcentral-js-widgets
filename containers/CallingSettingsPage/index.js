@@ -5,7 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = exports.propTypes = exports.mapToProps = exports.mapToFunctions = undefined;
 
-var _react = require('react');
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactRedux = require('react-redux');
 
@@ -34,7 +36,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function mapToProps(_, _ref) {
   var callingSettings = _ref.callingSettings,
       brand = _ref.brand,
-      locale = _ref.locale;
+      locale = _ref.locale,
+      webphone = _ref.webphone;
 
   return {
     brand: brand.fullName,
@@ -43,7 +46,8 @@ function mapToProps(_, _ref) {
     callWith: callingSettings.callWith,
     myLocation: callingSettings.myLocation,
     ringoutPrompt: callingSettings.ringoutPrompt,
-    availableNumbers: callingSettings.availableNumbers
+    availableNumbers: callingSettings.availableNumbers,
+    disabled: webphone && webphone.sessions.length > 0
   };
 }
 
@@ -53,7 +57,7 @@ function mapToFunctions(_, _ref2) {
 
   return {
     onBackButtonClick: function onBackButtonClick() {
-      router.history.goBack();
+      router.goBack();
     },
     onSave: function onSave(_ref3) {
       var callWith = _ref3.callWith,
@@ -70,10 +74,10 @@ function mapToFunctions(_, _ref2) {
 var CallingSettingsPage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallingSettingsPanel2.default);
 
 var propTypes = {
-  brand: _react.PropTypes.instanceOf(_Brand2.default).isRequired,
-  callingSettings: _react.PropTypes.instanceOf(_CallingSettings2.default).isRequired,
-  locale: _react.PropTypes.instanceOf(_Locale2.default).isRequired,
-  router: _react.PropTypes.instanceOf(_RouterInteraction2.default).isRequired
+  brand: _propTypes2.default.instanceOf(_Brand2.default).isRequired,
+  callingSettings: _propTypes2.default.instanceOf(_CallingSettings2.default).isRequired,
+  locale: _propTypes2.default.instanceOf(_Locale2.default).isRequired,
+  router: _propTypes2.default.instanceOf(_RouterInteraction2.default).isRequired
 };
 
 CallingSettingsPage.propTypes = propTypes;

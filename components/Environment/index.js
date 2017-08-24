@@ -28,6 +28,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -36,9 +40,9 @@ var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
 
-var _Header = require('../Header');
+var _BackHeader = require('../BackHeader');
 
-var _Header2 = _interopRequireDefault(_Header);
+var _BackHeader2 = _interopRequireDefault(_BackHeader);
 
 var _Panel = require('../Panel');
 
@@ -59,6 +63,18 @@ var _TextInput2 = _interopRequireDefault(_TextInput);
 var _Switch = require('../Switch');
 
 var _Switch2 = _interopRequireDefault(_Switch);
+
+var _Button = require('../Button');
+
+var _Button2 = _interopRequireDefault(_Button);
+
+var _Revert = require('../../assets/images/Revert.svg');
+
+var _Revert2 = _interopRequireDefault(_Revert);
+
+var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
+
+var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -149,21 +165,15 @@ var Environment = function (_Component) {
       if (this.state.hidden) {
         return null;
       }
+      var hasChanges = !(this.state.serverValue === this.props.server && this.state.enabledValue === this.props.enabled && this.state.recordingHostValue === this.props.recordingHost);
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root },
         _react2.default.createElement(
-          _Header2.default,
+          _BackHeader2.default,
           {
-            buttons: [{
-              label: _react2.default.createElement('i', { className: 'fa fa-times' }),
-              onClick: this.onCancel
-            }, {
-              label: _react2.default.createElement('i', { className: 'fa fa-save' }),
-              onClick: this.onOk,
-              disabled: this.state.serverValue === this.props.server && this.state.enabledValue === this.props.enabled && this.state.recordingHostValue === this.props.recordingHost,
-              placement: 'right'
-            }]
+            onBackClick: this.onCancel,
+            buttons: []
           },
           'Environment'
         ),
@@ -197,6 +207,19 @@ var Environment = function (_Component) {
               })
             },
             'Enable'
+          ),
+          _react2.default.createElement(
+            _Line2.default,
+            null,
+            _react2.default.createElement(
+              _Button2.default,
+              {
+                className: (0, _classnames2.default)(_styles2.default.saveButton, !hasChanges ? _styles2.default.disabled : null),
+                onClick: this.onOk,
+                disabled: !hasChanges
+              },
+              'Save'
+            )
           )
         )
       );
@@ -206,10 +229,10 @@ var Environment = function (_Component) {
 }(_react.Component);
 
 Environment.propTypes = {
-  server: _react.PropTypes.string.isRequired,
-  recordingHost: _react.PropTypes.string.isRequired,
-  enabled: _react.PropTypes.bool.isRequired,
-  onSetData: _react.PropTypes.func.isRequired
+  server: _propTypes2.default.string.isRequired,
+  recordingHost: _propTypes2.default.string.isRequired,
+  enabled: _propTypes2.default.bool.isRequired,
+  onSetData: _propTypes2.default.func.isRequired
 };
 
 exports.default = Environment;

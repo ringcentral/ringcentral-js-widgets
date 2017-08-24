@@ -12,7 +12,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = require('react-router');
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _classnames = require('classnames');
 
@@ -24,62 +26,18 @@ var _styles2 = _interopRequireDefault(_styles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function NavigationButton(props) {
-  var notice = null;
-  if (props.noticeCounts && props.noticeCounts > 0) {
-    if (props.noticeCounts > 99) {
-      notice = _react2.default.createElement(
-        'div',
-        { className: _styles2.default.notices },
-        '99+'
-      );
-    } else {
-      notice = _react2.default.createElement(
-        'div',
-        { className: _styles2.default.notice },
-        props.noticeCounts
-      );
-    }
-  }
-  return _react2.default.createElement(
-    _reactRouter.Link,
-    {
-      to: props.path,
-      className: (0, _classnames2.default)(_styles2.default.navigationButton, props.active && _styles2.default.active),
-      style: {
-        width: props.width
-      }
-    },
-    _react2.default.createElement(
-      'div',
-      { className: _styles2.default.iconHolder, title: props.label },
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.icon },
-        props.active ? props.activityIcon : props.icon
-      ),
-      notice
-    )
-  );
-}
-NavigationButton.propTypes = {
-  icon: _react.PropTypes.node,
-  activityIcon: _react.PropTypes.node,
-  path: _react.PropTypes.string,
-  active: _react.PropTypes.bool,
-  label: _react.PropTypes.string,
-  noticeCounts: _react.PropTypes.number,
-  width: _react.PropTypes.oneOfType([_react.PropTypes.number, _react.PropTypes.string]).isRequired
-};
-
 function NavigationBar(props) {
   var tabWidth = props.tabs.length > 0 ? 1 / props.tabs.length * 100 + '%' : 0;
+  var NavigationButton = props.button;
   return _react2.default.createElement(
     'nav',
     { className: (0, _classnames2.default)(_styles2.default.root, props.className) },
     props.tabs.map(function (t, idx) {
       return _react2.default.createElement(NavigationButton, (0, _extends3.default)({}, t, {
         key: idx,
+        onClick: function onClick() {
+          props.goTo(t.path);
+        },
         active: t.isActive && t.isActive(props.currentPath) || t.path === props.currentPath,
         width: tabWidth
       }));
@@ -87,18 +45,21 @@ function NavigationBar(props) {
   );
 }
 NavigationBar.propTypes = {
-  className: _react.PropTypes.string,
-  tabs: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-    icon: _react.PropTypes.node.isRequired,
-    activityIcon: _react.PropTypes.node.isRequired,
-    label: _react.PropTypes.string,
-    path: _react.PropTypes.string.isRequired,
-    isActive: _react.PropTypes.func,
-    noticeCounts: _react.PropTypes.number
+  className: _propTypes2.default.string,
+  button: _propTypes2.default.oneOfType([_propTypes2.default.func.isRequired, _propTypes2.default.element.isRequired]).isRequired,
+  tabs: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+    icon: _propTypes2.default.node.isRequired,
+    activeIcon: _propTypes2.default.node,
+    label: _propTypes2.default.string,
+    path: _propTypes2.default.string.isRequired,
+    isActive: _propTypes2.default.func,
+    noticeCounts: _propTypes2.default.number
   })),
-  currentPath: _react.PropTypes.string.isRequired
+  goTo: _propTypes2.default.func.isRequired,
+  currentPath: _propTypes2.default.string.isRequired
 };
 NavigationBar.defaultProps = {
+  className: undefined,
   tabs: []
 };
 

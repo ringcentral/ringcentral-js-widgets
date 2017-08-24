@@ -32,6 +32,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _formatMessage = require('format-message');
 
 var _formatMessage2 = _interopRequireDefault(_formatMessage);
@@ -43,6 +47,10 @@ var _IconField2 = _interopRequireDefault(_IconField);
 var _Switch = require('../Switch');
 
 var _Switch2 = _interopRequireDefault(_Switch);
+
+var _SpinnerOverlay = require('../SpinnerOverlay');
+
+var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
 
 var _i18n = require('./i18n');
 
@@ -145,8 +153,13 @@ var ConferencePanel = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var currentLocale = this.props.currentLocale;
+      var _props = this.props,
+          currentLocale = _props.currentLocale,
+          showSpinner = _props.showSpinner;
 
+      if (showSpinner) {
+        return _react2.default.createElement(_SpinnerOverlay2.default, null);
+      }
       var internationalNumbers = this.state.showInternational ? _react2.default.createElement(
         'div',
         { className: _styles2.default.international },
@@ -278,19 +291,24 @@ var ConferencePanel = function (_Component) {
 }(_react.Component);
 
 ConferencePanel.propTypes = {
-  conferenceNumbers: _react.PropTypes.shape({
-    phoneNumber: _react.PropTypes.string,
-    hostCode: _react.PropTypes.string,
-    participantCode: _react.PropTypes.string,
-    phoneNumbers: _react.PropTypes.array
+  conferenceNumbers: _propTypes2.default.shape({
+    phoneNumber: _propTypes2.default.string,
+    hostCode: _propTypes2.default.string,
+    participantCode: _propTypes2.default.string,
+    phoneNumbers: _propTypes2.default.array
   }).isRequired,
-  countryCode: _react.PropTypes.string.isRequired,
-  areaCode: _react.PropTypes.string.isRequired,
-  currentLocale: _react.PropTypes.string.isRequired,
-  inviteWithText: _react.PropTypes.func.isRequired,
-  formatPhone: _react.PropTypes.func.isRequired,
-  formatInternational: _react.PropTypes.func.isRequired,
-  formatPin: _react.PropTypes.func.isRequired
+  countryCode: _propTypes2.default.string.isRequired,
+  areaCode: _propTypes2.default.string.isRequired,
+  currentLocale: _propTypes2.default.string.isRequired,
+  inviteWithText: _propTypes2.default.func.isRequired,
+  formatPhone: _propTypes2.default.func.isRequired,
+  formatInternational: _propTypes2.default.func.isRequired,
+  formatPin: _propTypes2.default.func.isRequired,
+  showSpinner: _propTypes2.default.bool
 };
+ConferencePanel.defaultProps = {
+  showSpinner: false
+};
+
 exports.default = ConferencePanel;
 //# sourceMappingURL=index.js.map

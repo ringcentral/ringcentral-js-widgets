@@ -8,6 +8,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -30,16 +34,16 @@ function RemoveButton(props) {
     className = (0, _classnames2.default)(_styles2.default.containner, props.className, _styles2.default.hiddenRemoveButton);
   }
   return _react2.default.createElement(
-    'a',
-    { href: '#remove', className: className, onClick: props.onClick },
+    'span',
+    { className: className, onClick: props.onClick },
     _react2.default.createElement('i', { className: _RcFont2.default.uni2471 })
   );
 }
 
 RemoveButton.propTypes = {
-  className: _react.PropTypes.string,
-  onClick: _react.PropTypes.func.isRequired,
-  visibility: _react.PropTypes.bool
+  className: _propTypes2.default.string,
+  onClick: _propTypes2.default.func.isRequired,
+  visibility: _propTypes2.default.bool
 };
 
 RemoveButton.defaultProps = {

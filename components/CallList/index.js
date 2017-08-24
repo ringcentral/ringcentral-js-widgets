@@ -8,6 +8,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _CallItem = require('../CallItem');
 
 var _CallItem2 = _interopRequireDefault(_CallItem);
@@ -23,16 +27,18 @@ var _i18n2 = _interopRequireDefault(_i18n);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function NoCalls(_ref) {
-  var currentLocale = _ref.currentLocale;
+  var currentLocale = _ref.currentLocale,
+      active = _ref.active;
 
   return _react2.default.createElement(
     'p',
     { className: _styles2.default.noCalls },
-    _i18n2.default.getString('noActiveCalls', currentLocale)
+    _i18n2.default.getString(active ? 'noActiveCalls' : 'noRecords', currentLocale)
   );
 }
 NoCalls.propTypes = {
-  currentLocale: _react.PropTypes.string.isRequired
+  currentLocale: _propTypes2.default.string.isRequired,
+  active: _propTypes2.default.bool.isRequired
 };
 
 function CallList(_ref2) {
@@ -53,7 +59,13 @@ function CallList(_ref2) {
       internalSmsPermission = _ref2.internalSmsPermission,
       active = _ref2.active,
       dateTimeFormatter = _ref2.dateTimeFormatter,
-      loggingMap = _ref2.loggingMap;
+      loggingMap = _ref2.loggingMap,
+      webphoneAnswer = _ref2.webphoneAnswer,
+      webphoneReject = _ref2.webphoneReject,
+      webphoneHangup = _ref2.webphoneHangup,
+      webphoneResume = _ref2.webphoneResume,
+      enableContactFallback = _ref2.enableContactFallback,
+      autoLog = _ref2.autoLog;
 
   if (calls && calls.length) {
     return _react2.default.createElement(
@@ -78,7 +90,13 @@ function CallList(_ref2) {
           internalSmsPermission: internalSmsPermission,
           active: active,
           dateTimeFormatter: dateTimeFormatter,
-          isLogging: !!loggingMap[call.sessionId]
+          isLogging: !!loggingMap[call.sessionId],
+          webphoneAnswer: webphoneAnswer,
+          webphoneReject: webphoneReject,
+          webphoneHangup: webphoneHangup,
+          webphoneResume: webphoneResume,
+          enableContactFallback: enableContactFallback,
+          autoLog: autoLog
         });
       })
     );
@@ -86,29 +104,35 @@ function CallList(_ref2) {
   return _react2.default.createElement(
     'div',
     { className: className },
-    _react2.default.createElement(NoCalls, { currentLocale: currentLocale })
+    _react2.default.createElement(NoCalls, { currentLocale: currentLocale, active: active })
   );
 }
 
 CallList.propTypes = {
-  className: _react.PropTypes.string,
-  currentLocale: _react.PropTypes.string.isRequired,
-  calls: _react.PropTypes.arrayOf(_CallItem2.default.propTypes.call).isRequired,
-  active: _react.PropTypes.bool,
-  areaCode: _react.PropTypes.string.isRequired,
-  countryCode: _react.PropTypes.string.isRequired,
-  onViewContact: _react.PropTypes.func,
-  onCreateContact: _react.PropTypes.func,
-  onLogCall: _react.PropTypes.func,
-  onClickToDial: _react.PropTypes.func,
-  onClickToSms: _react.PropTypes.func,
-  isLoggedContact: _react.PropTypes.func,
-  loggingMap: _react.PropTypes.object,
-  disableLinks: _react.PropTypes.bool,
-  disableClickToDial: _react.PropTypes.bool,
-  outboundSmsPermission: _react.PropTypes.bool,
-  internalSmsPermission: _react.PropTypes.bool,
-  dateTimeFormatter: _react.PropTypes.func.isRequired
+  className: _propTypes2.default.string,
+  currentLocale: _propTypes2.default.string.isRequired,
+  calls: _propTypes2.default.arrayOf(_CallItem2.default.propTypes.call).isRequired,
+  active: _propTypes2.default.bool,
+  areaCode: _propTypes2.default.string.isRequired,
+  countryCode: _propTypes2.default.string.isRequired,
+  onViewContact: _propTypes2.default.func,
+  onCreateContact: _propTypes2.default.func,
+  onLogCall: _propTypes2.default.func,
+  onClickToDial: _propTypes2.default.func,
+  onClickToSms: _propTypes2.default.func,
+  isLoggedContact: _propTypes2.default.func,
+  loggingMap: _propTypes2.default.object,
+  disableLinks: _propTypes2.default.bool,
+  disableClickToDial: _propTypes2.default.bool,
+  outboundSmsPermission: _propTypes2.default.bool,
+  internalSmsPermission: _propTypes2.default.bool,
+  dateTimeFormatter: _propTypes2.default.func.isRequired,
+  webphoneAnswer: _propTypes2.default.func,
+  webphoneReject: _propTypes2.default.func,
+  webphoneHangup: _propTypes2.default.func,
+  webphoneResume: _propTypes2.default.func,
+  enableContactFallback: _propTypes2.default.bool,
+  autoLog: _propTypes2.default.bool
 };
 CallList.defaultProps = {
   className: null,
@@ -123,7 +147,13 @@ CallList.defaultProps = {
   isLoggedContact: undefined,
   onClickToDial: undefined,
   onClickToSms: undefined,
-  loggingMap: {}
+  loggingMap: {},
+  webphoneAnswer: undefined,
+  webphoneReject: undefined,
+  webphoneHangup: undefined,
+  webphoneResume: undefined,
+  enableContactFallback: undefined,
+  autoLog: false
 };
 
 exports.default = CallList;

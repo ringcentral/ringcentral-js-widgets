@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -28,9 +29,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _classnames = require('classnames');
+var _propTypes = require('prop-types');
 
-var _classnames2 = _interopRequireDefault(_classnames);
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _Modal = require('../Modal');
 
@@ -64,13 +65,11 @@ var EntityModal = function (_Component) {
       }
     };
     _this.onCreate = function () {
-      console.debug('onOK', _this.state.selected);
       if (typeof _this.props.onCreate === 'function') {
         _this.props.onCreate(_this.state.selected);
       }
     };
     _this.onRadioChange = function (e) {
-      console.debug('onChange:', e.target.value);
       _this.setState({
         selected: e.target.value
       });
@@ -132,12 +131,13 @@ var EntityModal = function (_Component) {
 exports.default = EntityModal;
 
 EntityModal.propTypes = {
-  className: _react.PropTypes.string,
-  show: _react.PropTypes.bool,
-  onCreate: _react.PropTypes.func.isRequired,
-  onCancel: _react.PropTypes.func.isRequired,
-  entities: _react.PropTypes.array,
-  currentLocale: _react.PropTypes.string.isRequired
+  className: _propTypes2.default.string,
+  children: _propTypes2.default.node,
+  show: _propTypes2.default.bool,
+  onCreate: _propTypes2.default.func.isRequired,
+  onCancel: _propTypes2.default.func.isRequired,
+  entities: _propTypes2.default.array,
+  currentLocale: _propTypes2.default.string.isRequired
 };
 EntityModal.defaultProps = {
   className: '',

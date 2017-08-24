@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -28,6 +29,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -40,7 +45,19 @@ var _callingOptions = require('ringcentral-integration/modules/CallingSettings/c
 
 var _callingOptions2 = _interopRequireDefault(_callingOptions);
 
-require('font-awesome/css/font-awesome.css');
+var _rcTooltip = require('rc-tooltip');
+
+var _rcTooltip2 = _interopRequireDefault(_rcTooltip);
+
+require('rc-tooltip/assets/bootstrap_white.css');
+
+var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
+
+var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
+
+var _Revert = require('../../assets/images/Revert.svg');
+
+var _Revert2 = _interopRequireDefault(_Revert);
 
 var _styles = require('./styles.scss');
 
@@ -77,6 +94,10 @@ var _TextInput2 = _interopRequireDefault(_TextInput);
 var _DropdownSelect = require('../DropdownSelect');
 
 var _DropdownSelect2 = _interopRequireDefault(_DropdownSelect);
+
+var _Button = require('../Button');
+
+var _Button2 = _interopRequireDefault(_Button);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -175,8 +196,33 @@ var CallingSettingsPanel = function (_Component) {
       }
     }
   }, {
+    key: 'getTooltipContent',
+    value: function getTooltipContent() {
+      var _this2 = this;
+
+      var contentKeys = void 0;
+      if (this.state.callWith === _callingOptions2.default.browser || this.state.callWith === _callingOptions2.default.softphone) {
+        contentKeys = [this.state.callWith + 'Tooltip'];
+      } else {
+        contentKeys = [this.state.callWith + 'Tooltip', this.state.callWith + 'Tooltip1'];
+      }
+      return _react2.default.createElement(
+        'div',
+        null,
+        contentKeys.map(function (contentKey) {
+          return _react2.default.createElement(
+            'div',
+            { key: contentKey },
+            (0, _formatMessage2.default)(_i18n2.default.getString(contentKey, _this2.props.currentLocale), { brand: _this2.props.brand })
+          );
+        })
+      );
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this3 = this;
+
       var _props = this.props,
           currentLocale = _props.currentLocale,
           callWith = _props.callWith,
@@ -185,24 +231,11 @@ var CallingSettingsPanel = function (_Component) {
           ringoutPrompt = _props.ringoutPrompt,
           onBackButtonClick = _props.onBackButtonClick,
           availableNumbers = _props.availableNumbers,
-          className = _props.className;
+          className = _props.className,
+          disabled = _props.disabled;
 
-      var buttons = [];
       var hasChanges = this.state.callWith !== callWith || this.state.myLocation !== myLocation || this.state.ringoutPrompt !== ringoutPrompt;
-      buttons.push({
-        label: _react2.default.createElement('i', { className: 'fa fa-undo' }),
-        onClick: this.onReset,
-        placement: 'right',
-        hidden: !hasChanges
-      });
-      buttons.push({
-        label: _react2.default.createElement('i', { className: 'fa fa-floppy-o' }),
-        onClick: this.onSave,
-        placement: 'right',
-        disabled: !hasChanges
-      });
-      //
-      var ringout = this.state.callWith !== _callingOptions2.default.softphone ? _react2.default.createElement(
+      var ringout = this.state.callWith !== _callingOptions2.default.softphone && this.state.callWith !== _callingOptions2.default.browser ? _react2.default.createElement(
         'div',
         null,
         _react2.default.createElement(
@@ -220,6 +253,7 @@ var CallingSettingsPanel = function (_Component) {
             value: this.state.myLocation,
             onChange: this.onMyLocationChange,
             options: availableNumbers[this.state.callWith],
+            disabled: disabled,
             dropdownAlign: 'left',
             titleEnabled: true
           }) : _react2.default.createElement(_TextInput2.default, {
@@ -239,13 +273,15 @@ var CallingSettingsPanel = function (_Component) {
           _i18n2.default.getString('press1ToStartCallLabel', currentLocale)
         )
       ) : null;
+
+      var toolTip = this.getTooltipContent();
       return _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.root, className) },
         _react2.default.createElement(
           _BackHeader2.default,
           {
-            buttons: buttons,
+            buttons: [],
             onBackClick: onBackButtonClick
           },
           _i18n2.default.getString('title', currentLocale)
@@ -257,19 +293,57 @@ var CallingSettingsPanel = function (_Component) {
             _InputField2.default,
             {
               className: _styles2.default.inputField,
-              label: _i18n2.default.getString('makeCallsWith', currentLocale), noBorder: true },
+              label: _react2.default.createElement(
+                'span',
+                null,
+                _i18n2.default.getString('makeCallsWith', currentLocale),
+                _react2.default.createElement(
+                  _rcTooltip2.default,
+                  {
+                    placement: 'bottom',
+                    trigger: 'click',
+                    overlay: toolTip,
+                    align: {
+                      offset: [0, 47]
+                    },
+                    arrowContent: _react2.default.createElement('div', { className: 'rc-tooltip-arrow-inner' }),
+                    getTooltipContainer: function getTooltipContainer() {
+                      return _this3.tooltipContainner;
+                    }
+                  },
+                  _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.information, _styles2.default.infoIcon) })
+                )
+              ),
+              noBorder: true
+            },
             _react2.default.createElement(_DropdownSelect2.default, {
               className: _styles2.default.select,
               value: this.state.callWith,
               onChange: this.onCallWithChange,
               options: callWithOptions,
               dropdownAlign: 'left',
-              renderValue: this.renderHandler,
               renderFunction: this.renderHandler,
+              renderValue: this.renderHandler,
+              disabled: disabled,
               titleEnabled: true
+            }),
+            _react2.default.createElement('div', {
+              className: _styles2.default.tooltipContainner,
+              ref: function ref(tooltipContainner) {
+                _this3.tooltipContainner = tooltipContainner;
+              }
             })
           ),
-          ringout
+          ringout,
+          _react2.default.createElement(
+            _Button2.default,
+            {
+              className: (0, _classnames2.default)(_styles2.default.saveButton, !hasChanges ? _styles2.default.disabled : null),
+              onClick: this.onSave,
+              disabled: !hasChanges
+            },
+            _i18n2.default.getString('save', currentLocale)
+          )
         )
       );
     }
@@ -281,19 +355,21 @@ exports.default = CallingSettingsPanel;
 
 
 CallingSettingsPanel.propTypes = {
-  brand: _react.PropTypes.string.isRequired,
-  className: _react.PropTypes.string,
-  currentLocale: _react.PropTypes.string.isRequired,
-  callWithOptions: _react.PropTypes.arrayOf(_react.PropTypes.string).isRequired,
-  callWith: _react.PropTypes.string.isRequired,
-  myLocation: _react.PropTypes.string.isRequired,
-  ringoutPrompt: _react.PropTypes.bool.isRequired,
-  availableNumbers: _react.PropTypes.object.isRequired,
-  onBackButtonClick: _react.PropTypes.func.isRequired,
-  onSave: _react.PropTypes.func.isRequired
+  brand: _propTypes2.default.string.isRequired,
+  className: _propTypes2.default.string,
+  currentLocale: _propTypes2.default.string.isRequired,
+  callWithOptions: _propTypes2.default.arrayOf(_propTypes2.default.string).isRequired,
+  callWith: _propTypes2.default.string.isRequired,
+  myLocation: _propTypes2.default.string.isRequired,
+  ringoutPrompt: _propTypes2.default.bool.isRequired,
+  availableNumbers: _propTypes2.default.object.isRequired,
+  onBackButtonClick: _propTypes2.default.func.isRequired,
+  onSave: _propTypes2.default.func.isRequired,
+  disabled: _propTypes2.default.bool
 };
 
 CallingSettingsPanel.defaultProps = {
-  className: null
+  className: null,
+  disabled: false
 };
 //# sourceMappingURL=index.js.map

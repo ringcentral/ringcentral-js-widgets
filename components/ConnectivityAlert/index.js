@@ -9,6 +9,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _connectivityMonitorMessages = require('ringcentral-integration/modules/ConnectivityMonitor/connectivityMonitorMessages');
 
 var _connectivityMonitorMessages2 = _interopRequireDefault(_connectivityMonitorMessages);
@@ -31,10 +35,10 @@ function ConnectivityAlert(_ref) {
 }
 
 ConnectivityAlert.propTypes = {
-  message: _react.PropTypes.shape({
-    message: _react.PropTypes.string.isRequired
+  message: _propTypes2.default.shape({
+    message: _propTypes2.default.string.isRequired
   }).isRequired,
-  currentLocale: _react.PropTypes.string.isRequired
+  currentLocale: _propTypes2.default.string.isRequired
 };
 
 ConnectivityAlert.handleMessage = function (_ref2) {

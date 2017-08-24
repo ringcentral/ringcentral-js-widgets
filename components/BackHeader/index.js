@@ -8,6 +8,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -27,9 +31,10 @@ var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var BackHeader = function BackHeader(props) {
-  var buttons = props.buttons;
+  var buttons = props.buttons || [];
+  var defaultBackButton = _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.iconRotate) });
   buttons.push({
-    label: _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.iconRotate) }),
+    label: props.backButton || defaultBackButton,
     onClick: props.onBackClick,
     placement: 'left'
   });
@@ -45,18 +50,20 @@ exports.default = BackHeader;
 
 
 BackHeader.propTypes = {
-  className: _react.PropTypes.string,
-  children: _react.PropTypes.node,
-  buttons: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-    label: _react.PropTypes.node.isRequired,
-    onClick: _react.PropTypes.funcs,
-    placement: _react.PropTypes.oneOf(['left', 'right'])
+  className: _propTypes2.default.string,
+  children: _propTypes2.default.node,
+  backButton: _propTypes2.default.node,
+  buttons: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+    label: _propTypes2.default.node.isRequired,
+    onClick: _propTypes2.default.funcs,
+    placement: _propTypes2.default.oneOf(['left', 'right'])
   })),
-  onBackClick: _react.PropTypes.func
+  onBackClick: _propTypes2.default.func
 };
 
 BackHeader.defaultProps = {
   className: '',
-  buttons: []
+  buttons: undefined,
+  backButton: undefined
 };
 //# sourceMappingURL=index.js.map

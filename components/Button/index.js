@@ -9,6 +9,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -34,10 +38,10 @@ function Button(_ref) {
   );
 }
 Button.propTypes = {
-  className: _react.PropTypes.string,
-  disabled: _react.PropTypes.bool,
-  onClick: _react.PropTypes.func,
-  children: _react.PropTypes.node
+  className: _propTypes2.default.string,
+  disabled: _propTypes2.default.bool,
+  onClick: _propTypes2.default.func,
+  children: _propTypes2.default.node
 };
 
 Button.defaultProps = {

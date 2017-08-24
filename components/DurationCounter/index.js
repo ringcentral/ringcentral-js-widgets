@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -27,6 +28,10 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _formatDuration = require('../../lib/formatDuration');
 
@@ -84,8 +89,8 @@ exports.default = DurationCounter;
 
 
 DurationCounter.propTypes = {
-  className: _react.PropTypes.string,
-  startTime: _react.PropTypes.number.isRequired
+  className: _propTypes2.default.string,
+  startTime: _propTypes2.default.number.isRequired
 };
 
 DurationCounter.defaultProps = {

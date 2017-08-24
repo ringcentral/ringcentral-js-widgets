@@ -15,7 +15,9 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var _reactRedux = require('react-redux');
 
-var _react = require('react');
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _Locale = require('ringcentral-integration/modules/Locale');
 
@@ -77,7 +79,7 @@ function mapToFunctions(_, _ref2) {
       };
     }(),
     onBackButtonClick: function onBackButtonClick() {
-      router.history.goBack();
+      router.goBack();
     },
     onSave: function onSave(_ref4) {
       var areaCode = _ref4.areaCode,
@@ -94,9 +96,9 @@ function mapToFunctions(_, _ref2) {
 var RegionSettingsPage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_RegionSettingsPanel2.default);
 
 var propTypes = {
-  locale: _react.PropTypes.instanceOf(_Locale2.default).isRequired,
-  regionSettings: _react.PropTypes.instanceOf(_RegionSettings2.default).isRequired,
-  router: _react.PropTypes.instanceOf(_RouterInteraction2.default).isRequired
+  locale: _propTypes2.default.instanceOf(_Locale2.default).isRequired,
+  regionSettings: _propTypes2.default.instanceOf(_RegionSettings2.default).isRequired,
+  router: _propTypes2.default.instanceOf(_RouterInteraction2.default).isRequired
 };
 
 RegionSettingsPage.propTypes = propTypes;

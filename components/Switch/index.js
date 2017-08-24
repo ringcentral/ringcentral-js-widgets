@@ -8,6 +8,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -30,8 +34,8 @@ function Switch(props) {
 }
 
 Switch.propTypes = {
-  checked: _react.PropTypes.bool,
-  onChange: _react.PropTypes.func
+  checked: _propTypes2.default.bool,
+  onChange: _propTypes2.default.func
 };
 
 exports.default = Switch;

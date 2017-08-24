@@ -8,6 +8,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
@@ -50,9 +54,9 @@ function Eula(props) {
 }
 
 Eula.propTypes = {
-  brandId: _react.PropTypes.string.isRequired,
-  currentLocale: _react.PropTypes.string.isRequired,
-  className: _react.PropTypes.string
+  brandId: _propTypes2.default.string.isRequired,
+  currentLocale: _propTypes2.default.string.isRequired,
+  className: _propTypes2.default.string
 };
 
 exports.default = Eula;

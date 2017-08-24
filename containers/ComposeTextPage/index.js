@@ -4,7 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = require('react');
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactRedux = require('react-redux');
 
@@ -34,66 +36,97 @@ var _ComposeTextPanel2 = _interopRequireDefault(_ComposeTextPanel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ComposeTextPage = (0, _reactRedux.connect)(function (state, props) {
+function mapToProps(_, _ref) {
+  var composeText = _ref.composeText,
+      connectivityMonitor = _ref.connectivityMonitor,
+      contactSearch = _ref.contactSearch,
+      locale = _ref.locale,
+      messageSender = _ref.messageSender,
+      rateLimiter = _ref.rateLimiter,
+      rolesAndPermissions = _ref.rolesAndPermissions;
+
   return {
-    currentLocale: props.locale.currentLocale,
-    sendButtonDisabled: !(props.composeText.ready && props.messageSender.idle) || props.composeText.messageText.length === 0 || props.composeText.toNumbers.length === 0 && props.composeText.typingToNumber.length === 0,
-    senderNumbers: props.messageSender.senderNumbersList,
-    senderNumber: props.composeText.senderNumber,
-    typingToNumber: props.composeText.typingToNumber,
-    toNumbers: props.composeText.toNumbers,
-    messageText: props.composeText.messageText,
-    outboundSMS: props.rolesAndPermissions.permissions.OutboundSMS,
-    searchContactList: props.contactSearch.searching.result
+    currentLocale: locale.currentLocale,
+    sendButtonDisabled: !(composeText.ready && messageSender.idle) || composeText.messageText.length === 0 || composeText.toNumbers.length === 0 && composeText.typingToNumber.length === 0 || !connectivityMonitor.connectivity || rateLimiter.throttling,
+    senderNumbers: messageSender.senderNumbersList,
+    senderNumber: composeText.senderNumber,
+    typingToNumber: composeText.typingToNumber,
+    toNumbers: composeText.toNumbers,
+    messageText: composeText.messageText,
+    outboundSMS: rolesAndPermissions.permissions.OutboundSMS,
+    searchContactList: contactSearch.searching.result,
+    showSpinner: !(composeText.ready && locale.ready && messageSender.ready && rolesAndPermissions.ready && contactSearch.ready)
   };
-}, function (dispatch, props) {
-  var formatPhone = function formatPhone(phoneNumber) {
+}
+
+function mapToFunctions(_, _ref2) {
+  var composeText = _ref2.composeText,
+      contactSearch = _ref2.contactSearch,
+      messageStore = _ref2.messageStore,
+      regionSettings = _ref2.regionSettings,
+      router = _ref2.router,
+      _ref2$formatContactPh = _ref2.formatContactPhone,
+      formatContactPhone = _ref2$formatContactPh === undefined ? function (phoneNumber) {
     return (0, _formatNumber2.default)({
       phoneNumber: phoneNumber,
-      areaCode: props.regionSettings.areaCode,
-      countryCode: props.regionSettings.countryCode
+      areaCode: regionSettings.areaCode,
+      countryCode: regionSettings.countryCode
     });
-  };
-  var formatContactPhone = props.formatContactPhone ? props.formatContactPhone : formatPhone;
+  } : _ref2$formatContactPh;
+
   return {
     send: function send() {
-      return props.composeText.send().then(function (responses) {
+      return composeText.send().then(function (responses) {
         if (!responses || responses.length === 0) {
           return null;
         }
-        props.messageStore.pushMessages(responses);
+        messageStore.pushMessages(responses);
         if (responses.length === 1) {
           var conversationId = responses[0] && responses[0].conversation && responses[0].conversation.id;
           if (!conversationId) {
             return null;
           }
-          props.router.history.push('/conversations/' + conversationId);
+          router.push('/conversations/' + conversationId);
         } else {
-          props.router.history.push('/messages');
+          router.push('/messages');
         }
-        props.composeText.clean();
+        composeText.clean();
         return null;
       });
     },
-    formatPhone: formatPhone,
+    formatPhone: formatContactPhone,
     formatContactPhone: formatContactPhone,
     searchContact: function searchContact(searchString) {
-      return props.contactSearch.search({ searchString: searchString });
+      return contactSearch.search({ searchString: searchString });
     },
-    updateSenderNumber: props.composeText.updateSenderNumber,
-    updateTypingToNumber: props.composeText.updateTypingToNumber,
-    cleanTypingToNumber: props.composeText.cleanTypingToNumber,
-    addToNumber: props.composeText.addToNumber,
-    removeToNumber: props.composeText.removeToNumber,
-    updateMessageText: props.composeText.updateMessageText
+    updateSenderNumber: function updateSenderNumber() {
+      return composeText.updateSenderNumber.apply(composeText, arguments);
+    },
+    updateTypingToNumber: function updateTypingToNumber() {
+      return composeText.updateTypingToNumber.apply(composeText, arguments);
+    },
+    cleanTypingToNumber: function cleanTypingToNumber() {
+      return composeText.cleanTypingToNumber.apply(composeText, arguments);
+    },
+    addToNumber: function addToNumber() {
+      return composeText.addToNumber.apply(composeText, arguments);
+    },
+    removeToNumber: function removeToNumber() {
+      return composeText.removeToNumber.apply(composeText, arguments);
+    },
+    updateMessageText: function updateMessageText() {
+      return composeText.updateMessageText.apply(composeText, arguments);
+    }
   };
-})(_ComposeTextPanel2.default);
+}
+
+var ComposeTextPage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ComposeTextPanel2.default);
 
 ComposeTextPage.propTypes = {
-  router: _react.PropTypes.instanceOf(_RouterInteraction2.default).isRequired,
-  composeText: _react.PropTypes.instanceOf(_ComposeText2.default).isRequired,
-  messageStore: _react.PropTypes.instanceOf(_MessageStore2.default).isRequired,
-  rolesAndPermissions: _react.PropTypes.instanceOf(_RolesAndPermissions2.default).isRequired
+  router: _propTypes2.default.instanceOf(_RouterInteraction2.default).isRequired,
+  composeText: _propTypes2.default.instanceOf(_ComposeText2.default).isRequired,
+  messageStore: _propTypes2.default.instanceOf(_MessageStore2.default).isRequired,
+  rolesAndPermissions: _propTypes2.default.instanceOf(_RolesAndPermissions2.default).isRequired
 };
 
 exports.default = ComposeTextPage;

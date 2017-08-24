@@ -9,6 +9,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _authMessages = require('ringcentral-integration/modules/Auth/authMessages');
 
 var _authMessages2 = _interopRequireDefault(_authMessages);
@@ -29,9 +33,9 @@ function AuthAlert(props) {
 }
 
 AuthAlert.propTypes = {
-  currentLocale: _react.PropTypes.string.isRequired,
-  message: _react.PropTypes.shape({
-    message: _react.PropTypes.string.isRequired
+  currentLocale: _propTypes2.default.string.isRequired,
+  message: _propTypes2.default.shape({
+    message: _propTypes2.default.string.isRequired
   }).isRequired
 };
 

@@ -28,6 +28,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -48,7 +52,7 @@ function SelectedRecipientItem(_ref) {
       name = _ref$name === undefined ? phoneNumber : _ref$name,
       onRemove = _ref.onRemove;
 
-  var className = phoneNumber.length > 5 ? _styles2.default.blue : null;
+  var className = phoneNumber.length > 5 ? _styles2.default.phoneNumber : _styles2.default.extension;
   return _react2.default.createElement(
     'li',
     { className: className },
@@ -66,9 +70,9 @@ function SelectedRecipientItem(_ref) {
 }
 
 SelectedRecipientItem.propTypes = {
-  name: _react.PropTypes.string,
-  phoneNumber: _react.PropTypes.string.isRequired,
-  onRemove: _react.PropTypes.func.isRequired
+  name: _propTypes2.default.string,
+  phoneNumber: _propTypes2.default.string.isRequired,
+  onRemove: _propTypes2.default.func.isRequired
 };
 SelectedRecipientItem.defaultProps = {
   name: undefined
@@ -96,10 +100,10 @@ function SelectedRecipients(props) {
 }
 
 SelectedRecipients.propTypes = {
-  removeFromRecipients: _react.PropTypes.func.isRequired,
-  items: _react2.default.PropTypes.arrayOf(_react.PropTypes.shape({
-    phoneNumber: _react.PropTypes.string.isRequired,
-    name: _react.PropTypes.string
+  removeFromRecipients: _propTypes2.default.func.isRequired,
+  items: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+    phoneNumber: _propTypes2.default.string.isRequired,
+    name: _propTypes2.default.string
   })).isRequired
 };
 
@@ -172,6 +176,17 @@ var RecipientsInput = function (_Component) {
       }
     };
 
+    _this.isSplitter = function (e) {
+      if (e.key === ',' || e.key === ';' || e.key === 'Enter' || e.key === 'Unidentified' && ( // for Safari (FF cannot rely on keyCode...)
+      e.keyCode === 186 || // semicolon
+      e.keyCode === 188 || // comma
+      e.keyCode === 13) // enter
+      ) {
+          return true;
+        }
+      return false;
+    };
+    // using React SyntheticEvent to deal with cross browser issue
     _this.handleHotKey = function (e) {
       if (_this.state.isFocusOnInput && _this.props.value.length >= 3) {
         if (e.key === 'ArrowUp') {
@@ -186,15 +201,25 @@ var RecipientsInput = function (_Component) {
           selectedContactIndex: 0
         });
       }
-      if (e.key === ',' || e.key === ';' || e.key === 'Enter') {
+      if (_this.isSplitter(e)) {
         e.preventDefault();
         if (_this.props.value.length === 0) {
           return;
         }
-        _this.props.addToRecipients({
-          name: _this.props.value.replace(',', ''),
-          phoneNumber: _this.props.value.replace(',', '')
-        });
+        var relatedContactList = _this.props.value.length >= 3 ? _this.props.searchContactList : [];
+        var currentSelected = relatedContactList[_this.state.selectedContactIndex];
+        if (currentSelected && e.key === 'Enter') {
+          _this.props.addToRecipients({
+            name: currentSelected.name,
+            phoneNumber: currentSelected.phoneNumber
+          });
+        } else {
+          _this.props.addToRecipients({
+            name: _this.props.value.replace(',', ''),
+            phoneNumber: _this.props.value.replace(',', '')
+          });
+          _this.props.onClean();
+        }
         _this.props.onClean();
       }
     };
@@ -278,27 +303,27 @@ var RecipientsInput = function (_Component) {
 }(_react.Component);
 
 RecipientsInput.propTypes = {
-  label: _react.PropTypes.string,
-  placeholder: _react.PropTypes.string,
-  searchContactList: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-    name: _react.PropTypes.string.isRequired,
-    entityType: _react.PropTypes.string.isRequired,
-    phoneType: _react.PropTypes.string.isRequired,
-    phoneNumber: _react.PropTypes.string.isRequired
+  label: _propTypes2.default.string,
+  placeholder: _propTypes2.default.string,
+  searchContactList: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+    name: _propTypes2.default.string.isRequired,
+    entityType: _propTypes2.default.string.isRequired,
+    phoneType: _propTypes2.default.string.isRequired,
+    phoneNumber: _propTypes2.default.string.isRequired
   })).isRequired,
-  recipients: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-    phoneNumber: _react.PropTypes.string.isRequired,
-    name: _react.PropTypes.string
+  recipients: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+    phoneNumber: _propTypes2.default.string.isRequired,
+    name: _propTypes2.default.string
   })).isRequired,
-  value: _react.PropTypes.string.isRequired,
-  onChange: _react.PropTypes.func.isRequired,
-  onClean: _react.PropTypes.func.isRequired,
-  onKeyUp: _react.PropTypes.func,
-  onKeyDown: _react.PropTypes.func,
-  addToRecipients: _react.PropTypes.func.isRequired,
-  removeFromRecipients: _react.PropTypes.func.isRequired,
-  formatContactPhone: _react.PropTypes.func.isRequired,
-  titleEnabled: _react.PropTypes.bool
+  value: _propTypes2.default.string.isRequired,
+  onChange: _propTypes2.default.func.isRequired,
+  onClean: _propTypes2.default.func.isRequired,
+  onKeyUp: _propTypes2.default.func,
+  onKeyDown: _propTypes2.default.func,
+  addToRecipients: _propTypes2.default.func.isRequired,
+  removeFromRecipients: _propTypes2.default.func.isRequired,
+  formatContactPhone: _propTypes2.default.func.isRequired,
+  titleEnabled: _propTypes2.default.bool
 };
 
 RecipientsInput.defaultProps = {

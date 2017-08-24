@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _typeof2 = require('babel-runtime/helpers/typeof');
 
@@ -44,19 +45,23 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
-
 var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
 
 var _defineProperty3 = _interopRequireDefault(_defineProperty2);
 
 var _callIconMap;
+// import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
+
+// import Button from '../Button';
+
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _classnames = require('classnames');
 
@@ -78,21 +83,17 @@ var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
 
-var _callResults = require('ringcentral-integration/enums/callResults');
-
-var _callResults2 = _interopRequireDefault(_callResults);
-
 var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
 var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
-var _DropdownSelect = require('../DropdownSelect');
-
-var _DropdownSelect2 = _interopRequireDefault(_DropdownSelect);
-
 var _DurationCounter = require('../DurationCounter');
 
 var _DurationCounter2 = _interopRequireDefault(_DurationCounter);
+
+var _ContactDisplay = require('../ContactDisplay');
+
+var _ContactDisplay2 = _interopRequireDefault(_ContactDisplay);
 
 var _formatDuration = require('../../lib/formatDuration');
 
@@ -118,97 +119,31 @@ function CallIcon(_ref) {
   var direction = _ref.direction,
       missed = _ref.missed,
       active = _ref.active,
-      ringing = _ref.ringing;
+      ringing = _ref.ringing,
+      inboundTitle = _ref.inboundTitle,
+      outboundTitle = _ref.outboundTitle,
+      missedTitle = _ref.missedTitle;
 
+  var title = missed ? missedTitle : direction === _callDirections2.default.inbound ? inboundTitle : outboundTitle;
   return _react2.default.createElement(
     'div',
     { className: _styles2.default.callIcon },
     _react2.default.createElement('span', {
-      className: (0, _classnames2.default)(missed ? callIconMap.missed : callIconMap[direction], active && _styles2.default.activeCall, ringing && _styles2.default.ringing, missed && _styles2.default.missed) })
+      className: (0, _classnames2.default)(missed ? callIconMap.missed : callIconMap[direction], active && _styles2.default.activeCall, ringing && _styles2.default.ringing, missed && _styles2.default.missed),
+      title: title
+    })
   );
 }
 CallIcon.propTypes = {
-  direction: _react.PropTypes.string.isRequired,
-  missed: _react.PropTypes.bool,
-  active: _react.PropTypes.bool,
-  ringing: _react.PropTypes.bool
+  direction: _propTypes2.default.string.isRequired,
+  missed: _propTypes2.default.bool,
+  active: _propTypes2.default.bool,
+  ringing: _propTypes2.default.bool
 };
 CallIcon.defaultProps = {
   missed: false,
   active: false,
   ringing: false
-};
-
-function Contact(_ref2) {
-  var contactMatches = _ref2.contactMatches,
-      selected = _ref2.selected,
-      onSelectContact = _ref2.onSelectContact,
-      disabled = _ref2.disabled,
-      isLogging = _ref2.isLogging,
-      fallBackName = _ref2.fallBackName,
-      areaCode = _ref2.areaCode,
-      countryCode = _ref2.countryCode,
-      phoneNumber = _ref2.phoneNumber,
-      currentLocale = _ref2.currentLocale,
-      missed = _ref2.missed;
-
-  var contentEl = void 0;
-
-  if (contactMatches.length === 0) {
-    contentEl = fallBackName || phoneNumber && (0, _formatNumber2.default)({
-      phoneNumber: phoneNumber,
-      countryCode: countryCode,
-      areaCode: areaCode
-    }) || _i18n2.default.getString('unknownNumber', currentLocale);
-  } else if (contactMatches.length === 1) {
-    contentEl = contactMatches[0].name;
-  } else if (contactMatches.length > 1) {
-    var options = [{}].concat((0, _toConsumableArray3.default)(contactMatches));
-
-    contentEl = _react2.default.createElement(_DropdownSelect2.default, {
-      className: _styles2.default.select,
-      value: '' + selected,
-      onChange: onSelectContact,
-      disabled: disabled || isLogging,
-      options: options,
-      valueFunction: function valueFunction(_, idx) {
-        return '' + (idx - 1);
-      },
-      renderFunction: function renderFunction(entity, idx) {
-        return idx === 0 ? _i18n2.default.getString('select', currentLocale) : entity.name + ' ' + _i18n2.default.getString('phoneSource.' + entity.entityType);
-      },
-      renderValue: function renderValue(value) {
-        value = parseInt(value, 10) + 1;
-        return value === 0 ? _i18n2.default.getString('select', currentLocale) : options[value].name + ' ' + _i18n2.default.getString('phoneSource.' + options[value].entityType);
-      },
-      dropdownAlign: 'left',
-      titleEnabled: true
-    });
-  }
-  return _react2.default.createElement(
-    'div',
-    {
-      className: (0, _classnames2.default)(_styles2.default.contact, missed && _styles2.default.missed) },
-    contentEl
-  );
-}
-Contact.propTypes = {
-  contactMatches: _react.PropTypes.arrayOf(_react.PropTypes.any).isRequired,
-  selected: _react.PropTypes.number.isRequired,
-  onSelectContact: _react.PropTypes.func,
-  disabled: _react.PropTypes.bool.isRequired,
-  isLogging: _react.PropTypes.bool.isRequired,
-  fallBackName: _react.PropTypes.string,
-  areaCode: _react.PropTypes.string.isRequired,
-  countryCode: _react.PropTypes.string.isRequired,
-  phoneNumber: _react.PropTypes.string,
-  currentLocale: _react.PropTypes.string.isRequired,
-  missed: _react.PropTypes.bool.isRequired
-};
-Contact.defaultProps = {
-  onSelectContact: undefined,
-  fallBackName: '',
-  phoneNumber: undefined
 };
 
 var CallItem = function (_Component) {
@@ -223,11 +158,11 @@ var CallItem = function (_Component) {
 
     _this.onSelectContact = function (value, idx) {
       var selected = parseInt(idx, 10) - 1;
+      _this._userSelection = true;
       _this.setState({
-        selected: selected,
-        userSelection: true
+        selected: selected
       });
-      if (_this.props.call.activityMatches.length > 0) {
+      if (_this.props.call.activityMatches.length > 0 && _this.props.autoLog) {
         _this.logCall({ redirect: false, selected: selected });
       }
     };
@@ -239,49 +174,7 @@ var CallItem = function (_Component) {
       return selected > -1 && contactMatches[selected] || contactMatches.length === 1 && contactMatches[0] || null;
     };
 
-    _this.logCall = function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref4) {
-        var _ref4$redirect = _ref4.redirect,
-            redirect = _ref4$redirect === undefined ? true : _ref4$redirect,
-            selected = _ref4.selected;
-        return _regenerator2.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (!(typeof _this.props.onLogCall === 'function' && _this._mounted && !_this.state.isLogging)) {
-                  _context.next = 5;
-                  break;
-                }
-
-                _this.setState({
-                  isLogging: true
-                });
-                _context.next = 4;
-                return _this.props.onLogCall({
-                  contact: _this.getSelectedContact(selected),
-                  call: _this.props.call,
-                  redirect: redirect
-                });
-
-              case 4:
-                if (_this._mounted) {
-                  _this.setState({
-                    isLogging: false
-                  });
-                }
-
-              case 5:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, _this2);
-      }));
-
-      return function (_x2) {
-        return _ref3.apply(this, arguments);
-      };
-    }();
+    _this.logCall = _this.logCall.bind(_this);
 
     _this.viewSelectedContact = function () {
       if (typeof _this.props.onViewContact === 'function') {
@@ -293,53 +186,55 @@ var CallItem = function (_Component) {
     };
 
     _this.createSelectedContact = function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(entityType) {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(entityType) {
+        var phoneNumber;
+        return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context.prev = _context.next) {
               case 0:
-                console.log('click createSelectedContact!!', entityType);
-
                 if (!(typeof _this.props.onCreateContact === 'function' && _this._mounted && !_this.state.isCreating)) {
-                  _context2.next = 7;
+                  _context.next = 6;
                   break;
                 }
 
                 _this.setState({
                   isCreating: true
                 });
-                console.log('start to create: isCreating...', _this.state.isCreating);
-
-                _context2.next = 6;
+                // console.log('start to create: isCreating...', this.state.isCreating);
+                phoneNumber = _this.getPhoneNumber();
+                _context.next = 5;
                 return _this.props.onCreateContact({
-                  phoneNumber: _this.getPhoneNumber(),
-                  name: _this.getFallbackContactName(),
+                  phoneNumber: phoneNumber,
+                  name: _this.props.enableContactFallback ? _this.getFallbackContactName() : '',
                   entityType: entityType
                 });
 
-              case 6:
+              case 5:
 
                 if (_this._mounted) {
                   _this.setState({
                     isCreating: false
                   });
-                  console.log('created: isCreating...', _this.state.isCreating);
+                  // console.log('created: isCreating...', this.state.isCreating);
                 }
 
-              case 7:
+              case 6:
               case 'end':
-                return _context2.stop();
+                return _context.stop();
             }
           }
-        }, _callee2, _this2);
+        }, _callee, _this2);
       }));
 
-      return function (_x3) {
-        return _ref5.apply(this, arguments);
+      return function (_x2) {
+        return _ref2.apply(this, arguments);
       };
     }();
 
-    _this.clickToSms = function () {
+    _this.clickToSms = function (_ref3) {
+      var countryCode = _ref3.countryCode,
+          areaCode = _ref3.areaCode;
+
       if (_this.props.onClickToSms) {
         var phoneNumber = _this.getPhoneNumber();
         var contact = _this.getSelectedContact();
@@ -348,10 +243,15 @@ var CallItem = function (_Component) {
             phoneNumber: phoneNumber
           }));
         } else {
-          _this.props.onClickToSms({
-            name: _this.getFallbackContactName(),
-            phoneNumber: phoneNumber
+          var formatted = (0, _formatNumber2.default)({
+            phoneNumber: phoneNumber,
+            countryCode: countryCode,
+            areaCode: areaCode
           });
+          _this.props.onClickToSms({
+            name: _this.props.enableContactFallback ? _this.getFallbackContactName() : formatted,
+            phoneNumber: phoneNumber
+          }, true);
         }
       }
     };
@@ -364,22 +264,33 @@ var CallItem = function (_Component) {
 
     _this.state = {
       selected: _this.getInitialContactIndex(),
-      userSelection: false,
       isLogging: false,
-      isCreating: false
+      isCreating: false,
+      loading: true
     };
+    _this._userSelection = false;
     return _this;
   }
 
   (0, _createClass3.default)(CallItem, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      var _this3 = this;
+
       this._mounted = true;
+      setTimeout(function () {
+        // clear timeout is probably not necessary
+        if (_this3._mounted) {
+          _this3.setState({
+            loading: false
+          });
+        }
+      }, 10);
     }
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (!this.state.userSelection && nextProps.call.activityMatches !== this.props.call.activityMatches) {
+      if (!this._userSelection && (nextProps.call.activityMatches !== this.props.call.activityMatches || nextProps.call.fromMatches !== this.props.call.fromMatches || nextProps.call.toMatches !== this.props.call.toMatches)) {
         this.setState({
           selected: this.getInitialContactIndex(nextProps)
         });
@@ -393,12 +304,13 @@ var CallItem = function (_Component) {
   }, {
     key: 'getInitialContactIndex',
     value: function getInitialContactIndex() {
-      var _this3 = this;
+      var _this4 = this;
 
       var nextProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
 
       var contactMatches = this.getContactMatches(nextProps);
       var activityMatches = nextProps.call.activityMatches;
+      // console.log('getInitialContactIndex:', nextProps.call.toNumberEntity);
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
@@ -410,7 +322,7 @@ var CallItem = function (_Component) {
           var index = contactMatches.findIndex(function (contact) {
             return (
               // TODO find a better name or mechanism...
-              _this3.props.isLoggedContact(nextProps.call, activity, contact)
+              _this4.props.isLoggedContact(nextProps.call, activity, contact)
             );
           });
           if (index > -1) return {
@@ -438,6 +350,12 @@ var CallItem = function (_Component) {
         }
       }
 
+      if (nextProps.call.toNumberEntity) {
+        var index = contactMatches.findIndex(function (contact) {
+          return contact.id === nextProps.call.toNumberEntity;
+        });
+        return index;
+      }
       return -1;
     }
   }, {
@@ -458,8 +376,60 @@ var CallItem = function (_Component) {
       return (0, _callLogHelpers.isInbound)(this.props.call) ? this.props.call.from.name : this.props.call.to.name;
     }
   }, {
+    key: 'logCall',
+    value: function () {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref5) {
+        var _ref5$redirect = _ref5.redirect,
+            redirect = _ref5$redirect === undefined ? true : _ref5$redirect,
+            selected = _ref5.selected;
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!(typeof this.props.onLogCall === 'function' && this._mounted && !this.state.isLogging)) {
+                  _context2.next = 5;
+                  break;
+                }
+
+                this.setState({
+                  isLogging: true
+                });
+                _context2.next = 4;
+                return this.props.onLogCall({
+                  contact: this.getSelectedContact(selected),
+                  call: this.props.call,
+                  redirect: redirect
+                });
+
+              case 4:
+                if (this._mounted) {
+                  this.setState({
+                    isLogging: false
+                  });
+                }
+
+              case 5:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function logCall(_x5) {
+        return _ref4.apply(this, arguments);
+      }
+
+      return logCall;
+    }()
+  }, {
     key: 'render',
     value: function render() {
+      var _this5 = this;
+
+      if (this.state.loading) {
+        return _react2.default.createElement('div', { className: _styles2.default.root });
+      }
       var _props = this.props,
           _props$call = _props.call,
           direction = _props$call.direction,
@@ -482,7 +452,8 @@ var CallItem = function (_Component) {
           onClickToDial = _props.onClickToDial,
           onClickToSms = _props.onClickToSms,
           dateTimeFormatter = _props.dateTimeFormatter,
-          isLogging = _props.isLogging;
+          isLogging = _props.isLogging,
+          enableContactFallback = _props.enableContactFallback;
 
       var phoneNumber = this.getPhoneNumber();
       var contactMatches = this.getContactMatches();
@@ -501,33 +472,67 @@ var CallItem = function (_Component) {
       }
       var dateEl = void 0;
       if (!active) {
-        dateEl = dateTimeFormatter(startTime);
+        dateEl = dateTimeFormatter({ utcTimestamp: startTime });
       }
       var statusEl = void 0;
       if (active) {
         statusEl = _i18n2.default.getString(result || telephonyStatus, currentLocale);
       }
+      // let webphoneEl;
+      // if (webphoneSession) {
+      //   let hangupFunc = webphoneHangup;
+      //   let resumeFunc = webphoneResume;
+      //   if (
+      //     webphoneSession.direction === callDirections.inbound &&
+      //     webphoneSession.callStatus === sessionStatus.connecting
+      //   ) {
+      //     hangupFunc = webphoneReject;
+      //     resumeFunc = webphoneAnswer;
+      //   }
+      //   webphoneEl = (
+      //     <div className={styles.webphoneButtons}>
+      //       <Button
+      //         className={classnames(styles.webphoneButton, styles.rejectWebphoneButton)}
+      //         onClick={() => hangupFunc(webphoneSession.id)}
+      //       >
+      //         <i className={dynamicsFont.missed} />
+      //       </Button>
+      //       <Button
+      //         className={styles.webphoneButton}
+      //         onClick={() => resumeFunc(webphoneSession.id)}
+      //       >
+      //         <i className={dynamicsFont.call} />
+      //       </Button>
+      //     </div>
+      //   );
+      // }
       return _react2.default.createElement(
         'div',
-        { className: _styles2.default.callItem },
+        { className: _styles2.default.root },
         _react2.default.createElement(CallIcon, {
           direction: direction,
           ringing: ringing,
           active: active,
-          missed: missed
+          missed: missed,
+          inboundTitle: _i18n2.default.getString('inboundCall', currentLocale),
+          outboundTitle: _i18n2.default.getString('outboundCall', currentLocale),
+          missedTitle: _i18n2.default.getString('missedCall', currentLocale)
         }),
-        _react2.default.createElement(Contact, {
+        _react2.default.createElement(_ContactDisplay2.default, {
+          className: (0, _classnames2.default)(_styles2.default.contactDisplay, missed && _styles2.default.missed, active && _styles2.default.active),
           contactMatches: contactMatches,
           selected: this.state.selected,
           onSelectContact: this.onSelectContact,
           disabled: disableLinks,
           isLogging: isLogging || this.state.isLogging,
           fallBackName: fallbackContactName,
+          enableContactFallback: enableContactFallback,
           areaCode: areaCode,
           countryCode: countryCode,
           phoneNumber: phoneNumber,
           currentLocale: currentLocale,
-          missed: missed }),
+          stopPropagation: false
+        }),
         _react2.default.createElement(
           'div',
           { className: _styles2.default.details },
@@ -538,18 +543,26 @@ var CallItem = function (_Component) {
         ),
         _react2.default.createElement(_ActionMenu2.default, {
           currentLocale: currentLocale,
-          onLogCall: onLogCall && this.logCall,
+          onLog: onLogCall && this.logCall,
           onViewEntity: onViewContact && this.viewSelectedContact,
           onCreateEntity: onCreateContact && this.createSelectedContact,
           hasEntity: !!contactMatches.length,
           onClickToDial: onClickToDial && this.clickToDial,
-          onClickToSms: showClickToSms && this.clickToSms,
+          onClickToSms: showClickToSms ? function () {
+            return _this5.clickToSms({ countryCode: countryCode, areaCode: areaCode });
+          } : undefined,
           phoneNumber: phoneNumber,
           disableLinks: disableLinks,
           disableClickToDial: disableClickToDial,
           isLogging: isLogging || this.state.isLogging,
           isLogged: activityMatches.length > 0,
-          isCreating: this.state.isCreating
+          isCreating: this.state.isCreating,
+          addLogTitle: _i18n2.default.getString('addLog', currentLocale),
+          editLogTitle: _i18n2.default.getString('editLog', currentLocale),
+          textTitle: _i18n2.default.getString('text', currentLocale),
+          callTitle: _i18n2.default.getString('call', currentLocale),
+          createEntityTitle: _i18n2.default.getString('addEntity', currentLocale),
+          viewEntityTitle: _i18n2.default.getString('viewDetails', currentLocale)
         })
       );
     }
@@ -561,40 +574,47 @@ exports.default = CallItem;
 
 
 CallItem.propTypes = {
-  call: _react.PropTypes.shape({
-    direction: _react.PropTypes.string.isRequired,
-    telephonyStatus: _react.PropTypes.string,
-    startTime: _react.PropTypes.number.isRequired,
-    activityMatches: _react.PropTypes.array.isRequired,
-    fromMatches: _react.PropTypes.array.isRequired,
-    toMatches: _react.PropTypes.array.isRequired,
-    from: _react.PropTypes.shape({
-      phoneNumber: _react.PropTypes.string,
-      extensionNumber: _react.PropTypes.string,
-      name: _react.PropTypes.string
+  call: _propTypes2.default.shape({
+    direction: _propTypes2.default.string.isRequired,
+    telephonyStatus: _propTypes2.default.string,
+    startTime: _propTypes2.default.number.isRequired,
+    activityMatches: _propTypes2.default.array.isRequired,
+    fromMatches: _propTypes2.default.array.isRequired,
+    toMatches: _propTypes2.default.array.isRequired,
+    from: _propTypes2.default.shape({
+      phoneNumber: _propTypes2.default.string,
+      extensionNumber: _propTypes2.default.string,
+      name: _propTypes2.default.string
     }).isRequired,
-    to: _react.PropTypes.shape({
-      phoneNumber: _react.PropTypes.string,
-      extensionNumber: _react.PropTypes.string,
-      name: _react.PropTypes.string
-    })
+    to: _propTypes2.default.shape({
+      phoneNumber: _propTypes2.default.string,
+      extensionNumber: _propTypes2.default.string,
+      name: _propTypes2.default.string
+    }),
+    webphoneSession: _propTypes2.default.object
   }).isRequired,
-  areaCode: _react.PropTypes.string.isRequired,
-  countryCode: _react.PropTypes.string.isRequired,
-  currentLocale: _react.PropTypes.string.isRequired,
-  onLogCall: _react.PropTypes.func,
-  onViewContact: _react.PropTypes.func,
-  onCreateContact: _react.PropTypes.func,
-  onClickToDial: _react.PropTypes.func,
-  onClickToSms: _react.PropTypes.func,
-  isLoggedContact: _react.PropTypes.func,
-  disableLinks: _react.PropTypes.bool,
-  disableClickToDial: _react.PropTypes.bool,
-  outboundSmsPermission: _react.PropTypes.bool,
-  internalSmsPermission: _react.PropTypes.bool,
-  active: _react.PropTypes.bool.isRequired,
-  dateTimeFormatter: _react.PropTypes.func.isRequired,
-  isLogging: _react.PropTypes.bool
+  areaCode: _propTypes2.default.string.isRequired,
+  countryCode: _propTypes2.default.string.isRequired,
+  currentLocale: _propTypes2.default.string.isRequired,
+  onLogCall: _propTypes2.default.func,
+  onViewContact: _propTypes2.default.func,
+  onCreateContact: _propTypes2.default.func,
+  onClickToDial: _propTypes2.default.func,
+  onClickToSms: _propTypes2.default.func,
+  isLoggedContact: _propTypes2.default.func,
+  disableLinks: _propTypes2.default.bool,
+  disableClickToDial: _propTypes2.default.bool,
+  outboundSmsPermission: _propTypes2.default.bool,
+  internalSmsPermission: _propTypes2.default.bool,
+  active: _propTypes2.default.bool.isRequired,
+  dateTimeFormatter: _propTypes2.default.func.isRequired,
+  isLogging: _propTypes2.default.bool,
+  // webphoneAnswer: PropTypes.func,
+  // webphoneReject: PropTypes.func,
+  // webphoneHangup: PropTypes.func,
+  // webphoneResume: PropTypes.func,
+  enableContactFallback: _propTypes2.default.bool,
+  autoLog: _propTypes2.default.bool
 };
 
 CallItem.defaultProps = {
@@ -610,6 +630,12 @@ CallItem.defaultProps = {
   disableClickToDial: false,
   outboundSmsPermission: false,
   internalSmsPermission: false,
-  disableLinks: false
+  disableLinks: false,
+  // webphoneAnswer: () => null,
+  // webphoneReject: () => null,
+  // webphoneHangup: () => null,
+  // webphoneResume: () => null,
+  enableContactFallback: undefined,
+  autoLog: false
 };
 //# sourceMappingURL=index.js.map

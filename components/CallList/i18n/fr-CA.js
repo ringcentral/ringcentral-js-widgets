@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  noActiveCalls: 'Aucun appel actif'
+  noActiveCalls: 'Aucun appel actif',
+  noRecords: 'Aucun dossier'
 };
 //# sourceMappingURL=fr-CA.js.map

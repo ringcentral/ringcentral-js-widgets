@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -28,6 +29,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
@@ -39,6 +44,10 @@ var _styles2 = _interopRequireDefault(_styles);
 var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
+
+var _SpinnerOverlay = require('../SpinnerOverlay');
+
+var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -67,8 +76,18 @@ var LoginPanel = function (_Component) {
           className = _props.className,
           onLoginButtonClick = _props.onLoginButtonClick,
           currentLocale = _props.currentLocale,
-          disabled = _props.disabled;
+          disabled = _props.disabled,
+          version = _props.version,
+          showSpinner = _props.showSpinner;
 
+      var spinner = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : null;
+      var versionDisplay = version ? _react2.default.createElement(
+        'div',
+        { className: _styles2.default.versionContainer },
+        _i18n2.default.getString('version', currentLocale),
+        ' ',
+        version
+      ) : null;
       return _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.root, className) },
@@ -79,7 +98,9 @@ var LoginPanel = function (_Component) {
             onClick: onLoginButtonClick,
             disabled: disabled },
           _i18n2.default.getString('loginButton', currentLocale)
-        )
+        ),
+        versionDisplay,
+        spinner
       );
     }
   }]);
@@ -90,16 +111,20 @@ exports.default = LoginPanel;
 
 
 LoginPanel.propTypes = {
-  className: _react.PropTypes.string,
-  setupProxyFrame: _react.PropTypes.func.isRequired,
-  clearProxyFrame: _react.PropTypes.func.isRequired,
-  currentLocale: _react.PropTypes.string.isRequired,
-  onLoginButtonClick: _react.PropTypes.func.isRequired,
-  disabled: _react.PropTypes.bool
+  className: _propTypes2.default.string,
+  setupProxyFrame: _propTypes2.default.func.isRequired,
+  clearProxyFrame: _propTypes2.default.func.isRequired,
+  currentLocale: _propTypes2.default.string.isRequired,
+  onLoginButtonClick: _propTypes2.default.func.isRequired,
+  disabled: _propTypes2.default.bool,
+  version: _propTypes2.default.string,
+  showSpinner: _propTypes2.default.bool
 };
 
 LoginPanel.defaultProps = {
   className: null,
-  disabled: false
+  disabled: false,
+  version: undefined,
+  showSpinner: false
 };
 //# sourceMappingURL=index.js.map

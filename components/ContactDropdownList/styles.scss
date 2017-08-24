@@ -41,10 +41,10 @@
   }
 
   li.active {
-    color: $rc-blue;
+    color: $primary-color;
 
     .name {
-      color: $rc-blue;
+      color: $primary-color;
     }
   }
 }
@@ -78,4 +78,8 @@
 .phoneNumberSection {
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.clickable {
+  cursor: pointer;
 }

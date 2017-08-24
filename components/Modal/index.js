@@ -3,12 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.FlatButton = FlatButton;
 exports.default = Modal;
 
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _classnames = require('classnames');
 
@@ -35,22 +38,18 @@ function FlatButton(_ref) {
       children = _ref.children;
 
   return _react2.default.createElement(
-    'button',
-    { className: (0, _classnames2.default)(className, _styles2.default.flatBtn) },
-    _react2.default.createElement(
-      'div',
-      {
-        className: (0, _classnames2.default)(className, _styles2.default.text, disabled && _styles2.default.disabled),
-        onClick: !disabled && onClick },
-      children
-    )
+    'div',
+    {
+      className: (0, _classnames2.default)(className, _styles2.default.flatBtn, _styles2.default.text, disabled && _styles2.default.disabled),
+      onClick: !disabled && onClick },
+    children
   );
 }
 FlatButton.propTypes = {
-  className: _react.PropTypes.string,
-  disabled: _react.PropTypes.bool,
-  onClick: _react.PropTypes.func,
-  children: _react.PropTypes.node
+  className: _propTypes2.default.string,
+  disabled: _propTypes2.default.bool,
+  onClick: _propTypes2.default.func,
+  children: _propTypes2.default.node
 };
 
 FlatButton.defaultProps = {
@@ -113,16 +112,16 @@ function Modal(_ref2) {
   );
 }
 Modal.propTypes = {
-  className: _react.PropTypes.string,
-  children: _react.PropTypes.node,
-  show: _react.PropTypes.bool,
-  onConfirm: _react.PropTypes.func.isRequired,
-  onCancel: _react.PropTypes.func.isRequired,
-  clickOutToClose: _react.PropTypes.bool,
-  title: _react.PropTypes.string,
-  currentLocale: _react.PropTypes.string.isRequired,
-  textConfirm: _react.PropTypes.string,
-  textCancel: _react.PropTypes.string
+  className: _propTypes2.default.string,
+  children: _propTypes2.default.node,
+  show: _propTypes2.default.bool,
+  onConfirm: _propTypes2.default.func.isRequired,
+  onCancel: _propTypes2.default.func.isRequired,
+  clickOutToClose: _propTypes2.default.bool,
+  title: _propTypes2.default.string,
+  currentLocale: _propTypes2.default.string.isRequired,
+  textConfirm: _propTypes2.default.string,
+  textCancel: _propTypes2.default.string
 };
 Modal.defaultProps = {
   className: '',

@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.default = undefined;
 
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
@@ -28,11 +29,13 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = require('prop-types');
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
-
-require('font-awesome/css/font-awesome.css');
 
 var _BackHeader = require('../BackHeader');
 
@@ -41,10 +44,6 @@ var _BackHeader2 = _interopRequireDefault(_BackHeader);
 var _Panel = require('../Panel');
 
 var _Panel2 = _interopRequireDefault(_Panel);
-
-var _Line = require('../Line');
-
-var _Line2 = _interopRequireDefault(_Line);
 
 var _InputField = require('../InputField');
 
@@ -57,6 +56,14 @@ var _TextInput2 = _interopRequireDefault(_TextInput);
 var _DropdownSelect = require('../DropdownSelect');
 
 var _DropdownSelect2 = _interopRequireDefault(_DropdownSelect);
+
+var _Button = require('../Button');
+
+var _Button2 = _interopRequireDefault(_Button);
+
+var _Revert = require('../../assets/images/Revert.svg');
+
+var _Revert2 = _interopRequireDefault(_Revert);
 
 var _styles = require('./styles.scss');
 
@@ -81,12 +88,10 @@ var RegionSettings = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (RegionSettings.__proto__ || (0, _getPrototypeOf2.default)(RegionSettings)).call(this, props));
 
     _this.onAreaCodeChange = function (e) {
-      var value = e.currentTarget.value.replace(/[^\d]/g, '');
-      if (value !== _this.state.areaCodeValue) {
-        _this.setState({
-          areaCodeValue: value
-        });
-      }
+      var value = e.currentTarget.value;
+      _this.setState({
+        areaCodeValue: _this.areaCodeInputFilter(value)
+      });
     };
 
     _this.onCountryCodeChange = function (option) {
@@ -120,17 +125,22 @@ var RegionSettings = function (_Component) {
       }
     };
 
+    _this.areaCodeInputFilter = function (value) {
+      return value.replace(/[^\d]/g, '');
+    };
+
     _this.renderHandler = function (option) {
       return '(+' + option.callingCode + ') ' + _countryNames2.default.getString(option.isoCode, _this.props.currentLocale);
     };
 
     _this.renderValue = function (value) {
-      // console.debug('renderValue:', value, this.props.availableCountries);
       var selectedOption = _this.props.availableCountries.find(function (country) {
         return country.isoCode === value;
       });
-
-      return '(+' + selectedOption.callingCode + ')\n        ' + _countryNames2.default.getString(selectedOption.isoCode, _this.props.currentLocale);
+      if (!selectedOption) {
+        return '';
+      }
+      return '(+' + selectedOption.callingCode + ') ' + _countryNames2.default.getString(selectedOption.isoCode, _this.props.currentLocale);
     };
 
     _this.state = {
@@ -157,22 +167,7 @@ var RegionSettings = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var buttons = [];
       var hasChanges = this.state.areaCodeValue !== this.props.areaCode || this.state.countryCodeValue !== this.props.countryCode;
-      if (this.props.onBackButtonClick) {
-        buttons.push({
-          label: _react2.default.createElement('i', { className: 'fa fa-undo' }),
-          onClick: this.onResetClick,
-          placement: 'right',
-          hidden: !hasChanges
-        });
-        buttons.push({
-          label: _react2.default.createElement('i', { className: 'fa fa-floppy-o' }),
-          onClick: this.onSaveClick,
-          placement: 'right',
-          disabled: !hasChanges
-        });
-      }
       var hasNA = !!this.props.availableCountries.find(function (c) {
         return c.isoCode === 'US';
       }) || !!this.props.availableCountries.find(function (c) {
@@ -196,7 +191,7 @@ var RegionSettings = function (_Component) {
         _react2.default.createElement(
           _BackHeader2.default,
           {
-            buttons: buttons,
+            buttons: [],
             onBackClick: this.onBackClick
           },
           _i18n2.default.getString('title', this.props.currentLocale)
@@ -224,7 +219,8 @@ var RegionSettings = function (_Component) {
                 return option.isoCode;
               },
               renderFunction: this.renderHandler,
-              renderValue: this.renderValue
+              renderValue: this.renderValue,
+              titleEnabled: true
             })
           ),
           showAreaCode && _react2.default.createElement(
@@ -235,8 +231,18 @@ var RegionSettings = function (_Component) {
             _react2.default.createElement(_TextInput2.default, {
               placeholder: _i18n2.default.getString('areaCodePlaceholder', this.props.currentLocale),
               maxLength: 3,
+              filter: this.areaCodeInputFilter,
               value: this.state.areaCodeValue,
               onChange: this.onAreaCodeChange })
+          ),
+          _react2.default.createElement(
+            _Button2.default,
+            {
+              className: (0, _classnames2.default)(_styles2.default.saveButton, !hasChanges ? _styles2.default.disabled : null),
+              onClick: this.onSaveClick,
+              disabled: !hasChanges
+            },
+            _i18n2.default.getString('save', this.props.currentLocale)
           ),
           this.props.children
         )
@@ -250,16 +256,23 @@ exports.default = RegionSettings;
 
 
 RegionSettings.propTypes = {
-  className: _react.PropTypes.string,
-  children: _react.PropTypes.node,
-  onBackButtonClick: _react.PropTypes.func,
-  currentLocale: _react.PropTypes.string.isRequired,
-  availableCountries: _react.PropTypes.arrayOf(_react.PropTypes.shape({
-    isoCode: _react.PropTypes.string,
-    callingCode: _react.PropTypes.string
+  className: _propTypes2.default.string,
+  children: _propTypes2.default.node,
+  onBackButtonClick: _propTypes2.default.func,
+  currentLocale: _propTypes2.default.string.isRequired,
+  availableCountries: _propTypes2.default.arrayOf(_propTypes2.default.shape({
+    isoCode: _propTypes2.default.string,
+    callingCode: _propTypes2.default.string
   })).isRequired,
-  countryCode: _react.PropTypes.string.isRequired,
-  areaCode: _react.PropTypes.string.isRequired,
-  onSave: _react.PropTypes.func
+  countryCode: _propTypes2.default.string.isRequired,
+  areaCode: _propTypes2.default.string.isRequired,
+  onSave: _propTypes2.default.func
+};
+
+RegionSettings.defaultProps = {
+  className: undefined,
+  children: undefined,
+  onBackButtonClick: undefined,
+  onSave: undefined
 };
 //# sourceMappingURL=index.js.map

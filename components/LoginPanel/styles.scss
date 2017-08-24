@@ -1,6 +1,7 @@
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/no-select';
 @import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/fonts';
 
 .root {
   @include full-size;
@@ -32,4 +33,11 @@
 .loginButton:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
+}
+.versionContainer{
+  @include secondary-font;
+  color: $darkgray;
+  position: absolute;
+  bottom: 1%;
+  right: 1%;
 }
