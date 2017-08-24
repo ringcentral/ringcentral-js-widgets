@@ -121,7 +121,7 @@ export default class IncomingCallPad extends Component {
         <ActiveCallButton
           onClick={this.toVoiceMail}
           title={i18n.getString('toVoicemail', currentLocale)}
-          buttonClassName={this.state.toVoiceMailEnabled ? styles.toVoiceMailButton : ''}
+          buttonClassName={this.state.toVoiceMailEnabled ? styles.voiceMailButton : ''}
           icon={VoicemailIcon}
           iconWidth={274}
           iconX={116}
