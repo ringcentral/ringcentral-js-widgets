@@ -24,6 +24,8 @@ var _connectionStatus = require('./connectionStatus');
 
 var _connectionStatus2 = _interopRequireDefault(_connectionStatus);
 
+var _webphoneHelper = require('./webphoneHelper');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getVideoElementPreparedReducer(types) {
@@ -123,16 +125,25 @@ function getActiveSessionIdReducer(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref6 = arguments[1];
     var type = _ref6.type,
-        sessionId = _ref6.sessionId;
+        sessionId = _ref6.sessionId,
+        _ref6$sessions = _ref6.sessions,
+        sessions = _ref6$sessions === undefined ? [] : _ref6$sessions;
 
+    var onHoldSessions = void 0;
     switch (type) {
       case types.callStart:
         return sessionId;
       case types.callEnd:
-        if (sessionId === state) {
-          return null;
+        if (sessionId !== state) {
+          return state;
         }
-        return state;
+        onHoldSessions = sessions.filter(function (session) {
+          return (0, _webphoneHelper.isOnHold)(session);
+        });
+        if (onHoldSessions && onHoldSessions[0]) {
+          return onHoldSessions[0].id;
+        }
+        return null;
       case types.disconnect:
         return null;
       default:
@@ -146,17 +157,26 @@ function getRingSessionIdReducer(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref7 = arguments[1];
     var type = _ref7.type,
-        sessionId = _ref7.sessionId;
+        sessionId = _ref7.sessionId,
+        _ref7$sessions = _ref7.sessions,
+        sessions = _ref7$sessions === undefined ? [] : _ref7$sessions;
 
+    var ringSessions = void 0;
     switch (type) {
       case types.callRing:
         return sessionId;
       case types.callStart:
       case types.callEnd:
-        if (sessionId === state) {
-          return null;
+        if (sessionId !== state) {
+          return state;
         }
-        return state;
+        ringSessions = sessions.filter(function (session) {
+          return (0, _webphoneHelper.isRing)(session);
+        });
+        if (ringSessions && ringSessions[0]) {
+          return ringSessions[0].id;
+        }
+        return null;
       case types.disconnect:
         return null;
       default:

@@ -286,6 +286,14 @@ var Webphone = (_class = function (_RcModule) {
       });
     });
 
+    _this.addSelector('onHoldSessions', function () {
+      return _this.sessions;
+    }, function (sessions) {
+      return sessions.filter(function (session) {
+        return (0, _webphoneHelper.isOnHold)(session);
+      });
+    });
+
     if (_this._contactMatcher) {
       _this._contactMatcher.addQuerySource({
         getQueriesFn: _this._selectors.sessionPhoneNumbers,
@@ -2101,7 +2109,8 @@ var Webphone = (_class = function (_RcModule) {
       this._addSession(session);
       this.store.dispatch({
         type: this.actionTypes.callStart,
-        sessionId: session.id
+        sessionId: session.id,
+        sessions: this.sessions
       });
       if (this._contactMatcher) {
         this._contactMatcher.triggerMatch();
@@ -2116,12 +2125,13 @@ var Webphone = (_class = function (_RcModule) {
       this._addSession(session);
       this.store.dispatch({
         type: this.actionTypes.callRing,
-        sessionId: session.id
+        sessionId: session.id,
+        sessions: this.sessions
       });
       if (this._contactMatcher) {
         this._contactMatcher.triggerMatch();
       }
-      if (this.activeSessionId) {
+      if (this.activeSession && !(0, _webphoneHelper.isOnHold)(this.activeSession)) {
         this._webphone.userAgent.audioHelper.playIncoming(false);
       }
       if (typeof this._onCallRingFunc === 'function') {
@@ -2134,7 +2144,8 @@ var Webphone = (_class = function (_RcModule) {
       this._removeSession(session);
       this.store.dispatch({
         type: this.actionTypes.callEnd,
-        sessionId: session.id
+        sessionId: session.id,
+        sessions: this.sessions
       });
       if (typeof this._onCallEndFunc === 'function') {
         this._onCallEndFunc(session, this.activeSession);
@@ -2304,6 +2315,11 @@ var Webphone = (_class = function (_RcModule) {
     key: 'ringSessions',
     get: function get() {
       return this._selectors.ringSessions();
+    }
+  }, {
+    key: 'onHoldSessions',
+    get: function get() {
+      return this._selectors.onHoldSessions();
     }
   }, {
     key: 'videoElementPrepared',

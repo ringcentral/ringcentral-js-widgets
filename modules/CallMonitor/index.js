@@ -155,7 +155,7 @@ var CallMonitor = function (_RcModule) {
             } else {
               webphoneStartTime = session.startTime || session.creationTime;
             }
-            if (Math.abs(callItem.startTime - webphoneStartTime) > 6000) {
+            if (Math.abs(callItem.startTime - webphoneStartTime) > 16000) {
               return false;
             }
             return true;
