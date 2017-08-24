@@ -5,6 +5,18 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+
+var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -33,6 +45,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _desc, _value, _class;
+
 require('core-js/fn/array/find');
 
 var _RcModule2 = require('../../lib/RcModule');
@@ -59,9 +73,42 @@ var _validateAreaCode = require('../../lib/validateAreaCode');
 
 var _validateAreaCode2 = _interopRequireDefault(_validateAreaCode);
 
+var _proxify = require('../../lib/proxy/proxify');
+
+var _proxify2 = _interopRequireDefault(_proxify);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var RegionSettings = function (_RcModule) {
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
+var RegionSettings = (_class = function (_RcModule) {
   (0, _inherits3.default)(RegionSettings, _RcModule);
 
   function RegionSettings(_ref) {
@@ -104,77 +151,165 @@ var RegionSettings = function (_RcModule) {
       var _this2 = this;
 
       var plans = void 0;
-      this.store.subscribe(function () {
-        if (_this2._storage.ready && _this2._dialingPlan.ready && _this2._extensionInfo.ready && _this2.status === _moduleStatuses2.default.pending) {
-          _this2.store.dispatch({
-            type: _this2.actionTypes.init
-          });
-          if (!_this2._tabManager || _this2._tabManager.active) {
-            _this2.checkRegionSettings();
+      this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(_this2._storage.ready && _this2._dialingPlan.ready && _this2._extensionInfo.ready && _this2.status === _moduleStatuses2.default.pending)) {
+                  _context.next = 9;
+                  break;
+                }
+
+                _this2.store.dispatch({
+                  type: _this2.actionTypes.init
+                });
+
+                if (!(!_this2._tabManager || _this2._tabManager.active)) {
+                  _context.next = 5;
+                  break;
+                }
+
+                _context.next = 5;
+                return _this2.checkRegionSettings();
+
+              case 5:
+                plans = _this2._dialingPlan.plans;
+                _this2.store.dispatch({
+                  type: _this2.actionTypes.initSuccess
+                });
+                _context.next = 18;
+                break;
+
+              case 9:
+                if (!(!_this2._storage.ready && _this2.ready)) {
+                  _context.next = 13;
+                  break;
+                }
+
+                _this2.store.dispatch({
+                  type: _this2.actionTypes.resetSuccess
+                });
+                _context.next = 18;
+                break;
+
+              case 13:
+                if (!(_this2.ready && plans !== _this2._dialingPlan.plans)) {
+                  _context.next = 18;
+                  break;
+                }
+
+                plans = _this2._dialingPlan.plans;
+
+                if (!(!_this2._tabManager || _this2._tabManager.active)) {
+                  _context.next = 18;
+                  break;
+                }
+
+                _context.next = 18;
+                return _this2.checkRegionSettings();
+
+              case 18:
+              case 'end':
+                return _context.stop();
+            }
           }
-          plans = _this2._dialingPlan.plans;
-          _this2.store.dispatch({
-            type: _this2.actionTypes.initSuccess
-          });
-        } else if (!_this2._storage.ready && _this2.ready) {
-          _this2.store.dispatch({
-            type: _this2.actionTypes.resetSuccess
-          });
-        } else if (_this2.ready && plans !== _this2._dialingPlan.plans) {
-          plans = _this2._dialingPlan.plans;
-          if (!_this2._tabManager || _this2._tabManager.active) {
-            _this2.checkRegionSettings();
-          }
-        }
-      });
+        }, _callee, _this2);
+      })));
     }
   }, {
     key: 'checkRegionSettings',
-    value: function checkRegionSettings() {
-      var _this3 = this;
+    value: function () {
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        var _this3 = this;
 
-      var countryCode = this._storage.getItem(this._countryCodeKey);
-      if (countryCode && !this._dialingPlan.plans.find(function (plan) {
-        return plan.isoCode === countryCode;
-      })) {
-        countryCode = null;
-        this._alert.warning({
-          message: _regionSettingsMessages2.default.dialingPlansChanged,
-          ttl: 0
-        });
+        var countryCode, country;
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                countryCode = this._storage.getItem(this._countryCodeKey);
+
+                if (countryCode && !this._dialingPlan.plans.find(function (plan) {
+                  return plan.isoCode === countryCode;
+                })) {
+                  countryCode = null;
+                  this._alert.warning({
+                    message: _regionSettingsMessages2.default.dialingPlansChanged,
+                    ttl: 0
+                  });
+                }
+                if (!countryCode) {
+                  country = this._dialingPlan.plans.find(function (plan) {
+                    return plan.isoCode === _this3._extensionInfo.country.isoCode;
+                  }) || this._dialingPlan.plans[0];
+
+                  countryCode = country && country.isoCode;
+                  this.store.dispatch({
+                    type: this.actionTypes.setData,
+                    countryCode: countryCode,
+                    areaCode: ''
+                  });
+                }
+
+              case 3:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function checkRegionSettings() {
+        return _ref3.apply(this, arguments);
       }
-      if (!countryCode) {
-        countryCode = this._dialingPlan.plans.find(function (plan) {
-          return plan.isoCode === _this3._extensionInfo.country.isoCode;
-        }).isoCode;
-        this.store.dispatch({
-          type: this.actionTypes.setData,
-          countryCode: countryCode,
-          areaCode: ''
-        });
-      }
-    }
+
+      return checkRegionSettings;
+    }()
   }, {
     key: 'setData',
-    value: function setData(_ref2) {
-      var areaCode = _ref2.areaCode,
-          countryCode = _ref2.countryCode;
+    value: function () {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref5) {
+        var areaCode = _ref5.areaCode,
+            countryCode = _ref5.countryCode;
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if ((0, _validateAreaCode2.default)(areaCode)) {
+                  _context3.next = 3;
+                  break;
+                }
 
-      if (!(0, _validateAreaCode2.default)(areaCode)) {
-        this._alert.danger({
-          message: _regionSettingsMessages2.default.areaCodeInvalid
-        });
-        return;
+                this._alert.danger({
+                  message: _regionSettingsMessages2.default.areaCodeInvalid
+                });
+                return _context3.abrupt('return');
+
+              case 3:
+                this.store.dispatch({
+                  type: this.actionTypes.setData,
+                  countryCode: countryCode,
+                  areaCode: areaCode && areaCode.trim()
+                });
+                this._alert.info({
+                  message: _regionSettingsMessages2.default.saveSuccess
+                });
+
+              case 5:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function setData(_x) {
+        return _ref4.apply(this, arguments);
       }
-      this.store.dispatch({
-        type: this.actionTypes.setData,
-        countryCode: countryCode,
-        areaCode: areaCode && areaCode.trim()
-      });
-      this._alert.info({
-        message: _regionSettingsMessages2.default.saveSuccess
-      });
-    }
+
+      return setData;
+    }()
   }, {
     key: 'setCountryCode',
     value: function setCountryCode(countryCode) {
@@ -216,7 +351,6 @@ var RegionSettings = function (_RcModule) {
     }
   }]);
   return RegionSettings;
-}(_RcModule3.default);
-
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'checkRegionSettings', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'checkRegionSettings'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'setData'), _class.prototype)), _class);
 exports.default = RegionSettings;
 //# sourceMappingURL=index.js.map

@@ -59,10 +59,9 @@ var Conference = function (_DataFetcher) {
   function Conference(_ref) {
     var _this2 = this;
 
-    var auth = _ref.auth,
-        client = _ref.client,
+    var client = _ref.client,
         regionSettings = _ref.regionSettings,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'regionSettings']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'regionSettings']);
     (0, _classCallCheck3.default)(this, Conference);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Conference.__proto__ || (0, _getPrototypeOf2.default)(Conference)).call(this, (0, _extends3.default)({
@@ -97,8 +96,6 @@ var Conference = function (_DataFetcher) {
       }()
     }, options)));
 
-    _this._auth = auth;
-    _this._client = client;
     _this.addSelector('conferenceNumbers', function () {
       return regionSettings.countryCode;
     }, function () {

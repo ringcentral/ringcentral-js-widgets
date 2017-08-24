@@ -5,9 +5,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getVideoElementPreparedReducer = getVideoElementPreparedReducer;
 exports.getConnectionStatusReducer = getConnectionStatusReducer;
-exports.getSessionStatusReducer = getSessionStatusReducer;
+exports.getErrorCodeReducer = getErrorCodeReducer;
 exports.getConnectRetryCountsReducer = getConnectRetryCountsReducer;
 exports.getWebphoneCountsReducer = getWebphoneCountsReducer;
+exports.getActiveSessionIdReducer = getActiveSessionIdReducer;
+exports.getRingSessionIdReducer = getRingSessionIdReducer;
+exports.getSessionsReducer = getSessionsReducer;
+exports.getUserMediaReducer = getUserMediaReducer;
 exports.default = getWebphoneReducer;
 
 var _redux = require('redux');
@@ -26,11 +30,9 @@ function getVideoElementPreparedReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
     var _ref = arguments[1];
-    var type = _ref.type,
-        _ref$videoElementPrep = _ref.videoElementPrepared,
-        videoElementPrepared = _ref$videoElementPrep === undefined ? state : _ref$videoElementPrep;
+    var type = _ref.type;
 
-    if (type === types.init) return videoElementPrepared;
+    if (type === types.videoElementPrepared) return true;
     return state;
   };
 }
@@ -60,17 +62,18 @@ function getConnectionStatusReducer(types) {
   };
 }
 
-function getSessionStatusReducer(types) {
+function getErrorCodeReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _connectionStatus2.default.idle;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref3 = arguments[1];
-    var type = _ref3.type;
+    var type = _ref3.type,
+        _ref3$errorCode = _ref3.errorCode,
+        errorCode = _ref3$errorCode === undefined ? state : _ref3$errorCode;
 
     switch (type) {
-      case types.updateSession:
-        return _connectionStatus2.default.active;
-      case types.destroySession:
-        return _connectionStatus2.default.idle;
+      case types.connectError:
+      case types.registrationFailed:
+        return errorCode;
       default:
         return state;
     }
@@ -102,10 +105,93 @@ function getWebphoneCountsReducer(types) {
     var type = _ref5.type;
 
     switch (type) {
+      case types.reconnect:
       case types.connect:
         return state + 1;
+      case types.connectError:
       case types.disconnect:
+      case types.registrationFailed:
         return state - 1;
+      default:
+        return state;
+    }
+  };
+}
+
+function getActiveSessionIdReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var _ref6 = arguments[1];
+    var type = _ref6.type,
+        sessionId = _ref6.sessionId;
+
+    switch (type) {
+      case types.callStart:
+        return sessionId;
+      case types.callEnd:
+        if (sessionId === state) {
+          return null;
+        }
+        return state;
+      case types.disconnect:
+        return null;
+      default:
+        return state;
+    }
+  };
+}
+
+function getRingSessionIdReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var _ref7 = arguments[1];
+    var type = _ref7.type,
+        sessionId = _ref7.sessionId;
+
+    switch (type) {
+      case types.callRing:
+        return sessionId;
+      case types.callStart:
+      case types.callEnd:
+        if (sessionId === state) {
+          return null;
+        }
+        return state;
+      case types.disconnect:
+        return null;
+      default:
+        return state;
+    }
+  };
+}
+
+function getSessionsReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var _ref8 = arguments[1];
+    var type = _ref8.type,
+        sessions = _ref8.sessions;
+
+    switch (type) {
+      case types.updateSessions:
+        return sessions;
+      case types.destroySessions:
+        return [];
+      default:
+        return state;
+    }
+  };
+}
+
+function getUserMediaReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+    var _ref9 = arguments[1];
+    var type = _ref9.type;
+
+    switch (type) {
+      case types.getUserMediaSuccess:
+        return true;
       default:
         return state;
     }
@@ -117,9 +203,12 @@ function getWebphoneReducer(types) {
     status: (0, _getModuleStatusReducer2.default)(types),
     videoElementPrepared: getVideoElementPreparedReducer(types),
     connectionStatus: getConnectionStatusReducer(types),
-    sessionStatus: getSessionStatusReducer(types),
     connectRetryCounts: getConnectRetryCountsReducer(types),
-    webphoneCounts: getWebphoneCountsReducer(types)
+    errorCode: getErrorCodeReducer(types),
+    webphoneCounts: getWebphoneCountsReducer(types),
+    activeSessionId: getActiveSessionIdReducer(types),
+    ringSessionId: getRingSessionIdReducer(types),
+    sessions: getSessionsReducer(types)
   });
 }
 //# sourceMappingURL=getWebphoneReducer.js.map

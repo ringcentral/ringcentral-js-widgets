@@ -14,10 +14,8 @@ exports.getTimestampReducer = getTimestampReducer;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getDataReducer(types) {
-  // use [] instead of null as initial state to avoid add or delete to error out
-  // in case initial load failed but an update was made through subscription
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref = arguments[1];
     var type = _ref.type,
         data = _ref.data,
@@ -27,13 +25,13 @@ function getDataReducer(types) {
       case types.fetchSuccess:
         return data;
       case types.add:
-        return [].concat((0, _toConsumableArray3.default)(state), [data]);
+        return Array.isArray(state) ? [].concat((0, _toConsumableArray3.default)(state), [data]) : null;
       case types.delete:
-        return state.filter(function (item) {
+        return Array.isArray(state) ? state.filter(function (item) {
           return item.id !== id;
-        });
+        }) : null;
       case types.resetSuccess:
-        return [];
+        return null;
       default:
         return state;
     }

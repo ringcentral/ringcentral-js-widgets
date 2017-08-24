@@ -37,6 +37,10 @@ var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstru
 
 var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
 
+var _get2 = require('babel-runtime/helpers/get');
+
+var _get3 = _interopRequireDefault(_get2);
+
 var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
@@ -45,9 +49,17 @@ var _DataFetcher2 = require('../../lib/DataFetcher');
 
 var _DataFetcher3 = _interopRequireDefault(_DataFetcher2);
 
-var _moduleStatuses = require('../../enums/moduleStatuses');
+var _permissionsMessages = require('./permissionsMessages');
 
-var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
+var _permissionsMessages2 = _interopRequireDefault(_permissionsMessages);
+
+var _loginStatus = require('../Auth/loginStatus');
+
+var _loginStatus2 = _interopRequireDefault(_loginStatus);
+
+var _ensureExist = require('../../lib/ensureExist');
+
+var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -67,11 +79,14 @@ var RolesAndPermissions = function (_DataFetcher) {
   function RolesAndPermissions(_ref) {
     var _this2 = this;
 
-    var client = _ref.client,
+    var isCRM = _ref.isCRM,
+        flag = _ref.flag,
+        client = _ref.client,
+        alert = _ref.alert,
         extensionInfo = _ref.extensionInfo,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === undefined ? DEFAULT_TTL : _ref$ttl,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'extensionInfo', 'ttl']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['isCRM', 'flag', 'client', 'alert', 'extensionInfo', 'ttl']);
     (0, _classCallCheck3.default)(this, RolesAndPermissions);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (RolesAndPermissions.__proto__ || (0, _getPrototypeOf2.default)(RolesAndPermissions)).call(this, (0, _extends3.default)({}, options, {
@@ -109,7 +124,10 @@ var RolesAndPermissions = function (_DataFetcher) {
       }
     })));
 
-    _this._extensionInfo = extensionInfo;
+    _this._isCRM = !!isCRM;
+    _this._flag = flag || 'SalesForce';
+    _this._alert = alert;
+    _this._extensionInfo = (0, _ensureExist2.default)(extensionInfo, 'extensionInfo');
     _this.addSelector('permissions', function () {
       return _this.data;
     }, function (data) {
@@ -119,6 +137,53 @@ var RolesAndPermissions = function (_DataFetcher) {
   }
 
   (0, _createClass3.default)(RolesAndPermissions, [{
+    key: '_onStateChange',
+    value: function () {
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return (0, _get3.default)(RolesAndPermissions.prototype.__proto__ || (0, _getPrototypeOf2.default)(RolesAndPermissions.prototype), '_onStateChange', this).call(this);
+
+              case 2:
+                if (!(this.ready && this._auth.loginStatus === _loginStatus2.default.loggedIn && this._isCRM && this.tierEnabled !== null && !this.tierEnabled)) {
+                  _context2.next = 6;
+                  break;
+                }
+
+                _context2.next = 5;
+                return this._auth.logout();
+
+              case 5:
+                this._alert.danger({
+                  message: _permissionsMessages2.default.invalidTier,
+                  ttl: 0
+                });
+
+              case 6:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function _onStateChange() {
+        return _ref3.apply(this, arguments);
+      }
+
+      return _onStateChange;
+    }()
+  }, {
+    key: 'refreshServiceFeatures',
+    value: function refreshServiceFeatures() {
+      if (this._extensionInfo.ready) {
+        this._extensionInfo.fetchData();
+      }
+    }
+  }, {
     key: 'serviceFeatures',
     get: function get() {
       return this._extensionInfo.serviceFeatures;
@@ -137,6 +202,14 @@ var RolesAndPermissions = function (_DataFetcher) {
     key: 'webphoneEnabled',
     get: function get() {
       return !!(this._extensionInfo.serviceFeatures && this._extensionInfo.serviceFeatures.WebPhone && this._extensionInfo.serviceFeatures.WebPhone.enabled);
+    }
+  }, {
+    key: 'tierEnabled',
+    get: function get() {
+      if (!this._extensionInfo.serviceFeatures || !this._extensionInfo.serviceFeatures[this._flag]) {
+        return null;
+      }
+      return this._extensionInfo.serviceFeatures[this._flag].enabled;
     }
   }]);
   return RolesAndPermissions;

@@ -1,0 +1,1 @@
+{"version":3,"sources":["enums/proxyActionTypes.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,WADsB,EAEtB,kBAFsB,CAAT,C","file":"proxyActionTypes.js","sourcesContent":["import Enum from '../lib/Enum';\r\n\r\nexport default new Enum([\r\n  'proxyInit',\r\n  'proxyInitSuccess',\r\n]);\r\n"]}

@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = exports.DEFAULT_HEART_BEAT_INTERVAL = exports.DEFAULT_TIME_TO_RETRY = undefined;
 
+var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+
+var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -41,6 +45,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _desc, _value, _class;
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -65,12 +71,45 @@ var _ensureExist = require('../../lib/ensureExist');
 
 var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
+var _proxify = require('../../lib/proxy/proxify');
+
+var _proxify2 = _interopRequireDefault(_proxify);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
 
 var DEFAULT_TIME_TO_RETRY = exports.DEFAULT_TIME_TO_RETRY = 5 * 1000;
 var DEFAULT_HEART_BEAT_INTERVAL = exports.DEFAULT_HEART_BEAT_INTERVAL = 60 * 1000;
 
-var ConnectivityMonitor = function (_RcModule) {
+var ConnectivityMonitor = (_class = function (_RcModule) {
   (0, _inherits3.default)(ConnectivityMonitor, _RcModule);
 
   function ConnectivityMonitor(_ref) {
@@ -165,14 +204,33 @@ var ConnectivityMonitor = function (_RcModule) {
     }
   }, {
     key: 'showAlert',
-    value: function showAlert() {
-      if (!this.connectivity && this._alert) {
-        this._alert.danger({
-          message: _connectivityMonitorMessages2.default.disconnected,
-          allowDuplicates: false
-        });
+    value: function () {
+      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!this.connectivity && this._alert) {
+                  this._alert.danger({
+                    message: _connectivityMonitorMessages2.default.disconnected,
+                    allowDuplicates: false
+                  });
+                }
+
+              case 1:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function showAlert() {
+        return _ref2.apply(this, arguments);
       }
-    }
+
+      return showAlert;
+    }()
   }, {
     key: '_requestErrorHandler',
     value: function _requestErrorHandler(error) {
@@ -206,33 +264,33 @@ var ConnectivityMonitor = function (_RcModule) {
   }, {
     key: '_checkConnection',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                _context.prev = 0;
-                _context.next = 3;
+                _context2.prev = 0;
+                _context2.next = 3;
                 return this._client.service.platform().get('', null, { skipAuthCheck: true });
 
               case 3:
-                _context.next = 7;
+                _context2.next = 7;
                 break;
 
               case 5:
-                _context.prev = 5;
-                _context.t0 = _context['catch'](0);
+                _context2.prev = 5;
+                _context2.t0 = _context2['catch'](0);
 
               case 7:
               case 'end':
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, this, [[0, 5]]);
+        }, _callee2, this, [[0, 5]]);
       }));
 
       function _checkConnection() {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return _checkConnection;
@@ -280,7 +338,6 @@ var ConnectivityMonitor = function (_RcModule) {
     }
   }]);
   return ConnectivityMonitor;
-}(_RcModule3.default);
-
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'showAlert', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'showAlert'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_checkConnection', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_checkConnection'), _class.prototype)), _class);
 exports.default = ConnectivityMonitor;
 //# sourceMappingURL=index.js.map

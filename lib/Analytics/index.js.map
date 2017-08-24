@@ -1,0 +1,1 @@
+{"version":3,"sources":["lib/Analytics/index.js"],"names":["default"],"mappings":";;;;;;;;;;;4CAASA,O","file":"index.js","sourcesContent":["export { default as Segment } from './segment';\n\n"]}

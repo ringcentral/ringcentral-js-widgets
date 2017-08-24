@@ -8,10 +8,6 @@ var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
 
-var _stringify = require('babel-runtime/core-js/json/stringify');
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
 exports.getContactSearchReducer = getContactSearchReducer;
 exports.default = getCacheReducer;
 
@@ -32,7 +28,7 @@ function getContactSearchReducer(types) {
     var key = null;
     switch (type) {
       case types.save:
-        key = (0, _stringify2.default)([sourceName, searchString]);
+        key = sourceName + '-' + searchString;
         data[key] = {
           entities: entities,
           timestamp: Date.now()

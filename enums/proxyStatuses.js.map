@@ -1,0 +1,1 @@
+{"version":3,"sources":["enums/proxyStatuses.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,SADsB,EAEtB,cAFsB,EAGtB,OAHsB,CAAT,EAIZ,QAJY,C","file":"proxyStatuses.js","sourcesContent":["import Enum from '../lib/Enum';\n\nexport default new Enum([\n  'pending',\n  'initializing',\n  'ready',\n], 'module');\n"]}

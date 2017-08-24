@@ -12,6 +12,10 @@ exports.default = getCallHistoryReducer;
 
 var _redux = require('redux');
 
+var _ramda = require('ramda');
+
+var _ramda2 = _interopRequireDefault(_ramda);
+
 var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
 
 var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
@@ -28,11 +32,24 @@ function getEndedCallsReducer(types) {
 
     switch (type) {
       case types.addEndedCalls:
-        return state.concat(endedCalls.map(function (call) {
-          return (0, _extends3.default)({}, call, {
-            duration: Math.floor((timestamp - call.startTime) / 1000)
-          });
-        }));
+        {
+          var newState = state.slice();
+          _ramda2.default.forEach(function (call) {
+            var callWithDuration = (0, _extends3.default)({}, call, {
+              duration: Math.floor((timestamp - call.startTime) / 1000)
+            });
+            var idx = _ramda2.default.findIndex(function (item) {
+              return item.sessionId === call.sessionId;
+            }, newState);
+            if (idx > -1) {
+              // replace old one if found
+              newState[idx] = callWithDuration;
+            } else {
+              newState.push(callWithDuration);
+            }
+          }, endedCalls);
+          return newState;
+        }
       case types.removeEndedCalls:
         return state.filter(function (call) {
           return !endedCalls.find(function (shouldRemove) {

@@ -24,11 +24,20 @@ var _ClientHistoryRequest = require('../utils/ClientHistoryRequest');
 
 var _ClientHistoryRequest2 = _interopRequireDefault(_ClientHistoryRequest);
 
+var _mock = require('../mock');
+
+var mock = _interopRequireWildcard(_mock);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = function (auth, client, regionSettings, account) {
   describe('Should Load Region Settings after Login', function () {
+    var _this = this;
+
     this.timeout(20000);
+    mock.mockClient(client);
     var isLoginSuccess = void 0;
     var clientHistoryRequest = new _ClientHistoryRequest2.default(new _map2.default(), client);
     before((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -36,10 +45,11 @@ exports.default = function (auth, client, regionSettings, account) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
+              mock.mockForLogin();
+              _context.next = 3;
               return (0, _HelpUtil.ensureLogin)(auth, account);
 
-            case 2:
+            case 3:
               isLoginSuccess = _context.sent;
 
               if (!isLoginSuccess) {
@@ -47,7 +57,7 @@ exports.default = function (auth, client, regionSettings, account) {
                 this.skip();
               }
 
-            case 4:
+            case 5:
             case 'end':
               return _context.stop();
           }
@@ -60,7 +70,7 @@ exports.default = function (auth, client, regionSettings, account) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              this.retries(2);
+              _this.retries(2);
               _context2.next = 3;
               return (0, _WaitUtil.waitInSeconds)(2);
 
@@ -72,7 +82,7 @@ exports.default = function (auth, client, regionSettings, account) {
               return _context2.stop();
           }
         }
-      }, _callee2, this);
+      }, _callee2, _this);
     })));
 
     it('Record fetched from SDK should be the same as RawData', function () {

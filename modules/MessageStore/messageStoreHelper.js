@@ -52,7 +52,9 @@ function messageIsUnread(message) {
 function getMessageSyncParams(_ref) {
   var syncToken = _ref.syncToken,
       conversationId = _ref.conversationId,
-      dateTo = _ref.dateTo;
+      dateTo = _ref.dateTo,
+      _ref$daySpan = _ref.daySpan,
+      daySpan = _ref$daySpan === undefined ? 7 : _ref$daySpan;
 
   if (syncToken) {
     return {
@@ -61,7 +63,7 @@ function getMessageSyncParams(_ref) {
     };
   }
   var lastSevenDate = new Date();
-  lastSevenDate.setDate(lastSevenDate.getDate() - 7);
+  lastSevenDate.setDate(lastSevenDate.getDate() - daySpan);
   var params = {
     syncType: _syncTypes2.default.fSync,
     dateFrom: lastSevenDate.toISOString()

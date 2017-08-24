@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+
+var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -45,6 +49,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _desc, _value, _class;
+
 require('core-js/fn/array/find');
 
 var _RcModule2 = require('../../lib/RcModule');
@@ -75,9 +81,42 @@ var _messageSenderMessages = require('./messageSenderMessages');
 
 var _messageSenderMessages2 = _interopRequireDefault(_messageSenderMessages);
 
+var _proxify = require('../../lib/proxy/proxify');
+
+var _proxify2 = _interopRequireDefault(_proxify);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MessageSender = function (_RcModule) {
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
+var MessageSender = (_class = function (_RcModule) {
   (0, _inherits3.default)(MessageSender, _RcModule);
 
   function MessageSender(_ref) {
@@ -99,7 +138,6 @@ var MessageSender = function (_RcModule) {
     _this._extensionInfo = extensionInfo;
     _this._reducer = (0, _getMessageSenderReducer2.default)(_this.actionTypes);
     _this._numberValidate = numberValidate;
-    _this.send = _this.send.bind(_this);
     return _this;
   }
 
@@ -150,7 +188,8 @@ var MessageSender = function (_RcModule) {
     value: function _alertWarning(message) {
       if (message) {
         this._alert.warning({
-          message: message
+          message: message,
+          ttl: 0
         });
         return true;
       }
@@ -672,7 +711,6 @@ var MessageSender = function (_RcModule) {
     }
   }]);
   return MessageSender;
-}(_RcModule3.default);
-
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, '_validateToNumbers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_validateToNumbers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'send', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'send'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_sendSms', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_sendSms'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_sendPager', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_sendPager'), _class.prototype)), _class);
 exports.default = MessageSender;
 //# sourceMappingURL=index.js.map

@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+
+var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -41,6 +45,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _desc, _value, _class;
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -61,6 +67,10 @@ var _parseNumber3 = require('../../lib/parseNumber');
 
 var _parseNumber4 = _interopRequireDefault(_parseNumber3);
 
+var _proxify = require('../../lib/proxy/proxify');
+
+var _proxify2 = _interopRequireDefault(_proxify);
+
 var _numberValidateActionTypes = require('./numberValidateActionTypes');
 
 var _numberValidateActionTypes2 = _interopRequireDefault(_numberValidateActionTypes);
@@ -71,7 +81,36 @@ var _getNumberValidateReducer2 = _interopRequireDefault(_getNumberValidateReduce
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var NumberValidate = function (_RcModule) {
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
+var NumberValidate = (_class = function (_RcModule) {
   (0, _inherits3.default)(NumberValidate, _RcModule);
 
   function NumberValidate(_ref) {
@@ -386,7 +425,6 @@ var NumberValidate = function (_RcModule) {
     }
   }]);
   return NumberValidate;
-}(_RcModule3.default);
-
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'validateNumbers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'validateNumbers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'validateWithNumberParser', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'validateWithNumberParser'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_numberParser', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_numberParser'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_numberParserApi', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_numberParserApi'), _class.prototype)), _class);
 exports.default = NumberValidate;
 //# sourceMappingURL=index.js.map

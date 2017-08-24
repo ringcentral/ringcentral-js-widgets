@@ -100,6 +100,13 @@ var ForwardingNumber = function (_DataFetcher) {
     }, function (data) {
       return data || [];
     });
+    _this.addSelector('forwardingNumbers', function () {
+      return _this.numbers;
+    }, function (phoneNumbers) {
+      return phoneNumbers.filter(function (p) {
+        return p.features.indexOf('CallForwarding') !== -1 && p.phoneNumber;
+      });
+    });
     return _this;
   }
 
@@ -112,6 +119,11 @@ var ForwardingNumber = function (_DataFetcher) {
     key: 'flipNumbers',
     get: function get() {
       return this._selectors.flipNumbers();
+    }
+  }, {
+    key: 'forwardingNumbers',
+    get: function get() {
+      return this._selectors.forwardingNumbers();
     }
   }]);
   return ForwardingNumber;

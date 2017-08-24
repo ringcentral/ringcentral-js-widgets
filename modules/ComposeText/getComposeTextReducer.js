@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getSenderNumber = getSenderNumber;
 exports.getTypingToNumber = getTypingToNumber;
+exports.getToNumberEntityReducer = getToNumberEntityReducer;
 exports.getToNumbers = getToNumbers;
 exports.getMessageText = getMessageText;
 exports.default = getComposeTextReducer;
@@ -54,22 +55,52 @@ function getTypingToNumber(types) {
   };
 }
 
+function getToNumberEntityReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var _ref3 = arguments[1];
+    var type = _ref3.type,
+        entityId = _ref3.entityId;
+
+    switch (type) {
+      case types.toNumberMatched:
+        return entityId;
+      case types.clean:
+      case types.cleanTypingToNumber:
+        return '';
+      default:
+        return state;
+    }
+  };
+}
+
 function getToNumbers(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var _ref3 = arguments[1];
-    var type = _ref3.type,
-        number = _ref3.number;
+    var _ref4 = arguments[1];
+    var type = _ref4.type,
+        number = _ref4.number;
 
-    var newState = state;
-    var oldNumber = null;
+    var newState = state.slice();
     switch (type) {
       case types.addToNumber:
-        oldNumber = newState.find(function (item) {
-          return number.phoneNumber === item.phoneNumber;
-        });
-        if (oldNumber) {
-          return newState;
+        // known entity id eg. from click2SMS
+        if (number.id) {
+          var idx = newState.findIndex(function (item) {
+            return number.id === item.id || number.phoneNumber === item.phoneNumber;
+          });
+          if (idx > -1) {
+            // replace old one if found
+            newState[idx] = number;
+            return newState;
+          }
+        } else {
+          var oldNumber = newState.find(function (item) {
+            return number.phoneNumber === item.phoneNumber;
+          });
+          if (oldNumber) {
+            return newState;
+          }
         }
         newState.push(number);
         return newState;
@@ -88,9 +119,9 @@ function getToNumbers(types) {
 function getMessageText(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    var _ref4 = arguments[1];
-    var type = _ref4.type,
-        text = _ref4.text;
+    var _ref5 = arguments[1];
+    var type = _ref5.type,
+        text = _ref5.text;
 
     switch (type) {
       case types.updateMessageText:
@@ -109,7 +140,8 @@ function getComposeTextReducer(types) {
     senderNumber: getSenderNumber(types),
     typingToNumber: getTypingToNumber(types),
     toNumbers: getToNumbers(types),
-    messageText: getMessageText(types)
+    messageText: getMessageText(types),
+    toNumberEntity: getToNumberEntityReducer(types)
   });
 }
 //# sourceMappingURL=getComposeTextReducer.js.map

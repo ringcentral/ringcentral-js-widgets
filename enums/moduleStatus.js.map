@@ -1,1 +1,0 @@
-{"version":3,"sources":["enums/moduleStatus.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,SADsB,EAEtB,cAFsB,EAGtB,OAHsB,EAItB,WAJsB,CAAT,EAKZ,QALY,C","file":"moduleStatus.js","sourcesContent":["import Enum from '../lib/Enum';\n\nexport default new Enum([\n  'pending',\n  'initializing',\n  'ready',\n  'resetting',\n], 'module');\n"]}

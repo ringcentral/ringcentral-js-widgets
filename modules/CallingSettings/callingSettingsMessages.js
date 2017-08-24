@@ -10,5 +10,5 @@ var _Enum2 = _interopRequireDefault(_Enum);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default(['saveSuccess', 'saveSuccessWithSoftphone', 'firstLogin', 'firstLoginOther', 'permissionChanged', 'phoneNumberChanged', 'webphonePermissionRemoved'], 'callingSettingsMessages');
+exports.default = new _Enum2.default(['saveSuccess', 'saveSuccessWithSoftphone', 'firstLogin', 'firstLoginOther', 'permissionChanged', 'phoneNumberChanged', 'webphonePermissionRemoved', 'emergencyCallingNotAvailable'], 'callingSettingsMessages');
 //# sourceMappingURL=callingSettingsMessages.js.map

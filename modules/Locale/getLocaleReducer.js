@@ -16,10 +16,6 @@ var _detectDefaultLocale = require('../../lib/detectDefaultLocale');
 
 var _detectDefaultLocale2 = _interopRequireDefault(_detectDefaultLocale);
 
-var _localeRegExp = require('../../lib/localeRegExp');
-
-var _localeRegExp2 = _interopRequireDefault(_localeRegExp);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getCurrentLocaleReducer(_ref) {
@@ -32,7 +28,7 @@ function getCurrentLocaleReducer(_ref) {
     var type = _ref2.type,
         locale = _ref2.locale;
 
-    if (type === types.setLocale && _localeRegExp2.default.test(locale)) return locale;
+    if (type === types.setLocale) return locale;
     return state;
   };
 }

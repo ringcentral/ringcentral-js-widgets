@@ -1,1 +1,0 @@
-{"version":3,"sources":["modules/DateTimeIntl/dateTimeIntlStatus.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,UADsB,EAEtB,MAFsB,CAAT,EAGZ,cAHY,C","file":"dateTimeIntlStatus.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'fetching',\n  'idle',\n], 'dateTimeIntl');\n"]}

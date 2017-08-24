@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+
+var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -41,6 +45,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _desc, _value, _class;
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -61,12 +67,44 @@ var _errorMessages = require('./errorMessages');
 
 var _errorMessages2 = _interopRequireDefault(_errorMessages);
 
+var _proxify = require('../../lib/proxy/proxify');
+
+var _proxify2 = _interopRequireDefault(_proxify);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
 
 var DEFAULT_THROTTLE_DURATION = 61 * 1000;
 var DEFAULT_ALERT_TTL = 5 * 1000;
-
-var RateLimiter = function (_RcModule) {
+var RateLimiter = (_class = function (_RcModule) {
   (0, _inherits3.default)(RateLimiter, _RcModule);
 
   function RateLimiter(_ref) {
@@ -157,15 +195,34 @@ var RateLimiter = function (_RcModule) {
     }
   }, {
     key: 'showAlert',
-    value: function showAlert() {
-      if (this.throttling && this._alert) {
-        this._alert.danger({
-          message: _errorMessages2.default.rateLimitReached,
-          ttl: DEFAULT_ALERT_TTL,
-          allowDuplicates: false
-        });
+    value: function () {
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (this.throttling && this._alert) {
+                  this._alert.danger({
+                    message: _errorMessages2.default.rateLimitReached,
+                    ttl: DEFAULT_ALERT_TTL,
+                    allowDuplicates: false
+                  });
+                }
+
+              case 1:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function showAlert() {
+        return _ref3.apply(this, arguments);
       }
-    }
+
+      return showAlert;
+    }()
   }, {
     key: '_bindHandlers',
     value: function _bindHandlers() {
@@ -215,7 +272,6 @@ var RateLimiter = function (_RcModule) {
     }
   }]);
   return RateLimiter;
-}(_RcModule3.default);
-
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'showAlert', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'showAlert'), _class.prototype)), _class);
 exports.default = RateLimiter;
 //# sourceMappingURL=index.js.map

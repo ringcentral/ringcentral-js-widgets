@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+
+var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
 var _promise = require('babel-runtime/core-js/promise');
 
 var _promise2 = _interopRequireDefault(_promise);
@@ -61,6 +65,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _desc, _value, _class;
+
 var _url = require('url');
 
 var _url2 = _interopRequireDefault(_url);
@@ -93,7 +99,44 @@ var _parseCallbackUri = require('../../lib/parseCallbackUri');
 
 var _parseCallbackUri2 = _interopRequireDefault(_parseCallbackUri);
 
+var _ensureExist = require('../../lib/ensureExist');
+
+var _ensureExist2 = _interopRequireDefault(_ensureExist);
+
+var _proxify = require('../../lib/proxy/proxify');
+
+var _proxify2 = _interopRequireDefault(_proxify);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
 
 var DEFAULT_PROXY_RETRY = 5000;
 
@@ -115,8 +158,7 @@ function getDefaultProxyUri() {
  * @class
  * @description Authentication module
  */
-
-var Auth = function (_RcModule) {
+var Auth = (_class = function (_RcModule) {
   (0, _inherits3.default)(Auth, _RcModule);
 
   /**
@@ -168,7 +210,7 @@ var Auth = function (_RcModule) {
 
                   callbackUri = data.callbackUri, proxyLoaded = data.proxyLoaded, fromLocalStorage = data.fromLocalStorage;
 
-                  if (!(callbackUri && (fromLocalStorage !== true || _this._tabManager.active))) {
+                  if (!(callbackUri && (fromLocalStorage !== true || !_this._tabManager || _this._tabManager.active))) {
                     _context.next = 24;
                     break;
                   }
@@ -250,10 +292,10 @@ var Auth = function (_RcModule) {
       }, _this._defaultProxyRetry);
     };
 
-    _this._client = client;
-    _this._alert = alert;
-    _this._brand = brand;
-    _this._locale = locale;
+    _this._client = (0, _ensureExist2.default)(client, 'client');
+    _this._alert = (0, _ensureExist2.default)(alert, 'alert');
+    _this._brand = (0, _ensureExist2.default)(brand, 'brand');
+    _this._locale = (0, _ensureExist2.default)(locale, 'locale');
     _this._redirectUri = redirectUri;
     _this._proxyUri = proxyUri;
     _this._tabManager = tabManager;
@@ -363,7 +405,7 @@ var Auth = function (_RcModule) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(_this4.status === _moduleStatuses2.default.pending && _this4._locale.ready && _this4._tabManager.ready && (!_this4._environment || _this4._environment.ready))) {
+                if (!(_this4.status === _moduleStatuses2.default.pending && _this4._locale.ready && (!_this4._tabManager || _this4._tabManager.ready) && (!_this4._environment || _this4._environment.ready))) {
                   _context2.next = 8;
                   break;
                 }
@@ -386,7 +428,7 @@ var Auth = function (_RcModule) {
                 });
 
               case 8:
-                if (_this4._tabManager.ready && _this4.ready) {
+                if (_this4._tabManager && _this4._tabManager.ready && _this4.ready) {
                   if (loggedIn && _this4.loginStatus === _loginStatus2.default.notLoggedIn || !loggedIn && _this4.loginStatus === _loginStatus2.default.loggedIn) {
                     loggedIn = !loggedIn;
                     _this4._tabManager.send('loginStatusChange', loggedIn);
@@ -414,19 +456,6 @@ var Auth = function (_RcModule) {
     }
   }, {
     key: 'login',
-
-
-    /**
-     * @function
-     * @param {String} options.username
-     * @param {String} options.password
-     * @param {String} options.extension
-     * @param {Booleal|Number} options.remember
-     * @param {String} params.code,
-     * @param {String} params.redirectUri,
-     * @return {Promise}
-     * @description Login either with username/password or with authorization code
-     */
     value: function () {
       var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref6) {
         var username = _ref6.username,
@@ -722,14 +751,33 @@ var Auth = function (_RcModule) {
      * @param {Function} onLogin - Function to be called when user successfully logged in
      *  through oAuth.
      */
-    value: function setupProxyFrame(onLogin) {
-      if (typeof window !== 'undefined' && typeof document !== 'undefined' && this._proxyUri && this._proxyUri !== '' && !this._proxyFrame) {
-        this.store.dispatch({
-          type: this.actionTypes.proxySetup
-        });
-        this._createProxyFrame(onLogin);
+    value: function () {
+      var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(onLogin) {
+        return _regenerator2.default.wrap(function _callee7$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                if (typeof window !== 'undefined' && typeof document !== 'undefined' && this._proxyUri && this._proxyUri !== '' && !this._proxyFrame) {
+                  this.store.dispatch({
+                    type: this.actionTypes.proxySetup
+                  });
+                  this._createProxyFrame(onLogin);
+                }
+
+              case 1:
+              case 'end':
+                return _context8.stop();
+            }
+          }
+        }, _callee7, this);
+      }));
+
+      function setupProxyFrame(_x4) {
+        return _ref11.apply(this, arguments);
       }
-    }
+
+      return setupProxyFrame;
+    }()
   }, {
     key: '_retrySetupProxyFrame',
     value: function _retrySetupProxyFrame(onLogin) {
@@ -752,18 +800,37 @@ var Auth = function (_RcModule) {
     }
   }, {
     key: 'clearProxyFrame',
-    value: function clearProxyFrame() {
-      if (this._proxyFrame) {
-        if (this._retryTimeoutId) {
-          clearTimeout(this._retryTimeoutId);
-          this._retryTimeoutId = null;
-        }
-        this._destroyProxyFrame();
-        this.store.dispatch({
-          type: this.actionTypes.proxyCleared
-        });
+    value: function () {
+      var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+        return _regenerator2.default.wrap(function _callee8$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                if (this._proxyFrame) {
+                  if (this._retryTimeoutId) {
+                    clearTimeout(this._retryTimeoutId);
+                    this._retryTimeoutId = null;
+                  }
+                  this._destroyProxyFrame();
+                  this.store.dispatch({
+                    type: this.actionTypes.proxyCleared
+                  });
+                }
+
+              case 1:
+              case 'end':
+                return _context9.stop();
+            }
+          }
+        }, _callee8, this);
+      }));
+
+      function clearProxyFrame() {
+        return _ref12.apply(this, arguments);
       }
-    }
+
+      return clearProxyFrame;
+    }()
   }, {
     key: 'openOAuthPage',
     value: function openOAuthPage() {
@@ -826,14 +893,31 @@ var Auth = function (_RcModule) {
     get: function get() {
       return this.state.proxyRetryCount;
     }
+
+    /**
+     * @function
+     * @param {String} options.username
+     * @param {String} options.password
+     * @param {String} options.extension
+     * @param {Booleal|Number} options.remember
+     * @param {String} params.code,
+     * @param {String} params.redirectUri,
+     * @return {Promise}
+     * @description Login either with username/password or with authorization code
+     */
+
   }, {
     key: 'loggedIn',
     get: function get() {
       return this.state.loginStatus === _loginStatus2.default.loggedIn || this.state.loginStatus === _loginStatus2.default.beforeLogout;
     }
+  }, {
+    key: 'notLoggedIn',
+    get: function get() {
+      return this.state.loginStatus === _loginStatus2.default.notLoggedIn;
+    }
   }]);
   return Auth;
-}(_RcModule3.default);
-
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'login', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'login'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'logout', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'logout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'checkIsLoggedIn', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'checkIsLoggedIn'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setupProxyFrame', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'setupProxyFrame'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clearProxyFrame', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'clearProxyFrame'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'openOAuthPage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'openOAuthPage'), _class.prototype)), _class);
 exports.default = Auth;
 //# sourceMappingURL=index.js.map

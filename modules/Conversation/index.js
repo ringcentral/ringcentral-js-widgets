@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+
+var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -41,6 +45,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _desc, _value, _class;
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -63,9 +69,42 @@ var _conversationStatus = require('./conversationStatus');
 
 var _conversationStatus2 = _interopRequireDefault(_conversationStatus);
 
+var _proxify = require('../../lib/proxy/proxify');
+
+var _proxify2 = _interopRequireDefault(_proxify);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Conversation = function (_RcModule) {
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
+var Conversation = (_class = function (_RcModule) {
   (0, _inherits3.default)(Conversation, _RcModule);
 
   function Conversation(_ref) {
@@ -84,9 +123,6 @@ var Conversation = function (_RcModule) {
     _this._extensionInfo = extensionInfo;
     _this._messageStore = messageStore;
     _this._promise = null;
-    _this.replyToReceivers = _this.replyToReceivers.bind(_this);
-    _this.changeDefaultRecipient = _this.changeDefaultRecipient.bind(_this);
-    _this.changeMatchedNames = _this.changeMatchedNames.bind(_this);
     return _this;
   }
 
@@ -142,49 +178,150 @@ var Conversation = function (_RcModule) {
     }
   }, {
     key: 'loadConversationById',
-    value: function loadConversationById(id) {
-      this._loadConversation(id);
-      this._messageStore.readMessages(id);
-    }
+    value: function () {
+      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(id) {
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (this.id !== id) {
+                  this._loadConversation(id);
+                  this._messageStore.readMessages(id);
+                }
+
+              case 1:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function loadConversationById(_x) {
+        return _ref2.apply(this, arguments);
+      }
+
+      return loadConversationById;
+    }()
   }, {
     key: 'unloadConversation',
-    value: function unloadConversation() {
-      this.store.dispatch({
-        type: this.actionTypes.unload
-      });
-    }
+    value: function () {
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (this.id) {
+                  this.store.dispatch({
+                    type: this.actionTypes.unload
+                  });
+                }
+
+              case 1:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function unloadConversation() {
+        return _ref3.apply(this, arguments);
+      }
+
+      return unloadConversation;
+    }()
   }, {
     key: 'changeMatchedNames',
-    value: function changeMatchedNames(matchedNames) {
-      var recipients = this.recipients.slice();
-      if (recipients.length !== 1) {
-        return;
+    value: function () {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(matchedNames) {
+        var recipients;
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                recipients = this.recipients.slice();
+
+                if (!(recipients.length !== 1)) {
+                  _context3.next = 3;
+                  break;
+                }
+
+                return _context3.abrupt('return');
+
+              case 3:
+                if (matchedNames) {
+                  recipients[0].matchedNames = matchedNames;
+                  this._updateConversationRecipients(recipients);
+                }
+
+              case 4:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function changeMatchedNames(_x2) {
+        return _ref4.apply(this, arguments);
       }
-      if (matchedNames) {
-        recipients[0].matchedNames = matchedNames;
-        this._updateConversationRecipients(recipients);
-      }
-    }
+
+      return changeMatchedNames;
+    }()
   }, {
     key: 'changeDefaultRecipient',
-    value: function changeDefaultRecipient(phoneNumber) {
-      if (this.recipients.length < 2) {
-        return;
+    value: function () {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(phoneNumber) {
+        var recipients, defaultNumberIndex, defaultNumber, newRecipients;
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                if (!(this.recipients.length < 2)) {
+                  _context4.next = 2;
+                  break;
+                }
+
+                return _context4.abrupt('return');
+
+              case 2:
+                recipients = this.recipients.slice();
+                defaultNumberIndex = recipients.findIndex(function (number) {
+                  return number.extensionNumber === phoneNumber || number.phoneNumber === phoneNumber;
+                });
+
+                if (!(defaultNumberIndex < 0)) {
+                  _context4.next = 6;
+                  break;
+                }
+
+                return _context4.abrupt('return');
+
+              case 6:
+                if (this.id) {
+                  defaultNumber = recipients[defaultNumberIndex];
+
+                  recipients.splice(defaultNumberIndex, 1);
+                  newRecipients = [defaultNumber].concat(recipients);
+
+                  this._updateConversationRecipients(newRecipients);
+                }
+
+              case 7:
+              case 'end':
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function changeDefaultRecipient(_x3) {
+        return _ref5.apply(this, arguments);
       }
-      var recipients = this.recipients.slice();
-      var defaultNumberIndex = recipients.findIndex(function (number) {
-        return number.extensionNumber === phoneNumber || number.phoneNumber === phoneNumber;
-      });
-      if (defaultNumberIndex < 0) {
-        return;
-      }
-      if (this.id) {
-        var defaultNumber = recipients[defaultNumberIndex];
-        recipients.splice(defaultNumberIndex, 1);
-        var newRecipients = [defaultNumber].concat(recipients);
-        this._updateConversationRecipients(newRecipients);
-      }
-    }
+
+      return changeDefaultRecipient;
+    }()
   }, {
     key: '_updateConversationRecipients',
     value: function _updateConversationRecipients(newRecipients) {
@@ -276,17 +413,17 @@ var Conversation = function (_RcModule) {
   }, {
     key: 'replyToReceivers',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(text) {
+      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(text) {
         var responses;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+        return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.reply
                 });
-                _context.prev = 1;
-                _context.next = 4;
+                _context5.prev = 1;
+                _context5.next = 4;
                 return this._messageSender.send({
                   fromNumber: this._getFromNumber(),
                   toNumbers: this._getToNumbers(),
@@ -295,10 +432,10 @@ var Conversation = function (_RcModule) {
                 });
 
               case 4:
-                responses = _context.sent;
+                responses = _context5.sent;
 
                 if (!(responses && responses[0])) {
-                  _context.next = 9;
+                  _context5.next = 9;
                   break;
                 }
 
@@ -306,29 +443,29 @@ var Conversation = function (_RcModule) {
                 this.store.dispatch({
                   type: this.actionTypes.replySuccess
                 });
-                return _context.abrupt('return', responses[0]);
+                return _context5.abrupt('return', responses[0]);
 
               case 9:
                 this._onReplyError();
-                return _context.abrupt('return', null);
+                return _context5.abrupt('return', null);
 
               case 13:
-                _context.prev = 13;
-                _context.t0 = _context['catch'](1);
+                _context5.prev = 13;
+                _context5.t0 = _context5['catch'](1);
 
                 this._onReplyError();
-                throw _context.t0;
+                throw _context5.t0;
 
               case 17:
               case 'end':
-                return _context.stop();
+                return _context5.stop();
             }
           }
-        }, _callee, this, [[1, 13]]);
+        }, _callee5, this, [[1, 13]]);
       }));
 
-      function replyToReceivers(_x) {
-        return _ref2.apply(this, arguments);
+      function replyToReceivers(_x4) {
+        return _ref6.apply(this, arguments);
       }
 
       return replyToReceivers;
@@ -387,7 +524,6 @@ var Conversation = function (_RcModule) {
     }
   }]);
   return Conversation;
-}(_RcModule3.default);
-
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'loadConversationById', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'loadConversationById'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'unloadConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'unloadConversation'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'changeMatchedNames', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'changeMatchedNames'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'changeDefaultRecipient', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'changeDefaultRecipient'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'replyToReceivers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'replyToReceivers'), _class.prototype)), _class);
 exports.default = Conversation;
 //# sourceMappingURL=index.js.map

@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/AddressBook/syncStatus.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,SADsB,EAEtB,MAFsB,CAAT,EAGZ,cAHY,C","file":"syncStatus.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'syncing',\n  'idle',\n], 'address-book');\n"]}

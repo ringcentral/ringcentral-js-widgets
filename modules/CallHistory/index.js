@@ -13,6 +13,10 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -73,8 +77,6 @@ var CallHistory = function (_RcModule) {
   (0, _inherits3.default)(CallHistory, _RcModule);
 
   function CallHistory(_ref) {
-    var _this2 = this;
-
     var accountInfo = _ref.accountInfo,
         callLog = _ref.callLog,
         callMonitor = _ref.callMonitor,
@@ -86,98 +88,6 @@ var CallHistory = function (_RcModule) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallHistory.__proto__ || (0, _getPrototypeOf2.default)(CallHistory)).call(this, (0, _extends3.default)({}, options, {
       actionTypes: _actionTypes2.default
     })));
-
-    _this._onStateChange = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-      var uniqueNumbers, sessionIds, monitorCalls, endedCalls, currentCalls, ids, shouldRemove;
-      return _regenerator2.default.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              if (_this._callLog.ready && (!_this._callMonitor || _this._callMonitor.ready) && _this._accountInfo.ready && (!_this._contactMatcher || _this._contactMatcher.ready) && (!_this._activityMatcher || _this._activityMatcher.ready) && _this.pending) {
-                _this.store.dispatch({
-                  type: _this.actionTypes.init
-                });
-                _this.store.dispatch({
-                  type: _this.actionTypes.initSuccess
-                });
-              } else if ((!_this._callLog.ready || _this._callMonitor && !_this._callMonitor.ready || !_this._accountInfo.ready || _this._contactMatcher && !_this._contactMatcher.ready || _this._activityMatcher && !_this._activityMatcher.ready) && _this.ready) {
-                _this.store.dispatch({
-                  type: _this.actionTypes.reset
-                });
-                _this._lastProcessedCalls = null;
-                _this._lastProcessedIds = null;
-                _this._lastProcessedMonitorCalls = null;
-                _this._lastProcessedNumbers = null;
-                _this.store.dispatch({
-                  type: _this.actionTypes.resetSuccess
-                });
-              } else if (_this.ready) {
-                uniqueNumbers = _this._selectors.uniqueNumbers();
-
-                if (_this._lastProcessedNumbers !== uniqueNumbers) {
-                  _this._lastProcessedNumbers = uniqueNumbers;
-                  if (_this._contactMatcher && _this._contactMatcher.ready) {
-                    _this._contactMatcher.triggerMatch();
-                  }
-                }
-                sessionIds = _this._selectors.sessionIds();
-
-                if (_this._lastProcessedIds !== sessionIds) {
-                  _this._lastProcessedIds = sessionIds;
-                  if (_this._activityMatcher && _this._activityMatcher.ready) {
-                    _this._activityMatcher.triggerMatch();
-                  }
-                }
-                if (_this._callMonitor) {
-                  monitorCalls = _this._callMonitor.calls;
-
-                  if (_this._lastProcessedMonitorCalls !== monitorCalls) {
-                    endedCalls = (_this._lastProcessedMonitorCalls || []).filter(function (call) {
-                      return !monitorCalls.find(function (currentCall) {
-                        return call.sessionId === currentCall.sessionId;
-                      });
-                    });
-
-                    _this._lastProcessedMonitorCalls = monitorCalls;
-                    if (endedCalls.length) {
-                      _this.store.dispatch({
-                        type: _this.actionTypes.addEndedCalls,
-                        endedCalls: endedCalls,
-                        timestamp: Date.now()
-                      });
-                      _this._callLog.sync();
-                    }
-                  }
-                }
-                currentCalls = _this._callLog.calls;
-
-                if (currentCalls !== _this._lastProcessedCalls) {
-                  _this._lastProcessedCalls = currentCalls;
-                  ids = {};
-
-                  currentCalls.forEach(function (call) {
-                    ids[call.sessionId] = true;
-                  });
-                  shouldRemove = _this.state.endedCalls.filter(function (call) {
-                    return ids[call.sessionId];
-                  });
-
-                  if (shouldRemove.length) {
-                    _this.store.dispatch({
-                      type: _this.actionTypes.removeEndedCalls,
-                      endedCalls: shouldRemove
-                    });
-                  }
-                }
-              }
-
-            case 1:
-            case 'end':
-              return _context.stop();
-          }
-        }
-      }, _callee, _this2);
-    }));
 
     _this._accountInfo = _ensureExist2.default.call(_this, accountInfo, 'accountInfo');
     _this._callLog = _ensureExist2.default.call(_this, callLog, 'callLog');
@@ -210,7 +120,7 @@ var CallHistory = function (_RcModule) {
           from: callFrom,
           to: callTo
         });
-      });
+      }).sort(_callLogHelpers.sortByStartTime);
     });
 
     _this.addSelector('calls', _this._selectors.normalizedCalls, function () {
@@ -219,23 +129,32 @@ var CallHistory = function (_RcModule) {
       return _this._contactMatcher && _this._contactMatcher.dataMapping;
     }, function () {
       return _this._activityMatcher && _this._activityMatcher.dataMapping;
+    }, function () {
+      return _this._callMonitor && _this._callMonitor.callMatched;
     }, function (normalizedCalls, endedCalls) {
       var contactMapping = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
       var activityMapping = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+      var callMatched = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
 
       var sessionIds = {};
-      return normalizedCalls.map(function (call) {
+      var calls = normalizedCalls.map(function (call) {
         sessionIds[call.sessionId] = true;
         var fromNumber = call.from && (call.from.phoneNumber || call.from.extensionNumber);
         var toNumber = call.to && (call.to.phoneNumber || call.to.extensionNumber);
+        var fromMatches = fromNumber && contactMapping[fromNumber] || [];
+        var toMatches = toNumber && contactMapping[toNumber] || [];
+        var activityMatches = activityMapping[call.sessionId] || [];
+        var matched = callMatched[call.sessionId];
         return (0, _extends3.default)({}, call, {
-          fromMatches: fromNumber && contactMapping[fromNumber] || [],
-          toMatches: toNumber && contactMapping[toNumber] || [],
-          activityMatches: activityMapping[call.sessionId] || []
+          fromMatches: fromMatches,
+          toMatches: toMatches,
+          activityMatches: activityMatches,
+          toNumberEntity: matched
         });
-      }).concat(endedCalls.filter(function (call) {
+      });
+      return [].concat((0, _toConsumableArray3.default)(endedCalls.filter(function (call) {
         return !sessionIds[call.sessionId];
-      })).sort(_callLogHelpers.sortByStartTime);
+      })), (0, _toConsumableArray3.default)(calls));
     });
 
     _this.addSelector('uniqueNumbers', _this._selectors.normalizedCalls, function () {
@@ -305,7 +224,179 @@ var CallHistory = function (_RcModule) {
   (0, _createClass3.default)(CallHistory, [{
     key: 'initialize',
     value: function initialize() {
-      this.store.subscribe(this._onStateChange);
+      var _this2 = this;
+
+      this.store.subscribe(function () {
+        return _this2._onStateChange();
+      });
+    }
+  }, {
+    key: '_onStateChange',
+    value: function () {
+      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (this._shouldInit()) {
+                  this._initModuleStatus();
+                } else if (this._shouldReset()) {
+                  this._resetModuleStatus();
+                } else if (this.ready) {
+                  this._processCallHistory();
+                }
+
+              case 1:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function _onStateChange() {
+        return _ref2.apply(this, arguments);
+      }
+
+      return _onStateChange;
+    }()
+  }, {
+    key: '_shouldInit',
+    value: function _shouldInit() {
+      return this._callLog.ready && (!this._callMonitor || this._callMonitor.ready) && this._accountInfo.ready && (!this._contactMatcher || this._contactMatcher.ready) && (!this._activityMatcher || this._activityMatcher.ready) && this.pending;
+    }
+  }, {
+    key: '_shouldReset',
+    value: function _shouldReset() {
+      return (!this._callLog.ready || this._callMonitor && !this._callMonitor.ready || !this._accountInfo.ready || this._contactMatcher && !this._contactMatcher.ready || this._activityMatcher && !this._activityMatcher.ready) && this.ready;
+    }
+  }, {
+    key: '_shouldTriggerContactMatch',
+    value: function _shouldTriggerContactMatch(uniqueNumbers) {
+      if (this._lastProcessedNumbers !== uniqueNumbers) {
+        this._lastProcessedNumbers = uniqueNumbers;
+        if (this._contactMatcher && this._contactMatcher.ready) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }, {
+    key: '_shouldTriggerActivityMatch',
+    value: function _shouldTriggerActivityMatch(sessionIds) {
+      if (this._lastProcessedIds !== sessionIds) {
+        this._lastProcessedIds = sessionIds;
+        if (this._activityMatcher && this._activityMatcher.ready) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }, {
+    key: '_getEndedCalls',
+    value: function _getEndedCalls() {
+      if (this._callMonitor) {
+        var monitorCalls = this._callMonitor.calls;
+        var callLogCalls = this._callLog.calls;
+        if (this._lastProcessedMonitorCalls !== monitorCalls) {
+          var endedCalls = (this._lastProcessedMonitorCalls || []).filter(function (call) {
+            return !monitorCalls.find(function (currentCall) {
+              return call.sessionId === currentCall.sessionId;
+            }) &&
+            // if the call's callLog has been fetch, skip
+            !callLogCalls.find(function (currentCall) {
+              return call.sessionId === currentCall.sessionId;
+            });
+          });
+          this._lastProcessedMonitorCalls = monitorCalls;
+          return endedCalls;
+        }
+      }
+      return null;
+    }
+  }, {
+    key: '_shouldRemoveEndedCalls',
+    value: function _shouldRemoveEndedCalls() {
+      var currentCalls = this._callLog.calls;
+      if (currentCalls !== this._lastProcessedCalls) {
+        this._lastProcessedCalls = currentCalls;
+        var ids = {};
+        currentCalls.forEach(function (call) {
+          ids[call.sessionId] = true;
+        });
+        return this.recentlyEndedCalls.filter(function (call) {
+          return ids[call.sessionId];
+        });
+      }
+      return null;
+    }
+  }, {
+    key: '_processCallHistory',
+    value: function _processCallHistory() {
+      var uniqueNumbers = this.uniqueNumbers;
+      if (this._shouldTriggerContactMatch(uniqueNumbers)) {
+        this._contactMatcher.triggerMatch();
+      }
+      var sessionIds = this.sessionIds;
+      if (this._shouldTriggerActivityMatch(sessionIds)) {
+        this._activityMatcher.triggerMatch();
+      }
+
+      var endedCalls = this._getEndedCalls();
+      if (endedCalls && endedCalls.length) {
+        this._addEndedCalls(endedCalls);
+      }
+
+      var shouldRemove = this._shouldRemoveEndedCalls();
+      if (shouldRemove && shouldRemove.length) {
+        this._removeEndedCalls(shouldRemove);
+      }
+    }
+  }, {
+    key: '_initModuleStatus',
+    value: function _initModuleStatus() {
+      this.store.dispatch({
+        type: this.actionTypes.init
+      });
+      this.store.dispatch({
+        type: this.actionTypes.initSuccess
+      });
+    }
+  }, {
+    key: '_resetModuleStatus',
+    value: function _resetModuleStatus() {
+      this.store.dispatch({
+        type: this.actionTypes.reset
+      });
+      this._lastProcessedCalls = null;
+      this._lastProcessedIds = null;
+      this._lastProcessedMonitorCalls = null;
+      this._lastProcessedNumbers = null;
+      this.store.dispatch({
+        type: this.actionTypes.resetSuccess
+      });
+    }
+  }, {
+    key: '_addEndedCalls',
+    value: function _addEndedCalls(endedCalls) {
+      endedCalls.map(function (call) {
+        call.result = 'Disconnected';
+        return call;
+      });
+      this.store.dispatch({
+        type: this.actionTypes.addEndedCalls,
+        endedCalls: endedCalls,
+        timestamp: Date.now()
+      });
+      this._callLog.sync();
+    }
+  }, {
+    key: '_removeEndedCalls',
+    value: function _removeEndedCalls(endedCalls) {
+      this.store.dispatch({
+        type: this.actionTypes.removeEndedCalls,
+        endedCalls: endedCalls
+      });
     }
   }, {
     key: 'status',
@@ -326,6 +417,16 @@ var CallHistory = function (_RcModule) {
     key: 'calls',
     get: function get() {
       return this._selectors.calls();
+    }
+  }, {
+    key: 'uniqueNumbers',
+    get: function get() {
+      return this._selectors.uniqueNumbers();
+    }
+  }, {
+    key: 'sessionIds',
+    get: function get() {
+      return this._selectors.sessionIds();
     }
   }, {
     key: 'recentlyEndedCalls',

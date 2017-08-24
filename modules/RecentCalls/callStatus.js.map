@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/RecentCalls/callStatus.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,SADsB,EAEtB,QAFsB,CAAT,EAGZ,kBAHY,C","file":"callStatus.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'loading',\n  'loaded'\n], 'recentCallStatus');\n"]}

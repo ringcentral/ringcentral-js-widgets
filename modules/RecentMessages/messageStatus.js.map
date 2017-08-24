@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/RecentMessages/messageStatus.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,SADsB,EAEtB,QAFsB,CAAT,EAGZ,qBAHY,C","file":"messageStatus.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'loading',\n  'loaded'\n], 'recentMessageStatus');\n\n"]}

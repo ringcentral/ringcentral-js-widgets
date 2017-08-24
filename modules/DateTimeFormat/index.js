@@ -53,9 +53,17 @@ var _getDateTimeFormatReducer = require('./getDateTimeFormatReducer');
 
 var _getDateTimeFormatReducer2 = _interopRequireDefault(_getDateTimeFormatReducer);
 
-var _moduleStatus = require('../../enums/moduleStatus');
+var _moduleStatuses = require('../../enums/moduleStatuses');
 
-var _moduleStatus2 = _interopRequireDefault(_moduleStatus);
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
+
+var _proxify = require('../../lib/proxy/proxify');
+
+var _proxify2 = _interopRequireDefault(_proxify);
+
+var _getProxyReducer = require('./getProxyReducer');
+
+var _getProxyReducer2 = _interopRequireDefault(_getProxyReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -78,6 +86,7 @@ var DateTimeFormat = function (_RcModule) {
     _this._locale = (0, _ensureExist2.default)(locale, 'locale');
 
     _this._reducer = (0, _getDateTimeFormatReducer2.default)(_this.actionTypes);
+    _this._proxyReducer = (0, _getProxyReducer2.default)(_this.actionTypes);
 
     _this._formatters = {};
     return _this;
@@ -100,7 +109,9 @@ var DateTimeFormat = function (_RcModule) {
         this.store.dispatch({
           type: this.actionTypes.init
         });
-        this._defaultFormatter = (0, _getIntlDateTimeFormatter2.default)();
+        if (!this._defaultFormatter) {
+          this._defaultFormatter = (0, _getIntlDateTimeFormatter2.default)();
+        }
         this.store.dispatch({
           type: this.actionTypes.initSuccess
         });
@@ -108,6 +119,7 @@ var DateTimeFormat = function (_RcModule) {
         this.store.dispatch({
           type: this.actionTypes.reset
         });
+        this._formatters = {};
         this.store.dispatch({
           type: this.actionTypes.resetSuccess
         });
@@ -120,6 +132,25 @@ var DateTimeFormat = function (_RcModule) {
 
       this.store.subscribe(function () {
         return _this2._onStateChange();
+      });
+    }
+  }, {
+    key: 'initializeProxy',
+    value: function initializeProxy() {
+      var _this3 = this;
+
+      this.store.subscribe(function () {
+        if (_this3.proxyPending && _this3._locale.proxyReady) {
+          _this3.store.dispatch({
+            type: _this3.actionTypes.proxyInit
+          });
+          if (!_this3._defaultFormatter) {
+            _this3._defaultFormatter = (0, _getIntlDateTimeFormatter2.default)();
+          }
+          _this3.store.dispatch({
+            type: _this3.actionTypes.proxyInitSuccess
+          });
+        }
       });
     }
   }, {
@@ -192,17 +223,12 @@ var DateTimeFormat = function (_RcModule) {
   }, {
     key: 'status',
     get: function get() {
-      return this.state.status;
+      return this.proxyState && this.proxyState.status || this.state.status;
     }
   }, {
-    key: 'ready',
+    key: 'proxyStatus',
     get: function get() {
-      return this.state.status === _moduleStatus2.default.ready;
-    }
-  }, {
-    key: 'pending',
-    get: function get() {
-      return this.state.status === _moduleStatus2.default.pending;
+      return this.proxyState.status;
     }
   }]);
   return DateTimeFormat;

@@ -5,6 +5,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
+
+var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -40,6 +44,8 @@ var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorRet
 var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _desc, _value, _class;
 
 exports.processData = processData;
 exports.getISODateFrom = getISODateFrom;
@@ -87,7 +93,40 @@ var _callResults = require('../../enums/callResults');
 
 var _callResults2 = _interopRequireDefault(_callResults);
 
+var _proxify = require('../../lib/proxy/proxify');
+
+var _proxify2 = _interopRequireDefault(_proxify);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
 
 var DEFAULT_TTL = 5 * 60 * 1000;
 var DEFAULT_TOKEN_EXPIRES_IN = 60 * 60 * 1000;
@@ -116,10 +155,10 @@ function getISODateTo(records) {
   });
   return dateTo && new Date(dateTo).toISOString();
 }
+// to not use $ at the end, presence with sipData has extra query parameters
+var presenceRegExp = /\/presence\?detailedTelephonyState=true/;
 
-var presenceRegExp = /\/presence\?detailedTelephonyState=true$/;
-
-var CallLog = function (_Pollable) {
+var CallLog = (_class = function (_Pollable) {
   (0, _inherits3.default)(CallLog, _Pollable);
 
   function CallLog(_ref) {
@@ -572,60 +611,89 @@ var CallLog = function (_Pollable) {
     }()
   }, {
     key: 'sync',
-    value: function sync() {
-      var _this4 = this;
+    value: function () {
+      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
+        var _this4 = this;
 
-      var syncType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.token ? _syncTypes2.default.iSync : _syncTypes2.default.fSync;
+        var syncType = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.token ? _syncTypes2.default.iSync : _syncTypes2.default.fSync;
+        return _regenerator2.default.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                if (this._promise) {
+                  _context9.next = 5;
+                  break;
+                }
 
-      if (!this._promise) {
-        this._promise = this._sync(syncType);
-        return this._promise;
-      } else if (!this._queueSync) {
-        this._queueSync = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
-          return _regenerator2.default.wrap(function _callee8$(_context8) {
-            while (1) {
-              switch (_context8.prev = _context8.next) {
-                case 0:
-                  _context8.next = 2;
-                  return _this4._promise;
+                this._promise = this._sync(syncType);
+                return _context9.abrupt('return', this._promise);
 
-                case 2:
-                  _this4._promise = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
-                    return _regenerator2.default.wrap(function _callee7$(_context7) {
-                      while (1) {
-                        switch (_context7.prev = _context7.next) {
-                          case 0:
-                            _context7.next = 2;
-                            return (0, _sleep2.default)(300);
+              case 5:
+                if (this._queueSync) {
+                  _context9.next = 8;
+                  break;
+                }
 
-                          case 2:
-                            return _context7.abrupt('return', _this4._sync(syncType));
+                this._queueSync = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+                  return _regenerator2.default.wrap(function _callee8$(_context8) {
+                    while (1) {
+                      switch (_context8.prev = _context8.next) {
+                        case 0:
+                          _context8.next = 2;
+                          return _this4._promise;
 
-                          case 3:
-                          case 'end':
-                            return _context7.stop();
-                        }
+                        case 2:
+                          _this4._promise = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+                            return _regenerator2.default.wrap(function _callee7$(_context7) {
+                              while (1) {
+                                switch (_context7.prev = _context7.next) {
+                                  case 0:
+                                    _context7.next = 2;
+                                    return (0, _sleep2.default)(300);
+
+                                  case 2:
+                                    return _context7.abrupt('return', _this4._sync(syncType));
+
+                                  case 3:
+                                  case 'end':
+                                    return _context7.stop();
+                                }
+                              }
+                            }, _callee7, _this4);
+                          }))();
+                          _this4._queueSync = null;
+                          return _context8.abrupt('return', _this4._promise);
+
+                        case 5:
+                        case 'end':
+                          return _context8.stop();
                       }
-                    }, _callee7, _this4);
-                  }))();
-                  _this4._queueSync = null;
-                  return _context8.abrupt('return', _this4._promise);
+                    }
+                  }, _callee8, _this4);
+                }))();
+                return _context9.abrupt('return', this._queueSync);
 
-                case 5:
-                case 'end':
-                  return _context8.stop();
-              }
+              case 8:
+                return _context9.abrupt('return', this._queueSync);
+
+              case 9:
+              case 'end':
+                return _context9.stop();
             }
-          }, _callee8, _this4);
-        }))();
-        return this._queueSync;
+          }
+        }, _callee9, this);
+      }));
+
+      function sync() {
+        return _ref9.apply(this, arguments);
       }
-      return this._queueSync;
-    }
+
+      return sync;
+    }()
   }, {
     key: 'fetchData',
     value: function fetchData() {
-      this.sync();
+      return this.sync();
     }
   }, {
     key: 'status',
@@ -679,7 +747,6 @@ var CallLog = function (_Pollable) {
     }
   }]);
   return CallLog;
-}(_Pollable3.default);
-
+}(_Pollable3.default), (_applyDecoratedDescriptor(_class.prototype, '_fetch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_fetch'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_iSync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_iSync'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_fSync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_fSync'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_sync'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'sync'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fetchData'), _class.prototype)), _class);
 exports.default = CallLog;
 //# sourceMappingURL=index.js.map

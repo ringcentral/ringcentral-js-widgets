@@ -3,10 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 exports.getCallStatusReducer = getCallStatusReducer;
 exports.getToNumberReducer = getToNumberReducer;
+exports.getToNumberEntitiesReducer = getToNumberEntitiesReducer;
 exports.getLastCallNumberReducer = getLastCallNumberReducer;
-exports.getFromNumberReducer = getFromNumberReducer;
 exports.default = getCallReducer;
 
 var _redux = require('redux');
@@ -62,23 +67,26 @@ function getToNumberReducer(types) {
   };
 }
 
-function getLastCallNumberReducer(types) {
+function getToNumberEntitiesReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var _ref3 = arguments[1];
     var type = _ref3.type,
-        number = _ref3.number;
+        data = _ref3.data;
 
     switch (type) {
-      case types.connect:
-        return number;
+      case types.toNumberMatched:
+        return [].concat((0, _toConsumableArray3.default)(state), [data]);
+      case types.cleanToNumberEntities:
+      case types.resetSuccess:
+        return [];
       default:
         return state;
     }
   };
 }
 
-function getFromNumberReducer(types) {
+function getLastCallNumberReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref4 = arguments[1];
@@ -86,7 +94,7 @@ function getFromNumberReducer(types) {
         number = _ref4.number;
 
     switch (type) {
-      case types.updateFromNumber:
+      case types.connect:
         return number;
       default:
         return state;
@@ -98,7 +106,8 @@ function getCallReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer2.default)(types),
     callStatus: getCallStatusReducer(types),
-    toNumber: getToNumberReducer(types)
+    toNumber: getToNumberReducer(types),
+    toNumberEntities: getToNumberEntitiesReducer(types)
   });
 }
 //# sourceMappingURL=getCallReducer.js.map

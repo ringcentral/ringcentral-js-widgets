@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/Webphone/recordStatus.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,MADsB,EAEtB,SAFsB,EAGtB,WAHsB,CAAT,EAIZ,iBAJY,C","file":"recordStatus.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'idle',\n  'pending',\n  'recording'\n], 'webphone-record');\n"]}

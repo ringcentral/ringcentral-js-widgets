@@ -49,6 +49,8 @@ var _moduleStatuses = require('../../enums/moduleStatuses');
 
 var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
+var _getPresenceReducer = require('../Presence/getPresenceReducer');
+
 var _actionTypes = require('./actionTypes');
 
 var _actionTypes2 = _interopRequireDefault(_actionTypes);
@@ -77,7 +79,8 @@ var DetailedPresence = function (_Presence) {
         client = _ref.client,
         subscription = _ref.subscription,
         connectivityMonitor = _ref.connectivityMonitor,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'subscription', 'connectivityMonitor']);
+        storage = _ref.storage,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'subscription', 'connectivityMonitor', 'storage']);
     (0, _classCallCheck3.default)(this, DetailedPresence);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (DetailedPresence.__proto__ || (0, _getPrototypeOf2.default)(DetailedPresence)).call(this, (0, _extends3.default)({}, options, {
@@ -86,16 +89,28 @@ var DetailedPresence = function (_Presence) {
 
     _this._subscriptionHandler = function (message) {
       if (presenceRegExp.test(message.event) && message.body) {
+        if (message.body.sequence) {
+          if (message.body.sequence <= _this._lastSequence) {
+            return;
+          }
+          _this._lastSequence = message.body.sequence;
+        }
         var _message$body = message.body,
             activeCalls = _message$body.activeCalls,
             dndStatus = _message$body.dndStatus,
-            telephonyStatus = _message$body.telephonyStatus;
+            telephonyStatus = _message$body.telephonyStatus,
+            presenceStatus = _message$body.presenceStatus,
+            userStatus = _message$body.userStatus;
 
         _this.store.dispatch({
           type: _this.actionTypes.notification,
           activeCalls: activeCalls,
           dndStatus: dndStatus,
           telephonyStatus: telephonyStatus,
+          presenceStatus: presenceStatus,
+          userStatus: userStatus,
+          message: message.body.message,
+          lastDndStatus: _this.dndStatus,
           timestamp: Date.now()
         });
       }
@@ -121,7 +136,7 @@ var DetailedPresence = function (_Presence) {
               return _this.fetch();
 
             case 5:
-              _this._subscription.subscribe(_subscriptionFilters2.default.detailedPresence);
+              _this._subscription.subscribe(_subscriptionFilters2.default.detailedPresenceWithSip);
               _this.store.dispatch({
                 type: _this.actionTypes.initSuccess
               });
@@ -130,6 +145,12 @@ var DetailedPresence = function (_Presence) {
 
             case 9:
               if ((!_this._auth.loggedIn || !_this._subscription.ready || _this._connectivityMonitor && !_this._connectivityMonitor.ready) && _this.ready) {
+                _this.store.dispatch({
+                  type: _this.actionTypes.reset
+                });
+                _this._lastTelephonyStatus = null;
+                _this._lastSequence = 0;
+                _this._lastMessage = null;
                 _this.store.dispatch({
                   type: _this.actionTypes.resetSuccess
                 });
@@ -154,10 +175,21 @@ var DetailedPresence = function (_Presence) {
 
     _this._auth = auth;
     _this._client = client;
+    _this._storage = storage;
     _this._subscription = subscription;
     _this._connectivityMonitor = connectivityMonitor;
-
-    _this._reducer = (0, _getDetailedPresenceReducer2.default)(_this.actionTypes);
+    _this._lastNotDisturbDndStatusStorageKey = 'lastNotDisturbDndStatusDetailPresence';
+    if (_this._storage) {
+      _this._reducer = (0, _getDetailedPresenceReducer2.default)(_this.actionTypes);
+      _this._storage.registerReducer({
+        key: _this._lastNotDisturbDndStatusStorageKey,
+        reducer: (0, _getPresenceReducer.getLastNotDisturbDndStatusReducer)(_this.actionTypes)
+      });
+    } else {
+      _this._reducer = (0, _getDetailedPresenceReducer2.default)(_this.actionTypes, {
+        lastNotDisturbDndStatus: (0, _getPresenceReducer.getLastNotDisturbDndStatusReducer)(_this.actionTypes)
+      });
+    }
     _this._lastMessage = null;
     _this.addSelector('sessionIdList', function () {
       return _this.state.calls;
@@ -174,8 +206,9 @@ var DetailedPresence = function (_Presence) {
         return !(0, _callLogHelpers.isEnded)(call);
       });
     });
-
+    _this._lastMessage = null;
     _this._lastTelephonyStatus = null;
+    _this._lastSequence = 0;
     return _this;
   }
 
@@ -188,7 +221,7 @@ var DetailedPresence = function (_Presence) {
     key: '_fetch',
     value: function () {
       var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-        var ownerId, _json, activeCalls, dndStatus, telephonyStatus;
+        var ownerId, _json, activeCalls, dndStatus, telephonyStatus, presenceStatus, userStatus, message;
 
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
@@ -200,13 +233,16 @@ var DetailedPresence = function (_Presence) {
                 ownerId = this._auth.ownerId;
                 _context2.prev = 2;
                 _context2.next = 5;
-                return this._client.service.platform().get(_subscriptionFilters2.default.detailedPresence);
+                return this._client.service.platform().get(_subscriptionFilters2.default.detailedPresenceWithSip);
 
               case 5:
                 _json = _context2.sent.json();
                 activeCalls = _json.activeCalls;
                 dndStatus = _json.dndStatus;
                 telephonyStatus = _json.telephonyStatus;
+                presenceStatus = _json.presenceStatus;
+                userStatus = _json.userStatus;
+                message = _json.message;
 
                 if (this._auth.ownerId === ownerId) {
                   this.store.dispatch({
@@ -214,15 +250,18 @@ var DetailedPresence = function (_Presence) {
                     activeCalls: activeCalls,
                     dndStatus: dndStatus,
                     telephonyStatus: telephonyStatus,
+                    presenceStatus: presenceStatus,
+                    userStatus: userStatus,
+                    message: message,
                     timestamp: Date.now()
                   });
                   this._promise = null;
                 }
-                _context2.next = 15;
+                _context2.next = 18;
                 break;
 
-              case 12:
-                _context2.prev = 12;
+              case 15:
+                _context2.prev = 15;
                 _context2.t0 = _context2['catch'](2);
 
                 if (this._auth.ownerId === ownerId) {
@@ -233,12 +272,12 @@ var DetailedPresence = function (_Presence) {
                   this._promise = null;
                 }
 
-              case 15:
+              case 18:
               case 'end':
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[2, 12]]);
+        }, _callee2, this, [[2, 15]]);
       }));
 
       function _fetch() {

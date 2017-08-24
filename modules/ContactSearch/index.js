@@ -5,9 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _stringify = require('babel-runtime/core-js/json/stringify');
+var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
 
-var _stringify2 = _interopRequireDefault(_stringify);
+var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -53,6 +53,8 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _desc, _value, _class;
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -77,9 +79,42 @@ var _getCacheReducer = require('./getCacheReducer');
 
 var _getCacheReducer2 = _interopRequireDefault(_getCacheReducer);
 
+var _proxify = require('../../lib/proxy/proxify');
+
+var _proxify2 = _interopRequireDefault(_proxify);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ContactSearch = function (_RcModule) {
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
+var ContactSearch = (_class = function (_RcModule) {
   (0, _inherits3.default)(ContactSearch, _RcModule);
 
   function ContactSearch(_ref) {
@@ -367,7 +402,7 @@ var ContactSearch = function (_RcModule) {
       var sourceName = _ref7.sourceName,
           searchString = _ref7.searchString;
 
-      var key = (0, _stringify2.default)([sourceName, searchString]);
+      var key = sourceName + '-' + searchString;
       var searching = this.cache && this.cache.contactSearch && this.cache.contactSearch[key];
       var now = Date.now();
       if (searching && now - searching.timestamp < this._ttl) {
@@ -461,13 +496,17 @@ var ContactSearch = function (_RcModule) {
       return this.state.searching;
     }
   }, {
+    key: 'searchResult',
+    get: function get() {
+      return this.searching ? this.searching.result : [];
+    }
+  }, {
     key: 'ready',
     get: function get() {
       return this.status === _moduleStatuses2.default.ready;
     }
   }]);
   return ContactSearch;
-}(_RcModule3.default);
-
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'search', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'search'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_searchSource', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_searchSource'), _class.prototype)), _class);
 exports.default = ContactSearch;
 //# sourceMappingURL=index.js.map

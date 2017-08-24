@@ -7,6 +7,7 @@ exports.getCallWithReducer = getCallWithReducer;
 exports.getRingoutPromptReducer = getRingoutPromptReducer;
 exports.getMyLocationReducer = getMyLocationReducer;
 exports.getTimestampReducer = getTimestampReducer;
+exports.getFromNumberReducer = getFromNumberReducer;
 exports.default = getCallingSettingsReducer;
 
 var _redux = require('redux');
@@ -66,6 +67,22 @@ function getTimestampReducer(types) {
 
     if (type === types.setData) return timestamp;
     return state;
+  };
+}
+
+function getFromNumberReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var _ref5 = arguments[1];
+    var type = _ref5.type,
+        number = _ref5.number;
+
+    switch (type) {
+      case types.updateFromNumber:
+        return number;
+      default:
+        return state;
+    }
   };
 }
 

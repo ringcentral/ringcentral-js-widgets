@@ -1,0 +1,1 @@
+{"version":3,"sources":["enums/moduleActionTypes.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,MADsB,EAEtB,aAFsB,EAGtB,OAHsB,EAItB,cAJsB,CAAT,C","file":"moduleActionTypes.js","sourcesContent":["import Enum from '../lib/Enum';\r\n\r\nexport default new Enum([\r\n  'init',\r\n  'initSuccess',\r\n  'reset',\r\n  'resetSuccess',\r\n]);\r\n"]}
