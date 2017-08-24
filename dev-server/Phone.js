@@ -308,7 +308,9 @@ export default class Phone extends RcModule {
           if (this.router.currentPath !== '/calls') {
             this.router.push('/calls');
           }
-          this.webphone.toggleMinimized(this.webphone.ringSessionId);
+          this.webphone.ringSessions.forEach((session) => {
+            this.webphone.toggleMinimized(session.id);
+          });
         }
       }
     }));
