@@ -62,7 +62,7 @@ function getBaseConfig({
             {
               loader: 'sass-loader',
               options: {
-                includePaths: [themeFolder, path.resolve(process.cwd(), '../../node_modules')],
+                includePaths: [themeFolder, path.resolve(process.cwd(), 'node_modules')],
                 outputStyle: 'expanded'
               }
             }
