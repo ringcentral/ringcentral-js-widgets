@@ -95,7 +95,7 @@ function mapToProps(_, _ref) {
     });
   }
   return {
-    showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && callingSettings.ready && rolesAndPermissions.ready && presence.ready),
+    showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && callingSettings.ready && rolesAndPermissions.ready && (!presence || presence.ready)),
     showRegion: loggedIn && brand.id === '1210' && (regionSettings.availableCountries.length > 1 || !!regionSettings.availableCountries.find(function (c) {
       return c.isoCode === 'US';
     }) || !!regionSettings.availableCountries.find(function (c) {
@@ -110,7 +110,7 @@ function mapToProps(_, _ref) {
     isCallQueueMember: extensionInfo.isCallQueueMember,
     dndStatus: presence && presence.dndStatus,
     userStatus: presence && presence.userStatus,
-    showPresenceSettings: !!(params && params.showPresenceSettings)
+    showPresenceSettings: !!(presence && params && params.showPresenceSettings)
   };
 }
 
