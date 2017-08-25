@@ -1,4 +1,5 @@
 @import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/text-ellipsis';
 
 .hidden {
   display: none;
@@ -60,9 +61,7 @@
 }
 
 .label {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+  @include text-ellipsis;
 }
 
 .spliter {
@@ -70,14 +69,11 @@
 }
 
 .nameSection {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  @include text-ellipsis;
 }
 
 .phoneNumberSection {
-  overflow: hidden;
-  text-overflow: ellipsis;
+  @include text-ellipsis;
 }
 
 .clickable {

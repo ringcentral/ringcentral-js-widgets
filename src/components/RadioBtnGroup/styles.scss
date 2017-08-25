@@ -1,6 +1,7 @@
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/fonts';
+@import '../../lib/commonStyles/text-ellipsis';
 
 .root {
   @include primary-font;
@@ -12,7 +13,7 @@
   height: 17px;
   line-height: 17px;
   margin-top: 18px;
-  
+
   .radioBtn {
     display: inline-block;
     position: relative;
@@ -22,7 +23,7 @@
     background: #fff;
     border: 1px solid #979797;
     cursor: pointer;
-  
+
     &.active:before{
       content: '';
       display: block;
@@ -49,9 +50,7 @@
     margin-left: 16px;
     height: 16px;
     max-width: 43px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    @include text-ellipsis;
   }
 }
 
