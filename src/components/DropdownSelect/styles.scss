@@ -1,5 +1,6 @@
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/text-ellipsis';
 
 .root {
   position: relative;
@@ -136,14 +137,8 @@
   cursor: not-allowed;
 }
 
-.ellipsis {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  li {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-  }
+.ellipsis, .ellipsis li {
+  @include text-ellipsis;
 }
 
 
