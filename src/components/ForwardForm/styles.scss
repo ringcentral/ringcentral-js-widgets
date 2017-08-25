@@ -1,5 +1,6 @@
 @import '../../lib/commonStyles/fonts.scss';
 @import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/text-ellipsis';
 
 .root {
   box-sizing: border-box;
@@ -106,9 +107,7 @@
     padding: 5px 0 5px 20px;
     span {
       display: inline-block;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
+      @include text-ellipsis;
     }
     .label {
       width: 43px;
