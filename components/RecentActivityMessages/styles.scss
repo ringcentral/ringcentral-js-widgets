@@ -1,12 +1,6 @@
 @import '../../lib/commonStyles/fonts.scss';
 @import '../../lib/commonStyles/colors.scss';
-
-// TODO: since it's commonly-used, maybe we can move it to utility lib?
-@mixin truncate-text {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
+@import '../../lib/commonStyles/text-ellipsis';
 
 .messages {
   @include secondary-font;
@@ -36,13 +30,13 @@
   margin-right: 2%;
   color: $lightblack;
   text-align: left;
-  @include truncate-text;
+  @include text-ellipsis;
 }
 
 .messageTime {
   text-align: right;
   color: $darkergray;
-  @include truncate-text;
+  @include text-ellipsis;
 }
 
 .unread {
