@@ -376,21 +376,47 @@ var Call = (_class = function (_RcModule) {
       });
     }
   }, {
-    key: 'onCall',
+    key: 'call',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
-        var validatedNumbers;
+      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(number) {
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
+                this.onToNumberChange(number);
+                _context5.next = 3;
+                return this.onCall();
+
+              case 3:
+              case 'end':
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function call(_x2) {
+        return _ref7.apply(this, arguments);
+      }
+
+      return call;
+    }()
+  }, {
+    key: 'onCall',
+    value: function () {
+      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+        var validatedNumbers;
+        return _regenerator2.default.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
                 if (!this.isIdle) {
-                  _context5.next = 23;
+                  _context6.next = 23;
                   break;
                 }
 
                 if (!(('' + this.toNumber).trim().length === 0)) {
-                  _context5.next = 5;
+                  _context6.next = 5;
                   break;
                 }
 
@@ -401,7 +427,7 @@ var Call = (_class = function (_RcModule) {
                     message: _callErrors2.default.noToNumber
                   });
                 }
-                _context5.next = 23;
+                _context6.next = 23;
                 break;
 
               case 5:
@@ -410,26 +436,26 @@ var Call = (_class = function (_RcModule) {
                   number: this.toNumber,
                   callSettingMode: this._callSettingMode // for Track
                 });
-                _context5.prev = 6;
-                _context5.next = 9;
+                _context6.prev = 6;
+                _context6.next = 9;
                 return this._getValidatedNumbers();
 
               case 9:
-                validatedNumbers = _context5.sent;
+                validatedNumbers = _context6.sent;
 
                 if (!validatedNumbers) {
-                  _context5.next = 16;
+                  _context6.next = 16;
                   break;
                 }
 
-                _context5.next = 13;
+                _context6.next = 13;
                 return this._makeCall(validatedNumbers);
 
               case 13:
                 this.store.dispatch({
                   type: this.actionTypes.connectSuccess
                 });
-                _context5.next = 17;
+                _context6.next = 17;
                 break;
 
               case 16:
@@ -438,27 +464,27 @@ var Call = (_class = function (_RcModule) {
                 });
 
               case 17:
-                _context5.next = 23;
+                _context6.next = 23;
                 break;
 
               case 19:
-                _context5.prev = 19;
-                _context5.t0 = _context5['catch'](6);
+                _context6.prev = 19;
+                _context6.t0 = _context6['catch'](6);
 
-                if (_context5.t0.message === _ringoutErrors2.default.firstLegConnectFailed) {
+                if (_context6.t0.message === _ringoutErrors2.default.firstLegConnectFailed) {
                   this._alert.warning({
                     message: _callErrors2.default.connectFailed,
-                    payload: _context5.t0
+                    payload: _context6.t0
                   });
-                } else if (_context5.t0.message === 'Failed to fetch') {
+                } else if (_context6.t0.message === 'Failed to fetch') {
                   this._alert.danger({
                     message: _callErrors2.default.networkError,
-                    payload: _context5.t0
+                    payload: _context6.t0
                   });
-                } else if (_context5.t0.message !== 'Refresh token has expired') {
+                } else if (_context6.t0.message !== 'Refresh token has expired') {
                   this._alert.danger({
                     message: _callErrors2.default.internalError,
-                    payload: _context5.t0
+                    payload: _context6.t0
                   });
                 }
                 this.store.dispatch({
@@ -467,14 +493,14 @@ var Call = (_class = function (_RcModule) {
 
               case 23:
               case 'end':
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this, [[6, 19]]);
+        }, _callee6, this, [[6, 19]]);
       }));
 
       function onCall() {
-        return _ref7.apply(this, arguments);
+        return _ref8.apply(this, arguments);
       }
 
       return onCall;
@@ -482,33 +508,33 @@ var Call = (_class = function (_RcModule) {
   }, {
     key: '_getValidatedNumbers',
     value: function () {
-      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
         var _this3 = this;
 
         var fromNumber, isWebphone, waitingValidateNumbers, validatedResult, parsedNumbers, parsedFromNumber;
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 fromNumber = void 0;
                 isWebphone = this._callingSettings.callingMode === _callingModes2.default.webphone;
 
                 if (!isWebphone) {
-                  _context6.next = 8;
+                  _context7.next = 8;
                   break;
                 }
 
                 fromNumber = this._callingSettings.fromNumber;
 
                 if (!(fromNumber === null || fromNumber === '')) {
-                  _context6.next = 6;
+                  _context7.next = 6;
                   break;
                 }
 
-                return _context6.abrupt('return', null);
+                return _context7.abrupt('return', null);
 
               case 6:
-                _context6.next = 9;
+                _context7.next = 9;
                 break;
 
               case 8:
@@ -520,14 +546,14 @@ var Call = (_class = function (_RcModule) {
                 if (fromNumber && fromNumber.length > 0 && !(isWebphone && fromNumber === 'anonymous')) {
                   waitingValidateNumbers.push(fromNumber);
                 }
-                _context6.next = 13;
+                _context7.next = 13;
                 return this._numberValidate.validateNumbers(waitingValidateNumbers);
 
               case 13:
-                validatedResult = _context6.sent;
+                validatedResult = _context7.sent;
 
                 if (validatedResult.result) {
-                  _context6.next = 17;
+                  _context7.next = 17;
                   break;
                 }
 
@@ -539,7 +565,7 @@ var Call = (_class = function (_RcModule) {
                     }
                   });
                 });
-                return _context6.abrupt('return', null);
+                return _context7.abrupt('return', null);
 
               case 17:
                 parsedNumbers = validatedResult.numbers;
@@ -554,81 +580,12 @@ var Call = (_class = function (_RcModule) {
                 if (isWebphone && fromNumber === 'anonymous') {
                   parsedFromNumber = 'anonymous';
                 }
-                return _context6.abrupt('return', {
+                return _context7.abrupt('return', {
                   toNumber: parsedNumbers[0].e164,
                   fromNumber: parsedFromNumber
                 });
 
               case 22:
-              case 'end':
-                return _context6.stop();
-            }
-          }
-        }, _callee6, this);
-      }));
-
-      function _getValidatedNumbers() {
-        return _ref8.apply(this, arguments);
-      }
-
-      return _getValidatedNumbers;
-    }()
-  }, {
-    key: '_makeCall',
-    value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(_ref10) {
-        var toNumber = _ref10.toNumber,
-            fromNumber = _ref10.fromNumber;
-        var callingMode, countryCode, homeCountry, homeCountryId;
-        return _regenerator2.default.wrap(function _callee7$(_context7) {
-          while (1) {
-            switch (_context7.prev = _context7.next) {
-              case 0:
-                callingMode = this._callingSettings.callingMode;
-                countryCode = this._regionSettings.countryCode;
-                homeCountry = this._regionSettings.availableCountries.find(function (country) {
-                  return country.isoCode === countryCode;
-                });
-                homeCountryId = homeCountry && homeCountry.callingCode || '1';
-                _context7.t0 = callingMode;
-                _context7.next = _context7.t0 === _callingModes2.default.softphone ? 7 : _context7.t0 === _callingModes2.default.ringout ? 9 : _context7.t0 === _callingModes2.default.webphone ? 12 : 16;
-                break;
-
-              case 7:
-                this._softphone.makeCall(toNumber);
-                return _context7.abrupt('break', 17);
-
-              case 9:
-                _context7.next = 11;
-                return this._ringout.makeCall({
-                  fromNumber: fromNumber,
-                  toNumber: toNumber,
-                  prompt: this._callingSettings.ringoutPrompt
-                });
-
-              case 11:
-                return _context7.abrupt('break', 17);
-
-              case 12:
-                if (!this._webphone) {
-                  _context7.next = 15;
-                  break;
-                }
-
-                _context7.next = 15;
-                return this._webphone.makeCall({
-                  fromNumber: fromNumber,
-                  toNumber: toNumber,
-                  homeCountryId: homeCountryId
-                });
-
-              case 15:
-                return _context7.abrupt('break', 17);
-
-              case 16:
-                return _context7.abrupt('break', 17);
-
-              case 17:
               case 'end':
                 return _context7.stop();
             }
@@ -636,8 +593,77 @@ var Call = (_class = function (_RcModule) {
         }, _callee7, this);
       }));
 
-      function _makeCall(_x2) {
+      function _getValidatedNumbers() {
         return _ref9.apply(this, arguments);
+      }
+
+      return _getValidatedNumbers;
+    }()
+  }, {
+    key: '_makeCall',
+    value: function () {
+      var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8(_ref11) {
+        var toNumber = _ref11.toNumber,
+            fromNumber = _ref11.fromNumber;
+        var callingMode, countryCode, homeCountry, homeCountryId;
+        return _regenerator2.default.wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                callingMode = this._callingSettings.callingMode;
+                countryCode = this._regionSettings.countryCode;
+                homeCountry = this._regionSettings.availableCountries.find(function (country) {
+                  return country.isoCode === countryCode;
+                });
+                homeCountryId = homeCountry && homeCountry.callingCode || '1';
+                _context8.t0 = callingMode;
+                _context8.next = _context8.t0 === _callingModes2.default.softphone ? 7 : _context8.t0 === _callingModes2.default.ringout ? 9 : _context8.t0 === _callingModes2.default.webphone ? 12 : 16;
+                break;
+
+              case 7:
+                this._softphone.makeCall(toNumber);
+                return _context8.abrupt('break', 17);
+
+              case 9:
+                _context8.next = 11;
+                return this._ringout.makeCall({
+                  fromNumber: fromNumber,
+                  toNumber: toNumber,
+                  prompt: this._callingSettings.ringoutPrompt
+                });
+
+              case 11:
+                return _context8.abrupt('break', 17);
+
+              case 12:
+                if (!this._webphone) {
+                  _context8.next = 15;
+                  break;
+                }
+
+                _context8.next = 15;
+                return this._webphone.makeCall({
+                  fromNumber: fromNumber,
+                  toNumber: toNumber,
+                  homeCountryId: homeCountryId
+                });
+
+              case 15:
+                return _context8.abrupt('break', 17);
+
+              case 16:
+                return _context8.abrupt('break', 17);
+
+              case 17:
+              case 'end':
+                return _context8.stop();
+            }
+          }
+        }, _callee8, this);
+      }));
+
+      function _makeCall(_x3) {
+        return _ref10.apply(this, arguments);
       }
 
       return _makeCall;
@@ -684,6 +710,6 @@ var Call = (_class = function (_RcModule) {
     }
   }]);
   return Call;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'onToNumberChange', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'onToNumberChange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'onCall'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_getValidatedNumbers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_getValidatedNumbers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_makeCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_makeCall'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'onToNumberChange', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'onToNumberChange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'call', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'call'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'onCall'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_getValidatedNumbers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_getValidatedNumbers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_makeCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_makeCall'), _class.prototype)), _class);
 exports.default = Call;
 //# sourceMappingURL=index.js.map
