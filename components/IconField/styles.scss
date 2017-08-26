@@ -26,6 +26,7 @@ $icon-min-width: 58px;
 .icon {
   @include vertical-align(middle);
   @include no-select;
+  display: inline-block;
   font-size: 14px;
   color: $darkgray;
 }
