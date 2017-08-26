@@ -128,6 +128,8 @@ export default class Phone extends RcModule {
       globalStorage: this.globalStorage,
       sdkConfig: {
         ...apiConfig,
+        cachePrefix,
+        clearCacheOnRefreshError: false,
       },
       getState: () => this.state.environment,
     }));
