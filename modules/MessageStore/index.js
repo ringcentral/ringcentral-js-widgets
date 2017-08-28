@@ -1146,6 +1146,11 @@ var MessageStore = (_class = function (_Pollable) {
     get: function get() {
       return this._timeToRetry;
     }
+  }, {
+    key: 'timestamp',
+    get: function get() {
+      return this.syncTimestamp;
+    }
   }]);
   return MessageStore;
 }(_Pollable3.default), (_applyDecoratedDescriptor(_class.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fetchData'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'syncConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'syncConversation'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'readMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'readMessages'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateConversationRecipientList', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'updateConversationRecipientList'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pushMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'pushMessages'), _class.prototype)), _class);
