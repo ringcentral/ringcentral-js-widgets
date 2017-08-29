@@ -89,7 +89,7 @@
     "ramda": "^0.24.1",
     "redux": "^3.5.2",
     "reselect": "2.5.4",
-    "ringcentral-web-phone": "^0.4.2",
+    "ringcentral-web-phone": "^0.4.3",
     "url-loader": "^0.5.8",
     "uuid": "^3.0.1",
     "yards": "^0.1.4"
