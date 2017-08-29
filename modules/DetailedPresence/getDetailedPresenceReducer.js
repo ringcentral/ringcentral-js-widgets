@@ -59,7 +59,7 @@ function getDataReducer(types) {
             if (!existingCall) {
               var normalizedCall = (0, _callLogHelpers.normalizeStartTime)((0, _callLogHelpers.normalizeFromTo)(activeCall));
               var startTime = normalizedCall.startTime || timestamp;
-              var offset = Math.min(startTime - timestamp, 0);
+              var offset = Math.min(timestamp - startTime, 0);
               return (0, _extends3.default)({}, normalizedCall, {
                 startTime: startTime,
                 offset: offset
