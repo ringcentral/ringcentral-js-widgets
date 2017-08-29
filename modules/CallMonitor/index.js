@@ -77,6 +77,36 @@ var _webphoneHelper = require('../Webphone/webphoneHelper');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function matchWephoneSessionWithAcitveCall(sessions, callItem) {
+  if (!sessions || !callItem.sipData) {
+    return undefined;
+  }
+  return sessions.find(function (session) {
+    if (session.direction !== callItem.direction) {
+      return false;
+    }
+    if (session.direction === _callDirections2.default.inbound && callItem.sipData.remoteUri.indexOf(session.from) === -1) {
+      return false;
+    }
+    if (session.direction === _callDirections2.default.outbound && callItem.sipData.remoteUri.indexOf(session.to) === -1) {
+      return false;
+    }
+    var webphoneStartTime = void 0;
+    if (session.direction === _callDirections2.default.inbound) {
+      webphoneStartTime = session.creationTime;
+    } else {
+      webphoneStartTime = session.startTime || session.creationTime;
+    }
+    // 16000 is from experience in test.
+    // there is delay bettween active call created and webphone session created
+    // for example, the time delay is decided by when webphone get invite info
+    if (Math.abs(callItem.startTime - webphoneStartTime) > 16000) {
+      return false;
+    }
+    return true;
+  });
+}
+
 var CallMonitor = function (_RcModule) {
   (0, _inherits3.default)(CallMonitor, _RcModule);
 
@@ -136,32 +166,7 @@ var CallMonitor = function (_RcModule) {
           phoneNumber: callItem.to && callItem.to.phoneNumber,
           countryCode: countryCode
         });
-        var webphoneSession = void 0;
-        if (sessions && callItem.sipData) {
-          webphoneSession = sessions.find(function (session) {
-            // debugger;
-            if (session.direction !== callItem.direction) {
-              return false;
-            }
-            if (session.direction === _callDirections2.default.inbound && callItem.sipData.remoteUri.indexOf(session.from) === -1) {
-              return false;
-            }
-            if (session.direction === _callDirections2.default.outbound && callItem.sipData.remoteUri.indexOf(session.to) === -1) {
-              return false;
-            }
-            var webphoneStartTime = void 0;
-            if (session.direction === _callDirections2.default.inbound) {
-              webphoneStartTime = session.creationTime;
-            } else {
-              webphoneStartTime = session.startTime || session.creationTime;
-            }
-            if (Math.abs(callItem.startTime - webphoneStartTime) > 16000) {
-              return false;
-            }
-            return true;
-          });
-        }
-
+        var webphoneSession = matchWephoneSessionWithAcitveCall(sessions, callItem);
         return (0, _extends3.default)({}, callItem, {
           from: {
             phoneNumber: fromNumber
@@ -172,14 +177,6 @@ var CallMonitor = function (_RcModule) {
           startTime: webphoneSession && webphoneSession.startTime || callItem.startTime,
           webphoneSession: webphoneSession
         });
-      }).filter(function (callItem) {
-        if (!callItem.webphoneSession || !sessions) {
-          return true;
-        }
-        var session = sessions.find(function (sessionItem) {
-          return callItem.webphoneSession.id === sessionItem.id;
-        });
-        return !!session;
       }).sort(_callLogHelpers.sortByStartTime);
     });
 
@@ -228,9 +225,18 @@ var CallMonitor = function (_RcModule) {
       });
     });
 
-    _this.addSelector('otherDeviceCalls', _this._selectors.calls, function (calls) {
+    _this.addSelector('otherDeviceCalls', _this._selectors.calls, function () {
+      return _this._webphone && _this._webphone.lastEndedSessions;
+    }, function (calls, lastEndedSessions) {
       return calls.filter(function (callItem) {
-        return !callItem.webphoneSession;
+        if (callItem.webphoneSession) {
+          return false;
+        }
+        if (!lastEndedSessions) {
+          return true;
+        }
+        var endCall = matchWephoneSessionWithAcitveCall(lastEndedSessions, callItem);
+        return !endCall;
       });
     });
 

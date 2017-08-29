@@ -1051,16 +1051,18 @@ var Webphone = (_class = function (_RcModule) {
 
               case 10:
                 validPhoneNumber = validatedResult.numbers[0] && validatedResult.numbers[0].e164;
-                _context9.next = 13;
+
+                session.isForwarded = true;
+                _context9.next = 14;
                 return session.forward(validPhoneNumber, this.acceptOptions);
 
-              case 13:
+              case 14:
                 console.log('Forwarded');
                 this._onCallEnd(session);
                 return _context9.abrupt('return', true);
 
-              case 18:
-                _context9.prev = 18;
+              case 19:
+                _context9.prev = 19;
                 _context9.t0 = _context9['catch'](3);
 
                 console.error(_context9.t0);
@@ -1069,12 +1071,12 @@ var Webphone = (_class = function (_RcModule) {
                 });
                 return _context9.abrupt('return', false);
 
-              case 23:
+              case 24:
               case 'end':
                 return _context9.stop();
             }
           }
-        }, _callee9, this, [[3, 18]]);
+        }, _callee9, this, [[3, 19]]);
       }));
 
       function forward(_x5, _x6) {
@@ -1853,15 +1855,17 @@ var Webphone = (_class = function (_RcModule) {
 
               case 3:
                 _context25.prev = 3;
-                _context25.next = 6;
+
+                session.isToVoicemail = true;
+                _context25.next = 7;
                 return session.toVoicemail();
 
-              case 6:
-                _context25.next = 13;
+              case 7:
+                _context25.next = 14;
                 break;
 
-              case 8:
-                _context25.prev = 8;
+              case 9:
+                _context25.prev = 9;
                 _context25.t0 = _context25['catch'](3);
 
                 console.error(_context25.t0);
@@ -1870,12 +1874,12 @@ var Webphone = (_class = function (_RcModule) {
                   message: _webphoneErrors2.default.toVoiceMailError
                 });
 
-              case 13:
+              case 14:
               case 'end':
                 return _context25.stop();
             }
           }
-        }, _callee25, this, [[3, 8]]);
+        }, _callee25, this, [[3, 9]]);
       }));
 
       function toVoiceMail(_x25) {
@@ -1904,26 +1908,28 @@ var Webphone = (_class = function (_RcModule) {
 
               case 3:
                 _context26.prev = 3;
-                _context26.next = 6;
+
+                session.isReplied = true;
+                _context26.next = 7;
                 return session.replyWithMessage(replyOptions);
 
-              case 6:
-                _context26.next = 12;
+              case 7:
+                _context26.next = 13;
                 break;
 
-              case 8:
-                _context26.prev = 8;
+              case 9:
+                _context26.prev = 9;
                 _context26.t0 = _context26['catch'](3);
 
                 console.error(_context26.t0);
                 this._onCallEnd(session);
 
-              case 12:
+              case 13:
               case 'end':
                 return _context26.stop();
             }
           }
-        }, _callee26, this, [[3, 8]]);
+        }, _callee26, this, [[3, 9]]);
       }));
 
       function replyWithMessage(_x26, _x27) {
@@ -2099,25 +2105,27 @@ var Webphone = (_class = function (_RcModule) {
     key: '_onCallStart',
     value: function _onCallStart(session) {
       this._addSession(session);
+      var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
       this.store.dispatch({
         type: this.actionTypes.callStart,
-        sessionId: session.id,
+        session: normalizedSession,
         sessions: this.sessions
       });
       if (this._contactMatcher) {
         this._contactMatcher.triggerMatch();
       }
       if (typeof this._onCallStartFunc === 'function') {
-        this._onCallStartFunc(session, this.activeSession);
+        this._onCallStartFunc(normalizedSession, this.activeSession);
       }
     }
   }, {
     key: '_onCallRing',
     value: function _onCallRing(session) {
       this._addSession(session);
+      var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
       this.store.dispatch({
         type: this.actionTypes.callRing,
-        sessionId: session.id,
+        session: normalizedSession,
         sessions: this.sessions
       });
       if (this._contactMatcher) {
@@ -2127,20 +2135,21 @@ var Webphone = (_class = function (_RcModule) {
         this._webphone.userAgent.audioHelper.playIncoming(false);
       }
       if (typeof this._onCallRingFunc === 'function') {
-        this._onCallRingFunc(session, this.ringSession);
+        this._onCallRingFunc(normalizedSession, this.ringSession);
       }
     }
   }, {
     key: '_onCallEnd',
     value: function _onCallEnd(session) {
       this._removeSession(session);
+      var normalizedSession = (0, _webphoneHelper.normalizeSession)(session);
       this.store.dispatch({
         type: this.actionTypes.callEnd,
-        sessionId: session.id,
+        session: normalizedSession,
         sessions: this.sessions
       });
       if (typeof this._onCallEndFunc === 'function') {
-        this._onCallEndFunc(session, this.activeSession);
+        this._onCallEndFunc(normalizedSession, this.activeSession);
       }
     }
   }, {
@@ -2312,6 +2321,11 @@ var Webphone = (_class = function (_RcModule) {
     key: 'onHoldSessions',
     get: function get() {
       return this._selectors.onHoldSessions();
+    }
+  }, {
+    key: 'lastEndedSessions',
+    get: function get() {
+      return this.state.lastEndedSessions;
     }
   }, {
     key: 'videoElementPrepared',

@@ -49,6 +49,9 @@ function normalizeSession(session) {
     isOnMute: !!session.isOnMute,
     isOnFlip: !!session.isOnFlip,
     isOnTransfer: !!session.isOnTransfer,
+    isToVoicemail: !!session.isToVoicemail,
+    isForwarded: !!session.isForwarded,
+    isReplied: !!session.isForwarded,
     recordStatus: session.recordStatus || _recordStatus2.default.idle,
     contactMatch: session.contactMatch,
     minimized: !!session.minimized

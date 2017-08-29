@@ -9,6 +9,7 @@ exports.getErrorCodeReducer = getErrorCodeReducer;
 exports.getConnectRetryCountsReducer = getConnectRetryCountsReducer;
 exports.getActiveSessionIdReducer = getActiveSessionIdReducer;
 exports.getRingSessionIdReducer = getRingSessionIdReducer;
+exports.getLastEndedSessionsReducer = getLastEndedSessionsReducer;
 exports.getSessionsReducer = getSessionsReducer;
 exports.getUserMediaReducer = getUserMediaReducer;
 exports.default = getWebphoneReducer;
@@ -106,20 +107,21 @@ function getActiveSessionIdReducer(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref5 = arguments[1];
     var type = _ref5.type,
-        sessionId = _ref5.sessionId,
+        _ref5$session = _ref5.session,
+        session = _ref5$session === undefined ? {} : _ref5$session,
         _ref5$sessions = _ref5.sessions,
         sessions = _ref5$sessions === undefined ? [] : _ref5$sessions;
 
     var onHoldSessions = void 0;
     switch (type) {
       case types.callStart:
-        return sessionId;
+        return session.id;
       case types.callEnd:
-        if (sessionId !== state) {
+        if (session.id !== state) {
           return state;
         }
-        onHoldSessions = sessions.filter(function (session) {
-          return (0, _webphoneHelper.isOnHold)(session);
+        onHoldSessions = sessions.filter(function (sessionItem) {
+          return (0, _webphoneHelper.isOnHold)(sessionItem);
         });
         if (onHoldSessions && onHoldSessions[0]) {
           return onHoldSessions[0].id;
@@ -138,21 +140,22 @@ function getRingSessionIdReducer(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref6 = arguments[1];
     var type = _ref6.type,
-        sessionId = _ref6.sessionId,
+        _ref6$session = _ref6.session,
+        session = _ref6$session === undefined ? {} : _ref6$session,
         _ref6$sessions = _ref6.sessions,
         sessions = _ref6$sessions === undefined ? [] : _ref6$sessions;
 
     var ringSessions = void 0;
     switch (type) {
       case types.callRing:
-        return sessionId;
+        return session.id;
       case types.callStart:
       case types.callEnd:
-        if (sessionId !== state) {
+        if (session.id !== state) {
           return state;
         }
-        ringSessions = sessions.filter(function (session) {
-          return (0, _webphoneHelper.isRing)(session);
+        ringSessions = sessions.filter(function (sessionItem) {
+          return (0, _webphoneHelper.isRing)(sessionItem);
         });
         if (ringSessions && ringSessions[0]) {
           return ringSessions[0].id;
@@ -166,12 +169,41 @@ function getRingSessionIdReducer(types) {
   };
 }
 
-function getSessionsReducer(types) {
+function getLastEndedSessionsReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
     var _ref7 = arguments[1];
     var type = _ref7.type,
-        sessions = _ref7.sessions;
+        _ref7$session = _ref7.session,
+        session = _ref7$session === undefined ? {} : _ref7$session;
+
+    var lastSessions = void 0;
+    switch (type) {
+      case types.callEnd:
+        if (
+        /**
+        * don't add incoming call that isn't relied by current app
+        *   to end sessions. this call can be answered by other apps
+        */
+        !session.startTime && !session.isToVoicemail && !session.isForwarded && !session.isReplied) {
+          return state;
+        }
+        lastSessions = [session].concat(state.filter(function (sessionItem) {
+          return sessionItem.id !== session.id;
+        }));
+        return lastSessions.slice(0, 5);
+      default:
+        return state;
+    }
+  };
+}
+
+function getSessionsReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var _ref8 = arguments[1];
+    var type = _ref8.type,
+        sessions = _ref8.sessions;
 
     switch (type) {
       case types.updateSessions:
@@ -187,8 +219,8 @@ function getSessionsReducer(types) {
 function getUserMediaReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-    var _ref8 = arguments[1];
-    var type = _ref8.type;
+    var _ref9 = arguments[1];
+    var type = _ref9.type;
 
     switch (type) {
       case types.getUserMediaSuccess:
@@ -208,7 +240,8 @@ function getWebphoneReducer(types) {
     errorCode: getErrorCodeReducer(types),
     activeSessionId: getActiveSessionIdReducer(types),
     ringSessionId: getRingSessionIdReducer(types),
-    sessions: getSessionsReducer(types)
+    sessions: getSessionsReducer(types),
+    lastEndedSessions: getLastEndedSessionsReducer(types)
   });
 }
 //# sourceMappingURL=getWebphoneReducer.js.map
