@@ -10,7 +10,7 @@
 
 RingCentral integration common library aims to provide reusable modules to allow developers to integrate RingCentral unified communication service into third party processes or tools more easily.
 
-This project is built based on [RingCentral Client](https://www.npmjs.com/package/ringcentral-client) and [Redux](https://github.com/reactjs/redux). The basic idea is to wrap [RingCentral REST API](https://developer.ringcentral.com/) into highly reusable modules based on common application scenarios and provide an unified application state. 
+This project is built based on [RingCentral Client](https://www.npmjs.com/package/ringcentral-client) and [Redux](https://github.com/reactjs/redux). The basic idea is to wrap [RingCentral REST API](https://developer.ringcentral.com/) into highly reusable modules based on common application scenarios and provide an unified application state.
 
 ## Get Started
 
@@ -44,7 +44,7 @@ phone.setStore(store);
 
 Now you are armed with a set of RingCentral services.
 
-**Notice: If you have no idea what this section is talking about, which is the case most of the time, please reference next section for more info.** 
+**Notice: If you have no idea what this section is talking about, which is the case most of the time, please reference next section for more info.**
 
 ## High Level Concept
 
@@ -112,7 +112,7 @@ Clone the repo
 git clone https://github.com/ringcentral/ringcentral-js-integration-commons.git
 ```
 
-Create a file named config.js in following format in folder `dev-server` to specify app related info 
+Create a file named config.js in following format in folder `dev-server` to specify app related info
 
 ```javascript
 export default {
@@ -130,15 +130,17 @@ Run following command to start development server
 npm run dev-server
 ```
 
-The development server is listening on port 8190 by default. Open up your browser and access `localhost:8190` to see how it works. 
+The development server is listening on port 8190 by default. Open up your browser and access `localhost:8190` to see how it works.
 
 ## Modules
 ---
 
 - [x] AccountExtension
 - [x] AccountInfo
+- [x] AccountPhoneNumber
 - [x] Alert
 - [x] Auth
+- [x] AddressBook
 - [x] BlockedNumber
 - [x] Brand
 - [x] Call
@@ -147,10 +149,13 @@ The development server is listening on port 8190 by default. Open up your browse
 - [x] ConnectivityMonitor
 - [x] Conversation
 - [x] ContactSearch
+- [x] Contacts
 - [x] DialingPlan
+- [x] DetailedPresence
 - [x] Environment
 - [x] ExtensionInfo
 - [x] ExtensionPhoneNumber
+- [x] ExtensionDevice
 - [x] GlobalStorage
 - [x] Locale
 - [x] MessageSender
@@ -159,6 +164,8 @@ The development server is listening on port 8190 by default. Open up your browse
 - [x] NumberValidate
 - [x] Presence
 - [x] RateLimiter
+- [x] RecentCalls
+- [x] RecentMessages
 - [x] RegionSettings
 - [x] Ringout
 - [x] RolesAndPermissions
@@ -166,8 +173,7 @@ The development server is listening on port 8190 by default. Open up your browse
 - [x] Storage
 - [x] Subscription
 - [x] TabManager
-- [ ] DialingPlan
-- [ ] PhoneNumbers
+- [x] Webphone
 - more...
 
 ## Contribution
