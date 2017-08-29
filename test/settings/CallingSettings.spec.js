@@ -55,7 +55,7 @@ describe('calling settings', () => {
     await saveButton.simulate('click');
 
     message = store.getState(wrapper).alert.messages.find(item => /emergencyCallingNotAvailble/.test(item.message));
-    expect(message).toExist();
+    expect(message).toBeTruthy();
     expect(message.level).toEqual('info');
   });
 });
