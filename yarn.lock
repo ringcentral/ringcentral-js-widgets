@@ -6646,11 +6646,33 @@ ringcentral-integration@^0.7.15:
     uuid "^3.0.1"
     yards "^0.1.4"
 
+"ringcentral-integration@https://github.com/ringcentral/ringcentral-js-integration-commons#23f399c":
+  version "0.1.0"
+  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#23f399c"
+  dependencies:
+    file-loader "^0.11.2"
+    json-mask "^0.3.8"
+    loganberry "^0.9.1"
+    phoneformat.js "^1.0.3"
+    ramda "^0.24.1"
+    redux "^3.5.2"
+    reselect "2.5.4"
+    ringcentral-web-phone "^0.4.3"
+    url-loader "^0.5.8"
+    uuid "^3.0.1"
+    yards "^0.1.4"
+
 ringcentral-web-phone@^0.4.2:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/ringcentral-web-phone/-/ringcentral-web-phone-0.4.2.tgz#6a854f4691472715fbbcb4f94b8ee1dc3a835c33"
   dependencies:
     sip.js "^0.7.7"
+
+ringcentral-web-phone@^0.4.3:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/ringcentral-web-phone/-/ringcentral-web-phone-0.4.3.tgz#13d4a137f1246b4fc4b2c68e03d66b77a749f37b"
+  dependencies:
+    sip.js "^0.7.8"
 
 ringcentral@^3.1.3:
   version "3.1.3"
@@ -6863,7 +6885,7 @@ signal-exit@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
-sip.js@^0.7.7:
+sip.js@^0.7.7, sip.js@^0.7.8:
   version "0.7.8"
   resolved "https://registry.yarnpkg.com/sip.js/-/sip.js-0.7.8.tgz#48709ba13485bcc050869b77a93c21658095b430"
   dependencies:

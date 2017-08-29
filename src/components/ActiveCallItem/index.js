@@ -211,6 +211,7 @@ export default class ActiveCallItem extends Component {
         telephonyStatus,
         startTime,
         webphoneSession,
+        offset,
       },
       disableLinks,
       currentLocale,
@@ -236,7 +237,7 @@ export default class ActiveCallItem extends Component {
         {
           disableLinks ?
             i18n.getString('unavailable', currentLocale) :
-            <DurationCounter startTime={startTime} />
+            <DurationCounter startTime={startTime} offset={offset} />
         }
         <span className={styles.split}>|</span>
         { i18n.getString(telephonyStatus, currentLocale) }
