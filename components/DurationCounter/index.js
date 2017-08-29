@@ -68,8 +68,9 @@ var DurationCounter = function (_Component) {
   }, {
     key: 'calculateState',
     value: function calculateState() {
+      var startTime = this.props.startTime + this.props.offset;
       return {
-        duration: Math.round((new Date().getTime() - this.props.startTime) / 1000)
+        duration: Math.round((new Date().getTime() - startTime) / 1000)
       };
     }
   }, {
@@ -90,10 +91,12 @@ exports.default = DurationCounter;
 
 DurationCounter.propTypes = {
   className: _propTypes2.default.string,
-  startTime: _propTypes2.default.number.isRequired
+  startTime: _propTypes2.default.number.isRequired,
+  offset: _propTypes2.default.number
 };
 
 DurationCounter.defaultProps = {
-  className: null
+  className: null,
+  offset: 0
 };
 //# sourceMappingURL=index.js.map

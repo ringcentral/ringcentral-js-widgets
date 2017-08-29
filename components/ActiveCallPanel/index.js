@@ -55,7 +55,7 @@ function CallInfo(props) {
       { className: _styles2.default.splitLine },
       '|'
     ),
-    _react2.default.createElement(_DurationCounter2.default, { startTime: props.startTime })
+    _react2.default.createElement(_DurationCounter2.default, { startTime: props.startTime, offset: props.offset })
   ) : null;
   var avatar = void 0;
   if (props.avatarUrl) {
@@ -114,6 +114,7 @@ CallInfo.propTypes = {
   phoneNumber: _propTypes2.default.string,
   formatPhone: _propTypes2.default.func.isRequired,
   startTime: _propTypes2.default.number,
+  offset: _propTypes2.default.number,
   nameMatches: _propTypes2.default.array.isRequired,
   fallBackName: _propTypes2.default.string.isRequired,
   areaCode: _propTypes2.default.string.isRequired,
@@ -129,6 +130,7 @@ CallInfo.propTypes = {
 CallInfo.defaultProps = {
   phoneNumber: null,
   startTime: null,
+  offset: 0,
   avatarUrl: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true

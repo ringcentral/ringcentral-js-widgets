@@ -377,6 +377,7 @@ var ActiveCallItem = function (_Component) {
           telephonyStatus = _props$call.telephonyStatus,
           startTime = _props$call.startTime,
           webphoneSession = _props$call.webphoneSession,
+          offset = _props$call.offset,
           disableLinks = _props.disableLinks,
           currentLocale = _props.currentLocale,
           formatPhone = _props.formatPhone;
@@ -398,7 +399,7 @@ var ActiveCallItem = function (_Component) {
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.callDetail },
-        disableLinks ? _i18n2.default.getString('unavailable', currentLocale) : _react2.default.createElement(_DurationCounter2.default, { startTime: startTime }),
+        disableLinks ? _i18n2.default.getString('unavailable', currentLocale) : _react2.default.createElement(_DurationCounter2.default, { startTime: startTime, offset: offset }),
         _react2.default.createElement(
           'span',
           { className: _styles2.default.split },

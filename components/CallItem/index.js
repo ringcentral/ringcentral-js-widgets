@@ -438,6 +438,7 @@ var CallItem = function (_Component) {
           startTime = _props$call.startTime,
           duration = _props$call.duration,
           activityMatches = _props$call.activityMatches,
+          offset = _props$call.offset,
           currentLocale = _props.currentLocale,
           areaCode = _props.areaCode,
           countryCode = _props.countryCode,
@@ -466,7 +467,7 @@ var CallItem = function (_Component) {
 
       var durationEl = void 0;
       if (typeof duration === 'undefined') {
-        durationEl = disableLinks ? _i18n2.default.getString('unavailable', currentLocale) : _react2.default.createElement(_DurationCounter2.default, { startTime: startTime });
+        durationEl = disableLinks ? _i18n2.default.getString('unavailable', currentLocale) : _react2.default.createElement(_DurationCounter2.default, { startTime: startTime, offset: offset });
       } else {
         durationEl = (0, _formatDuration2.default)(duration);
       }
