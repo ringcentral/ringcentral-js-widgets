@@ -15,7 +15,7 @@ function CallInfo(props) {
     (
       <span className={styles.timeCounter}>
         <span className={styles.splitLine}>|</span>
-        <DurationCounter startTime={props.startTime} />
+        <DurationCounter startTime={props.startTime} offset={props.offset} />
       </span>
     ) : null;
   let avatar;
@@ -65,6 +65,7 @@ CallInfo.propTypes = {
   phoneNumber: PropTypes.string,
   formatPhone: PropTypes.func.isRequired,
   startTime: PropTypes.number,
+  offset: PropTypes.number,
   nameMatches: PropTypes.array.isRequired,
   fallBackName: PropTypes.string.isRequired,
   areaCode: PropTypes.string.isRequired,
@@ -80,6 +81,7 @@ CallInfo.propTypes = {
 CallInfo.defaultProps = {
   phoneNumber: null,
   startTime: null,
+  offset: 0,
   avatarUrl: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,

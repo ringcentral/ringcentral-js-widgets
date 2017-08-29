@@ -249,11 +249,12 @@ export default class CallItem extends Component {
     const {
       call: {
         direction,
-      telephonyStatus,
-      result,
-      startTime,
-      duration,
-      activityMatches,
+        telephonyStatus,
+        result,
+        startTime,
+        duration,
+        activityMatches,
+        offset,
       // webphoneSession,
     },
       currentLocale,
@@ -298,7 +299,7 @@ export default class CallItem extends Component {
     if (typeof duration === 'undefined') {
       durationEl = disableLinks ?
         i18n.getString('unavailable', currentLocale) :
-        <DurationCounter startTime={startTime} />;
+        <DurationCounter startTime={startTime} offset={offset} />;
     } else {
       durationEl = formatDuration(duration);
     }
