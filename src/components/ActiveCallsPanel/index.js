@@ -119,7 +119,6 @@ ActiveCallList.defaultProps = {
 };
 
 export default function ActiveCallsPanel({
-  hasCalls,
   activeRingCalls,
   activeOnHoldCalls,
   activeCurrentCalls,
@@ -150,6 +149,12 @@ export default function ActiveCallsPanel({
   if (showSpinner) {
     return (<SpinnerOverlay />);
   }
+  const hasCalls = (
+    activeRingCalls.length > 0 ||
+    activeOnHoldCalls.length > 0 ||
+    activeCurrentCalls.length > 0 ||
+    otherDeviceCalls.length > 0
+  );
   if (!hasCalls) {
     return (
       <div className={classnames(styles.root, className)}>
@@ -196,7 +201,6 @@ export default function ActiveCallsPanel({
 }
 
 ActiveCallsPanel.propTypes = {
-  hasCalls: PropTypes.bool.isRequired,
   currentLocale: PropTypes.string.isRequired,
   className: PropTypes.string,
   activeRingCalls: PropTypes.array.isRequired,
