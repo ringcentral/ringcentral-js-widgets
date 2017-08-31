@@ -35,8 +35,8 @@ export default function MultiCallAnswerButton(props) {
         icon={Icon}
       />
       <CircleButton
-        width={'190'}
-        height={'190'}
+        width={'200'}
+        height={'200'}
         x={220}
         y={80}
         className={classnames(styles.button, styles.answer)}
