@@ -19,26 +19,26 @@ export default function MultiCallAnswerButton(props) {
   return (
     <svg
       className={props.className}
-      viewBox="0 0 500 500"
+      viewBox="0 0 500 600"
       width={props.width}
       height={props.height}
       x={props.x}
       y={props.y}
     >
       <CircleButton
-        width={'160'}
-        height={'160'}
-        x={120}
-        y={40}
+        width={'200'}
+        height={'200'}
+        x={60}
+        y={60}
         className={iconClassName}
         onClick={props.onClick}
         icon={Icon}
       />
       <CircleButton
-        width={'200'}
-        height={'200'}
-        x={220}
-        y={80}
+        width={'250'}
+        height={'250'}
+        x={200}
+        y={120}
         className={classnames(styles.button, styles.answer)}
         showBorder={false}
         onClick={props.onClick}
@@ -47,7 +47,7 @@ export default function MultiCallAnswerButton(props) {
       <text
         className={styles.buttonTitle}
         x="250"
-        y="405"
+        y="515"
         textAnchor="middle"
       >
         {props.title}

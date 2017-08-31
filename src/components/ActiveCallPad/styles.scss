@@ -9,18 +9,18 @@
 }
 
 .callButton {
-  width: 33.33%;
+  width: 25%;
   box-sizing: border-box;
-  padding: 0 7px;
+  padding: 1px;
 }
 
 .buttonRow {
   text-align: left;
-  height: 33.33%;
+  height: 50%;
 }
 
 .button {
-  width: 17.2%;
+  width: 18.3%;
   height: 100%;
   border-radius: 63%;
   margin-left: auto;
@@ -42,9 +42,10 @@
 }
 
 .callCtrlButtonGroup {
-  height: 70%;
+  height: 66%;
 }
 
 .stopButtonGroup {
   height: 20%;
+  padding-top: 4%;
 }
