@@ -6,8 +6,9 @@
   box-sizing: border-box;
   width: 100%;
   display: block;
-  padding: 0 0 20px 0;
+  padding: 0 0 10px 0;
   background: #ffffff;
+  @include primary-font;
 }
 
 .buttonGroup {
@@ -15,6 +16,7 @@
   display: block;
   margin-top: 10px;
   padding: 0 20px;
+  text-align: right;
 }
 
 .cancelButton {
@@ -27,7 +29,7 @@
   border: solid 1px $primary-color-highlight;
   line-height: 28px;
   text-align: center;
-  margin-right: 20px;
+  margin-right: 10px;
   opacity: 0.9;
   &:hover {
     color: $primary-color;
@@ -49,7 +51,7 @@
   }
   &.disabled {
     background: #ffffff;
-    border: solid 1px #e3e3e3;
+    border: solid 1px $disabled-border-color;
     .buttonText {
       color: $darkergray;
     }
@@ -60,14 +62,15 @@
   display: none;
   padding: 0;
   background: #ffffff;
-  border: none;
+  border: solid 1px #e3e3e3;
+  width: 90%;
+  height: 26px;
   margin-top: 10px;
   input {
     @include secondary-font;
-    padding: 0;
+    padding: 0 10px;
     font-size: 12px;
     line-height: 14px;
-    padding: 7px 10px;
   }
 }
 
@@ -75,8 +78,9 @@
   padding: 5px 20px 10px 20px;
   .customLabel {
     @include secondary-font;
-    font-size: 14px;
     line-height: 16px;
+    font-weight: 300;
+    cursor: pointer;
   }
   &.active {
     .customLabel {
@@ -90,21 +94,23 @@
 
 .active {
   color: $primary-color;
-  background-color: #f5f5f5;
+  background-color: #f9f9f9;
 }
 
 .numbers {
   @include secondary-font;
+  font-weight: 300;
   width: 100%;
-  font-size: 14px;
-  line-height: 18px;
-  max-height: 80px;
+  line-height: 28px;
+  max-height: 84px;
   overflow-y: auto;
   overflow-x: hidden;
   .number {
     box-sizing: border-box;
     height: 28px;
-    padding: 5px 0 5px 20px;
+    padding: 0 0 0 20px;
+    cursor: pointer;
+    line-height: 28px;
     span {
       display: inline-block;
       @include text-ellipsis;
