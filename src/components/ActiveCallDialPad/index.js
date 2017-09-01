@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import DialPad from '../DialPad';
-import ActiveCallButton from '../ActiveCallButton';
 import CircleButton from '../CircleButton';
 import BackHeader from '../BackHeader';
 
