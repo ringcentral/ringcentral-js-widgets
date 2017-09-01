@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import DialPad from '../DialPad';
 import BackHeader from '../BackHeader';
-import ActiveCallButton from '../ActiveCallButton';
 import CircleButton from '../CircleButton';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import TransferIcon from '../../assets/images/Transfer.svg';
