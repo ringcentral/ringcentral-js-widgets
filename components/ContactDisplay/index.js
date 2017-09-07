@@ -117,7 +117,9 @@ function ContactDisplay(_ref2) {
     var _title = displayFomatter({
       entityName: _display2,
       entityType: contactMatches[0].entityType,
-      phoneNumber: phoneNumber
+      phoneNumber: phoneNumber,
+      brand: brand,
+      currentLocale: currentLocale
     });
     contentEl = _react2.default.createElement(
       'div',

@@ -181,7 +181,7 @@ var DropdownSelect = function (_Component) {
       return _react2.default.createElement(
         'ul',
         {
-          className: (0, _classnames2.default)(_styles2.default.dropdown, placeholder && _styles2.default.placeholder, ellipsis && _styles2.default.ellipsis),
+          className: (0, _classnames2.default)(_styles2.default.dropdown, placeholder && _styles2.default.placeholder),
           ref: function ref(_ref) {
             _this2.dropdownMenu = _ref;
           } },
@@ -193,7 +193,7 @@ var DropdownSelect = function (_Component) {
             'li',
             {
               key: currentValue,
-              className: (0, _classnames2.default)(className, _styles2.default[_this2.props.dropdownAlign], placeholder && _styles2.default.placeholder),
+              className: (0, _classnames2.default)(className, _styles2.default[_this2.props.dropdownAlign], ellipsis && _styles2.default.ellipsis, placeholder && _styles2.default.placeholder),
               value: currentValue,
               title: _this2.renderTitle(option, display),
               onClick: function onClick(e) {

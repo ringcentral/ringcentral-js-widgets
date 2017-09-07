@@ -137,7 +137,7 @@
   cursor: not-allowed;
 }
 
-.ellipsis, .ellipsis li {
+.ellipsis {
   @include text-ellipsis;
 }
 
