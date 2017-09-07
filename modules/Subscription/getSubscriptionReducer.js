@@ -82,7 +82,11 @@ function getMessageReducer(types) {
         _ref3$message = _ref3.message,
         message = _ref3$message === undefined ? state : _ref3$message;
 
-    if (type === types.notification) return message;
+    if (type === types.notification) {
+      return message;
+    } else if (type === types.resetSuccess) {
+      return null;
+    }
     return state;
   };
 }
