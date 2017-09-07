@@ -50,6 +50,7 @@ function mapToFunctions(_, {
   router,
   contactSearch,
   isLoggedContact,
+  onCallsEmpty,
 }) {
   return {
     formatPhone: phoneNumber => formatNumber({
@@ -58,7 +59,8 @@ function mapToFunctions(_, {
       countryCode: regionSettings.countryCode,
     }),
     webphoneAnswer: (...args) => (webphone && webphone.answer(...args)),
-    webphoneReject: (...args) => (webphone && webphone.toVoiceMail(...args)),
+    webphoneToVoicemail: (...args) => (webphone && webphone.toVoiceMail(...args)),
+    webphoneReject: (...args) => (webphone && webphone.reject(...args)),
     webphoneHangup: (...args) => (webphone && webphone.hangup(...args)),
     webphoneResume: async (...args) => {
       if (!webphone) {
@@ -117,6 +119,7 @@ function mapToFunctions(_, {
         redirect,
       });
     })),
+    onCallsEmpty,
   };
 }
 
