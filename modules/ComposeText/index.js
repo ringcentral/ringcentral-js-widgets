@@ -221,10 +221,10 @@ var ComposeText = (_class = function (_RcModule) {
     key: '_alertWarning',
     value: function _alertWarning(message) {
       if (message) {
-        this._alert.warning({
-          message: message,
-          ttl: 0
-        });
+        var ttlConfig = message !== _messageSenderMessages2.default.noAreaCode ? { ttl: 0 } : null;
+        this._alert.warning((0, _extends3.default)({
+          message: message
+        }, ttlConfig));
         return true;
       }
       return false;
