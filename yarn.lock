@@ -6630,9 +6630,9 @@ ringcentral-client@^1.0.0-rc1:
     form-data "^2.1.2"
     isomorphic-fetch "^2.2.1"
 
-"ringcentral-integration@https://github.com/ringcentral/ringcentral-js-integration-commons#8bfcb54":
+"ringcentral-integration@https://github.com/ringcentral/ringcentral-js-integration-commons#dbe03a1":
   version "0.1.0"
-  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#8bfcb54"
+  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#dbe03a1"
   dependencies:
     file-loader "^0.11.2"
     json-mask "^0.3.8"
@@ -6646,9 +6646,9 @@ ringcentral-client@^1.0.0-rc1:
     uuid "^3.0.1"
     yards "^0.1.4"
 
-"ringcentral-integration@https://github.com/ringcentral/ringcentral-js-integration-commons#dbe03a1":
+"ringcentral-integration@https://github.com/ringcentral/ringcentral-js-integration-commons#latest":
   version "0.1.0"
-  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#dbe03a1"
+  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#06757486900c3a5e6683e3f16e7c3ecceceaa0ab"
   dependencies:
     file-loader "^0.11.2"
     json-mask "^0.3.8"
