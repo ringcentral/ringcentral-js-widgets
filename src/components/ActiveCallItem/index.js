@@ -75,7 +75,7 @@ function WebphoneButtons({
   webphoneHangup,
   webphoneResume,
 }) {
-  if (!session || !webphoneAnswer || !webphoneReject) {
+  if (!session || !webphoneAnswer || !webphoneHangup) {
     return null;
   }
   let hangupFunc = webphoneHangup;
@@ -147,6 +147,16 @@ export default class ActiveCallItem extends Component {
         extended: !preState.extended,
       }));
     };
+
+    this.webphoneToVoicemail = (sessionId) => {
+      if (typeof this.props.webphoneToVoicemail !== 'function') {
+        return;
+      }
+      this.props.webphoneToVoicemail(sessionId);
+      this.toVoicemailTimeout = setTimeout(() => {
+        this.props.webphoneReject(sessionId);
+      }, 3000);
+    };
   }
 
   componentDidMount() {
@@ -155,6 +165,10 @@ export default class ActiveCallItem extends Component {
 
   componentWillUnmount() {
     this._mounted = false;
+    if (this.toVoicemailTimeout) {
+      clearTimeout(this.toVoicemailTimeout);
+      this.toVoicemailTimeout = null;
+    }
   }
 
   onSelectContact = (value) => {
@@ -343,7 +357,6 @@ export default class ActiveCallItem extends Component {
       onCreateContact,
       onLogCall,
       webphoneAnswer,
-      webphoneReject,
       webphoneHangup,
       webphoneResume,
     } = this.props;
@@ -398,7 +411,7 @@ export default class ActiveCallItem extends Component {
           <WebphoneButtons
             session={webphoneSession}
             webphoneAnswer={webphoneAnswer}
-            webphoneReject={webphoneReject}
+            webphoneReject={this.webphoneToVoicemail}
             webphoneHangup={webphoneHangup}
             webphoneResume={webphoneResume}
           />
@@ -466,6 +479,7 @@ ActiveCallItem.propTypes = {
   webphoneReject: PropTypes.func,
   webphoneHangup: PropTypes.func,
   webphoneResume: PropTypes.func,
+  webphoneToVoicemail: PropTypes.func,
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
   brand: PropTypes.string,
@@ -490,6 +504,7 @@ ActiveCallItem.defaultProps = {
   webphoneReject: undefined,
   webphoneHangup: undefined,
   webphoneResume: undefined,
+  webphoneToVoicemail: undefined,
   enableContactFallback: undefined,
   autoLog: false,
   brand: 'RingCentral',

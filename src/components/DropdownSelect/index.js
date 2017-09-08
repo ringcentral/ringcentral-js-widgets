@@ -117,8 +117,7 @@ class DropdownSelect extends Component {
     return (
       <ul
         className={classnames(styles.dropdown,
-          placeholder && styles.placeholder,
-          ellipsis && styles.ellipsis)}
+          placeholder && styles.placeholder)}
         ref={(ref) => { this.dropdownMenu = ref; }}>
         {
           options.map((option, idx) => {
@@ -133,6 +132,7 @@ class DropdownSelect extends Component {
                 key={currentValue}
                 className={classnames(className,
                   styles[this.props.dropdownAlign],
+                  ellipsis && styles.ellipsis,
                   placeholder && styles.placeholder)}
                 value={currentValue}
                 title={this.renderTitle(option, display)}

@@ -84,6 +84,8 @@ export default function ContactDisplay({
       entityName: display,
       entityType: contactMatches[0].entityType,
       phoneNumber,
+      brand,
+      currentLocale
     });
     contentEl = (
       <div title={title}>
