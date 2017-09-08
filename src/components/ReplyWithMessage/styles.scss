@@ -6,7 +6,7 @@
   width: 100%;
   padding: 0 0 16px 0;
   background: #ffffff;
-
+  font-weight: 300;
   * {
     box-sizing: border-box;
   }
@@ -17,6 +17,7 @@
   display: block;
   margin-top: 10px;
   padding: 0 20px;
+  text-align: right;
 }
 
 .cancelButton {
@@ -29,7 +30,7 @@
   border: solid 1px $primary-color-highlight;
   line-height: 28px;
   text-align: center;
-  margin-right: 15px;
+  margin-right: 10px;
   opacity: 0.9;
   &:hover {
     color: $primary-color;
@@ -46,14 +47,15 @@
   color: #ffffff;
   line-height: 28px;
   text-align: center;
+  border: solid 1px $primary-color;
   &:hover {
     color: #ffffff;
   }
   &.disabled {
-    background: #ffffff;
-    border: solid 1px #e3e3e3;
+    background: #c7c7c7;
+    border: solid 1px #c7c7c7;
     .buttonText {
-      color: $darkergray;
+      color: #ffffff;
     }
   }
 }

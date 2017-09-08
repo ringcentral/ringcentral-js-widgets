@@ -72,8 +72,9 @@ export default class DialButton extends Component {
     };
   }
   render() {
+    const isSpecial = this.props.btn.value === '*';
     return (
-      <div className={styles.btnPlaceholder}>
+      <div className={classnames(styles.root, this.props.className)}>
         <svg className={styles.btnSvg} viewBox="0 0 500 500">
           <g
             className={classnames(
@@ -87,14 +88,20 @@ export default class DialButton extends Component {
               className={styles.circle}
               cx="250"
               cy="250"
-              r="200"
+              r="191"
             />
             <text
-              className={styles.btnValue}
+              className={
+                classnames(
+                  styles.btnValue,
+                  isSpecial ? styles.special : null
+                )
+              }
               x="0"
-              dx="200"
+              dx="216"
               y="0"
-              dy="280" >
+              dy={isSpecial ? 350 : 250}
+            >
               {this.props.btn.value}
             </text>
             <text
@@ -102,7 +109,7 @@ export default class DialButton extends Component {
               x="0"
               dx={this.props.btn.dx}
               y="0"
-              dy="380">
+              dy="360">
               {this.props.btn.text}
             </text>
           </g>
@@ -119,12 +126,14 @@ DialButton.propTypes = {
     alternativeValue: PropTypes.string,
     dx: PropTypes.string,
   }).isRequired,
+  className: PropTypes.string,
   onPress: PropTypes.func,
   onOutput: PropTypes.func,
   alternativeTimeout: PropTypes.number,
 };
 
 DialButton.defaultProps = {
+  className: null,
   onPress: undefined,
   onOutput: undefined,
   alternativeTimeout: undefined,

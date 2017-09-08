@@ -13,7 +13,6 @@ function mapToProps(_, {
   callLogger,
 }) {
   return {
-    hasCalls: (callMonitor.calls.length !== 0),
     currentLocale: locale.currentLocale,
     activeRingCalls: callMonitor.activeRingCalls,
     activeOnHoldCalls: callMonitor.activeOnHoldCalls,

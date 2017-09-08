@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import DialPad from '../DialPad';
 import BackHeader from '../BackHeader';
-import ActiveCallButton from '../ActiveCallButton';
+import CircleButton from '../CircleButton';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import TransferIcon from '../../assets/images/Transfer.svg';
 import styles from './styles.scss';
@@ -57,7 +57,6 @@ export default class TransferPanel extends PureComponent {
               <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
             </span>
           )}
-          buttons={[]}
         >
           {i18n.getString('transferTo', this.props.currentLocale)}
         </BackHeader>
@@ -82,14 +81,12 @@ export default class TransferPanel extends PureComponent {
             onButtonOutput={this.onButtonOutput}
           />
           <div className={styles.buttonRow}>
-            <ActiveCallButton
-              onClick={this.onTransfer}
-              className={styles.button}
-              icon={TransferIcon}
-              title={i18n.getString('blindTransfer', this.props.currentLocale)}
-              disabled={isButtonDisabled}
-              showBorder
-            />
+            <div className={styles.button}>
+              <CircleButton
+                onClick={this.onTransfer}
+                icon={TransferIcon}
+              />
+            </div>
           </div>
         </div>
       </div>

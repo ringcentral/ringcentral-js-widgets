@@ -69,6 +69,12 @@ export default function ActiveCallPad(props) {
             active={props.isOnHold}
             icon={HoldIcon}
           />
+          <ActiveCallButton
+            onClick={props.onToggleTransferPanel}
+            title={i18n.getString('transfer', props.currentLocale)}
+            icon={TransferIcon}
+            className={styles.callButton}
+          />
         </div>
         <div className={styles.buttonRow}>
           <ActiveCallButton
@@ -91,14 +97,6 @@ export default function ActiveCallPad(props) {
             title={i18n.getString('add', props.currentLocale)}
             className={styles.callButton}
             icon={AddIcon}
-          />
-        </div>
-        <div className={styles.buttonRow}>
-          <ActiveCallButton
-            onClick={props.onToggleTransferPanel}
-            title={i18n.getString('transfer', props.currentLocale)}
-            icon={TransferIcon}
-            className={styles.callButton}
           />
           <ActiveCallButton
             onClick={props.onShowFlipPanel}

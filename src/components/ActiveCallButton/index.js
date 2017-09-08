@@ -16,16 +16,16 @@ export default function ActiveCallButton(props) {
   return (
     <svg
       className={className}
-      viewBox="0 0 500 500"
+      viewBox="0 0 500 600"
       width={props.width}
       height={props.height}
       x={props.x}
       y={props.y}
     >
       <CircleButton
-        width={'300'}
-        height={'300'}
-        x={100}
+        width={'380'}
+        height={'380'}
+        x={60}
         y={0}
         className={buttonClassName}
         onClick={props.disabled ? () => {} : props.onClick}
@@ -41,7 +41,7 @@ export default function ActiveCallButton(props) {
       <text
         className={styles.buttonTitle}
         x="250"
-        y="410"
+        y="520"
         textAnchor="middle"
       >
         {props.title}
