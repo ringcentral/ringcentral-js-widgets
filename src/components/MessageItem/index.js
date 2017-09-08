@@ -201,6 +201,7 @@ export default class MessageItem extends Component {
   render() {
     const {
       areaCode,
+      brand,
       countryCode,
       currentLocale,
       conversation: {
@@ -245,6 +246,7 @@ export default class MessageItem extends Component {
             styles.contactDisplay,
             unreadCounts && styles.unread
           )}
+          brand={brand}
           contactMatches={correspondentMatches}
           selected={this.state.selected}
           onSelectContact={this.onSelectContact}
@@ -306,6 +308,7 @@ MessageItem.propTypes = {
     })),
   }).isRequired,
   areaCode: PropTypes.string.isRequired,
+  brand: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   onLogConversation: PropTypes.func,
