@@ -130,9 +130,10 @@ var DialButton = function (_Component) {
   (0, _createClass3.default)(DialButton, [{
     key: 'render',
     value: function render() {
+      var isSpecial = this.props.btn.value === '*';
       return _react2.default.createElement(
         'div',
-        { className: _styles2.default.btnPlaceholder },
+        { className: (0, _classnames2.default)(_styles2.default.root, this.props.className) },
         _react2.default.createElement(
           'svg',
           { className: _styles2.default.btnSvg, viewBox: '0 0 500 500' },
@@ -147,16 +148,17 @@ var DialButton = function (_Component) {
               className: _styles2.default.circle,
               cx: '250',
               cy: '250',
-              r: '200'
+              r: '191'
             }),
             _react2.default.createElement(
               'text',
               {
-                className: _styles2.default.btnValue,
+                className: (0, _classnames2.default)(_styles2.default.btnValue, isSpecial ? _styles2.default.special : null),
                 x: '0',
-                dx: '200',
+                dx: '216',
                 y: '0',
-                dy: '280' },
+                dy: isSpecial ? 350 : 250
+              },
               this.props.btn.value
             ),
             _react2.default.createElement(
@@ -166,7 +168,7 @@ var DialButton = function (_Component) {
                 x: '0',
                 dx: this.props.btn.dx,
                 y: '0',
-                dy: '380' },
+                dy: '360' },
               this.props.btn.text
             )
           )
@@ -187,12 +189,14 @@ DialButton.propTypes = {
     alternativeValue: _propTypes2.default.string,
     dx: _propTypes2.default.string
   }).isRequired,
+  className: _propTypes2.default.string,
   onPress: _propTypes2.default.func,
   onOutput: _propTypes2.default.func,
   alternativeTimeout: _propTypes2.default.number
 };
 
 DialButton.defaultProps = {
+  className: null,
   onPress: undefined,
   onOutput: undefined,
   alternativeTimeout: undefined

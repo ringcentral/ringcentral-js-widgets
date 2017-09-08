@@ -119,6 +119,12 @@ function ActiveCallPad(props) {
           title: props.isOnHold ? _i18n2.default.getString('onHold', props.currentLocale) : _i18n2.default.getString('hold', props.currentLocale),
           active: props.isOnHold,
           icon: _Hold2.default
+        }),
+        _react2.default.createElement(_ActiveCallButton2.default, {
+          onClick: props.onToggleTransferPanel,
+          title: _i18n2.default.getString('transfer', props.currentLocale),
+          icon: _Transfer2.default,
+          className: _styles2.default.callButton
         })
       ),
       _react2.default.createElement(
@@ -144,16 +150,6 @@ function ActiveCallPad(props) {
           title: _i18n2.default.getString('add', props.currentLocale),
           className: _styles2.default.callButton,
           icon: _AddCall2.default
-        })
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.buttonRow },
-        _react2.default.createElement(_ActiveCallButton2.default, {
-          onClick: props.onToggleTransferPanel,
-          title: _i18n2.default.getString('transfer', props.currentLocale),
-          icon: _Transfer2.default,
-          className: _styles2.default.callButton
         }),
         _react2.default.createElement(_ActiveCallButton2.default, {
           onClick: props.onShowFlipPanel,

@@ -2,20 +2,20 @@
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/fonts';
 
-$input-height: 30px;
-
+$input-height: 75px;
+$header-height: 40px;
 .root {
   @include full-size;
-  padding: 32px 10px 0 10px;
   box-sizing: border-box;
 }
 
 .dialInput {
   height: $input-height;
-  box-sizing: content-box;
+  box-sizing: border-box;
   border: 0px;
   margin-bottom: 5px;
-  padding: 5px;
+  padding: 35px 20px 10px 20px;
+
   input {
     @include secondary-font;
     box-sizing: content-box;
@@ -35,21 +35,24 @@ $input-height: 30px;
 }
 
 .padContainer {
-  height: calc(100% - #{$input-height});
+  height: calc(100% - #{$input-height} - #{$header-height});
+  padding: 0 10%;
 }
 
 .dialPad {
-  height: 65%;
+  height: 72%;
+}
+
+.buttonRow {
+  text-align: center;
+  height: 22%;
+  width: 100%;
 }
 
 .button {
-  width: 33.3%;
-  text-align: center;
-  padding: 2px;
-
-  text {
-    font-size: 68px;
-  }
+  width: 19%;
+  height: 100%;
+  display: inline-block;
 }
 
 .stopButton {
@@ -59,9 +62,4 @@ $input-height: 30px;
   g, path {
     fill: #ffffff;
   }
-}
-
-.buttonRow {
-  text-align: center;
-  height: 22%;
 }

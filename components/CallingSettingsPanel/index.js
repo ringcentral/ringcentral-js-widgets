@@ -55,10 +55,6 @@ var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
 var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
-var _Revert = require('../../assets/images/Revert.svg');
-
-var _Revert2 = _interopRequireDefault(_Revert);
-
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -281,7 +277,6 @@ var CallingSettingsPanel = function (_Component) {
         _react2.default.createElement(
           _BackHeader2.default,
           {
-            buttons: [],
             onBackClick: onBackButtonClick
           },
           _i18n2.default.getString('title', currentLocale)

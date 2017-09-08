@@ -34,16 +34,16 @@ function ActiveCallButton(props) {
     'svg',
     {
       className: className,
-      viewBox: '0 0 500 500',
+      viewBox: '0 0 500 600',
       width: props.width,
       height: props.height,
       x: props.x,
       y: props.y
     },
     _react2.default.createElement(_CircleButton2.default, {
-      width: '300',
-      height: '300',
-      x: 100,
+      width: '380',
+      height: '380',
+      x: 60,
       y: 0,
       className: buttonClassName,
       onClick: props.disabled ? function () {} : props.onClick,
@@ -61,7 +61,7 @@ function ActiveCallButton(props) {
       {
         className: _styles2.default.buttonTitle,
         x: '250',
-        y: '410',
+        y: '520',
         textAnchor: 'middle'
       },
       props.title

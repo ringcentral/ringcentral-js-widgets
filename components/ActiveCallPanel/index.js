@@ -47,16 +47,6 @@ var _styles2 = _interopRequireDefault(_styles);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function CallInfo(props) {
-  var timeCounter = props.startTime ? _react2.default.createElement(
-    'span',
-    { className: _styles2.default.timeCounter },
-    _react2.default.createElement(
-      'span',
-      { className: _styles2.default.splitLine },
-      '|'
-    ),
-    _react2.default.createElement(_DurationCounter2.default, { startTime: props.startTime, offset: props.offset })
-  ) : null;
   var avatar = void 0;
   if (props.avatarUrl) {
     avatar = _react2.default.createElement('img', { src: props.avatarUrl, alt: 'avatar' });
@@ -77,35 +67,30 @@ function CallInfo(props) {
     ),
     _react2.default.createElement(
       'div',
-      { className: _styles2.default.infoContent },
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.userName },
-        _react2.default.createElement(_ContactDisplay2.default, {
-          className: _styles2.default.contactDisplay,
-          selectClassName: _styles2.default.dropdown,
-          contactMatches: props.nameMatches,
-          phoneNumber: props.phoneNumber,
-          fallBackName: props.fallBackName,
-          currentLocale: props.currentLocale,
-          areaCode: props.areaCode,
-          countryCode: props.countryCode,
-          showType: false,
-          disabled: false,
-          selected: props.selectedMatcherIndex,
-          onSelectContact: props.onSelectMatcherName,
-          isLogging: false,
-          enableContactFallback: true,
-          brand: props.brand,
-          showPlaceholder: props.showContactDisplayPlaceholder
-        }),
-        timeCounter
-      ),
-      _react2.default.createElement(
-        'div',
-        { className: _styles2.default.userPhoneNumber },
-        props.formatPhone(props.phoneNumber)
-      )
+      { className: _styles2.default.userName },
+      _react2.default.createElement(_ContactDisplay2.default, {
+        className: _styles2.default.contactDisplay,
+        selectClassName: _styles2.default.dropdown,
+        contactMatches: props.nameMatches,
+        phoneNumber: props.phoneNumber,
+        fallBackName: props.fallBackName,
+        currentLocale: props.currentLocale,
+        areaCode: props.areaCode,
+        countryCode: props.countryCode,
+        showType: false,
+        disabled: false,
+        selected: props.selectedMatcherIndex,
+        onSelectContact: props.onSelectMatcherName,
+        isLogging: false,
+        enableContactFallback: true,
+        brand: props.brand,
+        showPlaceholder: props.showContactDisplayPlaceholder
+      })
+    ),
+    _react2.default.createElement(
+      'div',
+      { className: _styles2.default.userPhoneNumber },
+      props.formatPhone(props.phoneNumber)
     )
   );
 }
@@ -113,8 +98,6 @@ function CallInfo(props) {
 CallInfo.propTypes = {
   phoneNumber: _propTypes2.default.string,
   formatPhone: _propTypes2.default.func.isRequired,
-  startTime: _propTypes2.default.number,
-  offset: _propTypes2.default.number,
   nameMatches: _propTypes2.default.array.isRequired,
   fallBackName: _propTypes2.default.string.isRequired,
   areaCode: _propTypes2.default.string.isRequired,
@@ -129,8 +112,6 @@ CallInfo.propTypes = {
 
 CallInfo.defaultProps = {
   phoneNumber: null,
-  startTime: null,
-  offset: 0,
   avatarUrl: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true
@@ -145,6 +126,7 @@ function ActiveCallPanel(_ref) {
       phoneNumber = _ref.phoneNumber,
       formatPhone = _ref.formatPhone,
       startTime = _ref.startTime,
+      startTimeOffset = _ref.startTimeOffset,
       areaCode = _ref.areaCode,
       countryCode = _ref.countryCode,
       selectedMatcherIndex = _ref.selectedMatcherIndex,
@@ -170,6 +152,11 @@ function ActiveCallPanel(_ref) {
       brand = _ref.brand,
       flipNumbers = _ref.flipNumbers;
 
+  var timeCounter = startTime ? _react2.default.createElement(
+    'span',
+    { className: _styles2.default.timeCounter },
+    _react2.default.createElement(_DurationCounter2.default, { startTime: startTime, offset: startTimeOffset })
+  ) : null;
   return _react2.default.createElement(
     'div',
     { className: _styles2.default.root },
@@ -188,7 +175,8 @@ function ActiveCallPanel(_ref) {
     }),
     _react2.default.createElement(
       _Panel2.default,
-      null,
+      { className: _styles2.default.panel },
+      timeCounter,
       _react2.default.createElement(CallInfo, {
         currentLocale: currentLocale,
         nameMatches: nameMatches,
@@ -235,6 +223,7 @@ ActiveCallPanel.propTypes = {
   fallBackName: _propTypes2.default.string.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   startTime: _propTypes2.default.number,
+  startTimeOffset: _propTypes2.default.number,
   isOnMute: _propTypes2.default.bool,
   isOnHold: _propTypes2.default.bool,
   recordStatus: _propTypes2.default.string.isRequired,
@@ -266,6 +255,7 @@ ActiveCallPanel.propTypes = {
 
 ActiveCallPanel.defaultProps = {
   startTime: null,
+  startTimeOffset: 0,
   isOnMute: false,
   isOnHold: false,
   phoneNumber: null,

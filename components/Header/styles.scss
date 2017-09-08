@@ -3,6 +3,7 @@
 @import '../../lib/commonStyles/no-select';
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/layout';
+@import '../../lib/commonStyles/fonts';
 
 .root {
   @include full-size;
@@ -15,8 +16,10 @@
   border-color: $border-color;
   text-align: center;
 }
+
 .label {
   @include vertical-align(middle);
+  @include primary-font;
   font-size: 0.9em;
 }
 

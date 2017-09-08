@@ -32,6 +32,14 @@ var _SpinnerOverlay = require('../SpinnerOverlay');
 
 var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
 
+var _CircleButton = require('../CircleButton');
+
+var _CircleButton2 = _interopRequireDefault(_CircleButton);
+
+var _Answer = require('../../assets/images/Answer.svg');
+
+var _Answer2 = _interopRequireDefault(_Answer);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -97,32 +105,13 @@ function DialerPanel(_ref) {
         _react2.default.createElement(
           'div',
           { className: _styles2.default.callBtn },
-          _react2.default.createElement(
-            'svg',
-            { className: _styles2.default.btnSvg, viewBox: '0 0 500 500' },
-            _react2.default.createElement(
-              'g',
-              {
-                className: (0, _classnames2.default)(_styles2.default.btnSvgGroup, callButtonDisabled && _styles2.default.disabled),
-                onClick: onCallFunc
-              },
-              _react2.default.createElement('circle', {
-                className: _styles2.default.circle,
-                cx: '250',
-                cy: '250',
-                r: '200'
-              }),
-              _react2.default.createElement('text', {
-                className: _styles2.default.btnValue,
-                x: '0',
-                dx: '167.5155',
-                y: '0',
-                dy: '300',
-                dangerouslySetInnerHTML: {
-                  __html: '&#xe953;'
-                } })
-            )
-          )
+          _react2.default.createElement(_CircleButton2.default, {
+            className: (0, _classnames2.default)(_styles2.default.dialBtn, callButtonDisabled && _styles2.default.disabled),
+            onClick: onCallFunc,
+            disabled: callButtonDisabled,
+            icon: _Answer2.default,
+            showBorder: false
+          })
         )
       )
     ),

@@ -55,11 +55,12 @@ function mapToProps(_, _ref) {
 
   var isWebphoneMode = callingSettings.callingMode === _callingModes2.default.webphone;
   var waitingWebphoneConnected = isWebphoneMode && webphone && webphone.connecting;
+  var webphoneDisconnected = isWebphoneMode && webphone && !webphone.connected;
   return {
     currentLocale: locale.currentLocale,
     callingMode: callingSettings.callingMode,
     isWebphoneMode: isWebphoneMode,
-    callButtonDisabled: !call.isIdle || !connectivityMonitor.connectivity || rateLimiter.throttling || waitingWebphoneConnected,
+    callButtonDisabled: !call.isIdle || !connectivityMonitor.connectivity || rateLimiter.throttling || webphoneDisconnected,
     toNumber: call.toNumber,
     fromNumbers: callingSettings.fromNumbers,
     fromNumber: callingSettings.fromNumber,

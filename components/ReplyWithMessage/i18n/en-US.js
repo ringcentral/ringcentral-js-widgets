@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   cancel: 'Cancel',
-  send: 'Send',
+  reply: 'Reply',
   onMyWay: 'On my way',
   customMessage: 'Custom Message',
   callMeBackIn: 'Call me back in',

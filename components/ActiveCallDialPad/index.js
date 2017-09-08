@@ -36,13 +36,13 @@ var _DialPad = require('../DialPad');
 
 var _DialPad2 = _interopRequireDefault(_DialPad);
 
-var _ActiveCallButton = require('../ActiveCallButton');
+var _CircleButton = require('../CircleButton');
 
-var _ActiveCallButton2 = _interopRequireDefault(_ActiveCallButton);
+var _CircleButton2 = _interopRequireDefault(_CircleButton);
 
-var _HideDialpad = require('../../assets/images/HideDialpad.svg');
+var _BackHeader = require('../BackHeader');
 
-var _HideDialpad2 = _interopRequireDefault(_HideDialpad);
+var _BackHeader2 = _interopRequireDefault(_BackHeader);
 
 var _End = require('../../assets/images/End.svg');
 
@@ -86,6 +86,13 @@ var ActiveCallDialPad = function (_Component) {
         'div',
         { className: _styles2.default.root },
         _react2.default.createElement(
+          _BackHeader2.default,
+          {
+            onBackClick: this.props.hiddenDialPad
+          },
+          _i18n2.default.getString('keypad', this.props.currentLocale)
+        ),
+        _react2.default.createElement(
           'div',
           { className: _styles2.default.dialInput },
           _react2.default.createElement('input', {
@@ -103,20 +110,16 @@ var ActiveCallDialPad = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: _styles2.default.buttonRow },
-            _react2.default.createElement(_ActiveCallButton2.default, {
-              onClick: this.props.hiddenDialPad,
-              className: _styles2.default.button,
-              icon: _HideDialpad2.default,
-              title: _i18n2.default.getString('hide', this.props.currentLocale)
-            }),
-            _react2.default.createElement(_ActiveCallButton2.default, {
-              onClick: this.props.onHangup,
-              className: _styles2.default.button,
-              buttonClassName: _styles2.default.stopButton,
-              icon: _End2.default,
-              title: _i18n2.default.getString('end', this.props.currentLocale),
-              showBorder: false
-            })
+            _react2.default.createElement(
+              'div',
+              { className: _styles2.default.button },
+              _react2.default.createElement(_CircleButton2.default, {
+                className: _styles2.default.stopButton,
+                onClick: this.props.onHangup,
+                icon: _End2.default,
+                showBorder: false
+              })
+            )
           )
         )
       );

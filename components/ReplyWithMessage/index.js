@@ -362,7 +362,7 @@ var ReplyWithMessage = function (_Component) {
             _react2.default.createElement(
               'span',
               { className: _styles2.default.buttonText },
-              _i18n2.default.getString('send', currentLocale)
+              _i18n2.default.getString('reply', currentLocale)
             )
           )
         )

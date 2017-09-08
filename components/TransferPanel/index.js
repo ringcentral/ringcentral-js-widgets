@@ -47,9 +47,9 @@ var _BackHeader = require('../BackHeader');
 
 var _BackHeader2 = _interopRequireDefault(_BackHeader);
 
-var _ActiveCallButton = require('../ActiveCallButton');
+var _CircleButton = require('../CircleButton');
 
-var _ActiveCallButton2 = _interopRequireDefault(_ActiveCallButton);
+var _CircleButton2 = _interopRequireDefault(_CircleButton);
 
 var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
@@ -120,8 +120,7 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
               'span',
               { className: _styles2.default.backButton },
               _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.backIcon) })
-            ),
-            buttons: []
+            )
           },
           _i18n2.default.getString('transferTo', this.props.currentLocale)
         ),
@@ -154,14 +153,14 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
           _react2.default.createElement(
             'div',
             { className: _styles2.default.buttonRow },
-            _react2.default.createElement(_ActiveCallButton2.default, {
-              onClick: this.onTransfer,
-              className: _styles2.default.button,
-              icon: _Transfer2.default,
-              title: _i18n2.default.getString('blindTransfer', this.props.currentLocale),
-              disabled: isButtonDisabled,
-              showBorder: true
-            })
+            _react2.default.createElement(
+              'div',
+              { className: _styles2.default.button },
+              _react2.default.createElement(_CircleButton2.default, {
+                onClick: this.onTransfer,
+                icon: _Transfer2.default
+              })
+            )
           )
         )
       );

@@ -2,15 +2,14 @@
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/vertical-align';
 @import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/fonts.scss';
 
 $btn_scale: 75%;
 $btn_value_height: 55%;
 
-.btnPlaceholder {
+.root {
   @include full-size;
-  display: inline-block;
-  width: calc(100% / 3);
-  height: 100%;
+  @include primary-font;
 }
 
 .btnSvg {
@@ -47,14 +46,19 @@ $btn_value_height: 55%;
 }*/
 .btnValue {
   // text-anchor: middle;
-  font-size: 180px;
+  font-size: 150px;
   fill: $lightblack;
   font-weight: 200;
 }
 
+.special {
+  font-size: 300px;
+  font-weight: 100;
+}
+
 .btnText {
   // text-anchor: middle;
-  font-size: 65px;
+  font-size: 90px;
   fill: $grey-light;
-  font-weight: 100;
+  font-weight: 200;
 }

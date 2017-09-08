@@ -46,26 +46,26 @@ function MultiCallAnswerButton(props) {
     'svg',
     {
       className: props.className,
-      viewBox: '0 0 500 500',
+      viewBox: '0 0 500 600',
       width: props.width,
       height: props.height,
       x: props.x,
       y: props.y
     },
     _react2.default.createElement(_CircleButton2.default, {
-      width: '160',
-      height: '160',
-      x: 120,
-      y: 40,
+      width: '200',
+      height: '200',
+      x: 60,
+      y: 60,
       className: iconClassName,
       onClick: props.onClick,
       icon: Icon
     }),
     _react2.default.createElement(_CircleButton2.default, {
-      width: '190',
-      height: '190',
-      x: 220,
-      y: 80,
+      width: '250',
+      height: '250',
+      x: 200,
+      y: 120,
       className: (0, _classnames2.default)(_styles2.default.button, _styles2.default.answer),
       showBorder: false,
       onClick: props.onClick,
@@ -76,7 +76,7 @@ function MultiCallAnswerButton(props) {
       {
         className: _styles2.default.buttonTitle,
         x: '250',
-        y: '405',
+        y: '515',
         textAnchor: 'middle'
       },
       props.title

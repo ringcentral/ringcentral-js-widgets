@@ -1,7 +1,7 @@
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/colors';
 
-$userInfoHight: 180px;
+$userInfoHight: 182px;
 
 .root {
   @include full-size;
@@ -42,6 +42,7 @@ $userInfoHight: 180px;
 
 .avatarContainer {
   display: block;
+  margin-top: 25px;
 }
 
 .userNameContainer {
@@ -107,8 +108,8 @@ $userInfoHight: 180px;
   left: 50%;
   margin-top: -32px;
   margin-left: -31px;
-  width: 66px;
-  height: 66px;
+  width: 65px;
+  height: 65px;
   border-radius: 33px;
   z-index: 3;
   overflow: hidden;
