@@ -43,6 +43,7 @@ NoCalls.propTypes = {
 
 function CallList(_ref2) {
   var className = _ref2.className,
+      brand = _ref2.brand,
       currentLocale = _ref2.currentLocale,
       calls = _ref2.calls,
       areaCode = _ref2.areaCode,
@@ -76,6 +77,7 @@ function CallList(_ref2) {
           key: call.id,
           call: call,
           currentLocale: currentLocale,
+          brand: brand,
           areaCode: areaCode,
           countryCode: countryCode,
           onViewContact: onViewContact,
@@ -110,6 +112,7 @@ function CallList(_ref2) {
 
 CallList.propTypes = {
   className: _propTypes2.default.string,
+  brand: _propTypes2.default.string.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   calls: _propTypes2.default.arrayOf(_CallItem2.default.propTypes.call).isRequired,
   active: _propTypes2.default.bool,

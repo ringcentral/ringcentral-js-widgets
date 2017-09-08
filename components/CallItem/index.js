@@ -439,6 +439,7 @@ var CallItem = function (_Component) {
           duration = _props$call.duration,
           activityMatches = _props$call.activityMatches,
           offset = _props$call.offset,
+          brand = _props.brand,
           currentLocale = _props.currentLocale,
           areaCode = _props.areaCode,
           countryCode = _props.countryCode,
@@ -521,6 +522,7 @@ var CallItem = function (_Component) {
         }),
         _react2.default.createElement(_ContactDisplay2.default, {
           className: (0, _classnames2.default)(_styles2.default.contactDisplay, missed && _styles2.default.missed, active && _styles2.default.active),
+          brand: brand,
           contactMatches: contactMatches,
           selected: this.state.selected,
           onSelectContact: this.onSelectContact,
@@ -595,6 +597,7 @@ CallItem.propTypes = {
     webphoneSession: _propTypes2.default.object
   }).isRequired,
   areaCode: _propTypes2.default.string.isRequired,
+  brand: _propTypes2.default.string.isRequired,
   countryCode: _propTypes2.default.string.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   onLogCall: _propTypes2.default.func,

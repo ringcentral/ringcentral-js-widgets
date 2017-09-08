@@ -38,7 +38,8 @@ var _styles2 = _interopRequireDefault(_styles);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function CallsPanel(_ref) {
-  var currentLocale = _ref.currentLocale,
+  var brand = _ref.brand,
+      currentLocale = _ref.currentLocale,
       calls = _ref.calls,
       areaCode = _ref.areaCode,
       countryCode = _ref.countryCode,
@@ -65,6 +66,7 @@ function CallsPanel(_ref) {
       autoLog = _ref.autoLog;
 
   var content = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(_CallList2.default, {
+    brand: brand,
     currentLocale: currentLocale,
     calls: calls,
     areaCode: areaCode,
@@ -106,6 +108,7 @@ function CallsPanel(_ref) {
 }
 
 CallsPanel.propTypes = {
+  brand: _propTypes2.default.string.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   calls: _propTypes2.default.arrayOf(_propTypes2.default.any).isRequired,
   areaCode: _propTypes2.default.string.isRequired,

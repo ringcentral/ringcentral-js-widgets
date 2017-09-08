@@ -26,6 +26,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function mapToProps(_, _ref) {
   var locale = _ref.locale,
+      brand = _ref.brand,
       callHistory = _ref.callHistory,
       regionSettings = _ref.regionSettings,
       connectivityMonitor = _ref.connectivityMonitor,
@@ -40,6 +41,7 @@ function mapToProps(_, _ref) {
 
   return {
     enableContactFallback: enableContactFallback,
+    brand: brand.fullName,
     title: _i18n2.default.getString('title', locale.currentLocale),
     currentLocale: locale.currentLocale,
     calls: callHistory.calls,
