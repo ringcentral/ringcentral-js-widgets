@@ -11,6 +11,7 @@ import styles from './styles.scss';
 
 
 export default function CallsPanel({
+  brand,
   currentLocale,
   calls,
   areaCode,
@@ -41,6 +42,7 @@ export default function CallsPanel({
     <SpinnerOverlay /> :
     (
       <CallList
+        brand={brand}
         currentLocale={currentLocale}
         calls={calls}
         areaCode={areaCode}
@@ -79,6 +81,7 @@ export default function CallsPanel({
 }
 
 CallsPanel.propTypes = {
+  brand: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   calls: PropTypes.arrayOf(PropTypes.any).isRequired,
   areaCode: PropTypes.string.isRequired,

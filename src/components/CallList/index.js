@@ -18,6 +18,7 @@ NoCalls.propTypes = {
 
 function CallList({
   className,
+  brand,
   currentLocale,
   calls,
   areaCode,
@@ -50,6 +51,7 @@ function CallList({
             key={call.id}
             call={call}
             currentLocale={currentLocale}
+            brand={brand}
             areaCode={areaCode}
             countryCode={countryCode}
             onViewContact={onViewContact}
@@ -85,6 +87,7 @@ function CallList({
 
 CallList.propTypes = {
   className: PropTypes.string,
+  brand: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   calls: PropTypes.arrayOf(CallItem.propTypes.call).isRequired,
   active: PropTypes.bool,

@@ -253,6 +253,7 @@ export default function App({
               path="/history"
               component={() => (
                 <CallHistoryPage
+                  brand={phone.brand}
                   locale={phone.locale}
                   callHistory={phone.callHistory}
                   contactMatcher={phone.contactMatcher}

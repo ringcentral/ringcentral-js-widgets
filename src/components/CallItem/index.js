@@ -257,6 +257,7 @@ export default class CallItem extends Component {
         offset,
       // webphoneSession,
     },
+      brand,
       currentLocale,
       areaCode,
       countryCode,
@@ -356,6 +357,7 @@ export default class CallItem extends Component {
             missed && styles.missed,
             active && styles.active,
           )}
+          brand={brand}
           contactMatches={contactMatches}
           selected={this.state.selected}
           onSelectContact={this.onSelectContact}
@@ -423,6 +425,7 @@ CallItem.propTypes = {
     webphoneSession: PropTypes.object,
   }).isRequired,
   areaCode: PropTypes.string.isRequired,
+  brand: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   onLogCall: PropTypes.func,
