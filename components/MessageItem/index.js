@@ -322,6 +322,7 @@ var MessageItem = function (_Component) {
 
       var _props = this.props,
           areaCode = _props.areaCode,
+          brand = _props.brand,
           countryCode = _props.countryCode,
           currentLocale = _props.currentLocale,
           _props$conversation = _props.conversation,
@@ -362,6 +363,7 @@ var MessageItem = function (_Component) {
             _this2.contactDisplay = ref;
           },
           className: (0, _classnames2.default)(_styles2.default.contactDisplay, unreadCounts && _styles2.default.unread),
+          brand: brand,
           contactMatches: correspondentMatches,
           selected: this.state.selected,
           onSelectContact: this.onSelectContact,
@@ -433,6 +435,7 @@ MessageItem.propTypes = {
     }))
   }).isRequired,
   areaCode: _propTypes2.default.string.isRequired,
+  brand: _propTypes2.default.string.isRequired,
   countryCode: _propTypes2.default.string.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   onLogConversation: _propTypes2.default.func,

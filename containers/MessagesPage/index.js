@@ -91,7 +91,8 @@ MessagesPanel.defaultProps = {
 };
 
 function mapToProps(_, _ref2) {
-  var locale = _ref2.locale,
+  var brand = _ref2.brand,
+      locale = _ref2.locale,
       messages = _ref2.messages,
       contactMatcher = _ref2.contactMatcher,
       dateTimeFormat = _ref2.dateTimeFormat,
@@ -109,6 +110,7 @@ function mapToProps(_, _ref2) {
   return {
     showTitle: showTitle,
     enableContactFallback: enableContactFallback,
+    brand: brand.fullName,
     currentLocale: locale.currentLocale,
     conversations: messages.filteredConversations,
     areaCode: regionSettings.areaCode,

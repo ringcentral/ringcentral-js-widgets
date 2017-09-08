@@ -162,6 +162,7 @@ exports.default = MessageList;
 
 
 MessageList.propTypes = {
+  brand: _propTypes2.default.string.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   conversations: _propTypes2.default.arrayOf(_propTypes2.default.shape({
     id: _propTypes2.default.number,
