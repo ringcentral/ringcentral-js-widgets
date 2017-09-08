@@ -193,7 +193,7 @@ var RecentMessages = (_class = function (_RcModule) {
             for (var _iterator = (0, _getIterator3.default)((0, _values2.default)(this.contacts)), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
               var contact = _step.value;
 
-              this.getMessages(contact, true);
+              this.getMessages(contact, false, true);
             }
           } catch (err) {
             _didIteratorError = true;
@@ -216,7 +216,8 @@ var RecentMessages = (_class = function (_RcModule) {
     key: 'getMessages',
     value: function () {
       var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(currentContact) {
-        var forceUpdate = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+        var fromLocal = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+        var forceUpdate = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
         var messages;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -243,7 +244,7 @@ var RecentMessages = (_class = function (_RcModule) {
                   type: this.actionTypes.initLoad
                 });
                 _context.next = 8;
-                return this._getRecentMessages(currentContact, this._messageStore.messages);
+                return this._getRecentMessages(currentContact, this._messageStore.messages, fromLocal);
 
               case 8:
                 messages = _context.sent;
@@ -282,18 +283,20 @@ var RecentMessages = (_class = function (_RcModule) {
 
     /**
      * Searching for recent messages of specific contact.
-     * @param {Object} currentContact Current contact
-     * @param {Array} messages Messages in messageStore
-     * @param {Number} daySpan Find messages within certain days
-     * @param {Number} length Maximum length of recent messages
+     * @param {Object} currentContact - Current contact
+     * @param {Array} messages - Messages in messageStore
+     * @param {Boolean} fromLocal - Only get recent messages locally
+     * @param {Number} daySpan - Find messages within certain days
+     * @param {Number} length - Maximum length of recent messages
      * @return {Array}
      * @private
      */
     value: function () {
       var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(currentContact) {
         var messages = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-        var daySpan = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 60;
-        var length = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 5;
+        var fromLocal = arguments[2];
+        var daySpan = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 60;
+        var length = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 5;
         var dateFrom, recentMessages, dateTo;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
@@ -305,7 +308,7 @@ var RecentMessages = (_class = function (_RcModule) {
                 // If we could not find enough recent messages,
                 // we need to search for messages on server.
 
-                if (!(recentMessages.length < length)) {
+                if (!(!fromLocal && recentMessages.length < length)) {
                   _context2.next = 9;
                   break;
                 }
@@ -335,7 +338,7 @@ var RecentMessages = (_class = function (_RcModule) {
         }, _callee2, this);
       }));
 
-      function _getRecentMessages(_x3) {
+      function _getRecentMessages(_x4) {
         return _ref3.apply(this, arguments);
       }
 
