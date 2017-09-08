@@ -14,6 +14,13 @@ export default class RecentActivityView extends PureComponent {
   }
 
   componentDidMount() {
+    for (const tab of this.props.tabs) {
+      // Preload data on unactivated tabs
+      if (tab.path !== this.props.defaultTab) {
+        tab.getData(true);
+      }
+    }
+    // Switch to default tab and load all data
     this.onTabChanged();
   }
 

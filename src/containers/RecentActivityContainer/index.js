@@ -59,8 +59,8 @@ function getTabs({
           isMessagesLoaded={recentMessages.isMessagesLoaded}
         />
       ),
-      getData: () => {
-        recentMessages.getMessages(currentContact);
+      getData: (fromLocal) => {
+        recentMessages.getMessages(currentContact, fromLocal);
       },
       cleanUp: () => recentMessages.cleanUpMessages(currentContact)
     },
