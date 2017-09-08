@@ -322,6 +322,7 @@ export default function App({
               path="/messages"
               component={() => (
                 <MessagesPage
+                  brand={phone.brand}
                   locale={phone.locale}
                   router={phone.router}
                   messages={phone.messages}

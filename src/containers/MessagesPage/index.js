@@ -48,6 +48,7 @@ MessagesPanel.defaultProps = {
 };
 
 function mapToProps(_, {
+  brand,
   locale,
   messages,
   contactMatcher,
@@ -64,6 +65,7 @@ function mapToProps(_, {
   return ({
     showTitle,
     enableContactFallback,
+    brand: brand.fullName,
     currentLocale: locale.currentLocale,
     conversations: messages.filteredConversations,
     areaCode: regionSettings.areaCode,

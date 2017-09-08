@@ -95,6 +95,7 @@ export default class MessageList extends Component {
 }
 
 MessageList.propTypes = {
+  brand: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   conversations: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
