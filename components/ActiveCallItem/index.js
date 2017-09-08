@@ -160,7 +160,7 @@ function WebphoneButtons(_ref2) {
       webphoneHangup = _ref2.webphoneHangup,
       webphoneResume = _ref2.webphoneResume;
 
-  if (!session || !webphoneAnswer || !webphoneReject) {
+  if (!session || !webphoneAnswer || !webphoneHangup) {
     return null;
   }
   var hangupFunc = webphoneHangup;
@@ -334,6 +334,16 @@ var ActiveCallItem = function (_Component) {
         };
       });
     };
+
+    _this.webphoneToVoicemail = function (sessionId) {
+      if (typeof _this.props.webphoneToVoicemail !== 'function') {
+        return;
+      }
+      _this.props.webphoneToVoicemail(sessionId);
+      _this.toVoicemailTimeout = setTimeout(function () {
+        _this.props.webphoneReject(sessionId);
+      }, 3000);
+    };
     return _this;
   }
 
@@ -346,6 +356,10 @@ var ActiveCallItem = function (_Component) {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       this._mounted = false;
+      if (this.toVoicemailTimeout) {
+        clearTimeout(this.toVoicemailTimeout);
+        this.toVoicemailTimeout = null;
+      }
     }
   }, {
     key: 'getFallbackContactName',
@@ -480,7 +494,6 @@ var ActiveCallItem = function (_Component) {
           onCreateContact = _props2.onCreateContact,
           onLogCall = _props2.onLogCall,
           webphoneAnswer = _props2.webphoneAnswer,
-          webphoneReject = _props2.webphoneReject,
           webphoneHangup = _props2.webphoneHangup,
           webphoneResume = _props2.webphoneResume;
 
@@ -530,7 +543,7 @@ var ActiveCallItem = function (_Component) {
           _react2.default.createElement(WebphoneButtons, {
             session: webphoneSession,
             webphoneAnswer: webphoneAnswer,
-            webphoneReject: webphoneReject,
+            webphoneReject: this.webphoneToVoicemail,
             webphoneHangup: webphoneHangup,
             webphoneResume: webphoneResume
           })
@@ -597,6 +610,7 @@ ActiveCallItem.propTypes = {
   webphoneReject: _propTypes2.default.func,
   webphoneHangup: _propTypes2.default.func,
   webphoneResume: _propTypes2.default.func,
+  webphoneToVoicemail: _propTypes2.default.func,
   enableContactFallback: _propTypes2.default.bool,
   autoLog: _propTypes2.default.bool,
   brand: _propTypes2.default.string,
@@ -621,6 +635,7 @@ ActiveCallItem.defaultProps = {
   webphoneReject: undefined,
   webphoneHangup: undefined,
   webphoneResume: undefined,
+  webphoneToVoicemail: undefined,
   enableContactFallback: undefined,
   autoLog: false,
   brand: 'RingCentral',

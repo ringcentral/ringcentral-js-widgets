@@ -69,7 +69,8 @@ function mapToFunctions(_, _ref2) {
       contactMatcher = _ref2.contactMatcher,
       router = _ref2.router,
       contactSearch = _ref2.contactSearch,
-      isLoggedContact = _ref2.isLoggedContact;
+      isLoggedContact = _ref2.isLoggedContact,
+      onCallsEmpty = _ref2.onCallsEmpty;
 
   return {
     formatPhone: function formatPhone(phoneNumber) {
@@ -82,8 +83,11 @@ function mapToFunctions(_, _ref2) {
     webphoneAnswer: function webphoneAnswer() {
       return webphone && webphone.answer.apply(webphone, arguments);
     },
-    webphoneReject: function webphoneReject() {
+    webphoneToVoicemail: function webphoneToVoicemail() {
       return webphone && webphone.toVoiceMail.apply(webphone, arguments);
+    },
+    webphoneReject: function webphoneReject() {
+      return webphone && webphone.reject.apply(webphone, arguments);
     },
     webphoneHangup: function webphoneHangup() {
       return webphone && webphone.hangup.apply(webphone, arguments);
@@ -265,7 +269,8 @@ function mapToFunctions(_, _ref2) {
       return function (_x5) {
         return _ref9.apply(this, arguments);
       };
-    }()
+    }(),
+    onCallsEmpty: onCallsEmpty
   };
 }
 

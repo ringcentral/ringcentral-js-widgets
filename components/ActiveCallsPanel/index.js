@@ -3,7 +3,27 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = ActiveCallsPanel;
+exports.default = undefined;
+
+var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = require('babel-runtime/helpers/classCallCheck');
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = require('babel-runtime/helpers/createClass');
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = require('babel-runtime/helpers/possibleConstructorReturn');
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = require('babel-runtime/helpers/inherits');
+
+var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _react = require('react');
 
@@ -57,6 +77,7 @@ function ActiveCallList(_ref) {
       webphoneReject = _ref.webphoneReject,
       webphoneHangup = _ref.webphoneHangup,
       webphoneResume = _ref.webphoneResume,
+      webphoneToVoicemail = _ref.webphoneToVoicemail,
       enableContactFallback = _ref.enableContactFallback,
       title = _ref.title;
 
@@ -93,6 +114,7 @@ function ActiveCallList(_ref) {
         webphoneReject: webphoneReject,
         webphoneHangup: webphoneHangup,
         webphoneResume: webphoneResume,
+        webphoneToVoicemail: webphoneToVoicemail,
         enableContactFallback: enableContactFallback,
         autoLog: autoLog
       });
@@ -122,6 +144,7 @@ ActiveCallList.propTypes = {
   webphoneReject: _propTypes2.default.func,
   webphoneHangup: _propTypes2.default.func,
   webphoneResume: _propTypes2.default.func,
+  webphoneToVoicemail: _propTypes2.default.func,
   enableContactFallback: _propTypes2.default.bool,
   autoLog: _propTypes2.default.bool
 };
@@ -143,90 +166,122 @@ ActiveCallList.defaultProps = {
   webphoneResume: undefined,
   enableContactFallback: undefined,
   autoLog: false,
-  onViewContact: undefined
+  onViewContact: undefined,
+  webphoneToVoicemail: undefined
 };
 
-function ActiveCallsPanel(_ref2) {
-  var hasCalls = _ref2.hasCalls,
-      activeRingCalls = _ref2.activeRingCalls,
-      activeOnHoldCalls = _ref2.activeOnHoldCalls,
-      activeCurrentCalls = _ref2.activeCurrentCalls,
-      otherDeviceCalls = _ref2.otherDeviceCalls,
-      showSpinner = _ref2.showSpinner,
-      className = _ref2.className,
-      currentLocale = _ref2.currentLocale,
-      areaCode = _ref2.areaCode,
-      countryCode = _ref2.countryCode,
-      brand = _ref2.brand,
-      showContactDisplayPlaceholder = _ref2.showContactDisplayPlaceholder,
-      formatPhone = _ref2.formatPhone,
-      onClickToSms = _ref2.onClickToSms,
-      onCreateContact = _ref2.onCreateContact,
-      onViewContact = _ref2.onViewContact,
-      outboundSmsPermission = _ref2.outboundSmsPermission,
-      internalSmsPermission = _ref2.internalSmsPermission,
-      isLoggedContact = _ref2.isLoggedContact,
-      onLogCall = _ref2.onLogCall,
-      autoLog = _ref2.autoLog,
-      loggingMap = _ref2.loggingMap,
-      webphoneAnswer = _ref2.webphoneAnswer,
-      webphoneReject = _ref2.webphoneReject,
-      webphoneHangup = _ref2.webphoneHangup,
-      webphoneResume = _ref2.webphoneResume,
-      enableContactFallback = _ref2.enableContactFallback;
+var ActiveCallsPanel = function (_Component) {
+  (0, _inherits3.default)(ActiveCallsPanel, _Component);
 
-  if (showSpinner) {
-    return _react2.default.createElement(_SpinnerOverlay2.default, null);
+  function ActiveCallsPanel() {
+    (0, _classCallCheck3.default)(this, ActiveCallsPanel);
+    return (0, _possibleConstructorReturn3.default)(this, (ActiveCallsPanel.__proto__ || (0, _getPrototypeOf2.default)(ActiveCallsPanel)).apply(this, arguments));
   }
-  if (!hasCalls) {
-    return _react2.default.createElement(
-      'div',
-      { className: (0, _classnames2.default)(_styles2.default.root, className) },
-      _react2.default.createElement(
-        'p',
-        { className: _styles2.default.noCalls },
-        _i18n2.default.getString('noActiveCalls', currentLocale)
-      )
-    );
-  }
-  var getCallList = function getCallList(calls, title) {
-    return _react2.default.createElement(ActiveCallList, {
-      title: title,
-      calls: calls,
-      currentLocale: currentLocale,
-      areaCode: areaCode,
-      countryCode: countryCode,
-      brand: brand,
-      showContactDisplayPlaceholder: showContactDisplayPlaceholder,
-      formatPhone: formatPhone,
-      onClickToSms: onClickToSms,
-      onCreateContact: onCreateContact,
-      onViewContact: onViewContact,
-      outboundSmsPermission: outboundSmsPermission,
-      internalSmsPermission: internalSmsPermission,
-      isLoggedContact: isLoggedContact,
-      onLogCall: onLogCall,
-      autoLog: autoLog,
-      loggingMap: loggingMap,
-      webphoneAnswer: webphoneAnswer,
-      webphoneReject: webphoneReject,
-      webphoneHangup: webphoneHangup,
-      webphoneResume: webphoneResume,
-      enableContactFallback: enableContactFallback
-    });
-  };
-  return _react2.default.createElement(
-    'div',
-    { className: (0, _classnames2.default)(_styles2.default.root, className) },
-    getCallList(activeRingCalls, _i18n2.default.getString('ringCall', currentLocale)),
-    getCallList(activeCurrentCalls, _i18n2.default.getString('currentCall', currentLocale)),
-    getCallList(activeOnHoldCalls, _i18n2.default.getString('onHoldCall', currentLocale)),
-    getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale))
-  );
-}
+
+  (0, _createClass3.default)(ActiveCallsPanel, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (this.hasCalls(this.props) && !this.hasCalls(nextProps) && typeof this.props.onCallsEmpty === 'function') {
+        this.props.onCallsEmpty();
+      }
+    }
+  }, {
+    key: 'hasCalls',
+    value: function hasCalls() {
+      var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
+
+      return props.activeRingCalls.length > 0 || props.activeOnHoldCalls.length > 0 || props.activeCurrentCalls.length > 0 || props.otherDeviceCalls.length > 0;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          activeRingCalls = _props.activeRingCalls,
+          activeOnHoldCalls = _props.activeOnHoldCalls,
+          activeCurrentCalls = _props.activeCurrentCalls,
+          otherDeviceCalls = _props.otherDeviceCalls,
+          showSpinner = _props.showSpinner,
+          className = _props.className,
+          currentLocale = _props.currentLocale,
+          areaCode = _props.areaCode,
+          countryCode = _props.countryCode,
+          brand = _props.brand,
+          showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder,
+          formatPhone = _props.formatPhone,
+          onClickToSms = _props.onClickToSms,
+          onCreateContact = _props.onCreateContact,
+          onViewContact = _props.onViewContact,
+          outboundSmsPermission = _props.outboundSmsPermission,
+          internalSmsPermission = _props.internalSmsPermission,
+          isLoggedContact = _props.isLoggedContact,
+          onLogCall = _props.onLogCall,
+          autoLog = _props.autoLog,
+          loggingMap = _props.loggingMap,
+          webphoneAnswer = _props.webphoneAnswer,
+          webphoneReject = _props.webphoneReject,
+          webphoneHangup = _props.webphoneHangup,
+          webphoneResume = _props.webphoneResume,
+          enableContactFallback = _props.enableContactFallback,
+          webphoneToVoicemail = _props.webphoneToVoicemail;
+
+      if (showSpinner) {
+        return _react2.default.createElement(_SpinnerOverlay2.default, null);
+      }
+      if (!this.hasCalls()) {
+        return _react2.default.createElement(
+          'div',
+          { className: (0, _classnames2.default)(_styles2.default.root, className) },
+          _react2.default.createElement(
+            'p',
+            { className: _styles2.default.noCalls },
+            _i18n2.default.getString('noActiveCalls', currentLocale)
+          )
+        );
+      }
+      var getCallList = function getCallList(calls, title) {
+        return _react2.default.createElement(ActiveCallList, {
+          title: title,
+          calls: calls,
+          currentLocale: currentLocale,
+          areaCode: areaCode,
+          countryCode: countryCode,
+          brand: brand,
+          showContactDisplayPlaceholder: showContactDisplayPlaceholder,
+          formatPhone: formatPhone,
+          onClickToSms: onClickToSms,
+          onCreateContact: onCreateContact,
+          onViewContact: onViewContact,
+          outboundSmsPermission: outboundSmsPermission,
+          internalSmsPermission: internalSmsPermission,
+          isLoggedContact: isLoggedContact,
+          onLogCall: onLogCall,
+          autoLog: autoLog,
+          loggingMap: loggingMap,
+          webphoneAnswer: webphoneAnswer,
+          webphoneReject: webphoneReject,
+          webphoneHangup: webphoneHangup,
+          webphoneResume: webphoneResume,
+          webphoneToVoicemail: webphoneToVoicemail,
+          enableContactFallback: enableContactFallback
+        });
+      };
+      return _react2.default.createElement(
+        'div',
+        { className: (0, _classnames2.default)(_styles2.default.root, className) },
+        getCallList(activeRingCalls, _i18n2.default.getString('ringCall', currentLocale)),
+        getCallList(activeCurrentCalls, _i18n2.default.getString('currentCall', currentLocale)),
+        getCallList(activeOnHoldCalls, _i18n2.default.getString('onHoldCall', currentLocale)),
+        getCallList(otherDeviceCalls, _i18n2.default.getString('otherDeviceCall', currentLocale))
+      );
+    }
+  }]);
+  return ActiveCallsPanel;
+}(_react.Component);
+
+exports.default = ActiveCallsPanel;
+
 
 ActiveCallsPanel.propTypes = {
-  hasCalls: _propTypes2.default.bool.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   className: _propTypes2.default.string,
   activeRingCalls: _propTypes2.default.array.isRequired,
@@ -249,10 +304,12 @@ ActiveCallsPanel.propTypes = {
   webphoneReject: _propTypes2.default.func,
   webphoneHangup: _propTypes2.default.func,
   webphoneResume: _propTypes2.default.func,
+  webphoneToVoicemail: _propTypes2.default.func,
   autoLog: _propTypes2.default.bool,
   onViewContact: _propTypes2.default.func,
   enableContactFallback: _propTypes2.default.bool,
-  loggingMap: _propTypes2.default.object
+  loggingMap: _propTypes2.default.object,
+  onCallsEmpty: _propTypes2.default.func
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -270,8 +327,10 @@ ActiveCallsPanel.defaultProps = {
   webphoneReject: undefined,
   webphoneHangup: undefined,
   webphoneResume: undefined,
+  webphoneToVoicemail: undefined,
   enableContactFallback: undefined,
   loggingMap: {},
-  autoLog: false
+  autoLog: false,
+  onCallsEmpty: undefined
 };
 //# sourceMappingURL=index.js.map
