@@ -4,6 +4,7 @@ import i18n from './i18n';
 
 function mapToProps(_, {
   locale,
+  brand,
   callHistory,
   regionSettings,
   connectivityMonitor,
@@ -17,6 +18,7 @@ function mapToProps(_, {
 }) {
   return {
     enableContactFallback,
+    brand: brand.fullName,
     title: i18n.getString('title', locale.currentLocale),
     currentLocale: locale.currentLocale,
     calls: callHistory.calls,
