@@ -113,7 +113,7 @@ CallList.propTypes = {
   webphoneResume: PropTypes.func,
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
-  showContactDisplayPlaceholder: PropTypes.bool.isRequired
+  showContactDisplayPlaceholder: PropTypes.bool
 };
 CallList.defaultProps = {
   className: null,
@@ -134,6 +134,7 @@ CallList.defaultProps = {
   webphoneHangup: undefined,
   webphoneResume: undefined,
   enableContactFallback: undefined,
+  showContactDisplayPlaceholder: true,
   autoLog: false,
 };
 

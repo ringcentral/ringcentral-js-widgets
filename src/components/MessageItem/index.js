@@ -326,7 +326,7 @@ MessageItem.propTypes = {
   showConversationDetail: PropTypes.func.isRequired,
   autoLog: PropTypes.bool,
   enableContactFallback: PropTypes.bool,
-  showContactDisplayPlaceholder: PropTypes.bool.isRequired,
+  showContactDisplayPlaceholder: PropTypes.bool,
 };
 
 MessageItem.defaultProps = {
@@ -338,4 +338,5 @@ MessageItem.defaultProps = {
   disableLinks: false,
   autoLog: false,
   enableContactFallback: undefined,
+  showContactDisplayPlaceholder: true,
 };

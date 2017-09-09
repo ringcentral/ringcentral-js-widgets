@@ -452,7 +452,7 @@ CallItem.propTypes = {
   // webphoneResume: PropTypes.func,
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
-  showContactDisplayPlaceholder: PropTypes.bool.isRequired,
+  showContactDisplayPlaceholder: PropTypes.bool,
 };
 
 CallItem.defaultProps = {
@@ -472,5 +472,6 @@ CallItem.defaultProps = {
   // webphoneHangup: () => null,
   // webphoneResume: () => null,
   enableContactFallback: undefined,
+  showContactDisplayPlaceholder: true,
   autoLog: false,
 };
