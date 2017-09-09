@@ -102,7 +102,7 @@ var MessageItem = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (MessageItem.__proto__ || (0, _getPrototypeOf2.default)(MessageItem)).call(this, props));
 
     _this.onSelectContact = function (value, idx) {
-      var selected = parseInt(idx, 10) - 1;
+      var selected = _this.props.showContactDisplayPlaceholder ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
       _this._userSelection = true;
       _this.setState({
         selected: selected
@@ -340,7 +340,8 @@ var MessageItem = function (_Component) {
           onViewContact = _props.onViewContact,
           onCreateContact = _props.onCreateContact,
           dateTimeFormatter = _props.dateTimeFormatter,
-          enableContactFallback = _props.enableContactFallback;
+          enableContactFallback = _props.enableContactFallback,
+          showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder;
 
 
       var groupNumbers = this.getGroupPhoneNumbers();
@@ -363,6 +364,7 @@ var MessageItem = function (_Component) {
             _this2.contactDisplay = ref;
           },
           className: (0, _classnames2.default)(_styles2.default.contactDisplay, unreadCounts && _styles2.default.unread),
+          selectClassName: _styles2.default.dropdownSelect,
           brand: brand,
           contactMatches: correspondentMatches,
           selected: this.state.selected,
@@ -376,7 +378,9 @@ var MessageItem = function (_Component) {
           groupNumbers: groupNumbers,
           currentLocale: currentLocale,
           enableContactFallback: enableContactFallback,
-          stopPropagation: false
+          stopPropagation: false,
+          showType: false,
+          showPlaceholder: showContactDisplayPlaceholder
         }),
         _react2.default.createElement(
           'div',
@@ -447,7 +451,8 @@ MessageItem.propTypes = {
   dateTimeFormatter: _propTypes2.default.func.isRequired,
   showConversationDetail: _propTypes2.default.func.isRequired,
   autoLog: _propTypes2.default.bool,
-  enableContactFallback: _propTypes2.default.bool
+  enableContactFallback: _propTypes2.default.bool,
+  showContactDisplayPlaceholder: _propTypes2.default.bool
 };
 
 MessageItem.defaultProps = {
@@ -458,6 +463,7 @@ MessageItem.defaultProps = {
   disableClickToDial: false,
   disableLinks: false,
   autoLog: false,
-  enableContactFallback: undefined
+  enableContactFallback: undefined,
+  showContactDisplayPlaceholder: true
 };
 //# sourceMappingURL=index.js.map

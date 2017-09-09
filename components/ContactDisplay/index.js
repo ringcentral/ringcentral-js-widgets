@@ -129,13 +129,16 @@ function ContactDisplay(_ref2) {
   } else if (contactMatches.length > 1) {
     var options = [].concat((0, _toConsumableArray3.default)(contactMatches));
     var placeholder = void 0;
+    var _selected = selected;
     if (showPlaceholder) {
       placeholder = _i18n2.default.getString('select', currentLocale);
+    } else {
+      _selected = _selected < 0 ? 0 : _selected;
     }
     contentEl = _react2.default.createElement(_DropdownSelect2.default, {
       reference: reference,
       className: (0, _classnames2.default)(_styles2.default.select, selectClassName),
-      value: '' + selected,
+      value: '' + _selected,
       onChange: onSelectContact,
       disabled: disabled || isLogging,
       options: options,

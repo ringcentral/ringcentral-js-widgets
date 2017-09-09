@@ -83,11 +83,13 @@ function MessagesPanel(_ref) {
 MessagesPanel.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired,
   showSpinner: _propTypes2.default.bool,
-  showTitle: _propTypes2.default.bool
+  showTitle: _propTypes2.default.bool,
+  showContactDisplayPlaceholder: _propTypes2.default.bool
 };
 MessagesPanel.defaultProps = {
   showSpinner: false,
-  showTitle: false
+  showTitle: false,
+  showContactDisplayPlaceholder: true
 };
 
 function mapToProps(_, _ref2) {

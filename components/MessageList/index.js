@@ -175,7 +175,8 @@ MessageList.propTypes = {
   perPage: _propTypes2.default.number,
   className: _propTypes2.default.string,
   showConversationDetail: _propTypes2.default.func.isRequired,
-  dateTimeFormatter: _propTypes2.default.func
+  dateTimeFormatter: _propTypes2.default.func,
+  showContactDisplayPlaceholder: _propTypes2.default.bool
 };
 MessageList.defaultProps = {
   onSearchInputChange: undefined,
@@ -183,6 +184,7 @@ MessageList.defaultProps = {
   perPage: 20,
   className: undefined,
   disableLinks: false,
-  dateTimeFormatter: undefined
+  dateTimeFormatter: undefined,
+  showContactDisplayPlaceholder: true
 };
 //# sourceMappingURL=index.js.map

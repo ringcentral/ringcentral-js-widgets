@@ -157,7 +157,7 @@ var CallItem = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallItem.__proto__ || (0, _getPrototypeOf2.default)(CallItem)).call(this, props));
 
     _this.onSelectContact = function (value, idx) {
-      var selected = parseInt(idx, 10) - 1;
+      var selected = _this.props.showContactDisplayPlaceholder ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
       _this._userSelection = true;
       _this.setState({
         selected: selected
@@ -455,7 +455,8 @@ var CallItem = function (_Component) {
           onClickToSms = _props.onClickToSms,
           dateTimeFormatter = _props.dateTimeFormatter,
           isLogging = _props.isLogging,
-          enableContactFallback = _props.enableContactFallback;
+          enableContactFallback = _props.enableContactFallback,
+          showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder;
 
       var phoneNumber = this.getPhoneNumber();
       var contactMatches = this.getContactMatches();
@@ -522,6 +523,7 @@ var CallItem = function (_Component) {
         }),
         _react2.default.createElement(_ContactDisplay2.default, {
           className: (0, _classnames2.default)(_styles2.default.contactDisplay, missed && _styles2.default.missed, active && _styles2.default.active),
+          selectClassName: _styles2.default.dropdownSelect,
           brand: brand,
           contactMatches: contactMatches,
           selected: this.state.selected,
@@ -534,7 +536,9 @@ var CallItem = function (_Component) {
           countryCode: countryCode,
           phoneNumber: phoneNumber,
           currentLocale: currentLocale,
-          stopPropagation: false
+          stopPropagation: false,
+          showType: false,
+          showPlaceholder: showContactDisplayPlaceholder
         }),
         _react2.default.createElement(
           'div',
@@ -618,7 +622,8 @@ CallItem.propTypes = {
   // webphoneHangup: PropTypes.func,
   // webphoneResume: PropTypes.func,
   enableContactFallback: _propTypes2.default.bool,
-  autoLog: _propTypes2.default.bool
+  autoLog: _propTypes2.default.bool,
+  showContactDisplayPlaceholder: _propTypes2.default.bool
 };
 
 CallItem.defaultProps = {
@@ -640,6 +645,7 @@ CallItem.defaultProps = {
   // webphoneHangup: () => null,
   // webphoneResume: () => null,
   enableContactFallback: undefined,
+  showContactDisplayPlaceholder: true,
   autoLog: false
 };
 //# sourceMappingURL=index.js.map
