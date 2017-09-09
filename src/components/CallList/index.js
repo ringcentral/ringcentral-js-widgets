@@ -42,6 +42,7 @@ function CallList({
   webphoneResume,
   enableContactFallback,
   autoLog,
+  showContactDisplayPlaceholder
 }) {
   if (calls && calls.length) {
     return (
@@ -73,6 +74,7 @@ function CallList({
             webphoneResume={webphoneResume}
             enableContactFallback={enableContactFallback}
             autoLog={autoLog}
+            showContactDisplayPlaceholder={showContactDisplayPlaceholder}
           />
         ))}
       </div>
@@ -111,6 +113,7 @@ CallList.propTypes = {
   webphoneResume: PropTypes.func,
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
+  showContactDisplayPlaceholder: PropTypes.bool.isRequired
 };
 CallList.defaultProps = {
   className: null,

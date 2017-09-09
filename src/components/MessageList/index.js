@@ -109,6 +109,7 @@ MessageList.propTypes = {
   className: PropTypes.string,
   showConversationDetail: PropTypes.func.isRequired,
   dateTimeFormatter: PropTypes.func,
+  showContactDisplayPlaceholder: PropTypes.bool.isRequired
 };
 MessageList.defaultProps = {
   onSearchInputChange: undefined,

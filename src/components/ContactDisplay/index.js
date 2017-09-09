@@ -97,14 +97,17 @@ export default function ContactDisplay({
       ...contactMatches,
     ];
     let placeholder;
+    let _selected = selected;
     if (showPlaceholder) {
       placeholder = i18n.getString('select', currentLocale);
+    } else {
+      _selected = _selected < 0 ? 0 : _selected;
     }
     contentEl = (
       <DropdownSelect
         reference={reference}
         className={classnames(styles.select, selectClassName)}
-        value={`${selected}`}
+        value={`${_selected}`}
         onChange={onSelectContact}
         disabled={disabled || isLogging}
         options={options}

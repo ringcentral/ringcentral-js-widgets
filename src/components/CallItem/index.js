@@ -105,7 +105,8 @@ export default class CallItem extends Component {
     this._mounted = false;
   }
   onSelectContact = (value, idx) => {
-    const selected = parseInt(idx, 10) - 1;
+    const selected = this.props.showContactDisplayPlaceholder
+      ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
     this._userSelection = true;
     this.setState({
       selected,
@@ -278,6 +279,7 @@ export default class CallItem extends Component {
       // webphoneHangup,
       // webphoneResume,
       enableContactFallback,
+      showContactDisplayPlaceholder,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
@@ -357,6 +359,7 @@ export default class CallItem extends Component {
             missed && styles.missed,
             active && styles.active,
           )}
+          selectClassName={styles.dropdownSelect}
           brand={brand}
           contactMatches={contactMatches}
           selected={this.state.selected}
@@ -370,6 +373,8 @@ export default class CallItem extends Component {
           phoneNumber={phoneNumber}
           currentLocale={currentLocale}
           stopPropagation={false}
+          showType={false}
+          showPlaceholder={showContactDisplayPlaceholder}
         />
         <div className={styles.details} >
           {durationEl} | {dateEl}{statusEl}
@@ -447,6 +452,7 @@ CallItem.propTypes = {
   // webphoneResume: PropTypes.func,
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
+  showContactDisplayPlaceholder: PropTypes.bool.isRequired,
 };
 
 CallItem.defaultProps = {

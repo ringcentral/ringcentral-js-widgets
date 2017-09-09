@@ -266,6 +266,7 @@ export default function App({
                   composeText={phone.composeText}
                   rolesAndPermissions={phone.rolesAndPermissions}
                   router={phone.router}
+                  showContactDisplayPlaceholder={false}
                   onLogCall={async () => { await sleep(1000); }}
                   onViewContact={() => { }}
                   onCreateContact={() => { }}
@@ -334,6 +335,7 @@ export default function App({
                   call={phone.call}
                   conversationLogger={phone.conversationLogger}
                   rolesAndPermissions={phone.rolesAndPermissions}
+                  showContactDisplayPlaceholder={false}
                   onLogConversation={async () => { await sleep(1000); }}
                   onViewContact={() => { }}
                   onCreateContact={() => { }}
