@@ -70,7 +70,8 @@ export default class MessageItem extends Component {
     this._mounted = false;
   }
   onSelectContact = (value, idx) => {
-    const selected = parseInt(idx, 10) - 1;
+    const selected = this.props.showContactDisplayPlaceholder
+      ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
     this._userSelection = true;
     this.setState({
       selected,
@@ -221,6 +222,7 @@ export default class MessageItem extends Component {
       onCreateContact,
       dateTimeFormatter,
       enableContactFallback,
+      showContactDisplayPlaceholder
     } = this.props;
 
     const groupNumbers = this.getGroupPhoneNumbers();
@@ -246,6 +248,7 @@ export default class MessageItem extends Component {
             styles.contactDisplay,
             unreadCounts && styles.unread
           )}
+          selectClassName={styles.dropdownSelect}
           brand={brand}
           contactMatches={correspondentMatches}
           selected={this.state.selected}
@@ -260,6 +263,8 @@ export default class MessageItem extends Component {
           currentLocale={currentLocale}
           enableContactFallback={enableContactFallback}
           stopPropagation={false}
+          showType={false}
+          showPlaceholder={showContactDisplayPlaceholder}
         />
         <div className={styles.details}>
           {dateTimeFormatter({ utcTimestamp: creationTime })} | {subject}
@@ -321,6 +326,7 @@ MessageItem.propTypes = {
   showConversationDetail: PropTypes.func.isRequired,
   autoLog: PropTypes.bool,
   enableContactFallback: PropTypes.bool,
+  showContactDisplayPlaceholder: PropTypes.bool,
 };
 
 MessageItem.defaultProps = {
@@ -332,4 +338,5 @@ MessageItem.defaultProps = {
   disableLinks: false,
   autoLog: false,
   enableContactFallback: undefined,
+  showContactDisplayPlaceholder: true,
 };
