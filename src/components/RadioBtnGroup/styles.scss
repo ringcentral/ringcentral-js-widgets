@@ -5,7 +5,8 @@
 
 .root {
   @include primary-font;
-  padding: 0 0 0 20px;
+  padding: 0 21px 0 20px;
+  min-width: 220px;
 }
 
 .radioOption {
@@ -43,13 +44,13 @@
     margin-left: 15px;
     height: 16px;
     overflow: hidden;
+    width: calc(60% - 32px);
   }
 
   .optionLabel {
     display: inline-block;
-    margin-left: 16px;
     height: 16px;
-    max-width: 43px;
+    width: 40%;
     @include text-ellipsis;
   }
 }
