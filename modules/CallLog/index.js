@@ -312,7 +312,9 @@ var CallLog = (_class = function (_Pollable) {
         (0, _callLogHelpers.removeInboundRingOutLegs)((0, _callLogHelpers.removeDuplicateIntermediateCalls)(data.filter(function (call) {
           return (
             // [RCINT-3472] calls with result === 'stopped' seems to be useless
-            call.result !== _callResults2.default.stopped
+            call.result !== _callResults2.default.stopped &&
+            // [RCINT-51111] calls with result === 'busy'
+            call.result !== _callResults2.default.busy
           );
         })))
       );
