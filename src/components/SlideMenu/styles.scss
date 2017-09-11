@@ -1,10 +1,9 @@
 @import '../../lib/commonStyles/colors';
 
 .root {
-  position: relative;
+  width: 100%;
   height: 100%;
-  background-color: #fff;
-  border-left: 1px solid $gray;
+  position: relative;
 }
 
 .wrapper {
@@ -13,7 +12,8 @@
   overflow: hidden;
   box-sizing: border-box;
   margin-left: 5px;
-  transition: width 0.15s 0s ease-in-out;
+  transition: height 0.15s 0s ease-in-out;
+  transform: translateZ(0);
 }
 
 .content {
@@ -21,42 +21,53 @@
   height: 100%;
   top: 0;
   right: 0;
+  padding: 0 30px;
+  
+  div {
+    display: inline-block;
+    margin-right: 30px;
+  }
+  div:last-child {
+    margin-right: 0;
+  }
 }
 
-.toggleButton {
-  position: absolute;
-  top: calc(50% - 12px);
-  border-right: 5px solid $gray;
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  box-sizing: border-box;
-  height: 24px;
-  width: 0;
-  right: 100%;
-}
-.toggleButtonInner {
-  position: absolute;
-  top: -4px;
-  border-right: 5px solid #fff;
-  border-top: 5px solid transparent;
-  border-bottom: 5px solid transparent;
-  box-sizing: border-box;
-  height: 22px;
-  left: 1px;
-}
-.toggleButtonIcon {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  top: 0;
-  left: 0;
+.pointer {
   cursor: pointer;
-  color: #666666;
-  font-size: 8px;
-  transform: rotateZ(90deg);
-  line-height: 14px;
-  text-align: center;
 }
-.expanded .toggleButtonIcon {
-  transform: rotateZ(-90deg);
+
+.extendIcon {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  border-top: 7px solid #e2e2e2;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  box-sizing: border-box;
+  width: 28px;
+  height: 0;
+  margin-left: -14px;
+  z-index: 1;
+  cursor: pointer;
+
+  .extendInner {
+    position: absolute;
+    top: -8px;
+    left: -4px;
+    border-top: 7px solid #ffffff;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    box-sizing: border-box;
+    width: 26px;
+    height: 0;
+  }
+
+  .extendInnerIcon {
+    position: absolute;
+    top: -5px;
+    left: 6px;
+    width: 6px;
+    height: 1px;
+    background: #e2e2e2;
+  }
 }

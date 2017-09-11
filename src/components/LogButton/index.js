@@ -18,7 +18,7 @@ export default function LogButton({
   const spinner = isLogging ?
     (
       <div className={styles.spinnerContainer}>
-        <Spinner ringWidth={2} />
+        <Spinner ringWidth={2} className={styles.spinner} />
       </div>
     ) :
     null;

@@ -9,7 +9,7 @@ import parseNumber from 'ringcentral-integration/lib/parseNumber';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DurationCounter from '../DurationCounter';
 import ContactDisplay from '../ContactDisplay';
-import ActiveCallActionMenu from '../ActiveCallActionMenu';
+import ActionMenu from '../ActionMenu';
 import CircleButton from '../CircleButton';
 import EndIcon from '../../assets/images/End.svg';
 import AnswerIcon from '../../assets/images/Answer.svg';
@@ -142,7 +142,13 @@ export default class ActiveCallItem extends Component {
     };
     this._userSelection = false;
 
-    this.toggleExtended = () => {
+    this.toggleExtended = (e) => {
+      if ((
+        this.contactDisplay &&
+        this.contactDisplay.contains(e.target))
+      ) {
+        return;
+      }
       this.setState(preState => ({
         extended: !preState.extended,
       }));
@@ -416,12 +422,10 @@ export default class ActiveCallItem extends Component {
             webphoneResume={webphoneResume}
           />
         </div>
-        <ActiveCallActionMenu
+        <ActionMenu
+          extended={this.state.extended}
+          onToggle={this.toggleExtended}
           currentLocale={currentLocale}
-          className={classnames(
-            styles.actionMenu,
-            this.state.extended ? styles.extended : null
-          )}
           disableLinks={disableLinks}
           phoneNumber={phoneNumber}
           onClickToSms={

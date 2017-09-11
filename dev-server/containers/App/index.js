@@ -304,6 +304,7 @@ export default function App({
               path="/conversations/:conversationId"
               component={props => (
                 <ConversationPage
+                  brand={phone.brand}
                   locale={phone.locale}
                   auth={phone.auth}
                   params={props.params}
@@ -317,6 +318,7 @@ export default function App({
                   rateLimiter={phone.rateLimiter}
                   connectivityMonitor={phone.connectivityMonitor}
                   onLogConversation={async () => { sleep(1000); }}
+                  showContactDisplayPlaceholder={false}
                   router={phone.router}
                 />
               )} />

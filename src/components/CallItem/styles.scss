@@ -1,10 +1,14 @@
 @import '../../lib/commonStyles/colors';
 
 .root {
+  min-height: 74px;
+  border-bottom: 1px solid #e2e2e2;
+}
+
+.wrapper {
   display: block;
   position: relative;
   background: #fff;
-  border-bottom: 1px solid #e2e2e2;
   height: 74px;
   width: 100%;
 
@@ -59,6 +63,7 @@
   position: absolute;
   top: 5px;
   left: 45px;
+	width: auto !important;
 }
 
 .missed {
