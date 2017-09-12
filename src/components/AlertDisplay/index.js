@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import alertLevels from 'ringcentral-integration/modules/Alert/alertLevels';
+
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 
-// TODO animation
-
 function Message(props) {
   return (
-    <div className={styles.alertHolder}>
+    <div
+      className={classnames(
+        styles.alertHolder,
+        styles[props.animation]
+      )}>
       <div
         className={classnames(
           styles[props.level],
@@ -27,6 +31,7 @@ Message.propTypes = {
   level: PropTypes.string.isRequired,
   message: PropTypes.node.isRequired,
   onDismiss: PropTypes.func.isRequired,
+  animation: PropTypes.func.isRequired,
 };
 
 function AlertDisplay(props) {
@@ -40,6 +45,7 @@ function AlertDisplay(props) {
             <Message
               key={message.id}
               level={message.level}
+              animation={message.animation}
               message={
                 <Renderer
                   message={message}
@@ -60,7 +66,7 @@ AlertDisplay.propTypes = {
   className: PropTypes.string,
   messages: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
-    level: PropTypes.oneOf(['success', 'info', 'warning', 'danger']).isRequired,
+    level: PropTypes.oneOf(Object.keys(alertLevels)).isRequired,
     message: PropTypes.string.isRequired,
     payload: PropTypes.any,
   })),
