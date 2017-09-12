@@ -46,7 +46,6 @@
   width: 28px;
   height: 0;
   margin-left: -14px;
-  z-index: 1;
   cursor: pointer;
 
   .extendInner {
@@ -59,6 +58,7 @@
     box-sizing: border-box;
     width: 26px;
     height: 0;
+    z-index: 1;
   }
 
   .extendInnerIcon {
@@ -68,5 +68,6 @@
     width: 6px;
     height: 1px;
     background: #e2e2e2;
+    z-index: 1;
   }
 }
