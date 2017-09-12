@@ -25,10 +25,9 @@
   
   div {
     display: inline-block;
-    margin-right: 30px;
   }
-  div:last-child {
-    margin-right: 0;
+  div:not(:last-child) {
+    margin-right: 30px;
   }
 }
 
