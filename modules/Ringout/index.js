@@ -109,9 +109,21 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 var DEFAULT_MONITOR_INTERVAL = 2500;
 var DEFAULT_TIME_BETWEEN_CALLS = 10000;
 
+/**
+ * @class
+ * @description Ringout managing module
+ */
 var Ringout = (_class = function (_RcModule) {
   (0, _inherits3.default)(Ringout, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Client} params.client - client module instance
+   * @param {Auth} params.auth - auth module instance
+   * @param {Number} params.monitorInterval - monitor interval, default 2500
+   * @param {Number} params.timeBetweenCalls - time between calls, default 10000
+   */
   function Ringout(_ref) {
     var auth = _ref.auth,
         client = _ref.client,

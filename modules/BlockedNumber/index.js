@@ -51,9 +51,18 @@ var _fetchList2 = _interopRequireDefault(_fetchList);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @class
+ * @description Blocked number list managing module
+ */
 var BlockedNumber = function (_DataFetcher) {
   (0, _inherits3.default)(BlockedNumber, _DataFetcher);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Client} params.client - client module instance
+   */
   function BlockedNumber(_ref) {
     var _this2 = this;
 

@@ -139,9 +139,18 @@ function checkIntl() {
   });
 }
 
+/**
+ * @class
+ * @description Locale managing module
+ */
 var Locale = (_class = function (_RcModule) {
   (0, _inherits3.default)(Locale, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {String} params.defaultLocale - default 'en-US'
+   */
   function Locale() {
     var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 

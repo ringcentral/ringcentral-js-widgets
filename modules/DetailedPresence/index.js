@@ -69,9 +69,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var presenceRegExp = /\/presence(\?.*)?/;
 
+/**
+ * @class
+ * @description Presence detail info managing module
+ */
+
 var DetailedPresence = function (_Presence) {
   (0, _inherits3.default)(DetailedPresence, _Presence);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Auth} params.auth - auth module instance
+   * @param {Client} params.client - client module instance
+   * @param {Subscription} params.subscription - subscription module instance
+   * @param {ConnectivityMonitor} params.connectivityMonitor - connectivityMonitor module instance
+   */
   function DetailedPresence(_ref) {
     var _this2 = this;
 

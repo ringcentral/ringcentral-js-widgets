@@ -110,9 +110,23 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
+/**
+ * @class
+ * @description Compose text managing module
+ */
 var ComposeText = (_class = function (_RcModule) {
   (0, _inherits3.default)(ComposeText, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Alert} params.alert - alert module instance
+   * @param {Auth} params.auth - auth module instance
+   * @param {Storage} params.storage - storage module instance
+   * @param {MessageSender} params.messageSender - messageSender module instance
+   * @param {NumberValidate} params.numberValidate - numberValidate module instance
+   * @param {ContactSearch} params.contactSearch - contactSearch module instance
+   */
   function ComposeText(_ref) {
     var alert = _ref.alert,
         auth = _ref.auth,

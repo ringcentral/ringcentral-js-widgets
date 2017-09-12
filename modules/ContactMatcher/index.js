@@ -86,9 +86,16 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
+/**
+ * @class
+ * @description Contact matcher managing module
+ */
 var ContactMatcher = (_class = function (_DataMatcher) {
   (0, _inherits3.default)(ContactMatcher, _DataMatcher);
 
+  /**
+   * @constructor
+   */
   function ContactMatcher(_ref) {
     var options = (0, _objectWithoutProperties3.default)(_ref, []);
     (0, _classCallCheck3.default)(this, ContactMatcher);

@@ -116,9 +116,22 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
+/**
+ * @class
+ * @description Message sender and validator module
+ */
 var MessageSender = (_class = function (_RcModule) {
   (0, _inherits3.default)(MessageSender, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Alert} params.alert - alert module instance
+   * @param {Client} params.client - client module instance
+   * @param {ExtensionInfo} params.extensionInfo - extensionInfo module instance
+   * @param {ExtensionPhoneNumber} params.extensionPhoneNumber - extensionPhoneNumber module instance
+   * @param {NumberValidate} params.numberValidate - numberValidate module instance
+   */
   function MessageSender(_ref) {
     var alert = _ref.alert,
         client = _ref.client,

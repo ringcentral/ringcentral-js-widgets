@@ -61,9 +61,19 @@ function simplifyPhoneNumber(number) {
   return (0, _removeUri2.default)(number);
 }
 
+/**
+ * @class
+ * @description Accound phone number module to get account phone number list
+ */
+
 var AccountPhoneNumber = function (_DataFetcher) {
   (0, _inherits3.default)(AccountPhoneNumber, _DataFetcher);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Client} params.client - client module instance
+   */
   function AccountPhoneNumber(_ref) {
     var _this2 = this;
 

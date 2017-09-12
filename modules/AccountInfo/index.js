@@ -53,9 +53,19 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var DEFAULT_MASK = ['id,mainNumber,status', 'operator(id,extensionNumber)', 'serviceInfo(brand(id,homeCountry(isoCode)))', 'regionalSettings(' + ['timezone(id,name,bias)', 'homeCountry(id)', 'language(localeCode)', 'formattingLocale(localeCode)', 'timeFormat'].join(',') + ')'].join(',');
 
+/**
+ * @class
+ * @description Accound info managing module.
+ */
+
 var AccountInfo = function (_DataFetcher) {
   (0, _inherits3.default)(AccountInfo, _DataFetcher);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Client} params.client - client module instance
+   */
   function AccountInfo(_ref) {
     var _this2 = this;
 

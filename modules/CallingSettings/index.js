@@ -114,9 +114,27 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
+/**
+ * @class
+ * @description Call setting managing module
+ */
 var CallingSettings = (_class = function (_RcModule) {
   (0, _inherits3.default)(CallingSettings, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Alert} params.alert - alert module instance
+   * @param {Brand} params.brand - brand module instance
+   * @param {ExtensionInfo} params.extensionInfo - extensionInfo module instance
+   * @param {ExtensionPhoneNumber} params.extensionPhoneNumber - extensionPhoneNumber module instance
+   * @param {ForwardingNumber} params.forwardingNumber - forwardingNumber module instance
+   * @param {Storage} params.storage - storage module instance
+   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
+   * @param {TabManager} params.tabManager - tabManager module instance
+   * @param {Webphone} params.webphone - webphone module instance
+   * @param {Function} params.onFirstLogin - func on first login
+   */
   function CallingSettings(_ref) {
     var alert = _ref.alert,
         brand = _ref.brand,

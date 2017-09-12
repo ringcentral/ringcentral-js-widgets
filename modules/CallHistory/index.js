@@ -73,9 +73,22 @@ var _normalizeNumber2 = _interopRequireDefault(_normalizeNumber);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @class
+ * @description Call history managing module
+ */
 var CallHistory = function (_RcModule) {
   (0, _inherits3.default)(CallHistory, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {AccountInfo} params.accountInfo - accountInfo module instance
+   * @param {CallLog} params.callLog - callLog module instance
+   * @param {CallMonitor} params.callMonitor - callMonitor module instance
+   * @param {ActivityMatcher} params.activityMatcher - activityMatcher module instance
+   * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance
+   */
   function CallHistory(_ref) {
     var accountInfo = _ref.accountInfo,
         callLog = _ref.callLog,

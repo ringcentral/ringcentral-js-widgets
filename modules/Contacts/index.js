@@ -95,9 +95,23 @@ function addPhoneToContact(contact, phone, type) {
 
 var DEFAULT_TTL = 30 * 60 * 1000;
 
+/**
+ * @class
+ * @description Contacts managing module
+ */
+
 var Contacts = function (_RcModule) {
   (0, _inherits3.default)(Contacts, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Client} params.client - client module instance
+   * @param {AddressBook} params.addressBook - addressBook module instance
+   * @param {AccountExtension} params.accountExtension - accountExtension module instance
+   * @param {AccountPhoneNumber} params.accountPhoneNumber - accountPhoneNumber module instance
+   * @param {Number} params.ttl - timestamp of local cache, default 30 mins
+   */
   function Contacts(_ref) {
     var client = _ref.client,
         addressBook = _ref.addressBook,

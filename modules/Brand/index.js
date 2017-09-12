@@ -39,9 +39,21 @@ var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @class
+ * @description Brand managing module
+ */
 var Brand = function (_RcModule) {
   (0, _inherits3.default)(Brand, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {String} params.id - brand id
+   * @param {String} params.name - brand name
+   * @param {String} params.fullName - full brand name
+   * @param {String} params.application - application name
+   */
   function Brand(_ref) {
     var id = _ref.id,
         name = _ref.name,

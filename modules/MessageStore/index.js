@@ -136,9 +136,27 @@ var DEFAULT_TTL = 30 * 60 * 1000;
 var DEFAULT_TIME_TO_RETRY = 62 * 1000;
 var DEFAULT_DAY_SPAN = 7;
 
+/**
+ * @class
+ * @description Messages data manageing module
+ */
 var MessageStore = (_class = function (_Pollable) {
   (0, _inherits3.default)(MessageStore, _Pollable);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Alert} params.alert - alert module instance
+   * @param {Auth} params.auth - auth module instance
+   * @param {Client} params.client - client module instance
+   * @param {Storage} params.storage - storage module instance
+   * @param {subscription} params.subscription - subscription module instance
+   * @param {connectivityMonitor} params.connectivityMonitor - connectivityMonitor module instance
+   * @param {Number} params.ttl - local cache timestamp
+   * @param {Number} params.timeToRetry - waiting time to retry
+   * @param {Number} params.daySpan - day span of call log
+   * @param {Bool} params.polling - polling flag, default false
+   */
   function MessageStore(_ref) {
     var alert = _ref.alert,
         client = _ref.client,

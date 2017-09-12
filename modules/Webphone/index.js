@@ -158,27 +158,32 @@ var FIFTH_RETRIES_DELAY = 60 * 1000;
 var MAX_RETRIES_DELAY = 2 * 60 * 1000;
 
 /**
- * Web phone module to handle phone interaction with WebRTC.
- * @param {appKey} appKey
- * @param {appName} appName
- * @param {appVersion} appVersion
- * @param {webphoneLogLevel} log Level
- * @param {alert} alert module instance
- * @param {auth} auth module instance
- * @param {client} client module instance
- * @param {rolesAndPermissions} rolesAndPermissions module instance
- * @param {storage} storage module instance
- * @param {globalStorage} globalStorage module instance
- * @param {extensionDevice} extensionDevice module instance
- * @param {numberValidate} numberValidate module instance
- * @param {contactMatcher} contactMatcher module instance, optional
- * @param {onCallEnd} callback on a call end
- * @param {onCallRing} callback on a call ring
- * @param {onCallStart} callback on a call start
+ * @constructor
+ * @description Web phone module to handle phone interaction with WebRTC.
  */
 var Webphone = (_class = function (_RcModule) {
   (0, _inherits3.default)(Webphone, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {String} params.appKey - app key
+   * @param {String} params.appName - app name
+   * @param {String} params.appVersion - app version
+   * @param {Number} params.webphoneLogLevel - log Level
+   * @param {Alert} params.alert - alert module instance
+   * @param {Auth} params.auth - auth module instance
+   * @param {Client} params.client - client module instance
+   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
+   * @param {Storage} params.storage - storage module instance
+   * @param {GlobalStorage} params.globalStorage - globalStorage module instance
+   * @param {ExtensionDevice} params.extensionDevice - extensionDevice module instance
+   * @param {NumberValidate} params.numberValidate - numberValidate module instance
+   * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance, optional
+   * @param {Function} params.onCallEnd - callback on a call end
+   * @param {Function} params.onCallRing - callback on a call ring
+   * @param {Function} params.onCallStart - callback on a call start
+   */
   function Webphone(_ref) {
     var appKey = _ref.appKey,
         appName = _ref.appName,

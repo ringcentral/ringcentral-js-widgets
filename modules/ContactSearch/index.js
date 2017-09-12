@@ -114,9 +114,20 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
+/**
+ * @class
+ * @description Contact search module
+ */
 var ContactSearch = (_class = function (_RcModule) {
   (0, _inherits3.default)(ContactSearch, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Auth} params.auth - auth module instance
+   * @param {Storage} params.storage - storage module instance
+   * @param {Number} params.ttl - timestamp of local cache, default 30 mins
+   */
   function ContactSearch(_ref) {
     var auth = _ref.auth,
         storage = _ref.storage,

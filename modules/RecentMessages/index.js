@@ -127,11 +127,18 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 }
 
 /**
- * Retrieve all recent messages related to a specified contact.
+ * @class
+ * @description Retrieve all recent messages related to a specified contact.
  */
 var RecentMessages = (_class = function (_RcModule) {
   (0, _inherits3.default)(RecentMessages, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {MessageStore} params.messageStore - messageStore module instance
+   * @param {Client} params.client - client module instance
+   */
   function RecentMessages(_ref) {
     var client = _ref.client,
         messageStore = _ref.messageStore,

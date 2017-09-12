@@ -109,9 +109,22 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 var DEFAULT_TIME_TO_RETRY = exports.DEFAULT_TIME_TO_RETRY = 5 * 1000;
 var DEFAULT_HEART_BEAT_INTERVAL = exports.DEFAULT_HEART_BEAT_INTERVAL = 60 * 1000;
 
+/**
+ * @class
+ * @description Connectivity monitor module
+ */
 var ConnectivityMonitor = (_class = function (_RcModule) {
   (0, _inherits3.default)(ConnectivityMonitor, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Alert} params.alert - alert module instance
+   * @param {Client} params.client - client module instance
+   * @param {Environment} params.environment - environment module instance
+   * @param {Number} params.timeToRetry - time to Retry
+   * @param {Number} params.heartBeatInterval - heart beat interval
+   */
   function ConnectivityMonitor(_ref) {
     var alert = _ref.alert,
         client = _ref.client,

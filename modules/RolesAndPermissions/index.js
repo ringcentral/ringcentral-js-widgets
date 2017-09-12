@@ -73,9 +73,24 @@ function extractData(permissions) {
   return output;
 }
 
+/**
+ * @class
+ * @description Roles and permission module
+ */
+
 var RolesAndPermissions = function (_DataFetcher) {
   (0, _inherits3.default)(RolesAndPermissions, _DataFetcher);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Client} params.client - client module instance
+   * @param {Alert} params.alert - alert module instance
+   * @param {ExtensionInfo} params.extensionInfo - extensionInfo module instance
+   * @param {Bool} params.isCRM - if it is CRM
+   * @param {String} params.flag - app flag
+   * @param {Number} params.ttl - local cache time
+   */
   function RolesAndPermissions(_ref) {
     var _this2 = this;
 

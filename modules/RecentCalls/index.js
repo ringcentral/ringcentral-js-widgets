@@ -115,11 +115,18 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 }
 
 /**
- * Retrieve all recent calls related to a specified contact.
+ * @class
+ * @description Retrieve all recent calls related to a specified contact.
  */
 var RecentCalls = (_class = function (_RcModule) {
   (0, _inherits3.default)(RecentCalls, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {CallHistory} params.callHistory - callHistory module instance
+   * @param {Client} params.client - client module instance
+   */
   function RecentCalls(_ref) {
     var client = _ref.client,
         callHistory = _ref.callHistory,

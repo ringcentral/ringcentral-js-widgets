@@ -115,7 +115,8 @@ var Alert = (_class = function (_RcModule) {
 
   /**
    * @constructor
-   * @param {Number} ttl - Default time-to-live for alert messages.
+   * @param {Object} params - params object
+   * @param {Number} params.ttl - Default time-to-live for alert messages.
    */
   function Alert(_ref) {
     var _ref$ttl = _ref.ttl,

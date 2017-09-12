@@ -63,6 +63,10 @@ var _getTabManagerReducer2 = _interopRequireDefault(_getTabManagerReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @class
+ * @description To handle data between different tabs
+ */
 var TabManager = function (_RcModule) {
   (0, _inherits3.default)(TabManager, _RcModule);
 

@@ -53,9 +53,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var DEFAULT_MASK = 'phoneNumber,hostCode,participantCode,phoneNumbers(country,phoneNumber)';
 
+/**
+ * @class
+ * @description Conference managing module
+ */
+
 var Conference = function (_DataFetcher) {
   (0, _inherits3.default)(Conference, _DataFetcher);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {RegionSettings} params.regionSettings - regionSettings module instance
+   * @param {Client} params.client - client module instance
+   */
   function Conference(_ref) {
     var _this2 = this;
 

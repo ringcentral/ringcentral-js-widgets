@@ -61,6 +61,10 @@ var _Analytics = require('../../lib/Analytics');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @class
+ * @description Analytics module.
+ */
 var Analytics = function (_RcModule) {
   (0, _inherits3.default)(Analytics, _RcModule);
 

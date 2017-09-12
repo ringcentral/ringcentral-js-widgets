@@ -108,9 +108,21 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var DEFAULT_TIME_TO_RETRY = 60 * 1000;
 
+/**
+ * @class
+ * @description Subscription module to subscibe notification
+ */
 var Subscription = (_class = function (_RcModule) {
   (0, _inherits3.default)(Subscription, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Auth} params.auth - auth module instance
+   * @param {Client} params.client - client module instance
+   * @param {Storage} params.storage - storage module instance
+   * @param {Number} params.timeToRetry - time to retry, default 60 seconds
+   */
   function Subscription(_ref) {
     var auth = _ref.auth,
         client = _ref.client,

@@ -108,9 +108,22 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
+/**
+ * @class
+ * @description Region settings managing module
+ */
 var RegionSettings = (_class = function (_RcModule) {
   (0, _inherits3.default)(RegionSettings, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Storage} params.storage - storage module instance
+   * @param {ExtensionInfo} params.extensionInfo - extensionInfo module instance
+   * @param {DialingPlan} params.dialingPlan - dialingPlan module instance
+   * @param {Alert} params.alert - alert module instance
+   * @param {TabManager} params.tabManager - tabManager module instance
+   */
   function RegionSettings(_ref) {
     var storage = _ref.storage,
         extensionInfo = _ref.extensionInfo,

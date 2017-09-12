@@ -116,9 +116,22 @@ function callIdentityFunction(call) {
   return call.sessionId;
 }
 
+/**
+ * @class
+ * @description call logger module
+ */
 var CallLogger = (_class = function (_LoggerBase) {
   (0, _inherits3.default)(CallLogger, _LoggerBase);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Storage} params.storage - storage module instance
+   * @param {ActivityMatcher} params.activityMatcher - activityMatcher module instance
+   * @param {CallHistory} params.callHistory - callHistory module instance
+   * @param {TabManager} params.tabManager - tabManager module instance
+   * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance
+   */
   function CallLogger(_ref) {
     var storage = _ref.storage,
         activityMatcher = _ref.activityMatcher,

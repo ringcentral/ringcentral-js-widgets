@@ -51,6 +51,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var GlobalStorage = function (_StorageBase) {
   (0, _inherits3.default)(GlobalStorage, _StorageBase);
 
+  /**
+   * @constructor
+   */
   function GlobalStorage(_ref) {
     var options = (0, _objectWithoutProperties3.default)(_ref, []);
     (0, _classCallCheck3.default)(this, GlobalStorage);

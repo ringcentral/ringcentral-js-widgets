@@ -111,9 +111,19 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 var extensionRegExp = /.*\/extension$/;
 var DEFAULT_TTL = 24 * 60 * 60 * 1000;
 
+/**
+ * @class
+ * @description Accound extension list managing module
+ */
 var AccountExtension = (_class = function (_DataFetcher) {
   (0, _inherits3.default)(AccountExtension, _DataFetcher);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Client} params.client - client module instance
+   * @param {Number} params.ttl - local cache timestamp, default 24 hours
+   */
   function AccountExtension(_ref) {
     var _this2 = this;
 

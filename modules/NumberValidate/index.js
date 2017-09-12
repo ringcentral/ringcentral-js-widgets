@@ -110,9 +110,21 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
+/**
+ * @class
+ * @description Validate number with number parser api
+ */
 var NumberValidate = (_class = function (_RcModule) {
   (0, _inherits3.default)(NumberValidate, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Client} params.client - client module instance
+   * @param {AccountExtension} params.accountExtension - accountExtension module instance
+   * @param {RegionSettings} params.regionSettings - regionSettings module instance
+   * @param {AccountInfo} params.accountInfo - accountInfo module instance
+   */
   function NumberValidate(_ref) {
     var client = _ref.client,
         accountExtension = _ref.accountExtension,

@@ -108,9 +108,23 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
+/**
+ * @class
+ * @description Conversation list managing module
+ */
 var Messages = (_class = function (_RcModule) {
   (0, _inherits3.default)(Messages, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {MessageStore} params.messageStore - messageStore module instance
+   * @param {ExtensionInfo} params.extensionInfo - extensionInfo module instance
+   * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance
+   * @param {ConversationMatcher} params.conversationMatcher - conversationMatcher module instance
+   * @param {ConversationLogger} params.conversationLogger - conversationLogger module instance
+   * @param {Number} params.defaultPerPage - default numbers of perPage, default 20
+   */
   function Messages(_ref) {
     var messageStore = _ref.messageStore,
         extensionInfo = _ref.extensionInfo,

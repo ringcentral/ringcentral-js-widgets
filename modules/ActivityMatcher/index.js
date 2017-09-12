@@ -35,6 +35,10 @@ var _DataMatcher3 = _interopRequireDefault(_DataMatcher2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @class
+ * @description Active matcher manaing module
+ */
 var ActivityMatcher = function (_DataMatcher) {
   (0, _inherits3.default)(ActivityMatcher, _DataMatcher);
 

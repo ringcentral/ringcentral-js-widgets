@@ -53,14 +53,6 @@ var _getDateTimeFormatReducer = require('./getDateTimeFormatReducer');
 
 var _getDateTimeFormatReducer2 = _interopRequireDefault(_getDateTimeFormatReducer);
 
-var _moduleStatuses = require('../../enums/moduleStatuses');
-
-var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
-
-var _proxify = require('../../lib/proxy/proxify');
-
-var _proxify2 = _interopRequireDefault(_proxify);
-
 var _getProxyReducer = require('./getProxyReducer');
 
 var _getProxyReducer2 = _interopRequireDefault(_getProxyReducer);
@@ -74,6 +66,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var DateTimeFormat = function (_RcModule) {
   (0, _inherits3.default)(DateTimeFormat, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Locale} params.locale - locale module instance
+   */
   function DateTimeFormat(_ref) {
     var locale = _ref.locale,
         options = (0, _objectWithoutProperties3.default)(_ref, ['locale']);

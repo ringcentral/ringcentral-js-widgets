@@ -55,9 +55,18 @@ var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @class
+ * @description Dial plan list managing module
+ */
 var DialingPlan = function (_DataFetcher) {
   (0, _inherits3.default)(DialingPlan, _DataFetcher);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Client} params.client - client module instance
+   */
   function DialingPlan(_ref) {
     var _this2 = this;
 

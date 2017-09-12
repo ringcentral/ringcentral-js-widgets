@@ -94,9 +94,19 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
+/**
+ * @class
+ * @description Softphone module to call softphone
+ */
 var Softphone = (_class = function (_RcModule) {
   (0, _inherits3.default)(Softphone, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Brnad} params.brand - brand module instance
+   * @param {Bool} params.extensionMode - default false
+   */
   function Softphone(_ref) {
     var brand = _ref.brand,
         _ref$extensionMode = _ref.extensionMode,

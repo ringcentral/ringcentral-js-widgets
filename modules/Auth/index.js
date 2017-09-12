@@ -167,6 +167,16 @@ var Auth = (_class = function (_RcModule) {
 
   /**
    * @constructor
+   * @param {Object} params - params object
+   * @param {Client} params.client - client module instance
+   * @param {Alert} params.alert - alert module instance
+   * @param {Brand} params.brand - brand module instance
+   * @param {Locale} params.locale - locale module instance
+   * @param {TabManager} params.tabManager - tabManager module instance
+   * @param {environment} params.Environment - environment module instance
+   * @param {String} params.redirectUri - redirect uri
+   * @param {String} params.proxyUri - proxyUri module instance
+   * @param {Number} params.defaultProxyRetry - default proxy retry time 5000
    */
   function Auth() {
     var _this2 = this;

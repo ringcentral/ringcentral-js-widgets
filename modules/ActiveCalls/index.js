@@ -65,9 +65,20 @@ var presenceRegExp = /\/presence\?detailedTelephonyState=true$/;
 var FETCH_DELAY = 1000;
 var DEFAULT_TTL = 5 * 60 * 1000;
 
+/**
+ * @class
+ * @description Active calls list manaing module
+ */
+
 var ActiveCalls = function (_DataFetcher) {
   (0, _inherits3.default)(ActiveCalls, _DataFetcher);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Client} params.client - client module instance
+   * @param {Number} params.ttl - local cache timestamp, default 5 mins.
+   */
   function ActiveCalls(_ref) {
     var _this2 = this;
 

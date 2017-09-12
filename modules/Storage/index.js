@@ -55,6 +55,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Storage = function (_StorageBase) {
   (0, _inherits3.default)(Storage, _StorageBase);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Auth} params.auth - auth module instance
+   */
   function Storage(_ref) {
     var auth = _ref.auth,
         options = (0, _objectWithoutProperties3.default)(_ref, ['auth']);

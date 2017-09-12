@@ -104,9 +104,23 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var DEFAULT_THROTTLE_DURATION = 61 * 1000;
 var DEFAULT_ALERT_TTL = 5 * 1000;
+
+/**
+ * @class
+ * @description Rate limiter managing module
+ */
 var RateLimiter = (_class = function (_RcModule) {
   (0, _inherits3.default)(RateLimiter, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Alert} params.alert - alert module instance
+   * @param {Client} params.client - client module instance
+   * @param {Environment} params.environment - environment module instance
+   * @param {GlobalStorage} params.globalStorage - globalStorage module instance
+   * @param {Number} params.throttleDuration - throttle duration, default 61 seconds
+   */
   function RateLimiter(_ref) {
     var alert = _ref.alert,
         client = _ref.client,

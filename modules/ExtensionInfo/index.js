@@ -74,9 +74,19 @@ function extractData(info) {
   return output;
 }
 
+/**
+ * @class
+ * @description Extension info module
+ */
+
 var ExtensionInfo = function (_DataFetcher) {
   (0, _inherits3.default)(ExtensionInfo, _DataFetcher);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Client} params.client - client module instance
+   */
   function ExtensionInfo(_ref) {
     var _this2 = this;
 

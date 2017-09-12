@@ -112,11 +112,22 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var presenceEndPoint = /.*\/presence(\?.*)?/;
 
-var UPDATE_DELAY_TIME = 1000;
-
+/**
+ * @class
+ * @description Presence info module
+ */
 var Presence = (_class = function (_RcModule) {
   (0, _inherits3.default)(Presence, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Auth} params.auth - auth module instance
+   * @param {Client} params.client - client module instance
+   * @param {Storage} params.storage - storage module instance
+   * @param {Subscription} params.subscription - subscription module instance
+   * @param {Object} params.actionTypes - actionTypes enums
+   */
   function Presence(_ref) {
     var auth = _ref.auth,
         client = _ref.client,
@@ -124,9 +135,7 @@ var Presence = (_class = function (_RcModule) {
         subscription = _ref.subscription,
         _ref$actionTypes = _ref.actionTypes,
         actionTypes = _ref$actionTypes === undefined ? _actionTypes2.default : _ref$actionTypes,
-        _ref$updateDelayTime = _ref.updateDelayTime,
-        updateDelayTime = _ref$updateDelayTime === undefined ? UPDATE_DELAY_TIME : _ref$updateDelayTime,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'storage', 'subscription', 'actionTypes', 'updateDelayTime']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'storage', 'subscription', 'actionTypes']);
     (0, _classCallCheck3.default)(this, Presence);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Presence.__proto__ || (0, _getPrototypeOf2.default)(Presence)).call(this, (0, _extends3.default)({}, options, {
@@ -153,7 +162,6 @@ var Presence = (_class = function (_RcModule) {
     _this._storage = storage;
     _this._lastMessage = null;
 
-    _this._updateDelayTime = updateDelayTime;
     _this._delayTimeoutId = null;
     _this._lastNotDisturbDndStatusStorageKey = 'lastNotDisturbDndStatus';
     if (_this._storage) {

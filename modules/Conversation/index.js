@@ -104,9 +104,20 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
+/**
+ * @class
+ * @description Conversation managing module
+ */
 var Conversation = (_class = function (_RcModule) {
   (0, _inherits3.default)(Conversation, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {MessageSender} params.messageSender - messageSender module instance
+   * @param {ExtensionInfo} params.extensionInfo - extensionInfo module instance
+   * @param {MessageStore} params.messageStore - messageStore module instance
+   */
   function Conversation(_ref) {
     var messageSender = _ref.messageSender,
         extensionInfo = _ref.extensionInfo,

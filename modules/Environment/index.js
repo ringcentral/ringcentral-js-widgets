@@ -109,6 +109,14 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 var Environment = (_class = function (_RcModule) {
   (0, _inherits3.default)(Environment, _RcModule);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Client} params.client - client module instance
+   * @param {GlobalStorage} params.globalStorage - globalStorage module instance
+   * @param {String} params.defaultRecordingHost - default recording host uri
+   * @param {Object} params.sdkConfig - sdk config
+   */
   function Environment(_ref) {
     var client = _ref.client,
         globalStorage = _ref.globalStorage,

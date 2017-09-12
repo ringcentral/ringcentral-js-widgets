@@ -134,9 +134,27 @@ function conversationLogIdentityFunction(conversation) {
   return conversation.conversationLogId;
 }
 
+/**
+ * @class
+ * @description Conversation logger module
+ */
 var ConversationLogger = (_class = function (_LoggerBase) {
   (0, _inherits3.default)(ConversationLogger, _LoggerBase);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Auth} params.auth - auth module instance
+   * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance
+   * @param {ConversationMatcher} params.conversationMatcher - conversationMatcher module instance
+   * @param {DateTimeFormat} params.dateTimeFormat - dateTimeFormat module instance
+   * @param {MessageStore} params.messageStore - messageStore module instance
+   * @param {RolesAndPermissions} params.rolesAndPermissions - rolesAndPermissions module instance
+   * @param {Storage} params.storage - storage module instance
+   * @param {TabManager} params.tabManager - tabManager module instance
+   * @param {Function} params.isLoggedContact - get if contact is logged
+   * @param {Function} params.formatDateTime - data time format
+   */
   function ConversationLogger(_ref2) {
     var auth = _ref2.auth,
         contactMatcher = _ref2.contactMatcher,

@@ -45,9 +45,18 @@ var _DataFetcher3 = _interopRequireDefault(_DataFetcher2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * @class
+ * @description Extension phone number list module
+ */
 var ExtensionPhoneNumber = function (_DataFetcher) {
   (0, _inherits3.default)(ExtensionPhoneNumber, _DataFetcher);
 
+  /**
+   * @constructor
+   * @param {Object} params - params object
+   * @param {Client} params.client - client module instance
+   */
   function ExtensionPhoneNumber(_ref) {
     var client = _ref.client,
         options = (0, _objectWithoutProperties3.default)(_ref, ['client']);
