@@ -2,18 +2,22 @@
 @import '../../lib/commonStyles/text-ellipsis';
 
 .root {
-  display: block;
-  position: relative;
-  background: #fff;
   border-bottom: 1px solid #e2e2e2;
-  height: 74px;
-  width: 100%;
   cursor: pointer;
-
   &:hover {
     background-color: #fafafa;
-    border-bottom: 1px solid #efefef;
   }
+}
+
+.root:hover .extendIcon {
+  border-top-color: #fafafa;
+}
+
+.wrapper {
+  display: block;
+  position: relative;
+  height: 74px;
+  width: 100%;
 }
 .conversationIcon {
   display: block;

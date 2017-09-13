@@ -120,6 +120,7 @@ var ConversationPage = function (_Component) {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(_ConversationPanel2.default, {
+        brand: this.props.brand,
         countryCode: this.props.countryCode,
         areaCode: this.props.areaCode,
         disableLinks: this.props.disableLinks,
@@ -135,6 +136,7 @@ var ConversationPage = function (_Component) {
         sendButtonDisabled: this.props.sendButtonDisabled,
         autoLog: this.props.autoLog,
         dateTimeFormatter: this.props.dateTimeFormatter,
+        showContactDisplayPlaceholder: this.props.showContactDisplayPlaceholder,
         goBack: this.props.goBack
       });
     }
@@ -181,7 +183,8 @@ ConversationPage.childContextTypes = {
 };
 
 function mapToProps(_, _ref) {
-  var locale = _ref.locale,
+  var brand = _ref.brand,
+      locale = _ref.locale,
       params = _ref.params,
       conversation = _ref.conversation,
       conversationLogger = _ref.conversationLogger,
@@ -195,6 +198,7 @@ function mapToProps(_, _ref) {
       enableContactFallback = _ref$enableContactFal === undefined ? false : _ref$enableContactFal;
 
   return {
+    brand: brand.fullName,
     enableContactFallback: enableContactFallback,
     currentLocale: locale.currentLocale,
     conversationId: params.conversationId,

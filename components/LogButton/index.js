@@ -44,11 +44,7 @@ function LogButton(_ref) {
       addTitle = _ref.addTitle,
       editTitle = _ref.editTitle;
 
-  var spinner = isLogging ? _react2.default.createElement(
-    'div',
-    { className: _styles2.default.spinnerContainer },
-    _react2.default.createElement(_Spinner2.default, { ringWidth: 2 })
-  ) : null;
+  var spinner = isLogging ? _react2.default.createElement(_Spinner2.default, { ringWidth: 2, className: _styles2.default.spinner }) : null;
   return _react2.default.createElement(
     _Button2.default,
     {

@@ -81,9 +81,9 @@ var _ContactDisplay = require('../ContactDisplay');
 
 var _ContactDisplay2 = _interopRequireDefault(_ContactDisplay);
 
-var _ActiveCallActionMenu = require('../ActiveCallActionMenu');
+var _ActionMenu = require('../ActionMenu');
 
-var _ActiveCallActionMenu2 = _interopRequireDefault(_ActiveCallActionMenu);
+var _ActionMenu2 = _interopRequireDefault(_ActionMenu);
 
 var _CircleButton = require('../CircleButton');
 
@@ -327,7 +327,10 @@ var ActiveCallItem = function (_Component) {
     };
     _this._userSelection = false;
 
-    _this.toggleExtended = function () {
+    _this.toggleExtended = function (e) {
+      if (_this.contactDisplay && _this.contactDisplay.contains(e.target)) {
+        return;
+      }
       _this.setState(function (preState) {
         return {
           extended: !preState.extended
@@ -548,9 +551,10 @@ var ActiveCallItem = function (_Component) {
             webphoneResume: webphoneResume
           })
         ),
-        _react2.default.createElement(_ActiveCallActionMenu2.default, {
+        _react2.default.createElement(_ActionMenu2.default, {
+          extended: this.state.extended,
+          onToggle: this.toggleExtended,
           currentLocale: currentLocale,
-          className: (0, _classnames2.default)(_styles2.default.actionMenu, this.state.extended ? _styles2.default.extended : null),
           disableLinks: disableLinks,
           phoneNumber: phoneNumber,
           onClickToSms: showClickToSms ? function () {

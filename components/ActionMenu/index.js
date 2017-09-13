@@ -57,10 +57,6 @@ var _LogButton = require('../LogButton');
 
 var _LogButton2 = _interopRequireDefault(_LogButton);
 
-var _styles = require('./styles.scss');
-
-var _styles2 = _interopRequireDefault(_styles);
-
 var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
 
 var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
@@ -78,7 +74,7 @@ function ClickToDialButton(_ref) {
   return _react2.default.createElement(
     _Button2.default,
     {
-      className: (0, _classnames2.default)(_styles2.default.call, className),
+      className: className,
       onClick: onClickToDial,
       disabled: disableLinks || disableClickToDial || !phoneNumber },
     _react2.default.createElement('span', {
@@ -113,7 +109,7 @@ function ClickToSmsButton(_ref2) {
   return _react2.default.createElement(
     _Button2.default,
     {
-      className: (0, _classnames2.default)(_styles2.default.sms, className),
+      className: className,
       onClick: onClickToSms,
       disabled: disableLinks || !phoneNumber },
     _react2.default.createElement('span', {
@@ -163,9 +159,8 @@ var ActionMenu = function (_Component) {
       });
     };
 
-    _this.captureClick = function (e) {
-      // e.captureClick = this.props.captureClick;
-      if (_this.props.stopPropagation) {
+    _this.preventEventPropogation = function (e) {
+      if (e.target !== e.currentTarget) {
         e.stopPropagation();
       }
     };
@@ -204,7 +199,6 @@ var ActionMenu = function (_Component) {
 
 
       var logButton = onLog ? _react2.default.createElement(_LogButton2.default, {
-        className: _styles2.default.baseGroup,
         onLog: onLog,
         disableLinks: disableLinks,
         isLogged: isLogged,
@@ -217,7 +211,6 @@ var ActionMenu = function (_Component) {
       var entityButton = void 0;
       if (hasEntity && onViewEntity) {
         entityButton = _react2.default.createElement(_EntityButton2.default, {
-          className: (0, _classnames2.default)(_styles2.default.entity, _styles2.default.baseGroup),
           onViewEntity: onViewEntity,
           hasEntity: hasEntity,
           disableLinks: disableLinks,
@@ -225,7 +218,6 @@ var ActionMenu = function (_Component) {
         });
       } else if (!hasEntity && phoneNumber && onCreateEntity) {
         entityButton = _react2.default.createElement(_EntityButton2.default, {
-          className: (0, _classnames2.default)(_styles2.default.entity, _styles2.default.baseGroup),
           onCreateEntity: this.openEntityModal,
           hasEntity: hasEntity,
           disableLinks: disableLinks,
@@ -242,10 +234,7 @@ var ActionMenu = function (_Component) {
         onCancel: this.onCancelEntityModal
       }) : null;
 
-      var hasBaseGroup = !!(logButton || entityButton);
-
       var clickToDialButton = onClickToDial ? _react2.default.createElement(ClickToDialButton, {
-        className: hasBaseGroup ? _styles2.default.secondGroup : _styles2.default.baseGroup,
         onClickToDial: onClickToDial,
         phoneNumber: phoneNumber,
         disableLinks: disableLinks,
@@ -254,51 +243,34 @@ var ActionMenu = function (_Component) {
         title: callTitle
       }) : null;
       var clickToSmsButton = onClickToSms ? _react2.default.createElement(ClickToSmsButton, {
-        className: hasBaseGroup ? _styles2.default.secondGroup : _styles2.default.baseGroup,
         onClickToSms: onClickToSms,
         phoneNumber: phoneNumber,
         disableLinks: disableLinks,
         currentLocale: currentLocale,
         title: textTitle
       }) : null;
-      var hasSecondGroup = hasBaseGroup && !!(clickToDialButton || clickToSmsButton);
-      if (hasSecondGroup) {
-        // slide menu
-        return _react2.default.createElement(
-          'div',
+      return _react2.default.createElement(
+        'div',
+        { ref: reference },
+        _react2.default.createElement(
+          _SlideMenu2.default,
           {
-            ref: reference,
-            onClick: this.captureClick },
+            extended: this.props.extended,
+            onToggle: this.props.onToggle,
+            className: className,
+            extendIconClassName: this.props.extendIconClassName,
+            minHeight: 0,
+            maxHeight: 30
+          },
           _react2.default.createElement(
-            _SlideMenu2.default,
-            {
-              className: (0, _classnames2.default)(_styles2.default.root, className),
-              minWidth: 40,
-              maxWidth: 75 },
+            'div',
+            { onClick: this.preventEventPropogation },
             clickToDialButton,
             clickToSmsButton,
             entityButton,
             logButton,
             entityModal
           )
-        );
-      } else if (!clickToDialButton && !clickToSmsButton && !entityButton && !logButton) {
-        return null;
-      }
-      // no slide menu
-      return _react2.default.createElement(
-        'div',
-        {
-          ref: reference,
-          onClick: this.captureClick },
-        _react2.default.createElement(
-          'div',
-          { className: (0, _classnames2.default)(_styles2.default.root, className) },
-          clickToDialButton,
-          clickToSmsButton,
-          entityButton,
-          logButton,
-          entityModal
         )
       );
     }
@@ -310,8 +282,11 @@ exports.default = ActionMenu;
 
 
 ActionMenu.propTypes = {
+  extended: _propTypes2.default.bool,
+  onToggle: _propTypes2.default.func,
   reference: _propTypes2.default.func,
   className: _propTypes2.default.string,
+  extendIconClassName: _propTypes2.default.string,
   currentLocale: _propTypes2.default.string.isRequired,
   onLog: _propTypes2.default.func,
   isLogged: _propTypes2.default.bool,
@@ -325,7 +300,6 @@ ActionMenu.propTypes = {
   phoneNumber: _propTypes2.default.string,
   disableLinks: _propTypes2.default.bool,
   disableClickToDial: _propTypes2.default.bool,
-  stopPropagation: _propTypes2.default.bool,
   addLogTitle: _propTypes2.default.string,
   editLogTitle: _propTypes2.default.string,
   textTitle: _propTypes2.default.string,
@@ -334,8 +308,11 @@ ActionMenu.propTypes = {
   viewEntityTitle: _propTypes2.default.string
 };
 ActionMenu.defaultProps = {
+  extended: undefined,
+  onToggle: undefined,
   reference: undefined,
   className: undefined,
+  extendIconClassName: undefined,
   onLog: undefined,
   isLogged: false,
   isLogging: false,
@@ -348,7 +325,6 @@ ActionMenu.defaultProps = {
   phoneNumber: undefined,
   disableLinks: false,
   disableClickToDial: false,
-  stopPropagation: false,
   addLogTitle: undefined,
   editLogTitle: undefined,
   textTitle: undefined,

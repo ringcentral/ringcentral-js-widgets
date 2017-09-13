@@ -79,7 +79,7 @@ var ConversationPanel = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (ConversationPanel.__proto__ || (0, _getPrototypeOf2.default)(ConversationPanel)).call(this, props));
 
     _this.onSelectContact = function (value, idx) {
-      var selected = parseInt(idx, 10) - 1;
+      var selected = _this.showContactDisplayPlaceholder ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
       _this._userSelection = true;
       _this.setState({
         selected: selected
@@ -281,6 +281,7 @@ var ConversationPanel = function (_Component) {
           'div',
           { className: _styles2.default.header },
           _react2.default.createElement(_ContactDisplay2.default, {
+            brand: this.props.brand,
             className: _styles2.default.contactDisplay,
             selectClassName: _styles2.default.contactDisplaySelect,
             contactMatches: correspondentMatches,
@@ -293,8 +294,10 @@ var ConversationPanel = function (_Component) {
             countryCode: this.props.countryCode,
             phoneNumber: phoneNumber,
             groupNumbers: groupNumbers,
+            showType: false,
             currentLocale: this.props.currentLocale,
-            enableContactFallback: this.props.enableContactFallback
+            enableContactFallback: this.props.enableContactFallback,
+            showPlaceholder: this.props.showContactDisplayPlaceholder
           }),
           _react2.default.createElement(
             'a',
@@ -345,6 +348,7 @@ var ConversationPanel = function (_Component) {
 }(_react.Component);
 
 ConversationPanel.propTypes = {
+  brand: _propTypes2.default.string.isRequired,
   replyToReceivers: _propTypes2.default.func.isRequired,
   messages: _ConversationMessageList2.default.propTypes.messages,
   recipients: _propTypes2.default.arrayOf(_propTypes2.default.shape({
@@ -363,14 +367,16 @@ ConversationPanel.propTypes = {
   autoLog: _propTypes2.default.bool,
   enableContactFallback: _propTypes2.default.bool,
   dateTimeFormatter: _propTypes2.default.func.isRequired,
-  goBack: _propTypes2.default.func.isRequired
+  goBack: _propTypes2.default.func.isRequired,
+  showContactDisplayPlaceholder: _propTypes2.default.bool
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
   isLoggedContact: undefined,
   onLogConversation: undefined,
   autoLog: false,
-  enableContactFallback: undefined
+  enableContactFallback: undefined,
+  showContactDisplayPlaceholder: true
 };
 
 exports.default = ConversationPanel;

@@ -138,11 +138,7 @@ var MessageItem = function (_Component) {
     };
 
     _this.showConversationDetail = function (e) {
-      // if (e.captureClick === false) {
-      //   delete e.captureClick;
-      //   return;
-      // }
-      if (_this.contactDisplay && _this.contactDisplay.contains(e.target) || _this.actionMenu.contains(e.target)) {
+      if (_this.contactDisplay && _this.contactDisplay.contains(e.target)) {
         return;
       }
       _this.props.showConversationDetail(_this.props.conversation.conversationId);
@@ -350,49 +346,50 @@ var MessageItem = function (_Component) {
 
       return _react2.default.createElement(
         'div',
-        {
-          className: (0, _classnames2.default)(_styles2.default.root, unreadCounts && _styles2.default.unread),
-          onClick: this.showConversationDetail
-        },
-        _react2.default.createElement(ConversationIcon, {
-          group: correspondents.length > 1,
-          conversationTitle: _i18n2.default.getString('conversation', currentLocale),
-          groupConversationTitle: _i18n2.default.getString('groupConversation', currentLocale)
-        }),
-        _react2.default.createElement(_ContactDisplay2.default, {
-          reference: function reference(ref) {
-            _this2.contactDisplay = ref;
-          },
-          className: (0, _classnames2.default)(_styles2.default.contactDisplay, unreadCounts && _styles2.default.unread),
-          selectClassName: _styles2.default.dropdownSelect,
-          brand: brand,
-          contactMatches: correspondentMatches,
-          selected: this.state.selected,
-          onSelectContact: this.onSelectContact,
-          disabled: disableLinks,
-          isLogging: isLogging || this.state.isLogging,
-          fallBackName: fallbackName,
-          areaCode: areaCode,
-          countryCode: countryCode,
-          phoneNumber: phoneNumber,
-          groupNumbers: groupNumbers,
-          currentLocale: currentLocale,
-          enableContactFallback: enableContactFallback,
-          stopPropagation: false,
-          showType: false,
-          showPlaceholder: showContactDisplayPlaceholder
-        }),
+        { className: _styles2.default.root, onClick: this.showConversationDetail },
         _react2.default.createElement(
           'div',
-          { className: _styles2.default.details },
-          dateTimeFormatter({ utcTimestamp: creationTime }),
-          ' | ',
-          subject
+          {
+            className: (0, _classnames2.default)(_styles2.default.wrapper, unreadCounts && _styles2.default.unread)
+          },
+          _react2.default.createElement(ConversationIcon, {
+            group: correspondents.length > 1,
+            conversationTitle: _i18n2.default.getString('conversation', currentLocale),
+            groupConversationTitle: _i18n2.default.getString('groupConversation', currentLocale)
+          }),
+          _react2.default.createElement(_ContactDisplay2.default, {
+            reference: function reference(ref) {
+              _this2.contactDisplay = ref;
+            },
+            className: (0, _classnames2.default)(_styles2.default.contactDisplay, unreadCounts && _styles2.default.unread),
+            selectClassName: _styles2.default.dropdownSelect,
+            brand: brand,
+            contactMatches: correspondentMatches,
+            selected: this.state.selected,
+            onSelectContact: this.onSelectContact,
+            disabled: disableLinks,
+            isLogging: isLogging || this.state.isLogging,
+            fallBackName: fallbackName,
+            areaCode: areaCode,
+            countryCode: countryCode,
+            phoneNumber: phoneNumber,
+            groupNumbers: groupNumbers,
+            currentLocale: currentLocale,
+            enableContactFallback: enableContactFallback,
+            stopPropagation: false,
+            showType: false,
+            showPlaceholder: showContactDisplayPlaceholder
+          }),
+          _react2.default.createElement(
+            'div',
+            { className: _styles2.default.details },
+            dateTimeFormatter({ utcTimestamp: creationTime }),
+            ' | ',
+            subject
+          )
         ),
         _react2.default.createElement(_ActionMenu2.default, {
-          reference: function reference(ref) {
-            _this2.actionMenu = ref;
-          },
+          extendIconClassName: _styles2.default.extendIcon,
           currentLocale: currentLocale,
           onLog: onLogConversation && this.logConversation,
           onViewEntity: onViewContact && this.viewSelectedContact,

@@ -167,6 +167,17 @@ var CallItem = function (_Component) {
       }
     };
 
+    _this.toggleExtended = function (e) {
+      if (_this.contactDisplay && _this.contactDisplay.contains(e.target)) {
+        return;
+      }
+      _this.setState(function (preState) {
+        return {
+          extended: !preState.extended
+        };
+      });
+    };
+
     _this.getSelectedContact = function () {
       var selected = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.state.selected;
 
@@ -266,7 +277,8 @@ var CallItem = function (_Component) {
       selected: _this.getInitialContactIndex(),
       isLogging: false,
       isCreating: false,
-      loading: true
+      loading: true,
+      extended: false
     };
     _this._userSelection = false;
     return _this;
@@ -481,74 +493,55 @@ var CallItem = function (_Component) {
       if (active) {
         statusEl = _i18n2.default.getString(result || telephonyStatus, currentLocale);
       }
-      // let webphoneEl;
-      // if (webphoneSession) {
-      //   let hangupFunc = webphoneHangup;
-      //   let resumeFunc = webphoneResume;
-      //   if (
-      //     webphoneSession.direction === callDirections.inbound &&
-      //     webphoneSession.callStatus === sessionStatus.connecting
-      //   ) {
-      //     hangupFunc = webphoneReject;
-      //     resumeFunc = webphoneAnswer;
-      //   }
-      //   webphoneEl = (
-      //     <div className={styles.webphoneButtons}>
-      //       <Button
-      //         className={classnames(styles.webphoneButton, styles.rejectWebphoneButton)}
-      //         onClick={() => hangupFunc(webphoneSession.id)}
-      //       >
-      //         <i className={dynamicsFont.missed} />
-      //       </Button>
-      //       <Button
-      //         className={styles.webphoneButton}
-      //         onClick={() => resumeFunc(webphoneSession.id)}
-      //       >
-      //         <i className={dynamicsFont.call} />
-      //       </Button>
-      //     </div>
-      //   );
-      // }
       return _react2.default.createElement(
         'div',
-        { className: _styles2.default.root },
-        _react2.default.createElement(CallIcon, {
-          direction: direction,
-          ringing: ringing,
-          active: active,
-          missed: missed,
-          inboundTitle: _i18n2.default.getString('inboundCall', currentLocale),
-          outboundTitle: _i18n2.default.getString('outboundCall', currentLocale),
-          missedTitle: _i18n2.default.getString('missedCall', currentLocale)
-        }),
-        _react2.default.createElement(_ContactDisplay2.default, {
-          className: (0, _classnames2.default)(_styles2.default.contactDisplay, missed && _styles2.default.missed, active && _styles2.default.active),
-          selectClassName: _styles2.default.dropdownSelect,
-          brand: brand,
-          contactMatches: contactMatches,
-          selected: this.state.selected,
-          onSelectContact: this.onSelectContact,
-          disabled: disableLinks,
-          isLogging: isLogging || this.state.isLogging,
-          fallBackName: fallbackContactName,
-          enableContactFallback: enableContactFallback,
-          areaCode: areaCode,
-          countryCode: countryCode,
-          phoneNumber: phoneNumber,
-          currentLocale: currentLocale,
-          stopPropagation: false,
-          showType: false,
-          showPlaceholder: showContactDisplayPlaceholder
-        }),
+        { className: _styles2.default.root, onClick: this.toggleExtended },
         _react2.default.createElement(
           'div',
-          { className: _styles2.default.details },
-          durationEl,
-          ' | ',
-          dateEl,
-          statusEl
+          { className: _styles2.default.wrapper },
+          _react2.default.createElement(CallIcon, {
+            direction: direction,
+            ringing: ringing,
+            active: active,
+            missed: missed,
+            inboundTitle: _i18n2.default.getString('inboundCall', currentLocale),
+            outboundTitle: _i18n2.default.getString('outboundCall', currentLocale),
+            missedTitle: _i18n2.default.getString('missedCall', currentLocale)
+          }),
+          _react2.default.createElement(_ContactDisplay2.default, {
+            reference: function reference(ref) {
+              _this5.contactDisplay = ref;
+            },
+            className: (0, _classnames2.default)(_styles2.default.contactDisplay, missed && _styles2.default.missed, active && _styles2.default.active),
+            selectClassName: _styles2.default.dropdownSelect,
+            brand: brand,
+            contactMatches: contactMatches,
+            selected: this.state.selected,
+            onSelectContact: this.onSelectContact,
+            disabled: disableLinks,
+            isLogging: isLogging || this.state.isLogging,
+            fallBackName: fallbackContactName,
+            enableContactFallback: enableContactFallback,
+            areaCode: areaCode,
+            countryCode: countryCode,
+            phoneNumber: phoneNumber,
+            currentLocale: currentLocale,
+            stopPropagation: false,
+            showType: false,
+            showPlaceholder: showContactDisplayPlaceholder
+          }),
+          _react2.default.createElement(
+            'div',
+            { className: _styles2.default.details },
+            durationEl,
+            ' | ',
+            dateEl,
+            statusEl
+          )
         ),
         _react2.default.createElement(_ActionMenu2.default, {
+          extended: this.state.extended,
+          onToggle: this.toggleExtended,
           currentLocale: currentLocale,
           onLog: onLogCall && this.logCall,
           onViewEntity: onViewContact && this.viewSelectedContact,

@@ -71,6 +71,18 @@ ToggleButton.defaultProps = {
   onClick: undefined
 };
 
+function ExtendIcon(_ref2) {
+  var onClick = _ref2.onClick,
+      extendIconClassName = _ref2.extendIconClassName;
+
+  return _react2.default.createElement(
+    'div',
+    { className: _styles2.default.extendIcon, onClick: onClick },
+    _react2.default.createElement('div', { className: (0, _classnames2.default)(extendIconClassName, _styles2.default.extendInner) }),
+    _react2.default.createElement('div', { className: _styles2.default.extendInnerIcon })
+  );
+}
+
 var SlideMenu = function (_Component) {
   (0, _inherits3.default)(SlideMenu, _Component);
 
@@ -79,38 +91,32 @@ var SlideMenu = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (SlideMenu.__proto__ || (0, _getPrototypeOf2.default)(SlideMenu)).call(this, props));
 
-    _this.onMouseEnter = function () {
-      _this._timestamp = Date.now();
-      _this.setState({
-        expanded: true
+    _this.onToggle = function (e) {
+      e.stopPropagation();
+      _this.setState(function (prevState) {
+        return { extended: !prevState.extended };
       });
-    };
-
-    _this.onMouseLeave = function () {
-      _this.setState({
-        expanded: false
-      });
-    };
-
-    _this.onToggle = function () {
-      /* On touch enabled devices or devices with pen inputs, click/touch will trigger
-       * mouseenter event before the click event, in that case, we simply ignore
-       * the click event.
-       */
-      if (Date.now() - _this._timestamp > 30) {
-        _this.setState({
-          expanded: !_this.state.expanded
-        });
+      if (_this.props.onToggle) {
+        _this.props.onToggle(e);
       }
     };
 
     _this.state = {
-      expanded: false
+      extended: false
     };
     return _this;
   }
 
   (0, _createClass3.default)(SlideMenu, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.extended !== this.props.extended) {
+        this.setState({
+          extended: nextProps.extended
+        });
+      }
+    }
+  }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       this._mounted = true;
@@ -124,22 +130,21 @@ var SlideMenu = function (_Component) {
     key: 'render',
     value: function render() {
       var _props = this.props,
-          children = _props.children,
           className = _props.className,
-          minWidth = _props.minWidth,
-          maxWidth = _props.maxWidth;
-      var expanded = this.state.expanded;
+          minHeight = _props.minHeight,
+          maxHeight = _props.maxHeight,
+          children = _props.children;
+      var extended = this.state.extended;
 
 
       var wrapperStyles = {
-        width: expanded ? maxWidth : minWidth
+        height: extended ? maxHeight : minHeight
       };
+
       return _react2.default.createElement(
         'div',
         {
-          className: (0, _classnames2.default)(_styles2.default.root, className, expanded && _styles2.default.expanded),
-          onMouseEnter: this.onMouseEnter,
-          onMouseLeave: this.onMouseLeave
+          className: (0, _classnames2.default)(_styles2.default.root, className)
         },
         _react2.default.createElement(
           'div',
@@ -152,7 +157,7 @@ var SlideMenu = function (_Component) {
             children
           )
         ),
-        _react2.default.createElement(ToggleButton, { onClick: this.onToggle })
+        _react2.default.createElement(ExtendIcon, { extendIconClassName: this.props.extendIconClassName, onClick: this.onToggle })
       );
     }
   }]);
@@ -164,14 +169,18 @@ exports.default = SlideMenu;
 
 SlideMenu.propTypes = {
   children: _propTypes2.default.node,
+  extended: _propTypes2.default.bool,
+  onToggle: _propTypes2.default.func,
   className: _propTypes2.default.string,
-  minWidth: _propTypes2.default.number,
-  maxWidth: _propTypes2.default.number
+  extendIconClassName: _propTypes2.default.string,
+  minHeight: _propTypes2.default.number,
+  maxHeight: _propTypes2.default.number
 };
 SlideMenu.defaultProps = {
   className: undefined,
+  extendIconClassName: undefined,
   children: undefined,
-  minWidth: 0,
-  maxWidth: 100
+  minHeight: 0,
+  maxHeight: 100
 };
 //# sourceMappingURL=index.js.map
