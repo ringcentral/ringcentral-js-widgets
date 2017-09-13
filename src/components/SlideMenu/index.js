@@ -79,8 +79,6 @@ export default class SlideMenu extends Component {
         minHeight,
     };
 
-    const showCursorPointer = this.props.showPanelPointerCursor ? styles.pointer : null;
-
     return (
       <div
         className={classnames(
@@ -90,7 +88,7 @@ export default class SlideMenu extends Component {
       >
         <div className={styles.wrapper} style={wrapperStyles}>
           <div
-            className={classnames(styles.content, showCursorPointer)}
+            className={styles.content}
           >
             {children}
           </div>
@@ -109,7 +107,6 @@ SlideMenu.propTypes = {
   extendIconClassName: PropTypes.string,
   minHeight: PropTypes.number,
   maxHeight: PropTypes.number,
-  showPanelPointerCursor: PropTypes.bool,
 };
 SlideMenu.defaultProps = {
   className: undefined,
@@ -117,5 +114,4 @@ SlideMenu.defaultProps = {
   children: undefined,
   minHeight: 0,
   maxHeight: 100,
-  showPanelPointerCursor: false,
 };

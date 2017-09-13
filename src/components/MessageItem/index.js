@@ -267,7 +267,6 @@ export default class MessageItem extends Component {
         </div>
         <ActionMenu
           extendIconClassName={styles.extendIcon}
-          onPanelClick={this.showConversationDetail}
           currentLocale={currentLocale}
           onLog={onLogConversation && this.logConversation}
           onViewEntity={onViewContact && this.viewSelectedContact}

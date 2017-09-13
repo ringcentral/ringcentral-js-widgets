@@ -203,13 +203,12 @@ export default class ActionMenu extends Component {
       ) :
       null;
     return (
-      <div ref={reference} onClick={this.props.onPanelClick} className={styles.root}>
+      <div ref={reference} className={styles.root}>
         <SlideMenu
           extended={this.props.extended}
           onToggle={this.props.onToggle}
           className={className}
           extendIconClassName={this.props.extendIconClassName}
-          showPanelPointerCursor={!!this.props.onPanelClick}
           minHeight={0}
           maxHeight={30}
         >
@@ -229,7 +228,6 @@ export default class ActionMenu extends Component {
 ActionMenu.propTypes = {
   extended: PropTypes.bool,
   onToggle: PropTypes.func,
-  onPanelClick: PropTypes.func,
   reference: PropTypes.func,
   className: PropTypes.string,
   extendIconClassName: PropTypes.string,
@@ -257,7 +255,6 @@ ActionMenu.propTypes = {
 ActionMenu.defaultProps = {
   extended: undefined,
   onToggle: undefined,
-  onPanelClick: undefined,
   reference: undefined,
   className: undefined,
   extendIconClassName: undefined,
