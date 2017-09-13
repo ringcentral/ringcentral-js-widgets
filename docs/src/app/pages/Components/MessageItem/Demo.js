@@ -15,6 +15,7 @@ props.countryCode = 'test string';
 props.currentLocale = 'en-US';
 props.dateTimeFormatter = () => null;
 props.showConversationDetail = () => null;
+props.brand = '';
 
 /**
  * A example of `MessageItem`

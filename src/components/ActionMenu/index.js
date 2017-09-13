@@ -260,7 +260,7 @@ ActionMenu.defaultProps = {
   onPanelClick: undefined,
   reference: undefined,
   className: undefined,
-  extendInnerIcon: undefined,
+  extendIconClassName: undefined,
   onLog: undefined,
   isLogged: false,
   isLogging: false,

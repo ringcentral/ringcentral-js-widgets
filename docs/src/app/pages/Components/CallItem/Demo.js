@@ -9,13 +9,15 @@ props.call = {
   activityMatches: [],
   fromMatches: [],
   toMatches: [],
-  from: {}
+  from: {},
+  to: {},
 };
 props.areaCode = 'test string';
 props.countryCode = 'test string';
 props.currentLocale = 'en-US';
 props.active = false;
 props.dateTimeFormatter = () => null;
+props.barnd = 'RingCentral';
 
 /**
  * A example of `CallItem`
