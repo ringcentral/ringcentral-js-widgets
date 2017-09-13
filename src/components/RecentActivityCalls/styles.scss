@@ -1,20 +1,15 @@
 @import '../../lib/commonStyles/fonts.scss';
 @import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/text-ellipsis';
 
-// TODO: since it's commonly-used, maybe we can move it to utility lib?
-@mixin truncate-text {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
 
 .calls {
   @include primary-font;
 }
 
 .callItem {
-  height: 40px;
-  line-height: 40px;
+  height: 30px;
+  line-height: 30px;
   padding: 0 15px;
 }
 
@@ -38,7 +33,7 @@
   font-size: 14px;
   color: $darkergray;
   text-align: left;
-  @include truncate-text;
+  @include text-ellipsis;
 }
 
 .duration {
@@ -48,7 +43,8 @@
 }
 .time {
   text-align: right;
-  @include truncate-text;
+  color: $grey-light;
+  @include text-ellipsis;
 }
 
 .noRecords {

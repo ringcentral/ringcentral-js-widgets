@@ -18,7 +18,7 @@ export default function ActiveCallBadge(props) {
     >
       <Badge
         className={styles.phoneBage}
-        name={'active-call'}
+        name={props.title}
       >
         <span className={styles.activeIcon}>
           <i className={dynamicsFont.callHover} />

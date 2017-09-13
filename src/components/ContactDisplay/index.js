@@ -35,6 +35,7 @@ const displayFomatter = ({
 };
 
 export default function ContactDisplay({
+  reference,
   className,
   contactMatches,
   selected,
@@ -83,6 +84,8 @@ export default function ContactDisplay({
       entityName: display,
       entityType: contactMatches[0].entityType,
       phoneNumber,
+      brand,
+      currentLocale
     });
     contentEl = (
       <div title={title}>
@@ -94,13 +97,17 @@ export default function ContactDisplay({
       ...contactMatches,
     ];
     let placeholder;
+    let _selected = selected;
     if (showPlaceholder) {
       placeholder = i18n.getString('select', currentLocale);
+    } else {
+      _selected = _selected < 0 ? 0 : _selected;
     }
     contentEl = (
       <DropdownSelect
+        reference={reference}
         className={classnames(styles.select, selectClassName)}
-        value={`${selected}`}
+        value={`${_selected}`}
         onChange={onSelectContact}
         disabled={disabled || isLogging}
         options={options}
@@ -148,6 +155,7 @@ export default function ContactDisplay({
   );
 }
 ContactDisplay.propTypes = {
+  reference: PropTypes.func,
   className: PropTypes.string,
   contactMatches: PropTypes.arrayOf(PropTypes.any).isRequired,
   selected: PropTypes.number.isRequired,
@@ -168,6 +176,7 @@ ContactDisplay.propTypes = {
   stopPropagation: PropTypes.bool,
 };
 ContactDisplay.defaultProps = {
+  reference: undefined,
   className: undefined,
   onSelectContact: undefined,
   fallBackName: '',

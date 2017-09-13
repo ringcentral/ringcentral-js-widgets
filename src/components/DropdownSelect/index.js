@@ -117,8 +117,7 @@ class DropdownSelect extends Component {
     return (
       <ul
         className={classnames(styles.dropdown,
-          placeholder && styles.placeholder,
-          ellipsis && styles.ellipsis)}
+          placeholder && styles.placeholder)}
         ref={(ref) => { this.dropdownMenu = ref; }}>
         {
           options.map((option, idx) => {
@@ -133,6 +132,7 @@ class DropdownSelect extends Component {
                 key={currentValue}
                 className={classnames(className,
                   styles[this.props.dropdownAlign],
+                  ellipsis && styles.ellipsis,
                   placeholder && styles.placeholder)}
                 value={currentValue}
                 title={this.renderTitle(option, display)}
@@ -149,6 +149,7 @@ class DropdownSelect extends Component {
 
   render() {
     const ellipsis = this.props.ellipsis;
+    const reference = this.props.reference;
     const label = this.props.label ?
       (
         <label>
@@ -175,7 +176,10 @@ class DropdownSelect extends Component {
     return (
       <div
         className={containerClassName}
-        ref={(ref) => { this.wrapper = ref; }}
+        ref={(ref) => {
+          if (reference) reference(ref);
+          this.wrapper = ref;
+        }}
       >
         <button
           type="button"
@@ -201,6 +205,7 @@ class DropdownSelect extends Component {
 }
 
 DropdownSelect.propTypes = {
+  reference: PropTypes.func,
   className: PropTypes.string,
   iconClassName: PropTypes.string,
   value: PropTypes.string,
@@ -222,6 +227,7 @@ DropdownSelect.propTypes = {
 };
 
 DropdownSelect.defaultProps = {
+  reference: undefined,
   className: null,
   iconClassName: null,
   value: null,

@@ -8,7 +8,7 @@ props.flipNumbers = [];
 props.currentLocale = 'en-US';
 props.formatPhone = () => null;
 props.hideFlipPanel = () => null;
-props.flip = () => null;
+props.onFlip = () => null;
 props.complete = () => null;
 
 /**

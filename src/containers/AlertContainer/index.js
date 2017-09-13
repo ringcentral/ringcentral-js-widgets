@@ -49,6 +49,7 @@ function getDefaultRenderer({
       return props => (
         <CallAlert
           {...props}
+          brand={brand}
           onAreaCodeLinkClick={onRegionSettingsLinkClick}
         />
       );

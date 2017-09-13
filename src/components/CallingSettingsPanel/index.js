@@ -7,7 +7,6 @@ import callingOptions from 'ringcentral-integration/modules/CallingSettings/call
 import Tooltip from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap_white.css';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
-import Revert from '../../assets/images/Revert.svg';
 
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -192,7 +191,6 @@ export default class CallingSettingsPanel extends Component {
     return (
       <div className={classnames(styles.root, className)}>
         <BackHeader
-          buttons={[]}
           onBackClick={onBackButtonClick}
           >
           {i18n.getString('title', currentLocale)}

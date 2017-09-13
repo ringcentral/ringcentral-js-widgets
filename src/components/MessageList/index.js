@@ -95,6 +95,7 @@ export default class MessageList extends Component {
 }
 
 MessageList.propTypes = {
+  brand: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   conversations: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
@@ -108,6 +109,7 @@ MessageList.propTypes = {
   className: PropTypes.string,
   showConversationDetail: PropTypes.func.isRequired,
   dateTimeFormatter: PropTypes.func,
+  showContactDisplayPlaceholder: PropTypes.bool
 };
 MessageList.defaultProps = {
   onSearchInputChange: undefined,
@@ -116,4 +118,5 @@ MessageList.defaultProps = {
   className: undefined,
   disableLinks: false,
   dateTimeFormatter: undefined,
+  showContactDisplayPlaceholder: true,
 };

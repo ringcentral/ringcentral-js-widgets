@@ -64,7 +64,8 @@ class ConversationPanel extends Component {
     this._mounted = false;
   }
   onSelectContact = (value, idx) => {
-    const selected = parseInt(idx, 10) - 1;
+    const selected = this.showContactDisplayPlaceholder
+      ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
     this._userSelection = true;
     this.setState({
       selected,
@@ -182,6 +183,7 @@ class ConversationPanel extends Component {
       <div className={styles.root}>
         <div className={styles.header}>
           <ContactDisplay
+            brand={this.props.brand}
             className={styles.contactDisplay}
             selectClassName={styles.contactDisplaySelect}
             contactMatches={correspondentMatches}
@@ -194,8 +196,10 @@ class ConversationPanel extends Component {
             countryCode={this.props.countryCode}
             phoneNumber={phoneNumber}
             groupNumbers={groupNumbers}
+            showType={false}
             currentLocale={this.props.currentLocale}
             enableContactFallback={this.props.enableContactFallback}
+            showPlaceholder={this.props.showContactDisplayPlaceholder}
           />
           <a
             onClick={() => this.props.goBack()}
@@ -238,6 +242,7 @@ class ConversationPanel extends Component {
 }
 
 ConversationPanel.propTypes = {
+  brand: PropTypes.string.isRequired,
   replyToReceivers: PropTypes.func.isRequired,
   messages: ConversationMessageList.propTypes.messages,
   recipients: PropTypes.arrayOf(PropTypes.shape({
@@ -257,6 +262,7 @@ ConversationPanel.propTypes = {
   enableContactFallback: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
+  showContactDisplayPlaceholder: PropTypes.bool,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -264,6 +270,7 @@ ConversationPanel.defaultProps = {
   onLogConversation: undefined,
   autoLog: false,
   enableContactFallback: undefined,
+  showContactDisplayPlaceholder: true,
 };
 
 export default ConversationPanel;

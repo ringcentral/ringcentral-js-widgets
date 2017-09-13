@@ -26,13 +26,28 @@ ToggleButton.defaultProps = {
   onClick: undefined,
 };
 
+function ExtendIcon({ onClick, extendIconClassName }) {
+  return (
+    <div className={styles.extendIcon} onClick={onClick}>
+      <div className={classnames(extendIconClassName, styles.extendInner)} />
+      <div className={styles.extendInnerIcon} />
+    </div>
+  );
+}
 
 export default class SlideMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      expanded: false,
+      extended: false,
     };
+  }
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.extended !== this.props.extended) {
+      this.setState({
+        extended: nextProps.extended
+      });
+    }
   }
   componentDidMount() {
     this._mounted = true;
@@ -40,62 +55,47 @@ export default class SlideMenu extends Component {
   componentWillUnmount() {
     this._mounted = false;
   }
-  onMouseEnter = () => {
-    this._timestamp = Date.now();
-    this.setState({
-      expanded: true,
-    });
-  }
-  onMouseLeave = () => {
-    this.setState({
-      expanded: false,
-    });
-  }
-  onToggle = () => {
-    /* On touch enabled devices or devices with pen inputs, click/touch will trigger
-     * mouseenter event before the click event, in that case, we simply ignore
-     * the click event.
-     */
-    if (Date.now() - this._timestamp > 30) {
-      this.setState({
-        expanded: !this.state.expanded,
-      });
+  onToggle = (e) => {
+    e.stopPropagation();
+		this.setState(prevState => ({ extended: !prevState.extended }));
+    if (this.props.onToggle) {
+      this.props.onToggle(e); 
     }
   }
   render() {
     const {
-      children,
       className,
-      minWidth,
-      maxWidth,
+      minHeight,
+      maxHeight,
+      children,
     } = this.props;
     const {
-      expanded,
+      extended,
     } = this.state;
 
     const wrapperStyles = {
-      width: expanded ?
-        maxWidth :
-        minWidth,
+      height: extended ?
+        maxHeight :
+        minHeight,
     };
+
+    const showCursorPointer = this.props.showPanelPointerCursor ? styles.pointer : null;
+
     return (
       <div
         className={classnames(
           styles.root,
-          className,
-          expanded && styles.expanded,
+          className
         )}
-        onMouseEnter={this.onMouseEnter}
-        onMouseLeave={this.onMouseLeave}
       >
         <div className={styles.wrapper} style={wrapperStyles}>
           <div
-            className={styles.content}
+            className={classnames(styles.content, showCursorPointer)}
           >
             {children}
           </div>
         </div>
-        <ToggleButton onClick={this.onToggle} />
+        <ExtendIcon extendIconClassName={this.props.extendIconClassName} onClick={this.onToggle} />
       </div>
     );
   }
@@ -103,13 +103,19 @@ export default class SlideMenu extends Component {
 
 SlideMenu.propTypes = {
   children: PropTypes.node,
+  extended: PropTypes.bool,
+  onToggle: PropTypes.func,
   className: PropTypes.string,
-  minWidth: PropTypes.number,
-  maxWidth: PropTypes.number,
+  extendIconClassName: PropTypes.string,
+  minHeight: PropTypes.number,
+  maxHeight: PropTypes.number,
+  showPanelPointerCursor: PropTypes.bool,
 };
 SlideMenu.defaultProps = {
   className: undefined,
+  extendIconClassName: undefined,
   children: undefined,
-  minWidth: 0,
-  maxWidth: 100,
+  minHeight: 0,
+  maxHeight: 100,
+  showPanelPointerCursor: false,
 };

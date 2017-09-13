@@ -9,52 +9,10 @@ import IconLine from '../IconLine';
 import Line from '../Line';
 import Switch from '../Switch';
 import PresenceStatusIcon from '../PresenceStatusIcon';
+import PresenceItem, { getPresenceStatusName } from '../PresenceItem';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 import i18n from './i18n';
-
-function getPresenceStatusName(currentUserStatus, currentDndStatus, currentLocale) {
-  if (currentUserStatus !== presenceStatus.busy) {
-    return i18n.getString(currentUserStatus, currentLocale);
-  }
-  return i18n.getString(currentUserStatus + currentDndStatus, currentLocale);
-}
-
-export function PresenceItem(props) {
-  const className = classnames(
-    styles.presenceItem,
-    props.selected ? styles.selected : null
-  );
-  const name = getPresenceStatusName(
-    props.userStatus,
-    props.dndStatus,
-    props.currentLocale
-  );
-  return (
-    <a className={className} onClick={props.onClick}>
-      <PresenceStatusIcon
-        className={styles.statusIcon}
-        userStatus={props.userStatus}
-        dndStatus={props.dndStatus}
-      />
-      <span className={styles.statusName}>
-        {name}
-      </span>
-    </a>
-  );
-}
-
-PresenceItem.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  userStatus: PropTypes.string.isRequired,
-  dndStatus: PropTypes.string,
-  selected: PropTypes.bool.isRequired,
-  currentLocale: PropTypes.string.isRequired,
-};
-
-PresenceItem.defaultProps = {
-  dndStatus: null,
-};
 
 export default class PresenceSettingSection extends Component {
   constructor(props) {
@@ -125,7 +83,7 @@ export default class PresenceSettingSection extends Component {
               userStatus={this.props.userStatus}
               dndStatus={this.props.dndStatus}
             />
-            <span className={styles.statusName}>
+            <span>
               {currentStatus}
             </span>
           </div>

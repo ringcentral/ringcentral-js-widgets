@@ -11,6 +11,7 @@ import styles from './styles.scss';
 
 
 export default function CallsPanel({
+  brand,
   currentLocale,
   calls,
   areaCode,
@@ -36,11 +37,13 @@ export default function CallsPanel({
   webphoneResume,
   enableContactFallback,
   autoLog,
+  showContactDisplayPlaceholder
 }) {
   const content = showSpinner ?
     <SpinnerOverlay /> :
     (
       <CallList
+        brand={brand}
         currentLocale={currentLocale}
         calls={calls}
         areaCode={areaCode}
@@ -64,6 +67,7 @@ export default function CallsPanel({
         webphoneResume={webphoneResume}
         enableContactFallback={enableContactFallback}
         autoLog={autoLog}
+        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
       />
     );
   return (
@@ -79,6 +83,7 @@ export default function CallsPanel({
 }
 
 CallsPanel.propTypes = {
+  brand: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   calls: PropTypes.arrayOf(PropTypes.any).isRequired,
   areaCode: PropTypes.string.isRequired,
@@ -104,6 +109,7 @@ CallsPanel.propTypes = {
   webphoneResume: PropTypes.func,
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
+  showContactDisplayPlaceholder: PropTypes.bool
 };
 
 CallsPanel.defaultProps = {
@@ -126,4 +132,5 @@ CallsPanel.defaultProps = {
   webphoneResume: undefined,
   enableContactFallback: undefined,
   autoLog: false,
+  showContactDisplayPlaceholder: true,
 };

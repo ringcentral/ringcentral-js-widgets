@@ -156,8 +156,9 @@ export default class ReplyWithMessage extends Component {
       className,
       onCancel,
       currentLocale,
+      disabled
     } = this.props;
-    const disableButton = isBlank(this._getValue().replyText);
+    const disableButton = isBlank(this._getValue().replyText) || disabled;
     return (
       <div className={classnames(styles.root, className)}>
         <div className={styles.messages}>
@@ -248,11 +249,11 @@ export default class ReplyWithMessage extends Component {
             className={
               classnames(styles.replyButton, disableButton ? styles.disabled : null)
             }
-            onClick={this.onReply}
+            onClick={this.props.disabled ? () => {} : this.onReply}
             disabled={disableButton}
           >
             <span className={styles.buttonText}>
-              {i18n.getString('send', currentLocale)}
+              {i18n.getString('reply', currentLocale)}
             </span>
           </Button>
         </div>
@@ -267,6 +268,7 @@ ReplyWithMessage.propTypes = {
   onReply: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
   onChange: PropTypes.func,
+  disabled: PropTypes.bool.isRequired,
 };
 
 ReplyWithMessage.defaultProps = {

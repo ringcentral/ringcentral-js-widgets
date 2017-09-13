@@ -1,10 +1,12 @@
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/fonts';
+@import '../../lib/commonStyles/text-ellipsis';
 
 .root {
   @include primary-font;
-  padding: 0 0 0 20px;
+  padding: 0 21px 0 20px;
+  min-width: 220px;
 }
 
 .radioOption {
@@ -12,7 +14,7 @@
   height: 17px;
   line-height: 17px;
   margin-top: 18px;
-  
+
   .radioBtn {
     display: inline-block;
     position: relative;
@@ -22,7 +24,7 @@
     background: #fff;
     border: 1px solid #979797;
     cursor: pointer;
-  
+
     &.active:before{
       content: '';
       display: block;
@@ -42,16 +44,14 @@
     margin-left: 15px;
     height: 16px;
     overflow: hidden;
+    width: calc(60% - 32px);
   }
 
   .optionLabel {
     display: inline-block;
-    margin-left: 16px;
     height: 16px;
-    max-width: 43px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    width: 40%;
+    @include text-ellipsis;
   }
 }
 

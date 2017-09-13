@@ -5,6 +5,9 @@ import DialPad from '../DialPad';
 import DialTextInput from '../DialTextInput';
 import CallIdSelect from '../CallIdSelect';
 import SpinnerOverlay from '../SpinnerOverlay';
+import CircleButton from '../CircleButton';
+import AnswerIcon from '../../assets/images/Answer.svg';
+
 import styles from './styles.scss';
 
 function DialerPanel({
@@ -57,31 +60,16 @@ function DialerPanel({
           />
         <div className={classnames(styles.callBtnRow)}>
           <div className={styles.callBtn}>
-            <svg className={styles.btnSvg} viewBox="0 0 500 500">
-              <g
-                className={classnames(
-                  styles.btnSvgGroup,
-                  callButtonDisabled && styles.disabled,
-                )}
-                onClick={onCallFunc}
-                >
-                <circle
-                  className={styles.circle}
-                  cx="250"
-                  cy="250"
-                  r="200"
-                  />
-                <text
-                  className={styles.btnValue}
-                  x="0"
-                  dx="167.5155"
-                  y="0"
-                  dy="300"
-                  dangerouslySetInnerHTML={{
-                    __html: '&#xe953;',
-                  }} />
-              </g>
-            </svg>
+            <CircleButton
+              className={classnames(
+                styles.dialBtn,
+                callButtonDisabled && styles.disabled,
+              )}
+              onClick={onCallFunc}
+              disabled={callButtonDisabled}
+              icon={AnswerIcon}
+              showBorder={false}
+            />
           </div>
         </div>
       </div>

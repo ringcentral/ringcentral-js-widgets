@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import DialPad from '../DialPad';
-import ActiveCallButton from '../ActiveCallButton';
+import CircleButton from '../CircleButton';
+import BackHeader from '../BackHeader';
 
-import HideIcon from '../../assets/images/HideDialpad.svg';
 import EndIcon from '../../assets/images/End.svg';
 
 import styles from './styles.scss';
@@ -28,6 +28,11 @@ class ActiveCallDialPad extends Component {
   render() {
     return (
       <div className={styles.root}>
+        <BackHeader
+          onBackClick={this.props.hiddenDialPad}
+          >
+          {i18n.getString('keypad', this.props.currentLocale)}
+        </BackHeader>
         <div className={styles.dialInput}>
           <input
             className={styles.input}
@@ -40,20 +45,14 @@ class ActiveCallDialPad extends Component {
             onButtonOutput={this.onButtonOutput}
           />
           <div className={styles.buttonRow}>
-            <ActiveCallButton
-              onClick={this.props.hiddenDialPad}
-              className={styles.button}
-              icon={HideIcon}
-              title={i18n.getString('hide', this.props.currentLocale)}
-            />
-            <ActiveCallButton
-              onClick={this.props.hangup}
-              className={styles.button}
-              buttonClassName={styles.stopButton}
-              icon={EndIcon}
-              title={i18n.getString('end', this.props.currentLocale)}
-              showBorder={false}
-            />
+            <div className={styles.button}>
+              <CircleButton
+                className={styles.stopButton}
+                onClick={this.props.onHangup}
+                icon={EndIcon}
+                showBorder={false}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -64,7 +63,7 @@ class ActiveCallDialPad extends Component {
 ActiveCallDialPad.propTypes = {
   onChange: PropTypes.func.isRequired,
   hiddenDialPad: PropTypes.func.isRequired,
-  hangup: PropTypes.func.isRequired,
+  onHangup: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
 };
 

@@ -10,12 +10,12 @@ function Badge({
   onClick,
 }) {
   return (
-    <a
-      href={`#${name}-badge`}
+    <div
+      title={name}
       className={classnames(styles.root, className)}
       onClick={onClick} >
       {children}
-    </a>
+    </div>
   );
 }
 

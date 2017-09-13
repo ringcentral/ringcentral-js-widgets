@@ -1,6 +1,6 @@
 import { getWrapper } from '../shared';
 import NavigationBar from '../../src/components/NavigationBar';
-import CallsPanel from '../../src/components/CallsPanel';
+import ActiveCallsPanel from '../../src/components/ActiveCallsPanel';
 
 let wrapper = null;
 let panel = null;
@@ -9,7 +9,7 @@ beforeEach(async () => {
   wrapper = await getWrapper();
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/calls');
-  panel = wrapper.find(CallsPanel).first();
+  panel = wrapper.find(ActiveCallsPanel).first();
 });
 
 describe('history', () => {

@@ -128,6 +128,8 @@ export default class Phone extends RcModule {
       globalStorage: this.globalStorage,
       sdkConfig: {
         ...apiConfig,
+        cachePrefix,
+        clearCacheOnRefreshError: false,
       },
       getState: () => this.state.environment,
     }));
@@ -302,7 +304,16 @@ export default class Phone extends RcModule {
         this.router.push('/calls/active');
       },
       onCallRing: () => {
-        console.log('it is ringing');
+        if (
+          this.webphone.ringSessions.length > 1
+        ) {
+          if (this.router.currentPath !== '/calls') {
+            this.router.push('/calls');
+          }
+          this.webphone.ringSessions.forEach((session) => {
+            this.webphone.toggleMinimized(session.id);
+          });
+        }
       }
     }));
     reducers.webphone = this.webphone.reducer;

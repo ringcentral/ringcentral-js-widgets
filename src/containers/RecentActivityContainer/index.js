@@ -36,7 +36,7 @@ function getTabs({
   }
   return [
     {
-      icon: <VoicemailIcon width={23} height={23} />,
+      icon: <VoicemailIcon width={21} height={21} />,
       label: i18n.getString('voicemail', currentLocale),
       path: 'voicemails',
       isActive: path => path === 'voicemails',
@@ -59,13 +59,13 @@ function getTabs({
           isMessagesLoaded={recentMessages.isMessagesLoaded}
         />
       ),
-      getData: () => {
-        recentMessages.getMessages(currentContact);
+      getData: (fromLocal) => {
+        recentMessages.getMessages(currentContact, fromLocal);
       },
       cleanUp: () => recentMessages.cleanUpMessages(currentContact)
     },
     {
-      icon: <FaxIcon width={23} height={23} />,
+      icon: <FaxIcon width={21} height={21} />,
       label: i18n.getString('fax', currentLocale),
       path: 'faxes',
       isActive: path => path === 'faxes',

@@ -11,13 +11,6 @@ import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 
 function CallInfo(props) {
-  const timeCounter = props.startTime ?
-    (
-      <span className={styles.timeCounter}>
-        <span className={styles.splitLine}>|</span>
-        <DurationCounter startTime={props.startTime} />
-      </span>
-    ) : null;
   let avatar;
   if (props.avatarUrl) {
     avatar = (<img src={props.avatarUrl} alt="avatar" />);
@@ -31,30 +24,28 @@ function CallInfo(props) {
           {avatar}
         </div>
       </div>
-      <div className={styles.infoContent}>
-        <div className={styles.userName}>
-          <ContactDisplay
-            className={styles.contactDisplay}
-            contactMatches={props.nameMatches}
-            phoneNumber={props.phoneNumber}
-            fallBackName={props.fallBackName}
-            currentLocale={props.currentLocale}
-            areaCode={props.areaCode}
-            countryCode={props.countryCode}
-            showType={false}
-            disabled={false}
-            selected={props.selectedMatcherIndex}
-            onSelectContact={props.onSelectMatcherName}
-            isLogging={false}
-            enableContactFallback
-            brand={props.brand}
-            showPlaceholder={props.showContactDisplayPlaceholder}
-          />
-          {timeCounter}
-        </div>
-        <div className={styles.userPhoneNumber}>
-          {props.formatPhone(props.phoneNumber)}
-        </div>
+      <div className={styles.userName}>
+        <ContactDisplay
+          className={styles.contactDisplay}
+          selectClassName={styles.dropdown}
+          contactMatches={props.nameMatches}
+          phoneNumber={props.phoneNumber}
+          fallBackName={props.fallBackName}
+          currentLocale={props.currentLocale}
+          areaCode={props.areaCode}
+          countryCode={props.countryCode}
+          showType={false}
+          disabled={false}
+          selected={props.selectedMatcherIndex}
+          onSelectContact={props.onSelectMatcherName}
+          isLogging={false}
+          enableContactFallback
+          brand={props.brand}
+          showPlaceholder={props.showContactDisplayPlaceholder}
+        />
+      </div>
+      <div className={styles.userPhoneNumber}>
+        {props.formatPhone(props.phoneNumber)}
       </div>
     </div>
   );
@@ -63,7 +54,6 @@ function CallInfo(props) {
 CallInfo.propTypes = {
   phoneNumber: PropTypes.string,
   formatPhone: PropTypes.func.isRequired,
-  startTime: PropTypes.number,
   nameMatches: PropTypes.array.isRequired,
   fallBackName: PropTypes.string.isRequired,
   areaCode: PropTypes.string.isRequired,
@@ -78,7 +68,6 @@ CallInfo.propTypes = {
 
 CallInfo.defaultProps = {
   phoneNumber: null,
-  startTime: null,
   avatarUrl: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
@@ -93,6 +82,7 @@ function ActiveCallPanel({
   phoneNumber,
   formatPhone,
   startTime,
+  startTimeOffset,
   areaCode,
   countryCode,
   selectedMatcherIndex,
@@ -108,7 +98,8 @@ function ActiveCallPanel({
   onRecord,
   onStopRecord,
   onShowKeyPad,
-  hangup,
+  onHangup,
+  onPark,
   onAdd,
   onShowFlipPanel,
   onToggleTransferPanel,
@@ -117,6 +108,12 @@ function ActiveCallPanel({
   brand,
   flipNumbers
 }) {
+  const timeCounter = startTime ?
+    (
+      <span className={styles.timeCounter}>
+        <DurationCounter startTime={startTime} offset={startTimeOffset} />
+      </span>
+    ) : null;
   return (
     <div className={styles.root}>
       <BackHeader
@@ -127,9 +124,9 @@ function ActiveCallPanel({
             <span className={styles.backLabel}>{backButtonLabel}</span>
           </span>
         )}
-        buttons={[]}
       />
-      <Panel>
+      <Panel className={styles.panel}>
+        {timeCounter}
         <CallInfo
           currentLocale={currentLocale}
           nameMatches={nameMatches}
@@ -158,11 +155,12 @@ function ActiveCallPanel({
           onRecord={onRecord}
           onStopRecord={onStopRecord}
           onShowKeyPad={onShowKeyPad}
-          hangup={hangup}
+          onHangup={onHangup}
           onAdd={onAdd}
           onShowFlipPanel={onShowFlipPanel}
           onToggleTransferPanel={onToggleTransferPanel}
           flipNumbers={flipNumbers}
+          onPark={onPark}
         />
         {children}
       </Panel>
@@ -176,6 +174,7 @@ ActiveCallPanel.propTypes = {
   fallBackName: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   startTime: PropTypes.number,
+  startTimeOffset: PropTypes.number,
   isOnMute: PropTypes.bool,
   isOnHold: PropTypes.bool,
   recordStatus: PropTypes.string.isRequired,
@@ -186,7 +185,8 @@ ActiveCallPanel.propTypes = {
   onRecord: PropTypes.func.isRequired,
   onStopRecord: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
-  hangup: PropTypes.func.isRequired,
+  onHangup: PropTypes.func.isRequired,
+  onPark: PropTypes.func.isRequired,
   onBackButtonClick: PropTypes.func.isRequired,
   onShowKeyPad: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
@@ -206,6 +206,7 @@ ActiveCallPanel.propTypes = {
 
 ActiveCallPanel.defaultProps = {
   startTime: null,
+  startTimeOffset: 0,
   isOnMute: false,
   isOnHold: false,
   phoneNumber: null,

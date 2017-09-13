@@ -18,6 +18,7 @@ NoCalls.propTypes = {
 
 function CallList({
   className,
+  brand,
   currentLocale,
   calls,
   areaCode,
@@ -41,6 +42,7 @@ function CallList({
   webphoneResume,
   enableContactFallback,
   autoLog,
+  showContactDisplayPlaceholder
 }) {
   if (calls && calls.length) {
     return (
@@ -50,6 +52,7 @@ function CallList({
             key={call.id}
             call={call}
             currentLocale={currentLocale}
+            brand={brand}
             areaCode={areaCode}
             countryCode={countryCode}
             onViewContact={onViewContact}
@@ -71,6 +74,7 @@ function CallList({
             webphoneResume={webphoneResume}
             enableContactFallback={enableContactFallback}
             autoLog={autoLog}
+            showContactDisplayPlaceholder={showContactDisplayPlaceholder}
           />
         ))}
       </div>
@@ -85,6 +89,7 @@ function CallList({
 
 CallList.propTypes = {
   className: PropTypes.string,
+  brand: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   calls: PropTypes.arrayOf(CallItem.propTypes.call).isRequired,
   active: PropTypes.bool,
@@ -108,6 +113,7 @@ CallList.propTypes = {
   webphoneResume: PropTypes.func,
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
+  showContactDisplayPlaceholder: PropTypes.bool
 };
 CallList.defaultProps = {
   className: null,
@@ -128,6 +134,7 @@ CallList.defaultProps = {
   webphoneHangup: undefined,
   webphoneResume: undefined,
   enableContactFallback: undefined,
+  showContactDisplayPlaceholder: true,
   autoLog: false,
 };
 

@@ -54,17 +54,20 @@ class CallCtrlPage extends Component {
       this.props.onRecord(this.props.session.id);
     this.onStopRecord = () =>
       this.props.onStopRecord(this.props.session.id);
-    this.hangup = () =>
-      this.props.hangup(this.props.session.id);
+    this.onHangup = () =>
+      this.props.onHangup(this.props.session.id);
     this.onKeyPadChange = value =>
       this.props.sendDTMF(value, this.props.session.id);
-    this.flip = value =>
-      this.props.flip(value, this.props.session.id);
-    this.transfer = value =>
-      this.props.transfer(value, this.props.session.id);
+    this.onFlip = value =>
+      this.props.onFlip(value, this.props.session.id);
+    this.onTransfer = value =>
+      this.props.onTransfer(value, this.props.session.id);
+    this.onPark = () =>
+      this.props.onPark(this.props.session.id);
   }
 
   componentDidMount() {
+    this._mounted = true;
     this._updateAvatarAndMatchIndex(this.props);
   }
 
@@ -72,6 +75,10 @@ class CallCtrlPage extends Component {
     if (this.props.session.id !== nextProps.session.id) {
       this._updateAvatarAndMatchIndex(nextProps);
     }
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
   }
 
   _updateAvatarAndMatchIndex(props) {
@@ -90,6 +97,9 @@ class CallCtrlPage extends Component {
     });
     if (contact) {
       props.getAvatarUrl(contact).then((avatarUrl) => {
+        if (!this._mounted) {
+          return;
+        }
         this.setState({ avatarUrl });
       });
     }
@@ -136,10 +146,11 @@ class CallCtrlPage extends Component {
         onRecord={this.onRecord}
         onStopRecord={this.onStopRecord}
         onKeyPadChange={this.onKeyPadChange}
-        hangup={this.hangup}
+        onHangup={this.onHangup}
         onAdd={this.props.onAdd}
-        flip={this.flip}
-        transfer={this.transfer}
+        onFlip={this.onFlip}
+        onTransfer={this.onTransfer}
+        onPark={this.onPark}
         nameMatches={this.props.nameMatches}
         fallBackName={fallbackUserName}
         areaCode={this.props.areaCode}
@@ -178,12 +189,13 @@ CallCtrlPage.propTypes = {
   onUnhold: PropTypes.func.isRequired,
   onRecord: PropTypes.func.isRequired,
   onStopRecord: PropTypes.func.isRequired,
-  hangup: PropTypes.func.isRequired,
+  onHangup: PropTypes.func.isRequired,
   sendDTMF: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,
-  flip: PropTypes.func.isRequired,
-  transfer: PropTypes.func.isRequired,
+  onFlip: PropTypes.func.isRequired,
+  onPark: PropTypes.func.isRequired,
+  onTransfer: PropTypes.func.isRequired,
   children: PropTypes.node,
   nameMatches: PropTypes.array.isRequired,
   areaCode: PropTypes.string.isRequired,
@@ -240,7 +252,7 @@ function mapToFunctions(_, {
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode,
     }),
-    hangup: sessionId => webphone.hangup(sessionId),
+    onHangup: sessionId => webphone.hangup(sessionId),
     onMute: sessionId => webphone.mute(sessionId),
     onUnmute: sessionId => webphone.unmute(sessionId),
     onHold: sessionId => webphone.hold(sessionId),
@@ -253,8 +265,9 @@ function mapToFunctions(_, {
     getAvatarUrl,
     onBackButtonClick,
     onAdd,
-    flip: (flipNumber, sessionId) => webphone.flip(flipNumber, sessionId),
-    transfer: (transferNumber, sessionId) => webphone.transfer(transferNumber, sessionId)
+    onFlip: (flipNumber, sessionId) => webphone.flip(flipNumber, sessionId),
+    onTransfer: (transferNumber, sessionId) => webphone.transfer(transferNumber, sessionId),
+    onPark: sessionId => webphone.park(sessionId),
   };
 }
 

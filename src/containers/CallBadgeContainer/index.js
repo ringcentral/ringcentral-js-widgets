@@ -97,7 +97,7 @@ function mapToProps(_, {
   goToCallCtrl,
 }) {
   const currentSession =
-    webphone.ringSession || webphone.activeSession || {};
+    webphone.activeSession || webphone.ringSession || {};
   return {
     currentLocale: locale.currentLocale,
     session: currentSession,

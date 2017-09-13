@@ -39,7 +39,7 @@ function mapToProps(_, {
       extensionInfo.extensionNumber !== '0' ? extensionInfo.extensionNumber : null;
     const phoneNumber = [accountInfo.mainCompanyNumber, extensionNumber].join('*');
     loginNumber = formatNumber({
-      phoneNumber: phoneNumber,
+      phoneNumber,
       countryCode: regionSettings.countryCode,
       areaCode: regionSettings.areaCode,
     });
@@ -54,7 +54,7 @@ function mapToProps(_, {
       regionSettings.ready &&
       callingSettings.ready &&
       rolesAndPermissions.ready &&
-      presence.ready
+      (!presence || presence.ready)
     ),
     showRegion: loggedIn && brand.id === '1210' && (
       regionSettings.availableCountries.length > 1 ||
@@ -71,7 +71,7 @@ function mapToProps(_, {
     isCallQueueMember: extensionInfo.isCallQueueMember,
     dndStatus: presence && presence.dndStatus,
     userStatus: presence && presence.userStatus,
-    showPresenceSettings: !!(params && params.showPresenceSettings),
+    showPresenceSettings: !!(presence && params && params.showPresenceSettings),
   };
 }
 

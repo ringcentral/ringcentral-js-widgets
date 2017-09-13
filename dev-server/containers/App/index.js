@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
-import { Router, Route, IndexRoute } from 'react-router';
+import { Router, Route } from 'react-router';
 import sleep from 'ringcentral-integration/lib/sleep';
 
 import AlertContainer from '../../../src/containers/AlertContainer';
@@ -14,7 +14,7 @@ import ConversationPage from '../../../src/containers/ConversationPage';
 import ConferencePage from '../../../src/containers/ConferencePage';
 import MessagesPage from '../../../src/containers/MessagesPage';
 import SettingsPage from '../../../src/containers/SettingsPage';
-import CallMonitorPage from '../../../src/containers/CallMonitorPage';
+import ActiveCallsPage from '../../../src/containers/ActiveCallsPage';
 import CallHistoryPage from '../../../src/containers/CallHistoryPage';
 import IncomingCallPage from '../../../src/containers/IncomingCallPage';
 import CallCtrlPage from '../../../src/containers/CallCtrlPage';
@@ -132,7 +132,7 @@ export default function App({
                 />
               </MainView>
             )} >
-            <route
+            <Route
               path="dialer"
               component={() => (
                 <DialerPage
@@ -189,7 +189,7 @@ export default function App({
             <Route
               path="/calls"
               component={() => (
-                <CallMonitorPage
+                <ActiveCallsPage
                   locale={phone.locale}
                   callMonitor={phone.callMonitor}
                   contactMatcher={phone.contactMatcher}
@@ -197,13 +197,19 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   connectivityMonitor={phone.connectivityMonitor}
                   rateLimiter={phone.rateLimiter}
-                  dateTimeFormat={phone.dateTimeFormat}
                   onLogCall={async () => { await sleep(1000); }}
                   onViewContact={() => { }}
+                  onCreateContact={() => { }}
                   router={phone.router}
                   composeText={phone.composeText}
                   rolesAndPermissions={phone.rolesAndPermissions}
                   webphone={phone.webphone}
+                  brand={phone.brand}
+                  onCallsEmpty={() => {
+                    if (phone.webphone && phone.webphone._webphone) {
+                      phone.router.push('/dialer');
+                    }
+                  }}
                 />
               )} />
             <Route
@@ -247,6 +253,7 @@ export default function App({
               path="/history"
               component={() => (
                 <CallHistoryPage
+                  brand={phone.brand}
                   locale={phone.locale}
                   callHistory={phone.callHistory}
                   contactMatcher={phone.contactMatcher}
@@ -259,6 +266,7 @@ export default function App({
                   composeText={phone.composeText}
                   rolesAndPermissions={phone.rolesAndPermissions}
                   router={phone.router}
+                  showContactDisplayPlaceholder={false}
                   onLogCall={async () => { await sleep(1000); }}
                   onViewContact={() => { }}
                   onCreateContact={() => { }}
@@ -296,6 +304,7 @@ export default function App({
               path="/conversations/:conversationId"
               component={props => (
                 <ConversationPage
+                  brand={phone.brand}
                   locale={phone.locale}
                   auth={phone.auth}
                   params={props.params}
@@ -309,6 +318,7 @@ export default function App({
                   rateLimiter={phone.rateLimiter}
                   connectivityMonitor={phone.connectivityMonitor}
                   onLogConversation={async () => { sleep(1000); }}
+                  showContactDisplayPlaceholder={false}
                   router={phone.router}
                 />
               )} />
@@ -316,6 +326,7 @@ export default function App({
               path="/messages"
               component={() => (
                 <MessagesPage
+                  brand={phone.brand}
                   locale={phone.locale}
                   router={phone.router}
                   messages={phone.messages}
@@ -326,6 +337,7 @@ export default function App({
                   call={phone.call}
                   conversationLogger={phone.conversationLogger}
                   rolesAndPermissions={phone.rolesAndPermissions}
+                  showContactDisplayPlaceholder={false}
                   onLogConversation={async () => { await sleep(1000); }}
                   onViewContact={() => { }}
                   onCreateContact={() => { }}

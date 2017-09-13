@@ -1,3 +1,5 @@
+@import '../../lib/commonStyles/colors';
+
 .root {
   position: relative;
 }
@@ -5,9 +7,9 @@
 .buttonRow {
   text-align: center;
   margin-bottom: 10px;
-  height: 26.5%;
-  margin-left: 5%;
-  margin-right: 5%;
+  height: 25%;
+  margin-left: 2%;
+  margin-right: 2%;
 }
 
 .callButton {
@@ -15,19 +17,16 @@
   padding: 0;
 
   text {
-    font-size: 78px;
+    font-size: 90px;
   }
 }
 
 .bigCallButton {
   composes: callButton;
   width: 50%;
-  text {
-    font-size: 70px;
-  }
 }
 
-.rejectButton {
+.button {
   circle {
     fill: #ff4646;
   }
@@ -36,31 +35,30 @@
   }
 }
 
+.voiceMailButton {
+  composes: button;
+}
+
+
 .answerButton {
-  composes: rejectButton;
+  composes: button;
   circle {
-    fill: #4cd964;
+    fill: $call-btn-color;
   }
 }
 
 .answerButtonGroup {
-  width: 76%;
+  width: 66%;
   margin-left: auto;
   margin-right: auto;
-  height: 29%;
+  height: 26.5%;
 }
 
 .multiCallsButtonGroup {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  height: 29.5%;
-
-  .callButton {
-    text {
-      font-size: 70px;
-    }
-  }
+  height: 25%;
 }
 
 .forwardContainner{

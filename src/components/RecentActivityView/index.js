@@ -14,6 +14,13 @@ export default class RecentActivityView extends PureComponent {
   }
 
   componentDidMount() {
+    for (const tab of this.props.tabs) {
+      // Preload data on unactivated tabs
+      if (tab.path !== this.props.defaultTab) {
+        tab.getData(true);
+      }
+    }
+    // Switch to default tab and load all data
     this.onTabChanged();
   }
 
@@ -31,7 +38,7 @@ export default class RecentActivityView extends PureComponent {
 
   onTabChanged = (tabName = this.props.defaultTab) => {
     const currentTab = this.getCurrentTab(tabName);
-    currentTab.getData();
+    if (currentTab) currentTab.getData();
     this.setState({
       currentTab: tabName
     });
@@ -40,7 +47,7 @@ export default class RecentActivityView extends PureComponent {
   getCurrentTabPanel() {
     const currentTabPath = this.state.currentTab;
     const currentTab = this.getCurrentTab(currentTabPath);
-    return currentTab.view || null;
+    return currentTab ? currentTab.view : null;
   }
 
   getCurrentTab(currentTabPath) {

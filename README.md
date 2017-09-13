@@ -79,6 +79,16 @@ brew install watchman
 yarn test:watch
 ```
 
+### Update mock data
+
+Whenever there is major change to the design, you might need to upodate `test/state.json` and `test/storage.json`.
+
+Launch the dev-server and visit the app in chrome browser. In console:
+
+Run `JSON.stringify(phone.store.getState(), null, 2)` to generate content for `test/state.json`.
+
+Run `JSON.stringify(localStorage, null, 2)` to generate content for `test/storage.json`
+
 
 ### About test coverage
 

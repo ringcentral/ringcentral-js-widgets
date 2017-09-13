@@ -19,15 +19,20 @@ function ConversationIcon({
         className={classnames(
           group ? dynamicsFont.groupConversation : dynamicsFont.composeText
         )}
-        title={title}/>
+        title={title}
+      />
     </div>
   );
 }
 ConversationIcon.propTypes = {
   group: PropTypes.bool,
+  conversationTitle: PropTypes.string,
+  groupConversationTitle: PropTypes.string,
 };
 ConversationIcon.defaultProps = {
   group: false,
+  conversationTitle: undefined,
+  groupConversationTitle: undefined,
 };
 
 export default class MessageItem extends Component {
@@ -65,7 +70,8 @@ export default class MessageItem extends Component {
     this._mounted = false;
   }
   onSelectContact = (value, idx) => {
-    const selected = parseInt(idx, 10) - 1;
+    const selected = this.props.showContactDisplayPlaceholder
+      ? parseInt(idx, 10) - 1 : parseInt(idx, 10);
     this._userSelection = true;
     this.setState({
       selected,
@@ -124,7 +130,7 @@ export default class MessageItem extends Component {
       });
     }
   }
-  createSelectedContact = async (entityType) => {
+  async createSelectedContact(entityType) {
     // console.log('click createSelectedContact!!', entityType);
     if (typeof this.props.onCreateContact === 'function' &&
       this._mounted &&
@@ -148,6 +154,7 @@ export default class MessageItem extends Component {
       }
     }
   }
+  createSelectedContact = this.createSelectedContact.bind(this);
 
   async logConversation({ redirect = true, selected, prefill = true }) {
     if (typeof this.props.onLogConversation === 'function' &&
@@ -178,16 +185,19 @@ export default class MessageItem extends Component {
     }
   }
   showConversationDetail = (e) => {
-    // if (e.captureClick === false) {
-    //   delete e.captureClick;
-    //   return;
-    // }
+    if ((
+      this.contactDisplay &&
+      this.contactDisplay.contains(e.target))
+    ) {
+      return;
+    }
     this.props.showConversationDetail(this.props.conversation.conversationId);
   }
 
   render() {
     const {
       areaCode,
+      brand,
       countryCode,
       currentLocale,
       conversation: {
@@ -207,6 +217,7 @@ export default class MessageItem extends Component {
       onCreateContact,
       dateTimeFormatter,
       enableContactFallback,
+      showContactDisplayPlaceholder
     } = this.props;
 
     const groupNumbers = this.getGroupPhoneNumbers();
@@ -214,40 +225,50 @@ export default class MessageItem extends Component {
     const fallbackName = this.getFallbackContactName();
 
     return (
-      <div
-        className={classnames(
-          styles.root,
-          unreadCounts && styles.unread
-        )}
-        onClick={this.showConversationDetail}
-      >
-        <ConversationIcon
-          group={correspondents.length > 1}
-          conversationTitle={i18n.getString('conversation', currentLocale)}
-          groupConversationTitle={i18n.getString('groupConversation', currentLocale)}
-        />
-        <ContactDisplay
+      <div className={styles.root}>
+        <div
           className={classnames(
-            styles.contactDisplay,
+            styles.wrapper,
             unreadCounts && styles.unread
           )}
-          contactMatches={correspondentMatches}
-          selected={this.state.selected}
-          onSelectContact={this.onSelectContact}
-          disabled={disableLinks}
-          isLogging={isLogging || this.state.isLogging}
-          fallBackName={fallbackName}
-          areaCode={areaCode}
-          countryCode={countryCode}
-          phoneNumber={phoneNumber}
-          groupNumbers={groupNumbers}
-          currentLocale={currentLocale}
-          enableContactFallback={enableContactFallback}
-        />
-        <div className={styles.details}>
-          {dateTimeFormatter({ utcTimestamp: creationTime })} | {subject}
+          onClick={this.showConversationDetail}
+        >
+          <ConversationIcon
+            group={correspondents.length > 1}
+            conversationTitle={i18n.getString('conversation', currentLocale)}
+            groupConversationTitle={i18n.getString('groupConversation', currentLocale)}
+          />
+          <ContactDisplay
+            reference={(ref) => { this.contactDisplay = ref; }}
+            className={classnames(
+              styles.contactDisplay,
+              unreadCounts && styles.unread
+            )}
+            selectClassName={styles.dropdownSelect}
+            brand={brand}
+            contactMatches={correspondentMatches}
+            selected={this.state.selected}
+            onSelectContact={this.onSelectContact}
+            disabled={disableLinks}
+            isLogging={isLogging || this.state.isLogging}
+            fallBackName={fallbackName}
+            areaCode={areaCode}
+            countryCode={countryCode}
+            phoneNumber={phoneNumber}
+            groupNumbers={groupNumbers}
+            currentLocale={currentLocale}
+            enableContactFallback={enableContactFallback}
+            stopPropagation={false}
+            showType={false}
+            showPlaceholder={showContactDisplayPlaceholder}
+          />
+          <div className={styles.details}>
+            {dateTimeFormatter({ utcTimestamp: creationTime })} | {subject}
+          </div>
         </div>
         <ActionMenu
+          extendIconClassName={styles.extendIcon}
+          onPanelClick={this.showConversationDetail}
           currentLocale={currentLocale}
           onLog={onLogConversation && this.logConversation}
           onViewEntity={onViewContact && this.viewSelectedContact}
@@ -265,7 +286,7 @@ export default class MessageItem extends Component {
           callTitle={i18n.getString('call', currentLocale)}
           createEntityTitle={i18n.getString('addEntity', currentLocale)}
           viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
-          stopPropagation
+          stopPropagation={false}
         />
       </div>
     );
@@ -290,19 +311,20 @@ MessageItem.propTypes = {
     })),
   }).isRequired,
   areaCode: PropTypes.string.isRequired,
+  brand: PropTypes.string.isRequired,
   countryCode: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
   onLogConversation: PropTypes.func,
   onViewContact: PropTypes.func,
   onCreateContact: PropTypes.func,
   onClickToDial: PropTypes.func,
-  isLoggedContact: PropTypes.func,
   disableLinks: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
   showConversationDetail: PropTypes.func.isRequired,
   autoLog: PropTypes.bool,
   enableContactFallback: PropTypes.bool,
+  showContactDisplayPlaceholder: PropTypes.bool,
 };
 
 MessageItem.defaultProps = {
@@ -310,11 +332,9 @@ MessageItem.defaultProps = {
   onClickToDial: undefined,
   onViewContact: undefined,
   onCreateContact: undefined,
-  isLoggedContact: () => false,
   disableClickToDial: false,
-  outboundSmsPermission: false,
-  internalSmsPermission: false,
   disableLinks: false,
   autoLog: false,
   enableContactFallback: undefined,
+  showContactDisplayPlaceholder: true,
 };

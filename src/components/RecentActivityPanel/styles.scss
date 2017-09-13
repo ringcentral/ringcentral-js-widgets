@@ -7,12 +7,15 @@
   box-shadow: 0 -2px 2px 0 rgba(0, 0, 0, 0.1);
 }
 .header {
+  height: 27px;
+  min-height: 27px;
   cursor: pointer;
   border-color: #e3e3e3;
-}
-.headerTitle {
   @include primary-font;
+  font-weight: 300;
+  font-size: 16px;
 }
+
 .arrowIcon {
   position: relative;
   margin-right: 15px;

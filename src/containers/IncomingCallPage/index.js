@@ -67,6 +67,7 @@ class IncomingCallPage extends Component {
   }
 
   componentDidMount() {
+    this._mounted = true;
     this._updateAvatarAndMatchIndex(this.props);
   }
 
@@ -77,6 +78,10 @@ class IncomingCallPage extends Component {
         hasOtherActiveCall: !!nextProps.activeSessionId,
       });
     }
+  }
+
+  componentWillUnmount() {
+    this._mounted = false;
   }
 
   _updateAvatarAndMatchIndex(props) {
@@ -95,6 +100,9 @@ class IncomingCallPage extends Component {
     });
     if (contact) {
       props.getAvatarUrl(contact).then((avatarUrl) => {
+        if (!this._mounted) {
+          return;
+        }
         this.setState({ avatarUrl });
       });
     }
@@ -142,6 +150,7 @@ class IncomingCallPage extends Component {
         hasOtherActiveCall={this.state.hasOtherActiveCall}
         answerAndEnd={this.answerAndEnd}
         answerAndHold={this.answerAndHold}
+        sessionId={this.props.session.id}
       >
         {this.props.children}
       </IncomingCallPanel>

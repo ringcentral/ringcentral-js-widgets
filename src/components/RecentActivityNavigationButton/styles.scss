@@ -46,11 +46,13 @@
   @include full-size;
  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 1.3em;
+  font-size: 1.2em;
   line-height: $navigation-bar-height;
+  height: 35px;
+  line-height: 35px;
 
   > svg {
-    margin-top: 14px;
+    margin-top: 9px;
     path {
       fill: $darkergray;
     }
@@ -72,8 +74,8 @@
 
 .notice {
   position: absolute;
-  bottom: 1.9em;
-  right: calc(50% - 1.6em);
+  bottom: 1.3em;
+  right: calc(50% - 1.5em);
   width: 1.4em;
   height: 1.4em;
   border-radius: 100%;

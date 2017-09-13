@@ -52,7 +52,7 @@ props.areaCode = 'test string';
 props.countryCode = 'test string';
 props.disableLinks = false;
 props.dateTimeFormatter = () => '12:00';
-props.title = 'Calls Example'
+props.title = 'Calls Example';
 
 /**
  * A example of `CallsPanel`

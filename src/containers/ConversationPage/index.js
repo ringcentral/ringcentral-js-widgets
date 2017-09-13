@@ -49,6 +49,7 @@ class ConversationPage extends Component {
   render() {
     return (
       <ConversationPanel
+        brand={this.props.brand}
         countryCode={this.props.countryCode}
         areaCode={this.props.areaCode}
         disableLinks={this.props.disableLinks}
@@ -64,6 +65,7 @@ class ConversationPage extends Component {
         sendButtonDisabled={this.props.sendButtonDisabled}
         autoLog={this.props.autoLog}
         dateTimeFormatter={this.props.dateTimeFormatter}
+        showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
         goBack={this.props.goBack}
       />
     );
@@ -105,6 +107,7 @@ ConversationPage.childContextTypes = {
 };
 
 function mapToProps(_, {
+  brand,
   locale,
   params,
   conversation,
@@ -118,6 +121,7 @@ function mapToProps(_, {
   enableContactFallback = false,
 }) {
   return ({
+    brand: brand.fullName,
     enableContactFallback,
     currentLocale: locale.currentLocale,
     conversationId: params.conversationId,

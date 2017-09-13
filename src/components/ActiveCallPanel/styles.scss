@@ -2,7 +2,7 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/fonts.scss';
 
-$avatar-width: 60px;
+$userInfoHeight: 140px;
 
 .root {
   @include full-size;
@@ -15,9 +15,18 @@ $avatar-width: 60px;
   text-align: center;
 }
 
+.panel {
+  position: relative;
+}
+
 .backButton {
-  font-size: $primary-font-size;
   color: $lightblack;
+  i {
+    font-size: $primary-font-size;
+  }
+  span {
+    font-size: 0.9em;
+  }
   &:hover {
     color: $lightblack;
   }
@@ -37,26 +46,25 @@ $avatar-width: 60px;
 }
 
 .userInfo {
-  display: inline-block;
-  text-align: left;
+  display: block;
+  text-align: center;
   color: $lightblack;
   padding-bottom: 15px;
-  padding-top: 15px;
+  padding-top: 20px;
   margin-left: auto;
   margin-right: auto;
   box-sizing: border-box;
+  height: $userInfoHeight;
 }
 
 .avatarContainer {
-  display: inline-block;
-  width: $avatar-width;
-  vertical-align: top;
+  display: block;
 }
 
 .avatar {
-  width: 38px;
-  height: 38px;
-  border-radius: 50px;
+  width: 65px;
+  height: 65px;
+  border-radius: 33px;
   margin-left: auto;
   margin-right: auto;
   color: $primary-color;
@@ -65,48 +73,51 @@ $avatar-width: 60px;
 
   .icon {
     display: block;
-    font-size: 38px;
+    font-size: 65px;
     opacity: 0.3;
   }
 
   img {
     width: 100%;
+    border: solid 1px #e2e2e2;
   }
-}
-
-.infoContent {
-  display: inline-block;
-  width: calc(100% - #{$avatar-width});
-  vertical-align: top;
 }
 
 .userName {
   font-size: 15px;
   color: $lightblack;
-
-  .splitLine {
-    padding: 0 7px;
-  }
 }
 
 .contactDisplay {
   display: inline-block;
   line-height: 16px;
+  margin-top: -5px;
 }
 
 .userPhoneNumber {
   font-size: 12px;
   color: $grey-light;
-  margin-top: 5px;
+  margin-top: 2px;
+  font-weight: 300;
 }
 
 .timeCounter {
+  position: absolute;
+  top: 20px;
+  right: 20px;
   color: $grey-light;
   font-size: 12px;
+  font-weight: 300;
 }
 
 .callPad {
   box-sizing: border-box;
-  height: calc(100% - 73px);
+  height: calc(100% - #{$userInfoHeight});
   padding-bottom: 50px;
+}
+
+.dropdown {
+  ul {
+    max-height: 80px;
+  }
 }

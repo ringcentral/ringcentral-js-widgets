@@ -14,9 +14,10 @@ props.onUnhold = () => null;
 props.onRecord = () => null;
 props.onStopRecord = () => null;
 props.onAdd = () => null;
-props.hangup = () => null;
-props.flip = () => null;
-props.transfer = () => null;
+props.onHangup = () => null;
+props.onFlip = () => null;
+props.onPark = () => null;
+props.onTransfer = () => null;
 props.onBackButtonClick = () => null;
 props.onKeyPadChange = () => null;
 props.formatPhone = () => null;
@@ -29,8 +30,15 @@ props.onSelectMatcherName = () => null;
  * A example of `CallCtrlPanel`
  */
 const CallCtrlPanelDemo = () => (
-  <CallCtrlPanel
-    {...props}
-  />
+  <div style={{
+    position: 'relative',
+    height: '500px',
+    width: '300px',
+    border: '1px solid #f3f3f3',
+  }}>
+    <CallCtrlPanel
+      {...props}
+    />
+  </div>
 );
 export default CallCtrlPanelDemo;

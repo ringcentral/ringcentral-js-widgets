@@ -10,4 +10,5 @@ export default {
   [callErrors.networkError]: 'Cannot connect due to network issues. Please try again later.',
   [callErrors.noRingoutEnable]: 'Your extension is allowed to make calls with desktop app.\n    If you wish to switch to other calling options\n    please contact your account administrator for an upgrade.',
   areaCode: 'area code',
+  telus911: 'Emergency dialing is not supported.'
 };
