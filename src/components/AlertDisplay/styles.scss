@@ -28,8 +28,8 @@
   line-height: 1.3em;
   color: #FFFFFF;
   word-wrap: break-word;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  z-index:10;
   box-sizing: border-box !important;
   a {
     text-decoration: none;
@@ -73,41 +73,4 @@
   composes: alert;
   background-color: #f19d9d;
   border-color: #f19d9d;
-}
-
-%animated {
-  animation-duration: 1s;
-  animation-fill-mode: both;
-}
-
-@keyframes fadeInDown {
-  0% {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fadeOutUp {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-}
-
-.fadeIn {
-  @extend %animated;
-  animation-name: fadeInDown;
-}
-
-.fadeOut {
-  @extend %animated;
-  animation-name: fadeOutUp;
 }
