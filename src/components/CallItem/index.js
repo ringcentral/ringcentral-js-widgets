@@ -73,6 +73,7 @@ export default class CallItem extends Component {
       isLogging: false,
       isCreating: false,
       loading: true,
+      extended: false,
     };
     this._userSelection = false;
   }
@@ -118,6 +119,19 @@ export default class CallItem extends Component {
       this.logCall({ redirect: false, selected });
     }
   }
+
+  toggleExtended = (e) => {
+    if ((
+      this.contactDisplay &&
+      this.contactDisplay.contains(e.target))
+    ) {
+      return;
+    }
+    this.setState(preState => ({
+      extended: !preState.extended,
+    }));
+  };
+
   getInitialContactIndex(nextProps = this.props) {
     const contactMatches = this.getContactMatches(nextProps);
     const activityMatches = nextProps.call.activityMatches;
@@ -314,72 +328,49 @@ export default class CallItem extends Component {
     if (active) {
       statusEl = i18n.getString(result || telephonyStatus, currentLocale);
     }
-    // let webphoneEl;
-    // if (webphoneSession) {
-    //   let hangupFunc = webphoneHangup;
-    //   let resumeFunc = webphoneResume;
-    //   if (
-    //     webphoneSession.direction === callDirections.inbound &&
-    //     webphoneSession.callStatus === sessionStatus.connecting
-    //   ) {
-    //     hangupFunc = webphoneReject;
-    //     resumeFunc = webphoneAnswer;
-    //   }
-    //   webphoneEl = (
-    //     <div className={styles.webphoneButtons}>
-    //       <Button
-    //         className={classnames(styles.webphoneButton, styles.rejectWebphoneButton)}
-    //         onClick={() => hangupFunc(webphoneSession.id)}
-    //       >
-    //         <i className={dynamicsFont.missed} />
-    //       </Button>
-    //       <Button
-    //         className={styles.webphoneButton}
-    //         onClick={() => resumeFunc(webphoneSession.id)}
-    //       >
-    //         <i className={dynamicsFont.call} />
-    //       </Button>
-    //     </div>
-    //   );
-    // }
     return (
-      <div className={styles.root}>
-        <CallIcon
-          direction={direction}
-          ringing={ringing}
-          active={active}
-          missed={missed}
-          inboundTitle={i18n.getString('inboundCall', currentLocale)}
-          outboundTitle={i18n.getString('outboundCall', currentLocale)}
-          missedTitle={i18n.getString('missedCall', currentLocale)}
-        />
-        <ContactDisplay
-          className={classnames(
-            styles.contactDisplay,
-            missed && styles.missed,
-            active && styles.active,
-          )}
-          selectClassName={styles.dropdownSelect}
-          brand={brand}
-          contactMatches={contactMatches}
-          selected={this.state.selected}
-          onSelectContact={this.onSelectContact}
-          disabled={disableLinks}
-          isLogging={isLogging || this.state.isLogging}
-          fallBackName={fallbackContactName}
-          enableContactFallback={enableContactFallback}
-          areaCode={areaCode}
-          countryCode={countryCode}
-          phoneNumber={phoneNumber}
-          currentLocale={currentLocale}
-          stopPropagation={false}
-          showType={false}
-          showPlaceholder={showContactDisplayPlaceholder}
-        />
-        <div className={styles.details} >
-          {durationEl} | {dateEl}{statusEl}
+      <div className={styles.root} onClick={this.toggleExtended}>
+        <div className={styles.wrapper}>
+          <CallIcon
+            direction={direction}
+            ringing={ringing}
+            active={active}
+            missed={missed}
+            inboundTitle={i18n.getString('inboundCall', currentLocale)}
+            outboundTitle={i18n.getString('outboundCall', currentLocale)}
+            missedTitle={i18n.getString('missedCall', currentLocale)}
+          />
+          <ContactDisplay
+            reference={ref => { this.contactDisplay = ref; }}
+            className={classnames(
+              styles.contactDisplay,
+              missed && styles.missed,
+              active && styles.active,
+            )}
+            selectClassName={styles.dropdownSelect}
+            brand={brand}
+            contactMatches={contactMatches}
+            selected={this.state.selected}
+            onSelectContact={this.onSelectContact}
+            disabled={disableLinks}
+            isLogging={isLogging || this.state.isLogging}
+            fallBackName={fallbackContactName}
+            enableContactFallback={enableContactFallback}
+            areaCode={areaCode}
+            countryCode={countryCode}
+            phoneNumber={phoneNumber}
+            currentLocale={currentLocale}
+            stopPropagation={false}
+            showType={false}
+            showPlaceholder={showContactDisplayPlaceholder}
+          />
+          <div className={styles.details} >
+            {durationEl} | {dateEl}{statusEl}
+          </div>
         </div>
         <ActionMenu
+          extended={this.state.extended}
+          onToggle={this.toggleExtended}
           currentLocale={currentLocale}
           onLog={onLogCall && this.logCall}
           onViewEntity={onViewContact && this.viewSelectedContact}
