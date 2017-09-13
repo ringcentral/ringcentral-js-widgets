@@ -4,11 +4,11 @@ import 'animate.css/animate.min.css';
 import sleep from 'ringcentral-integration/lib/sleep';
 import { Message, getAlertDisplay } from '../AlertDisplay';
 
-const DEFAULT_DURATION = 1000;
+const ANIMATION_DURATION = 500;
 const ENTRANCE_ANIMATION = 'fadeInDown';
 const EXIT_ANIMATION = 'fadeOutUp';
 
-function AnimationMessage({ animation, duration = DEFAULT_DURATION, ...props }) {
+function AnimationMessage({ animation, duration = ANIMATION_DURATION, ...props }) {
   const second = duration / 1000;
   return (
     <div
@@ -39,7 +39,7 @@ class AnimationAlert extends Component {
   componentWillReceiveProps(nextProps) {
     (async () => {
       const {
-        duration = DEFAULT_DURATION,
+        duration = ANIMATION_DURATION,
         entranceAnimation = ENTRANCE_ANIMATION,
         exitAnimation = EXIT_ANIMATION,
       } = this.props;
