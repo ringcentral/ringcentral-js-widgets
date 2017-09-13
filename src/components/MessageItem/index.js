@@ -225,13 +225,12 @@ export default class MessageItem extends Component {
     const fallbackName = this.getFallbackContactName();
 
     return (
-      <div className={styles.root}>
+      <div className={styles.root} onClick={this.showConversationDetail}>
         <div
           className={classnames(
             styles.wrapper,
             unreadCounts && styles.unread
           )}
-          onClick={this.showConversationDetail}
         >
           <ConversationIcon
             group={correspondents.length > 1}
