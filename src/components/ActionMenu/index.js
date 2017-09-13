@@ -6,7 +6,6 @@ import EntityButton from '../EntityButton';
 import EntityModal from '../EntityModal';
 import Button from '../Button';
 import LogButton from '../LogButton';
-import styles from './styles.scss';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 function ClickToDialButton({
@@ -19,7 +18,7 @@ function ClickToDialButton({
 }) {
   return (
     <Button
-      className={classnames(styles.call, className)}
+      className={className}
       onClick={onClickToDial}
       disabled={disableLinks || disableClickToDial || !phoneNumber} >
       <span
@@ -54,7 +53,7 @@ function ClickToSmsButton({
 }) {
   return (
     <Button
-      className={classnames(styles.sms, className)}
+      className={className}
       onClick={onClickToSms}
       disabled={disableLinks || !phoneNumber} >
       <span
@@ -136,7 +135,6 @@ export default class ActionMenu extends Component {
     const logButton = onLog ?
       (
         <LogButton
-          className={styles.baseGroup}
           onLog={onLog}
           disableLinks={disableLinks}
           isLogged={isLogged}
@@ -151,7 +149,6 @@ export default class ActionMenu extends Component {
     let entityButton;
     if (hasEntity && onViewEntity) {
       entityButton = (<EntityButton
-        className={classnames(styles.entity, styles.baseGroup)}
         onViewEntity={onViewEntity}
         hasEntity={hasEntity}
         disableLinks={disableLinks}
@@ -159,7 +156,6 @@ export default class ActionMenu extends Component {
       />);
     } else if (!hasEntity && phoneNumber && onCreateEntity) {
       entityButton = (<EntityButton
-        className={classnames(styles.entity, styles.baseGroup)}
         onCreateEntity={this.openEntityModal}
         hasEntity={hasEntity}
         disableLinks={disableLinks}
@@ -203,7 +199,7 @@ export default class ActionMenu extends Component {
       ) :
       null;
     return (
-      <div ref={reference} className={styles.root}>
+      <div ref={reference}>
         <SlideMenu
           extended={this.props.extended}
           onToggle={this.props.onToggle}
@@ -244,7 +240,6 @@ ActionMenu.propTypes = {
   phoneNumber: PropTypes.string,
   disableLinks: PropTypes.bool,
   disableClickToDial: PropTypes.bool,
-  stopPropagation: PropTypes.bool,
   addLogTitle: PropTypes.string,
   editLogTitle: PropTypes.string,
   textTitle: PropTypes.string,
@@ -270,7 +265,6 @@ ActionMenu.defaultProps = {
   phoneNumber: undefined,
   disableLinks: false,
   disableClickToDial: false,
-  stopPropagation: false,
   addLogTitle: undefined,
   editLogTitle: undefined,
   textTitle: undefined,
