@@ -50,25 +50,34 @@ ContactGroup.defaultProps = {
 export default class ContactList extends Component {
   constructor(props) {
     super(props);
-    this.goesDown = true;
+    this.downwards = true;
     this.onScroll = this.onScroll.bind(this);
   }
 
+  componentDidMount() {
+    // wait for contact items rendering
+    setTimeout(() => {
+      // detect here for the case when there is no scroll bar
+      this.detectNextPage(this.rootElem);
+    }, 0);
+  }
+
   onScroll(ev) {
-    if (this.goesDown) {
-      if (
-        ev.target.scrollTop > 0 &&
-        (ev.target.scrollTop + ev.target.clientHeight) > (ev.target.scrollHeight - 20)
-      ) {
-        this.goesDown = false;
+    this.detectNextPage(ev.target);
+  }
+
+  detectNextPage(el) {
+    if (this.downwards) {
+      if ((el.scrollTop + el.clientHeight) > (el.scrollHeight - 20)) {
+        this.downwards = false;
         const { currentPage, onNextPage } = this.props;
         if (onNextPage) {
           const curr = (currentPage || 1);
           onNextPage(curr + 1);
         }
       }
-    } else if ((ev.target.scrollTop + ev.target.clientHeight) < (ev.target.scrollHeight - 30)) {
-      this.goesDown = true;
+    } else if ((el.scrollTop + el.clientHeight) < (el.scrollHeight - 30)) {
+      this.downwards = true;
     }
   }
 
@@ -84,6 +93,7 @@ export default class ContactList extends Component {
       <div
         className={styles.root}
         onScroll={this.onScroll}
+        ref={(el) => { this.rootElem = el; }}
       >
         {
           contactGroups.length ?
