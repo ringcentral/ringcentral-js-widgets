@@ -332,8 +332,10 @@ var Subscription = (_class = function (_RcModule) {
         _this4.store.dispatch({
           type: _this4.actionTypes.subscribe
         });
-        _this4._subscription.setEventFilters(_this4.filters);
-        _this4._subscription.register();
+        if (_this4._subscription) {
+          _this4._subscription.setEventFilters(_this4.filters);
+          _this4._subscription.register();
+        }
       }, 2000);
     }
   }, {
