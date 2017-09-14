@@ -383,31 +383,68 @@ export default class Phone extends RcModule {
     this.addModule('contactSearch', new ContactSearch({
       ...options,
       auth: this.auth,
-      storage: this.storage,
+      // storage: this.storage,
       getState: () => this.state.contactSearch,
     }));
     reducers.contactSearch = this.contactSearch.reducer;
     this.contactSearch.addSearchSource({
       sourceName: 'extensions',
       searchFn: ({ searchString }) => {
+        const items = this.accountExtension.availableExtensions;
+        if (!searchString) {
+          return items;
+        }
         const searchText = searchString.toLowerCase();
-        return this.accountExtension.availableExtensions.filter((extension) => {
-          if (extension.ext.indexOf(searchText) >= 0) {
-            return true;
-          }
-          if (extension.name.toLowerCase().indexOf(searchText) >= 0) {
+        return items.filter((extension) => {
+          if (
+            extension.ext.indexOf(searchText) >= 0 ||
+            extension.name.toLowerCase().indexOf(searchText) >= 0
+          ) {
             return true;
           }
           return false;
         });
       },
       formatFn: entities => entities.map(entity => ({
+        id: entity.id.toString(),
+        type: 'company',
         entityType: 'contact',
+        hasProfileImage: !!entity.hasProfileImage,
         name: entity.name,
         phoneNumber: entity.ext,
         phoneType: 'extension',
       })),
       readyCheckFn: () => this.accountExtension.ready,
+    });
+    this.contactSearch.addSearchSource({
+      sourceName: 'personal',
+      searchFn: ({ searchString }) => {
+        const items = this.addressBook.contacts;
+        if (!searchString) {
+          return items;
+        }
+        const searchText = searchString.toLowerCase();
+        return items.filter((item) => {
+          const name = `${item.firstName} ${item.lastName}`;
+          if (
+            name.toLowerCase().indexOf(searchText) >= 0 ||
+            (item.homePhone && item.homePhone.indexOf(searchText) >= 0)
+          ) {
+            return true;
+          }
+          return false;
+        });
+      },
+      formatFn: entities => entities.map(item => ({
+        id: item.id.toString(),
+        type: 'personal',
+        entityType: 'addressBook',
+        hasProfileImage: false,
+        name: `${item.firstName} ${item.lastName}`,
+        phoneNumber: item.homePhone,
+        phoneType: 'homePhone',
+      })),
+      readyCheckFn: () => this.addressBook.ready,
     });
     this.addModule('messageSender', new MessageSender({
       ...options,

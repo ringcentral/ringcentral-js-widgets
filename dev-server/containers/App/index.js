@@ -20,6 +20,7 @@ import IncomingCallPage from '../../../src/containers/IncomingCallPage';
 import CallCtrlPage from '../../../src/containers/CallCtrlPage';
 import CallBadgeContainer from '../../../src/containers/CallBadgeContainer';
 import RecentActivityContainer from '../../../src/containers/RecentActivityContainer';
+import ContactsPage from '../../../src/containers/ContactsPage';
 import MainView from '../MainView';
 import AppView from '../AppView';
 
@@ -341,6 +342,16 @@ export default function App({
                   onLogConversation={async () => { await sleep(1000); }}
                   onViewContact={() => { }}
                   onCreateContact={() => { }}
+                />
+              )} />
+            <Route
+              path="/contacts"
+              component={() => (
+                <ContactsPage
+                  locale={phone.locale}
+                  router={phone.router}
+                  contacts={phone.contacts}
+                  contactSearch={phone.contactSearch}
                 />
               )} />
           </Route>
