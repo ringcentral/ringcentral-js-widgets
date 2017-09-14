@@ -21,6 +21,7 @@ import CallCtrlPage from '../../../src/containers/CallCtrlPage';
 import CallBadgeContainer from '../../../src/containers/CallBadgeContainer';
 import RecentActivityContainer from '../../../src/containers/RecentActivityContainer';
 import ContactsPage from '../../../src/containers/ContactsPage';
+import ContactDetailsPage from '../../../src/containers/ContactDetailsPage';
 import MainView from '../MainView';
 import AppView from '../AppView';
 
@@ -348,6 +349,17 @@ export default function App({
               path="/contacts"
               component={() => (
                 <ContactsPage
+                  locale={phone.locale}
+                  router={phone.router}
+                  contacts={phone.contacts}
+                  contactSearch={phone.contactSearch}
+                />
+              )} />
+            <Route
+              path="/contacts/:contactId"
+              component={props => (
+                <ContactDetailsPage
+                  params={props.params}
                   locale={phone.locale}
                   router={phone.router}
                   contacts={phone.contacts}
