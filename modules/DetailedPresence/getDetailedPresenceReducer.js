@@ -34,7 +34,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function getDataReducer(types) {
   var removeIntermediateCall = _ramda2.default.reduce(function (result, activeCall) {
     if (!(0, _callLogHelpers.isIntermediateCall)(activeCall) && !_ramda2.default.find(function (item) {
-      return item.sessionId === activeCall.sessionId;
+      return item.sessionId === activeCall.sessionId && item.direction === activeCall.direction;
     }, result)) {
       result.push(activeCall);
     }

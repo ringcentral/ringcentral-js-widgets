@@ -522,7 +522,7 @@ var CallLogger = (_class = function (_LoggerBase) {
           var oldCalls = this._lastProcessedCalls && this._lastProcessedCalls.slice() || [];
           this._lastProcessedCalls = this._callMonitor.calls;
 
-          this._lastProcessedCalls.forEach(function (call) {
+          (0, _callLogHelpers.removeDuplicateSelfCalls)(this._lastProcessedCalls).forEach(function (call) {
             var oldCallIndex = oldCalls.findIndex(function (item) {
               return item.sessionId === call.sessionId;
             });
