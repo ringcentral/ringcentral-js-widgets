@@ -470,7 +470,8 @@ var Call = (_class = function (_RcModule) {
 
               case 13:
                 this.store.dispatch({
-                  type: this.actionTypes.connectSuccess
+                  type: this.actionTypes.connectSuccess,
+                  callSettingMode: this._callSettingMode // for Track
                 });
                 _context6.next = 17;
                 break;

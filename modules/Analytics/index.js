@@ -59,6 +59,10 @@ var _getAnalyticsReducer2 = _interopRequireDefault(_getAnalyticsReducer);
 
 var _Analytics = require('../../lib/Analytics');
 
+var _callingModes = require('../CallingSettings/callingModes');
+
+var _callingModes2 = _interopRequireDefault(_callingModes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
@@ -162,7 +166,7 @@ var Analytics = function (_RcModule) {
               case 0:
                 if (this.ready) {
                   this.lastActions.forEach(function (action) {
-                    ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate'].forEach(function (key) {
+                    ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer'].forEach(function (key) {
                       _this3[key](action);
                     });
                   });
@@ -208,16 +212,26 @@ var Analytics = function (_RcModule) {
     key: '_callAttempt',
     value: function _callAttempt(action) {
       if (this._call && this._call.actionTypes.connect === action.type) {
-        this.track('Call Attempt', {
-          callSettingMode: action.callSettingMode
-        });
+        if (action.callSettingMode === _callingModes2.default.webphone) {
+          this.track('Call Attempt WebRTC');
+        } else {
+          this.track('Call Attempt', {
+            callSettingMode: action.callSettingMode
+          });
+        }
       }
     }
   }, {
     key: '_callConnected',
     value: function _callConnected(action) {
       if (this._call && this._call.actionTypes.connectSuccess === action.type) {
-        this.track('Outbound Call Connected');
+        if (action.callSettingMode === _callingModes2.default.webphone) {
+          this.track('Outbound WebRTC Call Connected');
+        } else {
+          this.track('Outbound Call Connected', {
+            callSettingMode: action.callSettingMode
+          });
+        }
       }
     }
   }, {
@@ -309,6 +323,20 @@ var Analytics = function (_RcModule) {
       }
     }
   }, {
+    key: '_inboundCall',
+    value: function _inboundCall(action) {
+      if (this._webphone && this._webphone.actionTypes.callAnswer === action.type) {
+        this.track('Inbound WebRTC Call Connected');
+      }
+    }
+  }, {
+    key: '_coldTransfer',
+    value: function _coldTransfer(action) {
+      if (this._webphone && this._webphone.isOnTransfer === true && this._webphone.actionTypes.updateSessions === action.type) {
+        this.track('Cold Transfer Call');
+      }
+    }
+  }, {
     key: '_getTrackTarget',
     value: function _getTrackTarget(path) {
       if (path) {
@@ -333,6 +361,12 @@ var Analytics = function (_RcModule) {
         }, {
           eventPostfix: 'Settings',
           router: '/settings'
+        }, {
+          eventPostfix: 'Conference',
+          router: '/conference'
+        }, {
+          eventPostfix: 'Meeting',
+          router: '/meeting'
         }];
         return targets.find(function (target) {
           return firstRoute === target.router;

@@ -22,5 +22,5 @@ var _moduleActionTypes2 = _interopRequireDefault(_moduleActionTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), ['connect', 'connectError', 'registered', 'registrationFailed', 'disconnect', 'unregistered', 'reconnect', 'resetRetryCounts', 'updateSessions', 'destroySessions', 'callStart', 'callEnd', 'callRing', 'toggleMinimized', 'resetMinimized', 'videoElementPrepared', 'getUserMediaSuccess', 'getUserMediaError']), 'webphone');
+exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), ['connect', 'connectError', 'registered', 'registrationFailed', 'disconnect', 'unregistered', 'reconnect', 'resetRetryCounts', 'updateSessions', 'destroySessions', 'callStart', 'callEnd', 'callRing', 'callAnswer', 'toggleMinimized', 'resetMinimized', 'videoElementPrepared', 'getUserMediaSuccess', 'getUserMediaError']), 'webphone');
 //# sourceMappingURL=actionTypes.js.map

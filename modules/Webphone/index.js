@@ -913,23 +913,26 @@ var Webphone = (_class = function (_RcModule) {
 
               case 8:
                 this._onCallStart(session);
-                _context6.next = 16;
+                this.store.dispatch({ // for track
+                  type: this.actionTypes.callAnswer
+                });
+                _context6.next = 17;
                 break;
 
-              case 11:
-                _context6.prev = 11;
+              case 12:
+                _context6.prev = 12;
                 _context6.t0 = _context6['catch'](3);
 
                 console.log('Accept failed');
                 console.error(_context6.t0);
                 this._removeSession(session);
 
-              case 16:
+              case 17:
               case 'end':
                 return _context6.stop();
             }
           }
-        }, _callee6, this, [[3, 11]]);
+        }, _callee6, this, [[3, 12]]);
       }));
 
       function answer(_x2) {
@@ -2368,6 +2371,11 @@ var Webphone = (_class = function (_RcModule) {
           }
         }
       };
+    }
+  }, {
+    key: 'isOnTransfer',
+    get: function get() {
+      return this.activeSession && this.activeSession.isOnTransfer;
     }
   }, {
     key: 'errorCode',
