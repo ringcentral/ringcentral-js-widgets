@@ -10,7 +10,7 @@ import ContactList from '../ContactList';
 import ContactItem from '../ContactItem';
 import styles from './styles.scss';
 import i18n from './i18n';
-import AddContactIcon from '../../assets/images/add_contact.svg';
+import AddContactIcon from '../../assets/images/ContactAdd.svg';
 
 function AddContact({
   className,

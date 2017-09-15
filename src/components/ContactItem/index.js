@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import styles from './styles.scss';
-import DefaultAvatar from '../../assets/images/default_avatar.svg';
-import GoogleIcon from '../../assets/images/google_icon.svg';
+import DefaultAvatar from '../../assets/images/DefaultAvatar.svg';
+import GoogleLogo from '../../assets/images/GoogleLogo.svg';
 
 function AvatarNode({ name, avatarUrl }) {
   return avatarUrl ?
@@ -33,7 +33,7 @@ AvatarNode.defaultProps = {
 function SourceNode({ sourceType }) {
   switch (sourceType) {
     case 'google':
-      return (<GoogleIcon
+      return (<GoogleLogo
         className={styles.sourceNode}
       />);
     default:

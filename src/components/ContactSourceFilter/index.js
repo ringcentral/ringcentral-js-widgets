@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 import i18n from './i18n';
 import styles from './styles.scss';
-import ContactFilterIcon from '../../assets/images/contact_filter.svg';
+import ContactFilterIcon from '../../assets/images/ContactFilter.svg';
 
 export function ContactSourceItem({ sourceName, sourceLabel, isSelected, onSelect }) {
   return (
