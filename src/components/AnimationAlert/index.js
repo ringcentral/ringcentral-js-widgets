@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import 'animate.css/animate.min.css';
 import sleep from 'ringcentral-integration/lib/sleep';
-import { Message, getAlertDisplay } from '../AlertDisplay';
+
+import Message from '../Message';
+import AlertDisplay from '../AlertDisplay';
 
 const ANIMATION_DURATION = 500;
 const ENTRANCE_ANIMATION = 'fadeInDown';
@@ -27,8 +29,6 @@ AnimationMessage.propTypes = {
   duration: PropTypes.number,
 };
 
-const AlertDisplay = getAlertDisplay(AnimationMessage);
-
 class AnimationAlert extends Component {
   constructor(props) {
     super(props);
@@ -48,13 +48,17 @@ class AnimationAlert extends Component {
       const addedMessagesIDs = nextMessagesIDs.filter(id => !currentMessagesIDs.includes(id));
       const removedMessagesIDs = currentMessagesIDs.filter(id => !nextMessagesIDs.includes(id));
       const allMessagesIDs = [...new Set(currentMessagesIDs.concat(nextMessagesIDs))];
-      const allMessages = this.props.messages.concat(nextProps.messages);
-      const messages = allMessages
-        .filter(message => allMessagesIDs.includes(message.id))
-        .map((message) => {
+      const allMessages = {};
+      this.props.messages.concat(nextProps.messages).map((message) => {
+        allMessages[message.id] = message;
+        return message;
+      });
+      const messages = allMessagesIDs
+        .map((id) => {
+          const message = allMessages[id];
+          const isAddedMessage = addedMessagesIDs.includes(id);
+          const isRemovedMessage = removedMessagesIDs.includes(id);
           let animation;
-          const isAddedMessage = addedMessagesIDs.includes(message.id);
-          const isRemovedMessage = removedMessagesIDs.includes(message.id);
           if (isAddedMessage) {
             animation = entranceAnimation;
           } else if (isRemovedMessage) {
@@ -79,7 +83,7 @@ class AnimationAlert extends Component {
   }
   render() {
     return (
-      <AlertDisplay {...this.props} messages={this.state.messages} />
+      <AlertDisplay {...this.props} component={AnimationMessage} messages={this.state.messages} />
     );
   }
 }
