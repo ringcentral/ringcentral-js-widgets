@@ -14,8 +14,14 @@ export default function ContactDetails({
 }) {
   return (
     <div className={styles.root}>
-      <p>Contact Id: {contactItem.id}</p>
-      <p>Contact Name: {contactItem.name}</p>
+      <p>Id: {contactItem.id}</p>
+      <p>Type: {contactItem.type}</p>
+      <p>Name: {`${contactItem.firstName} ${contactItem.lastName}`}</p>
+      {
+        contactItem.phoneNumbers.map(item => (
+          <p>{item.phoneType}: {item.phoneNumber}</p>
+        ))
+      }
     </div>
   );
 }
@@ -24,6 +30,15 @@ ContactDetails.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   contactItem: PropTypes.shape({
     id: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
+    email: PropTypes.string,
+    hasProfileImage: PropTypes.bool,
+    phoneNumbers: PropTypes.arrayOf(PropTypes.shape({
+      phoneNumber: PropTypes.string,
+      phoneType: PropTypes.string,
+    })),
   }).isRequired,
   getAvatarUrl: PropTypes.func.isRequired,
   getPresence: PropTypes.func.isRequired,
