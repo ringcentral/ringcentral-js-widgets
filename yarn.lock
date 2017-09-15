@@ -129,6 +129,10 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
+animate.css@^3.5.2:
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/animate.css/-/animate.css-3.5.2.tgz#91e668dc069a808e5e499514867b97aae0166c36"
+
 ansi-escapes@^1.1.0, ansi-escapes@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-1.4.0.tgz#d3a8a83b319aa67793662b13e761c7911422306e"
@@ -6629,22 +6633,6 @@ ringcentral-client@^1.0.0-rc1:
   dependencies:
     form-data "^2.1.2"
     isomorphic-fetch "^2.2.1"
-
-"ringcentral-integration@https://github.com/ringcentral/ringcentral-js-integration-commons#dbe03a1":
-  version "0.1.0"
-  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#dbe03a1"
-  dependencies:
-    file-loader "^0.11.2"
-    json-mask "^0.3.8"
-    loganberry "^0.9.1"
-    phoneformat.js "^1.0.3"
-    ramda "^0.24.1"
-    redux "^3.5.2"
-    reselect "2.5.4"
-    ringcentral-web-phone "^0.4.3"
-    url-loader "^0.5.8"
-    uuid "^3.0.1"
-    yards "^0.1.4"
 
 "ringcentral-integration@https://github.com/ringcentral/ringcentral-js-integration-commons#latest":
   version "0.1.0"
