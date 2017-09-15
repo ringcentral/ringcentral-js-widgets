@@ -56,18 +56,23 @@ export default class FlipPanel extends Component {
           <div className={styles.buttonGroup}>
             <div className={styles.button} title={i18n.getString('flip', this.props.currentLocale)}>
               <CircleButton
-                className={this.state.flipEnabled ? styles.flipButton : styles.buttonDisabled}
+                disabled={!this.state.flipEnabled}
+                className={
+                  classnames(styles.flipButton, this.state.flipEnabled ? '' : styles.disabled)
+                }
                 iconClassName={styles.flipIcon}
-                onClick={this.state.flipEnabled ? this.onFlip : () => {}}
+                onClick={this.onFlip}
                 icon={FlipIcon}
                 showBorder
               />
             </div>
             <div className={styles.button} title={i18n.getString('complete', this.props.currentLocale)}>
               <CircleButton
-                className={this.props.isOnFlip ? styles.completeButton : styles.buttonDisabled}
-                iconClassName={this.props.isOnFlip ? styles.completeIcon : ''}
-                onClick={this.props.isOnFlip ? this.props.complete : () => {}}
+                disabled={!this.props.isOnFlip}
+                className={
+                  classnames(styles.completeButton, this.props.isOnFlip ? '' : styles.disabled)
+                }
+                onClick={this.props.complete}
                 icon={EndIcon}
                 showBorder
               />
