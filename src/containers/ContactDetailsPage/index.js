@@ -4,16 +4,17 @@ import ContactDetailsView from '../../components/ContactDetailsView';
 function mapToProps(_, {
   params,
   locale,
-  contactSearch,
+  contacts,
 }) {
   return {
     currentLocale: locale.currentLocale,
-    contactItem: contactSearch.findContactItem({
+    contactItem: contacts.findContactItem({
+      contactType: null,
       contactId: params.contactId,
     }),
     showSpinner: !(
       locale.ready &&
-      contactSearch.ready
+      contacts.ready
     ),
   };
 }

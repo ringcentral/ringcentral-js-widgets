@@ -363,7 +363,6 @@ export default function App({
                   locale={phone.locale}
                   router={phone.router}
                   contacts={phone.contacts}
-                  contactSearch={phone.contactSearch}
                 />
               )} />
           </Route>

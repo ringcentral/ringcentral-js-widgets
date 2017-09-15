@@ -1,6 +1,6 @@
 export default {
   all: 'All Contacts',
-  extensions: 'Company',
-  google: 'Google',
-  personal: 'Personal',
+  companyContacts: 'Company',
+  googleContacts: 'Google',
+  personalContacts: 'Personal',
 };
