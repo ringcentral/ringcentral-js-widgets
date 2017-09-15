@@ -106,7 +106,7 @@ function addPhoneToContact(contact, phone, type) {
 }
 
 var DEFAULT_TTL = 30 * 60 * 1000; // 30 mins
-var DEFAULT_PRESENCETTL = 10 * 60 * 1000; // 5 mins
+var DEFAULT_PRESENCETTL = 10 * 60 * 1000; // 10 mins
 var DEFAULT_AVATARTTL = 2 * 60 * 60 * 1000; // 2 hour
 var DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
 
@@ -305,6 +305,19 @@ var Contacts = function (_RcModule) {
       return result;
     }
   }, {
+    key: 'findContactItem',
+    value: function findContactItem(_ref3) {
+      var contactType = _ref3.contactType,
+          contactId = _ref3.contactId;
+
+      var contact = this.companyContacts.find(function (x) {
+        return x.id.toString() === contactId && (!contactType || x.type === contactType);
+      }) || this.personalContacts.find(function (x) {
+        return x.id.toString() === contactId && (!contactType || x.type === contactType);
+      });
+      return contact;
+    }
+  }, {
     key: 'getImageProfile',
     value: function getImageProfile(contact) {
       var _this4 = this;
@@ -339,7 +352,7 @@ var Contacts = function (_RcModule) {
   }, {
     key: '_processQueryAvatar',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(getAvatarContexts) {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(getAvatarContexts) {
         var ctx, imageId, imageUrl, response;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -406,7 +419,7 @@ var Contacts = function (_RcModule) {
       }));
 
       function _processQueryAvatar(_x) {
-        return _ref3.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       }
 
       return _processQueryAvatar;
@@ -452,7 +465,7 @@ var Contacts = function (_RcModule) {
   }, {
     key: '_processQueryPresences',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(getPresenceContexts) {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(getPresenceContexts) {
         var _this6 = this;
 
         var contacts, responses;
@@ -505,7 +518,7 @@ var Contacts = function (_RcModule) {
       }));
 
       function _processQueryPresences(_x2) {
-        return _ref4.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return _processQueryPresences;
@@ -513,7 +526,7 @@ var Contacts = function (_RcModule) {
   }, {
     key: '_batchQueryPresences',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(contacts) {
+      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(contacts) {
         var presenceSet, id, response, ids, multipartResponse, responses;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
@@ -585,7 +598,7 @@ var Contacts = function (_RcModule) {
       }));
 
       function _batchQueryPresences(_x3) {
-        return _ref5.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return _batchQueryPresences;

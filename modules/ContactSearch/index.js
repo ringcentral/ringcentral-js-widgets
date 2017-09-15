@@ -59,7 +59,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _desc, _value, _class;
 
-exports.uniqueContactItemsById = uniqueContactItemsById;
+exports.uniqueContactItems = uniqueContactItems;
 exports.sortContactItemsByName = sortContactItemsByName;
 exports.groupByFirstLetterOfName = groupByFirstLetterOfName;
 
@@ -122,8 +122,13 @@ var AllContactSourceName = exports.AllContactSourceName = 'all';
 var DefaultMinimalSearchLength = exports.DefaultMinimalSearchLength = 3;
 var DefaultContactListPageSize = exports.DefaultContactListPageSize = 20;
 
-function uniqueContactItemsById(result) {
+function uniqueContactItems(result) {
   var items = result || [];
+  // remove duplicated referencing
+  items = items.filter(function (value, index, arr) {
+    return arr.indexOf(value) === index;
+  });
+  // remove duplicated items by id
   var hash = {};
   var unique = [];
   items.forEach(function (item) {
@@ -137,14 +142,16 @@ function uniqueContactItemsById(result) {
 
 function sortContactItemsByName(result) {
   var items = result || [];
-  items = items.filter(function (value, index, arr) {
-    return arr.indexOf(value) === index;
-  });
   items.sort(function (a, b) {
     var name1 = (a.name || '').toLowerCase().replace(/^\s\s*/, ''); // trim start
     var name2 = (b.name || '').toLowerCase().replace(/^\s\s*/, ''); // trim start
-    if (/^[0-9]/.test(name1)) {
-      return 1;
+    var isNumber1 = /^[0-9]/.test(name1);
+    var isNumber2 = /^[0-9]/.test(name2);
+    if (isNumber1 && isNumber2) {
+      return name1.localeCompare(name2);
+    } else if (isNumber1 || isNumber2) {
+      // put number name at last
+      return -name1.localeCompare(name2);
     }
     return name1.localeCompare(name2);
   });
@@ -265,7 +272,7 @@ var ContactSearch = (_class = function (_RcModule) {
       var pageSize = _this._contactListPageSize;
       var pageNumber = _this.searchCriteria.pageNumber || 1;
       var count = pageNumber * pageSize;
-      var items = uniqueContactItemsById(result);
+      var items = uniqueContactItems(result);
       items = sortContactItemsByName(items);
       items = items.slice(0, count);
       var groups = groupByFirstLetterOfName(items);
@@ -577,23 +584,12 @@ var ContactSearch = (_class = function (_RcModule) {
       return searchPlus;
     }()
   }, {
-    key: 'findContactItem',
-    value: function findContactItem(_ref8) {
-      var contactId = _ref8.contactId;
-
-      // TODO: move to Contacts module?
-      var items = this.searching.result || [];
-      return items.find(function (x) {
-        return x.id === contactId;
-      });
-    }
-  }, {
     key: '_searchSource',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref10) {
-        var searchOnSources = _ref10.searchOnSources,
-            sourceName = _ref10.sourceName,
-            searchString = _ref10.searchString;
+      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref9) {
+        var searchOnSources = _ref9.searchOnSources,
+            sourceName = _ref9.sourceName,
+            searchString = _ref9.searchString;
         var entities;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
@@ -645,16 +641,16 @@ var ContactSearch = (_class = function (_RcModule) {
       }));
 
       function _searchSource(_x3) {
-        return _ref9.apply(this, arguments);
+        return _ref8.apply(this, arguments);
       }
 
       return _searchSource;
     }()
   }, {
     key: '_searchFromCache',
-    value: function _searchFromCache(_ref11) {
-      var sourceName = _ref11.sourceName,
-          searchString = _ref11.searchString;
+    value: function _searchFromCache(_ref10) {
+      var sourceName = _ref10.sourceName,
+          searchString = _ref10.searchString;
 
       var key = sourceName + '-' + searchString;
       var searching = this.cache && this.cache.contactSearch && this.cache.contactSearch[key];
@@ -705,10 +701,10 @@ var ContactSearch = (_class = function (_RcModule) {
     }
   }, {
     key: '_loadSearching',
-    value: function _loadSearching(_ref12) {
-      var searchOnSources = _ref12.searchOnSources,
-          searchString = _ref12.searchString,
-          entities = _ref12.entities;
+    value: function _loadSearching(_ref11) {
+      var searchOnSources = _ref11.searchOnSources,
+          searchString = _ref11.searchString,
+          entities = _ref11.entities;
 
       this.store.dispatch({
         type: this.actionTypes.searchSuccess,
@@ -719,10 +715,10 @@ var ContactSearch = (_class = function (_RcModule) {
     }
   }, {
     key: '_saveSearching',
-    value: function _saveSearching(_ref13) {
-      var sourceName = _ref13.sourceName,
-          searchString = _ref13.searchString,
-          entities = _ref13.entities;
+    value: function _saveSearching(_ref12) {
+      var sourceName = _ref12.sourceName,
+          searchString = _ref12.searchString,
+          entities = _ref12.entities;
 
       this.store.dispatch({
         type: this.actionTypes.save,
