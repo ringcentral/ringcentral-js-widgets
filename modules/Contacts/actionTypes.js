@@ -22,5 +22,5 @@ var _moduleActionTypes2 = _interopRequireDefault(_moduleActionTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), ['fetchImageSuccess']), 'contacts');
+exports.default = new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), ['fetchImageSuccess', 'fetchPresenceSuccess']), 'contacts');
 //# sourceMappingURL=actionTypes.js.map

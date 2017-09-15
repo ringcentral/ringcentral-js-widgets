@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _extends2 = require('babel-runtime/helpers/extends');
+var _keys = require('babel-runtime/core-js/object/keys');
 
-var _extends3 = _interopRequireDefault(_extends2);
+var _keys2 = _interopRequireDefault(_keys);
 
 exports.getContactSearchReducer = getContactSearchReducer;
 exports.default = getCacheReducer;
@@ -22,18 +22,25 @@ function getContactSearchReducer(types) {
     var type = _ref.type,
         entities = _ref.entities,
         sourceName = _ref.sourceName,
-        searchString = _ref.searchString;
+        searchString = _ref.searchString,
+        ttl = _ref.ttl;
 
-    var data = {};
-    var key = null;
     switch (type) {
       case types.save:
-        key = sourceName + '-' + searchString;
-        data[key] = {
-          entities: entities,
-          timestamp: Date.now()
-        };
-        return (0, _extends3.default)({}, state, data);
+        {
+          var data = {};
+          (0, _keys2.default)(state).forEach(function (key) {
+            if (Date.now() - state[key].timestamp < ttl) {
+              data[key] = state[key];
+            }
+          });
+          var key = sourceName + '-' + searchString;
+          data[key] = {
+            entities: entities,
+            timestamp: Date.now()
+          };
+          return data;
+        }
       case types.initSuccess:
       case types.cleanUp:
         return {};

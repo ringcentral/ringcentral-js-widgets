@@ -13,6 +13,10 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
+
 var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
@@ -65,6 +69,12 @@ var _ensureExist = require('../../lib/ensureExist');
 
 var _ensureExist2 = _interopRequireDefault(_ensureExist);
 
+var _batchApiHelper = require('../../lib/batchApiHelper');
+
+var _sleep = require('../../lib/sleep');
+
+var _sleep2 = _interopRequireDefault(_sleep);
+
 var _actionTypes = require('./actionTypes');
 
 var _actionTypes2 = _interopRequireDefault(_actionTypes);
@@ -74,6 +84,8 @@ var _getContactsReducer = require('./getContactsReducer');
 var _getContactsReducer2 = _interopRequireDefault(_getContactsReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MaximumBatchGetPresence = 30;
 
 function addPhoneToContact(contact, phone, type) {
   var phoneNumber = (0, _normalizeNumber2.default)({ phoneNumber: phone });
@@ -93,7 +105,10 @@ function addPhoneToContact(contact, phone, type) {
   }
 }
 
-var DEFAULT_TTL = 30 * 60 * 1000;
+var DEFAULT_TTL = 30 * 60 * 1000; // 30 mins
+var DEFAULT_PRESENCETTL = 10 * 60 * 1000; // 5 mins
+var DEFAULT_AVATARTTL = 2 * 60 * 60 * 1000; // 2 hour
+var DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
 
 /**
  * @class
@@ -111,6 +126,9 @@ var Contacts = function (_RcModule) {
    * @param {AccountExtension} params.accountExtension - accountExtension module instance
    * @param {AccountPhoneNumber} params.accountPhoneNumber - accountPhoneNumber module instance
    * @param {Number} params.ttl - timestamp of local cache, default 30 mins
+   * @param {Number} params.avatarTtl - timestamp of avatar local cache, default 2 hour
+   * @param {Number} params.presenceTtl - timestamp of presence local cache, default 10 mins
+   * @param {Number} params.avatarQueryInterval - interval of query avatar, default 2 seconds
    */
   function Contacts(_ref) {
     var client = _ref.client,
@@ -119,7 +137,13 @@ var Contacts = function (_RcModule) {
         accountPhoneNumber = _ref.accountPhoneNumber,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === undefined ? DEFAULT_TTL : _ref$ttl,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'addressBook', 'accountExtension', 'accountPhoneNumber', 'ttl']);
+        _ref$avatarTtl = _ref.avatarTtl,
+        avatarTtl = _ref$avatarTtl === undefined ? DEFAULT_AVATARTTL : _ref$avatarTtl,
+        _ref$presenceTtl = _ref.presenceTtl,
+        presenceTtl = _ref$presenceTtl === undefined ? DEFAULT_PRESENCETTL : _ref$presenceTtl,
+        _ref$avatarQueryInter = _ref.avatarQueryInterval,
+        avatarQueryInterval = _ref$avatarQueryInter === undefined ? DEFAULT_AVATARQUERYINTERVAL : _ref$avatarQueryInter,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'addressBook', 'accountExtension', 'accountPhoneNumber', 'ttl', 'avatarTtl', 'presenceTtl', 'avatarQueryInterval']);
     (0, _classCallCheck3.default)(this, Contacts);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Contacts.__proto__ || (0, _getPrototypeOf2.default)(Contacts)).call(this, (0, _extends3.default)({}, options, {
@@ -132,6 +156,9 @@ var Contacts = function (_RcModule) {
     _this._client = _ensureExist2.default.call(_this, client, 'client');
     _this._reducer = (0, _getContactsReducer2.default)(_this.actionTypes);
     _this._ttl = ttl;
+    _this._avatarTtl = avatarTtl;
+    _this._presenceTtl = presenceTtl;
+    _this._avatarQueryInterval = avatarQueryInterval;
 
     _this.addSelector('companyContacts', function () {
       return _this._accountExtension.availableExtensions;
@@ -279,75 +306,289 @@ var Contacts = function (_RcModule) {
     }
   }, {
     key: 'getImageProfile',
+    value: function getImageProfile(contact) {
+      var _this4 = this;
+
+      return new _promise2.default(function (resolve) {
+        if (!contact || !contact.id || contact.type !== 'company' || !contact.hasProfileImage) {
+          resolve(null);
+          return;
+        }
+
+        var imageId = '' + contact.type + contact.id;
+        if (_this4.profileImages[imageId] && Date.now() - _this4.profileImages[imageId].timestamp < _this4._avatarTtl) {
+          var image = _this4.profileImages[imageId].imageUrl;
+          resolve(image);
+          return;
+        }
+
+        if (!_this4._getAvatarContexts) {
+          _this4._getAvatarContexts = [];
+        }
+        _this4._getAvatarContexts.push({
+          contact: contact,
+          resolve: resolve
+        });
+
+        if (!_this4._queryingAvatar) {
+          _this4._queryingAvatar = true;
+          _this4._processQueryAvatar(_this4._getAvatarContexts);
+        }
+      });
+    }
+  }, {
+    key: '_processQueryAvatar',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(contact) {
-        var imageId, response, imageUrl, image;
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(getAvatarContexts) {
+        var ctx, imageId, imageUrl, response;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(contact.type === 'company' && contact.id && contact.hasProfileImage)) {
-                  _context.next = 22;
-                  break;
-                }
+                ctx = getAvatarContexts[0];
+                imageId = '' + ctx.contact.type + ctx.contact.id;
+                imageUrl = null;
+                _context.prev = 3;
+                _context.next = 6;
+                return this._client.account().extension(ctx.contact.id).profileImage().get();
 
-                imageId = '' + contact.type + contact.id;
-
-                if (!(this.profileImages[imageId] && Date.now() - this.profileImages[imageId].timestamp < this._ttl)) {
-                  _context.next = 4;
-                  break;
-                }
-
-                return _context.abrupt('return', this.profileImages[imageId].url);
-
-              case 4:
-                _context.prev = 4;
-                _context.next = 7;
-                return this._client.account().extension(contact.id).profileImage().get();
-
-              case 7:
+              case 6:
                 response = _context.sent;
                 _context.t0 = URL;
-                _context.next = 11;
+                _context.next = 10;
                 return response._response.blob();
 
-              case 11:
+              case 10:
                 _context.t1 = _context.sent;
                 imageUrl = _context.t0.createObjectURL.call(_context.t0, _context.t1);
-                image = {
-                  id: imageId,
-                  url: imageUrl
-                };
 
                 this.store.dispatch({
                   type: this.actionTypes.fetchImageSuccess,
-                  image: image
+                  imageId: imageId,
+                  imageUrl: imageUrl,
+                  ttl: this._avatarTtl
                 });
-                return _context.abrupt('return', image.url);
+                _context.next = 18;
+                break;
 
-              case 18:
-                _context.prev = 18;
-                _context.t2 = _context['catch'](4);
+              case 15:
+                _context.prev = 15;
+                _context.t2 = _context['catch'](3);
 
                 console.error(_context.t2);
-                return _context.abrupt('return', null);
 
-              case 22:
-                return _context.abrupt('return', null);
+              case 18:
+                ctx.resolve(imageUrl);
+                getAvatarContexts.splice(0, 1);
+
+                if (!getAvatarContexts.length) {
+                  _context.next = 26;
+                  break;
+                }
+
+                _context.next = 23;
+                return (0, _sleep2.default)(this._avatarQueryInterval);
 
               case 23:
+                this._processQueryAvatar(getAvatarContexts);
+                _context.next = 27;
+                break;
+
+              case 26:
+                this._queryingAvatar = false;
+
+              case 27:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[4, 18]]);
+        }, _callee, this, [[3, 15]]);
       }));
 
-      function getImageProfile(_x) {
+      function _processQueryAvatar(_x) {
         return _ref3.apply(this, arguments);
       }
 
-      return getImageProfile;
+      return _processQueryAvatar;
+    }()
+  }, {
+    key: 'getPresence',
+    value: function getPresence(contact) {
+      var _this5 = this;
+
+      return new _promise2.default(function (resolve) {
+        if (!contact || !contact.id || contact.type !== 'company') {
+          resolve(null);
+          return;
+        }
+
+        var presenceId = '' + contact.type + contact.id;
+        if (_this5.contactPresences[presenceId] && Date.now() - _this5.contactPresences[presenceId].timestamp < _this5._presenceTtl) {
+          var presence = _this5.contactPresences[presenceId].presence;
+          resolve(presence);
+          return;
+        }
+
+        if (!_this5._getPresenceContexts) {
+          _this5._getPresenceContexts = [];
+        }
+        _this5._getPresenceContexts.push({
+          contact: contact,
+          resolve: resolve
+        });
+
+        clearTimeout(_this5.enqueueTimeoutId);
+        if (_this5._getPresenceContexts.length === MaximumBatchGetPresence) {
+          _this5._processQueryPresences(_this5._getPresenceContexts);
+          _this5._getPresenceContexts = null;
+        } else {
+          _this5.enqueueTimeoutId = setTimeout(function () {
+            _this5._processQueryPresences(_this5._getPresenceContexts);
+            _this5._getPresenceContexts = null;
+          }, 1000);
+        }
+      });
+    }
+  }, {
+    key: '_processQueryPresences',
+    value: function () {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(getPresenceContexts) {
+        var _this6 = this;
+
+        var contacts, responses;
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                contacts = getPresenceContexts.map(function (x) {
+                  return x.contact;
+                });
+                _context2.next = 3;
+                return this._batchQueryPresences(contacts);
+
+              case 3:
+                responses = _context2.sent;
+
+                getPresenceContexts.forEach(function (ctx) {
+                  var response = responses[ctx.contact.id];
+                  if (!response) {
+                    ctx.resolve(null);
+                    return;
+                  }
+                  var dndStatus = response.dndStatus,
+                      presenceStatus = response.presenceStatus,
+                      telephonyStatus = response.telephonyStatus,
+                      userStatus = response.userStatus;
+
+                  var presence = {
+                    dndStatus: dndStatus,
+                    presenceStatus: presenceStatus,
+                    telephonyStatus: telephonyStatus,
+                    userStatus: userStatus
+                  };
+                  var presenceId = '' + ctx.contact.type + ctx.contact.id;
+                  _this6.store.dispatch({
+                    type: _this6.actionTypes.fetchPresenceSuccess,
+                    presenceId: presenceId,
+                    presence: presence,
+                    ttl: _this6._presenceTtl
+                  });
+                  ctx.resolve(presence);
+                });
+
+              case 5:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function _processQueryPresences(_x2) {
+        return _ref4.apply(this, arguments);
+      }
+
+      return _processQueryPresences;
+    }()
+  }, {
+    key: '_batchQueryPresences',
+    value: function () {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(contacts) {
+        var presenceSet, id, response, ids, multipartResponse, responses;
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                presenceSet = {};
+                _context3.prev = 1;
+
+                if (!(contacts.length === 1)) {
+                  _context3.next = 10;
+                  break;
+                }
+
+                id = contacts[0].id;
+                _context3.next = 6;
+                return this._client.account().extension(id).presence().get();
+
+              case 6:
+                response = _context3.sent;
+
+                presenceSet[id] = response;
+                _context3.next = 17;
+                break;
+
+              case 10:
+                if (!(contacts.length > 1)) {
+                  _context3.next = 17;
+                  break;
+                }
+
+                ids = contacts.map(function (x) {
+                  return x.id;
+                }).join(',');
+                _context3.next = 14;
+                return (0, _batchApiHelper.batchGetApi)({
+                  platform: this._client.service.platform(),
+                  url: '/account/~/extension/' + ids + '/presence?detailedTelephonyState=true&sipData=true'
+                });
+
+              case 14:
+                multipartResponse = _context3.sent;
+                responses = multipartResponse.map(function (x) {
+                  return x.json();
+                });
+
+                responses.forEach(function (item) {
+                  presenceSet[item.extension.id] = item;
+                });
+
+              case 17:
+                _context3.next = 22;
+                break;
+
+              case 19:
+                _context3.prev = 19;
+                _context3.t0 = _context3['catch'](1);
+
+                console.error(_context3.t0);
+
+              case 22:
+                return _context3.abrupt('return', presenceSet);
+
+              case 23:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this, [[1, 19]]);
+      }));
+
+      function _batchQueryPresences(_x3) {
+        return _ref5.apply(this, arguments);
+      }
+
+      return _batchQueryPresences;
     }()
   }, {
     key: 'status',
@@ -368,6 +609,11 @@ var Contacts = function (_RcModule) {
     key: 'profileImages',
     get: function get() {
       return this.state.profileImages;
+    }
+  }, {
+    key: 'contactPresences',
+    get: function get() {
+      return this.state.contactPresences;
     }
   }]);
   return Contacts;
