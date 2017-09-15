@@ -686,6 +686,11 @@ var Subscription = (_class = function (_RcModule) {
     get: function get() {
       return this._storage.getItem(this._cacheStorageKey);
     }
+  }, {
+    key: 'pubnub',
+    get: function get() {
+      return this._subscription && this._subscription._pubnub;
+    }
   }]);
   return Subscription;
 }(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'subscribe', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'subscribe'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'unsubscribe', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'unsubscribe'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'remove', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'remove'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'reset', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'reset'), _class.prototype)), _class);

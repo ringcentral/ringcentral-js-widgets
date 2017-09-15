@@ -47,6 +47,8 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _desc, _value, _class;
 
+require('whatwg-fetch');
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -109,6 +111,8 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 var DEFAULT_TIME_TO_RETRY = exports.DEFAULT_TIME_TO_RETRY = 5 * 1000;
 var DEFAULT_HEART_BEAT_INTERVAL = exports.DEFAULT_HEART_BEAT_INTERVAL = 60 * 1000;
 
+var DEFAULT_CHECK_URI = 'https://dnyg0s5c46.execute-api.us-west-1.amazonaws.com/Prod/getnetworkstatus';
+
 /**
  * @class
  * @description Connectivity monitor module
@@ -124,8 +128,11 @@ var ConnectivityMonitor = (_class = function (_RcModule) {
    * @param {Environment} params.environment - environment module instance
    * @param {Number} params.timeToRetry - time to Retry
    * @param {Number} params.heartBeatInterval - heart beat interval
+   * @param {Function} params.checkConnectionFunc - function to check network
    */
   function ConnectivityMonitor(_ref) {
+    var _this2 = this;
+
     var alert = _ref.alert,
         client = _ref.client,
         environment = _ref.environment,
@@ -133,7 +140,8 @@ var ConnectivityMonitor = (_class = function (_RcModule) {
         timeToRetry = _ref$timeToRetry === undefined ? DEFAULT_TIME_TO_RETRY : _ref$timeToRetry,
         _ref$heartBeatInterva = _ref.heartBeatInterval,
         heartBeatInterval = _ref$heartBeatInterva === undefined ? DEFAULT_HEART_BEAT_INTERVAL : _ref$heartBeatInterva,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'client', 'environment', 'timeToRetry', 'heartBeatInterval']);
+        checkConnectionFunc = _ref.checkConnectionFunc,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'client', 'environment', 'timeToRetry', 'heartBeatInterval', 'checkConnectionFunc']);
     (0, _classCallCheck3.default)(this, ConnectivityMonitor);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ConnectivityMonitor.__proto__ || (0, _getPrototypeOf2.default)(ConnectivityMonitor)).call(this, (0, _extends3.default)({}, options, {
@@ -153,6 +161,48 @@ var ConnectivityMonitor = (_class = function (_RcModule) {
     _this._beforeRequestHandler = _this._beforeRequestHandler.bind(_this);
     _this._requestSuccessHandler = _this._requestSuccessHandler.bind(_this);
     _this._requestErrorHandler = _this._requestErrorHandler.bind(_this);
+
+    _this._checkConnectionFunc = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      return _regenerator2.default.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.prev = 0;
+
+              if (!(typeof checkConnectionFunc === 'function')) {
+                _context.next = 6;
+                break;
+              }
+
+              _context.next = 4;
+              return checkConnectionFunc();
+
+            case 4:
+              _context.next = 8;
+              break;
+
+            case 6:
+              _context.next = 8;
+              return fetch(DEFAULT_CHECK_URI);
+
+            case 8:
+              _this._requestSuccessHandler();
+              _context.next = 14;
+              break;
+
+            case 11:
+              _context.prev = 11;
+              _context.t0 = _context['catch'](0);
+
+              _this._requestErrorHandler(_context.t0);
+
+            case 14:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, _this2, [[0, 11]]);
+    }));
     return _this;
   }
 
@@ -183,10 +233,10 @@ var ConnectivityMonitor = (_class = function (_RcModule) {
   }, {
     key: 'initialize',
     value: function initialize() {
-      var _this2 = this;
+      var _this3 = this;
 
       this.store.subscribe(function () {
-        return _this2._onStateChange();
+        return _this3._onStateChange();
       });
     }
   }, {
@@ -218,10 +268,10 @@ var ConnectivityMonitor = (_class = function (_RcModule) {
   }, {
     key: 'showAlert',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        return _regenerator2.default.wrap(function _callee$(_context) {
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 if (!this.connectivity && this._alert) {
                   this._alert.danger({
@@ -232,14 +282,14 @@ var ConnectivityMonitor = (_class = function (_RcModule) {
 
               case 1:
               case 'end':
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, this);
+        }, _callee2, this);
       }));
 
       function showAlert() {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return showAlert;
@@ -260,7 +310,7 @@ var ConnectivityMonitor = (_class = function (_RcModule) {
   }, {
     key: '_bindHandlers',
     value: function _bindHandlers() {
-      var _this3 = this;
+      var _this4 = this;
 
       if (this._unbindHandlers) {
         this._unbindHandlers();
@@ -268,42 +318,48 @@ var ConnectivityMonitor = (_class = function (_RcModule) {
       var client = this._client.service.platform().client();
       client.on(client.events.requestSuccess, this._requestSuccessHandler);
       client.on(client.events.requestError, this._requestErrorHandler);
+      if (typeof window !== 'undefined') {
+        window.addEventListener('offline', this._requestErrorHandler);
+      }
       this._unbindHandlers = function () {
-        client.removeListener(client.events.requestSuccess, _this3._requestSuccessHandler);
-        client.removeListener(client.events.requestError, _this3._requestErrorHandler);
-        _this3._unbindHandlers = null;
+        client.removeListener(client.events.requestSuccess, _this4._requestSuccessHandler);
+        client.removeListener(client.events.requestError, _this4._requestErrorHandler);
+        if (typeof window !== 'undefined') {
+          window.removeEventListener('offline', _this4._requestErrorHandler);
+        }
+        _this4._unbindHandlers = null;
       };
     }
   }, {
     key: '_checkConnection',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context2.prev = 0;
-                _context2.next = 3;
-                return this._client.service.platform().get('', null, { skipAuthCheck: true });
+                _context3.prev = 0;
+                _context3.next = 3;
+                return this._checkConnectionFunc();
 
               case 3:
-                _context2.next = 7;
+                _context3.next = 7;
                 break;
 
               case 5:
-                _context2.prev = 5;
-                _context2.t0 = _context2['catch'](0);
+                _context3.prev = 5;
+                _context3.t0 = _context3['catch'](0);
 
               case 7:
               case 'end':
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this, [[0, 5]]);
+        }, _callee3, this, [[0, 5]]);
       }));
 
       function _checkConnection() {
-        return _ref3.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       }
 
       return _checkConnection;
@@ -319,14 +375,14 @@ var ConnectivityMonitor = (_class = function (_RcModule) {
   }, {
     key: '_retry',
     value: function _retry() {
-      var _this4 = this;
+      var _this5 = this;
 
       var t = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.connectivity ? this._heartBeatInterval : this._timeToRetry;
 
       this._clearTimeout();
       this._retryTimeoutId = setTimeout(function () {
-        _this4._retryTimeoutId = null;
-        _this4._checkConnection();
+        _this5._retryTimeoutId = null;
+        _this5._checkConnection();
       }, t);
     }
   }, {
