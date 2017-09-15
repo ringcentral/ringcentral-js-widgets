@@ -4,7 +4,7 @@ import SpinnerOverlay from '../../components/SpinnerOverlay';
 import BackHeader from '../../components/BackHeader';
 import Panel from '../../components/Panel';
 
-import ContactDetails from '../ContactDetails';
+import ContactDetails, { contactItemPropTypes } from '../ContactDetails';
 import styles from './styles.scss';
 import i18n from './i18n';
 
@@ -51,9 +51,7 @@ export default function ContactDetailsView({
 ContactDetailsView.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   showSpinner: PropTypes.bool.isRequired,
-  contactItem: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-  }).isRequired,
+  contactItem: PropTypes.shape(contactItemPropTypes).isRequired,
   getAvatarUrl: PropTypes.func.isRequired,
   getPresence: PropTypes.func.isRequired,
   onBackClick: PropTypes.func,

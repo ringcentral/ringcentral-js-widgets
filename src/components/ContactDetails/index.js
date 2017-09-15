@@ -18,28 +18,32 @@ export default function ContactDetails({
       <p>Type: {contactItem.type}</p>
       <p>Name: {`${contactItem.firstName} ${contactItem.lastName}`}</p>
       {
-        contactItem.phoneNumbers.map(item => (
-          <p>{item.phoneType}: {item.phoneNumber}</p>
+        contactItem.phoneNumbers.map((item, index) => (
+          <p key={index}>
+            {item.phoneType}: {item.phoneNumber}
+          </p>
         ))
       }
     </div>
   );
 }
 
+export const contactItemPropTypes = {
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  type: PropTypes.string.isRequired,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  email: PropTypes.string,
+  hasProfileImage: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  phoneNumbers: PropTypes.arrayOf(PropTypes.shape({
+    phoneNumber: PropTypes.string,
+    phoneType: PropTypes.string,
+  })),
+};
+
 ContactDetails.propTypes = {
   currentLocale: PropTypes.string.isRequired,
-  contactItem: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    email: PropTypes.string,
-    hasProfileImage: PropTypes.bool,
-    phoneNumbers: PropTypes.arrayOf(PropTypes.shape({
-      phoneNumber: PropTypes.string,
-      phoneType: PropTypes.string,
-    })),
-  }).isRequired,
+  contactItem: PropTypes.shape(contactItemPropTypes).isRequired,
   getAvatarUrl: PropTypes.func.isRequired,
   getPresence: PropTypes.func.isRequired,
   onClickToSMS: PropTypes.func,
