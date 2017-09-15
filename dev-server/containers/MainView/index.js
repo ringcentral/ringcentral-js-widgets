@@ -5,7 +5,6 @@ import dynamicsFont from '../../../src/assets/DynamicsFont/DynamicsFont.scss';
 import TabNavigationView from '../../../src/components/TabNavigationView';
 import RouterInteraction from '../../../src/modules/RouterInteraction';
 
-
 function getTabs({
   showMessages,
   showComposeText,
@@ -57,13 +56,30 @@ function getTabs({
       path: '/conference',
     },
     {
-      icon: <span className={dynamicsFont.setting} />,
-      activeIcon: <span className={dynamicsFont.settingHover} />,
-      label: 'Settings',
-      path: '/settings',
-      isActive: currentPath => (
-        currentPath.substr(0, 9) === '/settings'
+      icon: <span className={dynamicsFont.menu} />,
+      activeIcon: <span className={dynamicsFont.menuHover} />,
+      label: 'More Menu',
+      virtualPath: '!moreMenu',
+      isActive: (currentPath, currentVirtualPath) => (
+        currentVirtualPath === '!moreMenu'
       ),
+      childTabs: [
+        {
+          icon: <span className={dynamicsFont.portrait} />,
+          activeIcon: <span className={dynamicsFont.portrait} />,
+          label: 'Contacts',
+          path: '/contacts',
+        },
+        {
+          icon: <span className={dynamicsFont.setting} />,
+          activeIcon: <span className={dynamicsFont.settingHover} />,
+          label: 'Settings',
+          path: '/settings',
+          isActive: currentPath => (
+            currentPath.substr(0, 9) === '/settings'
+          ),
+        },
+      ],
     },
   ].filter(x => !!x);
 }
@@ -116,7 +132,9 @@ function mapToFunctions(_, {
 }) {
   return {
     goTo: (path) => {
-      router.push(path);
+      if (path) {
+        router.push(path);
+      }
     },
   };
 }
