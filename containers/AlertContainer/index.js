@@ -26,9 +26,9 @@ var _Locale = require('ringcentral-integration/modules/Locale');
 
 var _Locale2 = _interopRequireDefault(_Locale);
 
-var _AlertDisplay = require('../../components/AlertDisplay');
+var _AnimationAlert = require('../../components/AnimationAlert');
 
-var _AlertDisplay2 = _interopRequireDefault(_AlertDisplay);
+var _AnimationAlert2 = _interopRequireDefault(_AnimationAlert);
 
 var _AuthAlert = require('../../components/AuthAlert');
 
@@ -179,7 +179,7 @@ function mapToFunctions(_, _ref3) {
   };
 }
 
-var AlertContainer = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_AlertDisplay2.default);
+var AlertContainer = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_AnimationAlert2.default);
 
 AlertContainer.propTypes = {
   alert: _propTypes2.default.instanceOf(_Alert2.default).isRequired,
