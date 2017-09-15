@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
 
-import styles from './styles.scss';
+import PresenceStatusIcon from '../PresenceStatusIcon';
 import DefaultAvatar from '../../assets/images/DefaultAvatar.svg';
 import GoogleLogo from '../../assets/images/GoogleLogo.svg';
+
+import styles from './styles.scss';
 
 function AvatarNode({ name, avatarUrl }) {
   return avatarUrl ?
@@ -45,34 +46,6 @@ SourceNode.propTypes = {
 };
 SourceNode.defaultProps = {
   sourceType: undefined,
-};
-
-function PresenceNode({ presence }) {
-  switch (presence.presenceStatus) {
-    case 'Busy':
-      return (
-        <div className={classnames(styles.presenceNode, styles.presenceBusy)}>
-          <div className={styles.solidLine} />
-        </div>
-      );
-    case 'Available':
-      return <div className={classnames(styles.presenceNode, styles.presenceAvailable)} />;
-    case 'Offline':
-      return <div className={classnames(styles.presenceNode, styles.presenceOffline)} />;
-    default:
-      return null;
-  }
-}
-PresenceNode.propTypes = {
-  presence: PropTypes.shape({
-    dndStatus: PropTypes.string,
-    presenceStatus: PropTypes.string,
-    telephonyStatus: PropTypes.string,
-    userStatus: PropTypes.string,
-  }),
-};
-PresenceNode.defaultProps = {
-  presence: undefined,
 };
 
 export default class ContactItem extends Component {
@@ -166,8 +139,9 @@ export default class ContactItem extends Component {
           {
             this.state.presence ? (
               <div className={styles.presenceNodeContainer}>
-                <PresenceNode
-                  presence={this.state.presence}
+                <PresenceStatusIcon
+                  className={styles.presenceNode}
+                  {...this.state.presence}
                 />
               </div>
             ) : null

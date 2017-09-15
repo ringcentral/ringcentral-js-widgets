@@ -7,6 +7,7 @@ import styles from './styles.scss';
 function PresenceStatusIcon({
   userStatus,
   dndStatus,
+  presenceStatus,
   className,
 }) {
   return (
@@ -14,7 +15,7 @@ function PresenceStatusIcon({
       className={
         classnames(
           styles.presence,
-          styles[userStatus],
+          styles[userStatus || presenceStatus],
           styles[dndStatus],
           className,
         )
@@ -29,12 +30,14 @@ PresenceStatusIcon.propTypes = {
   className: PropTypes.string,
   dndStatus: PropTypes.string,
   userStatus: PropTypes.string,
+  presenceStatus: PropTypes.string,
 };
 
 PresenceStatusIcon.defaultProps = {
   className: null,
   dndStatus: null,
   userStatus: null,
+  presenceStatus: null,
 };
 
 export default PresenceStatusIcon;

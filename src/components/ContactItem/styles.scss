@@ -109,25 +109,9 @@ $rowHeight: 50px;
     height: 100%;
     position: relative;
 
-    .solidLine {
-      position: absolute;
-      width: 5px;
-      height: 0;
-      left: 2px;
-      top: 4px;
-      border-top: 1px solid #fff;
+    div {
+      top: -2px;
+      left: -1px;
     }
-  }
-
-  .presenceBusy {
-    background-color: #f95b5c;
-  }
-
-  .presenceAvailable {
-    background-color: #5fb95c;
-  }
-
-  .presenceOffline {
-    background-color: #c7c7c7;
   }
 }
