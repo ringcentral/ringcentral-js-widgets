@@ -51,3 +51,11 @@ DialPad.propTypes = {
   onButtonOutput: PropTypes.func,
   alternativeTimeout: PropTypes.number,
 };
+
+DialPad.defaultProps = {
+  className: undefined,
+  hideSpecial: false,
+  onButtonPress: undefined,
+  onButtonOutput: undefined,
+  alternativeTimeout: undefined,
+};

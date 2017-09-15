@@ -1,5 +1,3 @@
-@import '../../lib/commonStyles/colors';
-@import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/fonts';
 @import '../../lib/commonStyles/text-ellipsis';
 
@@ -51,6 +49,8 @@
     display: inline-block;
     height: 16px;
     width: 40%;
+    color: #666666;
+    font-weight: 300;
     @include text-ellipsis;
   }
 }

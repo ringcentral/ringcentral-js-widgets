@@ -43,7 +43,9 @@ export default class FlipPanel extends Component {
             </span>
           )}
         >
-          {i18n.getString('flipHeader', this.props.currentLocale)}
+          <span className={styles.headerTitle}>
+            {i18n.getString('flipHeader', this.props.currentLocale)}
+          </span>
         </BackHeader>
         <div className={styles.flipContainer}>
           <RadioButtonGroup

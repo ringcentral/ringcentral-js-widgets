@@ -7,6 +7,11 @@
   box-sizing: border-box;
 }
 
+.headerTitle {
+  font-size: 15px;
+  line-height: 40px;
+}
+
 .backButton {
   font-size: $primary-font-size;
   color: $lightblack;
