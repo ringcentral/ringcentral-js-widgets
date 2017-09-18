@@ -47,7 +47,7 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _desc, _value, _class;
 
-require('whatwg-fetch');
+require('isomorphic-fetch');
 
 var _RcModule2 = require('../../lib/RcModule');
 
