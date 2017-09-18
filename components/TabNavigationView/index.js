@@ -28,14 +28,20 @@ var _TabNavigationButton = require('../TabNavigationButton');
 
 var _TabNavigationButton2 = _interopRequireDefault(_TabNavigationButton);
 
+var _DropdownNavigationView = require('../DropdownNavigationView');
+
+var _DropdownNavigationView2 = _interopRequireDefault(_DropdownNavigationView);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function TabNavigationView(props) {
   var navBar = _react2.default.createElement(_NavigationBar2.default, {
     button: _TabNavigationButton2.default,
+    childNavigationView: _DropdownNavigationView2.default,
     tabs: props.tabs,
     goTo: props.goTo,
-    currentPath: props.currentPath
+    currentPath: props.currentPath,
+    currentVirtualPath: props.currentVirtualPath
   });
   return _react2.default.createElement(
     'div',
@@ -54,6 +60,7 @@ TabNavigationView.propTypes = {
   children: _propTypes2.default.node,
   className: _propTypes2.default.string,
   currentPath: _propTypes2.default.string.isRequired,
+  currentVirtualPath: _propTypes2.default.string,
   goTo: _propTypes2.default.func.isRequired,
   navigationPosition: _propTypes2.default.oneOf(['top', 'bottom']),
   tabs: _NavigationBar2.default.propTypes.tabs
@@ -62,6 +69,7 @@ TabNavigationView.propTypes = {
 TabNavigationView.defaultProps = {
   children: null,
   className: null,
+  currentVirtualPath: undefined,
   navigationPosition: 'top',
   tabs: null
 };
