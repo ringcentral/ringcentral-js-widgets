@@ -25,12 +25,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function PresenceStatusIcon(_ref) {
   var userStatus = _ref.userStatus,
       dndStatus = _ref.dndStatus,
+      presenceStatus = _ref.presenceStatus,
       className = _ref.className;
 
   return _react2.default.createElement(
     'div',
     {
-      className: (0, _classnames2.default)(_styles2.default.presence, _styles2.default[userStatus], _styles2.default[dndStatus], className)
+      className: (0, _classnames2.default)(_styles2.default.presence, _styles2.default[userStatus || presenceStatus], _styles2.default[dndStatus], className)
     },
     _react2.default.createElement('div', { className: _styles2.default.presenceBar })
   );
@@ -39,13 +40,15 @@ function PresenceStatusIcon(_ref) {
 PresenceStatusIcon.propTypes = {
   className: _propTypes2.default.string,
   dndStatus: _propTypes2.default.string,
-  userStatus: _propTypes2.default.string
+  userStatus: _propTypes2.default.string,
+  presenceStatus: _propTypes2.default.string
 };
 
 PresenceStatusIcon.defaultProps = {
   className: null,
   dndStatus: null,
-  userStatus: null
+  userStatus: null,
+  presenceStatus: null
 };
 
 exports.default = PresenceStatusIcon;

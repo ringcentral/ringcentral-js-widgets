@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   to: 'To:',
   transferTo: 'Transfer to',
-  blindTransfer: 'Transfer'
+  blindTransfer: 'Transfer',
+  enterNameOrNumber: 'Enter Number'
 };
 //# sourceMappingURL=en-US.js.map

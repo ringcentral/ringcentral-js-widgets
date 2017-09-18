@@ -290,7 +290,7 @@ var CallItem = function (_Component) {
       var _this3 = this;
 
       this._mounted = true;
-      setTimeout(function () {
+      this._loadingTimeout = setTimeout(function () {
         // clear timeout is probably not necessary
         if (_this3._mounted) {
           _this3.setState({
@@ -312,6 +312,10 @@ var CallItem = function (_Component) {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       this._mounted = false;
+      if (this._loadingTimeout) {
+        clearTimeout(this._loadingTimeout);
+        this._loadingTimeout = null;
+      }
     }
   }, {
     key: 'getInitialContactIndex',
@@ -610,10 +614,6 @@ CallItem.propTypes = {
   active: _propTypes2.default.bool.isRequired,
   dateTimeFormatter: _propTypes2.default.func.isRequired,
   isLogging: _propTypes2.default.bool,
-  // webphoneAnswer: PropTypes.func,
-  // webphoneReject: PropTypes.func,
-  // webphoneHangup: PropTypes.func,
-  // webphoneResume: PropTypes.func,
   enableContactFallback: _propTypes2.default.bool,
   autoLog: _propTypes2.default.bool,
   showContactDisplayPlaceholder: _propTypes2.default.bool
@@ -633,10 +633,6 @@ CallItem.defaultProps = {
   outboundSmsPermission: false,
   internalSmsPermission: false,
   disableLinks: false,
-  // webphoneAnswer: () => null,
-  // webphoneReject: () => null,
-  // webphoneHangup: () => null,
-  // webphoneResume: () => null,
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   autoLog: false

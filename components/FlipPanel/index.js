@@ -113,7 +113,11 @@ var FlipPanel = function (_Component) {
               this.props.isOnFlip ? null : _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.backIcon) })
             )
           },
-          _i18n2.default.getString('flipHeader', this.props.currentLocale)
+          _react2.default.createElement(
+            'span',
+            { className: _styles2.default.headerTitle },
+            _i18n2.default.getString('flipHeader', this.props.currentLocale)
+          )
         ),
         _react2.default.createElement(
           'div',
@@ -132,9 +136,10 @@ var FlipPanel = function (_Component) {
               'div',
               { className: _styles2.default.button, title: _i18n2.default.getString('flip', this.props.currentLocale) },
               _react2.default.createElement(_CircleButton2.default, {
-                className: this.state.flipEnabled ? _styles2.default.flipButton : _styles2.default.buttonDisabled,
+                disabled: !this.state.flipEnabled,
+                className: (0, _classnames2.default)(_styles2.default.flipButton, this.state.flipEnabled ? '' : _styles2.default.disabled),
                 iconClassName: _styles2.default.flipIcon,
-                onClick: this.state.flipEnabled ? this.onFlip : function () {},
+                onClick: this.onFlip,
                 icon: _Flip2.default,
                 showBorder: true
               })
@@ -143,9 +148,9 @@ var FlipPanel = function (_Component) {
               'div',
               { className: _styles2.default.button, title: _i18n2.default.getString('complete', this.props.currentLocale) },
               _react2.default.createElement(_CircleButton2.default, {
-                className: this.props.isOnFlip ? _styles2.default.completeButton : _styles2.default.buttonDisabled,
-                iconClassName: this.props.isOnFlip ? _styles2.default.completeIcon : '',
-                onClick: this.props.isOnFlip ? this.props.complete : function () {},
+                disabled: !this.props.isOnFlip,
+                className: (0, _classnames2.default)(_styles2.default.completeButton, this.props.isOnFlip ? '' : _styles2.default.disabled),
+                onClick: this.props.complete,
                 icon: _End2.default,
                 showBorder: true
               })

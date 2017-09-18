@@ -135,6 +135,7 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
           _react2.default.createElement('input', {
             className: _styles2.default.input,
             onChange: this.handleChange,
+            placeholder: _i18n2.default.getString('enterNameOrNumber', this.props.currentLocale),
             value: this.state.value
           }),
           _react2.default.createElement('span', {

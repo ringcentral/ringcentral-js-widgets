@@ -1,4 +1,5 @@
 @import '../../lib/commonStyles/fonts.scss';
+@import '../../lib/commonStyles/colors';
 
 .root {
   @include secondary-font;
@@ -10,7 +11,7 @@
 
 .phoneBage {
   box-sizing: content-box;
-  background: #00d960;
+  background: $call-btn-color;
   padding: 0;
   text-align: center;
   width: 90px;

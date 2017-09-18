@@ -52,11 +52,16 @@ function DialTextInput(_ref) {
       _i18n2.default.getString('to')
     ),
     _react2.default.createElement(_TextInput2.default, {
+      placeholder: _i18n2.default.getString('enterNameOrPhoneNumber'),
       className: _styles2.default.dial_Input,
       value: value,
       onChange: onChangeEvent
     }),
-    _react2.default.createElement('span', { style: deleteDisplay, className: (0, _classnames2.default)(_styles2.default.delete, _DynamicsFont2.default.clear), onClick: onDelete })
+    _react2.default.createElement('span', {
+      style: deleteDisplay,
+      className: (0, _classnames2.default)(_styles2.default.delete, _DynamicsFont2.default.clear),
+      onClick: onDelete
+    })
   );
 }
 

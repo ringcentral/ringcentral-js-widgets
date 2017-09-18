@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  flipHeader: 'Flip call to...',
+  flipHeader: 'Flip Call to...',
   flip: 'Flip',
   complete: 'Complete Flip'
 };
