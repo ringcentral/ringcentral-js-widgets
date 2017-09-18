@@ -185,14 +185,9 @@ export default class MessageItem extends Component {
     }
   }
   showConversationDetail = (e) => {
-    // if (e.captureClick === false) {
-    //   delete e.captureClick;
-    //   return;
-    // }
     if ((
       this.contactDisplay &&
-      this.contactDisplay.contains(e.target)) ||
-      this.actionMenu.contains(e.target)
+      this.contactDisplay.contains(e.target))
     ) {
       return;
     }
@@ -230,47 +225,48 @@ export default class MessageItem extends Component {
     const fallbackName = this.getFallbackContactName();
 
     return (
-      <div
-        className={classnames(
-          styles.root,
-          unreadCounts && styles.unread
-        )}
-        onClick={this.showConversationDetail}
-      >
-        <ConversationIcon
-          group={correspondents.length > 1}
-          conversationTitle={i18n.getString('conversation', currentLocale)}
-          groupConversationTitle={i18n.getString('groupConversation', currentLocale)}
-        />
-        <ContactDisplay
-          reference={(ref) => { this.contactDisplay = ref; }}
+      <div className={styles.root} onClick={this.showConversationDetail}>
+        <div
           className={classnames(
-            styles.contactDisplay,
+            styles.wrapper,
             unreadCounts && styles.unread
           )}
-          selectClassName={styles.dropdownSelect}
-          brand={brand}
-          contactMatches={correspondentMatches}
-          selected={this.state.selected}
-          onSelectContact={this.onSelectContact}
-          disabled={disableLinks}
-          isLogging={isLogging || this.state.isLogging}
-          fallBackName={fallbackName}
-          areaCode={areaCode}
-          countryCode={countryCode}
-          phoneNumber={phoneNumber}
-          groupNumbers={groupNumbers}
-          currentLocale={currentLocale}
-          enableContactFallback={enableContactFallback}
-          stopPropagation={false}
-          showType={false}
-          showPlaceholder={showContactDisplayPlaceholder}
-        />
-        <div className={styles.details}>
-          {dateTimeFormatter({ utcTimestamp: creationTime })} | {subject}
+        >
+          <ConversationIcon
+            group={correspondents.length > 1}
+            conversationTitle={i18n.getString('conversation', currentLocale)}
+            groupConversationTitle={i18n.getString('groupConversation', currentLocale)}
+          />
+          <ContactDisplay
+            reference={(ref) => { this.contactDisplay = ref; }}
+            className={classnames(
+              styles.contactDisplay,
+              unreadCounts && styles.unread
+            )}
+            selectClassName={styles.dropdownSelect}
+            brand={brand}
+            contactMatches={correspondentMatches}
+            selected={this.state.selected}
+            onSelectContact={this.onSelectContact}
+            disabled={disableLinks}
+            isLogging={isLogging || this.state.isLogging}
+            fallBackName={fallbackName}
+            areaCode={areaCode}
+            countryCode={countryCode}
+            phoneNumber={phoneNumber}
+            groupNumbers={groupNumbers}
+            currentLocale={currentLocale}
+            enableContactFallback={enableContactFallback}
+            stopPropagation={false}
+            showType={false}
+            showPlaceholder={showContactDisplayPlaceholder}
+          />
+          <div className={styles.details}>
+            {dateTimeFormatter({ utcTimestamp: creationTime })} | {subject}
+          </div>
         </div>
         <ActionMenu
-          reference={(ref) => { this.actionMenu = ref; }}
+          extendIconClassName={styles.extendIcon}
           currentLocale={currentLocale}
           onLog={onLogConversation && this.logConversation}
           onViewEntity={onViewContact && this.viewSelectedContact}

@@ -25,12 +25,16 @@ function DialTextInput({
         {i18n.getString('to')}
       </span>
       <TextInput
+        placeholder={i18n.getString('enterNameOrPhoneNumber')}
         className={styles.dial_Input}
         value={value}
         onChange={onChangeEvent}
       />
-      <span style={deleteDisplay} className={classnames(styles.delete, dynamicsFont.clear)} onClick={onDelete}>
-      </span>
+      <span
+        style={deleteDisplay}
+        className={classnames(styles.delete, dynamicsFont.clear)}
+        onClick={onDelete}
+      />
     </div>
   );
 }

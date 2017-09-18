@@ -3,6 +3,39 @@
     "description": "",
     "methods": [],
     "props": {
+      "extended": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onToggle": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onPanelClick": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
       "reference": {
         "type": {
           "name": "func"
@@ -15,6 +48,17 @@
         }
       },
       "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "extendIconClassName": {
         "type": {
           "name": "string"
         },
@@ -931,6 +975,17 @@
           "computed": true
         }
       },
+      "webphoneToVoicemail": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
       "enableContactFallback": {
         "type": {
           "name": "bool"
@@ -1024,18 +1079,6 @@
         "defaultValue": {
           "value": "undefined",
           "computed": true
-        }
-      },
-      "isLoggedContact": {
-        "defaultValue": {
-          "value": "() => false",
-          "computed": false
-        }
-      },
-      "disableClickToDial": {
-        "defaultValue": {
-          "value": "false",
-          "computed": false
         }
       }
     },
@@ -1230,6 +1273,17 @@
         "description": "",
         "defaultValue": {
           "value": "null",
+          "computed": false
+        }
+      },
+      "startTimeOffset": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "0",
           "computed": false
         }
       },
@@ -1467,15 +1521,21 @@
   },
   {
     "description": "",
-    "methods": [],
+    "methods": [
+      {
+        "name": "hasCalls",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "props",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
     "props": {
-      "hasCalls": {
-        "type": {
-          "name": "bool"
-        },
-        "required": true,
-        "description": ""
-      },
       "currentLocale": {
         "type": {
           "name": "string"
@@ -1682,6 +1742,17 @@
           "computed": true
         }
       },
+      "webphoneToVoicemail": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
       "autoLog": {
         "type": {
           "name": "bool"
@@ -1724,6 +1795,17 @@
         "defaultValue": {
           "value": "{}",
           "computed": false
+        }
+      },
+      "onCallsEmpty": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
         }
       }
     },
@@ -2584,6 +2666,13 @@
         "required": true,
         "description": ""
       },
+      "brand": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
       "countryCode": {
         "type": {
           "name": "string"
@@ -2754,6 +2843,17 @@
           "value": "false",
           "computed": false
         }
+      },
+      "showContactDisplayPlaceholder": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
       }
     },
     "name": "CallItem"
@@ -2772,6 +2872,13 @@
           "value": "null",
           "computed": false
         }
+      },
+      "brand": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
       },
       "currentLocale": {
         "type": {
@@ -3009,6 +3116,17 @@
           "value": "false",
           "computed": false
         }
+      },
+      "showContactDisplayPlaceholder": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
       }
     },
     "name": "CallList"
@@ -3165,6 +3283,13 @@
     "description": "",
     "methods": [],
     "props": {
+      "brand": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
       "currentLocale": {
         "type": {
           "name": "string"
@@ -3416,6 +3541,17 @@
         "description": "",
         "defaultValue": {
           "value": "false",
+          "computed": false
+        }
+      },
+      "showContactDisplayPlaceholder": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "true",
           "computed": false
         }
       }
@@ -4274,6 +4410,13 @@
       }
     ],
     "props": {
+      "brand": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
       "replyToReceivers": {
         "type": {
           "name": "func"
@@ -4413,6 +4556,17 @@
         "required": true,
         "description": ""
       },
+      "showContactDisplayPlaceholder": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
+      },
       "isLoggedContact": {
         "defaultValue": {
           "value": "undefined",
@@ -4450,6 +4604,17 @@
         },
         "required": true,
         "description": ""
+      },
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
       },
       "onPress": {
         "type": {
@@ -5121,6 +5286,17 @@
         },
         "required": true,
         "description": ""
+      },
+      "offset": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "0",
+          "computed": false
+        }
       }
     },
     "name": "DurationCounter"
@@ -6314,6 +6490,20 @@
         "returns": null
       },
       {
+        "name": "createSelectedContact",
+        "docblock": null,
+        "modifiers": [
+          "async"
+        ],
+        "params": [
+          {
+            "name": "entityType",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
         "name": "logConversation",
         "docblock": null,
         "modifiers": [
@@ -6404,6 +6594,13 @@
         "required": true,
         "description": ""
       },
+      "brand": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
       "countryCode": {
         "type": {
           "name": "string"
@@ -6460,17 +6657,6 @@
         "defaultValue": {
           "value": "undefined",
           "computed": true
-        }
-      },
-      "isLoggedContact": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "() => false",
-          "computed": false
         }
       },
       "disableLinks": {
@@ -6531,15 +6717,14 @@
           "computed": true
         }
       },
-      "outboundSmsPermission": {
+      "showContactDisplayPlaceholder": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
         "defaultValue": {
-          "value": "false",
-          "computed": false
-        }
-      },
-      "internalSmsPermission": {
-        "defaultValue": {
-          "value": "false",
+          "value": "true",
           "computed": false
         }
       }
@@ -6550,6 +6735,13 @@
     "description": "",
     "methods": [],
     "props": {
+      "brand": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
       "currentLocale": {
         "type": {
           "name": "string"
@@ -6652,6 +6844,17 @@
         "defaultValue": {
           "value": "undefined",
           "computed": true
+        }
+      },
+      "showContactDisplayPlaceholder": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
         }
       }
     },
@@ -8469,6 +8672,20 @@
           "computed": true
         }
       },
+      "extended": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": ""
+      },
+      "onToggle": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": ""
+      },
       "className": {
         "type": {
           "name": "string"
@@ -8480,7 +8697,18 @@
           "computed": true
         }
       },
-      "minWidth": {
+      "extendIconClassName": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "minHeight": {
         "type": {
           "name": "number"
         },
@@ -8491,7 +8719,7 @@
           "computed": false
         }
       },
-      "maxWidth": {
+      "maxHeight": {
         "type": {
           "name": "number"
         },
@@ -8499,6 +8727,17 @@
         "description": "",
         "defaultValue": {
           "value": "100",
+          "computed": false
+        }
+      },
+      "showPanelPointerCursor": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
           "computed": false
         }
       }

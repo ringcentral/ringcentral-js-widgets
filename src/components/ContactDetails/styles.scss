@@ -1,0 +1,7 @@
+@import '../../lib/commonStyles/full-size.scss';
+@import '../../lib/commonStyles/layout.scss';
+@import '../../lib/commonStyles/reset.scss';
+
+.root {
+  @include full-size;
+}
