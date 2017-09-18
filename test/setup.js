@@ -1,4 +1,3 @@
-import 'isomorphic-fetch';
 import path from 'path';
 
 import LocalStorage from './localStorage';
