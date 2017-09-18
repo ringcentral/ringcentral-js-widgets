@@ -38,14 +38,15 @@ function getCallsReducer(types) {
     var _ref = arguments[1];
     var type = _ref.type,
         contact = _ref.contact,
-        calls = _ref.calls;
+        calls = _ref.calls,
+        sessionId = _ref.sessionId;
 
     var contactId = String(contact && contact.id);
     if (type === types.loadSuccess) {
-      return (0, _extends4.default)({}, state, (0, _defineProperty3.default)({}, contactId, calls));
+      return (0, _extends4.default)({}, state, (0, _defineProperty3.default)({}, sessionId ? contactId + '-' + sessionId : contactId, calls));
     } else if (type === types.loadReset) {
-      var _ = state[contactId],
-          rest = (0, _objectWithoutProperties3.default)(state, [contactId]);
+      var _ = state[sessionId ? contactId + '-' + sessionId : contactId],
+          rest = (0, _objectWithoutProperties3.default)(state, [sessionId ? contactId + '-' + sessionId : contactId]);
 
       return rest;
     }

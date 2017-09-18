@@ -38,14 +38,15 @@ function getContactsReducer(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     var _ref = arguments[1];
     var type = _ref.type,
-        contact = _ref.contact;
+        contact = _ref.contact,
+        sessionId = _ref.sessionId;
 
     var contactId = String(contact && contact.id);
     if (type === types.loadSuccess) {
-      return (0, _extends5.default)({}, state, (0, _defineProperty3.default)({}, contactId, contact));
+      return (0, _extends5.default)({}, state, (0, _defineProperty3.default)({}, sessionId ? contactId + '-' + sessionId : contactId, contact));
     } else if (type === types.loadReset) {
-      var _ = state[contactId],
-          rest = (0, _objectWithoutProperties3.default)(state, [contactId]);
+      var _ = state[sessionId ? contactId + '-' + sessionId : contactId],
+          rest = (0, _objectWithoutProperties3.default)(state, [sessionId ? contactId + '-' + sessionId : contactId]);
 
       return rest;
     }
@@ -59,14 +60,15 @@ function getMessagesReducer(types) {
     var _ref2 = arguments[1];
     var type = _ref2.type,
         contact = _ref2.contact,
-        messages = _ref2.messages;
+        messages = _ref2.messages,
+        sessionId = _ref2.sessionId;
 
     var contactId = String(contact && contact.id);
     if (type === types.loadSuccess) {
-      return (0, _extends5.default)({}, state, (0, _defineProperty3.default)({}, contactId, messages));
+      return (0, _extends5.default)({}, state, (0, _defineProperty3.default)({}, sessionId ? contactId + '-' + sessionId : contactId, messages));
     } else if (type === types.loadReset) {
-      var _ = state[contactId],
-          rest = (0, _objectWithoutProperties3.default)(state, [contactId]);
+      var _ = state[sessionId ? contactId + '-' + sessionId : contactId],
+          rest = (0, _objectWithoutProperties3.default)(state, [sessionId ? contactId + '-' + sessionId : contactId]);
 
       return rest;
     }

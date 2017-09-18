@@ -168,8 +168,11 @@ var RecentCalls = (_class = function (_RcModule) {
   }, {
     key: 'getCalls',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(currentContact) {
-        var calls;
+      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref3) {
+        var currentContact = _ref3.currentContact,
+            _ref3$sessionId = _ref3.sessionId,
+            sessionId = _ref3$sessionId === undefined ? null : _ref3$sessionId;
+        var contactId, calls;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -182,30 +185,34 @@ var RecentCalls = (_class = function (_RcModule) {
                 return _context.abrupt('return');
 
               case 2:
-                if (!this.calls[currentContact.id]) {
-                  _context.next = 4;
+                contactId = String(currentContact && currentContact.id);
+                // if (this.calls[currentContact.id]) {
+
+                if (!this.calls[sessionId ? contactId + '-' + sessionId : contactId]) {
+                  _context.next = 5;
                   break;
                 }
 
                 return _context.abrupt('return');
 
-              case 4:
+              case 5:
                 this.store.dispatch({
                   type: this.actionTypes.initLoad
                 });
-                _context.next = 7;
+                _context.next = 8;
                 return this._getRecentCalls(currentContact, this._callHistory.calls);
 
-              case 7:
+              case 8:
                 calls = _context.sent;
 
                 this.store.dispatch({
                   type: this.actionTypes.loadSuccess,
                   calls: calls,
-                  contact: currentContact
+                  contact: currentContact,
+                  sessionId: sessionId
                 });
 
-              case 9:
+              case 10:
               case 'end':
                 return _context.stop();
             }
@@ -221,10 +228,15 @@ var RecentCalls = (_class = function (_RcModule) {
     }()
   }, {
     key: 'cleanUpCalls',
-    value: function cleanUpCalls(contact) {
+    value: function cleanUpCalls(_ref4) {
+      var contact = _ref4.contact,
+          _ref4$sessionId = _ref4.sessionId,
+          sessionId = _ref4$sessionId === undefined ? null : _ref4$sessionId;
+
       this.store.dispatch({
         type: this.actionTypes.loadReset,
-        contact: contact
+        contact: contact,
+        sessionId: sessionId
       });
     }
   }, {
@@ -241,7 +253,7 @@ var RecentCalls = (_class = function (_RcModule) {
      * @private
      */
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(currentContact) {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(currentContact) {
         var calls = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
         var daySpan = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 60;
         var length = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 5;
@@ -282,7 +294,7 @@ var RecentCalls = (_class = function (_RcModule) {
       }));
 
       function _getRecentCalls(_x2) {
-        return _ref3.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return _getRecentCalls;
@@ -317,8 +329,8 @@ var RecentCalls = (_class = function (_RcModule) {
   }, {
     key: '_filterPhoneNumber',
     value: function _filterPhoneNumber(call) {
-      return function (_ref4) {
-        var phoneNumber = _ref4.phoneNumber;
+      return function (_ref6) {
+        var phoneNumber = _ref6.phoneNumber;
         return phoneNumber === call.from.phoneNumber || phoneNumber === call.to.phoneNumber || phoneNumber === call.from.extensionNumber || phoneNumber === call.to.extensionNumber;
       };
     }
@@ -345,9 +357,9 @@ var RecentCalls = (_class = function (_RcModule) {
 
       // CallLog API doesn't support plus sign in phoneNumber
       var phoneNumbers = currentContact.phoneNumbers;
-      var recentCallsPromises = phoneNumbers.reduce(function (acc, _ref5) {
-        var phoneType = _ref5.phoneType,
-            phoneNumber = _ref5.phoneNumber;
+      var recentCallsPromises = phoneNumbers.reduce(function (acc, _ref7) {
+        var phoneType = _ref7.phoneType,
+            phoneNumber = _ref7.phoneNumber;
 
         phoneNumber = phoneNumber.replace('+', '');
         if (phoneType === 'extension') {
@@ -376,8 +388,8 @@ var RecentCalls = (_class = function (_RcModule) {
   }, {
     key: '_flattenToRecords',
     value: function _flattenToRecords(items) {
-      return items.reduce(function (acc, _ref6) {
-        var records = _ref6.records;
+      return items.reduce(function (acc, _ref8) {
+        var records = _ref8.records;
         return acc.concat(records);
       }, []);
     }

@@ -21,10 +21,6 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
-var _values = require('babel-runtime/core-js/object/values');
-
-var _values2 = _interopRequireDefault(_values);
-
 var _getIterator2 = require('babel-runtime/core-js/get-iterator');
 
 var _getIterator3 = _interopRequireDefault(_getIterator2);
@@ -192,15 +188,23 @@ var RecentMessages = (_class = function (_RcModule) {
         // Listen to messageStore state changes
         if (this._messageStore.updatedTimestamp !== this._prevMessageStoreTimestamp) {
           this._prevMessageStoreTimestamp = this._messageStore.updatedTimestamp;
+          // for (const contact of Object.values(this.contacts)) {
+          //   this.getMessages(contact, false, true);
+          // }
           var _iteratorNormalCompletion = true;
           var _didIteratorError = false;
           var _iteratorError = undefined;
 
           try {
-            for (var _iterator = (0, _getIterator3.default)((0, _values2.default)(this.contacts)), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-              var contact = _step.value;
+            for (var _iterator = (0, _getIterator3.default)((0, _keys2.default)(this.contacts)), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+              var key = _step.value;
 
-              this.getMessages(contact, false, true);
+              this.getMessages({
+                currentContact: this.contacts[key],
+                sessionId: key.indexOf('-') > -1 ? key.split('-')[1] : null,
+                fromLocale: false,
+                forceUpdate: true
+              });
             }
           } catch (err) {
             _didIteratorError = true;
@@ -222,10 +226,15 @@ var RecentMessages = (_class = function (_RcModule) {
   }, {
     key: 'getMessages',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(currentContact) {
-        var fromLocal = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-        var forceUpdate = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : false;
-        var messages;
+      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref3) {
+        var currentContact = _ref3.currentContact,
+            _ref3$sessionId = _ref3.sessionId,
+            sessionId = _ref3$sessionId === undefined ? null : _ref3$sessionId,
+            _ref3$fromLocal = _ref3.fromLocal,
+            fromLocal = _ref3$fromLocal === undefined ? false : _ref3$fromLocal,
+            _ref3$forceUpdate = _ref3.forceUpdate,
+            forceUpdate = _ref3$forceUpdate === undefined ? false : _ref3$forceUpdate;
+        var contactId, messages;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -238,31 +247,34 @@ var RecentMessages = (_class = function (_RcModule) {
                 return _context.abrupt('return');
 
               case 2:
-                if (!(!forceUpdate && !!this.messages[currentContact.id])) {
-                  _context.next = 4;
+                contactId = currentContact.id;
+
+                if (!(!forceUpdate && !!this.messages[sessionId ? contactId + '-' + sessionId : contactId])) {
+                  _context.next = 5;
                   break;
                 }
 
                 return _context.abrupt('return');
 
-              case 4:
+              case 5:
                 this._prevMessageStoreTimestamp = this._messageStore.updatedTimestamp;
                 this.store.dispatch({
                   type: this.actionTypes.initLoad
                 });
-                _context.next = 8;
+                _context.next = 9;
                 return this._getRecentMessages(currentContact, this._messageStore.messages, fromLocal);
 
-              case 8:
+              case 9:
                 messages = _context.sent;
 
                 this.store.dispatch({
                   type: this.actionTypes.loadSuccess,
                   messages: messages,
-                  contact: currentContact
+                  contact: currentContact,
+                  sessionId: sessionId
                 });
 
-              case 10:
+              case 11:
               case 'end':
                 return _context.stop();
             }
@@ -278,10 +290,15 @@ var RecentMessages = (_class = function (_RcModule) {
     }()
   }, {
     key: 'cleanUpMessages',
-    value: function cleanUpMessages(contact) {
+    value: function cleanUpMessages(_ref4) {
+      var contact = _ref4.contact,
+          _ref4$sessionId = _ref4.sessionId,
+          sessionId = _ref4$sessionId === undefined ? null : _ref4$sessionId;
+
       this.store.dispatch({
         type: this.actionTypes.loadReset,
-        contact: contact
+        contact: contact,
+        sessionId: sessionId
       });
     }
   }, {
@@ -299,7 +316,7 @@ var RecentMessages = (_class = function (_RcModule) {
      * @private
      */
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(currentContact) {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(currentContact) {
         var messages = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
         var fromLocal = arguments[2];
         var daySpan = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : 60;
@@ -345,8 +362,8 @@ var RecentMessages = (_class = function (_RcModule) {
         }, _callee2, this);
       }));
 
-      function _getRecentMessages(_x4) {
-        return _ref3.apply(this, arguments);
+      function _getRecentMessages(_x2) {
+        return _ref5.apply(this, arguments);
       }
 
       return _getRecentMessages;
@@ -383,8 +400,8 @@ var RecentMessages = (_class = function (_RcModule) {
   }, {
     key: '_filterPhoneNumber',
     value: function _filterPhoneNumber(message) {
-      return function (_ref4) {
-        var phoneNumber = _ref4.phoneNumber;
+      return function (_ref6) {
+        var phoneNumber = _ref6.phoneNumber;
         return phoneNumber === message.from.phoneNumber || !!message.to.find(function (to) {
           return to.phoneNumber === phoneNumber;
         }) || phoneNumber === message.from.extensionNumber || !!message.to.find(function (to) {
@@ -417,8 +434,8 @@ var RecentMessages = (_class = function (_RcModule) {
         perPage: length
       };
       var phoneNumbers = currentContact.phoneNumbers;
-      var recentMessagesPromise = phoneNumbers.reduce(function (acc, _ref5) {
-        var phoneNumber = _ref5.phoneNumber;
+      var recentMessagesPromise = phoneNumbers.reduce(function (acc, _ref7) {
+        var phoneNumber = _ref7.phoneNumber;
 
         if (phoneNumber) {
           var promise = _this3._fetchMessageList((0, _assign2.default)({}, params, {
@@ -454,8 +471,8 @@ var RecentMessages = (_class = function (_RcModule) {
   }, {
     key: '_flattenToMessageRecords',
     value: function _flattenToMessageRecords(allMessages) {
-      return allMessages.reduce(function (acc, _ref6) {
-        var records = _ref6.records;
+      return allMessages.reduce(function (acc, _ref8) {
+        var records = _ref8.records;
         return acc.concat(records);
       }, []);
     }
