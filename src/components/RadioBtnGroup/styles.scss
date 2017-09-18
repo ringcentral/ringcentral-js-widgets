@@ -1,4 +1,5 @@
 @import '../../lib/commonStyles/fonts';
+@import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/text-ellipsis';
 
 .root {
@@ -23,6 +24,10 @@
     border: 1px solid #979797;
     cursor: pointer;
 
+    &.active {
+      border: 1px solid $primary-color;
+    }
+
     &.active:before{
       content: '';
       display: block;
@@ -31,7 +36,7 @@
       left: 4px;
       width: 5px;
       height: 5px;
-      border: 1px solid #0073ae;
+      border: 1px solid $primary-color;
       border-radius: 100%;
       background: #0073ae;
     }
