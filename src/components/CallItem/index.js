@@ -79,7 +79,7 @@ export default class CallItem extends Component {
   }
   componentDidMount() {
     this._mounted = true;
-    setTimeout(() => {
+    this._loadingTimeout = setTimeout(() => {
       // clear timeout is probably not necessary
       if (this._mounted) {
         this.setState({
@@ -104,6 +104,10 @@ export default class CallItem extends Component {
   }
   componentWillUnmount() {
     this._mounted = false;
+    if (this._loadingTimeout) {
+      clearTimeout(this._loadingTimeout);
+      this._loadingTimeout = null;
+    }
   }
   onSelectContact = (value, idx) => {
     const selected = this.props.showContactDisplayPlaceholder
@@ -270,7 +274,6 @@ export default class CallItem extends Component {
         duration,
         activityMatches,
         offset,
-      // webphoneSession,
     },
       brand,
       currentLocale,
@@ -288,10 +291,6 @@ export default class CallItem extends Component {
       onClickToSms,
       dateTimeFormatter,
       isLogging,
-      // webphoneAnswer,
-      // webphoneReject,
-      // webphoneHangup,
-      // webphoneResume,
       enableContactFallback,
       showContactDisplayPlaceholder,
     } = this.props;
@@ -437,10 +436,6 @@ CallItem.propTypes = {
   active: PropTypes.bool.isRequired,
   dateTimeFormatter: PropTypes.func.isRequired,
   isLogging: PropTypes.bool,
-  // webphoneAnswer: PropTypes.func,
-  // webphoneReject: PropTypes.func,
-  // webphoneHangup: PropTypes.func,
-  // webphoneResume: PropTypes.func,
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,
@@ -458,10 +453,6 @@ CallItem.defaultProps = {
   outboundSmsPermission: false,
   internalSmsPermission: false,
   disableLinks: false,
-  // webphoneAnswer: () => null,
-  // webphoneReject: () => null,
-  // webphoneHangup: () => null,
-  // webphoneResume: () => null,
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   autoLog: false,

@@ -7,6 +7,11 @@
   box-sizing: border-box;
 }
 
+.headerTitle {
+  font-size: 15px;
+  line-height: 40px;
+}
+
 .backButton {
   font-size: $primary-font-size;
   color: $lightblack;
@@ -47,41 +52,54 @@
 
   .flipButton {
     circle {
-      stroke: solid 1px #0073ae;
-      opacity: 0.24;
+      stroke: $primary-color;
+      opacity: 0.3;
       &:hover {
-        opacity: 1;
+        opacity: 0.6;
       }
     }
-  }
 
-  .buttonDisabled {
-    circle {
-      fill: $lightgray;
-      stroke: $gray;
-    }
     path {
-      fill: $primary-color-highlight-solid;
+      fill: $primary-color;
     }
-    g {
-      cursor: default;
+
+    &.disabled {
+      g {
+        cursor: not-allowed;
+      }
+
+      circle {
+        opacity: 1;
+        stroke: $disabled-background-color;
+      }
+
+      path {
+        fill: $disabled-background-color;
+      }
     }
   }
 
   .completeButton {
     circle {
-      fill: #0073ae;
-      opacity: 0.45;
-      &:hover {
-        box-shadow: 0 0 2px 1px rgba(0, 0, 0, 0.25);
-        opacity: 1;
-      }
+      stroke: $primary-color;
+      fill: $primary-color;
+      opacity: 1;
     }
-  }
 
-  .completeIcon {
     path {
-      fill: $line-background-color
+      fill: #ffffff;
+    }
+
+    &.disabled {
+      g {
+        cursor: not-allowed;
+      }
+
+      circle {
+        opacity: 1;
+        fill: $disabled-background-color;
+        stroke: $disabled-background-color;
+      }
     }
   }
 }
