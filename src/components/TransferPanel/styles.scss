@@ -35,6 +35,12 @@ $input-height: 43px;
     border: none;
     font-size:15px;
     color: $lightblack;
+
+    &::placeholder {
+      font-size: 13px;
+      font-weight: 300;
+      color: $disabled-background-color;
+    }
   }
   .input::-ms-clear {
     display: none;
