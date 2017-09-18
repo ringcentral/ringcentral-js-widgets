@@ -4,7 +4,7 @@
   "description": "RingCentral Integration Widget Library",
   "main": "index.js",
   "scripts": {
-    "test": "jest --no-cache",
+    "test": "jest --no-cache --runInBand",
     "test:watch": "yarn test -- --watch",
     "test:coverage": "yarn test -- --coverage",
     "build": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js build",
