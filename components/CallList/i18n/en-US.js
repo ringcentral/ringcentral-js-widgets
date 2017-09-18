@@ -5,6 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
   noActiveCalls: 'No active calls',
-  noRecords: 'No records'
+  noRecords: 'No results found'
 };
 //# sourceMappingURL=en-US.js.map
