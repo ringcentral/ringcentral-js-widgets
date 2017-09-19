@@ -6636,7 +6636,7 @@ ringcentral-client@^1.0.0-rc1:
 
 "ringcentral-integration@https://github.com/ringcentral/ringcentral-js-integration-commons#latest":
   version "0.1.0"
-  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#7f8af03e67d64b8769931e7e110f78c0b7bdd660"
+  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#68deb1042cc7b4d27781ad43688212e3285fa8e5"
   dependencies:
     file-loader "^0.11.2"
     json-mask "^0.3.8"
@@ -7770,7 +7770,7 @@ whatwg-encoding@^1.0.1:
   dependencies:
     iconv-lite "0.4.13"
 
-whatwg-fetch@>=0.10.0, whatwg-fetch@^2.0.1:
+whatwg-fetch@>=0.10.0:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-2.0.3.tgz#9c84ec2dcf68187ff00bc64e1274b442176e1c84"
 
