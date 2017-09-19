@@ -59,7 +59,8 @@ var Brand = function (_RcModule) {
         name = _ref.name,
         fullName = _ref.fullName,
         application = _ref.application,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['id', 'name', 'fullName', 'application']);
+        code = _ref.code,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['id', 'name', 'fullName', 'application', 'code']);
     (0, _classCallCheck3.default)(this, Brand);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Brand.__proto__ || (0, _getPrototypeOf2.default)(Brand)).call(this, options));
@@ -69,7 +70,8 @@ var Brand = function (_RcModule) {
         id: id,
         name: name,
         fullName: fullName,
-        application: application
+        application: application,
+        code: code
       };
       return state;
     };
@@ -96,6 +98,12 @@ var Brand = function (_RcModule) {
     get: function get() {
       return this.state.application;
     }
+  }, {
+    key: 'code',
+    get: function get() {
+      return this.state.code;
+    }
+
     // eslint-disable-next-line class-methods-use-this
 
   }, {
