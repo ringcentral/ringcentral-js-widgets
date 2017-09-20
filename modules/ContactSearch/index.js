@@ -164,7 +164,7 @@ function groupByFirstLetterOfName(contactItems) {
     var group = void 0;
     contactItems.forEach(function (contact) {
       var name = (contact.name || '').replace(/^\s\s*/, ''); // trim start
-      var letter = name[0] || '';
+      var letter = (name[0] || '').toLocaleUpperCase();
       if (!group || group.caption !== letter) {
         group = {
           contacts: [],
@@ -297,6 +297,7 @@ var ContactSearch = (_class = function (_RcModule) {
         this._initModuleStatus();
       } else if (this._shouldReset()) {
         this._resetModuleStatus();
+        this._clearStateCache();
       }
     }
   }, {
@@ -314,6 +315,13 @@ var ContactSearch = (_class = function (_RcModule) {
     value: function _initModuleStatus() {
       this.store.dispatch({
         type: this.actionTypes.initSuccess
+      });
+    }
+  }, {
+    key: '_clearStateCache',
+    value: function _clearStateCache() {
+      this.store.dispatch({
+        type: this.actionTypes.cleanUp
       });
     }
   }, {
