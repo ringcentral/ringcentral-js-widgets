@@ -1,1 +1,0 @@
-{"version":3,"sources":["assets/images/i18n/en-US.js"],"names":["recentActivities"],"mappings":";;;;;kBAAe;AACbA,oBAAkB;AADL,C","file":"en-US.js","sourcesContent":["export default {\n  recentActivities: 'Recent Activities'\n};\n"]}
