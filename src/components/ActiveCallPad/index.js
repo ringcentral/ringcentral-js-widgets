@@ -68,12 +68,18 @@ export default function ActiveCallPad(props) {
             }
             active={props.isOnHold}
             icon={HoldIcon}
+            iconWidth={120}
+            iconHeight={160}
+            iconX={190}
+            iconY={165}
           />
           <ActiveCallButton
             onClick={props.onToggleTransferPanel}
             title={i18n.getString('transfer', props.currentLocale)}
             icon={TransferIcon}
             className={styles.callButton}
+            iconWidth={220}
+            iconX={140}
           />
         </div>
         <div className={styles.buttonRow}>
@@ -83,6 +89,10 @@ export default function ActiveCallPad(props) {
             title={i18n.getString('park', props.currentLocale)}
             icon={ParkIcon}
             disabled={props.isOnHold}
+            iconWidth={180}
+            iconHeight={180}
+            iconX={160}
+            iconY={160}
           />
           <ActiveCallButton
             onClick={onRecordClicked}
@@ -97,6 +107,10 @@ export default function ActiveCallPad(props) {
             title={i18n.getString('add', props.currentLocale)}
             className={styles.callButton}
             icon={AddIcon}
+            iconWidth={170}
+            iconHeight={170}
+            iconX={165}
+            iconY={165}
           />
           <ActiveCallButton
             onClick={props.onShowFlipPanel}
@@ -104,6 +118,10 @@ export default function ActiveCallPad(props) {
             icon={FlipIcon}
             className={styles.callButton}
             disabled={disabledFlip || props.isOnHold}
+            iconWidth={220}
+            iconHeight={215}
+            iconX={140}
+            iconY={142}
           />
         </div>
       </div>
