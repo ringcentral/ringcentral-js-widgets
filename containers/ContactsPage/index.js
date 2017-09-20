@@ -96,9 +96,10 @@ function mapToFunctions(_, _ref2) {
       };
     }(),
     onItemSelect: function onItemSelect(_ref5) {
-      var id = _ref5.id;
+      var type = _ref5.type,
+          id = _ref5.id;
 
-      router.push('/contacts/' + id);
+      router.push('/contacts/' + type + '/' + id);
     },
     onSearchContact: function onSearchContact(_ref6) {
       var searchSource = _ref6.searchSource,

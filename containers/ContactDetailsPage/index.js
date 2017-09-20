@@ -32,7 +32,7 @@ function mapToProps(_, _ref) {
   return {
     currentLocale: locale.currentLocale,
     contactItem: contacts.findContactItem({
-      contactType: null,
+      contactType: params.contactType,
       contactId: params.contactId
     }),
     showSpinner: !(locale.ready && contacts.ready)

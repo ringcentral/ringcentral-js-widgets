@@ -77,7 +77,7 @@ function ContactGroup(_ref2) {
     ),
     contacts.map(function (contact) {
       return _react2.default.createElement(_ContactItem2.default, {
-        key: contact.id,
+        key: '' + contact.type + contact.id,
         contact: contact,
         getAvatarUrl: getAvatarUrl,
         getPresence: getPresence,
