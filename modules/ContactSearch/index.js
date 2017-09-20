@@ -299,6 +299,7 @@ var ContactSearch = (_class = function (_RcModule) {
       } else if (this._shouldReset()) {
         this._resetModuleStatus();
         this._clearStateCache();
+        this._restSearchCriteria();
       }
     }
   }, {
@@ -323,6 +324,13 @@ var ContactSearch = (_class = function (_RcModule) {
     value: function _clearStateCache() {
       this.store.dispatch({
         type: this.actionTypes.cleanUp
+      });
+    }
+  }, {
+    key: '_restSearchCriteria',
+    value: function _restSearchCriteria() {
+      this.store.dispatch({
+        type: this.actionTypes.restSearchCriteria
       });
     }
   }, {
