@@ -1,6 +1,5 @@
-@import '../../lib/commonStyles/colors';
-@import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/fonts';
+@import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/text-ellipsis';
 
 .root {
@@ -25,6 +24,10 @@
     border: 1px solid #979797;
     cursor: pointer;
 
+    &.active {
+      border: 1px solid $primary-color;
+    }
+
     &.active:before{
       content: '';
       display: block;
@@ -33,7 +36,7 @@
       left: 4px;
       width: 5px;
       height: 5px;
-      border: 1px solid #0073ae;
+      border: 1px solid $primary-color;
       border-radius: 100%;
       background: #0073ae;
     }
@@ -51,6 +54,8 @@
     display: inline-block;
     height: 16px;
     width: 40%;
+    color: #666666;
+    font-weight: 300;
     @include text-ellipsis;
   }
 }

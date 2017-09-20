@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Alert from 'ringcentral-integration/modules/Alert';
 import Locale from 'ringcentral-integration/modules/Locale';
 
-import AlertDisplay from '../../components/AlertDisplay';
+import AnimationAlert from '../../components/AnimationAlert';
 
 import AuthAlert from '../../components/AuthAlert';
 import CallAlert from '../../components/CallAlert';
@@ -137,7 +137,7 @@ function mapToFunctions(_, {
 const AlertContainer = connect(
   mapToProps,
   mapToFunctions
-)(AlertDisplay);
+)(AnimationAlert);
 
 AlertContainer.propTypes = {
   alert: PropTypes.instanceOf(Alert).isRequired,

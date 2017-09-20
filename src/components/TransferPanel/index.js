@@ -67,6 +67,7 @@ export default class TransferPanel extends PureComponent {
           <input
             className={styles.input}
             onChange={this.handleChange}
+            placeholder={i18n.getString('enterNameOrNumber', this.props.currentLocale)}
             value={this.state.value}
           />
           <span

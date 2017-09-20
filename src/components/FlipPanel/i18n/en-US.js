@@ -1,5 +1,5 @@
 export default {
-  flipHeader: 'Flip call to...',
+  flipHeader: 'Flip Call to...',
   flip: 'Flip',
   complete: 'Complete Flip',
 };
