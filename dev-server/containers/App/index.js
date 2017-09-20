@@ -356,7 +356,7 @@ export default function App({
                 />
               )} />
             <Route
-              path="/contacts/:contactId"
+              path="/contacts/:contactType/:contactId"
               component={props => (
                 <ContactDetailsPage
                   params={props.params}

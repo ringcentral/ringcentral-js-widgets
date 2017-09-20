@@ -33,8 +33,8 @@ function mapToFunctions(_, {
       const presence = await contacts.getPresence(contact);
       return presence;
     },
-    onItemSelect: ({ id }) => {
-      router.push(`/contacts/${id}`);
+    onItemSelect: ({ type, id }) => {
+      router.push(`/contacts/${type}/${id}`);
     },
     onSearchContact: ({ searchSource, searchText, pageNumber }) => {
       contactSearch.searchPlus({
