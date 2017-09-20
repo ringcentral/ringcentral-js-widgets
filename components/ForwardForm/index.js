@@ -243,7 +243,7 @@ var ForwardForm = function (_Component) {
           formatPhone = _props.formatPhone;
 
       var value = this.getValue();
-      var disableButton = (0, _isBlank2.default)(value) && !this.state.handling;
+      var disableButton = (0, _isBlank2.default)(value) || this.state.handling;
       return _react2.default.createElement(
         'div',
         { className: (0, _classnames2.default)(_styles2.default.root, className) },
