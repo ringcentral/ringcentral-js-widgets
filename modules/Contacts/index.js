@@ -310,12 +310,19 @@ var Contacts = function (_RcModule) {
       var contactType = _ref3.contactType,
           contactId = _ref3.contactId;
 
-      var contact = this.companyContacts.find(function (x) {
-        return x.id.toString() === contactId && (!contactType || x.type === contactType);
-      }) || this.personalContacts.find(function (x) {
-        return x.id.toString() === contactId && (!contactType || x.type === contactType);
-      });
-      return contact;
+      var id = (contactId || '').toString();
+      switch (contactType) {
+        case 'company':
+          return this.companyContacts.find(function (x) {
+            return x.id.toString() === id;
+          });
+        case 'personal':
+          return this.personalContacts.find(function (x) {
+            return x.id.toString() === id;
+          });
+        default:
+          return null;
+      }
     }
   }, {
     key: 'getImageProfile',

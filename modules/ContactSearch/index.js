@@ -132,8 +132,9 @@ function uniqueContactItems(result) {
   var hash = {};
   var unique = [];
   items.forEach(function (item) {
-    if (!hash[item.id]) {
-      hash[item.id] = 1;
+    var itemId = '' + item.type + item.id;
+    if (!hash[itemId]) {
+      hash[itemId] = 1;
       unique.push(item);
     }
   });
