@@ -9,7 +9,7 @@ function mapToProps(_, {
   return {
     currentLocale: locale.currentLocale,
     contactItem: contacts.findContactItem({
-      contactType: null,
+      contactType: params.contactType,
       contactId: params.contactId,
     }),
     showSpinner: !(
