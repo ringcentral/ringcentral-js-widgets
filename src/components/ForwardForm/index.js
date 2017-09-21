@@ -139,7 +139,7 @@ export default class ForwardForm extends Component {
       formatPhone,
     } = this.props;
     const value = this.getValue();
-    const disableButton = isBlank(value) && !this.state.handling;
+    const disableButton = isBlank(value) || this.state.handling;
     return (
       <div className={classnames(styles.root, className)}>
         <ForwardNumbers

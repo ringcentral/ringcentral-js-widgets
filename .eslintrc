@@ -45,6 +45,7 @@
       }
     ],
     "react/no-array-index-key": 0,
-    "react/require-default-props": 1
+    "react/require-default-props": 1,
+    "no-mixed-operators": 0
   }
 }

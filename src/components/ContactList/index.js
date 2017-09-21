@@ -25,7 +25,7 @@ function ContactGroup({ caption, contacts, getAvatarUrl, getPresence, onItemSele
       {
         contacts.map(contact => (
           <ContactItem
-            key={contact.id}
+            key={`${contact.type}${contact.id}`}
             contact={contact}
             getAvatarUrl={getAvatarUrl}
             getPresence={getPresence}
