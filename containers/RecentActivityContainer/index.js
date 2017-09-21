@@ -51,7 +51,8 @@ function getTabs(_ref) {
       navigateTo = _ref.navigateTo,
       recentMessages = _ref.recentMessages,
       recentCalls = _ref.recentCalls,
-      currentContact = _ref.currentContact;
+      currentContact = _ref.currentContact,
+      sessionId = _ref.sessionId;
 
   if (!ready) return [];
   var messages = [];
@@ -59,14 +60,15 @@ function getTabs(_ref) {
   var unreadMessageCounts = 0;
   if (currentContact && currentContact.id) {
     var contactId = currentContact.id;
-    if (recentMessages.messages[contactId]) {
-      messages = recentMessages.messages[contactId];
+    var activityCardId = sessionId ? contactId + '-' + sessionId : contactId;
+    if (recentMessages.messages[activityCardId]) {
+      messages = recentMessages.messages[activityCardId];
     }
-    if (recentCalls.calls[contactId]) {
-      calls = recentCalls.calls[contactId];
+    if (recentCalls.calls[activityCardId]) {
+      calls = recentCalls.calls[activityCardId];
     }
-    if (recentMessages.unreadMessageCounts[contactId]) {
-      unreadMessageCounts = recentMessages.unreadMessageCounts[contactId];
+    if (recentMessages.unreadMessageCounts[activityCardId]) {
+      unreadMessageCounts = recentMessages.unreadMessageCounts[activityCardId];
     }
   }
   return [{
@@ -95,10 +97,10 @@ function getTabs(_ref) {
       isMessagesLoaded: recentMessages.isMessagesLoaded
     }),
     getData: function getData(fromLocal) {
-      recentMessages.getMessages(currentContact, fromLocal);
+      recentMessages.getMessages({ currentContact: currentContact, fromLocal: fromLocal, sessionId: sessionId });
     },
     cleanUp: function cleanUp() {
-      return recentMessages.cleanUpMessages(currentContact);
+      return recentMessages.cleanUpMessages({ contact: currentContact, sessionId: sessionId });
     }
   }, {
     icon: _react2.default.createElement(_Fax2.default, { width: 21, height: 21 }),
@@ -124,10 +126,10 @@ function getTabs(_ref) {
       isCallsLoaded: recentCalls.isCallsLoaded
     }),
     getData: function getData() {
-      recentCalls.getCalls(currentContact);
+      recentCalls.getCalls({ currentContact: currentContact, sessionId: sessionId });
     },
     cleanUp: function cleanUp() {
-      return recentCalls.cleanUpCalls(currentContact);
+      return recentCalls.cleanUpCalls({ contact: currentContact, sessionId: sessionId });
     }
   }];
 }
@@ -148,6 +150,7 @@ function mapToProps(_, _ref2) {
       getSession = _ref2.getSession;
 
   var session = getSession();
+  var sessionId = session.id;
   var currentContact = session.contactMatch;
   var contactMapping = contactMatcher && contactMatcher.dataMapping;
   var phoneNumber = session.direction === _callDirections2.default.outbound ? session.to : session.from;
@@ -171,7 +174,8 @@ function mapToProps(_, _ref2) {
       navigateTo: navigateTo,
       currentContact: currentContact,
       recentMessages: recentMessages,
-      recentCalls: recentCalls
+      recentCalls: recentCalls,
+      sessionId: sessionId
     }),
     defaultTab: 'recentCalls'
   };
