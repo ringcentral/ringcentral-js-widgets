@@ -23,6 +23,8 @@ var _contactSearchStatus = require('./contactSearchStatus');
 
 var _contactSearchStatus2 = _interopRequireDefault(_contactSearchStatus);
 
+var _index = require('./index');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getContactSearchStatusReducer(types) {
@@ -86,7 +88,7 @@ function getSearchingReducer(types) {
 
 function getSearchCriteriaReducer(types) {
   var initialState = {
-    sourceName: '',
+    sourceName: _index.AllContactSourceName,
     searchText: '',
     pageNumber: 1
   };
