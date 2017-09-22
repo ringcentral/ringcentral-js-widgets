@@ -105,6 +105,13 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 var CONTACTS_PER_PAGE = 250;
 var DEFAULT_TTL = 30 * 60 * 1000;
 var DEFAULT_TIME_TO_RETRY = 62 * 1000;
+var REGX_DECODE = /&\w+;/g;
+var DECODE = {
+  '&amp;': '&',
+  '&bsol;': '\\',
+  '&sol;': '/',
+  '&apos;': '\''
+};
 
 function getSyncParams(syncToken, pageId) {
   var query = {
@@ -452,9 +459,11 @@ var AddressBook = (_class = function (_Pollable) {
 
               case 2:
                 updateRequest = _context6.sent;
+
+                this._decodeAddressBook(updateRequest);
                 return _context6.abrupt('return', updateRequest);
 
-              case 4:
+              case 5:
               case 'end':
                 return _context6.stop();
             }
@@ -468,6 +477,33 @@ var AddressBook = (_class = function (_Pollable) {
 
       return _syncAddressBookApi;
     }()
+  }, {
+    key: '_decode',
+    value: function _decode(text) {
+      return text.replace(REGX_DECODE, function ($0) {
+        var handleText = $0;
+        if (DECODE[$0]) {
+          handleText = DECODE[$0];
+        }
+        return handleText;
+      });
+    }
+  }, {
+    key: '_decodeAddressBook',
+    value: function _decodeAddressBook(origin) {
+      var _this4 = this;
+
+      if (origin && origin.records && Array.isArray(origin.records)) {
+        origin.records.forEach(function (record) {
+          if (record.firstName) {
+            record.firstName = _this4._decode(record.firstName);
+          }
+          if (record.lastName) {
+            record.lastName = _this4._decode(record.lastName);
+          }
+        });
+      }
+    }
   }, {
     key: '_cleanUp',
     value: function _cleanUp() {

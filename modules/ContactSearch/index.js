@@ -341,6 +341,13 @@ var ContactSearch = (_class = function (_RcModule) {
       });
     }
   }, {
+    key: 'resetSearchStatus',
+    value: function resetSearchStatus() {
+      this.store.dispatch({
+        type: this.actionTypes.reset
+      });
+    }
+  }, {
     key: 'addSearchSource',
     value: function addSearchSource(_ref2) {
       var sourceName = _ref2.sourceName,
