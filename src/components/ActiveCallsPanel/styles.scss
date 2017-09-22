@@ -5,6 +5,7 @@
 .root {
   @include full-size;
   background: #ffffff;
+  overflow-y: auto;
 }
 
 .list {
