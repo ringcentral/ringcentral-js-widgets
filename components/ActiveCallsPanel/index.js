@@ -179,6 +179,13 @@ var ActiveCallsPanel = function (_Component) {
   }
 
   (0, _createClass3.default)(ActiveCallsPanel, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (!this.hasCalls(this.props) && typeof this.props.onCallsEmpty === 'function') {
+        this.props.onCallsEmpty();
+      }
+    }
+  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       if (this.hasCalls(this.props) && !this.hasCalls(nextProps) && typeof this.props.onCallsEmpty === 'function') {
