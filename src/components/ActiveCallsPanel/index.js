@@ -123,6 +123,15 @@ ActiveCallList.defaultProps = {
 };
 
 export default class ActiveCallsPanel extends Component {
+  componentDidMount() {
+    if (
+      !this.hasCalls(this.props) &&
+      typeof this.props.onCallsEmpty === 'function'
+    ) {
+      this.props.onCallsEmpty();
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (
       this.hasCalls(this.props) &&

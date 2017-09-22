@@ -207,11 +207,7 @@ export default function App({
                   rolesAndPermissions={phone.rolesAndPermissions}
                   webphone={phone.webphone}
                   brand={phone.brand}
-                  onCallsEmpty={() => {
-                    if (phone.webphone && phone.webphone._webphone) {
-                      phone.router.push('/dialer');
-                    }
-                  }}
+                  onCallsEmpty={() => {}}
                 />
               )} />
             <Route
