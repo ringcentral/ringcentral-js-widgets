@@ -46,6 +46,7 @@ export default class ContactsView extends Component {
   }
 
   componentDidMount() {
+    this._restSearch();
     this._applySearch({
       searchSource: this.props.searchSource,
       searchText: this.props.searchText,
@@ -81,6 +82,11 @@ export default class ContactsView extends Component {
   _applySearch(args) {
     const func = this.props.onSearchContact;
     if (func) { func(args); }
+  }
+
+  _restSearch() {
+    const func = this.props.onRestSearch;
+    if (func) { func(); }
   }
 
   render() {
@@ -156,6 +162,7 @@ ContactsView.propTypes = {
   currentPage: PropTypes.number,
   onItemSelect: PropTypes.func,
   onSearchContact: PropTypes.func,
+  onRestSearch: PropTypes.func,
 };
 
 ContactsView.defaultProps = {
@@ -164,4 +171,5 @@ ContactsView.defaultProps = {
   currentPage: undefined,
   onItemSelect: undefined,
   onSearchContact: undefined,
+  onRestSearch: undefined,
 };
