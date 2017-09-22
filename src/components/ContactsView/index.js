@@ -80,13 +80,15 @@ export default class ContactsView extends Component {
   }
 
   _applySearch(args) {
-    const func = this.props.onSearchContact;
-    if (func) { func(args); }
+    if (this.props.onSearchContact) {
+      this.props.onSearchContact(args);
+    }
   }
 
   _restSearch() {
-    const func = this.props.onRestSearch;
-    if (func) { func(); }
+    if (this.props.onRestSearch) {
+      this.props.onRestSearch();
+    }
   }
 
   render() {
