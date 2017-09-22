@@ -1,3 +1,3 @@
 export default {
-  noContacts: 'No contact items',
+  noContacts: 'No records found',
 };
