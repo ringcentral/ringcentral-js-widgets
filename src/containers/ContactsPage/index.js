@@ -10,7 +10,7 @@ function mapToProps(_, {
     contactSourceNames: contactSearch.contactSourceNames || [],
     contactGroups: contactSearch.contactGroups || [],
     searchSource: contactSearch.searchCriteria && contactSearch.searchCriteria.sourceName,
-    searchText: contactSearch.searchCriteria && contactSearch.searchCriteria.searchText,
+    searchText: contactSearch.searchCriteria && contactSearch.searchCriteria.searchString,
     currentPage: contactSearch.searchCriteria && contactSearch.searchCriteria.pageNumber,
     showSpinner: !(
       locale.ready &&
