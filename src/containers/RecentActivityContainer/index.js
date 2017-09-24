@@ -17,6 +17,7 @@ function getTabs({
   recentMessages,
   recentCalls,
   currentContact,
+  sessionId,
 }) {
   if (!ready) return [];
   let messages = [];
@@ -24,14 +25,15 @@ function getTabs({
   let unreadMessageCounts = 0;
   if (currentContact && currentContact.id) {
     const contactId = currentContact.id;
-    if (recentMessages.messages[contactId]) {
-      messages = recentMessages.messages[contactId];
+    const activityCardId = sessionId ? `${contactId}-${sessionId}` : contactId;
+    if (recentMessages.messages[activityCardId]) {
+      messages = recentMessages.messages[activityCardId];
     }
-    if (recentCalls.calls[contactId]) {
-      calls = recentCalls.calls[contactId];
+    if (recentCalls.calls[activityCardId]) {
+      calls = recentCalls.calls[activityCardId];
     }
-    if (recentMessages.unreadMessageCounts[contactId]) {
-      unreadMessageCounts = recentMessages.unreadMessageCounts[contactId];
+    if (recentMessages.unreadMessageCounts[activityCardId]) {
+      unreadMessageCounts = recentMessages.unreadMessageCounts[activityCardId];
     }
   }
   return [
@@ -60,9 +62,9 @@ function getTabs({
         />
       ),
       getData: (fromLocal) => {
-        recentMessages.getMessages(currentContact, fromLocal);
+        recentMessages.getMessages({ currentContact, fromLocal, sessionId });
       },
-      cleanUp: () => recentMessages.cleanUpMessages(currentContact)
+      cleanUp: () => recentMessages.cleanUpMessages({ contact: currentContact, sessionId })
     },
     {
       icon: <FaxIcon width={21} height={21} />,
@@ -87,9 +89,9 @@ function getTabs({
         />
       ),
       getData: () => {
-        recentCalls.getCalls(currentContact);
+        recentCalls.getCalls({ currentContact, sessionId });
       },
-      cleanUp: () => recentCalls.cleanUpCalls(currentContact)
+      cleanUp: () => recentCalls.cleanUpCalls({ contact: currentContact, sessionId })
     },
   ];
 }
@@ -106,6 +108,7 @@ function mapToProps(_, {
   getSession
 }) {
   const session = getSession();
+  const sessionId = session.id;
   let currentContact = session.contactMatch;
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
   const phoneNumber = session.direction === callDirections.outbound ?
@@ -135,9 +138,10 @@ function mapToProps(_, {
       navigateTo,
       currentContact,
       recentMessages,
-      recentCalls
+      recentCalls,
+      sessionId,
     }),
-    defaultTab: 'recentCalls'
+    defaultTab: 'recentCalls',
   };
 }
 
