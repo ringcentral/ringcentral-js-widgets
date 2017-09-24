@@ -39,7 +39,7 @@ function mapToFunctions(_, {
     onSearchContact: ({ searchSource, searchText, pageNumber }) => {
       contactSearch.searchPlus({
         sourceName: searchSource,
-        searchText,
+        searchString: searchText,
         pageNumber,
       });
     },

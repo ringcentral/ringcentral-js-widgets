@@ -40,6 +40,9 @@ AddContact.defaultProps = {
 export default class ContactsView extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      searchText: props.searchText,
+    };
     this.doSearchByText = this.doSearchByText.bind(this);
     this.doSearchBySource = this.doSearchBySource.bind(this);
     this.loadNextPage = this.loadNextPage.bind(this);
@@ -48,14 +51,23 @@ export default class ContactsView extends Component {
   componentDidMount() {
     this._applySearch({
       searchSource: this.props.searchSource,
-      searchText: this.props.searchText,
+      searchText: this.state.searchText,
       pageNumber: 1,
     });
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.searchText !== this.props.searchText) {
+      nextState.searchText = nextProps.searchText;
+    }
+  }
+
   doSearchByText(ev) {
     const searchText = ev.target.value;
-    this._applySearch({
+    this.setState({
+      searchText,
+    });
+    this._applySearchTimeout({
       searchSource: this.props.searchSource,
       searchText,
       pageNumber: 1,
@@ -65,7 +77,7 @@ export default class ContactsView extends Component {
   doSearchBySource(searchSource) {
     this._applySearch({
       searchSource,
-      searchText: this.props.searchText,
+      searchText: this.state.searchText,
       pageNumber: 1,
     });
   }
@@ -73,14 +85,23 @@ export default class ContactsView extends Component {
   loadNextPage(pageNumber) {
     this._applySearch({
       searchSource: this.props.searchSource,
-      searchText: this.props.searchText,
+      searchText: this.state.searchText,
       pageNumber,
     });
   }
 
   _applySearch(args) {
     const func = this.props.onSearchContact;
-    if (func) { func(args); }
+    if (func) {
+      func(args);
+    }
+  }
+
+  _applySearchTimeout(args) {
+    clearTimeout(this._searchTimeoutId);
+    this._searchTimeoutId = setTimeout(() => {
+      this._applySearch(args);
+    }, 100);
   }
 
   render() {
@@ -89,7 +110,6 @@ export default class ContactsView extends Component {
       contactGroups,
       contactSourceNames,
       searchSource,
-      searchText,
       showSpinner,
       getAvatarUrl,
       getPresence,
@@ -116,7 +136,7 @@ export default class ContactsView extends Component {
         <div className={styles.actionBar}>
           <SearchInput
             className={styles.searchInput}
-            value={searchText || ''}
+            value={this.state.searchText || ''}
             onChange={this.doSearchByText}
             placeholder={i18n.getString('searchPlaceholder', currentLocale)}
           />

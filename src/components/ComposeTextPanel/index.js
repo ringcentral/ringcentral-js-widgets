@@ -86,6 +86,10 @@ class ComposeTextPanel extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.searchContact(this.props.typingToNumber);
+  }
+
   hasSenderNumbers() {
     return this.props.senderNumbers.length > 0;
   }
