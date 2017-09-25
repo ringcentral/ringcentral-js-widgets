@@ -54,7 +54,7 @@ function mapToProps(_, _ref) {
     toNumbers: composeText.toNumbers,
     messageText: composeText.messageText,
     outboundSMS: rolesAndPermissions.permissions.OutboundSMS,
-    searchContactList: contactSearch.searching.result,
+    searchContactList: contactSearch.sortedResult,
     showSpinner: !(composeText.ready && locale.ready && messageSender.ready && rolesAndPermissions.ready && contactSearch.ready)
   };
 }

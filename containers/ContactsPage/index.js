@@ -45,19 +45,13 @@ function mapToFunctions(_, _ref2) {
   return {
     getAvatarUrl: function () {
       var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(contact) {
-        var avatarUrl;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
-                return contacts.getImageProfile(contact);
+                return _context.abrupt('return', null);
 
-              case 2:
-                avatarUrl = _context.sent;
-                return _context.abrupt('return', avatarUrl);
-
-              case 4:
+              case 1:
               case 'end':
                 return _context.stop();
             }
@@ -100,6 +94,9 @@ function mapToFunctions(_, _ref2) {
           id = _ref5.id;
 
       router.push('/contacts/' + type + '/' + id);
+    },
+    onRestSearch: function onRestSearch() {
+      contactSearch.resetSearchStatus();
     },
     onSearchContact: function onSearchContact(_ref6) {
       var searchSource = _ref6.searchSource,

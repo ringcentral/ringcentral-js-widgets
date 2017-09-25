@@ -119,6 +119,7 @@ var ContactsView = function (_Component) {
   (0, _createClass3.default)(ContactsView, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      this._restSearch();
       this._applySearch({
         searchSource: this.props.searchSource,
         searchText: this.props.searchText,
@@ -156,9 +157,15 @@ var ContactsView = function (_Component) {
   }, {
     key: '_applySearch',
     value: function _applySearch(args) {
-      var func = this.props.onSearchContact;
-      if (func) {
-        func(args);
+      if (this.props.onSearchContact) {
+        this.props.onSearchContact(args);
+      }
+    }
+  }, {
+    key: '_restSearch',
+    value: function _restSearch() {
+      if (this.props.onRestSearch) {
+        this.props.onRestSearch();
       }
     }
   }, {
@@ -240,7 +247,8 @@ ContactsView.propTypes = {
   searchText: _propTypes2.default.string,
   currentPage: _propTypes2.default.number,
   onItemSelect: _propTypes2.default.func,
-  onSearchContact: _propTypes2.default.func
+  onSearchContact: _propTypes2.default.func,
+  onRestSearch: _propTypes2.default.func
 };
 
 ContactsView.defaultProps = {
@@ -248,6 +256,7 @@ ContactsView.defaultProps = {
   searchText: undefined,
   currentPage: undefined,
   onItemSelect: undefined,
-  onSearchContact: undefined
+  onSearchContact: undefined,
+  onRestSearch: undefined
 };
 //# sourceMappingURL=index.js.map
