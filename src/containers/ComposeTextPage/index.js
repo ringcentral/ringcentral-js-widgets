@@ -38,7 +38,7 @@ composeText,
     toNumbers: composeText.toNumbers,
     messageText: composeText.messageText,
     outboundSMS: rolesAndPermissions.permissions.OutboundSMS,
-    searchContactList: contactSearch.searching.result,
+    searchContactList: contactSearch.sortedResult,
     showSpinner: !(
       composeText.ready &&
       locale.ready &&
