@@ -37,9 +37,9 @@ function mapToFunctions(_, {
     onItemSelect: ({ type, id }) => {
       router.push(`/contacts/${type}/${id}`);
     },
-    onRestSearch: () => {
-      contactSearch.resetSearchStatus();
-    },
+    // onRestSearch: () => {
+    //   contactSearch.resetSearchStatus();
+    // },
     onSearchContact: ({ searchSource, searchString, pageNumber }) => {
       contactSearch.searchPlus({
         sourceName: searchSource,
