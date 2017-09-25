@@ -26,8 +26,9 @@ function mapToFunctions(_, {
 }) {
   return {
     getAvatarUrl: async (contact) => {
-      const avatarUrl = await contacts.getImageProfile(contact);
-      return avatarUrl;
+      // const avatarUrl = await contacts.getImageProfile(contact);
+      // return avatarUrl;
+      return null;
     },
     getPresence: async (contact) => {
       const presence = await contacts.getPresence(contact);
@@ -35,6 +36,9 @@ function mapToFunctions(_, {
     },
     onItemSelect: ({ type, id }) => {
       router.push(`/contacts/${type}/${id}`);
+    },
+    onRestSearch: () => {
+      contactSearch.resetSearchStatus();
     },
     onSearchContact: ({ searchSource, searchString, pageNumber }) => {
       contactSearch.searchPlus({
