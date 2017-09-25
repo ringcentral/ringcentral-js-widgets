@@ -110,6 +110,9 @@ var ContactsView = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ContactsView.__proto__ || (0, _getPrototypeOf2.default)(ContactsView)).call(this, props));
 
+    _this.state = {
+      searchString: props.searchString
+    };
     _this.doSearchByText = _this.doSearchByText.bind(_this);
     _this.doSearchBySource = _this.doSearchBySource.bind(_this);
     _this.loadNextPage = _this.loadNextPage.bind(_this);
@@ -119,20 +122,35 @@ var ContactsView = function (_Component) {
   (0, _createClass3.default)(ContactsView, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this._restSearch();
+      // this._restSearch();
       this._applySearch({
         searchSource: this.props.searchSource,
-        searchText: this.props.searchText,
+        searchString: this.state.searchString,
         pageNumber: 1
       });
     }
   }, {
+    key: 'componentWillUpdate',
+    value: function componentWillUpdate(nextProps, nextState) {
+      if (nextProps.searchString !== this.props.searchString) {
+        nextState.searchString = nextProps.searchString;
+      }
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      clearTimeout(this._searchTimeoutId);
+    }
+  }, {
     key: 'doSearchByText',
     value: function doSearchByText(ev) {
-      var searchText = ev.target.value;
-      this._applySearch({
+      var searchString = ev.target.value;
+      this.setState({
+        searchString: searchString
+      });
+      this._applySearchTimeout({
         searchSource: this.props.searchSource,
-        searchText: searchText,
+        searchString: searchString,
         pageNumber: 1
       });
     }
@@ -141,7 +159,7 @@ var ContactsView = function (_Component) {
     value: function doSearchBySource(searchSource) {
       this._applySearch({
         searchSource: searchSource,
-        searchText: this.props.searchText,
+        searchString: this.state.searchString,
         pageNumber: 1
       });
     }
@@ -150,24 +168,35 @@ var ContactsView = function (_Component) {
     value: function loadNextPage(pageNumber) {
       this._applySearch({
         searchSource: this.props.searchSource,
-        searchText: this.props.searchText,
+        searchString: this.state.searchString,
         pageNumber: pageNumber
       });
     }
   }, {
     key: '_applySearch',
     value: function _applySearch(args) {
-      if (this.props.onSearchContact) {
-        this.props.onSearchContact(args);
+      var func = this.props.onSearchContact;
+      if (func) {
+        func(args);
       }
     }
   }, {
-    key: '_restSearch',
-    value: function _restSearch() {
-      if (this.props.onRestSearch) {
-        this.props.onRestSearch();
-      }
+    key: '_applySearchTimeout',
+    value: function _applySearchTimeout(args) {
+      var _this2 = this;
+
+      clearTimeout(this._searchTimeoutId);
+      this._searchTimeoutId = setTimeout(function () {
+        _this2._applySearch(args);
+      }, 100);
     }
+
+    // _restSearch() {
+    //   if (this.props.onRestSearch) {
+    //     this.props.onRestSearch();
+    //   }
+    // }
+
   }, {
     key: 'render',
     value: function render() {
@@ -176,7 +205,6 @@ var ContactsView = function (_Component) {
           contactGroups = _props.contactGroups,
           contactSourceNames = _props.contactSourceNames,
           searchSource = _props.searchSource,
-          searchText = _props.searchText,
           showSpinner = _props.showSpinner,
           getAvatarUrl = _props.getAvatarUrl,
           getPresence = _props.getPresence,
@@ -202,7 +230,7 @@ var ContactsView = function (_Component) {
           { className: _styles2.default.actionBar },
           _react2.default.createElement(_SearchInput2.default, {
             className: _styles2.default.searchInput,
-            value: searchText || '',
+            value: this.state.searchString || '',
             onChange: this.doSearchByText,
             placeholder: _i18n2.default.getString('searchPlaceholder', currentLocale)
           }),
@@ -244,19 +272,19 @@ ContactsView.propTypes = {
   getPresence: _propTypes2.default.func.isRequired,
   showSpinner: _propTypes2.default.bool.isRequired,
   searchSource: _propTypes2.default.string,
-  searchText: _propTypes2.default.string,
+  searchString: _propTypes2.default.string,
   currentPage: _propTypes2.default.number,
   onItemSelect: _propTypes2.default.func,
-  onSearchContact: _propTypes2.default.func,
-  onRestSearch: _propTypes2.default.func
+  onSearchContact: _propTypes2.default.func
+  // onRestSearch: PropTypes.func,
 };
 
 ContactsView.defaultProps = {
   searchSource: undefined,
-  searchText: undefined,
+  searchString: undefined,
   currentPage: undefined,
   onItemSelect: undefined,
-  onSearchContact: undefined,
-  onRestSearch: undefined
+  onSearchContact: undefined
+  // onRestSearch: undefined,
 };
 //# sourceMappingURL=index.js.map

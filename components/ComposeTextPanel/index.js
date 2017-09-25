@@ -146,6 +146,11 @@ var ComposeTextPanel = function (_Component) {
   }
 
   (0, _createClass3.default)(ComposeTextPanel, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.props.searchContact(this.props.typingToNumber);
+    }
+  }, {
     key: 'hasSenderNumbers',
     value: function hasSenderNumbers() {
       return this.props.senderNumbers.length > 0;
