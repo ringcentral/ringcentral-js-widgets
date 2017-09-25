@@ -89,7 +89,7 @@ function getSearchingReducer(types) {
 function getSearchCriteriaReducer(types) {
   var initialState = {
     sourceName: _index.AllContactSourceName,
-    searchText: '',
+    searchString: '',
     pageNumber: 1
   };
   return function () {
@@ -97,15 +97,15 @@ function getSearchCriteriaReducer(types) {
     var _ref3 = arguments[1];
     var type = _ref3.type,
         sourceName = _ref3.sourceName,
-        searchText = _ref3.searchText,
+        searchString = _ref3.searchString,
         pageNumber = _ref3.pageNumber;
 
     switch (type) {
       case types.updateSearchCriteria:
-        if (state.sourceName !== sourceName || state.searchText !== searchText || state.pageNumber !== pageNumber) {
+        if (state.sourceName !== sourceName || state.searchString !== searchString || state.pageNumber !== pageNumber) {
           return {
             sourceName: sourceName,
-            searchText: searchText,
+            searchString: searchString,
             pageNumber: pageNumber
           };
         }
