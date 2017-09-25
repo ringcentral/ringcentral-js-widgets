@@ -41,7 +41,7 @@ export default class ContactsView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      searchText: props.searchText,
+      searchString: props.searchString,
     };
     this.doSearchByText = this.doSearchByText.bind(this);
     this.doSearchBySource = this.doSearchBySource.bind(this);
@@ -51,25 +51,29 @@ export default class ContactsView extends Component {
   componentDidMount() {
     this._applySearch({
       searchSource: this.props.searchSource,
-      searchText: this.state.searchText,
+      searchString: this.state.searchString,
       pageNumber: 1,
     });
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (nextProps.searchText !== this.props.searchText) {
-      nextState.searchText = nextProps.searchText;
+    if (nextProps.searchString !== this.props.searchString) {
+      nextState.searchString = nextProps.searchString;
     }
   }
 
+  componentWillUnmount() {
+    clearTimeout(this._searchTimeoutId);
+  }
+
   doSearchByText(ev) {
-    const searchText = ev.target.value;
+    const searchString = ev.target.value;
     this.setState({
-      searchText,
+      searchString,
     });
     this._applySearchTimeout({
       searchSource: this.props.searchSource,
-      searchText,
+      searchString,
       pageNumber: 1,
     });
   }
@@ -77,7 +81,7 @@ export default class ContactsView extends Component {
   doSearchBySource(searchSource) {
     this._applySearch({
       searchSource,
-      searchText: this.state.searchText,
+      searchString: this.state.searchString,
       pageNumber: 1,
     });
   }
@@ -85,7 +89,7 @@ export default class ContactsView extends Component {
   loadNextPage(pageNumber) {
     this._applySearch({
       searchSource: this.props.searchSource,
-      searchText: this.state.searchText,
+      searchString: this.state.searchString,
       pageNumber,
     });
   }
@@ -136,7 +140,7 @@ export default class ContactsView extends Component {
         <div className={styles.actionBar}>
           <SearchInput
             className={styles.searchInput}
-            value={this.state.searchText || ''}
+            value={this.state.searchString || ''}
             onChange={this.doSearchByText}
             placeholder={i18n.getString('searchPlaceholder', currentLocale)}
           />
@@ -172,7 +176,7 @@ ContactsView.propTypes = {
   getPresence: PropTypes.func.isRequired,
   showSpinner: PropTypes.bool.isRequired,
   searchSource: PropTypes.string,
-  searchText: PropTypes.string,
+  searchString: PropTypes.string,
   currentPage: PropTypes.number,
   onItemSelect: PropTypes.func,
   onSearchContact: PropTypes.func,
@@ -180,7 +184,7 @@ ContactsView.propTypes = {
 
 ContactsView.defaultProps = {
   searchSource: undefined,
-  searchText: undefined,
+  searchString: undefined,
   currentPage: undefined,
   onItemSelect: undefined,
   onSearchContact: undefined,
