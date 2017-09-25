@@ -9,6 +9,10 @@ var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-pr
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -671,10 +675,31 @@ var ContactSearch = (_class = function (_RcModule) {
       return _searchSource;
     }()
   }, {
+    key: '_quickSort',
+    value: function _quickSort(_ref10) {
+      var _ref10$result = _ref10.result,
+          result = _ref10$result === undefined ? [] : _ref10$result,
+          _ref10$searchString = _ref10.searchString,
+          searchString = _ref10$searchString === undefined ? '' : _ref10$searchString;
+
+      var list = [].concat((0, _toConsumableArray3.default)(result));
+      if (searchString === '') {
+        return list;
+      }
+      return list.sort(function (current, next) {
+        var currentName = current.name || '';
+        var currentPhoneNumber = current.phoneNumber || '';
+        var nextName = next.name || '';
+        var nextPhoneNumber = next.phoneNumber || '';
+        var isSort = currentName.indexOf(searchString) < nextName.indexOf(searchString) || currentPhoneNumber.indexOf(searchString) < nextPhoneNumber.indexOf(searchString);
+        return isSort;
+      });
+    }
+  }, {
     key: '_searchFromCache',
-    value: function _searchFromCache(_ref10) {
-      var sourceName = _ref10.sourceName,
-          searchString = _ref10.searchString;
+    value: function _searchFromCache(_ref11) {
+      var sourceName = _ref11.sourceName,
+          searchString = _ref11.searchString;
 
       var key = sourceName + '-' + searchString;
       var searching = this.cache && this.cache.contactSearch && this.cache.contactSearch[key];
@@ -725,10 +750,10 @@ var ContactSearch = (_class = function (_RcModule) {
     }
   }, {
     key: '_loadSearching',
-    value: function _loadSearching(_ref11) {
-      var searchOnSources = _ref11.searchOnSources,
-          searchString = _ref11.searchString,
-          entities = _ref11.entities;
+    value: function _loadSearching(_ref12) {
+      var searchOnSources = _ref12.searchOnSources,
+          searchString = _ref12.searchString,
+          entities = _ref12.entities;
 
       this.store.dispatch({
         type: this.actionTypes.searchSuccess,
@@ -739,10 +764,10 @@ var ContactSearch = (_class = function (_RcModule) {
     }
   }, {
     key: '_saveSearching',
-    value: function _saveSearching(_ref12) {
-      var sourceName = _ref12.sourceName,
-          searchString = _ref12.searchString,
-          entities = _ref12.entities;
+    value: function _saveSearching(_ref13) {
+      var sourceName = _ref13.sourceName,
+          searchString = _ref13.searchString,
+          entities = _ref13.entities;
 
       this.store.dispatch({
         type: this.actionTypes.save,
@@ -791,6 +816,11 @@ var ContactSearch = (_class = function (_RcModule) {
     key: 'contactGroups',
     get: function get() {
       return this._selectors.contactGroups();
+    }
+  }, {
+    key: 'sortedResult',
+    get: function get() {
+      return this._quickSort(this.searching);
     }
   }]);
   return ContactSearch;
