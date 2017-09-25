@@ -10,7 +10,7 @@ function mapToProps(_, {
     contactSourceNames: contactSearch.contactSourceNames || [],
     contactGroups: contactSearch.contactGroups || [],
     searchSource: contactSearch.searchCriteria && contactSearch.searchCriteria.sourceName,
-    searchText: contactSearch.searchCriteria && contactSearch.searchCriteria.searchText,
+    searchString: contactSearch.searchCriteria && contactSearch.searchCriteria.searchString,
     currentPage: contactSearch.searchCriteria && contactSearch.searchCriteria.pageNumber,
     showSpinner: !(
       locale.ready &&
@@ -37,13 +37,13 @@ function mapToFunctions(_, {
     onItemSelect: ({ type, id }) => {
       router.push(`/contacts/${type}/${id}`);
     },
-    onRestSearch: () => {
-      contactSearch.resetSearchStatus();
-    },
-    onSearchContact: ({ searchSource, searchText, pageNumber }) => {
+    // onRestSearch: () => {
+    //   contactSearch.resetSearchStatus();
+    // },
+    onSearchContact: ({ searchSource, searchString, pageNumber }) => {
       contactSearch.searchPlus({
         sourceName: searchSource,
-        searchText,
+        searchString,
         pageNumber,
       });
     },

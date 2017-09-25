@@ -40,25 +40,41 @@ AddContact.defaultProps = {
 export default class ContactsView extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      searchString: props.searchString,
+    };
     this.doSearchByText = this.doSearchByText.bind(this);
     this.doSearchBySource = this.doSearchBySource.bind(this);
     this.loadNextPage = this.loadNextPage.bind(this);
   }
 
   componentDidMount() {
-    this._restSearch();
+    // this._restSearch();
     this._applySearch({
       searchSource: this.props.searchSource,
-      searchText: this.props.searchText,
+      searchString: this.state.searchString,
       pageNumber: 1,
     });
   }
 
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.searchString !== this.props.searchString) {
+      nextState.searchString = nextProps.searchString;
+    }
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this._searchTimeoutId);
+  }
+
   doSearchByText(ev) {
-    const searchText = ev.target.value;
-    this._applySearch({
+    const searchString = ev.target.value;
+    this.setState({
+      searchString,
+    });
+    this._applySearchTimeout({
       searchSource: this.props.searchSource,
-      searchText,
+      searchString,
       pageNumber: 1,
     });
   }
@@ -66,7 +82,7 @@ export default class ContactsView extends Component {
   doSearchBySource(searchSource) {
     this._applySearch({
       searchSource,
-      searchText: this.props.searchText,
+      searchString: this.state.searchString,
       pageNumber: 1,
     });
   }
@@ -74,22 +90,30 @@ export default class ContactsView extends Component {
   loadNextPage(pageNumber) {
     this._applySearch({
       searchSource: this.props.searchSource,
-      searchText: this.props.searchText,
+      searchString: this.state.searchString,
       pageNumber,
     });
   }
 
   _applySearch(args) {
-    if (this.props.onSearchContact) {
-      this.props.onSearchContact(args);
+    const func = this.props.onSearchContact;
+    if (func) {
+      func(args);
     }
   }
 
-  _restSearch() {
-    if (this.props.onRestSearch) {
-      this.props.onRestSearch();
-    }
+  _applySearchTimeout(args) {
+    clearTimeout(this._searchTimeoutId);
+    this._searchTimeoutId = setTimeout(() => {
+      this._applySearch(args);
+    }, 100);
   }
+
+  // _restSearch() {
+  //   if (this.props.onRestSearch) {
+  //     this.props.onRestSearch();
+  //   }
+  // }
 
   render() {
     const {
@@ -97,7 +121,6 @@ export default class ContactsView extends Component {
       contactGroups,
       contactSourceNames,
       searchSource,
-      searchText,
       showSpinner,
       getAvatarUrl,
       getPresence,
@@ -124,7 +147,7 @@ export default class ContactsView extends Component {
         <div className={styles.actionBar}>
           <SearchInput
             className={styles.searchInput}
-            value={searchText || ''}
+            value={this.state.searchString || ''}
             onChange={this.doSearchByText}
             placeholder={i18n.getString('searchPlaceholder', currentLocale)}
           />
@@ -160,18 +183,18 @@ ContactsView.propTypes = {
   getPresence: PropTypes.func.isRequired,
   showSpinner: PropTypes.bool.isRequired,
   searchSource: PropTypes.string,
-  searchText: PropTypes.string,
+  searchString: PropTypes.string,
   currentPage: PropTypes.number,
   onItemSelect: PropTypes.func,
   onSearchContact: PropTypes.func,
-  onRestSearch: PropTypes.func,
+  // onRestSearch: PropTypes.func,
 };
 
 ContactsView.defaultProps = {
   searchSource: undefined,
-  searchText: undefined,
+  searchString: undefined,
   currentPage: undefined,
   onItemSelect: undefined,
   onSearchContact: undefined,
-  onRestSearch: undefined,
+  // onRestSearch: undefined,
 };
