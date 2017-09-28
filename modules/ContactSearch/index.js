@@ -588,6 +588,8 @@ var ContactSearch = (_class = function (_RcModule) {
 
       return searchPlus;
     }()
+    // TODO Need to refactor, remove cache, and update data in real time.
+
   }, {
     key: '_searchSource',
     value: function () {

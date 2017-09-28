@@ -1,10 +1,10 @@
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _toConsumableArray2 = require("babel-runtime/helpers/toConsumableArray");
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
@@ -23,7 +23,9 @@ function getDataReducer(types) {
 
     switch (type) {
       case types.fetchSuccess:
-        return data;
+        return Array.isArray(data) ? data.filter(function (item) {
+          return item.status !== 'Disabled';
+        }) : data;
       case types.add:
         return Array.isArray(state) ? [].concat((0, _toConsumableArray3.default)(state), [data]) : null;
       case types.delete:
