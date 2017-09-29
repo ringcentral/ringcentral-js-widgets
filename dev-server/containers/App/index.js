@@ -62,7 +62,7 @@ export default function App({
                 showContactDisplayPlaceholder={false}
                 getAvatarUrl={
                   async (contact) => {
-                    const avatarUrl = await phone.contacts.getImageProfile(contact);
+                    const avatarUrl = await phone.contacts.getImageProfile(contact, false);
                     return avatarUrl;
                   }
                 }
@@ -229,7 +229,7 @@ export default function App({
                   }}
                   getAvatarUrl={
                     async (contact) => {
-                      const avatarUrl = await phone.contacts.getImageProfile(contact);
+                      const avatarUrl = await phone.contacts.getImageProfile(contact, false);
                       return avatarUrl;
                     }
                   }
