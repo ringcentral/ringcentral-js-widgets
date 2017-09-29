@@ -3,8 +3,10 @@ import React from 'react';
 import FormattedMessage from 'ringcentral-widget/components/FormattedMessage';
 
 const props = {};
-props.message = 'test string';
-
+props.message = 'test string: {param}';
+props.values = {
+  param: 'params',
+};
 /**
  * A example of `FormattedMessage`
  */

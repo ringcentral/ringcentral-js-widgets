@@ -23,7 +23,7 @@ class Environment extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      hidden: true,
+      hidden: props.defaultHidden,
       serverValue: props.server,
       recordingHostValue: props.recordingHost,
       enabledValue: props.enabled,
@@ -148,6 +148,11 @@ Environment.propTypes = {
   recordingHost: PropTypes.string.isRequired,
   enabled: PropTypes.bool.isRequired,
   onSetData: PropTypes.func.isRequired,
+  defaultHidden: PropTypes.bool,
+};
+
+Environment.defaultProps = {
+  defaultHidden: true,
 };
 
 export default Environment;

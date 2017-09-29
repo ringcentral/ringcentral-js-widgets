@@ -3,6 +3,7 @@ import React from 'react';
 import PresenceStatusIcon from 'ringcentral-widget/components/PresenceStatusIcon';
 
 const props = {};
+props.userStatus = 'Available';
 
 /**
  * A example of `PresenceStatusIcon`

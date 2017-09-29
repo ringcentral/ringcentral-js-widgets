@@ -8,18 +8,31 @@ props.recipients = [{}];
 props.sendButtonDisabled = false;
 props.currentLocale = 'en-US';
 props.showSpinner = false;
-props.conversation = {};
 props.areaCode = 'test string';
 props.countryCode = 'test string';
 props.dateTimeFormatter = () => null;
 props.goBack = () => null;
+props.messages = [];
+props.brand = 'RingCentral';
+props.conversation = {
+  conversationMatches: [],
+  correspondentMatches: [],
+  correspondents: [],
+};
 
 /**
  * A example of `ConversationPanel`
  */
 const ConversationPanelDemo = () => (
-  <ConversationPanel
-    {...props}
-  />
+  <div style={{
+    position: 'relative',
+    height: '500px',
+    width: '300px',
+    border: '1px solid #f3f3f3',
+  }}>
+    <ConversationPanel
+      {...props}
+    />
+  </div>
 );
 export default ConversationPanelDemo;

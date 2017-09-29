@@ -5,7 +5,7 @@ import WebphoneAlert from 'ringcentral-widget/components/WebphoneAlert';
 const props = {};
 props.currentLocale = 'en-US';
 props.message = {
-  message: 'test string'
+  message: 'webphone-browserNotSupported',
 };
 
 /**

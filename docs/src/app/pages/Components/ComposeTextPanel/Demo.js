@@ -10,12 +10,12 @@ import styles from './styles.scss';
 class ComposeTextPanelDemo extends Component {
   constructor(props) {
     super(props);
-    this.state={
+    this.state = {
       typingToNumber: '',
       messageText: '',
       toNumbers: [],
       senderNumber: '',
-    }
+    };
   }
   updateMessageText = (messageText) => {
     this.setState({
@@ -28,11 +28,9 @@ class ComposeTextPanelDemo extends Component {
     });
   }
   removeToNumber = ({ phoneNumber }) => {
-    let toNumbers = this.state.toNumbers;
+    const toNumbers = this.state.toNumbers;
     this.setState({
-      toNumbers: toNumbers.filter((toNumber) => {
-        return toNumber.phoneNumber !== phoneNumber
-      })
+      toNumbers: toNumbers.filter(toNumber => toNumber.phoneNumber !== phoneNumber)
     });
   }
   addToNumber = (toNumber) => {
@@ -58,35 +56,41 @@ class ComposeTextPanelDemo extends Component {
       entityType: 'Account',
       phoneType: 'Business Phone',
       phoneNumber: '7654321'
-    },{
+    }, {
       name: 'test string2',
       entityType: 'Account',
       phoneType: 'Business Phone',
       phoneNumber: '7112234'
     }];
     return (
-      <ComposeTextPanel
-        currentLocale={'en-US'}
-        className={styles.root}
-        send={() => null}
-        senderNumbers={['7654321']}
-        sendButtonDisabled={false}
-        formatPhone={(phoneNumber) => phoneNumber}
-        formatContactPhone={(phoneNumber) => phoneNumber}
-        searchContact={(value) => value}
-        searchContactList={searchContactList}
-        updateSenderNumber={this.updateSenderNumber}
-        senderNumber={this.state.senderNumber}
-        updateTypingToNumber={this.updateTypingToNumber}
-        cleanTypingToNumber={this.cleanTypingToNumber}
-        addToNumber={this.addToNumber}
-        removeToNumber={this.removeToNumber}
-        updateMessageText={this.updateMessageText}
-        toNumbers={this.state.toNumbers}
-        typingToNumber={this.state.typingToNumber}
-        messageText={this.state.messageText}
-
-      />
+      <div style={{
+        position: 'relative',
+        height: '500px',
+        width: '300px',
+        border: '1px solid #f3f3f3',
+      }}>
+        <ComposeTextPanel
+          currentLocale={'en-US'}
+          className={styles.root}
+          send={() => null}
+          senderNumbers={['7654321']}
+          sendButtonDisabled={false}
+          formatPhone={phoneNumber => phoneNumber}
+          formatContactPhone={phoneNumber => phoneNumber}
+          searchContact={value => value}
+          searchContactList={searchContactList}
+          updateSenderNumber={this.updateSenderNumber}
+          senderNumber={this.state.senderNumber}
+          updateTypingToNumber={this.updateTypingToNumber}
+          cleanTypingToNumber={this.cleanTypingToNumber}
+          addToNumber={this.addToNumber}
+          removeToNumber={this.removeToNumber}
+          updateMessageText={this.updateMessageText}
+          toNumbers={this.state.toNumbers}
+          typingToNumber={this.state.typingToNumber}
+          messageText={this.state.messageText}
+        />
+      </div>
     );
   }
 }
