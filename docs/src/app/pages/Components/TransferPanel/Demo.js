@@ -12,8 +12,15 @@ props.isOnTransfer = false;
  * A example of `TransferPanel`
  */
 const TransferPanelDemo = () => (
-  <TransferPanel
-    {...props}
-  />
+  <div style={{
+    position: 'relative',
+    height: '500px',
+    width: '300px',
+    border: '1px solid #f3f3f3',
+  }}>
+    <TransferPanel
+      {...props}
+    />
+  </div>
 );
 export default TransferPanelDemo;

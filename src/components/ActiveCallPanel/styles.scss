@@ -24,9 +24,6 @@ $userInfoHeight: 140px;
   i {
     font-size: $primary-font-size;
   }
-  span {
-    font-size: 0.8em;
-  }
   &:hover {
     color: $lightblack;
   }
@@ -41,8 +38,9 @@ $userInfoHeight: 140px;
 
 .backLabel {
   position: absolute;
-  top: 5px;
+  top: 3px;
   left: 34px;
+  font-size: 15px;
 }
 
 .userInfo {

@@ -8,6 +8,7 @@ props.message = {
   message: 'test string'
 };
 props.currentLocale = 'en-US';
+props.brand = { name: 'RingCentral' };
 
 /**
  * A example of `CallAlert`

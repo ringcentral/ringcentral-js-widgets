@@ -4,7 +4,7 @@ import PresenceItem from 'ringcentral-widget/components/PresenceItem';
 
 const props = {};
 props.onClick = () => alert('clicked');
-props.userStatus = 'test string';
+props.userStatus = 'Available';
 props.selected = false;
 props.currentLocale = 'en-US';
 

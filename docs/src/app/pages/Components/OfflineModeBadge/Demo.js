@@ -3,7 +3,7 @@ import React from 'react';
 import OfflineModeBadge from 'ringcentral-widget/components/OfflineModeBadge';
 
 const props = {};
-props.offline = false;
+props.offline = true;
 props.showOfflineAlert = () => null;
 props.currentLocale = 'en-US';
 

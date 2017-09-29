@@ -266,7 +266,6 @@ ConversationPanel.propTypes = {
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
-  isLoggedContact: undefined,
   onLogConversation: undefined,
   autoLog: false,
   enableContactFallback: undefined,

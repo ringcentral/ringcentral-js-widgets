@@ -45,7 +45,7 @@ LogButton.propTypes = {
   isLogged: PropTypes.bool,
   disableLinks: PropTypes.bool,
   isLogging: PropTypes.bool,
-  viewTitle: PropTypes.string,
+  addTitle: PropTypes.string,
   editTitle: PropTypes.string,
 };
 LogButton.defaultProps = {

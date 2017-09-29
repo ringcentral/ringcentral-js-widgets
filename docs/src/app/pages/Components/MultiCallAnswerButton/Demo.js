@@ -3,15 +3,21 @@ import React from 'react';
 import MultiCallAnswerButton from 'ringcentral-widget/components/MultiCallAnswerButton';
 
 const props = {};
-props.title = 'test string';
+props.title = 'Answer and End';
 props.onClick = () => alert('clicked');
 
 /**
  * A example of `MultiCallAnswerButton`
  */
 const MultiCallAnswerButtonDemo = () => (
-  <MultiCallAnswerButton
-    {...props}
-  />
+  <div style={{
+    position: 'relative',
+    height: '200px',
+    width: '200px',
+  }}>
+    <MultiCallAnswerButton
+      {...props}
+    />
+  </div>
 );
 export default MultiCallAnswerButtonDemo;

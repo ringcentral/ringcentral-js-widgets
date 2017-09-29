@@ -34,6 +34,6 @@ FormattedMessage.propTypes = {
   tagName: PropTypes.string,
 };
 FormattedMessage.defaultProps = {
-  values: undefined,
+  values: {},
   tagName: 'span',
 };
