@@ -329,6 +329,8 @@ var Contacts = function (_RcModule) {
     value: function getImageProfile(contact) {
       var _this4 = this;
 
+      var useCache = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
       return new _promise2.default(function (resolve) {
         if (!contact || !contact.id || contact.type !== 'company' || !contact.hasProfileImage) {
           resolve(null);
@@ -336,7 +338,7 @@ var Contacts = function (_RcModule) {
         }
 
         var imageId = '' + contact.type + contact.id;
-        if (_this4.profileImages[imageId] && Date.now() - _this4.profileImages[imageId].timestamp < _this4._avatarTtl) {
+        if (useCache && _this4.profileImages[imageId] && Date.now() - _this4.profileImages[imageId].timestamp < _this4._avatarTtl) {
           var image = _this4.profileImages[imageId].imageUrl;
           resolve(image);
           return;
@@ -425,7 +427,7 @@ var Contacts = function (_RcModule) {
         }, _callee, this, [[3, 15]]);
       }));
 
-      function _processQueryAvatar(_x) {
+      function _processQueryAvatar(_x2) {
         return _ref4.apply(this, arguments);
       }
 
@@ -524,7 +526,7 @@ var Contacts = function (_RcModule) {
         }, _callee2, this);
       }));
 
-      function _processQueryPresences(_x2) {
+      function _processQueryPresences(_x3) {
         return _ref5.apply(this, arguments);
       }
 
@@ -604,7 +606,7 @@ var Contacts = function (_RcModule) {
         }, _callee3, this, [[1, 19]]);
       }));
 
-      function _batchQueryPresences(_x3) {
+      function _batchQueryPresences(_x4) {
         return _ref6.apply(this, arguments);
       }
 
