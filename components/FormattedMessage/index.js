@@ -96,7 +96,7 @@ FormattedMessage.propTypes = {
   tagName: _propTypes2.default.string
 };
 FormattedMessage.defaultProps = {
-  values: undefined,
+  values: {},
   tagName: 'span'
 };
 //# sourceMappingURL=index.js.map

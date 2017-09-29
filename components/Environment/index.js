@@ -92,7 +92,7 @@ var Environment = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (Environment.__proto__ || (0, _getPrototypeOf2.default)(Environment)).call(this, props));
 
     _this.state = {
-      hidden: true,
+      hidden: props.defaultHidden,
       serverValue: props.server,
       recordingHostValue: props.recordingHost,
       enabledValue: props.enabled
@@ -232,7 +232,12 @@ Environment.propTypes = {
   server: _propTypes2.default.string.isRequired,
   recordingHost: _propTypes2.default.string.isRequired,
   enabled: _propTypes2.default.bool.isRequired,
-  onSetData: _propTypes2.default.func.isRequired
+  onSetData: _propTypes2.default.func.isRequired,
+  defaultHidden: _propTypes2.default.bool
+};
+
+Environment.defaultProps = {
+  defaultHidden: true
 };
 
 exports.default = Environment;
