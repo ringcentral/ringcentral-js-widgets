@@ -372,7 +372,7 @@ var Contacts = function (_RcModule) {
                 imageUrl = null;
                 _context.prev = 3;
                 _context.next = 6;
-                return this._client.account().extension(ctx.contact.id).profileImage('90x90').get();
+                return this._client.account().extension(ctx.contact.id).profileImage('195x195').get();
 
               case 6:
                 response = _context.sent;
