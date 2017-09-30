@@ -57,7 +57,7 @@ var _getAnalyticsReducer = require('./getAnalyticsReducer');
 
 var _getAnalyticsReducer2 = _interopRequireDefault(_getAnalyticsReducer);
 
-var _analytics = require('../../lib/analytics');
+var _Analytics = require('../../lib/Analytics');
 
 var _callingModes = require('../CallingSettings/callingModes');
 
@@ -103,7 +103,7 @@ var Analytics = function (_RcModule) {
     _this._appVersion = appVersion;
     _this._brandCode = brandCode;
     _this._reducer = (0, _getAnalyticsReducer2.default)(_this.actionTypes);
-    _this._segment = (0, _analytics.Segment)();
+    _this._segment = (0, _Analytics.Segment)();
     return _this;
   }
 
