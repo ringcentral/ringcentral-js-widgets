@@ -150,29 +150,31 @@ function ActiveCallPanel(_ref) {
       children = _ref.children,
       showContactDisplayPlaceholder = _ref.showContactDisplayPlaceholder,
       brand = _ref.brand,
-      flipNumbers = _ref.flipNumbers;
+      flipNumbers = _ref.flipNumbers,
+      calls = _ref.calls;
 
   var timeCounter = startTime ? _react2.default.createElement(
     'span',
     { className: _styles2.default.timeCounter },
     _react2.default.createElement(_DurationCounter2.default, { startTime: startTime, offset: startTimeOffset })
   ) : null;
+  var backHeader = calls.length > 1 ? _react2.default.createElement(_BackHeader2.default, {
+    onBackClick: onBackButtonClick,
+    backButton: _react2.default.createElement(
+      'span',
+      { className: _styles2.default.backButton },
+      _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.backIcon) }),
+      _react2.default.createElement(
+        'span',
+        { className: _styles2.default.backLabel },
+        backButtonLabel
+      )
+    )
+  }) : _react2.default.createElement(_BackHeader2.default, { className: _styles2.default.noneBottomBorder });
   return _react2.default.createElement(
     'div',
     { className: _styles2.default.root },
-    _react2.default.createElement(_BackHeader2.default, {
-      onBackClick: onBackButtonClick,
-      backButton: _react2.default.createElement(
-        'span',
-        { className: _styles2.default.backButton },
-        _react2.default.createElement('i', { className: (0, _classnames2.default)(_DynamicsFont2.default.arrow, _styles2.default.backIcon) }),
-        _react2.default.createElement(
-          'span',
-          { className: _styles2.default.backLabel },
-          backButtonLabel
-        )
-      )
-    }),
+    backHeader,
     _react2.default.createElement(
       _Panel2.default,
       { className: _styles2.default.panel },
@@ -250,6 +252,7 @@ ActiveCallPanel.propTypes = {
   showContactDisplayPlaceholder: _propTypes2.default.bool,
   onShowFlipPanel: _propTypes2.default.func,
   flipNumbers: _propTypes2.default.array,
+  calls: _propTypes2.default.array.isRequired,
   onToggleTransferPanel: _propTypes2.default.func
 };
 

@@ -162,7 +162,8 @@ var CallCtrlPanel = function (_Component) {
           showContactDisplayPlaceholder: this.props.showContactDisplayPlaceholder,
           onShowFlipPanel: this.showFlipPanel,
           onToggleTransferPanel: this.toggleTransferPanel,
-          flipNumbers: this.props.flipNumbers
+          flipNumbers: this.props.flipNumbers,
+          calls: this.props.calls
         },
         this.props.children
       );
@@ -184,6 +185,7 @@ CallCtrlPanel.propTypes = {
   isOnFlip: _propTypes2.default.bool,
   isOnTransfer: _propTypes2.default.bool,
   flipNumbers: _propTypes2.default.array,
+  calls: _propTypes2.default.array.isRequired,
   recordStatus: _propTypes2.default.string.isRequired,
   onMute: _propTypes2.default.func.isRequired,
   onUnmute: _propTypes2.default.func.isRequired,

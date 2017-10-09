@@ -242,7 +242,8 @@ var CallCtrlPage = function (_Component) {
           avatarUrl: this.state.avatarUrl,
           brand: this.props.brand,
           showContactDisplayPlaceholder: this.props.showContactDisplayPlaceholder,
-          flipNumbers: this.props.flipNumbers
+          flipNumbers: this.props.flipNumbers,
+          calls: this.props.calls
         },
         this.props.children
       );
@@ -289,7 +290,8 @@ CallCtrlPage.propTypes = {
   backButtonLabel: _propTypes2.default.string,
   brand: _propTypes2.default.string.isRequired,
   showContactDisplayPlaceholder: _propTypes2.default.bool.isRequired,
-  flipNumbers: _propTypes2.default.array.isRequired
+  flipNumbers: _propTypes2.default.array.isRequired,
+  calls: _propTypes2.default.array.isRequired
 };
 
 CallCtrlPage.defaultProps = {
@@ -303,7 +305,8 @@ function mapToProps(_, _ref) {
       contactMatcher = _ref.contactMatcher,
       regionSettings = _ref.regionSettings,
       brand = _ref.brand,
-      forwardingNumber = _ref.forwardingNumber;
+      forwardingNumber = _ref.forwardingNumber,
+      callMonitor = _ref.callMonitor;
 
   var currentSession = webphone.activeSession || {};
   var contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -317,7 +320,8 @@ function mapToProps(_, _ref) {
     session: currentSession,
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
-    flipNumbers: forwardingNumber.flipNumbers
+    flipNumbers: forwardingNumber.flipNumbers,
+    calls: callMonitor.calls
   };
 }
 
