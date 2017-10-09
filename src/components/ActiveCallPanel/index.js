@@ -106,7 +106,8 @@ function ActiveCallPanel({
   children,
   showContactDisplayPlaceholder,
   brand,
-  flipNumbers
+  flipNumbers,
+  calls,
 }) {
   const timeCounter = startTime ?
     (
@@ -114,17 +115,20 @@ function ActiveCallPanel({
         <DurationCounter startTime={startTime} offset={startTimeOffset} />
       </span>
     ) : null;
+  const backHeader = calls.length > 1 ? (
+    <BackHeader
+      onBackClick={onBackButtonClick}
+      backButton={(
+        <span className={styles.backButton}>
+          <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
+          <span className={styles.backLabel}>{backButtonLabel}</span>
+        </span>
+      )}
+    />
+  ) : <BackHeader className={styles.noneBottomBorder} />;
   return (
     <div className={styles.root}>
-      <BackHeader
-        onBackClick={onBackButtonClick}
-        backButton={(
-          <span className={styles.backButton}>
-            <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
-            <span className={styles.backLabel}>{backButtonLabel}</span>
-          </span>
-        )}
-      />
+      {backHeader}
       <Panel className={styles.panel}>
         {timeCounter}
         <CallInfo
@@ -201,6 +205,7 @@ ActiveCallPanel.propTypes = {
   showContactDisplayPlaceholder: PropTypes.bool,
   onShowFlipPanel: PropTypes.func,
   flipNumbers: PropTypes.array,
+  calls: PropTypes.array.isRequired,
   onToggleTransferPanel: PropTypes.func,
 };
 
@@ -216,6 +221,7 @@ ActiveCallPanel.defaultProps = {
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   flipNumbers: [],
+  calls: [],
   onShowFlipPanel: () => null,
   onToggleTransferPanel: () => null,
 };

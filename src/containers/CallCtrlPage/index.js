@@ -161,6 +161,7 @@ class CallCtrlPage extends Component {
         brand={this.props.brand}
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
         flipNumbers={this.props.flipNumbers}
+        calls={this.props.calls}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -207,6 +208,7 @@ CallCtrlPage.propTypes = {
   brand: PropTypes.string.isRequired,
   showContactDisplayPlaceholder: PropTypes.bool.isRequired,
   flipNumbers: PropTypes.array.isRequired,
+  calls: PropTypes.array.isRequired,
 };
 
 CallCtrlPage.defaultProps = {
@@ -221,6 +223,7 @@ function mapToProps(_, {
   regionSettings,
   brand,
   forwardingNumber,
+  callMonitor,
 }) {
   const currentSession = webphone.activeSession || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -236,6 +239,7 @@ function mapToProps(_, {
     areaCode: regionSettings.areaCode,
     countryCode: regionSettings.countryCode,
     flipNumbers: forwardingNumber.flipNumbers,
+    calls: callMonitor.calls
   };
 }
 
@@ -297,4 +301,3 @@ CallCtrlContainer.defaultProps = {
 };
 
 export default CallCtrlContainer;
-
