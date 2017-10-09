@@ -114,6 +114,7 @@ class CallCtrlPanel extends Component {
         onShowFlipPanel={this.showFlipPanel}
         onToggleTransferPanel={this.toggleTransferPanel}
         flipNumbers={this.props.flipNumbers}
+        calls={this.props.calls}
       >
         {this.props.children}
       </ActiveCallPanel>
@@ -134,6 +135,7 @@ CallCtrlPanel.propTypes = {
   isOnFlip: PropTypes.bool,
   isOnTransfer: PropTypes.bool,
   flipNumbers: PropTypes.array,
+  calls: PropTypes.array.isRequired,
   recordStatus: PropTypes.string.isRequired,
   onMute: PropTypes.func.isRequired,
   onUnmute: PropTypes.func.isRequired,
