@@ -221,7 +221,6 @@ ActiveCallPanel.defaultProps = {
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   flipNumbers: [],
-  calls: [],
   onShowFlipPanel: () => null,
   onToggleTransferPanel: () => null,
 };

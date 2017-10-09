@@ -169,7 +169,6 @@ CallCtrlPanel.defaultProps = {
   isOnTransfer: false,
   isOnFlip: false,
   flipNumbers: [],
-  calls: [],
   phoneNumber: null,
   children: undefined,
   avatarUrl: null,
