@@ -34,8 +34,17 @@ function mapToFunctions(_, {
       const presence = await contacts.getPresence(contact);
       return presence;
     },
-    onItemSelect: ({ type, id }) => {
-      router.push(`/contacts/${type}/${id}`);
+    onItemSelect: async ({ type, id }) => {
+      const searchSource = contacts[`${type}Contacts`] || []
+      const isInsure = searchSource.map(({id})=>id.toString()).includes(id)
+      if (!isInsure) {
+        const searchCriteria = JSON.parse(JSON.stringify(contactSearch.state.searchCriteria));
+        await contacts.showAlert();
+        await contactSearch.searchPlus({...contactSearch.state.searchCriteria,searchString: undefined});
+        await contactSearch.searchPlus(searchCriteria);
+      } else {
+        router.push(`/contacts/${type}/${id}`);
+      }
     },
     // onRestSearch: () => {
     //   contactSearch.resetSearchStatus();

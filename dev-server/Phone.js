@@ -576,6 +576,7 @@ export default class Phone extends RcModule {
     }));
     reducers.addressBook = this.addressBook.reducer;
     this.addModule('contacts', new Contacts({
+      alert: this.alert,
       client: this.client,
       addressBook: this.addressBook,
       accountPhoneNumber: this.accountPhoneNumber,
