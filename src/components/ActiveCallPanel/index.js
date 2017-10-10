@@ -125,7 +125,7 @@ function ActiveCallPanel({
         </span>
       )}
     />
-  ) : <BackHeader className={styles.noneBottomBorder} />;
+  ) : <BackHeader className={styles.hidden} />;
   return (
     <div className={styles.root}>
       {backHeader}

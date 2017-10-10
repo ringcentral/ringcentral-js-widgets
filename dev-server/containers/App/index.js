@@ -214,6 +214,7 @@ export default function App({
               path="/calls/active"
               component={() => (
                 <CallCtrlPage
+                  callMonitor={phone.callMonitor}
                   brand={phone.brand}
                   locale={phone.locale}
                   contactMatcher={phone.contactMatcher}
