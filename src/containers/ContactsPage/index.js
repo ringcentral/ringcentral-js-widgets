@@ -40,8 +40,8 @@ function mapToFunctions(_, {
       if (!isInsure) {
         const searchCriteria = JSON.parse(JSON.stringify(contactSearch.state.searchCriteria));
         await contacts.showAlert();
-        const searchCriteria= contactSearch.state.searchCriteria;
-        await contactSearch.searchPlus({ ...searchCriteria, searchString: undefined });
+        const currentSearchCriteria = contactSearch.state.searchCriteria;
+        await contactSearch.searchPlus({ ...currentSearchCriteria, searchString: undefined });
         await contactSearch.searchPlus(searchCriteria);
       } else {
         router.push(`/contacts/${type}/${id}`);
