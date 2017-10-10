@@ -13,13 +13,13 @@ var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _regenerator = require('babel-runtime/regenerator');
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
 var _from = require('babel-runtime/core-js/array/from');
 
 var _from2 = _interopRequireDefault(_from);
+
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
 
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
@@ -387,115 +387,18 @@ var ContactSearch = (_class = function (_RcModule) {
   }, {
     key: 'search',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref4) {
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref4) {
+        var _this3 = this;
+
         var searchString = _ref4.searchString;
 
         var searchOnSources, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, sourceName;
-
-        return _regenerator2.default.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (!(!this.ready || searchString.length < this._minimalSearchLength)) {
-                  _context.next = 3;
-                  break;
-                }
-
-                this.store.dispatch({
-                  type: this.actionTypes.prepareSearch
-                });
-                return _context.abrupt('return');
-
-              case 3:
-                searchOnSources = (0, _from2.default)(this._searchSources.keys());
-                _iteratorNormalCompletion2 = true;
-                _didIteratorError2 = false;
-                _iteratorError2 = undefined;
-                _context.prev = 7;
-                _iterator2 = (0, _getIterator3.default)(searchOnSources);
-
-              case 9:
-                if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
-                  _context.next = 16;
-                  break;
-                }
-
-                sourceName = _step2.value;
-                _context.next = 13;
-                return this._searchSource({
-                  searchOnSources: searchOnSources,
-                  sourceName: sourceName,
-                  searchString: searchString
-                });
-
-              case 13:
-                _iteratorNormalCompletion2 = true;
-                _context.next = 9;
-                break;
-
-              case 16:
-                _context.next = 22;
-                break;
-
-              case 18:
-                _context.prev = 18;
-                _context.t0 = _context['catch'](7);
-                _didIteratorError2 = true;
-                _iteratorError2 = _context.t0;
-
-              case 22:
-                _context.prev = 22;
-                _context.prev = 23;
-
-                if (!_iteratorNormalCompletion2 && _iterator2.return) {
-                  _iterator2.return();
-                }
-
-              case 25:
-                _context.prev = 25;
-
-                if (!_didIteratorError2) {
-                  _context.next = 28;
-                  break;
-                }
-
-                throw _iteratorError2;
-
-              case 28:
-                return _context.finish(25);
-
-              case 29:
-                return _context.finish(22);
-
-              case 30:
-              case 'end':
-                return _context.stop();
-            }
-          }
-        }, _callee, this, [[7, 18, 22, 30], [23,, 25, 29]]);
-      }));
-
-      function search(_x) {
-        return _ref3.apply(this, arguments);
-      }
-
-      return search;
-    }()
-  }, {
-    key: 'searchPlus',
-    value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(_ref6) {
-        var sourceName = _ref6.sourceName,
-            searchString = _ref6.searchString,
-            pageNumber = _ref6.pageNumber;
-
-        var searchOnSources, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, source;
 
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (this.ready) {
+                if (!(!this.ready || searchString.length < this._minimalSearchLength)) {
                   _context2.next = 3;
                   break;
                 }
@@ -506,7 +409,158 @@ var ContactSearch = (_class = function (_RcModule) {
                 return _context2.abrupt('return');
 
               case 3:
+                this._clearTimeout();
+                this._timeoutId = setTimeout((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+                  var searching;
+                  return _regenerator2.default.wrap(function _callee$(_context) {
+                    while (1) {
+                      switch (_context.prev = _context.next) {
+                        case 0:
+                          searching = (0, _extends3.default)({}, _this3.state.searching);
+                          _context.next = 3;
+                          return _this3.search({ searchString: undefined });
 
+                        case 3:
+                          _context.next = 5;
+                          return _this3.search(searching);
+
+                        case 5:
+                        case 'end':
+                          return _context.stop();
+                      }
+                    }
+                  }, _callee, _this3);
+                })), this._ttl);
+                searchOnSources = (0, _from2.default)(this._searchSources.keys());
+                _iteratorNormalCompletion2 = true;
+                _didIteratorError2 = false;
+                _iteratorError2 = undefined;
+                _context2.prev = 9;
+                _iterator2 = (0, _getIterator3.default)(searchOnSources);
+
+              case 11:
+                if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
+                  _context2.next = 18;
+                  break;
+                }
+
+                sourceName = _step2.value;
+                _context2.next = 15;
+                return this._searchSource({
+                  searchOnSources: searchOnSources,
+                  sourceName: sourceName,
+                  searchString: searchString
+                });
+
+              case 15:
+                _iteratorNormalCompletion2 = true;
+                _context2.next = 11;
+                break;
+
+              case 18:
+                _context2.next = 24;
+                break;
+
+              case 20:
+                _context2.prev = 20;
+                _context2.t0 = _context2['catch'](9);
+                _didIteratorError2 = true;
+                _iteratorError2 = _context2.t0;
+
+              case 24:
+                _context2.prev = 24;
+                _context2.prev = 25;
+
+                if (!_iteratorNormalCompletion2 && _iterator2.return) {
+                  _iterator2.return();
+                }
+
+              case 27:
+                _context2.prev = 27;
+
+                if (!_didIteratorError2) {
+                  _context2.next = 30;
+                  break;
+                }
+
+                throw _iteratorError2;
+
+              case 30:
+                return _context2.finish(27);
+
+              case 31:
+                return _context2.finish(24);
+
+              case 32:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[9, 20, 24, 32], [25,, 27, 31]]);
+      }));
+
+      function search(_x) {
+        return _ref3.apply(this, arguments);
+      }
+
+      return search;
+    }()
+  }, {
+    key: '_clearTimeout',
+    value: function _clearTimeout() {
+      if (this._timeoutId) {
+        clearTimeout(this._timeoutId);
+      }
+    }
+  }, {
+    key: 'searchPlus',
+    value: function () {
+      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref7) {
+        var _this4 = this;
+
+        var sourceName = _ref7.sourceName,
+            searchString = _ref7.searchString,
+            pageNumber = _ref7.pageNumber;
+
+        var searchOnSources, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, source;
+
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                if (this.ready) {
+                  _context4.next = 3;
+                  break;
+                }
+
+                this.store.dispatch({
+                  type: this.actionTypes.prepareSearch
+                });
+                return _context4.abrupt('return');
+
+              case 3:
+                this._clearTimeout();
+                this._timeoutId = setTimeout((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+                  var searchCriteria;
+                  return _regenerator2.default.wrap(function _callee3$(_context3) {
+                    while (1) {
+                      switch (_context3.prev = _context3.next) {
+                        case 0:
+                          searchCriteria = (0, _extends3.default)({}, _this4.state.searchCriteria);
+                          _context3.next = 3;
+                          return _this4.searchPlus((0, _extends3.default)({}, _this4.state.searchCriteria, { searchString: undefined }));
+
+                        case 3:
+                          _context3.next = 5;
+                          return _this4.searchPlus(searchCriteria);
+
+                        case 5:
+                        case 'end':
+                          return _context3.stop();
+                      }
+                    }
+                  }, _callee3, _this4);
+                })), this._ttl);
                 this.store.dispatch({
                   type: this.actionTypes.updateSearchCriteria,
                   sourceName: sourceName,
@@ -518,72 +572,72 @@ var ContactSearch = (_class = function (_RcModule) {
                 _iteratorNormalCompletion3 = true;
                 _didIteratorError3 = false;
                 _iteratorError3 = undefined;
-                _context2.prev = 8;
+                _context4.prev = 10;
                 _iterator3 = (0, _getIterator3.default)(searchOnSources);
 
-              case 10:
+              case 12:
                 if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
-                  _context2.next = 17;
+                  _context4.next = 19;
                   break;
                 }
 
                 source = _step3.value;
-                _context2.next = 14;
+                _context4.next = 16;
                 return this._searchSource({
                   searchOnSources: searchOnSources,
                   sourceName: source,
                   searchString: searchString
                 });
 
-              case 14:
+              case 16:
                 _iteratorNormalCompletion3 = true;
-                _context2.next = 10;
-                break;
-
-              case 17:
-                _context2.next = 23;
+                _context4.next = 12;
                 break;
 
               case 19:
-                _context2.prev = 19;
-                _context2.t0 = _context2['catch'](8);
-                _didIteratorError3 = true;
-                _iteratorError3 = _context2.t0;
+                _context4.next = 25;
+                break;
 
-              case 23:
-                _context2.prev = 23;
-                _context2.prev = 24;
+              case 21:
+                _context4.prev = 21;
+                _context4.t0 = _context4['catch'](10);
+                _didIteratorError3 = true;
+                _iteratorError3 = _context4.t0;
+
+              case 25:
+                _context4.prev = 25;
+                _context4.prev = 26;
 
                 if (!_iteratorNormalCompletion3 && _iterator3.return) {
                   _iterator3.return();
                 }
 
-              case 26:
-                _context2.prev = 26;
+              case 28:
+                _context4.prev = 28;
 
                 if (!_didIteratorError3) {
-                  _context2.next = 29;
+                  _context4.next = 31;
                   break;
                 }
 
                 throw _iteratorError3;
 
-              case 29:
-                return _context2.finish(26);
-
-              case 30:
-                return _context2.finish(23);
-
               case 31:
+                return _context4.finish(28);
+
+              case 32:
+                return _context4.finish(25);
+
+              case 33:
               case 'end':
-                return _context2.stop();
+                return _context4.stop();
             }
           }
-        }, _callee2, this, [[8, 19, 23, 31], [24,, 26, 30]]);
+        }, _callee4, this, [[10, 21, 25, 33], [26,, 28, 32]]);
       }));
 
       function searchPlus(_x2) {
-        return _ref5.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return searchPlus;
@@ -593,73 +647,73 @@ var ContactSearch = (_class = function (_RcModule) {
   }, {
     key: '_searchSource',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref8) {
-        var searchOnSources = _ref8.searchOnSources,
-            sourceName = _ref8.sourceName,
-            searchString = _ref8.searchString;
+      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(_ref10) {
+        var searchOnSources = _ref10.searchOnSources,
+            sourceName = _ref10.sourceName,
+            searchString = _ref10.searchString;
         var entities;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.search
                 });
-                _context3.prev = 1;
+                _context5.prev = 1;
                 entities = null;
 
                 entities = this._searchFromCache({ sourceName: sourceName, searchString: searchString });
 
                 if (!entities) {
-                  _context3.next = 7;
+                  _context5.next = 7;
                   break;
                 }
 
                 this._loadSearching({ searchOnSources: searchOnSources, searchString: searchString, entities: entities });
-                return _context3.abrupt('return');
+                return _context5.abrupt('return');
 
               case 7:
-                _context3.next = 9;
+                _context5.next = 9;
                 return this._searchSources.get(sourceName)({
                   searchString: searchString
                 });
 
               case 9:
-                entities = _context3.sent;
+                entities = _context5.sent;
 
                 entities = this._searchSourcesFormat.get(sourceName)(entities);
                 this._loadSearching({ searchOnSources: searchOnSources, searchString: searchString, entities: entities });
                 this._saveSearching({ sourceName: sourceName, searchString: searchString, entities: entities });
-                _context3.next = 18;
+                _context5.next = 18;
                 break;
 
               case 15:
-                _context3.prev = 15;
-                _context3.t0 = _context3['catch'](1);
+                _context5.prev = 15;
+                _context5.t0 = _context5['catch'](1);
 
                 this._onSearchError();
 
               case 18:
               case 'end':
-                return _context3.stop();
+                return _context5.stop();
             }
           }
-        }, _callee3, this, [[1, 15]]);
+        }, _callee5, this, [[1, 15]]);
       }));
 
       function _searchSource(_x3) {
-        return _ref7.apply(this, arguments);
+        return _ref9.apply(this, arguments);
       }
 
       return _searchSource;
     }()
   }, {
     key: '_quickSort',
-    value: function _quickSort(_ref9) {
-      var _ref9$result = _ref9.result,
-          result = _ref9$result === undefined ? [] : _ref9$result,
-          _ref9$searchString = _ref9.searchString,
-          searchString = _ref9$searchString === undefined ? '' : _ref9$searchString;
+    value: function _quickSort(_ref11) {
+      var _ref11$result = _ref11.result,
+          result = _ref11$result === undefined ? [] : _ref11$result,
+          _ref11$searchString = _ref11.searchString,
+          searchString = _ref11$searchString === undefined ? '' : _ref11$searchString;
 
       var list = [].concat((0, _toConsumableArray3.default)(result));
       if (searchString === '') {
@@ -676,9 +730,9 @@ var ContactSearch = (_class = function (_RcModule) {
     }
   }, {
     key: '_searchFromCache',
-    value: function _searchFromCache(_ref10) {
-      var sourceName = _ref10.sourceName,
-          searchString = _ref10.searchString;
+    value: function _searchFromCache(_ref12) {
+      var sourceName = _ref12.sourceName,
+          searchString = _ref12.searchString;
 
       var key = sourceName + '-' + searchString;
       var searching = this.cache && this.cache.contactSearch && this.cache.contactSearch[key];
@@ -729,10 +783,10 @@ var ContactSearch = (_class = function (_RcModule) {
     }
   }, {
     key: '_loadSearching',
-    value: function _loadSearching(_ref11) {
-      var searchOnSources = _ref11.searchOnSources,
-          searchString = _ref11.searchString,
-          entities = _ref11.entities;
+    value: function _loadSearching(_ref13) {
+      var searchOnSources = _ref13.searchOnSources,
+          searchString = _ref13.searchString,
+          entities = _ref13.entities;
 
       this.store.dispatch({
         type: this.actionTypes.searchSuccess,
@@ -743,10 +797,10 @@ var ContactSearch = (_class = function (_RcModule) {
     }
   }, {
     key: '_saveSearching',
-    value: function _saveSearching(_ref12) {
-      var sourceName = _ref12.sourceName,
-          searchString = _ref12.searchString,
-          entities = _ref12.entities;
+    value: function _saveSearching(_ref14) {
+      var sourceName = _ref14.sourceName,
+          searchString = _ref14.searchString,
+          entities = _ref14.entities;
 
       this.store.dispatch({
         type: this.actionTypes.save,
