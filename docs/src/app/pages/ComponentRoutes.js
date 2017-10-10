@@ -11,6 +11,7 @@ import ActiveCallPadPage from './Components/ActiveCallPad';
 import ActiveCallPanelPage from './Components/ActiveCallPanel';
 import ActiveCallsPanelPage from './Components/ActiveCallsPanel';
 import AlertDisplayPage from './Components/AlertDisplay';
+import AnimationAlertPage from './Components/AnimationAlert';
 import AuthAlertPage from './Components/AuthAlert';
 import BackHeaderPage from './Components/BackHeader';
 import BadgePage from './Components/Badge';
@@ -27,8 +28,12 @@ import CircleButtonPage from './Components/CircleButton';
 import ComposeTextPanelPage from './Components/ComposeTextPanel';
 import ConferencePanelPage from './Components/ConferencePanel';
 import ConnectivityAlertPage from './Components/ConnectivityAlert';
+import ContactDetailsPage from './Components/ContactDetails';
 import ContactDisplayPage from './Components/ContactDisplay';
 import ContactDropdownListPage from './Components/ContactDropdownList';
+import ContactItemPage from './Components/ContactItem';
+import ContactListPage from './Components/ContactList';
+import ContactsViewPage from './Components/ContactsView';
 import ConversationMessageListPage from './Components/ConversationMessageList';
 import ConversationPanelPage from './Components/ConversationPanel';
 import DialButtonPage from './Components/DialButton';
@@ -36,6 +41,8 @@ import DialPadPage from './Components/DialPad';
 import DialTextInputPage from './Components/DialTextInput';
 import DialerPanelPage from './Components/DialerPanel';
 import DraggablePage from './Components/Draggable';
+import DropdownNavigationItemPage from './Components/DropdownNavigationItem';
+import DropdownNavigationViewPage from './Components/DropdownNavigationView';
 import DropdownSelectPage from './Components/DropdownSelect';
 import DurationCounterPage from './Components/DurationCounter';
 import EntityButtonPage from './Components/EntityButton';
@@ -57,6 +64,7 @@ import LinePage from './Components/Line';
 import LinkLinePage from './Components/LinkLine';
 import LogButtonPage from './Components/LogButton';
 import LoginPanelPage from './Components/LoginPanel';
+import MessagePage from './Components/Message';
 import MessageItemPage from './Components/MessageItem';
 import MessageListPage from './Components/MessageList';
 import MessageSenderAlertPage from './Components/MessageSenderAlert';
@@ -106,6 +114,7 @@ const Routes = () => (
     <Route path="/components/ActiveCallPanel" component={ActiveCallPanelPage} />
     <Route path="/components/ActiveCallsPanel" component={ActiveCallsPanelPage} />
     <Route path="/components/AlertDisplay" component={AlertDisplayPage} />
+    <Route path="/components/AnimationAlert" component={AnimationAlertPage} />
     <Route path="/components/AuthAlert" component={AuthAlertPage} />
     <Route path="/components/BackHeader" component={BackHeaderPage} />
     <Route path="/components/Badge" component={BadgePage} />
@@ -122,8 +131,12 @@ const Routes = () => (
     <Route path="/components/ComposeTextPanel" component={ComposeTextPanelPage} />
     <Route path="/components/ConferencePanel" component={ConferencePanelPage} />
     <Route path="/components/ConnectivityAlert" component={ConnectivityAlertPage} />
+    <Route path="/components/ContactDetails" component={ContactDetailsPage} />
     <Route path="/components/ContactDisplay" component={ContactDisplayPage} />
     <Route path="/components/ContactDropdownList" component={ContactDropdownListPage} />
+    <Route path="/components/ContactItem" component={ContactItemPage} />
+    <Route path="/components/ContactList" component={ContactListPage} />
+    <Route path="/components/ContactsView" component={ContactsViewPage} />
     <Route path="/components/ConversationMessageList" component={ConversationMessageListPage} />
     <Route path="/components/ConversationPanel" component={ConversationPanelPage} />
     <Route path="/components/DialButton" component={DialButtonPage} />
@@ -131,6 +144,8 @@ const Routes = () => (
     <Route path="/components/DialTextInput" component={DialTextInputPage} />
     <Route path="/components/DialerPanel" component={DialerPanelPage} />
     <Route path="/components/Draggable" component={DraggablePage} />
+    <Route path="/components/DropdownNavigationItem" component={DropdownNavigationItemPage} />
+    <Route path="/components/DropdownNavigationView" component={DropdownNavigationViewPage} />
     <Route path="/components/DropdownSelect" component={DropdownSelectPage} />
     <Route path="/components/DurationCounter" component={DurationCounterPage} />
     <Route path="/components/EntityButton" component={EntityButtonPage} />
@@ -152,6 +167,7 @@ const Routes = () => (
     <Route path="/components/LinkLine" component={LinkLinePage} />
     <Route path="/components/LogButton" component={LogButtonPage} />
     <Route path="/components/LoginPanel" component={LoginPanelPage} />
+    <Route path="/components/Message" component={MessagePage} />
     <Route path="/components/MessageItem" component={MessageItemPage} />
     <Route path="/components/MessageList" component={MessageListPage} />
     <Route path="/components/MessageSenderAlert" component={MessageSenderAlertPage} />

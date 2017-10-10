@@ -25,17 +25,6 @@
           "computed": true
         }
       },
-      "onPanelClick": {
-        "type": {
-          "name": "func"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "undefined",
-          "computed": true
-        }
-      },
       "reference": {
         "type": {
           "name": "func"
@@ -198,17 +187,6 @@
         }
       },
       "disableClickToDial": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "false",
-          "computed": false
-        }
-      },
-      "stopPropagation": {
         "type": {
           "name": "bool"
         },
@@ -1834,24 +1812,8 @@
               },
               "level": {
                 "name": "enum",
-                "value": [
-                  {
-                    "value": "'success'",
-                    "computed": false
-                  },
-                  {
-                    "value": "'info'",
-                    "computed": false
-                  },
-                  {
-                    "value": "'warning'",
-                    "computed": false
-                  },
-                  {
-                    "value": "'danger'",
-                    "computed": false
-                  }
-                ],
+                "computed": true,
+                "value": "Object.keys(alertLevels)",
                 "required": true
               },
               "message": {
@@ -1892,9 +1854,65 @@
         },
         "required": true,
         "description": ""
+      },
+      "animation": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "duration": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": ""
+      },
+      "component": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "Message",
+          "computed": true
+        }
       }
     },
     "name": "AlertDisplay"
+  },
+  {
+    "description": "",
+    "methods": [],
+    "props": {
+      "entranceAnimation": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "exitAnimation": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": ""
+      },
+      "duration": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": ""
+      }
+    },
+    "composes": [
+      "../AlertDisplay"
+    ],
+    "name": "AnimationAlert"
   },
   {
     "description": "",
@@ -4065,6 +4083,133 @@
     "description": "",
     "methods": [],
     "props": {
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "contactItem": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "id": {
+              "name": "union",
+              "value": [
+                {
+                  "name": "string"
+                },
+                {
+                  "name": "number"
+                }
+              ],
+              "required": true
+            },
+            "type": {
+              "name": "string",
+              "required": true
+            },
+            "firstName": {
+              "name": "string",
+              "required": false
+            },
+            "lastName": {
+              "name": "string",
+              "required": false
+            },
+            "email": {
+              "name": "string",
+              "required": false
+            },
+            "hasProfileImage": {
+              "name": "union",
+              "value": [
+                {
+                  "name": "string"
+                },
+                {
+                  "name": "bool"
+                }
+              ],
+              "required": false
+            },
+            "phoneNumbers": {
+              "name": "arrayOf",
+              "value": {
+                "name": "shape",
+                "value": {
+                  "phoneNumber": {
+                    "name": "string",
+                    "required": false
+                  },
+                  "phoneType": {
+                    "name": "string",
+                    "required": false
+                  }
+                }
+              },
+              "required": false
+            }
+          }
+        },
+        "required": true,
+        "description": ""
+      },
+      "getAvatarUrl": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "getPresence": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onClickToSMS": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onClickToDial": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onClickToGmail": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      }
+    },
+    "name": "ContactDetails"
+  },
+  {
+    "description": "",
+    "methods": [],
+    "props": {
       "reference": {
         "type": {
           "name": "func"
@@ -4362,6 +4507,386 @@
     "description": "",
     "methods": [
       {
+        "name": "onItemSelected",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      }
+    ],
+    "props": {
+      "contact": {
+        "type": {
+          "name": "shape",
+          "value": {
+            "id": {
+              "name": "string",
+              "required": false
+            },
+            "type": {
+              "name": "string",
+              "required": false
+            },
+            "hasProfileImage": {
+              "name": "bool",
+              "required": false
+            },
+            "entityType": {
+              "name": "string",
+              "required": false
+            },
+            "name": {
+              "name": "string",
+              "required": false
+            },
+            "phoneNumber": {
+              "name": "string",
+              "required": false
+            },
+            "email": {
+              "name": "string",
+              "required": false
+            }
+          }
+        },
+        "required": true,
+        "description": ""
+      },
+      "getAvatarUrl": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "getPresence": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onSelect": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      }
+    },
+    "name": "ContactItem"
+  },
+  {
+    "description": "",
+    "methods": [
+      {
+        "name": "onScroll",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "ev",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "detectNextPage",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "el",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "contactGroups": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "id": {
+                "name": "string",
+                "required": true
+              },
+              "caption": {
+                "name": "string",
+                "required": true
+              },
+              "contacts": {
+                "name": "arrayOf",
+                "value": {
+                  "name": "custom",
+                  "raw": "ContactItem.propTypes.contact"
+                },
+                "required": true
+              }
+            }
+          }
+        },
+        "required": true,
+        "description": ""
+      },
+      "getAvatarUrl": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "getPresence": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "currentPage": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onNextPage": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onItemSelect": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      }
+    },
+    "name": "ContactList"
+  },
+  {
+    "description": "",
+    "methods": [
+      {
+        "name": "doSearchByText",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "ev",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "doSearchBySource",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "searchSource",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "loadNextPage",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "pageNumber",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "_applySearch",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "args",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "_applySearchTimeout",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "args",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "contactGroups": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "id": {
+                "name": "string",
+                "required": true
+              },
+              "caption": {
+                "name": "string",
+                "required": true
+              },
+              "contacts": {
+                "name": "arrayOf",
+                "value": {
+                  "name": "custom",
+                  "raw": "ContactItem.propTypes.contact"
+                },
+                "required": true
+              }
+            }
+          }
+        },
+        "required": true,
+        "description": ""
+      },
+      "contactSourceNames": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "string"
+          }
+        },
+        "required": true,
+        "description": ""
+      },
+      "getAvatarUrl": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "getPresence": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "showSpinner": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      },
+      "searchSource": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "searchString": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "currentPage": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onItemSelect": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onSearchContact": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      }
+    },
+    "name": "ContactsView"
+  },
+  {
+    "description": "",
+    "methods": [
+      {
         "name": "getInitialContactIndex",
         "docblock": null,
         "modifiers": [],
@@ -4566,12 +5091,6 @@
           "value": "true",
           "computed": false
         }
-      },
-      "isLoggedContact": {
-        "defaultValue": {
-          "value": "undefined",
-          "computed": true
-        }
       }
     },
     "name": "ConversationPanel"
@@ -4661,35 +5180,55 @@
           "name": "string"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       },
       "hideSpecial": {
         "type": {
           "name": "bool"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
       },
       "onButtonPress": {
         "type": {
           "name": "func"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       },
       "onButtonOutput": {
         "type": {
           "name": "func"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       },
       "alternativeTimeout": {
         "type": {
           "name": "number"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "DialPad"
@@ -4959,6 +5498,150 @@
       }
     },
     "name": "Draggable"
+  },
+  {
+    "description": "",
+    "methods": [],
+    "props": {
+      "icon": {
+        "type": {
+          "name": "node"
+        },
+        "required": true,
+        "description": ""
+      },
+      "activeIcon": {
+        "type": {
+          "name": "node"
+        },
+        "required": true,
+        "description": ""
+      },
+      "active": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "label": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "noticeCounts": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onClick": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      }
+    },
+    "name": "DropdownNavigationItem"
+  },
+  {
+    "description": "",
+    "methods": [
+      {
+        "name": "setChildNavigationElement",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "el",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "addListener",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "removeListener",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "removeChildNavBar",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "ev",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "tabs": {
+        "type": {
+          "name": "custom",
+          "raw": "NavigationBar.propTypes.tabs.isRequired"
+        },
+        "required": false,
+        "description": ""
+      },
+      "goTo": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "currentPath": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "currentVirtualPath": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      }
+    },
+    "name": "DropdownNavigationView"
   },
   {
     "description": "",
@@ -5499,6 +6182,17 @@
         },
         "required": true,
         "description": ""
+      },
+      "defaultHidden": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "true",
+          "computed": false
+        }
       }
     },
     "name": "Environment"
@@ -5626,8 +6320,8 @@
         "required": false,
         "description": "",
         "defaultValue": {
-          "value": "undefined",
-          "computed": true
+          "value": "{}",
+          "computed": false
         }
       },
       "tagName": {
@@ -6347,14 +7041,7 @@
           "computed": false
         }
       },
-      "viewTitle": {
-        "type": {
-          "name": "string"
-        },
-        "required": false,
-        "description": ""
-      },
-      "editTitle": {
+      "addTitle": {
         "type": {
           "name": "string"
         },
@@ -6365,7 +7052,12 @@
           "computed": true
         }
       },
-      "addTitle": {
+      "editTitle": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
         "defaultValue": {
           "value": "undefined",
           "computed": true
@@ -6452,6 +7144,34 @@
       }
     },
     "name": "LoginPanel"
+  },
+  {
+    "description": "",
+    "methods": [],
+    "props": {
+      "level": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "message": {
+        "type": {
+          "name": "node"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onDismiss": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      }
+    },
+    "name": "Message"
   },
   {
     "description": "",
@@ -7092,7 +7812,20 @@
   },
   {
     "description": "",
-    "methods": [],
+    "methods": [
+      {
+        "name": "goTo",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "tab",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
     "props": {
       "className": {
         "type": {
@@ -7120,34 +7853,37 @@
         "required": true,
         "description": ""
       },
+      "childNavigationView": {
+        "type": {
+          "name": "union",
+          "value": [
+            {
+              "name": "func"
+            },
+            {
+              "name": "element"
+            }
+          ]
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
       "tabs": {
         "type": {
           "name": "arrayOf",
           "value": {
             "name": "shape",
             "value": {
-              "icon": {
-                "name": "node",
-                "required": true
-              },
-              "activeIcon": {
-                "name": "node",
-                "required": false
-              },
-              "label": {
-                "name": "string",
-                "required": false
-              },
-              "path": {
-                "name": "string",
-                "required": true
-              },
-              "isActive": {
-                "name": "func",
-                "required": false
-              },
-              "noticeCounts": {
-                "name": "number",
+              "childTabs": {
+                "name": "arrayOf",
+                "value": {
+                  "name": "shape",
+                  "value": {}
+                },
                 "required": false
               }
             }
@@ -7173,6 +7909,17 @@
         },
         "required": true,
         "description": ""
+      },
+      "currentVirtualPath": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "NavigationBar"
@@ -7398,6 +8145,17 @@
         }
       },
       "userStatus": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "presenceStatus": {
         "type": {
           "name": "string"
         },
@@ -8729,17 +9487,6 @@
           "value": "100",
           "computed": false
         }
-      },
-      "showPanelPointerCursor": {
-        "type": {
-          "name": "bool"
-        },
-        "required": false,
-        "description": "",
-        "defaultValue": {
-          "value": "false",
-          "computed": false
-        }
       }
     },
     "name": "SlideMenu"
@@ -8924,6 +9671,17 @@
         },
         "required": true,
         "description": ""
+      },
+      "currentVirtualPath": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       },
       "goTo": {
         "type": {
