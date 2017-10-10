@@ -25,6 +25,7 @@ props.areaCode = 'test string';
 props.countryCode = 'test string';
 props.selectedMatcherIndex = 0;
 props.onSelectMatcherName = () => null;
+props.calls = [{}, {}];
 
 /**
  * A example of `CallCtrlPanel`

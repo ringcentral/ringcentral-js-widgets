@@ -27,6 +27,7 @@ props.fallBackName = 'Unknown';
 props.flipNumbers = [];
 props.recordStatus = 'recordStatus-idle';
 props.onShowKeyPad = () => null;
+props.calls = [{}, {}];
 /**
  * A example of `ActiveCallPanel`
  */
