@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/Contacts/contactsMessages.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,aADsB,CAAT,EAEZ,kBAFY,C","file":"contactsMessages.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'inexistence',\n], 'contactsMessages');\n"]}

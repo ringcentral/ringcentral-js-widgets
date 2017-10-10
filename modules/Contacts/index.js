@@ -5,14 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
-var _regenerator = require('babel-runtime/regenerator');
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
 var _promise = require('babel-runtime/core-js/promise');
 
 var _promise2 = _interopRequireDefault(_promise);
@@ -20,6 +12,14 @@ var _promise2 = _interopRequireDefault(_promise);
 var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var _keys = require('babel-runtime/core-js/object/keys');
 
@@ -83,6 +83,10 @@ var _getContactsReducer = require('./getContactsReducer');
 
 var _getContactsReducer2 = _interopRequireDefault(_getContactsReducer);
 
+var _contactsMessages = require('./contactsMessages');
+
+var _contactsMessages2 = _interopRequireDefault(_contactsMessages);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var MaximumBatchGetPresence = 30;
@@ -135,6 +139,7 @@ var Contacts = function (_RcModule) {
         addressBook = _ref.addressBook,
         accountExtension = _ref.accountExtension,
         accountPhoneNumber = _ref.accountPhoneNumber,
+        alert = _ref.alert,
         _ref$ttl = _ref.ttl,
         ttl = _ref$ttl === undefined ? DEFAULT_TTL : _ref$ttl,
         _ref$avatarTtl = _ref.avatarTtl,
@@ -143,7 +148,7 @@ var Contacts = function (_RcModule) {
         presenceTtl = _ref$presenceTtl === undefined ? DEFAULT_PRESENCETTL : _ref$presenceTtl,
         _ref$avatarQueryInter = _ref.avatarQueryInterval,
         avatarQueryInterval = _ref$avatarQueryInter === undefined ? DEFAULT_AVATARQUERYINTERVAL : _ref$avatarQueryInter,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'addressBook', 'accountExtension', 'accountPhoneNumber', 'ttl', 'avatarTtl', 'presenceTtl', 'avatarQueryInterval']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'addressBook', 'accountExtension', 'accountPhoneNumber', 'alert', 'ttl', 'avatarTtl', 'presenceTtl', 'avatarQueryInterval']);
     (0, _classCallCheck3.default)(this, Contacts);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Contacts.__proto__ || (0, _getPrototypeOf2.default)(Contacts)).call(this, (0, _extends3.default)({}, options, {
@@ -154,6 +159,7 @@ var Contacts = function (_RcModule) {
     _this._accountExtension = _ensureExist2.default.call(_this, accountExtension, 'accountExtension');
     _this._accountPhoneNumber = _ensureExist2.default.call(_this, accountPhoneNumber, 'accountPhoneNumber');
     _this._client = _ensureExist2.default.call(_this, client, 'client');
+    _this._alert = _ensureExist2.default.call(_this, alert, 'alert');
     _this._reducer = (0, _getContactsReducer2.default)(_this.actionTypes);
     _this._ttl = ttl;
     _this._avatarTtl = avatarTtl;
@@ -257,6 +263,34 @@ var Contacts = function (_RcModule) {
       });
     }
   }, {
+    key: 'showAlert',
+    value: function () {
+      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+        return _regenerator2.default.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (this._alert) {
+                  this._alert.warning({
+                    message: _contactsMessages2.default.inexistence
+                  });
+                }
+
+              case 1:
+              case 'end':
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function showAlert() {
+        return _ref2.apply(this, arguments);
+      }
+
+      return showAlert;
+    }()
+  }, {
     key: 'matchPhoneNumber',
     value: function matchPhoneNumber(phone) {
       var result = [];
@@ -293,10 +327,10 @@ var Contacts = function (_RcModule) {
     }
   }, {
     key: 'matchContacts',
-    value: function matchContacts(_ref2) {
+    value: function matchContacts(_ref3) {
       var _this3 = this;
 
-      var phoneNumbers = _ref2.phoneNumbers;
+      var phoneNumbers = _ref3.phoneNumbers;
 
       var result = {};
       phoneNumbers.forEach(function (phoneNumber) {
@@ -306,9 +340,9 @@ var Contacts = function (_RcModule) {
     }
   }, {
     key: 'findContactItem',
-    value: function findContactItem(_ref3) {
-      var contactType = _ref3.contactType,
-          contactId = _ref3.contactId;
+    value: function findContactItem(_ref4) {
+      var contactType = _ref4.contactType,
+          contactId = _ref4.contactId;
 
       var id = (contactId || '').toString();
       switch (contactType) {
@@ -361,28 +395,28 @@ var Contacts = function (_RcModule) {
   }, {
     key: '_processQueryAvatar',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(getAvatarContexts) {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(getAvatarContexts) {
         var ctx, imageId, imageUrl, response;
-        return _regenerator2.default.wrap(function _callee$(_context) {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 ctx = getAvatarContexts[0];
                 imageId = '' + ctx.contact.type + ctx.contact.id;
                 imageUrl = null;
-                _context.prev = 3;
-                _context.next = 6;
+                _context2.prev = 3;
+                _context2.next = 6;
                 return this._client.account().extension(ctx.contact.id).profileImage('195x195').get();
 
               case 6:
-                response = _context.sent;
-                _context.t0 = URL;
-                _context.next = 10;
+                response = _context2.sent;
+                _context2.t0 = URL;
+                _context2.next = 10;
                 return response._response.blob();
 
               case 10:
-                _context.t1 = _context.sent;
-                imageUrl = _context.t0.createObjectURL.call(_context.t0, _context.t1);
+                _context2.t1 = _context2.sent;
+                imageUrl = _context2.t0.createObjectURL.call(_context2.t0, _context2.t1);
 
                 this.store.dispatch({
                   type: this.actionTypes.fetchImageSuccess,
@@ -390,30 +424,30 @@ var Contacts = function (_RcModule) {
                   imageUrl: imageUrl,
                   ttl: this._avatarTtl
                 });
-                _context.next = 18;
+                _context2.next = 18;
                 break;
 
               case 15:
-                _context.prev = 15;
-                _context.t2 = _context['catch'](3);
+                _context2.prev = 15;
+                _context2.t2 = _context2['catch'](3);
 
-                console.error(_context.t2);
+                console.error(_context2.t2);
 
               case 18:
                 ctx.resolve(imageUrl);
                 getAvatarContexts.splice(0, 1);
 
                 if (!getAvatarContexts.length) {
-                  _context.next = 26;
+                  _context2.next = 26;
                   break;
                 }
 
-                _context.next = 23;
+                _context2.next = 23;
                 return (0, _sleep2.default)(this._avatarQueryInterval);
 
               case 23:
                 this._processQueryAvatar(getAvatarContexts);
-                _context.next = 27;
+                _context2.next = 27;
                 break;
 
               case 26:
@@ -421,14 +455,14 @@ var Contacts = function (_RcModule) {
 
               case 27:
               case 'end':
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, this, [[3, 15]]);
+        }, _callee2, this, [[3, 15]]);
       }));
 
       function _processQueryAvatar(_x2) {
-        return _ref4.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return _processQueryAvatar;
@@ -474,22 +508,22 @@ var Contacts = function (_RcModule) {
   }, {
     key: '_processQueryPresences',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(getPresenceContexts) {
+      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(getPresenceContexts) {
         var _this6 = this;
 
         var contacts, responses;
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 contacts = getPresenceContexts.map(function (x) {
                   return x.contact;
                 });
-                _context2.next = 3;
+                _context3.next = 3;
                 return this._batchQueryPresences(contacts);
 
               case 3:
-                responses = _context2.sent;
+                responses = _context3.sent;
 
                 getPresenceContexts.forEach(function (ctx) {
                   var response = responses[ctx.contact.id];
@@ -520,14 +554,14 @@ var Contacts = function (_RcModule) {
 
               case 5:
               case 'end':
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
       function _processQueryPresences(_x3) {
-        return _ref5.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return _processQueryPresences;
@@ -535,48 +569,48 @@ var Contacts = function (_RcModule) {
   }, {
     key: '_batchQueryPresences',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(contacts) {
+      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(contacts) {
         var presenceSet, id, response, ids, multipartResponse, responses;
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 presenceSet = {};
-                _context3.prev = 1;
+                _context4.prev = 1;
 
                 if (!(contacts.length === 1)) {
-                  _context3.next = 10;
+                  _context4.next = 10;
                   break;
                 }
 
                 id = contacts[0].id;
-                _context3.next = 6;
+                _context4.next = 6;
                 return this._client.account().extension(id).presence().get();
 
               case 6:
-                response = _context3.sent;
+                response = _context4.sent;
 
                 presenceSet[id] = response;
-                _context3.next = 17;
+                _context4.next = 17;
                 break;
 
               case 10:
                 if (!(contacts.length > 1)) {
-                  _context3.next = 17;
+                  _context4.next = 17;
                   break;
                 }
 
                 ids = contacts.map(function (x) {
                   return x.id;
                 }).join(',');
-                _context3.next = 14;
+                _context4.next = 14;
                 return (0, _batchApiHelper.batchGetApi)({
                   platform: this._client.service.platform(),
                   url: '/account/~/extension/' + ids + '/presence?detailedTelephonyState=true&sipData=true'
                 });
 
               case 14:
-                multipartResponse = _context3.sent;
+                multipartResponse = _context4.sent;
                 responses = multipartResponse.map(function (x) {
                   return x.json();
                 });
@@ -586,28 +620,28 @@ var Contacts = function (_RcModule) {
                 });
 
               case 17:
-                _context3.next = 22;
+                _context4.next = 22;
                 break;
 
               case 19:
-                _context3.prev = 19;
-                _context3.t0 = _context3['catch'](1);
+                _context4.prev = 19;
+                _context4.t0 = _context4['catch'](1);
 
-                console.error(_context3.t0);
+                console.error(_context4.t0);
 
               case 22:
-                return _context3.abrupt('return', presenceSet);
+                return _context4.abrupt('return', presenceSet);
 
               case 23:
               case 'end':
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this, [[1, 19]]);
+        }, _callee4, this, [[1, 19]]);
       }));
 
       function _batchQueryPresences(_x4) {
-        return _ref6.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       }
 
       return _batchQueryPresences;
