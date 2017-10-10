@@ -4,6 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
+var _stringify = require('babel-runtime/core-js/json/stringify');
+
+var _stringify2 = _interopRequireDefault(_stringify);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -89,19 +97,65 @@ function mapToFunctions(_, _ref2) {
         return _ref4.apply(this, arguments);
       };
     }(),
-    onItemSelect: function onItemSelect(_ref5) {
-      var type = _ref5.type,
-          id = _ref5.id;
+    onItemSelect: function () {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(_ref6) {
+        var type = _ref6.type,
+            id = _ref6.id;
+        var searchSource, isInsure, searchCriteria, currentSearchCriteria;
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                searchSource = contacts[type + 'Contacts'] || [];
+                isInsure = searchSource.map(function (_ref7) {
+                  var id = _ref7.id;
+                  return id.toString();
+                }).includes(id);
 
-      router.push('/contacts/' + type + '/' + id);
-    },
+                if (isInsure) {
+                  _context3.next = 13;
+                  break;
+                }
+
+                searchCriteria = JSON.parse((0, _stringify2.default)(contactSearch.state.searchCriteria));
+                _context3.next = 6;
+                return contacts.showAlert();
+
+              case 6:
+                currentSearchCriteria = contactSearch.state.searchCriteria;
+                _context3.next = 9;
+                return contactSearch.searchPlus((0, _extends3.default)({}, currentSearchCriteria, { searchString: undefined }));
+
+              case 9:
+                _context3.next = 11;
+                return contactSearch.searchPlus(searchCriteria);
+
+              case 11:
+                _context3.next = 14;
+                break;
+
+              case 13:
+                router.push('/contacts/' + type + '/' + id);
+
+              case 14:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, _this);
+      }));
+
+      return function onItemSelect(_x3) {
+        return _ref5.apply(this, arguments);
+      };
+    }(),
     // onRestSearch: () => {
     //   contactSearch.resetSearchStatus();
     // },
-    onSearchContact: function onSearchContact(_ref6) {
-      var searchSource = _ref6.searchSource,
-          searchString = _ref6.searchString,
-          pageNumber = _ref6.pageNumber;
+    onSearchContact: function onSearchContact(_ref8) {
+      var searchSource = _ref8.searchSource,
+          searchString = _ref8.searchString,
+          pageNumber = _ref8.pageNumber;
 
       contactSearch.searchPlus({
         sourceName: searchSource,

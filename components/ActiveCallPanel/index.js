@@ -170,7 +170,7 @@ function ActiveCallPanel(_ref) {
         backButtonLabel
       )
     )
-  }) : _react2.default.createElement(_BackHeader2.default, { className: _styles2.default.noneBottomBorder });
+  }) : _react2.default.createElement(_BackHeader2.default, { className: _styles2.default.hidden });
   return _react2.default.createElement(
     'div',
     { className: _styles2.default.root },
