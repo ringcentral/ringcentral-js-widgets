@@ -1,7 +1,7 @@
+import classnames from 'classnames';
 import { prefixEnum } from 'ringcentral-integration/lib/Enum';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import debounce from 'ringcentral-integration/lib/debounce';
-import classnames from 'classnames';
 import baseMessageTypes from './baseMessageTypes';
 
 export default class AdapterCore {
@@ -10,14 +10,12 @@ export default class AdapterCore {
     styles,
     container,
     root = container,
-    messageTransport,
     messageTypes = baseMessageTypes,
     defaultDirection = 'left',
     defaultPadding = 15,
   }) {
     this._prefix = prefix;
     this._messageTypes = prefixEnum({ enumMap: messageTypes, prefix });
-    this._messageTransport = this::ensureExist(messageTransport, 'messageTransport');
     this._container = this::ensureExist(container, 'container');
     this._root = root;
     this._styles = styles;
@@ -38,30 +36,33 @@ export default class AdapterCore {
     this._loading = false;
     this._userStatus = null;
     this._dndStatus = null;
-
-    this._messageTransport.addListener((msg) => {
-      if (msg) {
-        switch (msg.type) {
-          case this._messageTypes.syncClosed:
-            this._onSyncClosed(msg.closed);
-            break;
-          case this._messageTypes.syncMinimized:
-            this._onSyncMinimized(msg.minimized);
-            break;
-          case this._messageTypes.syncSize:
-            this._onSyncSize(msg.size);
-            break;
-          case this._messageTypes.syncPresence:
-            this._onSyncPresence(msg);
-            break;
-          case this._messageTypes.syncAdapterState:
-            this._onSyncAdapterState(msg);
-            break;
-          default:
-            break;
-        }
+    this._telephonyStatus = null;
+  }
+  _onMessage(msg) {
+    if (msg) {
+      switch (msg.type) {
+        case this._messageTypes.syncClosed:
+          this._onSyncClosed(msg.closed);
+          break;
+        case this._messageTypes.syncMinimized:
+          this._onSyncMinimized(msg.minimized);
+          break;
+        case this._messageTypes.syncSize:
+          this._onSyncSize(msg.size);
+          break;
+        case this._messageTypes.syncPresence:
+          this._onPushPresence(msg);
+          break;
+        case this._messageTypes.pushAdapterState:
+          this._onPushAdapterState(msg);
+          break;
+        case this._messageTypes.pushLocale:
+          this._onPushLocale(msg);
+          break;
+        default:
+          break;
       }
-    });
+    }
   }
   _generateContentDOM() {
     this._root.innerHTML = `
@@ -83,7 +84,7 @@ export default class AdapterCore {
         <img class="${this._styles.logo}" draggable="false"></img>
       </header>
       <div class="${this._styles.frameContainer}">
-        <iframe class="${this._styles.contentFrame}" sandbox="allow-same-origin allow-scripts allow-forms">
+        <iframe class="${this._styles.contentFrame}" sandbox="allow-same-origin allow-scripts allow-forms allow-popups" allow="microphone camera" >
         </iframe>
       </div>
     `;
@@ -198,8 +199,13 @@ export default class AdapterCore {
       this._renderRestrictedPosition();
     }
   }
+
+  get messageTransport() {
+    return this._messageTransport;
+  }
+
   _postMessage(data) {
-    this._messageTransport.postMessage(data);
+    this.messageTransport.postMessage(data);
   }
 
   _setLogoUrl(logoUrl) {
@@ -279,12 +285,24 @@ export default class AdapterCore {
       size,
     });
   }
-  _onSyncPresence({ dndStatus, userStatus }) {
-    if (dndStatus !== this._dndStatus || userStatus !== this._userStatus) {
+  _onPushPresence({ dndStatus, userStatus, telephonyStatus }) {
+    if (
+      dndStatus !== this._dndStatus ||
+      userStatus !== this._userStatus ||
+      telephonyStatus !== this._telephonyStatus
+    ) {
       this._dndStatus = dndStatus;
       this._userStatus = userStatus;
+      this._telephonyStatus = telephonyStatus;
       this.renderPresence();
     }
+  }
+  _onPushLocale({
+    locale,
+    strings = {},
+  }) {
+    this._locale = locale;
+    this._strings = strings;
   }
 
   _debouncedPostMessage = debounce(this._postMessage, 200)
@@ -299,13 +317,14 @@ export default class AdapterCore {
       },
     });
   }
-  _onSyncAdapterState({
+  _onPushAdapterState({
     size: { width, height },
     minimized,
     closed,
     position: { translateX, translateY, minTranslateX },
     dndStatus,
     userStatus,
+    telephonyStatus,
    }) {
     this._minimized = minimized;
     this._closed = closed;
@@ -318,6 +337,7 @@ export default class AdapterCore {
     this._appHeight = height;
     this._dndStatus = dndStatus;
     this._userStatus = userStatus;
+    this._telephonyStatus = telephonyStatus;
     this._loading = false;
     this._render();
   }
@@ -416,6 +436,9 @@ export default class AdapterCore {
     this._container.remove();
   }
 
+  get container() {
+    return this._container;
+  }
   get root() {
     return this._root;
   }
@@ -476,5 +499,8 @@ export default class AdapterCore {
   }
   get dndStatus() {
     return this._dndStatus;
+  }
+  get ringing() {
+    return this._ringing;
   }
 }
