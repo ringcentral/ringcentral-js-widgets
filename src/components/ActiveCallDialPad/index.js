@@ -37,6 +37,7 @@ class ActiveCallDialPad extends Component {
           <input
             className={styles.input}
             value={this.state.value}
+            autoFocus // eslint-disable-line
           />
         </div>
         <div className={styles.padContainer}>

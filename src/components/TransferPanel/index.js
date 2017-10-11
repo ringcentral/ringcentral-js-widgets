@@ -47,7 +47,6 @@ export default class TransferPanel extends PureComponent {
 
   render() {
     const showClearButton = this.state.value === '' ? { display: 'none' } : { display: 'block' };
-    const isButtonDisabled = this.state.value === '' || this.props.isOnTransfer;
     return (
       <div className={styles.root}>
         <BackHeader
@@ -69,6 +68,7 @@ export default class TransferPanel extends PureComponent {
             onChange={this.handleChange}
             placeholder={i18n.getString('enterNameOrNumber', this.props.currentLocale)}
             value={this.state.value}
+            autoFocus // eslint-disable-line
           />
           <span
             style={showClearButton}
