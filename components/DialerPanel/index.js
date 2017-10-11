@@ -79,7 +79,8 @@ function DialerPanel(_ref) {
         },
         onDelete: function onDelete() {
           keepToNumber('');
-        }
+        },
+        autoFocus: true
       }),
       _react2.default.createElement(_CallIdSelect2.default, {
         fromNumber: fromNumber,

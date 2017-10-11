@@ -108,7 +108,6 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
     key: 'render',
     value: function render() {
       var showClearButton = this.state.value === '' ? { display: 'none' } : { display: 'block' };
-      var isButtonDisabled = this.state.value === '' || this.props.isOnTransfer;
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root },
@@ -136,7 +135,8 @@ var TransferPanel = (_temp = _class = function (_PureComponent) {
             className: _styles2.default.input,
             onChange: this.handleChange,
             placeholder: _i18n2.default.getString('enterNameOrNumber', this.props.currentLocale),
-            value: this.state.value
+            value: this.state.value,
+            autoFocus: true // eslint-disable-line
           }),
           _react2.default.createElement('span', {
             style: showClearButton,

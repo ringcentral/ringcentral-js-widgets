@@ -198,7 +198,8 @@ var ComposeTextPanel = function (_Component) {
               searchContactList: this.props.searchContactList,
               onKeyUp: this.onReceiverInputKeyUp,
               formatContactPhone: this.props.formatContactPhone,
-              titleEnabled: true
+              titleEnabled: true,
+              autoFocus: true
             })
           ),
           _react2.default.createElement(

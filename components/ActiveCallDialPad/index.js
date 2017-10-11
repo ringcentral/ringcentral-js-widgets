@@ -97,7 +97,8 @@ var ActiveCallDialPad = function (_Component) {
           { className: _styles2.default.dialInput },
           _react2.default.createElement('input', {
             className: _styles2.default.input,
-            value: this.state.value
+            value: this.state.value,
+            autoFocus: true // eslint-disable-line
           })
         ),
         _react2.default.createElement(

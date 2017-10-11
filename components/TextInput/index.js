@@ -92,7 +92,8 @@ var TextInput = function (_Component) {
           name = _props.name,
           maxLength = _props.maxLength,
           defaultValue = _props.defaultValue,
-          onKeyDown = _props.onKeyDown;
+          onKeyDown = _props.onKeyDown,
+          autoFocus = _props.autoFocus;
       var value = this.state.value;
 
       return _react2.default.createElement(
@@ -100,7 +101,8 @@ var TextInput = function (_Component) {
         {
           className: (0, _classnames2.default)(_styles2.default.root, className, invalid && _styles2.default.invalid) },
         _react2.default.createElement('input', {
-          ref: function ref(input) {
+          autoFocus: autoFocus // eslint-disable-line
+          , ref: function ref(input) {
             _this2.input = input;
           },
           onChange: this.onInputChange,
@@ -173,7 +175,8 @@ TextInput.propTypes = {
   defaultValue: _propTypes2.default.string,
   invalid: _propTypes2.default.bool,
   onKeyDown: _propTypes2.default.func,
-  filter: _propTypes2.default.func
+  filter: _propTypes2.default.func,
+  autoFocus: _propTypes2.default.bool
 };
 TextInput.defaultProps = {
   className: undefined,
@@ -188,7 +191,8 @@ TextInput.defaultProps = {
   defaultValue: undefined,
   invalid: false,
   onKeyDown: undefined,
-  filter: undefined
+  filter: undefined,
+  autoFocus: false
 };
 
 exports.default = TextInput;

@@ -39,7 +39,8 @@ function DialTextInput(_ref) {
       invalid = _ref.invalid,
       value = _ref.value,
       onChangeEvent = _ref.onChangeEvent,
-      onDelete = _ref.onDelete;
+      onDelete = _ref.onDelete,
+      autoFocus = _ref.autoFocus;
 
   var deleteDisplay = value === '' ? { display: 'none' } : { display: 'block' };
   return _react2.default.createElement(
@@ -55,7 +56,8 @@ function DialTextInput(_ref) {
       placeholder: _i18n2.default.getString('enterNameOrPhoneNumber'),
       className: _styles2.default.dial_Input,
       value: value,
-      onChange: onChangeEvent
+      onChange: onChangeEvent,
+      autoFocus: autoFocus
     }),
     _react2.default.createElement('span', {
       style: deleteDisplay,
@@ -70,10 +72,12 @@ DialTextInput.propTypes = {
   invalid: _propTypes2.default.bool,
   value: _propTypes2.default.string,
   onChangeEvent: _propTypes2.default.func,
-  onDelete: _propTypes2.default.func
+  onDelete: _propTypes2.default.func,
+  autoFocus: _propTypes2.default.bool
 };
 DialTextInput.defaultValue = {
-  className: _styles2.default.input
+  className: _styles2.default.input,
+  autoFocus: false
 };
 
 exports.default = DialTextInput;

@@ -276,7 +276,8 @@ var RecipientsInput = function (_Component) {
               onFocus: this.onReceiversInputFocus,
               onBlur: this.onReceiversInputBlur,
               placeholder: this.props.placeholder,
-              autoComplete: 'off'
+              autoComplete: 'off',
+              autoFocus: this.props.autoFocus // eslint-disable-line
             })
           ),
           _react2.default.createElement(_RemoveButton2.default, {
@@ -323,7 +324,8 @@ RecipientsInput.propTypes = {
   addToRecipients: _propTypes2.default.func.isRequired,
   removeFromRecipients: _propTypes2.default.func.isRequired,
   formatContactPhone: _propTypes2.default.func.isRequired,
-  titleEnabled: _propTypes2.default.bool
+  titleEnabled: _propTypes2.default.bool,
+  autoFocus: _propTypes2.default.bool
 };
 
 RecipientsInput.defaultProps = {
@@ -335,7 +337,8 @@ RecipientsInput.defaultProps = {
   onKeyDown: function onKeyDown() {
     return null;
   },
-  titleEnabled: undefined
+  titleEnabled: undefined,
+  autoFocus: false
 };
 
 exports.default = RecipientsInput;
