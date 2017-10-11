@@ -134,6 +134,7 @@ class ComposeTextPanel extends Component {
               onKeyUp={this.onReceiverInputKeyUp}
               formatContactPhone={this.props.formatContactPhone}
               titleEnabled
+              autoFocus
             />
           </div>
           <div className={styles.senderField}>

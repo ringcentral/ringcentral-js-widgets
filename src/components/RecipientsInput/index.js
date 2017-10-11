@@ -216,6 +216,7 @@ class RecipientsInput extends Component {
               onBlur={this.onReceiversInputBlur}
               placeholder={this.props.placeholder}
               autoComplete="off"
+              autoFocus={this.props.autoFocus} // eslint-disable-line
             />
           </div>
           <RemoveButton
@@ -265,6 +266,7 @@ RecipientsInput.propTypes = {
   removeFromRecipients: PropTypes.func.isRequired,
   formatContactPhone: PropTypes.func.isRequired,
   titleEnabled: PropTypes.bool,
+  autoFocus: PropTypes.bool,
 };
 
 RecipientsInput.defaultProps = {
@@ -273,6 +275,7 @@ RecipientsInput.defaultProps = {
   onKeyUp: () => null,
   onKeyDown: () => null,
   titleEnabled: undefined,
+  autoFocus: false,
 };
 
 export default RecipientsInput;
