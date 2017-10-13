@@ -484,7 +484,7 @@ var Webphone = (_class = function (_RcModule) {
         appKey: this._appKey,
         appName: this._appName,
         appVersion: this._appVersion,
-        uuid: this._auth.endpoingId,
+        uuid: this._auth.endpointId,
         logLevel: this._webphoneLogLevel, // error 0, warn 1, log: 2, debug: 3
         audioHelper: {
           enabled: true, // enables audio feedback when web phone is ringing or making a call
@@ -541,6 +541,7 @@ var Webphone = (_class = function (_RcModule) {
       this._webphone.userAgent.once('registrationFailed', onRegistrationFailed);
       this._webphone.userAgent.on('invite', function (session) {
         console.debug('UA invite');
+        (0, _webphoneHelper.sendReceiveConfirm)(session);
         _this4._onInvite(session);
       });
     }
