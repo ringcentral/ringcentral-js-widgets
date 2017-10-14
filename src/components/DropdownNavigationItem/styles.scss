@@ -25,17 +25,27 @@
 
 .iconHolder {
   display: inline-block;
+  width: 23px;
+  height: 22px;
   font-size: 22px;
+  line-height: 22px;
+  vertical-align: middle;
 
   span {
     line-height: initial !important;
+  }
+  &.active path {
+    fill: #0684bd;
+    stroke: #0684bd;
   }
 }
 
 .labelHolder {
   display: inline-block;
   line-height: 22px;
-  margin-left: 10px;
+  margin-left: 12px;
+  font-size: 13px;
+  vertical-align: middle;
 }
 
 .notice {
@@ -53,3 +63,8 @@
   color: #ffffff;
   overflow: hidden;
 }
+
+.active {
+  color: #0073ae;
+}
+

@@ -47,7 +47,6 @@ export default class NavigationBar extends Component {
     const tabWidth = tabs.length > 0 ?
       `${(1 / tabs.length) * 100}%` :
       0;
-
     return (
       <nav className={classnames(styles.root, className)}>
         {
@@ -63,6 +62,10 @@ export default class NavigationBar extends Component {
                 (tab.path && tab.path === currentPath) ||
                 (tab.virtualPath && tab.virtualPath === currentVirtualPath)
               }
+              contactActive={tab.virtualPath === '!moreMenu' && (currentPath.indexOf('/contacts') > -1)}
+              meetingActive={tab.virtualPath === '!moreMenu' && (currentPath.indexOf('/meeting') > -1)}
+              conferenceActive={tab.virtualPath === '!moreMenu' && (currentPath.indexOf('/conference') > -1)}
+              settingsActive={tab.virtualPath === '!moreMenu' && (currentPath.indexOf('/settings') > -1)}
               width={tabWidth}
             />
           ))

@@ -50,6 +50,11 @@
   -moz-osx-font-smoothing: grayscale;
   font-size: 1.3em;
   line-height: $navigation-bar-height;
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
 }
 .labelHolder {
   @include full-size;

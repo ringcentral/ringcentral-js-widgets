@@ -11,6 +11,14 @@ export default function NavigationButton({
   noticeCounts,
   onClick,
   width,
+  contactActive,
+  meetingActive,
+  conferenceActive,
+  settingsActive,
+  contactNavIcon,
+  conferenceNavIcon,
+  meetingNavIcon,
+  settingsNavIcon,
 }) {
   let notice = null;
   if (noticeCounts && noticeCounts > 0) {
@@ -19,6 +27,18 @@ export default function NavigationButton({
     } else {
       notice = <div className={styles.notice}>{noticeCounts}</div>;
     }
+  }
+  let navIcon = icon;
+  if (contactActive) {
+    navIcon = contactNavIcon;
+  } else if (settingsActive) {
+    navIcon = settingsNavIcon;
+  } else if (conferenceActive) {
+    navIcon = conferenceNavIcon;
+  } else if (meetingActive) {
+    navIcon = meetingNavIcon;
+  } else if (active) {
+    navIcon = activeIcon;
   }
   return (
     <div
@@ -33,7 +53,7 @@ export default function NavigationButton({
     >
       <div className={styles.iconHolder} title={label}>
         <div className={styles.icon}>
-          {active ? activeIcon : icon }
+          {navIcon}
         </div>
         {notice}
       </div>
@@ -51,10 +71,26 @@ NavigationButton.propTypes = {
     PropTypes.string,
   ]).isRequired,
   onClick: PropTypes.func,
+  contactNavIcon: PropTypes.node,
+  meetingNavIcon: PropTypes.node,
+  conferenceNavIcon: PropTypes.node,
+  settingsNavIcon: PropTypes.node,
+  contactActive: PropTypes.bool,
+  meetingActive: PropTypes.bool,
+  conferenceActive: PropTypes.bool,
+  settingsActive: PropTypes.bool,
 };
 NavigationButton.defaultProps = {
   active: false,
   label: undefined,
   noticeCounts: undefined,
   onClick: undefined,
+  contactNavIcon: undefined,
+  meetingNavIcon: undefined,
+  conferenceNavIcon: undefined,
+  settingsNavIcon: undefined,
+  contactActive: false,
+  meetingActive: false,
+  conferenceActive: false,
+  settingsActive: false,
 };
