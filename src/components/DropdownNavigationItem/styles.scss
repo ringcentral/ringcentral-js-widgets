@@ -16,7 +16,14 @@
     background-color: #fafafa;
     border-bottom: 1px solid #efefef;
   }
+
+  &.active {		
+    opacity: 1;		
+    color: #0073ae;		
+  }
 }
+
+
 
 .iconHolder {
   position: relative;
