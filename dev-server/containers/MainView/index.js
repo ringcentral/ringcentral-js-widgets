@@ -5,6 +5,7 @@ import dynamicsFont from '../../../src/assets/DynamicsFont/DynamicsFont.scss';
 import TabNavigationView from '../../../src/components/TabNavigationView';
 import RouterInteraction from '../../../src/modules/RouterInteraction';
 import DialPadIcon from '../../../src/assets/images/DialPadNav.svg';
+import CallsIcon from '../../../src/assets/images/Calls.svg';
 import HistoryIcon from '../../../src/assets/images/CallHistory.svg';
 import MessageIcon from '../../../src/assets/images/Messages.svg';
 import ComposeTextIcon from '../../../src/assets/images/ComposeText.svg';
@@ -15,6 +16,7 @@ import ConferenceIcon from '../../../src/assets/images/Conference.svg';
 import SettingsIcon from '../../../src/assets/images/Settings.svg';
 
 import DialPadHoverIcon from '../../../src/assets/images/DialPadHover.svg';
+import CallsHoverIcon from '../../../src/assets/images/CallsHover.svg';
 import HistoryHoverIcon from '../../../src/assets/images/CallHistoryHover.svg';
 import MessageHoverIcon from '../../../src/assets/images/MessagesHover.svg';
 import ComposeTextHoverIcon from '../../../src/assets/images/ComposeTextHover.svg';
@@ -43,8 +45,8 @@ function getTabs({
       path: '/dialer',
     },
     {
-      icon: <HistoryIcon />,
-      activeIcon: <HistoryHoverIcon />,
+      icon: <CallsIcon />,
+      activeIcon: <CallsHoverIcon />,
       label: 'Calls',
       path: '/calls',
       isActive: currentPath => (
@@ -116,7 +118,7 @@ function getTabs({
             currentPath.substr(0, 9) === '/settings'
           ),
         },
-      ],
+      ].filter(x => !!x),
     },
   ].filter(x => !!x);
 }
