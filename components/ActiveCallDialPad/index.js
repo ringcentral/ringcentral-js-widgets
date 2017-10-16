@@ -44,6 +44,10 @@ var _BackHeader = require('../BackHeader');
 
 var _BackHeader2 = _interopRequireDefault(_BackHeader);
 
+var _audios = require('../DialButton/audios');
+
+var _audios2 = _interopRequireDefault(_audios);
+
 var _End = require('../../assets/images/End.svg');
 
 var _End2 = _interopRequireDefault(_End);
@@ -58,6 +62,11 @@ var _i18n2 = _interopRequireDefault(_i18n);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var cleanRegex = /[^\d*#]/g;
+var filter = function filter(value) {
+  return value.replace(cleanRegex, '');
+};
+
 var ActiveCallDialPad = function (_Component) {
   (0, _inherits3.default)(ActiveCallDialPad, _Component);
 
@@ -69,11 +78,70 @@ var ActiveCallDialPad = function (_Component) {
     _this.state = {
       value: ''
     };
+
+    if (typeof document !== 'undefined' && document.createElement) {
+      _this.audio = document.createElement('audio');
+    }
+
+    _this.playAudio = function (value) {
+      if (_this.audio && _this.audio.canPlayType('audio/ogg') !== '' && _audios2.default[value]) {
+        if (!_this.audio.paused) {
+          _this.audio.pause();
+        }
+        _this.audio.src = _audios2.default[value];
+        _this.audio.currentTime = 0;
+        _this.audio.play();
+      }
+    };
+
     _this.onButtonOutput = function (key) {
       _this.setState(function (preState) {
         var value = preState.value + key;
         _this.props.onChange(key);
         return { value: value };
+      });
+    };
+
+    _this.sendDTMFKeys = function (value) {
+      var keys = filter(value);
+      if (keys === '') {
+        return;
+      }
+      if (keys.length > 15) {
+        keys = keys.slice(0, 15);
+      }
+      keys = keys.split('');
+      keys.forEach(function (key, index) {
+        setTimeout(function () {
+          _this.playAudio(key);
+          _this.props.onChange(key);
+        }, 100 * index);
+      });
+    };
+
+    _this.onChange = function (e) {
+      var value = filter(e.currentTarget.value);
+      _this.setState(function (preState) {
+        if (value.length - preState.value.length < 15) {
+          return {
+            value: value
+          };
+        }
+        return {
+          value: value.slice(0, preState.value.length + 15)
+        };
+      });
+    };
+
+    _this.onKeyDown = function (e) {
+      var value = filter(e.key);
+      _this.sendDTMFKeys(value);
+    };
+
+    _this.onPaste = function (e) {
+      var item = e.clipboardData.items[0];
+      item.getAsString(function (data) {
+        _this.sendDTMFKeys(data);
       });
     };
     return _this;
@@ -98,6 +166,9 @@ var ActiveCallDialPad = function (_Component) {
           _react2.default.createElement('input', {
             className: _styles2.default.input,
             value: this.state.value,
+            onChange: this.onChange,
+            onKeyDown: this.onKeyDown,
+            onPaste: this.onPaste,
             autoFocus: true // eslint-disable-line
           })
         ),
