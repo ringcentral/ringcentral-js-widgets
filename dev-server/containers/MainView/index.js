@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import dynamicsFont from '../../../src/assets/DynamicsFont/DynamicsFont.scss';
 import TabNavigationView from '../../../src/components/TabNavigationView';
 import RouterInteraction from '../../../src/modules/RouterInteraction';
-import DialPadIcon from '../../../src/assets/images/DialPad.svg';
+import DialPadIcon from '../../../src/assets/images/DialPadNav.svg';
 import HistoryIcon from '../../../src/assets/images/CallHistory.svg';
 import MessageIcon from '../../../src/assets/images/Messages.svg';
 import ComposeTextIcon from '../../../src/assets/images/ComposeText.svg';
@@ -17,8 +17,8 @@ import SettingsIcon from '../../../src/assets/images/Settings.svg';
 import DialPadHoverIcon from '../../../src/assets/images/DialPadHover.svg';
 import HistoryHoverIcon from '../../../src/assets/images/CallHistoryHover.svg';
 import MessageHoverIcon from '../../../src/assets/images/MessagesHover.svg';
-// import ComposeTextHoverIcon from '../../../src/assets/images/ComposeTextHover.svg';
-// import MoreMenuHoverIcon from '../../../src/assets/images/MoreMenuHover.svg';
+import ComposeTextHoverIcon from '../../../src/assets/images/ComposeTextHover.svg';
+import MoreMenuHoverIcon from '../../../src/assets/images/MoreMenuHover.svg';
 import ContactHoverIcon from '../../../src/assets/images/ContactHover.svg';
 import MeetingHoverIcon from '../../../src/assets/images/MeetingHover.svg';
 import ConferenceHoverIcon from '../../../src/assets/images/ConferenceHover.svg';
@@ -37,16 +37,14 @@ function getTabs({
 }) {
   return [
     {
-      // icon: <span className={dynamicsFont.dial} />,
-      // activeIcon: <span className={dynamicsFont.dialHover} />,
       icon: <DialPadIcon />,
       activeIcon: <DialPadHoverIcon />,
       label: 'Dial Pad',
       path: '/dialer',
     },
     {
-      icon: <span className={dynamicsFont.active} />,
-      activeIcon: <span className={dynamicsFont.activeHover} />,
+      icon: <HistoryIcon />,
+      activeIcon: <HistoryHoverIcon />,
       label: 'Calls',
       path: '/calls',
       isActive: currentPath => (
@@ -54,16 +52,12 @@ function getTabs({
       ),
     },
     {
-      // icon: <span className={dynamicsFont.history} />,
-      // activeIcon: <span className={dynamicsFont.historyHover} />,
       icon: <HistoryIcon />,
       activeIcon: <HistoryHoverIcon />,
       label: 'History',
       path: '/history',
     },
     showMessages && {
-      // icon: <span className={dynamicsFont.message} />,
-      // activeIcon: <span className={dynamicsFont.messageHover} />,
       icon: <MessageIcon />,
       activeIcon: <MessageHoverIcon />,
       label: 'Messages',
@@ -74,21 +68,18 @@ function getTabs({
       ),
     },
     showComposeText && {
-      // icon: <span className={dynamicsFont.composeText} />,
-      activeIcon: <span className={dynamicsFont.composeTextHover} />,
       icon: <ComposeTextIcon />,
-      // activeIcon: <ComposeTextHoverIcon />,
+      activeIcon: <ComposeTextHoverIcon />,
       label: 'Compose Text',
       path: '/composeText',
     },
     {
-      // icon: <span className={dynamicsFont.menu} />,
-      activeIcon: <span className={dynamicsFont.menuHover} />,
       icon: <MoreMenuIcon />,
+      activeIcon: <MoreMenuHoverIcon />,
       contactNavIcon: <ContactNavIcon />,
       settingsNavIcon: <SettingsNavIcon />,
       meetingNavIcon: <MeetingNavIcon />,
-      ConferenceNavIcon: <ConferenceNavIcon />,
+      conferenceNavIcon: <ConferenceNavIcon />,
       label: 'More Menu',
       virtualPath: '!moreMenu',
       isActive: (currentPath, currentVirtualPath) => (
@@ -97,7 +88,6 @@ function getTabs({
       childTabs: [
         {
           icon: <ContactIcon />,
-          // activeIcon: <span className={dynamicsFont.portrait} />,
           activeIcon: <ContactHoverIcon />,
           label: 'Contacts',
           path: '/contacts',
@@ -106,24 +96,19 @@ function getTabs({
           ),
         },
         {
-          // icon: <span className={dynamicsFont.conference} />,
-          // activeIcon: <span className={dynamicsFont.conferenceHover} />,
           icon: <MeetingIcon />,
           activeIcon: <MeetingHoverIcon />,
-          label: 'Meeting',
+          label: 'Schedule Meeting',
           path: '/meeting',
         },
         showConference && {
-          // icon: <span className={dynamicsFont.conference} />,
-          // activeIcon: <span className={dynamicsFont.conferenceHover} />,
           icon: <ConferenceIcon />,
           activeIcon: <ConferenceHoverIcon />,
-          label: 'Conference',
+          label: 'Schedule Conference',
           path: '/conference',
         },
         {
           icon: <SettingsIcon />,
-          // activeIcon: <span className={dynamicsFont.settingHover} />,
           label: 'Settings',
           activeIcon: <SettingsHoverIcon />,
           path: '/settings',

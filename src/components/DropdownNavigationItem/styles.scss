@@ -16,16 +16,12 @@
     background-color: #fafafa;
     border-bottom: 1px solid #efefef;
   }
-
-  &.active {
-    opacity: 1;
-    color: #0073ae;
-  }
 }
 
 .iconHolder {
+  position: relative;
   display: inline-block;
-  width: 23px;
+  width: 25px;
   height: 22px;
   font-size: 22px;
   line-height: 22px;
@@ -34,9 +30,13 @@
   span {
     line-height: initial !important;
   }
-  &.active path {
-    fill: #0684bd;
-    stroke: #0684bd;
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
   }
 }
 

@@ -58,7 +58,7 @@ function ClickToSmsButton({
       disabled={disableLinks || !phoneNumber} >
       <span
         className={dynamicsFont.composeText}
-        title={title}/>
+        title={title} />
     </Button>
   );
 }
@@ -213,7 +213,6 @@ export default class ActionMenu extends Component {
             {clickToSmsButton}
             {entityButton}
             {logButton}
-            {entityModal}
           </div>
         </SlideMenu>
       </div>
