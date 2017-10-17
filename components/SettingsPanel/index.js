@@ -100,7 +100,8 @@ function SettingsPanel(_ref) {
       setInvisible = _ref.setInvisible,
       toggleAcceptCallQueueCalls = _ref.toggleAcceptCallQueueCalls,
       isCallQueueMember = _ref.isCallQueueMember,
-      showPresenceSettings = _ref.showPresenceSettings;
+      showPresenceSettings = _ref.showPresenceSettings,
+      additional = _ref.additional;
 
   if (showSpinner) {
     return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -188,6 +189,7 @@ function SettingsPanel(_ref) {
       autoLog,
       autoLogSMS,
       clickToDial,
+      additional,
       _react2.default.createElement(
         'section',
         { className: _styles2.default.section },
@@ -260,7 +262,8 @@ SettingsPanel.propTypes = {
   setDoNotDisturb: _propTypes2.default.func,
   setInvisible: _propTypes2.default.func,
   toggleAcceptCallQueueCalls: _propTypes2.default.func,
-  showPresenceSettings: _propTypes2.default.bool
+  showPresenceSettings: _propTypes2.default.bool,
+  additional: _propTypes2.default.node
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -297,6 +300,7 @@ SettingsPanel.defaultProps = {
   toggleAcceptCallQueueCalls: function toggleAcceptCallQueueCalls() {
     return null;
   },
-  showPresenceSettings: false
+  showPresenceSettings: false,
+  additional: null
 };
 //# sourceMappingURL=index.js.map
