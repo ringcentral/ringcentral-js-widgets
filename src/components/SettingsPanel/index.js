@@ -49,6 +49,7 @@ export default function SettingsPanel({
   toggleAcceptCallQueueCalls,
   isCallQueueMember,
   showPresenceSettings,
+  additional,
 }) {
   if (showSpinner) {
     return (
@@ -153,6 +154,7 @@ export default function SettingsPanel({
         {autoLog}
         {autoLogSMS}
         {clickToDial}
+        {additional}
         <section className={styles.section}>
           <Line>
             <EulaRenderer
@@ -215,6 +217,7 @@ SettingsPanel.propTypes = {
   setInvisible: PropTypes.func,
   toggleAcceptCallQueueCalls: PropTypes.func,
   showPresenceSettings: PropTypes.bool,
+  additional: PropTypes.node,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -242,4 +245,5 @@ SettingsPanel.defaultProps = {
   setInvisible: () => null,
   toggleAcceptCallQueueCalls: () => null,
   showPresenceSettings: false,
+  additional: null,
 };
