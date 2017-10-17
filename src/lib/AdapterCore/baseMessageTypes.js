@@ -5,7 +5,10 @@ export default new Enum([
   'syncMinimized',
   'syncSize',
   'syncPosition',
-  'syncPresence',
-  'syncAdapterState',
+  'pushPresence',
+  'pushAdapterState',
+  'pushLocale',
   'presenceClicked',
-], 'adapter');
+  'clickToDial',
+  'clickToSms',
+]);
