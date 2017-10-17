@@ -20,18 +20,6 @@ export default function NavigationButton({
       notice = <div className={styles.notice}>{noticeCounts}</div>;
     }
   }
-  // let navIcon = icon;
-  // if (contactActive) {
-  //   navIcon = contactNavIcon;
-  // } else if (settingsActive) {
-  //   navIcon = settingsNavIcon;
-  // } else if (conferenceActive) {
-  //   navIcon = conferenceNavIcon;
-  // } else if (meetingActive) {
-  //   navIcon = meetingNavIcon;
-  // } else if (active) {
-  //   navIcon = activeIcon;
-  // }
   return (
     <div
       onClick={onClick}
@@ -63,26 +51,10 @@ NavigationButton.propTypes = {
     PropTypes.string,
   ]).isRequired,
   onClick: PropTypes.func,
-  contactNavIcon: PropTypes.node,
-  meetingNavIcon: PropTypes.node,
-  conferenceNavIcon: PropTypes.node,
-  settingsNavIcon: PropTypes.node,
-  contactActive: PropTypes.bool,
-  meetingActive: PropTypes.bool,
-  conferenceActive: PropTypes.bool,
-  settingsActive: PropTypes.bool,
 };
 NavigationButton.defaultProps = {
   active: false,
   label: undefined,
   noticeCounts: undefined,
   onClick: undefined,
-  contactNavIcon: undefined,
-  meetingNavIcon: undefined,
-  conferenceNavIcon: undefined,
-  settingsNavIcon: undefined,
-  contactActive: false,
-  meetingActive: false,
-  conferenceActive: false,
-  settingsActive: false,
 };
