@@ -5,10 +5,15 @@ import DialPad from '../DialPad';
 import CircleButton from '../CircleButton';
 import BackHeader from '../BackHeader';
 
+import audios from '../DialButton/audios';
+
 import EndIcon from '../../assets/images/End.svg';
 
 import styles from './styles.scss';
 import i18n from './i18n';
+
+const cleanRegex = /[^\d*#]/g;
+const filter = value => value.replace(cleanRegex, '');
 
 class ActiveCallDialPad extends Component {
   constructor(props) {
@@ -16,11 +21,70 @@ class ActiveCallDialPad extends Component {
     this.state = {
       value: '',
     };
+
+    if (typeof document !== 'undefined' && document.createElement) {
+      this.audio = document.createElement('audio');
+    }
+
+    this.playAudio = (value) => {
+      if (this.audio && this.audio.canPlayType('audio/ogg') !== '' && audios[value]) {
+        if (!this.audio.paused) {
+          this.audio.pause();
+        }
+        this.audio.src = audios[value];
+        this.audio.currentTime = 0;
+        this.audio.play();
+      }
+    };
+
     this.onButtonOutput = (key) => {
       this.setState((preState) => {
         const value = preState.value + key;
         this.props.onChange(key);
         return { value };
+      });
+    };
+
+    this.sendDTMFKeys = (value) => {
+      let keys = filter(value);
+      if (keys === '') {
+        return;
+      }
+      if (keys.length > 15) {
+        keys = keys.slice(0, 15);
+      }
+      keys = keys.split('');
+      keys.forEach((key, index) => {
+        setTimeout(() => {
+          this.playAudio(key);
+          this.props.onChange(key);
+        }, 100 * index);
+      });
+    };
+
+    this.onChange = (e) => {
+      const value = filter(e.currentTarget.value);
+      this.setState((preState) => {
+        if (value.length - preState.value.length < 15) {
+          return {
+            value
+          };
+        }
+        return {
+          value: value.slice(0, preState.value.length + 15)
+        };
+      });
+    };
+
+    this.onKeyDown = (e) => {
+      const value = filter(e.key);
+      this.sendDTMFKeys(value);
+    };
+
+    this.onPaste = (e) => {
+      const item = e.clipboardData.items[0];
+      item.getAsString((data) => {
+        this.sendDTMFKeys(data);
       });
     };
   }
@@ -37,6 +101,10 @@ class ActiveCallDialPad extends Component {
           <input
             className={styles.input}
             value={this.state.value}
+            onChange={this.onChange}
+            onKeyDown={this.onKeyDown}
+            onPaste={this.onPaste}
+            autoFocus // eslint-disable-line
           />
         </div>
         <div className={styles.padContainer}>

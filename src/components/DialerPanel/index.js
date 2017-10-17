@@ -41,7 +41,8 @@ function DialerPanel({
           onDelete={() => {
             keepToNumber('');
           }}
-          />
+          autoFocus
+        />
         <CallIdSelect
           fromNumber={fromNumber}
           fromNumbers={fromNumbers}

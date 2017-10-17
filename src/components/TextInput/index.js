@@ -40,6 +40,7 @@ class TextInput extends Component {
       maxLength,
       defaultValue,
       onKeyDown,
+      autoFocus
     } = this.props;
     const {
       value,
@@ -52,6 +53,7 @@ class TextInput extends Component {
           invalid && styles.invalid,
         )}>
         <input
+          autoFocus={autoFocus} // eslint-disable-line
           ref={(input) => { this.input = input; }}
           onChange={this.onInputChange}
           placeholder={placeholder}
@@ -121,6 +123,7 @@ TextInput.propTypes = {
   invalid: PropTypes.bool,
   onKeyDown: PropTypes.func,
   filter: PropTypes.func,
+  autoFocus: PropTypes.bool,
 };
 TextInput.defaultProps = {
   className: undefined,
@@ -136,6 +139,7 @@ TextInput.defaultProps = {
   invalid: false,
   onKeyDown: undefined,
   filter: undefined,
+  autoFocus: false
 };
 
 export default TextInput;

@@ -12,6 +12,7 @@ function DialTextInput({
   value,
   onChangeEvent,
   onDelete,
+  autoFocus
 }) {
   const deleteDisplay = value === '' ? { display: 'none' } : { display: 'block' };
   return (
@@ -29,6 +30,7 @@ function DialTextInput({
         className={styles.dial_Input}
         value={value}
         onChange={onChangeEvent}
+        autoFocus={autoFocus}
       />
       <span
         style={deleteDisplay}
@@ -45,9 +47,11 @@ DialTextInput.propTypes = {
   value: PropTypes.string,
   onChangeEvent: PropTypes.func,
   onDelete: PropTypes.func,
+  autoFocus: PropTypes.bool,
 };
 DialTextInput.defaultValue = {
-  className: styles.input
+  className: styles.input,
+  autoFocus: false,
 };
 
 
