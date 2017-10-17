@@ -78,15 +78,23 @@ function getTabs({
     {
       icon: <MoreMenuIcon />,
       activeIcon: <MoreMenuHoverIcon />,
-      contactNavIcon: <ContactNavIcon />,
-      settingsNavIcon: <SettingsNavIcon />,
-      meetingNavIcon: <MeetingNavIcon />,
-      conferenceNavIcon: <ConferenceNavIcon />,
       label: 'More Menu',
       virtualPath: '!moreMenu',
       isActive: (currentPath, currentVirtualPath) => (
         currentVirtualPath === '!moreMenu'
       ),
+      getIcon: (currentPath) => {
+        if (currentPath === '/contacts') {
+          return <ContactNavIcon />;
+        } else if (currentPath === '/settings') {
+          return <SettingsNavIcon />;
+        } else if (currentPath === '/conference') {
+          return <MeetingNavIcon />;
+        } else if (currentPath === '/meeting') {
+          return <ConferenceNavIcon />;
+        }
+        return <MoreMenuIcon />;
+      },
       childTabs: [
         {
           icon: <ContactIcon />,
