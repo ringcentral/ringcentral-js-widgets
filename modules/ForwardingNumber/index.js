@@ -45,7 +45,7 @@ var _DataFetcher2 = require('../../lib/DataFetcher');
 
 var _DataFetcher3 = _interopRequireDefault(_DataFetcher2);
 
-var _fetchList = require('../..//lib/fetchList');
+var _fetchList = require('../../lib/fetchList');
 
 var _fetchList2 = _interopRequireDefault(_fetchList);
 

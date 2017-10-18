@@ -173,7 +173,7 @@ var Contacts = function (_RcModule) {
     }, function (extensions, extensionToPhoneNumberMap) {
       var newExtensions = [];
       extensions.forEach(function (extension) {
-        if (!(extension.status === 'Enabled' && ['DigitalUser', 'User'].indexOf(extension.type) >= 0)) {
+        if (!(extension.status === 'Enabled' && ['DigitalUser', 'User', 'Department'].indexOf(extension.type) >= 0)) {
           return;
         }
         var contact = {

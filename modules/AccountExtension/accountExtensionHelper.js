@@ -12,7 +12,7 @@ exports.simplifyExtensionData = simplifyExtensionData;
  * @return {Boolean}
  */
 function isEssential(ext) {
-  return ext.extensionNumber && ext.extensionNumber !== '' && ext.status === 'Enabled' && (ext.type === 'DigitalUser' || ext.type === 'User');
+  return ext.extensionNumber && ext.extensionNumber !== '' && ext.status === 'Enabled' && ['DigitalUser', 'User', 'Department'].indexOf(ext.type) >= 0;
 }
 /**
  * @function
