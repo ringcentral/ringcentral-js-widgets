@@ -268,8 +268,7 @@ var ActionMenu = function (_Component) {
             clickToDialButton,
             clickToSmsButton,
             entityButton,
-            logButton,
-            entityModal
+            logButton
           )
         )
       );

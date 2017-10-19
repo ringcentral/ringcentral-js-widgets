@@ -103,18 +103,25 @@ var NavigationBar = function (_Component) {
 
       var currentVirtualPath = this.state.currentVirtualPath;
       var tabWidth = tabs.length > 0 ? 1 / tabs.length * 100 + '%' : 0;
-
       return _react2.default.createElement(
         'nav',
         { className: (0, _classnames2.default)(_styles2.default.root, className) },
         tabs.map(function (tab, index) {
+          var Icon = tab.icon;
+          var icon = Icon;
+          if (typeof Icon === 'function') {
+            icon = tab.childTabs ? _react2.default.createElement(Icon, { currentPath: currentPath }) : _react2.default.createElement(Icon, null);
+          }
+          var ActiveIcon = tab.activeIcon;
           return _react2.default.createElement(NavigationButton, (0, _extends3.default)({}, tab, {
             key: index,
             onClick: function onClick() {
               _this3.goTo(tab);
             },
             active: tab.isActive && tab.isActive(currentPath, currentVirtualPath) || tab.path && tab.path === currentPath || tab.virtualPath && tab.virtualPath === currentVirtualPath,
-            width: tabWidth
+            width: tabWidth,
+            icon: icon,
+            activeIcon: typeof ActiveIcon === 'function' ? _react2.default.createElement(ActiveIcon, null) : ActiveIcon
           }));
         }),
         ChildNavigationView ? _react2.default.createElement(ChildNavigationView, {
@@ -133,8 +140,8 @@ exports.default = NavigationBar;
 
 
 var tabPropTypes = {
-  icon: _propTypes2.default.node,
-  activeIcon: _propTypes2.default.node,
+  icon: _propTypes2.default.func,
+  activeIcon: _propTypes2.default.func,
   label: _propTypes2.default.string,
   path: _propTypes2.default.string,
   virtualPath: _propTypes2.default.string,

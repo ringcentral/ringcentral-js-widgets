@@ -47,7 +47,6 @@ function DropdownNavigationItem(_ref) {
       );
     }
   }
-
   return _react2.default.createElement(
     'div',
     {

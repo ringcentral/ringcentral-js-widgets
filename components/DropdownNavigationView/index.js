@@ -128,12 +128,16 @@ var DropdownNavigationView = function (_Component) {
           }
         },
         activeTab.childTabs.map(function (tab, index) {
+          var Icon = tab.icon;
+          var ActiveIcon = tab.activeIcon;
           return _react2.default.createElement(_DropdownNavigationItem2.default, (0, _extends3.default)({}, tab, {
             key: index,
             onClick: function onClick() {
               goTo(tab);
             },
-            active: tab.isActive && tab.isActive(currentPath, currentVirtualPath) || tab.path && tab.path === currentPath || tab.virtualPath && tab.virtualPath === currentVirtualPath
+            active: tab.isActive && tab.isActive(currentPath, currentVirtualPath) || tab.path && tab.path === currentPath || tab.virtualPath && tab.virtualPath === currentVirtualPath,
+            icon: typeof Icon === 'function' ? _react2.default.createElement(Icon, null) : Icon,
+            activeIcon: typeof ActiveIcon === 'function' ? _react2.default.createElement(ActiveIcon, null) : ActiveIcon
           }));
         })
       ) : null;
