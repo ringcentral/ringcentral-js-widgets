@@ -15,6 +15,8 @@ import i18n from './i18n';
 const cleanRegex = /[^\d*#]/g;
 const filter = value => value.replace(cleanRegex, '');
 
+const MAX_PASTE_LENGTH = 15;
+
 class ActiveCallDialPad extends Component {
   constructor(props) {
     super(props);
@@ -45,16 +47,11 @@ class ActiveCallDialPad extends Component {
       });
     };
 
-    this.sendDTMFKeys = (value) => {
-      let keys = filter(value);
+    this.sendDTMFKeys = (keys) => {
       if (keys === '') {
         return;
       }
-      if (keys.length > 15) {
-        keys = keys.slice(0, 15);
-      }
-      keys = keys.split('');
-      keys.forEach((key, index) => {
+      keys.split('').forEach((key, index) => {
         setTimeout(() => {
           this.playAudio(key);
           this.props.onChange(key);
@@ -64,16 +61,7 @@ class ActiveCallDialPad extends Component {
 
     this.onChange = (e) => {
       const value = filter(e.currentTarget.value);
-      this.setState((preState) => {
-        if (value.length - preState.value.length < 15) {
-          return {
-            value
-          };
-        }
-        return {
-          value: value.slice(0, preState.value.length + 15)
-        };
-      });
+      this.setState({ value });
     };
 
     this.onKeyDown = (e) => {
@@ -84,7 +72,17 @@ class ActiveCallDialPad extends Component {
     this.onPaste = (e) => {
       const item = e.clipboardData.items[0];
       item.getAsString((data) => {
-        this.sendDTMFKeys(data);
+        const value = filter(data);
+        let keys = value;
+        if (value.length > MAX_PASTE_LENGTH) {
+          keys = value.slice(0, MAX_PASTE_LENGTH);
+        }
+        this.sendDTMFKeys(keys);
+        if (value.length > MAX_PASTE_LENGTH) {
+          this.setState(preState => ({
+            value: preState.value.replace(value, keys)
+          }));
+        }
       });
     };
   }
