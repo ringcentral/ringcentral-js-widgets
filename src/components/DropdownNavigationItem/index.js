@@ -48,8 +48,8 @@ export default function DropdownNavigationItem({
 }
 
 DropdownNavigationItem.propTypes = {
-  icon: PropTypes.func,
-  activeIcon: PropTypes.func,
+  icon: PropTypes.func || PropTypes.node,
+  activeIcon: PropTypes.func || PropTypes.node,
   active: PropTypes.bool,
   label: PropTypes.string,
   noticeCounts: PropTypes.number,
