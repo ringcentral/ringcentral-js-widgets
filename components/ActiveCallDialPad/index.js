@@ -67,6 +67,8 @@ var filter = function filter(value) {
   return value.replace(cleanRegex, '');
 };
 
+var MAX_PASTE_LENGTH = 15;
+
 var ActiveCallDialPad = function (_Component) {
   (0, _inherits3.default)(ActiveCallDialPad, _Component);
 
@@ -102,16 +104,11 @@ var ActiveCallDialPad = function (_Component) {
       });
     };
 
-    _this.sendDTMFKeys = function (value) {
-      var keys = filter(value);
+    _this.sendDTMFKeys = function (keys) {
       if (keys === '') {
         return;
       }
-      if (keys.length > 15) {
-        keys = keys.slice(0, 15);
-      }
-      keys = keys.split('');
-      keys.forEach(function (key, index) {
+      keys.split('').forEach(function (key, index) {
         setTimeout(function () {
           _this.playAudio(key);
           _this.props.onChange(key);
@@ -121,16 +118,7 @@ var ActiveCallDialPad = function (_Component) {
 
     _this.onChange = function (e) {
       var value = filter(e.currentTarget.value);
-      _this.setState(function (preState) {
-        if (value.length - preState.value.length < 15) {
-          return {
-            value: value
-          };
-        }
-        return {
-          value: value.slice(0, preState.value.length + 15)
-        };
-      });
+      _this.setState({ value: value });
     };
 
     _this.onKeyDown = function (e) {
@@ -141,7 +129,19 @@ var ActiveCallDialPad = function (_Component) {
     _this.onPaste = function (e) {
       var item = e.clipboardData.items[0];
       item.getAsString(function (data) {
-        _this.sendDTMFKeys(data);
+        var value = filter(data);
+        var keys = value;
+        if (value.length > MAX_PASTE_LENGTH) {
+          keys = value.slice(0, MAX_PASTE_LENGTH);
+        }
+        _this.sendDTMFKeys(keys);
+        if (value.length > MAX_PASTE_LENGTH) {
+          _this.setState(function (preState) {
+            return {
+              value: preState.value.replace(value, keys)
+            };
+          });
+        }
       });
     };
     return _this;
