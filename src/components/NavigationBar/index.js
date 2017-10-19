@@ -50,22 +50,32 @@ export default class NavigationBar extends Component {
     return (
       <nav className={classnames(styles.root, className)}>
         {
-          tabs.map((tab, index) => (
-            <NavigationButton
-              {...tab}
-              key={index}
-              onClick={() => {
-                this.goTo(tab);
-              }}
-              active={
-                (tab.isActive && tab.isActive(currentPath, currentVirtualPath)) ||
-                (tab.path && tab.path === currentPath) ||
-                (tab.virtualPath && tab.virtualPath === currentVirtualPath)
-              }
-              icon={tab.getIcon && tab.getIcon(currentPath) || tab.icon}
-              width={tabWidth}
-            />
-          ))
+          tabs.map((tab, index) => {
+            const Icon = tab.icon;
+            let icon = Icon;
+            if (typeof Icon === 'function') {
+              icon = (tab.childTabs ? <Icon currentPath={currentPath} /> : <Icon />);
+            }
+            const ActiveIcon = tab.activeIcon;
+            const activeIcon = typeof ActiveIcon === 'function' ? <ActiveIcon /> : ActiveIcon;
+            return (
+              <NavigationButton
+                {...tab}
+                key={index}
+                onClick={() => {
+                  this.goTo(tab);
+                }}
+                active={
+                  (tab.isActive && tab.isActive(currentPath, currentVirtualPath)) ||
+                  (tab.path && tab.path === currentPath) ||
+                  (tab.virtualPath && tab.virtualPath === currentVirtualPath)
+                }
+                width={tabWidth}
+                icon={icon}
+                activeIcon={activeIcon}
+              />
+            );
+          })
         }
         {
           ChildNavigationView ? (

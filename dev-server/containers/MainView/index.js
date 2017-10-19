@@ -77,18 +77,17 @@ function getTabs({
       path: '/composeText',
     },
     {
-      icon: MoreMenuIcon,
-      getIcon: (currentPath) => {
+      icon: ({ currentPath }) => {
         if (currentPath === '/contacts') {
-          return ContactNavIcon;
+          return <ContactNavIcon />;
         } else if (currentPath === '/settings') {
-          return SettingsNavIcon;
+          return <SettingsNavIcon />;
         } else if (currentPath === '/meeting') {
-          return MeetingNavIcon;
+          return <MeetingNavIcon />;
         } else if (currentPath === '/conference') {
-          return ConferenceNavIcon;
+          return <ConferenceNavIcon />;
         }
-        return MoreMenuIcon;
+        return <MoreMenuIcon />;
       },
       activeIcon: MoreMenuHoverIcon,
       label: 'More Menu',
