@@ -20,7 +20,13 @@ export default function DropdownNavigationItem({
       notice = <div className={styles.notice}>{noticeCounts}</div>;
     }
   }
-
+  let navIcon = null;
+  const Icon = active ? activeIcon : icon;
+  if (typeof Icon === 'function') {
+    navIcon = <Icon />;
+  } else {
+    navIcon = Icon;
+  }
   return (
     <div
       title={label}
@@ -31,7 +37,7 @@ export default function DropdownNavigationItem({
       )}
     >
       <div className={styles.iconHolder}>
-        {active ? activeIcon : icon}
+        {navIcon}
       </div>
       <div className={styles.labelHolder}>
         {label}
@@ -42,8 +48,8 @@ export default function DropdownNavigationItem({
 }
 
 DropdownNavigationItem.propTypes = {
-  icon: PropTypes.node.isRequired,
-  activeIcon: PropTypes.node.isRequired,
+  icon: PropTypes.func,
+  activeIcon: PropTypes.func,
   active: PropTypes.bool,
   label: PropTypes.string,
   noticeCounts: PropTypes.number,
@@ -52,6 +58,8 @@ DropdownNavigationItem.propTypes = {
 
 DropdownNavigationItem.defaultProps = {
   active: false,
+  icon: null,
+  activeIcon: null,
   label: undefined,
   noticeCounts: undefined,
   onClick: undefined,

@@ -20,6 +20,14 @@ export default function NavigationButton({
       notice = <div className={styles.notice}>{noticeCounts}</div>;
     }
   }
+  let navIcon = null;
+  const Icon = active ? activeIcon : icon;
+  if (typeof Icon === 'function') {
+    navIcon = <Icon />;
+  } else {
+    navIcon = Icon;
+  }
+
   return (
     <div
       onClick={onClick}
@@ -33,7 +41,7 @@ export default function NavigationButton({
     >
       <div className={styles.iconHolder} title={label}>
         <div className={styles.icon}>
-          {active ? activeIcon : icon}
+          {navIcon}
         </div>
         {notice}
       </div>
@@ -41,8 +49,8 @@ export default function NavigationButton({
   );
 }
 NavigationButton.propTypes = {
-  icon: PropTypes.node.isRequired,
-  activeIcon: PropTypes.node.isRequired,
+  icon: PropTypes.func,
+  activeIcon: PropTypes.func,
   active: PropTypes.bool,
   label: PropTypes.string,
   noticeCounts: PropTypes.number,
@@ -57,4 +65,6 @@ NavigationButton.defaultProps = {
   label: undefined,
   noticeCounts: undefined,
   onClick: undefined,
+  icon: null,
+  activeIcon: null,
 };

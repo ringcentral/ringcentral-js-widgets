@@ -31,6 +31,7 @@ import MeetingNavIcon from '../../../src/assets/images/MeetingNavigation.svg';
 import ConferenceNavIcon from '../../../src/assets/images/ConferenceNavigation.svg';
 import SettingsNavIcon from '../../../src/assets/images/SettingsNavigation.svg';
 
+
 function getTabs({
   showMessages,
   showComposeText,
@@ -39,14 +40,14 @@ function getTabs({
 }) {
   return [
     {
-      icon: <DialPadIcon />,
-      activeIcon: <DialPadHoverIcon />,
+      icon: DialPadIcon,
+      activeIcon: DialPadHoverIcon,
       label: 'Dial Pad',
       path: '/dialer',
     },
     {
-      icon: <CallsIcon />,
-      activeIcon: <CallsHoverIcon />,
+      icon: CallsIcon,
+      activeIcon: CallsHoverIcon,
       label: 'Calls',
       path: '/calls',
       isActive: currentPath => (
@@ -54,14 +55,14 @@ function getTabs({
       ),
     },
     {
-      icon: <HistoryIcon />,
-      activeIcon: <HistoryHoverIcon />,
+      icon: HistoryIcon,
+      activeIcon: HistoryHoverIcon,
       label: 'History',
       path: '/history',
     },
     showMessages && {
-      icon: <MessageIcon />,
-      activeIcon: <MessageHoverIcon />,
+      icon: MessageIcon,
+      activeIcon: MessageHoverIcon,
       label: 'Messages',
       path: '/messages',
       noticeCounts: unreadCounts,
@@ -70,35 +71,35 @@ function getTabs({
       ),
     },
     showComposeText && {
-      icon: <ComposeTextIcon />,
-      activeIcon: <ComposeTextHoverIcon />,
+      icon: ComposeTextIcon,
+      activeIcon: ComposeTextHoverIcon,
       label: 'Compose Text',
       path: '/composeText',
     },
     {
-      icon: <MoreMenuIcon />,
-      activeIcon: <MoreMenuHoverIcon />,
+      icon: MoreMenuIcon,
+      getIcon: (currentPath) => {
+        if (currentPath === '/contacts') {
+          return ContactNavIcon;
+        } else if (currentPath === '/settings') {
+          return SettingsNavIcon;
+        } else if (currentPath === '/meeting') {
+          return MeetingNavIcon;
+        } else if (currentPath === '/conference') {
+          return ConferenceNavIcon;
+        }
+        return MoreMenuIcon;
+      },
+      activeIcon: MoreMenuHoverIcon,
       label: 'More Menu',
       virtualPath: '!moreMenu',
       isActive: (currentPath, currentVirtualPath) => (
         currentVirtualPath === '!moreMenu'
       ),
-      getIcon: (currentPath) => {
-        if (currentPath === '/contacts') {
-          return <ContactNavIcon />;
-        } else if (currentPath === '/settings') {
-          return <SettingsNavIcon />;
-        } else if (currentPath === '/conference') {
-          return <MeetingNavIcon />;
-        } else if (currentPath === '/meeting') {
-          return <ConferenceNavIcon />;
-        }
-        return <MoreMenuIcon />;
-      },
       childTabs: [
         {
-          icon: <ContactIcon />,
-          activeIcon: <ContactHoverIcon />,
+          icon: ContactIcon,
+          activeIcon: ContactHoverIcon,
           label: 'Contacts',
           path: '/contacts',
           isActive: currentPath => (
@@ -106,21 +107,21 @@ function getTabs({
           ),
         },
         {
-          icon: <MeetingIcon />,
-          activeIcon: <MeetingHoverIcon />,
+          icon: MeetingIcon,
+          activeIcon: MeetingHoverIcon,
           label: 'Schedule Meeting',
           path: '/meeting',
         },
         showConference && {
-          icon: <ConferenceIcon />,
-          activeIcon: <ConferenceHoverIcon />,
+          icon: ConferenceIcon,
+          activeIcon: ConferenceHoverIcon,
           label: 'Schedule Conference',
           path: '/conference',
         },
         {
-          icon: <SettingsIcon />,
+          icon: SettingsIcon,
+          activeIcon: SettingsHoverIcon,
           label: 'Settings',
-          activeIcon: <SettingsHoverIcon />,
           path: '/settings',
           isActive: currentPath => (
             currentPath.substr(0, 9) === '/settings'

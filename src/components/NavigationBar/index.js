@@ -83,8 +83,8 @@ export default class NavigationBar extends Component {
 }
 
 const tabPropTypes = {
-  icon: PropTypes.node,
-  activeIcon: PropTypes.node,
+  icon: PropTypes.func,
+  activeIcon: PropTypes.func,
   label: PropTypes.string,
   path: PropTypes.string,
   virtualPath: PropTypes.string,
