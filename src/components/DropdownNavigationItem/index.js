@@ -41,8 +41,8 @@ export default function DropdownNavigationItem({
 }
 
 DropdownNavigationItem.propTypes = {
-  icon: PropTypes.node,
-  activeIcon: PropTypes.node,
+  icon: PropTypes.node.isRequired,
+  activeIcon: PropTypes.node.isRequired,
   active: PropTypes.bool,
   label: PropTypes.string,
   noticeCounts: PropTypes.number,

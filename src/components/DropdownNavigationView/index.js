@@ -73,9 +73,7 @@ export default class DropdownNavigationView extends Component {
           {
             activeTab.childTabs.map((tab, index) => {
               const Icon = tab.icon;
-              const icon = typeof Icon === 'function' ? <Icon /> : Icon;
               const ActiveIcon = tab.activeIcon;
-              const activeIcon = typeof ActiveIcon === 'function' ? <ActiveIcon /> : ActiveIcon;
               return (
                 <DropdownNavigationItem
                   {...tab}
@@ -88,8 +86,8 @@ export default class DropdownNavigationView extends Component {
                     (tab.path && tab.path === currentPath) ||
                     (tab.virtualPath && tab.virtualPath === currentVirtualPath)
                   }
-                  icon={icon}
-                  activeIcon={activeIcon}
+                  icon={typeof Icon === 'function' ? <Icon /> : Icon}
+                  activeIcon={typeof ActiveIcon === 'function' ? <ActiveIcon /> : ActiveIcon}
               />
               );
             })
