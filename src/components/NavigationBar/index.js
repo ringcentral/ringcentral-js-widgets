@@ -47,25 +47,34 @@ export default class NavigationBar extends Component {
     const tabWidth = tabs.length > 0 ?
       `${(1 / tabs.length) * 100}%` :
       0;
-
     return (
       <nav className={classnames(styles.root, className)}>
         {
-          tabs.map((tab, index) => (
-            <NavigationButton
-              {...tab}
-              key={index}
-              onClick={() => {
-                this.goTo(tab);
-              }}
-              active={
-                (tab.isActive && tab.isActive(currentPath, currentVirtualPath)) ||
-                (tab.path && tab.path === currentPath) ||
-                (tab.virtualPath && tab.virtualPath === currentVirtualPath)
-              }
-              width={tabWidth}
-            />
-          ))
+          tabs.map((tab, index) => {
+            const Icon = tab.icon;
+            let icon = Icon;
+            if (typeof Icon === 'function') {
+              icon = (tab.childTabs ? <Icon currentPath={currentPath} /> : <Icon />);
+            }
+            const ActiveIcon = tab.activeIcon;
+            return (
+              <NavigationButton
+                {...tab}
+                key={index}
+                onClick={() => {
+                  this.goTo(tab);
+                }}
+                active={
+                  (tab.isActive && tab.isActive(currentPath, currentVirtualPath)) ||
+                  (tab.path && tab.path === currentPath) ||
+                  (tab.virtualPath && tab.virtualPath === currentVirtualPath)
+                }
+                width={tabWidth}
+                icon={icon}
+                activeIcon={typeof ActiveIcon === 'function' ? <ActiveIcon /> : ActiveIcon}
+              />
+            );
+          })
         }
         {
           ChildNavigationView ? (
@@ -83,8 +92,8 @@ export default class NavigationBar extends Component {
 }
 
 const tabPropTypes = {
-  icon: PropTypes.node,
-  activeIcon: PropTypes.node,
+  icon: PropTypes.func,
+  activeIcon: PropTypes.func,
   label: PropTypes.string,
   path: PropTypes.string,
   virtualPath: PropTypes.string,

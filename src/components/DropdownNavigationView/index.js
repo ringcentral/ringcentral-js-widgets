@@ -71,20 +71,26 @@ export default class DropdownNavigationView extends Component {
           ref={(el) => { this.setChildNavigationElement(el); }}
         >
           {
-            activeTab.childTabs.map((tab, index) => (
-              <DropdownNavigationItem
-                {...tab}
-                key={index}
-                onClick={() => {
-                  goTo(tab);
-                }}
-                active={
-                  (tab.isActive && tab.isActive(currentPath, currentVirtualPath)) ||
-                  (tab.path && tab.path === currentPath) ||
-                  (tab.virtualPath && tab.virtualPath === currentVirtualPath)
-                }
+            activeTab.childTabs.map((tab, index) => {
+              const Icon = tab.icon;
+              const ActiveIcon = tab.activeIcon;
+              return (
+                <DropdownNavigationItem
+                  {...tab}
+                  key={index}
+                  onClick={() => {
+                    goTo(tab);
+                  }}
+                  active={
+                    (tab.isActive && tab.isActive(currentPath, currentVirtualPath)) ||
+                    (tab.path && tab.path === currentPath) ||
+                    (tab.virtualPath && tab.virtualPath === currentVirtualPath)
+                  }
+                  icon={typeof Icon === 'function' ? <Icon /> : Icon}
+                  activeIcon={typeof ActiveIcon === 'function' ? <ActiveIcon /> : ActiveIcon}
               />
-            ))
+              );
+            })
           }
         </div>
       ) : null
