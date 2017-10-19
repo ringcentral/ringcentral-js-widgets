@@ -57,6 +57,4 @@ NavigationButton.defaultProps = {
   label: undefined,
   noticeCounts: undefined,
   onClick: undefined,
-  icon: null,
-  activeIcon: null,
 };

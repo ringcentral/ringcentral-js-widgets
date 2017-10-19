@@ -51,8 +51,6 @@ DropdownNavigationItem.propTypes = {
 
 DropdownNavigationItem.defaultProps = {
   active: false,
-  icon: null,
-  activeIcon: null,
   label: undefined,
   noticeCounts: undefined,
   onClick: undefined,
