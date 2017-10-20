@@ -37,7 +37,8 @@ export default function CallsPanel({
   webphoneResume,
   enableContactFallback,
   autoLog,
-  showContactDisplayPlaceholder
+  showContactDisplayPlaceholder,
+  sourceIcons
 }) {
   const content = showSpinner ?
     <SpinnerOverlay /> :
@@ -68,6 +69,7 @@ export default function CallsPanel({
         enableContactFallback={enableContactFallback}
         autoLog={autoLog}
         showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+        sourceIcons={sourceIcons}
       />
     );
   return (
@@ -109,7 +111,8 @@ CallsPanel.propTypes = {
   webphoneResume: PropTypes.func,
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
-  showContactDisplayPlaceholder: PropTypes.bool
+  showContactDisplayPlaceholder: PropTypes.bool,
+  sourceIcons: PropTypes.object,
 };
 
 CallsPanel.defaultProps = {
@@ -133,4 +136,5 @@ CallsPanel.defaultProps = {
   enableContactFallback: undefined,
   autoLog: false,
   showContactDisplayPlaceholder: true,
+  sourceIcons: undefined,
 };

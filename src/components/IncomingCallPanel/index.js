@@ -42,6 +42,7 @@ function UserInfo(props) {
           enableContactFallback
           brand={props.brand}
           showPlaceholder={props.showContactDisplayPlaceholder}
+          sourceIcons={props.sourceIcons}
         />
       </div>
       <div className={styles.userPhoneNumber}>
@@ -64,6 +65,7 @@ UserInfo.propTypes = {
   avatarUrl: PropTypes.string,
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
+  sourceIcons: PropTypes.object,
 };
 
 UserInfo.defaultProps = {
@@ -72,6 +74,7 @@ UserInfo.defaultProps = {
   avatarUrl: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
+  sourceIcons: undefined,
 };
 
 export default function IncomingCallPanel(props) {
@@ -94,6 +97,7 @@ export default function IncomingCallPanel(props) {
         avatarUrl={props.avatarUrl}
         brand={props.brand}
         showContactDisplayPlaceholder={props.showContactDisplayPlaceholder}
+        sourceIcons={props.sourceIcons}
       />
       <IncomingCallPad
         className={styles.callPad}
@@ -141,6 +145,7 @@ IncomingCallPanel.propTypes = {
   answerAndHold: PropTypes.func,
   hasOtherActiveCall: PropTypes.bool,
   sessionId: PropTypes.string.isRequired,
+  sourceIcons: PropTypes.object,
 };
 
 IncomingCallPanel.defaultProps = {
@@ -153,4 +158,5 @@ IncomingCallPanel.defaultProps = {
   answerAndEnd: undefined,
   answerAndHold: undefined,
   hasOtherActiveCall: false,
+  sourceIcons: undefined,
 };

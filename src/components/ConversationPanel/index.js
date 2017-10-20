@@ -200,6 +200,7 @@ class ConversationPanel extends Component {
             currentLocale={this.props.currentLocale}
             enableContactFallback={this.props.enableContactFallback}
             showPlaceholder={this.props.showContactDisplayPlaceholder}
+            sourceIcons={this.props.sourceIcons}
           />
           <a
             onClick={() => this.props.goBack()}
@@ -263,6 +264,7 @@ ConversationPanel.propTypes = {
   dateTimeFormatter: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
   showContactDisplayPlaceholder: PropTypes.bool,
+  sourceIcons: PropTypes.object,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -270,6 +272,7 @@ ConversationPanel.defaultProps = {
   autoLog: false,
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
+  sourceIcons: undefined,
 };
 
 export default ConversationPanel;
