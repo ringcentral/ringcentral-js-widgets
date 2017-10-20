@@ -151,6 +151,7 @@ class IncomingCallPage extends Component {
         answerAndEnd={this.answerAndEnd}
         answerAndHold={this.answerAndHold}
         sessionId={this.props.session.id}
+        sourceIcons={this.props.sourceIcons}
       >
         {this.props.children}
       </IncomingCallPanel>
@@ -188,11 +189,13 @@ IncomingCallPage.propTypes = {
   showContactDisplayPlaceholder: PropTypes.bool.isRequired,
   brand: PropTypes.string.isRequired,
   activeSessionId: PropTypes.string,
+  sourceIcons: PropTypes.object,
 };
 
 IncomingCallPage.defaultProps = {
   children: undefined,
   activeSessionId: null,
+  sourceIcons: undefined,
 };
 
 function mapToProps(_, {

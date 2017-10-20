@@ -32,6 +32,7 @@ function ActiveCallList({
   webphoneToVoicemail,
   enableContactFallback,
   title,
+  sourceIcons
 }) {
   if (calls.length === 0) {
     return null;
@@ -67,6 +68,7 @@ function ActiveCallList({
             webphoneToVoicemail={webphoneToVoicemail}
             enableContactFallback={enableContactFallback}
             autoLog={autoLog}
+            sourceIcons={sourceIcons}
           />
         ))
       }
@@ -99,6 +101,7 @@ ActiveCallList.propTypes = {
   webphoneToVoicemail: PropTypes.func,
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
+  sourceIcons: PropTypes.object,
 };
 
 ActiveCallList.defaultProps = {
@@ -120,6 +123,7 @@ ActiveCallList.defaultProps = {
   autoLog: false,
   onViewContact: undefined,
   webphoneToVoicemail: undefined,
+  sourceIcons: undefined,
 };
 
 export default class ActiveCallsPanel extends Component {
@@ -180,6 +184,7 @@ export default class ActiveCallsPanel extends Component {
       webphoneResume,
       enableContactFallback,
       webphoneToVoicemail,
+      sourceIcons,
     } = this.props;
     if (showSpinner) {
       return (<SpinnerOverlay />);
@@ -218,6 +223,7 @@ export default class ActiveCallsPanel extends Component {
         webphoneResume={webphoneResume}
         webphoneToVoicemail={webphoneToVoicemail}
         enableContactFallback={enableContactFallback}
+        sourceIcons={sourceIcons}
       />
     );
     return (
@@ -260,6 +266,7 @@ ActiveCallsPanel.propTypes = {
   enableContactFallback: PropTypes.bool,
   loggingMap: PropTypes.object,
   onCallsEmpty: PropTypes.func,
+  sourceIcons: PropTypes.object,
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -282,4 +289,5 @@ ActiveCallsPanel.defaultProps = {
   loggingMap: {},
   autoLog: false,
   onCallsEmpty: undefined,
+  sourceIcons: undefined,
 };

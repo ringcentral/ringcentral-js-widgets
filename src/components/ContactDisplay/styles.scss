@@ -22,6 +22,19 @@
     width: 200px;
     left: 50%;
     margin-left: -100px;
+    cursor: pointer;
+    li {
+      line-height: 19px;
+    }
+    li:first-child {
+      padding-top: 7px;
+    }
+    li:last-child {
+      padding-bottom: 7px;
+    }
+    li:hover {
+      background: #f9f9f9;
+    }
   }
 }
 
@@ -30,3 +43,11 @@
   color: #979797;
 }
 
+.typeIcon {
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.typeName {
+  vertical-align: middle;
+}

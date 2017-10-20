@@ -24,10 +24,14 @@ import ContactsPage from '../../../src/containers/ContactsPage';
 import ContactDetailsPage from '../../../src/containers/ContactDetailsPage';
 import MainView from '../MainView';
 import AppView from '../AppView';
+import RcIcon from '../../../src/assets/images/RcIcon.svg';
 
 export default function App({
   phone,
 }) {
+  const sourceIcons = {
+    brandIcon: RcIcon
+  };
   return (
     <Provider store={phone.store} >
       <Router history={phone.router.history} >
@@ -60,6 +64,7 @@ export default function App({
                 router={phone.router}
                 contactMatcher={phone.contactMatcher}
                 showContactDisplayPlaceholder={false}
+                sourceIcons={sourceIcons}
                 getAvatarUrl={
                   async (contact) => {
                     const avatarUrl = await phone.contacts.getImageProfile(contact, false);
@@ -208,6 +213,7 @@ export default function App({
                   webphone={phone.webphone}
                   brand={phone.brand}
                   onCallsEmpty={() => {}}
+                  sourceIcons={sourceIcons}
                 />
               )} />
             <Route
@@ -222,6 +228,7 @@ export default function App({
                   regionSettings={phone.regionSettings}
                   forwardingNumber={phone.forwardingNumber}
                   showContactDisplayPlaceholder={false}
+                  sourceIcons={sourceIcons}
                   onAdd={() => {
                     phone.router.push('/dialer');
                   }}
@@ -254,6 +261,7 @@ export default function App({
                 <CallHistoryPage
                   brand={phone.brand}
                   locale={phone.locale}
+                  sourceIcons={sourceIcons}
                   callHistory={phone.callHistory}
                   contactMatcher={phone.contactMatcher}
                   contactSearch={phone.contactSearch}
@@ -319,6 +327,7 @@ export default function App({
                   onLogConversation={async () => { sleep(1000); }}
                   showContactDisplayPlaceholder={false}
                   router={phone.router}
+                  sourceIcons={sourceIcons}
                 />
               )} />
             <Route
@@ -340,6 +349,7 @@ export default function App({
                   onLogConversation={async () => { await sleep(1000); }}
                   onViewContact={() => { }}
                   onCreateContact={() => { }}
+                  sourceIcons={sourceIcons}
                 />
               )} />
             <Route
