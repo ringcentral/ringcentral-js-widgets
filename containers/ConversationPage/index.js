@@ -137,7 +137,8 @@ var ConversationPage = function (_Component) {
         autoLog: this.props.autoLog,
         dateTimeFormatter: this.props.dateTimeFormatter,
         showContactDisplayPlaceholder: this.props.showContactDisplayPlaceholder,
-        goBack: this.props.goBack
+        goBack: this.props.goBack,
+        sourceIcons: this.props.sourceIcons
       });
     }
   }]);
@@ -160,7 +161,8 @@ ConversationPage.propTypes = {
   getMatcherContactList: _propTypes2.default.func,
   getMatcherContactNameList: _propTypes2.default.func,
   changeMatchedNames: _propTypes2.default.func.isRequired,
-  dateTimeFormatter: _propTypes2.default.func.isRequired
+  dateTimeFormatter: _propTypes2.default.func.isRequired,
+  sourceIcons: _propTypes2.default.object
 };
 
 ConversationPage.defaultProps = {
@@ -170,7 +172,8 @@ ConversationPage.defaultProps = {
   },
   getMatcherContactNameList: function getMatcherContactNameList() {
     return [];
-  }
+  },
+  sourceIcons: undefined
 };
 
 ConversationPage.childContextTypes = {

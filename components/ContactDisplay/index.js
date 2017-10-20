@@ -46,9 +46,17 @@ var _phoneSourceNames = require('../../lib/phoneSourceNames');
 
 var _phoneSourceNames2 = _interopRequireDefault(_phoneSourceNames);
 
+var _phoneSources = require('../../enums/phoneSources');
+
+var _phoneSources2 = _interopRequireDefault(_phoneSources);
+
+var _RcIcon = require('../../assets/images/RcIcon.svg');
+
+var _RcIcon2 = _interopRequireDefault(_RcIcon);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var displayFomatter = function displayFomatter(_ref) {
+var displayFormatter = function displayFormatter(_ref) {
   var entityName = _ref.entityName,
       entityType = _ref.entityType,
       phoneNumber = _ref.phoneNumber,
@@ -71,26 +79,87 @@ var displayFomatter = function displayFomatter(_ref) {
   return '';
 };
 
-function ContactDisplay(_ref2) {
-  var reference = _ref2.reference,
-      className = _ref2.className,
-      contactMatches = _ref2.contactMatches,
-      selected = _ref2.selected,
-      onSelectContact = _ref2.onSelectContact,
-      disabled = _ref2.disabled,
-      isLogging = _ref2.isLogging,
-      fallBackName = _ref2.fallBackName,
-      enableContactFallback = _ref2.enableContactFallback,
-      areaCode = _ref2.areaCode,
-      countryCode = _ref2.countryCode,
+function ContactDisplayItem(_ref2) {
+  var entityName = _ref2.entityName,
+      entityType = _ref2.entityType,
       phoneNumber = _ref2.phoneNumber,
-      currentLocale = _ref2.currentLocale,
-      groupNumbers = _ref2.groupNumbers,
-      showType = _ref2.showType,
-      selectClassName = _ref2.selectClassName,
-      showPlaceholder = _ref2.showPlaceholder,
-      brand = _ref2.brand,
-      stopPropagation = _ref2.stopPropagation;
+      sourceIcons = _ref2.sourceIcons;
+
+  var SourceIcon = null;
+  if (entityType) {
+    if (entityType === _phoneSources2.default.rcContact) {
+      SourceIcon = sourceIcons.brandIcon;
+    } else {
+      SourceIcon = sourceIcons[entityType] || _react2.default.createElement('span', null);
+    }
+  }
+  if (phoneNumber && entityName && SourceIcon) {
+    return _react2.default.createElement(
+      'span',
+      null,
+      _react2.default.createElement(SourceIcon, { className: _styles2.default.typeIcon, width: 10, height: 10 }),
+      _react2.default.createElement(
+        'span',
+        { className: _styles2.default.typeName },
+        entityName
+      )
+    );
+  } else if (entityName && SourceIcon) {
+    return _react2.default.createElement(
+      'span',
+      null,
+      _react2.default.createElement(SourceIcon, { className: _styles2.default.typeIcon, width: 10, height: 10 }),
+      _react2.default.createElement(
+        'span',
+        { className: _styles2.default.typeName },
+        entityName
+      )
+    );
+  } else if (entityName) {
+    return _react2.default.createElement(
+      'span',
+      null,
+      entityName
+    );
+  } else if (phoneNumber) {
+    return _react2.default.createElement(
+      'span',
+      null,
+      phoneNumber
+    );
+  }
+  return null;
+}
+
+ContactDisplayItem.propTypes = {
+  entityName: _propTypes2.default.string.isRequired,
+  entityType: _propTypes2.default.string.isRequired,
+  phoneNumber: _propTypes2.default.string.isRequired,
+  sourceIcons: _propTypes2.default.object.isRequired
+};
+
+function ContactDisplay(_ref3) {
+  var reference = _ref3.reference,
+      className = _ref3.className,
+      contactMatches = _ref3.contactMatches,
+      selected = _ref3.selected,
+      onSelectContact = _ref3.onSelectContact,
+      disabled = _ref3.disabled,
+      isLogging = _ref3.isLogging,
+      fallBackName = _ref3.fallBackName,
+      enableContactFallback = _ref3.enableContactFallback,
+      areaCode = _ref3.areaCode,
+      countryCode = _ref3.countryCode,
+      phoneNumber = _ref3.phoneNumber,
+      currentLocale = _ref3.currentLocale,
+      groupNumbers = _ref3.groupNumbers,
+      showType = _ref3.showType,
+      selectClassName = _ref3.selectClassName,
+      showPlaceholder = _ref3.showPlaceholder,
+      brand = _ref3.brand,
+      stopPropagation = _ref3.stopPropagation,
+      _ref3$sourceIcons = _ref3.sourceIcons,
+      sourceIcons = _ref3$sourceIcons === undefined ? { brandIcon: _RcIcon2.default } : _ref3$sourceIcons;
 
   var contentEl = void 0;
   if (groupNumbers) {
@@ -114,7 +183,7 @@ function ContactDisplay(_ref2) {
     );
   } else if (contactMatches.length === 1) {
     var _display2 = contactMatches[0].name;
-    var _title = displayFomatter({
+    var _title = displayFormatter({
       entityName: _display2,
       entityType: contactMatches[0].entityType,
       phoneNumber: phoneNumber,
@@ -144,15 +213,16 @@ function ContactDisplay(_ref2) {
       options: options,
       placeholder: placeholder,
       renderFunction: function renderFunction(entity) {
-        return displayFomatter({
+        return ContactDisplayItem({
           entityName: entity.name,
           entityType: entity.entityType,
           brand: brand,
-          currentLocale: currentLocale
+          currentLocale: currentLocale,
+          sourceIcons: sourceIcons
         });
       },
       renderValue: function renderValue(value) {
-        return displayFomatter({
+        return displayFormatter({
           entityName: options[value].name,
           entityType: showType && options[value].entityType,
           brand: brand,
@@ -160,7 +230,7 @@ function ContactDisplay(_ref2) {
         });
       },
       renderTitle: function renderTitle(entity) {
-        return entity ? displayFomatter({
+        return entity ? displayFormatter({
           entityName: entity.name,
           entityType: entity.entityType,
           phoneNumber: phoneNumber,
@@ -200,7 +270,8 @@ ContactDisplay.propTypes = {
   selectClassName: _propTypes2.default.string,
   showPlaceholder: _propTypes2.default.bool,
   brand: _propTypes2.default.string,
-  stopPropagation: _propTypes2.default.bool
+  stopPropagation: _propTypes2.default.bool,
+  sourceIcons: _propTypes2.default.object
 };
 ContactDisplay.defaultProps = {
   reference: undefined,
@@ -214,6 +285,7 @@ ContactDisplay.defaultProps = {
   selectClassName: undefined,
   showPlaceholder: true,
   brand: undefined,
-  stopPropagation: true
+  stopPropagation: true,
+  sourceIcons: {}
 };
 //# sourceMappingURL=index.js.map

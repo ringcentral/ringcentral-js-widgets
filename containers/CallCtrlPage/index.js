@@ -243,7 +243,8 @@ var CallCtrlPage = function (_Component) {
           brand: this.props.brand,
           showContactDisplayPlaceholder: this.props.showContactDisplayPlaceholder,
           flipNumbers: this.props.flipNumbers,
-          calls: this.props.calls
+          calls: this.props.calls,
+          sourceIcons: this.props.sourceIcons
         },
         this.props.children
       );
@@ -291,12 +292,14 @@ CallCtrlPage.propTypes = {
   brand: _propTypes2.default.string.isRequired,
   showContactDisplayPlaceholder: _propTypes2.default.bool.isRequired,
   flipNumbers: _propTypes2.default.array.isRequired,
-  calls: _propTypes2.default.array.isRequired
+  calls: _propTypes2.default.array.isRequired,
+  sourceIcons: _propTypes2.default.object
 };
 
 CallCtrlPage.defaultProps = {
   children: undefined,
-  backButtonLabel: null
+  backButtonLabel: null,
+  sourceIcons: undefined
 };
 
 function mapToProps(_, _ref) {
@@ -395,7 +398,8 @@ CallCtrlContainer.propTypes = {
   onAdd: _propTypes2.default.func.isRequired,
   backButtonLabel: _propTypes2.default.string,
   children: _propTypes2.default.node,
-  showContactDisplayPlaceholder: _propTypes2.default.bool
+  showContactDisplayPlaceholder: _propTypes2.default.bool,
+  sourceIcons: _propTypes2.default.object
 };
 
 CallCtrlContainer.defaultProps = {
@@ -403,7 +407,8 @@ CallCtrlContainer.defaultProps = {
     return null;
   },
   showContactDisplayPlaceholder: false,
-  children: undefined
+  children: undefined,
+  sourceIcons: undefined
 };
 
 exports.default = CallCtrlContainer;

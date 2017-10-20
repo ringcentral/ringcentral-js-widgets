@@ -176,7 +176,8 @@ MessageList.propTypes = {
   className: _propTypes2.default.string,
   showConversationDetail: _propTypes2.default.func.isRequired,
   dateTimeFormatter: _propTypes2.default.func,
-  showContactDisplayPlaceholder: _propTypes2.default.bool
+  showContactDisplayPlaceholder: _propTypes2.default.bool,
+  sourceIcons: _propTypes2.default.object
 };
 MessageList.defaultProps = {
   onSearchInputChange: undefined,
@@ -185,6 +186,7 @@ MessageList.defaultProps = {
   className: undefined,
   disableLinks: false,
   dateTimeFormatter: undefined,
-  showContactDisplayPlaceholder: true
+  showContactDisplayPlaceholder: true,
+  sourceIcons: undefined
 };
 //# sourceMappingURL=index.js.map

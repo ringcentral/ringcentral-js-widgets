@@ -84,7 +84,8 @@ function CallInfo(props) {
         isLogging: false,
         enableContactFallback: true,
         brand: props.brand,
-        showPlaceholder: props.showContactDisplayPlaceholder
+        showPlaceholder: props.showContactDisplayPlaceholder,
+        sourceIcons: props.sourceIcons
       })
     ),
     _react2.default.createElement(
@@ -107,14 +108,16 @@ CallInfo.propTypes = {
   onSelectMatcherName: _propTypes2.default.func.isRequired,
   avatarUrl: _propTypes2.default.string,
   brand: _propTypes2.default.string,
-  showContactDisplayPlaceholder: _propTypes2.default.bool
+  showContactDisplayPlaceholder: _propTypes2.default.bool,
+  sourceIcons: _propTypes2.default.object
 };
 
 CallInfo.defaultProps = {
   phoneNumber: null,
   avatarUrl: null,
   brand: 'RingCentral',
-  showContactDisplayPlaceholder: true
+  showContactDisplayPlaceholder: true,
+  sourceIcons: undefined
 };
 
 function ActiveCallPanel(_ref) {
@@ -151,7 +154,8 @@ function ActiveCallPanel(_ref) {
       showContactDisplayPlaceholder = _ref.showContactDisplayPlaceholder,
       brand = _ref.brand,
       flipNumbers = _ref.flipNumbers,
-      calls = _ref.calls;
+      calls = _ref.calls,
+      sourceIcons = _ref.sourceIcons;
 
   var timeCounter = startTime ? _react2.default.createElement(
     'span',
@@ -192,7 +196,8 @@ function ActiveCallPanel(_ref) {
         onSelectMatcherName: onSelectMatcherName,
         avatarUrl: avatarUrl,
         brand: brand,
-        showContactDisplayPlaceholder: showContactDisplayPlaceholder
+        showContactDisplayPlaceholder: showContactDisplayPlaceholder,
+        sourceIcons: sourceIcons
       }),
       _react2.default.createElement(_ActiveCallPad2.default, {
         className: _styles2.default.callPad,
@@ -253,7 +258,8 @@ ActiveCallPanel.propTypes = {
   onShowFlipPanel: _propTypes2.default.func,
   flipNumbers: _propTypes2.default.array,
   calls: _propTypes2.default.array.isRequired,
-  onToggleTransferPanel: _propTypes2.default.func
+  onToggleTransferPanel: _propTypes2.default.func,
+  sourceIcons: _propTypes2.default.object
 };
 
 ActiveCallPanel.defaultProps = {
@@ -273,7 +279,8 @@ ActiveCallPanel.defaultProps = {
   },
   onToggleTransferPanel: function onToggleTransferPanel() {
     return null;
-  }
+  },
+  sourceIcons: undefined
 };
 
 exports.default = ActiveCallPanel;

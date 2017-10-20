@@ -64,7 +64,8 @@ function CallsPanel(_ref) {
       webphoneResume = _ref.webphoneResume,
       enableContactFallback = _ref.enableContactFallback,
       autoLog = _ref.autoLog,
-      showContactDisplayPlaceholder = _ref.showContactDisplayPlaceholder;
+      showContactDisplayPlaceholder = _ref.showContactDisplayPlaceholder,
+      sourceIcons = _ref.sourceIcons;
 
   var content = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(_CallList2.default, {
     brand: brand,
@@ -91,7 +92,8 @@ function CallsPanel(_ref) {
     webphoneResume: webphoneResume,
     enableContactFallback: enableContactFallback,
     autoLog: autoLog,
-    showContactDisplayPlaceholder: showContactDisplayPlaceholder
+    showContactDisplayPlaceholder: showContactDisplayPlaceholder,
+    sourceIcons: sourceIcons
   });
   return _react2.default.createElement(
     'div',
@@ -136,7 +138,8 @@ CallsPanel.propTypes = {
   webphoneResume: _propTypes2.default.func,
   enableContactFallback: _propTypes2.default.bool,
   autoLog: _propTypes2.default.bool,
-  showContactDisplayPlaceholder: _propTypes2.default.bool
+  showContactDisplayPlaceholder: _propTypes2.default.bool,
+  sourceIcons: _propTypes2.default.object
 };
 
 CallsPanel.defaultProps = {
@@ -159,6 +162,7 @@ CallsPanel.defaultProps = {
   webphoneResume: undefined,
   enableContactFallback: undefined,
   autoLog: false,
-  showContactDisplayPlaceholder: true
+  showContactDisplayPlaceholder: true,
+  sourceIcons: undefined
 };
 //# sourceMappingURL=index.js.map

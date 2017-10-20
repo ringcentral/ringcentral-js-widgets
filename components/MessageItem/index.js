@@ -337,7 +337,8 @@ var MessageItem = function (_Component) {
           onCreateContact = _props.onCreateContact,
           dateTimeFormatter = _props.dateTimeFormatter,
           enableContactFallback = _props.enableContactFallback,
-          showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder;
+          showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder,
+          sourceIcons = _props.sourceIcons;
 
 
       var groupNumbers = this.getGroupPhoneNumbers();
@@ -378,7 +379,8 @@ var MessageItem = function (_Component) {
             enableContactFallback: enableContactFallback,
             stopPropagation: false,
             showType: false,
-            showPlaceholder: showContactDisplayPlaceholder
+            showPlaceholder: showContactDisplayPlaceholder,
+            sourceIcons: sourceIcons
           }),
           _react2.default.createElement(
             'div',
@@ -449,7 +451,8 @@ MessageItem.propTypes = {
   showConversationDetail: _propTypes2.default.func.isRequired,
   autoLog: _propTypes2.default.bool,
   enableContactFallback: _propTypes2.default.bool,
-  showContactDisplayPlaceholder: _propTypes2.default.bool
+  showContactDisplayPlaceholder: _propTypes2.default.bool,
+  sourceIcons: _propTypes2.default.object
 };
 
 MessageItem.defaultProps = {
@@ -461,6 +464,7 @@ MessageItem.defaultProps = {
   disableLinks: false,
   autoLog: false,
   enableContactFallback: undefined,
-  showContactDisplayPlaceholder: true
+  showContactDisplayPlaceholder: true,
+  sourceIcons: undefined
 };
 //# sourceMappingURL=index.js.map

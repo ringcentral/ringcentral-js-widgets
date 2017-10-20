@@ -79,7 +79,8 @@ function UserInfo(props) {
         isLogging: false,
         enableContactFallback: true,
         brand: props.brand,
-        showPlaceholder: props.showContactDisplayPlaceholder
+        showPlaceholder: props.showContactDisplayPlaceholder,
+        sourceIcons: props.sourceIcons
       })
     ),
     _react2.default.createElement(
@@ -102,7 +103,8 @@ UserInfo.propTypes = {
   onSelectMatcherName: _propTypes2.default.func.isRequired,
   avatarUrl: _propTypes2.default.string,
   brand: _propTypes2.default.string,
-  showContactDisplayPlaceholder: _propTypes2.default.bool
+  showContactDisplayPlaceholder: _propTypes2.default.bool,
+  sourceIcons: _propTypes2.default.object
 };
 
 UserInfo.defaultProps = {
@@ -110,7 +112,8 @@ UserInfo.defaultProps = {
   phoneNumber: null,
   avatarUrl: null,
   brand: 'RingCentral',
-  showContactDisplayPlaceholder: true
+  showContactDisplayPlaceholder: true,
+  sourceIcons: undefined
 };
 
 function IncomingCallPanel(props) {
@@ -135,7 +138,8 @@ function IncomingCallPanel(props) {
       onSelectMatcherName: props.onSelectMatcherName,
       avatarUrl: props.avatarUrl,
       brand: props.brand,
-      showContactDisplayPlaceholder: props.showContactDisplayPlaceholder
+      showContactDisplayPlaceholder: props.showContactDisplayPlaceholder,
+      sourceIcons: props.sourceIcons
     }),
     _react2.default.createElement(_IncomingCallPad2.default, {
       className: _styles2.default.callPad,
@@ -181,7 +185,8 @@ IncomingCallPanel.propTypes = {
   answerAndEnd: _propTypes2.default.func,
   answerAndHold: _propTypes2.default.func,
   hasOtherActiveCall: _propTypes2.default.bool,
-  sessionId: _propTypes2.default.string.isRequired
+  sessionId: _propTypes2.default.string.isRequired,
+  sourceIcons: _propTypes2.default.object
 };
 
 IncomingCallPanel.defaultProps = {
@@ -193,6 +198,7 @@ IncomingCallPanel.defaultProps = {
   showContactDisplayPlaceholder: true,
   answerAndEnd: undefined,
   answerAndHold: undefined,
-  hasOtherActiveCall: false
+  hasOtherActiveCall: false,
+  sourceIcons: undefined
 };
 //# sourceMappingURL=index.js.map

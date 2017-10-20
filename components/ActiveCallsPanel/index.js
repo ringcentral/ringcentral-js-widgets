@@ -79,7 +79,8 @@ function ActiveCallList(_ref) {
       webphoneResume = _ref.webphoneResume,
       webphoneToVoicemail = _ref.webphoneToVoicemail,
       enableContactFallback = _ref.enableContactFallback,
-      title = _ref.title;
+      title = _ref.title,
+      sourceIcons = _ref.sourceIcons;
 
   if (calls.length === 0) {
     return null;
@@ -116,7 +117,8 @@ function ActiveCallList(_ref) {
         webphoneResume: webphoneResume,
         webphoneToVoicemail: webphoneToVoicemail,
         enableContactFallback: enableContactFallback,
-        autoLog: autoLog
+        autoLog: autoLog,
+        sourceIcons: sourceIcons
       });
     })
   );
@@ -146,7 +148,8 @@ ActiveCallList.propTypes = {
   webphoneResume: _propTypes2.default.func,
   webphoneToVoicemail: _propTypes2.default.func,
   enableContactFallback: _propTypes2.default.bool,
-  autoLog: _propTypes2.default.bool
+  autoLog: _propTypes2.default.bool,
+  sourceIcons: _propTypes2.default.object
 };
 
 ActiveCallList.defaultProps = {
@@ -167,7 +170,8 @@ ActiveCallList.defaultProps = {
   enableContactFallback: undefined,
   autoLog: false,
   onViewContact: undefined,
-  webphoneToVoicemail: undefined
+  webphoneToVoicemail: undefined,
+  sourceIcons: undefined
 };
 
 var ActiveCallsPanel = function (_Component) {
@@ -229,7 +233,8 @@ var ActiveCallsPanel = function (_Component) {
           webphoneHangup = _props.webphoneHangup,
           webphoneResume = _props.webphoneResume,
           enableContactFallback = _props.enableContactFallback,
-          webphoneToVoicemail = _props.webphoneToVoicemail;
+          webphoneToVoicemail = _props.webphoneToVoicemail,
+          sourceIcons = _props.sourceIcons;
 
       if (showSpinner) {
         return _react2.default.createElement(_SpinnerOverlay2.default, null);
@@ -269,7 +274,8 @@ var ActiveCallsPanel = function (_Component) {
           webphoneHangup: webphoneHangup,
           webphoneResume: webphoneResume,
           webphoneToVoicemail: webphoneToVoicemail,
-          enableContactFallback: enableContactFallback
+          enableContactFallback: enableContactFallback,
+          sourceIcons: sourceIcons
         });
       };
       return _react2.default.createElement(
@@ -316,7 +322,8 @@ ActiveCallsPanel.propTypes = {
   onViewContact: _propTypes2.default.func,
   enableContactFallback: _propTypes2.default.bool,
   loggingMap: _propTypes2.default.object,
-  onCallsEmpty: _propTypes2.default.func
+  onCallsEmpty: _propTypes2.default.func,
+  sourceIcons: _propTypes2.default.object
 };
 
 ActiveCallsPanel.defaultProps = {
@@ -338,6 +345,7 @@ ActiveCallsPanel.defaultProps = {
   enableContactFallback: undefined,
   loggingMap: {},
   autoLog: false,
-  onCallsEmpty: undefined
+  onCallsEmpty: undefined,
+  sourceIcons: undefined
 };
 //# sourceMappingURL=index.js.map

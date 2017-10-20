@@ -265,7 +265,8 @@ var IncomingCallPage = function (_Component) {
           hasOtherActiveCall: this.state.hasOtherActiveCall,
           answerAndEnd: this.answerAndEnd,
           answerAndHold: this.answerAndHold,
-          sessionId: this.props.session.id
+          sessionId: this.props.session.id,
+          sourceIcons: this.props.sourceIcons
         },
         this.props.children
       );
@@ -303,12 +304,14 @@ IncomingCallPage.propTypes = {
   updateSessionMatchedContact: _propTypes2.default.func.isRequired,
   showContactDisplayPlaceholder: _propTypes2.default.bool.isRequired,
   brand: _propTypes2.default.string.isRequired,
-  activeSessionId: _propTypes2.default.string
+  activeSessionId: _propTypes2.default.string,
+  sourceIcons: _propTypes2.default.object
 };
 
 IncomingCallPage.defaultProps = {
   children: undefined,
-  activeSessionId: null
+  activeSessionId: null,
+  sourceIcons: undefined
 };
 
 function mapToProps(_, _ref3) {

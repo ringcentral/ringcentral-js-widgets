@@ -472,7 +472,8 @@ var CallItem = function (_Component) {
           dateTimeFormatter = _props.dateTimeFormatter,
           isLogging = _props.isLogging,
           enableContactFallback = _props.enableContactFallback,
-          showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder;
+          showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder,
+          sourceIcons = _props.sourceIcons;
 
       var phoneNumber = this.getPhoneNumber();
       var contactMatches = this.getContactMatches();
@@ -519,6 +520,7 @@ var CallItem = function (_Component) {
             className: (0, _classnames2.default)(_styles2.default.contactDisplay, missed && _styles2.default.missed, active && _styles2.default.active),
             selectClassName: _styles2.default.dropdownSelect,
             brand: brand,
+            sourceIcons: sourceIcons,
             contactMatches: contactMatches,
             selected: this.state.selected,
             onSelectContact: this.onSelectContact,
@@ -616,7 +618,8 @@ CallItem.propTypes = {
   isLogging: _propTypes2.default.bool,
   enableContactFallback: _propTypes2.default.bool,
   autoLog: _propTypes2.default.bool,
-  showContactDisplayPlaceholder: _propTypes2.default.bool
+  showContactDisplayPlaceholder: _propTypes2.default.bool,
+  sourceIcons: _propTypes2.default.object
 };
 
 CallItem.defaultProps = {
@@ -635,6 +638,7 @@ CallItem.defaultProps = {
   disableLinks: false,
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
-  autoLog: false
+  autoLog: false,
+  sourceIcons: undefined
 };
 //# sourceMappingURL=index.js.map

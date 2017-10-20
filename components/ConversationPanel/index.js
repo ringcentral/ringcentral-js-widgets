@@ -297,7 +297,8 @@ var ConversationPanel = function (_Component) {
             showType: false,
             currentLocale: this.props.currentLocale,
             enableContactFallback: this.props.enableContactFallback,
-            showPlaceholder: this.props.showContactDisplayPlaceholder
+            showPlaceholder: this.props.showContactDisplayPlaceholder,
+            sourceIcons: this.props.sourceIcons
           }),
           _react2.default.createElement(
             'a',
@@ -368,14 +369,16 @@ ConversationPanel.propTypes = {
   enableContactFallback: _propTypes2.default.bool,
   dateTimeFormatter: _propTypes2.default.func.isRequired,
   goBack: _propTypes2.default.func.isRequired,
-  showContactDisplayPlaceholder: _propTypes2.default.bool
+  showContactDisplayPlaceholder: _propTypes2.default.bool,
+  sourceIcons: _propTypes2.default.object
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
   onLogConversation: undefined,
   autoLog: false,
   enableContactFallback: undefined,
-  showContactDisplayPlaceholder: true
+  showContactDisplayPlaceholder: true,
+  sourceIcons: undefined
 };
 
 exports.default = ConversationPanel;

@@ -498,7 +498,8 @@ var ActiveCallItem = function (_Component) {
           onLogCall = _props2.onLogCall,
           webphoneAnswer = _props2.webphoneAnswer,
           webphoneHangup = _props2.webphoneHangup,
-          webphoneResume = _props2.webphoneResume;
+          webphoneResume = _props2.webphoneResume,
+          sourceIcons = _props2.sourceIcons;
 
       var phoneNumber = this.getPhoneNumber();
       var parsedInfo = (0, _parseNumber2.default)(phoneNumber);
@@ -540,6 +541,7 @@ var ActiveCallItem = function (_Component) {
             brand: brand,
             showPlaceholder: showContactDisplayPlaceholder,
             showType: false,
+            sourceIcons: sourceIcons,
             stopPropagation: true
           }),
           callDetail,
@@ -623,7 +625,8 @@ ActiveCallItem.propTypes = {
   onClickToSms: _propTypes2.default.func,
   onCreateContact: _propTypes2.default.func,
   onLogCall: _propTypes2.default.func,
-  onViewContact: _propTypes2.default.func
+  onViewContact: _propTypes2.default.func,
+  sourceIcons: _propTypes2.default.object
 };
 
 ActiveCallItem.defaultProps = {
@@ -643,6 +646,7 @@ ActiveCallItem.defaultProps = {
   enableContactFallback: undefined,
   autoLog: false,
   brand: 'RingCentral',
-  showContactDisplayPlaceholder: true
+  showContactDisplayPlaceholder: true,
+  sourceIcons: undefined
 };
 //# sourceMappingURL=index.js.map

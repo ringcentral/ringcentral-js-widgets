@@ -163,7 +163,8 @@ var CallCtrlPanel = function (_Component) {
           onShowFlipPanel: this.showFlipPanel,
           onToggleTransferPanel: this.toggleTransferPanel,
           flipNumbers: this.props.flipNumbers,
-          calls: this.props.calls
+          calls: this.props.calls,
+          sourceIcons: this.props.sourceIcons
         },
         this.props.children
       );
@@ -209,7 +210,8 @@ CallCtrlPanel.propTypes = {
   avatarUrl: _propTypes2.default.string,
   backButtonLabel: _propTypes2.default.string,
   brand: _propTypes2.default.string,
-  showContactDisplayPlaceholder: _propTypes2.default.bool
+  showContactDisplayPlaceholder: _propTypes2.default.bool,
+  sourceIcons: _propTypes2.default.object
 };
 
 CallCtrlPanel.defaultProps = {
@@ -226,7 +228,8 @@ CallCtrlPanel.defaultProps = {
   sessionId: undefined,
   callStatus: null,
   brand: 'RingCentral',
-  showContactDisplayPlaceholder: true
+  showContactDisplayPlaceholder: true,
+  sourceIcons: undefined
 };
 
 exports.default = CallCtrlPanel;
