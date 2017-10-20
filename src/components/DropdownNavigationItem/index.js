@@ -20,7 +20,6 @@ export default function DropdownNavigationItem({
       notice = <div className={styles.notice}>{noticeCounts}</div>;
     }
   }
-
   return (
     <div
       title={label}

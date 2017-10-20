@@ -20,7 +20,7 @@
   outline: 0;
   display: inline-block;
   text-align: center;
-  vertical-align: top;
+  vertical-align: middle;
   height: 100%;
   text-decoration: none;
   cursor: pointer;
@@ -43,13 +43,23 @@
 }
 .iconHolder {
   @include full-size;
+  line-height: $navigation-bar-height;
 }
 .icon {
   @include full-size;
- -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-size: 1.3em;
   line-height: $navigation-bar-height;
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    overflow: visible!important;
+  }
 }
 .labelHolder {
   @include full-size;

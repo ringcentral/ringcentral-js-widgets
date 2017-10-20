@@ -362,6 +362,9 @@ export default function App({
                   contacts={phone.contacts}
                 />
               )} />
+            <Route
+              path="/meeting"
+            />
           </Route>
         </Route>
       </Router>
