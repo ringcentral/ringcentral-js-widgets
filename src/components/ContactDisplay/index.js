@@ -53,14 +53,14 @@ function ContactDisplayItem({
   if (phoneNumber && entityName && SourceIcon) {
     return (
       <span>
-        <SourceIcon className={styles.typeIcon} width={13} height={13} />
+        <SourceIcon className={styles.typeIcon} width={10} height={10} />
         <span className={styles.typeName}>{entityName}</span>
       </span>
     );
   } else if (entityName && SourceIcon) {
     return (
       <span>
-        <SourceIcon className={styles.typeIcon} width={13} height={13} />
+        <SourceIcon className={styles.typeIcon} width={10} height={10} />
         <span className={styles.typeName}>{entityName}</span>
       </span>
     );
@@ -99,8 +99,7 @@ export default function ContactDisplay({
   showPlaceholder,
   brand,
   stopPropagation,
-  // sourceIcons = { brandIcon: RcIcon }
-  sourceIcons
+  sourceIcons = { brandIcon: RcIcon }
 }) {
   let contentEl;
   if (groupNumbers) {
