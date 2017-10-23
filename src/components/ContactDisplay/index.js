@@ -8,7 +8,6 @@ import i18n from './i18n';
 import styles from './styles.scss';
 import phoneSourceNames from '../../lib/phoneSourceNames';
 import phoneSources from '../../enums/phoneSources';
-import RcIcon from '../../assets/images/RcIcon.svg';
 
 const displayFormatter = ({
   entityName,
@@ -99,7 +98,7 @@ export default function ContactDisplay({
   showPlaceholder,
   brand,
   stopPropagation,
-  sourceIcons = { brandIcon: RcIcon }
+  sourceIcons = {}
 }) {
   let contentEl;
   if (groupNumbers) {

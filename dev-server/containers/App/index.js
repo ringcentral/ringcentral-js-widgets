@@ -24,13 +24,13 @@ import ContactsPage from '../../../src/containers/ContactsPage';
 import ContactDetailsPage from '../../../src/containers/ContactDetailsPage';
 import MainView from '../MainView';
 import AppView from '../AppView';
-import RcIcon from '../../../src/assets/images/RcIcon.svg';
 
 export default function App({
   phone,
+  icon
 }) {
   const sourceIcons = {
-    brandIcon: RcIcon
+    brandIcon: icon
   };
   return (
     <Provider store={phone.store} >
@@ -384,4 +384,5 @@ export default function App({
 
 App.propTypes = {
   phone: PropTypes.object.isRequired,
+  icon: PropTypes.func.isRequired
 };
