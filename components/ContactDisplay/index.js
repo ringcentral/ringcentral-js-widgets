@@ -50,10 +50,6 @@ var _phoneSources = require('../../enums/phoneSources');
 
 var _phoneSources2 = _interopRequireDefault(_phoneSources);
 
-var _RcIcon = require('../../assets/images/RcIcon.svg');
-
-var _RcIcon2 = _interopRequireDefault(_RcIcon);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var displayFormatter = function displayFormatter(_ref) {
@@ -159,7 +155,7 @@ function ContactDisplay(_ref3) {
       brand = _ref3.brand,
       stopPropagation = _ref3.stopPropagation,
       _ref3$sourceIcons = _ref3.sourceIcons,
-      sourceIcons = _ref3$sourceIcons === undefined ? { brandIcon: _RcIcon2.default } : _ref3$sourceIcons;
+      sourceIcons = _ref3$sourceIcons === undefined ? {} : _ref3$sourceIcons;
 
   var contentEl = void 0;
   if (groupNumbers) {
@@ -286,6 +282,6 @@ ContactDisplay.defaultProps = {
   showPlaceholder: true,
   brand: undefined,
   stopPropagation: true,
-  sourceIcons: {}
+  sourceIcons: undefined
 };
 //# sourceMappingURL=index.js.map
