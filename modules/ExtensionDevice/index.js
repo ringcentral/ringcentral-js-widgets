@@ -33,7 +33,11 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
 require('core-js/fn/array/find');
+
+var _di = require('../../lib/di');
 
 var _fetchList = require('../../lib/fetchList');
 
@@ -49,7 +53,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @class
  * @description Extension device list module
  */
-var ExtensionDevice = function (_DataFetcher) {
+var ExtensionDevice = (_dec = (0, _di.Module)({
+  deps: ['Client', { dep: 'ExtensionDeviceOptions', optional: true }]
+}), _dec(_class = function (_DataFetcher) {
   (0, _inherits3.default)(ExtensionDevice, _DataFetcher);
 
   /**
@@ -105,7 +111,6 @@ var ExtensionDevice = function (_DataFetcher) {
     }
   }]);
   return ExtensionDevice;
-}(_DataFetcher3.default);
-
+}(_DataFetcher3.default)) || _class);
 exports.default = ExtensionDevice;
 //# sourceMappingURL=index.js.map

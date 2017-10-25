@@ -29,13 +29,19 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
+var _di = require('../../lib/di');
+
 var _DataMatcher2 = require('../../lib/DataMatcher');
 
 var _DataMatcher3 = _interopRequireDefault(_DataMatcher2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ConversationMatcher = function (_DataMatcher) {
+var ConversationMatcher = (_dec = (0, _di.Module)({
+  deps: [{ dep: 'ConversationMatcherOptions', optional: true }]
+}), _dec(_class = function (_DataMatcher) {
   (0, _inherits3.default)(ConversationMatcher, _DataMatcher);
 
   function ConversationMatcher(_ref) {
@@ -47,7 +53,6 @@ var ConversationMatcher = function (_DataMatcher) {
   }
 
   return ConversationMatcher;
-}(_DataMatcher3.default);
-
+}(_DataMatcher3.default)) || _class);
 exports.default = ConversationMatcher;
 //# sourceMappingURL=index.js.map

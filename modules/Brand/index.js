@@ -29,9 +29,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _moduleStatuses = require('../../enums/moduleStatuses');
 
@@ -43,7 +47,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @class
  * @description Brand managing module
  */
-var Brand = function (_RcModule) {
+var Brand = (_dec = (0, _di.Module)({
+  deps: [{ dep: 'BrandOptions', optional: true }]
+}), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(Brand, _RcModule);
 
   /**
@@ -121,7 +127,6 @@ var Brand = function (_RcModule) {
     }
   }]);
   return Brand;
-}(_RcModule3.default);
-
+}(_RcModule3.default)) || _class);
 exports.default = Brand;
 //# sourceMappingURL=index.js.map

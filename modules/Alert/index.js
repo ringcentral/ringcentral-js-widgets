@@ -45,7 +45,7 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _uuid = require('uuid');
 
@@ -54,6 +54,8 @@ var _uuid2 = _interopRequireDefault(_uuid);
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _moduleStatuses = require('../../enums/moduleStatuses');
 
@@ -110,7 +112,9 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @class
  * @description Alert messages managing module.
  */
-var Alert = (_class = function (_RcModule) {
+var Alert = (_dec = (0, _di.Module)({
+  deps: [{ dep: 'AlertOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Alert, _RcModule);
 
   /**
@@ -352,6 +356,6 @@ var Alert = (_class = function (_RcModule) {
 
   }]);
   return Alert;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'alert', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'alert'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'dismiss', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'dismiss'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'dismissAll', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'dismissAll'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'alert', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'alert'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'dismiss', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'dismiss'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'dismissAll', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'dismissAll'), _class2.prototype)), _class2)) || _class);
 exports.default = Alert;
 //# sourceMappingURL=index.js.map

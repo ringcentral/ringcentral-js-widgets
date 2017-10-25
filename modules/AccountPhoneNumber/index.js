@@ -41,7 +41,11 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
 require('core-js/fn/array/find');
+
+var _di = require('../../lib/di');
 
 var _fetchList = require('../../lib/fetchList');
 
@@ -65,8 +69,9 @@ function simplifyPhoneNumber(number) {
  * @class
  * @description Accound phone number module to get account phone number list
  */
-
-var AccountPhoneNumber = function (_DataFetcher) {
+var AccountPhoneNumber = (_dec = (0, _di.Module)({
+  deps: ['Client', { dep: 'AccountPhoneNumberOptions', optional: true }]
+}), _dec(_class = function (_DataFetcher) {
   (0, _inherits3.default)(AccountPhoneNumber, _DataFetcher);
 
   /**
@@ -148,7 +153,6 @@ var AccountPhoneNumber = function (_DataFetcher) {
     }
   }]);
   return AccountPhoneNumber;
-}(_DataFetcher3.default);
-
+}(_DataFetcher3.default)) || _class);
 exports.default = AccountPhoneNumber;
 //# sourceMappingURL=index.js.map

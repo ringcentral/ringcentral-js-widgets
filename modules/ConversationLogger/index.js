@@ -57,10 +57,12 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 exports.getLogId = getLogId;
 exports.conversationLogIdentityFunction = conversationLogIdentityFunction;
+
+var _di = require('../../lib/di');
 
 var _LoggerBase2 = require('../../lib/LoggerBase');
 
@@ -138,7 +140,9 @@ function conversationLogIdentityFunction(conversation) {
  * @class
  * @description Conversation logger module
  */
-var ConversationLogger = (_class = function (_LoggerBase) {
+var ConversationLogger = (_dec = (0, _di.Module)({
+  deps: ['Auth', 'Storage', 'TabManager', 'ContactMatcher', 'ConversationMatcher', 'DateTimeFormat', 'ExtensionInfo', 'MessageStore', 'RolesAndPermissions', { dep: 'ConversationLoggerOptions', optional: false }]
+}), _dec(_class = (_class2 = function (_LoggerBase) {
   (0, _inherits3.default)(ConversationLogger, _LoggerBase);
 
   /**
@@ -711,6 +715,6 @@ var ConversationLogger = (_class = function (_LoggerBase) {
     }
   }]);
   return ConversationLogger;
-}(_LoggerBase3.default), (_applyDecoratedDescriptor(_class.prototype, 'log', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'log'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'logConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'logConversation'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setAutoLog', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'setAutoLog'), _class.prototype)), _class);
+}(_LoggerBase3.default), (_applyDecoratedDescriptor(_class2.prototype, 'log', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'log'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'logConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'logConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setAutoLog', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setAutoLog'), _class2.prototype)), _class2)) || _class);
 exports.default = ConversationLogger;
 //# sourceMappingURL=index.js.map

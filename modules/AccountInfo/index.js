@@ -41,9 +41,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
 var _jsonMask = require('json-mask');
 
 var _jsonMask2 = _interopRequireDefault(_jsonMask);
+
+var _di = require('../../lib/di');
 
 var _DataFetcher2 = require('../../lib/DataFetcher');
 
@@ -57,8 +61,9 @@ var DEFAULT_MASK = ['id,mainNumber,status', 'operator(id,extensionNumber)', 'ser
  * @class
  * @description Accound info managing module.
  */
-
-var AccountInfo = function (_DataFetcher) {
+var AccountInfo = (_dec = (0, _di.Module)({
+  deps: ['Client', { dep: 'AccountInfoOptions', optional: true }]
+}), _dec(_class = function (_DataFetcher) {
   (0, _inherits3.default)(AccountInfo, _DataFetcher);
 
   /**
@@ -140,7 +145,6 @@ var AccountInfo = function (_DataFetcher) {
     }
   }]);
   return AccountInfo;
-}(_DataFetcher3.default);
-
+}(_DataFetcher3.default)) || _class);
 exports.default = AccountInfo;
 //# sourceMappingURL=index.js.map

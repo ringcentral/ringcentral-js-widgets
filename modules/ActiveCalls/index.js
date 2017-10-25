@@ -41,6 +41,10 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
+var _di = require('../../lib/di');
+
 var _DataFetcher2 = require('../../lib/DataFetcher');
 
 var _DataFetcher3 = _interopRequireDefault(_DataFetcher2);
@@ -69,8 +73,9 @@ var DEFAULT_TTL = 5 * 60 * 1000;
  * @class
  * @description Active calls list manaing module
  */
-
-var ActiveCalls = function (_DataFetcher) {
+var ActiveCalls = (_dec = (0, _di.Module)({
+  deps: ['Client', 'TabManager', { dep: 'AccountPhoneNumberOptions', optional: true }]
+}), _dec(_class = function (_DataFetcher) {
   (0, _inherits3.default)(ActiveCalls, _DataFetcher);
 
   /**
@@ -171,7 +176,6 @@ var ActiveCalls = function (_DataFetcher) {
     }
   }]);
   return ActiveCalls;
-}(_DataFetcher3.default);
-
+}(_DataFetcher3.default)) || _class);
 exports.default = ActiveCalls;
 //# sourceMappingURL=index.js.map

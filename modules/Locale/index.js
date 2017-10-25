@@ -49,7 +49,7 @@ var _promise = require('babel-runtime/core-js/promise');
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _formatMessage = require('format-message');
 
@@ -62,6 +62,8 @@ var _RcModule3 = _interopRequireDefault(_RcModule2);
 var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
+
+var _di = require('../../lib/di');
 
 var _I18n = require('../../lib/I18n');
 
@@ -143,7 +145,9 @@ function checkIntl() {
  * @class
  * @description Locale managing module
  */
-var Locale = (_class = function (_RcModule) {
+var Locale = (_dec = (0, _di.Module)({
+  deps: [{ dep: 'LocaleOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Locale, _RcModule);
 
   /**
@@ -361,6 +365,6 @@ var Locale = (_class = function (_RcModule) {
     }
   }]);
   return Locale;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'setLocale', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'setLocale'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'setLocale', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setLocale'), _class2.prototype)), _class2)) || _class);
 exports.default = Locale;
 //# sourceMappingURL=index.js.map

@@ -41,6 +41,10 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
+var _di = require('../../lib/di');
+
 var _DataFetcher2 = require('../../lib/DataFetcher');
 
 var _DataFetcher3 = _interopRequireDefault(_DataFetcher2);
@@ -55,7 +59,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @class
  * @description Blocked number list managing module
  */
-var BlockedNumber = function (_DataFetcher) {
+var BlockedNumber = (_dec = (0, _di.Module)({
+  deps: ['Client', { dep: 'BlockedNumberOptions', optional: true }]
+}), _dec(_class = function (_DataFetcher) {
   (0, _inherits3.default)(BlockedNumber, _DataFetcher);
 
   /**
@@ -112,7 +118,6 @@ var BlockedNumber = function (_DataFetcher) {
     }
   }]);
   return BlockedNumber;
-}(_DataFetcher3.default);
-
+}(_DataFetcher3.default)) || _class);
 exports.default = BlockedNumber;
 //# sourceMappingURL=index.js.map

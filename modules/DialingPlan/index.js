@@ -41,6 +41,10 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
+var _di = require('../../lib/di');
+
 var _fetchList = require('../../lib/fetchList');
 
 var _fetchList2 = _interopRequireDefault(_fetchList);
@@ -59,7 +63,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @class
  * @description Dial plan list managing module
  */
-var DialingPlan = function (_DataFetcher) {
+var DialingPlan = (_dec = (0, _di.Module)({
+  deps: ['Client', { dep: 'DialingPlanOptions', optional: true }]
+}), _dec(_class = function (_DataFetcher) {
   (0, _inherits3.default)(DialingPlan, _DataFetcher);
 
   /**
@@ -139,7 +145,6 @@ var DialingPlan = function (_DataFetcher) {
     }
   }]);
   return DialingPlan;
-}(_DataFetcher3.default);
-
+}(_DataFetcher3.default)) || _class);
 exports.default = DialingPlan;
 //# sourceMappingURL=index.js.map

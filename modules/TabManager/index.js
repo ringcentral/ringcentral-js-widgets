@@ -41,9 +41,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _Tabbie = require('../../lib/Tabbie');
 
@@ -67,7 +71,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @class
  * @description To handle data between different tabs
  */
-var TabManager = function (_RcModule) {
+var TabManager = (_dec = (0, _di.Module)(), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(TabManager, _RcModule);
 
   function TabManager(_ref) {
@@ -228,7 +232,6 @@ var TabManager = function (_RcModule) {
     }
   }]);
   return TabManager;
-}(_RcModule3.default);
-
+}(_RcModule3.default)) || _class);
 exports.default = TabManager;
 //# sourceMappingURL=index.js.map

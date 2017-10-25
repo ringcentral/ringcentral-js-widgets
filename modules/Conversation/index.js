@@ -45,11 +45,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _moduleStatuses = require('../../enums/moduleStatuses');
 
@@ -108,7 +110,9 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @class
  * @description Conversation managing module
  */
-var Conversation = (_class = function (_RcModule) {
+var Conversation = (_dec = (0, _di.Module)({
+  deps: ['MessageSender', 'ExtensionInfo', 'MessageStore']
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Conversation, _RcModule);
 
   /**
@@ -535,6 +539,6 @@ var Conversation = (_class = function (_RcModule) {
     }
   }]);
   return Conversation;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'loadConversationById', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'loadConversationById'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'unloadConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'unloadConversation'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'changeMatchedNames', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'changeMatchedNames'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'changeDefaultRecipient', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'changeDefaultRecipient'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'replyToReceivers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'replyToReceivers'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'loadConversationById', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadConversationById'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unloadConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unloadConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'changeMatchedNames', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'changeMatchedNames'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'changeDefaultRecipient', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'changeDefaultRecipient'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replyToReceivers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replyToReceivers'), _class2.prototype)), _class2)) || _class);
 exports.default = Conversation;
 //# sourceMappingURL=index.js.map

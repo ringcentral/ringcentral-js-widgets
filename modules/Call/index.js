@@ -45,11 +45,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _callingModes = require('../CallingSettings/callingModes');
 
@@ -118,7 +120,9 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @class
  * @description Call managing module
  */
-var Call = (_class = function (_RcModule) {
+var Call = (_dec = (0, _di.Module)({
+  deps: ['Alert', 'Client', 'Storage', 'Softphone', 'Ringout', 'Webphone', 'NumberValidate', 'RegionSettings', 'CallingSettings', { provide: 'CallOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Call, _RcModule);
 
   /**
@@ -728,6 +732,6 @@ var Call = (_class = function (_RcModule) {
     }
   }]);
   return Call;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'onToNumberChange', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'onToNumberChange'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'call', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'call'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'onCall'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_getValidatedNumbers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_getValidatedNumbers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_makeCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_makeCall'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'onToNumberChange', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onToNumberChange'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'call', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'call'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_getValidatedNumbers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_getValidatedNumbers'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_makeCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_makeCall'), _class2.prototype)), _class2)) || _class);
 exports.default = Call;
 //# sourceMappingURL=index.js.map

@@ -49,13 +49,15 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 require('core-js/fn/array/find');
 
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _isBlank = require('../../lib/isBlank');
 
@@ -120,7 +122,9 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @class
  * @description Message sender and validator module
  */
-var MessageSender = (_class = function (_RcModule) {
+var MessageSender = (_dec = (0, _di.Module)({
+  deps: ['Alert', 'Client', 'ExtensionInfo', 'ExtensionPhoneNumber', 'NumberValidate']
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(MessageSender, _RcModule);
 
   /**
@@ -724,6 +728,6 @@ var MessageSender = (_class = function (_RcModule) {
     }
   }]);
   return MessageSender;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, '_validateToNumbers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_validateToNumbers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'send', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'send'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_sendSms', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_sendSms'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_sendPager', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_sendPager'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_validateToNumbers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_validateToNumbers'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'send', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'send'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_sendSms', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_sendSms'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_sendPager', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_sendPager'), _class2.prototype)), _class2)) || _class);
 exports.default = MessageSender;
 //# sourceMappingURL=index.js.map

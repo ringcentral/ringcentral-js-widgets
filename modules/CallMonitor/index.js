@@ -41,7 +41,11 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
 require('core-js/fn/array/find');
+
+var _di = require('../../lib/di');
 
 var _RcModule2 = require('../../lib/RcModule');
 
@@ -111,8 +115,9 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
  * @class
  * @description active calls monitor module
  */
-
-var CallMonitor = function (_RcModule) {
+var CallMonitor = (_dec = (0, _di.Module)({
+  deps: ['Call', 'AccountInfo', 'Webphone', 'Storage', 'DetailedPresence', { dep: 'ActivityMatcher', optional: true }, { dep: 'CallMonitorOptions', optional: true }]
+}), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(CallMonitor, _RcModule);
 
   /**
@@ -505,7 +510,6 @@ var CallMonitor = function (_RcModule) {
     }
   }]);
   return CallMonitor;
-}(_RcModule3.default);
-
+}(_RcModule3.default)) || _class);
 exports.default = CallMonitor;
 //# sourceMappingURL=index.js.map

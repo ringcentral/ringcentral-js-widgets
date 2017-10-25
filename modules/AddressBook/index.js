@@ -45,7 +45,9 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
+
+var _di = require('../../lib/di');
 
 var _Pollable2 = require('../../lib/Pollable');
 
@@ -133,7 +135,9 @@ function getSyncParams(syncToken, pageId) {
  * @class
  * @description Accound book module to get user person contacts in RC
  */
-var AddressBook = (_class = function (_Pollable) {
+var AddressBook = (_dec = (0, _di.Module)({
+  deps: ['Client', 'Auth', 'Storage', { dep: 'AddressBookOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_Pollable) {
   (0, _inherits3.default)(AddressBook, _Pollable);
 
   /**
@@ -568,6 +572,6 @@ var AddressBook = (_class = function (_Pollable) {
     }
   }]);
   return AddressBook;
-}(_Pollable3.default), (_applyDecoratedDescriptor(_class.prototype, 'sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'sync'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_sync'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_syncAddressBookApi', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_syncAddressBookApi'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fetchData'), _class.prototype)), _class);
+}(_Pollable3.default), (_applyDecoratedDescriptor(_class2.prototype, 'sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sync'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_sync'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_syncAddressBookApi', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_syncAddressBookApi'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchData'), _class2.prototype)), _class2)) || _class);
 exports.default = AddressBook;
 //# sourceMappingURL=index.js.map

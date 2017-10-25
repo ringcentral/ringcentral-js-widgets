@@ -41,6 +41,10 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
+var _di = require('../../lib/di');
+
 var _Presence2 = require('../Presence');
 
 var _Presence3 = _interopRequireDefault(_Presence2);
@@ -73,8 +77,9 @@ var presenceRegExp = /\/presence(\?.*)?/;
  * @class
  * @description Presence detail info managing module
  */
-
-var DetailedPresence = function (_Presence) {
+var DetailedPresence = (_dec = (0, _di.Module)({
+  deps: ['Auth', 'Client', 'Storage', 'Subscription', 'ConnectivityMonitor']
+}), _dec(_class = function (_Presence) {
   (0, _inherits3.default)(DetailedPresence, _Presence);
 
   /**
@@ -321,7 +326,6 @@ var DetailedPresence = function (_Presence) {
     }
   }]);
   return DetailedPresence;
-}(_Presence3.default);
-
+}(_Presence3.default)) || _class);
 exports.default = DetailedPresence;
 //# sourceMappingURL=index.js.map

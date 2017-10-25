@@ -49,9 +49,11 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 require('core-js/fn/array/find');
+
+var _di = require('../../lib/di');
 
 var _DataFetcher2 = require('../../lib/DataFetcher');
 
@@ -115,7 +117,9 @@ var DEFAULT_TTL = 24 * 60 * 60 * 1000;
  * @class
  * @description Accound extension list managing module
  */
-var AccountExtension = (_class = function (_DataFetcher) {
+var AccountExtension = (_dec = (0, _di.Module)({
+  deps: ['Client', { dep: 'AccountExtensionOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_DataFetcher) {
   (0, _inherits3.default)(AccountExtension, _DataFetcher);
 
   /**
@@ -411,6 +415,6 @@ var AccountExtension = (_class = function (_DataFetcher) {
     }
   }]);
   return AccountExtension;
-}(_DataFetcher3.default), (_applyDecoratedDescriptor(_class.prototype, '_fetchExtensionData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_fetchExtensionData'), _class.prototype)), _class);
+}(_DataFetcher3.default), (_applyDecoratedDescriptor(_class2.prototype, '_fetchExtensionData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_fetchExtensionData'), _class2.prototype)), _class2)) || _class);
 exports.default = AccountExtension;
 //# sourceMappingURL=index.js.map

@@ -45,11 +45,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _sleep = require('../../lib/sleep');
 
@@ -112,7 +114,9 @@ var DEFAULT_TIME_TO_RETRY = 60 * 1000;
  * @class
  * @description Subscription module to subscibe notification
  */
-var Subscription = (_class = function (_RcModule) {
+var Subscription = (_dec = (0, _di.Module)({
+  deps: ['Auth', 'Client', 'Storage', { dep: 'SubscriptionOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Subscription, _RcModule);
 
   /**
@@ -693,6 +697,6 @@ var Subscription = (_class = function (_RcModule) {
     }
   }]);
   return Subscription;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'subscribe', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'subscribe'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'unsubscribe', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'unsubscribe'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'remove', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'remove'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'reset', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'reset'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'subscribe', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'subscribe'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'unsubscribe', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'unsubscribe'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'remove', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'remove'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'reset', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'reset'), _class2.prototype)), _class2)) || _class);
 exports.default = Subscription;
 //# sourceMappingURL=index.js.map

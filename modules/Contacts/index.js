@@ -53,9 +53,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _isBlank = require('../../lib/isBlank');
 
@@ -118,8 +122,9 @@ var DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
  * @class
  * @description Contacts managing module
  */
-
-var Contacts = function (_RcModule) {
+var Contacts = (_dec = (0, _di.Module)({
+  deps: ['Client', 'AddressBook', 'AccountExtension', 'AccountPhoneNumber', { dep: 'ContactsOptions', optional: true }]
+}), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(Contacts, _RcModule);
 
   /**
@@ -673,7 +678,6 @@ var Contacts = function (_RcModule) {
     }
   }]);
   return Contacts;
-}(_RcModule3.default);
-
+}(_RcModule3.default)) || _class);
 exports.default = Contacts;
 //# sourceMappingURL=index.js.map

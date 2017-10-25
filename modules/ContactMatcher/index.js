@@ -45,7 +45,9 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
+
+var _di = require('../../lib/di');
 
 var _DataMatcher2 = require('../../lib/DataMatcher');
 
@@ -90,7 +92,9 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @class
  * @description Contact matcher managing module
  */
-var ContactMatcher = (_class = function (_DataMatcher) {
+var ContactMatcher = (_dec = (0, _di.Module)({
+  deps: [{ dep: 'ContactMatcherOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_DataMatcher) {
   (0, _inherits3.default)(ContactMatcher, _DataMatcher);
 
   /**
@@ -169,6 +173,6 @@ var ContactMatcher = (_class = function (_DataMatcher) {
     }()
   }]);
   return ContactMatcher;
-}(_DataMatcher3.default), (_applyDecoratedDescriptor(_class.prototype, 'hasMatchNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'hasMatchNumber'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'forceMatchNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'forceMatchNumber'), _class.prototype)), _class);
+}(_DataMatcher3.default), (_applyDecoratedDescriptor(_class2.prototype, 'hasMatchNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'hasMatchNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'forceMatchNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'forceMatchNumber'), _class2.prototype)), _class2)) || _class);
 exports.default = ContactMatcher;
 //# sourceMappingURL=index.js.map

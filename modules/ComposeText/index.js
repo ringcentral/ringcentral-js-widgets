@@ -45,7 +45,9 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
+
+var _di = require('../../lib/di');
 
 var _RcModule2 = require('../../lib/RcModule');
 
@@ -114,7 +116,9 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @class
  * @description Compose text managing module
  */
-var ComposeText = (_class = function (_RcModule) {
+var ComposeText = (_dec = (0, _di.Module)({
+  deps: ['Alert', 'Auth', 'Storage', 'MessageSender', 'NumberValidate', 'ContactSearch', { dep: 'ComposeTextOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(ComposeText, _RcModule);
 
   /**
@@ -633,6 +637,6 @@ var ComposeText = (_class = function (_RcModule) {
     }
   }]);
   return ComposeText;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'send', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'send'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateSenderNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'updateSenderNumber'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateTypingToNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'updateTypingToNumber'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'onToNumberMatch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'onToNumberMatch'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'addToRecipients', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'addToRecipients'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'cleanTypingToNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'cleanTypingToNumber'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'addToNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'addToNumber'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'removeToNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'removeToNumber'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateMessageText', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'updateMessageText'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clean', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'clean'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'send', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'send'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSenderNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSenderNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateTypingToNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateTypingToNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onToNumberMatch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onToNumberMatch'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'addToRecipients', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'addToRecipients'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'cleanTypingToNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'cleanTypingToNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'addToNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'addToNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'removeToNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'removeToNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateMessageText', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateMessageText'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clean', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clean'), _class2.prototype)), _class2)) || _class);
 exports.default = ComposeText;
 //# sourceMappingURL=index.js.map

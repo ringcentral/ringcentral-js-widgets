@@ -45,11 +45,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _moduleStatuses = require('../../enums/moduleStatuses');
 
@@ -98,7 +100,9 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @class
  * @description Softphone module to call softphone
  */
-var Softphone = (_class = function (_RcModule) {
+var Softphone = (_dec = (0, _di.Module)({
+  deps: ['Brand', { dep: 'SoftphoneOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Softphone, _RcModule);
 
   /**
@@ -209,6 +213,6 @@ var Softphone = (_class = function (_RcModule) {
     }
   }]);
   return Softphone;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'makeCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'makeCall'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'makeCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'makeCall'), _class2.prototype)), _class2)) || _class);
 exports.default = Softphone;
 //# sourceMappingURL=index.js.map

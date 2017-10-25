@@ -45,11 +45,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _isBlank = require('../../lib/isBlank');
 
@@ -114,7 +116,9 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @class
  * @description Validate number with number parser api
  */
-var NumberValidate = (_class = function (_RcModule) {
+var NumberValidate = (_dec = (0, _di.Module)({
+  deps: ['Client', 'AccountExtension', 'RegionSettings', 'AccountInfo']
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(NumberValidate, _RcModule);
 
   /**
@@ -437,6 +441,6 @@ var NumberValidate = (_class = function (_RcModule) {
     }
   }]);
   return NumberValidate;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'validateNumbers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'validateNumbers'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'validateWithNumberParser', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'validateWithNumberParser'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_numberParser', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_numberParser'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_numberParserApi', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_numberParserApi'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'validateNumbers', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'validateNumbers'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'validateWithNumberParser', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'validateWithNumberParser'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_numberParser', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_numberParser'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_numberParserApi', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_numberParserApi'), _class2.prototype)), _class2)) || _class);
 exports.default = NumberValidate;
 //# sourceMappingURL=index.js.map

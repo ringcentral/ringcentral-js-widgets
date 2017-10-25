@@ -41,9 +41,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
 var _jsonMask = require('json-mask');
 
 var _jsonMask2 = _interopRequireDefault(_jsonMask);
+
+var _di = require('../../lib/di');
 
 var _DataFetcher2 = require('../../lib/DataFetcher');
 
@@ -57,8 +61,9 @@ var DEFAULT_MASK = 'phoneNumber,hostCode,participantCode,phoneNumbers(country,ph
  * @class
  * @description Conference managing module
  */
-
-var Conference = function (_DataFetcher) {
+var Conference = (_dec = (0, _di.Module)({
+  deps: ['Client', 'RegionSettings', { dep: 'ConferenceOptions', optional: true }]
+}), _dec(_class = function (_DataFetcher) {
   (0, _inherits3.default)(Conference, _DataFetcher);
 
   /**
@@ -138,7 +143,6 @@ var Conference = function (_DataFetcher) {
     }
   }]);
   return Conference;
-}(_DataFetcher3.default);
-
+}(_DataFetcher3.default)) || _class);
 exports.default = Conference;
 //# sourceMappingURL=index.js.map

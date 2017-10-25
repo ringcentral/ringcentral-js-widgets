@@ -41,9 +41,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _moduleStatuses = require('../../enums/moduleStatuses');
 
@@ -69,7 +73,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @class
  * @description Analytics module.
  */
-var Analytics = function (_RcModule) {
+var Analytics = (_dec = (0, _di.Module)({
+  deps: ['Auth', 'Call', 'Webphone', 'Contacts', 'MessageSender', { dep: 'Router', optional: true }, { dep: 'AnalyticsAdapter', optional: true }, { dep: 'AnalyticsOptions', optional: true }]
+}), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(Analytics, _RcModule);
 
   function Analytics(_ref) {
@@ -400,7 +406,6 @@ var Analytics = function (_RcModule) {
     }
   }]);
   return Analytics;
-}(_RcModule3.default);
-
+}(_RcModule3.default)) || _class);
 exports.default = Analytics;
 //# sourceMappingURL=index.js.map

@@ -49,9 +49,11 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 exports.processResponseData = processResponseData;
+
+var _di = require('../../lib/di');
 
 var _Pollable2 = require('../../lib/Pollable');
 
@@ -140,7 +142,9 @@ var DEFAULT_DAY_SPAN = 7;
  * @class
  * @description Messages data manageing module
  */
-var MessageStore = (_class = function (_Pollable) {
+var MessageStore = (_dec = (0, _di.Module)({
+  deps: ['Alert', 'Client', 'Auth', 'Storage', 'Subscription', 'ConnectivityMonitor', { dep: 'MessageStoreOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_Pollable) {
   (0, _inherits3.default)(MessageStore, _Pollable);
 
   /**
@@ -1171,6 +1175,6 @@ var MessageStore = (_class = function (_Pollable) {
     }
   }]);
   return MessageStore;
-}(_Pollable3.default), (_applyDecoratedDescriptor(_class.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fetchData'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'syncConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'syncConversation'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'readMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'readMessages'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateConversationRecipientList', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'updateConversationRecipientList'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'pushMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'pushMessages'), _class.prototype)), _class);
+}(_Pollable3.default), (_applyDecoratedDescriptor(_class2.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchData'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'syncConversation', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'syncConversation'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'readMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'readMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateConversationRecipientList', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateConversationRecipientList'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'pushMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'pushMessages'), _class2.prototype)), _class2)) || _class);
 exports.default = MessageStore;
 //# sourceMappingURL=index.js.map

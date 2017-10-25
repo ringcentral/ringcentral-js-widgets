@@ -61,7 +61,7 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 exports.uniqueContactItems = uniqueContactItems;
 exports.sortContactItemsByName = sortContactItemsByName;
@@ -70,6 +70,8 @@ exports.groupByFirstLetterOfName = groupByFirstLetterOfName;
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _loginStatus = require('../../modules/Auth/loginStatus');
 
@@ -188,7 +190,9 @@ function groupByFirstLetterOfName(contactItems) {
  * @class
  * @description Contact search module
  */
-var ContactSearch = (_class = function (_RcModule) {
+var ContactSearch = (_dec = (0, _di.Module)({
+  deps: ['Auth', 'Storage', { dep: 'ContactSearchOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(ContactSearch, _RcModule);
 
   /**
@@ -857,6 +861,6 @@ var ContactSearch = (_class = function (_RcModule) {
     }
   }]);
   return ContactSearch;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'search', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'search'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'searchPlus', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'searchPlus'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_searchSource', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_searchSource'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'search', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'search'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'searchPlus', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'searchPlus'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_searchSource', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_searchSource'), _class2.prototype)), _class2)) || _class);
 exports.default = ContactSearch;
 //# sourceMappingURL=index.js.map

@@ -49,9 +49,11 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 exports.callIdentityFunction = callIdentityFunction;
+
+var _di = require('../../lib/di');
 
 var _LoggerBase2 = require('../../lib/LoggerBase');
 
@@ -120,7 +122,9 @@ function callIdentityFunction(call) {
  * @class
  * @description call logger module
  */
-var CallLogger = (_class = function (_LoggerBase) {
+var CallLogger = (_dec = (0, _di.Module)({
+  deps: ['Storage', 'ActivityMatcher', 'CallHistory', 'CallMonitor', 'ContactMatcher', 'TabManager', { dep: 'CallLoggerOptions', optional: false }]
+}), _dec(_class = (_class2 = function (_LoggerBase) {
   (0, _inherits3.default)(CallLogger, _LoggerBase);
 
   /**
@@ -660,6 +664,6 @@ var CallLogger = (_class = function (_LoggerBase) {
     }
   }]);
   return CallLogger;
-}(_LoggerBase3.default), (_applyDecoratedDescriptor(_class.prototype, 'log', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'log'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'logCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'logCall'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setAutoLog', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'setAutoLog'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setLogOnRinging', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'setLogOnRinging'), _class.prototype)), _class);
+}(_LoggerBase3.default), (_applyDecoratedDescriptor(_class2.prototype, 'log', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'log'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'logCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'logCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setAutoLog', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setAutoLog'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setLogOnRinging', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setLogOnRinging'), _class2.prototype)), _class2)) || _class);
 exports.default = CallLogger;
 //# sourceMappingURL=index.js.map

@@ -45,11 +45,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _actionTypes = require('./actionTypes');
 
@@ -109,7 +111,9 @@ var DEFAULT_ALERT_TTL = 5 * 1000;
  * @class
  * @description Rate limiter managing module
  */
-var RateLimiter = (_class = function (_RcModule) {
+var RateLimiter = (_dec = (0, _di.Module)({
+  deps: ['Alert', 'Client', 'Environment', 'GlobalStorage', { dep: 'RateLimiterOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(RateLimiter, _RcModule);
 
   /**
@@ -286,6 +290,6 @@ var RateLimiter = (_class = function (_RcModule) {
     }
   }]);
   return RateLimiter;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'showAlert', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'showAlert'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'showAlert', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'showAlert'), _class2.prototype)), _class2)) || _class);
 exports.default = RateLimiter;
 //# sourceMappingURL=index.js.map

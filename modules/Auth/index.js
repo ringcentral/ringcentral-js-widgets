@@ -65,7 +65,7 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _url = require('url');
 
@@ -78,6 +78,8 @@ var _qs2 = _interopRequireDefault(_qs);
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _getAuthReducer = require('./getAuthReducer');
 
@@ -162,7 +164,9 @@ function getDefaultProxyUri() {
  * @class
  * @description Authentication module
  */
-var Auth = (_class = function (_RcModule) {
+var Auth = (_dec = (0, _di.Module)({
+  deps: ['Client', 'Alert', 'Brand', 'Locale', 'TabManager', 'Environment', { dep: 'AuthOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Auth, _RcModule);
 
   /**
@@ -939,6 +943,6 @@ var Auth = (_class = function (_RcModule) {
     }
   }]);
   return Auth;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'login', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'login'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'logout', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'logout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'checkIsLoggedIn', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'checkIsLoggedIn'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setupProxyFrame', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'setupProxyFrame'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'clearProxyFrame', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'clearProxyFrame'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'openOAuthPage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'openOAuthPage'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'login', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'login'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'logout', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'logout'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'checkIsLoggedIn', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'checkIsLoggedIn'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setupProxyFrame', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setupProxyFrame'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clearProxyFrame', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clearProxyFrame'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'openOAuthPage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'openOAuthPage'), _class2.prototype)), _class2)) || _class);
 exports.default = Auth;
 //# sourceMappingURL=index.js.map

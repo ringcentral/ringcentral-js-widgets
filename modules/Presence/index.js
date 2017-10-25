@@ -45,11 +45,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _getPresenceReducer = require('./getPresenceReducer');
 
@@ -116,7 +118,9 @@ var presenceEndPoint = /.*\/presence(\?.*)?/;
  * @class
  * @description Presence info module
  */
-var Presence = (_class = function (_RcModule) {
+var Presence = (_dec = (0, _di.Module)({
+  deps: ['Auth', 'Client', 'Storage', 'Subscription', { dep: 'PresenceOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Presence, _RcModule);
 
   /**
@@ -603,6 +607,6 @@ var Presence = (_class = function (_RcModule) {
     }
   }]);
   return Presence;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, '_fetch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_fetch'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fetch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fetch'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_update', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_update'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_fetch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_fetch'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'fetch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetch'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_update', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_update'), _class2.prototype)), _class2)) || _class);
 exports.default = Presence;
 //# sourceMappingURL=index.js.map

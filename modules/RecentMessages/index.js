@@ -57,7 +57,7 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _proxify = require('../../lib/proxy/proxify');
 
@@ -70,6 +70,8 @@ var _ensureExist2 = _interopRequireDefault(_ensureExist);
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _actionTypes = require('./actionTypes');
 
@@ -126,7 +128,9 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @class
  * @description Retrieve all recent messages related to a specified contact.
  */
-var RecentMessages = (_class = function (_RcModule) {
+var RecentMessages = (_dec = (0, _di.Module)({
+  deps: ['Client', 'MessageStore']
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(RecentMessages, _RcModule);
 
   /**
@@ -529,6 +533,6 @@ var RecentMessages = (_class = function (_RcModule) {
     }
   }]);
   return RecentMessages;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'getMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'getMessages'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'getMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getMessages'), _class2.prototype)), _class2)) || _class);
 exports.default = RecentMessages;
 //# sourceMappingURL=index.js.map

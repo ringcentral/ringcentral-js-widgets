@@ -45,11 +45,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _moduleStatuses = require('../../enums/moduleStatuses');
 
@@ -113,7 +115,9 @@ var DEFAULT_TIME_BETWEEN_CALLS = 10000;
  * @class
  * @description Ringout managing module
  */
-var Ringout = (_class = function (_RcModule) {
+var Ringout = (_dec = (0, _di.Module)({
+  deps: ['Auth', 'Client', { dep: 'RingoutOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Ringout, _RcModule);
 
   /**
@@ -356,6 +360,6 @@ var Ringout = (_class = function (_RcModule) {
     }
   }]);
   return Ringout;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'makeCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'makeCall'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_monitorRingout', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_monitorRingout'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_fetchRingoutStatus', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_fetchRingoutStatus'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'makeCall', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'makeCall'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_monitorRingout', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_monitorRingout'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_fetchRingoutStatus', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_fetchRingoutStatus'), _class2.prototype)), _class2)) || _class);
 exports.default = Ringout;
 //# sourceMappingURL=index.js.map

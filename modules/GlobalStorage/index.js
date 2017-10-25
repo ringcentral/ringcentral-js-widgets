@@ -33,6 +33,10 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
+var _di = require('../../lib/di');
+
 var _StorageBase2 = require('../../lib/StorageBase');
 
 var _StorageBase3 = _interopRequireDefault(_StorageBase2);
@@ -48,7 +52,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @description Alternative implementation of the Storage class.
  *  Allows registeration of reducers so that persisted states can be computed with reducers.
  */
-var GlobalStorage = function (_StorageBase) {
+var GlobalStorage = (_dec = (0, _di.Module)({
+  deps: [{ dep: 'GlobalStorageOptions', optional: true }]
+}), _dec(_class = function (_StorageBase) {
   (0, _inherits3.default)(GlobalStorage, _StorageBase);
 
   /**
@@ -113,7 +119,6 @@ var GlobalStorage = function (_StorageBase) {
     }
   }]);
   return GlobalStorage;
-}(_StorageBase3.default);
-
+}(_StorageBase3.default)) || _class);
 exports.default = GlobalStorage;
 //# sourceMappingURL=index.js.map

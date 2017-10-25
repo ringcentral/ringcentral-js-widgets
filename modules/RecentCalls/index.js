@@ -49,7 +49,7 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _proxify = require('../../lib/proxy/proxify');
 
@@ -58,6 +58,8 @@ var _proxify2 = _interopRequireDefault(_proxify);
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _actionTypes = require('./actionTypes');
 
@@ -118,7 +120,9 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @class
  * @description Retrieve all recent calls related to a specified contact.
  */
-var RecentCalls = (_class = function (_RcModule) {
+var RecentCalls = (_dec = (0, _di.Module)({
+  deps: ['Client', 'CallHistory']
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(RecentCalls, _RcModule);
 
   /**
@@ -428,6 +432,6 @@ var RecentCalls = (_class = function (_RcModule) {
     }
   }]);
   return RecentCalls;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'getCalls', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'getCalls'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'getCalls', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getCalls'), _class2.prototype)), _class2)) || _class);
 exports.default = RecentCalls;
 //# sourceMappingURL=index.js.map

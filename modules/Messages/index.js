@@ -45,11 +45,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _moduleStatuses = require('../../enums/moduleStatuses');
 
@@ -112,7 +114,9 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @class
  * @description Conversation list managing module
  */
-var Messages = (_class = function (_RcModule) {
+var Messages = (_dec = (0, _di.Module)({
+  deps: ['MessageStore', 'ExtensionInfo', 'ContactMatcher', 'ConversationLogger', 'ConversationMatcher', { dep: 'MessagesOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Messages, _RcModule);
 
   /**
@@ -480,6 +484,6 @@ var Messages = (_class = function (_RcModule) {
     }
   }]);
   return Messages;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, '_getCurrentPageMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_getCurrentPageMessages'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'loadNextPageMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'loadNextPageMessages'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateSearchInput', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'updateSearchInput'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_getCurrentPageMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_getCurrentPageMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'loadNextPageMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadNextPageMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSearchInput', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSearchInput'), _class2.prototype)), _class2)) || _class);
 exports.default = Messages;
 //# sourceMappingURL=index.js.map

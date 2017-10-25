@@ -45,13 +45,15 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 require('core-js/fn/array/find');
 
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _getRegionSettingsReducer = require('./getRegionSettingsReducer');
 
@@ -112,7 +114,9 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @class
  * @description Region settings managing module
  */
-var RegionSettings = (_class = function (_RcModule) {
+var RegionSettings = (_dec = (0, _di.Module)({
+  deps: ['Storage', 'ExtensionInfo', 'DialingPlan', 'Alert', 'TabManager']
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(RegionSettings, _RcModule);
 
   /**
@@ -364,6 +368,6 @@ var RegionSettings = (_class = function (_RcModule) {
     }
   }]);
   return RegionSettings;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'checkRegionSettings', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'checkRegionSettings'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'setData'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'checkRegionSettings', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'checkRegionSettings'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setData'), _class2.prototype)), _class2)) || _class);
 exports.default = RegionSettings;
 //# sourceMappingURL=index.js.map

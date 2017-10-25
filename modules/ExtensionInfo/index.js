@@ -41,9 +41,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
 var _jsonMask = require('json-mask');
 
 var _jsonMask2 = _interopRequireDefault(_jsonMask);
+
+var _di = require('../../lib/di');
 
 var _DataFetcher2 = require('../../lib/DataFetcher');
 
@@ -78,8 +82,9 @@ function extractData(info) {
  * @class
  * @description Extension info module
  */
-
-var ExtensionInfo = function (_DataFetcher) {
+var ExtensionInfo = (_dec = (0, _di.Module)({
+  deps: ['Client', { dep: 'ExtensionInfoOptions', optional: true }]
+}), _dec(_class = function (_DataFetcher) {
   (0, _inherits3.default)(ExtensionInfo, _DataFetcher);
 
   /**
@@ -173,7 +178,6 @@ var ExtensionInfo = function (_DataFetcher) {
     }
   }]);
   return ExtensionInfo;
-}(_DataFetcher3.default);
-
+}(_DataFetcher3.default)) || _class);
 exports.default = ExtensionInfo;
 //# sourceMappingURL=index.js.map

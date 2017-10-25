@@ -45,11 +45,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 exports.processData = processData;
 exports.getISODateFrom = getISODateFrom;
 exports.getISODateTo = getISODateTo;
+
+var _di = require('../../lib/di');
 
 var _Pollable2 = require('../../lib/Pollable');
 
@@ -162,7 +164,9 @@ var presenceRegExp = /\/presence\?detailedTelephonyState=true/;
  * @class
  * @description Call log managing module
  */
-var CallLog = (_class = function (_Pollable) {
+var CallLog = (_dec = (0, _di.Module)({
+  deps: ['Auth', 'Client', 'Storage', 'Subscription', 'RolesAndPermissions', { dep: 'CallLogOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_Pollable) {
   (0, _inherits3.default)(CallLog, _Pollable);
 
   /**
@@ -767,6 +771,6 @@ var CallLog = (_class = function (_Pollable) {
     }
   }]);
   return CallLog;
-}(_Pollable3.default), (_applyDecoratedDescriptor(_class.prototype, '_fetch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_fetch'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_iSync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_iSync'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_fSync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_fSync'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_sync'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'sync'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'fetchData'), _class.prototype)), _class);
+}(_Pollable3.default), (_applyDecoratedDescriptor(_class2.prototype, '_fetch', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_fetch'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_iSync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_iSync'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_fSync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_fSync'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_sync'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sync'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'fetchData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'fetchData'), _class2.prototype)), _class2)) || _class);
 exports.default = CallLog;
 //# sourceMappingURL=index.js.map

@@ -41,6 +41,10 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _dec, _class;
+
+var _di = require('../../lib/di');
+
 var _DataFetcher2 = require('../../lib/DataFetcher');
 
 var _DataFetcher3 = _interopRequireDefault(_DataFetcher2);
@@ -55,7 +59,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @class
  * @description Extension forwarding number list module
  */
-var ForwardingNumber = function (_DataFetcher) {
+var ForwardingNumber = (_dec = (0, _di.Module)({
+  deps: ['Client', { dep: 'ForwardingNumberOptions', optional: true }]
+}), _dec(_class = function (_DataFetcher) {
   (0, _inherits3.default)(ForwardingNumber, _DataFetcher);
 
   /**
@@ -136,7 +142,6 @@ var ForwardingNumber = function (_DataFetcher) {
     }
   }]);
   return ForwardingNumber;
-}(_DataFetcher3.default);
-
+}(_DataFetcher3.default)) || _class);
 exports.default = ForwardingNumber;
 //# sourceMappingURL=index.js.map

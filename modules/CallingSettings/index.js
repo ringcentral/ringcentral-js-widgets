@@ -49,11 +49,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('../../lib/di');
 
 var _getCallingSettingsReducer = require('./getCallingSettingsReducer');
 
@@ -118,7 +120,9 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @class
  * @description Call setting managing module
  */
-var CallingSettings = (_class = function (_RcModule) {
+var CallingSettings = (_dec = (0, _di.Module)({
+  deps: ['Alert', 'Brand', 'ExtensionInfo', 'ExtensionPhoneNumber', 'ForwardingNumber', 'Storage', 'RolesAndPermissions', 'TabManager', 'Webphone', { deps: 'CallingSettingsOptions', optional: true }]
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(CallingSettings, _RcModule);
 
   /**
@@ -738,6 +742,6 @@ var CallingSettings = (_class = function (_RcModule) {
     }
   }]);
   return CallingSettings;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, '_initFromNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_initFromNumber'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'updateFromNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'updateFromNumber'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_setSoftPhoneToCallWith', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_setSoftPhoneToCallWith'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_validateSettings', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_validateSettings'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, '_warningEmergencyCallingNotAvailable', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, '_warningEmergencyCallingNotAvailable'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'setData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'setData'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_initFromNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_initFromNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateFromNumber', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateFromNumber'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_setSoftPhoneToCallWith', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_setSoftPhoneToCallWith'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_validateSettings', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_validateSettings'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, '_warningEmergencyCallingNotAvailable', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_warningEmergencyCallingNotAvailable'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setData', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setData'), _class2.prototype)), _class2)) || _class);
 exports.default = CallingSettings;
 //# sourceMappingURL=index.js.map
