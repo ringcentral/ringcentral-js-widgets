@@ -4,6 +4,19 @@ import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import debounce from 'ringcentral-integration/lib/debounce';
 import baseMessageTypes from './baseMessageTypes';
 
+const SANDBOX_ATTRIBUTE_VALUE = [
+  'allow-same-origin',
+  'allow-scripts',
+  'allow-forms',
+  'allow-popups',
+].join(' ');
+
+// chrome 63 mandate the declaration of this attribute for getUserMedia to work in iframes
+const ALLOW_ATTRIBUTE_VALUE = [
+  'microphone',
+  // 'camera',
+].join(' ');
+
 export default class AdapterCore {
   constructor({
     prefix,
@@ -84,7 +97,7 @@ export default class AdapterCore {
         <img class="${this._styles.logo}" draggable="false"></img>
       </header>
       <div class="${this._styles.frameContainer}">
-        <iframe class="${this._styles.contentFrame}" sandbox="allow-same-origin allow-scripts allow-forms allow-popups" allow="microphone camera" >
+        <iframe class="${this._styles.contentFrame}" sandbox="${SANDBOX_ATTRIBUTE_VALUE}" allow="${ALLOW_ATTRIBUTE_VALUE}" >
         </iframe>
       </div>
     `;
