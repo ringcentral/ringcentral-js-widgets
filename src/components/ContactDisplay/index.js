@@ -235,5 +235,5 @@ ContactDisplay.defaultProps = {
   showPlaceholder: true,
   brand: undefined,
   stopPropagation: true,
-  sourceIcons: {},
+  sourceIcons: undefined,
 };
