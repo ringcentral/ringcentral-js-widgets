@@ -49,6 +49,10 @@ var _RcModule3 = _interopRequireDefault(_RcModule2);
 
 var _di = require('../../lib/di');
 
+var _sleep = require('../../lib/sleep');
+
+var _sleep2 = _interopRequireDefault(_sleep);
+
 var _moduleStatuses = require('../../enums/moduleStatuses');
 
 var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
@@ -163,23 +167,12 @@ var Analytics = (_dec = (0, _di.Module)({
     key: '_onStateChange',
     value: function () {
       var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var _this3 = this;
-
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (this.ready) {
-                  this.lastActions.forEach(function (action) {
-                    ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer'].forEach(function (key) {
-                      _this3[key](action);
-                    });
-                  });
-                  if (this.lastActions.length !== 0) {
-                    this.store.dispatch({
-                      type: this.actionTypes.clear
-                    });
-                  }
+                if (this.ready && this.lastActions.length && !this._promise) {
+                  this._promise = this._processActions();
                 }
 
               case 1:
@@ -195,6 +188,49 @@ var Analytics = (_dec = (0, _di.Module)({
       }
 
       return _onStateChange;
+    }()
+  }, {
+    key: '_processActions',
+    value: function () {
+      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+        var _this3 = this;
+
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!this.lastActions.length) {
+                  _context2.next = 6;
+                  break;
+                }
+
+                _context2.next = 3;
+                return (0, _sleep2.default)(300);
+
+              case 3:
+                this.lastActions.forEach(function (action) {
+                  ['_authentication', '_logout', '_callAttempt', '_callConnected', '_webRTCRegistration', '_smsAttempt', '_smsSent', '_logCall', '_logSMS', '_clickToDial', '_clickToSMS', '_viewEntity', '_createEntity', '_editCallLog', '_editSMSLog', '_navigate', '_inboundCall', '_coldTransfer'].forEach(function (key) {
+                    _this3[key](action);
+                  });
+                });
+                this._promise = null;
+                this.store.dispatch({
+                  type: this.actionTypes.clear
+                });
+
+              case 6:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function _processActions() {
+        return _ref6.apply(this, arguments);
+      }
+
+      return _processActions;
     }()
   }, {
     key: '_authentication',

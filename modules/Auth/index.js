@@ -775,7 +775,8 @@ var Auth = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context8.prev = _context8.next) {
               case 0:
-                if (typeof window !== 'undefined' && typeof document !== 'undefined' && this._proxyUri && this._proxyUri !== '' && !this._proxyFrame) {
+                if (!this._transport && // skip on proxy instance
+                typeof window !== 'undefined' && typeof document !== 'undefined' && this._proxyUri && this._proxyUri !== '' && !this._proxyFrame) {
                   this.store.dispatch({
                     type: this.actionTypes.proxySetup
                   });
@@ -943,6 +944,6 @@ var Auth = (_dec = (0, _di.Module)({
     }
   }]);
   return Auth;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'login', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'login'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'logout', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'logout'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'checkIsLoggedIn', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'checkIsLoggedIn'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setupProxyFrame', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setupProxyFrame'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clearProxyFrame', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clearProxyFrame'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'openOAuthPage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'openOAuthPage'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'login', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'login'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'logout', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'logout'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'checkIsLoggedIn', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'checkIsLoggedIn'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'openOAuthPage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'openOAuthPage'), _class2.prototype)), _class2)) || _class);
 exports.default = Auth;
 //# sourceMappingURL=index.js.map
