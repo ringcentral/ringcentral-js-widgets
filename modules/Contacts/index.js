@@ -9,9 +9,9 @@ var _promise = require('babel-runtime/core-js/promise');
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+var _getIterator2 = require('babel-runtime/core-js/get-iterator');
 
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+var _getIterator3 = _interopRequireDefault(_getIterator2);
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -20,6 +20,10 @@ var _regenerator2 = _interopRequireDefault(_regenerator);
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 var _keys = require('babel-runtime/core-js/object/keys');
 
@@ -153,7 +157,10 @@ var Contacts = (_dec = (0, _di.Module)({
         presenceTtl = _ref$presenceTtl === undefined ? DEFAULT_PRESENCETTL : _ref$presenceTtl,
         _ref$avatarQueryInter = _ref.avatarQueryInterval,
         avatarQueryInterval = _ref$avatarQueryInter === undefined ? DEFAULT_AVATARQUERYINTERVAL : _ref$avatarQueryInter,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'addressBook', 'accountExtension', 'accountPhoneNumber', 'alert', 'ttl', 'avatarTtl', 'presenceTtl', 'avatarQueryInterval']);
+        readyCheckFn = _ref.readyCheckFn,
+        _ref$addContactsSourc = _ref.addContactsSources,
+        addContactsSources = _ref$addContactsSourc === undefined ? [] : _ref$addContactsSourc,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'addressBook', 'accountExtension', 'accountPhoneNumber', 'alert', 'ttl', 'avatarTtl', 'presenceTtl', 'avatarQueryInterval', 'readyCheckFn', 'addContactsSources']);
     (0, _classCallCheck3.default)(this, Contacts);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Contacts.__proto__ || (0, _getPrototypeOf2.default)(Contacts)).call(this, (0, _extends3.default)({}, options, {
@@ -170,7 +177,8 @@ var Contacts = (_dec = (0, _di.Module)({
     _this._avatarTtl = avatarTtl;
     _this._presenceTtl = presenceTtl;
     _this._avatarQueryInterval = avatarQueryInterval;
-
+    _this._addContactsSources = addContactsSources;
+    _this._readyCheckFn = readyCheckFn;
     _this.addSelector('companyContacts', function () {
       return _this._accountExtension.availableExtensions;
     }, function () {
@@ -231,12 +239,27 @@ var Contacts = (_dec = (0, _di.Module)({
   }
 
   (0, _createClass3.default)(Contacts, [{
-    key: 'initialize',
-    value: function initialize() {
+    key: '_handlerContactsSources',
+    value: function _handlerContactsSources() {
       var _this2 = this;
 
+      this._addContactsSources.forEach(function (_ref2) {
+        var addSelector = _ref2.addSelector,
+            sourcesName = _ref2.sourcesName;
+
+        _this2.__defineGetter__(sourcesName, function () {
+          return _this2._selectors[sourcesName]();
+        });
+        _this2.addSelector.apply(_this2, (0, _toConsumableArray3.default)(addSelector));
+      });
+    }
+  }, {
+    key: 'initialize',
+    value: function initialize() {
+      var _this3 = this;
+
       this.store.subscribe(function () {
-        return _this2._onStateChange();
+        return _this3._onStateChange();
       });
     }
   }, {
@@ -246,6 +269,7 @@ var Contacts = (_dec = (0, _di.Module)({
         this.store.dispatch({
           type: this.actionTypes.initSuccess
         });
+        this._handlerContactsSources();
       } else if (this._shouldReset()) {
         this._resetModuleStatus();
       }
@@ -253,12 +277,12 @@ var Contacts = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return this._addressBook.ready && this._accountExtension.ready && this._accountPhoneNumber.ready && this.pending;
+      return this._addressBook.ready && this._accountExtension.ready && this._accountPhoneNumber.ready && (!this._readyCheckFn || this._readyCheckFn()) && this.pending;
     }
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return (!this._addressBook.ready || !this._accountExtension.ready || !this._accountPhoneNumber.ready) && this.ready;
+      return (!this._addressBook.ready || !this._accountExtension.ready || this._readyCheckFn && !this._readyCheckFn() || !this._accountPhoneNumber.ready) && this.ready;
     }
   }, {
     key: '_resetModuleStatus',
@@ -270,7 +294,7 @@ var Contacts = (_dec = (0, _di.Module)({
   }, {
     key: 'showAlert',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -290,7 +314,7 @@ var Contacts = (_dec = (0, _di.Module)({
       }));
 
       function showAlert() {
-        return _ref2.apply(this, arguments);
+        return _ref3.apply(this, arguments);
       }
 
       return showAlert;
@@ -332,24 +356,53 @@ var Contacts = (_dec = (0, _di.Module)({
     }
   }, {
     key: 'matchContacts',
-    value: function matchContacts(_ref3) {
-      var _this3 = this;
+    value: function matchContacts(_ref4) {
+      var _this4 = this;
 
-      var phoneNumbers = _ref3.phoneNumbers;
+      var phoneNumbers = _ref4.phoneNumbers;
 
       var result = {};
       phoneNumbers.forEach(function (phoneNumber) {
-        result[phoneNumber] = _this3.matchPhoneNumber(phoneNumber);
+        result[phoneNumber] = _this4.matchPhoneNumber(phoneNumber);
       });
       return result;
     }
   }, {
     key: 'findContactItem',
-    value: function findContactItem(_ref4) {
-      var contactType = _ref4.contactType,
-          contactId = _ref4.contactId;
+    value: function findContactItem(_ref5) {
+      var contactType = _ref5.contactType,
+          contactId = _ref5.contactId;
 
       var id = (contactId || '').toString();
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
+
+      try {
+        for (var _iterator = (0, _getIterator3.default)(this._addContactsSources), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+          var contactsSources = _step.value;
+
+          if (contactsSources.contactType === contactType) {
+            return this[contactsSources.sourcesName].find(function (x) {
+              return x.id.toString() === id;
+            });
+          }
+        }
+      } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
+          }
+        } finally {
+          if (_didIteratorError) {
+            throw _iteratorError;
+          }
+        }
+      }
+
       switch (contactType) {
         case 'company':
           return this.companyContacts.find(function (x) {
@@ -366,7 +419,7 @@ var Contacts = (_dec = (0, _di.Module)({
   }, {
     key: 'getImageProfile',
     value: function getImageProfile(contact) {
-      var _this4 = this;
+      var _this5 = this;
 
       var useCache = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
 
@@ -377,30 +430,30 @@ var Contacts = (_dec = (0, _di.Module)({
         }
 
         var imageId = '' + contact.type + contact.id;
-        if (useCache && _this4.profileImages[imageId] && Date.now() - _this4.profileImages[imageId].timestamp < _this4._avatarTtl) {
-          var image = _this4.profileImages[imageId].imageUrl;
+        if (useCache && _this5.profileImages[imageId] && Date.now() - _this5.profileImages[imageId].timestamp < _this5._avatarTtl) {
+          var image = _this5.profileImages[imageId].imageUrl;
           resolve(image);
           return;
         }
 
-        if (!_this4._getAvatarContexts) {
-          _this4._getAvatarContexts = [];
+        if (!_this5._getAvatarContexts) {
+          _this5._getAvatarContexts = [];
         }
-        _this4._getAvatarContexts.push({
+        _this5._getAvatarContexts.push({
           contact: contact,
           resolve: resolve
         });
 
-        if (!_this4._queryingAvatar) {
-          _this4._queryingAvatar = true;
-          _this4._processQueryAvatar(_this4._getAvatarContexts);
+        if (!_this5._queryingAvatar) {
+          _this5._queryingAvatar = true;
+          _this5._processQueryAvatar(_this5._getAvatarContexts);
         }
       });
     }
   }, {
     key: '_processQueryAvatar',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(getAvatarContexts) {
+      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(getAvatarContexts) {
         var ctx, imageId, imageUrl, response;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
@@ -467,7 +520,7 @@ var Contacts = (_dec = (0, _di.Module)({
       }));
 
       function _processQueryAvatar(_x2) {
-        return _ref5.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return _processQueryAvatar;
@@ -475,7 +528,7 @@ var Contacts = (_dec = (0, _di.Module)({
   }, {
     key: 'getPresence',
     value: function getPresence(contact) {
-      var _this5 = this;
+      var _this6 = this;
 
       return new _promise2.default(function (resolve) {
         if (!contact || !contact.id || contact.type !== 'company') {
@@ -484,28 +537,28 @@ var Contacts = (_dec = (0, _di.Module)({
         }
 
         var presenceId = '' + contact.type + contact.id;
-        if (_this5.contactPresences[presenceId] && Date.now() - _this5.contactPresences[presenceId].timestamp < _this5._presenceTtl) {
-          var presence = _this5.contactPresences[presenceId].presence;
+        if (_this6.contactPresences[presenceId] && Date.now() - _this6.contactPresences[presenceId].timestamp < _this6._presenceTtl) {
+          var presence = _this6.contactPresences[presenceId].presence;
           resolve(presence);
           return;
         }
 
-        if (!_this5._getPresenceContexts) {
-          _this5._getPresenceContexts = [];
+        if (!_this6._getPresenceContexts) {
+          _this6._getPresenceContexts = [];
         }
-        _this5._getPresenceContexts.push({
+        _this6._getPresenceContexts.push({
           contact: contact,
           resolve: resolve
         });
 
-        clearTimeout(_this5.enqueueTimeoutId);
-        if (_this5._getPresenceContexts.length === MaximumBatchGetPresence) {
-          _this5._processQueryPresences(_this5._getPresenceContexts);
-          _this5._getPresenceContexts = null;
+        clearTimeout(_this6.enqueueTimeoutId);
+        if (_this6._getPresenceContexts.length === MaximumBatchGetPresence) {
+          _this6._processQueryPresences(_this6._getPresenceContexts);
+          _this6._getPresenceContexts = null;
         } else {
-          _this5.enqueueTimeoutId = setTimeout(function () {
-            _this5._processQueryPresences(_this5._getPresenceContexts);
-            _this5._getPresenceContexts = null;
+          _this6.enqueueTimeoutId = setTimeout(function () {
+            _this6._processQueryPresences(_this6._getPresenceContexts);
+            _this6._getPresenceContexts = null;
           }, 1000);
         }
       });
@@ -513,8 +566,8 @@ var Contacts = (_dec = (0, _di.Module)({
   }, {
     key: '_processQueryPresences',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(getPresenceContexts) {
-        var _this6 = this;
+      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(getPresenceContexts) {
+        var _this7 = this;
 
         var contacts, responses;
         return _regenerator2.default.wrap(function _callee3$(_context3) {
@@ -548,11 +601,11 @@ var Contacts = (_dec = (0, _di.Module)({
                     userStatus: userStatus
                   };
                   var presenceId = '' + ctx.contact.type + ctx.contact.id;
-                  _this6.store.dispatch({
-                    type: _this6.actionTypes.fetchPresenceSuccess,
+                  _this7.store.dispatch({
+                    type: _this7.actionTypes.fetchPresenceSuccess,
                     presenceId: presenceId,
                     presence: presence,
-                    ttl: _this6._presenceTtl
+                    ttl: _this7._presenceTtl
                   });
                   ctx.resolve(presence);
                 });
@@ -566,7 +619,7 @@ var Contacts = (_dec = (0, _di.Module)({
       }));
 
       function _processQueryPresences(_x3) {
-        return _ref6.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       }
 
       return _processQueryPresences;
@@ -574,7 +627,7 @@ var Contacts = (_dec = (0, _di.Module)({
   }, {
     key: '_batchQueryPresences',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(contacts) {
+      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(contacts) {
         var presenceSet, id, response, ids, multipartResponse, responses;
         return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
@@ -646,7 +699,7 @@ var Contacts = (_dec = (0, _di.Module)({
       }));
 
       function _batchQueryPresences(_x4) {
-        return _ref7.apply(this, arguments);
+        return _ref8.apply(this, arguments);
       }
 
       return _batchQueryPresences;
