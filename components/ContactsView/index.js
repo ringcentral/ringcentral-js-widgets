@@ -69,6 +69,10 @@ var _ContactAdd = require('../../assets/images/ContactAdd.svg');
 
 var _ContactAdd2 = _interopRequireDefault(_ContactAdd);
 
+var _ContactSourceFilter = require('../ContactSourceFilter');
+
+var _ContactSourceFilter2 = _interopRequireDefault(_ContactSourceFilter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function AddContact(_ref) {
@@ -206,7 +210,7 @@ var ContactsView = function (_Component) {
           getPresence = _props.getPresence,
           currentPage = _props.currentPage,
           onItemSelect = _props.onItemSelect,
-          contactSourceFilterRenderer = _props.contactSourceFilterRenderer;
+          Filter = _props.contactSourceFilterRenderer;
 
 
       var content = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(_ContactList2.default, {
@@ -217,14 +221,6 @@ var ContactsView = function (_Component) {
         currentPage: currentPage,
         onNextPage: this.loadNextPage,
         onItemSelect: onItemSelect
-      });
-
-      var contactSourceFilter = contactSourceFilterRenderer({
-        className: _styles2.default.actionButton,
-        currentLocale: currentLocale,
-        contactSourceNames: contactSourceNames,
-        onSourceSelect: this.doSearchBySource,
-        selectedSourceName: searchSource
       });
 
       return _react2.default.createElement(
@@ -243,7 +239,13 @@ var ContactsView = function (_Component) {
             className: _styles2.default.actionButton,
             onClick: function onClick() {}
           }),
-          contactSourceFilter
+          _react2.default.createElement(Filter, {
+            className: _styles2.default.actionButton,
+            currentLocale: currentLocale,
+            contactSourceNames: contactSourceNames,
+            onSourceSelect: this.doSearchBySource,
+            selectedSourceName: searchSource
+          })
         ),
         _react2.default.createElement(
           _Panel2.default,
@@ -275,7 +277,7 @@ ContactsView.propTypes = {
   currentPage: _propTypes2.default.number,
   onItemSelect: _propTypes2.default.func,
   onSearchContact: _propTypes2.default.func,
-  contactSourceFilterRenderer: _propTypes2.default.func.isRequired
+  contactSourceFilterRenderer: _propTypes2.default.func
   // onRestSearch: PropTypes.func,
 };
 
@@ -284,7 +286,8 @@ ContactsView.defaultProps = {
   searchString: undefined,
   currentPage: undefined,
   onItemSelect: undefined,
-  onSearchContact: undefined
+  onSearchContact: undefined,
+  contactSourceFilterRenderer: _ContactSourceFilter2.default
   // onRestSearch: undefined,
 };
 //# sourceMappingURL=index.js.map
