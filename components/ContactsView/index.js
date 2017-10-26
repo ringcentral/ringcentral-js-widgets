@@ -49,10 +49,6 @@ var _SpinnerOverlay = require('../SpinnerOverlay');
 
 var _SpinnerOverlay2 = _interopRequireDefault(_SpinnerOverlay);
 
-var _ContactSourceFilter = require('../ContactSourceFilter');
-
-var _ContactSourceFilter2 = _interopRequireDefault(_ContactSourceFilter);
-
 var _ContactList = require('../ContactList');
 
 var _ContactList2 = _interopRequireDefault(_ContactList);
@@ -209,7 +205,8 @@ var ContactsView = function (_Component) {
           getAvatarUrl = _props.getAvatarUrl,
           getPresence = _props.getPresence,
           currentPage = _props.currentPage,
-          onItemSelect = _props.onItemSelect;
+          onItemSelect = _props.onItemSelect,
+          contactSourceFilterRenderer = _props.contactSourceFilterRenderer;
 
 
       var content = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(_ContactList2.default, {
@@ -220,6 +217,14 @@ var ContactsView = function (_Component) {
         currentPage: currentPage,
         onNextPage: this.loadNextPage,
         onItemSelect: onItemSelect
+      });
+
+      var contactSourceFilter = contactSourceFilterRenderer({
+        className: _styles2.default.actionButton,
+        currentLocale: currentLocale,
+        contactSourceNames: contactSourceNames,
+        onSourceSelect: this.doSearchBySource,
+        selectedSourceName: searchSource
       });
 
       return _react2.default.createElement(
@@ -238,13 +243,7 @@ var ContactsView = function (_Component) {
             className: _styles2.default.actionButton,
             onClick: function onClick() {}
           }),
-          _react2.default.createElement(_ContactSourceFilter2.default, {
-            className: _styles2.default.actionButton,
-            currentLocale: currentLocale,
-            onSourceSelect: this.doSearchBySource,
-            selectedSourceName: searchSource,
-            contactSourceNames: contactSourceNames
-          })
+          contactSourceFilter
         ),
         _react2.default.createElement(
           _Panel2.default,
@@ -275,7 +274,8 @@ ContactsView.propTypes = {
   searchString: _propTypes2.default.string,
   currentPage: _propTypes2.default.number,
   onItemSelect: _propTypes2.default.func,
-  onSearchContact: _propTypes2.default.func
+  onSearchContact: _propTypes2.default.func,
+  contactSourceFilterRenderer: _propTypes2.default.func.isRequired
   // onRestSearch: PropTypes.func,
 };
 

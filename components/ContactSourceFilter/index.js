@@ -134,6 +134,11 @@ var ContactSourceFilter = function (_Component) {
       this.hideList();
     }
   }, {
+    key: 'getString',
+    value: function getString(key, locale) {
+      return _i18n2.default.getString(key, locale);
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
@@ -157,7 +162,7 @@ var ContactSourceFilter = function (_Component) {
           'div',
           {
             className: _styles2.default.filterIconContainer,
-            title: _i18n2.default.getString(selectedSourceName, currentLocale),
+            title: this.getString(selectedSourceName, currentLocale),
             onClick: this.showList
           },
           _react2.default.createElement(_ContactFilter2.default, {
@@ -176,7 +181,7 @@ var ContactSourceFilter = function (_Component) {
             return _react2.default.createElement(ContactSourceItem, {
               key: sourceName,
               sourceName: sourceName,
-              sourceLabel: _i18n2.default.getString(sourceName, currentLocale),
+              sourceLabel: _this2.getString(sourceName, currentLocale),
               isSelected: sourceName === selectedSourceName,
               onSelect: _this2.emitSelect
             });
