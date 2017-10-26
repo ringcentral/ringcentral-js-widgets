@@ -91,11 +91,6 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 }
 
 function getDefaultHistory() {
-  // if (typeof window !== 'undefined') {
-  //   console.debug('hashHistory');
-  //   return hashHistory;
-  // }
-  // console.debug('memoryHistory');
   return (0, _reactRouter.useRouterHistory)(_reactRouter.createMemoryHistory)();
 }
 

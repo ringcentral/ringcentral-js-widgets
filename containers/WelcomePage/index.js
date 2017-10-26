@@ -52,7 +52,7 @@ function mapToProps(_, _ref) {
     currentLocale: locale.currentLocale,
     disabled: !auth.proxyLoaded || rateLimiter.throttling || !connectivityMonitor.connectivity,
     version: version,
-    showSpinner: !auth.ready || auth.loginStatus === _loginStatus2.default.loggingIn || auth.loginStatus === _loginStatus2.default.loggingOut || auth.loginStatus === _loginStatus2.default.beforeLogout
+    showSpinner: !auth.ready || auth.loginStatus === _loginStatus2.default.loggingIn || auth.loginStatus === _loginStatus2.default.loggingOut || auth.loginStatus === _loginStatus2.default.beforeLogout || auth.loginStatus === _loginStatus2.default.loggedIn
   };
 }
 
