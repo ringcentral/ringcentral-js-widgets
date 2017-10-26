@@ -27,7 +27,8 @@ function mapToProps(_, {
       !auth.ready ||
       auth.loginStatus === loginStatus.loggingIn ||
       auth.loginStatus === loginStatus.loggingOut ||
-      auth.loginStatus === loginStatus.beforeLogout
+      auth.loginStatus === loginStatus.beforeLogout ||
+      auth.loginStatus === loginStatus.loggedIn
     ),
   };
 }
