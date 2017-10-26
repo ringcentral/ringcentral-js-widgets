@@ -10,6 +10,7 @@ import ContactItem from '../ContactItem';
 import styles from './styles.scss';
 import i18n from './i18n';
 import AddContactIcon from '../../assets/images/ContactAdd.svg';
+import ContactSourceFilter from '../ContactSourceFilter';
 
 function AddContact({
   className,
@@ -125,7 +126,7 @@ export default class ContactsView extends Component {
       getPresence,
       currentPage,
       onItemSelect,
-      contactSourceFilterRenderer,
+      contactSourceFilterRenderer: Filter,
     } = this.props;
 
     const content = showSpinner ?
@@ -142,14 +143,6 @@ export default class ContactsView extends Component {
         />
       );
 
-    const contactSourceFilter = contactSourceFilterRenderer({
-      className: styles.actionButton,
-      currentLocale,
-      contactSourceNames,
-      onSourceSelect: this.doSearchBySource,
-      selectedSourceName: searchSource,
-    });
-
     return (
       <div className={styles.root}>
         <div className={styles.actionBar}>
@@ -163,7 +156,13 @@ export default class ContactsView extends Component {
             className={styles.actionButton}
             onClick={() => { }}
           />
-          { contactSourceFilter }
+          <Filter
+            className={styles.actionButton}
+            currentLocale={currentLocale}
+            contactSourceNames={contactSourceNames}
+            onSourceSelect={this.doSearchBySource}
+            selectedSourceName={searchSource}
+          />
         </div>
         <Panel className={styles.content}>
           {content}
@@ -189,7 +188,7 @@ ContactsView.propTypes = {
   currentPage: PropTypes.number,
   onItemSelect: PropTypes.func,
   onSearchContact: PropTypes.func,
-  contactSourceFilterRenderer: PropTypes.func.isRequired,
+  contactSourceFilterRenderer: PropTypes.func,
   // onRestSearch: PropTypes.func,
 };
 
@@ -199,5 +198,6 @@ ContactsView.defaultProps = {
   currentPage: undefined,
   onItemSelect: undefined,
   onSearchContact: undefined,
+  contactSourceFilterRenderer: ContactSourceFilter
   // onRestSearch: undefined,
 };
