@@ -70,6 +70,10 @@ export default class ContactSourceFilter extends Component {
     this.hideList();
   }
 
+  getString(key, locale) {
+    return i18n.getString(key, locale);
+  }
+
   render() {
     const {
       className,
@@ -85,7 +89,7 @@ export default class ContactSourceFilter extends Component {
       >
         <div
           className={styles.filterIconContainer}
-          title={i18n.getString(selectedSourceName, currentLocale)}
+          title={this.getString(selectedSourceName, currentLocale)}
           onClick={this.showList}
         >
           <ContactFilterIcon
@@ -101,7 +105,7 @@ export default class ContactSourceFilter extends Component {
               <ContactSourceItem
                 key={sourceName}
                 sourceName={sourceName}
-                sourceLabel={i18n.getString(sourceName, currentLocale)}
+                sourceLabel={this.getString(sourceName, currentLocale)}
                 isSelected={sourceName === selectedSourceName}
                 onSelect={this.emitSelect}
               />

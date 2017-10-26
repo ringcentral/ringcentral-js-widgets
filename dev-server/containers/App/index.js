@@ -22,6 +22,7 @@ import CallBadgeContainer from '../../../src/containers/CallBadgeContainer';
 import RecentActivityContainer from '../../../src/containers/RecentActivityContainer';
 import ContactsPage from '../../../src/containers/ContactsPage';
 import ContactDetailsPage from '../../../src/containers/ContactDetailsPage';
+import ContactSourceFilter from '../../../src/components/ContactSourceFilter';
 import MainView from '../MainView';
 import AppView from '../AppView';
 
@@ -360,6 +361,9 @@ export default function App({
                   router={phone.router}
                   contacts={phone.contacts}
                   contactSearch={phone.contactSearch}
+                  contactSourceFilterRenderer={props =>
+                    <ContactSourceFilter {...props} />
+                  }
                 />
               )} />
             <Route
