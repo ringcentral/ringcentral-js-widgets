@@ -361,9 +361,9 @@ export default function App({
                   router={phone.router}
                   contacts={phone.contacts}
                   contactSearch={phone.contactSearch}
-                  contactSourceFilterRenderer={props =>
+                  contactSourceFilterRenderer={props => (
                     <ContactSourceFilter {...props} />
-                  }
+                  )}
                 />
               )} />
             <Route
