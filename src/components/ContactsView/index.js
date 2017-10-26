@@ -5,7 +5,6 @@ import Panel from '../Panel';
 import SearchInput from '../SearchInput';
 import SpinnerOverlay from '../SpinnerOverlay';
 
-import ContactSourceFilter from '../ContactSourceFilter';
 import ContactList from '../ContactList';
 import ContactItem from '../ContactItem';
 import styles from './styles.scss';
@@ -126,6 +125,7 @@ export default class ContactsView extends Component {
       getPresence,
       currentPage,
       onItemSelect,
+      contactSourceFilterRenderer,
     } = this.props;
 
     const content = showSpinner ?
@@ -142,6 +142,14 @@ export default class ContactsView extends Component {
         />
       );
 
+    const contactSourceFilter = contactSourceFilterRenderer({
+      className: styles.actionButton,
+      currentLocale,
+      contactSourceNames,
+      onSourceSelect: this.doSearchBySource,
+      selectedSourceName: searchSource,
+    });
+
     return (
       <div className={styles.root}>
         <div className={styles.actionBar}>
@@ -155,13 +163,7 @@ export default class ContactsView extends Component {
             className={styles.actionButton}
             onClick={() => { }}
           />
-          <ContactSourceFilter
-            className={styles.actionButton}
-            currentLocale={currentLocale}
-            onSourceSelect={this.doSearchBySource}
-            selectedSourceName={searchSource}
-            contactSourceNames={contactSourceNames}
-          />
+          { contactSourceFilter }
         </div>
         <Panel className={styles.content}>
           {content}
@@ -187,6 +189,7 @@ ContactsView.propTypes = {
   currentPage: PropTypes.number,
   onItemSelect: PropTypes.func,
   onSearchContact: PropTypes.func,
+  contactSourceFilterRenderer: PropTypes.func.isRequired,
   // onRestSearch: PropTypes.func,
 };
 
