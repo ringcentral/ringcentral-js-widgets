@@ -7,10 +7,7 @@ import apiConfig from './api-config';
 import brandConfig from './brandConfig';
 import version from './version';
 import prefix from './prefix';
-import Perf from 'react-addons-perf';
 import RcIcon from './Icon.svg';
-
-window.Perf = Perf;
 
 const phone = new Phone({
   apiConfig,
