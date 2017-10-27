@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import i18n from './i18n';
 import styles from './styles.scss';
 import ContactFilterIcon from '../../assets/images/ContactFilter.svg';
+import ContactFilterSolidIcon from '../../assets/images/ContactFilterSolid.svg';
 
 export function ContactSourceItem({ sourceName, sourceLabel, isSelected, onSelect }) {
   return (
@@ -29,49 +30,48 @@ ContactSourceItem.propTypes = {
 export default class ContactSourceFilter extends Component {
   constructor(props) {
     super(props);
-    this.showList = this.showList.bind(this);
-    this.hideList = this.hideList.bind(this);
-    this.hideListAlt = this.hideListAlt.bind(this);
-    this.emitSelect = this.emitSelect.bind(this);
+    this.state = {
+      unfold: false
+    };
   }
 
   componentWillUnmount() {
-    window.removeEventListener('click', this.hideListAlt);
+    window.removeEventListener('click', this.hideList);
   }
 
-  showList() {
-    if (!this.listElem) { return; }
-    this.listElem.style.display = 'block';
-    window.addEventListener('click', this.hideListAlt);
+  getString(key, locale) {
+    return i18n.getString(key, locale);
   }
 
-  hideList() {
-    if (!this.listElem) { return; }
-    this.listElem.style.display = 'none';
-    window.removeEventListener('click', this.hideListAlt);
+  hideList = () => {
+    this.setState(() => ({
+      unfold: false
+    }));
+    window.removeEventListener('click', this.hideList);
   }
 
-  hideListAlt(ev) {
-    if (
-      !this.rootElem ||
-      this.rootElem === ev.target ||
-      this.rootElem.contains(ev.target)
-    ) {
+  showList = () => {
+    this.setState(() => ({
+      unfold: true
+    }));
+    window.addEventListener('click', this.hideList);
+  }
+
+  togglePanel = (evt) => {
+    evt.stopPropagation();
+    if (!this.state.unfold) {
+      this.showList();
       return;
     }
     this.hideList();
   }
 
-  emitSelect(sourceName) {
+  emitSelect = (sourceName) => {
     const { onSourceSelect } = this.props;
     if (onSourceSelect) {
       onSourceSelect(sourceName);
     }
     this.hideList();
-  }
-
-  getString(key, locale) {
-    return i18n.getString(key, locale);
   }
 
   render() {
@@ -82,36 +82,41 @@ export default class ContactSourceFilter extends Component {
       selectedSourceName,
     } = this.props;
 
+    const isAllSource = selectedSourceName === contactSourceNames[0];
     return (
       <div
         className={classnames(styles.contactSourceFilter, className)}
-        ref={(el) => { this.rootElem = el; }}
+        onClick={this.togglePanel}
       >
         <div
           className={styles.filterIconContainer}
           title={this.getString(selectedSourceName, currentLocale)}
-          onClick={this.showList}
-        >
-          <ContactFilterIcon
-            className={styles.filterIconNode}
-          />
-        </div>
-        <div
-          className={styles.contactSourceList}
-          ref={(el) => { this.listElem = el; }}
         >
           {
-            contactSourceNames.map(sourceName => (
-              <ContactSourceItem
-                key={sourceName}
-                sourceName={sourceName}
-                sourceLabel={this.getString(sourceName, currentLocale)}
-                isSelected={sourceName === selectedSourceName}
-                onSelect={this.emitSelect}
-              />
-            ))
+            isAllSource
+              ? <ContactFilterIcon className={styles.filterIconNode} />
+              : <ContactFilterSolidIcon className={styles.filterIconNode} />
           }
         </div>
+        {
+          !this.state.unfold ? null : (
+            <div
+              className={styles.contactSourceList}
+              onClick={e => e.stopPropagation()}
+            >
+              {
+                contactSourceNames.map(sourceName => (
+                  <ContactSourceItem
+                    key={sourceName}
+                    sourceName={sourceName}
+                    sourceLabel={this.getString(sourceName, currentLocale)}
+                    isSelected={sourceName === selectedSourceName}
+                    onSelect={this.emitSelect}
+                  />
+                ))
+              }
+            </div>
+        )}
       </div>
     );
   }
