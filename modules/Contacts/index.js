@@ -25,6 +25,10 @@ var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
+var _defineProperty = require('babel-runtime/core-js/object/define-property');
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
 var _keys = require('babel-runtime/core-js/object/keys');
 
 var _keys2 = _interopRequireDefault(_keys);
@@ -247,8 +251,10 @@ var Contacts = (_dec = (0, _di.Module)({
         var addSelector = _ref2.addSelector,
             sourcesName = _ref2.sourcesName;
 
-        _this2.__defineGetter__(sourcesName, function () {
-          return _this2._selectors[sourcesName]();
+        (0, _defineProperty2.default)(_this2, sourcesName, {
+          get: function get() {
+            return _this2._selectors[sourcesName]();
+          }
         });
         _this2.addSelector.apply(_this2, (0, _toConsumableArray3.default)(addSelector));
       });
