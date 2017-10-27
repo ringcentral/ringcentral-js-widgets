@@ -20,6 +20,7 @@ export default class LoginPanel extends Component {
       disabled,
       version,
       showSpinner,
+      children,
     } = this.props;
     const spinner = showSpinner ?
       <SpinnerOverlay /> :
@@ -41,6 +42,7 @@ export default class LoginPanel extends Component {
         </button>
         {versionDisplay}
         {spinner}
+        {children}
       </div>
     );
   }
@@ -55,11 +57,13 @@ LoginPanel.propTypes = {
   disabled: PropTypes.bool,
   version: PropTypes.string,
   showSpinner: PropTypes.bool,
+  children: PropTypes.node,
 };
 
 LoginPanel.defaultProps = {
   className: null,
   disabled: false,
   version: undefined,
-  showSpinner: false
+  showSpinner: false,
+  children: undefined,
 };
