@@ -251,12 +251,14 @@ var Contacts = (_dec = (0, _di.Module)({
         var addSelector = _ref2.addSelector,
             sourcesName = _ref2.sourcesName;
 
-        (0, _defineProperty2.default)(_this2, sourcesName, {
-          get: function get() {
-            return _this2._selectors[sourcesName]();
-          }
-        });
-        _this2.addSelector.apply(_this2, (0, _toConsumableArray3.default)(addSelector));
+        if (!_this2[sourcesName]) {
+          (0, _defineProperty2.default)(_this2, sourcesName, {
+            get: function get() {
+              return _this2._selectors[sourcesName]();
+            }
+          });
+          _this2.addSelector.apply(_this2, (0, _toConsumableArray3.default)(addSelector));
+        }
       });
     }
   }, {
