@@ -183,7 +183,7 @@ var ContactItem = function (_Component) {
           { className: _styles2.default.contactProfile },
           _react2.default.createElement(
             'div',
-            { className: _styles2.default.avatarNodeContainer, title: name },
+            { className: _styles2.default.avatarNodeContainer },
             _react2.default.createElement(AvatarNode, {
               name: name,
               avatarUrl: this.state.avatarUrl

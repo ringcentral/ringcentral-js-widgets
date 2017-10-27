@@ -33,7 +33,7 @@ function Button(_ref) {
     'div',
     {
       className: (0, _classnames2.default)(className, _styles2.default.root, disabled && _styles2.default.disabled),
-      onClick: !disabled && onClick },
+      onClick: disabled ? null : onClick },
     children
   );
 }

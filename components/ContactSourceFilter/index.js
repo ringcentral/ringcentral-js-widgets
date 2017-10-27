@@ -51,6 +51,10 @@ var _ContactFilter = require('../../assets/images/ContactFilter.svg');
 
 var _ContactFilter2 = _interopRequireDefault(_ContactFilter);
 
+var _ContactFilterSolid = require('../../assets/images/ContactFilterSolid.svg');
+
+var _ContactFilterSolid2 = _interopRequireDefault(_ContactFilterSolid);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function ContactSourceItem(_ref) {
@@ -85,53 +89,52 @@ var ContactSourceFilter = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ContactSourceFilter.__proto__ || (0, _getPrototypeOf2.default)(ContactSourceFilter)).call(this, props));
 
-    _this.showList = _this.showList.bind(_this);
-    _this.hideList = _this.hideList.bind(_this);
-    _this.hideListAlt = _this.hideListAlt.bind(_this);
-    _this.emitSelect = _this.emitSelect.bind(_this);
+    _this.hideList = function () {
+      _this.setState(function () {
+        return {
+          unfold: false
+        };
+      });
+      window.removeEventListener('click', _this.hideList);
+    };
+
+    _this.showList = function () {
+      _this.setState(function () {
+        return {
+          unfold: true
+        };
+      });
+      window.addEventListener('click', _this.hideList);
+    };
+
+    _this.togglePanel = function (evt) {
+      evt.stopPropagation();
+      if (!_this.state.unfold) {
+        _this.showList();
+        return;
+      }
+      _this.hideList();
+    };
+
+    _this.emitSelect = function (sourceName) {
+      var onSourceSelect = _this.props.onSourceSelect;
+
+      if (onSourceSelect) {
+        onSourceSelect(sourceName);
+      }
+      _this.hideList();
+    };
+
+    _this.state = {
+      unfold: false
+    };
     return _this;
   }
 
   (0, _createClass3.default)(ContactSourceFilter, [{
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      window.removeEventListener('click', this.hideListAlt);
-    }
-  }, {
-    key: 'showList',
-    value: function showList() {
-      if (!this.listElem) {
-        return;
-      }
-      this.listElem.style.display = 'block';
-      window.addEventListener('click', this.hideListAlt);
-    }
-  }, {
-    key: 'hideList',
-    value: function hideList() {
-      if (!this.listElem) {
-        return;
-      }
-      this.listElem.style.display = 'none';
-      window.removeEventListener('click', this.hideListAlt);
-    }
-  }, {
-    key: 'hideListAlt',
-    value: function hideListAlt(ev) {
-      if (!this.rootElem || this.rootElem === ev.target || this.rootElem.contains(ev.target)) {
-        return;
-      }
-      this.hideList();
-    }
-  }, {
-    key: 'emitSelect',
-    value: function emitSelect(sourceName) {
-      var onSourceSelect = this.props.onSourceSelect;
-
-      if (onSourceSelect) {
-        onSourceSelect(sourceName);
-      }
-      this.hideList();
+      window.removeEventListener('click', this.hideList);
     }
   }, {
     key: 'getString',
@@ -150,31 +153,27 @@ var ContactSourceFilter = function (_Component) {
           selectedSourceName = _props.selectedSourceName;
 
 
+      var isAllSource = selectedSourceName === contactSourceNames[0];
       return _react2.default.createElement(
         'div',
         {
           className: (0, _classnames2.default)(_styles2.default.contactSourceFilter, className),
-          ref: function ref(el) {
-            _this2.rootElem = el;
-          }
+          onClick: this.togglePanel
         },
         _react2.default.createElement(
           'div',
           {
             className: _styles2.default.filterIconContainer,
-            title: this.getString(selectedSourceName, currentLocale),
-            onClick: this.showList
+            title: this.getString(selectedSourceName, currentLocale)
           },
-          _react2.default.createElement(_ContactFilter2.default, {
-            className: _styles2.default.filterIconNode
-          })
+          isAllSource ? _react2.default.createElement(_ContactFilter2.default, { className: _styles2.default.filterIconNode }) : _react2.default.createElement(_ContactFilterSolid2.default, { className: _styles2.default.filterIconNode })
         ),
-        _react2.default.createElement(
+        !this.state.unfold ? null : _react2.default.createElement(
           'div',
           {
             className: _styles2.default.contactSourceList,
-            ref: function ref(el) {
-              _this2.listElem = el;
+            onClick: function onClick(e) {
+              return e.stopPropagation();
             }
           },
           contactSourceNames.map(function (sourceName) {
