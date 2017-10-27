@@ -78,7 +78,8 @@ var LoginPanel = function (_Component) {
           currentLocale = _props.currentLocale,
           disabled = _props.disabled,
           version = _props.version,
-          showSpinner = _props.showSpinner;
+          showSpinner = _props.showSpinner,
+          children = _props.children;
 
       var spinner = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : null;
       var versionDisplay = version ? _react2.default.createElement(
@@ -100,7 +101,8 @@ var LoginPanel = function (_Component) {
           _i18n2.default.getString('loginButton', currentLocale)
         ),
         versionDisplay,
-        spinner
+        spinner,
+        children
       );
     }
   }]);
@@ -118,13 +120,15 @@ LoginPanel.propTypes = {
   onLoginButtonClick: _propTypes2.default.func.isRequired,
   disabled: _propTypes2.default.bool,
   version: _propTypes2.default.string,
-  showSpinner: _propTypes2.default.bool
+  showSpinner: _propTypes2.default.bool,
+  children: _propTypes2.default.node
 };
 
 LoginPanel.defaultProps = {
   className: null,
   disabled: false,
   version: undefined,
-  showSpinner: false
+  showSpinner: false,
+  children: undefined
 };
 //# sourceMappingURL=index.js.map
