@@ -47,13 +47,20 @@ export default class NavigationBar extends Component {
     const tabWidth = tabs.length > 0 ?
       `${(1 / tabs.length) * 100}%` :
       0;
+    const dropdownMenuTab = tabs.find(tab =>
+      (
+        tab.childTabs &&
+        (tab.isActive && tab.isActive(currentPath, currentVirtualPath))
+      )
+    );
+    const dropdownMenu = dropdownMenuTab && dropdownMenuTab.childTabs;
     return (
       <nav className={classnames(styles.root, className)}>
         {
           tabs.map((tab, index) => {
-            const Icon = tab.icon;
-            let icon = Icon;
-            if (typeof Icon === 'function') {
+            let icon = tab.icon;
+            if (typeof icon === 'function') {
+              const Icon = tab.icon;
               icon = (tab.childTabs ? <Icon currentPath={currentPath} /> : <Icon />);
             }
             const ActiveIcon = tab.activeIcon;
@@ -77,9 +84,9 @@ export default class NavigationBar extends Component {
           })
         }
         {
-          ChildNavigationView ? (
+          (ChildNavigationView && dropdownMenu && dropdownMenu.length) ? (
             <ChildNavigationView
-              tabs={tabs}
+              tabs={dropdownMenu}
               goTo={this.goTo}
               currentPath={currentPath}
               currentVirtualPath={currentVirtualPath}

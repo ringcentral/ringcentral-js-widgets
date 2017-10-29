@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import dynamicsFont from '../../../src/assets/DynamicsFont/DynamicsFont.scss';
 import TabNavigationView from '../../../src/components/TabNavigationView';
 import RouterInteraction from '../../../src/modules/RouterInteraction';
 import DialPadIcon from '../../../src/assets/images/DialPadNav.svg';
