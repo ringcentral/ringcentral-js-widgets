@@ -1,16 +1,16 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Panel from '../Panel';
 import SearchInput from '../SearchInput';
 import SpinnerOverlay from '../SpinnerOverlay';
 
-import ContactSourceFilter from '../ContactSourceFilter';
 import ContactList from '../ContactList';
 import ContactItem from '../ContactItem';
 import styles from './styles.scss';
 import i18n from './i18n';
 import AddContactIcon from '../../assets/images/ContactAdd.svg';
+import ContactSourceFilter from '../ContactSourceFilter';
 
 function AddContact({
   className,
@@ -37,7 +37,7 @@ AddContact.defaultProps = {
   className: undefined,
 };
 
-export default class ContactsView extends PureComponent {
+export default class ContactsView extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -126,14 +126,13 @@ export default class ContactsView extends PureComponent {
       getPresence,
       currentPage,
       onItemSelect,
-      onEndReachedThreshold,
+      contactSourceFilterRenderer: Filter,
     } = this.props;
 
     const content = showSpinner ?
       <SpinnerOverlay /> :
       (
         <ContactList
-          onEndReachedThreshold={onEndReachedThreshold}
           currentLocale={currentLocale}
           contactGroups={contactGroups}
           getAvatarUrl={getAvatarUrl}
@@ -143,6 +142,7 @@ export default class ContactsView extends PureComponent {
           onItemSelect={onItemSelect}
         />
       );
+
     return (
       <div className={styles.root}>
         <div className={styles.actionBar}>
@@ -156,12 +156,12 @@ export default class ContactsView extends PureComponent {
             className={styles.actionButton}
             onClick={() => { }}
           />
-          <ContactSourceFilter
+          <Filter
             className={styles.actionButton}
             currentLocale={currentLocale}
+            contactSourceNames={contactSourceNames}
             onSourceSelect={this.doSearchBySource}
             selectedSourceName={searchSource}
-            contactSourceNames={contactSourceNames}
           />
         </div>
         <Panel className={styles.content}>
@@ -188,7 +188,7 @@ ContactsView.propTypes = {
   currentPage: PropTypes.number,
   onItemSelect: PropTypes.func,
   onSearchContact: PropTypes.func,
-  onEndReachedThreshold: PropTypes.number,
+  contactSourceFilterRenderer: PropTypes.func,
   // onRestSearch: PropTypes.func,
 };
 
@@ -198,6 +198,6 @@ ContactsView.defaultProps = {
   currentPage: undefined,
   onItemSelect: undefined,
   onSearchContact: undefined,
-  onEndReachedThreshold: 20,
+  contactSourceFilterRenderer: ContactSourceFilter
   // onRestSearch: undefined,
 };

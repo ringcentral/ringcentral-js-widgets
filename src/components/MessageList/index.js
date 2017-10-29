@@ -109,7 +109,8 @@ MessageList.propTypes = {
   className: PropTypes.string,
   showConversationDetail: PropTypes.func.isRequired,
   dateTimeFormatter: PropTypes.func,
-  showContactDisplayPlaceholder: PropTypes.bool
+  showContactDisplayPlaceholder: PropTypes.bool,
+  sourceIcons: PropTypes.object,
 };
 MessageList.defaultProps = {
   onSearchInputChange: undefined,
@@ -119,4 +120,5 @@ MessageList.defaultProps = {
   disableLinks: false,
   dateTimeFormatter: undefined,
   showContactDisplayPlaceholder: true,
+  sourceIcons: undefined,
 };

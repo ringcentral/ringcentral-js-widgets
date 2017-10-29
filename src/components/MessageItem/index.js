@@ -217,7 +217,8 @@ export default class MessageItem extends Component {
       onCreateContact,
       dateTimeFormatter,
       enableContactFallback,
-      showContactDisplayPlaceholder
+      showContactDisplayPlaceholder,
+      sourceIcons,
     } = this.props;
 
     const groupNumbers = this.getGroupPhoneNumbers();
@@ -260,6 +261,7 @@ export default class MessageItem extends Component {
             stopPropagation={false}
             showType={false}
             showPlaceholder={showContactDisplayPlaceholder}
+            sourceIcons={sourceIcons}
           />
           <div className={styles.details}>
             {dateTimeFormatter({ utcTimestamp: creationTime })} | {subject}
@@ -323,6 +325,7 @@ MessageItem.propTypes = {
   autoLog: PropTypes.bool,
   enableContactFallback: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,
+  sourceIcons: PropTypes.object,
 };
 
 MessageItem.defaultProps = {
@@ -335,4 +338,5 @@ MessageItem.defaultProps = {
   autoLog: false,
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
+  sourceIcons: undefined,
 };

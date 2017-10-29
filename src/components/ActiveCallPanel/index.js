@@ -42,6 +42,7 @@ function CallInfo(props) {
           enableContactFallback
           brand={props.brand}
           showPlaceholder={props.showContactDisplayPlaceholder}
+          sourceIcons={props.sourceIcons}
         />
       </div>
       <div className={styles.userPhoneNumber}>
@@ -64,6 +65,7 @@ CallInfo.propTypes = {
   avatarUrl: PropTypes.string,
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
+  sourceIcons: PropTypes.object,
 };
 
 CallInfo.defaultProps = {
@@ -71,6 +73,7 @@ CallInfo.defaultProps = {
   avatarUrl: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
+  sourceIcons: undefined,
 };
 
 function ActiveCallPanel({
@@ -108,6 +111,7 @@ function ActiveCallPanel({
   brand,
   flipNumbers,
   calls,
+  sourceIcons,
 }) {
   const timeCounter = startTime ?
     (
@@ -145,6 +149,7 @@ function ActiveCallPanel({
           avatarUrl={avatarUrl}
           brand={brand}
           showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+          sourceIcons={sourceIcons}
         />
         <ActiveCallPad
           className={styles.callPad}
@@ -207,6 +212,7 @@ ActiveCallPanel.propTypes = {
   flipNumbers: PropTypes.array,
   calls: PropTypes.array.isRequired,
   onToggleTransferPanel: PropTypes.func,
+  sourceIcons: PropTypes.object,
 };
 
 ActiveCallPanel.defaultProps = {
@@ -223,6 +229,7 @@ ActiveCallPanel.defaultProps = {
   flipNumbers: [],
   onShowFlipPanel: () => null,
   onToggleTransferPanel: () => null,
+  sourceIcons: undefined,
 };
 
 export default ActiveCallPanel;

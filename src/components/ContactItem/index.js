@@ -121,7 +121,7 @@ export default class ContactItem extends Component {
         onClick={this.onItemSelected}
       >
         <div className={styles.contactProfile}>
-          <div className={styles.avatarNodeContainer} title={name}>
+          <div className={styles.avatarNodeContainer}>
             <AvatarNode
               name={name}
               avatarUrl={this.state.avatarUrl}

@@ -162,6 +162,7 @@ class CallCtrlPage extends Component {
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
         flipNumbers={this.props.flipNumbers}
         calls={this.props.calls}
+        sourceIcons={this.props.sourceIcons}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -209,11 +210,13 @@ CallCtrlPage.propTypes = {
   showContactDisplayPlaceholder: PropTypes.bool.isRequired,
   flipNumbers: PropTypes.array.isRequired,
   calls: PropTypes.array.isRequired,
+  sourceIcons: PropTypes.object,
 };
 
 CallCtrlPage.defaultProps = {
   children: undefined,
   backButtonLabel: null,
+  sourceIcons: undefined,
 };
 
 function mapToProps(_, {
@@ -292,12 +295,14 @@ CallCtrlContainer.propTypes = {
   backButtonLabel: PropTypes.string,
   children: PropTypes.node,
   showContactDisplayPlaceholder: PropTypes.bool,
+  sourceIcons: PropTypes.object,
 };
 
 CallCtrlContainer.defaultProps = {
   getAvatarUrl: () => null,
   showContactDisplayPlaceholder: false,
   children: undefined,
+  sourceIcons: undefined,
 };
 
 export default CallCtrlContainer;

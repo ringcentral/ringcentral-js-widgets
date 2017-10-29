@@ -115,6 +115,7 @@ class CallCtrlPanel extends Component {
         onToggleTransferPanel={this.toggleTransferPanel}
         flipNumbers={this.props.flipNumbers}
         calls={this.props.calls}
+        sourceIcons={this.props.sourceIcons}
       >
         {this.props.children}
       </ActiveCallPanel>
@@ -160,6 +161,7 @@ CallCtrlPanel.propTypes = {
   backButtonLabel: PropTypes.string,
   brand: PropTypes.string,
   showContactDisplayPlaceholder: PropTypes.bool,
+  sourceIcons: PropTypes.object,
 };
 
 CallCtrlPanel.defaultProps = {
@@ -177,6 +179,7 @@ CallCtrlPanel.defaultProps = {
   callStatus: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
+  sourceIcons: undefined,
 };
 
 export default CallCtrlPanel;

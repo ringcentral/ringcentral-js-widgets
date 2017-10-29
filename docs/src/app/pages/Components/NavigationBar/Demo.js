@@ -2,7 +2,17 @@ import React from 'react';
 // eslint-disable-next-line
 import NavigationBar from 'ringcentral-widget/components/NavigationBar';
 import TabNavigationButton from 'ringcentral-widget/components/TabNavigationButton';
-import dynamicsFont from 'ringcentral-widget/assets/DynamicsFont/DynamicsFont.scss';
+import DialPadIcon from 'ringcentral-widget/assets/images/DialPadNav.svg';
+import CallsIcon from 'ringcentral-widget/assets/images/Calls.svg';
+import HistoryIcon from 'ringcentral-widget/assets/images/CallHistory.svg';
+import MessageIcon from 'ringcentral-widget/assets/images/Messages.svg';
+import ComposeTextIcon from 'ringcentral-widget/assets/images/ComposeText.svg';
+
+import DialPadHoverIcon from 'ringcentral-widget/assets/images/DialPadHover.svg';
+import CallsHoverIcon from 'ringcentral-widget/assets/images/CallsHover.svg';
+import HistoryHoverIcon from 'ringcentral-widget/assets/images/CallHistoryHover.svg';
+import MessageHoverIcon from 'ringcentral-widget/assets/images/MessagesHover.svg';
+import ComposeTextHoverIcon from 'ringcentral-widget/assets/images/ComposeTextHover.svg';
 
 const props = {};
 props.currentPath = 'test string';
@@ -13,52 +23,40 @@ props.currentPath = 'test string';
 const unreadCounts = 99;
 props.tabs = [
   {
-    icon: <span className={dynamicsFont.dial} />,
-    activeIcon: <span className={dynamicsFont.dialHover} />,
+    icon: DialPadIcon,
+    activeIcon: DialPadHoverIcon,
     label: 'Dial Pad',
     path: '/',
   },
   {
-    icon: <span className={dynamicsFont.active} />,
-    activeIcon: <span className={dynamicsFont.activeHover} />,
+    icon: CallsIcon,
+    activeIcon: CallsHoverIcon,
     label: 'Calls',
     path: '/calls',
   },
   {
-    icon: <span className={dynamicsFont.history} />,
-    activeIcon: <span className={dynamicsFont.historyHover} />,
+    icon: HistoryIcon,
+    activeIcon: HistoryHoverIcon,
     label: 'History',
     path: '/history',
   },
   {
-    icon: <span className={dynamicsFont.message} />,
-    activeIcon: <span className={dynamicsFont.messageHover} />,
+    icon: MessageIcon,
+    activeIcon: MessageHoverIcon,
     label: 'Messages',
     path: '/messages',
     noticeCounts: unreadCounts,
     isActive: () => true
   },
   {
-    icon: <span className={dynamicsFont.composeText} />,
-    activeIcon: <span className={dynamicsFont.composeTextHover} />,
+    icon: ComposeTextIcon,
+    activeIcon: ComposeTextHoverIcon,
     label: 'Compose Text',
     path: '/composeText',
   },
-  {
-    icon: <span className={dynamicsFont.conference} />,
-    activeIcon: <span className={dynamicsFont.conferenceHover} />,
-    label: 'Conference',
-    path: '/conference',
-  },
-  {
-    icon: <span className={dynamicsFont.setting} />,
-    activeIcon: <span className={dynamicsFont.settingHover} />,
-    label: 'Settings',
-    path: '/settings',
-  },
 ];
 
-props.goTo = (path) => alert(`go to ${path}`)
+props.goTo = path => alert(`go to ${path}`);
 const NavigationBarDemo = () => (
   <NavigationBar
     button={TabNavigationButton}

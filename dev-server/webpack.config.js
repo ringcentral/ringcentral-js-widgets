@@ -40,7 +40,7 @@ const base = {
       {
         test: /\.png|\.jpg|\.gif|\.svg/,
         use: 'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
-        exclude: /assets(\/|\\)images(\/|\\).+\.svg/,
+        exclude: [/assets(\/|\\)images(\/|\\).+\.svg/, /dev-server(\/|\\).+\.svg/]
       },
       {
         test: /\.sass|\.scss/,

@@ -365,6 +365,7 @@ export default class ActiveCallItem extends Component {
       webphoneAnswer,
       webphoneHangup,
       webphoneResume,
+      sourceIcons,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const parsedInfo = parseNumber(phoneNumber);
@@ -411,6 +412,7 @@ export default class ActiveCallItem extends Component {
             brand={brand}
             showPlaceholder={showContactDisplayPlaceholder}
             showType={false}
+            sourceIcons={sourceIcons}
             stopPropagation
           />
           {callDetail}
@@ -493,6 +495,7 @@ ActiveCallItem.propTypes = {
   onCreateContact: PropTypes.func,
   onLogCall: PropTypes.func,
   onViewContact: PropTypes.func,
+  sourceIcons: PropTypes.object,
 };
 
 ActiveCallItem.defaultProps = {
@@ -513,4 +516,5 @@ ActiveCallItem.defaultProps = {
   autoLog: false,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
+  sourceIcons: undefined,
 };
