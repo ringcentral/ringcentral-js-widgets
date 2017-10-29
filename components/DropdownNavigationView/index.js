@@ -115,11 +115,7 @@ var DropdownNavigationView = function (_Component) {
           currentVirtualPath = _props.currentVirtualPath;
 
 
-      var activeTab = tabs.find(function (tab) {
-        return tab.childTabs && (tab.isActive && tab.isActive(currentPath, currentVirtualPath) || tab.path && tab.path === currentPath || tab.virtualPath && tab.virtualPath === currentVirtualPath);
-      });
-
-      return activeTab && activeTab.childTabs.length ? _react2.default.createElement(
+      return tabs.length ? _react2.default.createElement(
         'div',
         {
           className: _styles2.default.root,
@@ -127,7 +123,7 @@ var DropdownNavigationView = function (_Component) {
             _this3.setChildNavigationElement(el);
           }
         },
-        activeTab.childTabs.map(function (tab, index) {
+        tabs.map(function (tab, index) {
           var Icon = tab.icon;
           var ActiveIcon = tab.activeIcon;
           return _react2.default.createElement(_DropdownNavigationItem2.default, (0, _extends3.default)({}, tab, {

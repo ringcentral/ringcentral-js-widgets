@@ -103,13 +103,17 @@ var NavigationBar = function (_Component) {
 
       var currentVirtualPath = this.state.currentVirtualPath;
       var tabWidth = tabs.length > 0 ? 1 / tabs.length * 100 + '%' : 0;
+      var dropdownMenuTab = tabs.find(function (tab) {
+        return tab.childTabs && tab.isActive && tab.isActive(currentPath, currentVirtualPath);
+      });
+      var dropdownMenu = dropdownMenuTab && dropdownMenuTab.childTabs;
       return _react2.default.createElement(
         'nav',
         { className: (0, _classnames2.default)(_styles2.default.root, className) },
         tabs.map(function (tab, index) {
-          var Icon = tab.icon;
-          var icon = Icon;
-          if (typeof Icon === 'function') {
+          var icon = tab.icon;
+          if (typeof icon === 'function') {
+            var Icon = tab.icon;
             icon = tab.childTabs ? _react2.default.createElement(Icon, { currentPath: currentPath }) : _react2.default.createElement(Icon, null);
           }
           var ActiveIcon = tab.activeIcon;
@@ -124,8 +128,8 @@ var NavigationBar = function (_Component) {
             activeIcon: typeof ActiveIcon === 'function' ? _react2.default.createElement(ActiveIcon, null) : ActiveIcon
           }));
         }),
-        ChildNavigationView ? _react2.default.createElement(ChildNavigationView, {
-          tabs: tabs,
+        ChildNavigationView && dropdownMenu && dropdownMenu.length ? _react2.default.createElement(ChildNavigationView, {
+          tabs: dropdownMenu,
           goTo: this.goTo,
           currentPath: currentPath,
           currentVirtualPath: currentVirtualPath
