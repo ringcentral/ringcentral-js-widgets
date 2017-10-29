@@ -131,7 +131,7 @@ var DEFAULT_AVATARQUERYINTERVAL = 2 * 1000; // 2 seconds
  * @description Contacts managing module
  */
 var Contacts = (_dec = (0, _di.Module)({
-  deps: ['Client', 'AddressBook', 'AccountExtension', 'AccountPhoneNumber', { dep: 'ContactsOptions', optional: true }]
+  deps: ['Client', 'Alert', 'AddressBook', 'AccountExtension', 'AccountPhoneNumber', { dep: 'ContactsOptions', optional: true }]
 }), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(Contacts, _RcModule);
 
@@ -139,6 +139,7 @@ var Contacts = (_dec = (0, _di.Module)({
    * @constructor
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
+   * @param {Alert} params.alert - alert module instance
    * @param {AddressBook} params.addressBook - addressBook module instance
    * @param {AccountExtension} params.accountExtension - accountExtension module instance
    * @param {AccountPhoneNumber} params.accountPhoneNumber - accountPhoneNumber module instance
