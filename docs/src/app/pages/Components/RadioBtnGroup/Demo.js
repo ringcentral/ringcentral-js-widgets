@@ -4,9 +4,17 @@ import RadioBtnGroup from 'ringcentral-widget/components/RadioBtnGroup';
 
 const props = {};
 props.className = 'test string';
-props.radioOptions = [];
+props.radioOptions = [{
+  id: '123',
+  label: 'Home',
+  phoneNumber: '+12345678'
+}, {
+  id: '1234',
+  label: 'Mobile',
+  phoneNumber: '+123456789'
+}];
 props.disabled = false;
-props.formatPhone = () => null;
+props.formatPhone = v => v;
 props.onRadioSelect = () => null;
 
 /**
