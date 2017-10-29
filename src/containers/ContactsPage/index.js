@@ -4,8 +4,10 @@ import ContactsView from '../../components/ContactsView';
 function mapToProps(_, {
   locale,
   contactSearch,
+  onEndReachedThreshold,
 }) {
   return {
+    onEndReachedThreshold,
     currentLocale: locale.currentLocale,
     contactSourceNames: contactSearch.contactSourceNames || [],
     contactGroups: contactSearch.contactGroups || [],

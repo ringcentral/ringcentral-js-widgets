@@ -67,10 +67,14 @@ export default class ContactList extends Component {
   }
 
   detectNextPage(el) {
+    const {
+      currentPage,
+      onNextPage,
+      onEndReachedThreshold,
+    } = this.props;
     if (this.downwards) {
-      if ((el.scrollTop + el.clientHeight) > (el.scrollHeight - 20)) {
+      if ((el.scrollTop + el.clientHeight) > (el.scrollHeight - onEndReachedThreshold)) {
         this.downwards = false;
-        const { currentPage, onNextPage } = this.props;
         if (onNextPage) {
           const curr = (currentPage || 1);
           onNextPage(curr + 1);
@@ -125,6 +129,7 @@ ContactList.propTypes = {
   })).isRequired,
   getAvatarUrl: PropTypes.func.isRequired,
   getPresence: PropTypes.func.isRequired,
+  onEndReachedThreshold: PropTypes.number.isRequired,
   currentPage: PropTypes.number,
   onNextPage: PropTypes.func,
   onItemSelect: PropTypes.func,

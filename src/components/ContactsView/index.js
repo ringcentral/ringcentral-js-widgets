@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import Panel from '../Panel';
@@ -37,7 +37,7 @@ AddContact.defaultProps = {
   className: undefined,
 };
 
-export default class ContactsView extends Component {
+export default class ContactsView extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -126,12 +126,14 @@ export default class ContactsView extends Component {
       getPresence,
       currentPage,
       onItemSelect,
+      onEndReachedThreshold,
     } = this.props;
 
     const content = showSpinner ?
       <SpinnerOverlay /> :
       (
         <ContactList
+          onEndReachedThreshold={onEndReachedThreshold}
           currentLocale={currentLocale}
           contactGroups={contactGroups}
           getAvatarUrl={getAvatarUrl}
@@ -141,7 +143,6 @@ export default class ContactsView extends Component {
           onItemSelect={onItemSelect}
         />
       );
-
     return (
       <div className={styles.root}>
         <div className={styles.actionBar}>
@@ -187,6 +188,7 @@ ContactsView.propTypes = {
   currentPage: PropTypes.number,
   onItemSelect: PropTypes.func,
   onSearchContact: PropTypes.func,
+  onEndReachedThreshold: PropTypes.number,
   // onRestSearch: PropTypes.func,
 };
 
@@ -196,5 +198,6 @@ ContactsView.defaultProps = {
   currentPage: undefined,
   onItemSelect: undefined,
   onSearchContact: undefined,
+  onEndReachedThreshold: 20,
   // onRestSearch: undefined,
 };
