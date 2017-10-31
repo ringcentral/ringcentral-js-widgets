@@ -165,7 +165,7 @@ var presenceRegExp = /\/presence\?detailedTelephonyState=true/;
  * @description Call log managing module
  */
 var CallLog = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Client', 'Storage', 'Subscription', 'RolesAndPermissions', { dep: 'CallLogOptions', optional: true }]
+  deps: ['Auth', 'Client', 'Subscription', 'RolesAndPermissions', { dep: 'Storage', optional: true }, { dep: 'CallLogOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_Pollable) {
   (0, _inherits3.default)(CallLog, _Pollable);
 
@@ -182,6 +182,7 @@ var CallLog = (_dec = (0, _di.Module)({
    * @param {Number} params.timeToRetry - waiting time to retry
    * @param {Number} params.daySpan - day span of call log
    * @param {Bool} params.polling - polling flag
+   * @param {Bool} params.disableCache - disable cache flag, default false
    */
   function CallLog(_ref) {
     var _this2 = this;
@@ -201,7 +202,9 @@ var CallLog = (_dec = (0, _di.Module)({
         daySpan = _ref$daySpan === undefined ? DEFAULT_DAY_SPAN : _ref$daySpan,
         _ref$polling = _ref.polling,
         polling = _ref$polling === undefined ? true : _ref$polling,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'storage', 'subscription', 'rolesAndPermissions', 'ttl', 'tokenExpiresIn', 'timeToRetry', 'daySpan', 'polling']);
+        _ref$disableCache = _ref.disableCache,
+        disableCache = _ref$disableCache === undefined ? false : _ref$disableCache,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'client', 'storage', 'subscription', 'rolesAndPermissions', 'ttl', 'tokenExpiresIn', 'timeToRetry', 'daySpan', 'polling', 'disableCache']);
     (0, _classCallCheck3.default)(this, CallLog);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (CallLog.__proto__ || (0, _getPrototypeOf2.default)(CallLog)).call(this, (0, _extends3.default)({}, options, {
@@ -247,7 +250,7 @@ var CallLog = (_dec = (0, _di.Module)({
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              if (!(_this._auth.loggedIn && _this._storage.ready && (!_this._subscription || _this._subscription.ready) && _this._rolesAndPermissions.ready && _this.status === _moduleStatuses2.default.pending)) {
+              if (!(_this._auth.loggedIn && (!_this._storage || _this._storage.ready) && (!_this._subscription || _this._subscription.ready) && _this._rolesAndPermissions.ready && _this.status === _moduleStatuses2.default.pending)) {
                 _context2.next = 9;
                 break;
               }
@@ -275,7 +278,7 @@ var CallLog = (_dec = (0, _di.Module)({
               break;
 
             case 9:
-              if ((!_this._auth.loggedIn || !_this._storage.ready || _this._subscription && !_this._subscription.ready || !_this._rolesAndPermissions.ready) && _this.ready) {
+              if ((!_this._auth.loggedIn || !!_this._storage && !_this._storage.ready || _this._subscription && !_this._subscription.ready || !_this._rolesAndPermissions.ready) && _this.ready) {
                 _this.store.dispatch({
                   type: _this.actionTypes.reset
                 });
@@ -299,7 +302,9 @@ var CallLog = (_dec = (0, _di.Module)({
 
     _this._auth = auth;
     _this._client = client;
-    _this._storage = storage;
+    if (!disableCache) {
+      _this._storage = storage;
+    }
     _this._subscription = subscription;
     _this._rolesAndPermissions = rolesAndPermissions;
     _this._dataStorageKey = 'callLogData';
@@ -311,20 +316,27 @@ var CallLog = (_dec = (0, _di.Module)({
     _this._daySpan = daySpan;
     _this._polling = polling;
 
-    _this._storage.registerReducer({
-      key: _this._dataStorageKey,
-      reducer: (0, _getCallLogReducer.getDataReducer)(_this.actionTypes)
-    });
-    _this._storage.registerReducer({
-      key: _this._tokenStorageKey,
-      reducer: (0, _getCallLogReducer.getTokenReducer)(_this.actionTypes)
-    });
-    _this._storage.registerReducer({
-      key: _this._timestampStorageKey,
-      reducer: (0, _getCallLogReducer.getTimestampReducer)(_this.actionTypes)
-    });
-
-    _this._reducer = (0, _getCallLogReducer2.default)(_this.actionTypes);
+    if (_this._storage) {
+      _this._reducer = (0, _getCallLogReducer2.default)(_this.actionTypes);
+      _this._storage.registerReducer({
+        key: _this._dataStorageKey,
+        reducer: (0, _getCallLogReducer.getDataReducer)(_this.actionTypes)
+      });
+      _this._storage.registerReducer({
+        key: _this._tokenStorageKey,
+        reducer: (0, _getCallLogReducer.getTokenReducer)(_this.actionTypes)
+      });
+      _this._storage.registerReducer({
+        key: _this._timestampStorageKey,
+        reducer: (0, _getCallLogReducer.getTimestampReducer)(_this.actionTypes)
+      });
+    } else {
+      _this._reducer = (0, _getCallLogReducer2.default)(_this.actionTypes, {
+        data: (0, _getCallLogReducer.getDataReducer)(_this.actionTypes),
+        token: (0, _getCallLogReducer.getTokenReducer)(_this.actionTypes),
+        timestamp: (0, _getCallLogReducer.getTimestampReducer)(_this.actionTypes)
+      });
+    }
 
     _this.addSelector('calls', function () {
       return _this.data;
@@ -732,7 +744,10 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: 'data',
     get: function get() {
-      return this._storage.getItem(this._dataStorageKey);
+      if (this._storage) {
+        return this._storage.getItem(this._dataStorageKey);
+      }
+      return this.state.data;
     }
   }, {
     key: 'calls',
@@ -742,12 +757,18 @@ var CallLog = (_dec = (0, _di.Module)({
   }, {
     key: 'token',
     get: function get() {
-      return this._storage.getItem(this._tokenStorageKey);
+      if (this._storage) {
+        return this._storage.getItem(this._tokenStorageKey);
+      }
+      return this.state.token;
     }
   }, {
     key: 'timestamp',
     get: function get() {
-      return this._storage.getItem(this._timestampStorageKey);
+      if (this._storage) {
+        return this._storage.getItem(this._timestampStorageKey);
+      }
+      return this.state.timestamp;
     }
   }, {
     key: 'ttl',

@@ -143,7 +143,7 @@ var DEFAULT_DAY_SPAN = 7;
  * @description Messages data manageing module
  */
 var MessageStore = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Client', 'Auth', 'Storage', 'Subscription', 'ConnectivityMonitor', { dep: 'MessageStoreOptions', optional: true }]
+  deps: ['Alert', 'Client', 'Auth', 'Subscription', 'ConnectivityMonitor', { dep: 'Storage', optional: true }, { dep: 'MessageStoreOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_Pollable) {
   (0, _inherits3.default)(MessageStore, _Pollable);
 
@@ -176,7 +176,9 @@ var MessageStore = (_dec = (0, _di.Module)({
         connectivityMonitor = _ref.connectivityMonitor,
         _ref$polling = _ref.polling,
         polling = _ref$polling === undefined ? false : _ref$polling,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'client', 'auth', 'ttl', 'timeToRetry', 'daySpan', 'storage', 'subscription', 'connectivityMonitor', 'polling']);
+        _ref$disableCache = _ref.disableCache,
+        disableCache = _ref$disableCache === undefined ? false : _ref$disableCache,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'client', 'auth', 'ttl', 'timeToRetry', 'daySpan', 'storage', 'subscription', 'connectivityMonitor', 'polling', 'disableCache']);
     (0, _classCallCheck3.default)(this, MessageStore);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (MessageStore.__proto__ || (0, _getPrototypeOf2.default)(MessageStore)).call(this, (0, _extends3.default)({}, options, {
@@ -185,10 +187,11 @@ var MessageStore = (_dec = (0, _di.Module)({
 
     _this._alert = alert;
     _this._client = client;
-    _this._storage = storage;
+    if (!disableCache) {
+      _this._storage = storage;
+    }
     _this._subscription = subscription;
     _this._connectivityMonitor = connectivityMonitor;
-    _this._reducer = (0, _getMessageStoreReducer2.default)(_this.actionTypes);
     _this._ttl = ttl;
     _this._timeToRetry = timeToRetry;
     _this._daySpan = daySpan;
@@ -198,10 +201,17 @@ var MessageStore = (_dec = (0, _di.Module)({
     _this._storageKey = 'messageStore';
     _this._polling = polling;
 
-    _this._storage.registerReducer({
-      key: _this._storageKey,
-      reducer: (0, _getDataReducer2.default)(_this.actionTypes)
-    });
+    if (_this._storage) {
+      _this._reducer = (0, _getMessageStoreReducer2.default)(_this.actionTypes);
+      _this._storage.registerReducer({
+        key: _this._storageKey,
+        reducer: (0, _getDataReducer2.default)(_this.actionTypes)
+      });
+    } else {
+      _this._reducer = (0, _getMessageStoreReducer2.default)(_this.actionTypes, {
+        data: (0, _getDataReducer2.default)(_this.actionTypes)
+      });
+    }
 
     _this.addSelector('unreadCounts', function () {
       return _this.allConversations;
@@ -274,12 +284,12 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return this._storage.ready && this._subscription.ready && (!this._connectivityMonitor || this._connectivityMonitor.ready) && this.pending;
+      return (!this._storage || this._storage.ready) && this._subscription.ready && (!this._connectivityMonitor || this._connectivityMonitor.ready) && this.pending;
     }
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return (!this._storage.ready || !this._subscription.ready || !!this._connectivityMonitor && !this._connectivityMonitor.ready) && this.ready;
+      return (!!this._storage && !this._storage.ready || !this._subscription.ready || !!this._connectivityMonitor && !this._connectivityMonitor.ready) && this.ready;
     }
   }, {
     key: '_shouleCleanCache',
@@ -1086,7 +1096,10 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: 'cache',
     get: function get() {
-      return this._storage.getItem(this._storageKey);
+      if (this._storage) {
+        return this._storage.getItem(this._storageKey);
+      }
+      return this.state.data;
     }
   }, {
     key: 'messages',

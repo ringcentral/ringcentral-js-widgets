@@ -136,7 +136,7 @@ function getSyncParams(syncToken, pageId) {
  * @description Accound book module to get user person contacts in RC
  */
 var AddressBook = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Auth', 'Storage', { dep: 'AddressBookOptions', optional: true }]
+  deps: ['Client', 'Auth', { dep: 'Storage', optional: true }, { dep: 'AddressBookOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_Pollable) {
   (0, _inherits3.default)(AddressBook, _Pollable);
 
@@ -145,10 +145,11 @@ var AddressBook = (_dec = (0, _di.Module)({
    * @param {Object} params - params object
    * @param {Client} params.client - client module instance
    * @param {Auth} params.auth - Auth module instance
-   * @param {Storage} params.storage - storage module instance
+   * @param {Storage} params.storage - storage module instance, optional
    * @param {Number} params.ttl - local cache timestamp, default 30 mins
    * @param {Number} params.timeToRetry - timestamp to retry, default 62 seconds
    * @param {Bool} params.polling - polling flag, default true
+   * @param {Bool} params.disableCache - polling flag, default false
    */
   function AddressBook(_ref) {
     var client = _ref.client,
@@ -160,7 +161,9 @@ var AddressBook = (_dec = (0, _di.Module)({
         timeToRetry = _ref$timeToRetry === undefined ? DEFAULT_TIME_TO_RETRY : _ref$timeToRetry,
         _ref$polling = _ref.polling,
         polling = _ref$polling === undefined ? true : _ref$polling,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'storage', 'ttl', 'timeToRetry', 'polling']);
+        _ref$disableCache = _ref.disableCache,
+        disableCache = _ref$disableCache === undefined ? false : _ref$disableCache,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['client', 'auth', 'storage', 'ttl', 'timeToRetry', 'polling', 'disableCache']);
     (0, _classCallCheck3.default)(this, AddressBook);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (AddressBook.__proto__ || (0, _getPrototypeOf2.default)(AddressBook)).call(this, (0, _extends3.default)({}, options, {
@@ -168,7 +171,9 @@ var AddressBook = (_dec = (0, _di.Module)({
     })));
 
     _this._client = client;
-    _this._storage = storage;
+    if (!disableCache) {
+      _this._storage = storage;
+    }
     _this._auth = auth;
     _this._ttl = ttl;
     _this._timeToRetry = timeToRetry;
@@ -177,19 +182,27 @@ var AddressBook = (_dec = (0, _di.Module)({
     _this._syncTokenStorageKey = 'contactsSyncToken';
     _this._syncTimestampStorageKey = 'contactsSyncTimestamp';
     _this._addressBookStorageKey = 'addressBookContactsList';
-    _this._reducer = (0, _getAddressBookReducer2.default)(_this.actionTypes);
-    _this._storage.registerReducer({
-      key: _this._syncTokenStorageKey,
-      reducer: (0, _getAddressBookReducer.getSyncTokenReducer)(_this.actionTypes)
-    });
-    _this._storage.registerReducer({
-      key: _this._syncTimestampStorageKey,
-      reducer: (0, _getAddressBookReducer.getSyncTimestampReducer)(_this.actionTypes)
-    });
-    _this._storage.registerReducer({
-      key: _this._addressBookStorageKey,
-      reducer: (0, _getAddressBookReducer.getContactListReducer)(_this.actionTypes)
-    });
+    if (_this._storage) {
+      _this._reducer = (0, _getAddressBookReducer2.default)(_this.actionTypes);
+      _this._storage.registerReducer({
+        key: _this._syncTokenStorageKey,
+        reducer: (0, _getAddressBookReducer.getSyncTokenReducer)(_this.actionTypes)
+      });
+      _this._storage.registerReducer({
+        key: _this._syncTimestampStorageKey,
+        reducer: (0, _getAddressBookReducer.getSyncTimestampReducer)(_this.actionTypes)
+      });
+      _this._storage.registerReducer({
+        key: _this._addressBookStorageKey,
+        reducer: (0, _getAddressBookReducer.getContactListReducer)(_this.actionTypes)
+      });
+    } else {
+      _this._reducer = (0, _getAddressBookReducer2.default)(_this.actionTypes, {
+        contactList: (0, _getAddressBookReducer.getContactListReducer)(_this.actionTypes),
+        syncToken: (0, _getAddressBookReducer.getSyncTokenReducer)(_this.actionTypes),
+        syncTimestamp: (0, _getAddressBookReducer.getSyncTimestampReducer)(_this.actionTypes)
+      });
+    }
     return _this;
   }
 
@@ -253,12 +266,12 @@ var AddressBook = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return this._storage.ready && this._auth.loggedIn && this.pending;
+      return (!this._storage || this._storage.ready) && this._auth.loggedIn && this.pending;
     }
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return (!this._storage.ready || !this._auth.loggedIn) && this.ready;
+      return (!!this._storage && !this._storage.ready || !this._auth.loggedIn) && this.ready;
     }
   }, {
     key: '_shouleCleanCache',
@@ -548,17 +561,26 @@ var AddressBook = (_dec = (0, _di.Module)({
   }, {
     key: 'syncToken',
     get: function get() {
-      return this._storage.getItem(this._syncTokenStorageKey);
+      if (this._storage) {
+        return this._storage.getItem(this._syncTokenStorageKey);
+      }
+      return this.state.syncToken;
     }
   }, {
     key: 'contacts',
     get: function get() {
-      return this._storage.getItem(this._addressBookStorageKey);
+      if (this._storage) {
+        return this._storage.getItem(this._addressBookStorageKey);
+      }
+      return this.state.contactList;
     }
   }, {
     key: 'timestamp',
     get: function get() {
-      return this._storage.getItem(this._syncTimestampStorageKey);
+      if (this._storage) {
+        return this._storage.getItem(this._syncTimestampStorageKey);
+      }
+      return this.state.syncTimestamp;
     }
   }, {
     key: 'ttl',
