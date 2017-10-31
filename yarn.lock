@@ -4576,8 +4576,8 @@ loader-utils@~0.2.13, loader-utils@~0.2.2:
     object-assign "^4.0.1"
 
 locale-loader@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/locale-loader/-/locale-loader-1.3.0.tgz#509aa431ff74f2bc1c30c9e85ab9b8359c9e0074"
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/locale-loader/-/locale-loader-1.3.2.tgz#390eaaccadb3cc2b98072b128568ad66a274bbe5"
   dependencies:
     babylon "^6.16.1"
     escodegen "^1.8.1"
