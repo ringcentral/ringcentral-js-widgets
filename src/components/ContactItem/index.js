@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import PresenceStatusIcon from '../PresenceStatusIcon';
 import DefaultAvatar from '../../assets/images/DefaultAvatar.svg';
-import GoogleLogo from '../../assets/images/GoogleLogo.svg';
 
 import styles from './styles.scss';
 
@@ -29,23 +28,6 @@ AvatarNode.propTypes = {
 AvatarNode.defaultProps = {
   name: undefined,
   avatarUrl: undefined,
-};
-
-function SourceNode({ sourceType }) {
-  switch (sourceType) {
-    case 'google':
-      return (<GoogleLogo
-        className={styles.sourceNode}
-      />);
-    default:
-      return null;
-  }
-}
-SourceNode.propTypes = {
-  sourceType: PropTypes.string,
-};
-SourceNode.defaultProps = {
-  sourceType: undefined,
 };
 
 export default class ContactItem extends Component {
@@ -110,11 +92,11 @@ export default class ContactItem extends Component {
     const {
       name,
       phoneNumber,
+      entityType,
     } = this.props.contact;
 
-    // TODO:
-    const type = '';
-
+    const { sourceNodeRenderer } = this.props;
+    const sourceNode = sourceNodeRenderer({ sourceType: entityType });
     return (
       <div
         className={styles.root}
@@ -128,13 +110,13 @@ export default class ContactItem extends Component {
             />
           </div>
           {
-            type ? (
-              <div className={styles.sourceNodeContainer}>
-                <SourceNode
-                  sourceType={type}
-                />
-              </div>
-            ) : null
+            sourceNode
+              ? (
+                <div className={styles.sourceNodeContainer}>
+                  {sourceNode}
+                </div>
+              )
+              : null
           }
           {
             this.state.presence ? (
@@ -171,8 +153,10 @@ ContactItem.propTypes = {
   getAvatarUrl: PropTypes.func.isRequired,
   getPresence: PropTypes.func.isRequired,
   onSelect: PropTypes.func,
+  sourceNodeRenderer: PropTypes.func,
 };
 
 ContactItem.defaultProps = {
   onSelect: undefined,
+  sourceNodeRenderer: () => null,
 };

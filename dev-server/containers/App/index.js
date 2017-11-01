@@ -388,5 +388,9 @@ export default function App({
 
 App.propTypes = {
   phone: PropTypes.object.isRequired,
-  icon: PropTypes.func.isRequired
+  icon: PropTypes.func
+};
+
+App.defaultProps = {
+  icon: undefined
 };
