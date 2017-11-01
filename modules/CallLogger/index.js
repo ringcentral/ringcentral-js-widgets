@@ -123,7 +123,7 @@ function callIdentityFunction(call) {
  * @description call logger module
  */
 var CallLogger = (_dec = (0, _di.Module)({
-  deps: ['Storage', 'ActivityMatcher', 'CallHistory', 'CallMonitor', 'ContactMatcher', 'TabManager', { dep: 'CallLoggerOptions', optional: false }]
+  deps: ['Storage', 'ActivityMatcher', 'CallHistory', 'CallMonitor', 'ContactMatcher', 'TabManager', { dep: 'CallLoggerOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_LoggerBase) {
   (0, _inherits3.default)(CallLogger, _LoggerBase);
 

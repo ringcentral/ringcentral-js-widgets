@@ -115,7 +115,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @description Conversation list managing module
  */
 var Messages = (_dec = (0, _di.Module)({
-  deps: ['MessageStore', 'ExtensionInfo', 'ContactMatcher', 'ConversationLogger', 'ConversationMatcher', { dep: 'MessagesOptions', optional: true }]
+  deps: ['MessageStore', 'ExtensionInfo', 'ContactMatcher', 'ConversationMatcher', { dep: 'ConversationLogger', optional: true }, { dep: 'MessagesOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Messages, _RcModule);
 
