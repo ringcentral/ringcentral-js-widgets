@@ -45,10 +45,6 @@ var _DefaultAvatar = require('../../assets/images/DefaultAvatar.svg');
 
 var _DefaultAvatar2 = _interopRequireDefault(_DefaultAvatar);
 
-var _GoogleLogo = require('../../assets/images/GoogleLogo.svg');
-
-var _GoogleLogo2 = _interopRequireDefault(_GoogleLogo);
-
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -74,25 +70,6 @@ AvatarNode.propTypes = {
 AvatarNode.defaultProps = {
   name: undefined,
   avatarUrl: undefined
-};
-
-function SourceNode(_ref2) {
-  var sourceType = _ref2.sourceType;
-
-  switch (sourceType) {
-    case 'google':
-      return _react2.default.createElement(_GoogleLogo2.default, {
-        className: _styles2.default.sourceNode
-      });
-    default:
-      return null;
-  }
-}
-SourceNode.propTypes = {
-  sourceType: _propTypes2.default.string
-};
-SourceNode.defaultProps = {
-  sourceType: undefined
 };
 
 var ContactItem = function (_Component) {
@@ -166,12 +143,11 @@ var ContactItem = function (_Component) {
 
       var _props$contact = this.props.contact,
           name = _props$contact.name,
-          phoneNumber = _props$contact.phoneNumber;
+          phoneNumber = _props$contact.phoneNumber,
+          entityType = _props$contact.entityType;
+      var sourceNodeRenderer = this.props.sourceNodeRenderer;
 
-      // TODO:
-
-      var type = '';
-
+      var sourceNode = sourceNodeRenderer({ sourceType: entityType });
       return _react2.default.createElement(
         'div',
         {
@@ -189,12 +165,10 @@ var ContactItem = function (_Component) {
               avatarUrl: this.state.avatarUrl
             })
           ),
-          type ? _react2.default.createElement(
+          sourceNode ? _react2.default.createElement(
             'div',
             { className: _styles2.default.sourceNodeContainer },
-            _react2.default.createElement(SourceNode, {
-              sourceType: type
-            })
+            sourceNode
           ) : null,
           this.state.presence ? _react2.default.createElement(
             'div',
@@ -235,10 +209,14 @@ ContactItem.propTypes = {
   }).isRequired,
   getAvatarUrl: _propTypes2.default.func.isRequired,
   getPresence: _propTypes2.default.func.isRequired,
-  onSelect: _propTypes2.default.func
+  onSelect: _propTypes2.default.func,
+  sourceNodeRenderer: _propTypes2.default.func
 };
 
 ContactItem.defaultProps = {
-  onSelect: undefined
+  onSelect: undefined,
+  sourceNodeRenderer: function sourceNodeRenderer() {
+    return null;
+  }
 };
 //# sourceMappingURL=index.js.map

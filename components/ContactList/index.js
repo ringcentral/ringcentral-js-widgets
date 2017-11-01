@@ -65,7 +65,8 @@ function ContactGroup(_ref2) {
       contacts = _ref2.contacts,
       getAvatarUrl = _ref2.getAvatarUrl,
       getPresence = _ref2.getPresence,
-      onItemSelect = _ref2.onItemSelect;
+      onItemSelect = _ref2.onItemSelect,
+      sourceNodeRenderer = _ref2.sourceNodeRenderer;
 
   return _react2.default.createElement(
     'div',
@@ -81,7 +82,8 @@ function ContactGroup(_ref2) {
         contact: contact,
         getAvatarUrl: getAvatarUrl,
         getPresence: getPresence,
-        onSelect: onItemSelect
+        onSelect: onItemSelect,
+        sourceNodeRenderer: sourceNodeRenderer
       });
     })
   );
@@ -91,10 +93,12 @@ ContactGroup.propTypes = {
   getAvatarUrl: _propTypes2.default.func.isRequired,
   getPresence: _propTypes2.default.func.isRequired,
   caption: _propTypes2.default.string.isRequired,
-  contacts: _propTypes2.default.arrayOf(_ContactItem2.default.propTypes.contact).isRequired
+  contacts: _propTypes2.default.arrayOf(_ContactItem2.default.propTypes.contact).isRequired,
+  sourceNodeRenderer: _propTypes2.default.func
 };
 ContactGroup.defaultProps = {
-  onItemSelect: undefined
+  onItemSelect: undefined,
+  sourceNodeRenderer: undefined
 };
 
 var ContactList = function (_Component) {
@@ -155,7 +159,8 @@ var ContactList = function (_Component) {
           contactGroups = _props2.contactGroups,
           getAvatarUrl = _props2.getAvatarUrl,
           getPresence = _props2.getPresence,
-          onItemSelect = _props2.onItemSelect;
+          onItemSelect = _props2.onItemSelect,
+          sourceNodeRenderer = _props2.sourceNodeRenderer;
 
       return _react2.default.createElement(
         'div',
@@ -173,7 +178,8 @@ var ContactList = function (_Component) {
             contacts: group.contacts,
             getAvatarUrl: getAvatarUrl,
             getPresence: getPresence,
-            onItemSelect: onItemSelect
+            onItemSelect: onItemSelect,
+            sourceNodeRenderer: sourceNodeRenderer
           });
         }) : _react2.default.createElement(NoContacts, {
           currentLocale: currentLocale
@@ -198,12 +204,14 @@ ContactList.propTypes = {
   getPresence: _propTypes2.default.func.isRequired,
   currentPage: _propTypes2.default.number,
   onNextPage: _propTypes2.default.func,
-  onItemSelect: _propTypes2.default.func
+  onItemSelect: _propTypes2.default.func,
+  sourceNodeRenderer: _propTypes2.default.func
 };
 
 ContactList.defaultProps = {
   currentPage: undefined,
   onNextPage: undefined,
-  onItemSelect: undefined
+  onItemSelect: undefined,
+  sourceNodeRenderer: undefined
 };
 //# sourceMappingURL=index.js.map
