@@ -16,7 +16,14 @@ NoContacts.propTypes = {
   currentLocale: PropTypes.string.isRequired,
 };
 
-function ContactGroup({ caption, contacts, getAvatarUrl, getPresence, onItemSelect, sourceNodeRenderer }) {
+function ContactGroup({
+  caption,
+  contacts,
+  getAvatarUrl,
+  getPresence,
+  onItemSelect,
+  sourceNodeRenderer
+}) {
   return (
     <div className={styles.contactGroup}>
       <div className={styles.groupCaption}>
