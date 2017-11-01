@@ -127,6 +127,7 @@ export default class ContactsView extends Component {
       currentPage,
       onItemSelect,
       contactSourceFilterRenderer: Filter,
+      sourceNodeRenderer,
     } = this.props;
 
     const content = showSpinner ?
@@ -140,6 +141,7 @@ export default class ContactsView extends Component {
           currentPage={currentPage}
           onNextPage={this.loadNextPage}
           onItemSelect={onItemSelect}
+          sourceNodeRenderer={sourceNodeRenderer}
         />
       );
 
@@ -189,6 +191,7 @@ ContactsView.propTypes = {
   onItemSelect: PropTypes.func,
   onSearchContact: PropTypes.func,
   contactSourceFilterRenderer: PropTypes.func,
+  sourceNodeRenderer: PropTypes.func,
   // onRestSearch: PropTypes.func,
 };
 
@@ -198,6 +201,7 @@ ContactsView.defaultProps = {
   currentPage: undefined,
   onItemSelect: undefined,
   onSearchContact: undefined,
-  contactSourceFilterRenderer: ContactSourceFilter
+  contactSourceFilterRenderer: ContactSourceFilter,
+  sourceNodeRenderer: undefined,
   // onRestSearch: undefined,
 };
