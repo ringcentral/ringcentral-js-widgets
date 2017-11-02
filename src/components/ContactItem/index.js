@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import PresenceStatusIcon from '../PresenceStatusIcon';
@@ -30,7 +30,7 @@ AvatarNode.defaultProps = {
   avatarUrl: undefined,
 };
 
-export default class ContactItem extends Component {
+export default class ContactItem extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -93,6 +93,7 @@ export default class ContactItem extends Component {
       name,
       phoneNumber,
       entityType,
+      showPhoneNumber,
     } = this.props.contact;
 
     const { sourceNodeRenderer } = this.props;
@@ -133,7 +134,7 @@ export default class ContactItem extends Component {
           {name}
         </div>
         <div className={styles.phoneNumber} title={phoneNumber}>
-          {phoneNumber}
+          {showPhoneNumber ? phoneNumber : null}
         </div>
       </div>
     );
@@ -145,6 +146,7 @@ ContactItem.propTypes = {
     id: PropTypes.string,
     type: PropTypes.string,
     hasProfileImage: PropTypes.bool,
+    showPhoneNumber: PropTypes.bool,
     entityType: PropTypes.string,
     name: PropTypes.string,
     phoneNumber: PropTypes.string,

@@ -25,11 +25,10 @@ function mapToFunctions(_, {
   contactSearch,
 }) {
   return {
-    getAvatarUrl: async (contact) => {
+    getAvatarUrl: async contact =>
       // const avatarUrl = await contacts.getImageProfile(contact);
       // return avatarUrl;
-      return null;
-    },
+       null,
     getPresence: async (contact) => {
       const presence = await contacts.getPresence(contact);
       return presence;
