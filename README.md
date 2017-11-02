@@ -116,11 +116,9 @@ Create a file named config.js in following format in folder `dev-server` to spec
 
 ```javascript
 export default {
-  api: {
-    appKey: ${app key},
-    appSecret: ${app secret},
-    server: ${server url},
-  }
+  appKey: ${app key},
+  appSecret: ${app secret},
+  server: ${server url},
 };
 ```
 
