@@ -72,8 +72,8 @@ AvatarNode.defaultProps = {
   avatarUrl: undefined
 };
 
-var ContactItem = function (_Component) {
-  (0, _inherits3.default)(ContactItem, _Component);
+var ContactItem = function (_PureComponent) {
+  (0, _inherits3.default)(ContactItem, _PureComponent);
 
   function ContactItem(props) {
     (0, _classCallCheck3.default)(this, ContactItem);
@@ -144,7 +144,8 @@ var ContactItem = function (_Component) {
       var _props$contact = this.props.contact,
           name = _props$contact.name,
           phoneNumber = _props$contact.phoneNumber,
-          entityType = _props$contact.entityType;
+          entityType = _props$contact.entityType,
+          showPhoneNumber = _props$contact.showPhoneNumber;
       var sourceNodeRenderer = this.props.sourceNodeRenderer;
 
       var sourceNode = sourceNodeRenderer({ sourceType: entityType });
@@ -186,13 +187,13 @@ var ContactItem = function (_Component) {
         _react2.default.createElement(
           'div',
           { className: _styles2.default.phoneNumber, title: phoneNumber },
-          phoneNumber
+          showPhoneNumber ? phoneNumber : null
         )
       );
     }
   }]);
   return ContactItem;
-}(_react.Component);
+}(_react.PureComponent);
 
 exports.default = ContactItem;
 
@@ -202,6 +203,7 @@ ContactItem.propTypes = {
     id: _propTypes2.default.string,
     type: _propTypes2.default.string,
     hasProfileImage: _propTypes2.default.bool,
+    showPhoneNumber: _propTypes2.default.bool,
     entityType: _propTypes2.default.string,
     name: _propTypes2.default.string,
     phoneNumber: _propTypes2.default.string,

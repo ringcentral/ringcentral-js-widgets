@@ -57,7 +57,10 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                return _context.abrupt('return', null);
+                return _context.abrupt('return',
+                // const avatarUrl = await contacts.getImageProfile(contact);
+                // return avatarUrl;
+                null);
 
               case 1:
               case 'end':
