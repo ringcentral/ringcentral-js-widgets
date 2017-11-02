@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ringcentral/ringcentral-js-widget.git"
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
   },
   "author": "RingCentral Integrations Team",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ringcentral/ringcentral-js-widget/issues"
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
   },
-  "homepage": "https://github.com/ringcentral/ringcentral-js-widget#readme",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
   "peerDependencies": {
     "babel-runtime": "^6.20.0",
     "format-message": "^5.0.0",
