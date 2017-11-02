@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widget/components/OfflineModeBadge';
+import componentCode from '!raw-loader!ringcentral-widgets/components/OfflineModeBadge';
 
 const OfflineModeBadgePage = () => {
   const info = parse(componentCode);

@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import AuthAlert from 'ringcentral-widget/components/AuthAlert';
+import AuthAlert from 'ringcentral-widgets/components/AuthAlert';
 
 const props = {};
 props.currentLocale = 'en-US';

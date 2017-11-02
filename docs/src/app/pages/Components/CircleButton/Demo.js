@@ -1,8 +1,8 @@
 import React from 'react';
 // eslint-disable-next-line
-import CircleButton from 'ringcentral-widget/components/CircleButton';
+import CircleButton from 'ringcentral-widgets/components/CircleButton';
 // eslint-disable-next-line
-import EndIcon from 'ringcentral-widget/assets/images/End.svg';
+import EndIcon from 'ringcentral-widgets/assets/images/End.svg';
 
 const props = {};
 props.icon = EndIcon;

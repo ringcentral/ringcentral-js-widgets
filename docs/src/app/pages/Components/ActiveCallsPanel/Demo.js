@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ActiveCallsPanel from 'ringcentral-widget/components/ActiveCallsPanel';
+import ActiveCallsPanel from 'ringcentral-widgets/components/ActiveCallsPanel';
 
 const props = {};
 props.hasCalls = true;

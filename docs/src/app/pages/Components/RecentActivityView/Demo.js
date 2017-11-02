@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import RecentActivityView from 'ringcentral-widget/components/RecentActivityView';
+import RecentActivityView from 'ringcentral-widgets/components/RecentActivityView';
 
 const props = {};
 props.showSpinner = false;

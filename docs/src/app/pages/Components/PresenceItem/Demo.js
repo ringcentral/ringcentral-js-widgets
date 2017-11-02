@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import PresenceItem from 'ringcentral-widget/components/PresenceItem';
+import PresenceItem from 'ringcentral-widgets/components/PresenceItem';
 
 const props = {};
 props.onClick = () => alert('clicked');

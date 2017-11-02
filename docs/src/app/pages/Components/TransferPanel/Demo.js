@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import TransferPanel from 'ringcentral-widget/components/TransferPanel';
+import TransferPanel from 'ringcentral-widgets/components/TransferPanel';
 
 const props = {};
 props.onTransfer = () => null;

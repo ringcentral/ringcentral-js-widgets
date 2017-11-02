@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widget/components/WebphoneAlert';
+import componentCode from '!raw-loader!ringcentral-widgets/components/WebphoneAlert';
 
 const WebphoneAlertPage = () => {
   const info = parse(componentCode);

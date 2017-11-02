@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import IconField from 'ringcentral-widget/components/IconField';
+import IconField from 'ringcentral-widgets/components/IconField';
 
 const props = {};
 
