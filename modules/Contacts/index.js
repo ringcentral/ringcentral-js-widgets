@@ -240,6 +240,7 @@ var Contacts = (_dec = (0, _di.Module)({
       });
       return contacts;
     });
+    _this._handlerContactsSources();
     return _this;
   }
 
@@ -278,7 +279,6 @@ var Contacts = (_dec = (0, _di.Module)({
         this.store.dispatch({
           type: this.actionTypes.initSuccess
         });
-        this._handlerContactsSources();
       } else if (this._shouldReset()) {
         this._resetModuleStatus();
       }

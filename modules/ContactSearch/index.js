@@ -147,6 +147,7 @@ function uniqueContactItems(result) {
   return unique;
 }
 
+var NON_ALPHABET_RE = /[^A-z]/;
 function sortContactItemsByName(result) {
   var items = result || [];
   items.sort(function (a, b) {
@@ -154,24 +155,38 @@ function sortContactItemsByName(result) {
     var name2 = (b.name || '').toLowerCase().replace(/^\s\s*/, ''); // trim start
     var isNumber1 = /^[0-9]/.test(name1);
     var isNumber2 = /^[0-9]/.test(name2);
+    // Empty string should be put at the end
+    if (name1.length <= 0 || name2.length <= 0) {
+      return -name1.localeCompare(name2);
+    }
     if (isNumber1 && isNumber2) {
       return name1.localeCompare(name2);
-    } else if (isNumber1 || isNumber2) {
+    }
+    if (isNumber1 || isNumber2) {
       // put number name at last
       return -name1.localeCompare(name2);
+    }
+    if (NON_ALPHABET_RE.test(name1[0])) {
+      return 1;
     }
     return name1.localeCompare(name2);
   });
   return items;
 }
 
+var POUND_SIGN = '#';
 function groupByFirstLetterOfName(contactItems) {
   var groups = [];
   if (contactItems && contactItems.length) {
     var group = void 0;
     contactItems.forEach(function (contact) {
       var name = (contact.name || '').replace(/^\s\s*/, ''); // trim start
-      var letter = (name[0] || '').toLocaleUpperCase();
+      var letter = null;
+      if (name.length <= 0 || NON_ALPHABET_RE.test(name[0])) {
+        letter = POUND_SIGN;
+      } else {
+        letter = (name[0] || '').toLocaleUpperCase();
+      }
       if (!group || group.caption !== letter) {
         group = {
           contacts: [],
