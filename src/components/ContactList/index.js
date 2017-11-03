@@ -66,30 +66,30 @@ export default class ContactList extends Component {
 
   componentDidMount() {
     // wait for contact items rendering
-    setTimeout(() => {
-      // detect here for the case when there is no scroll bar
-      this.detectNextPage(this.rootElem);
-    }, 0);
+    // setTimeout(() => {
+    //   // detect here for the case when there is no scroll bar
+    //   this.detectNextPage(this.rootElem);
+    // }, 0);
   }
 
   onScroll(ev) {
-    this.detectNextPage(ev.target);
+    // this.detectNextPage(ev.target);
   }
 
-  detectNextPage(el) {
-    if (this.downwards) {
-      if ((el.scrollTop + el.clientHeight) > (el.scrollHeight - 20)) {
-        this.downwards = false;
-        const { currentPage, onNextPage } = this.props;
-        if (onNextPage) {
-          const curr = (currentPage || 1);
-          onNextPage(curr + 1);
-        }
-      }
-    } else if ((el.scrollTop + el.clientHeight) < (el.scrollHeight - 30)) {
-      this.downwards = true;
-    }
-  }
+  // detectNextPage(el) {
+  //   if (this.downwards) {
+  //     if ((el.scrollTop + el.clientHeight) > (el.scrollHeight - 20)) {
+  //       this.downwards = false;
+  //       const { currentPage, onNextPage } = this.props;
+  //       if (onNextPage) {
+  //         const curr = (currentPage || 1);
+  //         onNextPage(curr + 1);
+  //       }
+  //     }
+  //   } else if ((el.scrollTop + el.clientHeight) < (el.scrollHeight - 30)) {
+  //     this.downwards = true;
+  //   }
+  // }
 
   render() {
     const {
@@ -104,7 +104,6 @@ export default class ContactList extends Component {
       <div
         className={styles.root}
         onScroll={this.onScroll}
-        ref={(el) => { this.rootElem = el; }}
       >
         {
           contactGroups.length ?

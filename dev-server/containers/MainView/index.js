@@ -88,7 +88,19 @@ function getTabs({
         }
         return <MoreMenuIcon />;
       },
-      activeIcon: MoreMenuHoverIcon,
+      // activeIcon: MoreMenuHoverIcon,
+      activeIcon: ({ currentPath }) => {
+        if (currentPath === '/contacts') {
+          return <ContactNavIcon />;
+        } else if (currentPath === '/settings') {
+          return <SettingsNavIcon />;
+        } else if (currentPath === '/metting') {
+          return <MeetingNavIcon />;
+        } else if (currentPath === '/conference') {
+          return <ConferenceNavIcon />;
+        }
+        return <MoreMenuHoverIcon />;
+      },
       label: 'More Menu',
       virtualPath: '!moreMenu',
       isActive: (currentPath, currentVirtualPath) => (
