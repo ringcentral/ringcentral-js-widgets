@@ -60,10 +60,14 @@ export default class NavigationBar extends Component {
           tabs.map((tab, index) => {
             let icon = tab.icon;
             if (typeof icon === 'function') {
-              const Icon = tab.icon;
+              const Icon = icon;
               icon = (tab.childTabs ? <Icon currentPath={currentPath} /> : <Icon />);
             }
-            const ActiveIcon = tab.activeIcon;
+            let activeIcon = tab.activeIcon;
+            if (typeof activeIcon === 'function') {
+              const ActiveIcon = activeIcon;
+              activeIcon = (tab.childTabs ? <ActiveIcon currentPath={currentPath} /> : <ActiveIcon />);
+            }
             return (
               <NavigationButton
                 {...tab}
@@ -78,7 +82,7 @@ export default class NavigationBar extends Component {
                 }
                 width={tabWidth}
                 icon={icon}
-                activeIcon={typeof ActiveIcon === 'function' ? <ActiveIcon /> : ActiveIcon}
+                activeIcon={activeIcon}
               />
             );
           })
