@@ -7,8 +7,9 @@ import DropdownSelect from '../DropdownSelect';
 import i18n from './i18n';
 import styles from './styles.scss';
 import phoneSourceNames from '../../lib/phoneSourceNames';
+import phoneSources from '../../enums/phoneSources';
 
-const displayFomatter = ({
+const displayFormatter = ({
   entityName,
   entityType,
   phoneNumber,
@@ -34,6 +35,49 @@ const displayFomatter = ({
   return '';
 };
 
+function ContactDisplayItem({
+  entityName,
+  entityType,
+  phoneNumber,
+  sourceIcons
+}) {
+  let SourceIcon = null;
+  if (entityType) {
+    if (entityType === phoneSources.rcContact) {
+      SourceIcon = sourceIcons.brandIcon;
+    } else {
+      SourceIcon = sourceIcons[entityType] || <span />;
+    }
+  }
+  if (phoneNumber && entityName && SourceIcon) {
+    return (
+      <span>
+        <SourceIcon className={styles.typeIcon} width={10} height={10} />
+        <span className={styles.typeName}>{entityName}</span>
+      </span>
+    );
+  } else if (entityName && SourceIcon) {
+    return (
+      <span>
+        <SourceIcon className={styles.typeIcon} width={10} height={10} />
+        <span className={styles.typeName}>{entityName}</span>
+      </span>
+    );
+  } else if (entityName) {
+    return <span>{entityName}</span>;
+  } else if (phoneNumber) {
+    return <span>{phoneNumber}</span>;
+  }
+  return null;
+}
+
+ContactDisplayItem.propTypes = {
+  entityName: PropTypes.string.isRequired,
+  entityType: PropTypes.string.isRequired,
+  phoneNumber: PropTypes.string.isRequired,
+  sourceIcons: PropTypes.object.isRequired,
+};
+
 export default function ContactDisplay({
   reference,
   className,
@@ -54,6 +98,7 @@ export default function ContactDisplay({
   showPlaceholder,
   brand,
   stopPropagation,
+  sourceIcons = {}
 }) {
   let contentEl;
   if (groupNumbers) {
@@ -80,7 +125,7 @@ export default function ContactDisplay({
     );
   } else if (contactMatches.length === 1) {
     const display = contactMatches[0].name;
-    const title = displayFomatter({
+    const title = displayFormatter({
       entityName: display,
       entityType: contactMatches[0].entityType,
       phoneNumber,
@@ -113,15 +158,16 @@ export default function ContactDisplay({
         options={options}
         placeholder={placeholder}
         renderFunction={entity => (
-          displayFomatter({
+          ContactDisplayItem({
             entityName: entity.name,
             entityType: entity.entityType,
             brand,
             currentLocale,
+            sourceIcons
           })
         )}
         renderValue={value => (
-          displayFomatter({
+          displayFormatter({
             entityName: options[value].name,
             entityType: showType && options[value].entityType,
             brand,
@@ -129,7 +175,7 @@ export default function ContactDisplay({
           })
         )}
         renderTitle={entity => (
-          entity ? displayFomatter({
+          entity ? displayFormatter({
             entityName: entity.name,
             entityType: entity.entityType,
             phoneNumber,
@@ -174,6 +220,7 @@ ContactDisplay.propTypes = {
   showPlaceholder: PropTypes.bool,
   brand: PropTypes.string,
   stopPropagation: PropTypes.bool,
+  sourceIcons: PropTypes.object,
 };
 ContactDisplay.defaultProps = {
   reference: undefined,
@@ -188,4 +235,5 @@ ContactDisplay.defaultProps = {
   showPlaceholder: true,
   brand: undefined,
   stopPropagation: true,
+  sourceIcons: undefined,
 };

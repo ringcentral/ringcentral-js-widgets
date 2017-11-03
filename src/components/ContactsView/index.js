@@ -5,12 +5,12 @@ import Panel from '../Panel';
 import SearchInput from '../SearchInput';
 import SpinnerOverlay from '../SpinnerOverlay';
 
-import ContactSourceFilter from '../ContactSourceFilter';
 import ContactList from '../ContactList';
 import ContactItem from '../ContactItem';
 import styles from './styles.scss';
 import i18n from './i18n';
 import AddContactIcon from '../../assets/images/ContactAdd.svg';
+import ContactSourceFilter from '../ContactSourceFilter';
 
 function AddContact({
   className,
@@ -126,6 +126,8 @@ export default class ContactsView extends Component {
       getPresence,
       currentPage,
       onItemSelect,
+      contactSourceFilterRenderer: Filter,
+      sourceNodeRenderer,
     } = this.props;
 
     const content = showSpinner ?
@@ -139,6 +141,7 @@ export default class ContactsView extends Component {
           currentPage={currentPage}
           onNextPage={this.loadNextPage}
           onItemSelect={onItemSelect}
+          sourceNodeRenderer={sourceNodeRenderer}
         />
       );
 
@@ -155,12 +158,12 @@ export default class ContactsView extends Component {
             className={styles.actionButton}
             onClick={() => { }}
           />
-          <ContactSourceFilter
+          <Filter
             className={styles.actionButton}
             currentLocale={currentLocale}
+            contactSourceNames={contactSourceNames}
             onSourceSelect={this.doSearchBySource}
             selectedSourceName={searchSource}
-            contactSourceNames={contactSourceNames}
           />
         </div>
         <Panel className={styles.content}>
@@ -187,6 +190,8 @@ ContactsView.propTypes = {
   currentPage: PropTypes.number,
   onItemSelect: PropTypes.func,
   onSearchContact: PropTypes.func,
+  contactSourceFilterRenderer: PropTypes.func,
+  sourceNodeRenderer: PropTypes.func,
   // onRestSearch: PropTypes.func,
 };
 
@@ -196,5 +201,7 @@ ContactsView.defaultProps = {
   currentPage: undefined,
   onItemSelect: undefined,
   onSearchContact: undefined,
+  contactSourceFilterRenderer: ContactSourceFilter,
+  sourceNodeRenderer: undefined,
   // onRestSearch: undefined,
 };

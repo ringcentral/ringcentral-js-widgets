@@ -1,14 +1,9 @@
 import RcModule from 'ringcentral-integration/lib/RcModule';
-import { useRouterHistory, createMemoryHistory, hashHistory } from 'react-router';
+import { useRouterHistory, createMemoryHistory } from 'react-router';
 import { syncHistoryWithStore, routerReducer, LOCATION_CHANGE } from 'react-router-redux';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
 
 function getDefaultHistory() {
-  // if (typeof window !== 'undefined') {
-  //   console.debug('hashHistory');
-  //   return hashHistory;
-  // }
-  // console.debug('memoryHistory');
   return useRouterHistory(createMemoryHistory)();
 }
 

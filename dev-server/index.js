@@ -7,9 +7,7 @@ import apiConfig from './api-config';
 import brandConfig from './brandConfig';
 import version from './version';
 import prefix from './prefix';
-import Perf from 'react-addons-perf';
-
-window.Perf = Perf;
+import RcIcon from './Icon.svg';
 
 const phone = new Phone({
   apiConfig,
@@ -27,6 +25,7 @@ window.phone = phone;
 ReactDOM.render(
   <App
     phone={phone}
+    icon={RcIcon}
   />,
   document.querySelector('div#viewport'),
 );

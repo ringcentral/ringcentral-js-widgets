@@ -67,6 +67,7 @@ class ConversationPage extends Component {
         dateTimeFormatter={this.props.dateTimeFormatter}
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
         goBack={this.props.goBack}
+        sourceIcons={this.props.sourceIcons}
       />
     );
   }
@@ -89,12 +90,14 @@ ConversationPage.propTypes = {
   getMatcherContactNameList: PropTypes.func,
   changeMatchedNames: PropTypes.func.isRequired,
   dateTimeFormatter: PropTypes.func.isRequired,
+  sourceIcons: PropTypes.object,
 };
 
 ConversationPage.defaultProps = {
   getMatcherContactName: null,
   getMatcherContactList: () => [],
   getMatcherContactNameList: () => [],
+  sourceIcons: undefined,
 };
 
 ConversationPage.childContextTypes = {

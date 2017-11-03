@@ -42,7 +42,8 @@ function CallList({
   webphoneResume,
   enableContactFallback,
   autoLog,
-  showContactDisplayPlaceholder
+  showContactDisplayPlaceholder,
+  sourceIcons,
 }) {
   if (calls && calls.length) {
     return (
@@ -75,6 +76,7 @@ function CallList({
             enableContactFallback={enableContactFallback}
             autoLog={autoLog}
             showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+            sourceIcons={sourceIcons}
           />
         ))}
       </div>
@@ -113,7 +115,8 @@ CallList.propTypes = {
   webphoneResume: PropTypes.func,
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
-  showContactDisplayPlaceholder: PropTypes.bool
+  showContactDisplayPlaceholder: PropTypes.bool,
+  sourceIcons: PropTypes.object,
 };
 CallList.defaultProps = {
   className: null,
@@ -136,6 +139,7 @@ CallList.defaultProps = {
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   autoLog: false,
+  sourceIcons: undefined,
 };
 
 export default CallList;

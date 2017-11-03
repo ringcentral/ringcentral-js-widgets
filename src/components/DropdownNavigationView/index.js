@@ -55,23 +55,14 @@ export default class DropdownNavigationView extends Component {
       currentVirtualPath,
     } = this.props;
 
-    const activeTab = tabs.find(tab =>
-      tab.childTabs &&
-      (
-        (tab.isActive && tab.isActive(currentPath, currentVirtualPath)) ||
-        (tab.path && tab.path === currentPath) ||
-        (tab.virtualPath && tab.virtualPath === currentVirtualPath)
-      )
-    );
-
     return (
-      activeTab && activeTab.childTabs.length ? (
+      tabs.length ? (
         <div
           className={styles.root}
           ref={(el) => { this.setChildNavigationElement(el); }}
         >
           {
-            activeTab.childTabs.map((tab, index) => {
+            tabs.map((tab, index) => {
               const Icon = tab.icon;
               const ActiveIcon = tab.activeIcon;
               return (
@@ -88,7 +79,7 @@ export default class DropdownNavigationView extends Component {
                   }
                   icon={typeof Icon === 'function' ? <Icon /> : Icon}
                   activeIcon={typeof ActiveIcon === 'function' ? <ActiveIcon /> : ActiveIcon}
-              />
+                />
               );
             })
           }

@@ -16,7 +16,7 @@ export default function Button({
         styles.root,
         disabled && styles.disabled,
       )}
-      onClick={!disabled && onClick} >
+      onClick={disabled ? null : onClick} >
       {children}
     </div>
   );

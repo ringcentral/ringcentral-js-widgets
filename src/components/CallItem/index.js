@@ -293,6 +293,7 @@ export default class CallItem extends Component {
       isLogging,
       enableContactFallback,
       showContactDisplayPlaceholder,
+      sourceIcons,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
@@ -340,7 +341,7 @@ export default class CallItem extends Component {
             missedTitle={i18n.getString('missedCall', currentLocale)}
           />
           <ContactDisplay
-            reference={ref => { this.contactDisplay = ref; }}
+            reference={(ref) => { this.contactDisplay = ref; }}
             className={classnames(
               styles.contactDisplay,
               missed && styles.missed,
@@ -348,6 +349,7 @@ export default class CallItem extends Component {
             )}
             selectClassName={styles.dropdownSelect}
             brand={brand}
+            sourceIcons={sourceIcons}
             contactMatches={contactMatches}
             selected={this.state.selected}
             onSelectContact={this.onSelectContact}
@@ -439,6 +441,7 @@ CallItem.propTypes = {
   enableContactFallback: PropTypes.bool,
   autoLog: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,
+  sourceIcons: PropTypes.object,
 };
 
 CallItem.defaultProps = {
@@ -456,4 +459,5 @@ CallItem.defaultProps = {
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   autoLog: false,
+  sourceIcons: undefined,
 };
