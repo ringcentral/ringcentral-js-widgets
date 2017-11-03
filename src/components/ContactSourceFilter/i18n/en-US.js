@@ -1,6 +1,5 @@
 export default {
-  all: 'All Contacts',
+  all: 'All',
   companyContacts: 'Company',
-  googleContacts: 'Google',
   personalContacts: 'Personal',
 };

@@ -1,18 +1,33 @@
 import React, { Component } from 'react';
 // eslint-disable-next-line
 import TabNavigationView from 'ringcentral-widget/components/TabNavigationView';
-import dynamicsFont from 'ringcentral-widget/assets/DynamicsFont/DynamicsFont.scss';
+import DialPadIcon from 'ringcentral-widget/assets/images/DialPadNav.svg';
+import CallsIcon from 'ringcentral-widget/assets/images/Calls.svg';
+import MessageIcon from 'ringcentral-widget/assets/images/Messages.svg';
+import SettingsIcon from 'ringcentral-widget/assets/images/Settings.svg';
+import ContactIcon from 'ringcentral-widget/assets/images/Contact.svg';
+import MoreMenuIcon from 'ringcentral-widget/assets/images/MoreMenu.svg';
+
+import DialPadHoverIcon from 'ringcentral-widget/assets/images/DialPadHover.svg';
+import CallsHoverIcon from 'ringcentral-widget/assets/images/CallsHover.svg';
+import MessageHoverIcon from 'ringcentral-widget/assets/images/MessagesHover.svg';
+import SettingsHoverIcon from 'ringcentral-widget/assets/images/SettingsHover.svg';
+import ContactHoverIcon from 'ringcentral-widget/assets/images/ContactHover.svg';
+import MoreMenuHoverIcon from 'ringcentral-widget/assets/images/MoreMenuHover.svg';
+
+import ContactNavIcon from 'ringcentral-widget/assets/images/ContactsNavigation.svg';
+import SettingsNavIcon from 'ringcentral-widget/assets/images/SettingsNavigation.svg';
 
 const tabs = [
   {
-    icon: <span className={dynamicsFont.dial} />,
-    activeIcon: <span className={dynamicsFont.dialHover} />,
+    icon: DialPadIcon,
+    activeIcon: DialPadHoverIcon,
     label: 'Dial Pad',
     path: '/dialer',
   },
   {
-    icon: <span className={dynamicsFont.active} />,
-    activeIcon: <span className={dynamicsFont.activeHover} />,
+    icon: CallsIcon,
+    activeIcon: CallsHoverIcon,
     label: 'Calls',
     path: '/calls',
     isActive: currentPath => (
@@ -20,8 +35,8 @@ const tabs = [
     ),
   },
   {
-    icon: <span className={dynamicsFont.message} />,
-    activeIcon: <span className={dynamicsFont.messageHover} />,
+    icon: MessageIcon,
+    activeIcon: MessageHoverIcon,
     label: 'Messages',
     path: '/messages',
     noticeCounts: 1,
@@ -30,8 +45,15 @@ const tabs = [
     ),
   },
   {
-    icon: <span className={dynamicsFont.menu} />,
-    activeIcon: <span className={dynamicsFont.menuHover} />,
+    icon: ({ currentPath }) => {
+      if (currentPath === '/contacts') {
+        return <ContactNavIcon />;
+      } else if (currentPath === '/settings') {
+        return <SettingsNavIcon />;
+      }
+      return <MoreMenuIcon />;
+    },
+    activeIcon: MoreMenuHoverIcon,
     label: 'More Menu',
     virtualPath: '!moreMenu',
     isActive: (currentPath, currentVirtualPath) => (
@@ -39,14 +61,14 @@ const tabs = [
     ),
     childTabs: [
       {
-        icon: <span className={dynamicsFont.portrait} />,
-        activeIcon: <span className={dynamicsFont.portrait} />,
+        icon: ContactIcon,
+        activeIcon: ContactHoverIcon,
         label: 'Contacts',
         path: '/contacts',
       },
       {
-        icon: <span className={dynamicsFont.setting} />,
-        activeIcon: <span className={dynamicsFont.settingHover} />,
+        icon: SettingsIcon,
+        activeIcon: SettingsHoverIcon,
         label: 'Settings',
         path: '/settings',
         isActive: currentPath => (

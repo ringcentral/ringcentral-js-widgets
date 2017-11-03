@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import PresenceStatusIcon from '../PresenceStatusIcon';
 import DefaultAvatar from '../../assets/images/DefaultAvatar.svg';
-import GoogleLogo from '../../assets/images/GoogleLogo.svg';
 
 import styles from './styles.scss';
 
@@ -31,24 +30,7 @@ AvatarNode.defaultProps = {
   avatarUrl: undefined,
 };
 
-function SourceNode({ sourceType }) {
-  switch (sourceType) {
-    case 'google':
-      return (<GoogleLogo
-        className={styles.sourceNode}
-      />);
-    default:
-      return null;
-  }
-}
-SourceNode.propTypes = {
-  sourceType: PropTypes.string,
-};
-SourceNode.defaultProps = {
-  sourceType: undefined,
-};
-
-export default class ContactItem extends Component {
+export default class ContactItem extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -110,31 +92,32 @@ export default class ContactItem extends Component {
     const {
       name,
       phoneNumber,
+      entityType,
+      showPhoneNumber,
     } = this.props.contact;
 
-    // TODO:
-    const type = '';
-
+    const { sourceNodeRenderer } = this.props;
+    const sourceNode = sourceNodeRenderer({ sourceType: entityType });
     return (
       <div
         className={styles.root}
         onClick={this.onItemSelected}
       >
         <div className={styles.contactProfile}>
-          <div className={styles.avatarNodeContainer} title={name}>
+          <div className={styles.avatarNodeContainer}>
             <AvatarNode
               name={name}
               avatarUrl={this.state.avatarUrl}
             />
           </div>
           {
-            type ? (
-              <div className={styles.sourceNodeContainer}>
-                <SourceNode
-                  sourceType={type}
-                />
-              </div>
-            ) : null
+            sourceNode
+              ? (
+                <div className={styles.sourceNodeContainer}>
+                  {sourceNode}
+                </div>
+              )
+              : null
           }
           {
             this.state.presence ? (
@@ -151,7 +134,7 @@ export default class ContactItem extends Component {
           {name}
         </div>
         <div className={styles.phoneNumber} title={phoneNumber}>
-          {phoneNumber}
+          {showPhoneNumber ? phoneNumber : null}
         </div>
       </div>
     );
@@ -163,6 +146,7 @@ ContactItem.propTypes = {
     id: PropTypes.string,
     type: PropTypes.string,
     hasProfileImage: PropTypes.bool,
+    showPhoneNumber: PropTypes.bool,
     entityType: PropTypes.string,
     name: PropTypes.string,
     phoneNumber: PropTypes.string,
@@ -171,8 +155,10 @@ ContactItem.propTypes = {
   getAvatarUrl: PropTypes.func.isRequired,
   getPresence: PropTypes.func.isRequired,
   onSelect: PropTypes.func,
+  sourceNodeRenderer: PropTypes.func,
 };
 
 ContactItem.defaultProps = {
   onSelect: undefined,
+  sourceNodeRenderer: () => null,
 };

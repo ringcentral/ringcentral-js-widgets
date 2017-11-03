@@ -2,28 +2,24 @@ import React from 'react';
 // eslint-disable-next-line
 import DropdownNavigationView from 'ringcentral-widget/components/DropdownNavigationView';
 // eslint-disable-next-line
-import dynamicsFont from 'ringcentral-widget/assets/DynamicsFont/DynamicsFont.scss';
+import ContactIcon from 'ringcentral-widget/assets/images/Contact.svg';
+import SettingsIcon from 'ringcentral-widget/assets/images/Settings.svg';
+import ContactHoverIcon from 'ringcentral-widget/assets/images/ContactHover.svg';
+import SettingsHoverIcon from 'ringcentral-widget/assets/images/SettingsHover.svg';
 
 const props = {};
 props.goTo = () => null;
 props.currentPath = '/settings';
 props.tabs = [{
-  icon: (<span className={dynamicsFont.menu} />),
-  activeIcon: (<span className={dynamicsFont.menuHover} />),
-  label: 'More Menu',
-  virtualPath: '!moreMenu',
-  isActive: () => true,
-  childTabs: [{
-    icon: (<span className={dynamicsFont.portrait} />),
-    activeIcon: (<span className={dynamicsFont.portrait} />),
-    label: 'Contacts',
-    path: '/contacts',
-  }, {
-    icon: (<span className={dynamicsFont.setting} />),
-    activeIcon: (<span className={dynamicsFont.settingHover} />),
-    label: 'Settings',
-    path: '/settings',
-  }],
+  icon: ContactIcon,
+  activeIcon: ContactHoverIcon,
+  label: 'Contacts',
+  path: '/contacts',
+}, {
+  icon: SettingsIcon,
+  activeIcon: SettingsHoverIcon,
+  label: 'Settings',
+  path: '/settings',
 }];
 
 /**

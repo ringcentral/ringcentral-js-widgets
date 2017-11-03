@@ -86,11 +86,6 @@ $rowHeight: 50px;
   top: 6px;
   right: 2px;
 
-  .sourceNode {
-    @include reset;
-    width: 100%;
-    height: 100%;
-  }
 }
 
 .presenceNodeContainer {

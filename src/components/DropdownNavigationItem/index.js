@@ -11,7 +11,7 @@ export default function DropdownNavigationItem({
   label,
   noticeCounts,
   onClick,
- }) {
+}) {
   let notice = null;
   if (noticeCounts && noticeCounts > 0) {
     if (noticeCounts > 99) {

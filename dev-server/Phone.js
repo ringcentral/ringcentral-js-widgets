@@ -412,6 +412,7 @@ export default class Phone extends RcModule {
         type: entity.type,
         name: `${entity.firstName} ${entity.lastName}`,
         hasProfileImage: !!entity.hasProfileImage,
+        showPhoneNumber: true,
         phoneNumbers: entity.phoneNumbers,
         phoneNumber: entity.extensionNumber,
         phoneType: 'extension',
