@@ -1,0 +1,22 @@
+@import '../../lib/commonStyles/full-size.scss';
+@import '../../lib/commonStyles/layout.scss';
+
+.root {
+  @include full-size;
+}
+
+.content {
+  @include full-size;
+  overflow-y: auto;
+  height: 94%;
+  max-height: calc(100% - $header-height);
+  box-sizing: border-box;
+  background-color: white;
+  padding: 10px $container-padding-right 10px $container-padding-left;
+}
+
+.select {
+  border: 1px solid #a6a6a6;
+  border-radius: 2px;
+  height: 100%;
+}

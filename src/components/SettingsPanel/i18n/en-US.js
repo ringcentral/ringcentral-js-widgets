@@ -11,5 +11,6 @@ export default {
   autoLogSMS: 'Auto log SMS',
   clickToSMS: 'Click to SMS',
   clickToDialSMS: 'Click to Dial/SMS',
+  audio: 'Audio',
 };
 

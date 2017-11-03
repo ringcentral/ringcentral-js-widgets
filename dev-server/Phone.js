@@ -55,8 +55,9 @@ import ConversationMatcher from 'ringcentral-integration/modules/ConversationMat
 import ConversationLogger from 'ringcentral-integration/modules/ConversationLogger';
 import RecentMessages from 'ringcentral-integration/modules/RecentMessages';
 import RecentCalls from 'ringcentral-integration/modules/RecentCalls';
-
+import AudioSettings from 'ringcentral-integration/modules/AudioSettings';
 import RouterInteraction from '../src/modules/RouterInteraction';
+
 
 export default class Phone extends RcModule {
   constructor({
@@ -175,6 +176,12 @@ export default class Phone extends RcModule {
       getState: () => this.state.storage,
     }));
     reducers.storage = this.storage.reducer;
+    this.addModule('audioSettings', new AudioSettings({
+      ...options,
+      storage: this.storage,
+      getState: () => this.state.audioSettings,
+    }));
+    reducers.audioSettings = this.audioSettings.reducer;
     this.addModule('accountExtension', new AccountExtension({
       ...options,
       auth: this.auth,
@@ -286,6 +293,7 @@ export default class Phone extends RcModule {
       extensionDevice: this.extensionDevice,
       globalStorage: this.globalStorage,
       numberValidate: this.numberValidate,
+      audioSettings: this.audioSettings,
       getState: () => this.state.webphone,
       onCallEnd: (session) => {
         if (this.router.currentPath !== '/calls/active') {
