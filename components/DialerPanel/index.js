@@ -58,7 +58,9 @@ function DialerPanel(_ref) {
       formatPhone = _ref.formatPhone,
       isWebphoneMode = _ref.isWebphoneMode,
       currentLocale = _ref.currentLocale,
-      showSpinner = _ref.showSpinner;
+      showSpinner = _ref.showSpinner,
+      dialButtonVolume = _ref.dialButtonVolume,
+      dialButtonMuted = _ref.dialButtonMuted;
 
   var onCallFunc = function onCallFunc() {
     if (!callButtonDisabled) {
@@ -98,7 +100,9 @@ function DialerPanel(_ref) {
         className: _styles2.default.dialPad,
         onButtonOutput: function onButtonOutput(key) {
           keepToNumber(toNumber + key);
-        }
+        },
+        dialButtonVolume: dialButtonVolume,
+        dialButtonMuted: dialButtonMuted
       }),
       _react2.default.createElement(
         'div',
@@ -134,7 +138,9 @@ DialerPanel.propTypes = {
   })),
   changeFromNumber: _propTypes2.default.func,
   formatPhone: _propTypes2.default.func,
-  showSpinner: _propTypes2.default.bool
+  showSpinner: _propTypes2.default.bool,
+  dialButtonVolume: _propTypes2.default.number,
+  dialButtonMuted: _propTypes2.default.bool
 };
 
 DialerPanel.defaultProps = {
@@ -153,7 +159,9 @@ DialerPanel.defaultProps = {
   formatPhone: function formatPhone(phoneNumber) {
     return phoneNumber;
   },
-  showSpinner: false
+  showSpinner: false,
+  dialButtonVolume: 1,
+  dialButtonMuted: false
 };
 
 exports.default = DialerPanel;

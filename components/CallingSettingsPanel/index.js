@@ -91,9 +91,9 @@ var _DropdownSelect = require('../DropdownSelect');
 
 var _DropdownSelect2 = _interopRequireDefault(_DropdownSelect);
 
-var _Button = require('../Button');
+var _SaveButton = require('../SaveButton');
 
-var _Button2 = _interopRequireDefault(_Button);
+var _SaveButton2 = _interopRequireDefault(_SaveButton);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -242,7 +242,6 @@ var CallingSettingsPanel = function (_Component) {
         _react2.default.createElement(
           _InputField2.default,
           {
-            className: _styles2.default.inputField,
             label: _i18n2.default.getString('myLocationLabel', currentLocale) },
           availableNumbers[this.state.callWith] ? _react2.default.createElement(_DropdownSelect2.default, {
             className: _styles2.default.select,
@@ -287,7 +286,6 @@ var CallingSettingsPanel = function (_Component) {
           _react2.default.createElement(
             _InputField2.default,
             {
-              className: _styles2.default.inputField,
               label: _react2.default.createElement(
                 'span',
                 null,
@@ -330,15 +328,11 @@ var CallingSettingsPanel = function (_Component) {
             })
           ),
           ringout,
-          _react2.default.createElement(
-            _Button2.default,
-            {
-              className: (0, _classnames2.default)(_styles2.default.saveButton, !hasChanges ? _styles2.default.disabled : null),
-              onClick: this.onSave,
-              disabled: !hasChanges
-            },
-            _i18n2.default.getString('save', currentLocale)
-          )
+          _react2.default.createElement(_SaveButton2.default, {
+            currentLocale: currentLocale,
+            onClick: this.onSave,
+            disabled: !hasChanges
+          })
         )
       );
     }

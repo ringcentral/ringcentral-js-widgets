@@ -3,6 +3,9 @@
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/fonts';
 
+.root {
+  padding: 10px 0;
+}
 .label {
   width: 100%;
   display: inline-block;

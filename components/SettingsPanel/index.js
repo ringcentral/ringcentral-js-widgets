@@ -78,6 +78,7 @@ function SettingsPanel(_ref) {
       EulaRenderer = _ref.EulaRenderer,
       onCallingSettingsLinkClick = _ref.onCallingSettingsLinkClick,
       onRegionSettingsLinkClick = _ref.onRegionSettingsLinkClick,
+      onAudioSettingsLinkClick = _ref.onAudioSettingsLinkClick,
       showAutoLog = _ref.showAutoLog,
       autoLogEnabled = _ref.autoLogEnabled,
       onAutoLogChange = _ref.onAutoLogChange,
@@ -184,6 +185,12 @@ function SettingsPanel(_ref) {
         _i18n2.default.getString('calling', currentLocale)
       ),
       region,
+      _react2.default.createElement(
+        _LinkLine2.default,
+        {
+          onClick: onAudioSettingsLinkClick },
+        _i18n2.default.getString('audio', currentLocale)
+      ),
       presenceSetting,
       children,
       autoLog,
@@ -232,6 +239,7 @@ function SettingsPanel(_ref) {
 SettingsPanel.propTypes = {
   brandId: _propTypes2.default.string.isRequired,
   onCallingSettingsLinkClick: _propTypes2.default.func.isRequired,
+  onAudioSettingsLinkClick: _propTypes2.default.func.isRequired,
   children: _propTypes2.default.node,
   className: _propTypes2.default.string,
   currentLocale: _propTypes2.default.string.isRequired,

@@ -68,14 +68,6 @@ var _Button = require('../Button');
 
 var _Button2 = _interopRequireDefault(_Button);
 
-var _Revert = require('../../assets/images/Revert.svg');
-
-var _Revert2 = _interopRequireDefault(_Revert);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**

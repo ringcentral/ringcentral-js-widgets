@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.propTypes = exports.mapToProps = exports.mapToFunctions = undefined;
+exports.default = exports.mapToProps = exports.mapToFunctions = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -12,10 +12,6 @@ var _regenerator2 = _interopRequireDefault(_regenerator);
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactRedux = require('react-redux');
 
@@ -27,42 +23,6 @@ var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
 
-var _AccountInfo = require('ringcentral-integration/modules/AccountInfo');
-
-var _AccountInfo2 = _interopRequireDefault(_AccountInfo);
-
-var _Auth = require('ringcentral-integration/modules/Auth');
-
-var _Auth2 = _interopRequireDefault(_Auth);
-
-var _Brand = require('ringcentral-integration/modules/Brand');
-
-var _Brand2 = _interopRequireDefault(_Brand);
-
-var _ExtensionInfo = require('ringcentral-integration/modules/ExtensionInfo');
-
-var _ExtensionInfo2 = _interopRequireDefault(_ExtensionInfo);
-
-var _Locale = require('ringcentral-integration/modules/Locale');
-
-var _Locale2 = _interopRequireDefault(_Locale);
-
-var _RegionSettings = require('ringcentral-integration/modules/RegionSettings');
-
-var _RegionSettings2 = _interopRequireDefault(_RegionSettings);
-
-var _RolesAndPermissions = require('ringcentral-integration/modules/RolesAndPermissions');
-
-var _RolesAndPermissions2 = _interopRequireDefault(_RolesAndPermissions);
-
-var _Presence = require('ringcentral-integration/modules/Presence');
-
-var _Presence2 = _interopRequireDefault(_Presence);
-
-var _RouterInteraction = require('../../modules/RouterInteraction');
-
-var _RouterInteraction2 = _interopRequireDefault(_RouterInteraction);
-
 var _SettingsPanel = require('../../components/SettingsPanel');
 
 var _SettingsPanel2 = _interopRequireDefault(_SettingsPanel);
@@ -70,16 +30,17 @@ var _SettingsPanel2 = _interopRequireDefault(_SettingsPanel);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
-  var accountInfo = _ref.accountInfo,
-      auth = _ref.auth,
-      brand = _ref.brand,
-      extensionInfo = _ref.extensionInfo,
-      locale = _ref.locale,
-      regionSettings = _ref.regionSettings,
-      callingSettings = _ref.callingSettings,
-      version = _ref.version,
-      rolesAndPermissions = _ref.rolesAndPermissions,
-      presence = _ref.presence,
+  var _ref$phone = _ref.phone,
+      accountInfo = _ref$phone.accountInfo,
+      auth = _ref$phone.auth,
+      brand = _ref$phone.brand,
+      extensionInfo = _ref$phone.extensionInfo,
+      locale = _ref$phone.locale,
+      regionSettings = _ref$phone.regionSettings,
+      callingSettings = _ref$phone.callingSettings,
+      version = _ref$phone.version,
+      rolesAndPermissions = _ref$phone.rolesAndPermissions,
+      presence = _ref$phone.presence,
       params = _ref.params;
 
   var loginNumber = '';
@@ -117,11 +78,16 @@ function mapToProps(_, _ref) {
 function mapToFunctions(_, _ref2) {
   var _this = this;
 
-  var auth = _ref2.auth,
-      presence = _ref2.presence,
-      router = _ref2.router,
-      regionSettingsUrl = _ref2.regionSettingsUrl,
-      callingSettingsUrl = _ref2.callingSettingsUrl;
+  var _ref2$phone = _ref2.phone,
+      auth = _ref2$phone.auth,
+      presence = _ref2$phone.presence,
+      router = _ref2$phone.router,
+      _ref2$regionSettingsU = _ref2.regionSettingsUrl,
+      regionSettingsUrl = _ref2$regionSettingsU === undefined ? '/settings/region' : _ref2$regionSettingsU,
+      _ref2$callingSettings = _ref2.callingSettingsUrl,
+      callingSettingsUrl = _ref2$callingSettings === undefined ? '/settings/calling' : _ref2$callingSettings,
+      _ref2$audioSettingsUr = _ref2.audioSettingsUrl,
+      audioSettingsUrl = _ref2$audioSettingsUr === undefined ? '/settings/audio' : _ref2$audioSettingsUr;
 
   return {
     onLogoutButtonClick: function () {
@@ -151,6 +117,9 @@ function mapToFunctions(_, _ref2) {
     onCallingSettingsLinkClick: function onCallingSettingsLinkClick() {
       router.push(callingSettingsUrl);
     },
+    onAudioSettingsLinkClick: function onAudioSettingsLinkClick() {
+      router.push(audioSettingsUrl);
+    },
     setAvailable: function setAvailable() {
       return presence && presence.setAvailable.apply(presence, arguments);
     },
@@ -170,26 +139,7 @@ function mapToFunctions(_, _ref2) {
 }
 var SettingsPage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_SettingsPanel2.default);
 
-var propTypes = {
-  accountInfo: _propTypes2.default.instanceOf(_AccountInfo2.default).isRequired,
-  auth: _propTypes2.default.instanceOf(_Auth2.default).isRequired,
-  brand: _propTypes2.default.instanceOf(_Brand2.default).isRequired,
-  extensionInfo: _propTypes2.default.instanceOf(_ExtensionInfo2.default).isRequired,
-  locale: _propTypes2.default.instanceOf(_Locale2.default).isRequired,
-  regionSettings: _propTypes2.default.instanceOf(_RegionSettings2.default).isRequired,
-  callingSettingsUrl: _propTypes2.default.string.isRequired,
-  regionSettingsUrl: _propTypes2.default.string.isRequired,
-  version: _propTypes2.default.string.isRequired,
-  rolesAndPermissions: _propTypes2.default.instanceOf(_RolesAndPermissions2.default).isRequired,
-  presence: _propTypes2.default.instanceOf(_Presence2.default),
-  router: _propTypes2.default.instanceOf(_RouterInteraction2.default),
-  callingSettings: _propTypes2.default.object.isRequired
-};
-
-SettingsPage.propTypes = propTypes;
-
 exports.mapToFunctions = mapToFunctions;
 exports.mapToProps = mapToProps;
-exports.propTypes = propTypes;
 exports.default = SettingsPage;
 //# sourceMappingURL=index.js.map

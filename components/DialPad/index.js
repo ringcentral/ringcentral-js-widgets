@@ -47,7 +47,9 @@ function DialPad(props) {
             className: _styles2.default.btnPlaceholder,
             onPress: props.onButtonPress,
             onOutput: props.onButtonOutput,
-            alternativeTimeout: props.alternativeTimeout
+            alternativeTimeout: props.alternativeTimeout,
+            volume: props.dialButtonVolume,
+            muted: props.dialButtonMuted
           });
         })
       );
@@ -60,7 +62,9 @@ DialPad.propTypes = {
   hideSpecial: _propTypes2.default.bool,
   onButtonPress: _propTypes2.default.func,
   onButtonOutput: _propTypes2.default.func,
-  alternativeTimeout: _propTypes2.default.number
+  alternativeTimeout: _propTypes2.default.number,
+  dialButtonVolume: _propTypes2.default.number,
+  dialButtonMuted: _propTypes2.default.bool
 };
 
 DialPad.defaultProps = {
@@ -68,6 +72,8 @@ DialPad.defaultProps = {
   hideSpecial: false,
   onButtonPress: undefined,
   onButtonOutput: undefined,
-  alternativeTimeout: undefined
+  alternativeTimeout: undefined,
+  dialButtonVolume: 1,
+  dialButtonMuted: false
 };
 //# sourceMappingURL=index.js.map

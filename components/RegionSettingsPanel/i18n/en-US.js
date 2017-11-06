@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  save: 'Save',
   title: 'Region',
   NAOnlyMessage: 'Please set your area code. This will be used for local dialing.',
   MultiWithNAMessage: 'Please set the country and area code for your region. This will be used for local dialing and phone number formatting.',

@@ -57,13 +57,9 @@ var _DropdownSelect = require('../DropdownSelect');
 
 var _DropdownSelect2 = _interopRequireDefault(_DropdownSelect);
 
-var _Button = require('../Button');
+var _SaveButton = require('../SaveButton');
 
-var _Button2 = _interopRequireDefault(_Button);
-
-var _Revert = require('../../assets/images/Revert.svg');
-
-var _Revert2 = _interopRequireDefault(_Revert);
+var _SaveButton2 = _interopRequireDefault(_SaveButton);
 
 var _styles = require('./styles.scss');
 
@@ -207,7 +203,6 @@ var RegionSettings = function (_Component) {
           _react2.default.createElement(
             _InputField2.default,
             {
-              className: _styles2.default.inputField,
               label: _i18n2.default.getString('country', this.props.currentLocale) },
             _react2.default.createElement(_DropdownSelect2.default, {
               className: _styles2.default.select,
@@ -226,7 +221,6 @@ var RegionSettings = function (_Component) {
           showAreaCode && _react2.default.createElement(
             _InputField2.default,
             {
-              className: _styles2.default.inputField,
               label: _i18n2.default.getString('areaCode', this.props.currentLocale) },
             _react2.default.createElement(_TextInput2.default, {
               placeholder: _i18n2.default.getString('areaCodePlaceholder', this.props.currentLocale),
@@ -235,15 +229,11 @@ var RegionSettings = function (_Component) {
               value: this.state.areaCodeValue,
               onChange: this.onAreaCodeChange })
           ),
-          _react2.default.createElement(
-            _Button2.default,
-            {
-              className: (0, _classnames2.default)(_styles2.default.saveButton, !hasChanges ? _styles2.default.disabled : null),
-              onClick: this.onSaveClick,
-              disabled: !hasChanges
-            },
-            _i18n2.default.getString('save', this.props.currentLocale)
-          ),
+          _react2.default.createElement(_SaveButton2.default, {
+            currentLocale: this.props.currentLocale,
+            onClick: this.onSaveClick,
+            disabled: !hasChanges
+          }),
           this.props.children
         )
       );

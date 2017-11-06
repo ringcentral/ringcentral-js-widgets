@@ -37,6 +37,9 @@ Switch.propTypes = {
   checked: _propTypes2.default.bool,
   onChange: _propTypes2.default.func
 };
-
+Switch.defaultProps = {
+  checked: false,
+  onChange: undefined
+};
 exports.default = Switch;
 //# sourceMappingURL=index.js.map

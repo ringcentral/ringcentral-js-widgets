@@ -73,6 +73,8 @@ var DialButton = function (_Component) {
     }
     _this.onMouseDown = function () {
       if (_this.audio && _this.audio.canPlayType('audio/ogg') !== '') {
+        _this.audio.volume = _this.props.volume;
+        _this.audio.muted = _this.props.muted;
         _this.audio.currentTime = 0;
         _this.audio.play();
       }
@@ -192,13 +194,17 @@ DialButton.propTypes = {
   className: _propTypes2.default.string,
   onPress: _propTypes2.default.func,
   onOutput: _propTypes2.default.func,
-  alternativeTimeout: _propTypes2.default.number
+  alternativeTimeout: _propTypes2.default.number,
+  volume: _propTypes2.default.number,
+  muted: _propTypes2.default.bool
 };
 
 DialButton.defaultProps = {
   className: null,
   onPress: undefined,
   onOutput: undefined,
-  alternativeTimeout: undefined
+  alternativeTimeout: undefined,
+  volume: 1,
+  muted: false
 };
 //# sourceMappingURL=index.js.map
