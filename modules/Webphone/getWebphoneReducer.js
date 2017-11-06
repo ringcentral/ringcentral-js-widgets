@@ -11,7 +11,6 @@ exports.getActiveSessionIdReducer = getActiveSessionIdReducer;
 exports.getRingSessionIdReducer = getRingSessionIdReducer;
 exports.getLastEndedSessionsReducer = getLastEndedSessionsReducer;
 exports.getSessionsReducer = getSessionsReducer;
-exports.getUserMediaReducer = getUserMediaReducer;
 exports.default = getWebphoneReducer;
 
 var _redux = require('redux');
@@ -210,21 +209,6 @@ function getSessionsReducer(types) {
         return sessions;
       case types.destroySessions:
         return [];
-      default:
-        return state;
-    }
-  };
-}
-
-function getUserMediaReducer(types) {
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
-    var _ref9 = arguments[1];
-    var type = _ref9.type;
-
-    switch (type) {
-      case types.getUserMediaSuccess:
-        return true;
       default:
         return state;
     }

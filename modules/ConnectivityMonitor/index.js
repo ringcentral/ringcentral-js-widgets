@@ -9,14 +9,6 @@ var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-pr
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
-var _regenerator = require('babel-runtime/regenerator');
-
-var _regenerator2 = _interopRequireDefault(_regenerator);
-
-var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
-
-var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -45,7 +37,42 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
+var _regenerator = require('babel-runtime/regenerator');
+
+var _regenerator2 = _interopRequireDefault(_regenerator);
+
+var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
+
+var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+
 var _dec, _class, _desc, _value, _class2;
+
+var defaultCheckConnectionFn = function () {
+  var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+    return _regenerator2.default.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            return _context.abrupt('return', fetch('https://pubsub.pubnub.com/time/0'));
+
+          case 1:
+          case 'end':
+            return _context.stop();
+        }
+      }
+    }, _callee, this);
+  }));
+
+  return function defaultCheckConnectionFn() {
+    return _ref.apply(this, arguments);
+  };
+}();
+
+/**
+ * @class
+ * @description Connectivity monitor module
+ */
+
 
 require('isomorphic-fetch');
 
@@ -113,12 +140,6 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 var DEFAULT_TIME_TO_RETRY = exports.DEFAULT_TIME_TO_RETRY = 5 * 1000;
 var DEFAULT_HEART_BEAT_INTERVAL = exports.DEFAULT_HEART_BEAT_INTERVAL = 60 * 1000;
 
-var DEFAULT_CHECK_URI = 'https://dnyg0s5c46.execute-api.us-west-1.amazonaws.com/Prod/getnetworkstatus';
-
-/**
- * @class
- * @description Connectivity monitor module
- */
 var ConnectivityMonitor = (_dec = (0, _di.Module)({
   deps: ['Alert', 'Client', 'Environment', { dep: 'ConnectivityMonitorOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
@@ -134,18 +155,19 @@ var ConnectivityMonitor = (_dec = (0, _di.Module)({
    * @param {Number} params.heartBeatInterval - heart beat interval
    * @param {Function} params.checkConnectionFunc - function to check network
    */
-  function ConnectivityMonitor(_ref) {
+  function ConnectivityMonitor(_ref2) {
     var _this2 = this;
 
-    var alert = _ref.alert,
-        client = _ref.client,
-        environment = _ref.environment,
-        _ref$timeToRetry = _ref.timeToRetry,
-        timeToRetry = _ref$timeToRetry === undefined ? DEFAULT_TIME_TO_RETRY : _ref$timeToRetry,
-        _ref$heartBeatInterva = _ref.heartBeatInterval,
-        heartBeatInterval = _ref$heartBeatInterva === undefined ? DEFAULT_HEART_BEAT_INTERVAL : _ref$heartBeatInterva,
-        checkConnectionFunc = _ref.checkConnectionFunc,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['alert', 'client', 'environment', 'timeToRetry', 'heartBeatInterval', 'checkConnectionFunc']);
+    var alert = _ref2.alert,
+        client = _ref2.client,
+        environment = _ref2.environment,
+        _ref2$timeToRetry = _ref2.timeToRetry,
+        timeToRetry = _ref2$timeToRetry === undefined ? DEFAULT_TIME_TO_RETRY : _ref2$timeToRetry,
+        _ref2$heartBeatInterv = _ref2.heartBeatInterval,
+        heartBeatInterval = _ref2$heartBeatInterv === undefined ? DEFAULT_HEART_BEAT_INTERVAL : _ref2$heartBeatInterv,
+        _ref2$checkConnection = _ref2.checkConnectionFunc,
+        checkConnectionFunc = _ref2$checkConnection === undefined ? defaultCheckConnectionFn : _ref2$checkConnection,
+        options = (0, _objectWithoutProperties3.default)(_ref2, ['alert', 'client', 'environment', 'timeToRetry', 'heartBeatInterval', 'checkConnectionFunc']);
     (0, _classCallCheck3.default)(this, ConnectivityMonitor);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (ConnectivityMonitor.__proto__ || (0, _getPrototypeOf2.default)(ConnectivityMonitor)).call(this, (0, _extends3.default)({}, options, {
@@ -166,46 +188,32 @@ var ConnectivityMonitor = (_dec = (0, _di.Module)({
     _this._requestSuccessHandler = _this._requestSuccessHandler.bind(_this);
     _this._requestErrorHandler = _this._requestErrorHandler.bind(_this);
 
-    _this._checkConnectionFunc = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-      return _regenerator2.default.wrap(function _callee$(_context) {
+    _this._checkConnectionFunc = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
+      return _regenerator2.default.wrap(function _callee2$(_context2) {
         while (1) {
-          switch (_context.prev = _context.next) {
+          switch (_context2.prev = _context2.next) {
             case 0:
-              _context.prev = 0;
-
-              if (!(typeof checkConnectionFunc === 'function')) {
-                _context.next = 6;
-                break;
-              }
-
-              _context.next = 4;
+              _context2.prev = 0;
+              _context2.next = 3;
               return checkConnectionFunc();
 
-            case 4:
-              _context.next = 8;
+            case 3:
+              _this._requestSuccessHandler();
+              _context2.next = 9;
               break;
 
             case 6:
-              _context.next = 8;
-              return fetch(DEFAULT_CHECK_URI);
+              _context2.prev = 6;
+              _context2.t0 = _context2['catch'](0);
 
-            case 8:
-              _this._requestSuccessHandler();
-              _context.next = 14;
-              break;
+              _this._requestErrorHandler(_context2.t0);
 
-            case 11:
-              _context.prev = 11;
-              _context.t0 = _context['catch'](0);
-
-              _this._requestErrorHandler(_context.t0);
-
-            case 14:
+            case 9:
             case 'end':
-              return _context.stop();
+              return _context2.stop();
           }
         }
-      }, _callee, _this2, [[0, 11]]);
+      }, _callee2, _this2, [[0, 6]]);
     }));
     return _this;
   }
@@ -272,10 +280,10 @@ var ConnectivityMonitor = (_dec = (0, _di.Module)({
   }, {
     key: 'showAlert',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-        return _regenerator2.default.wrap(function _callee2$(_context2) {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 if (!this.connectivity && this._alert) {
                   this._alert.danger({
@@ -286,14 +294,14 @@ var ConnectivityMonitor = (_dec = (0, _di.Module)({
 
               case 1:
               case 'end':
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
       function showAlert() {
-        return _ref3.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       }
 
       return showAlert;
@@ -337,33 +345,33 @@ var ConnectivityMonitor = (_dec = (0, _di.Module)({
   }, {
     key: '_checkConnection',
     value: function () {
-      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context3.prev = 0;
-                _context3.next = 3;
+                _context4.prev = 0;
+                _context4.next = 3;
                 return this._checkConnectionFunc();
 
               case 3:
-                _context3.next = 7;
+                _context4.next = 7;
                 break;
 
               case 5:
-                _context3.prev = 5;
-                _context3.t0 = _context3['catch'](0);
+                _context4.prev = 5;
+                _context4.t0 = _context4['catch'](0);
 
               case 7:
               case 'end':
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this, [[0, 5]]);
+        }, _callee4, this, [[0, 5]]);
       }));
 
       function _checkConnection() {
-        return _ref4.apply(this, arguments);
+        return _ref5.apply(this, arguments);
       }
 
       return _checkConnection;

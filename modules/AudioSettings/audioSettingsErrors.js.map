@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/AudioSettings/audioSettingsErrors.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,qBADsB,CAAT,EAEZ,eAFY,C","file":"audioSettingsErrors.js","sourcesContent":["import Enum from '../../lib/Enum';\r\n\r\nexport default new Enum([\r\n  'userMediaPermission',\r\n], 'audioSettings');\r\n"]}
