@@ -1,24 +1,22 @@
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
-
-import Locale from 'ringcentral-integration/modules/Locale';
-import CallingSettings from 'ringcentral-integration/modules/CallingSettings';
 import callingModes from 'ringcentral-integration/modules/CallingSettings/callingModes';
-
-import Call from 'ringcentral-integration/modules/Call';
-import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
-import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 
 import DialerPanel from '../../components/DialerPanel';
 
 function mapToProps(_, {
-  call,
-  callingSettings,
-  connectivityMonitor,
-  locale,
-  rateLimiter,
-  webphone,
+  phone: {
+    call,
+    callingSettings,
+    connectivityMonitor,
+    locale,
+    rateLimiter,
+    webphone,
+    audioSettings: {
+      dialButtonVolume,
+      dialButtonMuted,
+    },
+  }
 }) {
   const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
   const waitingWebphoneConnected = (isWebphoneMode && webphone && webphone.connecting);
@@ -43,13 +41,17 @@ function mapToProps(_, {
       connectivityMonitor.ready &&
       (!isWebphoneMode || !webphone || !waitingWebphoneConnected)
     ),
+    dialButtonVolume,
+    dialButtonMuted,
   };
 }
 
 function mapToFunctions(_, {
-  call,
-  callingSettings,
-  regionSettings,
+  phone: {
+    call,
+    callingSettings,
+    regionSettings,
+  }
 }) {
   return {
     keepToNumber: (value) => {
@@ -72,19 +74,8 @@ const DialerPage = connect(
   mapToFunctions,
 )(DialerPanel);
 
-const propTypes = {
-  call: PropTypes.instanceOf(Call).isRequired,
-  callingSettings: PropTypes.instanceOf(CallingSettings).isRequired,
-  connectivityMonitor: PropTypes.instanceOf(ConnectivityMonitor).isRequired,
-  locale: PropTypes.instanceOf(Locale).isRequired,
-  rateLimiter: PropTypes.instanceOf(RateLimiter).isRequired,
-};
-
-DialerPage.propTypes = propTypes;
-
 export {
   mapToFunctions,
   mapToProps,
-  propTypes,
   DialerPage as default,
 };

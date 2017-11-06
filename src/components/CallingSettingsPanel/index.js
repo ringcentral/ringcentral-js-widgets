@@ -18,7 +18,7 @@ import IconField from '../IconField';
 import InputField from '../InputField';
 import TextInput from '../TextInput';
 import Select from '../DropdownSelect';
-import Button from '../Button';
+import SaveButton from '../SaveButton';
 
 export default class CallingSettingsPanel extends Component {
   constructor(props) {
@@ -152,7 +152,6 @@ export default class CallingSettingsPanel extends Component {
             {i18n.getString('ringoutHint', currentLocale)}
           </div>
           <InputField
-            className={styles.inputField}
             label={i18n.getString('myLocationLabel', currentLocale)}>
             {
               availableNumbers[this.state.callWith] ? (
@@ -197,7 +196,6 @@ export default class CallingSettingsPanel extends Component {
         </BackHeader>
         <Panel className={styles.content}>
           <InputField
-            className={styles.inputField}
             label={
               <span>
                 {i18n.getString('makeCallsWith', currentLocale)}
@@ -236,13 +234,11 @@ export default class CallingSettingsPanel extends Component {
             />
           </InputField>
           {ringout}
-          <Button
-            className={classnames(styles.saveButton, !hasChanges ? styles.disabled : null)}
+          <SaveButton
+            currentLocale={currentLocale}
             onClick={this.onSave}
             disabled={!hasChanges}
-          >
-            {i18n.getString('save', currentLocale)}
-          </Button>
+          />
         </Panel>
       </div>
     );

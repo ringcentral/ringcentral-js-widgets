@@ -8,6 +8,7 @@ import AlertContainer from '../../../src/containers/AlertContainer';
 import WelcomePage from '../../../src/containers/WelcomePage';
 import CallingSettingsPage from '../../../src/containers/CallingSettingsPage';
 import RegionSettingsPage from '../../../src/containers/RegionSettingsPage';
+import AudioSettingsPage from '../../../src/containers/AudioSettingsPage';
 import DialerPage from '../../../src/containers/DialerPage';
 import ComposeTextPage from '../../../src/containers/ComposeTextPage';
 import ConversationPage from '../../../src/containers/ConversationPage';
@@ -144,13 +145,7 @@ export default function App({
               path="dialer"
               component={() => (
                 <DialerPage
-                  call={phone.call}
-                  callingSettings={phone.callingSettings}
-                  connectivityMonitor={phone.connectivityMonitor}
-                  locale={phone.locale}
-                  rateLimiter={phone.rateLimiter}
-                  regionSettings={phone.regionSettings}
-                  webphone={phone.webphone}
+                  phone={phone}
                 />
               )} />
             <Route
@@ -158,19 +153,7 @@ export default function App({
               component={routerProps => (
                 <SettingsPage
                   params={routerProps.location.query}
-                  auth={phone.auth}
-                  extensionInfo={phone.extensionInfo}
-                  accountInfo={phone.accountInfo}
-                  regionSettings={phone.regionSettings}
-                  version={phone.version}
-                  locale={phone.locale}
-                  brand={phone.brand}
-                  router={phone.router}
-                  rolesAndPermissions={phone.rolesAndPermissions}
-                  callingSettings={phone.callingSettings}
-                  presence={phone.presence}
-                  regionSettingsUrl="/settings/region"
-                  callingSettingsUrl="/settings/calling"
+                  phone={phone}
                 />
               )}
             />
@@ -192,6 +175,13 @@ export default function App({
                   locale={phone.locale}
                   router={phone.router}
                   webphone={phone.webphone}
+                />
+              )} />
+            <Route
+              path="/settings/audio"
+              component={() => (
+                <AudioSettingsPage
+                  phone={phone}
                 />
               )} />
             <Route
