@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 import AudioSettingsPanel from '../../components/AudioSettingsPanel';
 
 
@@ -15,9 +16,13 @@ function mapToProps(_, {
       availableOutputDevices,
       outputDeviceId,
       supportDevices,
+      userMedia,
     },
     locale: {
       currentLocale,
+    },
+    callingSettings: {
+      callWith,
     },
   },
 }) {
@@ -33,6 +38,8 @@ function mapToProps(_, {
     availableOutputDevices,
     outputDeviceId,
     supportDevices,
+    userMedia,
+    isWebRTC: callWith === callingOptions.browser,
   };
 }
 
@@ -48,6 +55,9 @@ function mapToFunctions(_, {
     },
     onSave: (data) => {
       audioSettings.setData(data);
+    },
+    checkUserMedia: () => {
+      audioSettings.getUserMedia();
     },
   };
 }

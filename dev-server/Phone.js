@@ -178,6 +178,7 @@ export default class Phone extends RcModule {
     reducers.storage = this.storage.reducer;
     this.addModule('audioSettings', new AudioSettings({
       ...options,
+      alert: this.alert,
       storage: this.storage,
       getState: () => this.state.audioSettings,
     }));

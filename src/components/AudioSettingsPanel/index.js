@@ -10,7 +10,9 @@ import BackHeader from '../BackHeader';
 import Panel from '../Panel';
 import InputField from '../InputField';
 import Select from '../DropdownSelect';
+import Button from '../Button';
 import SaveButton from '../SaveButton';
+import IconLine from '../IconLine';
 
 export default class AudioSettingsPanel extends Component {
   constructor(props) {
@@ -145,14 +147,16 @@ export default class AudioSettingsPanel extends Component {
   renderDeviceValue(device) {
     return device.deviceId;
   }
-  renderOutputDevice = value => (
-    this.props.availableOutputDevices
-      .find(device => device.deviceId === value).label
-  )
-  renderInputDevice = value => (
-    this.props.availableInputDevices
-      .find(device => device.deviceId === value).label
-  )
+  renderOutputDevice = (value) => {
+    const device = this.props.availableOutputDevices
+      .find(device => device.deviceId === value);
+    return device && device.label || value;
+  }
+  renderInputDevice = (value) => {
+    const device = this.props.availableInputDevices
+      .find(device => device.deviceId === value);
+    return device && device.label || value;
+  }
 
   render() {
     const {
@@ -162,6 +166,9 @@ export default class AudioSettingsPanel extends Component {
       availableOutputDevices,
       availableInputDevices,
       supportDevices,
+      userMedia,
+      isWebRTC,
+      checkUserMedia,
     } = this.props;
     const {
       dialButtonVolume,
@@ -182,7 +189,35 @@ export default class AudioSettingsPanel extends Component {
       this.props.outputDeviceId !== outputDeviceId
     );
 
-    const devices = supportDevices ?
+    // TODO improve UI and add i18n support
+    const permission = (userMedia && isWebRTC) ?
+    null :
+    (
+      <IconLine
+        noBorder
+        icon={<Button onClick={checkUserMedia}>Check Permission</Button>}
+      >
+        The app does not have permission to use microphone
+      </IconLine>
+    );
+
+    const webphoneVolume = isWebRTC ?
+    (
+      <div>
+        <InputField
+          label={i18n.getString('ringtoneVolume', currentLocale)}
+        >
+          {`${ringtoneVolume * 100}%`}
+        </InputField>
+        <InputField
+          label={i18n.getString('callVolume', currentLocale)}
+        >
+          {`${callVolume * 100}%`}
+        </InputField>
+      </div>
+    ) : null;
+
+    const devices = (supportDevices && userMedia && isWebRTC) ?
     (
       <div>
         <InputField
@@ -233,17 +268,9 @@ export default class AudioSettingsPanel extends Component {
           >
             {`${dialButtonVolume * 100}%`}
           </InputField>
-          <InputField
-            label={i18n.getString('ringtoneVolume', currentLocale)}
-          >
-            {`${ringtoneVolume * 100}%`}
-          </InputField>
-          <InputField
-            label={i18n.getString('callVolume', currentLocale)}
-          >
-            {`${callVolume * 100}%`}
-          </InputField>
+          {webphoneVolume}
           {devices}
+          {permission}
           <SaveButton
             currentLocale={currentLocale}
             onClick={this.onSave}
@@ -275,6 +302,9 @@ AudioSettingsPanel.propTypes = {
   outputDeviceId: PropTypes.string.isRequired,
   supportDevices: PropTypes.bool.isRequired,
   onSave: PropTypes.func.isRequired,
+  userMedia: PropTypes.bool.isRequired,
+  isWebRTC: PropTypes.bool.isRequired,
+  checkUserMedia: PropTypes.func.isRequired,
 };
 
 AudioSettingsPanel.defaultProps = {
