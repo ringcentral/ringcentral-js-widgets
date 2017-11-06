@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import MessageList from 'ringcentral-widget/components/MessageList';
+import MessageList from 'ringcentral-widgets/components/MessageList';
 
 const props = {};
 props.currentLocale = 'en-US';

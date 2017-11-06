@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widget/components/TabNavigationButton';
+import componentCode from '!raw-loader!ringcentral-widgets/components/TabNavigationButton';
 
 const TabNavigationButtonPage = () => {
   const info = parse(componentCode);

@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import OfflineModeBadge from 'ringcentral-widget/components/OfflineModeBadge';
+import OfflineModeBadge from 'ringcentral-widgets/components/OfflineModeBadge';
 
 const props = {};
 props.offline = true;
