@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import RecentActivityCalls from 'ringcentral-widget/components/RecentActivityCalls';
+import RecentActivityCalls from 'ringcentral-widgets/components/RecentActivityCalls';
 
 const props = {};
 props.currentLocale = 'en-US';

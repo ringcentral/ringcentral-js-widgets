@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import CallingSettingsPanel from 'ringcentral-widget/components/CallingSettingsPanel';
+import CallingSettingsPanel from 'ringcentral-widgets/components/CallingSettingsPanel';
 
 const props = {};
 props.brand = 'test string';

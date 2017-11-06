@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widget/components/Draggable';
+import componentCode from '!raw-loader!ringcentral-widgets/components/Draggable';
 
 const DraggablePage = () => {
   const info = parse(componentCode);

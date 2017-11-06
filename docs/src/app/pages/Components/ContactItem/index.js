@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widget/components/ContactItem';
+import componentCode from '!raw-loader!ringcentral-widgets/components/ContactItem';
 
 const ContactItemPage = () => {
   const info = parse(componentCode);

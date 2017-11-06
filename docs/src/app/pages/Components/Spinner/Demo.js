@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import Spinner from 'ringcentral-widget/components/Spinner';
+import Spinner from 'ringcentral-widgets/components/Spinner';
 
 const props = {};
 

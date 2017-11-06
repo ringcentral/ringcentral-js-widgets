@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widget/components/InputLine';
+import componentCode from '!raw-loader!ringcentral-widgets/components/InputLine';
 
 const InputLinePage = () => {
   const info = parse(componentCode);

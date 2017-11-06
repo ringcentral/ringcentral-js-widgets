@@ -1,11 +1,11 @@
 import React from 'react';
 // eslint-disable-next-line
-import DropdownNavigationView from 'ringcentral-widget/components/DropdownNavigationView';
+import DropdownNavigationView from 'ringcentral-widgets/components/DropdownNavigationView';
 // eslint-disable-next-line
-import ContactIcon from 'ringcentral-widget/assets/images/Contact.svg';
-import SettingsIcon from 'ringcentral-widget/assets/images/Settings.svg';
-import ContactHoverIcon from 'ringcentral-widget/assets/images/ContactHover.svg';
-import SettingsHoverIcon from 'ringcentral-widget/assets/images/SettingsHover.svg';
+import ContactIcon from 'ringcentral-widgets/assets/images/Contact.svg';
+import SettingsIcon from 'ringcentral-widgets/assets/images/Settings.svg';
+import ContactHoverIcon from 'ringcentral-widgets/assets/images/ContactHover.svg';
+import SettingsHoverIcon from 'ringcentral-widgets/assets/images/SettingsHover.svg';
 
 const props = {};
 props.goTo = () => null;

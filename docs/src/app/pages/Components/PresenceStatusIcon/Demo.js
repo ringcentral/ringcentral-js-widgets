@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import PresenceStatusIcon from 'ringcentral-widget/components/PresenceStatusIcon';
+import PresenceStatusIcon from 'ringcentral-widgets/components/PresenceStatusIcon';
 
 const props = {};
 props.userStatus = 'Available';

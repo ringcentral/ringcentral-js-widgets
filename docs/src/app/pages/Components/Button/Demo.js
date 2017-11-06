@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import Button from 'ringcentral-widget/components/Button';
+import Button from 'ringcentral-widgets/components/Button';
 
 /**
  * A example of `Button`

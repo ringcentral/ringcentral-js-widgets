@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import RecentActivityMessages from 'ringcentral-widget/components/RecentActivityMessages';
+import RecentActivityMessages from 'ringcentral-widgets/components/RecentActivityMessages';
 
 const props = {};
 props.currentLocale = 'en-US';

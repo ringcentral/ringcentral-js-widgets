@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import SlideMenu from 'ringcentral-widget/components/SlideMenu';
+import SlideMenu from 'ringcentral-widgets/components/SlideMenu';
 
 const props = {};
 
