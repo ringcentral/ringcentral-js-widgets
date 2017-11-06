@@ -117,6 +117,10 @@ ajv@^5.0.0, ajv@^5.1.5:
     json-schema-traverse "^0.3.0"
     json-stable-stringify "^1.0.1"
 
+alias-webpack-plugin@^1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/alias-webpack-plugin/-/alias-webpack-plugin-1.0.5.tgz#2e3d5c03b276dbacf29d72b5c5ee02073fcdcc3b"
+
 align-text@^0.1.1, align-text@^0.1.3:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/align-text/-/align-text-0.1.4.tgz#0cd90a561093f35d0a99256c22b7069433fad117"
@@ -6675,7 +6679,7 @@ ringcentral-client@^1.0.0-rc1:
 
 "ringcentral-integration@https://github.com/ringcentral/ringcentral-js-integration-commons#latest":
   version "0.1.0"
-  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#88fe99bdf9f2a1d7854679f358255bcfed11ba43"
+  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#a694146ccdb64984b55f856bf0e10f1b81cd2641"
   dependencies:
     file-loader "^0.11.2"
     json-mask "^0.3.8"

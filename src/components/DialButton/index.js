@@ -19,6 +19,8 @@ export default class DialButton extends Component {
     }
     this.onMouseDown = () => {
       if (this.audio && this.audio.canPlayType('audio/ogg') !== '') {
+        this.audio.volume = this.props.volume;
+        this.audio.muted = this.props.muted;
         this.audio.currentTime = 0;
         this.audio.play();
       }
@@ -130,6 +132,8 @@ DialButton.propTypes = {
   onPress: PropTypes.func,
   onOutput: PropTypes.func,
   alternativeTimeout: PropTypes.number,
+  volume: PropTypes.number,
+  muted: PropTypes.bool,
 };
 
 DialButton.defaultProps = {
@@ -137,4 +141,6 @@ DialButton.defaultProps = {
   onPress: undefined,
   onOutput: undefined,
   alternativeTimeout: undefined,
+  volume: 1,
+  muted: false,
 };
