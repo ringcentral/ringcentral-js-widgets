@@ -495,29 +495,34 @@ var AudioSettings = (_dec = (0, _di.Module)({
       return this._selectors.availableInputDevices();
     }
   }, {
+    key: 'cacheData',
+    get: function get() {
+      return this._storage.getItem(this._storageKey) || {};
+    }
+  }, {
     key: 'dialButtonVolume',
     get: function get() {
-      return this._storage.getItem(this._storageKey).dialButtonVolume;
+      return this.cacheData.dialButtonVolume;
     }
   }, {
     key: 'dialButtonMuted',
     get: function get() {
-      return this._storage.getItem(this._storageKey).dialButtonMuted;
+      return this.cacheData.dialButtonMuted;
     }
   }, {
     key: 'ringtoneVolume',
     get: function get() {
-      return this._storage.getItem(this._storageKey).ringtoneVolume;
+      return this.cacheData.ringtoneVolume;
     }
   }, {
     key: 'ringtoneMuted',
     get: function get() {
-      return this._storage.getItem(this._storageKey).ringtoneMuted;
+      return this.cacheData.ringtoneMuted;
     }
   }, {
     key: 'callVolume',
     get: function get() {
-      return this._storage.getItem(this._storageKey).callVolume;
+      return this.cacheData.callVolume;
     }
   }, {
     key: 'userMedia',
