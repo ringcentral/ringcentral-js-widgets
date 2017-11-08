@@ -12,7 +12,7 @@ import ComposeTextPanel from '../../components/ComposeTextPanel';
 
 
 function mapToProps(_, {
-composeText,
+  composeText,
   connectivityMonitor,
   contactSearch,
   locale,

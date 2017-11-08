@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 
 import RcModule from 'ringcentral-integration/lib/RcModule';
 
+import AccountContacts from 'ringcentral-integration/modules/AccountContacts';
 import AccountExtension from 'ringcentral-integration/modules/AccountExtension';
 import AccountInfo from 'ringcentral-integration/modules/AccountInfo';
 import AccountPhoneNumber from 'ringcentral-integration/modules/AccountPhoneNumber';
@@ -578,22 +579,28 @@ export default class Phone extends RcModule {
       getState: () => this.state.accountPhoneNumber,
     }));
     reducers.accountPhoneNumber = this.accountPhoneNumber.reducer;
+    this.addModule('contacts', new Contacts({
+      auth: this.auth,
+      getState: () => this.state.contacts,
+      ...options,
+    }));
+    reducers.contacts = this.contacts.reducer;
+    this.addModule('accountContacts', new AccountContacts({
+      client: this.client,
+      contacts: this.contacts,
+      accountExtension: this.accountExtension,
+      accountPhoneNumber: this.accountPhoneNumber,
+      getState: () => this.state.accountContacts,
+    }));
+    reducers.accountContacts = this.accountContacts.reducer;
     this.addModule('addressBook', new AddressBook({
       client: this.client,
       auth: this.auth,
       storage: this.storage,
+      contacts: this.contacts,
       getState: () => this.state.addressBook,
     }));
     reducers.addressBook = this.addressBook.reducer;
-    this.addModule('contacts', new Contacts({
-      alert: this.alert,
-      client: this.client,
-      addressBook: this.addressBook,
-      accountPhoneNumber: this.accountPhoneNumber,
-      accountExtension: this.accountExtension,
-      getState: () => this.state.contacts,
-    }));
-    reducers.contacts = this.contacts.reducer;
     this.contactMatcher.addSearchProvider({
       name: 'contacts',
       searchFn: async ({ queries }) => this.contacts.matchContacts({ phoneNumbers: queries }),
