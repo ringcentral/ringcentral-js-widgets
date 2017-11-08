@@ -3,18 +3,18 @@ import ContactsView from '../../components/ContactsView';
 
 function mapToProps(_, {
   locale,
-  contactSearch,
+  contacts,
 }) {
   return {
     currentLocale: locale.currentLocale,
-    contactSourceNames: contactSearch.contactSourceNames || [],
-    contactGroups: contactSearch.contactGroups || [],
-    searchSource: contactSearch.searchCriteria && contactSearch.searchCriteria.sourceName,
-    searchString: contactSearch.searchCriteria && contactSearch.searchCriteria.searchString,
-    currentPage: contactSearch.searchCriteria && contactSearch.searchCriteria.pageNumber,
+    contactSourceNames: contacts.sourceNames || [],
+    contactGroups: contacts.contactGroups || [],
+    searchSource: contacts.sourceFilter,
+    searchString: contacts.searchFilter,
+    currentPage: contacts.pageNumber,
     showSpinner: !(
       locale.ready &&
-      contactSearch.ready
+      contacts.ready
     ),
   };
 }
@@ -22,38 +22,22 @@ function mapToProps(_, {
 function mapToFunctions(_, {
   router,
   contacts,
-  contactSearch,
+  onItemSelect,
 }) {
   return {
-    getAvatarUrl: async contact =>
-      // const avatarUrl = await contacts.getImageProfile(contact);
-      // return avatarUrl;
-       null,
+    getAvatarUrl: async () => null,
     getPresence: async (contact) => {
       const presence = await contacts.getPresence(contact);
       return presence;
     },
-    onItemSelect: async ({ type, id }) => {
-      const searchSource = contacts[`${type}Contacts`] || [];
-      const isInsure = searchSource.map(({ id }) => id.toString()).includes(id);
-      if (!isInsure) {
-        const searchCriteria = JSON.parse(JSON.stringify(contactSearch.state.searchCriteria));
-        await contacts.showAlert();
-        const currentSearchCriteria = contactSearch.state.searchCriteria;
-        await contactSearch.searchPlus({ ...currentSearchCriteria, searchString: undefined });
-        await contactSearch.searchPlus(searchCriteria);
-      } else {
-        router.push(`/contacts/${type}/${id}`);
-      }
-    },
-    // onRestSearch: () => {
-    //   contactSearch.resetSearchStatus();
-    // },
+    onItemSelect: onItemSelect || (async ({ type, id }) => {
+      router.push(`/contacts/${type}/${id}`);
+    }),
     onSearchContact: ({ searchSource, searchString, pageNumber }) => {
-      contactSearch.searchPlus({
-        sourceName: searchSource,
-        searchString,
-        pageNumber,
+      contacts.updateFilter({
+        sourceFilter: searchSource,
+        searchFilter: searchString,
+        pageNumber
       });
     },
   };

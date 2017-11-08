@@ -8,9 +8,9 @@ function mapToProps(_, {
 }) {
   return {
     currentLocale: locale.currentLocale,
-    contactItem: contacts.findContactItem({
-      contactType: params.contactType,
-      contactId: params.contactId,
+    contactItem: contacts.find({
+      type: params.contactType,
+      id: params.contactId,
     }),
     showSpinner: !(
       locale.ready &&
