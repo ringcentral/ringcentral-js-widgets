@@ -3,13 +3,9 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _keys = require('babel-runtime/core-js/object/keys');
-
-var _keys2 = _interopRequireDefault(_keys);
-
-exports.getProfileImagesReducer = getProfileImagesReducer;
-exports.getContactPresencesReducer = getContactPresencesReducer;
+exports.getSearchFilterReducer = getSearchFilterReducer;
+exports.getSourceFilterReducer = getSourceFilterReducer;
+exports.getPageNumberReducer = getPageNumberReducer;
 exports.default = getContactsReducer;
 
 var _redux = require('redux');
@@ -20,60 +16,57 @@ var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function getProfileImagesReducer(types) {
+function getSearchFilterReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
     var _ref = arguments[1];
     var type = _ref.type,
-        imageId = _ref.imageId,
-        imageUrl = _ref.imageUrl,
-        ttl = _ref.ttl;
+        searchFilter = _ref.searchFilter;
 
     switch (type) {
-      case types.fetchImageSuccess:
-        {
-          var data = {};
-          (0, _keys2.default)(state).forEach(function (key) {
-            if (Date.now() - state[key].timestamp < ttl) {
-              data[key] = state[key];
-            }
-          });
-          data[imageId] = {
-            imageUrl: imageUrl,
-            timestamp: Date.now()
-          };
-          return data;
+      case types.updateFilter:
+        if (searchFilter !== null && searchFilter !== undefined) {
+          return searchFilter;
         }
+        return state;
       default:
         return state;
     }
   };
 }
 
-function getContactPresencesReducer(types) {
+function getSourceFilterReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
     var _ref2 = arguments[1];
     var type = _ref2.type,
-        presenceId = _ref2.presenceId,
-        presence = _ref2.presence,
-        ttl = _ref2.ttl;
+        sourceFilter = _ref2.sourceFilter;
 
     switch (type) {
-      case types.fetchPresenceSuccess:
-        {
-          var data = {};
-          (0, _keys2.default)(state).forEach(function (key) {
-            if (Date.now() - state[key].timestamp < ttl) {
-              data[key] = state[key];
-            }
-          });
-          data[presenceId] = {
-            presence: presence,
-            timestamp: Date.now()
-          };
-          return data;
+      case types.updateFilter:
+        if (sourceFilter !== null && sourceFilter !== undefined) {
+          return sourceFilter;
         }
+        return state;
+      default:
+        return state;
+    }
+  };
+}
+
+function getPageNumberReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+    var _ref3 = arguments[1];
+    var type = _ref3.type,
+        pageNumber = _ref3.pageNumber;
+
+    switch (type) {
+      case types.updateFilter:
+        if (pageNumber) {
+          return pageNumber;
+        }
+        return state;
       default:
         return state;
     }
@@ -83,8 +76,9 @@ function getContactPresencesReducer(types) {
 function getContactsReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer2.default)(types),
-    profileImages: getProfileImagesReducer(types),
-    contactPresences: getContactPresencesReducer(types)
+    searchFilter: getSearchFilterReducer(types),
+    sourceFilter: getSourceFilterReducer(types),
+    pageNumber: getPageNumberReducer(types)
   });
 }
 //# sourceMappingURL=getContactsReducer.js.map

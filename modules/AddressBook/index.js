@@ -17,6 +17,10 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -68,6 +72,8 @@ var _actionTypes2 = _interopRequireDefault(_actionTypes);
 var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
+
+var _contactHelper = require('../../lib/contactHelper');
 
 var _getAddressBookReducer = require('./getAddressBookReducer');
 
@@ -203,6 +209,31 @@ var AddressBook = (_dec = (0, _di.Module)({
         syncTimestamp: (0, _getAddressBookReducer.getSyncTimestampReducer)(_this.actionTypes)
       });
     }
+
+    _this.addSelector('contacts', function () {
+      return _this.rawContacts;
+    }, function (rawContacts) {
+      var contactsList = [];
+      rawContacts.forEach(function (rawContact) {
+        var contact = (0, _extends3.default)({
+          type: _this.sourceName,
+          phoneNumbers: []
+        }, rawContact);
+        contact.id = '' + contact.id;
+        contact.name = (contact.firstName || '') + ' ' + (contact.lastName || '');
+        (0, _keys2.default)(contact).forEach(function (key) {
+          if (key.toLowerCase().indexOf('phone') === -1) {
+            return;
+          }
+          if (typeof contact[key] !== 'string') {
+            return;
+          }
+          (0, _contactHelper.addPhoneToContact)(contact, contact[key], key);
+        });
+        contactsList.push(contact);
+      });
+      return contactsList;
+    });
     return _this;
   }
 
@@ -567,7 +598,7 @@ var AddressBook = (_dec = (0, _di.Module)({
       return this.state.syncToken;
     }
   }, {
-    key: 'contacts',
+    key: 'rawContacts',
     get: function get() {
       if (this._storage) {
         return this._storage.getItem(this._addressBookStorageKey);
@@ -591,6 +622,22 @@ var AddressBook = (_dec = (0, _di.Module)({
     key: 'timeToRetry',
     get: function get() {
       return this._timeToRetry;
+    }
+
+    // interface of contact source
+
+  }, {
+    key: 'sourceName',
+    get: function get() {
+      return 'personal';
+    }
+
+    // interface of contact source
+
+  }, {
+    key: 'contacts',
+    get: function get() {
+      return this._selectors.contacts();
     }
   }]);
   return AddressBook;

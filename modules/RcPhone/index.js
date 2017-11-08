@@ -55,6 +55,10 @@ var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
 
+var _AccountContacts = require('../AccountContacts');
+
+var _AccountContacts2 = _interopRequireDefault(_AccountContacts);
+
 var _AccountExtension = require('../AccountExtension');
 
 var _AccountExtension2 = _interopRequireDefault(_AccountExtension);
@@ -266,7 +270,7 @@ var _AudioSettings2 = _interopRequireDefault(_AudioSettings);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RcPhone = (_dec = (0, _di.ModuleFactory)({
-  providers: [_AudioSettings2.default, _Alert2.default, _Brand2.default, _Locale2.default, _TabManager2.default, _GlobalStorage2.default, _Environment2.default, _ConnectivityMonitor2.default, _Auth2.default, _Storage2.default, _RateLimiter2.default, _ExtensionDevice2.default, _Softphone2.default, _Ringout2.default, _AccountInfo2.default, _ExtensionInfo2.default, _RolesAndPermissions2.default, _DialingPlan2.default, _ExtensionPhoneNumber2.default, _ForwardingNumber2.default, _BlockedNumber2.default, _ContactMatcher2.default, _Subscription2.default, _RegionSettings2.default, _AccountExtension2.default, _NumberValidate2.default, _Webphone2.default, _CallingSettings2.default, _Presence2.default, _DetailedPresence2.default, _CallLog2.default, _Call2.default, _MessageSender2.default, _ComposeText2.default, _CallMonitor2.default, _CallHistory2.default, _ActivityMatcher2.default, _ConversationMatcher2.default, _ContactSearch2.default, _MessageStore2.default, _Conversation2.default, _DateTimeFormat2.default, _Conference2.default, _CallLogger2.default, _AccountPhoneNumber2.default, _AddressBook2.default, _Contacts2.default, _ConversationLogger2.default, _Messages2.default, _RecentMessages2.default, _RecentCalls2.default, _Analytics2.default, { provide: 'ModuleOptions',
+  providers: [_AudioSettings2.default, _Alert2.default, _Brand2.default, _Locale2.default, _TabManager2.default, _GlobalStorage2.default, _Environment2.default, _ConnectivityMonitor2.default, _Auth2.default, _Storage2.default, _RateLimiter2.default, _ExtensionDevice2.default, _Softphone2.default, _Ringout2.default, _AccountInfo2.default, _ExtensionInfo2.default, _RolesAndPermissions2.default, _DialingPlan2.default, _ExtensionPhoneNumber2.default, _ForwardingNumber2.default, _BlockedNumber2.default, _ContactMatcher2.default, _Subscription2.default, _RegionSettings2.default, _AccountExtension2.default, _NumberValidate2.default, _Webphone2.default, _CallingSettings2.default, _Presence2.default, _DetailedPresence2.default, _CallLog2.default, _Call2.default, _MessageSender2.default, _ComposeText2.default, _CallMonitor2.default, _CallHistory2.default, _ActivityMatcher2.default, _ConversationMatcher2.default, _ContactSearch2.default, _MessageStore2.default, _Conversation2.default, _DateTimeFormat2.default, _Conference2.default, _CallLogger2.default, _AccountPhoneNumber2.default, _AddressBook2.default, _AccountContacts2.default, _Contacts2.default, _ConversationLogger2.default, _Messages2.default, _RecentMessages2.default, _RecentCalls2.default, _Analytics2.default, { provide: 'ModuleOptions',
     useValue: { prefix: 'rc-phone' },
     spread: true }, { provide: 'Client',
     useFactory: function useFactory(_ref) {
@@ -347,15 +351,22 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
       readyCheckFunction: function readyCheckFunction() {
         return true;
       } },
-    spread: true }, { provide: 'SoftphoneOptions', useValue: { extensionMode: null }, spread: true }]
+    spread: true }, { provide: 'SoftphoneOptions', useValue: { extensionMode: null }, spread: true }, { provide: 'ContactSources',
+    useFactory: function useFactory(_ref5) {
+      var addressBook = _ref5.addressBook,
+          accountContacts = _ref5.accountContacts;
+      return [addressBook, accountContacts];
+    },
+    deps: ['AccountContacts', 'AddressBook']
+  }]
 }), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(RcPhone, _RcModule);
 
-  function RcPhone(_ref5) {
+  function RcPhone(_ref6) {
     var _this2 = this;
 
-    var moduleOptions = _ref5.moduleOptions,
-        modules = (0, _objectWithoutProperties3.default)(_ref5, ['moduleOptions']);
+    var moduleOptions = _ref6.moduleOptions,
+        modules = (0, _objectWithoutProperties3.default)(_ref6, ['moduleOptions']);
     (0, _classCallCheck3.default)(this, RcPhone);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (RcPhone.__proto__ || (0, _getPrototypeOf2.default)(RcPhone)).call(this, (0, _extends3.default)({ prefix: moduleOptions.prefix }, modules)));
@@ -400,8 +411,8 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
     contactMatcher.addSearchProvider({
       name: 'contacts',
       searchFn: function () {
-        var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref7) {
-          var queries = _ref7.queries;
+        var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref8) {
+          var queries = _ref8.queries;
           return _regenerator2.default.wrap(function _callee4$(_context4) {
             while (1) {
               switch (_context4.prev = _context4.next) {
@@ -417,7 +428,7 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
         }));
 
         return function searchFn(_x) {
-          return _ref6.apply(this, arguments);
+          return _ref7.apply(this, arguments);
         };
       }(),
       readyCheckFn: function readyCheckFn() {
@@ -428,8 +439,8 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
     // ContactSearch configuration
     contactSearch.addSearchSource({
       sourceName: 'companyContacts',
-      searchFn: function searchFn(_ref8) {
-        var searchString = _ref8.searchString;
+      searchFn: function searchFn(_ref9) {
+        var searchString = _ref9.searchString;
 
         var items = contacts.companyContacts;
         if (!searchString) {
@@ -466,8 +477,8 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
     });
     contactSearch.addSearchSource({
       sourceName: 'personalContacts',
-      searchFn: function searchFn(_ref9) {
-        var searchString = _ref9.searchString;
+      searchFn: function searchFn(_ref10) {
+        var searchString = _ref10.searchString;
 
         var items = contacts.personalContacts;
         if (!searchString) {
