@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import TextInput from 'ringcentral-widget/components/TextInput';
+import TextInput from 'ringcentral-widgets/components/TextInput';
 
 const props = {};
 

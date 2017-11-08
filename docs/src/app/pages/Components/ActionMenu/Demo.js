@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ActionMenu from 'ringcentral-widget/components/ActionMenu';
+import ActionMenu from 'ringcentral-widgets/components/ActionMenu';
 
 /**
  * A example of `ActionMenu`

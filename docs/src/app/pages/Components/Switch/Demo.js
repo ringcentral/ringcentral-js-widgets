@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import Switch from 'ringcentral-widget/components/Switch';
+import Switch from 'ringcentral-widgets/components/Switch';
 
 const props = {};
 

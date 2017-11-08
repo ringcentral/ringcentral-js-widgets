@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import RecentActivityPanel from 'ringcentral-widget/components/RecentActivityPanel';
+import RecentActivityPanel from 'ringcentral-widgets/components/RecentActivityPanel';
 
 const props = {};
 props.title = 'test string';

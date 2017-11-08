@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import DialButton from 'ringcentral-widget/components/DialButton';
+import DialButton from 'ringcentral-widgets/components/DialButton';
 
 const props = {};
 props.btn = {

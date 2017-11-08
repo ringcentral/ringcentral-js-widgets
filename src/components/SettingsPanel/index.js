@@ -26,6 +26,7 @@ export default function SettingsPanel({
   EulaRenderer,
   onCallingSettingsLinkClick,
   onRegionSettingsLinkClick,
+  onAudioSettingsLinkClick,
   showAutoLog,
   autoLogEnabled,
   onAutoLogChange,
@@ -149,6 +150,10 @@ export default function SettingsPanel({
           {i18n.getString('calling', currentLocale)}
         </LinkLine>
         {region}
+        <LinkLine
+          onClick={onAudioSettingsLinkClick} >
+          {i18n.getString('audio', currentLocale)}
+        </LinkLine>
         {presenceSetting}
         {children}
         {autoLog}
@@ -186,6 +191,7 @@ export default function SettingsPanel({
 SettingsPanel.propTypes = {
   brandId: PropTypes.string.isRequired,
   onCallingSettingsLinkClick: PropTypes.func.isRequired,
+  onAudioSettingsLinkClick: PropTypes.func.isRequired,
   children: PropTypes.node,
   className: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,

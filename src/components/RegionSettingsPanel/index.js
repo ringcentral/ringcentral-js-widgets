@@ -7,8 +7,7 @@ import Panel from '../Panel';
 import InputField from '../InputField';
 import TextInput from '../TextInput';
 import Select from '../DropdownSelect';
-import Button from '../Button';
-import Revert from '../../assets/images/Revert.svg';
+import SaveButton from '../SaveButton';
 
 import styles from './styles.scss';
 import i18n from './i18n';
@@ -118,7 +117,6 @@ export default class RegionSettings extends Component {
             {i18n.getString(messageId, this.props.currentLocale)}
           </div>
           <InputField
-            className={styles.inputField}
             label={i18n.getString('country', this.props.currentLocale)}>
             <Select
               className={styles.select}
@@ -134,7 +132,6 @@ export default class RegionSettings extends Component {
           </InputField>
           {showAreaCode && (
             <InputField
-              className={styles.inputField}
               label={i18n.getString('areaCode', this.props.currentLocale)}>
               <TextInput
                 placeholder={i18n.getString('areaCodePlaceholder', this.props.currentLocale)}
@@ -144,13 +141,11 @@ export default class RegionSettings extends Component {
                 onChange={this.onAreaCodeChange} />
             </InputField>
           )}
-          <Button
-            className={classnames(styles.saveButton, !hasChanges ? styles.disabled : null)}
+          <SaveButton
+            currentLocale={this.props.currentLocale}
             onClick={this.onSaveClick}
             disabled={!hasChanges}
-          >
-            {i18n.getString('save', this.props.currentLocale)}
-          </Button>
+          />
           {this.props.children}
         </Panel>
       </div>

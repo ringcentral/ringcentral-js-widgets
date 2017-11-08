@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widget/components/ContactDropdownList';
+import componentCode from '!raw-loader!ringcentral-widgets/components/ContactDropdownList';
 
 const ContactDropdownListPage = () => {
   const info = parse(componentCode);

@@ -1,18 +1,18 @@
 import React from 'react';
 // eslint-disable-next-line
-import NavigationBar from 'ringcentral-widget/components/NavigationBar';
-import TabNavigationButton from 'ringcentral-widget/components/TabNavigationButton';
-import DialPadIcon from 'ringcentral-widget/assets/images/DialPadNav.svg';
-import CallsIcon from 'ringcentral-widget/assets/images/Calls.svg';
-import HistoryIcon from 'ringcentral-widget/assets/images/CallHistory.svg';
-import MessageIcon from 'ringcentral-widget/assets/images/Messages.svg';
-import ComposeTextIcon from 'ringcentral-widget/assets/images/ComposeText.svg';
+import NavigationBar from 'ringcentral-widgets/components/NavigationBar';
+import TabNavigationButton from 'ringcentral-widgets/components/TabNavigationButton';
+import DialPadIcon from 'ringcentral-widgets/assets/images/DialPadNav.svg';
+import CallsIcon from 'ringcentral-widgets/assets/images/Calls.svg';
+import HistoryIcon from 'ringcentral-widgets/assets/images/CallHistory.svg';
+import MessageIcon from 'ringcentral-widgets/assets/images/Messages.svg';
+import ComposeTextIcon from 'ringcentral-widgets/assets/images/ComposeText.svg';
 
-import DialPadHoverIcon from 'ringcentral-widget/assets/images/DialPadHover.svg';
-import CallsHoverIcon from 'ringcentral-widget/assets/images/CallsHover.svg';
-import HistoryHoverIcon from 'ringcentral-widget/assets/images/CallHistoryHover.svg';
-import MessageHoverIcon from 'ringcentral-widget/assets/images/MessagesHover.svg';
-import ComposeTextHoverIcon from 'ringcentral-widget/assets/images/ComposeTextHover.svg';
+import DialPadHoverIcon from 'ringcentral-widgets/assets/images/DialPadHover.svg';
+import CallsHoverIcon from 'ringcentral-widgets/assets/images/CallsHover.svg';
+import HistoryHoverIcon from 'ringcentral-widgets/assets/images/CallHistoryHover.svg';
+import MessageHoverIcon from 'ringcentral-widgets/assets/images/MessagesHover.svg';
+import ComposeTextHoverIcon from 'ringcentral-widgets/assets/images/ComposeTextHover.svg';
 
 const props = {};
 props.currentPath = 'test string';

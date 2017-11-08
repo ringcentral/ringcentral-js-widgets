@@ -1,6 +1,7 @@
 import path from 'path';
 import autoprefixer from 'autoprefixer';
 import webpack from 'webpack';
+import aliasWebpackPlugin from 'alias-webpack-plugin';
 
 const base = {
   module: {
@@ -78,6 +79,11 @@ const base = {
       },
     }),
   ],
+  resolve: {
+    alias: {
+      ...aliasWebpackPlugin(),
+    },
+  },
 };
 
 
