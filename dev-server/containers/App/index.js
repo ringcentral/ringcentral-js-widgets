@@ -69,7 +69,7 @@ export default function App({
                 sourceIcons={sourceIcons}
                 getAvatarUrl={
                   async (contact) => {
-                    const avatarUrl = await phone.contacts.getImageProfile(contact, false);
+                    const avatarUrl = await phone.contacts.getProfileImage(contact, false);
                     return avatarUrl;
                   }
                 }
@@ -228,7 +228,7 @@ export default function App({
                   }}
                   getAvatarUrl={
                     async (contact) => {
-                      const avatarUrl = await phone.contacts.getImageProfile(contact, false);
+                      const avatarUrl = await phone.contacts.getProfileImage(contact, false);
                       return avatarUrl;
                     }
                   }

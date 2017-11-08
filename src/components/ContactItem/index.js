@@ -33,46 +33,30 @@ AvatarNode.defaultProps = {
 export default class ContactItem extends PureComponent {
   constructor(props) {
     super(props);
-
     this.state = {
       loading: true,
-      avatarUrl: undefined,
-      presence: undefined,
     };
-
     this.onItemSelected = this.onItemSelected.bind(this);
   }
 
   componentDidMount() {
     this._mounted = true;
-    setTimeout(() => {
-      // clear timeout is probably not necessary
+    this._loadingTimeout = setTimeout(() => {
       if (this._mounted) {
         this.setState({
           loading: false,
         });
       }
-    }, 10);
-
-    this.props.getAvatarUrl(this.props.contact).then((avatarUrl) => {
-      if (this._mounted) {
-        this.setState({
-          avatarUrl,
-        });
-      }
-    });
-
-    this.props.getPresence(this.props.contact).then((presence) => {
-      if (this._mounted) {
-        this.setState({
-          presence,
-        });
-      }
-    });
+    }, 3);
+    this.props.getAvatarUrl(this.props.contact);
+    this.props.getPresence(this.props.contact);
   }
 
   componentWillUnmount() {
     this._mounted = false;
+    if (this._loadingTimeout) {
+      clearTimeout(this._loadingTimeout);
+    }
   }
 
   onItemSelected() {
@@ -88,16 +72,16 @@ export default class ContactItem extends PureComponent {
         <div className={styles.root} />
       );
     }
-
     const {
       name,
-      phoneNumber,
-      entityType,
-      showPhoneNumber,
+      extensionNumber,
+      type,
+      profileImageUrl,
+      presence,
     } = this.props.contact;
 
     const { sourceNodeRenderer } = this.props;
-    const sourceNode = sourceNodeRenderer({ sourceType: entityType });
+    const sourceNode = sourceNodeRenderer({ sourceType: type });
     return (
       <div
         className={styles.root}
@@ -107,7 +91,7 @@ export default class ContactItem extends PureComponent {
           <div className={styles.avatarNodeContainer}>
             <AvatarNode
               name={name}
-              avatarUrl={this.state.avatarUrl}
+              avatarUrl={profileImageUrl}
             />
           </div>
           {
@@ -120,11 +104,11 @@ export default class ContactItem extends PureComponent {
               : null
           }
           {
-            this.state.presence ? (
+            presence ? (
               <div className={styles.presenceNodeContainer}>
                 <PresenceStatusIcon
                   className={styles.presenceNode}
-                  {...this.state.presence}
+                  {...presence}
                 />
               </div>
             ) : null
@@ -133,8 +117,8 @@ export default class ContactItem extends PureComponent {
         <div className={styles.contactName} title={name}>
           {name}
         </div>
-        <div className={styles.phoneNumber} title={phoneNumber}>
-          {showPhoneNumber ? phoneNumber : null}
+        <div className={styles.phoneNumber} title={extensionNumber}>
+          {extensionNumber}
         </div>
       </div>
     );
@@ -146,11 +130,11 @@ ContactItem.propTypes = {
     id: PropTypes.string,
     type: PropTypes.string,
     hasProfileImage: PropTypes.bool,
-    showPhoneNumber: PropTypes.bool,
-    entityType: PropTypes.string,
     name: PropTypes.string,
-    phoneNumber: PropTypes.string,
+    extensionNumber: PropTypes.string,
     email: PropTypes.string,
+    profileImageUrl: PropTypes.string,
+    presence: PropTypes.object,
   }).isRequired,
   getAvatarUrl: PropTypes.func.isRequired,
   getPresence: PropTypes.func.isRequired,

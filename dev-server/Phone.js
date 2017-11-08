@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 
 import RcModule from 'ringcentral-integration/lib/RcModule';
 
+import AccountContacts from 'ringcentral-integration/modules/AccountContacts';
 import AccountExtension from 'ringcentral-integration/modules/AccountExtension';
 import AccountInfo from 'ringcentral-integration/modules/AccountInfo';
 import AccountPhoneNumber from 'ringcentral-integration/modules/AccountPhoneNumber';
@@ -23,7 +24,6 @@ import ExtensionPhoneNumber from 'ringcentral-integration/modules/ExtensionPhone
 import ForwardingNumber from 'ringcentral-integration/modules/ForwardingNumber';
 import GlobalStorage from 'ringcentral-integration/modules/GlobalStorage';
 import Locale from 'ringcentral-integration/modules/Locale';
-import Presence from 'ringcentral-integration/modules/Presence';
 import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
 import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import Ringout from 'ringcentral-integration/modules/Ringout';
@@ -372,15 +372,6 @@ export default class Phone extends RcModule {
       getState: () => this.state.activeCalls,
     }));
     reducers.activeCalls = this.activeCalls.reducer;
-    this.addModule('presence', new Presence({
-      ...options,
-      auth: this.auth,
-      client: this.client,
-      subscription: this.subscription,
-      updateDelayTime: 2000,
-      getState: () => this.state.presence,
-    }));
-    reducers.presence = this.presence.reducer;
     this.addModule('detailedPresence', new DetailedPresence({
       ...options,
       auth: this.auth,
@@ -578,6 +569,13 @@ export default class Phone extends RcModule {
       getState: () => this.state.accountPhoneNumber,
     }));
     reducers.accountPhoneNumber = this.accountPhoneNumber.reducer;
+    this.addModule('accountContacts', new AccountContacts({
+      client: this.client,
+      accountExtension: this.accountExtension,
+      accountPhoneNumber: this.accountPhoneNumber,
+      getState: () => this.state.accountContacts,
+    }));
+    reducers.accountContacts = this.accountContacts.reducer;
     this.addModule('addressBook', new AddressBook({
       client: this.client,
       auth: this.auth,
@@ -586,12 +584,10 @@ export default class Phone extends RcModule {
     }));
     reducers.addressBook = this.addressBook.reducer;
     this.addModule('contacts', new Contacts({
-      alert: this.alert,
-      client: this.client,
-      addressBook: this.addressBook,
-      accountPhoneNumber: this.accountPhoneNumber,
-      accountExtension: this.accountExtension,
+      auth: this.auth,
+      contactSources: [this.accountContacts, this.addressBook],
       getState: () => this.state.contacts,
+      ...options,
     }));
     reducers.contacts = this.contacts.reducer;
     this.contactMatcher.addSearchProvider({

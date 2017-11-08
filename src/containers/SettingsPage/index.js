@@ -15,7 +15,7 @@ function mapToProps(_, {
     callingSettings,
     version,
     rolesAndPermissions,
-    presence,
+    detailedPresence,
   },
   params,
 }) {
@@ -46,7 +46,7 @@ function mapToProps(_, {
       regionSettings.ready &&
       callingSettings.ready &&
       rolesAndPermissions.ready &&
-      (!presence || presence.ready)
+      (!detailedPresence || detailedPresence.ready)
     ),
     showRegion: loggedIn && brand.id === '1210' && (
       regionSettings.availableCountries.length > 1 ||
@@ -61,16 +61,16 @@ function mapToProps(_, {
     outboundSMS: !!rolesAndPermissions.permissions.OutboundSMS ||
     !!rolesAndPermissions.permissions.InternalSMS,
     isCallQueueMember: extensionInfo.isCallQueueMember,
-    dndStatus: presence && presence.dndStatus,
-    userStatus: presence && presence.userStatus,
-    showPresenceSettings: !!(presence && params && params.showPresenceSettings),
+    dndStatus: detailedPresence && detailedPresence.dndStatus,
+    userStatus: detailedPresence && detailedPresence.userStatus,
+    showPresenceSettings: !!(detailedPresence && params && params.showPresenceSettings),
   };
 }
 
 function mapToFunctions(_, {
   phone: {
     auth,
-    presence,
+    detailedPresence,
     router,
   },
   regionSettingsUrl = '/settings/region',
@@ -90,12 +90,12 @@ function mapToFunctions(_, {
     onAudioSettingsLinkClick: () => {
       router.push(audioSettingsUrl);
     },
-    setAvailable: (...args) => (presence && presence.setAvailable(...args)),
-    setBusy: (...args) => (presence && presence.setBusy(...args)),
-    setDoNotDisturb: (...args) => (presence && presence.setDoNotDisturb(...args)),
-    setInvisible: (...args) => (presence && presence.setInvisible(...args)),
+    setAvailable: (...args) => (detailedPresence && detailedPresence.setAvailable(...args)),
+    setBusy: (...args) => (detailedPresence && detailedPresence.setBusy(...args)),
+    setDoNotDisturb: (...args) => (detailedPresence && detailedPresence.setDoNotDisturb(...args)),
+    setInvisible: (...args) => (detailedPresence && detailedPresence.setInvisible(...args)),
     toggleAcceptCallQueueCalls: (...args) => (
-      presence && presence.toggleAcceptCallQueueCalls(...args)
+      detailedPresence && detailedPresence.toggleAcceptCallQueueCalls(...args)
     ),
   };
 }
