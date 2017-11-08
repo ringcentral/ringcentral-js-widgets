@@ -66,7 +66,8 @@ export default class NavigationBar extends Component {
             let activeIcon = tab.activeIcon;
             if (typeof activeIcon === 'function') {
               const ActiveIcon = activeIcon;
-              activeIcon = (tab.childTabs ? <ActiveIcon currentPath={currentPath} /> : <ActiveIcon />);
+              activeIcon = (tab.childTabs ?
+                <ActiveIcon currentPath={currentPath} /> : <ActiveIcon />);
             }
             return (
               <NavigationButton
