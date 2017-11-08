@@ -1,8 +1,8 @@
 import React from 'react';
 // eslint-disable-next-line
-import TabNavigationButton from 'ringcentral-widget/components/TabNavigationButton';
-import CallsIcon from 'ringcentral-widget/assets/images/Calls.svg';
-import CallsHoverIcon from 'ringcentral-widget/assets/images/CallsHover.svg';
+import TabNavigationButton from 'ringcentral-widgets/components/TabNavigationButton';
+import CallsIcon from 'ringcentral-widgets/assets/images/Calls.svg';
+import CallsHoverIcon from 'ringcentral-widgets/assets/images/CallsHover.svg';
 
 const props = {};
 props.icon = <CallsIcon />;

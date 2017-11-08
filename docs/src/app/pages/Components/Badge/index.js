@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import badgeCode from '!raw-loader!ringcentral-widget/components/Badge';
+import badgeCode from '!raw-loader!ringcentral-widgets/components/Badge';
 
 const AppBarPage = () => {
   const info = parse(badgeCode);

@@ -1,8 +1,8 @@
-# ringcentral-js-widget
+# ringcentral-js-widgets
 
-[![Build Status](https://travis-ci.org/ringcentral/ringcentral-js-widget.svg?branch=master)](https://travis-ci.org/ringcentral/ringcentral-js-widget)
-[![Coverage Status](https://coveralls.io/repos/github/ringcentral/ringcentral-js-widget/badge.svg?branch=master)](https://coveralls.io/github/ringcentral/ringcentral-js-widget?branch=master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/81c5e5334eff454b9404b05b5c29e09b)](https://www.codacy.com/app/RingCentral/ringcentral-js-widget?utm_source=github.com&utm_medium=referral&utm_content=ringcentral/ringcentral-js-widget&utm_campaign=badger)
+[![Build Status](https://travis-ci.org/ringcentral/ringcentral-js-widgets.svg?branch=master)](https://travis-ci.org/ringcentral/ringcentral-js-widgets)
+[![Coverage Status](https://coveralls.io/repos/github/ringcentral/ringcentral-js-widgets/badge.svg?branch=master)](https://coveralls.io/github/ringcentral/ringcentral-js-widgets?branch=master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/81c5e5334eff454b9404b05b5c29e09b)](https://www.codacy.com/app/RingCentral/ringcentral-js-widgets?utm_source=github.com&utm_medium=referral&utm_content=ringcentral/ringcentral-js-widgets&utm_campaign=badger)
 
 
 ## Introduction
@@ -19,8 +19,8 @@ A development server is delivered with source so that developers can use it to g
 Clone the repo:
 
 ```bash
-git clone https://github.com/ringcentral/ringcentral-js-widget.git
-cd ringcentral-js-widget
+git clone https://github.com/ringcentral/ringcentral-js-widgets.git
+cd ringcentral-js-widgets
 ```
 
 Install dependent libraries:

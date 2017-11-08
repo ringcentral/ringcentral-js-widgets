@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // eslint-disable-next-line
-import ContactDisplay from 'ringcentral-widget/components/ContactDisplay';
+import ContactDisplay from 'ringcentral-widgets/components/ContactDisplay';
 
 /**
  * A example of `ContactDisplay`

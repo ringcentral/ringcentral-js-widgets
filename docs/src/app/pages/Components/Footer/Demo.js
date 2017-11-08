@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import Footer from 'ringcentral-widget/components/Footer';
+import Footer from 'ringcentral-widgets/components/Footer';
 
 const props = {};
 

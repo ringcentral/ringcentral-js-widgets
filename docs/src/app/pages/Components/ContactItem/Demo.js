@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ContactItem from 'ringcentral-widget/components/ContactItem';
+import ContactItem from 'ringcentral-widgets/components/ContactItem';
 
 const props = {};
 props.contact = {

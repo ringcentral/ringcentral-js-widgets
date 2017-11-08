@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ActiveCallActionMenu from 'ringcentral-widget/components/ActiveCallActionMenu';
+import ActiveCallActionMenu from 'ringcentral-widgets/components/ActiveCallActionMenu';
 
 const props = {};
 props.currentLocale = 'en-US';
