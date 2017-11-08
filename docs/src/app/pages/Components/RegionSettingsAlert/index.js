@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!ringcentral-widget/components/RegionSettingsAlert';
+import componentCode from '!raw-loader!ringcentral-widgets/components/RegionSettingsAlert';
 
 const RegionSettingsAlertPage = () => {
   const info = parse(componentCode);

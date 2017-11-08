@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import RegionSettingsPanel from 'ringcentral-widget/components/RegionSettingsPanel';
+import RegionSettingsPanel from 'ringcentral-widgets/components/RegionSettingsPanel';
 import styles from './styles.scss';
 
 const props = {};

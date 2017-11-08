@@ -35,6 +35,8 @@ export default function DialPad(props) {
                 onPress={props.onButtonPress}
                 onOutput={props.onButtonOutput}
                 alternativeTimeout={props.alternativeTimeout}
+                volume={props.dialButtonVolume}
+                muted={props.dialButtonMuted}
               />
             );
           })}
@@ -50,6 +52,8 @@ DialPad.propTypes = {
   onButtonPress: PropTypes.func,
   onButtonOutput: PropTypes.func,
   alternativeTimeout: PropTypes.number,
+  dialButtonVolume: PropTypes.number,
+  dialButtonMuted: PropTypes.bool,
 };
 
 DialPad.defaultProps = {
@@ -58,4 +62,6 @@ DialPad.defaultProps = {
   onButtonPress: undefined,
   onButtonOutput: undefined,
   alternativeTimeout: undefined,
+  dialButtonVolume: 1,
+  dialButtonMuted: false,
 };

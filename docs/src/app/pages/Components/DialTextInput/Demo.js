@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // eslint-disable-next-line
-import DialTextInput from 'ringcentral-widget/components/DialTextInput';
+import DialTextInput from 'ringcentral-widgets/components/DialTextInput';
 
 /**
  * A example of `DialTextInput`

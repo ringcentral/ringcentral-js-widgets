@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ContactsView from 'ringcentral-widget/components/ContactsView';
+import ContactsView from 'ringcentral-widgets/components/ContactsView';
 
 const props = {};
 props.currentLocale = 'en-US';

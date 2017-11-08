@@ -10,8 +10,6 @@ import IconLine from '../IconLine';
 import TextInput from '../TextInput';
 import Switch from '../Switch';
 import Button from '../Button';
-import Revert from '../../assets/images/Revert.svg';
-import dynamicsFonts from '../../assets/DynamicsFont/DynamicsFont.scss';
 
 
 /**

@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import MessageItem from 'ringcentral-widget/components/MessageItem';
+import MessageItem from 'ringcentral-widgets/components/MessageItem';
 
 const props = {};
 props.conversation = {

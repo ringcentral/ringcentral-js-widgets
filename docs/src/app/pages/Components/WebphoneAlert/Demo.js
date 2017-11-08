@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import WebphoneAlert from 'ringcentral-widget/components/WebphoneAlert';
+import WebphoneAlert from 'ringcentral-widgets/components/WebphoneAlert';
 
 const props = {};
 props.currentLocale = 'en-US';

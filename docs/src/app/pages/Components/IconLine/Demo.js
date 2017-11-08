@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import IconLine from 'ringcentral-widget/components/IconLine';
+import IconLine from 'ringcentral-widgets/components/IconLine';
 
 const props = {};
 

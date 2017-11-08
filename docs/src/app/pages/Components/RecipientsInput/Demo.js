@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import RecipientsInput from 'ringcentral-widget/components/RecipientsInput';
+import RecipientsInput from 'ringcentral-widgets/components/RecipientsInput';
 
 const props = {};
 props.searchContactList = [{
