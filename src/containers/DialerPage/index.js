@@ -12,7 +12,10 @@ function mapToProps(_, {
     locale,
     rateLimiter,
     webphone,
-    audioSettings,
+    audioSettings: {
+      dialButtonVolume,
+      dialButtonMuted,
+    },
   }
 }) {
   const isWebphoneMode = (callingSettings.callingMode === callingModes.webphone);
@@ -38,8 +41,8 @@ function mapToProps(_, {
       connectivityMonitor.ready &&
       (!isWebphoneMode || !webphone || !waitingWebphoneConnected)
     ),
-    dialButtonVolume: audioSettings.dialButtonVolume,
-    dialButtonMuted: audioSettings.dialButtonMuted,
+    dialButtonVolume,
+    dialButtonMuted,
   };
 }
 

@@ -33,11 +33,9 @@ AvatarNode.defaultProps = {
 export default class ContactItem extends PureComponent {
   constructor(props) {
     super(props);
-
     this.state = {
       loading: true,
     };
-
     this.onItemSelected = this.onItemSelected.bind(this);
   }
 
@@ -49,10 +47,8 @@ export default class ContactItem extends PureComponent {
           loading: false,
         });
       }
-    }, 2);
-
+    }, 3);
     this.props.getAvatarUrl(this.props.contact);
-
     this.props.getPresence(this.props.contact);
   }
 
