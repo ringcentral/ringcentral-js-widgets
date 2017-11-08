@@ -76,6 +76,7 @@ function getTabs({
       path: '/composeText',
     },
     {
+      // eslint-disable-next-line
       icon: ({ currentPath }) => {
         if (currentPath === '/contacts') {
           return <ContactNavIcon />;
@@ -89,6 +90,7 @@ function getTabs({
         return <MoreMenuIcon />;
       },
       // activeIcon: MoreMenuHoverIcon,
+      // eslint-disable-next-line
       activeIcon: ({ currentPath }) => {
         if (currentPath === '/contacts') {
           return <ContactNavIcon />;
