@@ -76,6 +76,7 @@ function getTabs({
       path: '/composeText',
     },
     {
+      // eslint-disable-next-line
       icon: ({ currentPath }) => {
         if (currentPath === '/contacts') {
           return <ContactNavIcon />;
@@ -88,7 +89,20 @@ function getTabs({
         }
         return <MoreMenuIcon />;
       },
-      activeIcon: MoreMenuHoverIcon,
+      // activeIcon: MoreMenuHoverIcon,
+      // eslint-disable-next-line
+      activeIcon: ({ currentPath }) => {
+        if (currentPath === '/contacts') {
+          return <ContactNavIcon />;
+        } else if (currentPath === '/settings') {
+          return <SettingsNavIcon />;
+        } else if (currentPath === '/metting') {
+          return <MeetingNavIcon />;
+        } else if (currentPath === '/conference') {
+          return <ConferenceNavIcon />;
+        }
+        return <MoreMenuHoverIcon />;
+      },
       label: 'More Menu',
       virtualPath: '!moreMenu',
       isActive: (currentPath, currentVirtualPath) => (
