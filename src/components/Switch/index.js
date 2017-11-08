@@ -22,5 +22,8 @@ Switch.propTypes = {
   checked: PropTypes.bool,
   onChange: PropTypes.func,
 };
-
+Switch.defaultProps = {
+  checked: false,
+  onChange: undefined,
+};
 export default Switch;

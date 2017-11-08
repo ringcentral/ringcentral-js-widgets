@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import CallIdSelect from 'ringcentral-widget/components/CallIdSelect';
+import CallIdSelect from 'ringcentral-widgets/components/CallIdSelect';
 
 const props = {};
 props.fromNumber = '123456';

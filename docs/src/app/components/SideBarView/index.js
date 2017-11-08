@@ -44,6 +44,20 @@ function SideBarView(props) {
             <li>
               <Collapse
                 collapsed={false}
+                button={'Styles'}
+              >
+                <ul>
+                  <li>
+                    <Link to={'/styles/colors'}>
+                       Colors
+                    </Link>
+                  </li>
+                </ul>
+              </Collapse>
+            </li>
+            <li>
+              <Collapse
+                collapsed={false}
                 button={'Components'}
               >
                 <ComponentList components={props.components} />

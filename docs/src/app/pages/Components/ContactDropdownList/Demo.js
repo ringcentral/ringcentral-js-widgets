@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ContactDropdownList from 'ringcentral-widget/components/ContactDropdownList';
+import ContactDropdownList from 'ringcentral-widgets/components/ContactDropdownList';
 import styles from './styles.scss';
 
 

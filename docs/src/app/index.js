@@ -7,6 +7,7 @@ import {
 
 import MainView from './components/MainView';
 import OverView from './pages/OverView';
+import ColorsPage from './pages/Styles/Colors';
 import ComponentRoutes from './pages/ComponentRoutes';
 
 import componentsData from './componentsData.json';
@@ -18,7 +19,8 @@ render(
     <MainView components={componentsData}>
       <Route exact path="/" component={OverView} />
       <Route path="/home" component={OverView} />
+      <Route path="/styles/colors" component={ColorsPage} />
       <ComponentRoutes />
     </MainView>
   </Router>
-, document.getElementById('app'));
+  , document.getElementById('app'));

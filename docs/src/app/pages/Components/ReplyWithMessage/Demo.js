@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ReplyWithMessage from 'ringcentral-widget/components/ReplyWithMessage';
+import ReplyWithMessage from 'ringcentral-widgets/components/ReplyWithMessage';
 
 const props = {};
 props.onCancel = () => null;
