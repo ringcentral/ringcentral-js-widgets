@@ -579,15 +579,8 @@ export default class Phone extends RcModule {
       getState: () => this.state.accountPhoneNumber,
     }));
     reducers.accountPhoneNumber = this.accountPhoneNumber.reducer;
-    this.addModule('contacts', new Contacts({
-      auth: this.auth,
-      getState: () => this.state.contacts,
-      ...options,
-    }));
-    reducers.contacts = this.contacts.reducer;
     this.addModule('accountContacts', new AccountContacts({
       client: this.client,
-      contacts: this.contacts,
       accountExtension: this.accountExtension,
       accountPhoneNumber: this.accountPhoneNumber,
       getState: () => this.state.accountContacts,
@@ -597,10 +590,16 @@ export default class Phone extends RcModule {
       client: this.client,
       auth: this.auth,
       storage: this.storage,
-      contacts: this.contacts,
       getState: () => this.state.addressBook,
     }));
     reducers.addressBook = this.addressBook.reducer;
+    this.addModule('contacts', new Contacts({
+      auth: this.auth,
+      contactSources: [this.accountContacts, this.addressBook],
+      getState: () => this.state.contacts,
+      ...options,
+    }));
+    reducers.contacts = this.contacts.reducer;
     this.contactMatcher.addSearchProvider({
       name: 'contacts',
       searchFn: async ({ queries }) => this.contacts.matchContacts({ phoneNumbers: queries }),
