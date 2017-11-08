@@ -40,7 +40,7 @@ function mapToProps(_, _ref) {
       callingSettings = _ref$phone.callingSettings,
       version = _ref$phone.version,
       rolesAndPermissions = _ref$phone.rolesAndPermissions,
-      presence = _ref$phone.presence,
+      detailedPresence = _ref$phone.detailedPresence,
       params = _ref.params;
 
   var loginNumber = '';
@@ -56,7 +56,7 @@ function mapToProps(_, _ref) {
     });
   }
   return {
-    showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && callingSettings.ready && rolesAndPermissions.ready && (!presence || presence.ready)),
+    showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && callingSettings.ready && rolesAndPermissions.ready && (!detailedPresence || detailedPresence.ready)),
     showRegion: loggedIn && brand.id === '1210' && (regionSettings.availableCountries.length > 1 || !!regionSettings.availableCountries.find(function (c) {
       return c.isoCode === 'US';
     }) || !!regionSettings.availableCountries.find(function (c) {
@@ -69,9 +69,9 @@ function mapToProps(_, _ref) {
     ringoutEnabled: rolesAndPermissions.ringoutEnabled,
     outboundSMS: !!rolesAndPermissions.permissions.OutboundSMS || !!rolesAndPermissions.permissions.InternalSMS,
     isCallQueueMember: extensionInfo.isCallQueueMember,
-    dndStatus: presence && presence.dndStatus,
-    userStatus: presence && presence.userStatus,
-    showPresenceSettings: !!(presence && params && params.showPresenceSettings)
+    dndStatus: detailedPresence && detailedPresence.dndStatus,
+    userStatus: detailedPresence && detailedPresence.userStatus,
+    showPresenceSettings: !!(detailedPresence && params && params.showPresenceSettings)
   };
 }
 
@@ -80,7 +80,7 @@ function mapToFunctions(_, _ref2) {
 
   var _ref2$phone = _ref2.phone,
       auth = _ref2$phone.auth,
-      presence = _ref2$phone.presence,
+      detailedPresence = _ref2$phone.detailedPresence,
       router = _ref2$phone.router,
       _ref2$regionSettingsU = _ref2.regionSettingsUrl,
       regionSettingsUrl = _ref2$regionSettingsU === undefined ? '/settings/region' : _ref2$regionSettingsU,
@@ -121,19 +121,19 @@ function mapToFunctions(_, _ref2) {
       router.push(audioSettingsUrl);
     },
     setAvailable: function setAvailable() {
-      return presence && presence.setAvailable.apply(presence, arguments);
+      return detailedPresence && detailedPresence.setAvailable.apply(detailedPresence, arguments);
     },
     setBusy: function setBusy() {
-      return presence && presence.setBusy.apply(presence, arguments);
+      return detailedPresence && detailedPresence.setBusy.apply(detailedPresence, arguments);
     },
     setDoNotDisturb: function setDoNotDisturb() {
-      return presence && presence.setDoNotDisturb.apply(presence, arguments);
+      return detailedPresence && detailedPresence.setDoNotDisturb.apply(detailedPresence, arguments);
     },
     setInvisible: function setInvisible() {
-      return presence && presence.setInvisible.apply(presence, arguments);
+      return detailedPresence && detailedPresence.setInvisible.apply(detailedPresence, arguments);
     },
     toggleAcceptCallQueueCalls: function toggleAcceptCallQueueCalls() {
-      return presence && presence.toggleAcceptCallQueueCalls.apply(presence, arguments);
+      return detailedPresence && detailedPresence.toggleAcceptCallQueueCalls.apply(detailedPresence, arguments);
     }
   };
 }

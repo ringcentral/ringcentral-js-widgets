@@ -81,11 +81,8 @@ var ContactItem = function (_PureComponent) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (ContactItem.__proto__ || (0, _getPrototypeOf2.default)(ContactItem)).call(this, props));
 
     _this.state = {
-      loading: true,
-      avatarUrl: undefined,
-      presence: undefined
+      loading: true
     };
-
     _this.onItemSelected = _this.onItemSelected.bind(_this);
     return _this;
   }
@@ -96,35 +93,23 @@ var ContactItem = function (_PureComponent) {
       var _this2 = this;
 
       this._mounted = true;
-      setTimeout(function () {
-        // clear timeout is probably not necessary
+      this._loadingTimeout = setTimeout(function () {
         if (_this2._mounted) {
           _this2.setState({
             loading: false
           });
         }
-      }, 10);
-
-      this.props.getAvatarUrl(this.props.contact).then(function (avatarUrl) {
-        if (_this2._mounted) {
-          _this2.setState({
-            avatarUrl: avatarUrl
-          });
-        }
-      });
-
-      this.props.getPresence(this.props.contact).then(function (presence) {
-        if (_this2._mounted) {
-          _this2.setState({
-            presence: presence
-          });
-        }
-      });
+      }, 3);
+      this.props.getAvatarUrl(this.props.contact);
+      this.props.getPresence(this.props.contact);
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
       this._mounted = false;
+      if (this._loadingTimeout) {
+        clearTimeout(this._loadingTimeout);
+      }
     }
   }, {
     key: 'onItemSelected',
@@ -140,15 +125,15 @@ var ContactItem = function (_PureComponent) {
       if (this.state.loading) {
         return _react2.default.createElement('div', { className: _styles2.default.root });
       }
-
       var _props$contact = this.props.contact,
           name = _props$contact.name,
-          phoneNumber = _props$contact.phoneNumber,
-          entityType = _props$contact.entityType,
-          showPhoneNumber = _props$contact.showPhoneNumber;
+          extensionNumber = _props$contact.extensionNumber,
+          type = _props$contact.type,
+          profileImageUrl = _props$contact.profileImageUrl,
+          presence = _props$contact.presence;
       var sourceNodeRenderer = this.props.sourceNodeRenderer;
 
-      var sourceNode = sourceNodeRenderer({ sourceType: entityType });
+      var sourceNode = sourceNodeRenderer({ sourceType: type });
       return _react2.default.createElement(
         'div',
         {
@@ -163,7 +148,7 @@ var ContactItem = function (_PureComponent) {
             { className: _styles2.default.avatarNodeContainer },
             _react2.default.createElement(AvatarNode, {
               name: name,
-              avatarUrl: this.state.avatarUrl
+              avatarUrl: profileImageUrl
             })
           ),
           sourceNode ? _react2.default.createElement(
@@ -171,12 +156,12 @@ var ContactItem = function (_PureComponent) {
             { className: _styles2.default.sourceNodeContainer },
             sourceNode
           ) : null,
-          this.state.presence ? _react2.default.createElement(
+          presence ? _react2.default.createElement(
             'div',
             { className: _styles2.default.presenceNodeContainer },
             _react2.default.createElement(_PresenceStatusIcon2.default, (0, _extends3.default)({
               className: _styles2.default.presenceNode
-            }, this.state.presence))
+            }, presence))
           ) : null
         ),
         _react2.default.createElement(
@@ -186,8 +171,8 @@ var ContactItem = function (_PureComponent) {
         ),
         _react2.default.createElement(
           'div',
-          { className: _styles2.default.phoneNumber, title: phoneNumber },
-          showPhoneNumber ? phoneNumber : null
+          { className: _styles2.default.phoneNumber, title: extensionNumber },
+          extensionNumber
         )
       );
     }
@@ -203,11 +188,11 @@ ContactItem.propTypes = {
     id: _propTypes2.default.string,
     type: _propTypes2.default.string,
     hasProfileImage: _propTypes2.default.bool,
-    showPhoneNumber: _propTypes2.default.bool,
-    entityType: _propTypes2.default.string,
     name: _propTypes2.default.string,
-    phoneNumber: _propTypes2.default.string,
-    email: _propTypes2.default.string
+    extensionNumber: _propTypes2.default.string,
+    email: _propTypes2.default.string,
+    profileImageUrl: _propTypes2.default.string,
+    presence: _propTypes2.default.object
   }).isRequired,
   getAvatarUrl: _propTypes2.default.func.isRequired,
   getPresence: _propTypes2.default.func.isRequired,

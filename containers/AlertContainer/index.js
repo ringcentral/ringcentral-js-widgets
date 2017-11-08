@@ -66,10 +66,6 @@ var _RolesAndPermissionsAlert = require('../../components/RolesAndPermissionsAle
 
 var _RolesAndPermissionsAlert2 = _interopRequireDefault(_RolesAndPermissionsAlert);
 
-var _ContactsAlert = require('../../components/ContactsAlert');
-
-var _ContactsAlert2 = _interopRequireDefault(_ContactsAlert);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
@@ -153,10 +149,6 @@ function getDefaultRenderer(_ref2) {
           brand: brand.fullName,
           application: brand.application }));
       };
-    }
-
-    if (_ContactsAlert2.default.handleMessage(message)) {
-      return _ContactsAlert2.default;
     }
 
     return undefined;

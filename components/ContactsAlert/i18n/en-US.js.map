@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/ContactsAlert/i18n/en-US.js"],"names":["inexistence"],"mappings":";;;;;;;;;;AAAA;;;;;;oDAGG,2BAAiBA,W,EAAc,+B","file":"en-US.js","sourcesContent":["import contactsMessages from 'ringcentral-integration/modules/Contacts/contactsMessages';\n\nexport default {\n  [contactsMessages.inexistence]: 'The contact has been removed.',\n};\n"]}
