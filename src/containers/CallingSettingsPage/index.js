@@ -1,17 +1,15 @@
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Brand from 'ringcentral-integration/modules/Brand';
-import CallingSettings from 'ringcentral-integration/modules/CallingSettings';
-import Locale from 'ringcentral-integration/modules/Locale';
-import RouterIntegration from '../../modules/RouterInteraction';
 import CallingSettingsPanel from '../../components/CallingSettingsPanel';
+import withPhone from '../../lib/withPhone';
 
 
 function mapToProps(_, {
-  callingSettings,
-  brand,
-  locale,
-  webphone,
+  phone: {
+    callingSettings,
+    brand,
+    locale,
+    webphone,
+  },
 }) {
   return {
     brand: brand.fullName,
@@ -26,8 +24,10 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-  callingSettings,
-  router,
+  phone: {
+    callingSettings,
+    router,
+  },
 }) {
   return {
     onBackButtonClick: () => {
@@ -41,23 +41,13 @@ function mapToFunctions(_, {
   };
 }
 
-const CallingSettingsPage = connect(
+const CallingSettingsPage = withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(CallingSettingsPanel);
-
-const propTypes = {
-  brand: PropTypes.instanceOf(Brand).isRequired,
-  callingSettings: PropTypes.instanceOf(CallingSettings).isRequired,
-  locale: PropTypes.instanceOf(Locale).isRequired,
-  router: PropTypes.instanceOf(RouterIntegration).isRequired,
-};
-
-CallingSettingsPage.propTypes = propTypes;
+)(CallingSettingsPanel));
 
 export {
   mapToFunctions,
   mapToProps,
-  propTypes,
   CallingSettingsPage as default,
 };

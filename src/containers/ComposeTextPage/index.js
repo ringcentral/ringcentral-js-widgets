@@ -1,24 +1,18 @@
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import ComposeText from 'ringcentral-integration/modules/ComposeText';
-import MessageStore from 'ringcentral-integration/modules/MessageStore';
-import RolesAndPermissions from 'ringcentral-integration/modules/RolesAndPermissions';
-
-import RouterInteraction from '../../modules/RouterInteraction';
-
 import ComposeTextPanel from '../../components/ComposeTextPanel';
-
+import withPhone from '../../lib/withPhone';
 
 function mapToProps(_, {
-  composeText,
-  connectivityMonitor,
-  contactSearch,
-  locale,
-  messageSender,
-  rateLimiter,
-  rolesAndPermissions,
+  phone: {
+    composeText,
+    connectivityMonitor,
+    contactSearch,
+    locale,
+    messageSender,
+    rateLimiter,
+    rolesAndPermissions,
+  },
 }) {
   return {
     currentLocale: locale.currentLocale,
@@ -50,11 +44,13 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-  composeText,
-  contactSearch,
-  messageStore,
-  regionSettings,
-  router,
+  phone: {
+    composeText,
+    contactSearch,
+    messageStore,
+    regionSettings,
+    router,
+  },
   formatContactPhone = phoneNumber => formatNumber({
     phoneNumber,
     areaCode: regionSettings.areaCode,
@@ -95,16 +91,9 @@ function mapToFunctions(_, {
   };
 }
 
-const ComposeTextPage = connect(
+const ComposeTextPage = withPhone(connect(
   mapToProps,
   mapToFunctions
-)(ComposeTextPanel);
-
-ComposeTextPage.propTypes = {
-  router: PropTypes.instanceOf(RouterInteraction).isRequired,
-  composeText: PropTypes.instanceOf(ComposeText).isRequired,
-  messageStore: PropTypes.instanceOf(MessageStore).isRequired,
-  rolesAndPermissions: PropTypes.instanceOf(RolesAndPermissions).isRequired,
-};
+)(ComposeTextPanel));
 
 export default ComposeTextPage;

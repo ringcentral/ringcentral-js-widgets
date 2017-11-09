@@ -3,6 +3,7 @@ import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 
 import SettingsPanel from '../../components/SettingsPanel';
+import withPhone from '../../lib/withPhone';
 
 function mapToProps(_, {
   phone: {
@@ -99,10 +100,10 @@ function mapToFunctions(_, {
     ),
   };
 }
-const SettingsPage = connect(
+const SettingsPage = withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(SettingsPanel);
+)(SettingsPanel));
 
 export {
   mapToFunctions,

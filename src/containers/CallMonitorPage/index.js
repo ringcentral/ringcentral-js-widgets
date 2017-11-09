@@ -1,18 +1,21 @@
 import { connect } from 'react-redux';
 import CallsPanel from '../../components/CallsPanel';
+import withPhone from '../../lib/withPhone';
 import i18n from './i18n';
 
 function mapToProps(_, {
-  locale,
-  brand,
-  callMonitor,
-  regionSettings,
-  connectivityMonitor,
-  rateLimiter,
-  dateTimeFormat,
-  callLogger,
-  composeText,
-  rolesAndPermissions,
+  phone: {
+    locale,
+    brand,
+    callMonitor,
+    regionSettings,
+    connectivityMonitor,
+    rateLimiter,
+    dateTimeFormat,
+    callLogger,
+    composeText,
+    rolesAndPermissions,
+  },
   enableContactFallback = false,
 }) {
   return {
@@ -49,21 +52,23 @@ function mapToProps(_, {
   };
 }
 function mapToFunctions(_, {
-  dateTimeFormat,
+  phone: {
+    callLogger,
+    composeText,
+    contactMatcher,
+    contactSearch,
+    dateTimeFormat,
+    router,
+    webphone,
+  },
   onViewContact,
   onCreateContact,
   dateTimeFormatter = ({ utcTimestamp }) => dateTimeFormat.formatDateTime({
     utcTimestamp,
   }),
-  callLogger,
-  contactMatcher,
-  contactSearch,
   onLogCall,
   isLoggedContact,
-  router,
   composeTextRoute = '/composeText',
-  composeText,
-  webphone,
 }) {
   return {
     dateTimeFormatter,
@@ -122,6 +127,6 @@ function mapToFunctions(_, {
   };
 }
 
-const CallMonitorPage = connect(mapToProps, mapToFunctions)(CallsPanel);
+const CallMonitorPage = withPhone(connect(mapToProps, mapToFunctions)(CallsPanel));
 
 export default CallMonitorPage;

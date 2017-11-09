@@ -7,6 +7,7 @@ import RecentActivityMessages from '../../components/RecentActivityMessages';
 import RecentActivityCalls from '../../components/RecentActivityCalls';
 import VoicemailIcon from '../../assets/images/VoicemailIcon.svg';
 import FaxIcon from '../../assets/images/Fax.svg';
+import withPhone from '../../lib/withPhone';
 import i18n from './i18n';
 
 function getTabs({
@@ -97,17 +98,17 @@ function getTabs({
 }
 
 function mapToProps(_, {
-  locale,
+  phone: {
+    locale,
+    dateTimeFormat,
+    recentMessages,
+    recentCalls,
+    contactMatcher,
+  },
   currentLocale = locale.currentLocale,
-  dateTimeFormat,
   navigateTo,
   dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
-  recentMessages,
-  recentCalls,
-  contactMatcher,
   getSession,
-  contact = null,
-  useContact = false,
 }) {
   let sessionId = null;
   let currentContact = contact;
@@ -151,4 +152,4 @@ function mapToProps(_, {
   };
 }
 
-export default connect(mapToProps)(RecentActivityPanel);
+export default withPhone(connect(mapToProps)(RecentActivityPanel));

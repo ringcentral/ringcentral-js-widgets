@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TabNavigationView from '../../../src/components/TabNavigationView';
-import RouterInteraction from '../../../src/modules/RouterInteraction';
 import DialPadIcon from '../../../src/assets/images/DialPadNav.svg';
 import CallsIcon from '../../../src/assets/images/Calls.svg';
 import HistoryIcon from '../../../src/assets/images/CallHistory.svg';
@@ -29,6 +27,7 @@ import ContactNavIcon from '../../../src/assets/images/ContactsNavigation.svg';
 import MeetingNavIcon from '../../../src/assets/images/MeetingNavigation.svg';
 import ConferenceNavIcon from '../../../src/assets/images/ConferenceNavigation.svg';
 import SettingsNavIcon from '../../../src/assets/images/SettingsNavigation.svg';
+import withPhone from '../../../src/lib/withPhone';
 
 
 function getTabs({
@@ -145,9 +144,11 @@ function getTabs({
 }
 
 function mapToProps(_, {
-  messageStore,
-  rolesAndPermissions,
-  router,
+  phone: {
+    messageStore,
+    rolesAndPermissions,
+    routerInteraction,
+  },
 }) {
   const unreadCounts = messageStore.unreadCounts || 0;
   const serviceFeatures = rolesAndPermissions.serviceFeatures;
@@ -184,29 +185,26 @@ function mapToProps(_, {
   return {
     tabs,
     unreadCounts,
-    currentPath: router.currentPath,
+    currentPath: routerInteraction.currentPath,
   };
 }
 function mapToFunctions(_, {
-  router,
+  phone: {
+    routerInteraction,
+  },
 }) {
   return {
     goTo: (path) => {
       if (path) {
-        router.push(path);
+        routerInteraction.push(path);
       }
     },
   };
 }
 
-const MainView = connect(
+const MainView = withPhone(connect(
   mapToProps,
   mapToFunctions
-)(TabNavigationView);
-
-MainView.propTypes = {
-  router: PropTypes.instanceOf(RouterInteraction).isRequired,
-  tabs: TabNavigationView.propTypes.tabs,
-};
+)(TabNavigationView));
 
 export default MainView;

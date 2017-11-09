@@ -2,14 +2,10 @@ import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import Webphone from 'ringcentral-integration/modules/Webphone';
-import Brand from 'ringcentral-integration/modules/Brand';
-import Locale from 'ringcentral-integration/modules/Locale';
-import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
 import callDirections from 'ringcentral-integration/enums/callDirections';
-import ForwardingNumber from 'ringcentral-integration/modules/ForwardingNumber';
 
 import CallCtrlPanel from '../../components/CallCtrlPanel';
+import withPhone from '../../lib/withPhone';
 
 import i18n from './i18n';
 
@@ -220,13 +216,15 @@ CallCtrlPage.defaultProps = {
 };
 
 function mapToProps(_, {
-  webphone,
-  locale,
-  contactMatcher,
-  regionSettings,
-  brand,
-  forwardingNumber,
-  callMonitor,
+  phone: {
+    webphone,
+    locale,
+    contactMatcher,
+    regionSettings,
+    brand,
+    forwardingNumber,
+    callMonitor,
+  },
 }) {
   const currentSession = webphone.activeSession || {};
   const contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -247,8 +245,10 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-  webphone,
-  regionSettings,
+  phone: {
+    webphone,
+    regionSettings,
+  },
   getAvatarUrl,
   onBackButtonClick,
   onAdd,
@@ -278,17 +278,12 @@ function mapToFunctions(_, {
   };
 }
 
-const CallCtrlContainer = connect(
+const CallCtrlContainer = withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(CallCtrlPage);
+)(CallCtrlPage));
 
 CallCtrlContainer.propTypes = {
-  webphone: PropTypes.instanceOf(Webphone).isRequired,
-  locale: PropTypes.instanceOf(Locale).isRequired,
-  brand: PropTypes.instanceOf(Brand).isRequired,
-  regionSettings: PropTypes.instanceOf(RegionSettings).isRequired,
-  forwardingNumber: PropTypes.instanceOf(ForwardingNumber).isRequired,
   getAvatarUrl: PropTypes.func,
   onBackButtonClick: PropTypes.func.isRequired,
   onAdd: PropTypes.func.isRequired,

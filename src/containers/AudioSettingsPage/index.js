@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import callingOptions from 'ringcentral-integration/modules/CallingSettings/callingOptions';
 import AudioSettingsPanel from '../../components/AudioSettingsPanel';
+import withPhone from '../../lib/withPhone';
 
 
 function mapToProps(_, {
@@ -62,10 +63,10 @@ function mapToFunctions(_, {
   };
 }
 
-const AudioSettingsPage = connect(
+const AudioSettingsPage = withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(AudioSettingsPanel);
+)(AudioSettingsPanel));
 
 export {
   mapToFunctions,

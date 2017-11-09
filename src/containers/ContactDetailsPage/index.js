@@ -1,11 +1,16 @@
 import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import ContactDetailsView from '../../components/ContactDetailsView';
+import withPhone from '../../lib/withPhone';
 
 function mapToProps(_, {
-  locale,
-  contactDetails,
-  contactSearch,
+  params,
+  phone: {
+    locale,
+    contacts,
+    contactDetails,
+    contactSearch,
+  },
 }) {
   return {
     currentLocale: locale.currentLocale,
@@ -19,15 +24,19 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-  router,
-  contactDetails,
-  regionSettings,
   params,
-  call,
-  composeText,
-  contactSearch,
   dialerRoute = '/dialer',
   composeTextRoute = '/composeText',
+  phone: {
+    router,
+    contacts,
+    router,
+    contactDetails,
+    regionSettings,
+    call,
+    composeText,
+    contactSearch,
+  },
 }) {
   return {
     getContact: () => {
@@ -78,6 +87,6 @@ function mapToFunctions(_, {
   };
 }
 
-const ContactDetailsPage = connect(mapToProps, mapToFunctions)(ContactDetailsView);
+const ContactDetailsPage = withPhone(connect(mapToProps, mapToFunctions)(ContactDetailsView));
 
 export default ContactDetailsPage;

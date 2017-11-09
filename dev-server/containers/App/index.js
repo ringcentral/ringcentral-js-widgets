@@ -26,6 +26,7 @@ import ContactDetailsPage from '../../../src/containers/ContactDetailsPage';
 import ContactSourceFilter from '../../../src/components/ContactSourceFilter';
 import MainView from '../MainView';
 import AppView from '../AppView';
+import PhoneProvider from '../../../src/lib/PhoneProvider';
 
 export default function App({
   phone,
@@ -35,197 +36,22 @@ export default function App({
     brandIcon: icon
   };
   return (
-    <Provider store={phone.store} >
-      <Router history={phone.router.history} >
-        <Route
-          component={routerProps => (
-            <AppView
-              auth={phone.auth}
-              alert={phone.alert}
-              locale={phone.locale}
-              environment={phone.environment}
-              brand={phone.brand}
-              rateLimiter={phone.rateLimiter}
-              connectivityMonitor={phone.connectivityMonitor}
-              callingSettings={phone.callingSettings}>
-              {routerProps.children}
-              <CallBadgeContainer
-                locale={phone.locale}
-                webphone={phone.webphone}
-                hidden={routerProps.location.pathname === '/calls/active'}
-                goToCallCtrl={() => {
-                  phone.router.push('/calls/active');
-                }}
-              />
-              <IncomingCallPage
-                locale={phone.locale}
-                brand={phone.brand}
-                webphone={phone.webphone}
-                forwardingNumber={phone.forwardingNumber}
-                regionSettings={phone.regionSettings}
-                router={phone.router}
-                contactMatcher={phone.contactMatcher}
-                showContactDisplayPlaceholder={false}
-                sourceIcons={sourceIcons}
-                getAvatarUrl={
-                  async (contact) => {
-                    const avatarUrl = await phone.contacts.getProfileImage(contact, false);
-                    return avatarUrl;
-                  }
-                }
-              >
-                <AlertContainer
-                  locale={phone.locale}
-                  alert={phone.alert}
-                  rateLimiter={phone.rateLimiter}
-                  brand={phone.brand}
-                  router={phone.router}
-                  callingSettingsUrl="/settings/calling"
-                  regionSettingsUrl="/settings/region"
-                />
-                <RecentActivityContainer
-                  locale={phone.locale}
-                  dateTimeFormat={phone.dateTimeFormat}
-                  contactMatcher={phone.contactMatcher}
-                  recentMessages={phone.recentMessages}
-                  recentCalls={phone.recentCalls}
-                  getSession={() => (phone.webphone.ringSession || {})}
-                  navigateTo={(path) => {
-                    phone.webphone.toggleMinimized(
-                      phone.webphone.ringSession && phone.webphone.ringSession.id
-                    );
-                    phone.router.push(path);
+    <PhoneProvider phone={phone}>
+      <Provider store={phone.store} >
+        <Router history={phone.router.history} >
+          <Route
+            component={routerProps => (
+              <AppView>
+                {routerProps.children}
+                <CallBadgeContainer
+                  hidden={routerProps.location.pathname === '/calls/active'}
+                  goToCallCtrl={() => {
+                    phone.router.push('/calls/active');
                   }}
                 />
-              </IncomingCallPage>
-            </AppView>
-          )} >
-          <Route
-            path="/"
-            component={() => (
-              <WelcomePage
-                auth={phone.auth}
-                locale={phone.locale}
-                rateLimiter={phone.rateLimiter}
-                connectivityMonitor={phone.connectivityMonitor}
-                version={phone.version} >
-                <AlertContainer
-                  locale={phone.locale}
-                  alert={phone.alert}
-                  rateLimiter={phone.rateLimiter}
-                  brand={phone.brand}
-                  router={phone.router}
-                  callingSettingsUrl="/settings/calling"
-                  regionSettingsUrl="/settings/region"
-                />
-              </WelcomePage>
-            )}
-          />
-          <Route
-            path="/"
-            component={props => (
-              <MainView
-                router={phone.router}
-                messageStore={phone.messageStore}
-                auth={phone.auth}
-                rolesAndPermissions={phone.rolesAndPermissions} >
-                {props.children}
-                <AlertContainer
-                  locale={phone.locale}
-                  alert={phone.alert}
-                  rateLimiter={phone.rateLimiter}
-                  brand={phone.brand}
-                  router={phone.router}
-                  callingSettingsUrl="/settings/calling"
-                  regionSettingsUrl="/settings/region"
-                />
-              </MainView>
-            )} >
-            <Route
-              path="dialer"
-              component={() => (
-                <DialerPage
-                  phone={phone}
-                />
-              )} />
-            <Route
-              path="/settings"
-              component={routerProps => (
-                <SettingsPage
-                  params={routerProps.location.query}
-                  phone={phone}
-                />
-              )}
-            />
-            <Route
-              path="/settings/region"
-              component={() => (
-                <RegionSettingsPage
-                  regionSettings={phone.regionSettings}
-                  locale={phone.locale}
-                  router={phone.router}
-                />
-              )} />
-            <Route
-              path="/settings/calling"
-              component={() => (
-                <CallingSettingsPage
-                  brand={phone.brand}
-                  callingSettings={phone.callingSettings}
-                  locale={phone.locale}
-                  router={phone.router}
-                  webphone={phone.webphone}
-                />
-              )} />
-            <Route
-              path="/settings/audio"
-              component={() => (
-                <AudioSettingsPage
-                  phone={phone}
-                />
-              )} />
-            <Route
-              path="/calls"
-              component={() => (
-                <ActiveCallsPage
-                  locale={phone.locale}
-                  callMonitor={phone.callMonitor}
-                  contactMatcher={phone.contactMatcher}
-                  contactSearch={phone.contactSearch}
-                  regionSettings={phone.regionSettings}
-                  connectivityMonitor={phone.connectivityMonitor}
-                  rateLimiter={phone.rateLimiter}
-                  onLogCall={async () => { await sleep(1000); }}
-                  onViewContact={() => { }}
-                  onCreateContact={() => { }}
-                  router={phone.router}
-                  composeText={phone.composeText}
-                  rolesAndPermissions={phone.rolesAndPermissions}
-                  webphone={phone.webphone}
-                  brand={phone.brand}
-                  onCallsEmpty={() => {}}
-                  sourceIcons={sourceIcons}
-                />
-              )} />
-            <Route
-              path="/calls/active"
-              component={() => (
-                <CallCtrlPage
-                  callMonitor={phone.callMonitor}
-                  brand={phone.brand}
-                  locale={phone.locale}
-                  contactMatcher={phone.contactMatcher}
-                  webphone={phone.webphone}
-                  regionSettings={phone.regionSettings}
-                  forwardingNumber={phone.forwardingNumber}
+                <IncomingCallPage
                   showContactDisplayPlaceholder={false}
                   sourceIcons={sourceIcons}
-                  onAdd={() => {
-                    phone.router.push('/dialer');
-                  }}
-                  onBackButtonClick={() => {
-                    phone.router.push('/calls');
-                  }}
                   getAvatarUrl={
                     async (contact) => {
                       const avatarUrl = await phone.contacts.getProfileImage(contact, false);
@@ -233,166 +59,167 @@ export default function App({
                     }
                   }
                 >
+                  <AlertContainer
+                    callingSettingsUrl="/settings/calling"
+                    regionSettingsUrl="/settings/region"
+                  />
                   <RecentActivityContainer
-                    locale={phone.locale}
-                    dateTimeFormat={phone.dateTimeFormat}
-                    contactMatcher={phone.contactMatcher}
-                    recentMessages={phone.recentMessages}
-                    recentCalls={phone.recentCalls}
-                    getSession={() => (phone.webphone.activeSession || {})}
+                    getSession={() => (phone.webphone.ringSession || {})}
                     navigateTo={(path) => {
+                      phone.webphone.toggleMinimized(
+                        phone.webphone.ringSession && phone.webphone.ringSession.id
+                      );
                       phone.router.push(path);
                     }}
+                    useContact
                   />
-                </CallCtrlPage>
-              )} />
+                </IncomingCallPage>
+              </AppView>
+            )} >
             <Route
-              path="/history"
+              path="/"
               component={() => (
-                <CallHistoryPage
-                  brand={phone.brand}
-                  locale={phone.locale}
-                  sourceIcons={sourceIcons}
-                  callHistory={phone.callHistory}
-                  contactMatcher={phone.contactMatcher}
-                  contactSearch={phone.contactSearch}
-                  regionSettings={phone.regionSettings}
-                  connectivityMonitor={phone.connectivityMonitor}
-                  rateLimiter={phone.rateLimiter}
-                  dateTimeFormat={phone.dateTimeFormat}
-                  call={phone.call}
-                  composeText={phone.composeText}
-                  rolesAndPermissions={phone.rolesAndPermissions}
-                  router={phone.router}
-                  showContactDisplayPlaceholder={false}
-                  onLogCall={async () => { await sleep(1000); }}
-                  onCreateContact={() => { }}
-                />
-              )} />
+                <WelcomePage
+                  version={phone.version} >
+                  <AlertContainer
+                    callingSettingsUrl="/settings/calling"
+                    regionSettingsUrl="/settings/region"
+                  />
+                </WelcomePage>
+              )}
+            />
             <Route
-              path="/conference"
-              component={() => (
-                <ConferencePage
-                  conference={phone.conference}
-                  regionSettings={phone.regionSettings}
-                  locale={phone.locale}
-                  composeText={phone.composeText}
-                  router={phone.router}
-                />
-              )} />
-            <Route
-              path="/composeText"
-              component={() => (
-                <ComposeTextPage
-                  locale={phone.locale}
-                  auth={phone.auth}
-                  composeText={phone.composeText}
-                  messageStore={phone.messageStore}
-                  router={phone.router}
-                  regionSettings={phone.regionSettings}
-                  contactSearch={phone.contactSearch}
-                  rolesAndPermissions={phone.rolesAndPermissions}
-                  messageSender={phone.messageSender}
-                  connectivityMonitor={phone.connectivityMonitor}
-                  rateLimiter={phone.rateLimiter}
-                />
-              )} />
-            <Route
-              path="/conversations/:conversationId"
+              path="/"
               component={props => (
-                <ConversationPage
-                  brand={phone.brand}
-                  locale={phone.locale}
-                  auth={phone.auth}
-                  params={props.params}
-                  regionSettings={phone.regionSettings}
-                  conversation={phone.conversation}
-                  messageStore={phone.messageStore}
-                  dateTimeFormat={phone.dateTimeFormat}
-                  contactMatcher={phone.contactMatcher}
-                  messages={phone.messages}
-                  conversationLogger={phone.conversationLogger}
-                  rateLimiter={phone.rateLimiter}
-                  connectivityMonitor={phone.connectivityMonitor}
-                  onLogConversation={async () => { sleep(1000); }}
-                  showContactDisplayPlaceholder={false}
-                  router={phone.router}
-                  sourceIcons={sourceIcons}
-                />
-              )} />
-            <Route
-              path="/messages"
-              component={() => (
-                <MessagesPage
-                  brand={phone.brand}
-                  locale={phone.locale}
-                  router={phone.router}
-                  messages={phone.messages}
-                  regionSettings={phone.regionSettings}
-                  dateTimeFormat={phone.dateTimeFormat}
-                  connectivityMonitor={phone.connectivityMonitor}
-                  rateLimiter={phone.rateLimiter}
-                  call={phone.call}
-                  conversationLogger={phone.conversationLogger}
-                  rolesAndPermissions={phone.rolesAndPermissions}
-                  showContactDisplayPlaceholder={false}
-                  onLogConversation={async () => { await sleep(1000); }}
-                  onViewContact={() => { }}
-                  onCreateContact={() => { }}
-                  sourceIcons={sourceIcons}
-                />
-              )} />
-            <Route
-              path="/contacts"
-              component={props =>
-                !props.location.query.direct ? (
-                  <ContactsPage
-                    locale={phone.locale}
-                    router={phone.router}
-                    contacts={phone.contacts}
-                    contactSourceFilterRenderer={props => (
-                      <ContactSourceFilter {...props} />
-                    )}
-                  >
-                    {props.children}
-                  </ContactsPage>
-                ) : props.children
-              }
-            >
+                <MainView>
+                  {props.children}
+                  <AlertContainer
+                    callingSettingsUrl="/settings/calling"
+                    regionSettingsUrl="/settings/region"
+                  />
+                </MainView>
+              )} >
               <Route
-                path=":contactType/:contactId"
-                component={props => (
-                  <ContactDetailsPage
-                    params={props.params}
-                    locale={phone.locale}
-                    router={phone.router}
-                    call={phone.call}
-                    composeText={phone.composeText}
-                    contactSearch={phone.contactSearch}
-                    contactDetails={phone.contactDetails}
-                    regionSettings={phone.regionSettings}
+                path="dialer"
+                component={() => (
+                  <DialerPage />
+                )} />
+              <Route
+                path="/settings"
+                component={routerProps => (
+                  <SettingsPage
+                    params={routerProps.location.query}
+                  />
+                )}
+              />
+              <Route
+                path="/settings/region"
+                component={RegionSettingsPage} />
+              <Route
+                path="/settings/calling"
+                component={CallingSettingsPage} />
+              <Route
+                path="/settings/audio"
+                component={AudioSettingsPage} />
+              <Route
+                path="/calls"
+                component={() => (
+                  <ActiveCallsPage
+                    onLogCall={async () => { await sleep(1000); }}
+                    onViewContact={() => { }}
+                    onCreateContact={() => { }}
+                    onCallsEmpty={() => {}}
+                    sourceIcons={sourceIcons}
+                  />
+                )} />
+              <Route
+                path="/calls/active"
+                component={() => (
+                  <CallCtrlPage
+                    showContactDisplayPlaceholder={false}
+                    sourceIcons={sourceIcons}
+                    onAdd={() => {
+                      phone.router.push('/dialer');
+                    }}
+                    onBackButtonClick={() => {
+                      phone.router.push('/calls');
+                    }}
+                    getAvatarUrl={
+                      async (contact) => {
+                        const avatarUrl = await phone.contacts.getProfileImage(contact, false);
+                        return avatarUrl;
+                      }
+                    }
                   >
                     <RecentActivityContainer
-                      locale={phone.locale}
-                      dateTimeFormat={phone.dateTimeFormat}
-                      recentMessages={phone.recentMessages}
-                      recentCalls={phone.recentCalls}
+                      getSession={() => (phone.webphone.activeSession || {})}
                       navigateTo={(path) => {
                         phone.router.push(path);
                       }}
-                      contact={phone.contactDetails.contact}
-                      useContact
+                    />
+                  </CallCtrlPage>
+                )} />
+              <Route
+                path="/history"
+                component={() => (
+                  <CallHistoryPage
+                    showContactDisplayPlaceholder={false}
+                    onLogCall={async () => { await sleep(1000); }}
+                    onViewContact={() => { }}
+                    onCreateContact={() => { }}
                   />
-                  </ContactDetailsPage>
-              )} />
+                )} />
+              <Route
+                path="/conference"
+                component={ConferencePage} />
+              <Route
+                path="/composeText"
+                component={ComposeTextPage} />
+              <Route
+                path="/conversations/:conversationId"
+                component={props => (
+                  <ConversationPage
+                    params={props.params}
+                    onLogConversation={async () => { sleep(1000); }}
+                    showContactDisplayPlaceholder={false}
+                    sourceIcons={sourceIcons}
+                  />
+                )} />
+              <Route
+                path="/messages"
+                component={() => (
+                  <MessagesPage
+                    showContactDisplayPlaceholder={false}
+                    onLogConversation={async () => { await sleep(1000); }}
+                    onViewContact={() => { }}
+                    onCreateContact={() => { }}
+                    sourceIcons={sourceIcons}
+                  />
+                )} />
+              <Route
+                path="/contacts"
+                component={() => (
+                  <ContactsPage
+                    contactSourceFilterRenderer={props => (
+                      <ContactSourceFilter {...props} />
+                    )}
+                  />
+                )} />
+              <Route
+                path="/contacts/:contactType/:contactId"
+                component={props => (
+                  <ContactDetailsPage
+                    params={props.params}
+                  />
+                )} />
+              <Route
+                path="/meeting"
+              />
             </Route>
-            <Route
-              path="/meeting"
-            />
           </Route>
-        </Route>
-      </Router>
-    </Provider>
+        </Router>
+      </Provider>
+    </PhoneProvider>
   );
 }
 

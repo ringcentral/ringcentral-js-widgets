@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Header from '../../components/Header';
 import SpinnerOverlay from '../../components/SpinnerOverlay';
 import MessageList from '../../components/MessageList';
+import withPhone from '../../lib/withPhone';
 import styles from './styles.scss';
 import i18n from './i18n';
 
@@ -52,17 +53,19 @@ MessagesPanel.defaultProps = {
 };
 
 function mapToProps(_, {
-  brand,
-  locale,
-  messages,
-  contactMatcher,
-  dateTimeFormat,
-  regionSettings,
-  rolesAndPermissions,
-  call,
-  conversationLogger,
-  connectivityMonitor,
-  rateLimiter,
+  phone: {
+    brand,
+    locale,
+    messages,
+    contactMatcher,
+    dateTimeFormat,
+    regionSettings,
+    rolesAndPermissions,
+    call,
+    conversationLogger,
+    connectivityMonitor,
+    rateLimiter,
+  },
   showTitle = false,
   enableContactFallback = false,
 }) {
@@ -107,13 +110,15 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-  dateTimeFormat,
+  phone: {
+    dateTimeFormat,
+    messages,
+    conversationLogger,
+    contactMatcher,
+    call,
+    router,
+  },
   dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
-  messages,
-  conversationLogger,
-  contactMatcher,
-  call,
-  router,
   dialerRoute = '/dialer',
   onCreateContact,
   onLogConversation,
@@ -167,7 +172,7 @@ function mapToFunctions(_, {
     },
   };
 }
-export default connect(
+export default withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(MessagesPanel);
+)(MessagesPanel));

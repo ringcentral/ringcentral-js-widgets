@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
 import CallsPanel from '../../components/CallsPanel';
+import withPhone from '../../lib/withPhone';
 import i18n from './i18n';
 
 function mapToProps(_, {
-  locale,
+  phone: {
+    locale,
   brand,
   callHistory,
   regionSettings,
@@ -14,6 +16,7 @@ function mapToProps(_, {
   call,
   composeText,
   rolesAndPermissions,
+  },
   enableContactFallback = false,
 }) {
   return {
@@ -51,21 +54,23 @@ function mapToProps(_, {
   };
 }
 function mapToFunctions(_, {
-  dateTimeFormat,
+  phone: {
+    dateTimeFormat,
+    callLogger,
+    contactMatcher,
+    call,
+    composeText,
+    router,
+    contactSearch,
+  },
   onCreateContact,
   dateTimeFormatter = ({ utcTimestamp }) => dateTimeFormat.formatDateTime({
     utcTimestamp,
   }),
-  callLogger,
-  contactMatcher,
   onLogCall,
   isLoggedContact,
-  call,
-  composeText,
-  router,
   dialerRoute = '/dialer',
   composeTextRoute = '/composeText',
-  contactSearch,
 }) {
   return {
     dateTimeFormatter,
@@ -115,16 +120,16 @@ function mapToFunctions(_, {
       undefined,
     isLoggedContact,
     onLogCall: onLogCall ||
-    (callLogger && (async ({ call, contact, redirect = true }) => {
-      await callLogger.logCall({
-        call,
-        contact,
-        redirect,
-      });
-    })),
+      (callLogger && (async ({ call, contact, redirect = true }) => {
+        await callLogger.logCall({
+          call,
+          contact,
+          redirect,
+        });
+      })),
   };
 }
 
-const CallsPage = connect(mapToProps, mapToFunctions)(CallsPanel);
+const CallsPage = withPhone(connect(mapToProps, mapToFunctions)(CallsPanel));
 
 export default CallsPage;
