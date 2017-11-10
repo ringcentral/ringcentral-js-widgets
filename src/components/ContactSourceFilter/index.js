@@ -48,7 +48,7 @@ export default class ContactSourceFilter extends Component {
     this.setState(() => ({
       unfold: false
     }));
-    if (typeof this.props.onUnfoldChange) {
+    if (typeof this.props.onUnfoldChange === 'function') {
       this.props.onUnfoldChange(false);
     }
     window.removeEventListener('click', this.hideList);
@@ -59,7 +59,7 @@ export default class ContactSourceFilter extends Component {
       unfold: true
     }));
     window.addEventListener('click', this.hideList);
-    if (typeof this.props.onUnfoldChange) {
+    if (typeof this.props.onUnfoldChange === 'function') {
       this.props.onUnfoldChange(true);
     }
   }
