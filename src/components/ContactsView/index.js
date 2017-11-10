@@ -42,14 +42,23 @@ export default class ContactsView extends Component {
     super(props);
     this.state = {
       searchString: props.searchString,
+      unfold: false,
     };
     this.doSearchByText = this.doSearchByText.bind(this);
     this.doSearchBySource = this.doSearchBySource.bind(this);
     this.loadNextPage = this.loadNextPage.bind(this);
+    this.onUnfoldChange = (unfold) => {
+      this.setState({
+        unfold,
+      });
+    };
   }
 
   componentDidMount() {
     // this._restSearch();
+    if (typeof this.props.onVisitPage === 'function') {
+      this.props.onVisitPage();
+    }
     this._applySearch({
       searchSource: this.props.searchSource,
       searchString: this.state.searchString,
@@ -60,6 +69,12 @@ export default class ContactsView extends Component {
   componentWillUpdate(nextProps, nextState) {
     if (nextProps.searchString !== this.props.searchString) {
       nextState.searchString = nextProps.searchString;
+    }
+    if (!nextProps.contactSourceNames.includes(nextProps.searchSource)) {
+      this._applySearch({
+        searchSource: nextProps.contactSourceNames[0],
+        searchString: this.state.searchString,
+      });
     }
   }
 
@@ -130,21 +145,6 @@ export default class ContactsView extends Component {
       sourceNodeRenderer,
     } = this.props;
 
-    const content = showSpinner ?
-      <SpinnerOverlay /> :
-      (
-        <ContactList
-          currentLocale={currentLocale}
-          contactGroups={contactGroups}
-          getAvatarUrl={getAvatarUrl}
-          getPresence={getPresence}
-          currentPage={currentPage}
-          onNextPage={this.loadNextPage}
-          onItemSelect={onItemSelect}
-          sourceNodeRenderer={sourceNodeRenderer}
-        />
-      );
-
     return (
       <div className={styles.root}>
         <div className={styles.actionBar}>
@@ -164,11 +164,23 @@ export default class ContactsView extends Component {
             contactSourceNames={contactSourceNames}
             onSourceSelect={this.doSearchBySource}
             selectedSourceName={searchSource}
+            unfold={this.state.unfold}
+            onUnfoldChange={this.onUnfoldChange}
           />
         </div>
         <Panel className={styles.content}>
-          {content}
+          <ContactList
+            currentLocale={currentLocale}
+            contactGroups={contactGroups}
+            getAvatarUrl={getAvatarUrl}
+            getPresence={getPresence}
+            currentPage={currentPage}
+            onNextPage={this.loadNextPage}
+            onItemSelect={onItemSelect}
+            sourceNodeRenderer={sourceNodeRenderer}
+          />
         </Panel>
+        {showSpinner ? (<SpinnerOverlay className={styles.spinner} />) : null}
       </div>
     );
   }
@@ -192,6 +204,7 @@ ContactsView.propTypes = {
   onSearchContact: PropTypes.func,
   contactSourceFilterRenderer: PropTypes.func,
   sourceNodeRenderer: PropTypes.func,
+  onVisitPage: PropTypes.func,
   // onRestSearch: PropTypes.func,
 };
 
@@ -203,5 +216,6 @@ ContactsView.defaultProps = {
   onSearchContact: undefined,
   contactSourceFilterRenderer: ContactSourceFilter,
   sourceNodeRenderer: undefined,
+  onVisitPage: undefined,
   // onRestSearch: undefined,
 };

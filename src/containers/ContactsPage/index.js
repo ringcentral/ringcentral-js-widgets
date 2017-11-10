@@ -23,6 +23,7 @@ function mapToFunctions(_, {
   router,
   contacts,
   onItemSelect,
+  onVisitPage,
 }) {
   return {
     getAvatarUrl: async () => null,
@@ -40,6 +41,7 @@ function mapToFunctions(_, {
         pageNumber
       });
     },
+    onVisitPage,
   };
 }
 
