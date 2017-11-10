@@ -54,7 +54,7 @@ function mapToFunctions(_, _ref2) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return contacts.getImageProfile(contact);
+                return contacts.getProfileImage(contact);
 
               case 2:
                 avatarUrl = _context.sent;

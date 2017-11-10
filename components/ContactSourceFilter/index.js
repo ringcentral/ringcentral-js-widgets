@@ -95,6 +95,9 @@ var ContactSourceFilter = function (_Component) {
           unfold: false
         };
       });
+      if (typeof _this.props.onUnfoldChange === 'function') {
+        _this.props.onUnfoldChange(false);
+      }
       window.removeEventListener('click', _this.hideList);
     };
 
@@ -105,6 +108,9 @@ var ContactSourceFilter = function (_Component) {
         };
       });
       window.addEventListener('click', _this.hideList);
+      if (typeof _this.props.onUnfoldChange === 'function') {
+        _this.props.onUnfoldChange(true);
+      }
     };
 
     _this.togglePanel = function (evt) {
@@ -125,8 +131,9 @@ var ContactSourceFilter = function (_Component) {
       _this.hideList();
     };
 
+    var unfold = props.unfold !== undefined ? props.unfold : false;
     _this.state = {
-      unfold: false
+      unfold: unfold
     };
     return _this;
   }
@@ -200,12 +207,16 @@ ContactSourceFilter.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired,
   onSourceSelect: _propTypes2.default.func,
   selectedSourceName: _propTypes2.default.string,
-  contactSourceNames: _propTypes2.default.arrayOf(_propTypes2.default.string).isRequired
+  contactSourceNames: _propTypes2.default.arrayOf(_propTypes2.default.string).isRequired,
+  unfold: _propTypes2.default.bool,
+  onUnfoldChange: _propTypes2.default.func
 };
 
 ContactSourceFilter.defaultProps = {
   className: undefined,
   selectedSourceName: undefined,
-  onSourceSelect: undefined
+  onSourceSelect: undefined,
+  unfold: undefined,
+  onUnfoldChange: undefined
 };
 //# sourceMappingURL=index.js.map

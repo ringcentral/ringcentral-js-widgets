@@ -40,7 +40,8 @@ function mapToFunctions(_, _ref2) {
 
   var router = _ref2.router,
       contacts = _ref2.contacts,
-      onItemSelect = _ref2.onItemSelect;
+      onItemSelect = _ref2.onItemSelect,
+      onVisitPage = _ref2.onVisitPage;
 
   return {
     getAvatarUrl: function () {
@@ -121,7 +122,8 @@ function mapToFunctions(_, _ref2) {
         searchFilter: searchString,
         pageNumber: pageNumber
       });
-    }
+    },
+    onVisitPage: onVisitPage
   };
 }
 

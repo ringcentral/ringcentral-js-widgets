@@ -133,6 +133,9 @@ var ContactList = function (_Component) {
   }, {
     key: 'detectNextPage',
     value: function detectNextPage(el) {
+      if (!el) {
+        return;
+      }
       if (this.downwards) {
         if (el.scrollTop + el.clientHeight > el.scrollHeight - 20) {
           this.downwards = false;

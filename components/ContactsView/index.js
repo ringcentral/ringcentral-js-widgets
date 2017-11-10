@@ -111,11 +111,17 @@ var ContactsView = function (_Component) {
     var _this = (0, _possibleConstructorReturn3.default)(this, (ContactsView.__proto__ || (0, _getPrototypeOf2.default)(ContactsView)).call(this, props));
 
     _this.state = {
-      searchString: props.searchString
+      searchString: props.searchString,
+      unfold: false
     };
     _this.doSearchByText = _this.doSearchByText.bind(_this);
     _this.doSearchBySource = _this.doSearchBySource.bind(_this);
     _this.loadNextPage = _this.loadNextPage.bind(_this);
+    _this.onUnfoldChange = function (unfold) {
+      _this.setState({
+        unfold: unfold
+      });
+    };
     return _this;
   }
 
@@ -123,6 +129,9 @@ var ContactsView = function (_Component) {
     key: 'componentDidMount',
     value: function componentDidMount() {
       // this._restSearch();
+      if (typeof this.props.onVisitPage === 'function') {
+        this.props.onVisitPage();
+      }
       this._applySearch({
         searchSource: this.props.searchSource,
         searchString: this.state.searchString,
@@ -134,6 +143,12 @@ var ContactsView = function (_Component) {
     value: function componentWillUpdate(nextProps, nextState) {
       if (nextProps.searchString !== this.props.searchString) {
         nextState.searchString = nextProps.searchString;
+      }
+      if (!nextProps.contactSourceNames.includes(nextProps.searchSource)) {
+        this._applySearch({
+          searchSource: nextProps.contactSourceNames[0],
+          searchString: this.state.searchString
+        });
       }
     }
   }, {
@@ -214,17 +229,6 @@ var ContactsView = function (_Component) {
           sourceNodeRenderer = _props.sourceNodeRenderer;
 
 
-      var content = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(_ContactList2.default, {
-        currentLocale: currentLocale,
-        contactGroups: contactGroups,
-        getAvatarUrl: getAvatarUrl,
-        getPresence: getPresence,
-        currentPage: currentPage,
-        onNextPage: this.loadNextPage,
-        onItemSelect: onItemSelect,
-        sourceNodeRenderer: sourceNodeRenderer
-      });
-
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.root },
@@ -246,14 +250,26 @@ var ContactsView = function (_Component) {
             currentLocale: currentLocale,
             contactSourceNames: contactSourceNames,
             onSourceSelect: this.doSearchBySource,
-            selectedSourceName: searchSource
+            selectedSourceName: searchSource,
+            unfold: this.state.unfold,
+            onUnfoldChange: this.onUnfoldChange
           })
         ),
         _react2.default.createElement(
           _Panel2.default,
           { className: _styles2.default.content },
-          content
-        )
+          _react2.default.createElement(_ContactList2.default, {
+            currentLocale: currentLocale,
+            contactGroups: contactGroups,
+            getAvatarUrl: getAvatarUrl,
+            getPresence: getPresence,
+            currentPage: currentPage,
+            onNextPage: this.loadNextPage,
+            onItemSelect: onItemSelect,
+            sourceNodeRenderer: sourceNodeRenderer
+          })
+        ),
+        showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner }) : null
       );
     }
   }]);
@@ -280,7 +296,8 @@ ContactsView.propTypes = {
   onItemSelect: _propTypes2.default.func,
   onSearchContact: _propTypes2.default.func,
   contactSourceFilterRenderer: _propTypes2.default.func,
-  sourceNodeRenderer: _propTypes2.default.func
+  sourceNodeRenderer: _propTypes2.default.func,
+  onVisitPage: _propTypes2.default.func
   // onRestSearch: PropTypes.func,
 };
 
@@ -291,7 +308,8 @@ ContactsView.defaultProps = {
   onItemSelect: undefined,
   onSearchContact: undefined,
   contactSourceFilterRenderer: _ContactSourceFilter2.default,
-  sourceNodeRenderer: undefined
+  sourceNodeRenderer: undefined,
+  onVisitPage: undefined
   // onRestSearch: undefined,
 };
 //# sourceMappingURL=index.js.map
