@@ -133,21 +133,6 @@ export default class ContactsView extends Component {
       sourceNodeRenderer,
     } = this.props;
 
-    const content = showSpinner ?
-      <SpinnerOverlay /> :
-      (
-        <ContactList
-          currentLocale={currentLocale}
-          contactGroups={contactGroups}
-          getAvatarUrl={getAvatarUrl}
-          getPresence={getPresence}
-          currentPage={currentPage}
-          onNextPage={this.loadNextPage}
-          onItemSelect={onItemSelect}
-          sourceNodeRenderer={sourceNodeRenderer}
-        />
-      );
-
     return (
       <div className={styles.root}>
         <div className={styles.actionBar}>
@@ -170,8 +155,18 @@ export default class ContactsView extends Component {
           />
         </div>
         <Panel className={styles.content}>
-          {content}
+          <ContactList
+            currentLocale={currentLocale}
+            contactGroups={contactGroups}
+            getAvatarUrl={getAvatarUrl}
+            getPresence={getPresence}
+            currentPage={currentPage}
+            onNextPage={this.loadNextPage}
+            onItemSelect={onItemSelect}
+            sourceNodeRenderer={sourceNodeRenderer}
+          />
         </Panel>
+        {showSpinner ? (<SpinnerOverlay className={styles.spinner} />) : null}
       </div>
     );
   }

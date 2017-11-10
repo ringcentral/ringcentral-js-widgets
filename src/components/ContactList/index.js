@@ -77,6 +77,9 @@ export default class ContactList extends Component {
   }
 
   detectNextPage(el) {
+    if (!el) {
+      return;
+    }
     if (this.downwards) {
       if ((el.scrollTop + el.clientHeight) > (el.scrollHeight - 20)) {
         this.downwards = false;
