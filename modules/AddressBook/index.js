@@ -420,8 +420,10 @@ var AddressBook = (_dec = (0, _di.Module)({
                     }, _callee3, _this3, [[0, 9]]);
                   }))();
                 }
+                _context4.next = 3;
+                return this._promise;
 
-              case 1:
+              case 3:
               case 'end':
                 return _context4.stop();
             }
@@ -638,6 +640,11 @@ var AddressBook = (_dec = (0, _di.Module)({
     key: 'contacts',
     get: function get() {
       return this._selectors.contacts();
+    }
+  }, {
+    key: 'sourceReady',
+    get: function get() {
+      return this.ready;
     }
   }]);
   return AddressBook;

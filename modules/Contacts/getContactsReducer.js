@@ -14,6 +14,8 @@ var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
 
 var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
 
+var _contactHelper = require('../../lib/contactHelper');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function getSearchFilterReducer(types) {
@@ -37,7 +39,7 @@ function getSearchFilterReducer(types) {
 
 function getSourceFilterReducer(types) {
   return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _contactHelper.AllContactSourceName;
     var _ref2 = arguments[1];
     var type = _ref2.type,
         sourceFilter = _ref2.sourceFilter;

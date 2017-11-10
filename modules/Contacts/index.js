@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.DefaultContactListPageSize = exports.AllContactSourceName = undefined;
+exports.default = exports.DefaultContactListPageSize = undefined;
 
 var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-property-descriptor');
 
@@ -126,7 +126,6 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
-var AllContactSourceName = exports.AllContactSourceName = 'all';
 var DefaultContactListPageSize = exports.DefaultContactListPageSize = 20;
 
 /**
@@ -192,7 +191,7 @@ var Contacts = (_dec = (0, _di.Module)({
     }, function () {
       return _this._checkSourceUpdated();
     }, function () {
-      var names = [AllContactSourceName];
+      var names = [_contactHelper.AllContactSourceName];
       var _iteratorNormalCompletion2 = true;
       var _didIteratorError2 = false;
       var _iteratorError2 = undefined;
@@ -202,7 +201,7 @@ var Contacts = (_dec = (0, _di.Module)({
           var sourceName = _step2.value;
 
           var source = _this._contactSources.get(sourceName);
-          if (source.ready) {
+          if (source.sourceReady) {
             names.push(sourceName);
           }
         }
@@ -237,7 +236,7 @@ var Contacts = (_dec = (0, _di.Module)({
           var sourceName = _step3.value;
 
           var source = _this._contactSources.get(sourceName);
-          if (source.ready) {
+          if (source.sourceReady) {
             contacts = contacts.concat(source.contacts);
           }
         }
@@ -281,12 +280,12 @@ var Contacts = (_dec = (0, _di.Module)({
       return _this._checkSourceUpdated();
     }, function (searchFilter, sourceFilter) {
       var contacts = void 0;
-      if ((0, _isBlank2.default)(searchFilter) && (sourceFilter === AllContactSourceName || (0, _isBlank2.default)(sourceFilter))) {
+      if ((0, _isBlank2.default)(searchFilter) && (sourceFilter === _contactHelper.AllContactSourceName || (0, _isBlank2.default)(sourceFilter))) {
         return _this.allContacts;
       }
-      if (sourceFilter !== AllContactSourceName && !(0, _isBlank2.default)(sourceFilter)) {
+      if (sourceFilter !== _contactHelper.AllContactSourceName && !(0, _isBlank2.default)(sourceFilter)) {
         var source = _this._contactSources.get(sourceFilter);
-        if (source && source.ready) {
+        if (source && source.sourceReady) {
           contacts = source.contacts;
         } else {
           contacts = [];
@@ -325,12 +324,12 @@ var Contacts = (_dec = (0, _di.Module)({
   }, {
     key: '_shouldInit',
     value: function _shouldInit() {
-      return this._auth.loggedIn && this.pending;
+      return this._auth.loggedIn && this.sourceModuleReady && this.pending;
     }
   }, {
     key: '_shouldReset',
     value: function _shouldReset() {
-      return !this._auth.loggedIn && this.ready;
+      return (!this._auth.loggedIn || !this.sourceModuleReady) && this.ready;
     }
   }, {
     key: '_resetModuleStatus',
@@ -358,10 +357,12 @@ var Contacts = (_dec = (0, _di.Module)({
      * @function
      * @param {Object} source - source module object
      * @param {String} params.sourceName - source name
-     * @param {Bool} params.ready - source ready status
+     * @param {Bool} params.ready - source module ready status
+     * @param {Bool} params.sourceReady - source ready status
      * @param {Array} params.contacts - source contacts data
      * @param {Function} params.getPresence - get source presence function, optional
      * @param {Function} params.getProfileImage - get source profile image function, optional
+     * @param {Function} params.sync - sync source data function, optional
      */
 
   }, {
@@ -397,10 +398,10 @@ var Contacts = (_dec = (0, _di.Module)({
 
           var source = this._contactSources.get(sourceName);
           var lastStatus = this._sourcesLastStatus.get(sourceName);
-          if (lastStatus.ready !== source.ready || lastStatus.data !== source.contacts) {
+          if (lastStatus.ready !== source.sourceReady || lastStatus.data !== source.contacts) {
             updated = true;
             this._sourcesLastStatus.set(sourceName, {
-              ready: source.ready,
+              ready: source.sourceReady,
               data: source.contacts
             });
           }
@@ -496,7 +497,7 @@ var Contacts = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                source = this._contactSources.get(contact.type);
+                source = this._contactSources.get(contact && contact.type);
 
                 if (!(source && source.getProfileImage)) {
                   _context.next = 6;
@@ -536,7 +537,7 @@ var Contacts = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                source = this._contactSources.get(contact.type);
+                source = this._contactSources.get(contact && contact.type);
 
                 if (!(source && source.getPresence)) {
                   _context2.next = 6;
@@ -568,9 +569,129 @@ var Contacts = (_dec = (0, _di.Module)({
       return getPresence;
     }()
   }, {
+    key: 'sync',
+    value: function () {
+      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+        var _iteratorNormalCompletion5, _didIteratorError5, _iteratorError5, _iterator5, _step5, sourceName, source;
+
+        return _regenerator2.default.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _iteratorNormalCompletion5 = true;
+                _didIteratorError5 = false;
+                _iteratorError5 = undefined;
+                _context3.prev = 3;
+                _iterator5 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys()));
+
+              case 5:
+                if (_iteratorNormalCompletion5 = (_step5 = _iterator5.next()).done) {
+                  _context3.next = 14;
+                  break;
+                }
+
+                sourceName = _step5.value;
+                source = this._contactSources.get(sourceName);
+
+                if (!(typeof source.sync === 'function')) {
+                  _context3.next = 11;
+                  break;
+                }
+
+                _context3.next = 11;
+                return source.sync();
+
+              case 11:
+                _iteratorNormalCompletion5 = true;
+                _context3.next = 5;
+                break;
+
+              case 14:
+                _context3.next = 20;
+                break;
+
+              case 16:
+                _context3.prev = 16;
+                _context3.t0 = _context3['catch'](3);
+                _didIteratorError5 = true;
+                _iteratorError5 = _context3.t0;
+
+              case 20:
+                _context3.prev = 20;
+                _context3.prev = 21;
+
+                if (!_iteratorNormalCompletion5 && _iterator5.return) {
+                  _iterator5.return();
+                }
+
+              case 23:
+                _context3.prev = 23;
+
+                if (!_didIteratorError5) {
+                  _context3.next = 26;
+                  break;
+                }
+
+                throw _iteratorError5;
+
+              case 26:
+                return _context3.finish(23);
+
+              case 27:
+                return _context3.finish(20);
+
+              case 28:
+              case 'end':
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this, [[3, 16, 20, 28], [21,, 23, 27]]);
+      }));
+
+      function sync() {
+        return _ref7.apply(this, arguments);
+      }
+
+      return sync;
+    }()
+  }, {
     key: 'status',
     get: function get() {
       return this.state.status;
+    }
+  }, {
+    key: 'sourceModuleReady',
+    get: function get() {
+      var ready = true;
+      var _iteratorNormalCompletion6 = true;
+      var _didIteratorError6 = false;
+      var _iteratorError6 = undefined;
+
+      try {
+        for (var _iterator6 = (0, _getIterator3.default)((0, _from2.default)(this._contactSources.keys())), _step6; !(_iteratorNormalCompletion6 = (_step6 = _iterator6.next()).done); _iteratorNormalCompletion6 = true) {
+          var sourceName = _step6.value;
+
+          var source = this._contactSources.get(sourceName);
+          if (!source.ready) {
+            ready = false;
+          }
+        }
+      } catch (err) {
+        _didIteratorError6 = true;
+        _iteratorError6 = err;
+      } finally {
+        try {
+          if (!_iteratorNormalCompletion6 && _iterator6.return) {
+            _iterator6.return();
+          }
+        } finally {
+          if (_didIteratorError6) {
+            throw _iteratorError6;
+          }
+        }
+      }
+
+      return ready;
     }
   }, {
     key: 'companyContacts',
@@ -627,6 +748,6 @@ var Contacts = (_dec = (0, _di.Module)({
     }
   }]);
   return Contacts;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateFilter', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateFilter'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfileImage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getProfileImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPresence', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getPresence'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'updateFilter', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateFilter'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfileImage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getProfileImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPresence', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getPresence'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'sync', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'sync'), _class2.prototype)), _class2)) || _class);
 exports.default = Contacts;
 //# sourceMappingURL=index.js.map

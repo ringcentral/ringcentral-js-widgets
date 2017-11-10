@@ -9,6 +9,10 @@ var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-pr
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
+var _promise = require('babel-runtime/core-js/promise');
+
+var _promise2 = _interopRequireDefault(_promise);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -16,10 +20,6 @@ var _regenerator2 = _interopRequireDefault(_regenerator);
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
 
 var _extends2 = require('babel-runtime/helpers/extends');
 
@@ -72,10 +72,6 @@ var _batchApiHelper = require('../../lib/batchApiHelper');
 var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
-
-var _sleep = require('../../lib/sleep');
-
-var _sleep2 = _interopRequireDefault(_sleep);
 
 var _actionTypes = require('./actionTypes');
 
@@ -253,61 +249,45 @@ var AccountContacts = (_dec = (0, _di.Module)({
 
   }, {
     key: 'getProfileImage',
-    value: function getProfileImage(contact) {
-      var _this3 = this;
-
-      var useCache = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-
-      return new _promise2.default(function (resolve) {
-        if (!contact || !contact.id || contact.type !== 'company' || !contact.hasProfileImage) {
-          resolve(null);
-          return;
-        }
-
-        var imageId = contact.id;
-        if (useCache && _this3.profileImages[imageId] && Date.now() - _this3.profileImages[imageId].timestamp < _this3._avatarTtl) {
-          var image = _this3.profileImages[imageId].imageUrl;
-          resolve(image);
-          return;
-        }
-
-        if (!_this3._getAvatarContexts) {
-          _this3._getAvatarContexts = [];
-        }
-        _this3._getAvatarContexts.push({
-          contact: contact,
-          resolve: resolve
-        });
-
-        if (!_this3._queryingAvatar) {
-          _this3._queryingAvatar = true;
-          _this3._processQueryAvatar(_this3._getAvatarContexts);
-        }
-      });
-    }
-  }, {
-    key: '_processQueryAvatar',
     value: function () {
-      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(getAvatarContexts) {
-        var ctx, imageId, imageUrl, response;
+      var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(contact) {
+        var useCache = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+        var imageId, image, imageUrl, response;
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                ctx = getAvatarContexts[0];
-                imageId = '' + ctx.contact.id;
-                imageUrl = null;
-                _context.prev = 3;
-                _context.next = 6;
-                return this._client.account().extension(ctx.contact.id).profileImage('195x195').get();
+                if (!(!contact || !contact.id || contact.type !== 'company' || !contact.hasProfileImage)) {
+                  _context.next = 2;
+                  break;
+                }
+
+                return _context.abrupt('return', null);
+
+              case 2:
+                imageId = contact.id;
+
+                if (!(useCache && this.profileImages[imageId] && Date.now() - this.profileImages[imageId].timestamp < this._avatarTtl)) {
+                  _context.next = 6;
+                  break;
+                }
+
+                image = this.profileImages[imageId].imageUrl;
+                return _context.abrupt('return', image);
 
               case 6:
-                response = _context.sent;
-                _context.t0 = URL;
+                imageUrl = null;
+                _context.prev = 7;
                 _context.next = 10;
-                return response._response.blob();
+                return this._client.account().extension(contact.id).profileImage('195x195').get();
 
               case 10:
+                response = _context.sent;
+                _context.t0 = URL;
+                _context.next = 14;
+                return response._response.blob();
+
+              case 14:
                 _context.t1 = _context.sent;
                 imageUrl = _context.t0.createObjectURL.call(_context.t0, _context.t1);
 
@@ -317,48 +297,31 @@ var AccountContacts = (_dec = (0, _di.Module)({
                   imageUrl: imageUrl,
                   ttl: this._avatarTtl
                 });
-                _context.next = 18;
+                _context.next = 22;
                 break;
 
-              case 15:
-                _context.prev = 15;
-                _context.t2 = _context['catch'](3);
+              case 19:
+                _context.prev = 19;
+                _context.t2 = _context['catch'](7);
 
                 console.error(_context.t2);
 
-              case 18:
-                ctx.resolve(imageUrl);
-                getAvatarContexts.splice(0, 1);
-
-                if (!getAvatarContexts.length) {
-                  _context.next = 26;
-                  break;
-                }
-
-                _context.next = 23;
-                return (0, _sleep2.default)(this._avatarQueryInterval);
+              case 22:
+                return _context.abrupt('return', imageUrl);
 
               case 23:
-                this._processQueryAvatar(getAvatarContexts);
-                _context.next = 27;
-                break;
-
-              case 26:
-                this._queryingAvatar = false;
-
-              case 27:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[3, 15]]);
+        }, _callee, this, [[7, 19]]);
       }));
 
-      function _processQueryAvatar(_x2) {
+      function getProfileImage(_x) {
         return _ref2.apply(this, arguments);
       }
 
-      return _processQueryAvatar;
+      return getProfileImage;
     }()
 
     // interface of contact source
@@ -366,7 +329,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
   }, {
     key: 'getPresence',
     value: function getPresence(contact) {
-      var _this4 = this;
+      var _this3 = this;
 
       return new _promise2.default(function (resolve) {
         if (!contact || !contact.id || contact.type !== 'company') {
@@ -375,28 +338,28 @@ var AccountContacts = (_dec = (0, _di.Module)({
         }
 
         var presenceId = '' + contact.id;
-        if (_this4.presences[presenceId] && Date.now() - _this4.presences[presenceId].timestamp < _this4._presenceTtl) {
-          var presence = _this4.presences[presenceId].presence;
+        if (_this3.presences[presenceId] && Date.now() - _this3.presences[presenceId].timestamp < _this3._presenceTtl) {
+          var presence = _this3.presences[presenceId].presence;
           resolve(presence);
           return;
         }
 
-        if (!_this4._getPresenceContexts) {
-          _this4._getPresenceContexts = [];
+        if (!_this3._getPresenceContexts) {
+          _this3._getPresenceContexts = [];
         }
-        _this4._getPresenceContexts.push({
+        _this3._getPresenceContexts.push({
           contact: contact,
           resolve: resolve
         });
 
-        clearTimeout(_this4.enqueueTimeoutId);
-        if (_this4._getPresenceContexts.length === MaximumBatchGetPresence) {
-          _this4._processQueryPresences(_this4._getPresenceContexts);
-          _this4._getPresenceContexts = null;
+        clearTimeout(_this3.enqueueTimeoutId);
+        if (_this3._getPresenceContexts.length === MaximumBatchGetPresence) {
+          _this3._processQueryPresences(_this3._getPresenceContexts);
+          _this3._getPresenceContexts = null;
         } else {
-          _this4.enqueueTimeoutId = setTimeout(function () {
-            _this4._processQueryPresences(_this4._getPresenceContexts);
-            _this4._getPresenceContexts = null;
+          _this3.enqueueTimeoutId = setTimeout(function () {
+            _this3._processQueryPresences(_this3._getPresenceContexts);
+            _this3._getPresenceContexts = null;
           }, 1000);
         }
       });
@@ -570,6 +533,11 @@ var AccountContacts = (_dec = (0, _di.Module)({
     key: 'contacts',
     get: function get() {
       return this._selectors.contacts();
+    }
+  }, {
+    key: 'sourceReady',
+    get: function get() {
+      return this.ready;
     }
   }]);
   return AccountContacts;
