@@ -42,10 +42,16 @@ export default class ContactsView extends Component {
     super(props);
     this.state = {
       searchString: props.searchString,
+      unfold: false,
     };
     this.doSearchByText = this.doSearchByText.bind(this);
     this.doSearchBySource = this.doSearchBySource.bind(this);
     this.loadNextPage = this.loadNextPage.bind(this);
+    this.onUnfoldChange = (unfold) => {
+      this.setState({
+        unfold,
+      });
+    };
   }
 
   componentDidMount() {
@@ -63,6 +69,12 @@ export default class ContactsView extends Component {
   componentWillUpdate(nextProps, nextState) {
     if (nextProps.searchString !== this.props.searchString) {
       nextState.searchString = nextProps.searchString;
+    }
+    if (!nextProps.contactSourceNames.includes(nextProps.searchSource)) {
+      this._applySearch({
+        searchSource: nextProps.contactSourceNames[0],
+        searchString: this.state.searchString,
+      });
     }
   }
 
@@ -152,6 +164,8 @@ export default class ContactsView extends Component {
             contactSourceNames={contactSourceNames}
             onSourceSelect={this.doSearchBySource}
             selectedSourceName={searchSource}
+            unfold={this.state.unfold}
+            onUnfoldChange={this.onUnfoldChange}
           />
         </div>
         <Panel className={styles.content}>

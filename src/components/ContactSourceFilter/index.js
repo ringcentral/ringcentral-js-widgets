@@ -30,8 +30,9 @@ ContactSourceItem.propTypes = {
 export default class ContactSourceFilter extends Component {
   constructor(props) {
     super(props);
+    const unfold = props.unfold !== undefined ? props.unfold : false;
     this.state = {
-      unfold: false
+      unfold,
     };
   }
 
@@ -47,6 +48,9 @@ export default class ContactSourceFilter extends Component {
     this.setState(() => ({
       unfold: false
     }));
+    if (typeof this.props.onUnfoldChange) {
+      this.props.onUnfoldChange(false);
+    }
     window.removeEventListener('click', this.hideList);
   }
 
@@ -55,6 +59,9 @@ export default class ContactSourceFilter extends Component {
       unfold: true
     }));
     window.addEventListener('click', this.hideList);
+    if (typeof this.props.onUnfoldChange) {
+      this.props.onUnfoldChange(true);
+    }
   }
 
   togglePanel = (evt) => {
@@ -128,10 +135,14 @@ ContactSourceFilter.propTypes = {
   onSourceSelect: PropTypes.func,
   selectedSourceName: PropTypes.string,
   contactSourceNames: PropTypes.arrayOf(PropTypes.string).isRequired,
+  unfold: PropTypes.bool,
+  onUnfoldChange: PropTypes.func,
 };
 
 ContactSourceFilter.defaultProps = {
   className: undefined,
   selectedSourceName: undefined,
   onSourceSelect: undefined,
+  unfold: undefined,
+  onUnfoldChange: undefined,
 };
