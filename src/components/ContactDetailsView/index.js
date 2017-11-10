@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import SpinnerOverlay from '../../components/SpinnerOverlay';
 import BackHeader from '../../components/BackHeader';
@@ -8,44 +8,51 @@ import ContactDetails, { contactItemPropTypes } from '../ContactDetails';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-export default function ContactDetailsView({
-  currentLocale,
-  showSpinner,
-  contactItem,
-  getAvatarUrl,
-  getPresence,
-  onBackClick,
-  onClickToSMS,
-  onClickToDial,
-  onClickToGmail,
-}) {
-  const content = showSpinner ?
-    <SpinnerOverlay /> :
-    (
-      <ContactDetails
-        currentLocale={currentLocale}
-        getAvatarUrl={getAvatarUrl}
-        getPresence={getPresence}
-        contactItem={contactItem}
-        onClickToSMS={onClickToSMS}
-        onClickToDial={onClickToDial}
-        onClickToGmail={onClickToGmail}
-      />
-    );
+export default class ContactDetailsView extends Component {
+  componentDidMount() {
+    this.props.getAvatarUrl(this.props.contactItem);
+  }
 
-  return (
-    <div className={styles.root}>
-      <BackHeader
-        buttons={[]}
-        onBackClick={onBackClick}
-      >
-        {i18n.getString('contactDetails', currentLocale)}
-      </BackHeader>
-      <Panel className={styles.content}>
-        {content}
-      </Panel>
-    </div>
-  );
+  render() {
+    const {
+      currentLocale,
+      showSpinner,
+      contactItem,
+      getAvatarUrl,
+      getPresence,
+      onBackClick,
+      onClickToSMS,
+      onClickToDial,
+      onClickToGmail,
+    } = this.props;
+    const content = showSpinner ?
+      <SpinnerOverlay /> :
+      (
+        <ContactDetails
+          currentLocale={currentLocale}
+          getAvatarUrl={getAvatarUrl}
+          getPresence={getPresence}
+          contactItem={contactItem}
+          onClickToSMS={onClickToSMS}
+          onClickToDial={onClickToDial}
+          onClickToGmail={onClickToGmail}
+        />
+      );
+
+    return (
+      <div className={styles.root}>
+        <BackHeader
+          buttons={[]}
+          onBackClick={onBackClick}
+        >
+          {i18n.getString('contactDetails', currentLocale)}
+        </BackHeader>
+        <Panel className={styles.content}>
+          {content}
+        </Panel>
+      </div>
+    );
+  }
 }
 
 ContactDetailsView.propTypes = {

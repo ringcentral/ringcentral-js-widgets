@@ -25,7 +25,7 @@ function mapToFunctions(_, {
 }) {
   return {
     getAvatarUrl: async (contact) => {
-      const avatarUrl = await contacts.getImageProfile(contact);
+      const avatarUrl = await contacts.getProfileImage(contact);
       return avatarUrl;
     },
     getPresence: async (contact) => {
