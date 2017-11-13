@@ -345,7 +345,7 @@ export default function App({
               )} />
             <Route
               path="/contacts"
-              component={() => (
+              component={props => (
                 <ContactsPage
                   locale={phone.locale}
                   router={phone.router}
@@ -353,19 +353,39 @@ export default function App({
                   contactSearch={phone.contactSearch}
                   contactSourceFilterRenderer={props => (
                     <ContactSourceFilter {...props} />
-                  )}
-                />
+                    )}
+                   >
+                  {props.children}
+                </ContactsPage>
+                )}>
+              <Route
+                path=":contactType/:contactId"
+                component={props => (
+                  <ContactDetailsPage
+                    params={props.params}
+                    locale={phone.locale}
+                    router={phone.router}
+                    call={phone.call}
+                    composeText={phone.composeText}
+                    contacts={phone.contacts}
+                    contactSearch={phone.contactSearch}
+                    contactDetails={phone.contactDetails}
+                    regionSettings={phone.regionSettings}
+                  >
+                    <RecentActivityContainer
+                      locale={phone.locale}
+                      dateTimeFormat={phone.dateTimeFormat}
+                      recentMessages={phone.recentMessages}
+                      recentCalls={phone.recentCalls}
+                      navigateTo={(path) => {
+                        phone.router.push(path);
+                      }}
+                      contact={phone.contactDetails.contact}
+                      useContact
+                  />
+                  </ContactDetailsPage>
               )} />
-            <Route
-              path="/contacts/:contactType/:contactId"
-              component={props => (
-                <ContactDetailsPage
-                  params={props.params}
-                  locale={phone.locale}
-                  router={phone.router}
-                  contacts={phone.contacts}
-                />
-              )} />
+            </Route>
             <Route
               path="/meeting"
             />

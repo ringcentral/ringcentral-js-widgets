@@ -153,7 +153,7 @@ export default class CallItem extends Component {
       ));
       return index;
     }
-    return -1;
+    return 0;
   }
   getSelectedContact = (selected = this.state.selected) => {
     const contactMatches = this.getContactMatches();

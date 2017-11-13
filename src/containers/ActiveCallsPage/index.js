@@ -40,7 +40,6 @@ function mapToFunctions(_, {
   regionSettings,
   composeTextRoute = '/composeText',
   callCtrlRoute = '/calls/active',
-  onViewContact,
   onCreateContact,
   composeText,
   callLogger,
@@ -70,45 +69,39 @@ function mapToFunctions(_, {
         router.push(callCtrlRoute);
       }
     },
-    onViewContact: onViewContact ?
-      async ({ phoneNumber, contact }) => {
-        const hasMatchNumber = await contactMatcher.hasMatchNumber({
-          phoneNumber,
-          ignoreCache: true
-        });
-        if (hasMatchNumber) {
-          await onViewContact({ phoneNumber, contact });
-        }
-      } :
-      undefined,
+    onViewContact: ({ phoneNumber, contact }) => {
+      const id = contact.id;
+      const type = contact.type;
+      router.push(`/contacts/${type}/${id}`);
+    },
     onClickToSms: composeText ?
-      async (contact, isDummyContact = false) => {
-        if (router) {
-          router.push(composeTextRoute);
+    async (contact, isDummyContact = false) => {
+      if (router) {
+        router.push(composeTextRoute);
+      }
+      if (contact.name && contact.phoneNumber && isDummyContact) {
+        composeText.updateTypingToNumber(contact.name);
+        contactSearch.search({ searchString: contact.name });
+      } else {
+        composeText.addToNumber(contact);
+        if (composeText.typingToNumber === contact.phoneNumber) {
+          composeText.cleanTypingToNumber();
         }
-        if (contact.name && contact.phoneNumber && isDummyContact) {
-          composeText.updateTypingToNumber(contact.name);
-          contactSearch.search({ searchString: contact.name });
-        } else {
-          composeText.addToNumber(contact);
-          if (composeText.typingToNumber === contact.phoneNumber) {
-            composeText.cleanTypingToNumber();
-          }
-        }
-      } :
-      undefined,
+      }
+    } :
+    undefined,
     onCreateContact: onCreateContact ?
-      async ({ phoneNumber, name, entityType }) => {
-        const hasMatchNumber = await contactMatcher.hasMatchNumber({
-          phoneNumber,
-          ignoreCache: true
-        });
-        if (!hasMatchNumber) {
-          await onCreateContact({ phoneNumber, name, entityType });
-          await contactMatcher.forceMatchNumber({ phoneNumber });
-        }
-      } :
-      undefined,
+    async ({ phoneNumber, name, entityType }) => {
+      const hasMatchNumber = await contactMatcher.hasMatchNumber({
+        phoneNumber,
+        ignoreCache: true
+      });
+      if (!hasMatchNumber) {
+        await onCreateContact({ phoneNumber, name, entityType });
+        await contactMatcher.forceMatchNumber({ phoneNumber });
+      }
+    } :
+    undefined,
     isLoggedContact,
     onLogCall: onLogCall ||
     (callLogger && (async ({ call, contact, redirect = true }) => {
