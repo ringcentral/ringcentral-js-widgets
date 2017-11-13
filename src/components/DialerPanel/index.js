@@ -23,6 +23,8 @@ function DialerPanel({
   isWebphoneMode,
   currentLocale,
   showSpinner,
+  dialButtonVolume,
+  dialButtonMuted,
 }) {
   const onCallFunc = () => {
     if (!callButtonDisabled) {
@@ -58,6 +60,8 @@ function DialerPanel({
           onButtonOutput={(key) => {
             keepToNumber(toNumber + key);
           }}
+          dialButtonVolume={dialButtonVolume}
+          dialButtonMuted={dialButtonMuted}
           />
         <div className={classnames(styles.callBtnRow)}>
           <div className={styles.callBtn}>
@@ -94,6 +98,8 @@ DialerPanel.propTypes = {
   changeFromNumber: PropTypes.func,
   formatPhone: PropTypes.func,
   showSpinner: PropTypes.bool,
+  dialButtonVolume: PropTypes.number,
+  dialButtonMuted: PropTypes.bool,
 };
 
 DialerPanel.defaultProps = {
@@ -107,6 +113,8 @@ DialerPanel.defaultProps = {
   keepToNumber: () => null,
   formatPhone: phoneNumber => phoneNumber,
   showSpinner: false,
+  dialButtonVolume: 1,
+  dialButtonMuted: false,
 };
 
 export default DialerPanel;

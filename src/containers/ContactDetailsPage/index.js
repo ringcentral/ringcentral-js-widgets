@@ -8,9 +8,9 @@ function mapToProps(_, {
 }) {
   return {
     currentLocale: locale.currentLocale,
-    contactItem: contacts.findContactItem({
-      contactType: params.contactType,
-      contactId: params.contactId,
+    contactItem: contacts.find({
+      type: params.contactType,
+      id: params.contactId,
     }),
     showSpinner: !(
       locale.ready &&
@@ -25,7 +25,7 @@ function mapToFunctions(_, {
 }) {
   return {
     getAvatarUrl: async (contact) => {
-      const avatarUrl = await contacts.getImageProfile(contact);
+      const avatarUrl = await contacts.getProfileImage(contact);
       return avatarUrl;
     },
     getPresence: async (contact) => {

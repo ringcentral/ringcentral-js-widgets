@@ -14,7 +14,7 @@ const config = {
   },
   resolve: {
     alias: {
-      'ringcentral-widget': path.resolve(__dirname, '../src'),
+      'ringcentral-widgets': path.resolve(__dirname, '../src'),
     },
   },
   plugins: [

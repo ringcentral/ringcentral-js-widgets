@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import LoginPanel from 'ringcentral-widget/components/LoginPanel';
+import LoginPanel from 'ringcentral-widgets/components/LoginPanel';
 
 const props = {};
 props.setupProxyFrame = () => null;

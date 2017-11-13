@@ -1,5 +1,5 @@
 export default {
   all: 'All',
-  companyContacts: 'Company',
-  personalContacts: 'Personal',
+  company: 'Company',
+  personal: 'Personal',
 };

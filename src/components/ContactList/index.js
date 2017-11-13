@@ -16,7 +16,14 @@ NoContacts.propTypes = {
   currentLocale: PropTypes.string.isRequired,
 };
 
-function ContactGroup({ caption, contacts, getAvatarUrl, getPresence, onItemSelect }) {
+function ContactGroup({
+  caption,
+  contacts,
+  getAvatarUrl,
+  getPresence,
+  onItemSelect,
+  sourceNodeRenderer
+}) {
   return (
     <div className={styles.contactGroup}>
       <div className={styles.groupCaption}>
@@ -30,6 +37,7 @@ function ContactGroup({ caption, contacts, getAvatarUrl, getPresence, onItemSele
             getAvatarUrl={getAvatarUrl}
             getPresence={getPresence}
             onSelect={onItemSelect}
+            sourceNodeRenderer={sourceNodeRenderer}
           />
         ))
       }
@@ -42,9 +50,11 @@ ContactGroup.propTypes = {
   getPresence: PropTypes.func.isRequired,
   caption: PropTypes.string.isRequired,
   contacts: PropTypes.arrayOf(ContactItem.propTypes.contact).isRequired,
+  sourceNodeRenderer: PropTypes.func,
 };
 ContactGroup.defaultProps = {
   onItemSelect: undefined,
+  sourceNodeRenderer: undefined,
 };
 
 export default class ContactList extends Component {
@@ -67,11 +77,17 @@ export default class ContactList extends Component {
   }
 
   detectNextPage(el) {
+<<<<<<< HEAD
     const {
       currentPage,
       onNextPage,
       onEndReachedThreshold,
     } = this.props;
+=======
+    if (!el) {
+      return;
+    }
+>>>>>>> master
     if (this.downwards) {
       if ((el.scrollTop + el.clientHeight) > (el.scrollHeight - onEndReachedThreshold)) {
         this.downwards = false;
@@ -92,6 +108,7 @@ export default class ContactList extends Component {
       getAvatarUrl,
       getPresence,
       onItemSelect,
+      sourceNodeRenderer,
     } = this.props;
     return (
       <div
@@ -109,6 +126,7 @@ export default class ContactList extends Component {
                 getAvatarUrl={getAvatarUrl}
                 getPresence={getPresence}
                 onItemSelect={onItemSelect}
+                sourceNodeRenderer={sourceNodeRenderer}
               />
             )) :
             <NoContacts
@@ -133,10 +151,12 @@ ContactList.propTypes = {
   currentPage: PropTypes.number,
   onNextPage: PropTypes.func,
   onItemSelect: PropTypes.func,
+  sourceNodeRenderer: PropTypes.func,
 };
 
 ContactList.defaultProps = {
   currentPage: undefined,
   onNextPage: undefined,
   onItemSelect: undefined,
+  sourceNodeRenderer: undefined,
 };

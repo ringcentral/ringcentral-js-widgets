@@ -113,7 +113,7 @@ gulp.task('release', ['release-copy'], async () => {
   const version = await getVersionFromTag();
   if (version) {
     packageInfo.version = version;
-    packageInfo.name = 'ringcentral-widget';
+    packageInfo.name = 'ringcentral-widgets';
   }
   await fs.writeFile('release/package.json', JSON.stringify(packageInfo, null, 2));
 });

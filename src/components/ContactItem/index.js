@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import PresenceStatusIcon from '../PresenceStatusIcon';
 import DefaultAvatar from '../../assets/images/DefaultAvatar.svg';
-import GoogleLogo from '../../assets/images/GoogleLogo.svg';
 
 import styles from './styles.scss';
 
@@ -31,66 +30,33 @@ AvatarNode.defaultProps = {
   avatarUrl: undefined,
 };
 
-function SourceNode({ sourceType }) {
-  switch (sourceType) {
-    case 'google':
-      return (<GoogleLogo
-        className={styles.sourceNode}
-      />);
-    default:
-      return null;
-  }
-}
-SourceNode.propTypes = {
-  sourceType: PropTypes.string,
-};
-SourceNode.defaultProps = {
-  sourceType: undefined,
-};
-
-export default class ContactItem extends Component {
+export default class ContactItem extends PureComponent {
   constructor(props) {
     super(props);
-
     this.state = {
       loading: true,
-      avatarUrl: undefined,
-      presence: undefined,
     };
-
     this.onItemSelected = this.onItemSelected.bind(this);
   }
 
   componentDidMount() {
     this._mounted = true;
-    setTimeout(() => {
-      // clear timeout is probably not necessary
+    this._loadingTimeout = setTimeout(() => {
       if (this._mounted) {
         this.setState({
           loading: false,
         });
       }
-    }, 10);
-
-    this.props.getAvatarUrl(this.props.contact).then((avatarUrl) => {
-      if (this._mounted) {
-        this.setState({
-          avatarUrl,
-        });
-      }
-    });
-
-    this.props.getPresence(this.props.contact).then((presence) => {
-      if (this._mounted) {
-        this.setState({
-          presence,
-        });
-      }
-    });
+    }, 3);
+    this.props.getAvatarUrl(this.props.contact);
+    this.props.getPresence(this.props.contact);
   }
 
   componentWillUnmount() {
     this._mounted = false;
+    if (this._loadingTimeout) {
+      clearTimeout(this._loadingTimeout);
+    }
   }
 
   onItemSelected() {
@@ -106,15 +72,16 @@ export default class ContactItem extends Component {
         <div className={styles.root} />
       );
     }
-
     const {
       name,
-      phoneNumber,
+      extensionNumber,
+      type,
+      profileImageUrl,
+      presence,
     } = this.props.contact;
 
-    // TODO:
-    const type = '';
-
+    const { sourceNodeRenderer } = this.props;
+    const sourceNode = sourceNodeRenderer({ sourceType: type });
     return (
       <div
         className={styles.root}
@@ -124,24 +91,24 @@ export default class ContactItem extends Component {
           <div className={styles.avatarNodeContainer}>
             <AvatarNode
               name={name}
-              avatarUrl={this.state.avatarUrl}
+              avatarUrl={profileImageUrl}
             />
           </div>
           {
-            type ? (
-              <div className={styles.sourceNodeContainer}>
-                <SourceNode
-                  sourceType={type}
-                />
-              </div>
-            ) : null
+            sourceNode
+              ? (
+                <div className={styles.sourceNodeContainer}>
+                  {sourceNode}
+                </div>
+              )
+              : null
           }
           {
-            this.state.presence ? (
+            presence ? (
               <div className={styles.presenceNodeContainer}>
                 <PresenceStatusIcon
                   className={styles.presenceNode}
-                  {...this.state.presence}
+                  {...presence}
                 />
               </div>
             ) : null
@@ -150,8 +117,8 @@ export default class ContactItem extends Component {
         <div className={styles.contactName} title={name}>
           {name}
         </div>
-        <div className={styles.phoneNumber} title={phoneNumber}>
-          {phoneNumber}
+        <div className={styles.phoneNumber} title={extensionNumber}>
+          {extensionNumber}
         </div>
       </div>
     );
@@ -163,16 +130,19 @@ ContactItem.propTypes = {
     id: PropTypes.string,
     type: PropTypes.string,
     hasProfileImage: PropTypes.bool,
-    entityType: PropTypes.string,
     name: PropTypes.string,
-    phoneNumber: PropTypes.string,
+    extensionNumber: PropTypes.string,
     email: PropTypes.string,
+    profileImageUrl: PropTypes.string,
+    presence: PropTypes.object,
   }).isRequired,
   getAvatarUrl: PropTypes.func.isRequired,
   getPresence: PropTypes.func.isRequired,
   onSelect: PropTypes.func,
+  sourceNodeRenderer: PropTypes.func,
 };
 
 ContactItem.defaultProps = {
   onSelect: undefined,
+  sourceNodeRenderer: () => null,
 };

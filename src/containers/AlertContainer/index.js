@@ -16,7 +16,6 @@ import RateExceededAlert from '../../components/RateExceededAlert';
 import ConnectivityAlert from '../../components/ConnectivityAlert';
 import WebphoneAlert from '../../components/WebphoneAlert';
 import RolesAndPermissionsAlert from '../../components/RolesAndPermissionsAlert';
-import ContactsAlert from '../../components/ContactsAlert';
 
 
 function mapToProps(_, {
@@ -106,10 +105,6 @@ function getDefaultRenderer({
           brand={brand.fullName}
           application={brand.application} />
       );
-    }
-
-    if (ContactsAlert.handleMessage(message)) {
-      return ContactsAlert;
     }
 
     return undefined;

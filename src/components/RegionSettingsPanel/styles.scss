@@ -22,10 +22,6 @@
   @include primary-font;
 }
 
-.inputField {
-  padding: 10px 0px;
-}
-
 .select {
   border: 1px solid #a6a6a6;
   border-radius: 2px;
@@ -37,19 +33,4 @@
   position: absolute;
   top: 5px;
   left: 10px;
-}
-
-.revertIcon {
-  margin-right: 15px;
-  margin-top: 12px;
-}
-
-.saveButton {
-  display: block;
-  margin-top: 20px;
-  @include big-submit-button;
-
-  &.disabled {
-    @include big-submit-button-disabled
-  }
 }

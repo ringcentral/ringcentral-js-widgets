@@ -97,7 +97,7 @@ class MainView extends Component {
           </header>
           <div className={classnames(styles.wrapper, styles.content)}>
             <h1 className={styles.title}>
-              RingCentral Widget
+              RingCentral Widgets
             </h1>
             <Search components={this.props.components} />
             <SideBarView

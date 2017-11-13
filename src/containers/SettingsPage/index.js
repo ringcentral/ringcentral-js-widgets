@@ -1,30 +1,22 @@
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import AccountInfo from 'ringcentral-integration/modules/AccountInfo';
-import Auth from 'ringcentral-integration/modules/Auth';
-import Brand from 'ringcentral-integration/modules/Brand';
-import ExtensionInfo from 'ringcentral-integration/modules/ExtensionInfo';
-import Locale from 'ringcentral-integration/modules/Locale';
-import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
-import RolesAndPermissions from 'ringcentral-integration/modules/RolesAndPermissions';
-import Presence from 'ringcentral-integration/modules/Presence';
-import Router from '../../modules/RouterInteraction';
 
 import SettingsPanel from '../../components/SettingsPanel';
 
 function mapToProps(_, {
-  accountInfo,
-  auth,
-  brand,
-  extensionInfo,
-  locale,
-  regionSettings,
-  callingSettings,
-  version,
-  rolesAndPermissions,
-  presence,
+  phone: {
+    accountInfo,
+    auth,
+    brand,
+    extensionInfo,
+    locale,
+    regionSettings,
+    callingSettings,
+    version,
+    rolesAndPermissions,
+    detailedPresence,
+  },
   params,
 }) {
   let loginNumber = '';
@@ -54,7 +46,7 @@ function mapToProps(_, {
       regionSettings.ready &&
       callingSettings.ready &&
       rolesAndPermissions.ready &&
-      (!presence || presence.ready)
+      (!detailedPresence || detailedPresence.ready)
     ),
     showRegion: loggedIn && brand.id === '1210' && (
       regionSettings.availableCountries.length > 1 ||
@@ -69,18 +61,21 @@ function mapToProps(_, {
     outboundSMS: !!rolesAndPermissions.permissions.OutboundSMS ||
     !!rolesAndPermissions.permissions.InternalSMS,
     isCallQueueMember: extensionInfo.isCallQueueMember,
-    dndStatus: presence && presence.dndStatus,
-    userStatus: presence && presence.userStatus,
-    showPresenceSettings: !!(presence && params && params.showPresenceSettings),
+    dndStatus: detailedPresence && detailedPresence.dndStatus,
+    userStatus: detailedPresence && detailedPresence.userStatus,
+    showPresenceSettings: !!(detailedPresence && params && params.showPresenceSettings),
   };
 }
 
 function mapToFunctions(_, {
-  auth,
-  presence,
-  router,
-  regionSettingsUrl,
-  callingSettingsUrl,
+  phone: {
+    auth,
+    detailedPresence,
+    router,
+  },
+  regionSettingsUrl = '/settings/region',
+  callingSettingsUrl = '/settings/calling',
+  audioSettingsUrl = '/settings/audio',
 }) {
   return {
     onLogoutButtonClick: async () => {
@@ -92,12 +87,15 @@ function mapToFunctions(_, {
     onCallingSettingsLinkClick: () => {
       router.push(callingSettingsUrl);
     },
-    setAvailable: (...args) => (presence && presence.setAvailable(...args)),
-    setBusy: (...args) => (presence && presence.setBusy(...args)),
-    setDoNotDisturb: (...args) => (presence && presence.setDoNotDisturb(...args)),
-    setInvisible: (...args) => (presence && presence.setInvisible(...args)),
+    onAudioSettingsLinkClick: () => {
+      router.push(audioSettingsUrl);
+    },
+    setAvailable: (...args) => (detailedPresence && detailedPresence.setAvailable(...args)),
+    setBusy: (...args) => (detailedPresence && detailedPresence.setBusy(...args)),
+    setDoNotDisturb: (...args) => (detailedPresence && detailedPresence.setDoNotDisturb(...args)),
+    setInvisible: (...args) => (detailedPresence && detailedPresence.setInvisible(...args)),
     toggleAcceptCallQueueCalls: (...args) => (
-      presence && presence.toggleAcceptCallQueueCalls(...args)
+      detailedPresence && detailedPresence.toggleAcceptCallQueueCalls(...args)
     ),
   };
 }
@@ -106,27 +104,8 @@ const SettingsPage = connect(
   mapToFunctions,
 )(SettingsPanel);
 
-const propTypes = {
-  accountInfo: PropTypes.instanceOf(AccountInfo).isRequired,
-  auth: PropTypes.instanceOf(Auth).isRequired,
-  brand: PropTypes.instanceOf(Brand).isRequired,
-  extensionInfo: PropTypes.instanceOf(ExtensionInfo).isRequired,
-  locale: PropTypes.instanceOf(Locale).isRequired,
-  regionSettings: PropTypes.instanceOf(RegionSettings).isRequired,
-  callingSettingsUrl: PropTypes.string.isRequired,
-  regionSettingsUrl: PropTypes.string.isRequired,
-  version: PropTypes.string.isRequired,
-  rolesAndPermissions: PropTypes.instanceOf(RolesAndPermissions).isRequired,
-  presence: PropTypes.instanceOf(Presence),
-  router: PropTypes.instanceOf(Router),
-  callingSettings: PropTypes.object.isRequired,
-};
-
-SettingsPage.propTypes = propTypes;
-
 export {
   mapToFunctions,
   mapToProps,
-  propTypes,
   SettingsPage as default,
 };

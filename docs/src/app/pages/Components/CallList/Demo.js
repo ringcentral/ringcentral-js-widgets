@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import CallList from 'ringcentral-widget/components/CallList';
+import CallList from 'ringcentral-widgets/components/CallList';
 
 const props = {};
 props.currentLocale = 'en-US';
