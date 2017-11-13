@@ -142,9 +142,30 @@ export default class ContactsView extends Component {
       currentPage,
       onItemSelect,
       contactSourceFilterRenderer: Filter,
+<<<<<<< HEAD
+      onEndReachedThreshold,
+    } = this.props;
+
+    const content = showSpinner ?
+      <SpinnerOverlay /> :
+      (
+        <ContactList
+          onEndReachedThreshold={onEndReachedThreshold}
+          currentLocale={currentLocale}
+          contactGroups={contactGroups}
+          getAvatarUrl={getAvatarUrl}
+          getPresence={getPresence}
+          currentPage={currentPage}
+          onNextPage={this.loadNextPage}
+          onItemSelect={onItemSelect}
+        />
+      );
+
+=======
       sourceNodeRenderer,
     } = this.props;
 
+>>>>>>> master
     return (
       <div className={styles.root}>
         <div className={styles.actionBar}>
@@ -203,8 +224,12 @@ ContactsView.propTypes = {
   onItemSelect: PropTypes.func,
   onSearchContact: PropTypes.func,
   contactSourceFilterRenderer: PropTypes.func,
+<<<<<<< HEAD
+  onEndReachedThreshold: PropTypes.number,
+=======
   sourceNodeRenderer: PropTypes.func,
   onVisitPage: PropTypes.func,
+>>>>>>> master
   // onRestSearch: PropTypes.func,
 };
 
@@ -215,7 +240,11 @@ ContactsView.defaultProps = {
   onItemSelect: undefined,
   onSearchContact: undefined,
   contactSourceFilterRenderer: ContactSourceFilter,
+<<<<<<< HEAD
+  onEndReachedThreshold: 20,
+=======
   sourceNodeRenderer: undefined,
   onVisitPage: undefined,
+>>>>>>> master
   // onRestSearch: undefined,
 };
