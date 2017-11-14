@@ -69,8 +69,7 @@ function mapToFunctions(_, {
 }) {
   return {
     dateTimeFormatter,
-    onViewContact: ({ phoneNumber, contact }) => {
-      console.log('contact:', contact);
+    onViewContact: ({ contact }) => {
       const id = contact.id;
       const type = contact.type;
       router.push(`/contacts/${type}/${id}`);

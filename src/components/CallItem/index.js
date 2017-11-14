@@ -202,7 +202,6 @@ export default class CallItem extends Component {
   viewSelectedContact = () => {
     if (typeof this.props.onViewContact === 'function') {
       this.props.onViewContact({
-        phoneNumber: this.getPhoneNumber(),
         contact: this.getSelectedContact(),
       });
     }

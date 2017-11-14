@@ -69,7 +69,7 @@ function mapToFunctions(_, {
         router.push(callCtrlRoute);
       }
     },
-    onViewContact: ({ phoneNumber, contact }) => {
+    onViewContact: ({ contact }) => {
       const id = contact.id;
       const type = contact.type;
       router.push(`/contacts/${type}/${id}`);

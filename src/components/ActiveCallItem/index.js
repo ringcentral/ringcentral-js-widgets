@@ -99,7 +99,7 @@ function WebphoneButtons({
         }}
         iconWidth={260}
         iconX={120}
-        icon={endIcon}
+        con={endIcon}
         showBorder={false}
       />
       <CircleButton
@@ -312,7 +312,6 @@ export default class ActiveCallItem extends Component {
   viewSelectedContact = () => {
     if (typeof this.props.onViewContact === 'function') {
       this.props.onViewContact({
-        phoneNumber: this.getPhoneNumber(),
         contact: this.getSelectedContact(),
       });
     }

@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import presenceStatus from 'ringcentral-integration/modules/Presence/presenceStatus';
 import PresenceStatusIcon from '../PresenceStatusIcon';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DefaultAvatar from '../../assets/images/DefaultAvatar.svg';
@@ -8,6 +9,13 @@ import FaxIcon from '../../assets/images/Fax.svg';
 import i18n from './i18n';
 
 import styles from './styles.scss';
+
+export function getPresenceStatusName(currentUserStatus, currentDndStatus, currentLocale) {
+  if (currentUserStatus !== presenceStatus.busy) {
+    return i18n.getString(currentUserStatus, currentLocale);
+  }
+  return i18n.getString(currentUserStatus + currentDndStatus, currentLocale);
+}
 
 function AvatarNode({ name, avatarUrl }) {
   return avatarUrl ?
@@ -53,6 +61,8 @@ export default class ContactDetails extends PureComponent {
     const { contactItem, sourceNodeRenderer, currentLocale } = this.props;
     const { name, presence, profileImageUrl, type } = contactItem;
     const sourceNode = sourceNodeRenderer({ sourceType: type });
+    const presenceName =
+      getPresenceStatusName(presence.userStatus, presence.dndStatus, currentLocale);
     return (
       <div className={styles.contactProfile}>
         <div className={styles.avatar}>
@@ -72,7 +82,6 @@ export default class ContactDetails extends PureComponent {
             }
           </div>
         </div>
-
         <div className={styles.info}>
           <div className={classnames(styles.name, !presence ? styles.nameWithoutPresence : null)}>
             <span title={name}>
@@ -90,13 +99,12 @@ export default class ContactDetails extends PureComponent {
                   />
                 </div>
                 <span className={styles.presenceStatus}>
-                  {i18n.getString(presence.presenceStatus, currentLocale)}
+                  { presenceName }
                 </span>
               </div>
             ) : null
           }
         </div>
-
       </div>
     );
   }
@@ -116,10 +124,10 @@ export default class ContactDetails extends PureComponent {
               <span title={extensionNumber}>{extensionNumber}</span>
             </div>
             <div className={styles.menu}>
-              <button onClick={() => this.onClickToDial(extensionNumber)}>
+              <button title={i18n.getString('call', currentLocale)} onClick={() => this.onClickToDial(extensionNumber)}>
                 <i className={dynamicsFont.call} />
               </button>
-              <button onClick={() => this.onClickToSMS(contactItem, extensionNumber)}>
+              <button title={i18n.getString('text', currentLocale)} onClick={() => this.onClickToSMS(contactItem, extensionNumber)}>
                 <i className={dynamicsFont.composeText} />
               </button>
             </div>
@@ -141,10 +149,10 @@ export default class ContactDetails extends PureComponent {
             <span title={formattedPhoneNumber}>{formattedPhoneNumber}</span>
           </div>
           <div className={styles.menu}>
-            <button onClick={() => this.onClickToDial(phoneNumber)}>
+            <button title={i18n.getString('call', currentLocale)} onClick={() => this.onClickToDial(phoneNumber)}>
               <i className={dynamicsFont.call} />
             </button>
-            <button onClick={() => this.onClickToSMS(contactItem, phoneNumber)}>
+            <button title={i18n.getString('text', currentLocale)} onClick={() => this.onClickToSMS(contactItem, phoneNumber)}>
               <i className={dynamicsFont.composeText} />
             </button>
             <button>
