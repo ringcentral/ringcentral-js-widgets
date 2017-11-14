@@ -357,7 +357,8 @@ export default function App({
                     {props.children}
                   </ContactsPage>
                 ) : props.children
-              }>
+              }
+            >
               <Route
                 path=":contactType/:contactId"
                 component={props => (

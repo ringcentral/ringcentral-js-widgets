@@ -592,9 +592,9 @@ export default class Phone extends RcModule {
     }));
     reducers.contacts = this.contacts.reducer;
     this.addModule('contactDetails', new ContactDetails({
+      ...options,
       contacts: this.contacts,
       getState: () => this.state.contactDetails,
-      ...options
     }));
     reducers.contactDetails = this.contactDetails.reducer;
     this.contactMatcher.addSearchProvider({

@@ -61,8 +61,8 @@ export default class ContactDetails extends PureComponent {
     const { contactItem, sourceNodeRenderer, currentLocale } = this.props;
     const { name, presence, profileImageUrl, type } = contactItem;
     const sourceNode = sourceNodeRenderer({ sourceType: type });
-    const presenceName =
-      presence ? getPresenceStatusName(presence.userStatus, presence.dndStatus, currentLocale)
+    const presenceName = presence
+      ? getPresenceStatusName(presence.userStatus, presence.dndStatus, currentLocale)
       : null;
     return (
       <div className={styles.contactProfile}>
@@ -74,36 +74,33 @@ export default class ContactDetails extends PureComponent {
             />
             {
               sourceNode
-              ? (
-                <div className={styles.sourceNodeContainer}>
-                  {sourceNode}
-                </div>
-              )
-                : null
+                ? (
+                  <div className={styles.sourceNodeContainer}>
+                    {sourceNode}
+                  </div>
+                ) : null
             }
           </div>
         </div>
         <div className={styles.info}>
           <div className={classnames(styles.name, !presence ? styles.nameWithoutPresence : null)}>
-            <span title={name}>
-              { name }
-            </span>
+            <span title={name}>{name}</span>
           </div>
           {
             presence
-            ? (
-              <div className={styles.presence}>
-                <div className={styles.presenceNodeContainer}>
-                  <PresenceStatusIcon
-                    className={styles.presenceNode}
-                    {...presence}
-                  />
+              ? (
+                <div className={styles.presence}>
+                  <div className={styles.presenceNodeContainer}>
+                    <PresenceStatusIcon
+                      className={styles.presenceNode}
+                      {...presence}
+                    />
+                  </div>
+                  <span className={styles.presenceStatus}>
+                    {presenceName}
+                  </span>
                 </div>
-                <span className={styles.presenceStatus}>
-                  { presenceName }
-                </span>
-              </div>
-            ) : null
+              ) : null
           }
         </div>
       </div>
@@ -167,20 +164,17 @@ export default class ContactDetails extends PureComponent {
     return (
       <div className={styles.item}>
         <div className={styles.label}>
-          <span>{ i18n.getString('directLabel', currentLocale) }</span>
+          <span>{i18n.getString('directLabel', currentLocale)}</span>
         </div>
         <ul>
-          { phoneNumberListView }
+          {phoneNumberListView}
         </ul>
       </div>
     );
   }
 
   renderEmailCell() {
-    const {
-      emails,
-      type
-    } = this.props.contactItem;
+    const { emails, type } = this.props.contactItem;
     if (!emails || emails.length <= 0) return null;
     const emailListView = emails.map((email, index) => (
       <li key={index}><a onClick={() => this.onClickMailTo(email, type)}>{email}</a></li>
@@ -188,7 +182,7 @@ export default class ContactDetails extends PureComponent {
     return (
       <div>
         <div className={styles.label}>
-          <span>{ i18n.getString('emailLabel', this.props.currentLocale) }</span>
+          <span>{i18n.getString('emailLabel', this.props.currentLocale)}</span>
         </div>
         <ul>{emailListView}</ul>
       </div>
@@ -201,19 +195,19 @@ export default class ContactDetails extends PureComponent {
     return (
       <div className={styles.root}>
         <div className={styles.profile}>
-          { this.renderProfile() }
+          {this.renderProfile()}
         </div>
         {
           extensionCellView || directNumberCellView
-          ? (
-            <div className={styles.contacts}>
-              { extensionCellView }
-              { directNumberCellView }
-            </div>
-          ) : null
+            ? (
+              <div className={styles.contacts}>
+                {extensionCellView}
+                {directNumberCellView}
+              </div>
+            ) : null
         }
         <div className={styles.email}>
-          { this.renderEmailCell() }
+          {this.renderEmailCell()}
         </div>
       </div>
     );
@@ -246,6 +240,7 @@ ContactDetails.propTypes = {
 ContactDetails.defaultProps = {
   onClickToSMS: undefined,
   onClickToDial: undefined,
+  onClickMailTo: undefined,
   onClickMailTo: undefined,
   sourceNodeRenderer: () => null,
 };

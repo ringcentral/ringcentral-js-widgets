@@ -99,7 +99,7 @@ function WebphoneButtons({
         }}
         iconWidth={260}
         iconX={120}
-        con={endIcon}
+        icon={endIcon}
         showBorder={false}
       />
       <CircleButton
