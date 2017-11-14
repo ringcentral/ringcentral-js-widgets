@@ -28,7 +28,6 @@ function mapToFunctions(_, {
   contactSearch,
   dialerRoute = '/dialer',
   composeTextRoute = '/composeText',
-  onClickMailTo
 }) {
   return {
     getContact: () => {
@@ -76,16 +75,6 @@ function mapToFunctions(_, {
         }
       } :
       undefined,
-    onClickMailTo: (email, contactType) => {
-      if (onClickMailTo) {
-        onClickMailTo(email, contactType);
-        return;
-      }
-      const win = window.open(`mailto:${email}`);
-      setTimeout(() => {
-        win.close();
-      }, 300);
-    }
   };
 }
 

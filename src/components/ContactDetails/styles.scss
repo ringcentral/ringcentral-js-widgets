@@ -210,13 +210,13 @@ $rowHeight: 50px;
       @include secondary-font;
       @include text-ellipsis;
     }
-    a:hover {
-      text-decoration: underline;
-    }
     a, a:hover, a:visited, a:focus {
-      cursor: pointer;
       color: $rc-blue;
     }
+  }
+  .underline:hover {
+    cursor: pointer;
+    text-decoration: underline;
   }
 }
 
