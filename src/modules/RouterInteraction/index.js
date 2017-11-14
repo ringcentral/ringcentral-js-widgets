@@ -2,6 +2,7 @@ import RcModule from 'ringcentral-integration/lib/RcModule';
 import { useRouterHistory, createMemoryHistory } from 'react-router';
 import { syncHistoryWithStore, routerReducer, LOCATION_CHANGE } from 'react-router-redux';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
+import moduleStatuses from 'ringcentral-integration/enums/moduleStatuses';
 
 function getDefaultHistory() {
   return useRouterHistory(createMemoryHistory)();
@@ -33,6 +34,10 @@ export default class RouterInteraction extends RcModule {
 
   get currentPath() {
     return this.state.locationBeforeTransitions.pathname;
+  }
+
+  get status() {
+    return moduleStatuses.ready;
   }
 
   @proxify

@@ -15,6 +15,7 @@ import Brand from 'ringcentral-integration/modules/Brand';
 import Call from 'ringcentral-integration/modules/Call';
 import CallingSettings from 'ringcentral-integration/modules/CallingSettings';
 import Contacts from 'ringcentral-integration/modules/Contacts';
+import ContactDetails from 'ringcentral-integration/modules/ContactDetails';
 import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
 import DialingPlan from 'ringcentral-integration/modules/DialingPlan';
 import ExtensionDevice from 'ringcentral-integration/modules/ExtensionDevice';
@@ -590,6 +591,12 @@ export default class Phone extends RcModule {
       ...options,
     }));
     reducers.contacts = this.contacts.reducer;
+    this.addModule('contactDetails', new ContactDetails({
+      ...options,
+      contacts: this.contacts,
+      getState: () => this.state.contactDetails,
+    }));
+    reducers.contactDetails = this.contactDetails.reducer;
     this.contactMatcher.addSearchProvider({
       name: 'contacts',
       searchFn: async ({ queries }) => this.contacts.matchContacts({ phoneNumbers: queries }),

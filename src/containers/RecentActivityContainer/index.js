@@ -105,26 +105,32 @@ function mapToProps(_, {
   recentMessages,
   recentCalls,
   contactMatcher,
-  getSession
+  getSession,
+  contact = null,
+  useContact = false,
 }) {
-  const session = getSession();
-  const sessionId = session.id;
-  let currentContact = session.contactMatch;
-  const contactMapping = contactMatcher && contactMatcher.dataMapping;
-  const phoneNumber = session.direction === callDirections.outbound ?
-    session.to : session.from;
-  if (!currentContact) {
-    currentContact = contactMapping && contactMapping[phoneNumber];
-    if (currentContact && currentContact.length >= 1) {
-      currentContact = currentContact[0];
-    }
-  }
-  const ready =
+  let sessionId = null;
+  let currentContact = contact;
+  let ready =
     dateTimeFormat.ready &&
     locale.ready &&
-    contactMatcher.ready &&
     recentMessages.ready &&
     recentCalls.ready;
+  if (!useContact) {
+    const session = getSession();
+    sessionId = session.id;
+    currentContact = session.contactMatch;
+    const contactMapping = contactMatcher && contactMatcher.dataMapping;
+    const phoneNumber = session.direction === callDirections.outbound ?
+      session.to : session.from;
+    if (!currentContact) {
+      currentContact = contactMapping && contactMapping[phoneNumber];
+      if (currentContact && currentContact.length >= 1) {
+        currentContact = currentContact[0];
+      }
+    }
+    ready = ready && contactMatcher.ready;
+  }
   return {
     currentLocale,
     title: i18n.getString('recentActivities', locale.currentLocale),

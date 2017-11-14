@@ -40,7 +40,6 @@ function mapToFunctions(_, {
   regionSettings,
   composeTextRoute = '/composeText',
   callCtrlRoute = '/calls/active',
-  onViewContact,
   onCreateContact,
   composeText,
   callLogger,
@@ -70,17 +69,11 @@ function mapToFunctions(_, {
         router.push(callCtrlRoute);
       }
     },
-    onViewContact: onViewContact ?
-      async ({ phoneNumber, contact }) => {
-        const hasMatchNumber = await contactMatcher.hasMatchNumber({
-          phoneNumber,
-          ignoreCache: true
-        });
-        if (hasMatchNumber) {
-          await onViewContact({ phoneNumber, contact });
-        }
-      } :
-      undefined,
+    onViewContact: ({ contact }) => {
+      const id = contact.id;
+      const type = contact.type;
+      router.push(`/contacts/${type}/${id}?direct=true`);
+    },
     onClickToSms: composeText ?
       async (contact, isDummyContact = false) => {
         if (router) {

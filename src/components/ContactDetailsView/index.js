@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import SpinnerOverlay from '../../components/SpinnerOverlay';
 import BackHeader from '../../components/BackHeader';
@@ -8,9 +8,24 @@ import ContactDetails, { contactItemPropTypes } from '../ContactDetails';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-export default class ContactDetailsView extends Component {
+export default class ContactDetailsView extends PureComponent {
   componentDidMount() {
-    this.props.getAvatarUrl(this.props.contactItem);
+    this.props.getContact();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      (!this.props.contactItem && nextProps.contactItem) ||
+      (nextProps.contactItem &&
+        nextProps.contactItem.id !== this.props.contactItem.id)
+    ) {
+      this.props.getPresence(nextProps.contactItem);
+      this.props.getAvatar(nextProps.contactItem);
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.clearContact();
   }
 
   render() {
@@ -18,24 +33,26 @@ export default class ContactDetailsView extends Component {
       currentLocale,
       showSpinner,
       contactItem,
-      getAvatarUrl,
-      getPresence,
       onBackClick,
       onClickToSMS,
       onClickToDial,
-      onClickToGmail,
+      onClickMailTo,
+      formatNumber,
+      sourceNodeRenderer,
+      children,
     } = this.props;
+    if (!contactItem) return null;
     const content = showSpinner ?
       <SpinnerOverlay /> :
       (
         <ContactDetails
           currentLocale={currentLocale}
-          getAvatarUrl={getAvatarUrl}
-          getPresence={getPresence}
           contactItem={contactItem}
           onClickToSMS={onClickToSMS}
           onClickToDial={onClickToDial}
-          onClickToGmail={onClickToGmail}
+          onClickMailTo={onClickMailTo}
+          formatNumber={formatNumber}
+          sourceNodeRenderer={sourceNodeRenderer}
         />
       );
 
@@ -44,11 +61,13 @@ export default class ContactDetailsView extends Component {
         <BackHeader
           buttons={[]}
           onBackClick={onBackClick}
+          className={styles.header}
         >
           {i18n.getString('contactDetails', currentLocale)}
         </BackHeader>
         <Panel className={styles.content}>
           {content}
+          {children}
         </Panel>
       </div>
     );
@@ -58,13 +77,18 @@ export default class ContactDetailsView extends Component {
 ContactDetailsView.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   showSpinner: PropTypes.bool.isRequired,
-  contactItem: PropTypes.shape(contactItemPropTypes).isRequired,
-  getAvatarUrl: PropTypes.func.isRequired,
+  contactItem: PropTypes.shape(contactItemPropTypes),
+  getContact: PropTypes.func.isRequired,
+  clearContact: PropTypes.func.isRequired,
+  getAvatar: PropTypes.func.isRequired,
   getPresence: PropTypes.func.isRequired,
   onBackClick: PropTypes.func,
   onClickToSMS: PropTypes.func,
   onClickToDial: PropTypes.func,
-  onClickToGmail: PropTypes.func,
+  onClickMailTo: PropTypes.func,
+  formatNumber: PropTypes.func.isRequired,
+  sourceNodeRenderer: PropTypes.func,
+  children: PropTypes.node,
 };
 
 ContactDetailsView.defaultProps = {
@@ -72,4 +96,7 @@ ContactDetailsView.defaultProps = {
   onClickToSMS: undefined,
   onClickToDial: undefined,
   onClickToGmail: undefined,
+  children: undefined,
+  contactItem: undefined,
+  sourceNodeRenderer: () => null,
 };
