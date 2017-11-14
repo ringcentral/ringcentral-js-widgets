@@ -54,7 +54,9 @@ export default class ContactDetails extends PureComponent {
   }
 
   onClickMailTo = (email, contactType) => {
-    this.props.onClickMailTo(email, contactType);
+    if (typeof this.props.onClickMailTo === 'function') {
+      this.props.onClickMailTo(email, contactType);
+    }
   }
 
   renderProfile() {
