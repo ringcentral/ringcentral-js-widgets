@@ -75,33 +75,33 @@ function mapToFunctions(_, {
       router.push(`/contacts/${type}/${id}?direct=true`);
     },
     onClickToSms: composeText ?
-    async (contact, isDummyContact = false) => {
-      if (router) {
-        router.push(composeTextRoute);
-      }
-      if (contact.name && contact.phoneNumber && isDummyContact) {
-        composeText.updateTypingToNumber(contact.name);
-        contactSearch.search({ searchString: contact.name });
-      } else {
-        composeText.addToNumber(contact);
-        if (composeText.typingToNumber === contact.phoneNumber) {
-          composeText.cleanTypingToNumber();
+      async (contact, isDummyContact = false) => {
+        if (router) {
+          router.push(composeTextRoute);
         }
-      }
-    } :
-    undefined,
+        if (contact.name && contact.phoneNumber && isDummyContact) {
+          composeText.updateTypingToNumber(contact.name);
+          contactSearch.search({ searchString: contact.name });
+        } else {
+          composeText.addToNumber(contact);
+          if (composeText.typingToNumber === contact.phoneNumber) {
+            composeText.cleanTypingToNumber();
+          }
+        }
+      } :
+      undefined,
     onCreateContact: onCreateContact ?
-    async ({ phoneNumber, name, entityType }) => {
-      const hasMatchNumber = await contactMatcher.hasMatchNumber({
-        phoneNumber,
-        ignoreCache: true
-      });
-      if (!hasMatchNumber) {
-        await onCreateContact({ phoneNumber, name, entityType });
-        await contactMatcher.forceMatchNumber({ phoneNumber });
-      }
-    } :
-    undefined,
+      async ({ phoneNumber, name, entityType }) => {
+        const hasMatchNumber = await contactMatcher.hasMatchNumber({
+          phoneNumber,
+          ignoreCache: true
+        });
+        if (!hasMatchNumber) {
+          await onCreateContact({ phoneNumber, name, entityType });
+          await contactMatcher.forceMatchNumber({ phoneNumber });
+        }
+      } :
+      undefined,
     isLoggedContact,
     onLogCall: onLogCall ||
     (callLogger && (async ({ call, contact, redirect = true }) => {
