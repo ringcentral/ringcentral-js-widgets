@@ -4,6 +4,9 @@
 
 .root {
   @include full-size;
+  position: absolute;
+  top: 0;
+  z-index: 10;
 }
 
 .content {
@@ -11,5 +14,9 @@
   height: calc(100% - #{$header-height});
   overflow-y: auto;
   padding-top: 0;
-  padding-bottom: 0;
+  padding-bottom: 30px;
+}
+
+.header {
+  background: #fff;
 }
