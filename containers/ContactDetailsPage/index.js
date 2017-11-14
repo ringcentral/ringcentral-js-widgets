@@ -49,8 +49,7 @@ function mapToFunctions(_, _ref2) {
       _ref2$dialerRoute = _ref2.dialerRoute,
       dialerRoute = _ref2$dialerRoute === undefined ? '/dialer' : _ref2$dialerRoute,
       _ref2$composeTextRout = _ref2.composeTextRoute,
-      composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout,
-      _onClickMailTo = _ref2.onClickMailTo;
+      composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout;
 
   return {
     getContact: function getContact() {
@@ -117,17 +116,7 @@ function mapToFunctions(_, _ref2) {
       return function (_x) {
         return _ref3.apply(this, arguments);
       };
-    }() : undefined,
-    onClickMailTo: function onClickMailTo(email, contactType) {
-      if (_onClickMailTo) {
-        _onClickMailTo(email, contactType);
-        return;
-      }
-      var win = window.open('mailto:' + email);
-      setTimeout(function () {
-        win.close();
-      }, 300);
-    }
+    }() : undefined
   };
 }
 

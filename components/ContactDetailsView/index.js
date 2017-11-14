@@ -162,6 +162,7 @@ ContactDetailsView.defaultProps = {
   onClickToGmail: undefined,
   children: undefined,
   contactItem: undefined,
+  onClickMailTo: undefined,
   sourceNodeRenderer: function sourceNodeRenderer() {
     return null;
   }

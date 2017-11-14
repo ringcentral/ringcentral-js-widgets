@@ -128,7 +128,9 @@ var ContactDetails = function (_PureComponent) {
         phoneNumber: phoneNumber
       }));
     }, _this.onClickMailTo = function (email, contactType) {
-      _this.props.onClickMailTo(email, contactType);
+      if (typeof _this.props.onClickMailTo === 'function') {
+        _this.props.onClickMailTo(email, contactType);
+      }
     }, _temp), (0, _possibleConstructorReturn3.default)(_this, _ret);
   }
 
@@ -337,18 +339,20 @@ var ContactDetails = function (_PureComponent) {
     value: function renderEmailCell() {
       var _this4 = this;
 
+      var onClickMailTo = this.props.onClickMailTo;
       var _props$contactItem = this.props.contactItem,
           emails = _props$contactItem.emails,
           type = _props$contactItem.type;
 
       if (!emails || emails.length <= 0) return null;
+      var hasMailToHandler = typeof onClickMailTo === 'function';
       var emailListView = emails.map(function (email, index) {
         return _react2.default.createElement(
           'li',
           { key: index },
           _react2.default.createElement(
             'a',
-            { onClick: function onClick() {
+            { className: hasMailToHandler ? _styles2.default.underline : null, onClick: function onClick() {
                 return _this4.onClickMailTo(email, type);
               } },
             email
