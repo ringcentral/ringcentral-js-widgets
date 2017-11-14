@@ -217,10 +217,13 @@ var AddressBook = (_dec = (0, _di.Module)({
       rawContacts.forEach(function (rawContact) {
         var contact = (0, _extends3.default)({
           type: _this.sourceName,
-          phoneNumbers: []
+          phoneNumbers: [],
+          emails: []
         }, rawContact);
         contact.id = '' + contact.id;
         contact.name = (contact.firstName || '') + ' ' + (contact.lastName || '');
+        if (contact.email) contact.emails.push(contact.email);
+        if (contact.email2) contact.emails.push(contact.email2);
         (0, _keys2.default)(contact).forEach(function (key) {
           if (key.toLowerCase().indexOf('phone') === -1) {
             return;

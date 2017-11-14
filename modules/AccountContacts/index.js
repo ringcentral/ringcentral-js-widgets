@@ -188,10 +188,10 @@ var AccountContacts = (_dec = (0, _di.Module)({
           id: id,
           firstName: extension.contact && extension.contact.firstName,
           lastName: extension.contact && extension.contact.lastName,
-          email: extension.contact && extension.contact.email,
+          emails: extension.contact ? [extension.contact.email] : [],
           extensionNumber: extension.ext,
           hasProfileImage: !!extension.hasProfileImage,
-          phoneNumbers: [],
+          phoneNumbers: [{ phoneNumber: extension.ext, phoneType: 'extension' }],
           profileImageUrl: profileImages[id] && profileImages[id].imageUrl,
           presence: presences[id] && presences[id].presence
         };
