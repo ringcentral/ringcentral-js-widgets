@@ -174,10 +174,14 @@ export default class ContactDetails extends PureComponent {
   }
 
   renderEmailCell() {
+    const { onClickMailTo } = this.props;
     const { emails, type } = this.props.contactItem;
     if (!emails || emails.length <= 0) return null;
+    const hasMailToHandler = typeof onClickMailTo === 'function';
     const emailListView = emails.map((email, index) => (
-      <li key={index}><a onClick={() => this.onClickMailTo(email, type)}>{email}</a></li>
+      <li key={index}>
+        <a className={hasMailToHandler ? styles.underline : null} onClick={() => this.onClickMailTo(email, type)}>{email}</a>
+      </li>
     ));
     return (
       <div>
