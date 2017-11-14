@@ -94,7 +94,7 @@ export default class MessageItem extends Component {
       ));
       if (index > -1) return index;
     }
-    return -1;
+    return this.props.showContactDisplayPlaceholder ? -1 : 0;
   }
   getSelectedContact = (selected = this.state.selected) => {
     const contactMatches = this.props.conversation.correspondentMatches;
@@ -125,7 +125,6 @@ export default class MessageItem extends Component {
   viewSelectedContact = () => {
     if (typeof this.props.onViewContact === 'function') {
       this.props.onViewContact({
-        phoneNumber: this.getPhoneNumber(),
         contact: this.getSelectedContact(),
       });
     }

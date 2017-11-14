@@ -266,7 +266,6 @@ export default function App({
                   router={phone.router}
                   showContactDisplayPlaceholder={false}
                   onLogCall={async () => { await sleep(1000); }}
-                  onViewContact={() => { }}
                   onCreateContact={() => { }}
                 />
               )} />
@@ -345,27 +344,48 @@ export default function App({
               )} />
             <Route
               path="/contacts"
-              component={() => (
-                <ContactsPage
-                  locale={phone.locale}
-                  router={phone.router}
-                  contacts={phone.contacts}
-                  contactSearch={phone.contactSearch}
-                  contactSourceFilterRenderer={props => (
-                    <ContactSourceFilter {...props} />
-                  )}
-                />
+              component={props =>
+                !props.location.query.direct ? (
+                  <ContactsPage
+                    locale={phone.locale}
+                    router={phone.router}
+                    contacts={phone.contacts}
+                    contactSourceFilterRenderer={props => (
+                      <ContactSourceFilter {...props} />
+                    )}
+                  >
+                    {props.children}
+                  </ContactsPage>
+                ) : props.children
+              }
+            >
+              <Route
+                path=":contactType/:contactId"
+                component={props => (
+                  <ContactDetailsPage
+                    params={props.params}
+                    locale={phone.locale}
+                    router={phone.router}
+                    call={phone.call}
+                    composeText={phone.composeText}
+                    contactSearch={phone.contactSearch}
+                    contactDetails={phone.contactDetails}
+                    regionSettings={phone.regionSettings}
+                  >
+                    <RecentActivityContainer
+                      locale={phone.locale}
+                      dateTimeFormat={phone.dateTimeFormat}
+                      recentMessages={phone.recentMessages}
+                      recentCalls={phone.recentCalls}
+                      navigateTo={(path) => {
+                        phone.router.push(path);
+                      }}
+                      contact={phone.contactDetails.contact}
+                      useContact
+                  />
+                  </ContactDetailsPage>
               )} />
-            <Route
-              path="/contacts/:contactType/:contactId"
-              component={props => (
-                <ContactDetailsPage
-                  params={props.params}
-                  locale={phone.locale}
-                  router={phone.router}
-                  contacts={phone.contacts}
-                />
-              )} />
+            </Route>
             <Route
               path="/meeting"
             />

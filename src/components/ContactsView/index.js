@@ -143,6 +143,7 @@ export default class ContactsView extends Component {
       onItemSelect,
       contactSourceFilterRenderer: Filter,
       sourceNodeRenderer,
+      children
     } = this.props;
 
     return (
@@ -181,6 +182,7 @@ export default class ContactsView extends Component {
           />
         </Panel>
         {showSpinner ? (<SpinnerOverlay className={styles.spinner} />) : null}
+        {children}
       </div>
     );
   }
@@ -205,6 +207,7 @@ ContactsView.propTypes = {
   contactSourceFilterRenderer: PropTypes.func,
   sourceNodeRenderer: PropTypes.func,
   onVisitPage: PropTypes.func,
+  children: PropTypes.node,
   // onRestSearch: PropTypes.func,
 };
 
@@ -217,5 +220,6 @@ ContactsView.defaultProps = {
   contactSourceFilterRenderer: ContactSourceFilter,
   sourceNodeRenderer: undefined,
   onVisitPage: undefined,
+  children: undefined,
   // onRestSearch: undefined,
 };

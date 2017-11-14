@@ -78,7 +78,7 @@ function getTabs({
     {
       // eslint-disable-next-line
       icon: ({ currentPath }) => {
-        if (currentPath === '/contacts') {
+        if (currentPath.substr(0, 9) === '/contacts') {
           return <ContactNavIcon />;
         } else if (currentPath === '/settings') {
           return <SettingsNavIcon />;
@@ -92,7 +92,7 @@ function getTabs({
       // activeIcon: MoreMenuHoverIcon,
       // eslint-disable-next-line
       activeIcon: ({ currentPath }) => {
-        if (currentPath === '/contacts') {
+        if (currentPath.substr(0, 9) === '/contacts') {
           return <ContactNavIcon />;
         } else if (currentPath === '/settings') {
           return <SettingsNavIcon />;

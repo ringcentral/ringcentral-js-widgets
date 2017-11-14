@@ -52,7 +52,6 @@ function mapToProps(_, {
 }
 function mapToFunctions(_, {
   dateTimeFormat,
-  onViewContact,
   onCreateContact,
   dateTimeFormatter = ({ utcTimestamp }) => dateTimeFormat.formatDateTime({
     utcTimestamp,
@@ -70,17 +69,11 @@ function mapToFunctions(_, {
 }) {
   return {
     dateTimeFormatter,
-    onViewContact: onViewContact ?
-      async ({ phoneNumber, contact }) => {
-        const hasMatchNumber = await contactMatcher.hasMatchNumber({
-          phoneNumber,
-          ignoreCache: true
-        });
-        if (hasMatchNumber) {
-          await onViewContact({ phoneNumber, contact });
-        }
-      } :
-      undefined,
+    onViewContact: ({ contact }) => {
+      const id = contact.id;
+      const type = contact.type;
+      router.push(`/contacts/${type}/${id}?direct=true`);
+    },
     onCreateContact: onCreateContact ?
       async ({ phoneNumber, name, entityType }) => {
         const hasMatchNumber = await contactMatcher.hasMatchNumber({
