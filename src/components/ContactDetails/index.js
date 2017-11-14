@@ -62,7 +62,8 @@ export default class ContactDetails extends PureComponent {
     const { name, presence, profileImageUrl, type } = contactItem;
     const sourceNode = sourceNodeRenderer({ sourceType: type });
     const presenceName =
-      getPresenceStatusName(presence.userStatus, presence.dndStatus, currentLocale);
+      presence ? getPresenceStatusName(presence.userStatus, presence.dndStatus, currentLocale)
+      : null;
     return (
       <div className={styles.contactProfile}>
         <div className={styles.avatar}>

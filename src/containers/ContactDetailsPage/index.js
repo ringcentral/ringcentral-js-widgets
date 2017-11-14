@@ -4,15 +4,15 @@ import ContactDetailsView from '../../components/ContactDetailsView';
 
 function mapToProps(_, {
   locale,
-  contacts,
   contactDetails,
+  contactSearch,
 }) {
   return {
     currentLocale: locale.currentLocale,
     contactItem: contactDetails.contact,
     showSpinner: !(
       locale.ready &&
-      contacts.ready &&
+      contactSearch.ready &&
       contactDetails.ready
     ),
   };
@@ -20,7 +20,6 @@ function mapToProps(_, {
 
 function mapToFunctions(_, {
   router,
-  contacts,
   contactDetails,
   regionSettings,
   params,
@@ -46,8 +45,8 @@ function mapToFunctions(_, {
       areaCode: regionSettings.areaCode,
       countryCode: regionSettings.countryCode,
     }),
-    getAvatar: contact => contacts.getProfileImage(contact),
-    getPresence: contact => contacts.getPresence(contact),
+    getAvatar: contact => contactDetails.getProfileImage(contact),
+    getPresence: contact => contactDetails.getPresence(contact),
     onBackClick: () => {
       router.goBack();
     },

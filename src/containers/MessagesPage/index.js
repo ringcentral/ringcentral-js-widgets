@@ -125,7 +125,7 @@ function mapToFunctions(_, {
     onViewContact: ({ contact }) => {
       const id = contact.id;
       const type = contact.type;
-      router.push(`/contacts/${type}/${id}`);
+      router.push(`/contacts/${type}/${id}?direct=true`);
     },
     onCreateContact: onCreateContact ?
     async ({ phoneNumber, name, entityType }) => {

@@ -266,7 +266,6 @@ export default function App({
                   router={phone.router}
                   showContactDisplayPlaceholder={false}
                   onLogCall={async () => { await sleep(1000); }}
-                  onViewContact={() => { }}
                   onCreateContact={() => { }}
                 />
               )} />
@@ -345,19 +344,21 @@ export default function App({
               )} />
             <Route
               path="/contacts"
-              component={props => (
-                <ContactsPage
-                  locale={phone.locale}
-                  router={phone.router}
-                  contacts={phone.contacts}
-                  contactSearch={phone.contactSearch}
-                  contactSourceFilterRenderer={props => (
-                    <ContactSourceFilter {...props} />
+              component={props =>
+                !props.location.query.direct ? (
+                  <ContactsPage
+                    locale={phone.locale}
+                    router={phone.router}
+                    contacts={phone.contacts}
+                    contactSearch={phone.contactSearch}
+                    contactSourceFilterRenderer={props => (
+                      <ContactSourceFilter {...props} />
                     )}
-                   >
-                  {props.children}
-                </ContactsPage>
-                )}>
+                  >
+                    {props.children}
+                  </ContactsPage>
+                ) : props.children
+              }>
               <Route
                 path=":contactType/:contactId"
                 component={props => (
@@ -367,7 +368,6 @@ export default function App({
                     router={phone.router}
                     call={phone.call}
                     composeText={phone.composeText}
-                    contacts={phone.contacts}
                     contactSearch={phone.contactSearch}
                     contactDetails={phone.contactDetails}
                     regionSettings={phone.regionSettings}

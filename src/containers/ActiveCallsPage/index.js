@@ -72,7 +72,7 @@ function mapToFunctions(_, {
     onViewContact: ({ contact }) => {
       const id = contact.id;
       const type = contact.type;
-      router.push(`/contacts/${type}/${id}`);
+      router.push(`/contacts/${type}/${id}?direct=true`);
     },
     onClickToSms: composeText ?
     async (contact, isDummyContact = false) => {
