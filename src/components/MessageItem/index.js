@@ -94,7 +94,7 @@ export default class MessageItem extends Component {
       ));
       if (index > -1) return index;
     }
-    return 0;
+    return this.props.showContactDisplayPlaceholder ? -1 : 0;
   }
   getSelectedContact = (selected = this.state.selected) => {
     const contactMatches = this.props.conversation.correspondentMatches;

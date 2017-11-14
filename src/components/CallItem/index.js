@@ -153,7 +153,7 @@ export default class CallItem extends Component {
       ));
       return index;
     }
-    return 0;
+    return this.props.showContactDisplayPlaceholder ? -1 : 0;
   }
   getSelectedContact = (selected = this.state.selected) => {
     const contactMatches = this.getContactMatches();
