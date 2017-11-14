@@ -59,6 +59,10 @@ var _proxify = require('ringcentral-integration/lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
 
+var _moduleStatuses = require('ringcentral-integration/enums/moduleStatuses');
+
+var _moduleStatuses2 = _interopRequireDefault(_moduleStatuses);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
@@ -222,6 +226,11 @@ var RouterInteraction = (_class = function (_RcModule) {
     key: 'currentPath',
     get: function get() {
       return this.state.locationBeforeTransitions.pathname;
+    }
+  }, {
+    key: 'status',
+    get: function get() {
+      return _moduleStatuses2.default.ready;
     }
   }, {
     key: 'actionTypes',

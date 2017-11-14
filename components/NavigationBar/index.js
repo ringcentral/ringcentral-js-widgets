@@ -148,8 +148,8 @@ exports.default = NavigationBar;
 
 
 var tabPropTypes = {
-  icon: _propTypes2.default.func,
-  activeIcon: _propTypes2.default.func,
+  icon: _propTypes2.default.oneOfType([_propTypes2.default.func, _propTypes2.default.node]),
+  activeIcon: _propTypes2.default.oneOfType([_propTypes2.default.func, _propTypes2.default.node]),
   label: _propTypes2.default.string,
   path: _propTypes2.default.string,
   virtualPath: _propTypes2.default.string,

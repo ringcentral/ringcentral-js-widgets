@@ -59,8 +59,8 @@ var _i18n2 = _interopRequireDefault(_i18n);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ContactDetailsView = function (_Component) {
-  (0, _inherits3.default)(ContactDetailsView, _Component);
+var ContactDetailsView = function (_PureComponent) {
+  (0, _inherits3.default)(ContactDetailsView, _PureComponent);
 
   function ContactDetailsView() {
     (0, _classCallCheck3.default)(this, ContactDetailsView);
@@ -70,7 +70,20 @@ var ContactDetailsView = function (_Component) {
   (0, _createClass3.default)(ContactDetailsView, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.props.getAvatarUrl(this.props.contactItem);
+      this.props.getContact();
+    }
+  }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (!this.props.contactItem && nextProps.contactItem || nextProps.contactItem && nextProps.contactItem.id !== this.props.contactItem.id) {
+        this.props.getPresence(nextProps.contactItem);
+        this.props.getAvatar(nextProps.contactItem);
+      }
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.props.clearContact();
     }
   }, {
     key: 'render',
@@ -79,21 +92,23 @@ var ContactDetailsView = function (_Component) {
           currentLocale = _props.currentLocale,
           showSpinner = _props.showSpinner,
           contactItem = _props.contactItem,
-          getAvatarUrl = _props.getAvatarUrl,
-          getPresence = _props.getPresence,
           onBackClick = _props.onBackClick,
           onClickToSMS = _props.onClickToSMS,
           onClickToDial = _props.onClickToDial,
-          onClickToGmail = _props.onClickToGmail;
+          onClickMailTo = _props.onClickMailTo,
+          formatNumber = _props.formatNumber,
+          sourceNodeRenderer = _props.sourceNodeRenderer,
+          children = _props.children;
 
+      if (!contactItem) return null;
       var content = showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, null) : _react2.default.createElement(_ContactDetails2.default, {
         currentLocale: currentLocale,
-        getAvatarUrl: getAvatarUrl,
-        getPresence: getPresence,
         contactItem: contactItem,
         onClickToSMS: onClickToSMS,
         onClickToDial: onClickToDial,
-        onClickToGmail: onClickToGmail
+        onClickMailTo: onClickMailTo,
+        formatNumber: formatNumber,
+        sourceNodeRenderer: sourceNodeRenderer
       });
 
       return _react2.default.createElement(
@@ -103,20 +118,22 @@ var ContactDetailsView = function (_Component) {
           _BackHeader2.default,
           {
             buttons: [],
-            onBackClick: onBackClick
+            onBackClick: onBackClick,
+            className: _styles2.default.header
           },
           _i18n2.default.getString('contactDetails', currentLocale)
         ),
         _react2.default.createElement(
           _Panel2.default,
           { className: _styles2.default.content },
-          content
+          content,
+          children
         )
       );
     }
   }]);
   return ContactDetailsView;
-}(_react.Component);
+}(_react.PureComponent);
 
 exports.default = ContactDetailsView;
 
@@ -124,19 +141,29 @@ exports.default = ContactDetailsView;
 ContactDetailsView.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired,
   showSpinner: _propTypes2.default.bool.isRequired,
-  contactItem: _propTypes2.default.shape(_ContactDetails.contactItemPropTypes).isRequired,
-  getAvatarUrl: _propTypes2.default.func.isRequired,
+  contactItem: _propTypes2.default.shape(_ContactDetails.contactItemPropTypes),
+  getContact: _propTypes2.default.func.isRequired,
+  clearContact: _propTypes2.default.func.isRequired,
+  getAvatar: _propTypes2.default.func.isRequired,
   getPresence: _propTypes2.default.func.isRequired,
   onBackClick: _propTypes2.default.func,
   onClickToSMS: _propTypes2.default.func,
   onClickToDial: _propTypes2.default.func,
-  onClickToGmail: _propTypes2.default.func
+  onClickMailTo: _propTypes2.default.func,
+  formatNumber: _propTypes2.default.func.isRequired,
+  sourceNodeRenderer: _propTypes2.default.func,
+  children: _propTypes2.default.node
 };
 
 ContactDetailsView.defaultProps = {
   onBackClick: undefined,
   onClickToSMS: undefined,
   onClickToDial: undefined,
-  onClickToGmail: undefined
+  onClickToGmail: undefined,
+  children: undefined,
+  contactItem: undefined,
+  sourceNodeRenderer: function sourceNodeRenderer() {
+    return null;
+  }
 };
 //# sourceMappingURL=index.js.map

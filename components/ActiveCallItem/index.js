@@ -311,7 +311,6 @@ var ActiveCallItem = function (_Component) {
     _this.viewSelectedContact = function () {
       if (typeof _this.props.onViewContact === 'function') {
         _this.props.onViewContact({
-          phoneNumber: _this.getPhoneNumber(),
           contact: _this.getSelectedContact()
         });
       }

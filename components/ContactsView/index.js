@@ -226,7 +226,8 @@ var ContactsView = function (_Component) {
           currentPage = _props.currentPage,
           onItemSelect = _props.onItemSelect,
           Filter = _props.contactSourceFilterRenderer,
-          sourceNodeRenderer = _props.sourceNodeRenderer;
+          sourceNodeRenderer = _props.sourceNodeRenderer,
+          children = _props.children;
 
 
       return _react2.default.createElement(
@@ -269,7 +270,8 @@ var ContactsView = function (_Component) {
             sourceNodeRenderer: sourceNodeRenderer
           })
         ),
-        showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner }) : null
+        showSpinner ? _react2.default.createElement(_SpinnerOverlay2.default, { className: _styles2.default.spinner }) : null,
+        children
       );
     }
   }]);
@@ -297,7 +299,8 @@ ContactsView.propTypes = {
   onSearchContact: _propTypes2.default.func,
   contactSourceFilterRenderer: _propTypes2.default.func,
   sourceNodeRenderer: _propTypes2.default.func,
-  onVisitPage: _propTypes2.default.func
+  onVisitPage: _propTypes2.default.func,
+  children: _propTypes2.default.node
   // onRestSearch: PropTypes.func,
 };
 
@@ -309,7 +312,8 @@ ContactsView.defaultProps = {
   onSearchContact: undefined,
   contactSourceFilterRenderer: _ContactSourceFilter2.default,
   sourceNodeRenderer: undefined,
-  onVisitPage: undefined
+  onVisitPage: undefined,
+  children: undefined
   // onRestSearch: undefined,
 };
 //# sourceMappingURL=index.js.map

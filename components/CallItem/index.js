@@ -190,7 +190,6 @@ var CallItem = function (_Component) {
     _this.viewSelectedContact = function () {
       if (typeof _this.props.onViewContact === 'function') {
         _this.props.onViewContact({
-          phoneNumber: _this.getPhoneNumber(),
           contact: _this.getSelectedContact()
         });
       }
@@ -372,7 +371,7 @@ var CallItem = function (_Component) {
         });
         return index;
       }
-      return -1;
+      return this.props.showContactDisplayPlaceholder ? -1 : 0;
     }
   }, {
     key: 'getPhoneNumber',

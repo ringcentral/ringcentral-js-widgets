@@ -147,20 +147,29 @@ function mapToProps(_, _ref2) {
       recentMessages = _ref2.recentMessages,
       recentCalls = _ref2.recentCalls,
       contactMatcher = _ref2.contactMatcher,
-      getSession = _ref2.getSession;
+      getSession = _ref2.getSession,
+      _ref2$contact = _ref2.contact,
+      contact = _ref2$contact === undefined ? null : _ref2$contact,
+      _ref2$useContact = _ref2.useContact,
+      useContact = _ref2$useContact === undefined ? false : _ref2$useContact;
 
-  var session = getSession();
-  var sessionId = session.id;
-  var currentContact = session.contactMatch;
-  var contactMapping = contactMatcher && contactMatcher.dataMapping;
-  var phoneNumber = session.direction === _callDirections2.default.outbound ? session.to : session.from;
-  if (!currentContact) {
-    currentContact = contactMapping && contactMapping[phoneNumber];
-    if (currentContact && currentContact.length >= 1) {
-      currentContact = currentContact[0];
+  var sessionId = null;
+  var currentContact = contact;
+  var ready = dateTimeFormat.ready && locale.ready && recentMessages.ready && recentCalls.ready;
+  if (!useContact) {
+    var session = getSession();
+    sessionId = session.id;
+    currentContact = session.contactMatch;
+    var contactMapping = contactMatcher && contactMatcher.dataMapping;
+    var phoneNumber = session.direction === _callDirections2.default.outbound ? session.to : session.from;
+    if (!currentContact) {
+      currentContact = contactMapping && contactMapping[phoneNumber];
+      if (currentContact && currentContact.length >= 1) {
+        currentContact = currentContact[0];
+      }
     }
+    ready = ready && contactMatcher.ready;
   }
-  var ready = dateTimeFormat.ready && locale.ready && contactMatcher.ready && recentMessages.ready && recentCalls.ready;
   return {
     currentLocale: currentLocale,
     title: _i18n2.default.getString('recentActivities', locale.currentLocale),
