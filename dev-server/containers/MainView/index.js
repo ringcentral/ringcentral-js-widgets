@@ -96,7 +96,7 @@ function getTabs({
           return <ContactNavIcon />;
         } else if (currentPath === '/settings') {
           return <SettingsNavIcon />;
-        } else if (currentPath === '/metting') {
+        } else if (currentPath === '/meeting') {
           return <MeetingNavIcon />;
         } else if (currentPath === '/conference') {
           return <ConferenceNavIcon />;
