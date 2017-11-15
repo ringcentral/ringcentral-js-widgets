@@ -1,9 +1,12 @@
 import { connect } from 'react-redux';
 import ContactsView from '../../components/ContactsView';
+import withPhone from '../../lib/withPhone';
 
 function mapToProps(_, {
-  locale,
-  contacts,
+  phone: {
+    locale,
+    contacts,
+  },
 }) {
   return {
     currentLocale: locale.currentLocale,
@@ -20,8 +23,10 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-  router,
-  contacts,
+  phone: {
+    routerInteraction,
+    contacts,
+  },
   onItemSelect,
   onVisitPage,
 }) {
@@ -32,7 +37,7 @@ function mapToFunctions(_, {
       return presence;
     },
     onItemSelect: onItemSelect || (async ({ type, id }) => {
-      router.push(`/contacts/${type}/${id}`);
+      routerInteraction.push(`/contacts/${type}/${id}`);
     }),
     onSearchContact: ({ searchSource, searchString, pageNumber }) => {
       contacts.updateFilter({
@@ -45,6 +50,6 @@ function mapToFunctions(_, {
   };
 }
 
-const ContactsPage = connect(mapToProps, mapToFunctions)(ContactsView);
+const ContactsPage = withPhone(connect(mapToProps, mapToFunctions)(ContactsView));
 
 export default ContactsPage;

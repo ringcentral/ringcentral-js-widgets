@@ -1,12 +1,11 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Webphone from 'ringcentral-integration/modules/Webphone';
-import Locale from 'ringcentral-integration/modules/Locale';
 import callDirections from 'ringcentral-integration/enums/callDirections';
 import sessionStatus from 'ringcentral-integration/modules/Webphone/sessionStatus';
 
 import ActiveCallBadge from '../../components/ActiveCallBadge';
+import withPhone from '../../lib/withPhone';
 
 import i18n from './i18n';
 
@@ -91,8 +90,10 @@ CallBadge.propTypes = {
 };
 
 function mapToProps(_, {
-  webphone,
-  locale,
+  phone: {
+    webphone,
+    locale,
+  },
   hidden,
   goToCallCtrl,
 }) {
@@ -107,24 +108,19 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-  webphone,
+  phone: {
+    webphone,
+  },
 }) {
   return {
     toggleMinimized: sessionId => webphone.toggleMinimized(sessionId),
   };
 }
 
-const CallBadgeContainer = connect(
+const CallBadgeContainer = withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(CallBadge);
-
-CallBadgeContainer.propTypes = {
-  webphone: PropTypes.instanceOf(Webphone).isRequired,
-  hidden: PropTypes.bool.isRequired,
-  goToCallCtrl: PropTypes.func.isRequired,
-  locale: PropTypes.instanceOf(Locale).isRequired,
-};
+)(CallBadge));
 
 export default CallBadgeContainer;
 

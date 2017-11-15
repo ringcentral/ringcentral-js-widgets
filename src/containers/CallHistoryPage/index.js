@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
 import CallsPanel from '../../components/CallsPanel';
+import withPhone from '../../lib/withPhone';
 import i18n from './i18n';
 
 function mapToProps(_, {
-  locale,
+  phone: {
+    locale,
   brand,
   callHistory,
   regionSettings,
@@ -14,6 +16,7 @@ function mapToProps(_, {
   call,
   composeText,
   rolesAndPermissions,
+  },
   enableContactFallback = false,
 }) {
   return {
@@ -51,28 +54,30 @@ function mapToProps(_, {
   };
 }
 function mapToFunctions(_, {
-  dateTimeFormat,
+  phone: {
+    dateTimeFormat,
+    callLogger,
+    contactMatcher,
+    call,
+    composeText,
+    routerInteraction,
+    contactSearch,
+  },
   onCreateContact,
   dateTimeFormatter = ({ utcTimestamp }) => dateTimeFormat.formatDateTime({
     utcTimestamp,
   }),
-  callLogger,
-  contactMatcher,
   onLogCall,
   isLoggedContact,
-  call,
-  composeText,
-  router,
   dialerRoute = '/dialer',
   composeTextRoute = '/composeText',
-  contactSearch,
 }) {
   return {
     dateTimeFormatter,
     onViewContact: ({ contact }) => {
       const id = contact.id;
       const type = contact.type;
-      router.push(`/contacts/${type}/${id}?direct=true`);
+      routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
     },
     onCreateContact: onCreateContact ?
       async ({ phoneNumber, name, entityType }) => {
@@ -90,7 +95,7 @@ function mapToFunctions(_, {
     onClickToDial: call ?
       (phoneNumber) => {
         if (call.isIdle) {
-          router.push(dialerRoute);
+          routerInteraction.push(dialerRoute);
           call.onToNumberChange(phoneNumber);
           call.onCall();
         }
@@ -98,8 +103,8 @@ function mapToFunctions(_, {
       undefined,
     onClickToSms: composeText ?
       async (contact, isDummyContact = false) => {
-        if (router) {
-          router.push(composeTextRoute);
+        if (routerInteraction) {
+          routerInteraction.push(composeTextRoute);
         }
         // if contact autocomplete, if no match fill the number only
         if (contact.name && contact.phoneNumber && isDummyContact) {
@@ -115,16 +120,16 @@ function mapToFunctions(_, {
       undefined,
     isLoggedContact,
     onLogCall: onLogCall ||
-    (callLogger && (async ({ call, contact, redirect = true }) => {
-      await callLogger.logCall({
-        call,
-        contact,
-        redirect,
-      });
-    })),
+      (callLogger && (async ({ call, contact, redirect = true }) => {
+        await callLogger.logCall({
+          call,
+          contact,
+          redirect,
+        });
+      })),
   };
 }
 
-const CallsPage = connect(mapToProps, mapToFunctions)(CallsPanel);
+const CallsPage = withPhone(connect(mapToProps, mapToFunctions)(CallsPanel));
 
 export default CallsPage;

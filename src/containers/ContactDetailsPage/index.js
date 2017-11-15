@@ -1,11 +1,16 @@
 import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import ContactDetailsView from '../../components/ContactDetailsView';
+import withPhone from '../../lib/withPhone';
 
 function mapToProps(_, {
-  locale,
-  contactDetails,
-  contactSearch,
+  params,
+  phone: {
+    locale,
+    contacts,
+    contactDetails,
+    contactSearch,
+  },
 }) {
   return {
     currentLocale: locale.currentLocale,
@@ -19,15 +24,17 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-  router,
-  contactDetails,
-  regionSettings,
   params,
-  call,
-  composeText,
-  contactSearch,
   dialerRoute = '/dialer',
   composeTextRoute = '/composeText',
+  phone: {
+    routerInteraction,
+    contactDetails,
+    regionSettings,
+    call,
+    composeText,
+    contactSearch,
+  },
 }) {
   return {
     getContact: () => {
@@ -47,12 +54,12 @@ function mapToFunctions(_, {
     getAvatar: contact => contactDetails.getProfileImage(contact),
     getPresence: contact => contactDetails.getPresence(contact),
     onBackClick: () => {
-      router.goBack();
+      routerInteraction.goBack();
     },
     onClickToDial: call ?
       (phoneNumber) => {
         if (call.isIdle) {
-          router.push(dialerRoute);
+          routerInteraction.push(dialerRoute);
           call.onToNumberChange(phoneNumber);
           call.onCall();
         }
@@ -60,8 +67,8 @@ function mapToFunctions(_, {
       undefined,
     onClickToSMS: composeText ?
       async (contact, isDummyContact = false) => {
-        if (router) {
-          router.push(composeTextRoute);
+        if (routerInteraction) {
+          routerInteraction.push(composeTextRoute);
         }
         // if contact autocomplete, if no match fill the number only
         if (contact.name && contact.phoneNumber && isDummyContact) {
@@ -78,6 +85,6 @@ function mapToFunctions(_, {
   };
 }
 
-const ContactDetailsPage = connect(mapToProps, mapToFunctions)(ContactDetailsView);
+const ContactDetailsPage = withPhone(connect(mapToProps, mapToFunctions)(ContactDetailsView));
 
 export default ContactDetailsPage;

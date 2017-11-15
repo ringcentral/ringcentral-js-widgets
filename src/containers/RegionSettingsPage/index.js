@@ -1,13 +1,12 @@
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import Locale from 'ringcentral-integration/modules/Locale';
-import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
-import RouterInteraction from '../../modules/RouterInteraction';
 import RegionSettingsPanel from '../../components/RegionSettingsPanel';
+import withPhone from '../../lib/withPhone';
 
 function mapToProps(_, {
-  locale,
-  regionSettings,
+  phone: {
+    locale,
+    regionSettings,
+  },
 }) {
   return {
     availableCountries: regionSettings.availableCountries,
@@ -18,16 +17,18 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-  auth,
-  regionSettings,
-  router,
+  phone: {
+    auth,
+    regionSettings,
+    routerInteraction,
+  },
 }) {
   return {
     onLogoutButtonClick: async () => {
       await auth.logout();
     },
     onBackButtonClick: () => {
-      router.goBack();
+      routerInteraction.goBack();
     },
     onSave: ({ areaCode, countryCode }) => {
       regionSettings.setData({
@@ -38,22 +39,13 @@ function mapToFunctions(_, {
   };
 }
 
-const RegionSettingsPage = connect(
+const RegionSettingsPage = withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(RegionSettingsPanel);
-
-const propTypes = {
-  locale: PropTypes.instanceOf(Locale).isRequired,
-  regionSettings: PropTypes.instanceOf(RegionSettings).isRequired,
-  router: PropTypes.instanceOf(RouterInteraction).isRequired,
-};
-
-RegionSettingsPage.propTypes = propTypes;
+)(RegionSettingsPanel));
 
 export {
   mapToFunctions,
   mapToProps,
-  propTypes,
   RegionSettingsPage as default,
 };

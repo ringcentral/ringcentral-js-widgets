@@ -16,11 +16,14 @@ import RateExceededAlert from '../../components/RateExceededAlert';
 import ConnectivityAlert from '../../components/ConnectivityAlert';
 import WebphoneAlert from '../../components/WebphoneAlert';
 import RolesAndPermissionsAlert from '../../components/RolesAndPermissionsAlert';
+import withPhone from '../../lib/withPhone';
 
 
 function mapToProps(_, {
-  locale,
-  alert,
+  phone: {
+    locale,
+    alert,
+  },
 }) {
   return {
     currentLocale: locale.currentLocale,
@@ -31,15 +34,15 @@ function mapToProps(_, {
 function getDefaultRenderer({
   rateLimiter,
   brand,
-  router,
+  routerInteraction,
   regionSettingsUrl,
   callingSettingsUrl,
 }) {
   const onRegionSettingsLinkClick = () => {
-    router.push(regionSettingsUrl);
+    routerInteraction.push(regionSettingsUrl);
   };
   const onCallingSettingsLinkClick = () => {
-    router.push(callingSettingsUrl);
+    routerInteraction.push(callingSettingsUrl);
   };
   return (message) => {
     if (AuthAlert.handleMessage(message)) {
@@ -112,16 +115,18 @@ function getDefaultRenderer({
 }
 
 function mapToFunctions(_, {
-  rateLimiter,
-  brand,
-  alert,
-  router,
+  phone: {
+    rateLimiter,
+    brand,
+    alert,
+    routerInteraction,
+  },
   regionSettingsUrl,
   callingSettingsUrl,
   getRenderer = getDefaultRenderer({
     rateLimiter,
     brand,
-    router,
+    routerInteraction,
     regionSettingsUrl,
     callingSettingsUrl,
   }),
@@ -134,18 +139,9 @@ function mapToFunctions(_, {
   };
 }
 
-const AlertContainer = connect(
+const AlertContainer = withPhone(connect(
   mapToProps,
   mapToFunctions
-)(AnimationAlert);
-
-AlertContainer.propTypes = {
-  alert: PropTypes.instanceOf(Alert).isRequired,
-  getRenderer: PropTypes.func,
-  locale: PropTypes.instanceOf(Locale).isRequired,
-};
-AlertContainer.defaultProps = {
-  getRenderer: undefined,
-};
+)(AnimationAlert));
 
 export default AlertContainer;

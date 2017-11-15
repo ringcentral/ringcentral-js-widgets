@@ -3,6 +3,7 @@ import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 
 import SettingsPanel from '../../components/SettingsPanel';
+import withPhone from '../../lib/withPhone';
 
 function mapToProps(_, {
   phone: {
@@ -71,7 +72,7 @@ function mapToFunctions(_, {
   phone: {
     auth,
     detailedPresence,
-    router,
+    routerInteraction,
   },
   regionSettingsUrl = '/settings/region',
   callingSettingsUrl = '/settings/calling',
@@ -82,13 +83,13 @@ function mapToFunctions(_, {
       await auth.logout();
     },
     onRegionSettingsLinkClick: () => {
-      router.push(regionSettingsUrl);
+      routerInteraction.push(regionSettingsUrl);
     },
     onCallingSettingsLinkClick: () => {
-      router.push(callingSettingsUrl);
+      routerInteraction.push(callingSettingsUrl);
     },
     onAudioSettingsLinkClick: () => {
-      router.push(audioSettingsUrl);
+      routerInteraction.push(audioSettingsUrl);
     },
     setAvailable: (...args) => (detailedPresence && detailedPresence.setAvailable(...args)),
     setBusy: (...args) => (detailedPresence && detailedPresence.setBusy(...args)),
@@ -99,10 +100,10 @@ function mapToFunctions(_, {
     ),
   };
 }
-const SettingsPage = connect(
+const SettingsPage = withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(SettingsPanel);
+)(SettingsPanel));
 
 export {
   mapToFunctions,

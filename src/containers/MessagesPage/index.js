@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import Header from '../../components/Header';
 import SpinnerOverlay from '../../components/SpinnerOverlay';
 import MessageList from '../../components/MessageList';
+import withPhone from '../../lib/withPhone';
 import styles from './styles.scss';
 import i18n from './i18n';
 
@@ -52,17 +53,19 @@ MessagesPanel.defaultProps = {
 };
 
 function mapToProps(_, {
-  brand,
-  locale,
-  messages,
-  contactMatcher,
-  dateTimeFormat,
-  regionSettings,
-  rolesAndPermissions,
-  call,
-  conversationLogger,
-  connectivityMonitor,
-  rateLimiter,
+  phone: {
+    brand,
+    locale,
+    messages,
+    contactMatcher,
+    dateTimeFormat,
+    regionSettings,
+    rolesAndPermissions,
+    call,
+    conversationLogger,
+    connectivityMonitor,
+    rateLimiter,
+  },
   showTitle = false,
   enableContactFallback = false,
 }) {
@@ -107,13 +110,15 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-  dateTimeFormat,
+  phone: {
+    dateTimeFormat,
+    messages,
+    conversationLogger,
+    contactMatcher,
+    call,
+    routerInteraction,
+  },
   dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
-  messages,
-  conversationLogger,
-  contactMatcher,
-  call,
-  router,
   dialerRoute = '/dialer',
   onCreateContact,
   onLogConversation,
@@ -125,7 +130,7 @@ function mapToFunctions(_, {
     onViewContact: ({ contact }) => {
       const id = contact.id;
       const type = contact.type;
-      router.push(`/contacts/${type}/${id}?direct=true`);
+      routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
     },
     onCreateContact: onCreateContact ?
     async ({ phoneNumber, name, entityType }) => {
@@ -143,7 +148,7 @@ function mapToFunctions(_, {
     onClickToDial: call ?
     (phoneNumber) => {
       if (call.isIdle) {
-        router.push(dialerRoute);
+        routerInteraction.push(dialerRoute);
         call.onToNumberChange(phoneNumber);
         call.onCall();
       }
@@ -161,13 +166,13 @@ function mapToFunctions(_, {
       messages.updateSearchInput(e.currentTarget.value);
     },
     showConversationDetail(conversationId) {
-      router.push(
+      routerInteraction.push(
         conversationDetailRoute.replace('{conversationId}', conversationId)
       );
     },
   };
 }
-export default connect(
+export default withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(MessagesPanel);
+)(MessagesPanel));
