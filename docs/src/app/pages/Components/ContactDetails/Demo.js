@@ -7,20 +7,39 @@ props.currentLocale = 'en-US';
 props.contactItem = {
   id: '1234',
   type: 'company',
-  phoneNumber: '123456',
-  phoneNumbers: [],
-  firstName: 'Eson',
-  lastName: 'Chen',
+  extensionNumber: '123456',
+  phoneNumbers: [
+    {
+      phoneNumber: '+123456789',
+      phoneType: 'DirectPhone',
+    },
+  ],
+  name: 'Eson Chen',
+  profileImageUrl: null,
+  emails: [
+    'test@test.com'
+  ],
 };
 props.getAvatarUrl = async () => null;
 props.getPresence = async () => null;
+props.formatNumber = p => p;
+props.onClickToSMS = () => null;
+props.onClickToDial = () => null;
+props.onClickMailTo = () => null;
 
 /**
  * A example of `ContactDetails`
  */
 const ContactDetailsDemo = () => (
-  <ContactDetails
-    {...props}
-  />
+  <div style={{
+    position: 'relative',
+    height: '400px',
+    width: '300px',
+    border: '1px solid #f3f3f3',
+  }}>
+    <ContactDetails
+      {...props}
+    />
+  </div>
 );
 export default ContactDetailsDemo;

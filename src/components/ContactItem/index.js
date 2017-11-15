@@ -129,7 +129,6 @@ ContactItem.propTypes = {
   contact: PropTypes.shape({
     id: PropTypes.string,
     type: PropTypes.string,
-    hasProfileImage: PropTypes.bool,
     name: PropTypes.string,
     extensionNumber: PropTypes.string,
     email: PropTypes.string,

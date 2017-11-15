@@ -12,13 +12,13 @@ props.contactGroups = [{
     name: 'Kevin One',
     phoneNumber: '1234',
     type: 'company',
-    hasProfileImage: false,
+    profileImageUrl: null,
   }, {
     id: '1234',
     name: 'Kevin Two',
     phoneNumber: '12345',
     type: 'company',
-    hasProfileImage: false,
+    profileImageUrl: null,
   }],
 }, {
   id: 'T',
@@ -28,13 +28,15 @@ props.contactGroups = [{
     name: 'Tyler One',
     phoneNumber: '1233',
     type: 'company',
-    hasProfileImage: false,
+    profileImageUrl: null,
   }],
 }];
-props.contactSourceNames = ['All Contacts', 'Company'];
+props.contactSourceNames = ['All', 'Company'];
 props.getAvatarUrl = async () => null;
 props.getPresence = async () => null;
 props.showSpinner = false;
+props.searchSource = 'All';
+props.searchString = 'Kevin';
 
 /**
  * A example of `ContactsView`

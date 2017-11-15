@@ -228,7 +228,7 @@ export const contactItemPropTypes = {
   firstName: PropTypes.string,
   lastName: PropTypes.string,
   email: PropTypes.string,
-  hasProfileImage: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+  profileImageUrl: PropTypes.string,
   phoneNumbers: PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string,
     phoneType: PropTypes.string,
