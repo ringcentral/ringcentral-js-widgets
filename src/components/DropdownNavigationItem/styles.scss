@@ -3,7 +3,7 @@
 
 .root {
   position: relative;
-  width: 100%;
+  width: calc(100% - 16px);
   padding: 8px;
   background-color: #ffffff;
   border-bottom: 1px solid #ffffff;
