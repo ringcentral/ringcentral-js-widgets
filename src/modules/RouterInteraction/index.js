@@ -1,4 +1,5 @@
 import RcModule from 'ringcentral-integration/lib/RcModule';
+import { Module } from 'ringcentral-integration/lib/di';
 import { useRouterHistory, createMemoryHistory } from 'react-router';
 import { syncHistoryWithStore, routerReducer, LOCATION_CHANGE } from 'react-router-redux';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
@@ -8,6 +9,12 @@ function getDefaultHistory() {
   return useRouterHistory(createMemoryHistory)();
 }
 
+
+@Module({
+  deps: [
+    { dep: 'RouterInteractionOptions', optional: true, spread: true },
+  ],
+})
 export default class RouterInteraction extends RcModule {
   constructor({
     history = getDefaultHistory(),
