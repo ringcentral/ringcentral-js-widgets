@@ -1058,6 +1058,17 @@
           "value": "undefined",
           "computed": true
         }
+      },
+      "sourceIcons": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "ActiveCallItem"
@@ -1483,6 +1494,13 @@
           "computed": false
         }
       },
+      "calls": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": ""
+      },
       "onToggleTransferPanel": {
         "type": {
           "name": "func"
@@ -1492,6 +1510,17 @@
         "defaultValue": {
           "value": "() => null",
           "computed": false
+        }
+      },
+      "sourceIcons": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
         }
       }
     },
@@ -1785,6 +1814,17 @@
           "value": "undefined",
           "computed": true
         }
+      },
+      "sourceIcons": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "ActiveCallsPanel"
@@ -1913,6 +1953,187 @@
       "../AlertDisplay"
     ],
     "name": "AnimationAlert"
+  },
+  {
+    "description": "",
+    "methods": [
+      {
+        "name": "renderDeviceOption",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "device",
+            "type": null
+          }
+        ],
+        "returns": null
+      },
+      {
+        "name": "renderDeviceValue",
+        "docblock": null,
+        "modifiers": [],
+        "params": [
+          {
+            "name": "device",
+            "type": null
+          }
+        ],
+        "returns": null
+      }
+    ],
+    "props": {
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "dialButtonVolume": {
+        "type": {
+          "name": "number"
+        },
+        "required": true,
+        "description": ""
+      },
+      "ringtoneVolume": {
+        "type": {
+          "name": "number"
+        },
+        "required": true,
+        "description": ""
+      },
+      "ringtoneMuted": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      },
+      "callVolume": {
+        "type": {
+          "name": "number"
+        },
+        "required": true,
+        "description": ""
+      },
+      "dialButtonMuted": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onBackButtonClick": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "availableInputDevices": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "deviceId": {
+                "name": "string",
+                "required": true
+              },
+              "label": {
+                "name": "string",
+                "required": true
+              }
+            }
+          }
+        },
+        "required": true,
+        "description": ""
+      },
+      "inputDeviceId": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "availableOutputDevices": {
+        "type": {
+          "name": "arrayOf",
+          "value": {
+            "name": "shape",
+            "value": {
+              "deviceId": {
+                "name": "string",
+                "required": true
+              },
+              "label": {
+                "name": "string",
+                "required": true
+              }
+            }
+          }
+        },
+        "required": true,
+        "description": ""
+      },
+      "outputDeviceId": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "supportDevices": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onSave": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "userMedia": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      },
+      "isWebRTC": {
+        "type": {
+          "name": "bool"
+        },
+        "required": true,
+        "description": ""
+      },
+      "checkUserMedia": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      }
+    },
+    "name": "AudioSettingsPanel"
   },
   {
     "description": "",
@@ -2290,6 +2511,13 @@
           "computed": false
         }
       },
+      "calls": {
+        "type": {
+          "name": "array"
+        },
+        "required": true,
+        "description": ""
+      },
       "recordStatus": {
         "type": {
           "name": "string"
@@ -2476,6 +2704,17 @@
         "defaultValue": {
           "value": "true",
           "computed": false
+        }
+      },
+      "sourceIcons": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
         }
       }
     },
@@ -2872,6 +3111,17 @@
           "value": "true",
           "computed": false
         }
+      },
+      "sourceIcons": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "CallItem"
@@ -3144,6 +3394,17 @@
         "defaultValue": {
           "value": "true",
           "computed": false
+        }
+      },
+      "sourceIcons": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
         }
       }
     },
@@ -3571,6 +3832,17 @@
         "defaultValue": {
           "value": "true",
           "computed": false
+        }
+      },
+      "sourceIcons": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
         }
       }
     },
@@ -4081,7 +4353,36 @@
   },
   {
     "description": "",
-    "methods": [],
+    "methods": [
+      {
+        "name": "renderProfile",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "renderExtensionCell",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "renderDirectNumberCell",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      },
+      {
+        "name": "renderEmailCell",
+        "docblock": null,
+        "modifiers": [],
+        "params": [],
+        "returns": null
+      }
+    ],
     "props": {
       "currentLocale": {
         "type": {
@@ -4122,16 +4423,8 @@
               "name": "string",
               "required": false
             },
-            "hasProfileImage": {
-              "name": "union",
-              "value": [
-                {
-                  "name": "string"
-                },
-                {
-                  "name": "bool"
-                }
-              ],
+            "profileImageUrl": {
+              "name": "string",
               "required": false
             },
             "phoneNumbers": {
@@ -4156,19 +4449,16 @@
         "required": true,
         "description": ""
       },
-      "getAvatarUrl": {
+      "sourceNodeRenderer": {
         "type": {
           "name": "func"
         },
-        "required": true,
-        "description": ""
-      },
-      "getPresence": {
-        "type": {
-          "name": "func"
-        },
-        "required": true,
-        "description": ""
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "() => null",
+          "computed": false
+        }
       },
       "onClickToSMS": {
         "type": {
@@ -4192,7 +4482,7 @@
           "computed": true
         }
       },
-      "onClickToGmail": {
+      "onClickMailTo": {
         "type": {
           "name": "func"
         },
@@ -4202,6 +4492,13 @@
           "value": "undefined",
           "computed": true
         }
+      },
+      "formatNumber": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
       }
     },
     "name": "ContactDetails"
@@ -4396,6 +4693,17 @@
           "value": "true",
           "computed": false
         }
+      },
+      "sourceIcons": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "ContactDisplay"
@@ -4527,24 +4835,24 @@
               "name": "string",
               "required": false
             },
-            "hasProfileImage": {
-              "name": "bool",
-              "required": false
-            },
-            "entityType": {
-              "name": "string",
-              "required": false
-            },
             "name": {
               "name": "string",
               "required": false
             },
-            "phoneNumber": {
+            "extensionNumber": {
               "name": "string",
               "required": false
             },
             "email": {
               "name": "string",
+              "required": false
+            },
+            "profileImageUrl": {
+              "name": "string",
+              "required": false
+            },
+            "presence": {
+              "name": "object",
               "required": false
             }
           }
@@ -4575,6 +4883,17 @@
         "defaultValue": {
           "value": "undefined",
           "computed": true
+        }
+      },
+      "sourceNodeRenderer": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "() => null",
+          "computed": false
         }
       }
     },
@@ -4681,6 +5000,17 @@
         }
       },
       "onItemSelect": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "sourceNodeRenderer": {
         "type": {
           "name": "func"
         },
@@ -4872,6 +5202,50 @@
       "onSearchContact": {
         "type": {
           "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "contactSourceFilterRenderer": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "ContactSourceFilter",
+          "computed": true
+        }
+      },
+      "sourceNodeRenderer": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "onVisitPage": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "children": {
+        "type": {
+          "name": "node"
         },
         "required": false,
         "description": "",
@@ -5091,6 +5465,17 @@
           "value": "true",
           "computed": false
         }
+      },
+      "sourceIcons": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "ConversationPanel"
@@ -5167,6 +5552,28 @@
           "value": "undefined",
           "computed": true
         }
+      },
+      "volume": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "1",
+          "computed": false
+        }
+      },
+      "muted": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
       }
     },
     "name": "DialButton"
@@ -5229,6 +5636,28 @@
           "value": "undefined",
           "computed": true
         }
+      },
+      "dialButtonVolume": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "1",
+          "computed": false
+        }
+      },
+      "dialButtonMuted": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
       }
     },
     "name": "DialPad"
@@ -5268,6 +5697,13 @@
       "onDelete": {
         "type": {
           "name": "func"
+        },
+        "required": false,
+        "description": ""
+      },
+      "autoFocus": {
+        "type": {
+          "name": "bool"
         },
         "required": false,
         "description": ""
@@ -5406,6 +5842,28 @@
         }
       },
       "showSpinner": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "dialButtonVolume": {
+        "type": {
+          "name": "number"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "1",
+          "computed": false
+        }
+      },
+      "dialButtonMuted": {
         "type": {
           "name": "bool"
         },
@@ -6819,6 +7277,17 @@
         },
         "required": true,
         "description": ""
+      },
+      "sourceIcons": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "IncomingCallPanel"
@@ -6832,21 +7301,33 @@
           "name": "node"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       },
       "label": {
         "type": {
           "name": "node"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       },
       "className": {
         "type": {
           "name": "string"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "InputField"
@@ -7140,6 +7621,17 @@
         "defaultValue": {
           "value": "false",
           "computed": false
+        }
+      },
+      "children": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
         }
       }
     },
@@ -7447,6 +7939,17 @@
           "value": "true",
           "computed": false
         }
+      },
+      "sourceIcons": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "MessageItem"
@@ -7575,6 +8078,17 @@
         "defaultValue": {
           "value": "true",
           "computed": false
+        }
+      },
+      "sourceIcons": {
+        "type": {
+          "name": "object"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
         }
       }
     },
@@ -8631,6 +9145,17 @@
           "value": "undefined",
           "computed": true
         }
+      },
+      "autoFocus": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
       }
     },
     "name": "RecipientsInput"
@@ -8918,6 +9443,53 @@
         "required": false,
         "description": "",
         "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      },
+      "currentLocale": {
+        "type": {
+          "name": "string"
+        },
+        "required": true,
+        "description": ""
+      },
+      "disabled": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
+      },
+      "onClick": {
+        "type": {
+          "name": "func"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
+      }
+    },
+    "name": "SaveButton"
+  },
+  {
+    "description": "",
+    "methods": [],
+    "props": {
+      "className": {
+        "type": {
+          "name": "string"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
           "value": "null",
           "computed": false
         }
@@ -9089,6 +9661,13 @@
         "description": ""
       },
       "onCallingSettingsLinkClick": {
+        "type": {
+          "name": "func"
+        },
+        "required": true,
+        "description": ""
+      },
+      "onAudioSettingsLinkClick": {
         "type": {
           "name": "func"
         },
@@ -9411,6 +9990,17 @@
           "value": "false",
           "computed": false
         }
+      },
+      "additional": {
+        "type": {
+          "name": "node"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "null",
+          "computed": false
+        }
       }
     },
     "name": "SettingsPanel"
@@ -9547,14 +10137,22 @@
           "name": "bool"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
+        }
       },
       "onChange": {
         "type": {
           "name": "func"
         },
         "required": false,
-        "description": ""
+        "description": "",
+        "defaultValue": {
+          "value": "undefined",
+          "computed": true
+        }
       }
     },
     "name": "Switch"
@@ -9871,6 +10469,17 @@
         "defaultValue": {
           "value": "undefined",
           "computed": true
+        }
+      },
+      "autoFocus": {
+        "type": {
+          "name": "bool"
+        },
+        "required": false,
+        "description": "",
+        "defaultValue": {
+          "value": "false",
+          "computed": false
         }
       }
     },

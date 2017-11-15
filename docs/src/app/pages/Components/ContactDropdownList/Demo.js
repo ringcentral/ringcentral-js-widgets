@@ -7,12 +7,12 @@ import styles from './styles.scss';
 const props = {};
 props.visibility = false;
 props.items = [{
-  name: '{name}',
-  entityType: '{entityType}',
-  phoneType: '{phoneType}',
-  phoneNumber: '{phoneNumber}'
+  name: 'Eric',
+  entityType: 'RingCentral',
+  phoneType: 'Mobile',
+  phoneNumber: '+123456789'
 }];
-props.formatContactPhone = (value) => value;
+props.formatContactPhone = value => value;
 props.addToRecipients = () => null;
 props.setSelectedIndex = () => null;
 props.selectedIndex = 0;

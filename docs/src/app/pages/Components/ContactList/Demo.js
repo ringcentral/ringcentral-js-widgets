@@ -10,15 +10,15 @@ props.contactGroups = [{
   contacts: [{
     id: '123',
     name: 'Kevin One',
-    phoneNumber: '1234',
+    extensionNumber: '1234',
     type: 'company',
-    hasProfileImage: false,
+    profileImageUrl: null,
   }, {
     id: '1234',
     name: 'Kevin Two',
-    phoneNumber: '12345',
+    extensionNumber: '12345',
     type: 'company',
-    hasProfileImage: false,
+    profileImageUrl: null,
   }],
 }, {
   id: 'T',
@@ -26,9 +26,9 @@ props.contactGroups = [{
   contacts: [{
     id: '1233',
     name: 'Tyler One',
-    phoneNumber: '1233',
+    extensionNumber: '1233',
     type: 'company',
-    hasProfileImage: false,
+    profileImageUrl: null,
   }],
 }];
 props.getAvatarUrl = async () => null;

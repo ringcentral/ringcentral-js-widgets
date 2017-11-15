@@ -46,7 +46,7 @@ function ContactDisplayItem({
     if (entityType === phoneSources.rcContact) {
       SourceIcon = sourceIcons.brandIcon;
     } else {
-      SourceIcon = sourceIcons[entityType] || <span />;
+      SourceIcon = sourceIcons[entityType];
     }
   }
   if (phoneNumber && entityName && SourceIcon) {

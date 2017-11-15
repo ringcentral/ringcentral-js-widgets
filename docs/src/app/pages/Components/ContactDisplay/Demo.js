@@ -18,12 +18,10 @@ class ContactDisplayDemo extends Component {
     super(props);
     this.state = {
       selected: 0
-    }
+    };
   }
   onSelectContact = (selected) => {
-    const selectedIdx = contactMatches.findIndex((contact) => {
-      return contact === selected;
-    });
+    const selectedIdx = contactMatches.findIndex(contact => contact === selected);
     this.setState({
       selected: selectedIdx
     });
@@ -31,16 +29,16 @@ class ContactDisplayDemo extends Component {
   render() {
     return (
       <ContactDisplay
-        currentLocale='en-US'
-        areaCode='test string'
-        countryCode='test string'
+        currentLocale="en-US"
+        areaCode="657"
+        countryCode="1"
         contactMatches={contactMatches}
         disabled={false}
         isLogging={false}
         selected={this.state.selected}
         onSelectContact={this.onSelectContact}
       />
-    )
+    );
   }
 }
 export default ContactDisplayDemo;

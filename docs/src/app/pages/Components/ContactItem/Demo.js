@@ -6,9 +6,9 @@ const props = {};
 props.contact = {
   id: '123',
   name: 'Kevin',
-  phoneNumber: '1234',
+  extensionNumber: '1234',
   type: 'company',
-  hasProfileImage: false,
+  profileImageUrl: null,
 };
 props.getAvatarUrl = async () => null;
 props.getPresence = async () => null;

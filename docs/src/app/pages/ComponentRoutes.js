@@ -12,6 +12,7 @@ import ActiveCallPanelPage from './Components/ActiveCallPanel';
 import ActiveCallsPanelPage from './Components/ActiveCallsPanel';
 import AlertDisplayPage from './Components/AlertDisplay';
 import AnimationAlertPage from './Components/AnimationAlert';
+import AudioSettingsPanelPage from './Components/AudioSettingsPanel';
 import AuthAlertPage from './Components/AuthAlert';
 import BackHeaderPage from './Components/BackHeader';
 import BadgePage from './Components/Badge';
@@ -89,6 +90,7 @@ import RegionSettingsPanelPage from './Components/RegionSettingsPanel';
 import RemoveButtonPage from './Components/RemoveButton';
 import ReplyWithMessagePage from './Components/ReplyWithMessage';
 import RolesAndPermissionsAlertPage from './Components/RolesAndPermissionsAlert';
+import SaveButtonPage from './Components/SaveButton';
 import SearchInputPage from './Components/SearchInput';
 import SelectPage from './Components/Select';
 import SettingsPanelPage from './Components/SettingsPanel';
@@ -115,6 +117,7 @@ const Routes = () => (
     <Route path="/components/ActiveCallsPanel" component={ActiveCallsPanelPage} />
     <Route path="/components/AlertDisplay" component={AlertDisplayPage} />
     <Route path="/components/AnimationAlert" component={AnimationAlertPage} />
+    <Route path="/components/AudioSettingsPanel" component={AudioSettingsPanelPage} />
     <Route path="/components/AuthAlert" component={AuthAlertPage} />
     <Route path="/components/BackHeader" component={BackHeaderPage} />
     <Route path="/components/Badge" component={BadgePage} />
@@ -192,6 +195,7 @@ const Routes = () => (
     <Route path="/components/RemoveButton" component={RemoveButtonPage} />
     <Route path="/components/ReplyWithMessage" component={ReplyWithMessagePage} />
     <Route path="/components/RolesAndPermissionsAlert" component={RolesAndPermissionsAlertPage} />
+    <Route path="/components/SaveButton" component={SaveButtonPage} />
     <Route path="/components/SearchInput" component={SearchInputPage} />
     <Route path="/components/Select" component={SelectPage} />
     <Route path="/components/SettingsPanel" component={SettingsPanelPage} />
