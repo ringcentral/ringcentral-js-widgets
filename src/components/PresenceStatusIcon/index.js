@@ -15,7 +15,7 @@ function PresenceStatusIcon({
       className={
         classnames(
           styles.presence,
-          styles[userStatus || presenceStatus],
+          styles[presenceStatus || userStatus],
           styles[dndStatus],
           className,
         )
