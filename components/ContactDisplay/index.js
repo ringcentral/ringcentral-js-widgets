@@ -86,7 +86,7 @@ function ContactDisplayItem(_ref2) {
     if (entityType === _phoneSources2.default.rcContact) {
       SourceIcon = sourceIcons.brandIcon;
     } else {
-      SourceIcon = sourceIcons[entityType] || _react2.default.createElement('span', null);
+      SourceIcon = sourceIcons[entityType];
     }
   }
   if (phoneNumber && entityName && SourceIcon) {

@@ -187,7 +187,6 @@ ContactItem.propTypes = {
   contact: _propTypes2.default.shape({
     id: _propTypes2.default.string,
     type: _propTypes2.default.string,
-    hasProfileImage: _propTypes2.default.bool,
     name: _propTypes2.default.string,
     extensionNumber: _propTypes2.default.string,
     email: _propTypes2.default.string,

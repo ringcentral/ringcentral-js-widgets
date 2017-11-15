@@ -413,7 +413,7 @@ var contactItemPropTypes = exports.contactItemPropTypes = {
   firstName: _propTypes2.default.string,
   lastName: _propTypes2.default.string,
   email: _propTypes2.default.string,
-  hasProfileImage: _propTypes2.default.oneOfType([_propTypes2.default.string, _propTypes2.default.bool]),
+  profileImageUrl: _propTypes2.default.string,
   phoneNumbers: _propTypes2.default.arrayOf(_propTypes2.default.shape({
     phoneNumber: _propTypes2.default.string,
     phoneType: _propTypes2.default.string

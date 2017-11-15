@@ -159,7 +159,6 @@ ContactDetailsView.defaultProps = {
   onBackClick: undefined,
   onClickToSMS: undefined,
   onClickToDial: undefined,
-  onClickToGmail: undefined,
   children: undefined,
   contactItem: undefined,
   onClickMailTo: undefined,
