@@ -109,6 +109,8 @@ function mapToProps(_, {
   navigateTo,
   dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
   getSession,
+  useContact,
+  contact,
 }) {
   let sessionId = null;
   let currentContact = contact;

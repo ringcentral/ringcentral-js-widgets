@@ -46,13 +46,13 @@ function mapToProps(_, {
 
 function mapToFunctions(_, {
   phone: {
-    router,
+    routerInteraction,
     audioSettings,
   },
 }) {
   return {
     onBackButtonClick: () => {
-      router.goBack();
+      routerInteraction.goBack();
     },
     onSave: (data) => {
       audioSettings.setData(data);

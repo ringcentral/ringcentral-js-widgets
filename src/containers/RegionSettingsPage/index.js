@@ -20,7 +20,7 @@ function mapToFunctions(_, {
   phone: {
     auth,
     regionSettings,
-    router,
+    routerInteraction,
   },
 }) {
   return {
@@ -28,7 +28,7 @@ function mapToFunctions(_, {
       await auth.logout();
     },
     onBackButtonClick: () => {
-      router.goBack();
+      routerInteraction.goBack();
     },
     onSave: ({ areaCode, countryCode }) => {
       regionSettings.setData({

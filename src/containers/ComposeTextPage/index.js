@@ -49,7 +49,7 @@ function mapToFunctions(_, {
     contactSearch,
     messageStore,
     regionSettings,
-    router,
+    routerInteraction,
   },
   formatContactPhone = phoneNumber => formatNumber({
     phoneNumber,
@@ -70,9 +70,9 @@ function mapToFunctions(_, {
           if (!conversationId) {
             return null;
           }
-          router.push(`/conversations/${conversationId}`);
+          routerInteraction.push(`/conversations/${conversationId}`);
         } else {
-          router.push('/messages');
+          routerInteraction.push('/messages');
         }
         composeText.clean();
         return null;

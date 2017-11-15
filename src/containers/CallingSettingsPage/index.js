@@ -26,12 +26,12 @@ function mapToProps(_, {
 function mapToFunctions(_, {
   phone: {
     callingSettings,
-    router,
+    routerInteraction,
   },
 }) {
   return {
     onBackButtonClick: () => {
-      router.goBack();
+      routerInteraction.goBack();
     },
     onSave: ({ callWith, myLocation, ringoutPrompt }) => {
       callingSettings.setData({

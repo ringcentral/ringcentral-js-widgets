@@ -17,7 +17,7 @@ export default class AdapterModuleCore extends RcModule {
     actionTypes = baseActionTypes,
     presence,
     locale,
-    router,
+    routerInteraction,
     globalStorage,
     getGlobalStorageReducer = getDefaultGlobalStorageReducer,
     messageTransport = new IframeMessageTransport({
@@ -35,7 +35,7 @@ export default class AdapterModuleCore extends RcModule {
     this._locale = this::ensureExist(locale, 'locale');
     this._messageTransport = this::ensureExist(messageTransport, 'messageTransport');
     this._presence = this::ensureExist(presence, 'presence');
-    this._router = this::ensureExist(router, 'router');
+    this._router = this::ensureExist(routerInteraction, 'routerInteraction');
 
     this._storageKey = storageKey;
     this._globalStorage = this::ensureExist(globalStorage, 'globalStorage');

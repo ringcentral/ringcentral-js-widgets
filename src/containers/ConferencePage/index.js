@@ -30,13 +30,13 @@ function mapToProps(_, {
 function mapToFunctions(_, {
   phone: {
     composeText,
-    router,
+    routerInteraction,
   },
 }) {
   return {
     inviteWithText: (text) => {
       composeText.updateMessageText(text);
-      router.push('/composeText');
+      routerInteraction.push('/composeText');
     },
     formatInternational: (phoneNumber, callingCode) => {
       if (phoneNumber.indexOf(callingCode === 1)) {

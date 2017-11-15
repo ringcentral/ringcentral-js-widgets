@@ -116,7 +116,7 @@ function mapToFunctions(_, {
     conversationLogger,
     contactMatcher,
     call,
-    router,
+    routerInteraction,
   },
   dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
   dialerRoute = '/dialer',
@@ -130,7 +130,7 @@ function mapToFunctions(_, {
     onViewContact: ({ contact }) => {
       const id = contact.id;
       const type = contact.type;
-      router.push(`/contacts/${type}/${id}?direct=true`);
+      routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
     },
     onCreateContact: onCreateContact ?
     async ({ phoneNumber, name, entityType }) => {
@@ -148,7 +148,7 @@ function mapToFunctions(_, {
     onClickToDial: call ?
     (phoneNumber) => {
       if (call.isIdle) {
-        router.push(dialerRoute);
+        routerInteraction.push(dialerRoute);
         call.onToNumberChange(phoneNumber);
         call.onCall();
       }
@@ -166,7 +166,7 @@ function mapToFunctions(_, {
       messages.updateSearchInput(e.currentTarget.value);
     },
     showConversationDetail(conversationId) {
-      router.push(
+      routerInteraction.push(
         conversationDetailRoute.replace('{conversationId}', conversationId)
       );
     },

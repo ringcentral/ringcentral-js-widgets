@@ -60,7 +60,7 @@ function mapToFunctions(_, {
     contactMatcher,
     call,
     composeText,
-    router,
+    routerInteraction,
     contactSearch,
   },
   onCreateContact,
@@ -77,7 +77,7 @@ function mapToFunctions(_, {
     onViewContact: ({ contact }) => {
       const id = contact.id;
       const type = contact.type;
-      router.push(`/contacts/${type}/${id}?direct=true`);
+      routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
     },
     onCreateContact: onCreateContact ?
       async ({ phoneNumber, name, entityType }) => {
@@ -95,7 +95,7 @@ function mapToFunctions(_, {
     onClickToDial: call ?
       (phoneNumber) => {
         if (call.isIdle) {
-          router.push(dialerRoute);
+          routerInteraction.push(dialerRoute);
           call.onToNumberChange(phoneNumber);
           call.onCall();
         }
@@ -103,8 +103,8 @@ function mapToFunctions(_, {
       undefined,
     onClickToSms: composeText ?
       async (contact, isDummyContact = false) => {
-        if (router) {
-          router.push(composeTextRoute);
+        if (routerInteraction) {
+          routerInteraction.push(composeTextRoute);
         }
         // if contact autocomplete, if no match fill the number only
         if (contact.name && contact.phoneNumber && isDummyContact) {

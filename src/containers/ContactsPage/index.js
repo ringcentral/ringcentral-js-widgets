@@ -24,7 +24,7 @@ function mapToProps(_, {
 
 function mapToFunctions(_, {
   phone: {
-    router,
+    routerInteraction,
     contacts,
   },
   onItemSelect,
@@ -37,7 +37,7 @@ function mapToFunctions(_, {
       return presence;
     },
     onItemSelect: onItemSelect || (async ({ type, id }) => {
-      router.push(`/contacts/${type}/${id}`);
+      routerInteraction.push(`/contacts/${type}/${id}`);
     }),
     onSearchContact: ({ searchSource, searchString, pageNumber }) => {
       contacts.updateFilter({

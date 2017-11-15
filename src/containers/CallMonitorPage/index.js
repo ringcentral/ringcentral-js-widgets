@@ -58,7 +58,7 @@ function mapToFunctions(_, {
     contactMatcher,
     contactSearch,
     dateTimeFormat,
-    router,
+    routerInteraction,
     webphone,
   },
   onViewContact,
@@ -106,8 +106,8 @@ function mapToFunctions(_, {
     })),
     onClickToSms: composeText ?
       async (contact, isDummyContact = false) => {
-        if (router) {
-          router.push(composeTextRoute);
+        if (routerInteraction) {
+          routerInteraction.push(composeTextRoute);
         }
         if (contact.name && contact.phoneNumber && isDummyContact) {
           composeText.updateTypingToNumber(contact.name);

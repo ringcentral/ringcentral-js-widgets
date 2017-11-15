@@ -45,7 +45,7 @@ function mapToFunctions(_, {
     contactMatcher,
     contactSearch,
     regionSettings,
-    router,
+    routerInteraction,
     webphone,
   },
   composeTextRoute = '/composeText',
@@ -70,19 +70,19 @@ function mapToFunctions(_, {
         return;
       }
       await webphone.resume(...args);
-      if (router.currentPath !== callCtrlRoute) {
-        router.push(callCtrlRoute);
+      if (routerInteraction.currentPath !== callCtrlRoute) {
+        routerInteraction.push(callCtrlRoute);
       }
     },
     onViewContact: ({ contact }) => {
       const id = contact.id;
       const type = contact.type;
-      router.push(`/contacts/${type}/${id}?direct=true`);
+      routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
     },
     onClickToSms: composeText ?
       async (contact, isDummyContact = false) => {
-        if (router) {
-          router.push(composeTextRoute);
+        if (routerInteraction) {
+          routerInteraction.push(composeTextRoute);
         }
         if (contact.name && contact.phoneNumber && isDummyContact) {
           composeText.updateTypingToNumber(contact.name);

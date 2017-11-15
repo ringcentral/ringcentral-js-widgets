@@ -72,7 +72,7 @@ function mapToFunctions(_, {
   phone: {
     auth,
     detailedPresence,
-    router,
+    routerInteraction,
   },
   regionSettingsUrl = '/settings/region',
   callingSettingsUrl = '/settings/calling',
@@ -83,13 +83,13 @@ function mapToFunctions(_, {
       await auth.logout();
     },
     onRegionSettingsLinkClick: () => {
-      router.push(regionSettingsUrl);
+      routerInteraction.push(regionSettingsUrl);
     },
     onCallingSettingsLinkClick: () => {
-      router.push(callingSettingsUrl);
+      routerInteraction.push(callingSettingsUrl);
     },
     onAudioSettingsLinkClick: () => {
-      router.push(audioSettingsUrl);
+      routerInteraction.push(audioSettingsUrl);
     },
     setAvailable: (...args) => (detailedPresence && detailedPresence.setAvailable(...args)),
     setBusy: (...args) => (detailedPresence && detailedPresence.setBusy(...args)),

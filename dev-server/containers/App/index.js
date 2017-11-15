@@ -38,7 +38,7 @@ export default function App({
   return (
     <PhoneProvider phone={phone}>
       <Provider store={phone.store} >
-        <Router history={phone.router.history} >
+        <Router history={phone.routerInteraction.history} >
           <Route
             component={routerProps => (
               <AppView>
@@ -46,7 +46,7 @@ export default function App({
                 <CallBadgeContainer
                   hidden={routerProps.location.pathname === '/calls/active'}
                   goToCallCtrl={() => {
-                    phone.router.push('/calls/active');
+                    phone.routerInteraction.push('/calls/active');
                   }}
                 />
                 <IncomingCallPage
@@ -69,7 +69,7 @@ export default function App({
                       phone.webphone.toggleMinimized(
                         phone.webphone.ringSession && phone.webphone.ringSession.id
                       );
-                      phone.router.push(path);
+                      phone.routerInteraction.push(path);
                     }}
                     useContact
                   />
@@ -139,10 +139,10 @@ export default function App({
                     showContactDisplayPlaceholder={false}
                     sourceIcons={sourceIcons}
                     onAdd={() => {
-                      phone.router.push('/dialer');
+                      phone.routerInteraction.push('/dialer');
                     }}
                     onBackButtonClick={() => {
-                      phone.router.push('/calls');
+                      phone.routerInteraction.push('/calls');
                     }}
                     getAvatarUrl={
                       async (contact) => {
@@ -154,7 +154,7 @@ export default function App({
                     <RecentActivityContainer
                       getSession={() => (phone.webphone.activeSession || {})}
                       navigateTo={(path) => {
-                        phone.router.push(path);
+                        phone.routerInteraction.push(path);
                       }}
                     />
                   </CallCtrlPage>

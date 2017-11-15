@@ -28,9 +28,7 @@ function mapToFunctions(_, {
   dialerRoute = '/dialer',
   composeTextRoute = '/composeText',
   phone: {
-    router,
-    contacts,
-    router,
+    routerInteraction,
     contactDetails,
     regionSettings,
     call,
@@ -56,12 +54,12 @@ function mapToFunctions(_, {
     getAvatar: contact => contactDetails.getProfileImage(contact),
     getPresence: contact => contactDetails.getPresence(contact),
     onBackClick: () => {
-      router.goBack();
+      routerInteraction.goBack();
     },
     onClickToDial: call ?
       (phoneNumber) => {
         if (call.isIdle) {
-          router.push(dialerRoute);
+          routerInteraction.push(dialerRoute);
           call.onToNumberChange(phoneNumber);
           call.onCall();
         }
@@ -69,8 +67,8 @@ function mapToFunctions(_, {
       undefined,
     onClickToSMS: composeText ?
       async (contact, isDummyContact = false) => {
-        if (router) {
-          router.push(composeTextRoute);
+        if (routerInteraction) {
+          routerInteraction.push(composeTextRoute);
         }
         // if contact autocomplete, if no match fill the number only
         if (contact.name && contact.phoneNumber && isDummyContact) {

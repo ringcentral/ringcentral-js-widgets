@@ -162,7 +162,7 @@ function mapToFunctions(_, {
     contactMatcher,
     conversation,
     dateTimeFormat,
-    router,
+    routerInteraction,
     conversationLogger,
     regionSettings,
   },
@@ -223,7 +223,7 @@ function mapToFunctions(_, {
       });
     })),
     goBack: () => {
-      router.goBack();
+      routerInteraction.goBack();
     },
   };
 }

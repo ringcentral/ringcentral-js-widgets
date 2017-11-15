@@ -34,15 +34,15 @@ function mapToProps(_, {
 function getDefaultRenderer({
   rateLimiter,
   brand,
-  router,
+  routerInteraction,
   regionSettingsUrl,
   callingSettingsUrl,
 }) {
   const onRegionSettingsLinkClick = () => {
-    router.push(regionSettingsUrl);
+    routerInteraction.push(regionSettingsUrl);
   };
   const onCallingSettingsLinkClick = () => {
-    router.push(callingSettingsUrl);
+    routerInteraction.push(callingSettingsUrl);
   };
   return (message) => {
     if (AuthAlert.handleMessage(message)) {
@@ -119,14 +119,14 @@ function mapToFunctions(_, {
     rateLimiter,
     brand,
     alert,
-    router,
+    routerInteraction,
   },
   regionSettingsUrl,
   callingSettingsUrl,
   getRenderer = getDefaultRenderer({
     rateLimiter,
     brand,
-    router,
+    routerInteraction,
     regionSettingsUrl,
     callingSettingsUrl,
   }),
