@@ -74,7 +74,7 @@ var DEFAULT_TTL = 5 * 60 * 1000;
  * @description Active calls list manaing module
  */
 var ActiveCalls = (_dec = (0, _di.Module)({
-  deps: ['Client', 'TabManager', { dep: 'AccountPhoneNumberOptions', optional: true }]
+  deps: ['Client', { dep: 'TabManager', optional: true }, { dep: 'AccountPhoneNumberOptions', optional: true }]
 }), _dec(_class = function (_DataFetcher) {
   (0, _inherits3.default)(ActiveCalls, _DataFetcher);
 

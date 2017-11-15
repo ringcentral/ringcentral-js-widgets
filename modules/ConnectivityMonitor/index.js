@@ -141,7 +141,7 @@ var DEFAULT_TIME_TO_RETRY = exports.DEFAULT_TIME_TO_RETRY = 5 * 1000;
 var DEFAULT_HEART_BEAT_INTERVAL = exports.DEFAULT_HEART_BEAT_INTERVAL = 60 * 1000;
 
 var ConnectivityMonitor = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Client', 'Environment', { dep: 'ConnectivityMonitorOptions', optional: true }]
+  deps: ['Alert', 'Client', { dep: 'Environment', optional: true }, { dep: 'ConnectivityMonitorOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(ConnectivityMonitor, _RcModule);
 

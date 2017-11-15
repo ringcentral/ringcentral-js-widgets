@@ -82,7 +82,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * @description Call history managing module
  */
 var CallHistory = (_dec = (0, _di.Module)({
-  deps: ['AccountInfo', 'CallLog', 'CallMonitor', 'ActivityMatcher', 'ContactMatcher', { dep: 'CallHistoryOptions', optional: true }]
+  deps: ['AccountInfo', 'CallLog', 'CallMonitor', { dep: 'ActivityMatcher', optional: true }, { dep: 'ContactMatcher', optional: true }, { dep: 'CallHistoryOptions', optional: true }]
 }), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(CallHistory, _RcModule);
 

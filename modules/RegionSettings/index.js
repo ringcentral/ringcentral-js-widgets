@@ -115,7 +115,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @description Region settings managing module
  */
 var RegionSettings = (_dec = (0, _di.Module)({
-  deps: ['Storage', 'ExtensionInfo', 'DialingPlan', 'Alert', 'TabManager']
+  deps: ['Alert', 'DialingPlan', 'ExtensionInfo', 'Storage', { dep: 'TabManager', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(RegionSettings, _RcModule);
 

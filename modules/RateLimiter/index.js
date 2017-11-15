@@ -112,7 +112,7 @@ var DEFAULT_ALERT_TTL = 5 * 1000;
  * @description Rate limiter managing module
  */
 var RateLimiter = (_dec = (0, _di.Module)({
-  deps: ['Alert', 'Client', 'Environment', 'GlobalStorage', { dep: 'RateLimiterOptions', optional: true }]
+  deps: ['Alert', 'Client', { dep: 'Environment', optional: true }, 'GlobalStorage', { dep: 'RateLimiterOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(RateLimiter, _RcModule);
 

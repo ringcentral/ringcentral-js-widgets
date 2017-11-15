@@ -141,7 +141,7 @@ function conversationLogIdentityFunction(conversation) {
  * @description Conversation logger module
  */
 var ConversationLogger = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Storage', 'TabManager', 'ContactMatcher', 'ConversationMatcher', 'DateTimeFormat', 'ExtensionInfo', 'MessageStore', 'RolesAndPermissions', { dep: 'ConversationLoggerOptions', optional: false }]
+  deps: ['Auth', 'Storage', { dep: 'TabManager', optional: true }, 'ContactMatcher', 'ConversationMatcher', 'DateTimeFormat', 'ExtensionInfo', 'MessageStore', 'RolesAndPermissions', { dep: 'ConversationLoggerOptions', optional: false }]
 }), _dec(_class = (_class2 = function (_LoggerBase) {
   (0, _inherits3.default)(ConversationLogger, _LoggerBase);
 

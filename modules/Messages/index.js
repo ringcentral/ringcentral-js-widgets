@@ -115,7 +115,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @description Conversation list managing module
  */
 var Messages = (_dec = (0, _di.Module)({
-  deps: ['MessageStore', 'ExtensionInfo', 'ContactMatcher', 'ConversationMatcher', { dep: 'ConversationLogger', optional: true }, { dep: 'MessagesOptions', optional: true }]
+  deps: ['MessageStore', 'ExtensionInfo', { dep: 'ContactMatcher', optional: true }, { dep: 'ConversationLogger', optional: true }, { dep: 'MessagesOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Messages, _RcModule);
 
@@ -125,7 +125,6 @@ var Messages = (_dec = (0, _di.Module)({
    * @param {MessageStore} params.messageStore - messageStore module instance
    * @param {ExtensionInfo} params.extensionInfo - extensionInfo module instance
    * @param {ContactMatcher} params.contactMatcher - contactMatcher module instance
-   * @param {ConversationMatcher} params.conversationMatcher - conversationMatcher module instance
    * @param {ConversationLogger} params.conversationLogger - conversationLogger module instance
    * @param {Number} params.defaultPerPage - default numbers of perPage, default 20
    */
@@ -135,9 +134,8 @@ var Messages = (_dec = (0, _di.Module)({
         _ref$defaultPerPage = _ref.defaultPerPage,
         defaultPerPage = _ref$defaultPerPage === undefined ? 20 : _ref$defaultPerPage,
         contactMatcher = _ref.contactMatcher,
-        conversationMatcher = _ref.conversationMatcher,
         conversationLogger = _ref.conversationLogger,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['messageStore', 'extensionInfo', 'defaultPerPage', 'contactMatcher', 'conversationMatcher', 'conversationLogger']);
+        options = (0, _objectWithoutProperties3.default)(_ref, ['messageStore', 'extensionInfo', 'defaultPerPage', 'contactMatcher', 'conversationLogger']);
     (0, _classCallCheck3.default)(this, Messages);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (Messages.__proto__ || (0, _getPrototypeOf2.default)(Messages)).call(this, (0, _extends3.default)({}, options, {

@@ -165,7 +165,7 @@ function getDefaultProxyUri() {
  * @description Authentication module
  */
 var Auth = (_dec = (0, _di.Module)({
-  deps: ['Client', 'Alert', 'Brand', 'Locale', 'TabManager', 'Environment', { dep: 'AuthOptions', optional: true }]
+  deps: ['Client', 'Alert', 'Brand', 'Locale', { dep: 'TabManager', optional: true }, { dep: 'Environment', optional: true }, { dep: 'AuthOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Auth, _RcModule);
 
@@ -210,6 +210,7 @@ var Auth = (_dec = (0, _di.Module)({
       _this._proxyFrame = document.createElement('iframe');
       _this._proxyFrame.src = _this.proxyUri;
       _this._proxyFrame.style.display = 'none';
+      _this._proxyFrame.setAttribute('sandbox', ['allow-scripts', 'allow-popups', 'allow-same-origin', 'allow-forms'].join(' '));
 
       document.body.appendChild(_this._proxyFrame);
       _this._callbackHandler = function () {
@@ -244,7 +245,7 @@ var Auth = (_dec = (0, _di.Module)({
                   _context.next = 8;
                   return _this.login({
                     code: code,
-                    redirectUri: _this.redirectUri
+                    redirectUri: _url2.default.resolve(location.href, _this.redirectUri)
                   });
 
                 case 8:
@@ -861,7 +862,7 @@ var Auth = (_dec = (0, _di.Module)({
         });
         this._proxyFrame.contentWindow.postMessage({
           oAuthUri: this.getLoginUrl({
-            redirectUri: this.redirectUri,
+            redirectUri: _url2.default.resolve(location.href, this.redirectUri),
             brandId: this._brand.id,
             state: btoa(Date.now()),
             display: 'page'

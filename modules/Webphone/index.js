@@ -164,7 +164,7 @@ var MAX_RETRIES_DELAY = 2 * 60 * 1000;
  * @description Web phone module to handle phone interaction with WebRTC.
  */
 var Webphone = (_dec = (0, _di.Module)({
-  deps: ['Auth', 'Alert', 'Client', 'ContactMatcher', 'ExtensionDevice', 'NumberValidate', 'RolesAndPermissions', 'AudioSettings', { dep: 'WebphoneOptions', optional: true }]
+  deps: ['Auth', 'Alert', 'Client', { dep: 'ContactMatcher', optional: true }, 'ExtensionDevice', 'NumberValidate', 'RolesAndPermissions', 'AudioSettings', { dep: 'WebphoneOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Webphone, _RcModule);
 

@@ -109,7 +109,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
  * @description Environment module manages which api server the app calls.
  */
 var Environment = (_dec = (0, _di.Module)({
-  deps: ['Client', 'GlobalStorage', { dep: 'EnvironmentOptions', optional: true }]
+  deps: ['Client', 'GlobalStorage', { dep: 'EnvironmentOptions' }]
 }), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(Environment, _RcModule);
 
