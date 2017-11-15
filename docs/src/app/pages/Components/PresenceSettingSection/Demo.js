@@ -4,8 +4,8 @@ import PresenceSettingSection from 'ringcentral-widgets/components/PresenceSetti
 
 const props = {};
 props.currentLocale = 'en-US';
-props.dndStatus = 'test string';
-props.userStatus = 'test string';
+props.dndStatus = 'TakeAllCalls';
+props.userStatus = 'Available';
 props.isCallQueueMember = false;
 props.setAvailable = () => null;
 props.setBusy = () => null;
