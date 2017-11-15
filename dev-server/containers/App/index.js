@@ -126,7 +126,6 @@ export default function App({
                 component={() => (
                   <ActiveCallsPage
                     onLogCall={async () => { await sleep(1000); }}
-                    onViewContact={() => { }}
                     onCreateContact={() => { }}
                     onCallsEmpty={() => {}}
                     sourceIcons={sourceIcons}
@@ -165,7 +164,6 @@ export default function App({
                   <CallHistoryPage
                     showContactDisplayPlaceholder={false}
                     onLogCall={async () => { await sleep(1000); }}
-                    onViewContact={() => { }}
                     onCreateContact={() => { }}
                   />
                 )} />
@@ -191,7 +189,6 @@ export default function App({
                   <MessagesPage
                     showContactDisplayPlaceholder={false}
                     onLogConversation={async () => { await sleep(1000); }}
-                    onViewContact={() => { }}
                     onCreateContact={() => { }}
                     sourceIcons={sourceIcons}
                   />

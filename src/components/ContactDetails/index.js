@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import presenceStatus from 'ringcentral-integration/modules/Presence/presenceStatus';
+import PresenceStatus from 'ringcentral-integration/modules/Presence/presenceStatus';
 import PresenceStatusIcon from '../PresenceStatusIcon';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DefaultAvatar from '../../assets/images/DefaultAvatar.svg';
@@ -10,11 +10,13 @@ import i18n from './i18n';
 
 import styles from './styles.scss';
 
-export function getPresenceStatusName(currentUserStatus, currentDndStatus, currentLocale) {
-  if (currentUserStatus !== presenceStatus.busy) {
-    return i18n.getString(currentUserStatus, currentLocale);
+export function getPresenceStatusName(presence, currentLocale) {
+  const { dndStatus, presenceStatus } = presence;
+  const userStatus = presenceStatus || presence.userStatus;
+  if (userStatus !== PresenceStatus.busy) {
+    return i18n.getString(userStatus, currentLocale);
   }
-  return i18n.getString(currentUserStatus + currentDndStatus, currentLocale);
+  return i18n.getString(userStatus + dndStatus, currentLocale);
 }
 
 function AvatarNode({ name, avatarUrl }) {
@@ -64,7 +66,7 @@ export default class ContactDetails extends PureComponent {
     const { name, presence, profileImageUrl, type } = contactItem;
     const sourceNode = sourceNodeRenderer({ sourceType: type });
     const presenceName = presence
-      ? getPresenceStatusName(presence.userStatus, presence.dndStatus, currentLocale)
+      ? getPresenceStatusName(presence, currentLocale)
       : null;
     return (
       <div className={styles.contactProfile}>
@@ -246,7 +248,6 @@ ContactDetails.propTypes = {
 ContactDetails.defaultProps = {
   onClickToSMS: undefined,
   onClickToDial: undefined,
-  onClickMailTo: undefined,
   onClickMailTo: undefined,
   sourceNodeRenderer: () => null,
 };

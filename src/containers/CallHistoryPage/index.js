@@ -71,14 +71,15 @@ function mapToFunctions(_, {
   isLoggedContact,
   dialerRoute = '/dialer',
   composeTextRoute = '/composeText',
+  onViewContact,
 }) {
   return {
     dateTimeFormatter,
-    onViewContact: ({ contact }) => {
+    onViewContact: onViewContact || (({ contact }) => {
       const id = contact.id;
       const type = contact.type;
       routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
-    },
+    }),
     onCreateContact: onCreateContact ?
       async ({ phoneNumber, name, entityType }) => {
         const hasMatchNumber = await contactMatcher.hasMatchNumber({
