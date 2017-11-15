@@ -1940,7 +1940,7 @@
     },
     "status": "module-ready"
   },
-  "router": {
+  "routerInteraction": {
     "locationBeforeTransitions": {
       "pathname": "/dialer",
       "search": "",

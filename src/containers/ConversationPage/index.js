@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 
 import ConversationPanel from '../../components/ConversationPanel';
+import withPhone from '../../lib/withPhone';
 
 class ConversationPage extends Component {
   getChildContext() {
@@ -110,17 +111,19 @@ ConversationPage.childContextTypes = {
 };
 
 function mapToProps(_, {
-  brand,
-  locale,
+  phone: {
+    brand,
+    locale,
+    conversation,
+    conversationLogger,
+    dateTimeFormat,
+    contactMatcher,
+    regionSettings,
+    messages,
+    rateLimiter,
+    connectivityMonitor,
+  },
   params,
-  conversation,
-  conversationLogger,
-  dateTimeFormat,
-  contactMatcher,
-  regionSettings,
-  messages,
-  rateLimiter,
-  connectivityMonitor,
   enableContactFallback = false,
 }) {
   return ({
@@ -155,15 +158,17 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-  contactMatcher,
-  conversation,
-  dateTimeFormat,
+  phone: {
+    contactMatcher,
+    conversation,
+    dateTimeFormat,
+    routerInteraction,
+    conversationLogger,
+    regionSettings,
+  },
   dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
-  regionSettings,
   isLoggedContact,
-  conversationLogger,
   onLogConversation,
-  router,
 }) {
   let getMatcherContactName;
   let getMatcherContactList;
@@ -218,12 +223,12 @@ function mapToFunctions(_, {
       });
     })),
     goBack: () => {
-      router.goBack();
+      routerInteraction.goBack();
     },
   };
 }
 
-export default connect(
+export default withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(ConversationPage);
+)(ConversationPage));

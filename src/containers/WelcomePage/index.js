@@ -1,18 +1,15 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Auth from 'ringcentral-integration/modules/Auth';
 import loginStatus from 'ringcentral-integration/modules/Auth/loginStatus';
-import Locale from 'ringcentral-integration/modules/Locale';
-import RateLimiter from 'ringcentral-integration/modules/RateLimiter';
-import ConnectivityMonitor from 'ringcentral-integration/modules/ConnectivityMonitor';
 import LoginPanel from '../../components/LoginPanel';
+import withPhone from '../../lib/withPhone';
 
 function mapToProps(_, {
-  auth,
-  locale,
-  rateLimiter,
-  connectivityMonitor,
+  phone: {
+    auth,
+    locale,
+    rateLimiter,
+    connectivityMonitor,
+  },
   version,
 }) {
   return {
@@ -34,7 +31,9 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-  auth,
+  phone: {
+    auth,
+  },
   onLogin,
 }) {
   return {
@@ -50,26 +49,13 @@ function mapToFunctions(_, {
   };
 }
 
-const WelcomePage = connect(
+const WelcomePage = withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(LoginPanel);
-
-const propTypes = {
-  auth: PropTypes.instanceOf(Auth).isRequired,
-  locale: PropTypes.instanceOf(Locale).isRequired,
-  rateLimiter: PropTypes.instanceOf(RateLimiter).isRequired,
-  connectivityMonitor: PropTypes.instanceOf(ConnectivityMonitor).isRequired,
-  mainUrl: PropTypes.string,
-  onLogin: PropTypes.func,
-  version: PropTypes.string,
-};
-
-WelcomePage.propTypes = propTypes;
+)(LoginPanel));
 
 export {
   mapToFunctions,
   mapToProps,
-  propTypes,
   WelcomePage as default,
 };

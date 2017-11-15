@@ -1,16 +1,19 @@
 import { connect } from 'react-redux';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
+import withPhone from '../../lib/withPhone';
 
 import ActiveCallsPanel from '../../components/ActiveCallsPanel';
 
 function mapToProps(_, {
-  callMonitor,
-  locale,
-  regionSettings,
-  rolesAndPermissions,
-  brand,
+  phone: {
+    brand,
+    callLogger,
+    callMonitor,
+    locale,
+    regionSettings,
+    rolesAndPermissions,
+  },
   showContactDisplayPlaceholder = false,
-  callLogger,
 }) {
   return {
     currentLocale: locale.currentLocale,
@@ -36,17 +39,19 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-  webphone,
-  regionSettings,
+  phone: {
+    callLogger,
+    composeText,
+    contactMatcher,
+    contactSearch,
+    regionSettings,
+    routerInteraction,
+    webphone,
+  },
   composeTextRoute = '/composeText',
   callCtrlRoute = '/calls/active',
   onCreateContact,
-  composeText,
-  callLogger,
   onLogCall,
-  contactMatcher,
-  router,
-  contactSearch,
   isLoggedContact,
   onCallsEmpty,
 }) {
@@ -65,19 +70,19 @@ function mapToFunctions(_, {
         return;
       }
       await webphone.resume(...args);
-      if (router.currentPath !== callCtrlRoute) {
-        router.push(callCtrlRoute);
+      if (routerInteraction.currentPath !== callCtrlRoute) {
+        routerInteraction.push(callCtrlRoute);
       }
     },
     onViewContact: ({ contact }) => {
       const id = contact.id;
       const type = contact.type;
-      router.push(`/contacts/${type}/${id}?direct=true`);
+      routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
     },
     onClickToSms: composeText ?
       async (contact, isDummyContact = false) => {
-        if (router) {
-          router.push(composeTextRoute);
+        if (routerInteraction) {
+          routerInteraction.push(composeTextRoute);
         }
         if (contact.name && contact.phoneNumber && isDummyContact) {
           composeText.updateTypingToNumber(contact.name);
@@ -115,6 +120,6 @@ function mapToFunctions(_, {
   };
 }
 
-const ActiveCallsPage = connect(mapToProps, mapToFunctions)(ActiveCallsPanel);
+const ActiveCallsPage = withPhone(connect(mapToProps, mapToFunctions)(ActiveCallsPanel));
 
 export default ActiveCallsPage;

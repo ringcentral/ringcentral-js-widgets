@@ -1,21 +1,17 @@
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import Locale from 'ringcentral-integration/modules/Locale';
-import Conference from 'ringcentral-integration/modules/Conference';
-import RegionSettings from 'ringcentral-integration/modules/RegionSettings';
-import ComposeText from 'ringcentral-integration/modules/ComposeText';
-
-import RouterInteraction from '../../modules/RouterInteraction';
 
 import ConferencePanel from '../../components/ConferencePanel';
+import withPhone from '../../lib/withPhone';
 
 function mapToProps(_, {
-  conference,
-  regionSettings,
-  locale,
-  composeText,
+  phone: {
+    conference,
+    regionSettings,
+    locale,
+    composeText,
+  },
 }) {
   return {
     conferenceNumbers: conference.conferenceNumbers,
@@ -32,13 +28,15 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-  composeText,
-  router
+  phone: {
+    composeText,
+    routerInteraction,
+  },
 }) {
   return {
     inviteWithText: (text) => {
       composeText.updateMessageText(text);
-      router.push('/composeText');
+      routerInteraction.push('/composeText');
     },
     formatInternational: (phoneNumber, callingCode) => {
       if (phoneNumber.indexOf(callingCode === 1)) {
@@ -61,24 +59,14 @@ function mapToFunctions(_, {
 }
 
 
-const ConferencePage = connect(
+const ConferencePage = withPhone(connect(
   mapToProps,
   mapToFunctions,
-)(ConferencePanel);
+)(ConferencePanel));
 
-const propTypes = {
-  conference: PropTypes.instanceOf(Conference),
-  regionSettings: PropTypes.instanceOf(RegionSettings),
-  locale: PropTypes.instanceOf(Locale),
-  composeText: PropTypes.instanceOf(ComposeText),
-  router: PropTypes.instanceOf(RouterInteraction),
-};
-
-ConferencePage.propTypes = propTypes;
 
 export {
   mapToFunctions,
   mapToProps,
-  propTypes,
   ConferencePage as default,
 };

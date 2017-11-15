@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import OfflineModeBadge from '../../../src/components/OfflineModeBadge';
 import Environment from '../../../src/components/Environment';
+import withPhone from '../../../src/lib/withPhone';
 
 import styles from './styles.scss';
 
@@ -43,12 +44,14 @@ AppView.defaultProps = {
   onSetData: undefined,
 };
 
-export default connect((state, {
-  locale,
-  auth,
-  environment,
-  connectivityMonitor,
-  rateLimiter,
+export default withPhone(connect((state, {
+  phone: {
+    locale,
+    auth,
+    environment,
+    connectivityMonitor,
+    rateLimiter,
+  },
 }) => ({
   currentLocale: locale.currentLocale,
   server: environment.server,
@@ -59,9 +62,11 @@ export default connect((state, {
     rateLimiter.throttling
   ),
 }), (dispatch, {
-  environment,
-  connectivityMonitor,
-  rateLimiter,
+  phone: {
+    environment,
+    connectivityMonitor,
+    rateLimiter,
+  },
 }) => ({
   onSetData: (options) => {
     environment.setData(options);
@@ -70,4 +75,4 @@ export default connect((state, {
     rateLimiter.showAlert();
     connectivityMonitor.showAlert();
   },
-}))(AppView);
+}))(AppView));

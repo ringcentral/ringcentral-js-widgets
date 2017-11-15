@@ -298,27 +298,27 @@ export default class Phone extends RcModule {
       audioSettings: this.audioSettings,
       getState: () => this.state.webphone,
       onCallEnd: (session) => {
-        if (this.router.currentPath !== '/calls/active') {
+        if (this.routerInteraction.currentPath !== '/calls/active') {
           return;
         }
         const currentSession = this.webphone.activeSession;
         if (currentSession && session.id !== currentSession.id) {
           return;
         }
-        this.router.goBack();
+        this.routerInteraction.goBack();
       },
       onCallStart: () => {
-        if (this.router.currentPath === '/calls/active') {
+        if (this.routerInteraction.currentPath === '/calls/active') {
           return;
         }
-        this.router.push('/calls/active');
+        this.routerInteraction.push('/calls/active');
       },
       onCallRing: () => {
         if (
           this.webphone.ringSessions.length > 1
         ) {
-          if (this.router.currentPath !== '/calls') {
-            this.router.push('/calls');
+          if (this.routerInteraction.currentPath !== '/calls') {
+            this.routerInteraction.push('/calls');
           }
           this.webphone.ringSessions.forEach((session) => {
             this.webphone.toggleMinimized(session.id);
@@ -501,11 +501,11 @@ export default class Phone extends RcModule {
       getState: () => this.state.conference,
     }));
     reducers.conference = this.conference.reducer;
-    this.addModule('router', new RouterInteraction({
+    this.addModule('routerInteraction', new RouterInteraction({
       ...options,
-      getState: () => this.state.router,
+      getState: () => this.state.routerInteraction,
     }));
-    reducers.router = this.router.reducer;
+    reducers.routerInteraction = this.routerInteraction.reducer;
     this.addModule('callLog', new CallLog({
       ...options,
       auth: this.auth,
@@ -531,7 +531,7 @@ export default class Phone extends RcModule {
           return;
         }
         // TODO refactor some of these logic into appropriate modules
-        this.router.push('/calls');
+        this.routerInteraction.push('/calls');
       },
       getState: () => this.state.callMonitor,
     }));
@@ -667,15 +667,15 @@ export default class Phone extends RcModule {
     this.store.subscribe(() => {
       if (this.auth.ready) {
         if (
-          this.router.currentPath !== '/' &&
+          this.routerInteraction.currentPath !== '/' &&
           !this.auth.loggedIn
         ) {
-          this.router.push('/');
+          this.routerInteraction.push('/');
         } else if (
-          this.router.currentPath === '/' &&
+          this.routerInteraction.currentPath === '/' &&
           this.auth.loggedIn
         ) {
-          this.router.push('/dialer');
+          this.routerInteraction.push('/dialer');
         }
       }
     });
