@@ -54,6 +54,7 @@ function mapToFunctions(_, {
   onLogCall,
   isLoggedContact,
   onCallsEmpty,
+  onViewContact,
 }) {
   return {
     formatPhone: phoneNumber => formatNumber({
@@ -74,11 +75,11 @@ function mapToFunctions(_, {
         routerInteraction.push(callCtrlRoute);
       }
     },
-    onViewContact: ({ contact }) => {
+    onViewContact: onViewContact || (({ contact }) => {
       const id = contact.id;
       const type = contact.type;
       routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
-    },
+    }),
     onClickToSms: composeText ?
       async (contact, isDummyContact = false) => {
         if (routerInteraction) {
