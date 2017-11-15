@@ -42,29 +42,9 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Brand = require('ringcentral-integration/modules/Brand');
-
-var _Brand2 = _interopRequireDefault(_Brand);
-
 var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
-
-var _Webphone = require('ringcentral-integration/modules/Webphone');
-
-var _Webphone2 = _interopRequireDefault(_Webphone);
-
-var _Locale = require('ringcentral-integration/modules/Locale');
-
-var _Locale2 = _interopRequireDefault(_Locale);
-
-var _RegionSettings = require('ringcentral-integration/modules/RegionSettings');
-
-var _RegionSettings2 = _interopRequireDefault(_RegionSettings);
-
-var _ForwardingNumber = require('ringcentral-integration/modules/ForwardingNumber');
-
-var _ForwardingNumber2 = _interopRequireDefault(_ForwardingNumber);
 
 var _callDirections = require('ringcentral-integration/enums/callDirections');
 
@@ -73,6 +53,10 @@ var _callDirections2 = _interopRequireDefault(_callDirections);
 var _IncomingCallPanel = require('../../components/IncomingCallPanel');
 
 var _IncomingCallPanel2 = _interopRequireDefault(_IncomingCallPanel);
+
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
 
 var _i18n = require('./i18n');
 
@@ -315,13 +299,15 @@ IncomingCallPage.defaultProps = {
 };
 
 function mapToProps(_, _ref3) {
-  var webphone = _ref3.webphone,
-      locale = _ref3.locale,
-      contactMatcher = _ref3.contactMatcher,
-      regionSettings = _ref3.regionSettings,
-      forwardingNumber = _ref3.forwardingNumber,
-      brand = _ref3.brand,
-      showContactDisplayPlaceholder = _ref3.showContactDisplayPlaceholder;
+  var _ref3$phone = _ref3.phone,
+      webphone = _ref3$phone.webphone,
+      locale = _ref3$phone.locale,
+      contactMatcher = _ref3$phone.contactMatcher,
+      regionSettings = _ref3$phone.regionSettings,
+      forwardingNumber = _ref3$phone.forwardingNumber,
+      brand = _ref3$phone.brand,
+      _ref3$showContactDisp = _ref3.showContactDisplayPlaceholder,
+      showContactDisplayPlaceholder = _ref3$showContactDisp === undefined ? false : _ref3$showContactDisp;
 
   var currentSession = webphone.ringSession || {};
   var contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -342,9 +328,13 @@ function mapToProps(_, _ref3) {
 }
 
 function mapToFunctions(_, _ref4) {
-  var webphone = _ref4.webphone,
-      regionSettings = _ref4.regionSettings,
-      getAvatarUrl = _ref4.getAvatarUrl;
+  var _ref4$phone = _ref4.phone,
+      webphone = _ref4$phone.webphone,
+      regionSettings = _ref4$phone.regionSettings,
+      _ref4$getAvatarUrl = _ref4.getAvatarUrl,
+      getAvatarUrl = _ref4$getAvatarUrl === undefined ? function () {
+    return null;
+  } : _ref4$getAvatarUrl;
 
   return {
     formatPhone: function formatPhone(phoneNumber) {
@@ -385,26 +375,7 @@ function mapToFunctions(_, _ref4) {
   };
 }
 
-var IncomingCallContainer = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(IncomingCallPage);
-
-IncomingCallContainer.propTypes = {
-  showContactDisplayPlaceholder: _propTypes2.default.bool,
-  webphone: _propTypes2.default.instanceOf(_Webphone2.default).isRequired,
-  locale: _propTypes2.default.instanceOf(_Locale2.default).isRequired,
-  brand: _propTypes2.default.instanceOf(_Brand2.default).isRequired,
-  regionSettings: _propTypes2.default.instanceOf(_RegionSettings2.default).isRequired,
-  forwardingNumber: _propTypes2.default.instanceOf(_ForwardingNumber2.default).isRequired,
-  getAvatarUrl: _propTypes2.default.func,
-  children: _propTypes2.default.node
-};
-
-IncomingCallContainer.defaultProps = {
-  getAvatarUrl: function getAvatarUrl() {
-    return null;
-  },
-  showContactDisplayPlaceholder: false,
-  children: undefined
-};
+var IncomingCallContainer = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(IncomingCallPage));
 
 exports.default = IncomingCallContainer;
 //# sourceMappingURL=index.js.map

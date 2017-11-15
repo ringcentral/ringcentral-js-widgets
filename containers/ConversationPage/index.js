@@ -58,6 +58,10 @@ var _ConversationPanel = require('../../components/ConversationPanel');
 
 var _ConversationPanel2 = _interopRequireDefault(_ConversationPanel);
 
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var ConversationPage = function (_Component) {
@@ -186,17 +190,18 @@ ConversationPage.childContextTypes = {
 };
 
 function mapToProps(_, _ref) {
-  var brand = _ref.brand,
-      locale = _ref.locale,
+  var _ref$phone = _ref.phone,
+      brand = _ref$phone.brand,
+      locale = _ref$phone.locale,
+      conversation = _ref$phone.conversation,
+      conversationLogger = _ref$phone.conversationLogger,
+      dateTimeFormat = _ref$phone.dateTimeFormat,
+      contactMatcher = _ref$phone.contactMatcher,
+      regionSettings = _ref$phone.regionSettings,
+      messages = _ref$phone.messages,
+      rateLimiter = _ref$phone.rateLimiter,
+      connectivityMonitor = _ref$phone.connectivityMonitor,
       params = _ref.params,
-      conversation = _ref.conversation,
-      conversationLogger = _ref.conversationLogger,
-      dateTimeFormat = _ref.dateTimeFormat,
-      contactMatcher = _ref.contactMatcher,
-      regionSettings = _ref.regionSettings,
-      messages = _ref.messages,
-      rateLimiter = _ref.rateLimiter,
-      connectivityMonitor = _ref.connectivityMonitor,
       _ref$enableContactFal = _ref.enableContactFallback,
       enableContactFallback = _ref$enableContactFal === undefined ? false : _ref$enableContactFal;
 
@@ -222,18 +227,19 @@ function mapToProps(_, _ref) {
 function mapToFunctions(_, _ref2) {
   var _this3 = this;
 
-  var contactMatcher = _ref2.contactMatcher,
-      conversation = _ref2.conversation,
-      dateTimeFormat = _ref2.dateTimeFormat,
+  var _ref2$phone = _ref2.phone,
+      contactMatcher = _ref2$phone.contactMatcher,
+      conversation = _ref2$phone.conversation,
+      dateTimeFormat = _ref2$phone.dateTimeFormat,
+      routerInteraction = _ref2$phone.routerInteraction,
+      conversationLogger = _ref2$phone.conversationLogger,
+      regionSettings = _ref2$phone.regionSettings,
       _ref2$dateTimeFormatt = _ref2.dateTimeFormatter,
       dateTimeFormatter = _ref2$dateTimeFormatt === undefined ? function () {
     return dateTimeFormat.formatDateTime.apply(dateTimeFormat, arguments);
   } : _ref2$dateTimeFormatt,
-      regionSettings = _ref2.regionSettings,
       isLoggedContact = _ref2.isLoggedContact,
-      conversationLogger = _ref2.conversationLogger,
-      onLogConversation = _ref2.onLogConversation,
-      router = _ref2.router;
+      onLogConversation = _ref2.onLogConversation;
 
   var getMatcherContactName = void 0;
   var getMatcherContactList = void 0;
@@ -321,10 +327,10 @@ function mapToFunctions(_, _ref2) {
       };
     }(),
     goBack: function goBack() {
-      router.goBack();
+      routerInteraction.goBack();
     }
   };
 }
 
-exports.default = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(ConversationPage);
+exports.default = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(ConversationPage));
 //# sourceMappingURL=index.js.map

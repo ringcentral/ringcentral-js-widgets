@@ -18,11 +18,16 @@ var _ContactsView = require('../../components/ContactsView');
 
 var _ContactsView2 = _interopRequireDefault(_ContactsView);
 
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
-  var locale = _ref.locale,
-      contacts = _ref.contacts;
+  var _ref$phone = _ref.phone,
+      locale = _ref$phone.locale,
+      contacts = _ref$phone.contacts;
 
   return {
     currentLocale: locale.currentLocale,
@@ -38,8 +43,9 @@ function mapToProps(_, _ref) {
 function mapToFunctions(_, _ref2) {
   var _this = this;
 
-  var router = _ref2.router,
-      contacts = _ref2.contacts,
+  var _ref2$phone = _ref2.phone,
+      routerInteraction = _ref2$phone.routerInteraction,
+      contacts = _ref2$phone.contacts,
       onItemSelect = _ref2.onItemSelect,
       onVisitPage = _ref2.onVisitPage;
 
@@ -98,7 +104,7 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                router.push('/contacts/' + type + '/' + id);
+                routerInteraction.push('/contacts/' + type + '/' + id);
 
               case 1:
               case 'end':
@@ -127,7 +133,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var ContactsPage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ContactsView2.default);
+var ContactsPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ContactsView2.default));
 
 exports.default = ContactsPage;
 //# sourceMappingURL=index.js.map

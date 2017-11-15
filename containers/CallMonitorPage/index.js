@@ -18,6 +18,10 @@ var _CallsPanel = require('../../components/CallsPanel');
 
 var _CallsPanel2 = _interopRequireDefault(_CallsPanel);
 
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
+
 var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
@@ -25,16 +29,17 @@ var _i18n2 = _interopRequireDefault(_i18n);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
-  var locale = _ref.locale,
-      brand = _ref.brand,
-      callMonitor = _ref.callMonitor,
-      regionSettings = _ref.regionSettings,
-      connectivityMonitor = _ref.connectivityMonitor,
-      rateLimiter = _ref.rateLimiter,
-      dateTimeFormat = _ref.dateTimeFormat,
-      callLogger = _ref.callLogger,
-      composeText = _ref.composeText,
-      rolesAndPermissions = _ref.rolesAndPermissions,
+  var _ref$phone = _ref.phone,
+      locale = _ref$phone.locale,
+      brand = _ref$phone.brand,
+      callMonitor = _ref$phone.callMonitor,
+      regionSettings = _ref$phone.regionSettings,
+      connectivityMonitor = _ref$phone.connectivityMonitor,
+      rateLimiter = _ref$phone.rateLimiter,
+      dateTimeFormat = _ref$phone.dateTimeFormat,
+      callLogger = _ref$phone.callLogger,
+      composeText = _ref$phone.composeText,
+      rolesAndPermissions = _ref$phone.rolesAndPermissions,
       _ref$enableContactFal = _ref.enableContactFallback,
       enableContactFallback = _ref$enableContactFal === undefined ? false : _ref$enableContactFal;
 
@@ -58,7 +63,14 @@ function mapToProps(_, _ref) {
 function mapToFunctions(_, _ref2) {
   var _this = this;
 
-  var dateTimeFormat = _ref2.dateTimeFormat,
+  var _ref2$phone = _ref2.phone,
+      callLogger = _ref2$phone.callLogger,
+      composeText = _ref2$phone.composeText,
+      contactMatcher = _ref2$phone.contactMatcher,
+      contactSearch = _ref2$phone.contactSearch,
+      dateTimeFormat = _ref2$phone.dateTimeFormat,
+      routerInteraction = _ref2$phone.routerInteraction,
+      webphone = _ref2$phone.webphone,
       onViewContact = _ref2.onViewContact,
       onCreateContact = _ref2.onCreateContact,
       _ref2$dateTimeFormatt = _ref2.dateTimeFormatter,
@@ -68,16 +80,10 @@ function mapToFunctions(_, _ref2) {
       utcTimestamp: utcTimestamp
     });
   } : _ref2$dateTimeFormatt,
-      callLogger = _ref2.callLogger,
-      contactMatcher = _ref2.contactMatcher,
-      contactSearch = _ref2.contactSearch,
       onLogCall = _ref2.onLogCall,
       isLoggedContact = _ref2.isLoggedContact,
-      router = _ref2.router,
       _ref2$composeTextRout = _ref2.composeTextRoute,
-      composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout,
-      composeText = _ref2.composeText,
-      webphone = _ref2.webphone;
+      composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout;
 
   return {
     dateTimeFormatter: dateTimeFormatter,
@@ -199,8 +205,8 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                if (router) {
-                  router.push(composeTextRoute);
+                if (routerInteraction) {
+                  routerInteraction.push(composeTextRoute);
                 }
                 if (contact.name && contact.phoneNumber && isDummyContact) {
                   composeText.updateTypingToNumber(contact.name);
@@ -239,7 +245,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var CallMonitorPage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallsPanel2.default);
+var CallMonitorPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallsPanel2.default));
 
 exports.default = CallMonitorPage;
 //# sourceMappingURL=index.js.map

@@ -45,11 +45,13 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _desc, _value, _class;
+var _dec, _class, _desc, _value, _class2;
 
 var _RcModule2 = require('ringcentral-integration/lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
+
+var _di = require('ringcentral-integration/lib/di');
 
 var _reactRouter = require('react-router');
 
@@ -98,7 +100,9 @@ function getDefaultHistory() {
   return (0, _reactRouter.useRouterHistory)(_reactRouter.createMemoryHistory)();
 }
 
-var RouterInteraction = (_class = function (_RcModule) {
+var RouterInteraction = (_dec = (0, _di.Module)({
+  deps: [{ dep: 'RouterInteractionOptions', optional: true, spread: true }]
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(RouterInteraction, _RcModule);
 
   function RouterInteraction(_ref) {
@@ -241,6 +245,6 @@ var RouterInteraction = (_class = function (_RcModule) {
     }
   }]);
   return RouterInteraction;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class.prototype, 'push', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'push'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'replace', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'replace'), _class.prototype), _applyDecoratedDescriptor(_class.prototype, 'goBack', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class.prototype, 'goBack'), _class.prototype)), _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'push', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'push'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'replace', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'replace'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'goBack', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'goBack'), _class2.prototype)), _class2)) || _class);
 exports.default = RouterInteraction;
 //# sourceMappingURL=index.js.map

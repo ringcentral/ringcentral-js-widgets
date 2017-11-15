@@ -3,41 +3,26 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.propTypes = exports.mapToProps = exports.mapToFunctions = undefined;
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
+exports.default = exports.mapToProps = exports.mapToFunctions = undefined;
 
 var _reactRedux = require('react-redux');
-
-var _Brand = require('ringcentral-integration/modules/Brand');
-
-var _Brand2 = _interopRequireDefault(_Brand);
-
-var _CallingSettings = require('ringcentral-integration/modules/CallingSettings');
-
-var _CallingSettings2 = _interopRequireDefault(_CallingSettings);
-
-var _Locale = require('ringcentral-integration/modules/Locale');
-
-var _Locale2 = _interopRequireDefault(_Locale);
-
-var _RouterInteraction = require('../../modules/RouterInteraction');
-
-var _RouterInteraction2 = _interopRequireDefault(_RouterInteraction);
 
 var _CallingSettingsPanel = require('../../components/CallingSettingsPanel');
 
 var _CallingSettingsPanel2 = _interopRequireDefault(_CallingSettingsPanel);
 
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
-  var callingSettings = _ref.callingSettings,
-      brand = _ref.brand,
-      locale = _ref.locale,
-      webphone = _ref.webphone;
+  var _ref$phone = _ref.phone,
+      callingSettings = _ref$phone.callingSettings,
+      brand = _ref$phone.brand,
+      locale = _ref$phone.locale,
+      webphone = _ref$phone.webphone;
 
   return {
     brand: brand.fullName,
@@ -52,12 +37,13 @@ function mapToProps(_, _ref) {
 }
 
 function mapToFunctions(_, _ref2) {
-  var callingSettings = _ref2.callingSettings,
-      router = _ref2.router;
+  var _ref2$phone = _ref2.phone,
+      callingSettings = _ref2$phone.callingSettings,
+      routerInteraction = _ref2$phone.routerInteraction;
 
   return {
     onBackButtonClick: function onBackButtonClick() {
-      router.goBack();
+      routerInteraction.goBack();
     },
     onSave: function onSave(_ref3) {
       var callWith = _ref3.callWith,
@@ -71,19 +57,9 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var CallingSettingsPage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallingSettingsPanel2.default);
-
-var propTypes = {
-  brand: _propTypes2.default.instanceOf(_Brand2.default).isRequired,
-  callingSettings: _propTypes2.default.instanceOf(_CallingSettings2.default).isRequired,
-  locale: _propTypes2.default.instanceOf(_Locale2.default).isRequired,
-  router: _propTypes2.default.instanceOf(_RouterInteraction2.default).isRequired
-};
-
-CallingSettingsPage.propTypes = propTypes;
+var CallingSettingsPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallingSettingsPanel2.default));
 
 exports.mapToFunctions = mapToFunctions;
 exports.mapToProps = mapToProps;
-exports.propTypes = propTypes;
 exports.default = CallingSettingsPage;
 //# sourceMappingURL=index.js.map

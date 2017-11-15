@@ -34,14 +34,6 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
-var _Webphone = require('ringcentral-integration/modules/Webphone');
-
-var _Webphone2 = _interopRequireDefault(_Webphone);
-
-var _Locale = require('ringcentral-integration/modules/Locale');
-
-var _Locale2 = _interopRequireDefault(_Locale);
-
 var _callDirections = require('ringcentral-integration/enums/callDirections');
 
 var _callDirections2 = _interopRequireDefault(_callDirections);
@@ -53,6 +45,10 @@ var _sessionStatus2 = _interopRequireDefault(_sessionStatus);
 var _ActiveCallBadge = require('../../components/ActiveCallBadge');
 
 var _ActiveCallBadge2 = _interopRequireDefault(_ActiveCallBadge);
+
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
 
 var _i18n = require('./i18n');
 
@@ -146,8 +142,9 @@ CallBadge.propTypes = {
 };
 
 function mapToProps(_, _ref) {
-  var webphone = _ref.webphone,
-      locale = _ref.locale,
+  var _ref$phone = _ref.phone,
+      webphone = _ref$phone.webphone,
+      locale = _ref$phone.locale,
       hidden = _ref.hidden,
       goToCallCtrl = _ref.goToCallCtrl;
 
@@ -161,7 +158,7 @@ function mapToProps(_, _ref) {
 }
 
 function mapToFunctions(_, _ref2) {
-  var webphone = _ref2.webphone;
+  var webphone = _ref2.phone.webphone;
 
   return {
     toggleMinimized: function toggleMinimized(sessionId) {
@@ -170,14 +167,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var CallBadgeContainer = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(CallBadge);
-
-CallBadgeContainer.propTypes = {
-  webphone: _propTypes2.default.instanceOf(_Webphone2.default).isRequired,
-  hidden: _propTypes2.default.bool.isRequired,
-  goToCallCtrl: _propTypes2.default.func.isRequired,
-  locale: _propTypes2.default.instanceOf(_Locale2.default).isRequired
-};
+var CallBadgeContainer = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(CallBadge));
 
 exports.default = CallBadgeContainer;
 //# sourceMappingURL=index.js.map

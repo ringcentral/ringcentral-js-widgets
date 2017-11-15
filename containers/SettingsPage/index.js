@@ -27,6 +27,10 @@ var _SettingsPanel = require('../../components/SettingsPanel');
 
 var _SettingsPanel2 = _interopRequireDefault(_SettingsPanel);
 
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
@@ -81,7 +85,7 @@ function mapToFunctions(_, _ref2) {
   var _ref2$phone = _ref2.phone,
       auth = _ref2$phone.auth,
       detailedPresence = _ref2$phone.detailedPresence,
-      router = _ref2$phone.router,
+      routerInteraction = _ref2$phone.routerInteraction,
       _ref2$regionSettingsU = _ref2.regionSettingsUrl,
       regionSettingsUrl = _ref2$regionSettingsU === undefined ? '/settings/region' : _ref2$regionSettingsU,
       _ref2$callingSettings = _ref2.callingSettingsUrl,
@@ -112,13 +116,13 @@ function mapToFunctions(_, _ref2) {
       };
     }(),
     onRegionSettingsLinkClick: function onRegionSettingsLinkClick() {
-      router.push(regionSettingsUrl);
+      routerInteraction.push(regionSettingsUrl);
     },
     onCallingSettingsLinkClick: function onCallingSettingsLinkClick() {
-      router.push(callingSettingsUrl);
+      routerInteraction.push(callingSettingsUrl);
     },
     onAudioSettingsLinkClick: function onAudioSettingsLinkClick() {
-      router.push(audioSettingsUrl);
+      routerInteraction.push(audioSettingsUrl);
     },
     setAvailable: function setAvailable() {
       return detailedPresence && detailedPresence.setAvailable.apply(detailedPresence, arguments);
@@ -137,7 +141,7 @@ function mapToFunctions(_, _ref2) {
     }
   };
 }
-var SettingsPage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_SettingsPanel2.default);
+var SettingsPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_SettingsPanel2.default));
 
 exports.mapToFunctions = mapToFunctions;
 exports.mapToProps = mapToProps;

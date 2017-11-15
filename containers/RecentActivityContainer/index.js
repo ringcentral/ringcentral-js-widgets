@@ -38,6 +38,10 @@ var _Fax = require('../../assets/images/Fax.svg');
 
 var _Fax2 = _interopRequireDefault(_Fax);
 
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
+
 var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
@@ -135,23 +139,22 @@ function getTabs(_ref) {
 }
 
 function mapToProps(_, _ref2) {
-  var locale = _ref2.locale,
+  var _ref2$phone = _ref2.phone,
+      locale = _ref2$phone.locale,
+      dateTimeFormat = _ref2$phone.dateTimeFormat,
+      recentMessages = _ref2$phone.recentMessages,
+      recentCalls = _ref2$phone.recentCalls,
+      contactMatcher = _ref2$phone.contactMatcher,
       _ref2$currentLocale = _ref2.currentLocale,
       currentLocale = _ref2$currentLocale === undefined ? locale.currentLocale : _ref2$currentLocale,
-      dateTimeFormat = _ref2.dateTimeFormat,
       navigateTo = _ref2.navigateTo,
       _ref2$dateTimeFormatt = _ref2.dateTimeFormatter,
       dateTimeFormatter = _ref2$dateTimeFormatt === undefined ? function () {
     return dateTimeFormat.formatDateTime.apply(dateTimeFormat, arguments);
   } : _ref2$dateTimeFormatt,
-      recentMessages = _ref2.recentMessages,
-      recentCalls = _ref2.recentCalls,
-      contactMatcher = _ref2.contactMatcher,
       getSession = _ref2.getSession,
-      _ref2$contact = _ref2.contact,
-      contact = _ref2$contact === undefined ? null : _ref2$contact,
-      _ref2$useContact = _ref2.useContact,
-      useContact = _ref2$useContact === undefined ? false : _ref2$useContact;
+      useContact = _ref2.useContact,
+      contact = _ref2.contact;
 
   var sessionId = null;
   var currentContact = contact;
@@ -190,5 +193,5 @@ function mapToProps(_, _ref2) {
   };
 }
 
-exports.default = (0, _reactRedux.connect)(mapToProps)(_RecentActivityPanel2.default);
+exports.default = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps)(_RecentActivityPanel2.default));
 //# sourceMappingURL=index.js.map

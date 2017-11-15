@@ -3,49 +3,30 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.propTypes = exports.mapToProps = exports.mapToFunctions = undefined;
+exports.default = exports.mapToProps = exports.mapToFunctions = undefined;
 
 var _reactRedux = require('react-redux');
-
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
 
-var _Locale = require('ringcentral-integration/modules/Locale');
-
-var _Locale2 = _interopRequireDefault(_Locale);
-
-var _Conference = require('ringcentral-integration/modules/Conference');
-
-var _Conference2 = _interopRequireDefault(_Conference);
-
-var _RegionSettings = require('ringcentral-integration/modules/RegionSettings');
-
-var _RegionSettings2 = _interopRequireDefault(_RegionSettings);
-
-var _ComposeText = require('ringcentral-integration/modules/ComposeText');
-
-var _ComposeText2 = _interopRequireDefault(_ComposeText);
-
-var _RouterInteraction = require('../../modules/RouterInteraction');
-
-var _RouterInteraction2 = _interopRequireDefault(_RouterInteraction);
-
 var _ConferencePanel = require('../../components/ConferencePanel');
 
 var _ConferencePanel2 = _interopRequireDefault(_ConferencePanel);
 
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
-  var conference = _ref.conference,
-      regionSettings = _ref.regionSettings,
-      locale = _ref.locale,
-      composeText = _ref.composeText;
+  var _ref$phone = _ref.phone,
+      conference = _ref$phone.conference,
+      regionSettings = _ref$phone.regionSettings,
+      locale = _ref$phone.locale,
+      composeText = _ref$phone.composeText;
 
   return {
     conferenceNumbers: conference.conferenceNumbers,
@@ -57,13 +38,14 @@ function mapToProps(_, _ref) {
 }
 
 function mapToFunctions(_, _ref2) {
-  var composeText = _ref2.composeText,
-      router = _ref2.router;
+  var _ref2$phone = _ref2.phone,
+      composeText = _ref2$phone.composeText,
+      routerInteraction = _ref2$phone.routerInteraction;
 
   return {
     inviteWithText: function inviteWithText(text) {
       composeText.updateMessageText(text);
-      router.push('/composeText');
+      routerInteraction.push('/composeText');
     },
     formatInternational: function formatInternational(phoneNumber, callingCode) {
       if (phoneNumber.indexOf(callingCode === 1)) {
@@ -87,20 +69,9 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var ConferencePage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ConferencePanel2.default);
-
-var propTypes = {
-  conference: _propTypes2.default.instanceOf(_Conference2.default),
-  regionSettings: _propTypes2.default.instanceOf(_RegionSettings2.default),
-  locale: _propTypes2.default.instanceOf(_Locale2.default),
-  composeText: _propTypes2.default.instanceOf(_ComposeText2.default),
-  router: _propTypes2.default.instanceOf(_RouterInteraction2.default)
-};
-
-ConferencePage.propTypes = propTypes;
+var ConferencePage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ConferencePanel2.default));
 
 exports.mapToFunctions = mapToFunctions;
 exports.mapToProps = mapToProps;
-exports.propTypes = propTypes;
 exports.default = ConferencePage;
 //# sourceMappingURL=index.js.map

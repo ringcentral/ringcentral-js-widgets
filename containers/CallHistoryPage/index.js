@@ -18,6 +18,10 @@ var _CallsPanel = require('../../components/CallsPanel');
 
 var _CallsPanel2 = _interopRequireDefault(_CallsPanel);
 
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
+
 var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
@@ -25,17 +29,18 @@ var _i18n2 = _interopRequireDefault(_i18n);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
-  var locale = _ref.locale,
-      brand = _ref.brand,
-      callHistory = _ref.callHistory,
-      regionSettings = _ref.regionSettings,
-      connectivityMonitor = _ref.connectivityMonitor,
-      rateLimiter = _ref.rateLimiter,
-      dateTimeFormat = _ref.dateTimeFormat,
-      callLogger = _ref.callLogger,
-      call = _ref.call,
-      composeText = _ref.composeText,
-      rolesAndPermissions = _ref.rolesAndPermissions,
+  var _ref$phone = _ref.phone,
+      locale = _ref$phone.locale,
+      brand = _ref$phone.brand,
+      callHistory = _ref$phone.callHistory,
+      regionSettings = _ref$phone.regionSettings,
+      connectivityMonitor = _ref$phone.connectivityMonitor,
+      rateLimiter = _ref$phone.rateLimiter,
+      dateTimeFormat = _ref$phone.dateTimeFormat,
+      callLogger = _ref$phone.callLogger,
+      call = _ref$phone.call,
+      composeText = _ref$phone.composeText,
+      rolesAndPermissions = _ref$phone.rolesAndPermissions,
       _ref$enableContactFal = _ref.enableContactFallback,
       enableContactFallback = _ref$enableContactFal === undefined ? false : _ref$enableContactFal;
 
@@ -59,7 +64,14 @@ function mapToProps(_, _ref) {
 function mapToFunctions(_, _ref2) {
   var _this = this;
 
-  var dateTimeFormat = _ref2.dateTimeFormat,
+  var _ref2$phone = _ref2.phone,
+      dateTimeFormat = _ref2$phone.dateTimeFormat,
+      callLogger = _ref2$phone.callLogger,
+      contactMatcher = _ref2$phone.contactMatcher,
+      call = _ref2$phone.call,
+      composeText = _ref2$phone.composeText,
+      routerInteraction = _ref2$phone.routerInteraction,
+      contactSearch = _ref2$phone.contactSearch,
       onCreateContact = _ref2.onCreateContact,
       _ref2$dateTimeFormatt = _ref2.dateTimeFormatter,
       dateTimeFormatter = _ref2$dateTimeFormatt === undefined ? function (_ref3) {
@@ -68,18 +80,12 @@ function mapToFunctions(_, _ref2) {
       utcTimestamp: utcTimestamp
     });
   } : _ref2$dateTimeFormatt,
-      callLogger = _ref2.callLogger,
-      contactMatcher = _ref2.contactMatcher,
       onLogCall = _ref2.onLogCall,
       isLoggedContact = _ref2.isLoggedContact,
-      call = _ref2.call,
-      composeText = _ref2.composeText,
-      router = _ref2.router,
       _ref2$dialerRoute = _ref2.dialerRoute,
       dialerRoute = _ref2$dialerRoute === undefined ? '/dialer' : _ref2$dialerRoute,
       _ref2$composeTextRout = _ref2.composeTextRoute,
-      composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout,
-      contactSearch = _ref2.contactSearch;
+      composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout;
 
   return {
     dateTimeFormatter: dateTimeFormatter,
@@ -88,7 +94,7 @@ function mapToFunctions(_, _ref2) {
 
       var id = contact.id;
       var type = contact.type;
-      router.push('/contacts/' + type + '/' + id + '?direct=true');
+      routerInteraction.push('/contacts/' + type + '/' + id + '?direct=true');
     },
     onCreateContact: onCreateContact ? function () {
       var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref6) {
@@ -135,7 +141,7 @@ function mapToFunctions(_, _ref2) {
     }() : undefined,
     onClickToDial: call ? function (phoneNumber) {
       if (call.isIdle) {
-        router.push(dialerRoute);
+        routerInteraction.push(dialerRoute);
         call.onToNumberChange(phoneNumber);
         call.onCall();
       }
@@ -147,8 +153,8 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (router) {
-                  router.push(composeTextRoute);
+                if (routerInteraction) {
+                  routerInteraction.push(composeTextRoute);
                 }
                 // if contact autocomplete, if no match fill the number only
                 if (contact.name && contact.phoneNumber && isDummyContact) {
@@ -206,7 +212,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var CallsPage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallsPanel2.default);
+var CallsPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_CallsPanel2.default));
 
 exports.default = CallsPage;
 //# sourceMappingURL=index.js.map

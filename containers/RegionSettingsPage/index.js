@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.propTypes = exports.mapToProps = exports.mapToFunctions = undefined;
+exports.default = exports.mapToProps = exports.mapToFunctions = undefined;
 
 var _regenerator = require('babel-runtime/regenerator');
 
@@ -15,31 +15,20 @@ var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
 var _reactRedux = require('react-redux');
 
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
-var _Locale = require('ringcentral-integration/modules/Locale');
-
-var _Locale2 = _interopRequireDefault(_Locale);
-
-var _RegionSettings = require('ringcentral-integration/modules/RegionSettings');
-
-var _RegionSettings2 = _interopRequireDefault(_RegionSettings);
-
-var _RouterInteraction = require('../../modules/RouterInteraction');
-
-var _RouterInteraction2 = _interopRequireDefault(_RouterInteraction);
-
 var _RegionSettingsPanel = require('../../components/RegionSettingsPanel');
 
 var _RegionSettingsPanel2 = _interopRequireDefault(_RegionSettingsPanel);
 
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
-  var locale = _ref.locale,
-      regionSettings = _ref.regionSettings;
+  var _ref$phone = _ref.phone,
+      locale = _ref$phone.locale,
+      regionSettings = _ref$phone.regionSettings;
 
   return {
     availableCountries: regionSettings.availableCountries,
@@ -52,9 +41,10 @@ function mapToProps(_, _ref) {
 function mapToFunctions(_, _ref2) {
   var _this = this;
 
-  var auth = _ref2.auth,
-      regionSettings = _ref2.regionSettings,
-      router = _ref2.router;
+  var _ref2$phone = _ref2.phone,
+      auth = _ref2$phone.auth,
+      regionSettings = _ref2$phone.regionSettings,
+      routerInteraction = _ref2$phone.routerInteraction;
 
   return {
     onLogoutButtonClick: function () {
@@ -79,7 +69,7 @@ function mapToFunctions(_, _ref2) {
       };
     }(),
     onBackButtonClick: function onBackButtonClick() {
-      router.goBack();
+      routerInteraction.goBack();
     },
     onSave: function onSave(_ref4) {
       var areaCode = _ref4.areaCode,
@@ -93,18 +83,9 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var RegionSettingsPage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_RegionSettingsPanel2.default);
-
-var propTypes = {
-  locale: _propTypes2.default.instanceOf(_Locale2.default).isRequired,
-  regionSettings: _propTypes2.default.instanceOf(_RegionSettings2.default).isRequired,
-  router: _propTypes2.default.instanceOf(_RouterInteraction2.default).isRequired
-};
-
-RegionSettingsPage.propTypes = propTypes;
+var RegionSettingsPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_RegionSettingsPanel2.default));
 
 exports.mapToFunctions = mapToFunctions;
 exports.mapToProps = mapToProps;
-exports.propTypes = propTypes;
 exports.default = RegionSettingsPage;
 //# sourceMappingURL=index.js.map

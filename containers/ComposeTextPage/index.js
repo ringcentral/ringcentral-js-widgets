@@ -4,46 +4,31 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _propTypes = require('prop-types');
-
-var _propTypes2 = _interopRequireDefault(_propTypes);
-
 var _reactRedux = require('react-redux');
 
 var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
 
-var _ComposeText = require('ringcentral-integration/modules/ComposeText');
-
-var _ComposeText2 = _interopRequireDefault(_ComposeText);
-
-var _MessageStore = require('ringcentral-integration/modules/MessageStore');
-
-var _MessageStore2 = _interopRequireDefault(_MessageStore);
-
-var _RolesAndPermissions = require('ringcentral-integration/modules/RolesAndPermissions');
-
-var _RolesAndPermissions2 = _interopRequireDefault(_RolesAndPermissions);
-
-var _RouterInteraction = require('../../modules/RouterInteraction');
-
-var _RouterInteraction2 = _interopRequireDefault(_RouterInteraction);
-
 var _ComposeTextPanel = require('../../components/ComposeTextPanel');
 
 var _ComposeTextPanel2 = _interopRequireDefault(_ComposeTextPanel);
 
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
-  var composeText = _ref.composeText,
-      connectivityMonitor = _ref.connectivityMonitor,
-      contactSearch = _ref.contactSearch,
-      locale = _ref.locale,
-      messageSender = _ref.messageSender,
-      rateLimiter = _ref.rateLimiter,
-      rolesAndPermissions = _ref.rolesAndPermissions;
+  var _ref$phone = _ref.phone,
+      composeText = _ref$phone.composeText,
+      connectivityMonitor = _ref$phone.connectivityMonitor,
+      contactSearch = _ref$phone.contactSearch,
+      locale = _ref$phone.locale,
+      messageSender = _ref$phone.messageSender,
+      rateLimiter = _ref$phone.rateLimiter,
+      rolesAndPermissions = _ref$phone.rolesAndPermissions;
 
   return {
     currentLocale: locale.currentLocale,
@@ -60,11 +45,12 @@ function mapToProps(_, _ref) {
 }
 
 function mapToFunctions(_, _ref2) {
-  var composeText = _ref2.composeText,
-      contactSearch = _ref2.contactSearch,
-      messageStore = _ref2.messageStore,
-      regionSettings = _ref2.regionSettings,
-      router = _ref2.router,
+  var _ref2$phone = _ref2.phone,
+      composeText = _ref2$phone.composeText,
+      contactSearch = _ref2$phone.contactSearch,
+      messageStore = _ref2$phone.messageStore,
+      regionSettings = _ref2$phone.regionSettings,
+      routerInteraction = _ref2$phone.routerInteraction,
       _ref2$formatContactPh = _ref2.formatContactPhone,
       formatContactPhone = _ref2$formatContactPh === undefined ? function (phoneNumber) {
     return (0, _formatNumber2.default)({
@@ -86,9 +72,9 @@ function mapToFunctions(_, _ref2) {
           if (!conversationId) {
             return null;
           }
-          router.push('/conversations/' + conversationId);
+          routerInteraction.push('/conversations/' + conversationId);
         } else {
-          router.push('/messages');
+          routerInteraction.push('/messages');
         }
         composeText.clean();
         return null;
@@ -120,14 +106,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var ComposeTextPage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ComposeTextPanel2.default);
-
-ComposeTextPage.propTypes = {
-  router: _propTypes2.default.instanceOf(_RouterInteraction2.default).isRequired,
-  composeText: _propTypes2.default.instanceOf(_ComposeText2.default).isRequired,
-  messageStore: _propTypes2.default.instanceOf(_MessageStore2.default).isRequired,
-  rolesAndPermissions: _propTypes2.default.instanceOf(_RolesAndPermissions2.default).isRequired
-};
+var ComposeTextPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ComposeTextPanel2.default));
 
 exports.default = ComposeTextPage;
 //# sourceMappingURL=index.js.map

@@ -22,12 +22,19 @@ var _ContactDetailsView = require('../../components/ContactDetailsView');
 
 var _ContactDetailsView2 = _interopRequireDefault(_ContactDetailsView);
 
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
-  var locale = _ref.locale,
-      contactDetails = _ref.contactDetails,
-      contactSearch = _ref.contactSearch;
+  var params = _ref.params,
+      _ref$phone = _ref.phone,
+      locale = _ref$phone.locale,
+      contacts = _ref$phone.contacts,
+      contactDetails = _ref$phone.contactDetails,
+      contactSearch = _ref$phone.contactSearch;
 
   return {
     currentLocale: locale.currentLocale,
@@ -39,17 +46,18 @@ function mapToProps(_, _ref) {
 function mapToFunctions(_, _ref2) {
   var _this = this;
 
-  var router = _ref2.router,
-      contactDetails = _ref2.contactDetails,
-      regionSettings = _ref2.regionSettings,
-      params = _ref2.params,
-      call = _ref2.call,
-      composeText = _ref2.composeText,
-      contactSearch = _ref2.contactSearch,
+  var params = _ref2.params,
       _ref2$dialerRoute = _ref2.dialerRoute,
       dialerRoute = _ref2$dialerRoute === undefined ? '/dialer' : _ref2$dialerRoute,
       _ref2$composeTextRout = _ref2.composeTextRoute,
-      composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout;
+      composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout,
+      _ref2$phone = _ref2.phone,
+      routerInteraction = _ref2$phone.routerInteraction,
+      contactDetails = _ref2$phone.contactDetails,
+      regionSettings = _ref2$phone.regionSettings,
+      call = _ref2$phone.call,
+      composeText = _ref2$phone.composeText,
+      contactSearch = _ref2$phone.contactSearch;
 
   return {
     getContact: function getContact() {
@@ -75,11 +83,11 @@ function mapToFunctions(_, _ref2) {
       return contactDetails.getPresence(contact);
     },
     onBackClick: function onBackClick() {
-      router.goBack();
+      routerInteraction.goBack();
     },
     onClickToDial: call ? function (phoneNumber) {
       if (call.isIdle) {
-        router.push(dialerRoute);
+        routerInteraction.push(dialerRoute);
         call.onToNumberChange(phoneNumber);
         call.onCall();
       }
@@ -91,8 +99,8 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (router) {
-                  router.push(composeTextRoute);
+                if (routerInteraction) {
+                  routerInteraction.push(composeTextRoute);
                 }
                 // if contact autocomplete, if no match fill the number only
                 if (contact.name && contact.phoneNumber && isDummyContact) {
@@ -120,7 +128,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var ContactDetailsPage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ContactDetailsView2.default);
+var ContactDetailsPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ContactDetailsView2.default));
 
 exports.default = ContactDetailsPage;
 //# sourceMappingURL=index.js.map

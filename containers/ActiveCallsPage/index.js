@@ -18,6 +18,10 @@ var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
 
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
+
 var _ActiveCallsPanel = require('../../components/ActiveCallsPanel');
 
 var _ActiveCallsPanel2 = _interopRequireDefault(_ActiveCallsPanel);
@@ -25,14 +29,15 @@ var _ActiveCallsPanel2 = _interopRequireDefault(_ActiveCallsPanel);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
-  var callMonitor = _ref.callMonitor,
-      locale = _ref.locale,
-      regionSettings = _ref.regionSettings,
-      rolesAndPermissions = _ref.rolesAndPermissions,
-      brand = _ref.brand,
+  var _ref$phone = _ref.phone,
+      brand = _ref$phone.brand,
+      callLogger = _ref$phone.callLogger,
+      callMonitor = _ref$phone.callMonitor,
+      locale = _ref$phone.locale,
+      regionSettings = _ref$phone.regionSettings,
+      rolesAndPermissions = _ref$phone.rolesAndPermissions,
       _ref$showContactDispl = _ref.showContactDisplayPlaceholder,
-      showContactDisplayPlaceholder = _ref$showContactDispl === undefined ? false : _ref$showContactDispl,
-      callLogger = _ref.callLogger;
+      showContactDisplayPlaceholder = _ref$showContactDispl === undefined ? false : _ref$showContactDispl;
 
   return {
     currentLocale: locale.currentLocale,
@@ -54,19 +59,20 @@ function mapToProps(_, _ref) {
 function mapToFunctions(_, _ref2) {
   var _this = this;
 
-  var webphone = _ref2.webphone,
-      regionSettings = _ref2.regionSettings,
+  var _ref2$phone = _ref2.phone,
+      callLogger = _ref2$phone.callLogger,
+      composeText = _ref2$phone.composeText,
+      contactMatcher = _ref2$phone.contactMatcher,
+      contactSearch = _ref2$phone.contactSearch,
+      regionSettings = _ref2$phone.regionSettings,
+      routerInteraction = _ref2$phone.routerInteraction,
+      webphone = _ref2$phone.webphone,
       _ref2$composeTextRout = _ref2.composeTextRoute,
       composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout,
       _ref2$callCtrlRoute = _ref2.callCtrlRoute,
       callCtrlRoute = _ref2$callCtrlRoute === undefined ? '/calls/active' : _ref2$callCtrlRoute,
       onCreateContact = _ref2.onCreateContact,
-      composeText = _ref2.composeText,
-      callLogger = _ref2.callLogger,
       onLogCall = _ref2.onLogCall,
-      contactMatcher = _ref2.contactMatcher,
-      router = _ref2.router,
-      contactSearch = _ref2.contactSearch,
       isLoggedContact = _ref2.isLoggedContact,
       onCallsEmpty = _ref2.onCallsEmpty;
 
@@ -109,8 +115,8 @@ function mapToFunctions(_, _ref2) {
                 return webphone.resume.apply(webphone, _args);
 
               case 4:
-                if (router.currentPath !== callCtrlRoute) {
-                  router.push(callCtrlRoute);
+                if (routerInteraction.currentPath !== callCtrlRoute) {
+                  routerInteraction.push(callCtrlRoute);
                 }
 
               case 5:
@@ -130,7 +136,7 @@ function mapToFunctions(_, _ref2) {
 
       var id = contact.id;
       var type = contact.type;
-      router.push('/contacts/' + type + '/' + id + '?direct=true');
+      routerInteraction.push('/contacts/' + type + '/' + id + '?direct=true');
     },
     onClickToSms: composeText ? function () {
       var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(contact) {
@@ -139,8 +145,8 @@ function mapToFunctions(_, _ref2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (router) {
-                  router.push(composeTextRoute);
+                if (routerInteraction) {
+                  routerInteraction.push(composeTextRoute);
                 }
                 if (contact.name && contact.phoneNumber && isDummyContact) {
                   composeText.updateTypingToNumber(contact.name);
@@ -241,7 +247,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var ActiveCallsPage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ActiveCallsPanel2.default);
+var ActiveCallsPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_ActiveCallsPanel2.default));
 
 exports.default = ActiveCallsPage;
 //# sourceMappingURL=index.js.map

@@ -66,11 +66,16 @@ var _RolesAndPermissionsAlert = require('../../components/RolesAndPermissionsAle
 
 var _RolesAndPermissionsAlert2 = _interopRequireDefault(_RolesAndPermissionsAlert);
 
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
-  var locale = _ref.locale,
-      alert = _ref.alert;
+  var _ref$phone = _ref.phone,
+      locale = _ref$phone.locale,
+      alert = _ref$phone.alert;
 
   return {
     currentLocale: locale.currentLocale,
@@ -81,15 +86,15 @@ function mapToProps(_, _ref) {
 function getDefaultRenderer(_ref2) {
   var rateLimiter = _ref2.rateLimiter,
       brand = _ref2.brand,
-      router = _ref2.router,
+      routerInteraction = _ref2.routerInteraction,
       regionSettingsUrl = _ref2.regionSettingsUrl,
       callingSettingsUrl = _ref2.callingSettingsUrl;
 
   var onRegionSettingsLinkClick = function onRegionSettingsLinkClick() {
-    router.push(regionSettingsUrl);
+    routerInteraction.push(regionSettingsUrl);
   };
   var onCallingSettingsLinkClick = function onCallingSettingsLinkClick() {
-    router.push(callingSettingsUrl);
+    routerInteraction.push(callingSettingsUrl);
   };
   return function (message) {
     if (_AuthAlert2.default.handleMessage(message)) {
@@ -156,17 +161,18 @@ function getDefaultRenderer(_ref2) {
 }
 
 function mapToFunctions(_, _ref3) {
-  var rateLimiter = _ref3.rateLimiter,
-      brand = _ref3.brand,
-      alert = _ref3.alert,
-      router = _ref3.router,
+  var _ref3$phone = _ref3.phone,
+      rateLimiter = _ref3$phone.rateLimiter,
+      brand = _ref3$phone.brand,
+      alert = _ref3$phone.alert,
+      routerInteraction = _ref3$phone.routerInteraction,
       regionSettingsUrl = _ref3.regionSettingsUrl,
       callingSettingsUrl = _ref3.callingSettingsUrl,
       _ref3$getRenderer = _ref3.getRenderer,
       getRenderer = _ref3$getRenderer === undefined ? getDefaultRenderer({
     rateLimiter: rateLimiter,
     brand: brand,
-    router: router,
+    routerInteraction: routerInteraction,
     regionSettingsUrl: regionSettingsUrl,
     callingSettingsUrl: callingSettingsUrl
   }) : _ref3$getRenderer;
@@ -179,16 +185,7 @@ function mapToFunctions(_, _ref3) {
   };
 }
 
-var AlertContainer = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_AnimationAlert2.default);
-
-AlertContainer.propTypes = {
-  alert: _propTypes2.default.instanceOf(_Alert2.default).isRequired,
-  getRenderer: _propTypes2.default.func,
-  locale: _propTypes2.default.instanceOf(_Locale2.default).isRequired
-};
-AlertContainer.defaultProps = {
-  getRenderer: undefined
-};
+var AlertContainer = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_AnimationAlert2.default));
 
 exports.default = AlertContainer;
 //# sourceMappingURL=index.js.map

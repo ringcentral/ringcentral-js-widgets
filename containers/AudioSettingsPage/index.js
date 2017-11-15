@@ -15,6 +15,10 @@ var _AudioSettingsPanel = require('../../components/AudioSettingsPanel');
 
 var _AudioSettingsPanel2 = _interopRequireDefault(_AudioSettingsPanel);
 
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function mapToProps(_, _ref) {
@@ -53,12 +57,12 @@ function mapToProps(_, _ref) {
 
 function mapToFunctions(_, _ref2) {
   var _ref2$phone = _ref2.phone,
-      router = _ref2$phone.router,
+      routerInteraction = _ref2$phone.routerInteraction,
       audioSettings = _ref2$phone.audioSettings;
 
   return {
     onBackButtonClick: function onBackButtonClick() {
-      router.goBack();
+      routerInteraction.goBack();
     },
     onSave: function onSave(data) {
       audioSettings.setData(data);
@@ -69,7 +73,7 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var AudioSettingsPage = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(_AudioSettingsPanel2.default);
+var AudioSettingsPage = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(_AudioSettingsPanel2.default));
 
 exports.mapToFunctions = mapToFunctions;
 exports.mapToProps = mapToProps;

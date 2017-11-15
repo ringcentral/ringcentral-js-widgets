@@ -46,6 +46,10 @@ var _MessageList = require('../../components/MessageList');
 
 var _MessageList2 = _interopRequireDefault(_MessageList);
 
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
+
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
@@ -95,17 +99,18 @@ MessagesPanel.defaultProps = {
 };
 
 function mapToProps(_, _ref2) {
-  var brand = _ref2.brand,
-      locale = _ref2.locale,
-      messages = _ref2.messages,
-      contactMatcher = _ref2.contactMatcher,
-      dateTimeFormat = _ref2.dateTimeFormat,
-      regionSettings = _ref2.regionSettings,
-      rolesAndPermissions = _ref2.rolesAndPermissions,
-      call = _ref2.call,
-      conversationLogger = _ref2.conversationLogger,
-      connectivityMonitor = _ref2.connectivityMonitor,
-      rateLimiter = _ref2.rateLimiter,
+  var _ref2$phone = _ref2.phone,
+      brand = _ref2$phone.brand,
+      locale = _ref2$phone.locale,
+      messages = _ref2$phone.messages,
+      contactMatcher = _ref2$phone.contactMatcher,
+      dateTimeFormat = _ref2$phone.dateTimeFormat,
+      regionSettings = _ref2$phone.regionSettings,
+      rolesAndPermissions = _ref2$phone.rolesAndPermissions,
+      call = _ref2$phone.call,
+      conversationLogger = _ref2$phone.conversationLogger,
+      connectivityMonitor = _ref2$phone.connectivityMonitor,
+      rateLimiter = _ref2$phone.rateLimiter,
       _ref2$showTitle = _ref2.showTitle,
       showTitle = _ref2$showTitle === undefined ? false : _ref2$showTitle,
       _ref2$enableContactFa = _ref2.enableContactFallback,
@@ -133,16 +138,17 @@ function mapToProps(_, _ref2) {
 function mapToFunctions(_, _ref3) {
   var _this = this;
 
-  var dateTimeFormat = _ref3.dateTimeFormat,
+  var _ref3$phone = _ref3.phone,
+      dateTimeFormat = _ref3$phone.dateTimeFormat,
+      messages = _ref3$phone.messages,
+      conversationLogger = _ref3$phone.conversationLogger,
+      contactMatcher = _ref3$phone.contactMatcher,
+      call = _ref3$phone.call,
+      routerInteraction = _ref3$phone.routerInteraction,
       _ref3$dateTimeFormatt = _ref3.dateTimeFormatter,
       dateTimeFormatter = _ref3$dateTimeFormatt === undefined ? function () {
     return dateTimeFormat.formatDateTime.apply(dateTimeFormat, arguments);
   } : _ref3$dateTimeFormatt,
-      messages = _ref3.messages,
-      conversationLogger = _ref3.conversationLogger,
-      contactMatcher = _ref3.contactMatcher,
-      call = _ref3.call,
-      router = _ref3.router,
       _ref3$dialerRoute = _ref3.dialerRoute,
       dialerRoute = _ref3$dialerRoute === undefined ? '/dialer' : _ref3$dialerRoute,
       onCreateContact = _ref3.onCreateContact,
@@ -158,7 +164,7 @@ function mapToFunctions(_, _ref3) {
 
       var id = contact.id;
       var type = contact.type;
-      router.push('/contacts/' + type + '/' + id + '?direct=true');
+      routerInteraction.push('/contacts/' + type + '/' + id + '?direct=true');
     },
     onCreateContact: onCreateContact ? function () {
       var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(_ref6) {
@@ -205,7 +211,7 @@ function mapToFunctions(_, _ref3) {
     }() : undefined,
     onClickToDial: call ? function (phoneNumber) {
       if (call.isIdle) {
-        router.push(dialerRoute);
+        routerInteraction.push(dialerRoute);
         call.onToNumberChange(phoneNumber);
         call.onCall();
       }
@@ -241,9 +247,9 @@ function mapToFunctions(_, _ref3) {
       messages.updateSearchInput(e.currentTarget.value);
     },
     showConversationDetail: function showConversationDetail(conversationId) {
-      router.push(conversationDetailRoute.replace('{conversationId}', conversationId));
+      routerInteraction.push(conversationDetailRoute.replace('{conversationId}', conversationId));
     }
   };
 }
-exports.default = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(MessagesPanel);
+exports.default = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(MessagesPanel));
 //# sourceMappingURL=index.js.map

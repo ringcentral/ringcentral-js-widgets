@@ -38,33 +38,17 @@ var _formatNumber = require('ringcentral-integration/lib/formatNumber');
 
 var _formatNumber2 = _interopRequireDefault(_formatNumber);
 
-var _Webphone = require('ringcentral-integration/modules/Webphone');
-
-var _Webphone2 = _interopRequireDefault(_Webphone);
-
-var _Brand = require('ringcentral-integration/modules/Brand');
-
-var _Brand2 = _interopRequireDefault(_Brand);
-
-var _Locale = require('ringcentral-integration/modules/Locale');
-
-var _Locale2 = _interopRequireDefault(_Locale);
-
-var _RegionSettings = require('ringcentral-integration/modules/RegionSettings');
-
-var _RegionSettings2 = _interopRequireDefault(_RegionSettings);
-
 var _callDirections = require('ringcentral-integration/enums/callDirections');
 
 var _callDirections2 = _interopRequireDefault(_callDirections);
 
-var _ForwardingNumber = require('ringcentral-integration/modules/ForwardingNumber');
-
-var _ForwardingNumber2 = _interopRequireDefault(_ForwardingNumber);
-
 var _CallCtrlPanel = require('../../components/CallCtrlPanel');
 
 var _CallCtrlPanel2 = _interopRequireDefault(_CallCtrlPanel);
+
+var _withPhone = require('../../lib/withPhone');
+
+var _withPhone2 = _interopRequireDefault(_withPhone);
 
 var _i18n = require('./i18n');
 
@@ -303,13 +287,14 @@ CallCtrlPage.defaultProps = {
 };
 
 function mapToProps(_, _ref) {
-  var webphone = _ref.webphone,
-      locale = _ref.locale,
-      contactMatcher = _ref.contactMatcher,
-      regionSettings = _ref.regionSettings,
-      brand = _ref.brand,
-      forwardingNumber = _ref.forwardingNumber,
-      callMonitor = _ref.callMonitor;
+  var _ref$phone = _ref.phone,
+      webphone = _ref$phone.webphone,
+      locale = _ref$phone.locale,
+      contactMatcher = _ref$phone.contactMatcher,
+      regionSettings = _ref$phone.regionSettings,
+      brand = _ref$phone.brand,
+      forwardingNumber = _ref$phone.forwardingNumber,
+      callMonitor = _ref$phone.callMonitor;
 
   var currentSession = webphone.activeSession || {};
   var contactMapping = contactMatcher && contactMatcher.dataMapping;
@@ -329,8 +314,9 @@ function mapToProps(_, _ref) {
 }
 
 function mapToFunctions(_, _ref2) {
-  var webphone = _ref2.webphone,
-      regionSettings = _ref2.regionSettings,
+  var _ref2$phone = _ref2.phone,
+      webphone = _ref2$phone.webphone,
+      regionSettings = _ref2$phone.regionSettings,
       getAvatarUrl = _ref2.getAvatarUrl,
       onBackButtonClick = _ref2.onBackButtonClick,
       onAdd = _ref2.onAdd;
@@ -385,14 +371,9 @@ function mapToFunctions(_, _ref2) {
   };
 }
 
-var CallCtrlContainer = (0, _reactRedux.connect)(mapToProps, mapToFunctions)(CallCtrlPage);
+var CallCtrlContainer = (0, _withPhone2.default)((0, _reactRedux.connect)(mapToProps, mapToFunctions)(CallCtrlPage));
 
 CallCtrlContainer.propTypes = {
-  webphone: _propTypes2.default.instanceOf(_Webphone2.default).isRequired,
-  locale: _propTypes2.default.instanceOf(_Locale2.default).isRequired,
-  brand: _propTypes2.default.instanceOf(_Brand2.default).isRequired,
-  regionSettings: _propTypes2.default.instanceOf(_RegionSettings2.default).isRequired,
-  forwardingNumber: _propTypes2.default.instanceOf(_ForwardingNumber2.default).isRequired,
   getAvatarUrl: _propTypes2.default.func,
   onBackButtonClick: _propTypes2.default.func.isRequired,
   onAdd: _propTypes2.default.func.isRequired,
