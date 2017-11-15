@@ -31,7 +31,7 @@ function PresenceStatusIcon(_ref) {
   return _react2.default.createElement(
     'div',
     {
-      className: (0, _classnames2.default)(_styles2.default.presence, _styles2.default[userStatus || presenceStatus], _styles2.default[dndStatus], className)
+      className: (0, _classnames2.default)(_styles2.default.presence, _styles2.default[presenceStatus || userStatus], _styles2.default[dndStatus], className)
     },
     _react2.default.createElement('div', { className: _styles2.default.presenceBar })
   );

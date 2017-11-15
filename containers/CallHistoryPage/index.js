@@ -85,11 +85,12 @@ function mapToFunctions(_, _ref2) {
       _ref2$dialerRoute = _ref2.dialerRoute,
       dialerRoute = _ref2$dialerRoute === undefined ? '/dialer' : _ref2$dialerRoute,
       _ref2$composeTextRout = _ref2.composeTextRoute,
-      composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout;
+      composeTextRoute = _ref2$composeTextRout === undefined ? '/composeText' : _ref2$composeTextRout,
+      onViewContact = _ref2.onViewContact;
 
   return {
     dateTimeFormatter: dateTimeFormatter,
-    onViewContact: function onViewContact(_ref4) {
+    onViewContact: onViewContact || function (_ref4) {
       var contact = _ref4.contact;
 
       var id = contact.id;

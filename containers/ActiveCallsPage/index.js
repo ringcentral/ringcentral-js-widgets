@@ -74,7 +74,8 @@ function mapToFunctions(_, _ref2) {
       onCreateContact = _ref2.onCreateContact,
       onLogCall = _ref2.onLogCall,
       isLoggedContact = _ref2.isLoggedContact,
-      onCallsEmpty = _ref2.onCallsEmpty;
+      onCallsEmpty = _ref2.onCallsEmpty,
+      onViewContact = _ref2.onViewContact;
 
   return {
     formatPhone: function formatPhone(phoneNumber) {
@@ -131,7 +132,7 @@ function mapToFunctions(_, _ref2) {
         return _ref3.apply(this, arguments);
       };
     }(),
-    onViewContact: function onViewContact(_ref4) {
+    onViewContact: onViewContact || function (_ref4) {
       var contact = _ref4.contact;
 
       var id = contact.id;

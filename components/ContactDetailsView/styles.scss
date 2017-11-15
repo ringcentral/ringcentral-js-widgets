@@ -11,7 +11,7 @@
 
 .content {
   @include full-size;
-  height: calc(100% - #{$header-height});
+  height: calc(100% - 65px);
   overflow-y: auto;
   padding-top: 0;
   padding-bottom: 30px;

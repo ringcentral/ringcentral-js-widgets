@@ -5,10 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.contactItemPropTypes = exports.default = undefined;
 
-var _defineProperty2 = require('babel-runtime/helpers/defineProperty');
-
-var _defineProperty3 = _interopRequireDefault(_defineProperty2);
-
 var _extends2 = require('babel-runtime/helpers/extends');
 
 var _extends3 = _interopRequireDefault(_extends2);
@@ -32,8 +28,6 @@ var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorRet
 var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _ContactDetails$defau;
 
 exports.getPresenceStatusName = getPresenceStatusName;
 
@@ -79,11 +73,15 @@ var _styles2 = _interopRequireDefault(_styles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function getPresenceStatusName(currentUserStatus, currentDndStatus, currentLocale) {
-  if (currentUserStatus !== _presenceStatus2.default.busy) {
-    return _i18n2.default.getString(currentUserStatus, currentLocale);
+function getPresenceStatusName(presence, currentLocale) {
+  var dndStatus = presence.dndStatus,
+      presenceStatus = presence.presenceStatus;
+
+  var userStatus = presenceStatus || presence.userStatus;
+  if (userStatus !== _presenceStatus2.default.busy) {
+    return _i18n2.default.getString(userStatus, currentLocale);
   }
-  return _i18n2.default.getString(currentUserStatus + currentDndStatus, currentLocale);
+  return _i18n2.default.getString(userStatus + dndStatus, currentLocale);
 }
 
 function AvatarNode(_ref) {
@@ -147,7 +145,7 @@ var ContactDetails = function (_PureComponent) {
           type = contactItem.type;
 
       var sourceNode = sourceNodeRenderer({ sourceType: type });
-      var presenceName = presence ? getPresenceStatusName(presence.userStatus, presence.dndStatus, currentLocale) : null;
+      var presenceName = presence ? getPresenceStatusName(presence, currentLocale) : null;
       return _react2.default.createElement(
         'div',
         { className: _styles2.default.contactProfile },
@@ -432,11 +430,12 @@ ContactDetails.propTypes = {
   formatNumber: _propTypes2.default.func.isRequired
 };
 
-ContactDetails.defaultProps = (_ContactDetails$defau = {
+ContactDetails.defaultProps = {
   onClickToSMS: undefined,
   onClickToDial: undefined,
-  onClickMailTo: undefined
-}, (0, _defineProperty3.default)(_ContactDetails$defau, 'onClickMailTo', undefined), (0, _defineProperty3.default)(_ContactDetails$defau, 'sourceNodeRenderer', function sourceNodeRenderer() {
-  return null;
-}), _ContactDetails$defau);
+  onClickMailTo: undefined,
+  sourceNodeRenderer: function sourceNodeRenderer() {
+    return null;
+  }
+};
 //# sourceMappingURL=index.js.map

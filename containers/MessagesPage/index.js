@@ -154,12 +154,13 @@ function mapToFunctions(_, _ref3) {
       onCreateContact = _ref3.onCreateContact,
       onLogConversation = _ref3.onLogConversation,
       isLoggedContact = _ref3.isLoggedContact,
+      onViewContact = _ref3.onViewContact,
       _ref3$conversationDet = _ref3.conversationDetailRoute,
       conversationDetailRoute = _ref3$conversationDet === undefined ? '/conversations/{conversationId}' : _ref3$conversationDet;
 
   return {
     dateTimeFormatter: dateTimeFormatter,
-    onViewContact: function onViewContact(_ref4) {
+    onViewContact: onViewContact || function (_ref4) {
       var contact = _ref4.contact;
 
       var id = contact.id;
