@@ -71,7 +71,6 @@ function mapToFunctions(_, {
   isLoggedContact,
   dialerRoute = '/dialer',
   composeTextRoute = '/composeText',
-  contactSearch,
   onViewContact,
 }) {
   return {
