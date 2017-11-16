@@ -10,7 +10,6 @@ var _extends3 = _interopRequireDefault(_extends2);
 
 exports.getContactSearchStatusReducer = getContactSearchStatusReducer;
 exports.getSearchingReducer = getSearchingReducer;
-exports.getSearchCriteriaReducer = getSearchCriteriaReducer;
 exports.default = getContactSearchReducer;
 
 var _redux = require('redux');
@@ -22,8 +21,6 @@ var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
 var _contactSearchStatus = require('./contactSearchStatus');
 
 var _contactSearchStatus2 = _interopRequireDefault(_contactSearchStatus);
-
-var _index = require('./index');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -86,46 +83,13 @@ function getSearchingReducer(types) {
   };
 }
 
-function getSearchCriteriaReducer(types) {
-  var initialState = {
-    sourceName: _index.AllContactSourceName,
-    searchString: '',
-    pageNumber: 1
-  };
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-    var _ref3 = arguments[1];
-    var type = _ref3.type,
-        sourceName = _ref3.sourceName,
-        searchString = _ref3.searchString,
-        pageNumber = _ref3.pageNumber;
-
-    switch (type) {
-      case types.updateSearchCriteria:
-        if (state.sourceName !== sourceName || state.searchString !== searchString || state.pageNumber !== pageNumber) {
-          return {
-            sourceName: sourceName,
-            searchString: searchString,
-            pageNumber: pageNumber
-          };
-        }
-        return state;
-      case types.restSearchCriteria:
-        return initialState;
-      default:
-        return state;
-    }
-  };
-}
-
 function getContactSearchReducer(types) {
   var reducers = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
   return (0, _redux.combineReducers)((0, _extends3.default)({}, reducers, {
     status: (0, _getModuleStatusReducer2.default)(types),
     searchStatus: getContactSearchStatusReducer(types),
-    searching: getSearchingReducer(types),
-    searchCriteria: getSearchCriteriaReducer(types)
+    searching: getSearchingReducer(types)
   }));
 }
 //# sourceMappingURL=getContactSearchReducer.js.map
