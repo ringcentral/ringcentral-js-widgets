@@ -126,7 +126,9 @@ var NavigationBar = function (_Component) {
             onClick: function onClick() {
               _this3.goTo(tab);
             },
-            active: tab.isActive && tab.isActive(currentPath, currentVirtualPath) || tab.path && tab.path === currentPath || tab.virtualPath && tab.virtualPath === currentVirtualPath,
+            active: tab.isActive && tab.isActive(currentPath, currentVirtualPath) || tab.path && tab.path === currentPath || tab.virtualPath && tab.virtualPath === currentVirtualPath || tab.childTabs && tab.childTabs.some(function (childTab) {
+              return childTab.path === currentPath;
+            }),
             width: tabWidth,
             icon: icon,
             activeIcon: activeIcon
