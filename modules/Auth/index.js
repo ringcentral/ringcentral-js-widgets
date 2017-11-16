@@ -245,7 +245,7 @@ var Auth = (_dec = (0, _di.Module)({
                   _context.next = 8;
                   return _this.login({
                     code: code,
-                    redirectUri: _url2.default.resolve(location.href, _this.redirectUri)
+                    redirectUri: _this.redirectUri
                   });
 
                 case 8:
@@ -862,7 +862,7 @@ var Auth = (_dec = (0, _di.Module)({
         });
         this._proxyFrame.contentWindow.postMessage({
           oAuthUri: this.getLoginUrl({
-            redirectUri: _url2.default.resolve(location.href, this.redirectUri),
+            redirectUri: this.redirectUri,
             brandId: this._brand.id,
             state: btoa(Date.now()),
             display: 'page'
@@ -873,7 +873,7 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: 'redirectUri',
     get: function get() {
-      return this._redirectUri;
+      return _url2.default.resolve(location.href, this._redirectUri);
     }
   }, {
     key: 'proxyUri',
