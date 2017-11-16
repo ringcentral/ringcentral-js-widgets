@@ -389,67 +389,35 @@ export default class Phone extends RcModule {
     }));
     reducers.contactSearch = this.contactSearch.reducer;
     this.contactSearch.addSearchSource({
-      sourceName: 'companyContacts',
+      sourceName: 'contacts',
       searchFn: ({ searchString }) => {
-        const items = this.contacts.companyContacts;
+        const items = this.contacts.allContacts;
         if (!searchString) {
           return items;
         }
         const searchText = searchString.toLowerCase();
-        return items.filter((item) => {
-          const name = `${item.firstName} ${item.lastName}`;
-          if (
-            name.toLowerCase().indexOf(searchText) >= 0 ||
-            item.extensionNumber.indexOf(searchText) >= 0 ||
-            item.phoneNumbers.find(x => x.phoneNumber.indexOf(searchText) >= 0)
-          ) {
-            return true;
-          }
-          return false;
+        const result = [];
+        items.forEach((item) => {
+          const name = item.name || `${item.firstName} ${item.lastName}`;
+          item.phoneNumbers.forEach((p) => {
+            if (
+              name.toLowerCase().indexOf(searchText) >= 0 ||
+              p.phoneNumber.indexOf(searchText) >= 0
+            ) {
+              result.push({
+                id: `${item.id}${p.phoneNumber}`,
+                name,
+                type: item.type,
+                phoneNumber: p.phoneNumber,
+                phoneType: p.phoneType.replace('Phone', ''),
+                entityType: 'contact',
+              });
+            }
+          });
         });
+        return result;
       },
-      formatFn: entities => entities.map(entity => ({
-        id: entity.id.toString(),
-        type: entity.type,
-        name: `${entity.firstName} ${entity.lastName}`,
-        hasProfileImage: !!entity.hasProfileImage,
-        showPhoneNumber: true,
-        phoneNumbers: entity.phoneNumbers,
-        phoneNumber: entity.extensionNumber,
-        phoneType: 'extension',
-        entityType: 'companyContact',
-      })),
-      readyCheckFn: () => this.contacts.ready,
-    });
-    this.contactSearch.addSearchSource({
-      sourceName: 'personalContacts',
-      searchFn: ({ searchString }) => {
-        const items = this.contacts.personalContacts;
-        if (!searchString) {
-          return items;
-        }
-        const searchText = searchString.toLowerCase();
-        return items.filter((item) => {
-          const name = `${item.firstName} ${item.lastName}`;
-          if (
-            name.toLowerCase().indexOf(searchText) >= 0 ||
-            item.phoneNumbers.find(x => x.phoneNumber.indexOf(searchText) >= 0)
-          ) {
-            return true;
-          }
-          return false;
-        });
-      },
-      formatFn: entities => entities.map(entity => ({
-        id: entity.id.toString(),
-        type: entity.type,
-        name: `${entity.firstName} ${entity.lastName}`,
-        hasProfileImage: false,
-        phoneNumbers: entity.phoneNumbers,
-        phoneNumber: entity.phoneNumbers[0] && entity.phoneNumbers[0].phoneNumber,
-        phoneType: entity.phoneNumbers[0] && entity.phoneNumbers[0].phoneType,
-        entityType: 'personalContact',
-      })),
+      formatFn: entities => entities,
       readyCheckFn: () => this.contacts.ready,
     });
     this.addModule('messageSender', new MessageSender({
