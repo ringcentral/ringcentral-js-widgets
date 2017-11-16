@@ -558,7 +558,6 @@ var Webphone = (_dec = (0, _di.Module)({
       this._webphone.userAgent.once('registrationFailed', onRegistrationFailed);
       this._webphone.userAgent.on('invite', function (session) {
         console.debug('UA invite');
-        (0, _webphoneHelper.sendReceiveConfirm)(session);
         _this3._onInvite(session);
       });
     }
