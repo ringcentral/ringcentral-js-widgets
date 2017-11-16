@@ -156,14 +156,22 @@ var ContactDropdownList = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var props = this.props;
-      var items = props.items;
+      var _props = this.props,
+          className = _props.className,
+          items = _props.items,
+          selectedIndex = _props.selectedIndex,
+          formatContactPhone = _props.formatContactPhone,
+          setSelectedIndex = _props.setSelectedIndex,
+          addToRecipients = _props.addToRecipients,
+          titleEnabled = _props.titleEnabled,
+          visibility = _props.visibility;
+
       var listClassName = null;
       var hiddenClassName = null;
-      if (items.length === 0) {
+      if (!visibility || items.length === 0) {
         hiddenClassName = _styles2.default.hidden;
       }
-      listClassName = (0, _classnames2.default)(_styles2.default.dropdownList, props.className, hiddenClassName);
+      listClassName = (0, _classnames2.default)(_styles2.default.dropdownList, className, hiddenClassName);
 
       return _react2.default.createElement(
         'ul',
@@ -172,23 +180,23 @@ var ContactDropdownList = function (_Component) {
           } },
         items.map(function (item, index) {
           return _react2.default.createElement(ContactItem, {
-            active: props.selectedIndex === index,
+            active: selectedIndex === index,
             name: item.name,
             entityType: item.entityType,
             phoneType: item.phoneType,
             phoneNumber: item.phoneNumber,
-            formatContactPhone: props.formatContactPhone,
+            formatContactPhone: formatContactPhone,
             onHover: function onHover() {
-              return props.setSelectedIndex(index);
+              return setSelectedIndex(index);
             },
             onClick: function onClick() {
-              return props.addToRecipients({
+              return addToRecipients({
                 name: item.name,
                 phoneNumber: item.phoneNumber
               });
             },
             key: '' + index + item.phoneNumber + item.name + item.phoneType,
-            titleEnabled: props.titleEnabled
+            titleEnabled: titleEnabled
           });
         })
       );
