@@ -337,6 +337,13 @@ var Auth = (_dec = (0, _di.Module)({
       if (this._unbindEvents) this._unbindEvents();
 
       var platform = this._client.service.platform();
+      var client = this._client.service._client;
+      var onRequestError = function onRequestError(apiResponse) {
+        if (apiResponse instanceof Error && apiResponse.message === 'Roken revoked') {
+          _this3.logout();
+        }
+      };
+
       var onLoginSuccess = function onLoginSuccess() {
         _this3.store.dispatch({
           type: _this3.actionTypes.loginSuccess,
@@ -403,6 +410,7 @@ var Auth = (_dec = (0, _di.Module)({
       platform.addListener(platform.events.logoutError, onLogoutError);
       platform.addListener(platform.events.refreshSuccess, onRefreshSuccess);
       platform.addListener(platform.events.refreshError, onRefreshError);
+      client.addListener(client.events.requestError, onRequestError);
       this._unbindEvents = function () {
         platform.removeListener(platform.events.loginSuccess, onLoginSuccess);
         platform.removeListener(platform.events.loginError, onLoginError);
@@ -410,6 +418,7 @@ var Auth = (_dec = (0, _di.Module)({
         platform.removeListener(platform.events.logoutError, onLogoutError);
         platform.removeListener(platform.events.refreshSuccess, onRefreshSuccess);
         platform.removeListener(platform.events.refreshError, onRefreshError);
+        client.removeListener(client.events.requestError, onRequestError);
       };
     }
   }, {
