@@ -81,33 +81,41 @@ class ContactDropdownList extends Component {
     }
   }
   render() {
-    const props = this.props;
-    const items = props.items;
+    const {
+      className,
+      items,
+      selectedIndex,
+      formatContactPhone,
+      setSelectedIndex,
+      addToRecipients,
+      titleEnabled,
+      visibility,
+    } = this.props;
     let listClassName = null;
     let hiddenClassName = null;
-    if (items.length === 0) {
+    if (!visibility || items.length === 0) {
       hiddenClassName = styles.hidden;
     }
-    listClassName = classnames(styles.dropdownList, props.className, hiddenClassName);
+    listClassName = classnames(styles.dropdownList, className, hiddenClassName);
 
     return (
       <ul className={listClassName} ref={(c) => { this.node = c; }}>
         {
           items.map((item, index) => (
             <ContactItem
-              active={props.selectedIndex === index}
+              active={selectedIndex === index}
               name={item.name}
               entityType={item.entityType}
               phoneType={item.phoneType}
               phoneNumber={item.phoneNumber}
-              formatContactPhone={props.formatContactPhone}
-              onHover={() => props.setSelectedIndex(index)}
-              onClick={() => props.addToRecipients({
+              formatContactPhone={formatContactPhone}
+              onHover={() => setSelectedIndex(index)}
+              onClick={() => addToRecipients({
                 name: item.name,
                 phoneNumber: item.phoneNumber,
               })}
               key={`${index}${item.phoneNumber}${item.name}${item.phoneType}`}
-              titleEnabled={props.titleEnabled}
+              titleEnabled={titleEnabled}
             />
           ))
         }

@@ -1,14 +1,6 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/text-ellipsis';
 
-.hidden {
-  display: none;
-}
-
-.hidden:hover {
-  display: block;
-}
-
 .dropdownList {
   position: absolute;
   top: 100%;
@@ -48,6 +40,15 @@
       color: $primary-color;
     }
   }
+}
+
+.hidden {
+  display: none;
+  border: none;
+}
+
+.hidden:hover {
+  display: block;
 }
 
 .contactItem {
