@@ -62,8 +62,8 @@ function getTabs({
           isMessagesLoaded={recentMessages.isMessagesLoaded}
         />
       ),
-      getData: (fromLocal) => {
-        recentMessages.getMessages({ currentContact, fromLocal, sessionId });
+      getData: () => {
+        recentMessages.getMessages({ currentContact, sessionId });
       },
       cleanUp: () => recentMessages.cleanUpMessages({ contact: currentContact, sessionId })
     },
