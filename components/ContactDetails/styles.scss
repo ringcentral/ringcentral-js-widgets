@@ -57,6 +57,7 @@
     @include secondary-font;
     @include text-ellipsis;
     color: $night;
+    user-select: text;
   }
   .menu {
     float: right;
@@ -109,6 +110,7 @@ $rowHeight: 50px;
   @include primary-font;
   @include text-ellipsis;
   font-size: 15px;
+  user-select: text;
 }
 
 .nameWithoutPresence {
@@ -207,6 +209,7 @@ $rowHeight: 50px;
       width: 100%;
       vertical-align: middle;
       display: inline-block;
+      user-select: text;
       @include secondary-font;
       @include text-ellipsis;
     }

@@ -350,9 +350,13 @@ var ContactDetails = function (_PureComponent) {
           { key: index },
           _react2.default.createElement(
             'a',
-            { className: hasMailToHandler ? _styles2.default.underline : null, onClick: function onClick() {
+            {
+              title: email,
+              className: hasMailToHandler ? _styles2.default.underline : null,
+              onClick: function onClick() {
                 return _this4.onClickMailTo(email, type);
-              } },
+              }
+            },
             email
           )
         );

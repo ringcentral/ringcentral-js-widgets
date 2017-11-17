@@ -100,8 +100,8 @@ function getTabs(_ref) {
       currentLocale: currentLocale,
       isMessagesLoaded: recentMessages.isMessagesLoaded
     }),
-    getData: function getData(fromLocal) {
-      recentMessages.getMessages({ currentContact: currentContact, fromLocal: fromLocal, sessionId: sessionId });
+    getData: function getData() {
+      recentMessages.getMessages({ currentContact: currentContact, sessionId: sessionId });
     },
     cleanUp: function cleanUp() {
       return recentMessages.cleanUpMessages({ contact: currentContact, sessionId: sessionId });

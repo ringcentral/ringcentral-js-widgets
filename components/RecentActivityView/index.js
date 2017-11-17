@@ -86,6 +86,19 @@ var RecentActivityView = function (_PureComponent) {
   (0, _createClass3.default)(RecentActivityView, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
+      // Switch to default tab and load all data
+      this.onTabChanged();
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps.currentContact.id !== this.props.currentContact.id) {
+        this.onTabChanged(this.state.currentTab);
+      }
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
       var _iteratorNormalCompletion = true;
       var _didIteratorError = false;
       var _iteratorError = undefined;
@@ -94,12 +107,8 @@ var RecentActivityView = function (_PureComponent) {
         for (var _iterator = (0, _getIterator3.default)(this.props.tabs), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var tab = _step.value;
 
-          // Preload data on unactivated tabs
-          if (tab.path !== this.props.defaultTab) {
-            tab.getData(true);
-          }
+          tab.cleanUp();
         }
-        // Switch to default tab and load all data
       } catch (err) {
         _didIteratorError = true;
         _iteratorError = err;
@@ -111,43 +120,6 @@ var RecentActivityView = function (_PureComponent) {
         } finally {
           if (_didIteratorError) {
             throw _iteratorError;
-          }
-        }
-      }
-
-      this.onTabChanged();
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate(prevProps) {
-      if (prevProps.currentContact !== this.props.currentContact) {
-        this.onTabChanged(this.state.currentTab);
-      }
-    }
-  }, {
-    key: 'componentWillUnmount',
-    value: function componentWillUnmount() {
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
-
-      try {
-        for (var _iterator2 = (0, _getIterator3.default)(this.props.tabs), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-          var tab = _step2.value;
-
-          tab.cleanUp();
-        }
-      } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
-      } finally {
-        try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-            _iterator2.return();
-          }
-        } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
           }
         }
       }
