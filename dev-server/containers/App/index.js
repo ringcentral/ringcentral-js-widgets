@@ -202,9 +202,6 @@ export default function App({
                         contactSourceFilterRenderer={props => (
                           <ContactSourceFilter {...props} />
                         )}
-                        onVisitPage={async () => {
-                          await phone.contacts.sync();
-                        }}
                       >
                         {props.children}
                       </ContactsPage>
