@@ -31,6 +31,8 @@ function getSearchFilterReducer(types) {
           return searchFilter;
         }
         return state;
+      case types.resetSuccess:
+        return '';
       default:
         return state;
     }
@@ -50,6 +52,8 @@ function getSourceFilterReducer(types) {
           return sourceFilter;
         }
         return state;
+      case types.resetSuccess:
+        return _contactHelper.AllContactSourceName;
       default:
         return state;
     }
@@ -69,6 +73,8 @@ function getPageNumberReducer(types) {
           return pageNumber;
         }
         return state;
+      case types.resetSuccess:
+        return 1;
       default:
         return state;
     }

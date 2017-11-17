@@ -362,15 +362,26 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
       return [addressBook, accountContacts];
     },
     deps: ['AccountContacts', 'AddressBook']
+  }, { provide: 'EnvironmentOptions',
+    useFactory: function useFactory(_ref6) {
+      var clientOptions = _ref6.clientOptions,
+          config = _ref6.config;
+      return {
+        sdkConfig: (0, _extends3.default)({
+          clearCacheOnRefreshError: false
+        }, config, clientOptions)
+      };
+    },
+    deps: [{ dep: 'Config' }, { dep: 'ClientOptions', optional: true }]
   }]
 }), _dec(_class = function (_RcModule) {
   (0, _inherits3.default)(RcPhone, _RcModule);
 
-  function RcPhone(_ref6) {
+  function RcPhone(_ref7) {
     var _this2 = this;
 
-    var moduleOptions = _ref6.moduleOptions,
-        modules = (0, _objectWithoutProperties3.default)(_ref6, ['moduleOptions']);
+    var moduleOptions = _ref7.moduleOptions,
+        modules = (0, _objectWithoutProperties3.default)(_ref7, ['moduleOptions']);
     (0, _classCallCheck3.default)(this, RcPhone);
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (RcPhone.__proto__ || (0, _getPrototypeOf2.default)(RcPhone)).call(this, (0, _extends3.default)({ prefix: moduleOptions.prefix }, modules)));
@@ -415,8 +426,8 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
     contactMatcher.addSearchProvider({
       name: 'contacts',
       searchFn: function () {
-        var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref8) {
-          var queries = _ref8.queries;
+        var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(_ref9) {
+          var queries = _ref9.queries;
           return _regenerator2.default.wrap(function _callee4$(_context4) {
             while (1) {
               switch (_context4.prev = _context4.next) {
@@ -432,7 +443,7 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
         }));
 
         return function searchFn(_x) {
-          return _ref7.apply(this, arguments);
+          return _ref8.apply(this, arguments);
         };
       }(),
       readyCheckFn: function readyCheckFn() {
@@ -443,8 +454,8 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
     // ContactSearch configuration
     contactSearch.addSearchSource({
       sourceName: 'companyContacts',
-      searchFn: function searchFn(_ref9) {
-        var searchString = _ref9.searchString;
+      searchFn: function searchFn(_ref10) {
+        var searchString = _ref10.searchString;
 
         var items = contacts.companyContacts;
         if (!searchString) {
@@ -481,8 +492,8 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
     });
     contactSearch.addSearchSource({
       sourceName: 'personalContacts',
-      searchFn: function searchFn(_ref10) {
-        var searchString = _ref10.searchString;
+      searchFn: function searchFn(_ref11) {
+        var searchString = _ref11.searchString;
 
         var items = contacts.personalContacts;
         if (!searchString) {
