@@ -195,20 +195,38 @@ export default function App({
                 )} />
               <Route
                 path="/contacts"
-                component={() => (
-                  <ContactsPage
-                    contactSourceFilterRenderer={props => (
-                      <ContactSourceFilter {...props} />
-                    )}
-                  />
-                )} />
-              <Route
-                path="/contacts/:contactType/:contactId"
-                component={props => (
-                  <ContactDetailsPage
-                    params={props.params}
-                  />
-                )} />
+                component={props =>
+                  !props.location.query.direct
+                    ? (
+                      <ContactsPage
+                        contactSourceFilterRenderer={props => (
+                          <ContactSourceFilter {...props} />
+                        )}
+                        onVisitPage={async () => {
+                          await phone.contacts.sync();
+                        }}
+                      >
+                        {props.children}
+                      </ContactsPage>
+                    ) : props.children
+                }>
+                <Route
+                  path=":contactType/:contactId"
+                  component={props => (
+                    <ContactDetailsPage
+                      params={props.params}
+                    >
+                      <RecentActivityContainer
+                        navigateTo={(path) => {
+                          phone.routerInteraction.push(path);
+                        }}
+                        contact={phone.contactDetails.contact}
+                        useContact
+                      />
+                    </ContactDetailsPage>
+                )}
+              />
+              </Route>
               <Route
                 path="/meeting"
               />
