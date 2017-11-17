@@ -1,56 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import { connect } from 'react-redux';
-import Header from '../../components/Header';
-import SpinnerOverlay from '../../components/SpinnerOverlay';
-import MessageList from '../../components/MessageList';
 import withPhone from '../../lib/withPhone';
-import styles from './styles.scss';
-import i18n from './i18n';
+import MessagesPanel from '../../components/MessagesPanel';
 
-function MessagesPanel({
-  currentLocale,
-  showSpinner,
-  showTitle,
-  ...props,
-}) {
-  const header = showTitle ?
-    (<Header>{i18n.getString('title', currentLocale)}</Header>) :
-    null;
-  const content = showSpinner ?
-    <SpinnerOverlay /> :
-    (
-      <MessageList
-        className={classnames(
-          styles.content,
-          showTitle && styles.contentWithHeader
-        )}
-        {...props}
-        currentLocale={currentLocale}
-      />
-    );
-  return (
-    <div className={styles.root}>
-      {header}
-      {content}
-    </div>
-  );
-}
-
-MessagesPanel.propTypes = {
-  currentLocale: PropTypes.string.isRequired,
-  showSpinner: PropTypes.bool,
-  showTitle: PropTypes.bool,
-  showContactDisplayPlaceholder: PropTypes.bool,
-  sourceIcons: PropTypes.object,
-};
-MessagesPanel.defaultProps = {
-  showSpinner: false,
-  showTitle: false,
-  showContactDisplayPlaceholder: true,
-  sourceIcons: undefined,
-};
 
 function mapToProps(_, {
   phone: {
@@ -125,6 +76,7 @@ function mapToFunctions(_, {
   isLoggedContact,
   onViewContact,
   conversationDetailRoute = '/conversations/{conversationId}',
+  composeTextRoute = '/composeText',
 }) {
   return {
     dateTimeFormatter,
@@ -171,6 +123,7 @@ function mapToFunctions(_, {
         conversationDetailRoute.replace('{conversationId}', conversationId)
       );
     },
+    composeText: () => routerInteraction.push(composeTextRoute),
   };
 }
 export default withPhone(connect(
