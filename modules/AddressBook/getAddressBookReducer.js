@@ -89,6 +89,7 @@ function getContactListReducer(types) {
         return contacts.filter(function (contact) {
           return !!contact;
         });
+      case types.resetSuccess:
       case types.cleanUp:
         return [];
       default:
@@ -107,6 +108,7 @@ function getSyncTokenReducer(types) {
     switch (type) {
       case types.syncSuccess:
         return syncToken;
+      case types.resetSuccess:
       case types.cleanUp:
         return null;
       default:
@@ -125,6 +127,7 @@ function getSyncTimestampReducer(types) {
     switch (type) {
       case types.syncSuccess:
         return new Date(syncTime).getTime();
+      case types.resetSuccess:
       case types.cleanUp:
         return null;
       default:

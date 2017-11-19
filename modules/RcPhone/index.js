@@ -281,7 +281,8 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
       var clientOptions = _ref.clientOptions,
           config = _ref.config;
       return new _ringcentralClient2.default(new _ringcentral2.default((0, _extends3.default)({
-        clearCacheOnRefreshError: false
+        clearCacheOnRefreshError: false,
+        cachePrefix: 'rc-sdk'
       }, config, clientOptions)));
     },
     deps: [{ dep: 'Config' }, { dep: 'ClientOptions', optional: true }] }, { provide: 'BrandOptions',
@@ -368,6 +369,7 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
           config = _ref6.config;
       return {
         sdkConfig: (0, _extends3.default)({
+          cachePrefix: 'rc-sdk',
           clearCacheOnRefreshError: false
         }, config, clientOptions)
       };

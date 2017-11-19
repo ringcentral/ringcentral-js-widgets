@@ -59,6 +59,8 @@ var _removeUri = require('../../lib/removeUri');
 
 var _removeUri2 = _interopRequireDefault(_removeUri);
 
+var _getReducer = require('./getReducer');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function simplifyPhoneNumber(number) {
@@ -89,6 +91,7 @@ var AccountPhoneNumber = (_dec = (0, _di.Module)({
     var _this = (0, _possibleConstructorReturn3.default)(this, (AccountPhoneNumber.__proto__ || (0, _getPrototypeOf2.default)(AccountPhoneNumber)).call(this, (0, _extends3.default)({
       name: 'accountPhoneNumber',
       client: client,
+      getDataReducer: _getReducer.getDataReducer,
       fetchFunction: function () {
         var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
           return _regenerator2.default.wrap(function _callee$(_context) {

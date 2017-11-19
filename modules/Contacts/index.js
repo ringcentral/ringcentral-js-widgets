@@ -146,7 +146,8 @@ var Contacts = (_dec = (0, _di.Module)({
     var auth = _ref.auth,
         _ref$listPageSize = _ref.listPageSize,
         listPageSize = _ref$listPageSize === undefined ? DefaultContactListPageSize : _ref$listPageSize,
-        contactSources = _ref.contactSources,
+        _ref$contactSources = _ref.contactSources,
+        contactSources = _ref$contactSources === undefined ? [] : _ref$contactSources,
         options = (0, _objectWithoutProperties3.default)(_ref, ['auth', 'listPageSize', 'contactSources']);
     (0, _classCallCheck3.default)(this, Contacts);
 

@@ -59,6 +59,7 @@ function getMessageDataReducer(types) {
           recipients: recipients
         }));
       case types.cleanUp:
+      case types.resetSuccess:
         return initialConversationsDataState;
       default:
         return state;
@@ -78,6 +79,7 @@ function getUpdatedTimestampReducer(types) {
       case types.updateConversationRecipients:
       case types.updateMessages:
         return Date.now();
+      case types.resetSuccess:
       case types.cleanUp:
         return null;
       default:
@@ -96,6 +98,7 @@ function getSyncTokenReducer(types) {
     switch (type) {
       case types.syncSuccess:
         return syncToken;
+      case types.resetSuccess:
       case types.cleanUp:
         return null;
       default:
@@ -114,6 +117,7 @@ function getSyncTimestampReducer(types) {
     switch (type) {
       case types.syncSuccess:
         return syncTimestamp;
+      case types.resetSuccess:
       case types.cleanUp:
         return null;
       default:
