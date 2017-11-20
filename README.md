@@ -19,14 +19,14 @@ A development server is delivered with source so that developers can use it to g
 Clone the repo:
 
 ```bash
-git clone https://github.com/ringcentral/ringcentral-js-widgets.git
-cd ringcentral-js-widgets
+$ git clone https://github.com/ringcentral/ringcentral-js-widgets.git
+$ cd ringcentral-js-widgets
 ```
 
 Install dependent libraries:
 
 ```bash
-yarn install
+$ yarn install
 ```
 
 Create a file named `api-config.js` in following format in folder `dev-server` to specify app related info
@@ -42,7 +42,7 @@ export default {
 Run following command to start development server
 
 ```bash
-yarn dev-server
+$ yarn dev-server
 ```
 
 The development server is listening on port `8191` by default.
@@ -68,15 +68,15 @@ receiver=testing-phone-number-to-receive-sms-fax-etc
 
 Run:
 
-```
-yarn test
+```bash
+$ yarn test
 ```
 
 If you want to run it in watch mode:
 
-```
-brew install watchman
-yarn test:watch
+```bash
+$ brew install watchman
+$ yarn test:watch
 ```
 
 ### Update mock data
