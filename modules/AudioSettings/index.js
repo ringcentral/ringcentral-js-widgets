@@ -176,6 +176,12 @@ var AudioSettings = (_dec = (0, _di.Module)({
       }
     }
   }, {
+    key: 'initializeProxy',
+    value: function initializeProxy() {
+      // TODO: remove following user media check
+      this.getUserMedia();
+    }
+  }, {
     key: '_shouldInit',
     value: function _shouldInit() {
       return !!(this.pending && this._storage.ready);
