@@ -242,10 +242,6 @@ var ContactsView = function (_Component) {
             onChange: this.doSearchByText,
             placeholder: _i18n2.default.getString('searchPlaceholder', currentLocale)
           }),
-          _react2.default.createElement(AddContact, {
-            className: _styles2.default.actionButton,
-            onClick: function onClick() {}
-          }),
           _react2.default.createElement(Filter, {
             className: _styles2.default.actionButton,
             currentLocale: currentLocale,
