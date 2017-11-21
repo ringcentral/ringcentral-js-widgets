@@ -1,0 +1,1 @@
+{"version":3,"sources":["lib/OAuthBase/oAuthMessages.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,cADsB,EAEtB,eAFsB,CAAT,EAGZ,eAHY,C","file":"oAuthMessages.js","sourcesContent":["import Enum from 'ringcentral-integration/lib/Enum';\r\n\r\nexport default new Enum([\r\n  'accessDenied',\r\n  'internalError',\r\n], 'oAuthMessages');\r\n"]}

@@ -62,12 +62,12 @@ var LoginPanel = function (_Component) {
   (0, _createClass3.default)(LoginPanel, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.props.setupProxyFrame();
+      this.props.setupOAuth();
     }
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      this.props.clearProxyFrame();
+      this.props.destroyOAuth();
     }
   }, {
     key: 'render',
@@ -114,8 +114,8 @@ exports.default = LoginPanel;
 
 LoginPanel.propTypes = {
   className: _propTypes2.default.string,
-  setupProxyFrame: _propTypes2.default.func.isRequired,
-  clearProxyFrame: _propTypes2.default.func.isRequired,
+  setupOAuth: _propTypes2.default.func.isRequired,
+  destroyOAuth: _propTypes2.default.func.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
   onLoginButtonClick: _propTypes2.default.func.isRequired,
   disabled: _propTypes2.default.bool,

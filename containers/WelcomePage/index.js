@@ -27,29 +27,29 @@ function mapToProps(_, _ref) {
       locale = _ref$phone.locale,
       rateLimiter = _ref$phone.rateLimiter,
       connectivityMonitor = _ref$phone.connectivityMonitor,
+      oAuth = _ref$phone.oAuth,
       version = _ref.version;
 
   return {
     currentLocale: locale.currentLocale,
-    disabled: !auth.proxyLoaded || rateLimiter.throttling || !connectivityMonitor.connectivity,
+    disabled: !oAuth.oAuthReady || rateLimiter.throttling || !connectivityMonitor.connectivity,
     version: version,
     showSpinner: !auth.ready || auth.loginStatus === _loginStatus2.default.loggingIn || auth.loginStatus === _loginStatus2.default.loggingOut || auth.loginStatus === _loginStatus2.default.beforeLogout || auth.loginStatus === _loginStatus2.default.loggedIn
   };
 }
 
 function mapToFunctions(_, _ref2) {
-  var auth = _ref2.phone.auth,
-      onLogin = _ref2.onLogin;
+  var oAuth = _ref2.phone.oAuth;
 
   return {
-    setupProxyFrame: function setupProxyFrame() {
-      auth.setupProxyFrame(onLogin);
+    setupOAuth: function setupOAuth() {
+      oAuth.setupOAuth();
     },
-    clearProxyFrame: function clearProxyFrame() {
-      auth.clearProxyFrame();
+    destroyOAuth: function destroyOAuth() {
+      oAuth.destroyOAuth();
     },
     onLoginButtonClick: function onLoginButtonClick() {
-      auth.openOAuthPage();
+      oAuth.openOAuthPage();
     }
   };
 }

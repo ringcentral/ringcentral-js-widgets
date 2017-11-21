@@ -141,6 +141,11 @@ var RouterInteraction = (_dec = (0, _di.Module)({
       });
     }
   }, {
+    key: '_onStateChange',
+    value: function _onStateChange() {
+      /* do nothing */
+    }
+  }, {
     key: 'push',
     value: function () {
       var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -221,6 +226,11 @@ var RouterInteraction = (_dec = (0, _di.Module)({
 
       return goBack;
     }()
+  }, {
+    key: '_actionTypes',
+    get: function get() {
+      /* no action types */
+    }
   }, {
     key: 'history',
     get: function get() {
