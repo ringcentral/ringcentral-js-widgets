@@ -85,6 +85,16 @@ var Brand = (_dec = (0, _di.Module)({
   }
 
   (0, _createClass3.default)(Brand, [{
+    key: '_onStateChange',
+    value: function _onStateChange() {
+      /* do nothing */
+    }
+  }, {
+    key: '_actionTypes',
+    get: function get() {
+      /* no action types */
+    }
+  }, {
     key: 'id',
     get: function get() {
       return this.state.id;

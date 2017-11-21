@@ -5,6 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = undefined;
 
+var _defineProperty = require('babel-runtime/core-js/object/define-property');
+
+var _defineProperty2 = _interopRequireDefault(_defineProperty);
+
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -12,10 +20,6 @@ var _regenerator2 = _interopRequireDefault(_regenerator);
 var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
-
-var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
-
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 var _extends2 = require('babel-runtime/helpers/extends');
 
@@ -45,7 +49,9 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _dec, _class;
+var _dec, _class, _desc, _value, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
+
+var _reselect = require('reselect');
 
 var _RcModule2 = require('../../lib/RcModule');
 
@@ -75,7 +81,54 @@ var _normalizeNumber = require('../../lib/normalizeNumber');
 
 var _normalizeNumber2 = _interopRequireDefault(_normalizeNumber);
 
+var _getter = require('../../lib/getter');
+
+var _getter2 = _interopRequireDefault(_getter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _initDefineProp(target, property, descriptor, context) {
+  if (!descriptor) return;
+  (0, _defineProperty2.default)(target, property, {
+    enumerable: descriptor.enumerable,
+    configurable: descriptor.configurable,
+    writable: descriptor.writable,
+    value: descriptor.initializer ? descriptor.initializer.call(context) : void 0
+  });
+}
+
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+  var desc = {};
+  Object['ke' + 'ys'](descriptor).forEach(function (key) {
+    desc[key] = descriptor[key];
+  });
+  desc.enumerable = !!desc.enumerable;
+  desc.configurable = !!desc.configurable;
+
+  if ('value' in desc || desc.initializer) {
+    desc.writable = true;
+  }
+
+  desc = decorators.slice().reverse().reduce(function (desc, decorator) {
+    return decorator(target, property, desc) || desc;
+  }, desc);
+
+  if (context && desc.initializer !== void 0) {
+    desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+    desc.initializer = undefined;
+  }
+
+  if (desc.initializer === void 0) {
+    Object['define' + 'Property'](target, property, desc);
+    desc = null;
+  }
+
+  return desc;
+}
+
+function _initializerWarningHelper(descriptor, context) {
+  throw new Error('Decorating class property failed. Please ensure that transform-class-properties is enabled.');
+}
 
 /**
  * @class
@@ -83,7 +136,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  */
 var CallHistory = (_dec = (0, _di.Module)({
   deps: ['AccountInfo', 'CallLog', 'CallMonitor', { dep: 'ActivityMatcher', optional: true }, { dep: 'ContactMatcher', optional: true }, { dep: 'CallHistoryOptions', optional: true }]
-}), _dec(_class = function (_RcModule) {
+}), _dec(_class = (_class2 = function (_RcModule) {
   (0, _inherits3.default)(CallHistory, _RcModule);
 
   /**
@@ -104,9 +157,15 @@ var CallHistory = (_dec = (0, _di.Module)({
         options = (0, _objectWithoutProperties3.default)(_ref, ['accountInfo', 'callLog', 'callMonitor', 'activityMatcher', 'contactMatcher']);
     (0, _classCallCheck3.default)(this, CallHistory);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (CallHistory.__proto__ || (0, _getPrototypeOf2.default)(CallHistory)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _actionTypes2.default
-    })));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (CallHistory.__proto__ || (0, _getPrototypeOf2.default)(CallHistory)).call(this, (0, _extends3.default)({}, options)));
+
+    _initDefineProp(_this, 'normalizedCalls', _descriptor, _this);
+
+    _initDefineProp(_this, 'calls', _descriptor2, _this);
+
+    _initDefineProp(_this, 'uniqueNumbers', _descriptor3, _this);
+
+    _initDefineProp(_this, 'sessionIds', _descriptor4, _this);
 
     _this._accountInfo = _ensureExist2.default.call(_this, accountInfo, 'accountInfo');
     _this._callLog = _ensureExist2.default.call(_this, callLog, 'callLog');
@@ -115,123 +174,21 @@ var CallHistory = (_dec = (0, _di.Module)({
     _this._callMonitor = callMonitor;
     _this._reducer = (0, _getCallHistoryReducer2.default)(_this.actionTypes);
 
-    _this.addSelector('normalizedCalls', function () {
-      return _this._callLog.calls;
-    }, function () {
-      return _this._accountInfo.countryCode;
-    }, function (calls, countryCode) {
-      return calls.map(function (call) {
-        var callFrom = (0, _extends3.default)({}, call.from);
-        if (callFrom.phoneNumber) {
-          callFrom.phoneNumber = (0, _normalizeNumber2.default)({
-            phoneNumber: callFrom.phoneNumber,
-            countryCode: countryCode
-          });
-        }
-        var callTo = (0, _extends3.default)({}, call.to);
-        if (callTo.phoneNumber) {
-          callTo.phoneNumber = (0, _normalizeNumber2.default)({
-            phoneNumber: callTo.phoneNumber,
-            countryCode: countryCode
-          });
-        }
-        return (0, _extends3.default)({}, call, {
-          from: callFrom,
-          to: callTo
-        });
-      }).sort(_callLogHelpers.sortByStartTime);
-    });
-
-    _this.addSelector('calls', _this._selectors.normalizedCalls, function () {
-      return _this.state.endedCalls;
-    }, function () {
-      return _this._contactMatcher && _this._contactMatcher.dataMapping;
-    }, function () {
-      return _this._activityMatcher && _this._activityMatcher.dataMapping;
-    }, function () {
-      return _this._callMonitor && _this._callMonitor.callMatched;
-    }, function (normalizedCalls, endedCalls) {
-      var contactMapping = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-      var activityMapping = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-      var callMatched = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
-
-      var sessionIds = {};
-      var calls = normalizedCalls.map(function (call) {
-        sessionIds[call.sessionId] = true;
-        var fromNumber = call.from && (call.from.phoneNumber || call.from.extensionNumber);
-        var toNumber = call.to && (call.to.phoneNumber || call.to.extensionNumber);
-        var fromMatches = fromNumber && contactMapping[fromNumber] || [];
-        var toMatches = toNumber && contactMapping[toNumber] || [];
-        var activityMatches = activityMapping[call.sessionId] || [];
-        var matched = callMatched[call.sessionId];
-        return (0, _extends3.default)({}, call, {
-          fromMatches: fromMatches,
-          toMatches: toMatches,
-          activityMatches: activityMatches,
-          toNumberEntity: matched
-        });
-      });
-      return [].concat((0, _toConsumableArray3.default)(endedCalls.filter(function (call) {
-        return !sessionIds[call.sessionId];
-      })), (0, _toConsumableArray3.default)(calls));
-    });
-
-    _this.addSelector('uniqueNumbers', _this._selectors.normalizedCalls, function () {
-      return _this.state.endedCalls;
-    }, function (normalizedCalls, endedCalls) {
-      var output = [];
-      var numberMap = {};
-      function addIfNotExist(number) {
-        if (!numberMap[number]) {
-          output.push(number);
-          numberMap[number] = true;
-        }
-      }
-      function addNumbersFromCall(call) {
-        if (call.from && call.from.phoneNumber) {
-          addIfNotExist(call.from.phoneNumber);
-        } else if (call.from && call.from.extensionNumber) {
-          addIfNotExist(call.from.extensionNumber);
-        }
-        if (call.to && call.to.phoneNumber) {
-          addIfNotExist(call.to.phoneNumber);
-        } else if (call.to && call.to.extensionNumber) {
-          addIfNotExist(call.to.extensionNumber);
-        }
-      }
-      normalizedCalls.forEach(addNumbersFromCall);
-      endedCalls.forEach(addNumbersFromCall);
-      return output;
-    });
-
     if (_this._contactMatcher) {
       _this._contactMatcher.addQuerySource({
-        getQueriesFn: _this._selectors.uniqueNumbers,
+        getQueriesFn: function getQueriesFn() {
+          return _this.uniqueNumbers;
+        },
         readyCheckFn: function readyCheckFn() {
           return (!_this._callMonitor || _this._callMonitor.ready) && _this._callLog.ready && _this._accountInfo.ready;
         }
       });
     }
-
-    _this.addSelector('sessionIds', function () {
-      return _this._callLog.calls;
-    }, function () {
-      return _this.state.endedCalls;
-    }, function (calls, endedCalls) {
-      var sessionIds = {};
-      return calls.map(function (call) {
-        sessionIds[call.sessionId] = true;
-        return call.sessionId;
-      }).concat(endedCalls.filter(function (call) {
-        return !sessionIds[call.sessionId];
-      }).map(function (call) {
-        return call.sessionId;
-      }));
-    });
-
     if (_this._activityMatcher) {
       _this._activityMatcher.addQuerySource({
-        getQueriesFn: _this._selectors.sessionIds,
+        getQueriesFn: function getQueriesFn() {
+          return _this.sessionIds;
+        },
         readyCheckFn: function readyCheckFn() {
           return (!_this._callMonitor || _this._callMonitor.ready) && _this._callLog.ready;
         }
@@ -418,6 +375,11 @@ var CallHistory = (_dec = (0, _di.Module)({
       });
     }
   }, {
+    key: '_actionTypes',
+    get: function get() {
+      return _actionTypes2.default;
+    }
+  }, {
     key: 'status',
     get: function get() {
       return this.state.status;
@@ -433,27 +395,141 @@ var CallHistory = (_dec = (0, _di.Module)({
       return this.state.status === _moduleStatuses2.default.pending;
     }
   }, {
-    key: 'calls',
-    get: function get() {
-      return this._selectors.calls();
-    }
-  }, {
-    key: 'uniqueNumbers',
-    get: function get() {
-      return this._selectors.uniqueNumbers();
-    }
-  }, {
-    key: 'sessionIds',
-    get: function get() {
-      return this._selectors.sessionIds();
-    }
-  }, {
     key: 'recentlyEndedCalls',
     get: function get() {
       return this.state.endedCalls;
     }
   }]);
   return CallHistory;
-}(_RcModule3.default)) || _class);
+}(_RcModule3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'normalizedCalls', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this3 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this3._callLog.calls;
+    }, function () {
+      return _this3._accountInfo.countryCode;
+    }, function (calls, countryCode) {
+      return calls.map(function (call) {
+        var callFrom = (0, _extends3.default)({}, call.from);
+        if (callFrom.phoneNumber) {
+          callFrom.phoneNumber = (0, _normalizeNumber2.default)({
+            phoneNumber: callFrom.phoneNumber,
+            countryCode: countryCode
+          });
+        }
+        var callTo = (0, _extends3.default)({}, call.to);
+        if (callTo.phoneNumber) {
+          callTo.phoneNumber = (0, _normalizeNumber2.default)({
+            phoneNumber: callTo.phoneNumber,
+            countryCode: countryCode
+          });
+        }
+        return (0, _extends3.default)({}, call, {
+          from: callFrom,
+          to: callTo
+        });
+      }).sort(_callLogHelpers.sortByStartTime);
+    });
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, 'calls', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this4 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this4.normalizedCalls;
+    }, function () {
+      return _this4.state.endedCalls;
+    }, function () {
+      return _this4._contactMatcher && _this4._contactMatcher.dataMapping;
+    }, function () {
+      return _this4._activityMatcher && _this4._activityMatcher.dataMapping;
+    }, function () {
+      return _this4._callMonitor && _this4._callMonitor.callMatched;
+    }, function (normalizedCalls, endedCalls) {
+      var contactMapping = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+      var activityMapping = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+      var callMatched = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : {};
+
+      var sessionIds = {};
+      var calls = normalizedCalls.map(function (call) {
+        sessionIds[call.sessionId] = true;
+        var fromNumber = call.from && (call.from.phoneNumber || call.from.extensionNumber);
+        var toNumber = call.to && (call.to.phoneNumber || call.to.extensionNumber);
+        var fromMatches = fromNumber && contactMapping[fromNumber] || [];
+        var toMatches = toNumber && contactMapping[toNumber] || [];
+        var activityMatches = activityMapping[call.sessionId] || [];
+        var matched = callMatched[call.sessionId];
+        return (0, _extends3.default)({}, call, {
+          fromMatches: fromMatches,
+          toMatches: toMatches,
+          activityMatches: activityMatches,
+          toNumberEntity: matched
+        });
+      });
+      return [].concat((0, _toConsumableArray3.default)(endedCalls.filter(function (call) {
+        return !sessionIds[call.sessionId];
+      })), (0, _toConsumableArray3.default)(calls));
+    });
+  }
+}), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, 'uniqueNumbers', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this5 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this5.normalizedCalls;
+    }, function () {
+      return _this5.state.endedCalls;
+    }, function (normalizedCalls, endedCalls) {
+      var output = [];
+      var numberMap = {};
+      function addIfNotExist(number) {
+        if (!numberMap[number]) {
+          output.push(number);
+          numberMap[number] = true;
+        }
+      }
+      function addNumbersFromCall(call) {
+        if (call.from && call.from.phoneNumber) {
+          addIfNotExist(call.from.phoneNumber);
+        } else if (call.from && call.from.extensionNumber) {
+          addIfNotExist(call.from.extensionNumber);
+        }
+        if (call.to && call.to.phoneNumber) {
+          addIfNotExist(call.to.phoneNumber);
+        } else if (call.to && call.to.extensionNumber) {
+          addIfNotExist(call.to.extensionNumber);
+        }
+      }
+      normalizedCalls.forEach(addNumbersFromCall);
+      endedCalls.forEach(addNumbersFromCall);
+      return output;
+    });
+  }
+}), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, 'sessionIds', [_getter2.default], {
+  enumerable: true,
+  initializer: function initializer() {
+    var _this6 = this;
+
+    return (0, _reselect.createSelector)(function () {
+      return _this6._callLog.calls;
+    }, function () {
+      return _this6.state.endedCalls;
+    }, function (calls, endedCalls) {
+      var sessionIds = {};
+      return calls.map(function (call) {
+        sessionIds[call.sessionId] = true;
+        return call.sessionId;
+      }).concat(endedCalls.filter(function (call) {
+        return !sessionIds[call.sessionId];
+      }).map(function (call) {
+        return call.sessionId;
+      }));
+    });
+  }
+})), _class2)) || _class);
 exports.default = CallHistory;
 //# sourceMappingURL=index.js.map

@@ -126,6 +126,11 @@ var Softphone = (_dec = (0, _di.Module)({
   }
 
   (0, _createClass3.default)(Softphone, [{
+    key: '_onStateChange',
+    value: function _onStateChange() {
+      /* do nothing */
+    }
+  }, {
     key: 'makeCall',
     value: function () {
       var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(phoneNumber) {
@@ -182,6 +187,11 @@ var Softphone = (_dec = (0, _di.Module)({
     // eslint-disable-next-line class-methods-use-this
 
   }, {
+    key: '_actionTypes',
+    get: function get() {
+      /* no action types */
+    }
+  }, {
     key: 'protocol',
     get: function get() {
       switch (this._brand.id) {
@@ -202,14 +212,6 @@ var Softphone = (_dec = (0, _di.Module)({
     key: 'status',
     get: function get() {
       return _moduleStatuses2.default.ready;
-    }
-
-    // eslint-disable-next-line class-methods-use-this
-
-  }, {
-    key: 'ready',
-    get: function get() {
-      return true;
     }
   }]);
   return Softphone;

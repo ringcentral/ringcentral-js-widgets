@@ -128,9 +128,7 @@ var Alert = (_dec = (0, _di.Module)({
         options = (0, _objectWithoutProperties3.default)(_ref, ['ttl']);
     (0, _classCallCheck3.default)(this, Alert);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Alert.__proto__ || (0, _getPrototypeOf2.default)(Alert)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _actionTypes2.default
-    })));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Alert.__proto__ || (0, _getPrototypeOf2.default)(Alert)).call(this, (0, _extends3.default)({}, options)));
 
     _this._autoDismiss = function () {
       var now = Date.now();
@@ -149,11 +147,16 @@ var Alert = (_dec = (0, _di.Module)({
     return _this;
   }
 
-  // this module has no dependency, and is always ready
-  // eslint-disable-next-line class-methods-use-this
-
-
   (0, _createClass3.default)(Alert, [{
+    key: '_onStateChange',
+    value: function _onStateChange() {}
+    /* do nothing */
+
+
+    // this module has no dependency, and is always ready
+    // eslint-disable-next-line class-methods-use-this
+
+  }, {
     key: 'alert',
 
 
@@ -331,6 +334,11 @@ var Alert = (_dec = (0, _di.Module)({
 
       return dismissAll;
     }()
+  }, {
+    key: '_actionTypes',
+    get: function get() {
+      return _actionTypes2.default;
+    }
   }, {
     key: 'status',
     get: function get() {
