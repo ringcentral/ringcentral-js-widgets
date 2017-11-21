@@ -105,6 +105,7 @@
     "dedent": "^0.7.0",
     "normalize-css": "^2.3.1",
     "prop-types": "^15.5.10",
+    "qs": "^6.5.1",
     "ramda": "^0.25.0",
     "rc-tooltip": "^3.4.6",
     "react-svg-loader": "^1.1.1",
