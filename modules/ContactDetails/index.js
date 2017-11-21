@@ -57,6 +57,10 @@ var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
 
+var _background = require('../../lib/background');
+
+var _background2 = _interopRequireDefault(_background);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
@@ -202,6 +206,6 @@ var ContactDetails = (_dec = (0, _di.Module)({
     }
   }]);
   return ContactDetails;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'find', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'find'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clear', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clear'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'find', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'find'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clear', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clear'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getProfileImage', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getProfileImage'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'getPresence', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getPresence'), _class2.prototype)), _class2)) || _class);
 exports.default = ContactDetails;
 //# sourceMappingURL=index.js.map

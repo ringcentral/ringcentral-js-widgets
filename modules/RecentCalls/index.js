@@ -51,9 +51,9 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2;
 
-var _proxify = require('../../lib/proxy/proxify');
+var _background = require('../../lib/background');
 
-var _proxify2 = _interopRequireDefault(_proxify);
+var _background2 = _interopRequireDefault(_background);
 
 var _RcModule2 = require('../../lib/RcModule');
 
@@ -432,6 +432,6 @@ var RecentCalls = (_dec = (0, _di.Module)({
     }
   }]);
   return RecentCalls;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'getCalls', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getCalls'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'getCalls', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'getCalls'), _class2.prototype)), _class2)) || _class);
 exports.default = RecentCalls;
 //# sourceMappingURL=index.js.map
