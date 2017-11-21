@@ -58,6 +58,7 @@ import RecentMessages from 'ringcentral-integration/modules/RecentMessages';
 import RecentCalls from 'ringcentral-integration/modules/RecentCalls';
 import AudioSettings from 'ringcentral-integration/modules/AudioSettings';
 import RouterInteraction from '../src/modules/RouterInteraction';
+import OAuth from '../src/modules/ProxyFrameOAuth';
 
 
 export default class Phone extends RcModule {
@@ -147,6 +148,16 @@ export default class Phone extends RcModule {
       getState: () => this.state.auth,
     }));
     reducers.auth = this.auth.reducer;
+    this.addModule('oAuth', new OAuth({
+      ...options,
+      auth: this.auth,
+      brand: this.brand,
+      locale: this.locale,
+      tabManager: this.tabManager,
+      alert: this.alert,
+      getState: () => this.state.oAuth,
+    }));
+    reducers.oAuth = this.oAuth.reducer;
     this.addModule('ringout', new Ringout({
       ...options,
       auth: this.auth,
@@ -655,5 +666,9 @@ export default class Phone extends RcModule {
 
   get version() {
     return this.state.app.version;
+  }
+
+  get _actionTypes() {
+    /* no action types */
   }
 }

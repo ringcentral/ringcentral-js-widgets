@@ -6144,6 +6144,10 @@ qs@6.5.0, qs@^6.1.0:
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.0.tgz#8d04954d364def3efc55b5a0793e1e2c8b1e6e49"
 
+qs@^6.5.1:
+  version "6.5.1"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.1.tgz#349cdf6eef89ec45c12d7d5eb3fc0c870343a6d8"
+
 qs@~6.3.0:
   version "6.3.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.3.2.tgz#e75bd5f6e268122a2a0e0bda630b2550c166502c"
@@ -6678,8 +6682,8 @@ ringcentral-client@^1.0.0-rc1:
     isomorphic-fetch "^2.2.1"
 
 "ringcentral-integration@https://github.com/ringcentral/ringcentral-js-integration-commons#latest":
-  version "0.7.25"
-  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#151b50a7ec3650136e3ac39ef3a9885fb3a3efe2"
+  version "0.1.0"
+  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#0e8d36aced4932c074a04f16b112a7dd3fc65691"
   dependencies:
     file-loader "^0.11.2"
     json-mask "^0.3.8"
