@@ -7,10 +7,10 @@ import SpinnerOverlay from '../SpinnerOverlay';
 
 export default class LoginPanel extends Component {
   componentDidMount() {
-    this.props.setupProxyFrame();
+    this.props.setupOAuth();
   }
   componentWillUnmount() {
-    this.props.clearProxyFrame();
+    this.props.destroyOAuth();
   }
   render() {
     const {
@@ -50,8 +50,8 @@ export default class LoginPanel extends Component {
 
 LoginPanel.propTypes = {
   className: PropTypes.string,
-  setupProxyFrame: PropTypes.func.isRequired,
-  clearProxyFrame: PropTypes.func.isRequired,
+  setupOAuth: PropTypes.func.isRequired,
+  destroyOAuth: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
   onLoginButtonClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool,

@@ -35,6 +35,14 @@ export default class RouterInteraction extends RcModule {
     });
   }
 
+  get _actionTypes() {
+    /* no action types */
+  }
+
+  _onStateChange() {
+    /* do nothing */
+  }
+
   get history() {
     return this._history;
   }
