@@ -10,4 +10,11 @@ export default {
   unknownNumber: 'Anonymous',
   unavailable: 'Unavailable',
   viewDetails: 'View Details',
+  addEntity: 'Create New',
+  addLog: 'Log',
+  text: 'Text',
+  call: 'Call',
+  missedCall: 'Missed',
+  inboundCall: 'Inbound',
+  outboundCall: 'Outbound',
 };

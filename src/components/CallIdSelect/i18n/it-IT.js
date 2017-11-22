@@ -5,4 +5,6 @@ export default {
   CompanyFaxNumber: 'Fax',
   Blocked: 'Bloccato',
   from: 'Da',
+  AdditionalCompanyNumber: 'Azienda',
+  ForwardedCompanyNumber: 'Inoltrato',
 };
