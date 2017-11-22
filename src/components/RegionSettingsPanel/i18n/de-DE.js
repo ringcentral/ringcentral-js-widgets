@@ -6,4 +6,5 @@ export default {
   country: 'Land',
   areaCode: 'Vorwahl',
   areaCodePlaceholder: 'Vorwahl eingeben',
+  save: 'Speichern',
 };

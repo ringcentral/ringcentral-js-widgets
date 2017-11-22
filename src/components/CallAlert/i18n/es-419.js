@@ -10,4 +10,5 @@ export default {
   [callErrors.networkError]: 'No se puede conectar debido a errores de la red. Vuelva a intentarlo más tarde.',
   [callErrors.noRingoutEnable]: 'Su extensión puede hacer llamadas con la aplicación de escritorio.\n    Si desea acceder a otras opciones\n    comuníquese con el administrador de su cuenta para la actualización.',
   areaCode: 'código de área',
+  telus911: 'No se pueden hacer llamadas de emergencia.',
 };

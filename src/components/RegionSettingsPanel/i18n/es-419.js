@@ -6,4 +6,5 @@ export default {
   country: 'País',
   areaCode: 'Código de área',
   areaCodePlaceholder: 'Ingresar código de área',
+  save: 'Guardar',
 };

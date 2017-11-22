@@ -10,4 +10,5 @@ export default {
   [callErrors.networkError]: 'Herstellen der Verbindung aufgrund von Netzwerkproblemen nicht möglich. Versuchen Sie es später erneut.',
   [callErrors.noRingoutEnable]: 'Mit Ihrer Durchwahl können Anrufe mit Desktop-Apps getätigt werden.\n    Wenden Sie sich an Ihren Kontoadministrator für ein Upgrade,\n    wenn Sie zu anderen Anrufoptionen wechseln möchten.',
   areaCode: 'Vorwahl',
+  telus911: 'Notrufe werden nicht unterstützt.',
 };

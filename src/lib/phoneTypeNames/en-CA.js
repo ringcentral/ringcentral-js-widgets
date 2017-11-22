@@ -7,4 +7,6 @@ export default {
   [phoneTypes.mobile]: 'Mobile Phone',
   [phoneTypes.phone]: 'Phone',
   [phoneTypes.unknown]: 'Unknown Phone Type',
+  [phoneTypes.company]: 'Company Phone',
+  [phoneTypes.direct]: 'Direct Phone',
 };

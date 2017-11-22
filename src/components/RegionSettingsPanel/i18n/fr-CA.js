@@ -6,4 +6,5 @@ export default {
   country: 'Pays',
   areaCode: 'Indicatif régional',
   areaCodePlaceholder: 'Entrer l\'indicatif régional',
+  save: 'Sauvegarder',
 };

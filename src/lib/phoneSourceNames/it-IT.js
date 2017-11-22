@@ -6,4 +6,5 @@ export default {
   [phoneSources.lead]: 'Lead',
   [phoneSources.opportunity]: 'Opportunità',
   [phoneSources.systemUser]: 'Utente di sistema',
+  [phoneSources.rcContact]: '{brand}',
 };
