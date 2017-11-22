@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import getModuleStatusReducer from 'ringcentral-integration/lib/getModuleStatusReducer';
-import { getOAuthReadyReducer } from 'ringcentral-widgets/lib/OAuthBase/getOAuthBaseReducer';
+import { getOAuthReadyReducer } from '../../lib/OAuthBase/getOAuthBaseReducer';
 
 export function getProxyRetryCountReducer(types) {
   return (state = 0, { type }) => {

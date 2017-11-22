@@ -10,4 +10,11 @@ export default {
   unknownNumber: 'Anonym',
   unavailable: 'Nicht verfügbar',
   viewDetails: 'Details anzeigen',
+  addEntity: 'Neu erstellen',
+  addLog: 'Protokoll',
+  text: 'Textnachricht',
+  call: 'Anrufen',
+  missedCall: 'Verpasst',
+  inboundCall: 'Eingehend',
+  outboundCall: 'Ausgehend',
 };
