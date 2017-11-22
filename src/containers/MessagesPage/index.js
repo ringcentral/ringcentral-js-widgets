@@ -57,6 +57,7 @@ function mapToProps(_, {
     ),
     searchInput: messages.searchInput,
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
+    typeFilter: messages.typeFilter,
   });
 }
 
@@ -124,6 +125,7 @@ function mapToFunctions(_, {
       );
     },
     composeText: () => routerInteraction.push(composeTextRoute),
+    updateTypeFilter: type => messages.updateTypeFilter(type),
   };
 }
 export default withPhone(connect(

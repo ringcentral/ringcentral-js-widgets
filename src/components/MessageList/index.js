@@ -55,6 +55,7 @@ export default class MessageList extends Component {
     const search = onSearchInputChange ?
       (
         <SearchInput
+          className={styles.searchInput}
           value={searchInput}
           onChange={onSearchInputChange}
           placeholder={i18n.getString('search', currentLocale)}
