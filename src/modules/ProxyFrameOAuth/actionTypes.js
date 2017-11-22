@@ -1,4 +1,4 @@
-import baseActionTypes from '../../lib/OAuthBase/baseActionTypes';
+import baseActionTypes from 'ringcentral-widgets/lib/OAuthBase/baseActionTypes';
 import Enum from 'ringcentral-integration/lib/Enum';
 
 export default new Enum([
