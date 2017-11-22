@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/DialTextInput/i18n/es-ES.js"],"names":["to"],"mappings":";;;;;kBAAe;AACbA,MAAI;AADS,C","file":"es-ES.js","sourcesContent":["export default {\n  to: 'A:',\n};\n\n"]}
+{"version":3,"sources":["components/DialTextInput/i18n/es-ES.js"],"names":["to","enterNameOrPhoneNumber"],"mappings":";;;;;kBAAe;AACbA,MAAI,IADS;AAEbC,0BAAwB;AAFX,C","file":"es-ES.js","sourcesContent":["export default {\n  to: 'A:',\n  enterNameOrPhoneNumber: 'Introducir número',\n};\n\n"]}

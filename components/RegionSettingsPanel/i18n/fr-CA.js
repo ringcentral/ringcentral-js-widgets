@@ -10,6 +10,7 @@ exports.default = {
   MultiWithoutNAMessage: 'Veuillez sélectionner le pays correspondant à votre emplacement. Il sera utilisé pour la composition des numéros locaux et pour le formatage des numéros de téléphone.',
   country: 'Pays',
   areaCode: 'Indicatif régional',
-  areaCodePlaceholder: 'Entrer l\'indicatif régional'
+  areaCodePlaceholder: 'Entrer l\'indicatif régional',
+  save: 'Sauvegarder'
 };
 //# sourceMappingURL=fr-CA.js.map

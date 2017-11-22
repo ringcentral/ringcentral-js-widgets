@@ -10,6 +10,7 @@ exports.default = {
   MultiWithoutNAMessage: 'Please select which country you are located in. This will be used for local dialling and phone number formatting.',
   country: 'Country',
   areaCode: 'Area Code',
-  areaCodePlaceholder: 'Enter Area Code'
+  areaCodePlaceholder: 'Enter Area Code',
+  save: 'Save'
 };
 //# sourceMappingURL=en-GB.js.map

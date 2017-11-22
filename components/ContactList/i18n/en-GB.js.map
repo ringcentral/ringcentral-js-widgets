@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ContactList/i18n/en-GB.js"],"names":["noContacts"],"mappings":";;;;;kBAAe;AACbA,cAAY;AADC,C","file":"en-GB.js","sourcesContent":["export default {\n  noContacts: 'No records found',\n};\n"]}

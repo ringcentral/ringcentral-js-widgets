@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ContactDetailsView/i18n/es-419.js"],"names":["contactDetails"],"mappings":";;;;;kBAAe;AACbA,kBAAgB;AADH,C","file":"es-419.js","sourcesContent":["export default {\n  contactDetails: 'Detalles de contacto',\n};\n"]}

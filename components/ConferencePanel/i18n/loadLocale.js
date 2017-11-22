@@ -87,6 +87,22 @@ function loadLocale(locale) {
           }, 'it-IT');
           break;
         }
+      case 'ja-JP':
+        {
+          require.ensure(['./ja-JP'], function (require) {
+            var data = require('./ja-JP');
+            resolve(data.__esModule === true ? data.default : data);
+          }, 'ja-JP');
+          break;
+        }
+      case 'pt-BR':
+        {
+          require.ensure(['./pt-BR'], function (require) {
+            var data = require('./pt-BR');
+            resolve(data.__esModule === true ? data.default : data);
+          }, 'pt-BR');
+          break;
+        }
       default:
         resolve({});
         break;

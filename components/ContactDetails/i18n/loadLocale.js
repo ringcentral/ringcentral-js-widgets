@@ -15,6 +15,14 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function loadLocale(locale) {
   return new _promise2.default(function (resolve) {
     switch (locale) {
+      case 'en-CA':
+        {
+          require.ensure(['./en-CA'], function (require) {
+            var data = require('./en-CA');
+            resolve(data.__esModule === true ? data.default : data);
+          }, 'en-CA');
+          break;
+        }
       case 'en-US':
         {
           require.ensure(['./en-US'], function (require) {

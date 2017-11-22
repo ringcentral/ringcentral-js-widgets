@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  to: 'A:'
+  to: 'A:',
+  enterNameOrPhoneNumber: 'Inserisci numero'
 };
 //# sourceMappingURL=it-IT.js.map

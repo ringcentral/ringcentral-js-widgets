@@ -9,6 +9,8 @@ exports.default = {
   CompanyNumber: 'Company',
   CompanyFaxNumber: 'Fax',
   Blocked: 'Blocked',
-  from: 'From'
+  from: 'From',
+  AdditionalCompanyNumber: 'Company',
+  ForwardedCompanyNumber: 'Forwarded'
 };
 //# sourceMappingURL=en-CA.js.map

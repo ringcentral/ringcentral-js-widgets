@@ -14,6 +14,13 @@ exports.default = {
   unknownUser: 'Unbekannter Benutzer',
   unknownNumber: 'Anonym',
   unavailable: 'Nicht verfügbar',
-  viewDetails: 'Details anzeigen'
+  viewDetails: 'Details anzeigen',
+  addEntity: 'Neu erstellen',
+  addLog: 'Protokoll',
+  text: 'Textnachricht',
+  call: 'Anrufen',
+  missedCall: 'Verpasst',
+  inboundCall: 'Eingehend',
+  outboundCall: 'Ausgehend'
 };
 //# sourceMappingURL=de-DE.js.map

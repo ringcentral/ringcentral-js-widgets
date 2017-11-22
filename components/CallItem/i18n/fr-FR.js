@@ -14,6 +14,13 @@ exports.default = {
   unknownUser: 'Utilisateur inconnu',
   unknownNumber: 'Anonyme',
   unavailable: 'Non disponible',
-  viewDetails: 'Afficher les détails'
+  viewDetails: 'Afficher les détails',
+  addEntity: 'Créer',
+  addLog: 'Journal',
+  text: 'Texte',
+  call: 'Appeler',
+  missedCall: 'Manqué',
+  inboundCall: 'Entrant',
+  outboundCall: 'Sortant'
 };
 //# sourceMappingURL=fr-FR.js.map

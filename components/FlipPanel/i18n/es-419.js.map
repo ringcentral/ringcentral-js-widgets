@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/FlipPanel/i18n/es-419.js"],"names":["flipHeader","flip","complete"],"mappings":";;;;;kBAAe;AACbA,cAAY,+BADC;AAEbC,QAAM,MAFO;AAGbC,YAAU;AAHG,C","file":"es-419.js","sourcesContent":["export default {\n  flipHeader: 'Hacer flip en la llamada a...',\n  flip: 'Flip',\n  complete: 'Completar Flip',\n};\n"]}

@@ -10,6 +10,7 @@ exports.default = {
   MultiWithoutNAMessage: 'Seleziona il paese in cui ti trovi. Verrà utilizzato per la formattazione dei numeri di telefono e le chiamate locali.',
   country: 'Paese',
   areaCode: 'Prefisso',
-  areaCodePlaceholder: 'Inserisci prefisso'
+  areaCodePlaceholder: 'Inserisci prefisso',
+  save: 'Salva'
 };
 //# sourceMappingURL=it-IT.js.map
