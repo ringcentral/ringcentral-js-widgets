@@ -14,31 +14,10 @@ import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 import Switch from '../Switch';
 import CheckBox from '../CheckBox';
-
-// import formatMessage from 'format-message';
-// import IconField from '../IconField';
-// import Switch from '../Switch';
-// import SpinnerOverlay from '../SpinnerOverlay';
-// import i18n from './i18n';
-// import RcFont from '../../assets/RcFont/RcFont.scss';
+import i18n from './i18n';
 
 const MINUTE_SCALE = 4;
 const HOUR_SCALE = 13;
-const AUDIO_OPTIONS = [
-  {
-    key: 'Phone',
-    text: 'Telephony Only',
-  },
-  {
-    key: 'ComputerAudio',
-    text: 'VoIP Only',
-
-  },
-  {
-    key: 'Phone_ComputerAudio',
-    text: 'Both',
-  },
-];
 
 function getMinutesList(MINUTE_SCALE) {
   return new Array(MINUTE_SCALE).fill(0).map((_, key) => {
@@ -136,42 +115,19 @@ Section.defaultProps = {
 export class MeetingPanel extends Component {
   constructor(...args) {
     super(...args);
-    this.state = {
-      topic: 'Michael Lin\'s Meeting',
-      meetingType: 'Scheduled',
-      password: null,
-      schedule: {
-        startTime: new Date(),
-        durationInMinutes: 60,
-        timeZone: {
-          id: null
-        }
-      },
-      host: {
-        id: null,
-      },
-      allowJoinBeforeHost: false,
-      startHostVideo: false,
-      startParticipantsVideo: false,
-      audioOptions: ['Phone', 'ComputerAudio'],
-      _requireMeetingPassword: false,
-      _showDate: false,
-      _showTime: false,
-    };//
-    Moment.locale('en');
+    Moment.locale(this.props.currentLocale);
     momentLocalizer();
   }
   render() {
     const {
-      // update,
-      // meeting,
+      update,
+      meeting,
       hidden,
       disabled,
       invite,
       buttonText,
+      currentLocale,
     } = this.props;
-    const meeting = this.state;//
-    const update = state => this.setState(state);//
     const onToggle = (type) => {
       if (this[type]._values.open) {
         this[type].refs.inner.close();
@@ -180,6 +136,26 @@ export class MeetingPanel extends Component {
         this[type].refs.inner.toggle();
       }
     };
+    const recurring = i18n.getString('recurring', currentLocale);
+    const scheduled = i18n.getString('scheduled', currentLocale);
+    const telephonyOnly = i18n.getString('telephonyOnly', currentLocale);
+    const voIPOnly = i18n.getString('voIPOnly', currentLocale);
+    const both = i18n.getString('both', currentLocale);
+    const AUDIO_OPTIONS = [
+      {
+        key: 'Phone',
+        text: telephonyOnly,
+      },
+      {
+        key: 'ComputerAudio',
+        text: voIPOnly,
+
+      },
+      {
+        key: 'Phone_ComputerAudio',
+        text: both,
+      },
+    ];
     const minTime = new Date(meeting.schedule.startTime) < +new Date() ? { min: new Date() } : {};
     return (
       <div className={styles.meetingPanel}>
@@ -189,7 +165,7 @@ export class MeetingPanel extends Component {
               <Section hideTopBorderLine={true}>
                 <div className={styles.inline}>
                   <span className={styles.label}>
-                    {'Topic'}
+                    {i18n.getString('topic', currentLocale)}
                   </span>
                   <input
                     type="text"
@@ -203,12 +179,12 @@ export class MeetingPanel extends Component {
                     }} />
                 </div>
               </Section>
-              <Section title={'When'}>
+              <Section title={i18n.getString('when', currentLocale)}>
                 <div className={styles.dateTimeBox}>
                   <div className={styles.list}>
                     <div className={styles.datePicker}>
                       <DateTimePicker
-                        culture={'en'}
+                        culture={currentLocale}
                         time={false}
                         value={meeting.schedule.startTime}
                         onChange={(startTime) => {
@@ -259,7 +235,7 @@ export class MeetingPanel extends Component {
                   </div>
                 </div>
               </Section>
-              <Section title={'Duration'}>
+              <Section title={i18n.getString('duration', currentLocale)}>
                 <div className={classnames(styles.spaceBetween, styles.duration)}>
                   <div className={styles.list}>
                     <div className={styles.hoursList}>
@@ -316,12 +292,12 @@ export class MeetingPanel extends Component {
               <Section className={styles.section}>
                 <div className={styles.spaceBetween}>
                   <span className={styles.label}>
-                    {'Recurring Meeting'}
+                    {i18n.getString('recurringMeeting', currentLocale)}
                   </span>
                   <Switch
-                    checked={meeting.meetingType === 'Recurring'}
+                    checked={meeting.meetingType === recurring}
                     onChange={() => {
-                      const meetingType = ['Recurring', 'Scheduled'].find(item => (
+                      const meetingType = [recurring, scheduled].find(item => (
                         item !== meeting.meetingType
                       ));
                       update({
@@ -331,14 +307,14 @@ export class MeetingPanel extends Component {
                     }} />
                 </div>
               </Section>
-              <Section title={'Video'} withSwitch={true}>
+              <Section title={i18n.getString('video', currentLocale)} withSwitch={true}>
                 <div>
                   <div className={classnames(styles.labelLight, styles.fixTopMargin)}>
-                    {'When joining a meeting'}
+                    {i18n.getString('videoDescribe', currentLocale)}
                   </div>
                   <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
                     <span className={styles.labelLight}>
-                      {'Host'}
+                      {i18n.getString('host', currentLocale)}
                     </span>
                     <Switch
                       checked={meeting.startHostVideo}
@@ -350,9 +326,9 @@ export class MeetingPanel extends Component {
                       }} />
                   </div>
                   <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
-                <span className={styles.labelLight}>
-                  {'Participants'}
-                </span>
+                    <span className={styles.labelLight}>
+                      {i18n.getString('participants', currentLocale)}
+                    </span>
                     <Switch
                       checked={meeting.startParticipantsVideo}
                       onChange={(startParticipantsVideo) => {
@@ -364,7 +340,7 @@ export class MeetingPanel extends Component {
                   </div>
                 </div>
               </Section>
-              <Section title={'Audio Options'} withSwitch={true}>
+              <Section title={i18n.getString('audioOptions', currentLocale)} withSwitch={true}>
                 <CheckBox
                   onSelect={({ key }) => {
                     const audioOptions = key.split('_');
@@ -378,11 +354,11 @@ export class MeetingPanel extends Component {
                   selected={meeting.audioOptions.join('_')}
                   data={AUDIO_OPTIONS} />
               </Section>
-              <Section title={'Meeting Options'} withSwitch={true}>
+              <Section title={i18n.getString('meetingOptions', currentLocale)} withSwitch={true}>
                 <div>
                   <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
                     <span className={styles.labelLight}>
-                      {'Require Meeting Password'}
+                      {i18n.getString('requirePassword', currentLocale)}
                     </span>
                     <Switch
                       checked={meeting._requireMeetingPassword}
@@ -399,7 +375,7 @@ export class MeetingPanel extends Component {
                     meeting._requireMeetingPassword ? (
                       <div className={styles.passwordBox}>
                         <div className={styles.labelLight}>
-                          {'Password'}
+                          {i18n.getString('password', currentLocale)}
                         </div>
                         <input
                           type="password"
@@ -416,7 +392,7 @@ export class MeetingPanel extends Component {
                   }
                   <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
                     <span className={styles.labelLight}>
-                      {'Enable join before host'}
+                      {i18n.getString('enableJoinBeforeHost', currentLocale)}
                     </span>
                     <Switch
                       checked={meeting.allowJoinBeforeHost}
@@ -446,41 +422,18 @@ export class MeetingPanel extends Component {
 }
 
 MeetingPanel.propTypes = {
-  update: PropTypes.func,
-  meeting: PropTypes.object,
+  update: PropTypes.func.isRequired,
+  meeting: PropTypes.object.isRequired,
+  invite: PropTypes.func.isRequired,
+  currentLocale: PropTypes.string.isRequired,
+  buttonText: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   hidden: PropTypes.bool,
-  invite: PropTypes.func,
-  buttonText: PropTypes.string,
 };
+
 MeetingPanel.defaultProps = {
-  update: (state) => {console.log(state)},
-  invite: (state) => {console.log(state)},
-  buttonText: 'Invite with Google Calendar',
   disabled: false,
   hidden: true,
-  meeting: {
-    topic: 'Michael Lin\'s Meeting',
-    meetingType: 'Scheduled',
-    password: null,
-    schedule: {
-      startTime: new Date(),
-      durationInMinutes: 60,
-      timeZone: {
-        id: null
-      }
-    },
-    host: {
-      id: null,
-    },
-    allowJoinBeforeHost: false,
-    startHostVideo: false,
-    startParticipantsVideo: false,
-    audioOptions: ['Phone', 'ComputerAudio'],
-    _requireMeetingPassword: false,
-    _showDate: false,
-    _showTime: false,
-  }
 };
 
 export default MeetingPanel;
