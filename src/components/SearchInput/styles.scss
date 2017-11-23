@@ -1,9 +1,13 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/fonts';
+
 .root {
-  font-family: Helvetica;
+  @include secondary-font;
   display: block;
   position: relative;
-  padding: 5px;
-  border-bottom: 1px solid #e3e4e5;
+  padding: 0;
+  border-radius: 16px;
+  border: solid 1px $silver;
 }
 
 .icon {
@@ -11,13 +15,12 @@
   color: #797979;
   font-size: 1em;
   left: 10px;
-  top: 12px;
+  top: 7px;
 }
 
 .input {
-  font-size: 13px;
   margin-left: 30px;
-  color: #303030;
+  color: $night;
   line-height: 17px;
   width: 100%;
   height: 27px;
@@ -28,5 +31,5 @@
 }
 
 .input::placeholder {
-  color: #a9a9a9;
+  color: $smoke;
 }

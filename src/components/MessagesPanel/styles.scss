@@ -1,6 +1,7 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/layout';
+@import '../../lib/commonStyles/fonts';
 
 .root {
   @include full-size;
@@ -15,9 +16,11 @@
   border-bottom-width: 1px;
   border-style: solid;
 }
+
 .contentWithHeader {
   height: calc(100% - #{$header-height});
 }
+
 .composeText{
   display: inline-block;
   height: 20px;
@@ -27,4 +30,15 @@
   path {
     fill: $primary-color;
   }
+}
+
+.tabBar {
+  height: 35px !important;
+  background: $snow !important;
+}
+
+.tabTitle {
+  @include secondary-font;
+  font-family: Lato;
+  color: $night;
 }

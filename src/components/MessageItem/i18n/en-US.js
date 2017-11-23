@@ -1,3 +1,5 @@
+import messageTypes from 'ringcentral-integration/enums/messageTypes';
+
 export default {
   addLog: 'Log',
   editLog: 'Edit Log',
@@ -6,4 +8,6 @@ export default {
   call: 'Call',
   conversation: 'Conversation',
   groupConversation: 'Group Conversation',
+  voiceMessage: 'Voice message',
+  [messageTypes.voiceMail]: 'Voice Mail',
 };

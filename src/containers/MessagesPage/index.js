@@ -57,6 +57,7 @@ function mapToProps(_, {
     ),
     searchInput: messages.searchInput,
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
+    typeFilter: messages.typeFilter,
   });
 }
 
@@ -64,6 +65,7 @@ function mapToFunctions(_, {
   phone: {
     dateTimeFormat,
     messages,
+    messageStore,
     conversationLogger,
     contactMatcher,
     call,
@@ -118,12 +120,16 @@ function mapToFunctions(_, {
     onSearchInputChange: (e) => {
       messages.updateSearchInput(e.currentTarget.value);
     },
-    showConversationDetail(conversationId) {
+    showConversationDetail: (conversationId) => {
       routerInteraction.push(
         conversationDetailRoute.replace('{conversationId}', conversationId)
       );
     },
+    readVoicemail: (conversationId) => {
+      messageStore.readMessages(conversationId);
+    },
     composeText: () => routerInteraction.push(composeTextRoute),
+    updateTypeFilter: type => messages.updateTypeFilter(type),
   };
 }
 export default withPhone(connect(
