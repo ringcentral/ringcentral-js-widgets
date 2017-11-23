@@ -124,6 +124,8 @@ MessagesPanel.propTypes = {
   composeText: PropTypes.func.isRequired,
   typeFilter: PropTypes.string,
   updateTypeFilter: PropTypes.func,
+  readVoicemail: PropTypes.func.isRequired,
+  showConversationDetail: PropTypes.func.isRequired,
 };
 
 MessagesPanel.defaultProps = {

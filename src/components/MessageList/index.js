@@ -109,6 +109,7 @@ MessageList.propTypes = {
   perPage: PropTypes.number,
   className: PropTypes.string,
   showConversationDetail: PropTypes.func.isRequired,
+  readVoicemail: PropTypes.func.isRequired,
   dateTimeFormatter: PropTypes.func,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
