@@ -100,7 +100,7 @@ var OAuth = (_dec = (0, _di.Module)({
   }
 
   (0, _createClass3.default)(OAuth, [{
-    key: 'prepareOAuth',
+    key: 'setupOAuth',
     value: function () {
       var _ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         var _this2 = this;
@@ -126,11 +126,11 @@ var OAuth = (_dec = (0, _di.Module)({
         }, _callee, this);
       }));
 
-      function prepareOAuth() {
+      function setupOAuth() {
         return _ref.apply(this, arguments);
       }
 
-      return prepareOAuth;
+      return setupOAuth;
     }()
   }, {
     key: 'destroyOAuth',
@@ -175,6 +175,6 @@ var OAuth = (_dec = (0, _di.Module)({
     }
   }]);
   return OAuth;
-}(_OAuthBase3.default), (_applyDecoratedDescriptor(_class2.prototype, 'prepareOAuth', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'prepareOAuth'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'destroyOAuth', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'destroyOAuth'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'openOAuthPage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'openOAuthPage'), _class2.prototype)), _class2)) || _class);
+}(_OAuthBase3.default), (_applyDecoratedDescriptor(_class2.prototype, 'setupOAuth', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setupOAuth'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'destroyOAuth', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'destroyOAuth'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'openOAuthPage', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'openOAuthPage'), _class2.prototype)), _class2)) || _class);
 exports.default = OAuth;
 //# sourceMappingURL=index.js.map
