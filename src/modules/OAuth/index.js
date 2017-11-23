@@ -17,7 +17,7 @@ export default class OAuth extends OAuthBase {
   }
 
   @background
-  async prepareOAuth() {
+  async setupOAuth() {
     if (
       !this.oAuthReady
     ) {
