@@ -50,12 +50,14 @@ export default class MessagesPanel extends Component {
         label: i18n.getString(messageTypes.voiceMail, this.props.currentLocale),
         path: messageTypes.voiceMail,
         isActive: path => path === messageTypes.voiceMail,
+        noticeCounts: this.props.voiceUnreadCounts,
       },
       {
         icon: <TabTitle type={messageTypes.text} currentLocale={this.props.currentLocale} />,
         label: i18n.getString(messageTypes.text, this.props.currentLocale),
         path: messageTypes.text,
         isActive: path => path === messageTypes.text,
+        noticeCounts: this.props.textUnreadCounts,
       },
     ];
     return (
@@ -126,6 +128,8 @@ MessagesPanel.propTypes = {
   updateTypeFilter: PropTypes.func,
   readVoicemail: PropTypes.func.isRequired,
   showConversationDetail: PropTypes.func.isRequired,
+  textUnreadCounts: PropTypes.number.isRequired,
+  voiceUnreadCounts: PropTypes.number.isRequired,
 };
 
 MessagesPanel.defaultProps = {

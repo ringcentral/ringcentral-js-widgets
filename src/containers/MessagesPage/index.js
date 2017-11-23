@@ -16,6 +16,7 @@ function mapToProps(_, {
     conversationLogger,
     connectivityMonitor,
     rateLimiter,
+    messageStore,
   },
   showTitle = false,
   enableContactFallback = false,
@@ -58,6 +59,8 @@ function mapToProps(_, {
     searchInput: messages.searchInput,
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
     typeFilter: messages.typeFilter,
+    textUnreadCounts: messageStore.textUnreadCounts,
+    voiceUnreadCounts: messageStore.voiceUnreadCounts,
   });
 }
 
