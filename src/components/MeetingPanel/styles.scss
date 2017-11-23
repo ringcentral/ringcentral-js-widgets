@@ -1,0 +1,173 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/reset.scss';
+
+.meetingPanel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.inviteBox {
+  flex-shrink: 0;
+  height: 35px;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.withShadow {
+  box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.scroll {
+  overflow: hidden;
+  overflow-y: auto;
+  height: 100%;
+  background-color: #ffffff;
+  padding: 5px 0;
+}
+
+.section {
+  padding: 10px 0;
+  margin: 0 20px;
+  min-height: 16px;
+  border-top: 1px solid #e2e2e2;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: bold;
+  color: #2f2f2f;
+  align-items: center;
+  display: flex;
+}
+
+.fixTopMargin {
+  margin-top: 10px;
+}
+
+.spaceBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inline{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  line-height: 16px;
+}
+
+.input {
+  outline:none;
+  margin-left: 10px;
+  flex-shrink: 1;
+  width: 100%;
+  height: 16px;
+  line-height: 16px;
+  font-size: 13px;
+  color: #666666;
+  border: none;
+}
+
+.label {
+  @extend .title;
+  flex-shrink: 0;
+}
+
+.labelLight {
+  @extend .label;
+  font-weight: normal;
+  color: #666666;
+}
+
+.hiddenTopBorder {
+  border-top: none;
+}
+
+.dropDown {
+  transform: rotate(180deg);
+}
+
+.passwordBox {
+  @extend .fixTopMargin;
+  flex-direction: column;
+}
+
+.password {
+  @extend .fixTopMargin;
+  width: 100%;
+  height: 28px;
+  border: 1px solid #e2e2e2;
+  outline: none;
+  padding: 0;
+  color: #666666;
+}
+
+.arrow {
+  color: #666666;
+  font-size: 13px;
+}
+
+.icon {
+  @include reset;
+  width: 100%;
+  height: 100%;
+}
+
+.datePicker {
+  width: 64px;
+}
+
+.timePicker {
+  width: 72px;
+}
+
+.dateIcon {
+  height: 17.4px;
+}
+
+.timeIcon {
+  height: 17.7px;
+}
+
+.dateTimeBox {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.duration {
+  margin-top: 10px;
+}
+
+.list {
+  display: flex;
+  width: 50%;
+}
+
+.hoursList {
+  width: 72px;
+}
+
+.minutesList {
+  width: 72px;
+}
+
+.button {
+  outline: none;
+  border: none;
+  background-color: $primary-color;
+  width: 100%;
+  height: 35px;
+  border-radius: 17.5px;
+  text-align: center;
+  line-height: 17.5px;
+  color: #ffffff;
+  font-size: 13px;
+}
+
+.disabled {
+  background-color: #c7c7c7;
+}
