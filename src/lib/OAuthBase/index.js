@@ -4,7 +4,6 @@ import { Module } from 'ringcentral-integration/lib/di';
 import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
 import parseCallbackUri from 'ringcentral-integration/lib/parseCallbackUri';
-import popWindow from 'ringcentral-integration/lib/popWindow';
 import required from 'ringcentral-integration/lib/required';
 import qs from 'qs';
 import url from 'url';
