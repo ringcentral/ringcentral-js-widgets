@@ -4,10 +4,6 @@
 $circle: 14px;
 $baseSize: $circle + 2px;
 
-.checkBox {
-
-}
-
 .item {
   display: flex;
   align-items: center;
@@ -23,7 +19,7 @@ $baseSize: $circle + 2px;
   &:before {
     height: $circle;
     width: $circle;
-    border: 1px solid #e2e2e2;
+    border: 1px solid $silver;
     border-radius: $baseSize/2;
     position: absolute;
     content: ""
@@ -49,5 +45,5 @@ $baseSize: $circle + 2px;
 .text {
   display: inline-block;
   font-size: 13px;
-  color: #666666;
+  color: $ash;
 }

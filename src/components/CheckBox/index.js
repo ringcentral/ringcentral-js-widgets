@@ -10,11 +10,12 @@ function CheckBox(
     onSelect,
     valueField,
     textField,
+    className
   }
 ) {
   const isListObject = !!(textField && valueField);
   return (
-    <div className={styles.checkBox}>
+    <div className={className}>
       {
         data.map((item, key) => {
           const isSelected = selected === (isListObject ? item[valueField] : item);
@@ -40,11 +41,13 @@ CheckBox.propTypes = {
   selected: PropTypes.any.isRequired,
   data: PropTypes.array.isRequired,
   onSelect: PropTypes.func.isRequired,
+  className: PropTypes.string,
 };
 
 CheckBox.defaultProps = {
   textField: null,
   valueField: null,
+  className: null,
 };
 
 export default CheckBox;
