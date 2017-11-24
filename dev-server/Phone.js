@@ -58,7 +58,6 @@ import RecentMessages from 'ringcentral-integration/modules/RecentMessages';
 import RecentCalls from 'ringcentral-integration/modules/RecentCalls';
 import AudioSettings from 'ringcentral-integration/modules/AudioSettings';
 import Meeting from 'ringcentral-integration/modules/Meeting';
-import GoogleCalendar from 'ringcentral-integration/modules/GoogleCalendar';
 import RouterInteraction from '../src/modules/RouterInteraction';
 
 
@@ -625,12 +624,6 @@ export default class Phone extends RcModule {
       getState: () => this.state.meeting,
     }));
     reducers.meeting = this.meeting.reducer;
-    this.addModule('googleCalendar', new GoogleCalendar({
-      ...options,
-      getState: () => this.state.googleCalendar
-    }));
-    reducers.googleCalendar = this.googleCalendar.reducer;
-
     this._reducer = combineReducers({
       ...reducers,
       app: (state = {

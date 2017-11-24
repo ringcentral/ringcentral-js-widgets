@@ -8,11 +8,10 @@ function mapToProps(_, {
   phone: {
     meeting,
     locale,
-    // googleCalendar,
   },
 }) {
   return {
-    meeting: meeting.meeting,
+    meeting: meeting.meeting || {},
     buttonText: 'Invite',
     currentLocale: locale.currentLocale,
   };
@@ -21,12 +20,11 @@ function mapToProps(_, {
 function mapToFunctions(_, {
   phone: {
     meeting,
-    // googleCalendar,
   },
 }) {
   return {
-    update: meetingSatate => meeting.update(meetingSatate),
-    invite: meetingSatate => meeting.schedule(meetingSatate),
+    update: meetingState => meeting.update(meetingState),
+    invite: meetingState => meeting.schedule(meetingState),
     init: () => meeting.init(),
   };
 }

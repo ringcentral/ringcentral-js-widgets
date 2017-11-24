@@ -63,7 +63,7 @@ class MeetingPanel extends Component {
       buttonText,
       currentLocale,
     } = this.props;
-    if (!meeting) {
+    if (!Object.keys(meeting).length) {
       return null;
     }
     const onToggle = (type) => {
@@ -171,7 +171,7 @@ class MeetingPanel extends Component {
         </div>
       </Section>
     ) : null;
-    const duration = (
+    const duration = !isRecurring ? (
       <Section title={i18n.getString('duration', currentLocale)}>
         <div className={classnames(styles.spaceBetween, styles.duration)}>
           <div className={styles.list}>
@@ -184,10 +184,7 @@ class MeetingPanel extends Component {
                 onChange={({ value }) => {
                   let restMinutes = meeting.schedule.durationInMinutes % 60;
                   const isMax = value === hoursList.slice(-1)[0].value;
-                  const isMin = value === hoursList[0].value;
                   restMinutes = isMax ? 0 : restMinutes;
-                  const isZero = restMinutes === minutesList[0].value;
-                  restMinutes = isMin && isZero ? minutesList[1].value : restMinutes;
                   const durationInMinutes = value * 60 + restMinutes;
                   update({
                     ...meeting,
@@ -209,10 +206,7 @@ class MeetingPanel extends Component {
                 onChange={({ value }) => {
                   const restHours = parseInt((meeting.schedule.durationInMinutes / 60), 10);
                   const isMax = restHours === hoursList.slice(-1)[0].value;
-                  const isMin = restHours === hoursList[0].value;
-                  let minutes = isMax ? 0 : value;
-                  const isZero = minutes === minutesList[0].value;
-                  minutes = isMin && isZero ? minutesList[1].value : minutes;
+                  const minutes = isMax ? 0 : value;
                   const durationInMinutes = restHours * 60 + minutes;
                   update({
                     ...meeting,
@@ -226,7 +220,7 @@ class MeetingPanel extends Component {
           </div>
         </div>
       </Section>
-    );
+    ) : null;
     const recurringMeeting = (
       <Section className={styles.section}>
         <div>
