@@ -11,7 +11,7 @@
   flex-shrink: 0;
   height: 35px;
   padding: 20px;
-  background-color: #ffffff;
+  background-color: $snow;
 }
 
 .withShadow {
@@ -23,7 +23,7 @@
   overflow: hidden;
   overflow-y: auto;
   height: 100%;
-  background-color: #ffffff;
+  background-color: $snow;
   padding: 5px 0;
 }
 
@@ -31,13 +31,13 @@
   padding: 10px 0;
   margin: 0 20px;
   min-height: 16px;
-  border-top: 1px solid #e2e2e2;
+  border-top: 1px solid $silver;
 }
 
 .title {
   font-size: 13px;
   font-weight: bold;
-  color: #2f2f2f;
+  color: $night;
   align-items: center;
   display: flex;
 }
@@ -67,7 +67,7 @@
   height: 16px;
   line-height: 16px;
   font-size: 13px;
-  color: #666666;
+  color: $ash;
   border: none;
 }
 
@@ -79,7 +79,7 @@
 .labelLight {
   @extend .label;
   font-weight: normal;
-  color: #666666;
+  color: $ash;
 }
 
 .hiddenTopBorder {
@@ -99,14 +99,14 @@
   @extend .fixTopMargin;
   width: 100%;
   height: 28px;
-  border: 1px solid #e2e2e2;
+  border: 1px solid $silver;
   outline: none;
   padding: 0;
-  color: #666666;
+  color: $ash;
 }
 
 .arrow {
-  color: #666666;
+  color: $ash;
   font-size: 13px;
 }
 
@@ -164,12 +164,12 @@
   border-radius: 17.5px;
   text-align: center;
   line-height: 17.5px;
-  color: #ffffff;
+  color: $snow;
   font-size: 13px;
 }
 
 .disabled {
-  background-color: #c7c7c7;
+  background-color: $silver;
 }
 
 .recurringDescribe {
