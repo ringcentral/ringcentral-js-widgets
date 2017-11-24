@@ -10,11 +10,11 @@ import './helper.css';
 import DateIcon from '../../assets/images/Date.svg';
 import TimeIcon from '../../assets/images/Time.svg';
 
-import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 import Switch from '../Switch';
 import CheckBox from '../CheckBox';
 import i18n from './i18n';
+import Section from './section';
 
 const MINUTE_SCALE = 4;
 const HOUR_SCALE = 13;
@@ -22,7 +22,7 @@ const HOUR_SCALE = 13;
 function getMinutesList(MINUTE_SCALE) {
   return new Array(MINUTE_SCALE).fill(0).map((_, key) => {
     const value = 60 / MINUTE_SCALE * key;
-    const text = (`${value}0`).slice(0, 2) + ' m.';
+    const text = `${(`${value}0`).slice(0, 2)} m.`;
     return {
       value,
       text
@@ -35,7 +35,7 @@ function getHoursList(HOUR_SCALE) {
     throw new Error('HOUR_SCALE must be less than 23.');
   }
   return new Array(HOUR_SCALE).fill(0).map((_, value) => {
-    const text = (`0${value}0`).slice(-3, -1) + ' h.';
+    const text = `${(`0${value}0`).slice(-3, -1)} h.`;
     return {
       value,
       text
@@ -46,73 +46,7 @@ function getHoursList(HOUR_SCALE) {
 const minutesList = getMinutesList(MINUTE_SCALE);
 const hoursList = getHoursList(HOUR_SCALE);
 
-export class Section extends Component {
-  constructor(...args) {
-    super(...args);
-    this.state = {
-      toggle: this.props.toggle,
-    };
-  }
-  render() {
-    const {
-      children,
-      title,
-      withSwitch,
-      className,
-      hideTopBorderLine,
-    } = this.props;
-    const toggle = () => {
-      this.setState({ toggle: !this.state.toggle });
-    };
-    const Title = () => (
-      title ? (
-        <span className={styles.title}>{title}</span>
-      ) : null
-    );
-    const DropDown = ({ isDropDown, onClick }) => (
-      withSwitch ? (
-        <span
-          className={classnames(!isDropDown ? styles.dropDown : null)}
-          onClick={onClick}>
-          <i className={classnames(dynamicsFont.arrow, styles.arrow)} />
-        </span>
-      ) : null
-    );
-    const topBorderLine = hideTopBorderLine ? styles.hiddenTopBorder : null;
-    return (
-      <div className={classnames(styles.section, topBorderLine, className)}>
-        {
-          title ? (
-            <div className={styles.spaceBetween}>
-              <Title />
-              <DropDown isDropDown={this.state.toggle} onClick={toggle} />
-            </div>
-          ) : null
-        }
-        { this.state.toggle ? children : null }
-      </div>
-    );
-  }
-}
-
-Section.propTypes = {
-  children: PropTypes.element.isRequired,
-  title: PropTypes.string,
-  className: PropTypes.string,
-  withSwitch: PropTypes.bool,
-  toggle: PropTypes.bool,
-  hideTopBorderLine: PropTypes.bool,
-};
-
-Section.defaultProps = {
-  className: null,
-  title: null,
-  withSwitch: false,
-  toggle: true,
-  hideTopBorderLine: false,
-};
-
-export class MeetingPanel extends Component {
+class MeetingPanel extends Component {
   constructor(...args) {
     super(...args);
     this.props.init();
@@ -162,7 +96,7 @@ export class MeetingPanel extends Component {
     ];
     const minTime = new Date(meeting.schedule.startTime) < +new Date() ? { min: new Date() } : {};
     const topic = (
-      <Section hideTopBorderLine={true}>
+      <Section hideTopBorderLine>
         <div className={styles.inline}>
           <span className={styles.label}>
             {i18n.getString('topic', currentLocale)}
@@ -247,7 +181,7 @@ export class MeetingPanel extends Component {
                 data={hoursList}
                 valueField={'value'}
                 textField={'text'}
-                value={(meeting.schedule.durationInMinutes / 60) | 0}
+                value={parseInt((meeting.schedule.durationInMinutes / 60), 10)}
                 onChange={({ value }) => {
                   let restMinutes = meeting.schedule.durationInMinutes % 60;
                   const isMax = value === hoursList.slice(-1)[0].value;
@@ -274,7 +208,7 @@ export class MeetingPanel extends Component {
                 textField={'text'}
                 value={(meeting.schedule.durationInMinutes % 60) || 0}
                 onChange={({ value }) => {
-                  const restHours = ~~(meeting.schedule.durationInMinutes / 60);
+                  const restHours = parseInt((meeting.schedule.durationInMinutes / 60), 10);
                   const isMax = restHours === hoursList.slice(-1)[0].value;
                   const isMin = restHours === hoursList[0].value;
                   let minutes = isMax ? 0 : value;
@@ -315,7 +249,7 @@ export class MeetingPanel extends Component {
       </Section>
     );
     const video = (
-      <Section title={i18n.getString('video', currentLocale)} withSwitch={true}>
+      <Section title={i18n.getString('video', currentLocale)} withSwitch>
         <div>
           <div className={classnames(styles.labelLight, styles.fixTopMargin)}>
             {i18n.getString('videoDescribe', currentLocale)}
@@ -350,7 +284,7 @@ export class MeetingPanel extends Component {
       </Section>
     );
     const audioOptions = (
-      <Section title={i18n.getString('audioOptions', currentLocale)} withSwitch={true}>
+      <Section title={i18n.getString('audioOptions', currentLocale)} withSwitch>
         <CheckBox
           onSelect={({ key }) => {
             const audioOptions = key.split('_');
@@ -366,7 +300,7 @@ export class MeetingPanel extends Component {
       </Section>
     );
     const meetingOptions = (
-      <Section title={i18n.getString('meetingOptions', currentLocale)} withSwitch={true}>
+      <Section title={i18n.getString('meetingOptions', currentLocale)} withSwitch>
         <div>
           <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
             <span className={styles.labelLight}>

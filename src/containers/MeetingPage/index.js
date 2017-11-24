@@ -7,8 +7,8 @@ import withPhone from '../../lib/withPhone';
 function mapToProps(_, {
   phone: {
     meeting,
-    googleCalendar,
     locale,
+    // googleCalendar,
   },
 }) {
   return {
@@ -21,7 +21,7 @@ function mapToProps(_, {
 function mapToFunctions(_, {
   phone: {
     meeting,
-    googleCalendar,
+    // googleCalendar,
   },
 }) {
   return {
