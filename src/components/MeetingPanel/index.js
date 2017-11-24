@@ -115,6 +115,7 @@ Section.defaultProps = {
 export class MeetingPanel extends Component {
   constructor(...args) {
     super(...args);
+    this.props.init();
     Moment.locale(this.props.currentLocale);
     momentLocalizer();
   }
@@ -128,6 +129,9 @@ export class MeetingPanel extends Component {
       buttonText,
       currentLocale,
     } = this.props;
+    if (!meeting) {
+      return null;
+    }
     const onToggle = (type) => {
       if (this[type]._values.open) {
         this[type].refs.inner.close();
@@ -157,265 +161,289 @@ export class MeetingPanel extends Component {
       },
     ];
     const minTime = new Date(meeting.schedule.startTime) < +new Date() ? { min: new Date() } : {};
+    const topic = (
+      <Section hideTopBorderLine={true}>
+        <div className={styles.inline}>
+          <span className={styles.label}>
+            {i18n.getString('topic', currentLocale)}
+          </span>
+          <input
+            type="text"
+            className={styles.input}
+            value={meeting.topic || ''}
+            onChange={({ target }) => {
+              update({
+                ...meeting,
+                topic: target.value
+              });
+            }} />
+        </div>
+      </Section>
+    );
+    const when = (
+      <Section title={i18n.getString('when', currentLocale)}>
+        <div className={styles.dateTimeBox}>
+          <div className={styles.list}>
+            <div className={styles.datePicker}>
+              <DateTimePicker
+                culture={currentLocale}
+                time={false}
+                value={meeting.schedule.startTime}
+                onChange={(startTime) => {
+                  update({
+                    ...meeting,
+                    schedule: {
+                      ...meeting.schedule,
+                      startTime,
+                    }
+                  });
+                }}
+                ref={(ref) => { this.date = ref; }}
+                format={'MM/DD/YY'}
+                min={new Date()}
+              />
+            </div>
+            <div className={styles.dateIcon}>
+              <DateIcon
+                onClick={() => onToggle('date')}
+                className={styles.icon} />
+            </div>
+          </div>
+          <div className={styles.list}>
+            <div className={styles.timePicker}>
+              <DateTimePicker
+                culture={'en'}
+                date={false}
+                ref={(ref) => { this.time = ref; }}
+                value={meeting.schedule.startTime}
+                onChange={(startTime) => {
+                  update({
+                    ...meeting,
+                    schedule: {
+                      ...meeting.schedule,
+                      startTime,
+                    }
+                  });
+                }}
+                format={'hh:mm A'}
+                {...minTime}
+              />
+            </div>
+            <div className={styles.timeIcon}>
+              <TimeIcon
+                onClick={() => onToggle('time')}
+                className={styles.icon} />
+            </div>
+          </div>
+        </div>
+      </Section>
+    );
+    const duration = (
+      <Section title={i18n.getString('duration', currentLocale)}>
+        <div className={classnames(styles.spaceBetween, styles.duration)}>
+          <div className={styles.list}>
+            <div className={styles.hoursList}>
+              <DropdownList
+                data={hoursList}
+                valueField={'value'}
+                textField={'text'}
+                value={(meeting.schedule.durationInMinutes / 60) | 0}
+                onChange={({ value }) => {
+                  let restMinutes = meeting.schedule.durationInMinutes % 60;
+                  const isMax = value === hoursList.slice(-1)[0].value;
+                  const isMin = value === hoursList[0].value;
+                  restMinutes = isMax ? 0 : restMinutes;
+                  const isZero = restMinutes === minutesList[0].value;
+                  restMinutes = isMin && isZero ? minutesList[1].value : restMinutes;
+                  const durationInMinutes = value * 60 + restMinutes;
+                  update({
+                    ...meeting,
+                    schedule: {
+                      ...meeting.schedule,
+                      durationInMinutes,
+                    }
+                  });
+                }} />
+            </div>
+          </div>
+          <div className={styles.list}>
+            <div className={styles.minutesList}>
+              <DropdownList
+                data={minutesList}
+                valueField={'value'}
+                textField={'text'}
+                value={(meeting.schedule.durationInMinutes % 60) || 0}
+                onChange={({ value }) => {
+                  const restHours = ~~(meeting.schedule.durationInMinutes / 60);
+                  const isMax = restHours === hoursList.slice(-1)[0].value;
+                  const isMin = restHours === hoursList[0].value;
+                  let minutes = isMax ? 0 : value;
+                  const isZero = minutes === minutesList[0].value;
+                  minutes = isMin && isZero ? minutesList[1].value : minutes;
+                  const durationInMinutes = restHours * 60 + minutes;
+                  update({
+                    ...meeting,
+                    schedule: {
+                      ...meeting.schedule,
+                      durationInMinutes,
+                    }
+                  });
+                }} />
+            </div>
+          </div>
+        </div>
+      </Section>
+    );
+    const recurringMeeting = (
+      <Section className={styles.section}>
+        <div className={styles.spaceBetween}>
+          <span className={styles.label}>
+            {i18n.getString('recurringMeeting', currentLocale)}
+          </span>
+          <Switch
+            checked={meeting.meetingType === recurring}
+            onChange={() => {
+              const meetingType = [recurring, scheduled].find(item => (
+                item !== meeting.meetingType
+              ));
+              update({
+                ...meeting,
+                meetingType,
+              });
+            }} />
+        </div>
+      </Section>
+    );
+    const video = (
+      <Section title={i18n.getString('video', currentLocale)} withSwitch={true}>
+        <div>
+          <div className={classnames(styles.labelLight, styles.fixTopMargin)}>
+            {i18n.getString('videoDescribe', currentLocale)}
+          </div>
+          <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
+            <span className={styles.labelLight}>
+              {i18n.getString('host', currentLocale)}
+            </span>
+            <Switch
+              checked={meeting.startHostVideo}
+              onChange={(startHostVideo) => {
+                update({
+                  ...meeting,
+                  startHostVideo,
+                });
+              }} />
+          </div>
+          <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
+            <span className={styles.labelLight}>
+              {i18n.getString('participants', currentLocale)}
+            </span>
+            <Switch
+              checked={meeting.startParticipantsVideo}
+              onChange={(startParticipantsVideo) => {
+                update({
+                  ...meeting,
+                  startParticipantsVideo,
+                });
+              }} />
+          </div>
+        </div>
+      </Section>
+    );
+    const audioOptions = (
+      <Section title={i18n.getString('audioOptions', currentLocale)} withSwitch={true}>
+        <CheckBox
+          onSelect={({ key }) => {
+            const audioOptions = key.split('_');
+            update({
+              ...meeting,
+              audioOptions,
+            });
+          }}
+          valueField={'key'}
+          textField={'text'}
+          selected={meeting.audioOptions.join('_')}
+          data={AUDIO_OPTIONS} />
+      </Section>
+    );
+    const meetingOptions = (
+      <Section title={i18n.getString('meetingOptions', currentLocale)} withSwitch={true}>
+        <div>
+          <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
+            <span className={styles.labelLight}>
+              {i18n.getString('requirePassword', currentLocale)}
+            </span>
+            <Switch
+              checked={meeting._requireMeetingPassword}
+              onChange={(_requireMeetingPassword) => {
+                const password = _requireMeetingPassword ? null : meeting.password;
+                update({
+                  ...meeting,
+                  _requireMeetingPassword,
+                  password,
+                });
+              }} />
+          </div>
+          {
+            meeting._requireMeetingPassword ? (
+              <div className={styles.passwordBox}>
+                <div className={styles.labelLight}>
+                  {i18n.getString('password', currentLocale)}
+                </div>
+                <input
+                  type="password"
+                  className={styles.password}
+                  value={meeting.password || ''}
+                  onChange={({ target }) => {
+                    update({
+                      ...meeting,
+                      password: target.value
+                    });
+                  }} />
+              </div>
+            ) : null
+          }
+          <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
+            <span className={styles.labelLight}>
+              {i18n.getString('enableJoinBeforeHost', currentLocale)}
+            </span>
+            <Switch
+              checked={meeting.allowJoinBeforeHost}
+              onChange={(allowJoinBeforeHost) => {
+                update({
+                  ...meeting,
+                  allowJoinBeforeHost,
+                });
+              }} />
+          </div>
+        </div>
+      </Section>
+    );
+    const inviteBox = (
+      <div className={classnames(styles.inviteBox, !hidden ? styles.withShadow : null)}>
+        <button
+          onClick={() => invite(meeting)}
+          disabled={disabled}
+          className={classnames(styles.button, disabled ? styles.disabled : null)}>
+          {buttonText}
+        </button>
+      </div>
+    );
     return (
       <div className={styles.meetingPanel}>
         {
           !hidden ? (
             <div className={styles.scroll}>
-              <Section hideTopBorderLine={true}>
-                <div className={styles.inline}>
-                  <span className={styles.label}>
-                    {i18n.getString('topic', currentLocale)}
-                  </span>
-                  <input
-                    type="text"
-                    className={styles.input}
-                    value={meeting.topic || ''}
-                    onChange={({ target }) => {
-                      update({
-                        ...meeting,
-                        topic: target.value
-                      });
-                    }} />
-                </div>
-              </Section>
-              <Section title={i18n.getString('when', currentLocale)}>
-                <div className={styles.dateTimeBox}>
-                  <div className={styles.list}>
-                    <div className={styles.datePicker}>
-                      <DateTimePicker
-                        culture={currentLocale}
-                        time={false}
-                        value={meeting.schedule.startTime}
-                        onChange={(startTime) => {
-                          update({
-                            ...meeting,
-                            schedule: {
-                              ...meeting.schedule,
-                              startTime,
-                            }
-                          });
-                        }}
-                        ref={(ref) => { this.date = ref; }}
-                        format={'MM/DD/YY'}
-                        min={new Date()}
-                      />
-                    </div>
-                    <div className={styles.dateIcon}>
-                      <DateIcon
-                        onClick={() => onToggle('date')}
-                        className={styles.icon} />
-                    </div>
-                  </div>
-                  <div className={styles.list}>
-                    <div className={styles.timePicker}>
-                      <DateTimePicker
-                        culture={'en'}
-                        date={false}
-                        ref={(ref) => { this.time = ref; }}
-                        value={meeting.schedule.startTime}
-                        onChange={(startTime) => {
-                          update({
-                            ...meeting,
-                            schedule: {
-                              ...meeting.schedule,
-                              startTime,
-                            }
-                          });
-                        }}
-                        format={'hh:mm A'}
-                        {...minTime}
-                      />
-                    </div>
-                    <div className={styles.timeIcon}>
-                      <TimeIcon
-                        onClick={() => onToggle('time')}
-                        className={styles.icon} />
-                    </div>
-                  </div>
-                </div>
-              </Section>
-              <Section title={i18n.getString('duration', currentLocale)}>
-                <div className={classnames(styles.spaceBetween, styles.duration)}>
-                  <div className={styles.list}>
-                    <div className={styles.hoursList}>
-                      <DropdownList
-                        data={hoursList}
-                        valueField={'value'}
-                        textField={'text'}
-                        value={(meeting.schedule.durationInMinutes / 60) | 0}
-                        onChange={({ value }) => {
-                          let restMinutes = meeting.schedule.durationInMinutes % 60;
-                          const isMax = value === hoursList.slice(-1)[0].value;
-                          const isMin = value === hoursList[0].value;
-                          restMinutes = isMax ? 0 : restMinutes;
-                          const isZero = restMinutes === minutesList[0].value;
-                          restMinutes = isMin && isZero ? minutesList[1].value : restMinutes;
-                          const durationInMinutes = value * 60 + restMinutes;
-                          update({
-                            ...meeting,
-                            schedule: {
-                              ...meeting.schedule,
-                              durationInMinutes,
-                            }
-                          });
-                        }} />
-                    </div>
-                  </div>
-                  <div className={styles.list}>
-                    <div className={styles.minutesList}>
-                      <DropdownList
-                        data={minutesList}
-                        valueField={'value'}
-                        textField={'text'}
-                        value={(meeting.schedule.durationInMinutes % 60) || 0}
-                        onChange={({ value }) => {
-                          const restHours = ~~(meeting.schedule.durationInMinutes / 60);
-                          const isMax = restHours === hoursList.slice(-1)[0].value;
-                          const isMin = restHours === hoursList[0].value;
-                          let minutes = isMax ? 0 : value;
-                          const isZero = minutes === minutesList[0].value;
-                          minutes = isMin && isZero ? minutesList[1].value : minutes;
-                          const durationInMinutes = restHours * 60 + minutes;
-                          update({
-                            ...meeting,
-                            schedule: {
-                              ...meeting.schedule,
-                              durationInMinutes,
-                            }
-                          });
-                        }} />
-                    </div>
-                  </div>
-                </div>
-              </Section>
-              <Section className={styles.section}>
-                <div className={styles.spaceBetween}>
-                  <span className={styles.label}>
-                    {i18n.getString('recurringMeeting', currentLocale)}
-                  </span>
-                  <Switch
-                    checked={meeting.meetingType === recurring}
-                    onChange={() => {
-                      const meetingType = [recurring, scheduled].find(item => (
-                        item !== meeting.meetingType
-                      ));
-                      update({
-                        ...meeting,
-                        meetingType,
-                      });
-                    }} />
-                </div>
-              </Section>
-              <Section title={i18n.getString('video', currentLocale)} withSwitch={true}>
-                <div>
-                  <div className={classnames(styles.labelLight, styles.fixTopMargin)}>
-                    {i18n.getString('videoDescribe', currentLocale)}
-                  </div>
-                  <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
-                    <span className={styles.labelLight}>
-                      {i18n.getString('host', currentLocale)}
-                    </span>
-                    <Switch
-                      checked={meeting.startHostVideo}
-                      onChange={(startHostVideo) => {
-                        update({
-                          ...meeting,
-                          startHostVideo,
-                        });
-                      }} />
-                  </div>
-                  <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
-                    <span className={styles.labelLight}>
-                      {i18n.getString('participants', currentLocale)}
-                    </span>
-                    <Switch
-                      checked={meeting.startParticipantsVideo}
-                      onChange={(startParticipantsVideo) => {
-                        update({
-                          ...meeting,
-                          startParticipantsVideo,
-                        });
-                      }} />
-                  </div>
-                </div>
-              </Section>
-              <Section title={i18n.getString('audioOptions', currentLocale)} withSwitch={true}>
-                <CheckBox
-                  onSelect={({ key }) => {
-                    const audioOptions = key.split('_');
-                    update({
-                      ...meeting,
-                      audioOptions,
-                    });
-                  }}
-                  valueField={'key'}
-                  textField={'text'}
-                  selected={meeting.audioOptions.join('_')}
-                  data={AUDIO_OPTIONS} />
-              </Section>
-              <Section title={i18n.getString('meetingOptions', currentLocale)} withSwitch={true}>
-                <div>
-                  <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
-                    <span className={styles.labelLight}>
-                      {i18n.getString('requirePassword', currentLocale)}
-                    </span>
-                    <Switch
-                      checked={meeting._requireMeetingPassword}
-                      onChange={(_requireMeetingPassword) => {
-                        const password = _requireMeetingPassword ? null : meeting.password;
-                        update({
-                          ...meeting,
-                          _requireMeetingPassword,
-                          password,
-                        });
-                      }} />
-                  </div>
-                  {
-                    meeting._requireMeetingPassword ? (
-                      <div className={styles.passwordBox}>
-                        <div className={styles.labelLight}>
-                          {i18n.getString('password', currentLocale)}
-                        </div>
-                        <input
-                          type="password"
-                          className={styles.password}
-                          value={meeting.password || ''}
-                          onChange={({ target }) => {
-                            update({
-                              ...meeting,
-                              password: target.value
-                            });
-                          }} />
-                      </div>
-                    ) : null
-                  }
-                  <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
-                    <span className={styles.labelLight}>
-                      {i18n.getString('enableJoinBeforeHost', currentLocale)}
-                    </span>
-                    <Switch
-                      checked={meeting.allowJoinBeforeHost}
-                      onChange={(allowJoinBeforeHost) => {
-                        update({
-                          ...meeting,
-                          allowJoinBeforeHost,
-                        });
-                      }} />
-                  </div>
-                </div>
-              </Section>
+              {topic}
+              {when}
+              {duration}
+              {recurringMeeting}
+              {video}
+              {audioOptions}
+              {meetingOptions}
             </div>
           ) : null
         }
-        <div className={classnames(styles.inviteBox, !hidden ? styles.withShadow : null)}>
-          <button
-            onClick={invite}
-            disabled={disabled}
-            className={classnames(styles.button, disabled ? styles.disabled : null)}>
-            {buttonText}
-          </button>
-        </div>
+        {inviteBox}
       </div>
     );
   }
@@ -423,8 +451,9 @@ export class MeetingPanel extends Component {
 
 MeetingPanel.propTypes = {
   update: PropTypes.func.isRequired,
-  meeting: PropTypes.object.isRequired,
   invite: PropTypes.func.isRequired,
+  init: PropTypes.func.isRequired,
+  meeting: PropTypes.object.isRequired,
   currentLocale: PropTypes.string.isRequired,
   buttonText: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
@@ -433,7 +462,7 @@ MeetingPanel.propTypes = {
 
 MeetingPanel.defaultProps = {
   disabled: false,
-  hidden: true,
+  hidden: false,
 };
 
 export default MeetingPanel;
