@@ -11,7 +11,7 @@ function CheckBox(
     valueField,
     textField,
   }
-  ) {
+) {
   const isListObject = !!(textField && valueField);
   return (
     <div className={styles.checkBox}>

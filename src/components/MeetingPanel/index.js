@@ -74,8 +74,7 @@ class MeetingPanel extends Component {
         this[type].refs.inner.toggle();
       }
     };
-    const recurring = i18n.getString('recurring', currentLocale);
-    const scheduled = i18n.getString('scheduled', currentLocale);
+    const isRecurring = meeting.meetingType === 'Recurring';
     const telephonyOnly = i18n.getString('telephonyOnly', currentLocale);
     const voIPOnly = i18n.getString('voIPOnly', currentLocale);
     const both = i18n.getString('both', currentLocale);
@@ -114,7 +113,7 @@ class MeetingPanel extends Component {
         </div>
       </Section>
     );
-    const when = (
+    const when = !isRecurring ? (
       <Section title={i18n.getString('when', currentLocale)}>
         <div className={styles.dateTimeBox}>
           <div className={styles.list}>
@@ -171,7 +170,7 @@ class MeetingPanel extends Component {
           </div>
         </div>
       </Section>
-    );
+    ) : null;
     const duration = (
       <Section title={i18n.getString('duration', currentLocale)}>
         <div className={classnames(styles.spaceBetween, styles.duration)}>
@@ -230,21 +229,28 @@ class MeetingPanel extends Component {
     );
     const recurringMeeting = (
       <Section className={styles.section}>
-        <div className={styles.spaceBetween}>
-          <span className={styles.label}>
-            {i18n.getString('recurringMeeting', currentLocale)}
-          </span>
-          <Switch
-            checked={meeting.meetingType === recurring}
-            onChange={() => {
-              const meetingType = [recurring, scheduled].find(item => (
-                item !== meeting.meetingType
-              ));
-              update({
-                ...meeting,
-                meetingType,
-              });
-            }} />
+        <div>
+          <div className={styles.spaceBetween}>
+            <span className={styles.label}>
+              {i18n.getString('recurringMeeting', currentLocale)}
+            </span>
+            <Switch
+              checked={isRecurring}
+              onChange={(isCheckRecurring) => {
+                const meetingType = isCheckRecurring ? 'Recurring' : 'Scheduled';
+                update({
+                  ...meeting,
+                  meetingType,
+                });
+              }} />
+          </div>
+          {
+            isRecurring ? (
+              <div className={styles.recurringDescribe}>
+                {i18n.getString('recurringDescribe', currentLocale)}
+              </div>
+            ) : null
+          }
         </div>
       </Section>
     );
