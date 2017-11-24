@@ -113,6 +113,7 @@ MessageList.propTypes = {
   dateTimeFormatter: PropTypes.func,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  showGroupNumberName: PropTypes.bool,
 };
 MessageList.defaultProps = {
   onSearchInputChange: undefined,
@@ -123,4 +124,5 @@ MessageList.defaultProps = {
   dateTimeFormatter: undefined,
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
+  showGroupNumberName: false,
 };

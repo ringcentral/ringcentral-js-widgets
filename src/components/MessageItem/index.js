@@ -13,6 +13,7 @@ import styles from './styles.scss';
 import i18n from './i18n';
 import VoicemailIcon from '../../assets/images/VoicemailIcon.svg';
 import ComposeTextIcon from '../../assets/images/ComposeText.svg';
+import GroupConversationIcon from '../../assets/images/GroupConversation.svg';
 
 function ConversationIcon({
   group,
@@ -31,7 +32,7 @@ function ConversationIcon({
         i18n.getString(messageTypes.groupConversation, currentLocale) :
         i18n.getString(messageTypes.conversation, currentLocale);
       icon = group ?
-        <ComposeTextIcon width={18} className={styles.icon} /> :
+        <GroupConversationIcon width={19} className={styles.icon} /> :
         <ComposeTextIcon width={18} className={styles.icon} />;
   }
   return (
@@ -275,6 +276,7 @@ export default class MessageItem extends Component {
       enableContactFallback,
       showContactDisplayPlaceholder,
       sourceIcons,
+      showGroupNumberName,
     } = this.props;
 
     const groupNumbers = this.getGroupPhoneNumbers();
@@ -312,6 +314,7 @@ export default class MessageItem extends Component {
             countryCode={countryCode}
             phoneNumber={phoneNumber}
             groupNumbers={groupNumbers}
+            showGroupNumberName={showGroupNumberName}
             currentLocale={currentLocale}
             enableContactFallback={enableContactFallback}
             stopPropagation={false}
@@ -389,6 +392,7 @@ MessageItem.propTypes = {
   enableContactFallback: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  showGroupNumberName: PropTypes.bool,
 };
 
 MessageItem.defaultProps = {
@@ -402,4 +406,5 @@ MessageItem.defaultProps = {
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
+  showGroupNumberName: false,
 };

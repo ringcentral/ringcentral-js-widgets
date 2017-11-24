@@ -130,6 +130,7 @@ MessagesPanel.propTypes = {
   showConversationDetail: PropTypes.func.isRequired,
   textUnreadCounts: PropTypes.number.isRequired,
   voiceUnreadCounts: PropTypes.number.isRequired,
+  showGroupNumberName: PropTypes.bool,
 };
 
 MessagesPanel.defaultProps = {
@@ -140,4 +141,5 @@ MessagesPanel.defaultProps = {
   showComposeText: false,
   typeFilter: messageTypes.all,
   updateTypeFilter: undefined,
+  showGroupNumberName: false,
 };

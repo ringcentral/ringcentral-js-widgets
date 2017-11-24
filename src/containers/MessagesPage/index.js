@@ -20,10 +20,12 @@ function mapToProps(_, {
   },
   showTitle = false,
   enableContactFallback = false,
+  showGroupNumberName = false,
 }) {
   return ({
     showTitle,
     enableContactFallback,
+    showGroupNumberName,
     brand: brand.fullName,
     currentLocale: locale.currentLocale,
     conversations: messages.filteredConversations,

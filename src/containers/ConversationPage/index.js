@@ -69,6 +69,7 @@ class ConversationPage extends Component {
         showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
         goBack={this.props.goBack}
         sourceIcons={this.props.sourceIcons}
+        showGroupNumberName={this.props.showGroupNumberName}
       />
     );
   }
@@ -92,6 +93,7 @@ ConversationPage.propTypes = {
   changeMatchedNames: PropTypes.func.isRequired,
   dateTimeFormatter: PropTypes.func.isRequired,
   sourceIcons: PropTypes.object,
+  showGroupNumberName: PropTypes.bool.isRequired,
 };
 
 ConversationPage.defaultProps = {
@@ -125,10 +127,12 @@ function mapToProps(_, {
   },
   params,
   enableContactFallback = false,
+  showGroupNumberName = false,
 }) {
   return ({
     brand: brand.fullName,
     enableContactFallback,
+    showGroupNumberName,
     currentLocale: locale.currentLocale,
     conversationId: params.conversationId,
     sendButtonDisabled: conversation.pushing,

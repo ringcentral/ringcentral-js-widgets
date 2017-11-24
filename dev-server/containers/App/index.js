@@ -175,12 +175,13 @@ export default function App({
                 component={ComposeTextPage} />
               <Route
                 path="/conversations/:conversationId"
-                component={props => (
+                component={routerProps => (
                   <ConversationPage
-                    params={props.params}
+                    params={routerProps.params}
                     onLogConversation={async () => { sleep(1000); }}
                     showContactDisplayPlaceholder={false}
                     sourceIcons={sourceIcons}
+                    showGroupNumberName
                   />
                 )} />
               <Route
@@ -191,6 +192,7 @@ export default function App({
                     onLogConversation={async () => { await sleep(1000); }}
                     onCreateContact={() => { }}
                     sourceIcons={sourceIcons}
+                    showGroupNumberName
                   />
                 )} />
               <Route
@@ -209,9 +211,9 @@ export default function App({
                 }>
                 <Route
                   path=":contactType/:contactId"
-                  component={props => (
+                  component={routerProps => (
                     <ContactDetailsPage
-                      params={props.params}
+                      params={routerProps.params}
                     >
                       <RecentActivityContainer
                         navigateTo={(path) => {
