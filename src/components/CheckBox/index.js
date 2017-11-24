@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import styles from './styles.scss';
 
-function CheckBox({
+function CheckBox(
+  {
     data,
     selected,
     onSelect,
     valueField,
     textField,
-  }) {
+  }
+  ) {
   const isListObject = !!(textField && valueField);
   return (
     <div className={styles.checkBox}>
