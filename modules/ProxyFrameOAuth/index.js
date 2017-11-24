@@ -47,10 +47,6 @@ var _inherits3 = _interopRequireDefault(_inherits2);
 
 var _dec, _class, _desc, _value, _class2;
 
-var _OAuthBase2 = require('ringcentral-widgets/lib/OAuthBase');
-
-var _OAuthBase3 = _interopRequireDefault(_OAuthBase2);
-
 var _background = require('ringcentral-integration/lib/background');
 
 var _background2 = _interopRequireDefault(_background);
@@ -76,6 +72,10 @@ var _actionTypes2 = _interopRequireDefault(_actionTypes);
 var _getProxyFrameOAuthReducer = require('./getProxyFrameOAuthReducer');
 
 var _getProxyFrameOAuthReducer2 = _interopRequireDefault(_getProxyFrameOAuthReducer);
+
+var _OAuthBase2 = require('../../lib/OAuthBase');
+
+var _OAuthBase3 = _interopRequireDefault(_OAuthBase2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

@@ -142,7 +142,8 @@ var ConversationPage = function (_Component) {
         dateTimeFormatter: this.props.dateTimeFormatter,
         showContactDisplayPlaceholder: this.props.showContactDisplayPlaceholder,
         goBack: this.props.goBack,
-        sourceIcons: this.props.sourceIcons
+        sourceIcons: this.props.sourceIcons,
+        showGroupNumberName: this.props.showGroupNumberName
       });
     }
   }]);
@@ -166,7 +167,8 @@ ConversationPage.propTypes = {
   getMatcherContactNameList: _propTypes2.default.func,
   changeMatchedNames: _propTypes2.default.func.isRequired,
   dateTimeFormatter: _propTypes2.default.func.isRequired,
-  sourceIcons: _propTypes2.default.object
+  sourceIcons: _propTypes2.default.object,
+  showGroupNumberName: _propTypes2.default.bool.isRequired
 };
 
 ConversationPage.defaultProps = {
@@ -203,11 +205,14 @@ function mapToProps(_, _ref) {
       connectivityMonitor = _ref$phone.connectivityMonitor,
       params = _ref.params,
       _ref$enableContactFal = _ref.enableContactFallback,
-      enableContactFallback = _ref$enableContactFal === undefined ? false : _ref$enableContactFal;
+      enableContactFallback = _ref$enableContactFal === undefined ? false : _ref$enableContactFal,
+      _ref$showGroupNumberN = _ref.showGroupNumberName,
+      showGroupNumberName = _ref$showGroupNumberN === undefined ? false : _ref$showGroupNumberN;
 
   return {
     brand: brand.fullName,
     enableContactFallback: enableContactFallback,
+    showGroupNumberName: showGroupNumberName,
     currentLocale: locale.currentLocale,
     conversationId: params.conversationId,
     sendButtonDisabled: conversation.pushing,

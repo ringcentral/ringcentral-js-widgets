@@ -45,14 +45,18 @@ function mapToProps(_, _ref) {
       conversationLogger = _ref$phone.conversationLogger,
       connectivityMonitor = _ref$phone.connectivityMonitor,
       rateLimiter = _ref$phone.rateLimiter,
+      messageStore = _ref$phone.messageStore,
       _ref$showTitle = _ref.showTitle,
       showTitle = _ref$showTitle === undefined ? false : _ref$showTitle,
       _ref$enableContactFal = _ref.enableContactFallback,
-      enableContactFallback = _ref$enableContactFal === undefined ? false : _ref$enableContactFal;
+      enableContactFallback = _ref$enableContactFal === undefined ? false : _ref$enableContactFal,
+      _ref$showGroupNumberN = _ref.showGroupNumberName,
+      showGroupNumberName = _ref$showGroupNumberN === undefined ? false : _ref$showGroupNumberN;
 
   return {
     showTitle: showTitle,
     enableContactFallback: enableContactFallback,
+    showGroupNumberName: showGroupNumberName,
     brand: brand.fullName,
     currentLocale: locale.currentLocale,
     conversations: messages.filteredConversations,
@@ -65,7 +69,10 @@ function mapToProps(_, _ref) {
     loggingMap: conversationLogger && conversationLogger.loggingMap,
     showSpinner: !(locale.ready && messages.ready && (!contactMatcher || contactMatcher.ready) && dateTimeFormat.ready && regionSettings.ready && rolesAndPermissions.ready && connectivityMonitor.ready && rateLimiter.ready && (!rolesAndPermissions || rolesAndPermissions.ready) && (!call || call.ready) && (!conversationLogger || conversationLogger.ready)),
     searchInput: messages.searchInput,
-    autoLog: !!(conversationLogger && conversationLogger.autoLog)
+    autoLog: !!(conversationLogger && conversationLogger.autoLog),
+    typeFilter: messages.typeFilter,
+    textUnreadCounts: messageStore.textUnreadCounts,
+    voiceUnreadCounts: messageStore.voiceUnreadCounts
   };
 }
 
@@ -75,6 +82,7 @@ function mapToFunctions(_, _ref2) {
   var _ref2$phone = _ref2.phone,
       dateTimeFormat = _ref2$phone.dateTimeFormat,
       messages = _ref2$phone.messages,
+      messageStore = _ref2$phone.messageStore,
       conversationLogger = _ref2$phone.conversationLogger,
       contactMatcher = _ref2$phone.contactMatcher,
       call = _ref2$phone.call,
@@ -186,9 +194,14 @@ function mapToFunctions(_, _ref2) {
     showConversationDetail: function showConversationDetail(conversationId) {
       routerInteraction.push(conversationDetailRoute.replace('{conversationId}', conversationId));
     },
-
+    readVoicemail: function readVoicemail(conversationId) {
+      messageStore.readMessages(conversationId);
+    },
     composeText: function composeText() {
       return routerInteraction.push(composeTextRoute);
+    },
+    updateTypeFilter: function updateTypeFilter(type) {
+      return messages.updateTypeFilter(type);
     }
   };
 }

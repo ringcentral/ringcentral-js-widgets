@@ -45,6 +45,12 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
+var _messageTypes = require('ringcentral-integration/enums/messageTypes');
+
+var _messageTypes2 = _interopRequireDefault(_messageTypes);
+
+var _messageHelper = require('ringcentral-integration/lib/messageHelper');
+
 var _ContactDisplay = require('../ContactDisplay');
 
 var _ContactDisplay2 = _interopRequireDefault(_ContactDisplay);
@@ -52,10 +58,6 @@ var _ContactDisplay2 = _interopRequireDefault(_ContactDisplay);
 var _ActionMenu = require('../ActionMenu');
 
 var _ActionMenu2 = _interopRequireDefault(_ActionMenu);
-
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
 
 var _styles = require('./styles.scss');
 
@@ -65,33 +67,62 @@ var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
 
+var _VoicemailIcon = require('../../assets/images/VoicemailIcon.svg');
+
+var _VoicemailIcon2 = _interopRequireDefault(_VoicemailIcon);
+
+var _ComposeText = require('../../assets/images/ComposeText.svg');
+
+var _ComposeText2 = _interopRequireDefault(_ComposeText);
+
+var _GroupConversation = require('../../assets/images/GroupConversation.svg');
+
+var _GroupConversation2 = _interopRequireDefault(_GroupConversation);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function ConversationIcon(_ref) {
   var group = _ref.group,
-      conversationTitle = _ref.conversationTitle,
-      groupConversationTitle = _ref.groupConversationTitle;
+      type = _ref.type,
+      currentLocale = _ref.currentLocale;
 
-  var title = group ? groupConversationTitle : conversationTitle;
+  var title = void 0;
+  var icon = void 0;
+  switch (type) {
+    case _messageTypes2.default.voiceMail:
+      title = _i18n2.default.getString(_messageTypes2.default.voiceMail, currentLocale);
+      icon = _react2.default.createElement(_VoicemailIcon2.default, { width: 23, className: _styles2.default.icon });
+      break;
+    default:
+      title = group ? _i18n2.default.getString(_messageTypes2.default.groupConversation, currentLocale) : _i18n2.default.getString(_messageTypes2.default.conversation, currentLocale);
+      icon = group ? _react2.default.createElement(_GroupConversation2.default, { width: 19, className: _styles2.default.icon }) : _react2.default.createElement(_ComposeText2.default, { width: 18, className: _styles2.default.icon });
+  }
   return _react2.default.createElement(
     'div',
     { className: _styles2.default.conversationIcon },
-    _react2.default.createElement('span', {
-      className: (0, _classnames2.default)(group ? _DynamicsFont2.default.groupConversation : _DynamicsFont2.default.composeText),
-      title: title
-    })
+    _react2.default.createElement(
+      'span',
+      { title: title },
+      icon
+    )
   );
 }
 ConversationIcon.propTypes = {
   group: _propTypes2.default.bool,
-  conversationTitle: _propTypes2.default.string,
-  groupConversationTitle: _propTypes2.default.string
+  type: _propTypes2.default.string,
+  currentLocale: _propTypes2.default.string
 };
 ConversationIcon.defaultProps = {
   group: false,
-  conversationTitle: undefined,
-  groupConversationTitle: undefined
+  type: undefined,
+  currentLocale: undefined
 };
+
+function formatVoiceMailDuration(duration) {
+  var mins = Math.round(duration / 60);
+  var secs = Math.round(duration % 60);
+  return (mins < 10 ? '0' + mins : mins) + ':' + (secs < 10 ? '0' + secs : secs);
+}
 
 var MessageItem = function (_Component) {
   (0, _inherits3.default)(MessageItem, _Component);
@@ -136,17 +167,33 @@ var MessageItem = function (_Component) {
       }
     };
 
-    _this.showConversationDetail = function (e) {
+    _this.onClickItem = function (e) {
       if (_this.contactDisplay && _this.contactDisplay.contains(e.target)) {
         return;
       }
-      _this.props.showConversationDetail(_this.props.conversation.conversationId);
+      if ((0, _messageHelper.messageIsTextMessage)(_this.props.conversation)) {
+        _this.props.showConversationDetail(_this.props.conversation.conversationId);
+        return;
+      }
+      if ((0, _messageHelper.messageIsVoicemail)(_this.props.conversation) && _this.props.conversation.unreadCounts > 0) {
+        _this.props.readVoicemail(_this.props.conversation.conversationId);
+      }
+      _this.toggleExtended();
     };
 
     _this.state = {
       selected: _this.getInitialContactIndex(),
       isLogging: false,
-      isCreating: false
+      isCreating: false,
+      extended: false
+    };
+
+    _this.toggleExtended = function () {
+      _this.setState(function (preState) {
+        return {
+          extended: !preState.extended
+        };
+      });
     };
     _this._userSelection = false;
     /* [RCINT-4301] onSelection would trigger some state changes that would push new
@@ -311,42 +358,60 @@ var MessageItem = function (_Component) {
       return logConversation;
     }()
   }, {
+    key: 'getDetail',
+    value: function getDetail() {
+      var _props = this.props,
+          conversation = _props.conversation,
+          currentLocale = _props.currentLocale;
+
+      if ((0, _messageHelper.messageIsTextMessage)(conversation)) {
+        return conversation.subject;
+      }
+      if ((0, _messageHelper.messageIsVoicemail)(conversation)) {
+        var attachment = conversation.attachments && conversation.attachments[0];
+        var duration = attachment && attachment.vmDuration || 0;
+        return _i18n2.default.getString('voiceMessage', currentLocale) + ' (' + formatVoiceMailDuration(duration) + ')';
+      }
+      return '';
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
 
-      var _props = this.props,
-          areaCode = _props.areaCode,
-          brand = _props.brand,
-          countryCode = _props.countryCode,
-          currentLocale = _props.currentLocale,
-          _props$conversation = _props.conversation,
-          unreadCounts = _props$conversation.unreadCounts,
-          correspondents = _props$conversation.correspondents,
-          correspondentMatches = _props$conversation.correspondentMatches,
-          creationTime = _props$conversation.creationTime,
-          subject = _props$conversation.subject,
-          isLogging = _props$conversation.isLogging,
-          conversationMatches = _props$conversation.conversationMatches,
-          disableLinks = _props.disableLinks,
-          disableClickToDial = _props.disableClickToDial,
-          onClickToDial = _props.onClickToDial,
-          onLogConversation = _props.onLogConversation,
-          onViewContact = _props.onViewContact,
-          onCreateContact = _props.onCreateContact,
-          dateTimeFormatter = _props.dateTimeFormatter,
-          enableContactFallback = _props.enableContactFallback,
-          showContactDisplayPlaceholder = _props.showContactDisplayPlaceholder,
-          sourceIcons = _props.sourceIcons;
+      var _props2 = this.props,
+          areaCode = _props2.areaCode,
+          brand = _props2.brand,
+          countryCode = _props2.countryCode,
+          currentLocale = _props2.currentLocale,
+          _props2$conversation = _props2.conversation,
+          unreadCounts = _props2$conversation.unreadCounts,
+          correspondents = _props2$conversation.correspondents,
+          correspondentMatches = _props2$conversation.correspondentMatches,
+          creationTime = _props2$conversation.creationTime,
+          isLogging = _props2$conversation.isLogging,
+          conversationMatches = _props2$conversation.conversationMatches,
+          type = _props2$conversation.type,
+          disableLinks = _props2.disableLinks,
+          disableClickToDial = _props2.disableClickToDial,
+          onClickToDial = _props2.onClickToDial,
+          onLogConversation = _props2.onLogConversation,
+          onViewContact = _props2.onViewContact,
+          onCreateContact = _props2.onCreateContact,
+          dateTimeFormatter = _props2.dateTimeFormatter,
+          enableContactFallback = _props2.enableContactFallback,
+          showContactDisplayPlaceholder = _props2.showContactDisplayPlaceholder,
+          sourceIcons = _props2.sourceIcons,
+          showGroupNumberName = _props2.showGroupNumberName;
 
 
       var groupNumbers = this.getGroupPhoneNumbers();
       var phoneNumber = this.getPhoneNumber();
       var fallbackName = this.getFallbackContactName();
-
+      var detail = this.getDetail();
       return _react2.default.createElement(
         'div',
-        { className: _styles2.default.root, onClick: this.showConversationDetail },
+        { className: _styles2.default.root, onClick: this.onClickItem },
         _react2.default.createElement(
           'div',
           {
@@ -354,8 +419,8 @@ var MessageItem = function (_Component) {
           },
           _react2.default.createElement(ConversationIcon, {
             group: correspondents.length > 1,
-            conversationTitle: _i18n2.default.getString('conversation', currentLocale),
-            groupConversationTitle: _i18n2.default.getString('groupConversation', currentLocale)
+            type: type,
+            currentLocale: currentLocale
           }),
           _react2.default.createElement(_ContactDisplay2.default, {
             reference: function reference(ref) {
@@ -374,6 +439,7 @@ var MessageItem = function (_Component) {
             countryCode: countryCode,
             phoneNumber: phoneNumber,
             groupNumbers: groupNumbers,
+            showGroupNumberName: showGroupNumberName,
             currentLocale: currentLocale,
             enableContactFallback: enableContactFallback,
             stopPropagation: false,
@@ -384,12 +450,17 @@ var MessageItem = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: _styles2.default.details },
-            dateTimeFormatter({ utcTimestamp: creationTime }),
-            ' | ',
-            subject
+            detail
+          ),
+          _react2.default.createElement(
+            'div',
+            { className: _styles2.default.creationTime },
+            dateTimeFormatter({ utcTimestamp: creationTime })
           )
         ),
         _react2.default.createElement(_ActionMenu2.default, {
+          extended: this.state.extended,
+          onToggle: this.toggleExtended,
           extendIconClassName: _styles2.default.extendIcon,
           currentLocale: currentLocale,
           onLog: onLogConversation && this.logConversation,
@@ -434,7 +505,8 @@ MessageItem.propTypes = {
     })),
     conversationMatches: _propTypes2.default.arrayOf(_propTypes2.default.shape({
       id: _propTypes2.default.string
-    }))
+    })),
+    unreadCounts: _propTypes2.default.number.isRequired
   }).isRequired,
   areaCode: _propTypes2.default.string.isRequired,
   brand: _propTypes2.default.string.isRequired,
@@ -448,10 +520,12 @@ MessageItem.propTypes = {
   disableClickToDial: _propTypes2.default.bool,
   dateTimeFormatter: _propTypes2.default.func.isRequired,
   showConversationDetail: _propTypes2.default.func.isRequired,
+  readVoicemail: _propTypes2.default.func.isRequired,
   autoLog: _propTypes2.default.bool,
   enableContactFallback: _propTypes2.default.bool,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object
+  sourceIcons: _propTypes2.default.object,
+  showGroupNumberName: _propTypes2.default.bool
 };
 
 MessageItem.defaultProps = {
@@ -464,6 +538,7 @@ MessageItem.defaultProps = {
   autoLog: false,
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
-  sourceIcons: undefined
+  sourceIcons: undefined,
+  showGroupNumberName: false
 };
 //# sourceMappingURL=index.js.map

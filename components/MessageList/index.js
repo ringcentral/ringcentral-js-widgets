@@ -120,6 +120,7 @@ var MessageList = function (_Component) {
 
 
       var search = onSearchInputChange ? _react2.default.createElement(_SearchInput2.default, {
+        className: _styles2.default.searchInput,
         value: searchInput,
         onChange: onSearchInputChange,
         placeholder: _i18n2.default.getString('search', currentLocale),
@@ -175,9 +176,11 @@ MessageList.propTypes = {
   perPage: _propTypes2.default.number,
   className: _propTypes2.default.string,
   showConversationDetail: _propTypes2.default.func.isRequired,
+  readVoicemail: _propTypes2.default.func.isRequired,
   dateTimeFormatter: _propTypes2.default.func,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object
+  sourceIcons: _propTypes2.default.object,
+  showGroupNumberName: _propTypes2.default.bool
 };
 MessageList.defaultProps = {
   onSearchInputChange: undefined,
@@ -187,6 +190,7 @@ MessageList.defaultProps = {
   disableLinks: false,
   dateTimeFormatter: undefined,
   showContactDisplayPlaceholder: true,
-  sourceIcons: undefined
+  sourceIcons: undefined,
+  showGroupNumberName: false
 };
 //# sourceMappingURL=index.js.map

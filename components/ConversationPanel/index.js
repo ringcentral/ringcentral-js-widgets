@@ -102,7 +102,6 @@ var ConversationPanel = function (_Component) {
       textValue: '',
       selected: _this.getInitialContactIndex(),
       isLogging: false
-
     };
     _this._userSelection = false;
     _this.onTextChange = function (e) {
@@ -298,7 +297,8 @@ var ConversationPanel = function (_Component) {
             currentLocale: this.props.currentLocale,
             enableContactFallback: this.props.enableContactFallback,
             showPlaceholder: this.props.showContactDisplayPlaceholder,
-            sourceIcons: this.props.sourceIcons
+            sourceIcons: this.props.sourceIcons,
+            showGroupNumberName: this.props.showGroupNumberName
           }),
           _react2.default.createElement(
             'a',
@@ -370,7 +370,8 @@ ConversationPanel.propTypes = {
   dateTimeFormatter: _propTypes2.default.func.isRequired,
   goBack: _propTypes2.default.func.isRequired,
   showContactDisplayPlaceholder: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object
+  sourceIcons: _propTypes2.default.object,
+  showGroupNumberName: _propTypes2.default.bool
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -378,7 +379,8 @@ ConversationPanel.defaultProps = {
   autoLog: false,
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
-  sourceIcons: undefined
+  sourceIcons: undefined,
+  showGroupNumberName: false
 };
 
 exports.default = ConversationPanel;

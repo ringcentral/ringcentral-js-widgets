@@ -155,18 +155,32 @@ function ContactDisplay(_ref3) {
       brand = _ref3.brand,
       stopPropagation = _ref3.stopPropagation,
       _ref3$sourceIcons = _ref3.sourceIcons,
-      sourceIcons = _ref3$sourceIcons === undefined ? {} : _ref3$sourceIcons;
+      sourceIcons = _ref3$sourceIcons === undefined ? {} : _ref3$sourceIcons,
+      showGroupNumberName = _ref3.showGroupNumberName;
 
   var contentEl = void 0;
-  if (groupNumbers) {
-    var display = groupNumbers.join(', ');
+  if (groupNumbers && showGroupNumberName) {
+    var groupNames = groupNumbers.map(function (groupNumber) {
+      var groupContact = contactMatches.find(function (match) {
+        return match.extensionNumber === groupNumber;
+      });
+      return groupContact && groupContact.name || groupNumber;
+    });
+    var display = groupNames.join(', ');
     contentEl = _react2.default.createElement(
       'div',
       { title: display },
       display
     );
+  } else if (groupNumbers) {
+    var _display = groupNumbers.join(', ');
+    contentEl = _react2.default.createElement(
+      'div',
+      { title: _display },
+      _display
+    );
   } else if (contactMatches.length === 0) {
-    var _display = enableContactFallback && fallBackName || phoneNumber && (0, _formatNumber2.default)({
+    var _display2 = enableContactFallback && fallBackName || phoneNumber && (0, _formatNumber2.default)({
       phoneNumber: phoneNumber,
       countryCode: countryCode,
       areaCode: areaCode
@@ -175,12 +189,12 @@ function ContactDisplay(_ref3) {
     contentEl = _react2.default.createElement(
       'div',
       { title: title },
-      _display
+      _display2
     );
   } else if (contactMatches.length === 1) {
-    var _display2 = contactMatches[0].name;
+    var _display3 = contactMatches[0].name;
     var _title = displayFormatter({
-      entityName: _display2,
+      entityName: _display3,
       entityType: contactMatches[0].entityType,
       phoneNumber: phoneNumber,
       brand: brand,
@@ -189,7 +203,7 @@ function ContactDisplay(_ref3) {
     contentEl = _react2.default.createElement(
       'div',
       { title: _title },
-      _display2
+      _display3
     );
   } else if (contactMatches.length > 1) {
     var options = [].concat((0, _toConsumableArray3.default)(contactMatches));
@@ -267,7 +281,8 @@ ContactDisplay.propTypes = {
   showPlaceholder: _propTypes2.default.bool,
   brand: _propTypes2.default.string,
   stopPropagation: _propTypes2.default.bool,
-  sourceIcons: _propTypes2.default.object
+  sourceIcons: _propTypes2.default.object,
+  showGroupNumberName: _propTypes2.default.bool
 };
 ContactDisplay.defaultProps = {
   reference: undefined,
@@ -282,6 +297,7 @@ ContactDisplay.defaultProps = {
   showPlaceholder: true,
   brand: undefined,
   stopPropagation: true,
-  sourceIcons: undefined
+  sourceIcons: undefined,
+  showGroupNumberName: false
 };
 //# sourceMappingURL=index.js.map

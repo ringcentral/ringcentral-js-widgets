@@ -12,7 +12,7 @@ var _getModuleStatusReducer = require('ringcentral-integration/lib/getModuleStat
 
 var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
 
-var _getOAuthBaseReducer = require('ringcentral-widgets/lib/OAuthBase/getOAuthBaseReducer');
+var _getOAuthBaseReducer = require('../../lib/OAuthBase/getOAuthBaseReducer');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

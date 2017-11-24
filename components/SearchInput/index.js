@@ -16,13 +16,13 @@ var _classnames = require('classnames');
 
 var _classnames2 = _interopRequireDefault(_classnames);
 
-var _DynamicsFont = require('../../assets/DynamicsFont/DynamicsFont.scss');
-
-var _DynamicsFont2 = _interopRequireDefault(_DynamicsFont);
-
 var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
+
+var _Search = require('../../assets/images/Search.svg');
+
+var _Search2 = _interopRequireDefault(_Search);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -32,7 +32,7 @@ function SearchInput(props) {
     {
       className: (0, _classnames2.default)(_styles2.default.root, props.className)
     },
-    _react2.default.createElement('span', { className: (0, _classnames2.default)(_DynamicsFont2.default.search, _styles2.default.icon) }),
+    _react2.default.createElement(_Search2.default, { className: _styles2.default.icon }),
     _react2.default.createElement('input', {
       name: 'search',
       value: props.value,

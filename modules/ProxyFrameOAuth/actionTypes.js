@@ -12,13 +12,13 @@ var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
-var _baseActionTypes = require('ringcentral-widgets/lib/OAuthBase/baseActionTypes');
-
-var _baseActionTypes2 = _interopRequireDefault(_baseActionTypes);
-
 var _Enum = require('ringcentral-integration/lib/Enum');
 
 var _Enum2 = _interopRequireDefault(_Enum);
+
+var _baseActionTypes = require('../../lib/OAuthBase/baseActionTypes');
+
+var _baseActionTypes2 = _interopRequireDefault(_baseActionTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
