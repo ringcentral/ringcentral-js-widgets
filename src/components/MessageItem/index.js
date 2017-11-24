@@ -1,39 +1,64 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import messageTypes from 'ringcentral-integration/enums/messageTypes';
+import {
+  messageIsTextMessage,
+  messageIsVoicemail,
+} from 'ringcentral-integration/lib/messageHelper';
+
 import ContactDisplay from '../ContactDisplay';
 import ActionMenu from '../ActionMenu';
-import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 import i18n from './i18n';
+import VoicemailIcon from '../../assets/images/VoicemailIcon.svg';
+import ComposeTextIcon from '../../assets/images/ComposeText.svg';
+import GroupConversationIcon from '../../assets/images/GroupConversation.svg';
 
 function ConversationIcon({
   group,
-  conversationTitle,
-  groupConversationTitle,
+  type,
+  currentLocale,
 }) {
-  const title = group ? groupConversationTitle : conversationTitle;
+  let title;
+  let icon;
+  switch (type) {
+    case messageTypes.voiceMail:
+      title = i18n.getString(messageTypes.voiceMail, currentLocale);
+      icon = <VoicemailIcon width={23} className={styles.icon} />;
+      break;
+    default:
+      title = group ?
+        i18n.getString(messageTypes.groupConversation, currentLocale) :
+        i18n.getString(messageTypes.conversation, currentLocale);
+      icon = group ?
+        <GroupConversationIcon width={19} className={styles.icon} /> :
+        <ComposeTextIcon width={18} className={styles.icon} />;
+  }
   return (
     <div className={styles.conversationIcon}>
-      <span
-        className={classnames(
-          group ? dynamicsFont.groupConversation : dynamicsFont.composeText
-        )}
-        title={title}
-      />
+      <span title={title}>
+        {icon}
+      </span>
     </div>
   );
 }
 ConversationIcon.propTypes = {
   group: PropTypes.bool,
-  conversationTitle: PropTypes.string,
-  groupConversationTitle: PropTypes.string,
+  type: PropTypes.string,
+  currentLocale: PropTypes.string,
 };
 ConversationIcon.defaultProps = {
   group: false,
-  conversationTitle: undefined,
-  groupConversationTitle: undefined,
+  type: undefined,
+  currentLocale: undefined,
 };
+
+function formatVoiceMailDuration(duration) {
+  const mins = Math.round(duration / 60);
+  const secs = Math.round(duration % 60);
+  return `${mins < 10 ? `0${mins}` : mins}:${secs < 10 ? `0${secs}` : secs}`;
+}
 
 export default class MessageItem extends Component {
   constructor(props) {
@@ -42,6 +67,13 @@ export default class MessageItem extends Component {
       selected: this.getInitialContactIndex(),
       isLogging: false,
       isCreating: false,
+      extended: false,
+    };
+
+    this.toggleExtended = () => {
+      this.setState(preState => ({
+        extended: !preState.extended,
+      }));
     };
     this._userSelection = false;
     /* [RCINT-4301] onSelection would trigger some state changes that would push new
@@ -183,14 +215,40 @@ export default class MessageItem extends Component {
       this.props.onClickToDial(this.getPhoneNumber());
     }
   }
-  showConversationDetail = (e) => {
+  onClickItem = (e) => {
     if ((
       this.contactDisplay &&
       this.contactDisplay.contains(e.target))
     ) {
       return;
     }
-    this.props.showConversationDetail(this.props.conversation.conversationId);
+    if (messageIsTextMessage(this.props.conversation)) {
+      this.props.showConversationDetail(this.props.conversation.conversationId);
+      return;
+    }
+    if (
+      messageIsVoicemail(this.props.conversation) &&
+      this.props.conversation.unreadCounts > 0
+    ) {
+      this.props.readVoicemail(this.props.conversation.conversationId);
+    }
+    this.toggleExtended();
+  }
+
+  getDetail() {
+    const {
+      conversation,
+      currentLocale,
+    } = this.props;
+    if (messageIsTextMessage(conversation)) {
+      return conversation.subject;
+    }
+    if (messageIsVoicemail(conversation)) {
+      const attachment = conversation.attachments && conversation.attachments[0];
+      const duration = (attachment && attachment.vmDuration) || 0;
+      return `${i18n.getString('voiceMessage', currentLocale)} (${formatVoiceMailDuration(duration)})`;
+    }
+    return '';
   }
 
   render() {
@@ -204,9 +262,9 @@ export default class MessageItem extends Component {
         correspondents,
         correspondentMatches,
         creationTime,
-        subject,
         isLogging,
         conversationMatches,
+        type,
       },
       disableLinks,
       disableClickToDial,
@@ -218,14 +276,15 @@ export default class MessageItem extends Component {
       enableContactFallback,
       showContactDisplayPlaceholder,
       sourceIcons,
+      showGroupNumberName,
     } = this.props;
 
     const groupNumbers = this.getGroupPhoneNumbers();
     const phoneNumber = this.getPhoneNumber();
     const fallbackName = this.getFallbackContactName();
-
+    const detail = this.getDetail();
     return (
-      <div className={styles.root} onClick={this.showConversationDetail}>
+      <div className={styles.root} onClick={this.onClickItem}>
         <div
           className={classnames(
             styles.wrapper,
@@ -234,8 +293,8 @@ export default class MessageItem extends Component {
         >
           <ConversationIcon
             group={correspondents.length > 1}
-            conversationTitle={i18n.getString('conversation', currentLocale)}
-            groupConversationTitle={i18n.getString('groupConversation', currentLocale)}
+            type={type}
+            currentLocale={currentLocale}
           />
           <ContactDisplay
             reference={(ref) => { this.contactDisplay = ref; }}
@@ -255,6 +314,7 @@ export default class MessageItem extends Component {
             countryCode={countryCode}
             phoneNumber={phoneNumber}
             groupNumbers={groupNumbers}
+            showGroupNumberName={showGroupNumberName}
             currentLocale={currentLocale}
             enableContactFallback={enableContactFallback}
             stopPropagation={false}
@@ -263,10 +323,15 @@ export default class MessageItem extends Component {
             sourceIcons={sourceIcons}
           />
           <div className={styles.details}>
-            {dateTimeFormatter({ utcTimestamp: creationTime })} | {subject}
+            {detail}
+          </div>
+          <div className={styles.creationTime}>
+            {dateTimeFormatter({ utcTimestamp: creationTime })}
           </div>
         </div>
         <ActionMenu
+          extended={this.state.extended}
+          onToggle={this.toggleExtended}
           extendIconClassName={styles.extendIcon}
           currentLocale={currentLocale}
           onLog={onLogConversation && this.logConversation}
@@ -308,6 +373,7 @@ MessageItem.propTypes = {
     conversationMatches: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string,
     })),
+    unreadCounts: PropTypes.number.isRequired,
   }).isRequired,
   areaCode: PropTypes.string.isRequired,
   brand: PropTypes.string.isRequired,
@@ -321,10 +387,12 @@ MessageItem.propTypes = {
   disableClickToDial: PropTypes.bool,
   dateTimeFormatter: PropTypes.func.isRequired,
   showConversationDetail: PropTypes.func.isRequired,
+  readVoicemail: PropTypes.func.isRequired,
   autoLog: PropTypes.bool,
   enableContactFallback: PropTypes.bool,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  showGroupNumberName: PropTypes.bool,
 };
 
 MessageItem.defaultProps = {
@@ -338,4 +406,5 @@ MessageItem.defaultProps = {
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
+  showGroupNumberName: false,
 };
