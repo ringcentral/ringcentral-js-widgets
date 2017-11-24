@@ -98,10 +98,22 @@ export default function ContactDisplay({
   showPlaceholder,
   brand,
   stopPropagation,
-  sourceIcons = {}
+  sourceIcons = {},
+  showGroupNumberName,
 }) {
   let contentEl;
-  if (groupNumbers) {
+  if (groupNumbers && showGroupNumberName) {
+    const groupNames = groupNumbers.map((groupNumber) => {
+      const groupContact = contactMatches.find(match => match.extensionNumber === groupNumber);
+      return (groupContact && groupContact.name) || groupNumber;
+    });
+    const display = groupNames.join(', ');
+    contentEl = (
+      <div title={display}>
+        {display}
+      </div>
+    );
+  } else if (groupNumbers) {
     const display = groupNumbers.join(', ');
     contentEl = (
       <div title={display}>
@@ -221,6 +233,7 @@ ContactDisplay.propTypes = {
   brand: PropTypes.string,
   stopPropagation: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  showGroupNumberName: PropTypes.bool,
 };
 ContactDisplay.defaultProps = {
   reference: undefined,
@@ -236,4 +249,5 @@ ContactDisplay.defaultProps = {
   brand: undefined,
   stopPropagation: true,
   sourceIcons: undefined,
+  showGroupNumberName: false,
 };

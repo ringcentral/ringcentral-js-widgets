@@ -1,5 +1,6 @@
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/text-ellipsis';
+@import '../../lib/commonStyles/fonts';
 
 .root {
   border-bottom: 1px solid #e2e2e2;
@@ -16,37 +17,52 @@
 .wrapper {
   display: block;
   position: relative;
-  height: 74px;
+  height: 66px;
   width: 100%;
 }
+
 .conversationIcon {
   display: block;
   position: absolute;
   top: 0;
   left: 6px;
   width: 40px;
-  height: 74px;
-  line-height: 74px;
-  font-size: 22px;
+  height: 66px;
+  line-height: 66px;
   text-align: center;
-  color: #666;
+  color: $ash;
+}
+
+.icon {
+  path {
+    fill: $ash;
+  }
 }
 
 .details {
+  @include field-value-font;
   position: absolute;
   left: 46px;
-  bottom: 12px;
-  font-size: 12px;
-  color: #979797;
+  bottom: 17px;
+  color: $ash;
   @include text-ellipsis;
-  max-width: 170px;
+  max-width: 140px;
 }
+
+.creationTime {
+  @include field-value-font;
+  position: absolute;
+  right: 20px;
+  top: 19px;
+  color: $ash;
+}
+
 .contactDisplay {
   position: absolute;
   top: 5px;
   left: 45px;
-  color: #303030;
-  font-size: 14px;
+  @include secondary-font;
+  color: $night;
 }
 // .messageLink {
 //   text-decoration: none;
@@ -95,11 +111,20 @@
     color: $primary-color;
   }
 
+  .icon {
+    path {
+      fill: $primary-color;
+    }
+  }
   // .messageFrom {
   //   color: $primary-color;
   // }
 
   .details {
+    color: $primary-color;
+  }
+
+  .creationTime {
     color: $primary-color;
   }
 }
