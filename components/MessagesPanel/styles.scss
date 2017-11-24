@@ -3,6 +3,8 @@
 @import '../../lib/commonStyles/layout';
 @import '../../lib/commonStyles/fonts';
 
+$tabBar-height: 35px;
+
 .root {
   @include full-size;
   padding-bottom: 0px;
@@ -15,10 +17,11 @@
   border-width: 0;
   border-bottom-width: 1px;
   border-style: solid;
+  height: calc(100% - #{$tabBar-height});
 }
 
 .contentWithHeader {
-  height: calc(100% - #{$header-height});
+  height: calc(100% - #{$header-height} - #{$tabBar-height});
 }
 
 .composeText{
