@@ -79,6 +79,10 @@ var _proxify = require('../../lib/proxy/proxify');
 
 var _proxify2 = _interopRequireDefault(_proxify);
 
+var _messageTypes = require('../../enums/messageTypes');
+
+var _messageTypes2 = _interopRequireDefault(_messageTypes);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
@@ -183,6 +187,7 @@ var Messages = (_dec = (0, _di.Module)({
       if (input.length >= 3) return input;
       return '';
     });
+
     _this.addSelector('allConversations', function () {
       return _this._messageStore.conversations;
     }, function () {
@@ -223,7 +228,29 @@ var Messages = (_dec = (0, _di.Module)({
         });
       });
     });
-    _this.addSelector('filteredConversations', _this._selectors.allConversations, function () {
+
+    _this.addSelector('typeFilteredConversations', function () {
+      return _this.allConversations;
+    }, function () {
+      return _this.typeFilter;
+    }, function (allConversations, typeFilter) {
+      switch (typeFilter) {
+        case _messageTypes2.default.all:
+          return allConversations;
+        case _messageTypes2.default.text:
+          return allConversations.filter(function (conversation) {
+            return (0, _messageHelper.messageIsTextMessage)(conversation);
+          });
+        case _messageTypes2.default.voiceMail:
+          return allConversations.filter(function (conversation) {
+            return (0, _messageHelper.messageIsVoicemail)(conversation);
+          });
+        default:
+          return allConversations;
+      }
+    });
+
+    _this.addSelector('filteredConversations', _this._selectors.typeFilteredConversations, function () {
       return _this._selectors.effectiveSearchString();
     }, function (allConversations, effectiveSearchString) {
       if (effectiveSearchString !== '') {
@@ -272,7 +299,7 @@ var Messages = (_dec = (0, _di.Module)({
           if (matchedMessage) {
             searchResults.push((0, _extends3.default)({}, message, {
               matchedMessage: matchedMessage,
-              matchOrders: 1
+              matchOrder: 1
             }));
           }
         });
@@ -451,6 +478,33 @@ var Messages = (_dec = (0, _di.Module)({
       return updateSearchInput;
     }()
   }, {
+    key: 'updateTypeFilter',
+    value: function () {
+      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(type) {
+        return _regenerator2.default.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                this.store.dispatch({
+                  type: this.actionTypes.updateTypeFilter,
+                  typeFilter: type
+                });
+
+              case 1:
+              case 'end':
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function updateTypeFilter(_x6) {
+        return _ref6.apply(this, arguments);
+      }
+
+      return updateTypeFilter;
+    }()
+  }, {
     key: 'status',
     get: function get() {
       return this.state.status;
@@ -471,6 +525,11 @@ var Messages = (_dec = (0, _di.Module)({
       return this.state.searchInput;
     }
   }, {
+    key: 'typeFilter',
+    get: function get() {
+      return this.state.typeFilter;
+    }
+  }, {
     key: 'allConversations',
     get: function get() {
       return this._selectors.allConversations();
@@ -482,6 +541,6 @@ var Messages = (_dec = (0, _di.Module)({
     }
   }]);
   return Messages;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_getCurrentPageMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_getCurrentPageMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'loadNextPageMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadNextPageMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSearchInput', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSearchInput'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_getCurrentPageMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_getCurrentPageMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'loadNextPageMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadNextPageMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSearchInput', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSearchInput'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateTypeFilter', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateTypeFilter'), _class2.prototype)), _class2)) || _class);
 exports.default = Messages;
 //# sourceMappingURL=index.js.map

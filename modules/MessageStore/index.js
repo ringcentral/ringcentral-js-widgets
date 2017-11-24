@@ -213,7 +213,7 @@ var MessageStore = (_dec = (0, _di.Module)({
       });
     }
 
-    _this.addSelector('unreadCounts', function () {
+    _this.addSelector('textUnreadCounts', function () {
       return _this.allConversations;
     }, function (conversations) {
       var unreadCounts = 0;
@@ -223,6 +223,26 @@ var MessageStore = (_dec = (0, _di.Module)({
         }
       });
       return unreadCounts;
+    });
+
+    _this.addSelector('voiceUnreadCounts', function () {
+      return _this.allConversations;
+    }, function (conversations) {
+      var unreadCounts = 0;
+      conversations.forEach(function (conversation) {
+        if (messageHelper.messageIsVoicemail(conversation)) {
+          unreadCounts += conversation.unreadCounts;
+        }
+      });
+      return unreadCounts;
+    });
+
+    _this.addSelector('unreadCounts', function () {
+      return _this.voiceUnreadCounts;
+    }, function () {
+      return _this.textUnreadCounts;
+    }, function (voiceUnreadCounts, textUnreadCounts) {
+      return voiceUnreadCounts + textUnreadCounts;
     });
 
     _this.addSelector('textConversations', function () {
@@ -246,6 +266,14 @@ var MessageStore = (_dec = (0, _di.Module)({
     }, function (conversations) {
       return conversations.filter(function (conversation) {
         return messageHelper.messageIsVoicemail(conversation);
+      });
+    });
+
+    _this.addSelector('textAndVoicemailMessages', function () {
+      return _this.allConversations;
+    }, function (conversations) {
+      return conversations.filter(function (conversation) {
+        return messageHelper.messageIsTextMessage(conversation) || messageHelper.messageIsVoicemail(conversation);
       });
     });
     return _this;
@@ -1122,9 +1150,14 @@ var MessageStore = (_dec = (0, _di.Module)({
       return this._selectors.faxMessages();
     }
   }, {
-    key: 'conversations',
+    key: 'textConversations',
     get: function get() {
       return this._selectors.textConversations();
+    }
+  }, {
+    key: 'conversations',
+    get: function get() {
+      return this._selectors.textAndVoicemailMessages();
     }
   }, {
     key: 'conversationMap',
@@ -1155,6 +1188,16 @@ var MessageStore = (_dec = (0, _di.Module)({
     key: 'unreadCounts',
     get: function get() {
       return this._selectors.unreadCounts();
+    }
+  }, {
+    key: 'textUnreadCounts',
+    get: function get() {
+      return this._selectors.textUnreadCounts();
+    }
+  }, {
+    key: 'voiceUnreadCounts',
+    get: function get() {
+      return this._selectors.voiceUnreadCounts();
     }
   }, {
     key: 'messageStoreStatus',

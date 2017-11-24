@@ -380,7 +380,11 @@ var ConversationLogger = (_dec = (0, _di.Module)({
     value: function getLastMatchedCorrespondentEntity(conversation) {
       var _this4 = this;
 
-      var lastRecord = (0, _keys2.default)(this.conversationLogMap[conversation.conversationId]).map(function (date) {
+      var conversationLog = this.conversationLogMap[conversation.conversationId];
+      if (!conversationLog) {
+        return null;
+      }
+      var lastRecord = (0, _keys2.default)(conversationLog).map(function (date) {
         return _this4.conversationLogMap[conversation.conversationId][date];
       }).sort(_messageHelper.sortByDate).find(function (item) {
         return item.conversationLogMatches.length > 0;

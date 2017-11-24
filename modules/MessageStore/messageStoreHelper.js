@@ -41,7 +41,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function normalizeRecord(record) {
   return (0, _extends3.default)({}, record, {
-    conversationId: record.conversation && record.conversation.id || record.id
+    conversationId: '' + (record.conversation && record.conversation.id || record.id)
   });
 }
 
