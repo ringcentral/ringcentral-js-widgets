@@ -15,6 +15,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function loadLocale(locale) {
   return new _promise2.default(function (resolve) {
     switch (locale) {
+      case 'de':
+
       case 'de-DE':
         {
           require.ensure(['./de-DE'], function (require) {
@@ -23,6 +25,8 @@ function loadLocale(locale) {
           }, 'de-DE');
           break;
         }
+      case 'en':
+
       case 'en-CA':
         {
           require.ensure(['./en-CA'], function (require) {
@@ -47,6 +51,8 @@ function loadLocale(locale) {
           }, 'en-US');
           break;
         }
+      case 'es':
+
       case 'es-419':
         {
           require.ensure(['./es-419'], function (require) {
@@ -63,6 +69,8 @@ function loadLocale(locale) {
           }, 'es-ES');
           break;
         }
+      case 'fr':
+
       case 'fr-CA':
         {
           require.ensure(['./fr-CA'], function (require) {
@@ -79,6 +87,8 @@ function loadLocale(locale) {
           }, 'fr-FR');
           break;
         }
+      case 'it':
+
       case 'it-IT':
         {
           require.ensure(['./it-IT'], function (require) {
