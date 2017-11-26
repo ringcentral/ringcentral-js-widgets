@@ -1,4 +1,3 @@
-import OAuthBase from 'ringcentral-widgets/lib/OAuthBase';
 import background from 'ringcentral-integration/lib/background';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
 import { Module } from 'ringcentral-integration/lib/di';
@@ -6,6 +5,8 @@ import ensureExist from 'ringcentral-integration/lib/ensureExist';
 import url from 'url';
 import actionTypes from './actionTypes';
 import getProxyFrameOAuthReducer from './getProxyFrameOAuthReducer';
+
+import OAuthBase from '../../lib/OAuthBase';
 
 const DEFAULT_PROXY_RETRY = 5000;
 
