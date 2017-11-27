@@ -91,15 +91,17 @@ const When = (
             <DateTimePicker
               culture={currentLocale}
               time={false}
-              value={meeting.schedule.startTime}
+              value={new Date(meeting.schedule.startTime)}
               onChange={(startTime) => {
-                update({
-                  ...meeting,
-                  schedule: {
-                    ...meeting.schedule,
-                    startTime,
-                  }
-                });
+                if (startTime) {
+                  update({
+                    ...meeting,
+                    schedule: {
+                      ...meeting.schedule,
+                      startTime: startTime.getTime(),
+                    }
+                  });
+                }
               }}
               ref={(ref) => { that.date = ref; }}
               format={'MM/DD/YY'}
@@ -118,15 +120,17 @@ const When = (
               culture={'en'}
               date={false}
               ref={(ref) => { that.time = ref; }}
-              value={meeting.schedule.startTime}
+              value={new Date(meeting.schedule.startTime)}
               onChange={(startTime) => {
-                update({
-                  ...meeting,
-                  schedule: {
-                    ...meeting.schedule,
-                    startTime,
-                  }
-                });
+                if (startTime) {
+                  update({
+                    ...meeting,
+                    schedule: {
+                      ...meeting.schedule,
+                      startTime: startTime.getTime(),
+                    }
+                  });
+                }
               }}
               format={'hh:mm A'}
               {...minTime}
@@ -376,10 +380,12 @@ const MeetingOptions = (
               className={styles.password}
               value={meeting.password || ''}
               onChange={({ target }) => {
-                update({
-                  ...meeting,
-                  password: target.value
-                });
+                if (target.value.length <= 10) {
+                  update({
+                    ...meeting,
+                    password: target.value
+                  });
+                }
               }} />
           </div>
         ) : null
@@ -407,33 +413,6 @@ MeetingOptions.propTypes = {
   meeting: PropTypes.object.isRequired,
 };
 
-const InviteBox = (
-  {
-    hidden,
-    disabled,
-    meeting,
-    buttonText,
-    invite
-  }
-) => (
-  <div className={classnames(styles.inviteBox, !hidden ? styles.withShadow : null)}>
-    <button
-      onClick={() => invite(meeting)}
-      disabled={disabled}
-      className={classnames(styles.button, disabled ? styles.disabled : null)}>
-      {buttonText}
-    </button>
-  </div>
-);
-
-InviteBox.propTypes = {
-  meeting: PropTypes.object.isRequired,
-  hidden: PropTypes.bool.isRequired,
-  disabled: PropTypes.bool.isRequired,
-  buttonText: PropTypes.string.isRequired,
-  invite: PropTypes.func.isRequired,
-};
-
 class MeetingPanel extends Component {
   constructor(...args) {
     super(...args);
@@ -448,8 +427,8 @@ class MeetingPanel extends Component {
       hidden,
       disabled,
       invite,
-      buttonText,
       currentLocale,
+      scheduleButton: ScheduleButton,
     } = this.props;
     if (!Object.keys(meeting).length) {
       return null;
@@ -525,12 +504,11 @@ class MeetingPanel extends Component {
             </div>
           ) : null
         }
-        <InviteBox
+        <ScheduleButton
           hidden={hidden}
           disabled={disabled}
           meeting={meeting}
-          buttonText={buttonText}
-          invite={invite} />
+          onClick={invite} />
       </div>
     );
   }
@@ -542,7 +520,7 @@ MeetingPanel.propTypes = {
   init: PropTypes.func.isRequired,
   meeting: PropTypes.object.isRequired,
   currentLocale: PropTypes.string.isRequired,
-  buttonText: PropTypes.string.isRequired,
+  scheduleButton: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   hidden: PropTypes.bool,
 };

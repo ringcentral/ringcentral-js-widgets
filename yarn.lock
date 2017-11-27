@@ -6765,11 +6765,12 @@ ringcentral-client@^1.0.0-rc1:
 
 "ringcentral-integration@https://github.com/ringcentral/ringcentral-js-integration-commons#latest":
   version "0.1.0"
-  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#c9eecdc5129adf4b44fbcb898e3e7f198e798027"
+  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#96738ae9ef9bfa84eabd2d3932a770fb47af4ad8"
   dependencies:
     file-loader "^0.11.2"
     json-mask "^0.3.8"
     loganberry "^0.9.1"
+    moment "^2.19.2"
     phoneformat.js "^1.0.3"
     prettier "^1.7.0"
     ramda "^0.24.1"

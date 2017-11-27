@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import MeetingPanel from '../../components/MeetingPanel';
 import withPhone from '../../lib/withPhone';
 
-
 function mapToProps(_, {
   phone: {
     meeting,
@@ -12,19 +11,25 @@ function mapToProps(_, {
 }) {
   return {
     meeting: meeting.meeting || {},
-    buttonText: 'Invite',
     currentLocale: locale.currentLocale,
+    disabled: meeting.isScheduling || false,
   };
 }
 
 function mapToFunctions(_, {
+  afterScheduled,
   phone: {
     meeting,
   },
 }) {
   return {
     update: meetingState => meeting.update(meetingState),
-    invite: meetingState => meeting.schedule(meetingState),
+    invite: async (meetingState) => {
+      const meetingInfo = await meeting.schedule(meetingState);
+      if (afterScheduled) afterScheduled(meetingInfo);
+      // initialize meeting after last one created
+      meeting.init();
+    },
     init: () => meeting.init(),
   };
 }
