@@ -1,0 +1,49 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/full-size.scss';
+
+$circle: 14px;
+$baseSize: $circle + 2px;
+
+.item {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.checkButton {
+  height: $baseSize;
+  width: $baseSize;
+  margin-right: $circle;
+  position: relative;
+  display: inline-block;
+  &:before {
+    height: $circle;
+    width: $circle;
+    border: 1px solid $silver;
+    border-radius: $baseSize/2;
+    position: absolute;
+    content: ""
+  }
+}
+
+.selectedCheckButton {
+  &:before {
+    border-color: $primary-color;
+  }
+  &:after {
+    position: absolute;
+    left: $baseSize/4;
+    top: $baseSize/4;
+    height: $baseSize/2;
+    width: $baseSize/2;
+    border-radius: $baseSize/4;
+    background-color: $primary-color;
+    content: ""
+  }
+}
+
+.text {
+  display: inline-block;
+  font-size: 13px;
+  color: $ash;
+}

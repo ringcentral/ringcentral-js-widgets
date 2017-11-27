@@ -13,6 +13,7 @@ import DialerPage from '../../../src/containers/DialerPage';
 import ComposeTextPage from '../../../src/containers/ComposeTextPage';
 import ConversationPage from '../../../src/containers/ConversationPage';
 import ConferencePage from '../../../src/containers/ConferencePage';
+import MeetingPage from '../../../src/containers/MeetingPage';
 import MessagesPage from '../../../src/containers/MessagesPage';
 import SettingsPage from '../../../src/containers/SettingsPage';
 import ActiveCallsPage from '../../../src/containers/ActiveCallsPage';
@@ -228,6 +229,7 @@ export default function App({
               </Route>
               <Route
                 path="/meeting"
+                component={MeetingPage}
               />
             </Route>
           </Route>

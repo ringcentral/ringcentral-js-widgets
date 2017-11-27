@@ -29,6 +29,7 @@
     "format-message": "^5.0.0",
     "intl": "^1.2.5",
     "isomorphic-fetch": "^2.2.1",
+    "moment": "^2.19.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-redux": "^5.0.1",
@@ -39,7 +40,7 @@
     "ringcentral-integration": "^0.7.27"
   },
   "devDependencies": {
-    "alias-webpack-plugin": "^1.0.5",
+    "alias-webpack-plugin": "^1.0.6",
     "autoprefixer": "^7.1.1",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.21.0",
@@ -109,6 +110,8 @@
     "ramda": "^0.25.0",
     "rc-tooltip": "^3.4.6",
     "react-svg-loader": "^1.1.1",
+    "react-widgets": "^4.1.1",
+    "react-widgets-moment": "^4.0.4",
     "through2": "^2.0.3"
   },
   "jest": {

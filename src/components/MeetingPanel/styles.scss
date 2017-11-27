@@ -1,0 +1,218 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/reset.scss';
+
+:global .rw-widget {
+  font-size: 0.857em;
+}
+
+:global .rw-widget>.rw-widget-container,
+:global .rw-state-focus>.rw-widget-container,
+:global .rw-state-focus>.rw-widget-container:hover {
+  border: none;
+  box-shadow: none;
+}
+
+:global .rw-widget-picker {
+  height: 1.2em;
+}
+
+:global .rw-datetime-picker .rw-select,
+:global .rw-widget-input.rw-widget-picker.rw-widget-container .rw-select button
+{
+  display: none;
+}
+
+:global .rw-datetime-picker .rw-widget-input {
+  padding: 0;
+  box-shadow: none;
+}
+
+:global .rw-list-empty,
+:global .rw-list-option,
+:global .rw-list-optgroup {
+  padding-right: 0;
+  padding-left: 0;
+  text-align: center;
+}
+
+:global .rw-dropdown-list-input {
+  padding-left: 0;
+}
+
+
+.meetingPanel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.inviteBox {
+  flex-shrink: 0;
+  height: 35px;
+  padding: 20px;
+  background-color: $snow;
+}
+
+.withShadow {
+  box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.scroll {
+  overflow: hidden;
+  overflow-y: auto;
+  height: 100%;
+  background-color: $snow;
+  padding: 5px 0;
+}
+
+.section {
+  padding: 10px 0;
+  margin: 0 20px;
+  min-height: 16px;
+  border-top: 1px solid $silver;
+}
+
+.title {
+  font-size: 13px;
+  font-weight: bold;
+  color: $night;
+  align-items: center;
+  display: flex;
+}
+
+.fixTopMargin {
+  margin-top: 10px;
+}
+
+.spaceBetween {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inline{
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-start;
+  line-height: 16px;
+}
+
+.input {
+  outline:none;
+  margin-left: 10px;
+  flex-shrink: 1;
+  width: 100%;
+  height: 16px;
+  line-height: 16px;
+  font-size: 13px;
+  color: $ash;
+  border: none;
+}
+
+.label {
+  @extend .title;
+  flex-shrink: 0;
+}
+
+.labelLight {
+  @extend .label;
+  font-weight: normal;
+  color: $ash;
+}
+
+.hiddenTopBorder {
+  border-top: none;
+}
+
+.dropDown {
+  transform: rotate(180deg);
+}
+
+.passwordBox {
+  @extend .fixTopMargin;
+  flex-direction: column;
+}
+
+.password {
+  @extend .fixTopMargin;
+  width: 100%;
+  height: 28px;
+  border: 1px solid $silver;
+  outline: none;
+  padding: 0;
+  color: $ash;
+}
+
+.arrow {
+  color: $ash;
+  font-size: 13px;
+}
+
+.icon {
+  @include reset;
+  width: 100%;
+  height: 100%;
+}
+
+.datePicker {
+  width: 64px;
+}
+
+.timePicker {
+  width: 72px;
+}
+
+.dateIcon {
+  height: 17.4px;
+}
+
+.timeIcon {
+  height: 17.7px;
+}
+
+.dateTimeBox {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.duration {
+  margin-top: 10px;
+}
+
+.list {
+  display: flex;
+  width: 50%;
+}
+
+.hoursList {
+  width: 72px;
+}
+
+.minutesList {
+  width: 72px;
+}
+
+.button {
+  outline: none;
+  border: none;
+  background-color: $primary-color;
+  width: 100%;
+  height: 35px;
+  border-radius: 17.5px;
+  text-align: center;
+  line-height: 17.5px;
+  color: $snow;
+  font-size: 13px;
+}
+
+.disabled {
+  background-color: $silver;
+}
+
+.recurringDescribe {
+  margin-top: 10px;
+  color: $primary-color;
+  font-size: 13px;
+}
