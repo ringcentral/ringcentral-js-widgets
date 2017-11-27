@@ -62,8 +62,21 @@ function getSearchingReducer(types) {
     switch (type) {
       case types.searchSuccess:
         if (state.searchString === searchString && state.searchOnSources.join(',') === searchOnSources.join(',')) {
+          var resultMap = {};
+          var newResult = [];
+          state.result.forEach(function (item) {
+            resultMap[item.id] = 1;
+            newResult.push(item);
+          });
+          entities.forEach(function (item) {
+            if (resultMap[item.id]) {
+              return;
+            }
+            newResult.push(item);
+            resultMap[item.id] = 1;
+          });
           return (0, _extends3.default)({}, state, {
-            result: state.result.concat(entities)
+            result: newResult
           });
         }
         return {
