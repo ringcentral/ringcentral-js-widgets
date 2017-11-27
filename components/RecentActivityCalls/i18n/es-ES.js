@@ -9,4 +9,9 @@ exports.default = {
   outBound: 'Salientes',
   missed: 'Llamada perdida'
 };
+
+// @key: @#@"noRecords"@#@ @source: @#@"No recent records found."@#@
+// @key: @#@"inBound"@#@ @source: @#@"Inbound"@#@
+// @key: @#@"outBound"@#@ @source: @#@"Outbound"@#@
+// @key: @#@"missed"@#@ @source: @#@"Missed Call"@#@
 //# sourceMappingURL=es-ES.js.map

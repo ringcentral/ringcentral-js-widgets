@@ -7,4 +7,7 @@ exports.default = {
   cancel: 'Cancelar',
   confirm: 'Confirmar'
 };
+
+// @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"confirm"@#@ @source: @#@"Confirm"@#@
 //# sourceMappingURL=pt-BR.js.map

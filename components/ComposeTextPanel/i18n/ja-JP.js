@@ -10,4 +10,10 @@ exports.default = {
   typeMessage: 'メッセージの入力...',
   send: '送信'
 };
+
+// @key: @#@"from"@#@ @source: @#@"From"@#@
+// @key: @#@"to"@#@ @source: @#@"To"@#@
+// @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter Number or Name..."@#@
+// @key: @#@"typeMessage"@#@ @source: @#@"Type message..."@#@
+// @key: @#@"send"@#@ @source: @#@"Send"@#@
 //# sourceMappingURL=ja-JP.js.map

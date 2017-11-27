@@ -6,4 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   offlineMode: 'Modo fuera de línea'
 };
+
+// @key: @#@"offlineMode"@#@ @source: @#@"Offline Mode"@#@
 //# sourceMappingURL=es-419.js.map

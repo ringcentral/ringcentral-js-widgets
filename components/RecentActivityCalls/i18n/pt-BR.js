@@ -9,4 +9,9 @@ exports.default = {
   outBound: 'Saída',
   missed: 'Chamada perdida'
 };
+
+// @key: @#@"noRecords"@#@ @source: @#@"No recent records found."@#@
+// @key: @#@"inBound"@#@ @source: @#@"Inbound"@#@
+// @key: @#@"outBound"@#@ @source: @#@"Outbound"@#@
+// @key: @#@"missed"@#@ @source: @#@"Missed Call"@#@
 //# sourceMappingURL=pt-BR.js.map

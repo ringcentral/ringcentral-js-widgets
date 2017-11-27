@@ -15,4 +15,6 @@ var _permissionsMessages2 = _interopRequireDefault(_permissionsMessages);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _defineProperty3.default)({}, _permissionsMessages2.default.invalidTier, 'La tua versione non supporta l\'integrazione {application}. Contatta il rappresentante dell\'account per aggiornare la versione {brand}.');
+
+// @key: @#@"[permissionMessages.invalidTier]"@#@ @source: @#@"Your edition does not support {application} integration. Please contact your account representative to upgrade your {brand} edition."@#@
 //# sourceMappingURL=it-IT.js.map

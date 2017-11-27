@@ -21,4 +21,10 @@ var _dndStatus2 = _interopRequireDefault(_dndStatus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (_presenceStatus$avali = {}, (0, _defineProperty3.default)(_presenceStatus$avali, _presenceStatus2.default.avalible, 'Disponibile'), (0, _defineProperty3.default)(_presenceStatus$avali, _presenceStatus2.default.offline, 'Invisibile'), (0, _defineProperty3.default)(_presenceStatus$avali, _presenceStatus2.default.busy + _dndStatus2.default.takeAllCalls, 'Occupato'), (0, _defineProperty3.default)(_presenceStatus$avali, _presenceStatus2.default.busy + _dndStatus2.default.doNotAcceptDepartmentCalls, 'Occupato'), (0, _defineProperty3.default)(_presenceStatus$avali, _presenceStatus2.default.busy + _dndStatus2.default.doNotAcceptAnyCalls, 'Non disturbare'), _presenceStatus$avali);
+
+// @key: @#@"[presenceStatus.avalible]"@#@ @source: @#@"Available"@#@
+// @key: @#@"[presenceStatus.offline]"@#@ @source: @#@"Invisible"@#@
+// @key: @#@"[presenceStatus.busy+dndStatus.takeAllCalls]"@#@ @source: @#@"Busy"@#@
+// @key: @#@"[presenceStatus.busy+dndStatus.doNotAcceptDepartmentCalls]"@#@ @source: @#@"Busy"@#@
+// @key: @#@"[presenceStatus.busy+dndStatus.doNotAcceptAnyCalls]"@#@ @source: @#@"Do not Disturb"@#@
 //# sourceMappingURL=it-IT.js.map

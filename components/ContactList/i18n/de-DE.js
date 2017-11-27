@@ -6,4 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   noContacts: 'Keine Datensätze gefunden'
 };
+
+// @key: @#@"noContacts"@#@ @source: @#@"No records found"@#@
 //# sourceMappingURL=de-DE.js.map

@@ -10,4 +10,10 @@ exports.default = {
   voicemail: 'ボイスメール',
   call: '通話'
 };
+
+// @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@
+// @key: @#@"text"@#@ @source: @#@"Text"@#@
+// @key: @#@"fax"@#@ @source: @#@"Fax"@#@
+// @key: @#@"voicemail"@#@ @source: @#@"Voicemail"@#@
+// @key: @#@"call"@#@ @source: @#@"Call"@#@
 //# sourceMappingURL=ja-JP.js.map

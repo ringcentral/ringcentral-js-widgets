@@ -8,4 +8,8 @@ exports.default = {
   anonymous: 'Anonymous',
   activeCalls: 'Active calls'
 };
+
+// @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@
+// @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
+// @key: @#@"activeCalls"@#@ @source: @#@"Active Calls"@#@
 //# sourceMappingURL=en-GB.js.map

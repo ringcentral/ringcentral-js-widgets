@@ -6,4 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   activeCall: 'Llamada activa'
 };
+
+// @key: @#@"activeCall"@#@ @source: @#@"Active Call"@#@
 //# sourceMappingURL=es-ES.js.map

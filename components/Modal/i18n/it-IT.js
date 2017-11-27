@@ -7,4 +7,7 @@ exports.default = {
   cancel: 'Annulla',
   confirm: 'Conferma'
 };
+
+// @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"confirm"@#@ @source: @#@"Confirm"@#@
 //# sourceMappingURL=it-IT.js.map

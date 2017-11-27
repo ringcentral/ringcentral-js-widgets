@@ -27,4 +27,15 @@ exports.default = (_extensionLabel$direc = {
   call: 'Call',
   text: 'Text'
 }, (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.avalible, 'Available'), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.offline, 'Invisible'), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.busy + _dndStatus2.default.takeAllCalls, 'Busy'), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.busy + _dndStatus2.default.doNotAcceptDepartmentCalls, 'Busy'), (0, _defineProperty3.default)(_extensionLabel$direc, _presenceStatus2.default.busy + _dndStatus2.default.doNotAcceptAnyCalls, 'Do not Disturb'), _extensionLabel$direc);
+
+// @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@
+// @key: @#@"directLabel"@#@ @source: @#@"Direct"@#@
+// @key: @#@"emailLabel"@#@ @source: @#@"Email"@#@
+// @key: @#@"call"@#@ @source: @#@"Call"@#@
+// @key: @#@"text"@#@ @source: @#@"Text"@#@
+// @key: @#@"[presenceStatus.avalible]"@#@ @source: @#@"Available"@#@
+// @key: @#@"[presenceStatus.offline]"@#@ @source: @#@"Invisible"@#@
+// @key: @#@"[presenceStatus.busy+dndStatus.takeAllCalls]"@#@ @source: @#@"Busy"@#@
+// @key: @#@"[presenceStatus.busy+dndStatus.doNotAcceptDepartmentCalls]"@#@ @source: @#@"Busy"@#@
+// @key: @#@"[presenceStatus.busy+dndStatus.doNotAcceptAnyCalls]"@#@ @source: @#@"Do not Disturb"@#@
 //# sourceMappingURL=en-CA.js.map

@@ -17,4 +17,18 @@ exports.default = {
   clickToSMS: 'Clicar para enviar mensagem de texto',
   clickToDialSMS: 'Clique para discar/enviar mensagem de texto'
 };
+
+// @key: @#@"region"@#@ @source: @#@"Region"@#@
+// @key: @#@"calling"@#@ @source: @#@"Calling"@#@
+// @key: @#@"logout"@#@ @source: @#@"Logout"@#@
+// @key: @#@"version"@#@ @source: @#@"Version"@#@
+// @key: @#@"settings"@#@ @source: @#@"Settings"@#@
+// @key: @#@"clickToDial"@#@ @source: @#@"Click to Dial"@#@
+// @key: @#@"autoCreateLog"@#@ @source: @#@"Auto-create Call Log"@#@
+// @key: @#@"autoCreateSMSLog"@#@ @source: @#@"Auto-create SMS Log"@#@
+// @key: @#@"autoLogCalls"@#@ @source: @#@"Auto log calls"@#@
+// @key: @#@"autoLogSMS"@#@ @source: @#@"Auto log SMS"@#@
+// @key: @#@"clickToSMS"@#@ @source: @#@"Click to SMS"@#@
+// @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@
+// @key: @#@"audio"@#@ @source: @#@"Audio"@#@
 //# sourceMappingURL=pt-BR.js.map

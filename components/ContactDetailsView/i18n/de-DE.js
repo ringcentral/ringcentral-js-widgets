@@ -6,4 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   contactDetails: 'Kontaktdetails'
 };
+
+// @key: @#@"contactDetails"@#@ @source: @#@"Contact Details"@#@
 //# sourceMappingURL=de-DE.js.map

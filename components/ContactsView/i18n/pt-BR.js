@@ -6,4 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   searchPlaceholder: 'Pesquisar...'
 };
+
+// @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@
 //# sourceMappingURL=pt-BR.js.map

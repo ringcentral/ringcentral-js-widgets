@@ -6,4 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   searchPlaceholder: '検索...'
 };
+
+// @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@
 //# sourceMappingURL=ja-JP.js.map

@@ -6,4 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   title: '通話'
 };
+
+// @key: @#@"title"@#@ @source: @#@"Calls"@#@
 //# sourceMappingURL=ja-JP.js.map

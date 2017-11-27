@@ -6,4 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   title: 'Chamadas'
 };
+
+// @key: @#@"title"@#@ @source: @#@"Calls"@#@
 //# sourceMappingURL=pt-BR.js.map

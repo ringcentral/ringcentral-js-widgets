@@ -15,4 +15,6 @@ var _connectivityMonitorMessages2 = _interopRequireDefault(_connectivityMonitorM
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _defineProperty3.default)({}, _connectivityMonitorMessages2.default.disconnected, 'Se perdió la conexión de red.');
+
+// @key: @#@"[connectivityMonitorMessages.disconnected]"@#@ @source: @#@"Network connection is lost."@#@
 //# sourceMappingURL=es-419.js.map

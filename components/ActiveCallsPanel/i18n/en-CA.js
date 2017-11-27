@@ -10,4 +10,10 @@ exports.default = {
   onHoldCall: 'Call on Hold',
   otherDeviceCall: 'Ongoing calls on my other devices'
 };
+
+// @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
+// @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
+// @key: @#@"ringCall"@#@ @source: @#@"Ringing Call"@#@
+// @key: @#@"onHoldCall"@#@ @source: @#@"Call on Hold"@#@
+// @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
 //# sourceMappingURL=en-CA.js.map

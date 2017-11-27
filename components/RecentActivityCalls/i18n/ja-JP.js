@@ -9,4 +9,9 @@ exports.default = {
   outBound: '発信',
   missed: '不在着信'
 };
+
+// @key: @#@"noRecords"@#@ @source: @#@"No recent records found."@#@
+// @key: @#@"inBound"@#@ @source: @#@"Inbound"@#@
+// @key: @#@"outBound"@#@ @source: @#@"Outbound"@#@
+// @key: @#@"missed"@#@ @source: @#@"Missed Call"@#@
 //# sourceMappingURL=ja-JP.js.map

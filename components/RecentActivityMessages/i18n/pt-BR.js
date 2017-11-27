@@ -6,4 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   noRecords: 'Nenhum registro recente encontrado.'
 };
+
+// @key: @#@"noRecords"@#@ @source: @#@"No recent records found."@#@
 //# sourceMappingURL=pt-BR.js.map

@@ -8,4 +8,8 @@ exports.default = {
   end: 'Fin',
   keypad: 'Teclado'
 };
+
+// @key: @#@"hide"@#@ @source: @#@"Hide"@#@
+// @key: @#@"end"@#@ @source: @#@"End"@#@
+// @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@
 //# sourceMappingURL=es-419.js.map

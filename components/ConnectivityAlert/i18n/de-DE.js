@@ -15,4 +15,6 @@ var _connectivityMonitorMessages2 = _interopRequireDefault(_connectivityMonitorM
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = (0, _defineProperty3.default)({}, _connectivityMonitorMessages2.default.disconnected, 'Die Netzwerkverbindung ist unterbrochen.');
+
+// @key: @#@"[connectivityMonitorMessages.disconnected]"@#@ @source: @#@"Network connection is lost."@#@
 //# sourceMappingURL=de-DE.js.map

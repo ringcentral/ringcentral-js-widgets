@@ -6,4 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   title: 'Histórico'
 };
+
+// @key: @#@"title"@#@ @source: @#@"History"@#@
 //# sourceMappingURL=pt-BR.js.map

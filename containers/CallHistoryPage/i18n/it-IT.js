@@ -6,4 +6,6 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
   title: 'Cronologia'
 };
+
+// @key: @#@"title"@#@ @source: @#@"History"@#@
 //# sourceMappingURL=it-IT.js.map

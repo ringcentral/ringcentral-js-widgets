@@ -8,4 +8,8 @@ exports.default = {
   end: 'Beenden',
   keypad: 'Wählfeld'
 };
+
+// @key: @#@"hide"@#@ @source: @#@"Hide"@#@
+// @key: @#@"end"@#@ @source: @#@"End"@#@
+// @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@
 //# sourceMappingURL=de-DE.js.map

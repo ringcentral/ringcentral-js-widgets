@@ -9,4 +9,8 @@ exports.default = {
   googleContacts: 'Google',
   personalContacts: 'Personnel'
 };
+
+// @key: @#@"all"@#@ @source: @#@"All"@#@
+// @key: @#@"company"@#@ @source: @#@"Company"@#@
+// @key: @#@"personal"@#@ @source: @#@"Personal"@#@
 //# sourceMappingURL=fr-CA.js.map

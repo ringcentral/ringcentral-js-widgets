@@ -10,4 +10,10 @@ exports.default = {
   chooseEntity: 'エンティティタイプを選択してください',
   create: '作成'
 };
+
+// @key: @#@"account"@#@ @source: @#@"Account"@#@
+// @key: @#@"contact"@#@ @source: @#@"Contact"@#@
+// @key: @#@"lead"@#@ @source: @#@"Lead"@#@
+// @key: @#@"chooseEntity"@#@ @source: @#@"Please select entity type"@#@
+// @key: @#@"create"@#@ @source: @#@"Create"@#@
 //# sourceMappingURL=ja-JP.js.map

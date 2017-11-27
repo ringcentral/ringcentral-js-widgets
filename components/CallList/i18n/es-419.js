@@ -7,4 +7,7 @@ exports.default = {
   noActiveCalls: 'No hay llamadas activas',
   noRecords: 'Sin registros'
 };
+
+// @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
+// @key: @#@"noRecords"@#@ @source: @#@"No results found"@#@
 //# sourceMappingURL=es-419.js.map

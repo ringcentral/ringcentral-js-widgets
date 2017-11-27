@@ -10,4 +10,10 @@ exports.default = {
   onHoldCall: '保留中の通話',
   otherDeviceCall: '他のデバイスで進行中の通話'
 };
+
+// @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
+// @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
+// @key: @#@"ringCall"@#@ @source: @#@"Ringing Call"@#@
+// @key: @#@"onHoldCall"@#@ @source: @#@"Call on Hold"@#@
+// @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
 //# sourceMappingURL=ja-JP.js.map
