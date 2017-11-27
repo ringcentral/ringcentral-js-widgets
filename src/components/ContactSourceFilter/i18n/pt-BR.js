@@ -4,3 +4,7 @@ export default {
   googleContacts: 'Google',
   personalContacts: 'Pessoal',
 };
+
+// @key: @#@"all"@#@ @source: @#@"All"@#@
+// @key: @#@"company"@#@ @source: @#@"Company"@#@
+// @key: @#@"personal"@#@ @source: @#@"Personal"@#@
