@@ -12,3 +12,13 @@ export default {
   [callingSettingsMessages.webphonePermissionRemoved]: 'Vos permissions ont été modifiées et vous ne pouvez pas passer d\'appel avec un navigateur. Pour plus de détails, veuillez contacter votre administrateur de compte.',
   [callingSettingsMessages.emergencyCallingNotAvailable]: 'Numéro d\'urgence ou service spécial non pris en charge. En cas d\'urgence, veuillez utiliser un téléphone fixe ou mobile traditionnel pour contacter les services compétents.',
 };
+
+// @key: @#@"[callingSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@
+// @key: @#@"[callingSettingsMessages.saveSuccessWithSoftphone]"@#@ @source: @#@"Settings saved successfully. Please make sure you have {brand} for Desktop installed in your computer."@#@
+// @key: @#@"[callingSettingsMessages.firstLogin]"@#@ @source: @#@"Please select in Calling section how you want to make your call. It would be nice if you let us know your location by specifying the country and area code (if available) in Region section, so you can do local dialing with the app."@#@
+// @key: @#@"[callingSettingsMessages.firstLoginOther]"@#@ @source: @#@"Please select in Calling section how you want to make your call."@#@
+// @key: @#@"[callingSettingsMessages.permissionChanged]"@#@ @source: @#@"Your permissions have been changed recently. Please go to {link} to check your Calling options."@#@
+// @key: @#@"[callingSettingsMessages.phoneNumberChanged]"@#@ @source: @#@"Your phone number information has been changed recently. Please go to {link} to check your Calling options."@#@
+// @key: @#@"link"@#@ @source: @#@"Settings > Calling"@#@
+// @key: @#@"[callingSettingsMessages.webphonePermissionRemoved]"@#@ @source: @#@"Your permissions have been changed and you cannot make calls with Browser. For details please contact your account administrator."@#@
+// @key: @#@"[callingSettingsMessages.emergencyCallingNotAvailable]"@#@ @source: @#@"Dialing emergency or special service numbers is not supported. In an emergency, use your traditional wireline or wireless phone to call an emergency number."@#@

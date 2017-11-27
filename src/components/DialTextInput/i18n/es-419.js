@@ -3,3 +3,6 @@ export default {
   enterNameOrPhoneNumber: 'Ingresar número',
 };
 
+
+// @key: @#@"to"@#@ @source: @#@"To:"@#@
+// @key: @#@"enterNameOrPhoneNumber"@#@ @source: @#@"Enter Number"@#@

@@ -156,6 +156,7 @@ gulp.task('generate-font', async () => {
 
 gulp.task('export-locale', () => exportLocale());
 gulp.task('export-locale-full', () => exportLocale({ exportType: 'full' }));
+gulp.task('export-locale-translated', () => exportLocale({ exportType: 'translated' }));
 gulp.task('import-locale', () => importLocale());
 
 gulp.task('demo-extension-clean', async () => {

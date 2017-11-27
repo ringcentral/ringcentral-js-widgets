@@ -4,3 +4,5 @@ import connectivityMonitorMessages from
 export default {
   [connectivityMonitorMessages.disconnected]: 'ネットワーク接続が切断されます\u3002',
 };
+
+// @key: @#@"[connectivityMonitorMessages.disconnected]"@#@ @source: @#@"Network connection is lost."@#@

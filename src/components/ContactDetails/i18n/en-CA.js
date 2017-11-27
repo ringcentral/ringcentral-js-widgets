@@ -9,7 +9,18 @@ export default {
   text: 'Text',
   [presenceStatus.avalible]: 'Available',
   [presenceStatus.offline]: 'Invisible',
-  [presenceStatus.busy + dndStatus.takeAllCalls]: 'Busy',
-  [presenceStatus.busy + dndStatus.doNotAcceptDepartmentCalls]: 'Busy',
-  [presenceStatus.busy + dndStatus.doNotAcceptAnyCalls]: 'Do not Disturb',
+  [presenceStatus.busy+dndStatus.takeAllCalls]: 'Busy',
+  [presenceStatus.busy+dndStatus.doNotAcceptDepartmentCalls]: 'Busy',
+  [presenceStatus.busy+dndStatus.doNotAcceptAnyCalls]: 'Do not Disturb',
 };
+
+// @key: @#@"extensionLabel"@#@ @source: @#@"Ext."@#@
+// @key: @#@"directLabel"@#@ @source: @#@"Direct"@#@
+// @key: @#@"emailLabel"@#@ @source: @#@"Email"@#@
+// @key: @#@"call"@#@ @source: @#@"Call"@#@
+// @key: @#@"text"@#@ @source: @#@"Text"@#@
+// @key: @#@"[presenceStatus.avalible]"@#@ @source: @#@"Available"@#@
+// @key: @#@"[presenceStatus.offline]"@#@ @source: @#@"Invisible"@#@
+// @key: @#@"[presenceStatus.busy+dndStatus.takeAllCalls]"@#@ @source: @#@"Busy"@#@
+// @key: @#@"[presenceStatus.busy+dndStatus.doNotAcceptDepartmentCalls]"@#@ @source: @#@"Busy"@#@
+// @key: @#@"[presenceStatus.busy+dndStatus.doNotAcceptAnyCalls]"@#@ @source: @#@"Do not Disturb"@#@
