@@ -181,13 +181,15 @@ var When = function When(_ref3) {
           _react2.default.createElement(_DateTimePicker2.default, {
             culture: currentLocale,
             time: false,
-            value: meeting.schedule.startTime,
+            value: new Date(meeting.schedule.startTime),
             onChange: function onChange(startTime) {
-              update((0, _extends3.default)({}, meeting, {
-                schedule: (0, _extends3.default)({}, meeting.schedule, {
-                  startTime: startTime
-                })
-              }));
+              if (startTime) {
+                update((0, _extends3.default)({}, meeting, {
+                  schedule: (0, _extends3.default)({}, meeting.schedule, {
+                    startTime: startTime.getTime()
+                  })
+                }));
+              }
             },
             ref: function ref(_ref4) {
               that.date = _ref4;
@@ -218,13 +220,15 @@ var When = function When(_ref3) {
             ref: function ref(_ref5) {
               that.time = _ref5;
             },
-            value: meeting.schedule.startTime,
+            value: new Date(meeting.schedule.startTime),
             onChange: function onChange(startTime) {
-              update((0, _extends3.default)({}, meeting, {
-                schedule: (0, _extends3.default)({}, meeting.schedule, {
-                  startTime: startTime
-                })
-              }));
+              if (startTime) {
+                update((0, _extends3.default)({}, meeting, {
+                  schedule: (0, _extends3.default)({}, meeting.schedule, {
+                    startTime: startTime.getTime()
+                  })
+                }));
+              }
             },
             format: 'hh:mm A'
           }, minTime))
@@ -502,9 +506,11 @@ var MeetingOptions = function MeetingOptions(_ref13) {
           onChange: function onChange(_ref14) {
             var target = _ref14.target;
 
-            update((0, _extends3.default)({}, meeting, {
-              password: target.value
-            }));
+            if (target.value.length <= 10) {
+              update((0, _extends3.default)({}, meeting, {
+                password: target.value
+              }));
+            }
           } })
       ) : null,
       _react2.default.createElement(
@@ -533,41 +539,11 @@ MeetingOptions.propTypes = {
   meeting: _propTypes2.default.object.isRequired
 };
 
-var InviteBox = function InviteBox(_ref15) {
-  var hidden = _ref15.hidden,
-      disabled = _ref15.disabled,
-      meeting = _ref15.meeting,
-      buttonText = _ref15.buttonText,
-      invite = _ref15.invite;
-  return _react2.default.createElement(
-    'div',
-    { className: (0, _classnames2.default)(_styles2.default.inviteBox, !hidden ? _styles2.default.withShadow : null) },
-    _react2.default.createElement(
-      'button',
-      {
-        onClick: function onClick() {
-          return invite(meeting);
-        },
-        disabled: disabled,
-        className: (0, _classnames2.default)(_styles2.default.button, disabled ? _styles2.default.disabled : null) },
-      buttonText
-    )
-  );
-};
-
-InviteBox.propTypes = {
-  meeting: _propTypes2.default.object.isRequired,
-  hidden: _propTypes2.default.bool.isRequired,
-  disabled: _propTypes2.default.bool.isRequired,
-  buttonText: _propTypes2.default.string.isRequired,
-  invite: _propTypes2.default.func.isRequired
-};
-
 var MeetingPanel = function (_Component) {
   (0, _inherits3.default)(MeetingPanel, _Component);
 
   function MeetingPanel() {
-    var _ref16;
+    var _ref15;
 
     (0, _classCallCheck3.default)(this, MeetingPanel);
 
@@ -575,7 +551,7 @@ var MeetingPanel = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (_ref16 = MeetingPanel.__proto__ || (0, _getPrototypeOf2.default)(MeetingPanel)).call.apply(_ref16, [this].concat(args)));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (_ref15 = MeetingPanel.__proto__ || (0, _getPrototypeOf2.default)(MeetingPanel)).call.apply(_ref15, [this].concat(args)));
 
     _this.props.init();
     _moment2.default.locale(_this.props.currentLocale);
@@ -594,8 +570,8 @@ var MeetingPanel = function (_Component) {
           hidden = _props.hidden,
           disabled = _props.disabled,
           invite = _props.invite,
-          buttonText = _props.buttonText,
-          currentLocale = _props.currentLocale;
+          currentLocale = _props.currentLocale,
+          ScheduleButton = _props.scheduleButton;
 
       if (!(0, _keys2.default)(meeting).length) {
         return null;
@@ -666,12 +642,11 @@ var MeetingPanel = function (_Component) {
             meeting: meeting,
             update: update })
         ) : null,
-        _react2.default.createElement(InviteBox, {
+        _react2.default.createElement(ScheduleButton, {
           hidden: hidden,
           disabled: disabled,
           meeting: meeting,
-          buttonText: buttonText,
-          invite: invite })
+          onClick: invite })
       );
     }
   }]);
@@ -684,7 +659,7 @@ MeetingPanel.propTypes = {
   init: _propTypes2.default.func.isRequired,
   meeting: _propTypes2.default.object.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
-  buttonText: _propTypes2.default.string.isRequired,
+  scheduleButton: _propTypes2.default.func.isRequired,
   disabled: _propTypes2.default.bool,
   hidden: _propTypes2.default.bool
 };
