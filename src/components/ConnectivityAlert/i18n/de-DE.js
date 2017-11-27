@@ -4,3 +4,5 @@ import connectivityMonitorMessages from
 export default {
   [connectivityMonitorMessages.disconnected]: 'Die Netzwerkverbindung ist unterbrochen.',
 };
+
+// @key: @#@"[connectivityMonitorMessages.disconnected]"@#@ @source: @#@"Network connection is lost."@#@

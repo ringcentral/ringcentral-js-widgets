@@ -4,3 +4,5 @@ import connectivityMonitorMessages from
 export default {
   [connectivityMonitorMessages.disconnected]: 'Network connection is lost.',
 };
+
+// @key: @#@"[connectivityMonitorMessages.disconnected]"@#@ @source: @#@"Network connection is lost."@#@

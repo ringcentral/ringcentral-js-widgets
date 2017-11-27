@@ -1,3 +1,5 @@
+import messageTypes from 'ringcentral-integration/enums/messageTypes';
+
 export default {
   addLog: 'ログ',
   editLog: 'ログの編集',
@@ -7,3 +9,13 @@ export default {
   conversation: '会話',
   groupConversation: 'グループ会話',
 };
+
+// @key: @#@"addLog"@#@ @source: @#@"Log"@#@
+// @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
+// @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
+// @key: @#@"addEntity"@#@ @source: @#@"Create New"@#@
+// @key: @#@"call"@#@ @source: @#@"Call"@#@
+// @key: @#@"conversation"@#@ @source: @#@"Conversation"@#@
+// @key: @#@"groupConversation"@#@ @source: @#@"Group Conversation"@#@
+// @key: @#@"voiceMessage"@#@ @source: @#@"Voice message"@#@
+// @key: @#@"[messageTypes.voiceMail]"@#@ @source: @#@"Voice Mail"@#@

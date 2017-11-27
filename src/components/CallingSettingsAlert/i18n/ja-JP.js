@@ -12,3 +12,13 @@ export default {
   [callingSettingsMessages.webphonePermissionRemoved]: 'アクセス許可が変更されたため\u3001ブラウザーを使用した通話はできません\u3002詳細については\u3001アカウント管理者にお問い合わせください\u3002',
   [callingSettingsMessages.emergencyCallingNotAvailable]: '緊急サービスまたは特別なサービスの番号へのダイヤルはサポートされていません\u3002緊急時は\u3001従来の有線電話または携帯電話を使用して\u3001緊急電話番号に電話してください\u3002',
 };
+
+// @key: @#@"[callingSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@
+// @key: @#@"[callingSettingsMessages.saveSuccessWithSoftphone]"@#@ @source: @#@"Settings saved successfully. Please make sure you have {brand} for Desktop installed in your computer."@#@
+// @key: @#@"[callingSettingsMessages.firstLogin]"@#@ @source: @#@"Please select in Calling section how you want to make your call. It would be nice if you let us know your location by specifying the country and area code (if available) in Region section, so you can do local dialing with the app."@#@
+// @key: @#@"[callingSettingsMessages.firstLoginOther]"@#@ @source: @#@"Please select in Calling section how you want to make your call."@#@
+// @key: @#@"[callingSettingsMessages.permissionChanged]"@#@ @source: @#@"Your permissions have been changed recently. Please go to {link} to check your Calling options."@#@
+// @key: @#@"[callingSettingsMessages.phoneNumberChanged]"@#@ @source: @#@"Your phone number information has been changed recently. Please go to {link} to check your Calling options."@#@
+// @key: @#@"link"@#@ @source: @#@"Settings > Calling"@#@
+// @key: @#@"[callingSettingsMessages.webphonePermissionRemoved]"@#@ @source: @#@"Your permissions have been changed and you cannot make calls with Browser. For details please contact your account administrator."@#@
+// @key: @#@"[callingSettingsMessages.emergencyCallingNotAvailable]"@#@ @source: @#@"Dialing emergency or special service numbers is not supported. In an emergency, use your traditional wireline or wireless phone to call an emergency number."@#@

@@ -4,3 +4,5 @@ import connectivityMonitorMessages from
 export default {
   [connectivityMonitorMessages.disconnected]: 'Connessione di rete persa.',
 };
+
+// @key: @#@"[connectivityMonitorMessages.disconnected]"@#@ @source: @#@"Network connection is lost."@#@
