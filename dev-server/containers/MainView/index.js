@@ -38,6 +38,7 @@ function getTabs({
   showComposeText,
   unreadCounts,
   showConference,
+  showMeeting,
 }) {
   return [
     {
@@ -120,7 +121,7 @@ function getTabs({
             currentPath.substr(0, 9) === '/contacts'
           ),
         },
-        {
+        showMeeting && {
           icon: MeetingIcon,
           activeIcon: MeetingHoverIcon,
           label: i18n.getString('meetingLabel', currentLocale),
@@ -180,6 +181,10 @@ function mapToProps(_, {
     rolesAndPermissions.ready &&
     rolesAndPermissions.permissions.OrganizeConference
   );
+  const showMeeting = (
+    rolesAndPermissions.ready &&
+    rolesAndPermissions.permissions.Meetings
+  );
   const currentLocale = locale.currentLocale;
   const tabs = getTabs({
     currentLocale,
@@ -187,6 +192,7 @@ function mapToProps(_, {
     showComposeText,
     showMessages,
     showConference,
+    showMeeting,
   });
   return {
     tabs,
