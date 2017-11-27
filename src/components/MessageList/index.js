@@ -55,6 +55,7 @@ export default class MessageList extends Component {
     const search = onSearchInputChange ?
       (
         <SearchInput
+          className={styles.searchInput}
           value={searchInput}
           onChange={onSearchInputChange}
           placeholder={i18n.getString('search', currentLocale)}
@@ -108,9 +109,11 @@ MessageList.propTypes = {
   perPage: PropTypes.number,
   className: PropTypes.string,
   showConversationDetail: PropTypes.func.isRequired,
+  readVoicemail: PropTypes.func.isRequired,
   dateTimeFormatter: PropTypes.func,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  showGroupNumberName: PropTypes.bool,
 };
 MessageList.defaultProps = {
   onSearchInputChange: undefined,
@@ -121,4 +124,5 @@ MessageList.defaultProps = {
   dateTimeFormatter: undefined,
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
+  showGroupNumberName: false,
 };

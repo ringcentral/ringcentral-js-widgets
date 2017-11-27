@@ -10,4 +10,5 @@ export default {
   [callErrors.networkError]: 'Impossibile connettersi a causa di problemi di rete. Riprova più tardi.',
   [callErrors.noRingoutEnable]: 'Dal tuo interno è possibile effettuare chiamate con l\'app per il desktop.\n    Per passare ad altre opzioni di chiamata\n    contatta l\'amministratore dell\'account per un aggiornamento.',
   areaCode: 'prefisso',
+  telus911: 'Chiamate di emergenza non supportate.',
 };

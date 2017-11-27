@@ -10,4 +10,11 @@ export default {
   unknownNumber: 'Anonimo',
   unavailable: 'Non disponibile',
   viewDetails: 'Visualizza dettagli',
+  addEntity: 'Crea nuovo',
+  addLog: 'Registro',
+  text: 'SMS',
+  call: 'Chiama',
+  missedCall: 'Perse',
+  inboundCall: 'In entrata',
+  outboundCall: 'In uscita',
 };

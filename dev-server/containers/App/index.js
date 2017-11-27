@@ -176,12 +176,13 @@ export default function App({
                 component={ComposeTextPage} />
               <Route
                 path="/conversations/:conversationId"
-                component={props => (
+                component={routerProps => (
                   <ConversationPage
-                    params={props.params}
+                    params={routerProps.params}
                     onLogConversation={async () => { sleep(1000); }}
                     showContactDisplayPlaceholder={false}
                     sourceIcons={sourceIcons}
+                    showGroupNumberName
                   />
                 )} />
               <Route
@@ -192,24 +193,40 @@ export default function App({
                     onLogConversation={async () => { await sleep(1000); }}
                     onCreateContact={() => { }}
                     sourceIcons={sourceIcons}
+                    showGroupNumberName
                   />
                 )} />
               <Route
                 path="/contacts"
-                component={() => (
-                  <ContactsPage
-                    contactSourceFilterRenderer={props => (
-                      <ContactSourceFilter {...props} />
-                    )}
-                  />
-                )} />
-              <Route
-                path="/contacts/:contactType/:contactId"
-                component={props => (
-                  <ContactDetailsPage
-                    params={props.params}
-                  />
-                )} />
+                component={props =>
+                  !props.location.query.direct
+                    ? (
+                      <ContactsPage
+                        contactSourceFilterRenderer={props => (
+                          <ContactSourceFilter {...props} />
+                        )}
+                      >
+                        {props.children}
+                      </ContactsPage>
+                    ) : props.children
+                }>
+                <Route
+                  path=":contactType/:contactId"
+                  component={routerProps => (
+                    <ContactDetailsPage
+                      params={routerProps.params}
+                    >
+                      <RecentActivityContainer
+                        navigateTo={(path) => {
+                          phone.routerInteraction.push(path);
+                        }}
+                        contact={phone.contactDetails.contact}
+                        useContact
+                      />
+                    </ContactDetailsPage>
+                )}
+              />
+              </Route>
               <Route
                 path="/meeting"
                 component={MeetingPage}

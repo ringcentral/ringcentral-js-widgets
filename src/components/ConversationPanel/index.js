@@ -17,7 +17,6 @@ class ConversationPanel extends Component {
       textValue: '',
       selected: this.getInitialContactIndex(),
       isLogging: false,
-
     };
     this._userSelection = false;
     this.onTextChange = (e) => {
@@ -201,6 +200,7 @@ class ConversationPanel extends Component {
             enableContactFallback={this.props.enableContactFallback}
             showPlaceholder={this.props.showContactDisplayPlaceholder}
             sourceIcons={this.props.sourceIcons}
+            showGroupNumberName={this.props.showGroupNumberName}
           />
           <a
             onClick={() => this.props.goBack()}
@@ -265,6 +265,7 @@ ConversationPanel.propTypes = {
   goBack: PropTypes.func.isRequired,
   showContactDisplayPlaceholder: PropTypes.bool,
   sourceIcons: PropTypes.object,
+  showGroupNumberName: PropTypes.bool,
 };
 ConversationPanel.defaultProps = {
   disableLinks: false,
@@ -273,6 +274,7 @@ ConversationPanel.defaultProps = {
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
+  showGroupNumberName: false,
 };
 
 export default ConversationPanel;

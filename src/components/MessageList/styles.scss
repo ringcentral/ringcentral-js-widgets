@@ -16,6 +16,12 @@
   overflow-y: auto;
   overflow-x: hidden;
 }
+
 .contentWithSearch {
-  height: calc(100% - 40px);
+  height: calc(100% - 51px);
+}
+
+.searchInput {
+  margin: 10px 20px;
+  box-sizing: border-box;
 }

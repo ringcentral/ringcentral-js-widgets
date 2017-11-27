@@ -9,13 +9,14 @@ function mapToProps(_, {
     locale,
     rateLimiter,
     connectivityMonitor,
+    oAuth,
   },
   version,
 }) {
   return {
     currentLocale: locale.currentLocale,
     disabled: (
-      !auth.proxyLoaded ||
+      !oAuth.oAuthReady ||
       rateLimiter.throttling ||
       !connectivityMonitor.connectivity
     ),
@@ -32,19 +33,18 @@ function mapToProps(_, {
 
 function mapToFunctions(_, {
   phone: {
-    auth,
+    oAuth,
   },
-  onLogin,
 }) {
   return {
-    setupProxyFrame() {
-      auth.setupProxyFrame(onLogin);
+    setupOAuth() {
+      oAuth.setupOAuth();
     },
-    clearProxyFrame() {
-      auth.clearProxyFrame();
+    destroyOAuth() {
+      oAuth.destroyOAuth();
     },
     onLoginButtonClick() {
-      auth.openOAuthPage();
+      oAuth.openOAuthPage();
     },
   };
 }

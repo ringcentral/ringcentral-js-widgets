@@ -155,10 +155,6 @@ export default class ContactsView extends Component {
             onChange={this.doSearchByText}
             placeholder={i18n.getString('searchPlaceholder', currentLocale)}
           />
-          <AddContact
-            className={styles.actionButton}
-            onClick={() => { }}
-          />
           <Filter
             className={styles.actionButton}
             currentLocale={currentLocale}

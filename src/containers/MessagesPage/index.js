@@ -1,56 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import { connect } from 'react-redux';
-import Header from '../../components/Header';
-import SpinnerOverlay from '../../components/SpinnerOverlay';
-import MessageList from '../../components/MessageList';
 import withPhone from '../../lib/withPhone';
-import styles from './styles.scss';
-import i18n from './i18n';
+import MessagesPanel from '../../components/MessagesPanel';
 
-function MessagesPanel({
-  currentLocale,
-  showSpinner,
-  showTitle,
-  ...props,
-}) {
-  const header = showTitle ?
-    (<Header>{i18n.getString('title', currentLocale)}</Header>) :
-    null;
-  const content = showSpinner ?
-    <SpinnerOverlay /> :
-    (
-      <MessageList
-        className={classnames(
-          styles.content,
-          showTitle && styles.contentWithHeader
-        )}
-        {...props}
-        currentLocale={currentLocale}
-      />
-    );
-  return (
-    <div className={styles.root}>
-      {header}
-      {content}
-    </div>
-  );
-}
-
-MessagesPanel.propTypes = {
-  currentLocale: PropTypes.string.isRequired,
-  showSpinner: PropTypes.bool,
-  showTitle: PropTypes.bool,
-  showContactDisplayPlaceholder: PropTypes.bool,
-  sourceIcons: PropTypes.object,
-};
-MessagesPanel.defaultProps = {
-  showSpinner: false,
-  showTitle: false,
-  showContactDisplayPlaceholder: true,
-  sourceIcons: undefined,
-};
 
 function mapToProps(_, {
   phone: {
@@ -65,13 +16,16 @@ function mapToProps(_, {
     conversationLogger,
     connectivityMonitor,
     rateLimiter,
+    messageStore,
   },
   showTitle = false,
   enableContactFallback = false,
+  showGroupNumberName = false,
 }) {
   return ({
     showTitle,
     enableContactFallback,
+    showGroupNumberName,
     brand: brand.fullName,
     currentLocale: locale.currentLocale,
     conversations: messages.filteredConversations,
@@ -106,6 +60,9 @@ function mapToProps(_, {
     ),
     searchInput: messages.searchInput,
     autoLog: !!(conversationLogger && conversationLogger.autoLog),
+    typeFilter: messages.typeFilter,
+    textUnreadCounts: messageStore.textUnreadCounts,
+    voiceUnreadCounts: messageStore.voiceUnreadCounts,
   });
 }
 
@@ -113,6 +70,7 @@ function mapToFunctions(_, {
   phone: {
     dateTimeFormat,
     messages,
+    messageStore,
     conversationLogger,
     contactMatcher,
     call,
@@ -125,6 +83,7 @@ function mapToFunctions(_, {
   isLoggedContact,
   onViewContact,
   conversationDetailRoute = '/conversations/{conversationId}',
+  composeTextRoute = '/composeText',
 }) {
   return {
     dateTimeFormatter,
@@ -166,11 +125,16 @@ function mapToFunctions(_, {
     onSearchInputChange: (e) => {
       messages.updateSearchInput(e.currentTarget.value);
     },
-    showConversationDetail(conversationId) {
+    showConversationDetail: (conversationId) => {
       routerInteraction.push(
         conversationDetailRoute.replace('{conversationId}', conversationId)
       );
     },
+    readVoicemail: (conversationId) => {
+      messageStore.readMessages(conversationId);
+    },
+    composeText: () => routerInteraction.push(composeTextRoute),
+    updateTypeFilter: type => messages.updateTypeFilter(type),
   };
 }
 export default withPhone(connect(
