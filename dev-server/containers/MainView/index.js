@@ -29,8 +29,11 @@ import ConferenceNavIcon from '../../../src/assets/images/ConferenceNavigation.s
 import SettingsNavIcon from '../../../src/assets/images/SettingsNavigation.svg';
 import withPhone from '../../../src/lib/withPhone';
 
+import i18n from './i18n';
+
 
 function getTabs({
+  currentLocale,
   showMessages,
   showComposeText,
   unreadCounts,
@@ -40,13 +43,13 @@ function getTabs({
     {
       icon: DialPadIcon,
       activeIcon: DialPadHoverIcon,
-      label: 'Dial Pad',
+      label: i18n.getString('dialpadLabel', currentLocale),
       path: '/dialer',
     },
     {
       icon: CallsIcon,
       activeIcon: CallsHoverIcon,
-      label: 'Calls',
+      label: i18n.getString('callsLabel', currentLocale),
       path: '/calls',
       isActive: currentPath => (
         currentPath === '/calls' || currentPath === '/calls/active'
@@ -55,13 +58,13 @@ function getTabs({
     {
       icon: HistoryIcon,
       activeIcon: HistoryHoverIcon,
-      label: 'History',
+      label: i18n.getString('historyLabel', currentLocale),
       path: '/history',
     },
     showMessages && {
       icon: MessageIcon,
       activeIcon: MessageHoverIcon,
-      label: 'Messages',
+      label: i18n.getString('messagesLabel', currentLocale),
       path: '/messages',
       noticeCounts: unreadCounts,
       isActive: currentPath => (
@@ -71,7 +74,7 @@ function getTabs({
     showComposeText && {
       icon: ComposeTextIcon,
       activeIcon: ComposeTextHoverIcon,
-      label: 'Compose Text',
+      label: i18n.getString('composeTextLabel', currentLocale),
       path: '/composeText',
     },
     {
@@ -102,7 +105,7 @@ function getTabs({
         }
         return <MoreMenuHoverIcon />;
       },
-      label: 'More Menu',
+      label: i18n.getString('moreMenuLabel', currentLocale),
       virtualPath: '!moreMenu',
       isActive: (currentPath, currentVirtualPath) => (
         currentVirtualPath === '!moreMenu'
@@ -111,7 +114,7 @@ function getTabs({
         {
           icon: ContactIcon,
           activeIcon: ContactHoverIcon,
-          label: 'Contacts',
+          label: i18n.getString('contactsLabel', currentLocale),
           path: '/contacts',
           isActive: currentPath => (
             currentPath.substr(0, 9) === '/contacts'
@@ -120,19 +123,19 @@ function getTabs({
         {
           icon: MeetingIcon,
           activeIcon: MeetingHoverIcon,
-          label: 'Schedule Meeting',
+          label: i18n.getString('meetingLabel', currentLocale),
           path: '/meeting',
         },
         showConference && {
           icon: ConferenceIcon,
           activeIcon: ConferenceHoverIcon,
-          label: 'Schedule Conference',
+          label: i18n.getString('conferenceLabel', currentLocale),
           path: '/conference',
         },
         {
           icon: SettingsIcon,
           activeIcon: SettingsHoverIcon,
-          label: 'Settings',
+          label: i18n.getString('settingsLabel', currentLocale),
           path: '/settings',
           isActive: currentPath => (
             currentPath.substr(0, 9) === '/settings'
@@ -145,6 +148,7 @@ function getTabs({
 
 function mapToProps(_, {
   phone: {
+    locale,
     messageStore,
     rolesAndPermissions,
     routerInteraction,
@@ -176,7 +180,9 @@ function mapToProps(_, {
     rolesAndPermissions.ready &&
     rolesAndPermissions.permissions.OrganizeConference
   );
+  const currentLocale = locale.currentLocale;
   const tabs = getTabs({
+    currentLocale,
     unreadCounts,
     showComposeText,
     showMessages,

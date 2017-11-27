@@ -1,8 +1,9 @@
-import OAuthBase from 'ringcentral-widgets/lib/OAuthBase';
 import background from 'ringcentral-integration/lib/background';
 import proxify from 'ringcentral-integration/lib/proxy/proxify';
 import popWindow from 'ringcentral-integration/lib/popWindow';
 import { Module } from 'ringcentral-integration/lib/di';
+
+import OAuthBase from '../../lib/OAuthBase';
 
 @Module({
   name: 'OAuth',
