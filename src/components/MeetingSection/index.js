@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import 'react-widgets/dist/css/react-widgets.css';
-import './helper.css';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
 
-export default class Section extends Component {
+class MeetingSection extends Component {
   constructor(...args) {
     super(...args);
     this.state = {
@@ -56,7 +54,7 @@ export default class Section extends Component {
   }
 }
 
-Section.propTypes = {
+MeetingSection.propTypes = {
   children: PropTypes.element.isRequired,
   title: PropTypes.string,
   className: PropTypes.string,
@@ -65,10 +63,12 @@ Section.propTypes = {
   hideTopBorderLine: PropTypes.bool,
 };
 
-Section.defaultProps = {
+MeetingSection.defaultProps = {
   className: null,
   title: null,
   withSwitch: false,
   toggle: true,
   hideTopBorderLine: false,
 };
+
+export default MeetingSection;

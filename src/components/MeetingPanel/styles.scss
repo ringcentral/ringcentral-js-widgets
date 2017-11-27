@@ -1,6 +1,45 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/reset.scss';
 
+:global .rw-widget {
+  font-size: 0.857em;
+}
+
+:global .rw-widget>.rw-widget-container,
+:global .rw-state-focus>.rw-widget-container,
+:global .rw-state-focus>.rw-widget-container:hover {
+  border: none;
+  box-shadow: none;
+}
+
+:global .rw-widget-picker {
+  height: 1.2em;
+}
+
+:global .rw-datetime-picker .rw-select,
+:global .rw-widget-input.rw-widget-picker.rw-widget-container .rw-select button
+{
+  display: none;
+}
+
+:global .rw-datetime-picker .rw-widget-input {
+  padding: 0;
+  box-shadow: none;
+}
+
+:global .rw-list-empty,
+:global .rw-list-option,
+:global .rw-list-optgroup {
+  padding-right: 0;
+  padding-left: 0;
+  text-align: center;
+}
+
+:global .rw-dropdown-list-input {
+  padding-left: 0;
+}
+
+
 .meetingPanel {
   display: flex;
   flex-direction: column;
