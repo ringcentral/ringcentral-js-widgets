@@ -57,7 +57,7 @@ import ConversationLogger from 'ringcentral-integration/modules/ConversationLogg
 import RecentMessages from 'ringcentral-integration/modules/RecentMessages';
 import RecentCalls from 'ringcentral-integration/modules/RecentCalls';
 import AudioSettings from 'ringcentral-integration/modules/AudioSettings';
-// import Meeting from 'ringcentral-integration/modules/Meeting';
+import Meeting from 'ringcentral-integration/modules/Meeting';
 import RouterInteraction from '../src/modules/RouterInteraction';
 import OAuth from '../src/modules/ProxyFrameOAuth';
 

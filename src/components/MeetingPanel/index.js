@@ -520,15 +520,14 @@ MeetingPanel.propTypes = {
   init: PropTypes.func.isRequired,
   meeting: PropTypes.object.isRequired,
   currentLocale: PropTypes.string.isRequired,
+  scheduleButton: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   hidden: PropTypes.bool,
-  scheduleButton: PropTypes.func,
 };
 
 MeetingPanel.defaultProps = {
   disabled: false,
   hidden: false,
-  scheduleButton: () => null
 };
 
 export default MeetingPanel;
