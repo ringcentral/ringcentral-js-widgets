@@ -1,0 +1,1 @@
+{"version":3,"sources":["modules/Meeting/scheduleStatus.js"],"names":[],"mappings":";;;;;;AAAA;;;;;;kBAEe,mBAAS,CACtB,MADsB,EAEtB,YAFsB,EAGtB,WAHsB,CAAT,EAIZ,uBAJY,C","file":"scheduleStatus.js","sourcesContent":["import Enum from '../../lib/Enum';\n\nexport default new Enum([\n  'idle',\n  'scheduling',\n  'scheduled',\n], 'meetingScheduleStatus');\n"]}
