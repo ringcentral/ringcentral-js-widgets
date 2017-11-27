@@ -224,13 +224,13 @@ var Locale = (_dec = (0, _di.Module)({
 
               case 3:
                 _context3.next = 5;
-                return this._setLocale(this.state.currentLocale);
+                return this._setLocale(this.currentLocale);
 
               case 5:
-                this.store.dispatch({
-                  type: this.actionTypes.syncProxyLocale,
-                  locale: this.state.currentLocale
-                });
+                _context3.next = 7;
+                return this.setLocale(this.currentLocale);
+
+              case 7:
                 this.store.dispatch({
                   type: this.actionTypes.proxyInitSuccess
                 });
@@ -261,7 +261,7 @@ var Locale = (_dec = (0, _di.Module)({
                   }, _callee2, _this2);
                 })));
 
-              case 8:
+              case 9:
               case 'end':
                 return _context3.stop();
             }
