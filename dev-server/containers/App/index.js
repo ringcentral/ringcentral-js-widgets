@@ -25,6 +25,7 @@ import RecentActivityContainer from '../../../src/containers/RecentActivityConta
 import ContactsPage from '../../../src/containers/ContactsPage';
 import ContactDetailsPage from '../../../src/containers/ContactDetailsPage';
 import ContactSourceFilter from '../../../src/components/ContactSourceFilter';
+import MeetingScheduleButton from '../../../src/components/MeetingScheduleButton';
 import MainView from '../MainView';
 import AppView from '../AppView';
 import PhoneProvider from '../../../src/lib/PhoneProvider';
@@ -229,7 +230,9 @@ export default function App({
               </Route>
               <Route
                 path="/meeting"
-                // component={MeetingPage}
+                component={() => (
+                  <MeetingPage scheduleButton={MeetingScheduleButton} />
+                )}
               />
             </Route>
           </Route>
