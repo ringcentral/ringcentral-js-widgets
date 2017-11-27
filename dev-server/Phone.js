@@ -627,14 +627,15 @@ export default class Phone extends RcModule {
       getState: () => this.state.recentCalls
     }));
     reducers.recentCalls = this.recentCalls.reducer;
-    // this.addModule('meeting', new Meeting({
-    //   ...options,
-    //   client: this.client,
-    //   alert: this.alert,
-    //   extensionInfo: this.extensionInfo,
-    //   getState: () => this.state.meeting,
-    // }));
-    // reducers.meeting = this.meeting.reducer;
+    this.addModule('meeting', new Meeting({
+      ...options,
+      alert: this.alert,
+      client: this.client,
+      storage: this.storage,
+      extensionInfo: this.extensionInfo,
+      getState: () => this.state.meeting,
+    }));
+    reducers.meeting = this.meeting.reducer;
     this._reducer = combineReducers({
       ...reducers,
       app: (state = {

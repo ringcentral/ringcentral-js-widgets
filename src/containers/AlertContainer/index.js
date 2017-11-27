@@ -15,6 +15,7 @@ import MessageSenderAlert from '../../components/MessageSenderAlert';
 import RateExceededAlert from '../../components/RateExceededAlert';
 import ConnectivityAlert from '../../components/ConnectivityAlert';
 import WebphoneAlert from '../../components/WebphoneAlert';
+import MeetingAlert from '../../components/MeetingAlert';
 import RolesAndPermissionsAlert from '../../components/RolesAndPermissionsAlert';
 import withPhone from '../../lib/withPhone';
 
@@ -100,6 +101,9 @@ function getDefaultRenderer({
 
     if (WebphoneAlert.handleMessage(message)) {
       return WebphoneAlert;
+    }
+    if (MeetingAlert.handleMessage(message)) {
+      return MeetingAlert;
     }
     if (RolesAndPermissionsAlert.handleMessage(message)) {
       return props => (
