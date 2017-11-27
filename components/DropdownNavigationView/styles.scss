@@ -1,0 +1,9 @@
+.root {
+  position: absolute;
+  width: calc(100% - 24px);
+  padding: 7px 12px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 5px 0 #cccccc;
+  z-index: 11;
+}

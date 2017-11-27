@@ -1,0 +1,43 @@
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/no-select';
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/fonts';
+
+.root {
+  @include full-size;
+  background-color: #fff;
+}
+
+.loginButton {
+  @include no-select;
+  position: absolute;
+  border: none;
+  outline: 0;
+  background-color: $primary-color;
+  color: #fff;
+  border-radius: 2px;
+  width: 80%;
+  height: 30px;
+  line-height: 30px;
+  box-sizing: border-box;
+  top: 40%;
+  left: 50%;
+  margin-top: -15px;
+  margin-left: -40%;
+}
+
+.loginButton:active {
+  background-color: $primary-color-highlight;
+}
+
+.loginButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+.versionContainer{
+  @include secondary-font;
+  color: $darkgray;
+  position: absolute;
+  bottom: 1%;
+  right: 1%;
+}

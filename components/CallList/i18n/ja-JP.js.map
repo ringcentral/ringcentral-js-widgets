@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CallList/i18n/ja-JP.js"],"names":["noActiveCalls","noRecords"],"mappings":";;;;;kBAAe;AACbA,iBAAe,gBADF;AAEbC,aAAW;AAFE,C","file":"ja-JP.js","sourcesContent":["export default {\n  noActiveCalls: 'アクティブな通話はありません',\n  noRecords: '結果が見つかりません',\n};\n"]}

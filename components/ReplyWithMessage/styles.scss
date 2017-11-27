@@ -1,0 +1,124 @@
+@import '../../lib/commonStyles/fonts.scss';
+@import '../../lib/commonStyles/colors.scss';
+
+.root {
+  display: block;
+  width: 100%;
+  padding: 0 0 16px 0;
+  background: #ffffff;
+  font-weight: 300;
+  * {
+    box-sizing: border-box;
+  }
+}
+
+.buttonGroup {
+  @include primary-font;
+  display: block;
+  margin-top: 10px;
+  padding: 0 20px;
+  text-align: right;
+}
+
+.cancelButton {
+  font-size: 12px;
+  color: $primary-color;
+  display: inline-block;
+  width: 65px;
+  height: 28px;
+  border-radius: 100px;
+  border: solid 1px $primary-color-highlight;
+  line-height: 28px;
+  text-align: center;
+  margin-right: 10px;
+  opacity: 0.9;
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.replyButton {
+  display: inline-block;
+  width: 65px;
+  height: 28px;
+  border-radius: 100px;
+  background: $primary-color;
+  font-size: 12px;
+  color: #ffffff;
+  line-height: 28px;
+  text-align: center;
+  border: solid 1px $primary-color;
+  &:hover {
+    color: #ffffff;
+  }
+  &.disabled {
+    background: #c7c7c7;
+    border: solid 1px #c7c7c7;
+    .buttonText {
+      color: #ffffff;
+    }
+  }
+}
+
+.messages {
+  display: block;
+  overflow-y: auto;
+  max-height: 160px;
+
+  .messageItem {
+    padding: 5px 20px;
+    @include secondary-font;
+    font-size: 14px;
+    line-height: 16px;
+    .label {
+      cursor: pointer;
+    }
+    .inputField {
+      display: none;
+      margin-top: 10px;
+      margin-bottom: 5px;
+      textarea {
+        @include secondary-font;
+        font-size: 12px;
+        padding: 7px 9px;
+        resize: none;
+        width: 150px;
+        height: 42px;
+        border: solid 1px #e3e3e3;
+        outline: none;
+        background: #ffffff;
+      }
+    }
+    &.active {
+      color: $primary-color;
+      background: #f5f5f5;
+      .inputField {
+        display: block;
+      }
+    }
+  }
+}
+
+.timeInput {
+  display: block;
+  @include secondary-font;
+  font-size: 12px;
+  span {
+    margin-right: 10px;
+    cursor: pointer;
+  }
+  .timeUnitSelected {
+    color: $primary-color;
+  }
+}
+
+.timeValue {
+  cursor: auto;
+  input {
+    outline: none;
+    line-height: 18px;
+    padding: 1px 0 1px 5px;
+    width: 40px;
+    height: 20px;
+  }
+}

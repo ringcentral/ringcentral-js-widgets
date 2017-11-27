@@ -1,0 +1,105 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/fonts';
+
+.root {
+  @include full-size;
+  box-sizing: border-box;
+}
+
+.headerTitle {
+  font-size: 15px;
+  line-height: 40px;
+}
+
+.backButton {
+  font-size: $primary-font-size;
+  color: $lightblack;
+  .backIcon {
+    display: inline-block;
+    position: absolute;
+    transform: rotate(90deg);
+    top: 5px;
+    left: 10px;
+  }
+  .backLabel {
+    display: inline-block;
+    width: 79px;
+  }
+}
+
+.flipContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.radioGroup{
+  height: 60%;
+  overflow-y: auto;
+}
+
+.buttonGroup {
+  height: 35%;
+  margin-top: 5%;
+  text-align: center;
+
+  .button{
+    display: inline-block;
+    width: calc(100% / 6);
+    height: 29%;
+    margin: 0 20px 0 20px;
+  }
+
+  .flipButton {
+    circle {
+      stroke: $primary-color;
+      opacity: 0.3;
+      &:hover {
+        opacity: 0.6;
+      }
+    }
+
+    path {
+      fill: $primary-color;
+    }
+
+    &.disabled {
+      g {
+        cursor: not-allowed;
+      }
+
+      circle {
+        opacity: 1;
+        stroke: $disabled-background-color;
+      }
+
+      path {
+        fill: $disabled-background-color;
+      }
+    }
+  }
+
+  .completeButton {
+    circle {
+      stroke: $primary-color;
+      fill: $primary-color;
+      opacity: 1;
+    }
+
+    path {
+      fill: #ffffff;
+    }
+
+    &.disabled {
+      g {
+        cursor: not-allowed;
+      }
+
+      circle {
+        opacity: 1;
+        fill: $disabled-background-color;
+        stroke: $disabled-background-color;
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+@import '../../lib/commonStyles/full-size';
+
+.root {
+  @include full-size;
+  height: 6%;
+  min-height: 32px;
+}

@@ -1,0 +1,31 @@
+@import '../../lib/commonStyles/fonts.scss';
+@import '../../lib/commonStyles/colors';
+
+.root {
+  @include secondary-font;
+  z-index: 1;
+  position: absolute;
+  top: 46px;
+  right: 10px;
+}
+
+.phoneBage {
+  box-sizing: content-box;
+  background: $call-btn-color;
+  padding: 0;
+  text-align: center;
+  width: 90px;
+  font-size: 10px;
+  color: #ffffff;
+  height: 20px;
+  line-height: 20px;
+  font-weight: 300;
+  top: 10px;
+  right: 10px;
+}
+
+.activeIcon {
+  padding-right: 5px;
+  position: relative;
+  top: -1px;
+}

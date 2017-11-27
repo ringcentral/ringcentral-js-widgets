@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/Modal/i18n/en-US.js"],"names":["cancel","confirm"],"mappings":";;;;;kBAAe;AACbA,UAAQ,QADK;AAEbC,WAAS;AAFI,C","file":"en-US.js","sourcesContent":["export default {\n  cancel: 'Cancel',\n  confirm: 'Confirm',\n};\n"]}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["containers/CallHistoryPage/i18n/ja-JP.js"],"names":["title"],"mappings":";;;;;kBAAe;AACbA,SAAO;AADM,C","file":"ja-JP.js","sourcesContent":["export default {\n  title: '履歴',\n};\n"]}

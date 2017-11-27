@@ -1,0 +1,35 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/fonts.scss';
+
+.button {
+  width: 100%;
+  border-radius: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2px;
+}
+
+.answer {
+  circle {
+    fill: $call-btn-color;
+    opacity: 1;
+  }
+  g, path {
+    fill: #ffffff;
+  }
+}
+
+.endButton {
+  circle {
+    stroke: #ff4646;
+  }
+  g, path {
+    fill: #ff4646;
+  }
+}
+
+.buttonTitle {
+  @include secondary-font;
+  font-size: 73px;
+  fill: $darkergray;
+}

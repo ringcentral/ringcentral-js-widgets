@@ -1,0 +1,38 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/no-select';
+
+.btnSvg {
+  width: 100%;
+}
+
+.circle {
+  fill: transparent;
+  stroke-width: 10;
+  font-weight: 100;
+  stroke: $primary-color-highlight;
+  opacity: 0.9;
+}
+
+.noBorder {
+  stroke: transparent;
+}
+
+.btnSvgGroup {
+  @include no-select;
+  cursor: pointer;
+
+  &:hover {
+    circle {
+      stroke: $primary-color-highlight-solid;
+    }
+    .noBorder {
+      stroke: transparent;
+    }
+  }
+}
+
+.icon {
+  g, path, rect {
+    fill: $primary-color;
+  }
+}

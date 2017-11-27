@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/FlipPanel/i18n/fr-FR.js"],"names":["flipHeader","flip","complete"],"mappings":";;;;;kBAAe;AACbA,cAAY,2BADC;AAEbC,QAAM,mBAFO;AAGbC,YAAU;AAHG,C","file":"fr-FR.js","sourcesContent":["export default {\n  flipHeader: 'Renvoi instantané vers...',\n  flip: 'Renvoi instantané',\n  complete: 'Terminer le renvoi instantané',\n};\n"]}

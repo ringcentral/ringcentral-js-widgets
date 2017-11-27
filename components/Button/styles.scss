@@ -1,0 +1,15 @@
+@import '../../lib/commonStyles/colors';
+
+.root {
+  color: $primary-color;
+  cursor: pointer;
+}
+.root:hover {
+  color: $primary-color-highlight;
+}
+
+.root.disabled,
+.root.dislabed:hover {
+  color: #999;
+  cursor: not-allowed;
+}

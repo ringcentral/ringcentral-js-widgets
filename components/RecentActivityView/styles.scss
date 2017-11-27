@@ -1,0 +1,14 @@
+@import '../../lib/commonStyles/colors.scss';
+
+.recentActivityView {
+  height: 100%;
+}
+.navigationBar {
+  height: 35px !important;
+  background: $snow !important;
+}
+.listView {
+  height: calc(100% - 78px);
+  padding-top: 8px;
+  overflow-y: auto;
+}

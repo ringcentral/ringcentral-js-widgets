@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/EntityModal/i18n/index.js"],"names":[],"mappings":";;;;;;AAAA;;;;AACA;;;;;;kBAEe,wC","file":"index.js","sourcesContent":["import I18n from 'ringcentral-integration/lib/I18n';\nimport loadLocale from './loadLocale';\n\nexport default new I18n(loadLocale);\n"]}

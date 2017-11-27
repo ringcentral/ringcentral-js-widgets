@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ContactList/i18n/es-419.js"],"names":["noContacts"],"mappings":";;;;;kBAAe;AACbA,cAAY;AADC,C","file":"es-419.js","sourcesContent":["export default {\n  noContacts: 'No se han encontrado registros',\n};\n"]}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/ForwardForm/i18n/en-US.js"],"names":["forward","cancel","customNumber"],"mappings":";;;;;kBAAe;AACbA,WAAS,SADI;AAEbC,UAAQ,QAFK;AAGbC,gBAAc;AAHD,C","file":"en-US.js","sourcesContent":["export default {\n  forward: 'Forward',\n  cancel: 'Cancel',\n  customNumber: 'Custom number'\n};\n"]}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/MessagesPanel/i18n/fr-FR.js"],"names":["title"],"mappings":";;;;;kBAAe;AACbA,SAAO;AADM,C","file":"fr-FR.js","sourcesContent":["export default {\n  title: 'Messages',\n};\n"]}

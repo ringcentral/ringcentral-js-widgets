@@ -1,0 +1,69 @@
+@import '../../lib/commonStyles/colors';
+
+.root {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.wrapper {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  margin-left: 5px;
+  transition: height 0.15s 0s ease-in-out;
+  transform: translateZ(0);
+}
+
+.content {
+  position: relative;
+  height: 100%;
+  top: 0;
+  right: 0;
+  padding: 0 30px;
+  
+  div {
+    display: inline-block;
+  }
+  div:not(:last-child) {
+    margin-right: 30px;
+  }
+}
+
+.extendIcon {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  border-top: 7px solid #e2e2e2;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
+  box-sizing: border-box;
+  width: 28px;
+  height: 0;
+  margin-left: -14px;
+  cursor: pointer;
+
+  .extendInner {
+    position: absolute;
+    top: -8px;
+    left: -4px;
+    border-top: 7px solid #ffffff;
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    box-sizing: border-box;
+    width: 26px;
+    height: 0;
+    z-index: 1;
+  }
+
+  .extendInnerIcon {
+    position: absolute;
+    top: -5px;
+    left: 6px;
+    width: 6px;
+    height: 1px;
+    background: #e2e2e2;
+    z-index: 1;
+  }
+}

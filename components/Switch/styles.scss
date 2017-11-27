@@ -1,0 +1,60 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/full-size.scss';
+
+$switch-height: 20px;
+$switch-padding: 1px;
+$switch-width: #{2 * ($switch-height - $switch-padding)};
+$slider-size: #{$switch-height - 2 * $switch-padding};
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: $switch-width;
+  height: $switch-height;
+  vertical-align: middle;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  display:none;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: $switch-height;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: $slider-size;
+  width: $slider-size;
+  left: $switch-padding;
+  bottom: $switch-padding;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: $primary-color;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px $primary-color;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX($slider-size);
+  -ms-transform: translateX($slider-size);
+  transform: translateX($slider-size);
+}

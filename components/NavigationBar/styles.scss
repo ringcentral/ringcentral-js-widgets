@@ -1,0 +1,11 @@
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/layout';
+
+.root {
+  @include full-size;
+  height: $navigation-bar-height;
+  box-sizing: border-box;
+  background-color: $primary-color;
+  overflow: visible;
+}

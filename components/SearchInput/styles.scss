@@ -1,0 +1,35 @@
+@import '../../lib/commonStyles/colors.scss';
+@import '../../lib/commonStyles/fonts';
+
+.root {
+  @include secondary-font;
+  display: block;
+  position: relative;
+  padding: 0;
+  border-radius: 16px;
+  border: solid 1px $silver;
+}
+
+.icon {
+  position: absolute;
+  color: #797979;
+  font-size: 1em;
+  left: 10px;
+  top: 7px;
+}
+
+.input {
+  margin-left: 30px;
+  color: $night;
+  line-height: 17px;
+  width: 100%;
+  height: 27px;
+  border-radius: 3px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+}
+
+.input::placeholder {
+  color: $smoke;
+}

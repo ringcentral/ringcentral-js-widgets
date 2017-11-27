@@ -1,0 +1,105 @@
+@import '../../lib/commonStyles/vertical-align';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/no-select';
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/layout';
+
+.tab {
+  display: inline-block;
+  box-sizing: border-box;
+  height: 100%;
+  border-style: solid;
+  border-color: $border-color;
+  vertical-align: top;
+  z-index: 10;
+}
+
+.navigationButton {
+  @include full-size;
+  @include no-select;
+  outline: 0;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  height: 100%;
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: all 0.1s ease;
+  color: #fff !important;
+  font-size: 16px;
+  text-decoration: none !important;
+}
+/*.navigationButton:hover {
+  background-color: $lightergray;
+}*/
+.navigationButton:hover,
+.navigationButton:focus {
+  outline: 0;
+  opacity: 0.9;
+}
+.navigationButton.active {
+  opacity: 1;
+}
+.iconHolder {
+  @include full-size;
+  line-height: $navigation-bar-height;
+}
+.icon {
+  @include full-size;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1.3em;
+  line-height: $navigation-bar-height;
+
+  svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    overflow: visible!important;
+  }
+}
+.labelHolder {
+  @include full-size;
+  height: 35%;
+  position: relative;
+}
+
+.label {
+  @include full-size;
+  @include vertical-align(top);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 0.7em;
+}
+
+.notice {
+  position: absolute;
+  bottom: 1.9em;
+  right: calc(50% - 1.6em);
+  width: 1.4em;
+  height: 1.4em;
+  border-radius: 100%;
+  line-height: 1.4em;
+  font-family: Lato;
+  text-align: center;
+  font-size: 0.7em;
+  background-color: #f65d60;
+  overflow: hidden;
+}
+.notices {
+  position: absolute;
+  bottom: 2em;
+  right: calc(50% - 2em);
+  width: 2.1em;
+  height: 1.5em;
+  border-radius: 3em;
+  line-height: 1.5em;
+  font-family: Lato;
+  text-align: center;
+  font-size: 0.6em;
+  background-color: #f65d60;
+  overflow: hidden;
+}

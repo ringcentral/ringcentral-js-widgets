@@ -1,0 +1,104 @@
+@import '../../lib/commonStyles/vertical-align';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/no-select';
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/layout';
+
+.navigationButton {
+  @include full-size;
+  @include no-select;
+  outline: 0;
+  display: inline-block;
+  text-align: center;
+  vertical-align: top;
+  height: 100%;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  color: $darkergray !important;
+  font-size: 16px;
+  text-decoration: none !important;
+  box-sizing: border-box;
+  border-bottom: 1px solid #e3e3e3;
+}
+.navigationButton:hover,
+.navigationButton:focus {
+  span {
+    color: $primary-color;
+  }
+  .icon > svg path {
+    fill: $primary-color;
+  }
+}
+.navigationButton.active {
+  border-bottom: 1px solid $primary-color;
+  span {
+    color: $primary-color;
+  }
+  .icon > svg path {
+    fill: $primary-color;
+  }
+}
+.iconHolder {
+  @include full-size;
+}
+.icon {
+  @include full-size;
+ -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 1.2em;
+  line-height: $navigation-bar-height;
+  height: 35px;
+  line-height: 35px;
+
+  > svg {
+    margin-top: 9px;
+    path {
+      fill: $darkergray;
+    }
+  }
+}
+.labelHolder {
+  @include full-size;
+  height: 35%;
+  position: relative;
+}
+
+.label {
+  @include full-size;
+  @include vertical-align(top);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-size: 0.7em;
+}
+
+.notice {
+  position: absolute;
+  bottom: 1.3em;
+  right: calc(50% - 1.5em);
+  width: 1.4em;
+  height: 1.4em;
+  border-radius: 100%;
+  line-height: 1.4em;
+  font-family: Lato;
+  text-align: center;
+  font-size: 0.7em;
+  background-color: #f65d60;
+  overflow: hidden;
+  color: #fff;
+}
+.notices {
+  position: absolute;
+  bottom: 2em;
+  right: calc(50% - 2em);
+  width: 2.1em;
+  height: 1.5em;
+  border-radius: 3em;
+  line-height: 1.5em;
+  font-family: Lato;
+  text-align: center;
+  font-size: 0.6em;
+  background-color: #f65d60;
+  overflow: hidden;
+  color: #fff;
+}

@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/Modal/i18n/it-IT.js"],"names":["cancel","confirm"],"mappings":";;;;;kBAAe;AACbA,UAAQ,SADK;AAEbC,WAAS;AAFI,C","file":"it-IT.js","sourcesContent":["export default {\n  cancel: 'Annulla',\n  confirm: 'Conferma',\n};\n"]}

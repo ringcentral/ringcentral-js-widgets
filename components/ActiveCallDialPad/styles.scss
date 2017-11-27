@@ -1,0 +1,65 @@
+@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/full-size';
+@import '../../lib/commonStyles/fonts';
+
+$input-height: 75px;
+$header-height: 40px;
+.root {
+  @include full-size;
+  box-sizing: border-box;
+}
+
+.dialInput {
+  height: $input-height;
+  box-sizing: border-box;
+  border: 0px;
+  margin-bottom: 5px;
+  padding: 35px 20px 10px 20px;
+
+  input {
+    @include secondary-font;
+    box-sizing: content-box;
+    text-align: center;
+    padding: 0;
+    outline: 0;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    font-size:15px;
+    color: $lightblack;
+  }
+  .input::-ms-clear {
+    display: none;
+  }
+}
+
+.padContainer {
+  height: calc(100% - #{$input-height} - #{$header-height});
+  padding: 0 10%;
+}
+
+.dialPad {
+  height: 72%;
+}
+
+.buttonRow {
+  text-align: center;
+  height: 22%;
+  width: 100%;
+}
+
+.button {
+  width: 19%;
+  height: 100%;
+  display: inline-block;
+}
+
+.stopButton {
+  circle {
+    fill: #ff4646;
+  }
+  g, path {
+    fill: #ffffff;
+  }
+}
