@@ -57,9 +57,8 @@ import ConversationLogger from 'ringcentral-integration/modules/ConversationLogg
 import RecentMessages from 'ringcentral-integration/modules/RecentMessages';
 import RecentCalls from 'ringcentral-integration/modules/RecentCalls';
 import AudioSettings from 'ringcentral-integration/modules/AudioSettings';
-import Meeting from 'ringcentral-integration/modules/Meeting';
+// import Meeting from 'ringcentral-integration/modules/Meeting';
 import RouterInteraction from '../src/modules/RouterInteraction';
-import OAuth from '../src/modules/ProxyFrameOAuth';
 
 
 export default class Phone extends RcModule {
@@ -149,16 +148,6 @@ export default class Phone extends RcModule {
       getState: () => this.state.auth,
     }));
     reducers.auth = this.auth.reducer;
-    this.addModule('oAuth', new OAuth({
-      ...options,
-      auth: this.auth,
-      brand: this.brand,
-      locale: this.locale,
-      tabManager: this.tabManager,
-      alert: this.alert,
-      getState: () => this.state.oAuth,
-    }));
-    reducers.oAuth = this.oAuth.reducer;
     this.addModule('ringout', new Ringout({
       ...options,
       auth: this.auth,
@@ -627,14 +616,14 @@ export default class Phone extends RcModule {
       getState: () => this.state.recentCalls
     }));
     reducers.recentCalls = this.recentCalls.reducer;
-    this.addModule('meeting', new Meeting({
-      ...options,
-      client: this.client,
-      alert: this.alert,
-      extensionInfo: this.extensionInfo,
-      getState: () => this.state.meeting,
-    }));
-    reducers.meeting = this.meeting.reducer;
+    // this.addModule('meeting', new Meeting({
+    //   ...options,
+    //   client: this.client,
+    //   alert: this.alert,
+    //   extensionInfo: this.extensionInfo,
+    //   getState: () => this.state.meeting,
+    // }));
+    // reducers.meeting = this.meeting.reducer;
     this._reducer = combineReducers({
       ...reducers,
       app: (state = {
@@ -675,9 +664,5 @@ export default class Phone extends RcModule {
 
   get version() {
     return this.state.app.version;
-  }
-
-  get _actionTypes() {
-    /* no action types */
   }
 }
