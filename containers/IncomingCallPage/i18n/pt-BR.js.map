@@ -1,1 +1,0 @@
-{"version":3,"sources":["containers/IncomingCallPage/i18n/pt-BR.js"],"names":["unknown","anonymous","activeCall"],"mappings":";;;;;kBAAe;AACbA,WAAS,cADI;AAEbC,aAAW,SAFE;AAGbC,cAAY;AAHC,C","file":"pt-BR.js","sourcesContent":["export default {\n  unknown: 'Desconhecido',\n  anonymous: 'Anônimo',\n  activeCall: 'Chamada ativa',\n};\n"]}

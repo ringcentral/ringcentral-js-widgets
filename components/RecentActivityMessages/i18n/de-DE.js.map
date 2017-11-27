@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/RecentActivityMessages/i18n/de-DE.js"],"names":["noRecords"],"mappings":";;;;;kBAAe;AACbA,aAAW;AADE,C","file":"de-DE.js","sourcesContent":["export default {\n  noRecords: 'Keine aktuellen Einträge gefunden.',\n};\n"]}

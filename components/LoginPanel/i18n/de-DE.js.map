@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/LoginPanel/i18n/de-DE.js"],"names":["loginButton","version"],"mappings":";;;;;kBAAe;AACbA,eAAa,UADA;AAEbC,WAAS;AAFI,C","file":"de-DE.js","sourcesContent":["export default {\n  loginButton: 'Anmelden',\n  version: 'Version',\n};\n"]}

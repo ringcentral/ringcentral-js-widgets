@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/ContactList/i18n/ja-JP.js"],"names":["noContacts"],"mappings":";;;;;kBAAe;AACbA,cAAY;AADC,C","file":"ja-JP.js","sourcesContent":["export default {\n  noContacts: '記録が見つかりません',\n};\n"]}

@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/RecentActivityMessages/i18n/pt-BR.js"],"names":["noRecords"],"mappings":";;;;;kBAAe;AACbA,aAAW;AADE,C","file":"pt-BR.js","sourcesContent":["export default {\n  noRecords: 'Nenhum registro recente encontrado.',\n};\n"]}

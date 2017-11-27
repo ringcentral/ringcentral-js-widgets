@@ -1,1 +1,0 @@
-{"version":3,"sources":["containers/CallCtrlPage/i18n/es-ES.js"],"names":["unknown","anonymous","activeCalls"],"mappings":";;;;;kBAAe;AACbA,WAAS,aADI;AAEbC,aAAW,SAFE;AAGbC,eAAa;AAHA,C","file":"es-ES.js","sourcesContent":["export default {\n  unknown: 'Desconocido',\n  anonymous: 'Anónimo',\n  activeCalls: 'Llamadas activas',\n};\n"]}

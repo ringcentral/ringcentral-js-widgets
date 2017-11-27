@@ -1,1 +1,0 @@
-{"version":3,"sources":["containers/CallBadgeContainer/i18n/fr-CA.js"],"names":["activeCall"],"mappings":";;;;;kBAAe;AACbA,cAAY;AADC,C","file":"fr-CA.js","sourcesContent":["export default {\n  activeCall: 'Appel en cours',\n};\n"]}

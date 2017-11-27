@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/RecentActivityMessages/i18n/it-IT.js"],"names":["noRecords"],"mappings":";;;;;kBAAe;AACbA,aAAW;AADE,C","file":"it-IT.js","sourcesContent":["export default {\n  noRecords: 'Nessun record corrispondente.',\n};\n"]}

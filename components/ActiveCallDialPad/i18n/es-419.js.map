@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/ActiveCallDialPad/i18n/es-419.js"],"names":["hide","end","keypad"],"mappings":";;;;;kBAAe;AACbA,QAAM,SADO;AAEbC,OAAK,KAFQ;AAGbC,UAAQ;AAHK,C","file":"es-419.js","sourcesContent":["export default {\n  hide: 'Ocultar',\n  end: 'Fin',\n  keypad: 'Teclado',\n};\n"]}

@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/FlipPanel/i18n/es-ES.js"],"names":["flipHeader","flip","complete"],"mappings":";;;;;kBAAe;AACbA,cAAY,+BADC;AAEbC,QAAM,WAFO;AAGbC,YAAU;AAHG,C","file":"es-ES.js","sourcesContent":["export default {\n  flipHeader: 'Hacer flip en la llamada a...',\n  flip: 'Traspasar',\n  complete: 'Completar traspaso',\n};\n"]}

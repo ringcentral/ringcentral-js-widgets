@@ -1,1 +1,0 @@
-{"version":3,"sources":["containers/CallCtrlPage/i18n/ja-JP.js"],"names":["unknown","anonymous","activeCalls"],"mappings":";;;;;kBAAe;AACbA,WAAS,IADI;AAEbC,aAAW,IAFE;AAGbC,eAAa;AAHA,C","file":"ja-JP.js","sourcesContent":["export default {\n  unknown: '不明',\n  anonymous: '匿名',\n  activeCalls: 'アクティブな通話',\n};\n"]}

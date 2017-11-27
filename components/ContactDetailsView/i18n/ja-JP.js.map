@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/ContactDetailsView/i18n/ja-JP.js"],"names":["contactDetails"],"mappings":";;;;;kBAAe;AACbA,kBAAgB;AADH,C","file":"ja-JP.js","sourcesContent":["export default {\n  contactDetails: '連絡先の詳細',\n};\n"]}

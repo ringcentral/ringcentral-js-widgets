@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/ForwardForm/i18n/pt-BR.js"],"names":["forward","cancel","customNumber"],"mappings":";;;;;kBAAe;AACbA,WAAS,YADI;AAEbC,UAAQ,UAFK;AAGbC,gBAAc;AAHD,C","file":"pt-BR.js","sourcesContent":["export default {\n  forward: 'Encaminhar',\n  cancel: 'Cancelar',\n  customNumber: 'Número personalizado',\n};\n"]}

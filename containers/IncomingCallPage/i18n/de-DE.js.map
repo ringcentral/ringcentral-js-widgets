@@ -1,1 +1,0 @@
-{"version":3,"sources":["containers/IncomingCallPage/i18n/de-DE.js"],"names":["unknown","anonymous","activeCall"],"mappings":";;;;;kBAAe;AACbA,WAAS,WADI;AAEbC,aAAW,QAFE;AAGbC,cAAY;AAHC,C","file":"de-DE.js","sourcesContent":["export default {\n  unknown: 'Unbekannt',\n  anonymous: 'Anonym',\n  activeCall: 'Aktiver Anruf',\n};\n"]}

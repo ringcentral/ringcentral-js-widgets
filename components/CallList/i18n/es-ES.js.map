@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/CallList/i18n/es-ES.js"],"names":["noActiveCalls","noRecords"],"mappings":";;;;;kBAAe;AACbA,iBAAe,yBADF;AAEbC,aAAW;AAFE,C","file":"es-ES.js","sourcesContent":["export default {\n  noActiveCalls: 'No hay llamadas activas',\n  noRecords: 'Sin registros',\n};\n"]}
