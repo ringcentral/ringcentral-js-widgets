@@ -56,9 +56,8 @@ class IncomingCallPage extends Component {
     await this.props.onHold(this.props.activeSessionId);
     await this.props.answer(this.props.session.id);
   };
-  onForward = (forwardNumber) => {
+  onForward = forwardNumber =>
     this.props.onForward(this.props.session.id, forwardNumber);
-  };
 
   componentDidMount() {
     this._mounted = true;
