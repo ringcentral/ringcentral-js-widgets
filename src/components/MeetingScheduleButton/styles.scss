@@ -4,12 +4,14 @@
   flex-shrink: 0;
   height: 35px;
   padding: 20px;
-  background-color: $snow;
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .withShadow {
   box-shadow: 0 -1px 4px 0 rgba(0, 0, 0, 0.1);
   position: relative;
+  background-color: $snow;
 }
 
 .button {
