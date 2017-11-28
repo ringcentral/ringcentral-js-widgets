@@ -7,7 +7,6 @@
   overflow-x: hidden;
   height: 354px;
   padding: 0 15px;
-  z-index: 1;
   background: #fff;
 }
 
@@ -55,7 +54,7 @@
   box-sizing: content-box;
   /* For Firefox */
   white-space: pre-wrap;
-  word-break: break-all;
+  word-break: break-word;
   /* For Chrome and IE */
   word-wrap: break-word;
 }
