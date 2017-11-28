@@ -1,7 +1,19 @@
 @import '../../lib/commonStyles/colors';
 
-.showConferenceNumbers {
-  margin:10px 15px 0 15px;
+.container {
+  margin: 0 20px;
+  font-size: 13px;
+}
+.dialInNumber {
+  label {
+    margin: 15px auto 5px;
+    display: block;
+    font-family: HelveticaNeue;
+    font-weight: bold;
+    color: #2f2f2f;
+  }
+}
+.formGroup {
   height:20px;
   transition: height 0.5s ease-in;
   overflow:hidden;
@@ -13,12 +25,7 @@
     display:block;
     width:60px;
   }
-  .dialInNumber{
-    float:right;
-    margin-left:10px;
-    line-height:20px;
-    color:#0073ae;
-  }
+
   .conferenceNumber{
     float:right;
     margin-left:10px;

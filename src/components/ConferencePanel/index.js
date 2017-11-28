@@ -7,6 +7,11 @@ import SpinnerOverlay from '../SpinnerOverlay';
 import i18n from './i18n';
 import styles from './styles.scss';
 import RcFont from '../../assets/RcFont/RcFont.scss';
+import Select from '../DropdownSelect';
+
+function renderDialInNumberItem(item) {
+  return (<div>{item.region}<span style={{ float: 'right' }}>{item.phoneNumber}</span></div>);
+}
 
 class ConferencePanel extends Component {
   constructor(props) {
@@ -138,20 +143,31 @@ class ConferencePanel extends Component {
       </div>
     ) : '';
     return (
-      <div>
-        <div className={styles.showConferenceNumbers}>
-          <label>{i18n.getString('dialInNumber', currentLocale)}:</label>
-          <div className={styles.dialInNumber}>
-            {this.formatNumbers.dialInNumber}
-          </div>
+      <div className={styles.container}>
+        <div className={styles.dialInNumber}>
+          <label>{i18n.getString('dialInNumber', currentLocale)}</label>
+          <Select
+            className={styles.select}
+            value={this.props.dialInNumber}
+            onChange={this.onMyLocationChange}
+            renderFunction={renderDialInNumberItem}
+            renderValue={(phoneNumber) => {
+              const option = this.props.dialInNumbers.find(p => p.phoneNumber === phoneNumber);
+              return renderDialInNumberItem(option);
+            }}
+            options={this.props.dialInNumbers}
+            disabled={false}
+            dropdownAlign="left"
+            titleEnabled
+          />
         </div>
-        <div className={styles.showConferenceNumbers}>
+        <div className={styles.formGroup}>
           <label>{i18n.getString('host', currentLocale)}:</label>
           <div className={styles.conferenceNumber}>
             {this.formatNumbers.hostCode}
           </div>
         </div>
-        <div className={styles.showConferenceNumbers}>
+        <div className={styles.formGroup}>
           <label>{i18n.getString('participants', currentLocale)}:</label>
           <div className={styles.conferenceNumber}>
             {this.formatNumbers.participantCode}
@@ -180,6 +196,8 @@ class ConferencePanel extends Component {
   }
 }
 ConferencePanel.propTypes = {
+  dialInNumbers: PropTypes.array,
+  dialInNumber: PropTypes.string.isRequired,
   conferenceNumbers: PropTypes.shape({
     phoneNumber: PropTypes.string,
     hostCode: PropTypes.string,
@@ -197,6 +215,17 @@ ConferencePanel.propTypes = {
 };
 ConferencePanel.defaultProps = {
   showSpinner: false,
+  dialInNumbers: [{
+    region: 'Australia, Syn',
+    phoneNumber: '1238989898'
+  }, {
+    region: 'Xiamen',
+    phoneNumber: '0592323232'
+  }, {
+    region: 'Shenzhen, China',
+    phoneNumber: '05191310931'
+  }],
+  dialInNumber: '0592323232'
 };
 
 export default ConferencePanel;
