@@ -230,6 +230,7 @@ var RouterInteraction = (_dec = (0, _di.Module)({
     key: '_actionTypes',
     get: function get() {
       /* no action types */
+      return null;
     }
   }, {
     key: 'history',

@@ -91,10 +91,10 @@ function mapToFunctions(_, _ref2) {
   return {
     dateTimeFormatter: dateTimeFormatter,
     onViewContact: onViewContact || function (_ref4) {
-      var contact = _ref4.contact;
+      var _ref4$contact = _ref4.contact,
+          type = _ref4$contact.type,
+          id = _ref4$contact.id;
 
-      var id = contact.id;
-      var type = contact.type;
       routerInteraction.push('/contacts/' + type + '/' + id + '?direct=true');
     },
     onCreateContact: onCreateContact ? function () {

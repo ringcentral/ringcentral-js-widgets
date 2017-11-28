@@ -291,7 +291,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
   }, {
     key: 'proxyUri',
     get: function get() {
-      return _url2.default.resolve(location.href, this._proxyUri);
+      return _url2.default.resolve(window.location.href, this._proxyUri);
     }
   }, {
     key: 'proxyRetryCount',

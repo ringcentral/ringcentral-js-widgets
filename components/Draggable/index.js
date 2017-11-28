@@ -42,6 +42,8 @@ var _styles2 = _interopRequireDefault(_styles);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/* eslint { "react/no-unused-state": 0 } */
+
 var Draggable = function (_Component) {
   (0, _inherits3.default)(Draggable, _Component);
 
@@ -85,11 +87,13 @@ var Draggable = function (_Component) {
       if (!_this.draggableDom) {
         return;
       }
-      var offsetParent = _this.draggableDom.offsetParent;
+      var _this$draggableDom = _this.draggableDom,
+          offsetParent = _this$draggableDom.offsetParent,
+          originalPositionX = _this$draggableDom.offsetLeft,
+          originalPositionY = _this$draggableDom.offsetTop;
+
       var newPositionX = e.clientX;
       var newPositionY = e.clientY;
-      var originalPositionX = _this.draggableDom.offsetLeft;
-      var originalPositionY = _this.draggableDom.offsetTop;
       var child = _this.draggableDom.firstChild;
       var height = child && child.clientHeight || 0;
       var width = child && child.clientWidth || 0;

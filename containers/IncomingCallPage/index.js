@@ -74,51 +74,26 @@ var IncomingCallPage = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (IncomingCallPage.__proto__ || (0, _getPrototypeOf2.default)(IncomingCallPage)).call(this, props));
 
-    _this.state = {
-      selectedMatcherIndex: 0,
-      avatarUrl: null,
-      hasOtherActiveCall: false
-    };
-
-    _this.onSelectMatcherName = function (option) {
-      var nameMatches = _this.props.nameMatches || [];
-      var selectedMatcherIndex = nameMatches.findIndex(function (match) {
-        return match.id === option.id;
-      });
-      if (selectedMatcherIndex < 0) {
-        selectedMatcherIndex = 0;
-      }
-      _this.setState({
-        selectedMatcherIndex: selectedMatcherIndex,
-        avatarUrl: null
-      });
-      var contact = nameMatches[selectedMatcherIndex];
-      if (contact) {
-        _this.props.updateSessionMatchedContact(_this.props.session.id, contact);
-        _this.props.getAvatarUrl(contact).then(function (avatarUrl) {
-          _this.setState({ avatarUrl: avatarUrl });
-        });
-      }
-    };
-
     _this.answer = function () {
       return _this.props.answer(_this.props.session.id);
     };
+
     _this.reject = function () {
       return _this.props.reject(_this.props.session.id);
     };
+
     _this.toVoiceMail = function () {
       return _this.props.toVoiceMail(_this.props.session.id);
     };
+
     _this.replyWithMessage = function (message) {
       return _this.props.replyWithMessage(_this.props.session.id, message);
     };
-    _this.onForward = function (forwardNumber) {
-      return _this.props.onForward(_this.props.session.id, forwardNumber);
-    };
+
     _this.toggleMinimized = function () {
       return _this.props.toggleMinimized(_this.props.session.id);
     };
+
     _this.answerAndEnd = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
       return _regenerator2.default.wrap(function _callee$(_context) {
         while (1) {
@@ -154,6 +129,33 @@ var IncomingCallPage = function (_Component) {
         }
       }, _callee2, _this2);
     }));
+
+    _this.state = {
+      selectedMatcherIndex: 0,
+      avatarUrl: null,
+      hasOtherActiveCall: false
+    };
+
+    _this.onSelectMatcherName = function (option) {
+      var nameMatches = _this.props.nameMatches || [];
+      var selectedMatcherIndex = nameMatches.findIndex(function (match) {
+        return match.id === option.id;
+      });
+      if (selectedMatcherIndex < 0) {
+        selectedMatcherIndex = 0;
+      }
+      _this.setState({
+        selectedMatcherIndex: selectedMatcherIndex,
+        avatarUrl: null
+      });
+      var contact = nameMatches[selectedMatcherIndex];
+      if (contact) {
+        _this.props.updateSessionMatchedContact(_this.props.session.id, contact);
+        _this.props.getAvatarUrl(contact).then(function (avatarUrl) {
+          _this.setState({ avatarUrl: avatarUrl });
+        });
+      }
+    };
     return _this;
   }
 
@@ -209,6 +211,7 @@ var IncomingCallPage = function (_Component) {
     key: 'render',
     value: function render() {
       var session = this.props.session;
+
       var active = !!session.id;
       if (!active) {
         return null;
@@ -284,12 +287,13 @@ IncomingCallPage.propTypes = {
   countryCode: _propTypes2.default.string.isRequired,
   getAvatarUrl: _propTypes2.default.func.isRequired,
   forwardingNumbers: _propTypes2.default.array.isRequired,
-  onForward: _propTypes2.default.func.isRequired,
   updateSessionMatchedContact: _propTypes2.default.func.isRequired,
   showContactDisplayPlaceholder: _propTypes2.default.bool.isRequired,
   brand: _propTypes2.default.string.isRequired,
   activeSessionId: _propTypes2.default.string,
-  sourceIcons: _propTypes2.default.object
+  sourceIcons: _propTypes2.default.object,
+  hangup: _propTypes2.default.func.isRequired,
+  onHold: _propTypes2.default.func.isRequired
 };
 
 IncomingCallPage.defaultProps = {

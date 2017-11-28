@@ -76,14 +76,6 @@ var EntityModal = function (_Component) {
     };
     return _this;
   }
-  // componentWillReceiveProps(nextProps) {
-  //   // if (this.props.show !== nextProps.show) {
-  //   this.setState({
-  //     show: nextProps.show
-  //   });
-  //   // }
-  // }
-
 
   (0, _createClass3.default)(EntityModal, [{
     key: 'render',
@@ -131,8 +123,6 @@ var EntityModal = function (_Component) {
 exports.default = EntityModal;
 
 EntityModal.propTypes = {
-  className: _propTypes2.default.string,
-  children: _propTypes2.default.node,
   show: _propTypes2.default.bool,
   onCreate: _propTypes2.default.func.isRequired,
   onCancel: _propTypes2.default.func.isRequired,
@@ -140,8 +130,6 @@ EntityModal.propTypes = {
   currentLocale: _propTypes2.default.string.isRequired
 };
 EntityModal.defaultProps = {
-  className: '',
-  children: undefined,
   show: false,
   entities: ['account', 'lead', 'contact']
 };
