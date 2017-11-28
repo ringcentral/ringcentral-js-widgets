@@ -56,6 +56,9 @@ class IncomingCallPage extends Component {
     await this.props.onHold(this.props.activeSessionId);
     await this.props.answer(this.props.session.id);
   };
+  onForward = (forwardNumber) => {
+    this.props.onForward(this.props.session.id, forwardNumber);
+  };
 
   componentDidMount() {
     this._mounted = true;
@@ -166,6 +169,7 @@ IncomingCallPage.propTypes = {
   toggleMinimized: PropTypes.func.isRequired,
   answer: PropTypes.func.isRequired,
   reject: PropTypes.func.isRequired,
+  onForward: PropTypes.func.isRequired,
   toVoiceMail: PropTypes.func.isRequired,
   replyWithMessage: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
