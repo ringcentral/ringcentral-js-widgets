@@ -331,14 +331,17 @@ export default class AdapterCore {
     });
   }
   _onPushAdapterState({
-    size: { width, height },
+    size: {
+      width,
+      height
+    },
     minimized,
     closed,
     position: { translateX, translateY, minTranslateX },
     dndStatus,
     userStatus,
     telephonyStatus,
-   }) {
+  }) {
     this._minimized = minimized;
     this._closed = closed;
     if (!this._dragging) {

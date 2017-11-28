@@ -184,7 +184,7 @@ export default class CallingSettingsPanel extends Component {
             {i18n.getString('press1ToStartCallLabel', currentLocale)}
           </IconField>
         </div>
-      ) : null;
+        ) : null;
 
     const toolTip = this.getTooltipContent();
     return (

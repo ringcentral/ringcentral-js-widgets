@@ -2,3 +2,5 @@
 #build
 build/**
 docs/**
+
+**/i18n/**

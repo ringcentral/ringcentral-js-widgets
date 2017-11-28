@@ -11,18 +11,28 @@ const keyConfig = [
   [{ value: '7', text: 'PQRS', dx: '140' }, { value: '8', text: 'TUV', dx: '175' }, { value: '9', text: 'WXYZ', dx: '140' }],
   [
     { value: '*', text: '' },
-    { value: '0', text: '+', alternativeValue: '+', dx: '228.5625' },
+    {
+      value: '0', text: '+', alternativeValue: '+', dx: '228.5625'
+    },
     { value: '#', text: '' },
   ],
 ];
 
-export default function DialPad(props) {
+export default function DialPad({
+  className,
+  hideSpecial,
+  onButtonPress,
+  onButtonOutput,
+  alternativeTimeout,
+  dialButtonVolume,
+  dialButtonMuted,
+}) {
   return (
-    <div className={classnames(styles.root, props.className)}>
+    <div className={classnames(styles.root, className)}>
       {keyConfig.map((row, rowIdx) => (
         <div key={rowIdx} className={styles.row}>
           {row.map((btn) => {
-            if (props.hideSpecial && (btn.value === '*' || btn.value === '#')) {
+            if (hideSpecial && (btn.value === '*' || btn.value === '#')) {
               return (
                 <div key={btn.value} className={styles.btnPlaceholder} />
               );
@@ -32,11 +42,11 @@ export default function DialPad(props) {
                 key={btn.value}
                 btn={btn}
                 className={styles.btnPlaceholder}
-                onPress={props.onButtonPress}
-                onOutput={props.onButtonOutput}
-                alternativeTimeout={props.alternativeTimeout}
-                volume={props.dialButtonVolume}
-                muted={props.dialButtonMuted}
+                onPress={onButtonPress}
+                onOutput={onButtonOutput}
+                alternativeTimeout={alternativeTimeout}
+                volume={dialButtonVolume}
+                muted={dialButtonMuted}
               />
             );
           })}

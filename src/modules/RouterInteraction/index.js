@@ -37,6 +37,7 @@ export default class RouterInteraction extends RcModule {
 
   get _actionTypes() {
     /* no action types */
+    return null;
   }
 
   _onStateChange() {
