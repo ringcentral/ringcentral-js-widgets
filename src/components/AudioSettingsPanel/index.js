@@ -191,69 +191,69 @@ export default class AudioSettingsPanel extends Component {
 
     // TODO improve UI and add i18n support
     const permission = (userMedia && isWebRTC) ?
-    null :
-    (
-      <IconLine
-        noBorder
-        icon={<Button onClick={checkUserMedia}>Check Permission</Button>}
+      null :
+      (
+        <IconLine
+          noBorder
+          icon={<Button onClick={checkUserMedia}>Check Permission</Button>}
       >
         The app does not have permission to use microphone
-      </IconLine>
-    );
+        </IconLine>
+      );
 
     const webphoneVolume = isWebRTC ?
-    (
-      <div>
-        <InputField
-          label={i18n.getString('ringtoneVolume', currentLocale)}
+      (
+        <div>
+          <InputField
+            label={i18n.getString('ringtoneVolume', currentLocale)}
         >
-          {`${ringtoneVolume * 100}%`}
-        </InputField>
-        <InputField
-          label={i18n.getString('callVolume', currentLocale)}
+            {`${ringtoneVolume * 100}%`}
+          </InputField>
+          <InputField
+            label={i18n.getString('callVolume', currentLocale)}
         >
-          {`${callVolume * 100}%`}
-        </InputField>
-      </div>
-    ) : null;
+            {`${callVolume * 100}%`}
+          </InputField>
+        </div>
+      ) : null;
 
     const devices = (supportDevices && userMedia && isWebRTC) ?
-    (
-      <div>
-        <InputField
-          label={i18n.getString('outputDevice', currentLocale)}
-          noBorder
+      (
+        <div>
+          <InputField
+            label={i18n.getString('outputDevice', currentLocale)}
+            noBorder
         >
-          <Select
-            className={styles.select}
-            value={outputDeviceId}
-            onChange={this.onOutputDeviceIdChange}
-            options={availableOutputDevices}
-            dropdownAlign="left"
-            renderFunction={this.renderDeviceOption}
-            valueFunction={this.renderDeviceValue}
-            renderValue={this.renderOutputDevice}
-            titleEnabled
+            <Select
+              className={styles.select}
+              value={outputDeviceId}
+              onChange={this.onOutputDeviceIdChange}
+              options={availableOutputDevices}
+              dropdownAlign="left"
+              renderFunction={this.renderDeviceOption}
+              valueFunction={this.renderDeviceValue}
+              renderValue={this.renderOutputDevice}
+              titleEnabled
           />
-        </InputField>
-        <InputField
-          label={i18n.getString('inputDevice', currentLocale)}
-          noBorder
+          </InputField>
+          <InputField
+            label={i18n.getString('inputDevice', currentLocale)}
+            noBorder
         >
-          <Select
-            className={styles.select}
-            value={inputDeviceId}
-            onChange={this.onInputDeviceIdChange}
-            options={availableInputDevices}
-            dropdownAlign="left"
-            renderFunction={this.renderDeviceOption}
-            valueFunction={this.renderDeviceValue}
-            renderValue={this.renderInputDevice}
-            titleEnabled
+            <Select
+              className={styles.select}
+              value={inputDeviceId}
+              onChange={this.onInputDeviceIdChange}
+              options={availableInputDevices}
+              dropdownAlign="left"
+              renderFunction={this.renderDeviceOption}
+              valueFunction={this.renderDeviceValue}
+              renderValue={this.renderInputDevice}
+              titleEnabled
           />
-        </InputField>
-      </div>
-    ) : null;
+          </InputField>
+        </div>
+      ) : null;
 
     return (
       <div className={classnames(styles.root, className)}>

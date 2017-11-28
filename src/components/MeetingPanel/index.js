@@ -104,7 +104,7 @@ const When = (
                 }
               }}
               ref={(ref) => { that.date = ref; }}
-              format={'MM/DD/YY'}
+              format="MM/DD/YY"
               min={new Date()}
             />
           </div>
@@ -117,7 +117,7 @@ const When = (
         <div className={styles.list}>
           <div className={styles.timePicker}>
             <DateTimePicker
-              culture={'en'}
+              culture="en"
               date={false}
               ref={(ref) => { that.time = ref; }}
               value={new Date(meeting.schedule.startTime)}
@@ -132,7 +132,7 @@ const When = (
                   });
                 }
               }}
-              format={'hh:mm A'}
+              format="hh:mm A"
               {...minTime}
             />
           </div>
@@ -172,8 +172,8 @@ const Duration = (
           <div className={styles.hoursList}>
             <DropdownList
               data={hoursList}
-              valueField={'value'}
-              textField={'text'}
+              valueField="value"
+              textField="text"
               value={parseInt((meeting.schedule.durationInMinutes / 60), 10)}
               onChange={({ value }) => {
                 let restMinutes = meeting.schedule.durationInMinutes % 60;
@@ -194,8 +194,8 @@ const Duration = (
           <div className={styles.minutesList}>
             <DropdownList
               data={minutesList}
-              valueField={'value'}
-              textField={'text'}
+              valueField="value"
+              textField="text"
               value={(meeting.schedule.durationInMinutes % 60) || 0}
               onChange={({ value }) => {
                 const restHours = parseInt((meeting.schedule.durationInMinutes / 60), 10);
@@ -331,8 +331,8 @@ const AudioOptions = (
           audioOptions,
         });
       }}
-      valueField={'key'}
-      textField={'text'}
+      valueField="key"
+      textField="text"
       selected={meeting.audioOptions.join('_')}
       data={data} />
   </MeetingSection>

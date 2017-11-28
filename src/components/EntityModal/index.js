@@ -29,13 +29,6 @@ export default class EntityModal extends Component {
       });
     };
   }
-  // componentWillReceiveProps(nextProps) {
-  //   // if (this.props.show !== nextProps.show) {
-  //   this.setState({
-  //     show: nextProps.show
-  //   });
-  //   // }
-  // }
   render() {
     const { entities, show, currentLocale } = this.props;
     return (
@@ -47,7 +40,7 @@ export default class EntityModal extends Component {
         textConfirm={i18n.getString('create', currentLocale)}
         currentLocale={currentLocale}
         clickOutToClose>
-        {entities.map((entityType, idx) =>
+        {entities.map((entityType, idx) => (
           <div className={styles.radio} key={idx}>
             <label>
               <input
@@ -59,14 +52,12 @@ export default class EntityModal extends Component {
               {i18n.getString(`${entityType}`, currentLocale)}
             </label>
           </div>
-        )}
+        ))}
       </Modal>
     );
   }
 }
 EntityModal.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
   show: PropTypes.bool,
   onCreate: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
@@ -74,8 +65,6 @@ EntityModal.propTypes = {
   currentLocale: PropTypes.string.isRequired,
 };
 EntityModal.defaultProps = {
-  className: '',
-  children: undefined,
   show: false,
   entities: ['account', 'lead', 'contact'],
 };

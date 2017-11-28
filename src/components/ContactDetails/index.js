@@ -63,7 +63,9 @@ export default class ContactDetails extends PureComponent {
 
   renderProfile() {
     const { contactItem, sourceNodeRenderer, currentLocale } = this.props;
-    const { name, presence, profileImageUrl, type } = contactItem;
+    const {
+      name, presence, profileImageUrl, type
+    } = contactItem;
     const sourceNode = sourceNodeRenderer({ sourceType: type });
     const presenceName = presence
       ? getPresenceStatusName(presence, currentLocale)

@@ -15,7 +15,7 @@ import ContactSourceFilter from '../ContactSourceFilter';
 function AddContact({
   className,
   onClick,
- }) {
+}) {
   return (
     <div
       className={classnames(styles.addContact, className)}
