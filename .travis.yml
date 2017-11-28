@@ -1,6 +1,7 @@
 language: node_js
 node_js:
   - '8'
+  - '9'
 script:
   - yarn test:coverage
 after_success:
@@ -19,6 +20,15 @@ deploy:
       node: '8'
       tags: true
       condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
+  - provider: script
+    skip_cleanup: true
+    script: ../scripts/start_release.sh
+    on:
+      node: '8'
+      condition: "$TRAVIS_TAG == ''"
+      branches:
+        only:
+          - master
   - provider: pages
     skip_cleanup: true
     github_token: $GITHUB_PAGES_TOKEN
@@ -29,12 +39,3 @@ deploy:
       node: '8'
       tags: true
       condition: "$TRAVIS_TAG =~ ^[0-9]+.[0-9]+.[0-9]+"
-  - provider: script
-    skip_cleanup: true
-    script: ../scripts/start_release.sh
-    on:
-      node: '8'
-      condition: "$TRAVIS_TAG == ''"
-      branches:
-        only:
-          - master
