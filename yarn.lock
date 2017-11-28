@@ -1189,7 +1189,7 @@ babel-register@^6.24.1, babel-register@^6.9.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.2"
 
-babel-runtime@6.x, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.20.0, babel-runtime@^6.22.0, babel-runtime@^6.9.1, babel-runtime@^6.9.2:
+babel-runtime@6.x, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.20.0, babel-runtime@^6.22.0, babel-runtime@^6.9.1:
   version "6.25.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.25.0.tgz#33b98eaa5d482bb01a8d1aa6b437ad2b01aec41c"
   dependencies:
@@ -2041,12 +2041,6 @@ dashdash@^1.12.0:
   resolved "https://registry.yarnpkg.com/dashdash/-/dashdash-1.14.1.tgz#853cfa0f7cbe2fed5de20326b8dd581035f6e2f0"
   dependencies:
     assert-plus "^1.0.0"
-
-"data-types@git+https://github.com/u9520107/data-types.git#release":
-  version "1.0.0"
-  resolved "git+https://github.com/u9520107/data-types.git#27f28490ab11630b26f02c4af80f5f0e61eb0057"
-  dependencies:
-    babel-runtime "^6.9.2"
 
 data-uri-to-buffer@1:
   version "1.2.0"
@@ -4827,14 +4821,6 @@ lodash@~1.0.1:
 log-driver@1.2.5:
   version "1.2.5"
   resolved "https://registry.yarnpkg.com/log-driver/-/log-driver-1.2.5.tgz#7ae4ec257302fd790d557cb10c97100d857b0056"
-
-loganberry@^0.9.1:
-  version "0.9.2"
-  resolved "https://registry.yarnpkg.com/loganberry/-/loganberry-0.9.2.tgz#2400e0f24a42699764025b63e06ed22877f5715e"
-  dependencies:
-    babel-runtime "^6.9.2"
-    chalk "^1.1.3"
-    data-types "git+https://github.com/u9520107/data-types.git#release"
 
 loglevel@^1.4.1:
   version "1.4.1"
