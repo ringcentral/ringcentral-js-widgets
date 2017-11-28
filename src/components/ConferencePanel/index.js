@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import formatMessage from 'format-message';
+import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import IconField from '../IconField';
 import Switch from '../Switch';
 import SpinnerOverlay from '../SpinnerOverlay';
@@ -9,9 +10,18 @@ import styles from './styles.scss';
 import RcFont from '../../assets/RcFont/RcFont.scss';
 import Select from '../DropdownSelect';
 
-function renderDialInNumberItem(item) {
-  return (<div>{item.region}<span style={{ float: 'right' }}>{item.phoneNumber}</span></div>);
+function DialInNumberItem({ region, formattedPhoneNumber }) {
+  return (
+    <div>
+      {region}
+      <span style={{ float: 'right' }}>{formattedPhoneNumber}</span>
+    </div>
+  );
 }
+DialInNumberItem.propTypes = {
+  region: PropTypes.string.isRequired,
+  formattedPhoneNumber: PropTypes.string.isRequired,
+};
 
 class ConferencePanel extends Component {
   constructor(props) {
@@ -20,6 +30,7 @@ class ConferencePanel extends Component {
       showInternational: false,
       searchInternationals: this.props.conferenceNumbers.phoneNumbers,
       selectInternationals: [],
+      dialInNumbers: this.formatDialInNumbers(props),
     };
     this.formatNumbers = {
       dialInNumber: this.props.formatPhone(
@@ -94,11 +105,42 @@ class ConferencePanel extends Component {
       }
     };
   }
+  formatDialInNumbers({
+    dialInNumbers,
+    countryCode,
+    areaCode,
+  }) {
+    return dialInNumbers.map(e => ({
+      ...e,
+      formattedPhoneNumber: formatNumber({
+        phoneNumber: e.phoneNumber,
+        countryCode,
+        areaCode,
+        international: true
+      })
+    }));
+  }
+  componentWillReceiveProps(nextProps) {
+    if (
+      nextProps.dialInNumbers !== this.props.dialInNumbers ||
+      nextProps.countryCode !== this.props.countryCode ||
+      nextProps.areaCode !== this.props.areaCode
+    ) {
+      this.setState({
+        dialInNumbers: this.formatDialInNumbers(nextProps),
+      });
+    }
+  }
   render() {
     const {
       currentLocale,
       showSpinner,
+      dialInNumber
     } = this.props;
+    const {
+      dialInNumbers,
+      showInternational
+    } = this.state;
     if (showSpinner) {
       return (
         <SpinnerOverlay />
@@ -148,14 +190,14 @@ class ConferencePanel extends Component {
           <label>{i18n.getString('dialInNumber', currentLocale)}</label>
           <Select
             className={styles.select}
-            value={this.props.dialInNumber}
+            value={dialInNumber}
             onChange={this.onMyLocationChange}
-            renderFunction={renderDialInNumberItem}
+            renderFunction={DialInNumberItem}
             renderValue={(phoneNumber) => {
-              const option = this.props.dialInNumbers.find(p => p.phoneNumber === phoneNumber);
-              return renderDialInNumberItem(option);
+              const option = dialInNumbers.find(p => p.phoneNumber === phoneNumber);
+              return DialInNumberItem(option);
             }}
-            options={this.props.dialInNumbers}
+            options={dialInNumbers}
             disabled={false}
             dropdownAlign="left"
             titleEnabled
@@ -198,15 +240,16 @@ class ConferencePanel extends Component {
 ConferencePanel.propTypes = {
   dialInNumbers: PropTypes.array,
   dialInNumber: PropTypes.string.isRequired,
+  countryCode: PropTypes.string.isRequired,
+  areaCode: PropTypes.string.isRequired,
+  currentLocale: PropTypes.string.isRequired,
+
   conferenceNumbers: PropTypes.shape({
     phoneNumber: PropTypes.string,
     hostCode: PropTypes.string,
     participantCode: PropTypes.string,
     phoneNumbers: PropTypes.array,
   }).isRequired,
-  countryCode: PropTypes.string.isRequired,
-  areaCode: PropTypes.string.isRequired,
-  currentLocale: PropTypes.string.isRequired,
   inviteWithText: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
   formatInternational: PropTypes.func.isRequired,
@@ -216,16 +259,16 @@ ConferencePanel.propTypes = {
 ConferencePanel.defaultProps = {
   showSpinner: false,
   dialInNumbers: [{
-    region: 'Australia, Syn',
-    phoneNumber: '1238989898'
+    region: 'Australia, Perth',
+    phoneNumber: '+61862450610'
   }, {
-    region: 'Xiamen',
-    phoneNumber: '0592323232'
+    region: 'Belgium, Brussels',
+    phoneNumber: '+3228089351'
   }, {
-    region: 'Shenzhen, China',
-    phoneNumber: '05191310931'
+    region: 'Argentina, Buenos Aires',
+    phoneNumber: '+541159842371'
   }],
-  dialInNumber: '0592323232'
+  dialInNumber: '+541159842371'
 };
 
 export default ConferencePanel;
