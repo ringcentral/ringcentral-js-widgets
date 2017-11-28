@@ -12,7 +12,7 @@
     "gulp": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js",
     "dev-server": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js dev-server",
     "release": "node ./node_modules/babel-cli/bin/babel-node.js ./node_modules/gulp/bin/gulp.js release",
-    "eslint": "node ./node_modules/eslint/bin/eslint.js --quiet src --ignore-pattern *.test.js"
+    "eslint": "node ./node_modules/eslint/bin/eslint.js --quiet ."
   },
   "repository": {
     "type": "git",
