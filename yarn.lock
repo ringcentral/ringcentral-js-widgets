@@ -4658,9 +4658,9 @@ loader-utils@~0.2.13, loader-utils@~0.2.2:
     json5 "^0.5.0"
     object-assign "^4.0.1"
 
-locale-loader@^1.3.0:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/locale-loader/-/locale-loader-1.4.2.tgz#5c62bf74592dee89a872ab15594f6f1538826a93"
+locale-loader@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/locale-loader/-/locale-loader-1.4.3.tgz#fea3d050b09d94d11d2818de6ba37e8ab5232fc9"
   dependencies:
     babylon "^6.16.1"
     dedent "^0.7.0"
@@ -6765,11 +6765,10 @@ ringcentral-client@^1.0.0-rc1:
 
 "ringcentral-integration@https://github.com/ringcentral/ringcentral-js-integration-commons#latest":
   version "0.1.0"
-  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#96738ae9ef9bfa84eabd2d3932a770fb47af4ad8"
+  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#6ae1f2bb384b6e0a7f9e1f498beaf2a7f0b81f6e"
   dependencies:
     file-loader "^0.11.2"
     json-mask "^0.3.8"
-    loganberry "^0.9.1"
     moment "^2.19.2"
     phoneformat.js "^1.0.3"
     prettier "^1.7.0"
