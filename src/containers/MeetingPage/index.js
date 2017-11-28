@@ -26,20 +26,16 @@ function mapToFunctions(_, {
     update: meetingState => meeting.update(meetingState),
     invite: async (meetingState) => {
       const meetingInfo = await meeting.schedule(meetingState);
-      if (afterScheduled) afterScheduled(meetingInfo);
-      // initialize meeting after last one created
-      meeting.init();
+      if (afterScheduled && meetingInfo) afterScheduled(meetingInfo);
     },
     init: () => meeting.init(),
   };
 }
 
-
 const MeetingPage = withPhone(connect(
   mapToProps,
   mapToFunctions,
 )(MeetingPanel));
-
 
 export {
   mapToFunctions,

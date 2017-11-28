@@ -6822,7 +6822,7 @@ ringcentral-client@^1.0.0-rc1:
 
 "ringcentral-integration@https://github.com/ringcentral/ringcentral-js-integration-commons#latest":
   version "0.1.0"
-  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#6ae1f2bb384b6e0a7f9e1f498beaf2a7f0b81f6e"
+  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#924665bc43df9c5f96d7b13473470f090850f3d3"
   dependencies:
     file-loader "^0.11.2"
     json-mask "^0.3.8"
