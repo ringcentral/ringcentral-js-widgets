@@ -331,6 +331,8 @@ var AccountContacts = (_dec = (0, _di.Module)({
     value: function getPresence(contact) {
       var _this3 = this;
 
+      var useCache = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
+
       return new _promise2.default(function (resolve) {
         if (!contact || !contact.id || contact.type !== 'company') {
           resolve(null);
@@ -338,8 +340,9 @@ var AccountContacts = (_dec = (0, _di.Module)({
         }
 
         var presenceId = '' + contact.id;
-        if (_this3.presences[presenceId] && Date.now() - _this3.presences[presenceId].timestamp < _this3._presenceTtl) {
+        if (useCache && _this3.presences[presenceId] && Date.now() - _this3.presences[presenceId].timestamp < _this3._presenceTtl) {
           var presence = _this3.presences[presenceId].presence;
+
           resolve(presence);
           return;
         }
@@ -417,7 +420,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
         }, _callee2, this);
       }));
 
-      function _processQueryPresences(_x3) {
+      function _processQueryPresences(_x4) {
         return _ref3.apply(this, arguments);
       }
 
@@ -497,7 +500,7 @@ var AccountContacts = (_dec = (0, _di.Module)({
         }, _callee3, this, [[1, 19]]);
       }));
 
-      function _batchQueryPresences(_x4) {
+      function _batchQueryPresences(_x5) {
         return _ref4.apply(this, arguments);
       }
 

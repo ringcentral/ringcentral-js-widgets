@@ -534,6 +534,7 @@ var Contacts = (_dec = (0, _di.Module)({
     key: 'getPresence',
     value: function () {
       var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(contact) {
+        var useCache = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
         var source, result;
         return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
@@ -547,7 +548,7 @@ var Contacts = (_dec = (0, _di.Module)({
                 }
 
                 _context2.next = 4;
-                return source.getPresence(contact);
+                return source.getPresence(contact, useCache);
 
               case 4:
                 result = _context2.sent;

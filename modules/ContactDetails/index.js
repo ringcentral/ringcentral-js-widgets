@@ -182,12 +182,12 @@ var ContactDetails = (_dec = (0, _di.Module)({
   }, {
     key: 'getProfileImage',
     value: function getProfileImage(contact) {
-      return this._contacts.getProfileImage(contact);
+      return this._contacts.getProfileImage(contact, false);
     }
   }, {
     key: 'getPresence',
     value: function getPresence(contact) {
-      return this._contacts.getPresence(contact);
+      return this._contacts.getPresence(contact, false);
     }
   }, {
     key: 'contact',
