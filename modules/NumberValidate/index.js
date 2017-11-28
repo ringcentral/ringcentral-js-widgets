@@ -215,8 +215,10 @@ var NumberValidate = (_dec = (0, _di.Module)({
           number = _parseNumber2.number,
           isServiceNumber = _parseNumber2.isServiceNumber;
 
-      var countryCode = this._regionSettings.countryCode;
-      var areaCode = this._regionSettings.areaCode;
+      var _regionSettings = this._regionSettings,
+          countryCode = _regionSettings.countryCode,
+          areaCode = _regionSettings.areaCode;
+
       if (!isServiceNumber && !hasPlus && number.length === 7 && (countryCode === 'CA' || countryCode === 'US') && areaCode === '') {
         return true;
       }
@@ -241,8 +243,10 @@ var NumberValidate = (_dec = (0, _di.Module)({
   }, {
     key: 'isCompanyExtension',
     value: function isCompanyExtension(companyNumber, extensionNumber) {
-      var countryCode = this._regionSettings.countryCode;
-      var areaCode = this._regionSettings.areaCode;
+      var _regionSettings2 = this._regionSettings,
+          countryCode = _regionSettings2.countryCode,
+          areaCode = _regionSettings2.areaCode;
+
       var normalizedCompanyNumber = (0, _normalizeNumber2.default)({ phoneNumber: companyNumber, countryCode: countryCode, areaCode: areaCode });
       if (normalizedCompanyNumber !== this._accountInfo.mainCompanyNumber) {
         return false;
@@ -365,25 +369,25 @@ var NumberValidate = (_dec = (0, _di.Module)({
     key: '_numberParser',
     value: function () {
       var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3(phoneNumbers) {
-        var countryCode, areaCode, homeCountry, normalizedNumbers, response;
+        var _regionSettings3, countryCode, areaCode, homeCountry, normalizedNumbers, response;
+
         return _regenerator2.default.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                countryCode = this._regionSettings.countryCode;
-                areaCode = this._regionSettings.areaCode;
+                _regionSettings3 = this._regionSettings, countryCode = _regionSettings3.countryCode, areaCode = _regionSettings3.areaCode;
                 homeCountry = countryCode ? { homeCountry: countryCode } : {};
                 normalizedNumbers = phoneNumbers.map(function (phoneNumber) {
                   return (0, _normalizeNumber2.default)({ phoneNumber: phoneNumber, countryCode: countryCode, areaCode: areaCode });
                 });
-                _context3.next = 6;
+                _context3.next = 5;
                 return this._numberParserApi(normalizedNumbers, homeCountry);
 
-              case 6:
+              case 5:
                 response = _context3.sent;
                 return _context3.abrupt('return', response.phoneNumbers);
 
-              case 8:
+              case 7:
               case 'end':
                 return _context3.stop();
             }

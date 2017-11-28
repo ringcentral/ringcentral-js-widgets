@@ -159,6 +159,8 @@ var RegionSettings = (_dec = (0, _di.Module)({
       key: _this._areaCodeKey,
       reducer: (0, _getRegionSettingsReducer.getAreaCodeReducer)(_this.actionTypes)
     });
+
+    _this._processedPlans = null;
     return _this;
   }
 
@@ -167,7 +169,6 @@ var RegionSettings = (_dec = (0, _di.Module)({
     value: function initialize() {
       var _this2 = this;
 
-      var plans = void 0;
       this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
@@ -191,7 +192,7 @@ var RegionSettings = (_dec = (0, _di.Module)({
                 return _this2.checkRegionSettings();
 
               case 5:
-                plans = _this2._dialingPlan.plans;
+                _this2._processedPlans = _this2._dialingPlan.plans;
                 _this2.store.dispatch({
                   type: _this2.actionTypes.initSuccess
                 });
@@ -211,12 +212,12 @@ var RegionSettings = (_dec = (0, _di.Module)({
                 break;
 
               case 13:
-                if (!(_this2.ready && plans !== _this2._dialingPlan.plans)) {
+                if (!(_this2.ready && _this2._processedPlans !== _this2._dialingPlan.plans)) {
                   _context.next = 18;
                   break;
                 }
 
-                plans = _this2._dialingPlan.plans;
+                _this2._processedPlans = _this2._dialingPlan.plans;
 
                 if (!(!_this2._tabManager || _this2._tabManager.active)) {
                   _context.next = 18;

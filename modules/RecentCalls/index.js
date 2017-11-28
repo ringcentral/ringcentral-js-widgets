@@ -313,11 +313,12 @@ var RecentCalls = (_dec = (0, _di.Module)({
 
   }, {
     key: '_getLocalRecentCalls',
-    value: function _getLocalRecentCalls(currentContact, calls, dateFrom) {
+    value: function _getLocalRecentCalls(_ref6, calls, dateFrom) {
+      var phoneNumbers = _ref6.phoneNumbers;
+
       var _this3 = this;
 
       // Get all calls related to this contact
-      var phoneNumbers = currentContact.phoneNumbers;
       return calls.reduce(function (acc, call) {
         if (call && call.to && call.from) {
           var matches = phoneNumbers.find(_this3._filterPhoneNumber(call));
@@ -333,8 +334,8 @@ var RecentCalls = (_dec = (0, _di.Module)({
   }, {
     key: '_filterPhoneNumber',
     value: function _filterPhoneNumber(call) {
-      return function (_ref6) {
-        var phoneNumber = _ref6.phoneNumber;
+      return function (_ref7) {
+        var phoneNumber = _ref7.phoneNumber;
         return phoneNumber === call.from.phoneNumber || phoneNumber === call.to.phoneNumber || phoneNumber === call.from.extensionNumber || phoneNumber === call.to.extensionNumber;
       };
     }
@@ -350,7 +351,9 @@ var RecentCalls = (_dec = (0, _di.Module)({
 
   }, {
     key: '_fetchRemoteRecentCalls',
-    value: function _fetchRemoteRecentCalls(currentContact, dateFrom, length) {
+    value: function _fetchRemoteRecentCalls(_ref8, dateFrom, length) {
+      var phoneNumbers = _ref8.phoneNumbers;
+
       var _this4 = this;
 
       var params = {
@@ -360,10 +363,9 @@ var RecentCalls = (_dec = (0, _di.Module)({
       };
 
       // CallLog API doesn't support plus sign in phoneNumber
-      var phoneNumbers = currentContact.phoneNumbers;
-      var recentCallsPromises = phoneNumbers.reduce(function (acc, _ref7) {
-        var phoneType = _ref7.phoneType,
-            phoneNumber = _ref7.phoneNumber;
+      var recentCallsPromises = phoneNumbers.reduce(function (acc, _ref9) {
+        var phoneType = _ref9.phoneType,
+            phoneNumber = _ref9.phoneNumber;
 
         phoneNumber = phoneNumber.replace('+', '');
         if (phoneType === 'extension') {
@@ -392,8 +394,8 @@ var RecentCalls = (_dec = (0, _di.Module)({
   }, {
     key: '_flattenToRecords',
     value: function _flattenToRecords(items) {
-      return items.reduce(function (acc, _ref8) {
-        var records = _ref8.records;
+      return items.reduce(function (acc, _ref10) {
+        var records = _ref10.records;
         return acc.concat(records);
       }, []);
     }

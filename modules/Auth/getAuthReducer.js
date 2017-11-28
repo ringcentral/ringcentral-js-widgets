@@ -73,7 +73,6 @@ function getOwnerIdReducer(types) {
         refreshTokenValid = _ref2.refreshTokenValid;
 
     switch (type) {
-
       case types.loginSuccess:
       case types.refreshSuccess:
         return token.owner_id;
@@ -105,7 +104,6 @@ function getEndpointIdReducer(types) {
         refreshTokenValid = _ref3.refreshTokenValid;
 
     switch (type) {
-
       case types.loginSuccess:
       case types.refreshSuccess:
         return token.endpoint_id;
@@ -136,7 +134,6 @@ function getFreshLoginReducer(types) {
         loggedIn = _ref4.loggedIn;
 
     switch (type) {
-
       case types.initSuccess:
       case types.tabSync:
         return loggedIn ? false : null;

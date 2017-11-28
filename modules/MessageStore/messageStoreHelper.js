@@ -126,9 +126,8 @@ function filterNullFromConversations(_ref3) {
     if (!conversation) {
       return;
     }
-    var conversationId = conversation.conversationId;
     newConversations.push((0, _extends3.default)({}, conversation));
-    conversationMap[conversationId].index = newConversations.length - 1;
+    conversationMap[conversation.conversationId].index = newConversations.length - 1;
   });
   return {
     conversations: newConversations,
@@ -136,8 +135,9 @@ function filterNullFromConversations(_ref3) {
   };
 }
 
-function findIndexOfConversations(newConversationMap, message) {
-  var conversationId = message.conversationId;
+function findIndexOfConversations(newConversationMap, _ref4) {
+  var conversationId = _ref4.conversationId;
+
   if (!conversationId) {
     return -1;
   }
@@ -159,13 +159,13 @@ function calcUnreadCount(conversation) {
   return (0, _keys2.default)(conversation.unreadMessages).length;
 }
 
-function pushRecordsToMessageData(_ref4) {
-  var messages = _ref4.messages,
-      conversations = _ref4.conversations,
-      conversationMap = _ref4.conversationMap,
-      records = _ref4.records,
-      syncToken = _ref4.syncToken,
-      syncConversationId = _ref4.syncConversationId;
+function pushRecordsToMessageData(_ref5) {
+  var messages = _ref5.messages,
+      conversations = _ref5.conversations,
+      conversationMap = _ref5.conversationMap,
+      records = _ref5.records,
+      syncToken = _ref5.syncToken,
+      syncConversationId = _ref5.syncConversationId;
 
   var _prepareNewMessagesDa = prepareNewMessagesData({
     messages: messages,
@@ -189,6 +189,7 @@ function pushRecordsToMessageData(_ref4) {
   };
   var addMessageToConversationMap = function addMessageToConversationMap(message, index) {
     var conversationId = message.conversationId;
+
     var conversation = newConversationMap[conversationId] || { unreadMessages: {} };
     conversation.index = index;
     conversation.id = conversationId;
@@ -299,12 +300,12 @@ function pushRecordsToMessageData(_ref4) {
   });
 }
 
-function updateConversationRecipients(_ref5) {
-  var messages = _ref5.messages,
-      conversations = _ref5.conversations,
-      conversationMap = _ref5.conversationMap,
-      conversationId = _ref5.conversationId,
-      recipients = _ref5.recipients;
+function updateConversationRecipients(_ref6) {
+  var messages = _ref6.messages,
+      conversations = _ref6.conversations,
+      conversationMap = _ref6.conversationMap,
+      conversationId = _ref6.conversationId,
+      recipients = _ref6.recipients;
 
   var conversationIndex = conversationMap[conversationId] && conversationMap[conversationId].index;
   if (conversationIndex === undefined) {

@@ -282,9 +282,12 @@ var _Meeting2 = _interopRequireDefault(_Meeting);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var RcPhone = (_dec = (0, _di.ModuleFactory)({
-  providers: [_AudioSettings2.default, _Alert2.default, _Brand2.default, _Locale2.default, _TabManager2.default, _GlobalStorage2.default, _Environment2.default, _ConnectivityMonitor2.default, _Auth2.default, _Storage2.default, _RateLimiter2.default, _ExtensionDevice2.default, _Softphone2.default, _Ringout2.default, _AccountInfo2.default, _ExtensionInfo2.default, _RolesAndPermissions2.default, _DialingPlan2.default, _ExtensionPhoneNumber2.default, _ForwardingNumber2.default, _BlockedNumber2.default, _ContactMatcher2.default, _Subscription2.default, _RegionSettings2.default, _AccountExtension2.default, _NumberValidate2.default, _Webphone2.default, _CallingSettings2.default, _Presence2.default, _DetailedPresence2.default, _CallLog2.default, _Call2.default, _MessageSender2.default, _ComposeText2.default, _CallMonitor2.default, _CallHistory2.default, _ActivityMatcher2.default, _ConversationMatcher2.default, _ContactSearch2.default, _MessageStore2.default, _Conversation2.default, _DateTimeFormat2.default, _Conference2.default, _CallLogger2.default, _AccountPhoneNumber2.default, _AddressBook2.default, _AccountContacts2.default, _Contacts2.default, _ContactDetails2.default, _ConversationLogger2.default, _Messages2.default, _RecentMessages2.default, _RecentCalls2.default, _Analytics2.default, _Meeting2.default, { provide: 'ModuleOptions',
+  providers: [_AudioSettings2.default, _Alert2.default, _Brand2.default, _Locale2.default, _TabManager2.default, _GlobalStorage2.default, _Environment2.default, _ConnectivityMonitor2.default, _Auth2.default, _Storage2.default, _RateLimiter2.default, _ExtensionDevice2.default, _Softphone2.default, _Ringout2.default, _AccountInfo2.default, _ExtensionInfo2.default, _RolesAndPermissions2.default, _DialingPlan2.default, _ExtensionPhoneNumber2.default, _ForwardingNumber2.default, _BlockedNumber2.default, _ContactMatcher2.default, _Subscription2.default, _RegionSettings2.default, _AccountExtension2.default, _NumberValidate2.default, _Webphone2.default, _CallingSettings2.default, _Presence2.default, _DetailedPresence2.default, _CallLog2.default, _Call2.default, _MessageSender2.default, _ComposeText2.default, _CallMonitor2.default, _CallHistory2.default, _ActivityMatcher2.default, _ConversationMatcher2.default, _ContactSearch2.default, _MessageStore2.default, _Conversation2.default, _DateTimeFormat2.default, _Conference2.default, _CallLogger2.default, _AccountPhoneNumber2.default, _AddressBook2.default, _AccountContacts2.default, _Contacts2.default, _ContactDetails2.default, _ConversationLogger2.default, _Messages2.default, _RecentMessages2.default, _RecentCalls2.default, _Analytics2.default, _Meeting2.default, {
+    provide: 'ModuleOptions',
     useValue: { prefix: 'rc-phone' },
-    spread: true }, { provide: 'Client',
+    spread: true
+  }, {
+    provide: 'Client',
     useFactory: function useFactory(_ref) {
       var clientOptions = _ref.clientOptions,
           config = _ref.config;
@@ -293,11 +296,14 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
         cachePrefix: 'rc-sdk'
       }, config, clientOptions)));
     },
-    deps: [{ dep: 'Config' }, { dep: 'ClientOptions', optional: true }] }, { provide: 'BrandOptions',
+    deps: [{ dep: 'Config' }, { dep: 'ClientOptions', optional: true }]
+  }, {
+    provide: 'BrandOptions',
     spread: true,
-    useValue: { id: '1210', name: 'RingCentral', fullName: 'RingCentral' } }, { provide: 'ConnectivityMonitorOptions',
-    useValue: {
-      checkConnectionFunc: function () {
+    useValue: { id: '1210', name: 'RingCentral', fullName: 'RingCentral' }
+  }, {
+    provide: 'ConnectivityMonitorOptions',
+    useValue: { checkConnectionFunc: function () {
         var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
           return _regenerator2.default.wrap(function _callee$(_context) {
             while (1) {
@@ -318,7 +324,9 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
           return _ref2.apply(this, arguments);
         };
       }() },
-    spread: true }, { provide: 'CallLoggerOptions',
+    spread: true
+  }, {
+    provide: 'CallLoggerOptions',
     useValue: {
       logFunction: function () {
         var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
@@ -339,10 +347,15 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
       }(),
       readyCheckFunction: function readyCheckFunction() {
         return true;
-      } },
-    spread: true }, { provide: 'WebphoneOptions',
+      }
+    },
+    spread: true
+  }, {
+    provide: 'WebphoneOptions',
     spread: true,
-    useValue: { appKey: null, appName: null, appVersion: null } }, { provide: 'ConversationLoggerOptions',
+    useValue: { appKey: null, appName: null, appVersion: null }
+  }, {
+    provide: 'ConversationLoggerOptions',
     useValue: {
       logFunction: function () {
         var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
@@ -363,15 +376,19 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
       }(),
       readyCheckFunction: function readyCheckFunction() {
         return true;
-      } },
-    spread: true }, { provide: 'SoftphoneOptions', useValue: { extensionMode: null }, spread: true }, { provide: 'ContactSources',
+      }
+    },
+    spread: true
+  }, { provide: 'SoftphoneOptions', useValue: { extensionMode: null }, spread: true }, {
+    provide: 'ContactSources',
     useFactory: function useFactory(_ref5) {
       var addressBook = _ref5.addressBook,
           accountContacts = _ref5.accountContacts;
       return [addressBook, accountContacts];
     },
     deps: ['AccountContacts', 'AddressBook']
-  }, { provide: 'EnvironmentOptions',
+  }, {
+    provide: 'EnvironmentOptions',
     useFactory: function useFactory(_ref6) {
       var clientOptions = _ref6.clientOptions,
           config = _ref6.config;
@@ -404,35 +421,37 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
         contactMatcher = modules.contactMatcher;
 
     // Webphone configuration
-
-    webphone._onCallEndFunc = function (session) {
-      if (router.currentPath !== '/calls/active') {
-        return;
-      }
-      var currentSession = webphone.activeSession;
-      if (currentSession && session.id !== currentSession.id) {
-        return;
-      }
-      router.goBack();
-    };
-    webphone._onCallStartFunc = function () {
-      if (router.currentPath === '/calls/active') {
-        return;
-      }
-      router.push('/calls/active');
-    };
-    webphone._onCallRingFunc = function () {
-      if (webphone.ringSessions.length > 1) {
-        if (router.currentPath !== '/calls') {
-          router.push('/calls');
-        }
-        webphone.ringSessions.forEach(function (session) {
-          webphone.toggleMinimized(session.id);
-        });
-      }
-    };
+    // webphone._onCallEndFunc = (session) => {
+    //   if (router.currentPath !== '/calls/active') {
+    //     return;
+    //   }
+    //   const currentSession = webphone.activeSession;
+    //   if (currentSession && session.id !== currentSession.id) {
+    //     return;
+    //   }
+    //   router.goBack();
+    // };
+    // webphone._onCallStartFunc = () => {
+    //   if (router.currentPath === '/calls/active') {
+    //     return;
+    //   }
+    //   router.push('/calls/active');
+    // };
+    // webphone._onCallRingFunc = () => {
+    //   if (
+    //     webphone.ringSessions.length > 1
+    //   ) {
+    //     if (router.currentPath !== '/calls') {
+    //       router.push('/calls');
+    //     }
+    //     webphone.ringSessions.forEach((session) => {
+    //       webphone.toggleMinimized(session.id);
+    //     });
+    //   }
+    // };
 
     // ContactMatcher configuration
+
     contactMatcher.addSearchProvider({
       name: 'contacts',
       searchFn: function () {
@@ -540,29 +559,13 @@ var RcPhone = (_dec = (0, _di.ModuleFactory)({
     });
 
     // CallMonitor configuration
-    callMonitor._onRinging = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
-      return _regenerator2.default.wrap(function _callee5$(_context5) {
-        while (1) {
-          switch (_context5.prev = _context5.next) {
-            case 0:
-              if (!_this.webphone._webphone) {
-                _context5.next = 2;
-                break;
-              }
-
-              return _context5.abrupt('return');
-
-            case 2:
-              // TODO refactor some of these logic into appropriate modules
-              _this.router.push('/calls');
-
-            case 3:
-            case 'end':
-              return _context5.stop();
-          }
-        }
-      }, _callee5, _this2);
-    }));
+    // callMonitor._onRinging = async () => {
+    //   if (this.webphone._webphone) {
+    //     return;
+    //   }
+    //   // TODO refactor some of these logic into appropriate modules
+    //   this.router.push('/calls');
+    // };
     return _this;
   }
 

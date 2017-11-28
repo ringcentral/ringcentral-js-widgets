@@ -287,6 +287,7 @@ var Contacts = (_dec = (0, _di.Module)({
       if (sourceFilter !== _contactHelper.AllContactSourceName && !(0, _isBlank2.default)(sourceFilter)) {
         var source = _this._contactSources.get(sourceFilter);
         if (source && source.sourceReady) {
+          /* eslint { "prefer-destructuring": 0 } */
           contacts = source.contacts;
         } else {
           contacts = [];

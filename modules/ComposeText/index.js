@@ -210,14 +210,12 @@ var ComposeText = (_dec = (0, _di.Module)({
   }, {
     key: '_initSenderNumber',
     value: function _initSenderNumber() {
-      var defaultPhoneNumber = null;
       var cachedPhoneNumber = this.cache && this.cache.senderNumber;
       if (cachedPhoneNumber) {
-        defaultPhoneNumber = cachedPhoneNumber;
+        this.updateSenderNumber(cachedPhoneNumber);
       } else {
-        defaultPhoneNumber = this._messageSender.senderNumbersList[0];
+        this.updateSenderNumber(this._messageSender.senderNumbersList[0]);
       }
-      this.updateSenderNumber(defaultPhoneNumber);
     }
   }, {
     key: '_handleRecipient',

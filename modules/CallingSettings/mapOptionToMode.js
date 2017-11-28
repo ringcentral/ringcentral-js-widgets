@@ -17,7 +17,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function mapOptionToMode(callWith) {
   switch (callWith) {
-
     case _callingOptions2.default.softphone:
       return _callingModes2.default.softphone;
 
@@ -29,7 +28,6 @@ function mapOptionToMode(callWith) {
       return _callingModes2.default.webphone;
     default:
       return _callingModes2.default.softphone;
-
   }
 }
 //# sourceMappingURL=mapOptionToMode.js.map

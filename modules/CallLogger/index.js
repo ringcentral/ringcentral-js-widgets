@@ -394,6 +394,7 @@ var CallLogger = (_dec = (0, _di.Module)({
                 toEntity = null;
 
                 if (toMatches && toMatches.length === 1) {
+                  /* eslint { "prefer-destructuring": 0 } */
                   toEntity = toMatches[0];
                 } else if (toMatches && toMatches.length > 1 && toNumberEntity !== '') {
                   toEntity = toMatches.find(function (match) {

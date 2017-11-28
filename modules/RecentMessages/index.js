@@ -383,9 +383,10 @@ var RecentMessages = (_dec = (0, _di.Module)({
 
   }, {
     key: '_getLocalRecentMessages',
-    value: function _getLocalRecentMessages(currentContact, messages, dateFrom, length) {
+    value: function _getLocalRecentMessages(_ref6, messages, dateFrom, length) {
+      var phoneNumbers = _ref6.phoneNumbers;
+
       // Get all messages related to this contact
-      var phoneNumbers = currentContact.phoneNumbers;
       var recentMessages = [];
       var message = void 0;
       var matches = void 0;
@@ -404,8 +405,8 @@ var RecentMessages = (_dec = (0, _di.Module)({
   }, {
     key: '_filterPhoneNumber',
     value: function _filterPhoneNumber(message) {
-      return function (_ref6) {
-        var phoneNumber = _ref6.phoneNumber;
+      return function (_ref7) {
+        var phoneNumber = _ref7.phoneNumber;
         return phoneNumber === message.from.phoneNumber || !!message.to.find(function (to) {
           return to.phoneNumber === phoneNumber;
         }) || phoneNumber === message.from.extensionNumber || !!message.to.find(function (to) {
@@ -425,7 +426,9 @@ var RecentMessages = (_dec = (0, _di.Module)({
 
   }, {
     key: '_fetchRemoteRecentMessages',
-    value: function _fetchRemoteRecentMessages(currentContact, dateFrom) {
+    value: function _fetchRemoteRecentMessages(_ref8, dateFrom) {
+      var phoneNumbers = _ref8.phoneNumbers;
+
       var _this3 = this;
 
       var dateTo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : new Date().toISOString();
@@ -437,9 +440,8 @@ var RecentMessages = (_dec = (0, _di.Module)({
         messageType: ['SMS', 'Text', 'Pager'],
         perPage: length
       };
-      var phoneNumbers = currentContact.phoneNumbers;
-      var recentMessagesPromise = phoneNumbers.reduce(function (acc, _ref7) {
-        var phoneNumber = _ref7.phoneNumber;
+      var recentMessagesPromise = phoneNumbers.reduce(function (acc, _ref9) {
+        var phoneNumber = _ref9.phoneNumber;
 
         if (phoneNumber) {
           var promise = _this3._fetchMessageList((0, _assign2.default)({}, params, {
@@ -475,8 +477,8 @@ var RecentMessages = (_dec = (0, _di.Module)({
   }, {
     key: '_flattenToMessageRecords',
     value: function _flattenToMessageRecords(allMessages) {
-      return allMessages.reduce(function (acc, _ref8) {
-        var records = _ref8.records;
+      return allMessages.reduce(function (acc, _ref10) {
+        var records = _ref10.records;
         return acc.concat(records);
       }, []);
     }

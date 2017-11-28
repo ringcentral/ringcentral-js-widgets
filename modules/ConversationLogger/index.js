@@ -215,6 +215,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
       var mapping = {};
       messages.slice().sort(_messageHelper.sortByDate).forEach(function (message) {
         var conversationId = message.conversationId;
+
         var date = _this._formatDateTime({
           type: 'date',
           utcTimestamp: message.creationTime
@@ -432,6 +433,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
                   break;
                 }
 
+                /* eslint { "no-inner-declarations": 0 } */
                 addIfNotExist = function addIfNotExist(contact) {
                   var number = contact.phoneNumber || contact.extensionNumber;
                   if (number && !numberMap[number]) {
@@ -679,6 +681,7 @@ var ConversationLogger = (_dec = (0, _di.Module)({
     key: 'getConversationLogId',
     value: function getConversationLogId(message) {
       var conversationId = message.conversationId;
+
       var date = this._formatDateTime({
         type: 'date',
         utcTimestamp: message.creationTime

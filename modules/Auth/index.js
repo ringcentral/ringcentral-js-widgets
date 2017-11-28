@@ -71,10 +71,6 @@ var _url = require('url');
 
 var _url2 = _interopRequireDefault(_url);
 
-var _qs = require('qs');
-
-var _qs2 = _interopRequireDefault(_qs);
-
 var _RcModule2 = require('../../lib/RcModule');
 
 var _RcModule3 = _interopRequireDefault(_RcModule2);
@@ -461,6 +457,7 @@ var Auth = (_dec = (0, _di.Module)({
                     loggedIn = !loggedIn;
                     _this4._tabManager.send('loginStatusChange', loggedIn);
                   } else if (_this4._tabManager.event && _this4._tabManager.event.name === 'loginStatusChange' && _this4._tabManager.event.args[0] !== loggedIn) {
+                    /* eslint { "prefer-destructuring": 0 } */
                     loggedIn = _this4._tabManager.event.args[0];
                     _this4.store.dispatch({
                       type: _this4.actionTypes.tabSync,
@@ -864,7 +861,7 @@ var Auth = (_dec = (0, _di.Module)({
     key: 'openOAuthPage',
     value: function openOAuthPage() {
       if (this.proxyLoaded) {
-        var extendedQuery = _qs2.default.stringify({
+        var extendedQuery = qs.stringify({
           force: true,
           localeId: this._locale.currentLocale,
           ui_options: 'hide_remember_me hide_tos'
@@ -882,7 +879,7 @@ var Auth = (_dec = (0, _di.Module)({
   }, {
     key: 'redirectUri',
     get: function get() {
-      return _url2.default.resolve(location.href, this._redirectUri);
+      return _url2.default.resolve(window.location.href, this._redirectUri);
     }
   }, {
     key: 'proxyUri',
