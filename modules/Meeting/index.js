@@ -255,6 +255,16 @@ var Meeting = (_dec = (0, _di.Module)({
   }, {
     key: 'init',
     value: function init() {
+      this._initMeeting();
+    }
+  }, {
+    key: 'reload',
+    value: function reload() {
+      this._initMeeting();
+    }
+  }, {
+    key: '_initMeeting',
+    value: function _initMeeting() {
       var extensionName = this._extensionInfo.info.name || '';
       this.store.dispatch({
         type: this.actionTypes.updateMeeting,
@@ -273,6 +283,8 @@ var Meeting = (_dec = (0, _di.Module)({
     key: 'schedule',
     value: function () {
       var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee(meeting) {
+        var _this3 = this;
+
         var resp, serviceInfo, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, error;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
@@ -312,18 +324,22 @@ var Meeting = (_dec = (0, _di.Module)({
                   type: this.actionTypes.scheduled,
                   meeting: meeting
                 });
+                // Reload meeting info
+                this._initMeeting();
                 // Nofity user the meeting has been scheduled
-                this._alert.info({
-                  message: _meetingStatus2.default.scheduledSuccess
-                });
+                setTimeout(function () {
+                  _this3._alert.info({
+                    message: _meetingStatus2.default.scheduledSuccess
+                  });
+                }, 50);
                 return _context.abrupt('return', {
                   meeting: resp,
                   serviceInfo: serviceInfo,
                   extensionInfo: this.extensionInfo
                 });
 
-              case 18:
-                _context.prev = 18;
+              case 19:
+                _context.prev = 19;
                 _context.t0 = _context['catch'](3);
 
                 this.store.dispatch({
@@ -331,62 +347,62 @@ var Meeting = (_dec = (0, _di.Module)({
                 });
 
                 if (!(_context.t0 instanceof MeetingErrors)) {
-                  _context.next = 41;
+                  _context.next = 42;
                   break;
                 }
 
                 _iteratorNormalCompletion = true;
                 _didIteratorError = false;
                 _iteratorError = undefined;
-                _context.prev = 25;
+                _context.prev = 26;
 
                 for (_iterator = (0, _getIterator3.default)(_context.t0.all); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
                   error = _step.value;
 
                   this._alert.warning(error);
                 }
-                _context.next = 33;
+                _context.next = 34;
                 break;
 
-              case 29:
-                _context.prev = 29;
-                _context.t1 = _context['catch'](25);
+              case 30:
+                _context.prev = 30;
+                _context.t1 = _context['catch'](26);
                 _didIteratorError = true;
                 _iteratorError = _context.t1;
 
-              case 33:
-                _context.prev = 33;
+              case 34:
                 _context.prev = 34;
+                _context.prev = 35;
 
                 if (!_iteratorNormalCompletion && _iterator.return) {
                   _iterator.return();
                 }
 
-              case 36:
-                _context.prev = 36;
+              case 37:
+                _context.prev = 37;
 
                 if (!_didIteratorError) {
-                  _context.next = 39;
+                  _context.next = 40;
                   break;
                 }
 
                 throw _iteratorError;
 
-              case 39:
-                return _context.finish(36);
-
               case 40:
-                return _context.finish(33);
+                return _context.finish(37);
 
               case 41:
-                return _context.abrupt('return', null);
+                return _context.finish(34);
 
               case 42:
+                return _context.abrupt('return', null);
+
+              case 43:
               case 'end':
                 return _context.stop();
             }
           }
-        }, _callee, this, [[3, 18], [25, 29, 33, 41], [34,, 36, 40]]);
+        }, _callee, this, [[3, 19], [26, 30, 34, 42], [35,, 37, 41]]);
       }));
 
       function schedule(_x) {
@@ -501,6 +517,6 @@ var Meeting = (_dec = (0, _di.Module)({
     }
   }]);
   return Meeting;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'init', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'init'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'update', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'update'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'schedule', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'schedule'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'init', [_background2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'init'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'reload', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'reload'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'update', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'update'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'schedule', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'schedule'), _class2.prototype)), _class2)) || _class);
 exports.default = Meeting;
 //# sourceMappingURL=index.js.map
