@@ -38,7 +38,7 @@ export default class OAuth extends RcModule {
     this._brand = this::ensureExist(brand, 'brand');
     this._locale = this::ensureExist(locale, 'locale');
     this._tabManager = tabManager;
-    this._redirectUri = url.resolve(location.href, this::ensureExist(redirectUri, 'redirectUri'));
+    this._redirectUri = this::ensureExist(redirectUri, 'redirectUri');
     this._reducer = getOAuthBaseReducer(this.actionTypes);
   }
 
@@ -49,6 +49,7 @@ export default class OAuth extends RcModule {
   @required
   get name() {
     /* require implementation in descendent */
+    return null;
   }
 
   _onStateChange() {
@@ -136,6 +137,6 @@ export default class OAuth extends RcModule {
   }
 
   get redirectUri() {
-    return url.resolve(location.href, this._redirectUri);
+    return url.resolve(window.location.href, this._redirectUri);
   }
 }

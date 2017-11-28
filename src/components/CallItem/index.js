@@ -273,7 +273,7 @@ export default class CallItem extends Component {
         duration,
         activityMatches,
         offset,
-    },
+      },
       brand,
       currentLocale,
       areaCode,

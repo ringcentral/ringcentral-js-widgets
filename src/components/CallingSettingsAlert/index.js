@@ -10,7 +10,7 @@ function CallingSettingsAlert({
   currentLocale,
   brand,
   onCallingSettingsLinkClick,
- }) {
+}) {
   switch (message) {
     case callingSettingsMessages.saveSuccess:
     case callingSettingsMessages.saveSuccessWithSoftphone:

@@ -6,16 +6,16 @@ import i18n from './i18n';
 function mapToProps(_, {
   phone: {
     locale,
-  brand,
-  callHistory,
-  regionSettings,
-  connectivityMonitor,
-  rateLimiter,
-  dateTimeFormat,
-  callLogger,
-  call,
-  composeText,
-  rolesAndPermissions,
+    brand,
+    callHistory,
+    regionSettings,
+    connectivityMonitor,
+    rateLimiter,
+    dateTimeFormat,
+    callLogger,
+    call,
+    composeText,
+    rolesAndPermissions,
   },
   enableContactFallback = false,
 }) {
@@ -75,9 +75,7 @@ function mapToFunctions(_, {
 }) {
   return {
     dateTimeFormatter,
-    onViewContact: onViewContact || (({ contact }) => {
-      const id = contact.id;
-      const type = contact.type;
+    onViewContact: onViewContact || (({ contact: { type, id } }) => {
       routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
     }),
     onCreateContact: onCreateContact ?

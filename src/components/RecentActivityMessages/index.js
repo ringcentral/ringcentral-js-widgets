@@ -7,7 +7,9 @@ import i18n from './i18n';
 
 const cx = classNames.bind(styles);
 function MessageItem({ message, navigateTo, dateTimeFormatter }) {
-  const { subject, creationTime, readStatus, conversationId } = message;
+  const {
+    subject, creationTime, readStatus, conversationId
+  } = message;
   const isUnread = readStatus !== 'Read';
   const time = dateTimeFormatter({ utcTimestamp: creationTime });
   return (

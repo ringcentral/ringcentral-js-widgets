@@ -57,9 +57,9 @@ export default class SlideMenu extends Component {
   }
   onToggle = (e) => {
     e.stopPropagation();
-		this.setState(prevState => ({ extended: !prevState.extended }));
+    this.setState(prevState => ({ extended: !prevState.extended }));
     if (this.props.onToggle) {
-      this.props.onToggle(e); 
+      this.props.onToggle(e);
     }
   }
   render() {
