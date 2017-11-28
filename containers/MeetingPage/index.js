@@ -60,11 +60,9 @@ function mapToFunctions(_, _ref2) {
               case 2:
                 meetingInfo = _context.sent;
 
-                if (afterScheduled) afterScheduled(meetingInfo);
-                // initialize meeting after last one created
-                meeting.init();
+                if (afterScheduled && meetingInfo) afterScheduled(meetingInfo);
 
-              case 5:
+              case 4:
               case 'end':
                 return _context.stop();
             }
