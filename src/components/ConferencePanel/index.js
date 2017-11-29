@@ -9,6 +9,7 @@ import i18n from './i18n';
 import styles from './styles.scss';
 import RcFont from '../../assets/RcFont/RcFont.scss';
 import Select from '../DropdownSelect';
+import Button from '../Button';
 
 function DialInNumberItem({ region, formattedPhoneNumber }) {
   return (
@@ -241,6 +242,8 @@ class ConferencePanel extends Component {
             />
           </span>
         </div>
+
+        <Button className={styles.link}>{i18n.getString('conferenceCommands', currentLocale)}</Button>
 
         {internationalNumbers}
         <input
