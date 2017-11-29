@@ -130,6 +130,10 @@ var IncomingCallPage = function (_Component) {
       }, _callee2, _this2);
     }));
 
+    _this.onForward = function (forwardNumber) {
+      return _this.props.onForward(_this.props.session.id, forwardNumber);
+    };
+
     _this.state = {
       selectedMatcherIndex: 0,
       avatarUrl: null,
@@ -278,6 +282,7 @@ IncomingCallPage.propTypes = {
   toggleMinimized: _propTypes2.default.func.isRequired,
   answer: _propTypes2.default.func.isRequired,
   reject: _propTypes2.default.func.isRequired,
+  onForward: _propTypes2.default.func.isRequired,
   toVoiceMail: _propTypes2.default.func.isRequired,
   replyWithMessage: _propTypes2.default.func.isRequired,
   formatPhone: _propTypes2.default.func.isRequired,
