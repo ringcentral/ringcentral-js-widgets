@@ -1,3 +1,4 @@
 export default {
-  schedule: 'Schedule'
+  schedule: 'Schedule',
+  prompt: 'Please authorize RingCentral to access your account information'
 };

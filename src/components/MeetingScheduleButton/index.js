@@ -22,6 +22,10 @@ export default class MeetingScheduleButton extends PureComponent {
     return i18n.getString('schedule');
   }
 
+  getI18nPromptString() {
+    return i18n.getString('prompt');
+  }
+
   render() {
     const {
       hidden,
@@ -30,7 +34,15 @@ export default class MeetingScheduleButton extends PureComponent {
       onClick,
     } = this.props;
     return (
-      <div className={classnames(styles.inviteBox, !hidden ? styles.withShadow : null)}>
+      <div
+        className={classnames(styles.inviteBox, !hidden ? styles.withShadow : styles.onlyButton)}>
+        {
+          hidden ? (
+            <div className={styles.actionPrompt}>
+              { this.getI18nPromptString() }
+            </div>
+          ) : null
+        }
         <button
           onClick={() => !disabled && onClick(meeting)}
           disabled={disabled}

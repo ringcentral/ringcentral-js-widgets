@@ -14,6 +14,14 @@
   background-color: $snow;
 }
 
+.onlyButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .button {
   outline: none;
   border: none;
@@ -29,4 +37,13 @@
 
 .disabled {
   background-color: $silver;
+}
+
+.actionPrompt {
+  color: #2f2f2f;
+  font-size: 13px;
+  text-align: center;
+  margin-top: -55px;
+  position: absolute;
+  padding: 0 20px;
 }
