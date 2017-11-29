@@ -509,7 +509,7 @@ const MeetingOptions = (
             if (_requireMeetingPassword) {
               setTimeout(() => {
                 that.password.focus();
-              });
+              }, 100);
             }
             const password = _requireMeetingPassword ? null : meeting.password;
             update({
