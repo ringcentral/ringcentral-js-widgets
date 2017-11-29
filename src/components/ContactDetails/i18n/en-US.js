@@ -7,7 +7,7 @@ export default {
   emailLabel: 'Email',
   call: 'Call',
   text: 'Text',
-  [presenceStatus.avalible]: 'Available',
+  [presenceStatus.available]: 'Available',
   [presenceStatus.offline]: 'Invisible',
   [presenceStatus.busy + dndStatus.takeAllCalls]: 'Busy',
   [presenceStatus.busy + dndStatus.doNotAcceptDepartmentCalls]: 'Busy',
