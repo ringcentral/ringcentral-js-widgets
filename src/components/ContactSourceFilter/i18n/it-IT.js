@@ -1,8 +1,7 @@
 export default {
-  all: 'Tutti i contatti',
-  companyContacts: 'Azienda',
-  googleContacts: 'Google',
-  personalContacts: 'Personale',
+  all: 'Tutti',
+  company: 'Azienda',
+  personal: 'Personale',
 };
 
 // @key: @#@"all"@#@ @source: @#@"All"@#@

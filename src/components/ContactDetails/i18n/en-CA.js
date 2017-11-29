@@ -7,7 +7,7 @@ export default {
   emailLabel: 'Email',
   call: 'Call',
   text: 'Text',
-  [presenceStatus.avalible]: 'Available',
+  [presenceStatus.available]: 'Available',
   [presenceStatus.offline]: 'Invisible',
   [presenceStatus.busy+dndStatus.takeAllCalls]: 'Busy',
   [presenceStatus.busy+dndStatus.doNotAcceptDepartmentCalls]: 'Busy',
@@ -19,7 +19,7 @@ export default {
 // @key: @#@"emailLabel"@#@ @source: @#@"Email"@#@
 // @key: @#@"call"@#@ @source: @#@"Call"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@
-// @key: @#@"[presenceStatus.avalible]"@#@ @source: @#@"Available"@#@
+// @key: @#@"[presenceStatus.available]"@#@ @source: @#@"Available"@#@
 // @key: @#@"[presenceStatus.offline]"@#@ @source: @#@"Invisible"@#@
 // @key: @#@"[presenceStatus.busy+dndStatus.takeAllCalls]"@#@ @source: @#@"Busy"@#@
 // @key: @#@"[presenceStatus.busy+dndStatus.doNotAcceptDepartmentCalls]"@#@ @source: @#@"Busy"@#@
