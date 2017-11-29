@@ -4,10 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  all: 'すべての連絡先',
-  companyContacts: '会社',
-  googleContacts: 'Google',
-  personalContacts: '個人'
+  all: 'すべての',
+  company: '会社',
+  personal: '個人'
 };
 
 // @key: @#@"all"@#@ @source: @#@"All"@#@

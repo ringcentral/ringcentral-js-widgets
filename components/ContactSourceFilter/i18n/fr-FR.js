@@ -4,10 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  all: 'Tous les contacts',
-  companyContacts: 'Entreprise',
-  googleContacts: 'Google',
-  personalContacts: 'Personnel'
+  all: 'Tous',
+  company: 'Entreprise',
+  personal: 'Personnel'
 };
 
 // @key: @#@"all"@#@ @source: @#@"All"@#@
