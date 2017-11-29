@@ -12,7 +12,6 @@ import OAuthBase from '../../lib/OAuthBase';
   ],
 })
 export default class OAuth extends OAuthBase {
-
   get name() {
     return 'oAuth';
   }

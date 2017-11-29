@@ -42,7 +42,7 @@ export default class ProxyFrameOAuth extends OAuthBase {
   }
 
   get proxyUri() {
-    return url.resolve(location.href, this._proxyUri);
+    return url.resolve(window.location.href, this._proxyUri);
   }
 
   get proxyRetryCount() {

@@ -39,28 +39,25 @@ class IncomingCallPage extends Component {
         });
       }
     };
-
-    this.answer = () =>
-      this.props.answer(this.props.session.id);
-    this.reject = () =>
-      this.props.reject(this.props.session.id);
-    this.toVoiceMail = () =>
-      this.props.toVoiceMail(this.props.session.id);
-    this.replyWithMessage = message =>
-      this.props.replyWithMessage(this.props.session.id, message);
-    this.onForward = forwardNumber =>
-      this.props.onForward(this.props.session.id, forwardNumber);
-    this.toggleMinimized = () =>
-      this.props.toggleMinimized(this.props.session.id);
-    this.answerAndEnd = async () => {
-      this.props.hangup(this.props.activeSessionId);
-      await this.props.answer(this.props.session.id);
-    };
-    this.answerAndHold = async () => {
-      await this.props.onHold(this.props.activeSessionId);
-      await this.props.answer(this.props.session.id);
-    };
   }
+
+  answer = () => this.props.answer(this.props.session.id)
+  reject = () => this.props.reject(this.props.session.id);
+  toVoiceMail = () => this.props.toVoiceMail(this.props.session.id);
+  replyWithMessage = message =>
+    this.props.replyWithMessage(this.props.session.id, message);
+  toggleMinimized = () =>
+    this.props.toggleMinimized(this.props.session.id);
+  answerAndEnd = async () => {
+    this.props.hangup(this.props.activeSessionId);
+    await this.props.answer(this.props.session.id);
+  };
+  answerAndHold = async () => {
+    await this.props.onHold(this.props.activeSessionId);
+    await this.props.answer(this.props.session.id);
+  };
+  onForward = forwardNumber =>
+    this.props.onForward(this.props.session.id, forwardNumber);
 
   componentDidMount() {
     this._mounted = true;
@@ -105,7 +102,7 @@ class IncomingCallPage extends Component {
   }
 
   render() {
-    const session = this.props.session;
+    const { session } = this.props;
     const active = !!session.id;
     if (!active) {
       return null;
@@ -171,6 +168,7 @@ IncomingCallPage.propTypes = {
   toggleMinimized: PropTypes.func.isRequired,
   answer: PropTypes.func.isRequired,
   reject: PropTypes.func.isRequired,
+  onForward: PropTypes.func.isRequired,
   toVoiceMail: PropTypes.func.isRequired,
   replyWithMessage: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
@@ -180,12 +178,13 @@ IncomingCallPage.propTypes = {
   countryCode: PropTypes.string.isRequired,
   getAvatarUrl: PropTypes.func.isRequired,
   forwardingNumbers: PropTypes.array.isRequired,
-  onForward: PropTypes.func.isRequired,
   updateSessionMatchedContact: PropTypes.func.isRequired,
   showContactDisplayPlaceholder: PropTypes.bool.isRequired,
   brand: PropTypes.string.isRequired,
   activeSessionId: PropTypes.string,
   sourceIcons: PropTypes.object,
+  hangup: PropTypes.func.isRequired,
+  onHold: PropTypes.func.isRequired
 };
 
 IncomingCallPage.defaultProps = {

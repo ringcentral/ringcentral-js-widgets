@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import styles from './styles.scss';
+/* eslint { "react/no-unused-state": 0 } */
 
 class Draggable extends Component {
-
   constructor(props) {
     super(props);
 
@@ -44,11 +44,13 @@ class Draggable extends Component {
       if (!this.draggableDom) {
         return;
       }
-      const offsetParent = this.draggableDom.offsetParent;
+      const {
+        offsetParent,
+        offsetLeft: originalPositionX,
+        offsetTop: originalPositionY,
+      } = this.draggableDom;
       const newPositionX = e.clientX;
       const newPositionY = e.clientY;
-      const originalPositionX = this.draggableDom.offsetLeft;
-      const originalPositionY = this.draggableDom.offsetTop;
       const child = this.draggableDom.firstChild;
       const height = (child && child.clientHeight) || 0;
       const width = (child && child.clientWidth) || 0;

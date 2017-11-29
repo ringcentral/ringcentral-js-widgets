@@ -2,3 +2,8 @@
 #build
 build/**
 docs/**
+
+**/i18n/**
+test/**
+release/**
+coverage/**

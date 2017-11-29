@@ -1,7 +1,7 @@
 import padLeft from 'ringcentral-integration/lib/padLeft';
 
 export default function formatDuration(duration) {
-  if (isNaN(duration)) {
+  if (Number.isNaN(duration)) {
     return '--:--';
   }
   const intDuration = typeof duration === 'number' ?

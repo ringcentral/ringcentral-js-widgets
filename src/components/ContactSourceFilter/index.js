@@ -7,7 +7,9 @@ import styles from './styles.scss';
 import ContactFilterIcon from '../../assets/images/ContactFilter.svg';
 import ContactFilterSolidIcon from '../../assets/images/ContactFilterSolid.svg';
 
-export function ContactSourceItem({ sourceName, sourceLabel, isSelected, onSelect }) {
+export function ContactSourceItem({
+  sourceName, sourceLabel, isSelected, onSelect
+}) {
   return (
     <div
       onClick={() => onSelect(sourceName)}

@@ -87,33 +87,31 @@ function mapToFunctions(_, {
 }) {
   return {
     dateTimeFormatter,
-    onViewContact: onViewContact || (({ contact }) => {
-      const id = contact.id;
-      const type = contact.type;
+    onViewContact: onViewContact || (({ contact: { id, type } }) => {
       routerInteraction.push(`/contacts/${type}/${id}?direct=true`);
     }),
     onCreateContact: onCreateContact ?
-    async ({ phoneNumber, name, entityType }) => {
-      const hasMatchNumber = await contactMatcher.hasMatchNumber({
-        phoneNumber,
-        ignoreCache: true
-      });
-      // console.debug('confirm hasMatchNumber:', hasMatchNumber);
-      if (!hasMatchNumber) {
-        await onCreateContact({ phoneNumber, name, entityType });
-        await contactMatcher.forceMatchNumber({ phoneNumber });
-      }
-    } :
-    undefined,
+      async ({ phoneNumber, name, entityType }) => {
+        const hasMatchNumber = await contactMatcher.hasMatchNumber({
+          phoneNumber,
+          ignoreCache: true
+        });
+        // console.debug('confirm hasMatchNumber:', hasMatchNumber);
+        if (!hasMatchNumber) {
+          await onCreateContact({ phoneNumber, name, entityType });
+          await contactMatcher.forceMatchNumber({ phoneNumber });
+        }
+      } :
+      undefined,
     onClickToDial: call ?
-    (phoneNumber) => {
-      if (call.isIdle) {
-        routerInteraction.push(dialerRoute);
-        call.onToNumberChange(phoneNumber);
-        call.onCall();
-      }
-    } :
-    undefined,
+      (phoneNumber) => {
+        if (call.isIdle) {
+          routerInteraction.push(dialerRoute);
+          call.onToNumberChange(phoneNumber);
+          call.onCall();
+        }
+      } :
+      undefined,
     isLoggedContact,
     onLogConversation: onLogConversation ||
     (conversationLogger && (async ({ redirect = true, ...options }) => {
