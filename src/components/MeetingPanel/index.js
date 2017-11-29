@@ -55,12 +55,17 @@ const Topic = ({ update, currentLocale, meeting }) => (
       <input
         type="text"
         className={styles.input}
-        value={meeting.topic || ''}
+        defaultValue={meeting.topic || ''}
         onChange={({ target }) => {
-          update({
-            ...meeting,
-            topic: target.value
-          });
+          const topic = target.value;
+          if (topic.length >= 0 && topic.length < 128) {
+            update({
+              ...meeting,
+              topic,
+            });
+          } else {
+            target.value = meeting.topic || '';
+          }
         }} />
     </div>
   </MeetingSection>
@@ -107,6 +112,11 @@ const When = (
               format="MM/DD/YY"
               min={new Date()}
             />
+            <div
+              onClick={() => onToggle('date')}
+              className={classnames(styles.dateTimeText, styles.dateText)}>
+              {Moment(meeting.schedule.startTime).format('MM/DD/YY')}
+            </div>
           </div>
           <div className={styles.dateIcon}>
             <DateIcon
@@ -135,10 +145,62 @@ const When = (
               format="hh:mm A"
               {...minTime}
             />
+            <div className={styles.dateTimeText}>
+              <input
+                className={styles.timeInput}
+                defaultValue={Moment(meeting.schedule.startTime).format('HH')}
+                onBlur={({ target }) => {
+                  const hours = parseInt(target.value, 10);
+                  const time = new Date(meeting.schedule.startTime);
+                  time.setHours(hours);
+                  const startTime = time.getTime();
+                  if (startTime >= (new Date()).getTime() && hours < 24 && hours > 0) {
+                    setTimeout(() => {
+                      target.value = Moment(startTime).format('HH');
+                    });
+                    update({
+                      ...meeting,
+                      schedule: {
+                        ...meeting.schedule,
+                        startTime,
+                      }
+                    });
+                  } else {
+                    target.value = Moment(meeting.schedule.startTime).format('HH');
+                  }
+                }}
+                maxLength={2}
+                type="text" />
+              <div className={styles.colon}>{':'}</div>
+              <input
+                className={styles.timeInput}
+                defaultValue={Moment(meeting.schedule.startTime).format('mm')}
+                onBlur={({ target }) => {
+                  const minutes = parseInt(target.value, 10);
+                  const time = new Date(meeting.schedule.startTime);
+                  time.setMinutes(minutes);
+                  const startTime = time.getTime();
+                  if (startTime >= (new Date()).getTime() && minutes < 60 && minutes > 0) {
+                    setTimeout(() => {
+                      target.value = Moment(startTime).format('mm');
+                    });
+                    update({
+                      ...meeting,
+                      schedule: {
+                        ...meeting.schedule,
+                        startTime,
+                      }
+                    });
+                  } else {
+                    target.value = Moment(meeting.schedule.startTime).format('mm');
+                  }
+                }}
+                maxLength={2}
+                type="text" />
+            </div>
           </div>
           <div className={styles.timeIcon}>
             <TimeIcon
-              onClick={() => onToggle('time')}
               className={styles.icon} />
           </div>
         </div>
@@ -350,9 +412,13 @@ const MeetingOptions = (
     currentLocale,
     meeting,
     update,
+    that,
   }
 ) => (
-  <MeetingSection title={i18n.getString('meetingOptions', currentLocale)} withSwitch>
+  <MeetingSection
+    title={i18n.getString('meetingOptions', currentLocale)}
+    toggle={false}
+    withSwitch>
     <div>
       <div className={classnames(styles.spaceBetween, styles.fixTopMargin)}>
         <span className={styles.labelLight}>
@@ -361,6 +427,11 @@ const MeetingOptions = (
         <Switch
           checked={meeting._requireMeetingPassword}
           onChange={(_requireMeetingPassword) => {
+            if (_requireMeetingPassword) {
+              setTimeout(() => {
+                that.password.focus();
+              });
+            }
             const password = _requireMeetingPassword ? null : meeting.password;
             update({
               ...meeting,
@@ -376,11 +447,12 @@ const MeetingOptions = (
               {i18n.getString('password', currentLocale)}
             </div>
             <input
-              type="password"
+              type="text"
               className={styles.password}
+              ref={(ref) => { that.password = ref; }}
               value={meeting.password || ''}
               onChange={({ target }) => {
-                if (target.value.length <= 10) {
+                if (/^[A-Za-z0-9]{0,10}$/.test(target.value)) {
                   update({
                     ...meeting,
                     password: target.value
@@ -411,6 +483,7 @@ MeetingOptions.propTypes = {
   update: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
   meeting: PropTypes.object.isRequired,
+  that: PropTypes.object.isRequired,
 };
 
 class MeetingPanel extends Component {
@@ -500,6 +573,7 @@ class MeetingPanel extends Component {
               <MeetingOptions
                 currentLocale={currentLocale}
                 meeting={meeting}
+                that={this}
                 update={update} />
             </div>
           ) : null
