@@ -7,6 +7,14 @@ $icon-min-width: 120px;
   display: block;
 }
 
+.iconLine > [class*='content'] {
+  max-width: calc(100% - 38px);
+}
+
+.iconLine > [class*='iconHolder'] {
+  min-width: 38px;
+}
+
 .statusIcon {
   display: inline-block;
   position: relative;
