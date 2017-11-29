@@ -23,6 +23,10 @@ DialInNumberItem.propTypes = {
   formattedPhoneNumber: PropTypes.string.isRequired,
 };
 
+function formatPin(number) {
+  return number.replace(/(\d{3})/g, '$1-').replace(/-$/, '');
+}
+
 class ConferencePanel extends Component {
   constructor(props) {
     super(props);
@@ -134,6 +138,8 @@ class ConferencePanel extends Component {
   render() {
     const {
       currentLocale,
+      hostCode,
+      participantCode,
       showSpinner,
       dialInNumber
     } = this.props;
@@ -195,7 +201,10 @@ class ConferencePanel extends Component {
             renderFunction={DialInNumberItem}
             renderValue={(phoneNumber) => {
               const option = dialInNumbers.find(p => p.phoneNumber === phoneNumber);
-              return DialInNumberItem(option);
+              if (!option) {
+                console.warn(`Conference dial in number ${phoneNumber} is not found in the list.`);
+              }
+              return DialInNumberItem(option || dialInNumbers[0]);
             }}
             options={dialInNumbers}
             disabled={false}
@@ -204,28 +213,35 @@ class ConferencePanel extends Component {
           />
         </div>
         <div className={styles.formGroup}>
-          <label>{i18n.getString('host', currentLocale)}:</label>
-          <div className={styles.conferenceNumber}>
-            {this.formatNumbers.hostCode}
+          <label>{i18n.getString('hostAccess', currentLocale)}</label>
+          <div className={styles.field}>
+            {formatPin(hostCode)}
           </div>
         </div>
         <div className={styles.formGroup}>
-          <label>{i18n.getString('participants', currentLocale)}:</label>
-          <div className={styles.conferenceNumber}>
-            {this.formatNumbers.participantCode}
+          <label>{i18n.getString('participantsAccess', currentLocale)}</label>
+          <div className={styles.field}>
+            {formatPin(participantCode)}
           </div>
         </div>
-        <div className={styles.participantsSwitch}>
-          <IconField
-            icon={
-              <Switch
-                onChange={this.onInternationalSwitch}
-              />
-            }
-          >
-            {i18n.getString('internationalParticipants', currentLocale)}
-          </IconField>
+        <div className={styles.formGroup}>
+          <label>{i18n.getString('addinalDialInNumbers', currentLocale)}</label>
+          <span className={styles.field}>
+            <Switch
+              onChange={this.onInternationalSwitch}
+            />
+          </span>
+
         </div>
+        <div className={styles.formGroup}>
+          <label>{i18n.getString('enableJoinBeforeHost', currentLocale)}</label>
+          <span className={styles.field}>
+            <Switch
+              onChange={this.onInternationalSwitch}
+            />
+          </span>
+        </div>
+
         {internationalNumbers}
         <input
           type="button"
@@ -243,6 +259,8 @@ ConferencePanel.propTypes = {
   countryCode: PropTypes.string.isRequired,
   areaCode: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
+  hostCode: PropTypes.string.isRequired,
+  participantCode: PropTypes.string.isRequired,
 
   conferenceNumbers: PropTypes.shape({
     phoneNumber: PropTypes.string,
