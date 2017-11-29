@@ -649,7 +649,7 @@ var MeetingOptions = function MeetingOptions(_ref19) {
             if (_requireMeetingPassword) {
               setTimeout(function () {
                 that.password.focus();
-              });
+              }, 100);
             }
             var password = _requireMeetingPassword ? null : meeting.password;
             update((0, _extends3.default)({}, meeting, {
