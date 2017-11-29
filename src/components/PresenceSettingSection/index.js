@@ -73,6 +73,7 @@ export default class PresenceSettingSection extends Component {
             </span>
           }
           onClick={this.toggleShow}
+          className={styles.iconLine}
         >
           <div className={styles.title}>
             {i18n.getString('status', this.props.currentLocale)}
