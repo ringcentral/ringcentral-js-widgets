@@ -139,7 +139,8 @@ var PresenceSettingSection = function (_Component) {
               { className: _styles2.default.dropdownIcon },
               _react2.default.createElement('i', { className: _DynamicsFont2.default.arrow })
             ),
-            onClick: this.toggleShow
+            onClick: this.toggleShow,
+            className: _styles2.default.iconLine
           },
           _react2.default.createElement(
             'div',
