@@ -326,7 +326,7 @@ var Meeting = (_dec = (0, _di.Module)({
                 });
                 // Reload meeting info
                 this._initMeeting();
-                // Nofity user the meeting has been scheduled
+                // Notify user the meeting has been scheduled
                 setTimeout(function () {
                   _this3._alert.info({
                     message: _meetingStatus2.default.scheduledSuccess
@@ -413,7 +413,7 @@ var Meeting = (_dec = (0, _di.Module)({
     }()
 
     /**
-     * Format meeting infomation.
+     * Format meeting information.
      * @param {Object} meeting
      */
 
@@ -427,17 +427,16 @@ var Meeting = (_dec = (0, _di.Module)({
           startParticipantsVideo = meeting.startParticipantsVideo,
           audioOptions = meeting.audioOptions,
           password = meeting.password,
-          schedule = meeting.schedule,
-          rest = (0, _objectWithoutProperties3.default)(meeting, ['topic', 'meetingType', 'allowJoinBeforeHost', 'startHostVideo', 'startParticipantsVideo', 'audioOptions', 'password', 'schedule']);
+          schedule = meeting.schedule;
 
-      var formatted = (0, _extends3.default)({
+      var formatted = {
         topic: topic,
         meetingType: meetingType,
         allowJoinBeforeHost: allowJoinBeforeHost,
         startHostVideo: startHostVideo,
         startParticipantsVideo: startParticipantsVideo,
         audioOptions: audioOptions
-      }, rest);
+      };
       if (password) {
         formatted.password = password;
       }
@@ -449,7 +448,7 @@ var Meeting = (_dec = (0, _di.Module)({
         };
         if (schedule.startTime) {
           // Format selected startTime to utc standard time
-          // Timezone infomation is not included here
+          // Timezone information is not included here
           _schedule.startTime = _moment2.default.utc(schedule.startTime).format();
         }
         formatted.schedule = _schedule;
@@ -458,7 +457,7 @@ var Meeting = (_dec = (0, _di.Module)({
     }
 
     /**
-     * Validate meeting infomation format.
+     * Validate meeting information format.
      * @param {Object} meeting
      * @throws
      */
