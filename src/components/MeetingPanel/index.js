@@ -587,7 +587,8 @@ class MeetingPanel extends Component {
       return null;
     }
     const onToggle = (type) => {
-      if (!this[`${type}Blur`]) {
+      const isToggle = !this[`${type}Blur`];
+      if (isToggle) {
         if (this[type]._values.open) {
           this[type].refs.inner.close();
         } else {
