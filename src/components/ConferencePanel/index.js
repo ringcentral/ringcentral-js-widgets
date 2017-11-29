@@ -245,13 +245,13 @@ class ConferencePanel extends Component {
 
         <Button className={styles.link}>{i18n.getString('conferenceCommands', currentLocale)}</Button>
 
+        <div className={styles.bottom}>
+          <Button className={styles.button}>{i18n.getString('inviteWithGCalendar', currentLocale)}</Button>
+          <Button className={styles.button} onClick={this.inviteWithText}>{i18n.getString('inviteWithText', currentLocale)}</Button>
+          <Button className={styles.primaryButton}>{i18n.getString('JoinAsHost', currentLocale)}</Button>
+        </div>
+
         {internationalNumbers}
-        <input
-          type="button"
-          value={i18n.getString('inviteWithText', currentLocale)}
-          className={styles.textBtn}
-          onClick={this.inviteWithText}
-        />
       </div>
     );
   }
