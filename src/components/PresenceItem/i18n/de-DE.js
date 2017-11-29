@@ -2,11 +2,11 @@ import presenceStatus from 'ringcentral-integration/modules/Presence/presenceSta
 import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 
 export default {
-  [presenceStatus.avalible]: 'Verfügbar',
+  [presenceStatus.available]: 'Verfügbar',
   [presenceStatus.offline]: 'Unsichtbar',
-  [presenceStatus.busy+dndStatus.takeAllCalls]: 'Belegt',
-  [presenceStatus.busy+dndStatus.doNotAcceptDepartmentCalls]: 'Belegt',
-  [presenceStatus.busy+dndStatus.doNotAcceptAnyCalls]: 'Nicht stören',
+  [presenceStatus.busy + dndStatus.takeAllCalls]: 'Belegt',
+  [presenceStatus.busy + dndStatus.doNotAcceptDepartmentCalls]: 'Belegt',
+  [presenceStatus.busy + dndStatus.doNotAcceptAnyCalls]: 'Nicht stören',
 };
 
 // @key: @#@"[presenceStatus.avalible]"@#@ @source: @#@"Available"@#@
