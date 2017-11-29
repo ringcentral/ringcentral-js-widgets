@@ -159,7 +159,7 @@
   width: 64px;
 }
 
-.dateTimeText {
+.timeText {
   font-size: 13px;
   position: relative;
   margin-top: -18.7px;
@@ -170,7 +170,13 @@
 }
 
 .dateText {
-  margin-top: -27.4px;
+  font-size: 13px;
+  position: absolute;
+  top: 4.7px;
+  height: 17px;
+  color: $ash;
+  display: flex;
+  background-color: transparent;
 }
 
 .timePicker {
@@ -202,6 +208,7 @@
   display: flex;
   align-items: center;
   margin-top: 10px;
+  height: 24px;
 }
 
 .duration {
@@ -211,6 +218,9 @@
 .list {
   display: flex;
   width: 50%;
+  align-items: center;
+  position: relative;
+  height: 24px;
 }
 
 .hoursList {
