@@ -4729,9 +4729,9 @@ loader-utils@~0.2.13, loader-utils@~0.2.2:
     json5 "^0.5.0"
     object-assign "^4.0.1"
 
-locale-loader@^1.4.3:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/locale-loader/-/locale-loader-1.4.3.tgz#fea3d050b09d94d11d2818de6ba37e8ab5232fc9"
+locale-loader@^1.4.4:
+  version "1.4.4"
+  resolved "https://registry.yarnpkg.com/locale-loader/-/locale-loader-1.4.4.tgz#dcf405359dd7b291fb9e1aceec85cd12acbfc5f4"
   dependencies:
     babylon "^6.16.1"
     dedent "^0.7.0"
