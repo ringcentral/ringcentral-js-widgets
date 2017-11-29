@@ -5,6 +5,16 @@
   font-size: 0.857em;
 }
 
+:global .rw-datetime-picker input.rw-widget-input {
+  display: none;
+}
+
+:global [class*=styles_datePicker] .rw-datetime-picker input.rw-widget-input {
+  display: block;
+  position: absolute;
+  top: -9999px;
+}
+
 :global .rw-widget>.rw-widget-container,
 :global .rw-state-focus>.rw-widget-container,
 :global .rw-state-focus>.rw-widget-container:hover {
@@ -128,6 +138,7 @@
   width: 100%;
   height: 28px;
   border: 1px solid $silver;
+  font-size: 13px;
   outline: none;
   padding: 0;
   color: $ash;
@@ -148,8 +159,35 @@
   width: 64px;
 }
 
+.dateTimeText {
+  font-size: 13px;
+  position: relative;
+  margin-top: -18.7px;
+  height: 17px;
+  color: $ash;
+  display: flex;
+  background-color: transparent;
+}
+
+.dateText {
+  margin-top: -27.4px;
+}
+
 .timePicker {
   width: 72px;
+}
+
+.timeInput {
+  display: inline-block;
+  width: 14px;
+  font-size: 13px;
+  color: $ash;
+  border: none;
+  outline: none;
+}
+.colon {
+  color: $ash;
+  font-size: 13px;
 }
 
 .dateIcon {
