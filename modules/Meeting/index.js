@@ -427,16 +427,17 @@ var Meeting = (_dec = (0, _di.Module)({
           startParticipantsVideo = meeting.startParticipantsVideo,
           audioOptions = meeting.audioOptions,
           password = meeting.password,
-          schedule = meeting.schedule;
+          schedule = meeting.schedule,
+          rest = (0, _objectWithoutProperties3.default)(meeting, ['topic', 'meetingType', 'allowJoinBeforeHost', 'startHostVideo', 'startParticipantsVideo', 'audioOptions', 'password', 'schedule']);
 
-      var formatted = {
+      var formatted = (0, _extends3.default)({
         topic: topic,
         meetingType: meetingType,
         allowJoinBeforeHost: allowJoinBeforeHost,
         startHostVideo: startHostVideo,
         startParticipantsVideo: startParticipantsVideo,
         audioOptions: audioOptions
-      };
+      }, rest);
       if (password) {
         formatted.password = password;
       }
