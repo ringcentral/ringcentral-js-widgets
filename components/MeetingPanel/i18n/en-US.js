@@ -17,7 +17,7 @@ exports.default = {
   voIPOnly: 'VoIP Only',
   both: 'Both',
   meetingOptions: 'Meeting Options',
-  requirePassword: 'Require Meeting Password',
+  requirePassword: 'Require meeting password',
   password: 'Password',
   enableJoinBeforeHost: 'Enable join before host',
   telephonyOnly: 'Telephony Only'

@@ -63,6 +63,11 @@ var MeetingScheduleButton = (_temp = _class = function (_PureComponent) {
       return _i18n2.default.getString('schedule');
     }
   }, {
+    key: 'getI18nPromptString',
+    value: function getI18nPromptString() {
+      return _i18n2.default.getString('prompt');
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props = this.props,
@@ -73,7 +78,13 @@ var MeetingScheduleButton = (_temp = _class = function (_PureComponent) {
 
       return _react2.default.createElement(
         'div',
-        { className: (0, _classnames2.default)(_styles2.default.inviteBox, !hidden ? _styles2.default.withShadow : null) },
+        {
+          className: (0, _classnames2.default)(_styles2.default.inviteBox, !hidden ? _styles2.default.withShadow : _styles2.default.onlyButton) },
+        hidden ? _react2.default.createElement(
+          'div',
+          { className: _styles2.default.actionPrompt },
+          this.getI18nPromptString()
+        ) : null,
         _react2.default.createElement(
           'button',
           {
