@@ -87,127 +87,163 @@ const When = (
     onToggle,
     minTime
   }
-) => (
-  !isRecurring ? (
-    <MeetingSection title={i18n.getString('when', currentLocale)}>
-      <div className={styles.dateTimeBox}>
-        <div className={styles.list}>
-          <div className={styles.datePicker}>
-            <DateTimePicker
-              culture={currentLocale}
-              time={false}
-              value={new Date(meeting.schedule.startTime)}
-              onChange={(startTime) => {
-                if (startTime) {
-                  update({
-                    ...meeting,
-                    schedule: {
-                      ...meeting.schedule,
-                      startTime: startTime.getTime(),
-                    }
-                  });
-                }
-              }}
-              ref={(ref) => { that.date = ref; }}
-              format="MM/DD/YY"
-              min={new Date()}
-            />
-            <div
-              onClick={() => onToggle('date')}
-              className={classnames(styles.dateTimeText, styles.dateText)}>
-              {Moment(meeting.schedule.startTime).format('MM/DD/YY')}
-            </div>
-          </div>
-          <div className={styles.dateIcon}>
-            <DateIcon
-              onClick={() => onToggle('date')}
-              className={styles.icon} />
-          </div>
-        </div>
-        <div className={styles.list}>
-          <div className={styles.timePicker}>
-            <DateTimePicker
-              culture="en"
-              date={false}
-              ref={(ref) => { that.time = ref; }}
-              value={new Date(meeting.schedule.startTime)}
-              onChange={(startTime) => {
-                if (startTime) {
-                  update({
-                    ...meeting,
-                    schedule: {
-                      ...meeting.schedule,
-                      startTime: startTime.getTime(),
-                    }
-                  });
-                }
-              }}
-              format="hh:mm A"
-              {...minTime}
-            />
-            <div className={styles.dateTimeText}>
-              <input
-                className={styles.timeInput}
-                defaultValue={Moment(meeting.schedule.startTime).format('HH')}
-                onBlur={({ target }) => {
-                  const hours = parseInt(target.value, 10);
-                  const time = new Date(meeting.schedule.startTime);
-                  time.setHours(hours);
-                  const startTime = time.getTime();
-                  if (startTime >= (new Date()).getTime() && hours < 24 && hours > 0) {
-                    setTimeout(() => {
-                      target.value = Moment(startTime).format('HH');
-                    });
+) => {
+  const changeMinutes = (target) => {
+    const minutes = parseInt(target.value, 10);
+    const time = new Date(meeting.schedule.startTime);
+    time.setMinutes(minutes);
+    const startTime = time.getTime();
+    if (startTime >= (new Date()).getTime() && minutes < 60 && minutes > 0) {
+      setTimeout(() => {
+        target.value = Moment(startTime).format('mm');
+      });
+      update({
+        ...meeting,
+        schedule: {
+          ...meeting.schedule,
+          startTime,
+        }
+      });
+    } else {
+      target.value = Moment(meeting.schedule.startTime).format('mm');
+    }
+  };
+  const changeHours = (target) => {
+    const hours = parseInt(target.value, 10);
+    const time = new Date(meeting.schedule.startTime);
+    time.setHours(hours);
+    const startTime = time.getTime();
+    if (startTime >= (new Date()).getTime() && hours < 24 && hours > 0) {
+      setTimeout(() => {
+        target.value = Moment(startTime).format('HH');
+      });
+      update({
+        ...meeting,
+        schedule: {
+          ...meeting.schedule,
+          startTime,
+        }
+      });
+    } else {
+      target.value = Moment(meeting.schedule.startTime).format('HH');
+    }
+  };
+  return (
+    !isRecurring ? (
+      <MeetingSection title={i18n.getString('when', currentLocale)}>
+        <div className={styles.dateTimeBox}>
+          <div className={styles.list}>
+            <div className={styles.datePicker}>
+              <DateTimePicker
+                culture={currentLocale}
+                time={false}
+                value={new Date(meeting.schedule.startTime)}
+                onChange={(startTime) => {
+                  if (startTime) {
                     update({
                       ...meeting,
                       schedule: {
                         ...meeting.schedule,
-                        startTime,
+                        startTime: startTime.getTime(),
                       }
                     });
-                  } else {
-                    target.value = Moment(meeting.schedule.startTime).format('HH');
                   }
                 }}
-                maxLength={2}
-                type="text" />
-              <div className={styles.colon}>{':'}</div>
-              <input
-                className={styles.timeInput}
-                defaultValue={Moment(meeting.schedule.startTime).format('mm')}
-                onBlur={({ target }) => {
-                  const minutes = parseInt(target.value, 10);
-                  const time = new Date(meeting.schedule.startTime);
-                  time.setMinutes(minutes);
-                  const startTime = time.getTime();
-                  if (startTime >= (new Date()).getTime() && minutes < 60 && minutes > 0) {
-                    setTimeout(() => {
-                      target.value = Moment(startTime).format('mm');
-                    });
+                ref={(ref) => { that.date = ref; }}
+                format="MM/DD/YY"
+                min={new Date()}
+              />
+              <div
+                onClick={() => onToggle('date')}
+                className={classnames(styles.dateTimeText, styles.dateText)}>
+                {Moment(meeting.schedule.startTime).format('MM/DD/YY')}
+              </div>
+            </div>
+            <div className={styles.dateIcon}>
+              <DateIcon
+                onClick={() => onToggle('date')}
+                className={styles.icon} />
+            </div>
+          </div>
+          <div className={styles.list}>
+            <div className={styles.timePicker}>
+              <DateTimePicker
+                culture="en"
+                date={false}
+                ref={(ref) => { that.time = ref; }}
+                value={new Date(meeting.schedule.startTime)}
+                onChange={(startTime) => {
+                  if (startTime) {
                     update({
                       ...meeting,
                       schedule: {
                         ...meeting.schedule,
-                        startTime,
+                        startTime: startTime.getTime(),
                       }
                     });
-                  } else {
-                    target.value = Moment(meeting.schedule.startTime).format('mm');
                   }
                 }}
-                maxLength={2}
-                type="text" />
+                format="hh:mm A"
+                {...minTime}
+              />
+              <div className={styles.timeText}>
+                <input
+                  flag={'timeInput'}
+                  ref={(ref) => { that.hours = ref; }}
+                  className={styles.timeInput}
+                  defaultValue={Moment(meeting.schedule.startTime).format('HH')}
+                  onChange={({ target }) => {
+                    if (target.selectionEnd === 2) {
+                      that.minutes.value = '';
+                      that.minutes.focus();
+                    }
+                  }}
+                  onBlur={({ target }) => {
+                    setTimeout(() => {
+                      const allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
+                      if (!allInputBlur) {
+                        changeMinutes(that.minutes);
+                        changeHours(target);
+                      }
+                    }, 50);
+                  }}
+                  maxLength={2}
+                  type="text" />
+                <div className={styles.colon}>{':'}</div>
+                <input
+                  flag={'timeInput'}
+                  ref={(ref) => { that.minutes = ref; }}
+                  className={styles.timeInput}
+                  defaultValue={Moment(meeting.schedule.startTime).format('mm')}
+                  onKeyDown={(event) => {
+                    if (event.keyCode === 8 && event.target.selectionEnd === 0) {
+                      that.hours.focus();
+                      that.hours.setSelectionRange(2, 2);
+                    }
+                  }}
+                  onBlur={({ target }) => {
+                    setTimeout(() => {
+                      const allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
+                      if (!allInputBlur) {
+                        changeMinutes(target);
+                        changeHours(that.hours);
+                      }
+                    }, 50);
+                  }}
+                  maxLength={2}
+                  type="text" />
+              </div>
+            </div>
+            <div className={styles.timeIcon}>
+              <TimeIcon
+                className={styles.icon} />
             </div>
           </div>
-          <div className={styles.timeIcon}>
-            <TimeIcon
-              className={styles.icon} />
-          </div>
         </div>
-      </div>
-    </MeetingSection>
-  ) : null
-);
+      </MeetingSection>
+    ) : null
+  );
+};
 
 When.propTypes = {
   update: PropTypes.func.isRequired,
