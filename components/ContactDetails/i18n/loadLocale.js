@@ -19,18 +19,28 @@ function loadLocale(locale) {
 
       case 'en-CA':
         {
-          require.ensure(['./en-CA'], function (require) {
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./en-CA'], function (require) {
+              var data = require('./en-CA');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'en-CA');
+          } else {
             var data = require('./en-CA');
             resolve(data.__esModule === true ? data.default : data);
-          }, 'en-CA');
+          }
           break;
         }
       case 'en-US':
         {
-          require.ensure(['./en-US'], function (require) {
-            var data = require('./en-US');
-            resolve(data.__esModule === true ? data.default : data);
-          }, 'en-US');
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./en-US'], function (require) {
+              var data = require('./en-US');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'en-US');
+          } else {
+            var _data = require('./en-US');
+            resolve(_data.__esModule === true ? _data.default : _data);
+          }
           break;
         }
       default:

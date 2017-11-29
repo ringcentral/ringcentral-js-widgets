@@ -19,82 +19,127 @@ function loadLocale(locale) {
 
       case 'de-DE':
         {
-          require.ensure(['./de-DE'], function (require) {
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./de-DE'], function (require) {
+              var data = require('./de-DE');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'de-DE');
+          } else {
             var data = require('./de-DE');
             resolve(data.__esModule === true ? data.default : data);
-          }, 'de-DE');
+          }
           break;
         }
       case 'en':
 
       case 'en-CA':
         {
-          require.ensure(['./en-CA'], function (require) {
-            var data = require('./en-CA');
-            resolve(data.__esModule === true ? data.default : data);
-          }, 'en-CA');
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./en-CA'], function (require) {
+              var data = require('./en-CA');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'en-CA');
+          } else {
+            var _data = require('./en-CA');
+            resolve(_data.__esModule === true ? _data.default : _data);
+          }
           break;
         }
       case 'en-GB':
         {
-          require.ensure(['./en-GB'], function (require) {
-            var data = require('./en-GB');
-            resolve(data.__esModule === true ? data.default : data);
-          }, 'en-GB');
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./en-GB'], function (require) {
+              var data = require('./en-GB');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'en-GB');
+          } else {
+            var _data2 = require('./en-GB');
+            resolve(_data2.__esModule === true ? _data2.default : _data2);
+          }
           break;
         }
       case 'en-US':
         {
-          require.ensure(['./en-US'], function (require) {
-            var data = require('./en-US');
-            resolve(data.__esModule === true ? data.default : data);
-          }, 'en-US');
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./en-US'], function (require) {
+              var data = require('./en-US');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'en-US');
+          } else {
+            var _data3 = require('./en-US');
+            resolve(_data3.__esModule === true ? _data3.default : _data3);
+          }
           break;
         }
       case 'es':
 
       case 'es-419':
         {
-          require.ensure(['./es-419'], function (require) {
-            var data = require('./es-419');
-            resolve(data.__esModule === true ? data.default : data);
-          }, 'es-419');
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./es-419'], function (require) {
+              var data = require('./es-419');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'es-419');
+          } else {
+            var _data4 = require('./es-419');
+            resolve(_data4.__esModule === true ? _data4.default : _data4);
+          }
           break;
         }
       case 'es-ES':
         {
-          require.ensure(['./es-ES'], function (require) {
-            var data = require('./es-ES');
-            resolve(data.__esModule === true ? data.default : data);
-          }, 'es-ES');
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./es-ES'], function (require) {
+              var data = require('./es-ES');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'es-ES');
+          } else {
+            var _data5 = require('./es-ES');
+            resolve(_data5.__esModule === true ? _data5.default : _data5);
+          }
           break;
         }
       case 'fr':
 
       case 'fr-CA':
         {
-          require.ensure(['./fr-CA'], function (require) {
-            var data = require('./fr-CA');
-            resolve(data.__esModule === true ? data.default : data);
-          }, 'fr-CA');
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./fr-CA'], function (require) {
+              var data = require('./fr-CA');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'fr-CA');
+          } else {
+            var _data6 = require('./fr-CA');
+            resolve(_data6.__esModule === true ? _data6.default : _data6);
+          }
           break;
         }
       case 'fr-FR':
         {
-          require.ensure(['./fr-FR'], function (require) {
-            var data = require('./fr-FR');
-            resolve(data.__esModule === true ? data.default : data);
-          }, 'fr-FR');
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./fr-FR'], function (require) {
+              var data = require('./fr-FR');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'fr-FR');
+          } else {
+            var _data7 = require('./fr-FR');
+            resolve(_data7.__esModule === true ? _data7.default : _data7);
+          }
           break;
         }
       case 'it':
 
       case 'it-IT':
         {
-          require.ensure(['./it-IT'], function (require) {
-            var data = require('./it-IT');
-            resolve(data.__esModule === true ? data.default : data);
-          }, 'it-IT');
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./it-IT'], function (require) {
+              var data = require('./it-IT');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'it-IT');
+          } else {
+            var _data8 = require('./it-IT');
+            resolve(_data8.__esModule === true ? _data8.default : _data8);
+          }
           break;
         }
       default:

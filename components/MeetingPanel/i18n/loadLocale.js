@@ -19,10 +19,15 @@ function loadLocale(locale) {
 
       case 'en-US':
         {
-          require.ensure(['./en-US'], function (require) {
+          if (typeof require.ensure === 'function') {
+            require.ensure(['./en-US'], function (require) {
+              var data = require('./en-US');
+              resolve(data.__esModule === true ? data.default : data);
+            }, 'en-US');
+          } else {
             var data = require('./en-US');
             resolve(data.__esModule === true ? data.default : data);
-          }, 'en-US');
+          }
           break;
         }
       default:
