@@ -128,6 +128,29 @@ const When = (
       target.value = Moment(meeting.schedule.startTime).format('HH');
     }
   };
+  const accumulator = (event, max) => {
+    const currentValue = parseInt(event.target.value, 10);
+    const isValid = value => currentValue > 0 - value && currentValue < max - value;
+    const isUpKey = event.keyCode === 38;
+    if (isUpKey) {
+      const value = isValid(1) ? currentValue + 1 : 0;
+      event.target.value = `0${value}0`.slice(-3, -1);
+    }
+    const isDownKey = event.keyCode === 40;
+    if (isDownKey) {
+      const value = isValid(0) ? currentValue - 1 : max - 1;
+      event.target.value = `0${value}0`.slice(-3, -1);
+    }
+  };
+  const preventReplay = (isFocus) => {
+    that.dateBlur = true;
+    setTimeout(() => {
+      if (!isFocus) {
+        document.querySelector('input').focus();
+      }
+      that.dateBlur = false;
+    }, 200);
+  };
   return (
     !isRecurring ? (
       <MeetingSection title={i18n.getString('when', currentLocale)}>
@@ -139,6 +162,7 @@ const When = (
                 time={false}
                 value={new Date(meeting.schedule.startTime)}
                 onChange={(startTime) => {
+                  preventReplay(false);
                   if (startTime) {
                     update({
                       ...meeting,
@@ -149,6 +173,10 @@ const When = (
                     });
                   }
                 }}
+                onBlur={() => {
+                  preventReplay(false);
+                }}
+                onToggle={preventReplay}
                 ref={(ref) => { that.date = ref; }}
                 format="MM/DD/YY"
                 min={new Date()}
@@ -159,7 +187,9 @@ const When = (
                 {Moment(meeting.schedule.startTime).format('MM/DD/YY')}
               </div>
             </div>
-            <div className={styles.dateIcon}>
+            <div
+              ref={(ref) => { that.dateIcon = ref; }}
+              className={styles.dateIcon}>
               <DateIcon
                 onClick={() => onToggle('date')}
                 className={styles.icon} />
@@ -193,8 +223,17 @@ const When = (
                   className={styles.timeInput}
                   defaultValue={Moment(meeting.schedule.startTime).format('HH')}
                   onChange={({ target }) => {
-                    if (target.selectionEnd === 2) {
+                    const isSelectionEnd = target.selectionEnd === 2;
+                    if (isSelectionEnd) {
                       that.minutes.value = '';
+                      that.minutes.focus();
+                    }
+                  }}
+                  onKeyDown={(event) => {
+                    accumulator(event, 24);
+                    const isRightKey = event.keyCode === 39;
+                    const isSelectionEnd = event.target.selectionEnd === 2;
+                    if (isRightKey && isSelectionEnd) {
                       that.minutes.focus();
                     }
                   }}
@@ -205,7 +244,7 @@ const When = (
                         changeMinutes(that.minutes);
                         changeHours(target);
                       }
-                    }, 50);
+                    }, 100);
                   }}
                   maxLength={2}
                   type="text" />
@@ -216,10 +255,14 @@ const When = (
                   className={styles.timeInput}
                   defaultValue={Moment(meeting.schedule.startTime).format('mm')}
                   onKeyDown={(event) => {
-                    if (event.keyCode === 8 && event.target.selectionEnd === 0) {
+                    const isDelKey = event.keyCode === 8;
+                    const isLeftKey = event.keyCode === 37;
+                    const isSelectionHead = event.target.selectionEnd === 0;
+                    if (isSelectionHead && (isDelKey || isLeftKey)) {
                       that.hours.focus();
                       that.hours.setSelectionRange(2, 2);
                     }
+                    accumulator(event, 60);
                   }}
                   onBlur={({ target }) => {
                     setTimeout(() => {
@@ -228,7 +271,7 @@ const When = (
                         changeMinutes(target);
                         changeHours(that.hours);
                       }
-                    }, 50);
+                    }, 100);
                   }}
                   maxLength={2}
                   type="text" />
@@ -526,6 +569,7 @@ class MeetingPanel extends Component {
   constructor(...args) {
     super(...args);
     this.props.init();
+    this.state = {};
     Moment.locale(this.props.currentLocale);
     momentLocalizer();
   }
@@ -543,11 +587,13 @@ class MeetingPanel extends Component {
       return null;
     }
     const onToggle = (type) => {
-      if (this[type]._values.open) {
-        this[type].refs.inner.close();
-      } else {
-        this[type].focus();
-        this[type].refs.inner.toggle();
+      if (!this[`${type}Blur`]) {
+        if (this[type]._values.open) {
+          this[type].refs.inner.close();
+        } else {
+          this[type].focus();
+          this[type].refs.inner.toggle();
+        }
       }
     };
     const isRecurring = meeting.meetingType === 'Recurring';
