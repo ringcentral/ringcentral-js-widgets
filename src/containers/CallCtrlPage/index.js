@@ -102,7 +102,7 @@ class CallCtrlPage extends Component {
   }
 
   render() {
-    const session = this.props.session;
+    const { session } = this.props;
     if (!session.id) {
       return null;
     }
