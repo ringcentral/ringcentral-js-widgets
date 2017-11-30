@@ -1,4 +1,5 @@
 export default {
+  419: 'Latinoamérica',
   AR: 'Argentina',
   AT: 'Austria',
   BH: 'Baréin',
@@ -66,6 +67,7 @@ export default {
   PR: 'Puerto Rico',
 };
 
+// @key: @#@"419"@#@ @source: @#@"Latin America"@#@
 // @key: @#@"AR"@#@ @source: @#@"Argentina"@#@
 // @key: @#@"AT"@#@ @source: @#@"Austria"@#@
 // @key: @#@"BH"@#@ @source: @#@"Bahrain"@#@

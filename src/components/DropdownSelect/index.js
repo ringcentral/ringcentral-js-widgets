@@ -10,48 +10,47 @@ class DropdownSelect extends Component {
     this.state = {
       open: false,
     };
-    this.mounted = true;
-    this.toggleShowDropdown = (e) => {
-      if (!this.state.open) {
-        window.addEventListener('click', this._handleDocumentClick, false);
-      } else {
-        window.removeEventListener('click', this._handleDocumentClick, false);
-      }
-      if (e && this.props.stopPropagation) {
-        e.stopPropagation();
-      }
-      if (this.props.disabled) {
-        return;
-      }
-      this.setState(preState => ({
-        open: !preState.open,
-      }));
-    };
-
-    this.onChange = (e, option, idx) => {
+  }
+  toggleShowDropdown = (e) => {
+    if (!this.state.open) {
+      window.addEventListener('click', this._handleDocumentClick, false);
+    } else {
+      window.removeEventListener('click', this._handleDocumentClick, false);
+    }
+    if (e && this.props.stopPropagation) {
       e.stopPropagation();
-      if (this.props.placeholder && idx === 0) {
-        this.toggleShowDropdown();
-        return;
-      }
-      this.props.onChange(option, idx);
-      this.toggleShowDropdown();
-    };
+    }
+    if (this.props.disabled) {
+      return;
+    }
+    this.setState(preState => ({
+      open: !preState.open,
+    }));
+  }
 
-    this._handleDocumentClick = (e) => {
-      if (!this.mounted) {
-        return;
-      }
-      if (this.wrapper && this.wrapper.contains(e.target)) {
-        return;
-      }
-      if (this.dropdownMenu && this.dropdownMenu.contains(e.target)) {
-        return;
-      }
-      this.setState({
-        open: false,
-      });
-    };
+  onChange = (e, option, idx) => {
+    e.stopPropagation();
+    if (this.props.placeholder && idx === 0) {
+      this.toggleShowDropdown();
+      return;
+    }
+    this.props.onChange(option, idx);
+    this.toggleShowDropdown();
+  };
+
+  _handleDocumentClick = (e) => {
+    if (!this.mounted) {
+      return;
+    }
+    if (this.wrapper && this.wrapper.contains(e.target)) {
+      return;
+    }
+    if (this.dropdownMenu && this.dropdownMenu.contains(e.target)) {
+      return;
+    }
+    this.setState({
+      open: false,
+    });
   }
 
   componentDidMount() {

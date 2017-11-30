@@ -13,7 +13,10 @@ import SpinnerOverlay from '../SpinnerOverlay';
 import PresenceSettingSection from '../PresenceSettingSection';
 import styles from './styles.scss';
 import Switch from '../Switch';
+import InputLine from '../InputLine';
+import LocalePicker from '../LocalePicker';
 import i18n from './i18n';
+
 
 export default function SettingsPanel({
   children,
@@ -51,12 +54,28 @@ export default function SettingsPanel({
   isCallQueueMember,
   showPresenceSettings,
   additional,
+  supportedLocales,
+  savedLocale,
+  saveLocale,
 }) {
   if (showSpinner) {
     return (
       <SpinnerOverlay />
     );
   }
+
+  const locale = supportedLocales && supportedLocales.length > 1 && (
+    <InputLine
+      label={i18n.getString('language', currentLocale)}
+    >
+      <LocalePicker
+        value={savedLocale}
+        onChange={saveLocale}
+        options={supportedLocales}
+      />
+    </InputLine>
+  );
+
   const region = showRegion ?
     (
       <LinkLine
@@ -145,6 +164,7 @@ export default function SettingsPanel({
           styles.content,
           showHeader && styles.contentWithHeader,
         )}>
+        {locale}
         <LinkLine
           onClick={onCallingSettingsLinkClick} >
           {i18n.getString('calling', currentLocale)}
@@ -224,6 +244,9 @@ SettingsPanel.propTypes = {
   toggleAcceptCallQueueCalls: PropTypes.func,
   showPresenceSettings: PropTypes.bool,
   additional: PropTypes.node,
+  supportedLocales: PropTypes.arrayOf(PropTypes.string),
+  savedLocale: PropTypes.string,
+  saveLocale: PropTypes.func,
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -252,4 +275,7 @@ SettingsPanel.defaultProps = {
   toggleAcceptCallQueueCalls: () => null,
   showPresenceSettings: false,
   additional: null,
+  supportedLocales: undefined,
+  savedLocale: undefined,
+  saveLocale: undefined,
 };

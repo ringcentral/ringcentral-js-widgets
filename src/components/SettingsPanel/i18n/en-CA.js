@@ -28,3 +28,4 @@ export default {
 // @key: @#@"clickToSMS"@#@ @source: @#@"Click to SMS"@#@
 // @key: @#@"clickToDialSMS"@#@ @source: @#@"Click to Dial/SMS"@#@
 // @key: @#@"audio"@#@ @source: @#@"Audio"@#@
+// @key: @#@"language"@#@ @source: @#@"Language"@#@

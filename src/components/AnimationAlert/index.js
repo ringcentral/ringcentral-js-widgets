@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import 'animate.css/animate.min.css';
 import sleep from 'ringcentral-integration/lib/sleep';
 
@@ -10,11 +11,11 @@ const ANIMATION_DURATION = 500;
 const ENTRANCE_ANIMATION = 'fadeInDown';
 const EXIT_ANIMATION = 'fadeOutUp';
 
-function AnimationMessage({ animation, duration = ANIMATION_DURATION, ...props }) {
+function AnimationMessage({ animation, duration, ...props }) {
   const second = duration / 1000;
   return (
     <div
-      className={`${animation} animated`}
+      className={classnames([animation, 'animated'])}
       style={{
         animationDuration: `${second}s`
       }}>
@@ -28,6 +29,10 @@ AnimationMessage.propTypes = {
   animation: PropTypes.string,
   duration: PropTypes.number,
 };
+AnimationMessage.defaultProps = {
+  animation: undefined,
+  duration: ANIMATION_DURATION,
+};
 
 class AnimationAlert extends Component {
   constructor(props) {
@@ -36,12 +41,18 @@ class AnimationAlert extends Component {
       messages: this.props.messages,
     };
   }
+  componentDidMount() {
+    this.mounted = true;
+  }
+  componentWillUnmount() {
+    this.mounted = false;
+  }
   componentWillReceiveProps(nextProps) {
     (async () => {
       const {
-        duration = ANIMATION_DURATION,
-        entranceAnimation = ENTRANCE_ANIMATION,
-        exitAnimation = EXIT_ANIMATION,
+        duration,
+        entranceAnimation,
+        exitAnimation,
       } = this.props;
       const currentMessagesIDs = this.props.messages.map(message => message.id);
       const nextMessagesIDs = nextProps.messages.map(message => message.id);
@@ -75,6 +86,9 @@ class AnimationAlert extends Component {
       };
       this.setState(stateWithAnimation);
       await sleep(duration);
+
+      if (!this.mounted) return;
+
       const isCurrentEmpty = currentMessagesIDs.length === 0;
       this.setState({
         messages: isCurrentEmpty ? messages : nextProps.messages,
@@ -96,7 +110,10 @@ AnimationAlert.propTypes = {
 };
 
 AnimationAlert.defaultProps = {
-  ...AlertDisplay.defaultProps
+  ...AlertDisplay.defaultProps,
+  entranceAnimation: ENTRANCE_ANIMATION,
+  exitAnimation: EXIT_ANIMATION,
+  duration: ANIMATION_DURATION,
 };
 
 export default AnimationAlert;
