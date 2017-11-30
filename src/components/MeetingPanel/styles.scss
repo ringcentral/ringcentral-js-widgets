@@ -162,7 +162,7 @@
 .timeText {
   font-size: 13px;
   position: relative;
-  margin-top: -18px;
+  margin-top: -18.7px;
   height: 17px;
   color: $ash;
   display: flex;
@@ -172,7 +172,7 @@
 .dateText {
   font-size: 13px;
   position: absolute;
-  top: 4.7px;
+  top: 5px;
   height: 17px;
   color: $ash;
   display: flex;
@@ -180,7 +180,8 @@
 }
 
 .timePicker {
-  width: 72px;
+  width: 63px;
+  margin-left: -5px;
 }
 
 .timeInput {
@@ -190,6 +191,7 @@
   color: $ash;
   border: none;
   outline: none;
+  padding: 0 5px;
 }
 .colon {
   color: $ash;
@@ -202,6 +204,8 @@
 
 .timeIcon {
   height: 17.7px;
+  margin-left: -5px;
+  position: relative;
 }
 
 .dateTimeBox {
