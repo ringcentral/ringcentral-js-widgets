@@ -9,6 +9,14 @@ var _getOwnPropertyDescriptor = require('babel-runtime/core-js/object/get-own-pr
 
 var _getOwnPropertyDescriptor2 = _interopRequireDefault(_getOwnPropertyDescriptor);
 
+var _keys = require('babel-runtime/core-js/object/keys');
+
+var _keys2 = _interopRequireDefault(_keys);
+
+var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
+
+var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+
 var _regenerator = require('babel-runtime/regenerator');
 
 var _regenerator2 = _interopRequireDefault(_regenerator);
@@ -45,15 +53,17 @@ var _inherits2 = require('babel-runtime/helpers/inherits');
 
 var _inherits3 = _interopRequireDefault(_inherits2);
 
-var _promise = require('babel-runtime/core-js/promise');
-
-var _promise2 = _interopRequireDefault(_promise);
-
 var _dec, _class, _desc, _value, _class2;
 
 var _formatMessage = require('format-message');
 
 var _formatMessage2 = _interopRequireDefault(_formatMessage);
+
+var _redux = require('redux');
+
+var _I18n = require('locale-loader/lib/I18n');
+
+var _I18n2 = _interopRequireDefault(_I18n);
 
 var _RcModule2 = require('../../lib/RcModule');
 
@@ -65,21 +75,31 @@ var _proxify2 = _interopRequireDefault(_proxify);
 
 var _di = require('../../lib/di');
 
-var _I18n = require('../../lib/I18n');
+var _reducers = require('./reducers');
 
-var _I18n2 = _interopRequireDefault(_I18n);
+var _getModuleStatusReducer = require('../../lib/getModuleStatusReducer');
 
-var _actionTypes = require('./actionTypes');
+var _getModuleStatusReducer2 = _interopRequireDefault(_getModuleStatusReducer);
 
-var _actionTypes2 = _interopRequireDefault(_actionTypes);
+var _getProxyStatusReducer = require('../../lib/getProxyStatusReducer');
 
-var _getLocaleReducer = require('./getLocaleReducer');
+var _getProxyStatusReducer2 = _interopRequireDefault(_getProxyStatusReducer);
 
-var _getLocaleReducer2 = _interopRequireDefault(_getLocaleReducer);
+var _detectBrowserLocale = require('../../lib/detectBrowserLocale');
 
-var _getProxyReducer = require('./getProxyReducer');
+var _detectBrowserLocale2 = _interopRequireDefault(_detectBrowserLocale);
 
-var _getProxyReducer2 = _interopRequireDefault(_getProxyReducer);
+var _Enum = require('../../lib/Enum');
+
+var _Enum2 = _interopRequireDefault(_Enum);
+
+var _moduleActionTypes = require('../../enums/moduleActionTypes');
+
+var _moduleActionTypes2 = _interopRequireDefault(_moduleActionTypes);
+
+var _proxyActionTypes = require('../../enums/proxyActionTypes');
+
+var _proxyActionTypes2 = _interopRequireDefault(_proxyActionTypes);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -112,35 +132,6 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
   return desc;
 }
 
-/* eslint-disable global-require */
-
-/**
- *  @function
- *  @description Check if the current environement requires the Intl polyfill.
- *  @return {Promise}
- */
-function checkIntl() {
-  return new _promise2.default(function (resolve) {
-    if (!global.Intl) {
-      if (process.browser) {
-        require.ensure(['intl', 'intl/locale-data/jsonp/en', 'intl/locale-data/jsonp/de', 'intl/locale-data/jsonp/fr'], function (require) {
-          require('intl');
-          require('intl/locale-data/jsonp/en');
-          require('intl/locale-data/jsonp/de');
-          require('intl/locale-data/jsonp/fr');
-
-          resolve();
-        }, 'intl');
-      } else {
-        require('intl');
-        resolve();
-      }
-    } else {
-      resolve();
-    }
-  });
-}
-
 /**
  * @class
  * @description Locale managing module
@@ -160,15 +151,21 @@ var Locale = (_dec = (0, _di.Module)({
 
     var _ref$defaultLocale = _ref.defaultLocale,
         defaultLocale = _ref$defaultLocale === undefined ? _I18n.DEFAULT_LOCALE : _ref$defaultLocale,
-        options = (0, _objectWithoutProperties3.default)(_ref, ['defaultLocale']);
+        _ref$detectBrowser = _ref.detectBrowser,
+        detectBrowser = _ref$detectBrowser === undefined ? true : _ref$detectBrowser,
+        _ref$polling = _ref.polling,
+        polling = _ref$polling === undefined ? false : _ref$polling,
+        _ref$pollingInterval = _ref.pollingInterval,
+        pollingInterval = _ref$pollingInterval === undefined ? 2000 : _ref$pollingInterval,
+        options = (0, _objectWithoutProperties3.default)(_ref, ['defaultLocale', 'detectBrowser', 'polling', 'pollingInterval']);
     (0, _classCallCheck3.default)(this, Locale);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Locale.__proto__ || (0, _getPrototypeOf2.default)(Locale)).call(this, (0, _extends3.default)({}, options, {
-      actionTypes: _actionTypes2.default
-    })));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (Locale.__proto__ || (0, _getPrototypeOf2.default)(Locale)).call(this, (0, _extends3.default)({}, options)));
 
-    _this._reducer = (0, _getLocaleReducer2.default)({ defaultLocale: defaultLocale, types: _this.actionTypes });
-    _this._proxyReducer = (0, _getProxyReducer2.default)({ defaultLocale: defaultLocale, types: _this.actionTypes });
+    _this._defaultLocale = defaultLocale;
+    _this._detectBrowser = detectBrowser;
+    _this._polling = polling;
+    _this._pollingInterval = pollingInterval;
     return _this;
   }
 
@@ -181,18 +178,17 @@ var Locale = (_dec = (0, _di.Module)({
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return checkIntl();
+                return this.setLocale(this._detectBrowser ? this.browserLocale : this._defaultLocale);
 
               case 2:
-                _context.next = 4;
-                return this.setLocale(this.currentLocale);
-
-              case 4:
                 this.store.dispatch({
                   type: this.actionTypes.initSuccess
                 });
+                if (this._polling) {
+                  this._syncBrowserLocale();
+                }
 
-              case 5:
+              case 4:
               case 'end':
                 return _context.stop();
             }
@@ -207,70 +203,99 @@ var Locale = (_dec = (0, _di.Module)({
       return initialize;
     }()
   }, {
-    key: 'initializeProxy',
+    key: '_syncBrowserLocale',
     value: function () {
-      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+      var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
         var _this2 = this;
 
-        return _regenerator2.default.wrap(function _callee3$(_context3) {
+        return _regenerator2.default.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!(this.browserLocale !== this.currentLocale)) {
+                  _context2.next = 3;
+                  break;
+                }
+
+                _context2.next = 3;
+                return this.setLocale(this.browserLocale);
+
+              case 3:
+                setTimeout(function () {
+                  return _this2._syncBrowserLocale();
+                }, this._pollingInterval);
+
+              case 4:
+              case 'end':
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function _syncBrowserLocale() {
+        return _ref3.apply(this, arguments);
+      }
+
+      return _syncBrowserLocale;
+    }()
+  }, {
+    key: 'initializeProxy',
+    value: function () {
+      var _ref4 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4() {
+        var _this3 = this;
+
+        return _regenerator2.default.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.proxyInit
                 });
-                _context3.next = 3;
-                return checkIntl();
-
-              case 3:
-                _context3.next = 5;
+                _context4.next = 3;
                 return this._setLocale(this.currentLocale);
 
-              case 5:
-                _context3.next = 7;
-                return this.setLocale(this.currentLocale);
-
-              case 7:
+              case 3:
                 this.store.dispatch({
                   type: this.actionTypes.proxyInitSuccess
                 });
-                this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2() {
-                  return _regenerator2.default.wrap(function _callee2$(_context2) {
+                this.store.subscribe((0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
+                  return _regenerator2.default.wrap(function _callee3$(_context3) {
                     while (1) {
-                      switch (_context2.prev = _context2.next) {
+                      switch (_context3.prev = _context3.next) {
                         case 0:
-                          if (!(_this2.state.currentLocale !== _this2.currentLocale)) {
-                            _context2.next = 4;
+                          if (!(_this3.state.currentLocale !== _this3.proxyState.proxyLocale)) {
+                            _context3.next = 4;
                             break;
                           }
 
-                          _context2.next = 3;
-                          return _this2._setLocale(_this2.state.currentLocale);
+                          _context3.next = 3;
+                          return _this3._setLocale(_this3.state.currentLocale);
 
                         case 3:
-                          _this2.store.dispatch({
-                            type: _this2.actionTypes.syncProxyLocale,
-                            locale: _this2.state.currentLocale
+                          _this3.store.dispatch({
+                            type: _this3.actionTypes.syncProxyLocale,
+                            locale: _this3.state.currentLocale
                           });
 
                         case 4:
                         case 'end':
-                          return _context2.stop();
+                          return _context3.stop();
                       }
                     }
-                  }, _callee2, _this2);
+                  }, _callee3, _this3);
                 })));
 
-              case 9:
+              case 5:
               case 'end':
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
       function initializeProxy() {
-        return _ref3.apply(this, arguments);
+        return _ref4.apply(this, arguments);
       }
 
       return initializeProxy;
@@ -283,12 +308,12 @@ var Locale = (_dec = (0, _di.Module)({
   }, {
     key: '_setLocale',
     value: function () {
-      var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee4(locale) {
-        return _regenerator2.default.wrap(function _callee4$(_context4) {
+      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(locale) {
+        return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _context4.next = 2;
+                _context5.next = 2;
                 return _I18n2.default.setLocale(locale);
 
               case 2:
@@ -298,14 +323,14 @@ var Locale = (_dec = (0, _di.Module)({
 
               case 3:
               case 'end':
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
       function _setLocale(_x2) {
-        return _ref5.apply(this, arguments);
+        return _ref6.apply(this, arguments);
       }
 
       return _setLocale;
@@ -323,35 +348,80 @@ var Locale = (_dec = (0, _di.Module)({
   }, {
     key: 'setLocale',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(locale) {
-        return _regenerator2.default.wrap(function _callee5$(_context5) {
+      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(locale) {
+        return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                this._setLocale(locale);
                 this.store.dispatch({
                   type: this.actionTypes.setLocale,
                   locale: locale
                 });
+                _context6.prev = 1;
+                _context6.next = 4;
+                return this._setLocale(locale);
 
-              case 2:
+              case 4:
+                this.store.dispatch({
+                  type: this.actionTypes.setLocaleSuccess,
+                  locale: locale
+                });
+                _context6.next = 10;
+                break;
+
+              case 7:
+                _context6.prev = 7;
+                _context6.t0 = _context6['catch'](1);
+
+                this.store.dispatch({
+                  type: this.actionTypes.setLocaleError,
+                  error: _context6.t0
+                });
+
+              case 10:
               case 'end':
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this, [[1, 7]]);
       }));
 
       function setLocale(_x3) {
-        return _ref6.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       }
 
       return setLocale;
     }()
   }, {
+    key: '_actionTypes',
+    get: function get() {
+      return new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), (0, _toConsumableArray3.default)((0, _keys2.default)(_proxyActionTypes2.default)), ['setLocale', 'setLocaleSuccess', 'setLocaleError', 'syncProxyLocale']), 'locale');
+    }
+  }, {
+    key: 'reducer',
+    get: function get() {
+      return (0, _redux.combineReducers)({
+        status: (0, _getModuleStatusReducer2.default)(this.actionTypes),
+        currentLocale: (0, _reducers.getCurrentLocaleReducer)(this.actionTypes)
+      });
+    }
+  }, {
+    key: 'proxyReducer',
+    get: function get() {
+      return (0, _redux.combineReducers)({
+        status: (0, _getProxyStatusReducer2.default)(this.actionTypes),
+        proxyLocale: (0, _reducers.getProxyLocaleReducer)(this.actionTypes)
+      });
+    }
+  }, {
     key: 'currentLocale',
     get: function get() {
-      return this.proxyState && this.proxyState.currentLocale || this.state.currentLocale;
+      return this.proxyState && this.proxyState.proxyLocale || this.state.currentLocale || this._defaultLocale;
+    }
+  }, {
+    key: 'browserLocale',
+    get: function get() {
+      return (0, _detectBrowserLocale2.default)(this._defaultLocale);
     }
   }, {
     key: 'status',
