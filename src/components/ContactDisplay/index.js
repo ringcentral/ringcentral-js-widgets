@@ -109,14 +109,14 @@ export default function ContactDisplay({
     });
     const display = groupNames.join(', ');
     contentEl = (
-      <div title={display}>
+      <div title={display} className={styles.currentName}>
         {display}
       </div>
     );
   } else if (groupNumbers) {
     const display = groupNumbers.join(', ');
     contentEl = (
-      <div title={display}>
+      <div title={display} className={styles.currentName}>
         {display}
       </div>
     );
@@ -131,7 +131,7 @@ export default function ContactDisplay({
     const title = (enableContactFallback && fallBackName) ||
       phoneNumber || '';
     contentEl = (
-      <div title={title}>
+      <div title={title} className={styles.currentName}>
         {display}
       </div>
     );
@@ -145,7 +145,7 @@ export default function ContactDisplay({
       currentLocale
     });
     contentEl = (
-      <div title={title}>
+      <div title={title} className={styles.currentName}>
         {display}
       </div>
     );
