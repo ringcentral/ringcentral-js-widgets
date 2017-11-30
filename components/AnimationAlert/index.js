@@ -56,6 +56,10 @@ var _propTypes = require('prop-types');
 
 var _propTypes2 = _interopRequireDefault(_propTypes);
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
 require('animate.css/animate.min.css');
 
 var _sleep = require('ringcentral-integration/lib/sleep');
@@ -78,15 +82,14 @@ var EXIT_ANIMATION = 'fadeOutUp';
 
 function AnimationMessage(_ref) {
   var animation = _ref.animation,
-      _ref$duration = _ref.duration,
-      duration = _ref$duration === undefined ? ANIMATION_DURATION : _ref$duration,
+      duration = _ref.duration,
       props = (0, _objectWithoutProperties3.default)(_ref, ['animation', 'duration']);
 
   var second = duration / 1000;
   return _react2.default.createElement(
     'div',
     {
-      className: animation + ' animated',
+      className: (0, _classnames2.default)([animation, 'animated']),
       style: {
         animationDuration: second + 's'
       } },
@@ -98,6 +101,10 @@ AnimationMessage.propTypes = (0, _extends3.default)({}, _Message2.default.propTy
   animation: _propTypes2.default.string,
   duration: _propTypes2.default.number
 });
+AnimationMessage.defaultProps = {
+  animation: undefined,
+  duration: ANIMATION_DURATION
+};
 
 var AnimationAlert = function (_Component) {
   (0, _inherits3.default)(AnimationAlert, _Component);
@@ -114,18 +121,28 @@ var AnimationAlert = function (_Component) {
   }
 
   (0, _createClass3.default)(AnimationAlert, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.mounted = true;
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.mounted = false;
+    }
+  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       var _this2 = this;
 
       (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
-        var _props, _props$duration, duration, _props$entranceAnimat, entranceAnimation, _props$exitAnimation, exitAnimation, currentMessagesIDs, nextMessagesIDs, addedMessagesIDs, removedMessagesIDs, allMessagesIDs, allMessages, messages, stateWithAnimation, isCurrentEmpty;
+        var _props, duration, entranceAnimation, exitAnimation, currentMessagesIDs, nextMessagesIDs, addedMessagesIDs, removedMessagesIDs, allMessagesIDs, allMessages, messages, stateWithAnimation, isCurrentEmpty;
 
         return _regenerator2.default.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _props = _this2.props, _props$duration = _props.duration, duration = _props$duration === undefined ? ANIMATION_DURATION : _props$duration, _props$entranceAnimat = _props.entranceAnimation, entranceAnimation = _props$entranceAnimat === undefined ? ENTRANCE_ANIMATION : _props$entranceAnimat, _props$exitAnimation = _props.exitAnimation, exitAnimation = _props$exitAnimation === undefined ? EXIT_ANIMATION : _props$exitAnimation;
+                _props = _this2.props, duration = _props.duration, entranceAnimation = _props.entranceAnimation, exitAnimation = _props.exitAnimation;
                 currentMessagesIDs = _this2.props.messages.map(function (message) {
                   return message.id;
                 });
@@ -168,13 +185,21 @@ var AnimationAlert = function (_Component) {
                 return (0, _sleep2.default)(duration);
 
               case 13:
+                if (_this2.mounted) {
+                  _context.next = 15;
+                  break;
+                }
+
+                return _context.abrupt('return');
+
+              case 15:
                 isCurrentEmpty = currentMessagesIDs.length === 0;
 
                 _this2.setState({
                   messages: isCurrentEmpty ? messages : nextProps.messages
                 });
 
-              case 15:
+              case 17:
               case 'end':
                 return _context.stop();
             }
@@ -197,7 +222,11 @@ AnimationAlert.propTypes = (0, _extends3.default)({}, _AlertDisplay2.default.pro
   duration: _propTypes2.default.number
 });
 
-AnimationAlert.defaultProps = (0, _extends3.default)({}, _AlertDisplay2.default.defaultProps);
+AnimationAlert.defaultProps = (0, _extends3.default)({}, _AlertDisplay2.default.defaultProps, {
+  entranceAnimation: ENTRANCE_ANIMATION,
+  exitAnimation: EXIT_ANIMATION,
+  duration: ANIMATION_DURATION
+});
 
 exports.default = AnimationAlert;
 //# sourceMappingURL=index.js.map

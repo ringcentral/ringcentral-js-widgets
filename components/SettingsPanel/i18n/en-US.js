@@ -16,6 +16,7 @@ exports.default = {
   autoLogSMS: 'Auto log SMS',
   clickToSMS: 'Click to SMS',
   clickToDialSMS: 'Click to Dial/SMS',
-  audio: 'Audio'
+  audio: 'Audio',
+  language: 'Language'
 };
 //# sourceMappingURL=en-US.js.map

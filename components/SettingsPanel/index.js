@@ -61,6 +61,14 @@ var _Switch = require('../Switch');
 
 var _Switch2 = _interopRequireDefault(_Switch);
 
+var _InputLine = require('../InputLine');
+
+var _InputLine2 = _interopRequireDefault(_InputLine);
+
+var _LocalePicker = require('../LocalePicker');
+
+var _LocalePicker2 = _interopRequireDefault(_LocalePicker);
+
 var _i18n = require('./i18n');
 
 var _i18n2 = _interopRequireDefault(_i18n);
@@ -102,11 +110,27 @@ function SettingsPanel(_ref) {
       toggleAcceptCallQueueCalls = _ref.toggleAcceptCallQueueCalls,
       isCallQueueMember = _ref.isCallQueueMember,
       showPresenceSettings = _ref.showPresenceSettings,
-      additional = _ref.additional;
+      additional = _ref.additional,
+      supportedLocales = _ref.supportedLocales,
+      savedLocale = _ref.savedLocale,
+      saveLocale = _ref.saveLocale;
 
   if (showSpinner) {
     return _react2.default.createElement(_SpinnerOverlay2.default, null);
   }
+
+  var locale = supportedLocales && supportedLocales.length > 1 && _react2.default.createElement(
+    _InputLine2.default,
+    {
+      label: _i18n2.default.getString('language', currentLocale)
+    },
+    _react2.default.createElement(_LocalePicker2.default, {
+      value: savedLocale,
+      onChange: saveLocale,
+      options: supportedLocales
+    })
+  );
+
   var region = showRegion ? _react2.default.createElement(
     _LinkLine2.default,
     {
@@ -178,6 +202,7 @@ function SettingsPanel(_ref) {
       _Panel2.default,
       {
         className: (0, _classnames2.default)(_styles2.default.content, showHeader && _styles2.default.contentWithHeader) },
+      locale,
       _react2.default.createElement(
         _LinkLine2.default,
         {
@@ -271,7 +296,10 @@ SettingsPanel.propTypes = {
   setInvisible: _propTypes2.default.func,
   toggleAcceptCallQueueCalls: _propTypes2.default.func,
   showPresenceSettings: _propTypes2.default.bool,
-  additional: _propTypes2.default.node
+  additional: _propTypes2.default.node,
+  supportedLocales: _propTypes2.default.arrayOf(_propTypes2.default.string),
+  savedLocale: _propTypes2.default.string,
+  saveLocale: _propTypes2.default.func
 };
 SettingsPanel.defaultProps = {
   className: null,
@@ -309,6 +337,9 @@ SettingsPanel.defaultProps = {
     return null;
   },
   showPresenceSettings: false,
-  additional: null
+  additional: null,
+  supportedLocales: undefined,
+  savedLocale: undefined,
+  saveLocale: undefined
 };
 //# sourceMappingURL=index.js.map

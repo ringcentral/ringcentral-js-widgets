@@ -58,10 +58,6 @@ var DropdownSelect = function (_Component) {
 
     var _this = (0, _possibleConstructorReturn3.default)(this, (DropdownSelect.__proto__ || (0, _getPrototypeOf2.default)(DropdownSelect)).call(this, props));
 
-    _this.state = {
-      open: false
-    };
-    _this.mounted = true;
     _this.toggleShowDropdown = function (e) {
       if (!_this.state.open) {
         window.addEventListener('click', _this._handleDocumentClick, false);
@@ -104,6 +100,10 @@ var DropdownSelect = function (_Component) {
       _this.setState({
         open: false
       });
+    };
+
+    _this.state = {
+      open: false
     };
     return _this;
   }

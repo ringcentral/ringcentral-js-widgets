@@ -40,6 +40,7 @@ function mapToProps(_, _ref) {
       brand = _ref$phone.brand,
       extensionInfo = _ref$phone.extensionInfo,
       locale = _ref$phone.locale,
+      localeSettings = _ref$phone.localeSettings,
       regionSettings = _ref$phone.regionSettings,
       callingSettings = _ref$phone.callingSettings,
       version = _ref$phone.version,
@@ -60,7 +61,7 @@ function mapToProps(_, _ref) {
     });
   }
   return {
-    showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && callingSettings.ready && rolesAndPermissions.ready && (!detailedPresence || detailedPresence.ready)),
+    showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && callingSettings.ready && rolesAndPermissions.ready && (!detailedPresence || detailedPresence.ready) && (!localeSettings || localeSettings.ready)),
     showRegion: loggedIn && brand.id === '1210' && (regionSettings.availableCountries.length > 1 || !!regionSettings.availableCountries.find(function (c) {
       return c.isoCode === 'US';
     }) || !!regionSettings.availableCountries.find(function (c) {
@@ -75,7 +76,9 @@ function mapToProps(_, _ref) {
     isCallQueueMember: extensionInfo.isCallQueueMember,
     dndStatus: detailedPresence && detailedPresence.dndStatus,
     userStatus: detailedPresence && detailedPresence.userStatus,
-    showPresenceSettings: !!(detailedPresence && params && params.showPresenceSettings)
+    showPresenceSettings: !!(detailedPresence && params && params.showPresenceSettings),
+    supportedLocales: localeSettings && localeSettings.supportedLocales,
+    savedLocale: localeSettings && localeSettings.savedLocale
   };
 }
 
@@ -86,6 +89,7 @@ function mapToFunctions(_, _ref2) {
       auth = _ref2$phone.auth,
       detailedPresence = _ref2$phone.detailedPresence,
       routerInteraction = _ref2$phone.routerInteraction,
+      localeSettings = _ref2$phone.localeSettings,
       _ref2$regionSettingsU = _ref2.regionSettingsUrl,
       regionSettingsUrl = _ref2$regionSettingsU === undefined ? '/settings/region' : _ref2$regionSettingsU,
       _ref2$callingSettings = _ref2.callingSettingsUrl,
@@ -138,6 +142,9 @@ function mapToFunctions(_, _ref2) {
     },
     toggleAcceptCallQueueCalls: function toggleAcceptCallQueueCalls() {
       return detailedPresence && detailedPresence.toggleAcceptCallQueueCalls.apply(detailedPresence, arguments);
+    },
+    saveLocale: localeSettings && function (locale) {
+      return localeSettings.saveLocale(locale);
     }
   };
 }
