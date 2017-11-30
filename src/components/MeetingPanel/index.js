@@ -88,49 +88,30 @@ const When = (
     minTime
   }
 ) => {
-  const changeMinutes = (target, state, callback = () => {}) => {
-    const minutes = parseInt(target.value, 10);
-    const time = new Date(state || meeting.schedule.startTime);
-    time.setMinutes(minutes);
-    const startTime = time.getTime();
-    console.log(startTime, minutes);
-    if (startTime >= (new Date()).getTime() && minutes < 60 && minutes >= 0) {
-      setTimeout(() => {
-        target.value = Moment(startTime).format('mm');
-      });
-      callback(startTime);
-      update({
-        ...meeting,
-        schedule: {
-          ...meeting.schedule,
-          startTime,
-        }
-      });
-    } else {
-      callback(state || meeting.schedule.startTime);
-      target.value = Moment(state || meeting.schedule.startTime).format('mm');
-    }
-  };
-  const changeHours = (target, state, callback = () => {}) => {
-    const hours = parseInt(target.value, 10);
-    const time = new Date(state || meeting.schedule.startTime);
-    time.setHours(hours);
-    const startTime = time.getTime();
-    if (startTime >= (new Date()).getTime() && hours < 24 && hours >= 0) {
-      setTimeout(() => {
-        target.value = Moment(startTime).format('HH');
-      });
-      callback(startTime);
-      update({
-        ...meeting,
-        schedule: {
-          ...meeting.schedule,
-          startTime,
-        }
-      });
-    } else {
-      callback(state || meeting.schedule.startTime);
-      target.value = Moment(state || meeting.schedule.startTime).format('HH');
+  const changeTime = () => {
+    const allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
+    if (!allInputBlur) {
+      const startTime = new Date(meeting.schedule.startTime);
+      const hours = parseInt(that.hours.value, 10);
+      const minutes = parseInt(that.minutes.value, 10);
+      startTime.setHours(hours);
+      startTime.setMinutes(minutes);
+      let time = startTime;
+      if (startTime.getTime() > new Date().getTime()) {
+        update({
+          ...meeting,
+          schedule: {
+            ...meeting.schedule,
+            startTime: startTime.getTime(),
+          }
+        });
+      } else {
+        time = new Date(meeting.schedule.startTime);
+      }
+      const Minutes = time.getMinutes();
+      const Hours = time.getHours();
+      that.minutes.value = `0${Minutes}0`.slice(-3, -1);
+      that.hours.value = `0${Hours}0`.slice(-3, -1);
     }
   };
   const accumulator = (event, max) => {
@@ -166,14 +147,27 @@ const When = (
                 culture={currentLocale}
                 time={false}
                 value={new Date(meeting.schedule.startTime)}
-                onChange={(startTime) => {
+                onChange={(currentStartTime) => {
                   preventReplay(false);
-                  if (startTime) {
+                  if (currentStartTime) {
+                    const date = new Date(meeting.schedule.startTime);
+                    date.setFullYear(currentStartTime.getFullYear());
+                    date.setMonth(currentStartTime.getMonth());
+                    date.setDate(currentStartTime.getDate());
+                    let startTime = date.getTime();
+                    const now = (new Date()).getTime();
+                    if (startTime < now) {
+                      startTime = now;
+                      const Minutes = new Date().getMinutes();
+                      const Hours = new Date().getHours();
+                      that.minutes.value = `0${Minutes}0`.slice(-3, -1);
+                      that.hours.value = `0${Hours}0`.slice(-3, -1);
+                    }
                     update({
                       ...meeting,
                       schedule: {
                         ...meeting.schedule,
-                        startTime: startTime.getTime(),
+                        startTime,
                       }
                     });
                   }
@@ -242,16 +236,7 @@ const When = (
                       that.minutes.focus();
                     }
                   }}
-                  onBlur={({ target }) => {
-                    setTimeout(() => {
-                      const allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
-                      if (!allInputBlur) {
-                        changeMinutes(that.minutes, meeting.schedule.startTime, (changedTime) => {
-                          changeHours(target, changedTime);
-                        });
-                      }
-                    }, 100);
-                  }}
+                  onBlur={changeTime}
                   maxLength={2}
                   type="text" />
                 <div className={styles.colon}>{':'}</div>
@@ -270,16 +255,7 @@ const When = (
                     }
                     accumulator(event, 60);
                   }}
-                  onBlur={({ target }) => {
-                    setTimeout(() => {
-                      const allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
-                      if (!allInputBlur) {
-                        changeHours(that.hours, meeting.schedule.startTime, (changedTime) => {
-                          changeMinutes(target, changedTime);
-                        });
-                      }
-                    }, 100);
-                  }}
+                  onBlur={changeTime}
                   maxLength={2}
                   type="text" />
               </div>
