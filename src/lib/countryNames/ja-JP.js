@@ -66,6 +66,7 @@ export default {
   PR: 'プエルトリコ',
 };
 
+// @key: @#@"419"@#@ @source: @#@"Latin America"@#@
 // @key: @#@"AR"@#@ @source: @#@"Argentina"@#@
 // @key: @#@"AT"@#@ @source: @#@"Austria"@#@
 // @key: @#@"BH"@#@ @source: @#@"Bahrain"@#@

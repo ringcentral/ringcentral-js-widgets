@@ -18,6 +18,7 @@
     "**/.DS_Store": true,
     "build/**": true,
     "release/**": true,
-    "coverage/**": true
+    "coverage/**": true,
+    "docs/**": true
   }
 }
