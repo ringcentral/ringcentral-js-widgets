@@ -94,6 +94,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var MINUTE_SCALE = 4;
 var HOUR_SCALE = 13;
+var MAX_TOPIC_LENGTH = 128;
 
 function getMinutesList(MINUTE_SCALE) {
   return new Array(MINUTE_SCALE).fill(0).map(function (_, key) {
@@ -125,7 +126,8 @@ var hoursList = getHoursList(HOUR_SCALE);
 var Topic = function Topic(_ref) {
   var update = _ref.update,
       currentLocale = _ref.currentLocale,
-      meeting = _ref.meeting;
+      meeting = _ref.meeting,
+      that = _ref.that;
   return _react2.default.createElement(
     _MeetingSection2.default,
     { hideTopBorderLine: true },
@@ -138,6 +140,25 @@ var Topic = function Topic(_ref) {
         _i18n2.default.getString('topic', currentLocale)
       ),
       _react2.default.createElement('input', {
+        ref: function ref(_ref3) {
+          that.topic = _ref3;
+        },
+        onPaste: function onPaste(event) {
+          var topic = event.target.value;
+          event.preventDefault();
+          event.clipboardData.items[0].getAsString(function (data) {
+            if (topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH) {
+              var insertLength = MAX_TOPIC_LENGTH - data.length;
+              var insertText = data.slice(0, insertLength);
+              var position = that.topic.selectionEnd;
+              var value = topic.split('');
+              value.splice(position, 0, insertText);
+              that.topic.value = value.join('');
+              var newPosition = position + insertLength;
+              that.topic.setSelectionRange(newPosition, newPosition);
+            }
+          });
+        },
         type: 'text',
         className: _styles2.default.input,
         defaultValue: meeting.topic || '',
@@ -145,7 +166,7 @@ var Topic = function Topic(_ref) {
           var target = _ref2.target;
 
           var topic = target.value;
-          if (topic.length >= 0 && topic.length < 128) {
+          if (topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH) {
             update((0, _extends3.default)({}, meeting, {
               topic: topic
             }));
@@ -163,14 +184,14 @@ Topic.propTypes = {
   meeting: _propTypes2.default.object.isRequired
 };
 
-var When = function When(_ref3) {
-  var isRecurring = _ref3.isRecurring,
-      currentLocale = _ref3.currentLocale,
-      meeting = _ref3.meeting,
-      update = _ref3.update,
-      that = _ref3.that,
-      onToggle = _ref3.onToggle,
-      minTime = _ref3.minTime;
+var When = function When(_ref4) {
+  var isRecurring = _ref4.isRecurring,
+      currentLocale = _ref4.currentLocale,
+      meeting = _ref4.meeting,
+      update = _ref4.update,
+      that = _ref4.that,
+      onToggle = _ref4.onToggle,
+      minTime = _ref4.minTime;
 
   var changeTime = function changeTime() {
     setTimeout(function () {
@@ -266,8 +287,8 @@ var When = function When(_ref3) {
               preventReplay(false);
             },
             onToggle: preventReplay,
-            ref: function ref(_ref4) {
-              that.date = _ref4;
+            ref: function ref(_ref5) {
+              that.date = _ref5;
             },
             format: 'MM/DD/YY',
             min: new Date()
@@ -285,8 +306,8 @@ var When = function When(_ref3) {
         _react2.default.createElement(
           'div',
           {
-            ref: function ref(_ref5) {
-              that.dateIcon = _ref5;
+            ref: function ref(_ref6) {
+              that.dateIcon = _ref6;
             },
             className: _styles2.default.dateIcon },
           _react2.default.createElement(_Date2.default, {
@@ -305,8 +326,8 @@ var When = function When(_ref3) {
           _react2.default.createElement(_DateTimePicker2.default, (0, _extends3.default)({
             culture: 'en',
             date: false,
-            ref: function ref(_ref6) {
-              that.time = _ref6;
+            ref: function ref(_ref7) {
+              that.time = _ref7;
             },
             value: new Date(meeting.schedule.startTime),
             onChange: function onChange(startTime) {
@@ -325,13 +346,13 @@ var When = function When(_ref3) {
             { className: _styles2.default.timeText },
             _react2.default.createElement('input', {
               flag: 'timeInput',
-              ref: function ref(_ref8) {
-                that.hours = _ref8;
+              ref: function ref(_ref9) {
+                that.hours = _ref9;
               },
               className: _styles2.default.timeInput,
               defaultValue: (0, _moment2.default)(meeting.schedule.startTime).format('HH'),
-              onChange: function onChange(_ref7) {
-                var target = _ref7.target;
+              onChange: function onChange(_ref8) {
+                var target = _ref8.target;
 
                 var isSelectionEnd = target.selectionEnd === 2;
                 if (isSelectionEnd) {
@@ -357,8 +378,8 @@ var When = function When(_ref3) {
             ),
             _react2.default.createElement('input', {
               flag: 'timeInput',
-              ref: function ref(_ref9) {
-                that.minutes = _ref9;
+              ref: function ref(_ref10) {
+                that.minutes = _ref10;
               },
               className: _styles2.default.timeInput,
               defaultValue: (0, _moment2.default)(meeting.schedule.startTime).format('mm'),
@@ -398,11 +419,11 @@ When.propTypes = {
   minTime: _propTypes2.default.object.isRequired
 };
 
-var Duration = function Duration(_ref10) {
-  var isRecurring = _ref10.isRecurring,
-      currentLocale = _ref10.currentLocale,
-      meeting = _ref10.meeting,
-      update = _ref10.update;
+var Duration = function Duration(_ref11) {
+  var isRecurring = _ref11.isRecurring,
+      currentLocale = _ref11.currentLocale,
+      meeting = _ref11.meeting,
+      update = _ref11.update;
   return !isRecurring ? _react2.default.createElement(
     _MeetingSection2.default,
     { title: _i18n2.default.getString('duration', currentLocale) },
@@ -420,8 +441,8 @@ var Duration = function Duration(_ref10) {
             valueField: 'value',
             textField: 'text',
             value: parseInt(meeting.schedule.durationInMinutes / 60, 10),
-            onChange: function onChange(_ref11) {
-              var value = _ref11.value;
+            onChange: function onChange(_ref12) {
+              var value = _ref12.value;
 
               var restMinutes = meeting.schedule.durationInMinutes % 60;
               var isMax = value === hoursList.slice(-1)[0].value;
@@ -446,8 +467,8 @@ var Duration = function Duration(_ref10) {
             valueField: 'value',
             textField: 'text',
             value: meeting.schedule.durationInMinutes % 60 || 0,
-            onChange: function onChange(_ref12) {
-              var value = _ref12.value;
+            onChange: function onChange(_ref13) {
+              var value = _ref13.value;
 
               var restHours = parseInt(meeting.schedule.durationInMinutes / 60, 10);
               var isMax = restHours === hoursList.slice(-1)[0].value;
@@ -472,11 +493,11 @@ Duration.propTypes = {
   isRecurring: _propTypes2.default.bool.isRequired
 };
 
-var RecurringMeeting = function RecurringMeeting(_ref13) {
-  var isRecurring = _ref13.isRecurring,
-      currentLocale = _ref13.currentLocale,
-      update = _ref13.update,
-      meeting = _ref13.meeting;
+var RecurringMeeting = function RecurringMeeting(_ref14) {
+  var isRecurring = _ref14.isRecurring,
+      currentLocale = _ref14.currentLocale,
+      update = _ref14.update,
+      meeting = _ref14.meeting;
   return _react2.default.createElement(
     _MeetingSection2.default,
     { className: _styles2.default.section },
@@ -516,10 +537,10 @@ RecurringMeeting.propTypes = {
   isRecurring: _propTypes2.default.bool.isRequired
 };
 
-var Video = function Video(_ref14) {
-  var currentLocale = _ref14.currentLocale,
-      meeting = _ref14.meeting,
-      update = _ref14.update;
+var Video = function Video(_ref15) {
+  var currentLocale = _ref15.currentLocale,
+      meeting = _ref15.meeting,
+      update = _ref15.update;
   return _react2.default.createElement(
     _MeetingSection2.default,
     { title: _i18n2.default.getString('video', currentLocale), withSwitch: true },
@@ -573,17 +594,17 @@ Video.propTypes = {
   meeting: _propTypes2.default.object.isRequired
 };
 
-var AudioOptions = function AudioOptions(_ref15) {
-  var currentLocale = _ref15.currentLocale,
-      update = _ref15.update,
-      meeting = _ref15.meeting,
-      data = _ref15.data;
+var AudioOptions = function AudioOptions(_ref16) {
+  var currentLocale = _ref16.currentLocale,
+      update = _ref16.update,
+      meeting = _ref16.meeting,
+      data = _ref16.data;
   return _react2.default.createElement(
     _MeetingSection2.default,
     { title: _i18n2.default.getString('audioOptions', currentLocale), withSwitch: true },
     _react2.default.createElement(_CheckBox2.default, {
-      onSelect: function onSelect(_ref16) {
-        var key = _ref16.key;
+      onSelect: function onSelect(_ref17) {
+        var key = _ref17.key;
 
         var audioOptions = key.split('_');
         update((0, _extends3.default)({}, meeting, {
@@ -604,11 +625,11 @@ AudioOptions.propTypes = {
   data: _propTypes2.default.array.isRequired
 };
 
-var MeetingOptions = function MeetingOptions(_ref17) {
-  var currentLocale = _ref17.currentLocale,
-      meeting = _ref17.meeting,
-      update = _ref17.update,
-      that = _ref17.that;
+var MeetingOptions = function MeetingOptions(_ref18) {
+  var currentLocale = _ref18.currentLocale,
+      meeting = _ref18.meeting,
+      update = _ref18.update,
+      that = _ref18.that;
   return _react2.default.createElement(
     _MeetingSection2.default,
     {
@@ -652,12 +673,12 @@ var MeetingOptions = function MeetingOptions(_ref17) {
         _react2.default.createElement('input', {
           type: 'text',
           className: _styles2.default.password,
-          ref: function ref(_ref19) {
-            that.password = _ref19;
+          ref: function ref(_ref20) {
+            that.password = _ref20;
           },
           value: meeting.password || '',
-          onChange: function onChange(_ref18) {
-            var target = _ref18.target;
+          onChange: function onChange(_ref19) {
+            var target = _ref19.target;
 
             if (/^[A-Za-z0-9]{0,10}$/.test(target.value)) {
               update((0, _extends3.default)({}, meeting, {
@@ -697,7 +718,7 @@ var MeetingPanel = function (_Component) {
   (0, _inherits3.default)(MeetingPanel, _Component);
 
   function MeetingPanel() {
-    var _ref20;
+    var _ref21;
 
     (0, _classCallCheck3.default)(this, MeetingPanel);
 
@@ -705,7 +726,7 @@ var MeetingPanel = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (_ref20 = MeetingPanel.__proto__ || (0, _getPrototypeOf2.default)(MeetingPanel)).call.apply(_ref20, [this].concat(args)));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (_ref21 = MeetingPanel.__proto__ || (0, _getPrototypeOf2.default)(MeetingPanel)).call.apply(_ref21, [this].concat(args)));
 
     _this.props.init();
     _this.state = {};
@@ -765,6 +786,7 @@ var MeetingPanel = function (_Component) {
           'div',
           { className: _styles2.default.scroll },
           _react2.default.createElement(Topic, {
+            that: this,
             meeting: meeting,
             update: update,
             currentLocale: currentLocale }),
