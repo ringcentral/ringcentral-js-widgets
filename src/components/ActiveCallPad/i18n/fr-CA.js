@@ -1,15 +1,15 @@
 export default {
-  unmute: 'Désactiver le mode discrétion',
-  mute: 'Activer le mode discrétion',
+  unmute: 'Désactiver\nle mode discrétion',
+  mute: 'Activer\nle mode discrétion',
   keypad: 'Clavier',
-  hold: 'Mettre en attente',
+  hold: 'Mettre\nen attente',
   onHold: 'En attente',
-  park: 'Mise en garde',
+  park: 'Mise\nen garde',
   stopRecord: 'Arrêter',
   record: 'Enregistrer',
   add: 'Ajouter',
   transfer: 'Transfert',
-  flip: 'Renvoi instantané',
+  flip: 'Renvoi\ninstantané',
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
