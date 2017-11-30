@@ -12,5 +12,6 @@ export default {
   clickToSMS: 'Click to SMS',
   clickToDialSMS: 'Click to Dial/SMS',
   audio: 'Audio',
+  language: 'Language',
 };
 

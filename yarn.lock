@@ -4729,9 +4729,9 @@ loader-utils@~0.2.13, loader-utils@~0.2.2:
     json5 "^0.5.0"
     object-assign "^4.0.1"
 
-locale-loader@^1.4.4:
-  version "1.4.4"
-  resolved "https://registry.yarnpkg.com/locale-loader/-/locale-loader-1.4.4.tgz#dcf405359dd7b291fb9e1aceec85cd12acbfc5f4"
+locale-loader@^1.4.5:
+  version "1.4.5"
+  resolved "https://registry.yarnpkg.com/locale-loader/-/locale-loader-1.4.5.tgz#a3ae390fa14e24dbc36a1ce9b3f6501a192081fc"
   dependencies:
     babylon "^6.16.1"
     dedent "^0.7.0"
@@ -6822,7 +6822,7 @@ ringcentral-client@^1.0.0-rc1:
 
 "ringcentral-integration@https://github.com/ringcentral/ringcentral-js-integration-commons#latest":
   version "0.1.0"
-  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#fd4e8539f6656874107ddd1629d4ebcad70afc41"
+  resolved "https://github.com/ringcentral/ringcentral-js-integration-commons#6b2a6ee141dcad8b54aa097309a6c7a6a2b6703b"
   dependencies:
     file-loader "^0.11.2"
     json-mask "^0.3.8"

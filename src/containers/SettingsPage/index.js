@@ -12,6 +12,7 @@ function mapToProps(_, {
     brand,
     extensionInfo,
     locale,
+    localeSettings,
     regionSettings,
     callingSettings,
     version,
@@ -47,7 +48,8 @@ function mapToProps(_, {
       regionSettings.ready &&
       callingSettings.ready &&
       rolesAndPermissions.ready &&
-      (!detailedPresence || detailedPresence.ready)
+      (!detailedPresence || detailedPresence.ready) &&
+      (!localeSettings || localeSettings.ready)
     ),
     showRegion: loggedIn && brand.id === '1210' && (
       regionSettings.availableCountries.length > 1 ||
@@ -65,6 +67,8 @@ function mapToProps(_, {
     dndStatus: detailedPresence && detailedPresence.dndStatus,
     userStatus: detailedPresence && detailedPresence.userStatus,
     showPresenceSettings: !!(detailedPresence && params && params.showPresenceSettings),
+    supportedLocales: localeSettings && localeSettings.supportedLocales,
+    savedLocale: localeSettings && localeSettings.savedLocale,
   };
 }
 
@@ -73,6 +77,7 @@ function mapToFunctions(_, {
     auth,
     detailedPresence,
     routerInteraction,
+    localeSettings,
   },
   regionSettingsUrl = '/settings/region',
   callingSettingsUrl = '/settings/calling',
@@ -98,6 +103,7 @@ function mapToFunctions(_, {
     toggleAcceptCallQueueCalls: (...args) => (
       detailedPresence && detailedPresence.toggleAcceptCallQueueCalls(...args)
     ),
+    saveLocale: localeSettings && (locale => localeSettings.saveLocale(locale)),
   };
 }
 const SettingsPage = withPhone(connect(

@@ -4,9 +4,9 @@ import dndStatus from 'ringcentral-integration/modules/Presence/dndStatus';
 export default {
   [presenceStatus.available]: 'Available',
   [presenceStatus.offline]: 'Invisible',
-  [presenceStatus.bus + dndStatus.takeAllCalls]: 'Busy',
-  [presenceStatus.busy + dndStatus.doNotAcceptDepartmentCalls]: 'Busy',
-  [presenceStatus.busy + dndStatus.doNotAcceptAnyCalls]: 'Do not Disturb',
+  [presenceStatus.bus+dndStatus.takeAllCalls]: 'Busy',
+  [presenceStatus.busy+dndStatus.doNotAcceptDepartmentCalls]: 'Busy',
+  [presenceStatus.busy+dndStatus.doNotAcceptAnyCalls]: 'Do not Disturb',
 };
 
 // @key: @#@"[presenceStatus.available]"@#@ @source: @#@"Available"@#@

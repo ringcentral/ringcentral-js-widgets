@@ -58,6 +58,7 @@ import RecentMessages from 'ringcentral-integration/modules/RecentMessages';
 import RecentCalls from 'ringcentral-integration/modules/RecentCalls';
 import AudioSettings from 'ringcentral-integration/modules/AudioSettings';
 import Meeting from 'ringcentral-integration/modules/Meeting';
+import LocaleSettings from 'ringcentral-integration/modules/LocaleSettings';
 import RouterInteraction from '../src/modules/RouterInteraction';
 import OAuth from '../src/modules/ProxyFrameOAuth';
 
@@ -126,6 +127,13 @@ export default class Phone extends RcModule {
       getState: () => this.state.globalStorage,
     }));
     reducers.globalStorage = this.globalStorage.reducer;
+    // this.addModule('localeSettings', new LocaleSettings({
+    //   ...options,
+    //   globalStorage: this.globalStorage,
+    //   locale: this.locale,
+    //   getState: () => this.state.localeSettings,
+    // }));
+    // reducers.localeSettings = this.localeSettings.reducer;
     this.addModule('environment', new Environment({
       ...options,
       client: this.client,
