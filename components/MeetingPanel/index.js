@@ -172,40 +172,28 @@ var When = function When(_ref3) {
       onToggle = _ref3.onToggle,
       minTime = _ref3.minTime;
 
-  var changeMinutes = function changeMinutes(target) {
-    var minutes = parseInt(target.value, 10);
-    var time = new Date(meeting.schedule.startTime);
-    time.setMinutes(minutes);
-    var startTime = time.getTime();
-    if (startTime >= new Date().getTime() && minutes < 60 && minutes > 0) {
-      setTimeout(function () {
-        target.value = (0, _moment2.default)(startTime).format('mm');
-      });
-      update((0, _extends3.default)({}, meeting, {
-        schedule: (0, _extends3.default)({}, meeting.schedule, {
-          startTime: startTime
-        })
-      }));
-    } else {
-      target.value = (0, _moment2.default)(meeting.schedule.startTime).format('mm');
-    }
-  };
-  var changeHours = function changeHours(target) {
-    var hours = parseInt(target.value, 10);
-    var time = new Date(meeting.schedule.startTime);
-    time.setHours(hours);
-    var startTime = time.getTime();
-    if (startTime >= new Date().getTime() && hours < 24 && hours > 0) {
-      setTimeout(function () {
-        target.value = (0, _moment2.default)(startTime).format('HH');
-      });
-      update((0, _extends3.default)({}, meeting, {
-        schedule: (0, _extends3.default)({}, meeting.schedule, {
-          startTime: startTime
-        })
-      }));
-    } else {
-      target.value = (0, _moment2.default)(meeting.schedule.startTime).format('HH');
+  var changeTime = function changeTime() {
+    var allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
+    if (!allInputBlur) {
+      var startTime = new Date(meeting.schedule.startTime);
+      var hours = parseInt(that.hours.value, 10);
+      var minutes = parseInt(that.minutes.value, 10);
+      startTime.setHours(hours);
+      startTime.setMinutes(minutes);
+      var time = startTime;
+      if (startTime.getTime() > new Date().getTime()) {
+        update((0, _extends3.default)({}, meeting, {
+          schedule: (0, _extends3.default)({}, meeting.schedule, {
+            startTime: startTime.getTime()
+          })
+        }));
+      } else {
+        time = new Date(meeting.schedule.startTime);
+      }
+      var Minutes = time.getMinutes();
+      var Hours = time.getHours();
+      that.minutes.value = ('0' + Minutes + '0').slice(-3, -1);
+      that.hours.value = ('0' + Hours + '0').slice(-3, -1);
     }
   };
   var accumulator = function accumulator(event, max) {
@@ -249,12 +237,25 @@ var When = function When(_ref3) {
             culture: currentLocale,
             time: false,
             value: new Date(meeting.schedule.startTime),
-            onChange: function onChange(startTime) {
+            onChange: function onChange(currentStartTime) {
               preventReplay(false);
-              if (startTime) {
+              if (currentStartTime) {
+                var date = new Date(meeting.schedule.startTime);
+                date.setFullYear(currentStartTime.getFullYear());
+                date.setMonth(currentStartTime.getMonth());
+                date.setDate(currentStartTime.getDate());
+                var startTime = date.getTime();
+                var now = new Date().getTime();
+                if (startTime < now) {
+                  startTime = now;
+                  var Minutes = new Date().getMinutes();
+                  var Hours = new Date().getHours();
+                  that.minutes.value = ('0' + Minutes + '0').slice(-3, -1);
+                  that.hours.value = ('0' + Hours + '0').slice(-3, -1);
+                }
                 update((0, _extends3.default)({}, meeting, {
                   schedule: (0, _extends3.default)({}, meeting.schedule, {
-                    startTime: startTime.getTime()
+                    startTime: startTime
                   })
                 }));
               }
@@ -322,8 +323,8 @@ var When = function When(_ref3) {
             { className: _styles2.default.timeText },
             _react2.default.createElement('input', {
               flag: 'timeInput',
-              ref: function ref(_ref9) {
-                that.hours = _ref9;
+              ref: function ref(_ref8) {
+                that.hours = _ref8;
               },
               className: _styles2.default.timeInput,
               defaultValue: (0, _moment2.default)(meeting.schedule.startTime).format('HH'),
@@ -344,17 +345,7 @@ var When = function When(_ref3) {
                   that.minutes.focus();
                 }
               },
-              onBlur: function onBlur(_ref8) {
-                var target = _ref8.target;
-
-                setTimeout(function () {
-                  var allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
-                  if (!allInputBlur) {
-                    changeMinutes(that.minutes);
-                    changeHours(target);
-                  }
-                }, 100);
-              },
+              onBlur: changeTime,
               maxLength: 2,
               type: 'text' }),
             _react2.default.createElement(
@@ -364,8 +355,8 @@ var When = function When(_ref3) {
             ),
             _react2.default.createElement('input', {
               flag: 'timeInput',
-              ref: function ref(_ref11) {
-                that.minutes = _ref11;
+              ref: function ref(_ref9) {
+                that.minutes = _ref9;
               },
               className: _styles2.default.timeInput,
               defaultValue: (0, _moment2.default)(meeting.schedule.startTime).format('mm'),
@@ -379,17 +370,7 @@ var When = function When(_ref3) {
                 }
                 accumulator(event, 60);
               },
-              onBlur: function onBlur(_ref10) {
-                var target = _ref10.target;
-
-                setTimeout(function () {
-                  var allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
-                  if (!allInputBlur) {
-                    changeMinutes(target);
-                    changeHours(that.hours);
-                  }
-                }, 100);
-              },
+              onBlur: changeTime,
               maxLength: 2,
               type: 'text' })
           )
@@ -415,11 +396,11 @@ When.propTypes = {
   minTime: _propTypes2.default.object.isRequired
 };
 
-var Duration = function Duration(_ref12) {
-  var isRecurring = _ref12.isRecurring,
-      currentLocale = _ref12.currentLocale,
-      meeting = _ref12.meeting,
-      update = _ref12.update;
+var Duration = function Duration(_ref10) {
+  var isRecurring = _ref10.isRecurring,
+      currentLocale = _ref10.currentLocale,
+      meeting = _ref10.meeting,
+      update = _ref10.update;
   return !isRecurring ? _react2.default.createElement(
     _MeetingSection2.default,
     { title: _i18n2.default.getString('duration', currentLocale) },
@@ -437,8 +418,8 @@ var Duration = function Duration(_ref12) {
             valueField: 'value',
             textField: 'text',
             value: parseInt(meeting.schedule.durationInMinutes / 60, 10),
-            onChange: function onChange(_ref13) {
-              var value = _ref13.value;
+            onChange: function onChange(_ref11) {
+              var value = _ref11.value;
 
               var restMinutes = meeting.schedule.durationInMinutes % 60;
               var isMax = value === hoursList.slice(-1)[0].value;
@@ -463,8 +444,8 @@ var Duration = function Duration(_ref12) {
             valueField: 'value',
             textField: 'text',
             value: meeting.schedule.durationInMinutes % 60 || 0,
-            onChange: function onChange(_ref14) {
-              var value = _ref14.value;
+            onChange: function onChange(_ref12) {
+              var value = _ref12.value;
 
               var restHours = parseInt(meeting.schedule.durationInMinutes / 60, 10);
               var isMax = restHours === hoursList.slice(-1)[0].value;
@@ -489,11 +470,11 @@ Duration.propTypes = {
   isRecurring: _propTypes2.default.bool.isRequired
 };
 
-var RecurringMeeting = function RecurringMeeting(_ref15) {
-  var isRecurring = _ref15.isRecurring,
-      currentLocale = _ref15.currentLocale,
-      update = _ref15.update,
-      meeting = _ref15.meeting;
+var RecurringMeeting = function RecurringMeeting(_ref13) {
+  var isRecurring = _ref13.isRecurring,
+      currentLocale = _ref13.currentLocale,
+      update = _ref13.update,
+      meeting = _ref13.meeting;
   return _react2.default.createElement(
     _MeetingSection2.default,
     { className: _styles2.default.section },
@@ -533,10 +514,10 @@ RecurringMeeting.propTypes = {
   isRecurring: _propTypes2.default.bool.isRequired
 };
 
-var Video = function Video(_ref16) {
-  var currentLocale = _ref16.currentLocale,
-      meeting = _ref16.meeting,
-      update = _ref16.update;
+var Video = function Video(_ref14) {
+  var currentLocale = _ref14.currentLocale,
+      meeting = _ref14.meeting,
+      update = _ref14.update;
   return _react2.default.createElement(
     _MeetingSection2.default,
     { title: _i18n2.default.getString('video', currentLocale), withSwitch: true },
@@ -590,17 +571,17 @@ Video.propTypes = {
   meeting: _propTypes2.default.object.isRequired
 };
 
-var AudioOptions = function AudioOptions(_ref17) {
-  var currentLocale = _ref17.currentLocale,
-      update = _ref17.update,
-      meeting = _ref17.meeting,
-      data = _ref17.data;
+var AudioOptions = function AudioOptions(_ref15) {
+  var currentLocale = _ref15.currentLocale,
+      update = _ref15.update,
+      meeting = _ref15.meeting,
+      data = _ref15.data;
   return _react2.default.createElement(
     _MeetingSection2.default,
     { title: _i18n2.default.getString('audioOptions', currentLocale), withSwitch: true },
     _react2.default.createElement(_CheckBox2.default, {
-      onSelect: function onSelect(_ref18) {
-        var key = _ref18.key;
+      onSelect: function onSelect(_ref16) {
+        var key = _ref16.key;
 
         var audioOptions = key.split('_');
         update((0, _extends3.default)({}, meeting, {
@@ -621,11 +602,11 @@ AudioOptions.propTypes = {
   data: _propTypes2.default.array.isRequired
 };
 
-var MeetingOptions = function MeetingOptions(_ref19) {
-  var currentLocale = _ref19.currentLocale,
-      meeting = _ref19.meeting,
-      update = _ref19.update,
-      that = _ref19.that;
+var MeetingOptions = function MeetingOptions(_ref17) {
+  var currentLocale = _ref17.currentLocale,
+      meeting = _ref17.meeting,
+      update = _ref17.update,
+      that = _ref17.that;
   return _react2.default.createElement(
     _MeetingSection2.default,
     {
@@ -669,12 +650,12 @@ var MeetingOptions = function MeetingOptions(_ref19) {
         _react2.default.createElement('input', {
           type: 'text',
           className: _styles2.default.password,
-          ref: function ref(_ref21) {
-            that.password = _ref21;
+          ref: function ref(_ref19) {
+            that.password = _ref19;
           },
           value: meeting.password || '',
-          onChange: function onChange(_ref20) {
-            var target = _ref20.target;
+          onChange: function onChange(_ref18) {
+            var target = _ref18.target;
 
             if (/^[A-Za-z0-9]{0,10}$/.test(target.value)) {
               update((0, _extends3.default)({}, meeting, {
@@ -714,7 +695,7 @@ var MeetingPanel = function (_Component) {
   (0, _inherits3.default)(MeetingPanel, _Component);
 
   function MeetingPanel() {
-    var _ref22;
+    var _ref20;
 
     (0, _classCallCheck3.default)(this, MeetingPanel);
 
@@ -722,7 +703,7 @@ var MeetingPanel = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (_ref22 = MeetingPanel.__proto__ || (0, _getPrototypeOf2.default)(MeetingPanel)).call.apply(_ref22, [this].concat(args)));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (_ref20 = MeetingPanel.__proto__ || (0, _getPrototypeOf2.default)(MeetingPanel)).call.apply(_ref20, [this].concat(args)));
 
     _this.props.init();
     _this.state = {};
