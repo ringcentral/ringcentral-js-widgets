@@ -62,6 +62,8 @@
   top: 5px;
   left: 45px;
   @include secondary-font;
+  @include text-ellipsis;
+  max-width: 160px;
   color: $night;
 }
 // .messageLink {
