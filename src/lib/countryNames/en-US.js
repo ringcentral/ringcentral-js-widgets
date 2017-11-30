@@ -64,4 +64,5 @@ export default {
   NZ: 'New Zealand',
   PE: 'Peru',
   PR: 'Puerto Rico',
+  419: 'Latin America',
 };
