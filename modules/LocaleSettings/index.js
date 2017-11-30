@@ -150,17 +150,18 @@ function _initializerWarningHelper(descriptor, context) {
  * @class
  * @description Locale managing module
  */
-var Locale = (_dec = (0, _di.Module)({
+var LocaleSettings = (_dec = (0, _di.Module)({
+  name: 'LocaleSettings',
   deps: ['GlobalStorage', 'Locale', { dep: 'LocaleSettingsOptions', optional: true }]
 }), _dec(_class = (_class2 = function (_RcModule) {
-  (0, _inherits3.default)(Locale, _RcModule);
+  (0, _inherits3.default)(LocaleSettings, _RcModule);
 
   /**
    * @constructor
    * @param {Object} params - params object
    * @param {String} params.defaultLocale - default 'en-US'
    */
-  function Locale() {
+  function LocaleSettings() {
     var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
     var globalStorage = _ref.globalStorage,
@@ -168,9 +169,9 @@ var Locale = (_dec = (0, _di.Module)({
         _ref$supportedLocales = _ref.supportedLocales,
         supportedLocales = _ref$supportedLocales === undefined ? _defaultConfig2.default.supportedLocales : _ref$supportedLocales,
         options = (0, _objectWithoutProperties3.default)(_ref, ['globalStorage', 'locale', 'supportedLocales']);
-    (0, _classCallCheck3.default)(this, Locale);
+    (0, _classCallCheck3.default)(this, LocaleSettings);
 
-    var _this = (0, _possibleConstructorReturn3.default)(this, (Locale.__proto__ || (0, _getPrototypeOf2.default)(Locale)).call(this, (0, _extends3.default)({}, options)));
+    var _this = (0, _possibleConstructorReturn3.default)(this, (LocaleSettings.__proto__ || (0, _getPrototypeOf2.default)(LocaleSettings)).call(this, (0, _extends3.default)({}, options)));
 
     _initDefineProp(_this, 'supportedLocales', _descriptor, _this);
 
@@ -185,7 +186,7 @@ var Locale = (_dec = (0, _di.Module)({
     return _this;
   }
 
-  (0, _createClass3.default)(Locale, [{
+  (0, _createClass3.default)(LocaleSettings, [{
     key: '_onStateChange',
     value: function () {
       var _ref2 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
@@ -293,7 +294,7 @@ var Locale = (_dec = (0, _di.Module)({
       return this._globalStorage.getItem(this._storageKey);
     }
   }]);
-  return Locale;
+  return LocaleSettings;
 }(_RcModule3.default), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, 'supportedLocales', [_getter2.default], {
   enumerable: true,
   initializer: function initializer() {
@@ -306,5 +307,5 @@ var Locale = (_dec = (0, _di.Module)({
     });
   }
 }), _applyDecoratedDescriptor(_class2.prototype, 'saveLocale', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'saveLocale'), _class2.prototype)), _class2)) || _class);
-exports.default = Locale;
+exports.default = LocaleSettings;
 //# sourceMappingURL=index.js.map
