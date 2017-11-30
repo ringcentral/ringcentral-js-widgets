@@ -7,7 +7,7 @@ export default {
   video: 'Video',
   videoDescribe: 'When joining a meeting',
   host: 'Host',
-  participants: 'Participants',
+  participants: 'Participant',
   audioOptions: 'Audio Options',
   voIPOnly: 'VoIP Only',
   both: 'Both',
