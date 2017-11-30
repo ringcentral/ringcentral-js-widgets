@@ -88,15 +88,17 @@ const When = (
     minTime
   }
 ) => {
-  const changeMinutes = (target) => {
+  const changeMinutes = (target, state, callback = () => {}) => {
     const minutes = parseInt(target.value, 10);
-    const time = new Date(meeting.schedule.startTime);
+    const time = new Date(state || meeting.schedule.startTime);
     time.setMinutes(minutes);
     const startTime = time.getTime();
-    if (startTime >= (new Date()).getTime() && minutes < 60 && minutes > 0) {
+    console.log(startTime, minutes);
+    if (startTime >= (new Date()).getTime() && minutes < 60 && minutes >= 0) {
       setTimeout(() => {
         target.value = Moment(startTime).format('mm');
       });
+      callback(startTime);
       update({
         ...meeting,
         schedule: {
@@ -105,18 +107,20 @@ const When = (
         }
       });
     } else {
-      target.value = Moment(meeting.schedule.startTime).format('mm');
+      callback(state || meeting.schedule.startTime);
+      target.value = Moment(state || meeting.schedule.startTime).format('mm');
     }
   };
-  const changeHours = (target) => {
+  const changeHours = (target, state, callback = () => {}) => {
     const hours = parseInt(target.value, 10);
-    const time = new Date(meeting.schedule.startTime);
+    const time = new Date(state || meeting.schedule.startTime);
     time.setHours(hours);
     const startTime = time.getTime();
-    if (startTime >= (new Date()).getTime() && hours < 24 && hours > 0) {
+    if (startTime >= (new Date()).getTime() && hours < 24 && hours >= 0) {
       setTimeout(() => {
         target.value = Moment(startTime).format('HH');
       });
+      callback(startTime);
       update({
         ...meeting,
         schedule: {
@@ -125,7 +129,8 @@ const When = (
         }
       });
     } else {
-      target.value = Moment(meeting.schedule.startTime).format('HH');
+      callback(state || meeting.schedule.startTime);
+      target.value = Moment(state || meeting.schedule.startTime).format('HH');
     }
   };
   const accumulator = (event, max) => {
@@ -241,8 +246,9 @@ const When = (
                     setTimeout(() => {
                       const allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
                       if (!allInputBlur) {
-                        changeMinutes(that.minutes);
-                        changeHours(target);
+                        changeMinutes(that.minutes, meeting.schedule.startTime, (changedTime) => {
+                          changeHours(target, changedTime);
+                        });
                       }
                     }, 100);
                   }}
@@ -268,8 +274,9 @@ const When = (
                     setTimeout(() => {
                       const allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
                       if (!allInputBlur) {
-                        changeMinutes(target);
-                        changeHours(that.hours);
+                        changeHours(that.hours, meeting.schedule.startTime, (changedTime) => {
+                          changeMinutes(target, changedTime);
+                        });
                       }
                     }, 100);
                   }}
