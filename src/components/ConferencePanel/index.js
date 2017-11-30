@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import formatMessage from 'format-message';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
-import IconField from '../IconField';
 import Switch from '../Switch';
-import SpinnerOverlay from '../SpinnerOverlay';
 import i18n from './i18n';
 import styles from './styles.scss';
-import RcFont from '../../assets/RcFont/RcFont.scss';
 import Select from '../DropdownSelect';
 import Button from '../Button';
+import LinkLine from '../LinkLine';
 
 function DialInNumberItem({ region, formattedPhoneNumber }) {
   return (
@@ -32,10 +30,9 @@ class ConferencePanel extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showInternational: false,
-      searchInternationals: this.props.conferenceNumbers.phoneNumbers,
-      selectInternationals: [],
       dialInNumbers: this.formatDialInNumbers(props),
+      showAdditionalNumbers: false,
+      selectInternationals: [],
     };
     this.formatNumbers = {
       dialInNumber: this.props.formatPhone(
@@ -46,15 +43,15 @@ class ConferencePanel extends Component {
       hostCode: this.props.formatPin(this.props.conferenceNumbers.hostCode),
       participantCode: this.props.formatPin(this.props.conferenceNumbers.participantCode)
     };
-    this.onInternationalSwitch = (checked) => {
+    this.onAddionalNumbersSwitch = (checked) => {
       this.setState({
-        showInternational: checked,
+        showAdditionalNumbers: checked,
       });
     };
     this.onSearchKeyUp = (e) => {
       const searchKey = e.currentTarget.value;
       this.setState({
-        searchInternationals: this.getMatchList(searchKey)
+        // searchInternationals: this.getMatchList(searchKey)
       });
     };
     this.getMatchList = (searchKey) => {
@@ -141,59 +138,22 @@ class ConferencePanel extends Component {
       currentLocale,
       hostCode,
       participantCode,
-      showSpinner,
       dialInNumber
     } = this.props;
     const {
       dialInNumbers,
-      showInternational
+      showAdditionalNumbers
     } = this.state;
-    if (showSpinner) {
-      return (
-        <SpinnerOverlay />
-      );
-    }
-    const internationalNumbers = this.state.showInternational ? (
-      <div className={styles.international}>
-        <h2>
-          {i18n.getString('internationalNumbersHeader', currentLocale)}
-        </h2>
-        <div className={styles.search}>
-          <span className={RcFont.icon_search} />
-          <div className={styles.rightPanel}>
-            <input
-              type="text"
-              placeholder={i18n.getString('search', currentLocale)}
-              onKeyUp={this.onSearchKeyUp}
-            />
-          </div>
-        </div>
-        <div className={styles.numbers}>
-          {this.state.searchInternationals.map((value, key) => (
-            <div className={styles.row} key={key}>
-              <label>
-                <input
-                  type="checkbox"
-                  className={styles.checkCountry}
-                  data-id={value.country.id}
-                  data-number={value.phoneNumber}
-                  data-name={value.country.name}
-                  data-countryCode={value.country.countryCode}
-                  data-areaCode={value.country.areaCode}
-                  onChange={this.changeSelect} />
-                <span className={styles.country}>{value.country.name}</span>
-                <span className={styles.phoneNumber}>
-                  {this.props.formatInternational(value.phoneNumber, value.country.callingCode)}
-                </span>
-              </label>
-            </div>
-          ))}
-        </div>
+    const additionalNumbers = showAdditionalNumbers ? (
+      <div>
+        <LinkLine className={styles.linkLine} >
+          {i18n.getString('selectNumbers', currentLocale)}
+        </LinkLine>
       </div>
     ) : '';
     return (
       <div className={styles.container}>
-        <div className={styles.dialInNumber}>
+        <div>
           <label>{i18n.getString('dialInNumber', currentLocale)}</label>
           <Select
             className={styles.select}
@@ -229,16 +189,17 @@ class ConferencePanel extends Component {
           <label>{i18n.getString('addinalDialInNumbers', currentLocale)}</label>
           <span className={styles.field}>
             <Switch
-              onChange={this.onInternationalSwitch}
+              checked={showAdditionalNumbers}
+              onChange={this.onAddionalNumbersSwitch}
             />
           </span>
-
+          {additionalNumbers}
         </div>
         <div className={styles.formGroup}>
           <label>{i18n.getString('enableJoinBeforeHost', currentLocale)}</label>
           <span className={styles.field}>
             <Switch
-              onChange={this.onInternationalSwitch}
+              onChange={this.onAddionalNumbersSwitch}
             />
           </span>
         </div>
@@ -251,7 +212,6 @@ class ConferencePanel extends Component {
           <Button className={styles.primaryButton}>{i18n.getString('JoinAsHost', currentLocale)}</Button>
         </div>
 
-        {internationalNumbers}
       </div>
     );
   }
@@ -273,12 +233,10 @@ ConferencePanel.propTypes = {
   }).isRequired,
   inviteWithText: PropTypes.func.isRequired,
   formatPhone: PropTypes.func.isRequired,
-  formatInternational: PropTypes.func.isRequired,
   formatPin: PropTypes.func.isRequired,
-  showSpinner: PropTypes.bool,
 };
 ConferencePanel.defaultProps = {
-  showSpinner: false,
+  showSpinner: true,
   dialInNumbers: [{
     region: 'Australia, Perth',
     phoneNumber: '+61862450610'
