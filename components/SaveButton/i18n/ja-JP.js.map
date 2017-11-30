@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/SaveButton/i18n/ja-JP.js"],"names":["save"],"mappings":";;;;;kBAAe;AACbA,QAAM;AADO,C","file":"ja-JP.js","sourcesContent":["export default {\n  save: '保存',\n};\n"]}

@@ -169,14 +169,14 @@ function ContactDisplay(_ref3) {
     var display = groupNames.join(', ');
     contentEl = _react2.default.createElement(
       'div',
-      { title: display },
+      { title: display, className: _styles2.default.currentName },
       display
     );
   } else if (groupNumbers) {
     var _display = groupNumbers.join(', ');
     contentEl = _react2.default.createElement(
       'div',
-      { title: _display },
+      { title: _display, className: _styles2.default.currentName },
       _display
     );
   } else if (contactMatches.length === 0) {
@@ -188,7 +188,7 @@ function ContactDisplay(_ref3) {
     var title = enableContactFallback && fallBackName || phoneNumber || '';
     contentEl = _react2.default.createElement(
       'div',
-      { title: title },
+      { title: title, className: _styles2.default.currentName },
       _display2
     );
   } else if (contactMatches.length === 1) {
@@ -202,7 +202,7 @@ function ContactDisplay(_ref3) {
     });
     contentEl = _react2.default.createElement(
       'div',
-      { title: _title },
+      { title: _title, className: _styles2.default.currentName },
       _display3
     );
   } else if (contactMatches.length > 1) {

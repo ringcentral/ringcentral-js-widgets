@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/SaveButton/i18n/fr-FR.js"],"names":["save"],"mappings":";;;;;kBAAe;AACbA,QAAM;AADO,C","file":"fr-FR.js","sourcesContent":["export default {\n  save: 'Enregistrer',\n};\n"]}

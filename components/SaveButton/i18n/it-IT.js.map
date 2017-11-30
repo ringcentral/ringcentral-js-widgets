@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/SaveButton/i18n/it-IT.js"],"names":["save"],"mappings":";;;;;kBAAe;AACbA,QAAM;AADO,C","file":"it-IT.js","sourcesContent":["export default {\n  save: 'Salva',\n};\n"]}
