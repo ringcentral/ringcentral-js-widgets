@@ -89,30 +89,32 @@ const When = (
   }
 ) => {
   const changeTime = () => {
-    const allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
-    if (!allInputBlur) {
-      const startTime = new Date(meeting.schedule.startTime);
-      const hours = parseInt(that.hours.value, 10);
-      const minutes = parseInt(that.minutes.value, 10);
-      startTime.setHours(hours);
-      startTime.setMinutes(minutes);
-      let time = startTime;
-      if (startTime.getTime() > new Date().getTime()) {
-        update({
-          ...meeting,
-          schedule: {
-            ...meeting.schedule,
-            startTime: startTime.getTime(),
-          }
-        });
-      } else {
-        time = new Date(meeting.schedule.startTime);
+    setTimeout(() => {
+      const allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
+      if (!allInputBlur) {
+        const startTime = new Date(meeting.schedule.startTime);
+        const hours = parseInt(that.hours.value, 10);
+        const minutes = parseInt(that.minutes.value, 10);
+        startTime.setHours(hours);
+        startTime.setMinutes(minutes);
+        let time = startTime;
+        if (startTime.getTime() > new Date().getTime()) {
+          update({
+            ...meeting,
+            schedule: {
+              ...meeting.schedule,
+              startTime: startTime.getTime(),
+            }
+          });
+        } else {
+          time = new Date(meeting.schedule.startTime);
+        }
+        const Minutes = time.getMinutes();
+        const Hours = time.getHours();
+        that.minutes.value = `0${Minutes}0`.slice(-3, -1);
+        that.hours.value = `0${Hours}0`.slice(-3, -1);
       }
-      const Minutes = time.getMinutes();
-      const Hours = time.getHours();
-      that.minutes.value = `0${Minutes}0`.slice(-3, -1);
-      that.hours.value = `0${Hours}0`.slice(-3, -1);
-    }
+    }, 100);
   };
   const accumulator = (event, max) => {
     const currentValue = parseInt(event.target.value, 10);
