@@ -18,6 +18,7 @@ import MeetingSection from '../MeetingSection';
 
 const MINUTE_SCALE = 4;
 const HOUR_SCALE = 13;
+const MAX_TOPIC_LENGTH = 128;
 
 function getMinutesList(MINUTE_SCALE) {
   return new Array(MINUTE_SCALE).fill(0).map((_, key) => {
@@ -46,19 +47,36 @@ function getHoursList(HOUR_SCALE) {
 const minutesList = getMinutesList(MINUTE_SCALE);
 const hoursList = getHoursList(HOUR_SCALE);
 
-const Topic = ({ update, currentLocale, meeting }) => (
+const Topic = ({ update, currentLocale, meeting, that }) => (
   <MeetingSection hideTopBorderLine>
     <div className={styles.inline}>
       <span className={styles.label}>
         {i18n.getString('topic', currentLocale)}
       </span>
       <input
+        ref={(ref) => { that.topic = ref; }}
+        onPaste={(event) => {
+          const topic = event.target.value;
+          event.preventDefault();
+          event.clipboardData.items[0].getAsString((data) => {
+            if (topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH) {
+              const insertLength = MAX_TOPIC_LENGTH - data.length;
+              const insertText = data.slice(0, insertLength);
+              const position = that.topic.selectionEnd;
+              const value = topic.split('');
+              value.splice(position, 0, insertText);
+              that.topic.value = value.join('');
+              const newPosition = position + insertLength;
+              that.topic.setSelectionRange(newPosition, newPosition);
+            }
+          });
+        }}
         type="text"
         className={styles.input}
         defaultValue={meeting.topic || ''}
         onChange={({ target }) => {
           const topic = target.value;
-          if (topic.length >= 0 && topic.length < 128) {
+          if (topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH) {
             update({
               ...meeting,
               topic,
@@ -608,6 +626,7 @@ class MeetingPanel extends Component {
           !hidden ? (
             <div className={styles.scroll}>
               <Topic
+                that={this}
                 meeting={meeting}
                 update={update}
                 currentLocale={currentLocale} />
