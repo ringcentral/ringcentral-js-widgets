@@ -175,6 +175,7 @@ var CallCtrlPage = function (_Component) {
     key: 'render',
     value: function render() {
       var session = this.props.session;
+
       if (!session.id) {
         return null;
       }

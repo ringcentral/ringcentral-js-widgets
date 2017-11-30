@@ -30,6 +30,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function ActiveCallButton(props) {
   var className = (0, _classnames2.default)(_styles2.default.btnSvg, props.className);
   var buttonClassName = (0, _classnames2.default)(_styles2.default.button, props.buttonClassName, props.active ? _styles2.default.buttonActive : null, props.disabled ? _styles2.default.buttonDisabled : null);
+  var text = props.title.split('\n').map(function (line, index) {
+    return _react2.default.createElement(
+      'tspan',
+      { dy: index ? '1.1em' : 0, x: '250' },
+      line
+    );
+  });
   return _react2.default.createElement(
     'svg',
     {
@@ -61,10 +68,10 @@ function ActiveCallButton(props) {
       {
         className: _styles2.default.buttonTitle,
         x: '250',
-        y: '520',
+        y: '500',
         textAnchor: 'middle'
       },
-      props.title
+      text
     )
   );
 }

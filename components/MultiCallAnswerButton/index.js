@@ -42,6 +42,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function MultiCallAnswerButton(props) {
   var Icon = props.isEndOtherCall ? _End2.default : _Hold2.default;
   var iconClassName = (0, _classnames2.default)(_styles2.default.button, props.isEndOtherCall ? _styles2.default.endButton : '');
+  var text = props.title.split('\n').map(function (line, index) {
+    return _react2.default.createElement(
+      'tspan',
+      { dy: index ? '1.1em' : 0, x: '250' },
+      line
+    );
+  });
   return _react2.default.createElement(
     'svg',
     {
@@ -56,7 +63,7 @@ function MultiCallAnswerButton(props) {
       width: '200',
       height: '200',
       x: 60,
-      y: 60,
+      y: 50,
       className: iconClassName,
       onClick: props.onClick,
       icon: Icon
@@ -65,7 +72,7 @@ function MultiCallAnswerButton(props) {
       width: '250',
       height: '250',
       x: 200,
-      y: 120,
+      y: 110,
       className: (0, _classnames2.default)(_styles2.default.button, _styles2.default.answer),
       showBorder: false,
       onClick: props.onClick,
@@ -76,10 +83,10 @@ function MultiCallAnswerButton(props) {
       {
         className: _styles2.default.buttonTitle,
         x: '250',
-        y: '515',
+        y: '500',
         textAnchor: 'middle'
       },
-      props.title
+      text
     )
   );
 }

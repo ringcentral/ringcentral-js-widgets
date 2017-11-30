@@ -4,17 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = {
-  unmute: 'Désactiver le mode muet',
-  mute: 'Activer le mode muet',
+  unmute: 'Désactiver\nle mode muet',
+  mute: 'Activer\nle mode muet',
   keypad: 'Clavier',
-  hold: 'Mettre en attente',
+  hold: 'Mettre\nen attente',
   onHold: 'En attente',
   park: 'Parc',
   stopRecord: 'Arrêter',
   record: 'Enregistrer',
   add: 'Ajouter',
   transfer: 'Transférer',
-  flip: 'Renvoi instantané'
+  flip: 'Renvoi\ninstantané'
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
