@@ -13,6 +13,11 @@ export default function ActiveCallButton(props) {
     props.active ? styles.buttonActive : null,
     props.disabled ? styles.buttonDisabled : null,
   );
+  const text = props.title.split('\n').map((line, index) => (
+    <tspan dy={index ? '1.1em' : 0} x="250">
+      {line}
+    </tspan>
+  ));
   return (
     <svg
       className={className}
@@ -41,10 +46,10 @@ export default function ActiveCallButton(props) {
       <text
         className={styles.buttonTitle}
         x="250"
-        y="520"
+        y="500"
         textAnchor="middle"
       >
-        {props.title}
+        {text}
       </text>
     </svg>
   );

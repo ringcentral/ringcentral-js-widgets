@@ -16,6 +16,11 @@ export default function MultiCallAnswerButton(props) {
     styles.button,
     props.isEndOtherCall ? styles.endButton : ''
   );
+  const text = props.title.split('\n').map((line, index) => (
+    <tspan dy={index ? '1.1em' : 0} x="250">
+      {line}
+    </tspan>
+  ));
   return (
     <svg
       className={props.className}
@@ -29,7 +34,7 @@ export default function MultiCallAnswerButton(props) {
         width="200"
         height="200"
         x={60}
-        y={60}
+        y={50}
         className={iconClassName}
         onClick={props.onClick}
         icon={Icon}
@@ -38,7 +43,7 @@ export default function MultiCallAnswerButton(props) {
         width="250"
         height="250"
         x={200}
-        y={120}
+        y={110}
         className={classnames(styles.button, styles.answer)}
         showBorder={false}
         onClick={props.onClick}
@@ -47,10 +52,10 @@ export default function MultiCallAnswerButton(props) {
       <text
         className={styles.buttonTitle}
         x="250"
-        y="515"
+        y="500"
         textAnchor="middle"
       >
-        {props.title}
+        {text}
       </text>
     </svg>
   );
