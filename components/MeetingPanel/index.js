@@ -173,28 +173,30 @@ var When = function When(_ref3) {
       minTime = _ref3.minTime;
 
   var changeTime = function changeTime() {
-    var allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
-    if (!allInputBlur) {
-      var startTime = new Date(meeting.schedule.startTime);
-      var hours = parseInt(that.hours.value, 10);
-      var minutes = parseInt(that.minutes.value, 10);
-      startTime.setHours(hours);
-      startTime.setMinutes(minutes);
-      var time = startTime;
-      if (startTime.getTime() > new Date().getTime()) {
-        update((0, _extends3.default)({}, meeting, {
-          schedule: (0, _extends3.default)({}, meeting.schedule, {
-            startTime: startTime.getTime()
-          })
-        }));
-      } else {
-        time = new Date(meeting.schedule.startTime);
+    setTimeout(function () {
+      var allInputBlur = document.querySelectorAll('input[flag=timeInput]:focus').length;
+      if (!allInputBlur) {
+        var startTime = new Date(meeting.schedule.startTime);
+        var hours = parseInt(that.hours.value, 10);
+        var minutes = parseInt(that.minutes.value, 10);
+        startTime.setHours(hours);
+        startTime.setMinutes(minutes);
+        var time = startTime;
+        if (startTime.getTime() > new Date().getTime()) {
+          update((0, _extends3.default)({}, meeting, {
+            schedule: (0, _extends3.default)({}, meeting.schedule, {
+              startTime: startTime.getTime()
+            })
+          }));
+        } else {
+          time = new Date(meeting.schedule.startTime);
+        }
+        var Minutes = time.getMinutes();
+        var Hours = time.getHours();
+        that.minutes.value = ('0' + Minutes + '0').slice(-3, -1);
+        that.hours.value = ('0' + Hours + '0').slice(-3, -1);
       }
-      var Minutes = time.getMinutes();
-      var Hours = time.getHours();
-      that.minutes.value = ('0' + Minutes + '0').slice(-3, -1);
-      that.hours.value = ('0' + Hours + '0').slice(-3, -1);
-    }
+    }, 100);
   };
   var accumulator = function accumulator(event, max) {
     var currentValue = parseInt(event.target.value, 10);
