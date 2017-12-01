@@ -200,7 +200,7 @@ export default function App({
               <Route
                 path="/contacts"
                 component={props =>
-                  !props.location.query.direct
+                  (!props.location.query.direct
                     ? (
                       <ContactsPage
                         contactSourceFilterRenderer={props => (
@@ -209,7 +209,7 @@ export default function App({
                       >
                         {props.children}
                       </ContactsPage>
-                    ) : props.children
+                    ) : props.children)
                 }>
                 <Route
                   path=":contactType/:contactId"

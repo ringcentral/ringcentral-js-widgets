@@ -17,17 +17,15 @@ function mapToProps(_, {
 }
 
 function mapToFunctions(_, {
-  afterScheduled,
+  schedule,
   phone: {
     meeting,
   },
 }) {
   return {
     update: meetingState => meeting.update(meetingState),
-    invite: async (meetingState) => {
-      const meetingInfo = await meeting.schedule(meetingState);
-      if (afterScheduled && meetingInfo) afterScheduled(meetingInfo);
-    },
+    invite: schedule || meeting.schedule,
+    validate: () => {},
     init: () => meeting.init(),
   };
 }
