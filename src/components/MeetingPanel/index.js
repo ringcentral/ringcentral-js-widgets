@@ -576,6 +576,15 @@ class MeetingPanel extends Component {
     Moment.locale(this.props.currentLocale);
     momentLocalizer();
   }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.meeting.topic !== nextProps.meeting.topic) {
+      setTimeout(() => {
+        this.topic.value = nextProps.meeting.topic;
+      });
+    }
+  }
+
   render() {
     const {
       update,
