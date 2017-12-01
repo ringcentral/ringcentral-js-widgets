@@ -212,7 +212,7 @@ var Locale = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                if (!(this.browserLocale !== this.currentLocale)) {
+                if (!(!this.debugMode && this.browserLocale !== this.currentLocale)) {
                   _context2.next = 3;
                   break;
                 }
@@ -306,14 +306,44 @@ var Locale = (_dec = (0, _di.Module)({
      */
 
   }, {
-    key: '_setLocale',
+    key: 'toggleDebugMode',
     value: function () {
-      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5(locale) {
+      var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
         return _regenerator2.default.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                _context5.next = 2;
+                this.store.dispatch({
+                  type: this.actionTypes.toggleDebugMode,
+                  debugMode: this.debugMode
+                });
+                if (this.debugMode) {
+                  this.setLocale(_I18n.PSEUDO_LOCALE);
+                }
+
+              case 2:
+              case 'end':
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function toggleDebugMode() {
+        return _ref6.apply(this, arguments);
+      }
+
+      return toggleDebugMode;
+    }()
+  }, {
+    key: '_setLocale',
+    value: function () {
+      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(locale) {
+        return _regenerator2.default.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                _context6.next = 2;
                 return _I18n2.default.setLocale(locale);
 
               case 2:
@@ -323,14 +353,14 @@ var Locale = (_dec = (0, _di.Module)({
 
               case 3:
               case 'end':
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
 
       function _setLocale(_x2) {
-        return _ref6.apply(this, arguments);
+        return _ref7.apply(this, arguments);
       }
 
       return _setLocale;
@@ -348,17 +378,17 @@ var Locale = (_dec = (0, _di.Module)({
   }, {
     key: 'setLocale',
     value: function () {
-      var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(locale) {
-        return _regenerator2.default.wrap(function _callee6$(_context6) {
+      var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7(locale) {
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 this.store.dispatch({
                   type: this.actionTypes.setLocale,
                   locale: locale
                 });
-                _context6.prev = 1;
-                _context6.next = 4;
+                _context7.prev = 1;
+                _context7.next = 4;
                 return this._setLocale(locale);
 
               case 4:
@@ -366,28 +396,28 @@ var Locale = (_dec = (0, _di.Module)({
                   type: this.actionTypes.setLocaleSuccess,
                   locale: locale
                 });
-                _context6.next = 10;
+                _context7.next = 10;
                 break;
 
               case 7:
-                _context6.prev = 7;
-                _context6.t0 = _context6['catch'](1);
+                _context7.prev = 7;
+                _context7.t0 = _context7['catch'](1);
 
                 this.store.dispatch({
                   type: this.actionTypes.setLocaleError,
-                  error: _context6.t0
+                  error: _context7.t0
                 });
 
               case 10:
               case 'end':
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this, [[1, 7]]);
+        }, _callee7, this, [[1, 7]]);
       }));
 
       function setLocale(_x3) {
-        return _ref7.apply(this, arguments);
+        return _ref8.apply(this, arguments);
       }
 
       return setLocale;
@@ -395,14 +425,15 @@ var Locale = (_dec = (0, _di.Module)({
   }, {
     key: '_actionTypes',
     get: function get() {
-      return new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), (0, _toConsumableArray3.default)((0, _keys2.default)(_proxyActionTypes2.default)), ['setLocale', 'setLocaleSuccess', 'setLocaleError', 'syncProxyLocale']), 'locale');
+      return new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), (0, _toConsumableArray3.default)((0, _keys2.default)(_proxyActionTypes2.default)), ['setLocale', 'setLocaleSuccess', 'setLocaleError', 'syncProxyLocale', 'toggleDebugMode']), 'locale');
     }
   }, {
     key: 'reducer',
     get: function get() {
       return (0, _redux.combineReducers)({
         status: (0, _getModuleStatusReducer2.default)(this.actionTypes),
-        currentLocale: (0, _reducers.getCurrentLocaleReducer)(this.actionTypes)
+        currentLocale: (0, _reducers.getCurrentLocaleReducer)(this.actionTypes),
+        debugMode: (0, _reducers.getToggleDebugMode)(this.actionTypes)
       });
     }
   }, {
@@ -433,8 +464,13 @@ var Locale = (_dec = (0, _di.Module)({
     get: function get() {
       return this.proxyState.status;
     }
+  }, {
+    key: 'debugMode',
+    get: function get() {
+      return this.state.debugMode;
+    }
   }]);
   return Locale;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'setLocale', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setLocale'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'toggleDebugMode', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'toggleDebugMode'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setLocale', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setLocale'), _class2.prototype)), _class2)) || _class);
 exports.default = Locale;
 //# sourceMappingURL=index.js.map
