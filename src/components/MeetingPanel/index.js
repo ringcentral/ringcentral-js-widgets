@@ -59,14 +59,19 @@ const Topic = ({ update, currentLocale, meeting, that }) => (
           const topic = event.target.value;
           event.preventDefault();
           event.clipboardData.items[0].getAsString((data) => {
-            if (topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH) {
-              const insertLength = MAX_TOPIC_LENGTH - data.length;
-              const insertText = data.slice(0, insertLength);
-              const position = that.topic.selectionEnd;
+            const isOverLength = topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH;
+            const positionStart = that.topic.selectionStart;
+            const positionEnd = that.topic.selectionEnd;
+            const select = positionEnd - positionStart;
+            const restLength = MAX_TOPIC_LENGTH - topic.length + select;
+            const isOver = isOverLength && restLength > 0;
+            if (isOver) {
+              const isOverLength = restLength >= data.length;
+              const insertText = isOverLength ? data : data.slice(0, !isOver ? select : restLength);
               const value = topic.split('');
-              value.splice(position, 0, insertText);
+              value.splice(positionStart, select, insertText);
               that.topic.value = value.join('');
-              const newPosition = position + insertLength;
+              const newPosition = positionStart + insertText.length;
               that.topic.setSelectionRange(newPosition, newPosition);
             }
           });
@@ -580,7 +585,10 @@ class MeetingPanel extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.meeting.topic !== nextProps.meeting.topic) {
       setTimeout(() => {
+        const selectionStart = this.topic.selectionStart;
+        const selectionEnd = this.topic.selectionEnd;
         this.topic.value = nextProps.meeting.topic;
+        this.topic.setSelectionRange(selectionStart, selectionEnd);
       });
     }
   }
