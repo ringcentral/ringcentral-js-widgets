@@ -134,9 +134,17 @@ function mapToFunctions(_, {
     regionSettingsUrl,
     callingSettingsUrl,
   }),
+  getAdditionalRenderer,
 }) {
+  const additionalRenderer = getAdditionalRenderer();
   return {
-    getRenderer,
+    getRenderer: (message) => {
+      if (getAdditionalRenderer) {
+        const renderer = additionalRenderer(message);
+        if (renderer) return renderer;
+      }
+      return getRenderer(message);
+    },
     dismiss: (id) => {
       alert.dismiss(id);
     },
