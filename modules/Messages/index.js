@@ -539,6 +539,11 @@ var Messages = (_dec = (0, _di.Module)({
     get: function get() {
       return this._selectors.filteredConversations();
     }
+  }, {
+    key: 'uniqueNumbers',
+    get: function get() {
+      return this._selectors.uniqueNumbers();
+    }
   }]);
   return Messages;
 }(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, '_getCurrentPageMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, '_getCurrentPageMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'loadNextPageMessages', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'loadNextPageMessages'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateSearchInput', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateSearchInput'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'updateTypeFilter', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'updateTypeFilter'), _class2.prototype)), _class2)) || _class);
