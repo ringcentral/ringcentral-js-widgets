@@ -130,7 +130,6 @@ var ComposeTextPanel = function (_Component) {
     };
 
     _this.onTextAreaKeyDown = function (e) {
-      console.debug('onTextAreaKeyDown', e);
       if (e.key === 'Enter') {
         e.preventDefault();
         _this.props.send();

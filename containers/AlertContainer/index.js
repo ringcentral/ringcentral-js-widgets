@@ -185,10 +185,10 @@ function mapToFunctions(_, _ref3) {
   }) : _ref3$getRenderer,
       getAdditionalRenderer = _ref3.getAdditionalRenderer;
 
-  var additionalRenderer = getAdditionalRenderer();
   return {
     getRenderer: function getRenderer(message) {
-      if (getAdditionalRenderer) {
+      if (typeof getAdditionalRenderer === 'function') {
+        var additionalRenderer = getAdditionalRenderer();
         var renderer = additionalRenderer(message);
         if (renderer) return renderer;
       }
