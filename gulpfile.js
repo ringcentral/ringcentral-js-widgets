@@ -103,13 +103,14 @@ gulp.task('release-clean', async () => {
 });
 
 gulp.task('release-copy', ['build', 'release-clean'], () => (
-  gulp.src('build/**')
+  gulp.src(['build/**', 'README.md', 'LICENSE'])
     .pipe(gulp.dest('release'))
 ));
 
 gulp.task('release', ['release-copy'], async () => {
   const packageInfo = JSON.parse(await fs.readFile('package.json'));
   delete packageInfo.scripts;
+  delete packageInfo.jest;
   const version = await getVersionFromTag();
   if (version) {
     packageInfo.version = version;
