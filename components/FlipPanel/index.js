@@ -127,7 +127,8 @@ var FlipPanel = function (_Component) {
             radioOptions: this.props.flipNumbers,
             disabled: !this.state.flipEnabled,
             formatPhone: this.props.formatPhone,
-            onRadioSelect: this.onRadioSelect
+            onRadioSelect: this.onRadioSelect,
+            currentLocale: this.props.currentLocale
           }),
           _react2.default.createElement(
             'div',

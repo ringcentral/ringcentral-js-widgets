@@ -41,6 +41,10 @@ var _styles = require('./styles.scss');
 
 var _styles2 = _interopRequireDefault(_styles);
 
+var _i18n = require('./i18n');
+
+var _i18n2 = _interopRequireDefault(_i18n);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function RadioOption(props) {
@@ -64,7 +68,7 @@ function RadioOption(props) {
     _react2.default.createElement(
       'span',
       { className: _styles2.default.optionLabel, title: props.label },
-      props.label
+      _i18n2.default.getString(props.label, props.currentLocale)
     )
   );
 }
@@ -73,7 +77,8 @@ RadioOption.propTypes = {
   phoneNumber: _propTypes2.default.string.isRequired,
   label: _propTypes2.default.string,
   selectedIndex: _propTypes2.default.number.isRequired,
-  onSelect: _propTypes2.default.func.isRequired
+  onSelect: _propTypes2.default.func.isRequired,
+  currentLocale: _propTypes2.default.string.isRequired
 };
 RadioOption.defaultProps = {
   label: ''
@@ -116,7 +121,8 @@ var RadioButtonGroup = function (_Component) {
             key: number.id,
             phoneNumber: _this2.props.formatPhone(number.phoneNumber),
             label: number.label,
-            onSelect: _this2.chooseOption
+            onSelect: _this2.chooseOption,
+            currentLocale: _this2.props.currentLocale
           });
         })
       );
@@ -133,6 +139,7 @@ RadioButtonGroup.propTypes = {
   radioOptions: _propTypes2.default.array.isRequired,
   disabled: _propTypes2.default.bool.isRequired,
   formatPhone: _propTypes2.default.func.isRequired,
-  onRadioSelect: _propTypes2.default.func.isRequired
+  onRadioSelect: _propTypes2.default.func.isRequired,
+  currentLocale: _propTypes2.default.string.isRequired
 };
 //# sourceMappingURL=index.js.map

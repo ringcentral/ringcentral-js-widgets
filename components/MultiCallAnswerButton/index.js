@@ -45,7 +45,7 @@ function MultiCallAnswerButton(props) {
   var text = props.title.split('\n').map(function (line, index) {
     return _react2.default.createElement(
       'tspan',
-      { dy: index ? '1.1em' : 0, x: '250' },
+      { dy: index ? '1.1em' : 0, x: '250', key: line },
       line
     );
   });
