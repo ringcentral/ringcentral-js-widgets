@@ -72,7 +72,6 @@ class ComposeTextPanel extends Component {
     };
 
     this.onTextAreaKeyDown = (e) => {
-      console.debug('onTextAreaKeyDown', e);
       if (e.key === 'Enter') {
         e.preventDefault();
         this.props.send();
