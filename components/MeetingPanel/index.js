@@ -147,14 +147,19 @@ var Topic = function Topic(_ref) {
           var topic = event.target.value;
           event.preventDefault();
           event.clipboardData.items[0].getAsString(function (data) {
-            if (topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH) {
-              var insertLength = MAX_TOPIC_LENGTH - data.length;
-              var insertText = data.slice(0, insertLength);
-              var position = that.topic.selectionEnd;
+            var isOverLength = topic.length >= 0 && topic.length <= MAX_TOPIC_LENGTH;
+            var positionStart = that.topic.selectionStart;
+            var positionEnd = that.topic.selectionEnd;
+            var select = positionEnd - positionStart;
+            var restLength = MAX_TOPIC_LENGTH - topic.length + select;
+            var isOver = isOverLength && restLength > 0;
+            if (isOver) {
+              var _isOverLength = restLength >= data.length;
+              var insertText = _isOverLength ? data : data.slice(0, !isOver ? select : restLength);
               var value = topic.split('');
-              value.splice(position, 0, insertText);
+              value.splice(positionStart, select, insertText);
               that.topic.value = value.join('');
-              var newPosition = position + insertLength;
+              var newPosition = positionStart + insertText.length;
               that.topic.setSelectionRange(newPosition, newPosition);
             }
           });
@@ -742,7 +747,10 @@ var MeetingPanel = function (_Component) {
 
       if (this.props.meeting.topic !== nextProps.meeting.topic) {
         setTimeout(function () {
+          var selectionStart = _this2.topic.selectionStart;
+          var selectionEnd = _this2.topic.selectionEnd;
           _this2.topic.value = nextProps.meeting.topic;
+          _this2.topic.setSelectionRange(selectionStart, selectionEnd);
         });
       }
     }
