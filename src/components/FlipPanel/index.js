@@ -54,6 +54,7 @@ export default class FlipPanel extends Component {
             disabled={!this.state.flipEnabled}
             formatPhone={this.props.formatPhone}
             onRadioSelect={this.onRadioSelect}
+            currentLocale={this.props.currentLocale}
           />
           <div className={styles.buttonGroup}>
             <div className={styles.button} title={i18n.getString('flip', this.props.currentLocale)}>
