@@ -23,6 +23,7 @@ function CheckBox({ checked, onChange }) {
       style={{
         width: 13,
         height: 13,
+        fontSize: 13,
         lineHeight: '13px',
         color: '#fff',
         display: 'inline-block',
@@ -59,20 +60,35 @@ function DialInNumberList({ dialInNumbers, selected, onChange }) {
   }
   return (
     <ul>
-      {dialInNumbers.map(e => (
-        <li key={e.phoneNumber}>
-          <CheckBox checked /> <CheckBox checked={false} />
-          <CheckBox checked={selected.indexOf(e.phoneNumber) > -1} />
-          <span>{e.region}</span>
-          <span>{e.formattedPhoneNumber}</span>
-        </li>
-      ))}
+      {dialInNumbers.map((e) => {
+        const checked = selected.indexOf(e.phoneNumber) > -1;
+        const selectChange = () => {
+          let newSelection = [];
+          if (checked) {
+            selected.forEach(curNum => curNum !== e.phoneNumber && newSelection.push(curNum));
+          } else {
+            newSelection = selected.concat(e.phoneNumber);
+          }
+          onChange(newSelection);
+        };
+        return (
+          <li
+            key={e.phoneNumber}
+            onClick={selectChange}
+          >
+            <CheckBox checked={checked} />
+            <span>{e.region}</span>
+            <span>{e.formattedPhoneNumber}</span>
+          </li>
+        );
+      })}
     </ul>
   );
 }
 DialInNumberList.propTypes = {
   dialInNumbers: PropTypes.array.isRequired,
-  selected: PropTypes.array.isRequired
+  selected: PropTypes.array.isRequired,
+  onChange: PropTypes.func.isRequired
 };
 
 function formatPin(number) {
@@ -206,7 +222,10 @@ class ConferencePanel extends Component {
           <BackHeader onBackClick={() => this.setState({ showAdditionalNumberList: false })}>
             {i18n.getString('selectNumbers', currentLocale)}
           </BackHeader>
-          <DialInNumberList dialInNumbers={dialInNumbers} selected={additionalNumbers} />
+          <DialInNumberList
+            dialInNumbers={dialInNumbers}
+            selected={additionalNumbers}
+            onChange={newSelection => this.setState({ additionalNumbers: newSelection })} />
         </div >
       );
     }
@@ -221,7 +240,10 @@ class ConferencePanel extends Component {
           onClick={() => { this.setState({ showAdditionalNumberList: true }); }} >
           {i18n.getString('selectNumbers', currentLocale)}
         </LinkLine>
-        <DialInNumberList dialInNumbers={additionalNumberObjs} selected={additionalNumbers} />
+        <DialInNumberList
+          dialInNumbers={additionalNumberObjs}
+          selected={additionalNumbers}
+          onChange={newSelection => this.setState({ additionalNumbers: newSelection })} />
       </div >
     ) : '';
     return (
