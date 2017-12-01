@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import styles from './styles.scss';
+import i18n from './i18n';
 
 function RadioOption(props) {
   let btnClassName = '';
@@ -18,7 +19,7 @@ function RadioOption(props) {
         {props.phoneNumber}
       </span>
       <span className={styles.optionLabel} title={props.label}>
-        {props.label}
+        {i18n.getString(props.label, props.currentLocale)}
       </span>
     </div>
   );
@@ -29,6 +30,7 @@ RadioOption.propTypes = {
   label: PropTypes.string,
   selectedIndex: PropTypes.number.isRequired,
   onSelect: PropTypes.func.isRequired,
+  currentLocale: PropTypes.string.isRequired,
 };
 RadioOption.defaultProps = {
   label: ''
@@ -61,6 +63,7 @@ export default class RadioButtonGroup extends Component {
               phoneNumber={this.props.formatPhone(number.phoneNumber)}
               label={number.label}
               onSelect={this.chooseOption}
+              currentLocale={this.props.currentLocale}
             />
          ))
         }
@@ -75,4 +78,5 @@ RadioButtonGroup.propTypes = {
   disabled: PropTypes.bool.isRequired,
   formatPhone: PropTypes.func.isRequired,
   onRadioSelect: PropTypes.func.isRequired,
+  currentLocale: PropTypes.string.isRequired,
 };
