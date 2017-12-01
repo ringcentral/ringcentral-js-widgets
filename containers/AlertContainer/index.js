@@ -176,16 +176,24 @@ function mapToFunctions(_, _ref3) {
       regionSettingsUrl = _ref3.regionSettingsUrl,
       callingSettingsUrl = _ref3.callingSettingsUrl,
       _ref3$getRenderer = _ref3.getRenderer,
-      getRenderer = _ref3$getRenderer === undefined ? getDefaultRenderer({
+      _getRenderer = _ref3$getRenderer === undefined ? getDefaultRenderer({
     rateLimiter: rateLimiter,
     brand: brand,
     routerInteraction: routerInteraction,
     regionSettingsUrl: regionSettingsUrl,
     callingSettingsUrl: callingSettingsUrl
-  }) : _ref3$getRenderer;
+  }) : _ref3$getRenderer,
+      getAdditionalRenderer = _ref3.getAdditionalRenderer;
 
+  var additionalRenderer = getAdditionalRenderer();
   return {
-    getRenderer: getRenderer,
+    getRenderer: function getRenderer(message) {
+      if (getAdditionalRenderer) {
+        var renderer = additionalRenderer(message);
+        if (renderer) return renderer;
+      }
+      return _getRenderer(message);
+    },
     dismiss: function dismiss(id) {
       alert.dismiss(id);
     }
