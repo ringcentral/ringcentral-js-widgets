@@ -1,13 +1,44 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import PropTypes, { func } from 'prop-types';
 import formatMessage from 'format-message';
 import formatNumber from 'ringcentral-integration/lib/formatNumber';
 import Switch from '../Switch';
 import i18n from './i18n';
 import styles from './styles.scss';
 import Select from '../DropdownSelect';
+import BackHeader from '../BackHeader';
 import Button from '../Button';
 import LinkLine from '../LinkLine';
+
+function CheckBox({ checked, onChange }) {
+  let background = 'transparent';
+  let border = 'solid 1px #e2e2e2';
+  if (checked) {
+    background = '#0684bd';
+    border = 'solid 1px #0684bd';
+  }
+  return (
+    <div
+      onClick={evt => onChange(!checked)}
+      style={{
+        width: 13,
+        height: 13,
+        lineHeight: '13px',
+        color: '#fff',
+        display: 'inline-block',
+        textAlign: 'center',
+        background,
+        border
+      }}>
+      ✓
+    </div>
+  );
+}
+
+CheckBox.propTypes = {
+  checked: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired
+};
 
 function DialInNumberItem({ region, formattedPhoneNumber }) {
   return (
@@ -22,6 +53,28 @@ DialInNumberItem.propTypes = {
   formattedPhoneNumber: PropTypes.string.isRequired,
 };
 
+function DialInNumberList({ dialInNumbers, selected, onChange }) {
+  if (dialInNumbers.length === 0) {
+    return '';
+  }
+  return (
+    <ul>
+      {dialInNumbers.map(e => (
+        <li key={e.phoneNumber}>
+          <CheckBox checked /> <CheckBox checked={false} />
+          <CheckBox checked={selected.indexOf(e.phoneNumber) > -1} />
+          <span>{e.region}</span>
+          <span>{e.formattedPhoneNumber}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+DialInNumberList.propTypes = {
+  dialInNumbers: PropTypes.array.isRequired,
+  selected: PropTypes.array.isRequired
+};
+
 function formatPin(number) {
   return number.replace(/(\d{3})/g, '$1-').replace(/-$/, '');
 }
@@ -32,7 +85,8 @@ class ConferencePanel extends Component {
     this.state = {
       dialInNumbers: this.formatDialInNumbers(props),
       showAdditionalNumbers: false,
-      selectInternationals: [],
+      showAdditionalNumberList: false,
+      additionalNumbers: ['+61862450610'],
     };
     this.formatNumbers = {
       dialInNumber: this.props.formatPhone(
@@ -142,18 +196,37 @@ class ConferencePanel extends Component {
     } = this.props;
     const {
       dialInNumbers,
-      showAdditionalNumbers
+      additionalNumbers, // e164
+      showAdditionalNumbers,
+      showAdditionalNumberList
     } = this.state;
-    const additionalNumbers = showAdditionalNumbers ? (
+    if (showAdditionalNumberList) {
+      return (
+        <div>
+          <BackHeader onBackClick={() => this.setState({ showAdditionalNumberList: false })}>
+            {i18n.getString('selectNumbers', currentLocale)}
+          </BackHeader>
+          <DialInNumberList dialInNumbers={dialInNumbers} selected={additionalNumbers} />
+        </div >
+      );
+    }
+    const additionalNumberObjs = [];
+    for (const n of additionalNumbers) {
+      additionalNumberObjs.push(dialInNumbers.find(e => e.phoneNumber === n));
+    }
+    const additionalNumbersCtrl = showAdditionalNumbers ? (
       <div>
-        <LinkLine className={styles.linkLine} >
+        <LinkLine
+          className={styles.linkLine}
+          onClick={() => { this.setState({ showAdditionalNumberList: true }); }} >
           {i18n.getString('selectNumbers', currentLocale)}
         </LinkLine>
-      </div>
+        <DialInNumberList dialInNumbers={additionalNumberObjs} selected={additionalNumbers} />
+      </div >
     ) : '';
     return (
       <div className={styles.container}>
-        <div>
+        <div className={styles.dialInNumber}>
           <label>{i18n.getString('dialInNumber', currentLocale)}</label>
           <Select
             className={styles.select}
@@ -193,7 +266,7 @@ class ConferencePanel extends Component {
               onChange={this.onAddionalNumbersSwitch}
             />
           </span>
-          {additionalNumbers}
+          {additionalNumbersCtrl}
         </div>
         <div className={styles.formGroup}>
           <label>{i18n.getString('enableJoinBeforeHost', currentLocale)}</label>
