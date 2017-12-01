@@ -736,9 +736,20 @@ var MeetingPanel = function (_Component) {
   }
 
   (0, _createClass3.default)(MeetingPanel, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      var _this2 = this;
+
+      if (this.props.meeting.topic !== nextProps.meeting.topic) {
+        setTimeout(function () {
+          _this2.topic.value = nextProps.meeting.topic;
+        });
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
 
       var _props = this.props,
           update = _props.update,
@@ -753,13 +764,13 @@ var MeetingPanel = function (_Component) {
         return null;
       }
       var onToggle = function onToggle(type) {
-        var isToggle = !_this2[type + 'Blur'];
+        var isToggle = !_this3[type + 'Blur'];
         if (isToggle) {
-          if (_this2[type]._values.open) {
-            _this2[type].refs.inner.close();
+          if (_this3[type]._values.open) {
+            _this3[type].refs.inner.close();
           } else {
-            _this2[type].focus();
-            _this2[type].refs.inner.toggle();
+            _this3[type].focus();
+            _this3[type].refs.inner.toggle();
           }
         }
       };
