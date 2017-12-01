@@ -25,7 +25,6 @@ function mapToFunctions(_, {
   return {
     update: meetingState => meeting.update(meetingState),
     invite: schedule || meeting.schedule,
-    validate: () => {},
     init: () => meeting.init(),
   };
 }
