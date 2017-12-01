@@ -136,10 +136,10 @@ function mapToFunctions(_, {
   }),
   getAdditionalRenderer,
 }) {
-  const additionalRenderer = getAdditionalRenderer();
   return {
     getRenderer: (message) => {
-      if (getAdditionalRenderer) {
+      if (typeof getAdditionalRenderer === 'function') {
+        const additionalRenderer = getAdditionalRenderer();
         const renderer = additionalRenderer(message);
         if (renderer) return renderer;
       }
