@@ -21,9 +21,10 @@ function mapToProps(_, {
   }
   return {
     dialInNumbers,
-    dialInNumber: data.phoneNumber,
+    dialInNumber: conference.dialInNumber,
     hostCode,
     participantCode,
+    additionalNumbers: conference.additionalNumbers,
     countryCode: regionSettings.countryCode,
     areaCode: regionSettings.areaCode,
     currentLocale: locale.currentLocale,
@@ -38,11 +39,18 @@ function mapToProps(_, {
 
 function mapToFunctions(_, {
   phone: {
+    conference,
     composeText,
     routerInteraction,
   },
 }) {
   return {
+    updateDialInNumber: (dialInNumber) => {
+      conference.updateDialInNumber(dialInNumber);
+    },
+    updateAdditionalNumbers: (additionalDialInNumbers) => {
+      conference.updateAdditionalNumbers(additionalDialInNumbers);
+    },
     inviteWithText: (text) => {
       composeText.updateMessageText(text);
       routerInteraction.push('/composeText');

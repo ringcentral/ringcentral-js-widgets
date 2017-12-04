@@ -103,7 +103,6 @@ class ConferencePanel extends Component {
       dialInNumbers: this.formatDialInNumbers(props),
       showAdditionalNumbers: false,
       showAdditionalNumberList: false,
-      additionalNumbers: [],
     };
 
     this.onAddionalNumbersSwitch = (checked) => {
@@ -134,29 +133,6 @@ class ConferencePanel extends Component {
             participantCode: this.formatNumbers.participantCode,
           }
         ));
-    };
-    this.changeSelect = (e) => {
-      const state = this.state.selectInternationals;
-      if (e.currentTarget.checked === true) {
-        const newState = Array.concat(state, [{
-          id: e.currentTarget.getAttribute('data-id'),
-          phoneNumber: e.currentTarget.getAttribute('data-number'),
-          countryName: e.currentTarget.getAttribute('data-name'),
-          countryCode: e.currentTarget.getAttribute('data-countryCode'),
-          areaCode: e.currentTarget.getAttribute('data-areaCode'),
-        }]);
-        newState.sort((a, b) => a.id - b.id);
-        this.setState({
-          selectInternationals: newState
-        });
-      } else {
-        const newState = state.filter(value =>
-          value.phoneNumber !== e.currentTarget.getAttribute('data-number'));
-        newState.sort((a, b) => a.id - b.id);
-        this.setState({
-          selectInternationals: newState
-        });
-      }
     };
   }
   formatDialInNumbers({
@@ -190,11 +166,13 @@ class ConferencePanel extends Component {
       currentLocale,
       hostCode,
       participantCode,
-      dialInNumber
+      dialInNumber,
+      additionalNumbers,
+      updateDialInNumber,
+      updateAdditionalNumbers
     } = this.props;
     const {
       dialInNumbers,
-      additionalNumbers, // e164
       showAdditionalNumbers,
       showAdditionalNumberList
     } = this.state;
@@ -207,7 +185,7 @@ class ConferencePanel extends Component {
           <DialInNumberList
             dialInNumbers={dialInNumbers}
             selected={additionalNumbers}
-            onChange={newSelection => this.setState({ additionalNumbers: newSelection })} />
+            onChange={updateAdditionalNumbers} />
         </div >
       );
     }
@@ -225,7 +203,7 @@ class ConferencePanel extends Component {
         <DialInNumberList
           dialInNumbers={additionalNumberObjs}
           selected={additionalNumbers}
-          onChange={newSelection => this.setState({ additionalNumbers: newSelection })} />
+          onChange={updateAdditionalNumbers} />
       </div >
     ) : '';
     return (
@@ -235,7 +213,7 @@ class ConferencePanel extends Component {
           <Select
             className={styles.select}
             value={dialInNumber}
-            onChange={this.onMyLocationChange}
+            onChange={option => updateDialInNumber(option.phoneNumber)}
             renderFunction={DialInNumberItem}
             renderValue={(phoneNumber) => {
               const option = dialInNumbers.find(p => p.phoneNumber === phoneNumber);
@@ -296,6 +274,9 @@ class ConferencePanel extends Component {
 ConferencePanel.propTypes = {
   dialInNumbers: PropTypes.array,
   dialInNumber: PropTypes.string.isRequired,
+  additionalNumbers: PropTypes.array.isRequired,
+  updateAdditionalNumbers: PropTypes.func.isRequired,
+  updateDialInNumber: PropTypes.func.isRequired,
   countryCode: PropTypes.string.isRequired,
   areaCode: PropTypes.string.isRequired,
   currentLocale: PropTypes.string.isRequired,
