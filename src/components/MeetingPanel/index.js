@@ -109,6 +109,7 @@ Topic.propTypes = {
   update: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
   meeting: PropTypes.object.isRequired,
+  that: PropTypes.object.isRequired,
 };
 
 const When = (
