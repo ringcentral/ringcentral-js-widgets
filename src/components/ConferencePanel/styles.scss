@@ -41,6 +41,16 @@
     padding: 0;
     margin-top: 20px;
   }
+
+  ul.dialInNumberList {
+    max-height: 60px;
+    overflow: scroll;
+    margin: 10px 0 0;
+
+    li {
+      padding: 4px 0 5px;
+    }
+  }
 }
 .link {
   margin-top: 20px;
@@ -63,5 +73,43 @@
     @extend .button;
     background-color: $rc-blue;
     color: $snow;
+  }
+}
+
+.selectNumberPage {
+  height: 100%;
+  overflow: scroll;
+}
+ul.dialInNumberList {
+  padding: 0;
+  margin: 15px 20px;
+
+  li {
+    list-style: none;
+    line-height: 17px;
+    height: 17px;
+    padding: 9px 0 10px;
+
+    .region {
+      color: #303030;
+      font-family: HelveticaNeue;
+      font-size: 13px;
+      margin-left: 10px;
+    }
+
+    .phoneNumber {
+      color: gray;
+      font-family: PingFangSC;
+      font-size: 12px;
+      color: #666666;
+      float: right;
+    }
+  }
+
+  li:first-child {
+    padding-top: 0;
+  }
+  li:last-child {
+    padding-bottom: 0;
   }
 }

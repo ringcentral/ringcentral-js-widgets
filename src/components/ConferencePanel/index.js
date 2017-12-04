@@ -19,7 +19,7 @@ function CheckBox({ checked, onChange }) {
   }
   return (
     <div
-      onClick={evt => onChange(!checked)}
+      onClick={evt => onChange && onChange(!checked)}
       style={{
         width: 13,
         height: 13,
@@ -28,6 +28,7 @@ function CheckBox({ checked, onChange }) {
         color: '#fff',
         display: 'inline-block',
         textAlign: 'center',
+        userSelect: 'none',
         background,
         border
       }}>
@@ -38,7 +39,7 @@ function CheckBox({ checked, onChange }) {
 
 CheckBox.propTypes = {
   checked: PropTypes.bool.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func
 };
 
 function DialInNumberItem({ region, formattedPhoneNumber }) {
@@ -59,7 +60,7 @@ function DialInNumberList({ dialInNumbers, selected, onChange }) {
     return '';
   }
   return (
-    <ul>
+    <ul className={styles.dialInNumberList}>
       {dialInNumbers.map((e) => {
         const checked = selected.indexOf(e.phoneNumber) > -1;
         const selectChange = () => {
@@ -76,9 +77,9 @@ function DialInNumberList({ dialInNumbers, selected, onChange }) {
             key={e.phoneNumber}
             onClick={selectChange}
           >
-            <CheckBox checked={checked} />
-            <span>{e.region}</span>
-            <span>{e.formattedPhoneNumber}</span>
+            <CheckBox className={styles.checkbox} checked={checked} />
+            <span className={styles.region}>{e.region}</span>
+            <span className={styles.phoneNumber}>{e.formattedPhoneNumber}</span>
           </li>
         );
       })}
@@ -218,7 +219,7 @@ class ConferencePanel extends Component {
     } = this.state;
     if (showAdditionalNumberList) {
       return (
-        <div>
+        <div className={styles.selectNumberPage}>
           <BackHeader onBackClick={() => this.setState({ showAdditionalNumberList: false })}>
             {i18n.getString('selectNumbers', currentLocale)}
           </BackHeader>
