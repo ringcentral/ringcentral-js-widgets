@@ -751,6 +751,7 @@ var MeetingPanel = function (_Component) {
 
       if (this.props.meeting.topic !== nextProps.meeting.topic) {
         setTimeout(function () {
+          if (!_this2.topic) return;
           var selectionStart = _this2.topic.selectionStart;
           var selectionEnd = _this2.topic.selectionEnd;
           _this2.topic.value = nextProps.meeting.topic;
