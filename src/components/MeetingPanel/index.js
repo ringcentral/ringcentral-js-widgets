@@ -597,6 +597,7 @@ class MeetingPanel extends Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.meeting.topic !== nextProps.meeting.topic) {
       setTimeout(() => {
+        if (!this.topic) return;
         const selectionStart = this.topic.selectionStart;
         const selectionEnd = this.topic.selectionEnd;
         this.topic.value = nextProps.meeting.topic;
