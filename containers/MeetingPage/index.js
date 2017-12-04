@@ -37,7 +37,13 @@ function mapToFunctions(_, _ref2) {
     update: function update(meetingState) {
       return meeting.update(meetingState);
     },
-    invite: schedule || meeting.schedule,
+    invite: function invite(meetingInfo) {
+      if (schedule) {
+        schedule(meetingInfo);
+        return;
+      }
+      meeting.schedule(meetingInfo);
+    },
     init: function init() {
       return meeting.init();
     }
