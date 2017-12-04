@@ -47,7 +47,14 @@ function getHoursList(HOUR_SCALE) {
 const minutesList = getMinutesList(MINUTE_SCALE);
 const hoursList = getHoursList(HOUR_SCALE);
 
-const Topic = ({ update, currentLocale, meeting, that }) => (
+const Topic = (
+  {
+    update,
+    currentLocale,
+    meeting,
+    that,
+  }
+) => (
   <MeetingSection hideTopBorderLine>
     <div className={styles.inline}>
       <span className={styles.label}>
@@ -74,6 +81,10 @@ const Topic = ({ update, currentLocale, meeting, that }) => (
               const newPosition = positionStart + insertText.length;
               that.topic.setSelectionRange(newPosition, newPosition);
             }
+            update({
+              ...meeting,
+              topic: that.topic.value,
+            });
           });
         }}
         type="text"
