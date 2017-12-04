@@ -162,6 +162,9 @@ var Topic = function Topic(_ref) {
               var newPosition = positionStart + insertText.length;
               that.topic.setSelectionRange(newPosition, newPosition);
             }
+            update((0, _extends3.default)({}, meeting, {
+              topic: that.topic.value
+            }));
           });
         },
         type: 'text',
@@ -186,7 +189,8 @@ var Topic = function Topic(_ref) {
 Topic.propTypes = {
   update: _propTypes2.default.func.isRequired,
   currentLocale: _propTypes2.default.string.isRequired,
-  meeting: _propTypes2.default.object.isRequired
+  meeting: _propTypes2.default.object.isRequired,
+  that: _propTypes2.default.object.isRequired
 };
 
 var When = function When(_ref4) {
