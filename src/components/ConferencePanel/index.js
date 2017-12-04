@@ -104,37 +104,49 @@ class ConferencePanel extends Component {
       showAdditionalNumbers: false,
       showAdditionalNumberList: false,
     };
-
-    this.onAddionalNumbersSwitch = (checked) => {
-      this.setState({
-        showAdditionalNumbers: checked,
-      });
-    };
-
-    this.inviteWithText = () => {
-      let internationals = '';
-      if (this.state.selectInternationals.length !== 0) {
-        internationals += 'International Dial-in Numbers:\n';
-        this.state.selectInternationals.forEach((value) => {
-          const phoneNumber = this.props.formatPhone(
-            value.phoneNumber,
-            value.countryCode,
-            value.areaCode || '',
-          );
-          internationals += `${value.countryName} ${phoneNumber}\n`;
-        });
-        internationals += '\n';
-      }
-      this.props.inviteWithText(
-        formatMessage(
-          i18n.getString('inviteText', this.props.currentLocale), {
-            dialInNumber: this.formatNumbers.dialInNumber,
-            internationals,
-            participantCode: this.formatNumbers.participantCode,
-          }
-        ));
-    };
   }
+
+  onAddionalNumbersSwitch = (checked) => {
+    this.setState({
+      showAdditionalNumbers: checked,
+    });
+  };
+
+  inviteTxt() {
+    const { dialInNumber, additionalNumbers, participantCode } = this.props;
+    const { dialInNumbers, showAdditionalNumbers } = this.state;
+    const formattedDialInNumber = dialInNumbers.find(
+      e => e.phoneNumber === dialInNumber
+    ).formattedPhoneNumber;
+    const additionalNumbersTxt = additionalNumbers.map(p =>
+      dialInNumbers.find(obj => obj.phoneNumber === p)
+    ).map(fmt => `${fmt.region}  ${fmt.formattedPhoneNumber}`)
+      .join('\n');
+    let additionalNumbersSection = '';
+    if (showAdditionalNumbers) {
+      additionalNumbersSection = `
+
+International Dial-in Numbers:
+${additionalNumbersTxt}
+
+`;
+    }
+    return `
+Please join the RingCentral conference.
+
+Dial-In Numbers:${formattedDialInNumber}
+${additionalNumbersSection}
+Participant Access: ${formatPin(participantCode)}
+
+Need an international dial-in phone number? Please visit http://www.ringcentral.com/conferencing
+
+This conference call is brought to you by RingCentral Conferencing.`;
+  }
+
+  inviteWithText = () => {
+    this.props.inviteWithText(this.inviteTxt());
+  };
+
   formatDialInNumbers({
     dialInNumbers,
     countryCode,
@@ -150,6 +162,7 @@ class ConferencePanel extends Component {
       })
     }));
   }
+
   componentWillReceiveProps(nextProps) {
     if (
       nextProps.dialInNumbers !== this.props.dialInNumbers ||
@@ -161,6 +174,7 @@ class ConferencePanel extends Component {
       });
     }
   }
+
   render() {
     const {
       currentLocale,
