@@ -103,34 +103,15 @@ class ConferencePanel extends Component {
       dialInNumbers: this.formatDialInNumbers(props),
       showAdditionalNumbers: false,
       showAdditionalNumberList: false,
-      additionalNumbers: ['+61862450610'],
+      additionalNumbers: [],
     };
-    this.formatNumbers = {
-      dialInNumber: this.props.formatPhone(
-        this.props.conferenceNumbers.phoneNumber,
-        this.props.countryCode,
-        this.props.areaCode
-      ),
-      hostCode: this.props.formatPin(this.props.conferenceNumbers.hostCode),
-      participantCode: this.props.formatPin(this.props.conferenceNumbers.participantCode)
-    };
+
     this.onAddionalNumbersSwitch = (checked) => {
       this.setState({
         showAdditionalNumbers: checked,
       });
     };
-    this.onSearchKeyUp = (e) => {
-      const searchKey = e.currentTarget.value;
-      this.setState({
-        // searchInternationals: this.getMatchList(searchKey)
-      });
-    };
-    this.getMatchList = (searchKey) => {
-      const key = searchKey.toLowerCase().trim().split(' ').join('');
-      return this.props.conferenceNumbers.phoneNumbers.filter(value =>
-        value.phoneNumber.trim().replace(' ', '').indexOf(key) >= 0 ||
-        value.country.name.toLowerCase().trim().replace(' ', '').indexOf(key) >= 0);
-    };
+
     this.inviteWithText = () => {
       let internationals = '';
       if (this.state.selectInternationals.length !== 0) {
@@ -320,16 +301,7 @@ ConferencePanel.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   hostCode: PropTypes.string.isRequired,
   participantCode: PropTypes.string.isRequired,
-
-  conferenceNumbers: PropTypes.shape({
-    phoneNumber: PropTypes.string,
-    hostCode: PropTypes.string,
-    participantCode: PropTypes.string,
-    phoneNumbers: PropTypes.array,
-  }).isRequired,
   inviteWithText: PropTypes.func.isRequired,
-  formatPhone: PropTypes.func.isRequired,
-  formatPin: PropTypes.func.isRequired,
 };
 ConferencePanel.defaultProps = {
   showSpinner: true,

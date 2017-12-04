@@ -1,7 +1,4 @@
 import { connect } from 'react-redux';
-
-import formatNumber from 'ringcentral-integration/lib/formatNumber';
-
 import ConferencePanel from '../../components/ConferencePanel';
 import withPhone from '../../lib/withPhone';
 
@@ -13,8 +10,20 @@ function mapToProps(_, {
     composeText,
   },
 }) {
+  const { data } = conference;
+  const { hostCode, participantCode } = data;
+  const dialInNumbers = [];
+  for (const p of data.phoneNumbers) {
+    dialInNumbers.push({
+      region: p.country.name,
+      phoneNumber: p.phoneNumber
+    });
+  }
   return {
-    conferenceNumbers: conference.conferenceNumbers,
+    dialInNumbers,
+    dialInNumber: data.phoneNumber,
+    hostCode,
+    participantCode,
     countryCode: regionSettings.countryCode,
     areaCode: regionSettings.areaCode,
     currentLocale: locale.currentLocale,
@@ -37,24 +46,7 @@ function mapToFunctions(_, {
     inviteWithText: (text) => {
       composeText.updateMessageText(text);
       routerInteraction.push('/composeText');
-    },
-    formatInternational: (phoneNumber, callingCode) => {
-      if (phoneNumber.indexOf(callingCode === 1)) {
-        return `+${callingCode} ${phoneNumber.replace('+', '').replace(callingCode, '')}`;
-      }
-      return phoneNumber;
-    },
-    formatPin: (number) => {
-      if (!number) {
-        return '';
-      }
-      return number.replace(/(\d{3})/g, '$1-').replace(/-$/, '');
-    },
-    formatPhone: (phoneNumber, countryCode, areaCode) => formatNumber({
-      phoneNumber,
-      countryCode,
-      areaCode: areaCode || '',
-    })
+    }
   };
 }
 
