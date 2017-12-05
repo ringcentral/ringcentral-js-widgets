@@ -411,11 +411,11 @@ var Call = (_dec = (0, _di.Module)({
             switch (_context5.prev = _context5.next) {
               case 0:
                 if (!this.isIdle) {
-                  _context5.next = 24;
+                  _context5.next = 25;
                   break;
                 }
 
-                toNumber = recipient && recipient.phoneNumber || phoneNumber;
+                toNumber = recipient && (recipient.phoneNumber || recipient.extension) || phoneNumber;
 
                 if (!(!toNumber || ('' + toNumber).trim().length === 0)) {
                   _context5.next = 6;
@@ -425,7 +425,7 @@ var Call = (_dec = (0, _di.Module)({
                 this._alert.warning({
                   message: _callErrors2.default.noToNumber
                 });
-                _context5.next = 24;
+                _context5.next = 25;
                 break;
 
               case 6:
@@ -464,7 +464,7 @@ var Call = (_dec = (0, _di.Module)({
                 });
 
               case 18:
-                _context5.next = 24;
+                _context5.next = 25;
                 break;
 
               case 20:
@@ -490,8 +490,9 @@ var Call = (_dec = (0, _di.Module)({
                 this.store.dispatch({
                   type: this.actionTypes.connectError
                 });
+                throw _context5.t0;
 
-              case 24:
+              case 25:
               case 'end':
                 return _context5.stop();
             }
