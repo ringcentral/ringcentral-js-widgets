@@ -9,6 +9,9 @@ import {
 
 import ContactDisplay from '../ContactDisplay';
 import ActionMenu from '../ActionMenu';
+import VoicemailPlayer from '../VoicemailPlayer';
+import SlideMenu from '../SlideMenu';
+
 import styles from './styles.scss';
 import i18n from './i18n';
 import VoicemailIcon from '../../assets/images/VoicemailIcon.svg';
@@ -252,8 +255,8 @@ export default class MessageItem extends Component {
       return conversation.subject;
     }
     if (messageIsVoicemail(conversation)) {
-      const attachment = conversation.attachments && conversation.attachments[0];
-      const duration = (attachment && attachment.vmDuration) || 0;
+      const attachment = conversation.voicemailAttachment;
+      const { duration } = attachment.duration;
       return `${i18n.getString('voiceMessage', currentLocale)} (${formatVoiceMailDuration(duration)})`;
     }
     return '';
@@ -277,6 +280,7 @@ export default class MessageItem extends Component {
         isLogging,
         conversationMatches,
         type,
+        voicemailAttachment,
       },
       disableLinks,
       disableClickToDial,
@@ -295,6 +299,8 @@ export default class MessageItem extends Component {
     const phoneNumber = this.getPhoneNumber();
     const fallbackName = this.getFallbackContactName();
     const detail = this.getDetail();
+    const player = voicemailAttachment &&
+      <VoicemailPlayer uri={voicemailAttachment.uri} duration={voicemailAttachment.duration} />
     return (
       <div className={styles.root} onClick={this.onClickItem}>
         <div
@@ -340,6 +346,41 @@ export default class MessageItem extends Component {
           <div className={styles.creationTime}>
             {dateTimeFormatter({ utcTimestamp: creationTime })}
           </div>
+          {player}
+        </div>
+        <div ref={reference}>
+          <SlideMenu
+            extended={this.state.extended}
+            onToggle={this.toggleExtended}
+            extendIconClassName={styles.extendIcon}
+            className={className}
+            minHeight={0}
+            maxHeight={30}
+          >
+            <ActionMenuList
+              currentLocale={currentLocale}
+              onLog={onLogConversation && this.logConversation}
+              onViewEntity={onViewContact && this.viewSelectedContact}
+              onCreateEntity={onCreateContact && this.createSelectedContact}
+              hasEntity={correspondents.length === 1 && !!correspondentMatches.length}
+              onClickToDial={onClickToDial && this.clickToDial}
+              phoneNumber={phoneNumber}
+              disableLinks={disableLinks}
+              disableClickToDial={disableClickToDial}
+              isLogging={isLogging || this.state.isLogging}
+              isLogged={conversationMatches.length > 0}
+              isCreating={this.state.isCreating}
+              addLogTitle={i18n.getString('addLog', currentLocale)}
+              editLogTitle={i18n.getString('editLog', currentLocale)}
+              callTitle={i18n.getString('call', currentLocale)}
+              createEntityTitle={i18n.getString('addEntity', currentLocale)}
+              viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
+              stopPropagation={false}
+              enableDelete={type === messageTypes.voiceMail}
+              onDelete={this.deleteMessage}
+              deleteTitle={i18n.getString('delete', currentLocale)}
+            />
+          </SlideMenu>
         </div>
         <ActionMenu
           extended={this.state.extended}
