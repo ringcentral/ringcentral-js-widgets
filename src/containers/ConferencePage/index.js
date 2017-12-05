@@ -5,9 +5,9 @@ import withPhone from '../../lib/withPhone';
 function mapToProps(_, {
   phone: {
     conference,
-    regionSettings,
-    locale,
-    composeText,
+  regionSettings,
+  locale,
+  composeText,
   },
 }) {
   const { data } = conference;
@@ -42,6 +42,7 @@ function mapToFunctions(_, {
     conference,
     composeText,
     routerInteraction,
+    call,
   },
 }) {
   return {
@@ -54,6 +55,11 @@ function mapToFunctions(_, {
     inviteWithText: (text) => {
       composeText.updateMessageText(text);
       routerInteraction.push('/composeText');
+    },
+    joinAsHost: (phoneNumber) => {
+      routerInteraction.history.push('/dialer');
+      call.onToNumberChange(phoneNumber);
+      call.onCall();
     }
   };
 }

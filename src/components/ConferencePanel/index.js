@@ -183,7 +183,9 @@ This conference call is brought to you by RingCentral Conferencing.`;
       dialInNumber,
       additionalNumbers,
       updateDialInNumber,
-      updateAdditionalNumbers
+      updateAdditionalNumbers,
+      joinAsHost,
+      additionalButtons
     } = this.props;
     const {
       dialInNumbers,
@@ -276,9 +278,17 @@ This conference call is brought to you by RingCentral Conferencing.`;
         <Button className={styles.link}>{i18n.getString('conferenceCommands', currentLocale)}</Button>
 
         <div className={styles.bottom}>
-          <Button className={styles.button}>{i18n.getString('inviteWithGCalendar', currentLocale)}</Button>
-          <Button className={styles.button} onClick={this.inviteWithText}>{i18n.getString('inviteWithText', currentLocale)}</Button>
-          <Button className={styles.primaryButton}>{i18n.getString('JoinAsHost', currentLocale)}</Button>
+          {additionalButtons.map(Btn => <Btn />)}
+          <Button
+            className={styles.button}
+            onClick={this.inviteWithText}>
+            {i18n.getString('inviteWithText', currentLocale)}
+          </Button>
+          <Button
+            className={styles.primaryButton}
+            onClick={() => joinAsHost(dialInNumber)}>
+            {i18n.getString('JoinAsHost', currentLocale)}
+          </Button>
         </div>
 
       </div>
@@ -297,20 +307,13 @@ ConferencePanel.propTypes = {
   hostCode: PropTypes.string.isRequired,
   participantCode: PropTypes.string.isRequired,
   inviteWithText: PropTypes.func.isRequired,
+  joinAsHost: PropTypes.func.isRequired,
+  additionalButtons: PropTypes.array
 };
 ConferencePanel.defaultProps = {
   showSpinner: true,
-  dialInNumbers: [{
-    region: 'Australia, Perth',
-    phoneNumber: '+61862450610'
-  }, {
-    region: 'Belgium, Brussels',
-    phoneNumber: '+3228089351'
-  }, {
-    region: 'Argentina, Buenos Aires',
-    phoneNumber: '+541159842371'
-  }],
-  dialInNumber: '+541159842371'
+  dialInNumbers: [],
+  additionalButtons: []
 };
 
 export default ConferencePanel;
