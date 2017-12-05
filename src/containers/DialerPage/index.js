@@ -8,7 +8,9 @@ import withPhone from '../../lib/withPhone';
 function mapToProps(_, {
   phone: {
     call,
+    dialerUI,
     callingSettings,
+    contactSearch,
     connectivityMonitor,
     locale,
     rateLimiter,
@@ -32,7 +34,9 @@ function mapToProps(_, {
       || rateLimiter.throttling
       || webphoneDisconnected
     ),
-    toNumber: call.toNumber,
+    toNumber: dialerUI.toNumberField,
+    recipient: dialerUI.recipient,
+    searchContactList: contactSearch.sortedResult,
     fromNumbers: callingSettings.fromNumbers,
     fromNumber: callingSettings.fromNumber,
     showSpinner: !(
@@ -49,17 +53,19 @@ function mapToProps(_, {
 
 function mapToFunctions(_, {
   phone: {
-    call,
     callingSettings,
     regionSettings,
+    contactSearch,
+    dialerUI,
   }
 }) {
   return {
-    keepToNumber: (value) => {
-      call.onToNumberChange(value);
-    },
-    onCall: () => {
-      call.onCall();
+    onToNumberChange: value => (
+      dialerUI.setToNumberField(value)
+    ),
+    clearToNumber: () => dialerUI.clearToNumberField(),
+    onCallButtonClick: () => {
+      dialerUI.onCallButtonClick();
     },
     changeFromNumber: (...args) => callingSettings.updateFromNumber(...args),
     formatPhone: phoneNumber => formatNumber({
@@ -67,6 +73,12 @@ function mapToFunctions(_, {
       areaCode: regionSettings && regionSettings.areaCode,
       countryCode: regionSettings && regionSettings.countryCode,
     }),
+    setRecipient: recipient => dialerUI.setRecipient(recipient),
+    clearRecipient: () => dialerUI.clearRecipient(),
+    searchContact: searchString => (
+      contactSearch.search({ searchString })
+    ),
+
   };
 }
 
