@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import DialPad from '../DialPad';
-import DialTextInput from '../DialTextInput';
-import CallIdSelect from '../CallIdSelect';
+import RecipientsInput from '../RecipientsInput';
+import FromField from '../FromField';
 import SpinnerOverlay from '../SpinnerOverlay';
 import CircleButton from '../CircleButton';
 import AnswerIcon from '../../assets/images/Answer.svg';
@@ -13,8 +13,8 @@ import styles from './styles.scss';
 function DialerPanel({
   callButtonDisabled,
   className,
-  keepToNumber,
-  onCall,
+  onToNumberChange,
+  onCallButtonClick,
   toNumber,
   fromNumber,
   fromNumbers,
@@ -25,27 +25,37 @@ function DialerPanel({
   showSpinner,
   dialButtonVolume,
   dialButtonMuted,
+  searchContact,
+  searchContactList,
+  recipient,
+  clearToNumber,
+  setRecipient,
+  clearRecipient,
 }) {
   const onCallFunc = () => {
     if (!callButtonDisabled) {
-      onCall();
+      onCallButtonClick();
     }
   };
   const content = showSpinner ? (<SpinnerOverlay />) : null;
   return (
     <div className={classnames(styles.root, className)}>
+      <RecipientsInput
+        value={toNumber}
+        onChange={onToNumberChange}
+        onClean={clearToNumber}
+        recipient={recipient}
+        addToRecipients={setRecipient}
+        removeFromRecipients={clearRecipient}
+        searchContact={searchContact}
+        searchContactList={searchContactList}
+        formatContactPhone={formatPhone}
+        currentLocale={currentLocale}
+        titleEnabled
+        autoFocus
+      />
       <div className={styles.inputFields}>
-        <DialTextInput
-          value={toNumber}
-          onChangeEvent={(event) => {
-            keepToNumber(event.currentTarget.value);
-          }}
-          onDelete={() => {
-            keepToNumber('');
-          }}
-          autoFocus
-        />
-        <CallIdSelect
+        <FromField
           fromNumber={fromNumber}
           fromNumbers={fromNumbers}
           onChange={changeFromNumber}
@@ -58,11 +68,11 @@ function DialerPanel({
         <DialPad
           className={styles.dialPad}
           onButtonOutput={(key) => {
-            keepToNumber(toNumber + key);
+            onToNumberChange(toNumber + key);
           }}
           dialButtonVolume={dialButtonVolume}
           dialButtonMuted={dialButtonMuted}
-          />
+        />
         <div className={classnames(styles.callBtnRow)}>
           <div className={styles.callBtn}>
             <CircleButton
@@ -84,11 +94,11 @@ function DialerPanel({
 }
 DialerPanel.propTypes = {
   className: PropTypes.string,
-  onCall: PropTypes.func.isRequired,
+  onCallButtonClick: PropTypes.func.isRequired,
   callButtonDisabled: PropTypes.bool,
   isWebphoneMode: PropTypes.bool,
   toNumber: PropTypes.string,
-  keepToNumber: PropTypes.func,
+  onToNumberChange: PropTypes.func,
   fromNumber: PropTypes.string,
   currentLocale: PropTypes.string.isRequired,
   fromNumbers: PropTypes.arrayOf(PropTypes.shape({
@@ -100,6 +110,20 @@ DialerPanel.propTypes = {
   showSpinner: PropTypes.bool,
   dialButtonVolume: PropTypes.number,
   dialButtonMuted: PropTypes.bool,
+  searchContact: PropTypes.func.isRequired,
+  searchContactList: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    entityType: PropTypes.string.isRequired,
+    phoneType: PropTypes.string.isRequired,
+    phoneNumber: PropTypes.string.isRequired,
+  })).isRequired,
+  recipient: PropTypes.shape({
+    phoneNumber: PropTypes.string.isRequired,
+    name: PropTypes.string,
+  }),
+  clearToNumber: PropTypes.func.isRequired,
+  setRecipient: PropTypes.func.isRequired,
+  clearRecipient: PropTypes.func.isRequired,
 };
 
 DialerPanel.defaultProps = {
@@ -110,11 +134,12 @@ DialerPanel.defaultProps = {
   fromNumbers: [],
   isWebphoneMode: false,
   changeFromNumber: () => null,
-  keepToNumber: () => null,
+  onToNumberChange: () => null,
   formatPhone: phoneNumber => phoneNumber,
   showSpinner: false,
   dialButtonVolume: 1,
   dialButtonMuted: false,
+  recipient: [],
 };
 
 export default DialerPanel;

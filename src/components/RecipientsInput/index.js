@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styles from './styles.scss';
 import RemoveButton from '../RemoveButton';
 import ContactDropdownList from '../ContactDropdownList';
+import i18n from './i18n';
 
 function SelectedRecipientItem({
   phoneNumber,
@@ -31,33 +32,56 @@ SelectedRecipientItem.defaultProps = {
   name: undefined,
 };
 
-function SelectedRecipients(props) {
-  const items = props.items;
-  if (items.length < 1) {
-    return null;
+function SelectedRecipients({
+  recipient,
+  recipients,
+  multiple,
+  onRemove,
+}) {
+  if (multiple && recipients.length) {
+    return (
+      <ul className={styles.selectReceivers}>
+        {
+          recipients.map(item => (
+            <SelectedRecipientItem
+              key={item.phoneNumber}
+              name={item.name}
+              phoneNumber={item.phoneNumber}
+              onRemove={() => onRemove(item.phoneNumber)}
+            />
+          ))
+        }
+      </ul>
+    );
+  } else if (!multiple && recipient) {
+    return (
+      <ul className={styles.selectReceivers}>
+        <SelectedRecipientItem
+          key={recipient.phoneNumber}
+          name={recipient.name}
+          phoneNumber={recipient.phoneNumber}
+          onRemove={() => onRemove(recipient.phoneNumber)}
+        />
+      </ul>
+    );
   }
-  return (
-    <ul className={styles.selectReceivers}>
-      {
-        items.map(item => (
-          <SelectedRecipientItem
-            key={item.phoneNumber}
-            name={item.name}
-            phoneNumber={item.phoneNumber}
-            onRemove={() => props.removeFromRecipients(item.phoneNumber)}
-          />
-        ))
-      }
-    </ul>
-  );
+  return null;
 }
 
 SelectedRecipients.propTypes = {
-  removeFromRecipients: PropTypes.func.isRequired,
-  items: PropTypes.arrayOf(PropTypes.shape({
+  onRemove: PropTypes.func.isRequired,
+  recipient: PropTypes.shape({
+    phoneNumber: PropTypes.string.isRequired,
+    name: PropTypes.string,
+  }),
+  recipients: PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string.isRequired,
     name: PropTypes.string,
   })).isRequired,
+  multiple: PropTypes.bool.isRequired,
+};
+SelectedRecipients.defaultProps = {
+  recipient: null,
 };
 
 class RecipientsInput extends Component {
@@ -67,7 +91,6 @@ class RecipientsInput extends Component {
       isFocusOnInput: false,
       selectedContactIndex: 0,
       scrollDirection: null,
-      currentValue: props.value.replace(',', ''),
     };
 
     this.onReceiversInputFocus = () => {
@@ -124,9 +147,9 @@ class RecipientsInput extends Component {
       if (
         e.key === ',' || e.key === ';' || e.key === 'Enter' ||
         (e.key === 'Unidentified' && // for Safari (FF cannot rely on keyCode...)
-        (e.keyCode === 186 || // semicolon
-        e.keyCode === 188 || // comma
-        e.keyCode === 13)) // enter
+          (e.keyCode === 186 || // semicolon
+            e.keyCode === 188 || // comma
+            e.keyCode === 13)) // enter
       ) {
         return true;
       }
@@ -172,49 +195,44 @@ class RecipientsInput extends Component {
       }
     };
   }
-  componentWillReceiveProps(newProps) {
-    this.setState({
-      currentValue: newProps.value.replace(',', '')
-    });
-    if (newProps.value &&
-        newProps.value !== this.props.value &&
-        this.props.value[this.props.value.length - 1] === ',') {
-      this.setState({
-        isFocusOnInput: true,
-      });
-      this.props.addToRecipients({
-        name: this.props.value.replace(',', ''),
-        phoneNumber: this.props.value.replace(',', ''),
-      }, false);
-    }
+  onReceiverInputKeyUp = (e) => {
+    this.props.searchContact(e.currentTarget.value);
+  }
+  onReceiverChange = (e) => {
+    this.props.onChange(e.currentTarget.value);
+  }
+  componentDidMount() {
+    this.props.searchContact(this.props.value);
   }
   render() {
     const relatedContactList = this.props.value.length >= 3 ?
       this.props.searchContactList : [];
-    const label = this.props.label ?
+    const label = (
+      <label>
+        {
+          this.props.label ||
+          i18n.getString('to', this.props.currentLocale)
+        }
+      </label>
+    );
+    const toNumberInput = !this.props.multiple && this.props.recipient ?
+      null :
       (
-        <label>{this.props.label}</label>
-      ) : null;
-    return (
-      <div className={styles.container} onKeyDown={this.handleHotKey}>
-        {label}
-        <div className={styles.rightPanel}>
-          <SelectedRecipients
-            items={this.props.recipients}
-            removeFromRecipients={this.props.removeFromRecipients}
-          />
+        <div>
           <div className={styles.inputField}>
             <input
               name="receiver"
-              value={this.state.currentValue}
-              onChange={this.props.onChange}
-              onKeyUp={this.props.onKeyUp}
-              onKeyDown={this.props.onKeyDown}
+              value={this.props.value}
+              onChange={this.onReceiverChange}
               className={styles.numberInput}
               maxLength={30}
               onFocus={this.onReceiversInputFocus}
               onBlur={this.onReceiversInputBlur}
-              placeholder={this.props.placeholder}
+              onKeyUp={this.onReceiverInputKeyUp}
+              placeholder={
+                this.props.placeholder ||
+                i18n.getString('enterNameOrNumber', this.props.currentLocale)
+              }
               autoComplete="off"
               autoFocus={this.props.autoFocus} // eslint-disable-line
             />
@@ -227,6 +245,20 @@ class RecipientsInput extends Component {
               this.state.isFocusOnInput
             }
           />
+        </div>
+      );
+
+    return (
+      <div className={styles.container} onKeyDown={this.handleHotKey}>
+        {label}
+        <div className={styles.rightPanel}>
+          <SelectedRecipients
+            recipient={this.props.recipient}
+            recipients={this.props.recipients}
+            multiple={this.props.multiple}
+            onRemove={this.props.removeFromRecipients}
+          />
+          {toNumberInput}
         </div>
         <ContactDropdownList
           scrollDirection={this.state.scrollDirection}
@@ -253,29 +285,36 @@ RecipientsInput.propTypes = {
     phoneType: PropTypes.string.isRequired,
     phoneNumber: PropTypes.string.isRequired,
   })).isRequired,
+  recipient: PropTypes.shape({
+    phoneNumber: PropTypes.string.isRequired,
+    name: PropTypes.string,
+  }),
   recipients: PropTypes.arrayOf(PropTypes.shape({
     phoneNumber: PropTypes.string.isRequired,
     name: PropTypes.string,
-  })).isRequired,
+  })),
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onClean: PropTypes.func.isRequired,
-  onKeyUp: PropTypes.func,
-  onKeyDown: PropTypes.func,
   addToRecipients: PropTypes.func.isRequired,
   removeFromRecipients: PropTypes.func.isRequired,
   formatContactPhone: PropTypes.func.isRequired,
+  searchContact: PropTypes.func,
   titleEnabled: PropTypes.bool,
   autoFocus: PropTypes.bool,
+  currentLocale: PropTypes.string.isRequired,
+  multiple: PropTypes.bool,
 };
 
 RecipientsInput.defaultProps = {
-  label: null,
-  placeholder: '',
-  onKeyUp: () => null,
-  onKeyDown: () => null,
+  label: undefined,
+  placeholder: undefined,
+  recipient: null,
+  recipients: [],
+  searchContact: () => null,
   titleEnabled: undefined,
   autoFocus: false,
+  multiple: false,
 };
 
 export default RecipientsInput;

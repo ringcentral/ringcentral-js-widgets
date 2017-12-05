@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 import DropdownSelect from '../DropdownSelect';
 import styles from './styles.scss';
 
@@ -38,13 +39,14 @@ PhoneNumber.defaultProps = {
   phoneNumber: null,
   usageType: null,
 };
-
-function CallIdSelect({
+function FromField({
+  className,
   fromNumber,
   fromNumbers,
   onChange,
   formatPhone,
   hidden,
+  showAnonymous,
   currentLocale,
 }) {
   if (hidden) {
@@ -52,13 +54,15 @@ function CallIdSelect({
   }
   const options = [
     ...fromNumbers,
-    {
-      phoneNumber: 'anonymous',
-    }
   ];
+  if (showAnonymous) {
+    options.push({
+      phoneNumber: 'anonymous',
+    });
+  }
   return (
     <DropdownSelect
-      className={styles.root}
+      className={classnames(styles.root, className)}
       iconClassName={styles.selectIcon}
       value={fromNumber}
       label={`${i18n.getString('from', currentLocale)}:`}
@@ -98,7 +102,7 @@ function CallIdSelect({
   );
 }
 
-CallIdSelect.propTypes = {
+FromField.propTypes = {
   fromNumber: PropTypes.string,
   formatPhone: PropTypes.func.isRequired,
   fromNumbers: PropTypes.arrayOf(PropTypes.shape({
@@ -108,10 +112,14 @@ CallIdSelect.propTypes = {
   onChange: PropTypes.func.isRequired,
   currentLocale: PropTypes.string.isRequired,
   hidden: PropTypes.bool.isRequired,
+  showAnonymous: PropTypes.bool,
+  className: PropTypes.string,
 };
 
-CallIdSelect.defaultProps = {
+FromField.defaultProps = {
   fromNumber: null,
+  className: undefined,
+  showAnonymous: true,
 };
 
-export default CallIdSelect;
+export default FromField;
