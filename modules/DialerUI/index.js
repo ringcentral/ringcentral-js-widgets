@@ -134,6 +134,7 @@ function getToNumberFieldReducer(types) {
     switch (type) {
       case types.setToNumberField:
       case types.loadLastCallState:
+      case types.call:
         return phoneNumber;
       case types.setRecipient:
       case types.clearToNumberField:
@@ -155,6 +156,7 @@ function getRecipientReducer(types) {
     switch (type) {
       case types.setRecipient:
       case types.loadLastCallState:
+      case types.call:
         return recipient;
       case types.clearRecipient:
       case types.resetSuccess:
@@ -332,15 +334,74 @@ var DialerUI = (_dec = (0, _di.Module)({
       return clearRecipient;
     }()
   }, {
-    key: 'onCallButtonClick',
+    key: 'call',
     value: function () {
-      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
+      var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6(_ref10) {
+        var _ref10$phoneNumber = _ref10.phoneNumber,
+            phoneNumber = _ref10$phoneNumber === undefined ? '' : _ref10$phoneNumber,
+            _ref10$recipient = _ref10.recipient,
+            recipient = _ref10$recipient === undefined ? null : _ref10$recipient;
         return _regenerator2.default.wrap(function _callee6$(_context6) {
           while (1) {
             switch (_context6.prev = _context6.next) {
               case 0:
+                if (!(phoneNumber || recipient)) {
+                  _context6.next = 11;
+                  break;
+                }
+
+                this.store.dispatch({
+                  type: this.actionTypes.call,
+                  phoneNumber: phoneNumber,
+                  recipient: recipient
+                });
+                _context6.prev = 2;
+                _context6.next = 5;
+                return this._call.call({
+                  phoneNumber: this.toNumberField,
+                  recipient: this.recipient
+                });
+
+              case 5:
+                this.store.dispatch({
+                  type: this.actionTypes.callSuccess
+                });
+                _context6.next = 11;
+                break;
+
+              case 8:
+                _context6.prev = 8;
+                _context6.t0 = _context6['catch'](2);
+
+                this.store.dispatch({
+                  type: this.actionTypes.callError,
+                  error: _context6.t0
+                });
+
+              case 11:
+              case 'end':
+                return _context6.stop();
+            }
+          }
+        }, _callee6, this, [[2, 8]]);
+      }));
+
+      function call(_x5) {
+        return _ref9.apply(this, arguments);
+      }
+
+      return call;
+    }()
+  }, {
+    key: 'onCallButtonClick',
+    value: function () {
+      var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+        return _regenerator2.default.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
                 if (!(('' + this.toNumberField).trim().length === 0 && !this.recipient)) {
-                  _context6.next = 4;
+                  _context7.next = 4;
                   break;
                 }
 
@@ -355,38 +416,26 @@ var DialerUI = (_dec = (0, _di.Module)({
                     recipient: this._call.lastRecipient
                   });
                 }
-                _context6.next = 12;
+                _context7.next = 6;
                 break;
 
               case 4:
-                _context6.prev = 4;
-                _context6.next = 7;
-                return this._call.call({
+                _context7.next = 6;
+                return this.call({
                   phoneNumber: this.toNumberField,
                   recipient: this.recipient
                 });
 
-              case 7:
-                this.store.dispatch({
-                  type: this.actionTypes.callSuccess
-                });
-                _context6.next = 12;
-                break;
-
-              case 10:
-                _context6.prev = 10;
-                _context6.t0 = _context6['catch'](4);
-
-              case 12:
+              case 6:
               case 'end':
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this, [[4, 10]]);
+        }, _callee7, this);
       }));
 
       function onCallButtonClick() {
-        return _ref9.apply(this, arguments);
+        return _ref11.apply(this, arguments);
       }
 
       return onCallButtonClick;
@@ -394,7 +443,7 @@ var DialerUI = (_dec = (0, _di.Module)({
   }, {
     key: '_actionTypes',
     get: function get() {
-      return new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), ['setToNumberField', 'clearToNumberField', 'setRecipient', 'clearRecipient', 'loadLastCallState', 'callSuccess']), 'dialerUI');
+      return new _Enum2.default([].concat((0, _toConsumableArray3.default)((0, _keys2.default)(_moduleActionTypes2.default)), ['setToNumberField', 'clearToNumberField', 'setRecipient', 'clearRecipient', 'loadLastCallState', 'call', 'callError', 'callSuccess']), 'dialerUI');
     }
   }, {
     key: 'reducer',
@@ -427,6 +476,6 @@ var DialerUI = (_dec = (0, _di.Module)({
     }
   }]);
   return DialerUI;
-}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'clearToNumberField', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clearToNumberField'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setToNumberField', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setToNumberField'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setRecipient', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setRecipient'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clearRecipient', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clearRecipient'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onCallButtonClick', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onCallButtonClick'), _class2.prototype)), _class2)) || _class);
+}(_RcModule3.default), (_applyDecoratedDescriptor(_class2.prototype, 'clearToNumberField', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clearToNumberField'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setToNumberField', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setToNumberField'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'setRecipient', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'setRecipient'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'clearRecipient', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'clearRecipient'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'call', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'call'), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, 'onCallButtonClick', [_proxify2.default], (0, _getOwnPropertyDescriptor2.default)(_class2.prototype, 'onCallButtonClick'), _class2.prototype)), _class2)) || _class);
 exports.default = DialerUI;
 //# sourceMappingURL=index.js.map

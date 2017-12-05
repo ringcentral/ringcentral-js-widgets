@@ -190,10 +190,7 @@ var ContactDropdownList = function (_Component) {
               return setSelectedIndex(index);
             },
             onClick: function onClick() {
-              return addToRecipients({
-                name: item.name,
-                phoneNumber: item.phoneNumber
-              });
+              return addToRecipients(item);
             },
             key: '' + index + item.phoneNumber + item.name + item.phoneType,
             titleEnabled: titleEnabled

@@ -268,7 +268,14 @@ var CallItem = function (_Component) {
 
     _this.clickToDial = function () {
       if (_this.props.onClickToDial) {
-        _this.props.onClickToDial(_this.getPhoneNumber());
+        var contact = _this.getSelectedContact() || {};
+        var phoneNumber = _this.getPhoneNumber();
+
+        if (phoneNumber) {
+          _this.props.onClickToDial((0, _extends3.default)({}, contact, {
+            phoneNumber: phoneNumber
+          }));
+        }
       }
     };
 

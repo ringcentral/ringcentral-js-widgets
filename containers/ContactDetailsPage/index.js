@@ -56,6 +56,7 @@ function mapToFunctions(_, _ref2) {
       contactDetails = _ref2$phone.contactDetails,
       regionSettings = _ref2$phone.regionSettings,
       call = _ref2$phone.call,
+      dialerUI = _ref2$phone.dialerUI,
       composeText = _ref2$phone.composeText,
       contactSearch = _ref2$phone.contactSearch;
 
@@ -85,11 +86,10 @@ function mapToFunctions(_, _ref2) {
     onBackClick: function onBackClick() {
       routerInteraction.goBack();
     },
-    onClickToDial: call ? function (phoneNumber) {
+    onClickToDial: dialerUI ? function (recipient) {
       if (call.isIdle) {
         routerInteraction.push(dialerRoute);
-        call.onToNumberChange(phoneNumber);
-        call.onCall();
+        dialerUI.call({ recipient: recipient });
       }
     } : undefined,
     onClickToSMS: composeText ? function () {

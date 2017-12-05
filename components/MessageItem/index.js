@@ -13,6 +13,10 @@ var _asyncToGenerator2 = require('babel-runtime/helpers/asyncToGenerator');
 
 var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
 
+var _extends2 = require('babel-runtime/helpers/extends');
+
+var _extends3 = _interopRequireDefault(_extends2);
+
 var _getPrototypeOf = require('babel-runtime/core-js/object/get-prototype-of');
 
 var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
@@ -163,7 +167,14 @@ var MessageItem = function (_Component) {
 
     _this.clickToDial = function () {
       if (_this.props.onClickToDial) {
-        _this.props.onClickToDial(_this.getPhoneNumber());
+        var contact = _this.getSelectedContact() || {};
+        var phoneNumber = _this.getPhoneNumber();
+
+        if (phoneNumber) {
+          _this.props.onClickToDial((0, _extends3.default)({}, contact, {
+            phoneNumber: phoneNumber
+          }));
+        }
       }
     };
 

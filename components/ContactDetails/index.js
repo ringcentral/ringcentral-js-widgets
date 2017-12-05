@@ -119,8 +119,10 @@ var ContactDetails = function (_PureComponent) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref2 = ContactDetails.__proto__ || (0, _getPrototypeOf2.default)(ContactDetails)).call.apply(_ref2, [this].concat(args))), _this), _this.onClickToDial = function (phoneNumber) {
-      _this.props.onClickToDial(phoneNumber);
+    return _ret = (_temp = (_this = (0, _possibleConstructorReturn3.default)(this, (_ref2 = ContactDetails.__proto__ || (0, _getPrototypeOf2.default)(ContactDetails)).call.apply(_ref2, [this].concat(args))), _this), _this.onClickToDial = function (contact, phoneNumber) {
+      _this.props.onClickToDial((0, _extends3.default)({}, contact, {
+        phoneNumber: phoneNumber
+      }));
     }, _this.onClickToSMS = function (contact, phoneNumber) {
       _this.props.onClickToSMS((0, _extends3.default)({}, contact, {
         phoneNumber: phoneNumber
@@ -241,7 +243,7 @@ var ContactDetails = function (_PureComponent) {
               _react2.default.createElement(
                 'button',
                 { title: _i18n2.default.getString('call', currentLocale), onClick: function onClick() {
-                    return _this2.onClickToDial(extensionNumber);
+                    return _this2.onClickToDial(contactItem, extensionNumber);
                   } },
                 _react2.default.createElement('i', { className: _DynamicsFont2.default.call })
               ),
@@ -291,7 +293,7 @@ var ContactDetails = function (_PureComponent) {
             _react2.default.createElement(
               'button',
               { title: _i18n2.default.getString('call', currentLocale), onClick: function onClick() {
-                  return _this3.onClickToDial(phoneNumber);
+                  return _this3.onClickToDial(contactItem, phoneNumber);
                 } },
               _react2.default.createElement('i', { className: _DynamicsFont2.default.call })
             ),

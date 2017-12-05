@@ -69,6 +69,7 @@ function mapToFunctions(_, _ref2) {
       callLogger = _ref2$phone.callLogger,
       contactMatcher = _ref2$phone.contactMatcher,
       call = _ref2$phone.call,
+      dialerUI = _ref2$phone.dialerUI,
       composeText = _ref2$phone.composeText,
       routerInteraction = _ref2$phone.routerInteraction,
       contactSearch = _ref2$phone.contactSearch,
@@ -140,11 +141,10 @@ function mapToFunctions(_, _ref2) {
         return _ref5.apply(this, arguments);
       };
     }() : undefined,
-    onClickToDial: call ? function (phoneNumber) {
+    onClickToDial: dialerUI ? function (recipient) {
       if (call.isIdle) {
         routerInteraction.push(dialerRoute);
-        call.onToNumberChange(phoneNumber);
-        call.onCall();
+        dialerUI.call({ recipient: recipient });
       }
     } : undefined,
     onClickToSms: composeText ? function () {

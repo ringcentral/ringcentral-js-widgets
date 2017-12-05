@@ -86,6 +86,7 @@ function mapToFunctions(_, _ref2) {
       conversationLogger = _ref2$phone.conversationLogger,
       contactMatcher = _ref2$phone.contactMatcher,
       call = _ref2$phone.call,
+      dialerUI = _ref2$phone.dialerUI,
       routerInteraction = _ref2$phone.routerInteraction,
       _ref2$dateTimeFormatt = _ref2.dateTimeFormatter,
       dateTimeFormatter = _ref2$dateTimeFormatt === undefined ? function () {
@@ -154,11 +155,10 @@ function mapToFunctions(_, _ref2) {
         return _ref4.apply(this, arguments);
       };
     }() : undefined,
-    onClickToDial: call ? function (phoneNumber) {
+    onClickToDial: dialerUI ? function (recipient) {
       if (call.isIdle) {
         routerInteraction.push(dialerRoute);
-        call.onToNumberChange(phoneNumber);
-        call.onCall();
+        dialerUI.call({ recipient: recipient });
       }
     } : undefined,
     isLoggedContact: isLoggedContact,
