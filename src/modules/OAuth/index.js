@@ -8,12 +8,21 @@ import OAuthBase from '../../lib/OAuthBase';
 @Module({
   name: 'OAuth',
   deps: [
-    'OAuthOptions',
+    { dep: 'OAuthOptions', optional: true }
   ],
 })
 export default class OAuth extends OAuthBase {
+  constructor({
+    redirectUri = './redirect.html',
+    ...options
+  }) {
+    super({
+      redirectUri,
+      ...options,
+    });
+  }
   get name() {
-    return 'oAuth';
+    return 'OAuth';
   }
 
   @background

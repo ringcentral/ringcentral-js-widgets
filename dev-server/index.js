@@ -3,18 +3,9 @@ import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import Phone from './Phone';
 import App from './containers/App';
-import apiConfig from './api-config';
-import brandConfig from './brandConfig';
-import version from './version';
-import prefix from './prefix';
 import RcIcon from './Icon.svg';
 
-const phone = new Phone({
-  apiConfig,
-  brandConfig,
-  prefix,
-  appVersion: version,
-});
+const phone = Phone.create();
 
 const store = createStore(phone.reducer);
 

@@ -82,7 +82,7 @@ function mapToFunctions(_, {
     searchContact: searchString => (
       contactSearch.search({ searchString })
     ),
-    updateSenderNumber: (...args) => composeText.updateSenderNumber(...args),
+    updateSenderNumber: ({ phoneNumber }) => composeText.updateSenderNumber(phoneNumber),
     updateTypingToNumber: (...args) => composeText.updateTypingToNumber(...args),
     cleanTypingToNumber: (...args) => composeText.cleanTypingToNumber(...args),
     addToNumber: (...args) => composeText.addToNumber(...args),

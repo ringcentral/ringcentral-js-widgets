@@ -4,34 +4,9 @@ import classnames from 'classnames';
 import i18n from './i18n';
 import styles from './styles.scss';
 import RecipientsInput from '../RecipientsInput';
-import Select from '../DropdownSelect';
 import SpinnerOverlay from '../SpinnerOverlay';
 import NoSenderAlert from './NoSenderAlert';
-
-
-function SenderField(props) {
-  return (
-    <Select
-      label={`${i18n.getString('from', props.currentLocale)}:`}
-      className={styles.senderSelect}
-      value={props.value}
-      onChange={props.onChange}
-      options={props.options}
-      paddingLeft={0}
-      renderValue={props.formatPhone}
-      valueFunction={value => value}
-      renderFunction={props.formatPhone}
-    />
-  );
-}
-
-SenderField.propTypes = {
-  currentLocale: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  formatPhone: PropTypes.func.isRequired,
-  options: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
-};
+import FromField from '../FromField';
 
 
 class ComposeTextPanel extends Component {
@@ -42,17 +17,9 @@ class ComposeTextPanel extends Component {
       this.props.updateSenderNumber(value);
     };
 
-    this.onReceiverChange = (e) => {
-      const value = e.currentTarget.value;
-      this.props.updateTypingToNumber(value);
-    };
 
     this.cleanReceiverValue = () => {
       this.props.cleanTypingToNumber();
-    };
-
-    this.onReceiverInputKeyUp = (e) => {
-      this.props.searchContact(e.currentTarget.value);
     };
 
     this.addToRecipients = (receiver, shouldClean = true) => {
@@ -85,10 +52,6 @@ class ComposeTextPanel extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.searchContact(this.props.typingToNumber);
-  }
-
   hasSenderNumbers() {
     return this.props.senderNumbers.length > 0;
   }
@@ -101,16 +64,6 @@ class ComposeTextPanel extends Component {
         </div>
       );
     }
-    const senderField = this.hasSenderNumbers() ?
-      (
-        <SenderField
-          currentLocale={this.props.currentLocale}
-          value={this.props.senderNumber}
-          options={this.props.senderNumbers}
-          formatPhone={this.props.formatPhone}
-          onChange={this.onSenderChange}
-        />
-      ) : null;
     return (
       <div className={classnames(styles.root, this.props.className)}>
         <NoSenderAlert
@@ -119,25 +72,31 @@ class ComposeTextPanel extends Component {
           hasSenderNumbers={this.hasSenderNumbers()}
         />
         <form onSubmit={this.handleSubmit}>
-          <div className={styles.receiverField}>
-            <RecipientsInput
-              value={this.props.typingToNumber}
-              label={`${i18n.getString('to', this.props.currentLocale)}:`}
-              onChange={this.onReceiverChange}
-              onClean={this.cleanReceiverValue}
-              placeholder={i18n.getString('enterNameOrNumber', this.props.currentLocale)}
-              recipients={this.props.toNumbers}
-              addToRecipients={this.addToRecipients}
-              removeFromRecipients={this.removeFromRecipients}
-              searchContactList={this.props.searchContactList}
-              onKeyUp={this.onReceiverInputKeyUp}
-              formatContactPhone={this.props.formatContactPhone}
-              titleEnabled
-              autoFocus
-            />
-          </div>
+          <RecipientsInput
+            value={this.props.typingToNumber}
+            onChange={this.props.updateTypingToNumber}
+            onClean={this.cleanReceiverValue}
+            recipients={this.props.toNumbers}
+            addToRecipients={this.addToRecipients}
+            removeFromRecipients={this.removeFromRecipients}
+            searchContact={this.props.searchContact}
+            searchContactList={this.props.searchContactList}
+            formatContactPhone={this.props.formatContactPhone}
+            currentLocale={this.props.currentLocale}
+            titleEnabled
+            autoFocus
+            multiple
+          />
           <div className={styles.senderField}>
-            {senderField}
+            <FromField
+              currentLocale={this.props.currentLocale}
+              fromNumber={this.props.senderNumber}
+              fromNumbers={this.props.senderNumbers}
+              formatPhone={this.props.formatPhone}
+              onChange={this.onSenderChange}
+              hidden={!this.hasSenderNumbers()}
+              showAnonymous={false}
+            />
           </div>
           <div className={styles.buttomField}>
             <div className={styles.textField}>
@@ -167,7 +126,9 @@ class ComposeTextPanel extends Component {
 ComposeTextPanel.propTypes = {
   className: PropTypes.string,
   send: PropTypes.func.isRequired,
-  senderNumbers: PropTypes.arrayOf(PropTypes.string.isRequired).isRequired,
+  senderNumbers: PropTypes.arrayOf(PropTypes.shape({
+    phoneNumber: PropTypes.string.isRequired,
+  })).isRequired,
   sendButtonDisabled: PropTypes.bool.isRequired,
   formatPhone: PropTypes.func.isRequired,
   formatContactPhone: PropTypes.func.isRequired,
