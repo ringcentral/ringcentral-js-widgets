@@ -15,6 +15,7 @@ function getToNumberFieldReducer(types) {
     switch (type) {
       case types.setToNumberField:
       case types.loadLastCallState:
+      case types.call:
         return phoneNumber;
       case types.setRecipient:
       case types.clearToNumberField:
@@ -31,6 +32,7 @@ function getRecipientReducer(types) {
     switch (type) {
       case types.setRecipient:
       case types.loadLastCallState:
+      case types.call:
         return recipient;
       case types.clearRecipient:
       case types.resetSuccess:
@@ -71,6 +73,8 @@ export default class DialerUI extends RcModule {
       'setRecipient',
       'clearRecipient',
       'loadLastCallState',
+      'call',
+      'callError',
       'callSuccess',
     ], 'dialerUI');
   }
@@ -140,6 +144,33 @@ export default class DialerUI extends RcModule {
     });
   }
 
+  @proxify
+  async call({
+    phoneNumber = '',
+    recipient = null,
+  }) {
+    if (phoneNumber || recipient) {
+      this.store.dispatch({
+        type: this.actionTypes.call,
+        phoneNumber,
+        recipient,
+      });
+      try {
+        await this._call.call({
+          phoneNumber: this.toNumberField,
+          recipient: this.recipient,
+        });
+        this.store.dispatch({
+          type: this.actionTypes.callSuccess,
+        });
+      } catch (error) {
+        this.store.dispatch({
+          type: this.actionTypes.callError,
+          error,
+        });
+      }
+    }
+  }
 
   @proxify
   async onCallButtonClick() {
@@ -159,17 +190,10 @@ export default class DialerUI extends RcModule {
         });
       }
     } else {
-      try {
-        await this._call.call({
-          phoneNumber: this.toNumberField,
-          recipient: this.recipient,
-        });
-        this.store.dispatch({
-          type: this.actionTypes.callSuccess,
-        });
-      } catch (error) {
-        /* ignore error */
-      }
+      await this.call({
+        phoneNumber: this.toNumberField,
+        recipient: this.recipient,
+      });
     }
   }
 

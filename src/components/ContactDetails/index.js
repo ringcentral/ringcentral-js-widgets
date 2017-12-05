@@ -44,8 +44,11 @@ AvatarNode.defaultProps = {
 };
 
 export default class ContactDetails extends PureComponent {
-  onClickToDial = (phoneNumber) => {
-    this.props.onClickToDial(phoneNumber);
+  onClickToDial = (contact, phoneNumber) => {
+    this.props.onClickToDial({
+      ...contact,
+      phoneNumber,
+    });
   }
 
   onClickToSMS = (contact, phoneNumber) => {
@@ -128,7 +131,7 @@ export default class ContactDetails extends PureComponent {
               <span title={extensionNumber}>{extensionNumber}</span>
             </div>
             <div className={styles.menu}>
-              <button title={i18n.getString('call', currentLocale)} onClick={() => this.onClickToDial(extensionNumber)}>
+              <button title={i18n.getString('call', currentLocale)} onClick={() => this.onClickToDial(contactItem, extensionNumber)}>
                 <i className={dynamicsFont.call} />
               </button>
               <button title={i18n.getString('text', currentLocale)} onClick={() => this.onClickToSMS(contactItem, extensionNumber)}>
@@ -153,7 +156,7 @@ export default class ContactDetails extends PureComponent {
             <span title={formattedPhoneNumber}>{formattedPhoneNumber}</span>
           </div>
           <div className={styles.menu}>
-            <button title={i18n.getString('call', currentLocale)} onClick={() => this.onClickToDial(phoneNumber)}>
+            <button title={i18n.getString('call', currentLocale)} onClick={() => this.onClickToDial(contactItem, phoneNumber)}>
               <i className={dynamicsFont.call} />
             </button>
             <button title={i18n.getString('text', currentLocale)} onClick={() => this.onClickToSMS(contactItem, phoneNumber)}>

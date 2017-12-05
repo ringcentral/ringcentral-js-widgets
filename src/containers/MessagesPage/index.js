@@ -74,6 +74,7 @@ function mapToFunctions(_, {
     conversationLogger,
     contactMatcher,
     call,
+    dialerUI,
     routerInteraction,
   },
   dateTimeFormatter = (...args) => dateTimeFormat.formatDateTime(...args),
@@ -103,12 +104,11 @@ function mapToFunctions(_, {
         }
       } :
       undefined,
-    onClickToDial: call ?
-      (phoneNumber) => {
+    onClickToDial: dialerUI ?
+      (recipient) => {
         if (call.isIdle) {
           routerInteraction.push(dialerRoute);
-          call.onToNumberChange(phoneNumber);
-          call.onCall();
+          dialerUI.call({ recipient });
         }
       } :
       undefined,

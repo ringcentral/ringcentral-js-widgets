@@ -6,16 +6,16 @@ import i18n from './i18n';
 function mapToProps(_, {
   phone: {
     locale,
-    brand,
-    callHistory,
-    regionSettings,
-    connectivityMonitor,
-    rateLimiter,
-    dateTimeFormat,
-    callLogger,
-    call,
-    composeText,
-    rolesAndPermissions,
+  brand,
+  callHistory,
+  regionSettings,
+  connectivityMonitor,
+  rateLimiter,
+  dateTimeFormat,
+  callLogger,
+  call,
+  composeText,
+  rolesAndPermissions,
   },
   enableContactFallback = false,
 }) {
@@ -56,12 +56,13 @@ function mapToProps(_, {
 function mapToFunctions(_, {
   phone: {
     dateTimeFormat,
-    callLogger,
-    contactMatcher,
-    call,
-    composeText,
-    routerInteraction,
-    contactSearch,
+  callLogger,
+  contactMatcher,
+  call,
+  dialerUI,
+  composeText,
+  routerInteraction,
+  contactSearch,
   },
   onCreateContact,
   dateTimeFormatter = ({ utcTimestamp }) => dateTimeFormat.formatDateTime({
@@ -91,12 +92,11 @@ function mapToFunctions(_, {
         }
       } :
       undefined,
-    onClickToDial: call ?
-      (phoneNumber) => {
+    onClickToDial: dialerUI ?
+      (recipient) => {
         if (call.isIdle) {
           routerInteraction.push(dialerRoute);
-          call.onToNumberChange(phoneNumber);
-          call.onCall();
+          dialerUI.call({ recipient });
         }
       } :
       undefined,
