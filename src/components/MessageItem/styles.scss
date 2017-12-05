@@ -63,6 +63,7 @@
   left: 45px;
   @include secondary-font;
   @include text-ellipsis;
+  overflow: inherit;
   max-width: 160px;
   color: $night;
 }
