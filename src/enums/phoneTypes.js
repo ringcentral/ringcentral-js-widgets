@@ -7,4 +7,6 @@ export default new Enum([
   'mobile',
   'phone',
   'unknown',
+  'company',
+  'direct',
 ]);
