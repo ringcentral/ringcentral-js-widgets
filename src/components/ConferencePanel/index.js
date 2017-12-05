@@ -138,7 +138,7 @@ Dial-In Numbers:${formattedDialInNumber}
 ${additionalNumbersSection}
 Participant Access: ${formatPin(participantCode)}
 
-Need an international dial-in phone number? Please visit http://www.ringcentral.com/conferencing
+Need an international dial-in phone number? Please visit https://rcconf.net/1L06Hd5
 
 This conference call is brought to you by RingCentral Conferencing.`;
   }
