@@ -70,7 +70,8 @@ function getLastPhoneNumberReducer(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref3 = arguments[1];
     var type = _ref3.type,
-        phoneNumber = _ref3.phoneNumber;
+        _ref3$phoneNumber = _ref3.phoneNumber,
+        phoneNumber = _ref3$phoneNumber === undefined ? null : _ref3$phoneNumber;
 
     switch (type) {
       case types.connect:
@@ -85,7 +86,8 @@ function getLastRecipientReducer(types) {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref4 = arguments[1];
     var type = _ref4.type,
-        recipient = _ref4.recipient;
+        _ref4$recipient = _ref4.recipient,
+        recipient = _ref4$recipient === undefined ? null : _ref4$recipient;
 
     switch (type) {
       case types.connect:
