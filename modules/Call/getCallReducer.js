@@ -9,9 +9,9 @@ var _toConsumableArray2 = require('babel-runtime/helpers/toConsumableArray');
 var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
 
 exports.getCallStatusReducer = getCallStatusReducer;
-exports.getToNumberReducer = getToNumberReducer;
 exports.getToNumberEntitiesReducer = getToNumberEntitiesReducer;
-exports.getLastCallNumberReducer = getLastCallNumberReducer;
+exports.getLastPhoneNumberReducer = getLastPhoneNumberReducer;
+exports.getLastRecipientReducer = getLastRecipientReducer;
 exports.default = getCallReducer;
 
 var _redux = require('redux');
@@ -46,33 +46,12 @@ function getCallStatusReducer(types) {
   };
 }
 
-function getToNumberReducer(types) {
-  return function () {
-    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-    var _ref2 = arguments[1];
-    var type = _ref2.type,
-        data = _ref2.data;
-
-    switch (type) {
-      case types.toNumberChanged:
-        return data;
-      case types.connectError:
-        return state;
-      case types.resetSuccess:
-      case types.connectSuccess:
-        return '';
-      default:
-        return state;
-    }
-  };
-}
-
 function getToNumberEntitiesReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-    var _ref3 = arguments[1];
-    var type = _ref3.type,
-        data = _ref3.data;
+    var _ref2 = arguments[1];
+    var type = _ref2.type,
+        data = _ref2.data;
 
     switch (type) {
       case types.toNumberMatched:
@@ -86,16 +65,31 @@ function getToNumberEntitiesReducer(types) {
   };
 }
 
-function getLastCallNumberReducer(types) {
+function getLastPhoneNumberReducer(types) {
+  return function () {
+    var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+    var _ref3 = arguments[1];
+    var type = _ref3.type,
+        phoneNumber = _ref3.phoneNumber;
+
+    switch (type) {
+      case types.connect:
+        return phoneNumber;
+      default:
+        return state;
+    }
+  };
+}
+function getLastRecipientReducer(types) {
   return function () {
     var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
     var _ref4 = arguments[1];
     var type = _ref4.type,
-        number = _ref4.number;
+        recipient = _ref4.recipient;
 
     switch (type) {
       case types.connect:
-        return number;
+        return recipient;
       default:
         return state;
     }
@@ -106,7 +100,6 @@ function getCallReducer(types) {
   return (0, _redux.combineReducers)({
     status: (0, _getModuleStatusReducer2.default)(types),
     callStatus: getCallStatusReducer(types),
-    toNumber: getToNumberReducer(types),
     toNumberEntities: getToNumberEntitiesReducer(types)
   });
 }

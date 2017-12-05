@@ -214,7 +214,7 @@ var ComposeText = (_dec = (0, _di.Module)({
       if (cachedPhoneNumber) {
         this.updateSenderNumber(cachedPhoneNumber);
       } else {
-        this.updateSenderNumber(this._messageSender.senderNumbersList[0]);
+        this.updateSenderNumber(this._messageSender.senderNumbersList[0] && this._messageSender.senderNumbersList[0].phoneNumber);
       }
     }
   }, {

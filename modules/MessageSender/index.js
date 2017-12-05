@@ -722,9 +722,7 @@ var MessageSender = (_dec = (0, _di.Module)({
   }, {
     key: 'senderNumbersList',
     get: function get() {
-      return this._extensionPhoneNumber.smsSenderNumbers.map(function (number) {
-        return number.phoneNumber;
-      });
+      return this._extensionPhoneNumber.smsSenderNumbers;
     }
   }]);
   return MessageSender;
